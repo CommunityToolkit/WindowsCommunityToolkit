@@ -162,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             SetTopLevelShowHideAnimation(SamplePickerDetailsGrid);
             SetSecondLevelShowHideAnimation(SamplePickerDetailsGridContent);
 
-            ElementCompositionPreview.SetImplicitHideAnimation(ContentShadow, GetOpacityAnimation(0, _defaultHideAnimationDiration));
+            //ElementCompositionPreview.SetImplicitHideAnimation(ContentShadow, GetOpacityAnimation(0, _defaultHideAnimationDiration));
             ElementCompositionPreview.SetImplicitShowAnimation(ContentShadow, GetOpacityAnimation((float)ContentShadow.Opacity, _defaultShowAnimationDuration));
         }
 
@@ -685,7 +685,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var hideAnimationGroup = _compositor.CreateAnimationGroup();
             hideAnimationGroup.Add(GetOpacityAnimation(0, _defaultHideAnimationDiration));
             hideAnimationGroup.Add(GetYOffsetAnimation(-(float)element.Height, _defaultHideAnimationDiration));
-            ElementCompositionPreview.SetImplicitHideAnimation(element, hideAnimationGroup);
+            //ElementCompositionPreview.SetImplicitHideAnimation(element, hideAnimationGroup);
 
             var showAnimationGroup = _compositor.CreateAnimationGroup();
             showAnimationGroup.Add(GetOpacityAnimation(1, _defaultShowAnimationDuration));
@@ -699,7 +699,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var visual = ElementCompositionPreview.GetElementVisual(element);
             visual.Opacity = 0f;
 
-            ElementCompositionPreview.SetImplicitHideAnimation(element, GetOpacityAnimation(0, _defaultHideAnimationDiration));
+            //ElementCompositionPreview.SetImplicitHideAnimation(element, GetOpacityAnimation(0, _defaultHideAnimationDiration));
             ElementCompositionPreview.SetImplicitShowAnimation(element, GetOpacityAnimation(1, 200, 200));
         }
 
@@ -734,7 +734,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 (panelAnimation as ScalarKeyFrameAnimation).InsertKeyFrame(0, 0);
                 (panelAnimation as ScalarKeyFrameAnimation).DelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
                 ElementCompositionPreview.SetImplicitShowAnimation(panel, panelAnimation);
-                ElementCompositionPreview.SetImplicitHideAnimation(panel, GetOpacityAnimation(0, _defaultHideAnimationDiration));
+                //ElementCompositionPreview.SetImplicitHideAnimation(panel, GetOpacityAnimation(0, _defaultHideAnimationDiration));
             }
         }
 
@@ -746,7 +746,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             (showAnimation as ScalarKeyFrameAnimation).InsertKeyFrame(0, 0);
             (showAnimation as ScalarKeyFrameAnimation).DelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
 
-            ElementCompositionPreview.SetImplicitHideAnimation(args.ItemContainer, GetOpacityAnimation(0, _defaultHideAnimationDiration));
+            //ElementCompositionPreview.SetImplicitHideAnimation(args.ItemContainer, GetOpacityAnimation(0, _defaultHideAnimationDiration));
             ElementCompositionPreview.SetImplicitShowAnimation(args.ItemContainer, showAnimation);
         }
     }
