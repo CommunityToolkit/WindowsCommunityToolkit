@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public static class Samples
     {
-        private const string _recentSamplesStorageKey = "test1";
+        private const string _recentSamplesStorageKey = "test3";
         //private const string _recentSamplesStorageKey = "uct-recent-samples";
 
         private static List<SampleCategory> _samplesCategories;
@@ -116,9 +116,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             var samples = await GetRecentSamples();
 
-            if (samples.Contains(sample))
+            var duplicates = samples.Where(s => s.Name == sample.Name).ToList();
+            foreach (var duplicate in duplicates)
             {
-                samples.Remove(sample);
+                samples.Remove(duplicate);
             }
 
             samples.AddFirst(sample);

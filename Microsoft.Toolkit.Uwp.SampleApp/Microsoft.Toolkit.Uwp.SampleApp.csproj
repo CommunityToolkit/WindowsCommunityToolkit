@@ -412,8 +412,10 @@
     <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
+    <Compile Include="Data\GitHub.cs" />
     <Compile Include="Data\PhotoDataItemWithDimension.cs" />
     <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\GitHubRelease.cs" />
     <Compile Include="Pages\SamplePicker.xaml.cs">
       <DependentUpon>SamplePicker.xaml</DependentUpon>
     </Compile>

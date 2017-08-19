@@ -7,7 +7,16 @@
       xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:sampleapp="using:Microsoft.Toolkit.Uwp.SampleApp"
+      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.Pages"
       mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:DataType="sampleapp:Sample" x:Key="SampleTemplate">
+            <HyperlinkButton Width="268" HorizontalContentAlignment="Left" Style="{StaticResource AboutHyperlinkButtonStyle}" Click="HyperlinkButton_Click">
+                <TextBlock Text="{x:Bind Name}"></TextBlock>
+            </HyperlinkButton>
+        </DataTemplate>
+    </Page.Resources>
 
     <Border>
         <controls:DropShadowPanel HorizontalAlignment="Center" 
@@ -70,15 +79,19 @@
                         <Grid Grid.Row="3" Grid.Column="1">
                             <StackPanel>
                                 <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">Recent Activity</TextBlock>
-                                <ItemsControl Margin="0,16,0,0" ItemsSource="{x:Bind RecentSamples, Mode=OneWay}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate x:DataType="sampleapp:Sample">
-                                            <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
-                                                <TextBlock Text="{x:Bind Name}"></TextBlock>
-                                            </HyperlinkButton>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
+                                <ItemsControl Margin="0,16,0,0" ItemsSource="{x:Bind RecentSamples, Mode=OneWay}" ItemTemplate="{StaticResource SampleTemplate}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <ItemsWrapGrid MaxHeight="130" Orientation="Vertical"></ItemsWrapGrid>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
                                 </ItemsControl>
+
+                                <TextBlock Text="None" 
+                                           Opacity="0.5" 
+                                           FontFamily="Segoe UI" 
+                                           FontSize="12" 
+                                           Visibility="{x:Bind local:About.VisibleIfCollectionEmpty(RecentSamples), Mode=OneWay}"></TextBlock>
                             </StackPanel>
 
                         </Grid>
@@ -160,22 +173,23 @@
 
                             <StackPanel>
                                 <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">Release Notes</TextBlock>
-                                <ItemsControl Margin="0,16,0,0">
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
-                                        <TextBlock>Hamburger Menu</TextBlock>
-                                    </HyperlinkButton>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
-                                        <TextBlock>ImageEx</TextBlock>
-                                    </HyperlinkButton>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
-                                        <TextBlock>AdaptiveGridView</TextBlock>
-                                    </HyperlinkButton>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
-                                        <TextBlock>Blur</TextBlock>
-                                    </HyperlinkButton>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
-                                        <TextBlock>SurfaceDialTextboxHelper</TextBlock>
-                                    </HyperlinkButton>
+                                <ItemsControl Margin="0,16,0,0" ItemsSource="{x:Bind GitHubReleases, Mode=OneWay}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="sampleapp:GitHubRelease">
+                                            <HyperlinkButton HorizontalAlignment="Stretch"
+                                                             HorizontalContentAlignment="Stretch" 
+                                                             NavigateUri="{x:Bind Url}"
+                                                             Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                                <Grid>
+                                                    <TextBlock Text="{x:Bind FullName}"></TextBlock>
+                                                    <TextBlock HorizontalAlignment="Right"
+                                                               Opacity="0.5"
+                                                               Foreground="Black"
+                                                               Text="{x:Bind Published.ToString('MMM d', {x:Null})}"></TextBlock>
+                                                </Grid>
+                                            </HyperlinkButton>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </StackPanel>
 

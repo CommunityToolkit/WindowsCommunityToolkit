@@ -12,8 +12,12 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
@@ -31,26 +35,61 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
             set
             {
-                OnPropertyChanged();
                 _recentSamples = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private List<GitHubRelease> _githubReleases;
+
+        public List<GitHubRelease> GitHubReleases
+        {
+            get
+            {
+                return _githubReleases;
+            }
+
+            set
+            {
+                _githubReleases = value;
+                OnPropertyChanged();
             }
         }
 
         public About()
         {
             InitializeComponent();
+            var t = Init();
         }
 
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        public static Visibility VisibleIfCollectionEmpty(IEnumerable<Sample> collection)
+        {
+            return collection != null && collection.Count() > 0 ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            RecentSamples = await Samples.GetRecentSamples();
 
             Shell.Current.ShowOnlyHeader("About");
 
             var packageVersion = Package.Current.Id.Version;
             Version.Text = $"Version {packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
+        }
+
+        private async Task Init()
+        {
+            RecentSamples = await Samples.GetRecentSamples();
+            GitHubReleases = await Data.GitHub.GetPublishedReleases();
+        }
+
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as HyperlinkButton;
+            if (button.DataContext is Sample sample)
+            {
+                Shell.Current.NavigateToSample(sample);
+            }
         }
 
         /// <summary>
