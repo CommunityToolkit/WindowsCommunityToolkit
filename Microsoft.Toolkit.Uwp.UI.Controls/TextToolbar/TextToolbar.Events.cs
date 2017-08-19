@@ -12,14 +12,13 @@
 
 using System;
 using System.Collections.Specialized;
+using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
