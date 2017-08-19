@@ -10,19 +10,19 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using System.ComponentModel;
+using Windows.System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
+using Windows.UI.Xaml.Controls;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 {
-    using System;
-    using System.ComponentModel;
-    using Windows.System;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Automation;
-    using Windows.UI.Xaml.Controls;
-
     /// <summary>
     /// An Interactive button in the TextToolbar, to perform a formatting task.
     /// </summary>
-    public sealed class ToolbarButton : AppBarButton, IToolbarItem, INotifyPropertyChanged
+    public class ToolbarButton : AppBarButton, IToolbarItem, INotifyPropertyChanged
     {
         // Using a DependencyProperty as the backing store for Label.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ToolTipProperty =

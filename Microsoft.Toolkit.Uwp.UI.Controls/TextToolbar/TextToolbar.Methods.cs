@@ -10,17 +10,17 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Linq;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText;
+using Windows.System;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using System.Linq;
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText;
-    using Windows.UI.Core;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
-    using Windows.System;
-
     /// <summary>
     /// Toolbar for Editing Text attached to a RichEditBox
     /// </summary>
@@ -31,18 +31,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void CreateFormatter()
         {
-            if (Format.HasValue)
+            switch (Format)
             {
-                switch (Format.Value)
-                {
-                    case TextToolbarFormats.Format.MarkDown:
-                        Formatter = new MarkDownFormatter(this);
-                        break;
+                case TextToolbarFormats.Format.MarkDown:
+                    Formatter = new MarkDownFormatter(this);
+                    break;
 
-                    case TextToolbarFormats.Format.RichText:
-                        Formatter = new RichTextFormatter(this);
-                        break;
-                }
+                case TextToolbarFormats.Format.RichText:
+                    Formatter = new RichTextFormatter(this);
+                    break;
             }
         }
 

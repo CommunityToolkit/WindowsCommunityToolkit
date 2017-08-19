@@ -10,10 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Windows.UI.Xaml.Controls;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 {
-    using Windows.UI.Xaml.Controls;
-
     public class ToolbarSeparator : AppBarSeparator, IToolbarItem
     {
         public ToolbarSeparator()

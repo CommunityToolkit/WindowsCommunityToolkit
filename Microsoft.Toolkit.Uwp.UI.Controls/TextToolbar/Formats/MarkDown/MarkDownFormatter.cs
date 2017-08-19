@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             string headerVal = "#";
             for (int i = 1; i <= 5; i++)
             {
-                string val = string.Concat(Enumerable.Repeat(headerVal, i));
+                string val = string.Concat(Enumerable.Repeat(headerVal, i)) + " ";
                 var item = new ListBoxItem
                 {
                     Content = new MarkdownTextBlock
@@ -59,8 +59,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         private void HeaderSelected(object sender, TappedRoutedEventArgs e)
         {
             var item = sender as FrameworkElement;
-            EnsureAtNewLine();
-            SetSelection(item.Tag as string, string.Empty, false);
+
+            var selectStart = Selected.StartPosition;
+            var selectEnd = Selected.EndPosition;
+
+            EnsureAtStartOfCurrentLine();
+            string linesStart = item.Tag as string;
+
+            SetSelection(linesStart, string.Empty, false);
+
+            Selected.StartPosition = selectStart + linesStart.Length;
+            Selected.EndPosition = selectEnd + linesStart.Length;
+
             headerFlyout?.Hide();
         }
 
@@ -235,7 +245,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                 ListLineIterator = 1;
                 ReachedEndLine = false;
 
-                EnsureAtNewLine();
+                EnsureAtStartOfCurrentLine();
                 string text = listChar();
 
                 var lines = Selected.Text.Split(new string[] { Return }, StringSplitOptions.None).ToList();
@@ -466,6 +476,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         internal ToolbarButton ListButton { get; set; }
 
         internal ToolbarButton OrderedListButton { get; set; }
+
+        public override string NewLineChars => "\r\r";
 
         private Flyout headerFlyout;
     }

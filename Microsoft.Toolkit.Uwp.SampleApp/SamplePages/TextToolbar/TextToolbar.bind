@@ -13,7 +13,7 @@
     <controls:TextToolbar x:Name="Toolbar"
                              Editor="{x:Bind EditZone}"
                              IsEnabled="@[IsEnabled:Bool:True]"
-                             Format="@[Format:Enum:Format.MarkDown]"
+                             Format="@[Format:Enum:Format.RichText]"
                              Background="#4C4F4F4F" />
 
     <RichEditBox x:Name="EditZone"

@@ -154,6 +154,7 @@
     <Compile Include="TextToolbar\TextToolbarStrings.cs" />
     <Compile Include="TextToolbar\TextToolbar.Properties.cs" />
     <Compile Include="TextToolbar\ToolbarItems\ButtonMap.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\ButtonType.cs" />
     <Compile Include="TextToolbar\ToolbarItems\Common\CommonButtons.cs" />
     <Compile Include="TextToolbar\ToolbarItems\Common\CommonButtons.Events.cs" />
     <Compile Include="TextToolbar\ToolbarItems\DefaultButton.cs" />

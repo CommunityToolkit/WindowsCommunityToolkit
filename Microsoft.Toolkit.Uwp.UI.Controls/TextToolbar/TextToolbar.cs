@@ -10,14 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Input;
-
     /// <summary>
     /// Toolbar for Editing Text attached to a RichEditBox
     /// </summary>
@@ -52,11 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected override void OnApplyTemplate()
         {
-            if (!Format.HasValue)
-            {
-                Format = TextToolbarFormats.Format.MarkDown; // modify this to change the default format.
-            }
-            else if (formatterLoadedBeforeTemplate)
+            if (formatterLoadedBeforeTemplate)
             {
                 BuildBar();
             }

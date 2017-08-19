@@ -10,10 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 {
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-
     /// <summary>
     /// The Actions taken when a button is pressed. Required for Common Button actions (Unless you override both Activation and ShiftActivation)
     /// </summary>

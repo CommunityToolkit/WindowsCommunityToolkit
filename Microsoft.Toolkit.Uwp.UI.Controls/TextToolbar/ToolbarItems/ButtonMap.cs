@@ -10,10 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Collections.ObjectModel;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 {
-    using System.Collections.ObjectModel;
-
     public class ButtonMap : ObservableCollection<IToolbarItem>
     {
     }

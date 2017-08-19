@@ -52,53 +52,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         /// Gets or sets the instance of button that is removed, in order to preserve any modifications when re-attaching to the Toolbar.
         /// </summary>
         internal IToolbarItem Button { get; set; }
-
-        public enum ButtonType
-        {
-            /// <summary>
-            /// Bold Button
-            /// </summary>
-            Bold,
-
-            /// <summary>
-            /// Italics Button
-            /// </summary>
-            Italics,
-
-            /// <summary>
-            /// Strikethrough Button
-            /// </summary>
-            Strikethrough,
-
-            /// <summary>
-            /// Code button
-            /// </summary>
-            Code,
-
-            /// <summary>
-            /// Quote Button
-            /// </summary>
-            Quote,
-
-            /// <summary>
-            /// Link Button
-            /// </summary>
-            Link,
-
-            /// <summary>
-            /// List Button
-            /// </summary>
-            List,
-
-            /// <summary>
-            /// Ordered List Button
-            /// </summary>
-            OrderedList,
-
-            /// <summary>
-            /// Header Selector
-            /// </summary>
-            Headers
-        }
     }
 }

@@ -10,10 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Windows.UI.Xaml;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using Windows.UI.Xaml;
-
     /// <summary>
     /// Strings for TextToolbar Tooltips and UI.
     /// </summary>

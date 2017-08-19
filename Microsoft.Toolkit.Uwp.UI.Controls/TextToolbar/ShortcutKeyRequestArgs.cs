@@ -10,11 +10,11 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Windows.System;
+using Windows.UI.Xaml.Input;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using Windows.System;
-    using Windows.UI.Xaml.Input;
-
     /// <summary>
     /// Arguments relating to a CTRL Key Shortcut being activated.
     /// </summary>

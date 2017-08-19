@@ -10,14 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
+using Windows.System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
-    using Windows.System;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
-
     /// <summary>
     /// Toolbar for Editing Text attached to a RichEditBox
     /// </summary>
@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for Formatting.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FormatProperty =
-            DependencyProperty.Register(nameof(Format), typeof(Format?), typeof(TextToolbar), new PropertyMetadata(null, OnFormatTypeChanged));
+            DependencyProperty.Register(nameof(Format), typeof(Format), typeof(TextToolbar), new PropertyMetadata(Format.RichText, OnFormatTypeChanged));
 
         // Using a DependencyProperty as the backing store for TextFormat.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FormatterProperty =
@@ -63,9 +63,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets which formatter to use, and which buttons to provide.
         /// </summary>
-        public Format? Format
+        public Format Format
         {
-            get { return (Format?)GetValue(FormatProperty); }
+            get { return (Format)GetValue(FormatProperty); }
             set { SetValue(FormatProperty, value); }
         }
 

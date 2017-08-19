@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             Shell.Current.RegisterNewCommand("Add/Remove Bold Button", (sender, args) =>
             {
-                var button = DefaultButton.OfType(DefaultButton.ButtonType.Bold);
+                var button = DefaultButton.OfType(ButtonType.Bold);
                 if (!codeRemoved)
                 {
                     Toolbar.RemoveDefaultButtons.Add(button);

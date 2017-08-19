@@ -10,11 +10,11 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Windows.UI.Text;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
 {
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-    using Windows.UI.Text;
-
     public class RichTextButtonActions : ButtonActions
     {
         public RichTextButtonActions(RichTextFormatter formatter)
@@ -120,6 +120,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
             else
             {
                 selected.ParagraphFormat.ListType = MarkerType.None;
+            }
+
+            button.IsToggled = button.IsToggled != true;
+        }
+
+        public void FormatUnderline(ToolbarButton button)
+        {
+            var format = Formatter.SelectionFormat;
+            if (!button.IsToggled)
+            {
+                format.Underline = UnderlineType.Single;
+                Formatter.SelectionFormat = format;
+            }
+            else
+            {
+                format.Underline = UnderlineType.None;
+                Formatter.SelectionFormat = format;
             }
 
             button.IsToggled = button.IsToggled != true;

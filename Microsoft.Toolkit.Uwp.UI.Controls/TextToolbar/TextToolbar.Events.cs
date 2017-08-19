@@ -10,17 +10,19 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using System.Collections.Specialized;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Windows.System;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using System;
-    using System.Collections.Specialized;
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-    using Windows.System;
-    using Windows.UI.Core;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Input;
-
     /// <summary>
     /// Toolbar for Editing Text attached to a RichEditBox
     /// </summary>
@@ -31,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="obj">TextToolbar</param>
         /// <param name="args">Property Changed Args</param>
-        public static void OnEditorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        private static void OnEditorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             var bar = obj as TextToolbar;
             if (bar != null)
@@ -52,54 +54,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Checks if a Shortcut Combination is pressed, by going through the list of attached buttons.
-        /// </summary>
-        /// <param name="sender">RichEditBox</param>
-        /// <param name="e">Key args</param>
-        private void Editor_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            LastKeyPress = e.Key;
-
-            var root = GetTemplateChild(RootControl) as CommandBar;
-            if (root != null)
-            {
-                if (ControlKeyDown && e.Key != VirtualKey.Control)
-                {
-                    if (e.Handled)
-                    {
-                        Editor.Document.Undo();
-                    }
-
-                    var key = FindBestAlternativeKey(e.Key);
-
-                    var args = new ShortcutKeyRequestArgs(key, ShiftKeyDown, e);
-                    foreach (var item in root.PrimaryCommands)
-                    {
-                        var button = item as ToolbarButton;
-                        if (button != null && !args.Handled)
-                        {
-                            button.ShortcutRequested(ref args);
-                        }
-                    }
-
-                    ShortcutRequested?.Invoke(this, args);
-
-                    if (e.Handled == true && args.Handled == false)
-                    {
-                        Editor.Document.Redo();
-                    }
-
-                    e.Handled = args.Handled;
-                }
-            }
-        }
-
-        /// <summary>
         /// Creates a new formatter, if it is a built-in formatter.
         /// </summary>
         /// <param name="obj">TextToolbar</param>
         /// <param name="args">Property Changed Args</param>
-        public static void OnFormatTypeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        private static void OnFormatTypeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             var bar = obj as TextToolbar;
             if (bar != null)
@@ -113,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="obj">TextToolbar</param>
         /// <param name="args">Property Changed Args</param>
-        public static void OnFormatterChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        private static void OnFormatterChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             var bar = obj as TextToolbar;
             if (bar != null)
@@ -128,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="obj">TextToolbar</param>
         /// <param name="args">Property Changed Args</param>
-        public static void OnButtonMapChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        private static void OnButtonMapChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             var bar = obj as TextToolbar;
             if (bar != null)
@@ -157,6 +116,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (root != null)
                     {
                         bar.AttachButtonMap(newSource, root);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Resets removed entries, and Reloads the Toolbar Entries
+        /// </summary>
+        /// <param name="obj">TextToolbar</param>
+        /// <param name="args">Property Changed Args</param>
+        private static void OnRemoveButtonsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            var bar = obj as TextToolbar;
+            if (bar != null)
+            {
+                var oldSource = args.OldValue as RemovalList;
+                var newSource = args.NewValue as RemovalList;
+                var root = bar.GetTemplateChild(RootControl) as CommandBar;
+
+                if (oldSource != null)
+                {
+                    oldSource.CollectionChanged -= bar.OnRemoveButtonsModified;
+
+                    if (root != null)
+                    {
+                        foreach (DefaultButton item in oldSource)
+                        {
+                            bar.AddToolbarItem(item.Button, root);
+                        }
+                    }
+                }
+
+                if (newSource != null)
+                {
+                    newSource.CollectionChanged += bar.OnRemoveButtonsModified;
+
+                    foreach (DefaultButton item in newSource)
+                    {
+                        bar.RemoveDefaultButton(item);
                     }
                 }
             }
@@ -206,45 +204,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Resets removed entries, and Reloads the Toolbar Entries
-        /// </summary>
-        /// <param name="obj">TextToolbar</param>
-        /// <param name="args">Property Changed Args</param>
-        public static void OnRemoveButtonsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
-            var bar = obj as TextToolbar;
-            if (bar != null)
-            {
-                var oldSource = args.OldValue as RemovalList;
-                var newSource = args.NewValue as RemovalList;
-                var root = bar.GetTemplateChild(RootControl) as CommandBar;
-
-                if (oldSource != null)
-                {
-                    oldSource.CollectionChanged -= bar.OnRemoveButtonsModified;
-
-                    if (root != null)
-                    {
-                        foreach (DefaultButton item in oldSource)
-                        {
-                            bar.AddToolbarItem(item.Button, root);
-                        }
-                    }
-                }
-
-                if (newSource != null)
-                {
-                    newSource.CollectionChanged += bar.OnRemoveButtonsModified;
-
-                    foreach (DefaultButton item in newSource)
-                    {
-                        bar.RemoveDefaultButton(item);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Removes Default Buttons if Added, Adds them back if Removed.
         /// </summary>
         /// <param name="sender">Source</param>
@@ -288,6 +247,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (e.PropertyName == nameof(IToolbarItem.Position))
                 {
                     MoveToolbarItem(sender as IToolbarItem, root);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks if a Shortcut Combination is pressed, by going through the list of attached buttons.
+        /// </summary>
+        /// <param name="sender">RichEditBox</param>
+        /// <param name="e">Key args</param>
+        private void Editor_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            LastKeyPress = e.Key;
+
+            var root = GetTemplateChild(RootControl) as CommandBar;
+            if (root != null)
+            {
+                if (ControlKeyDown && e.Key != VirtualKey.Control)
+                {
+                    var key = FindBestAlternativeKey(e.Key);
+
+                    var matchingButtons = root.PrimaryCommands.OfType<ToolbarButton>().Where(item => item.ShortcutKey == key);
+                    if (matchingButtons.Any() && e.Handled)
+                    {
+                        Editor.Document.Undo();
+                        if (string.IsNullOrWhiteSpace(Editor.Document.Selection.Text))
+                        {
+                            Editor.Document.Redo();
+                        }
+                    }
+
+                    var args = new ShortcutKeyRequestArgs(key, ShiftKeyDown, e);
+                    foreach (var button in matchingButtons)
+                    {
+                        if (button != null && !args.Handled)
+                        {
+                            button.ShortcutRequested(ref args);
+                        }
+                    }
+
+                    ShortcutRequested?.Invoke(this, args);
+                    e.Handled = args.Handled;
                 }
             }
         }

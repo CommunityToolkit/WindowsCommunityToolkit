@@ -10,13 +10,13 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Windows.System;
+using Windows.UI.Text;
+using Windows.UI.Xaml.Controls;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
 {
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-    using Windows.System;
-    using Windows.UI.Text;
-    using Windows.UI.Xaml.Controls;
-
     // Rudimentary showcase of RichText and Toggleable Toolbar Buttons.
     public class RichTextFormatter : Formatter
     {
@@ -24,23 +24,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
             : base(model)
         {
             ButtonActions = new RichTextButtonActions(this);
-        }
-
-        public void FormatUnderline(ToolbarButton button)
-        {
-            var format = SelectionFormat;
-            if (!button.IsToggled)
-            {
-                format.Underline = UnderlineType.Single;
-                SelectionFormat = format;
-            }
-            else
-            {
-                format.Underline = UnderlineType.None;
-                SelectionFormat = format;
-            }
-
-            button.IsToggled = button.IsToggled != true;
         }
 
         public override void OnSelectionChanged()
@@ -137,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
                     ToolTip = Model.Labels.UnderlineLabel,
                     Icon = new SymbolIcon { Symbol = Symbol.Underline },
                     ShortcutKey = VirtualKey.U,
-                    Activation = FormatUnderline
+                    Activation = ((RichTextButtonActions)ButtonActions).FormatUnderline
                 };
                 ListButton = Model.CommonButtons.List;
                 OrderedListButton = Model.CommonButtons.OrderedList;
@@ -166,5 +149,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
             get { return Selected.CharacterFormat; }
             set { Selected.CharacterFormat = value; }
         }
+
+        public override string NewLineChars => "\r\n";
     }
 }

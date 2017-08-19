@@ -10,12 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Windows.UI.Text;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 {
-    using System;
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-    using Windows.UI.Text;
-
     /// <summary>
     /// Manipulates Selected Text into an applied format according to default buttons.
     /// </summary>
@@ -45,6 +45,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         private void Editor_SelectionChanged(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             OnSelectionChanged();
+        }
+
+        /// <summary>
+        /// Decrements the selected position until it is at the start of the current line.
+        /// </summary>
+        public virtual void EnsureAtStartOfCurrentLine()
+        {
+            while (!Selected.Text.StartsWith(NewLineChars))
+            {
+                Selected.StartPosition -= 1;
+                if (Selected.StartPosition == 0)
+                {
+                    break;
+                }
+            }
+
+            if (Selected.StartPosition != 0)
+            {
+                Selected.StartPosition += NewLineChars.Length;
+            }
         }
 
         /// <summary>
@@ -100,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         {
             string doc;
             Model.Editor.Document.GetText(TextGetOptions.None, out doc);
-            var lines = doc.Split(new string[] { Return }, StringSplitOptions.None);
+            var lines = doc.Split(new string[] { NewLineChars }, StringSplitOptions.None);
             return lines;
         }
 
@@ -149,6 +169,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         /// Gets the formatted version of the Editor's Text
         /// </summary>
         public abstract string Text { get; }
+
+        /// <summary>
+        /// Gets the Characters used to indicate a New Line
+        /// </summary>
+        public abstract string NewLineChars { get; }
 
         /// <summary>
         /// Gets the current Editor Selection

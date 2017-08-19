@@ -10,13 +10,13 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Windows.System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 {
-    using Windows.System;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Media;
-
     /// <summary>
     /// Provides access to Generic Buttons that activate Formatter Methods
     /// </summary>

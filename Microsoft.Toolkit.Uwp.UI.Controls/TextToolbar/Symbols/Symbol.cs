@@ -10,12 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.UI.Helpers;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
 {
-    using Microsoft.Toolkit.Uwp.UI.Helpers;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
-
     [TemplateVisualState(GroupName = Common, Name = Normal)]
     [TemplateVisualState(GroupName = Common, Name = Disabled)]
     public abstract class Symbol : Control

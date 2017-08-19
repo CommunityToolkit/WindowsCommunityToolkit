@@ -10,12 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 {
-    using System;
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
-
     public class MarkDownButtonActions : ButtonActions
     {
         public MarkDownButtonActions(MarkDownFormatter formatter)
