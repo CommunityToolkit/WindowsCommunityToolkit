@@ -35,15 +35,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Shell.Current.RegisterNewCommand("Add/Remove Bold Button", (sender, args) =>
             {
                 var button = DefaultButton.OfType(ButtonType.Bold);
-                if (!codeRemoved)
+                if (!boldRemoved)
                 {
                     Toolbar.RemoveDefaultButtons.Add(button);
-                    codeRemoved = true;
+                    boldRemoved = true;
                 }
                 else
                 {
                     Toolbar.RemoveDefaultButtons.Remove(button);
-                    codeRemoved = false;
+                    boldRemoved = false;
                 }
             });
 
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             });
         }
 
-        private bool codeRemoved = false;
+        private bool boldRemoved = false;
 
         private int DemoCounter { get; set; } = 0;
 
