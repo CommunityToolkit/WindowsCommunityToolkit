@@ -27,6 +27,7 @@
       <dependency id="Microsoft.OneDriveSDK" version="2.0.6"/>
       <dependency id="Microsoft.OneDriveSDK.Authentication" version="1.0.8"/>
       <dependency id="Microsoft.IdentityModel.Clients.ActiveDirectory" version="3.13.7"/>
+      <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.3.3" />
     </dependencies>
   </metadata>
   <files>
