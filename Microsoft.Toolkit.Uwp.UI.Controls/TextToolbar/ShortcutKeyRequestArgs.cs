@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public VirtualKey Key { get; private set; }
 
         /// <summary>
-        /// Gets the Original KeyDown arguments, so you can check if the keys
+        /// Gets the Original KeyDown arguments
         /// </summary>
         public KeyRoutedEventArgs OriginalArgs { get; private set; }
 
