@@ -43,6 +43,10 @@ private void AddCustomButton()
             {
                 md.SetSelection($"[{demoText}]", $"[/{demoText}]");
             }
+            else
+            {
+                Toolbar.Formatter.Selected.Text = $"This was filled by {demoText} button ";
+            }
         }
     };
 
