@@ -10,12 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
+using Windows.UI.Xaml.Data;
+
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbar
 {
-    using System;
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
-    using Windows.UI.Xaml.Data;
-
     public class IsFormat : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)

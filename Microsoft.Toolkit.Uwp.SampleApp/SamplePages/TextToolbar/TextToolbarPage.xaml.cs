@@ -10,17 +10,17 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
+using Windows.System;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    using System;
-    using System.Threading.Tasks;
-    using Microsoft.Toolkit.Uwp.UI.Controls;
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-    using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
-    using Windows.System;
-    using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Navigation;
-
     public sealed partial class TextToolbarPage
     {
         public TextToolbarPage()
