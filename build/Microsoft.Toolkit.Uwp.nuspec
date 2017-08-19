@@ -17,6 +17,8 @@
     <dependencies>
       <group>
         <dependency id="Newtonsoft.Json" version="[9.0.1,)" />
+        <dependency id="Microsoft.Toolkit" version="$version$" />
+        <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.3.3" />
       </group>
     </dependencies>
   </metadata>
