@@ -125,6 +125,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            NavigationFrame.Navigate(typeof(About));
 
             // Get list of samples
             var sampleCategories = (await Samples.GetCategoriesAsync()).ToList();

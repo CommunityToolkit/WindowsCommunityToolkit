@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
             Shell.Current.ShowOnlyHeader("About");
 
             var packageVersion = Package.Current.Id.Version;
-            Version.Text = $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
+            Version.Text = $"Version {packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
         }
     }
 }

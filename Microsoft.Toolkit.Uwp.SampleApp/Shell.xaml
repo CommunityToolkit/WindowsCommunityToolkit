@@ -151,7 +151,6 @@
 
     </Page.Resources>
     <controls:HamburgerMenu x:Name="HamburgerMenu"
-                            Foreground="{StaticResource Brush-Grey-04}"
                             ItemClick="HamburgerMenu_OnItemClick"
                             ItemTemplate="{StaticResource HorizontalItemTemplate}"
                             OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
@@ -167,11 +166,14 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
+            <Grid.Background>
+                <ImageBrush ImageSource="ms-appx:///Assets/Photos/GiantSlabInOregon.jpg" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"></ImageBrush>
+            </Grid.Background>
+
 
             <Grid x:Name="RootGrid"
                   Grid.Row="2"
-                  Grid.RowSpan="3"
-                  Background="{StaticResource Brush-Grey-05}">
+                  Grid.RowSpan="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*" />
                     <ColumnDefinition  Width="Auto"/>
@@ -181,25 +183,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid x:Name="DemoAreaGrid">
-                    <StackPanel HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                        <TextBlock Margin="0,24,0,0"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontSize="32"
-                                   FontWeight="Light"
-                                   Foreground="{StaticResource Brush-Grey-03}"
-                                   Text="UWP Community Toolkit"
-                                   TextWrapping="Wrap" />
-                        <TextBlock Margin="0"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontSize="18.667"
-                                   FontWeight="Light"
-                                   Foreground="{StaticResource Brush-Grey-03}"
-                                   Text="Sample App" />
-                    </StackPanel>
-                    <Frame x:Name="NavigationFrame" />
+                    <Frame x:Name="NavigationFrame"/>
                     <!--
                         Uncomment this control to help you determine where the focus is.
                         This could be useful when validating accessibility of your control

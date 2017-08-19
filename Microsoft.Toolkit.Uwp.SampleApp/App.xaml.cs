@@ -69,6 +69,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// <param name="e">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Windows.Foundation.Size(500, 500));
+
             if (e.PrelaunchActivated)
             {
                 return;

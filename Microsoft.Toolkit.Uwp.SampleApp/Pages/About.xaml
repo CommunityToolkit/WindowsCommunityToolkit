@@ -3,85 +3,199 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       mc:Ignorable="d">
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="0,36,0,0"
-                        HorizontalAlignment="Center">
-                <TextBlock Margin="12,0"
-                           HorizontalAlignment="Center"
-                           FontSize="36"
-                           FontWeight="Light"
-                           Foreground="{StaticResource Brush-Grey-03}"
-                           Text="UWP Community Toolkit Sample App"
-                           TextAlignment="Center"
-                           TextWrapping="WrapWholeWords" />
-                <TextBlock x:Name="Version"
-                           Margin="0,0,0,24"
-                           TextAlignment="Center" />
-                <TextBlock MaxWidth="500"
-                           Margin="12,0,12,12"
-                           Text="This app demonstrates the controls, services and APIs available in the UWP Community Toolkit. The toolkit is available as NuGet package for your C# or VB.NET projects. Source code of the toolkit and the sample app is available on GitHub."
-                           TextAlignment="Center"
-                           TextWrapping="WrapWholeWords" />
+    <Border>
+        <controls:DropShadowPanel HorizontalAlignment="Center" 
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Stretch"
+                                  VerticalContentAlignment="Stretch"
+                                  Color="Black"
+                                  BlurRadius="30"
+                                  ShadowOpacity="0.4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="664"></ColumnDefinition>
+                    <ColumnDefinition Width="336"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
 
-                <TextBlock FontSize="16"
-                           FontWeight="SemiBold"
-                           Text="UWP Community Toolkit and Sample App code"
-                           TextAlignment="Center"
-                           TextWrapping="Wrap" />
-                <HyperlinkButton Margin="0,0,0,12"
-                                 HorizontalAlignment="Center"
-                                 FontSize="14"
-                                 FontWeight="Light"
-                                 Foreground="{StaticResource Brush-Blue-01}"
-                                 NavigateUri="http://aka.ms/uwptoolkit">
-                    Github repository
-                </HyperlinkButton>
+                <Border Background="#F4FFFFFF">
+                    <interactivity:Interaction.Behaviors>
+                        <behaviors:Blur AutomaticallyStart="True"
+                                        Delay="0"
+                                        Value="3"
+                                        Duration="0" />
+                    </interactivity:Interaction.Behaviors>
+                </Border>
 
-                <TextBlock FontSize="16"
-                           FontWeight="SemiBold"
-                           Text="Documentation"
-                           TextAlignment="Center" />
-                <HyperlinkButton Margin="0,0,0,12"
-                                 HorizontalAlignment="Center"
-                                 FontSize="14"
-                                 FontWeight="Light"
-                                 Foreground="{StaticResource Brush-Blue-01}"
-                                 NavigateUri="http://aka.ms/uwptoolkitdocs">
-                    Documentation homepage
-                </HyperlinkButton>
+                <Border Background="#19000000" Width="1" HorizontalAlignment="Right"></Border>
 
-                <TextBlock FontSize="16"
-                           FontWeight="SemiBold"
-                           Text="Dependencies"
-                           TextAlignment="Center" />
-                <HyperlinkButton HorizontalAlignment="Center"
-                                 FontSize="14"
-                                 FontWeight="Light"
-                                 Foreground="{StaticResource Brush-Blue-01}"
-                                 NavigateUri="http://www.newtonsoft.com/json">
-                    Newtonsoft Json
-                </HyperlinkButton>
-                <HyperlinkButton HorizontalAlignment="Center"
-                                 FontSize="14"
-                                 FontWeight="Light"
-                                 Foreground="{StaticResource Brush-Blue-01}"
-                                 NavigateUri="https://github.com/google/code-prettify">
-                    Code Prettify
-                </HyperlinkButton>
+                <Border Grid.Column="1" Background="#F4F3F3F3">
+                    <interactivity:Interaction.Behaviors>
+                        <behaviors:Blur AutomaticallyStart="True"
+                                        Delay="0"
+                                        Value="3"
+                                        Duration="0" />
+                    </interactivity:Interaction.Behaviors>
+                </Border>
 
-                <HyperlinkButton Margin="0,30,0,0"
-                                 HorizontalAlignment="Center"
-                                 FontSize="14"
-                                 FontWeight="Light"
-                                 Foreground="{StaticResource Brush-Blue-01}"
-                                 NavigateUri="https://go.microsoft.com/fwlink/?LinkId=521839">
-                    Privacy statement
-                </HyperlinkButton>
-            </StackPanel>
-        </ScrollViewer>
-    </Grid>
+                <ScrollViewer Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="64"></ColumnDefinition>
+                            <ColumnDefinition Width="536"></ColumnDefinition>
+                            <ColumnDefinition Width="64"></ColumnDefinition>
+                            <ColumnDefinition Width="64"></ColumnDefinition>
+                            <ColumnDefinition Width="208"></ColumnDefinition>
+                            <ColumnDefinition Width="64"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="84"></RowDefinition>
+                            <RowDefinition Height="48"></RowDefinition>
+                            <RowDefinition Height="84"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="84"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="1" Grid.Column="1" TextAlignment="Center" FontSize="36" FontFamily="Segoe UI" FontWeight="Light">Get Started</TextBlock>
+
+                        <Grid Grid.Row="3" Grid.Column="1">
+                            <StackPanel>
+                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">Recent Activity</TextBlock>
+                                <ItemsControl Margin="0,16,0,0">
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                        <TextBlock>Hamburger Menu</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                        <TextBlock>ImageEx</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                        <TextBlock>AdaptiveGridView</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                        <TextBlock>Blur</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                        <TextBlock>SurfaceDialTextboxHelper</TextBlock>
+                                    </HyperlinkButton>
+                                </ItemsControl>
+                            </StackPanel>
+
+                        </Grid>
+
+                        <Border Grid.Row="4" Grid.Column="1" BorderThickness="0,1,0,0" BorderBrush="#33000000" Margin="0,48"></Border>
+
+                        <Grid Grid.Row="5" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel>
+                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">Resources</TextBlock>
+                                <ItemsControl Margin="0,16,0,0">
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="http://aka.ms/uwptoolkit">
+                                        <TextBlock>GitHub Repository</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="http://aka.ms/uwptoolkitdocs">
+                                        <TextBlock>Documentation</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://github.com/Microsoft/UWPCommunityToolkit/issues">
+                                        <TextBlock>GitHub Issues</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://github.com/Microsoft/UWPCommunityToolkit/milestones">
+                                        <TextBlock>Roadmap</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit">
+                                        <TextBlock>UserVoice</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://github.com/Microsoft/UWPCommunityToolkit/graphs/contributors">
+                                        <TextBlock>Contributors</TextBlock>
+                                    </HyperlinkButton>
+                                </ItemsControl>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">About the App</TextBlock>
+                                <ItemsControl Margin="0,16,0,0">
+                                    <TextBlock x:Name="Version" FontSize="12" Margin="0,0,0,10"></TextBlock>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="http://www.newtonsoft.com/json">
+                                        <TextBlock>Newtonsoft Json (Dependency)</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://github.com/google/code-prettify">
+                                        <TextBlock>Code Prettify (Dependency)</TextBlock>
+                                    </HyperlinkButton>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="3" Grid.Column="4">
+
+                            <StackPanel>
+                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">What's New</TextBlock>
+                                <ItemsControl Margin="0,16,0,0">
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                        <TextBlock>Hamburger Menu</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                        <TextBlock>ImageEx</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                        <TextBlock>AdaptiveGridView</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                        <TextBlock>Blur</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                        <TextBlock>SurfaceDialTextboxHelper</TextBlock>
+                                    </HyperlinkButton>
+                                </ItemsControl>
+                            </StackPanel>
+
+                        </Grid>
+
+                        <Border Grid.Row="4" Grid.Column="4" BorderThickness="0,1,0,0" BorderBrush="#33000000" Margin="0,48"></Border>
+
+                        <Grid Grid.Row="5" Grid.Column="4">
+
+                            <StackPanel>
+                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">Release Notes</TextBlock>
+                                <ItemsControl Margin="0,16,0,0">
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                        <TextBlock>Hamburger Menu</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                        <TextBlock>ImageEx</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                        <TextBlock>AdaptiveGridView</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                        <TextBlock>Blur</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                        <TextBlock>SurfaceDialTextboxHelper</TextBlock>
+                                    </HyperlinkButton>
+                                </ItemsControl>
+                            </StackPanel>
+
+                        </Grid>
+
+                        <HyperlinkButton Grid.Row="7" Grid.Column="4" VerticalAlignment="Bottom" HorizontalAlignment="Center" Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://go.microsoft.com/fwlink/?LinkId=521839">
+                            <TextBlock>Privacy statement</TextBlock>
+                        </HyperlinkButton>
+
+
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+        </controls:DropShadowPanel>
+    </Border>
 </Page>
-
