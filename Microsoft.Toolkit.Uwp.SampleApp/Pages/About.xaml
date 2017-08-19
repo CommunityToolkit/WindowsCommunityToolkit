@@ -6,6 +6,7 @@
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:sampleapp="using:Microsoft.Toolkit.Uwp.SampleApp"
       mc:Ignorable="d">
 
     <Border>
@@ -69,22 +70,14 @@
                         <Grid Grid.Row="3" Grid.Column="1">
                             <StackPanel>
                                 <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">Recent Activity</TextBlock>
-                                <ItemsControl Margin="0,16,0,0">
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
-                                        <TextBlock>Hamburger Menu</TextBlock>
-                                    </HyperlinkButton>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
-                                        <TextBlock>ImageEx</TextBlock>
-                                    </HyperlinkButton>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
-                                        <TextBlock>AdaptiveGridView</TextBlock>
-                                    </HyperlinkButton>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
-                                        <TextBlock>Blur</TextBlock>
-                                    </HyperlinkButton>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
-                                        <TextBlock>SurfaceDialTextboxHelper</TextBlock>
-                                    </HyperlinkButton>
+                                <ItemsControl Margin="0,16,0,0" ItemsSource="{x:Bind RecentSamples, Mode=OneWay}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="sampleapp:Sample">
+                                            <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}">
+                                                <TextBlock Text="{x:Bind Name}"></TextBlock>
+                                            </HyperlinkButton>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </StackPanel>
 

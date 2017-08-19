@@ -20,7 +20,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public static class Samples
     {
+        private const string _recentSamplesStorageKey = "test1";
+        //private const string _recentSamplesStorageKey = "uct-recent-samples";
+
         private static List<SampleCategory> _samplesCategories;
+
+        private static LinkedList<Sample> _recentSamples;
+        private static RoamingObjectStorageHelper _roamingObjectStorageHelper = new RoamingObjectStorageHelper();
 
         public static async Task<SampleCategory> GetCategoryBySample(Sample sample)
         {
@@ -80,6 +86,54 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             return _samplesCategories;
+        }
+
+        public static async Task<LinkedList<Sample>> GetRecentSamples()
+        {
+            if (_recentSamples == null)
+            {
+                _recentSamples = new LinkedList<Sample>();
+                var savedSamples = _roamingObjectStorageHelper.Read<string>(_recentSamplesStorageKey);
+
+                if (savedSamples != null)
+                {
+                    var sampleNames = savedSamples.Split(';');
+                    foreach (var name in sampleNames)
+                    {
+                        var sample = await GetSampleByName(name);
+                        if (sample != null)
+                        {
+                            _recentSamples.AddFirst(sample);
+                        }
+                    }
+                }
+            }
+
+            return _recentSamples;
+        }
+
+        public static async Task PushRecentSample(Sample sample)
+        {
+            var samples = await GetRecentSamples();
+
+            if (samples.Contains(sample))
+            {
+                samples.Remove(sample);
+            }
+
+            samples.AddFirst(sample);
+            SaveRecentSamples();
+        }
+
+        private static void SaveRecentSamples()
+        {
+            if (_recentSamples == null)
+            {
+                return;
+            }
+
+            var str = string.Join(";", _recentSamples.Take(10).Select(s => s.Name).ToArray());
+            _roamingObjectStorageHelper.Save<string>(_recentSamplesStorageKey, str);
         }
     }
 }

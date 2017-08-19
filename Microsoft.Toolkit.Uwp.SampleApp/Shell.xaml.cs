@@ -198,6 +198,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
 
                 category = await Samples.GetCategoryBySample(sample);
+                await Samples.PushRecentSample(sample);
 
                 var propertyDesc = sample.PropertyDescriptor;
 
