@@ -84,6 +84,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     {
                         md.SetSelection($"[{demoText}]", $"[/{demoText}]");
                     }
+                    else
+                    {
+                        Toolbar.Formatter.Selected.Text = $"This was filled by {demoText} button ";
+                    }
                 }
             };
 

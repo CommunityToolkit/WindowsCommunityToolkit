@@ -277,6 +277,7 @@
     <Content Include="SamplePages\OneDrive Service\OneDriveLogo.png" />
     <Content Include="SamplePages\Saturation\SaturationBehavior.png" />
     <Content Include="SamplePages\OrbitView\OrbitView.png" />
+    <Content Include="SamplePages\TextToolbar\TextToolbar.png" />
     <Content Include="SamplePages\TileControl\Animations.png" />
     <Content Include="SamplePages\TileControl\TileControl.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
