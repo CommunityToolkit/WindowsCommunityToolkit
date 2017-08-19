@@ -728,6 +728,8 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
+                                    <Border Background="#48000000" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="3"></Border>
+
                                 <ListView x:Name="ButtonsListView"
                                           AutomationProperties.Name="Menu items"
                                           IsItemClickEnabled="True"
