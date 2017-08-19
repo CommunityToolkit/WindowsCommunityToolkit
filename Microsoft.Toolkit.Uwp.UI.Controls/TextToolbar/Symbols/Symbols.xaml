@@ -1,15 +1,16 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols">
 
-    <Style TargetType="Grid" x:Key="ListBar">
+    <Style x:Key="ListBar"
+           TargetType="Grid">
         <Setter Property="Grid.Column" Value="1" />
         <Setter Property="Height" Value="1" />
         <Setter Property="Margin" Value="1" />
     </Style>
 
-    <Style TargetType="Grid" x:Key="Bullet">
+    <Style x:Key="Bullet"
+           TargetType="Grid">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Height" Value="3" />
         <Setter Property="Width" Value="3" />
@@ -17,7 +18,8 @@
         <Setter Property="Padding" Value="0" />
     </Style>
 
-    <Style TargetType="TextBlock" x:Key="Numbers">
+    <Style x:Key="Numbers"
+           TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="FontSize" Value="7" />
         <Setter Property="FontWeight" Value="Bold" />
@@ -36,7 +38,41 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:List">
-                    <Grid Width="20" Height="20">
+                    <Grid Width="20"
+                          Height="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="6" />
+                            <RowDefinition Height="6" />
+                            <RowDefinition Height="6" />
+                        </Grid.RowDefinitions>
+
+                        <Grid x:Name="Attach"
+                              Width="0"
+                              Height="0"
+                              Background="{ThemeResource SystemControlPageTextBaseHighBrush}" />
+
+                        <Grid Background="{Binding ElementName=Attach, Path=Background}"
+                              Style="{StaticResource Bullet}" />
+                        <Grid Background="{Binding ElementName=Attach, Path=Background}"
+                              Style="{StaticResource ListBar}" />
+
+                        <Grid Grid.Row="1"
+                              Background="{Binding ElementName=Attach, Path=Background}"
+                              Style="{StaticResource Bullet}" />
+                        <Grid Grid.Row="1"
+                              Background="{Binding ElementName=Attach, Path=Background}"
+                              Style="{StaticResource ListBar}" />
+
+                        <Grid Grid.Row="2"
+                              Background="{Binding ElementName=Attach, Path=Background}"
+                              Style="{StaticResource Bullet}" />
+                        <Grid Grid.Row="2"
+                              Background="{Binding ElementName=Attach, Path=Background}"
+                              Style="{StaticResource ListBar}" />
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
@@ -48,27 +84,6 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="6" />
-                            <RowDefinition Height="6" />
-                            <RowDefinition Height="6" />
-                        </Grid.RowDefinitions>
-
-                        <Grid x:Name="Attach" Height="0" Width="0" Background="{ThemeResource SystemControlPageTextBaseHighBrush}" />
-
-                        <Grid Style="{StaticResource Bullet}" Background="{Binding ElementName=Attach, Path=Background}" />
-                        <Grid Style="{StaticResource ListBar}" Background="{Binding ElementName=Attach, Path=Background}" />
-
-                        <Grid Style="{StaticResource Bullet}" Background="{Binding ElementName=Attach, Path=Background}" Grid.Row="1" />
-                        <Grid Style="{StaticResource ListBar}" Background="{Binding ElementName=Attach, Path=Background}" Grid.Row="1" />
-
-                        <Grid Style="{StaticResource Bullet}" Background="{Binding ElementName=Attach, Path=Background}" Grid.Row="2" />
-                        <Grid Style="{StaticResource ListBar}" Background="{Binding ElementName=Attach, Path=Background}" Grid.Row="2" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -85,7 +100,41 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:NumberedList">
-                    <Grid Width="20" Height="20">
+                    <Grid Width="20"
+                          Height="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="6" />
+                            <RowDefinition Height="6" />
+                            <RowDefinition Height="6" />
+                        </Grid.RowDefinitions>
+
+                        <Grid x:Name="Attach"
+                              Width="0"
+                              Height="0"
+                              Background="{ThemeResource SystemControlPageTextBaseHighBrush}" />
+
+                        <TextBlock Style="{StaticResource Numbers}"
+                                   Text="1" />
+                        <Grid Background="{Binding ElementName=Attach, Path=Background}"
+                              Style="{StaticResource ListBar}" />
+
+                        <TextBlock Grid.Row="1"
+                                   Style="{StaticResource Numbers}"
+                                   Text="2" />
+                        <Grid Grid.Row="1"
+                              Background="{Binding ElementName=Attach, Path=Background}"
+                              Style="{StaticResource ListBar}" />
+
+                        <TextBlock Grid.Row="2"
+                                   Style="{StaticResource Numbers}"
+                                   Text="3" />
+                        <Grid Grid.Row="2"
+                              Background="{Binding ElementName=Attach, Path=Background}"
+                              Style="{StaticResource ListBar}" />
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
@@ -97,27 +146,6 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="6" />
-                            <RowDefinition Height="6" />
-                            <RowDefinition Height="6" />
-                        </Grid.RowDefinitions>
-
-                        <Grid x:Name="Attach" Height="0" Width="0" Background="{ThemeResource SystemControlPageTextBaseHighBrush}" />
-
-                        <TextBlock Text="1" Style="{StaticResource Numbers}" />
-                        <Grid Style="{StaticResource ListBar}" Background="{Binding ElementName=Attach, Path=Background}" />
-
-                        <TextBlock Text="2" Style="{StaticResource Numbers}" Grid.Row="1" />
-                        <Grid Style="{StaticResource ListBar}" Background="{Binding ElementName=Attach, Path=Background}" Grid.Row="1" />
-
-                        <TextBlock Text="3" Style="{StaticResource Numbers}" Grid.Row="2" />
-                        <Grid Style="{StaticResource ListBar}" Background="{Binding ElementName=Attach, Path=Background}" Grid.Row="2" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
