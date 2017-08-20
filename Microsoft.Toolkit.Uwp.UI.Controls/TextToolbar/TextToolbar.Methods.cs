@@ -74,6 +74,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="root">Root Control</param>
         private void AttachButtonMap(ButtonMap map, CommandBar root)
         {
+            if (root == null || map == null)
+            {
+                return;
+            }
+
             foreach (var item in map)
             {
                 AddToolbarItem(item, root);
