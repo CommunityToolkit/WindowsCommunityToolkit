@@ -129,15 +129,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             // Get list of samples
             var sampleCategories = (await Samples.GetCategoriesAsync()).ToList();
-            var moreResources = sampleCategories.Last(); // Remove the last one because it is a specific case
-            sampleCategories.Remove(moreResources);
 
             HamburgerMenu.ItemsSource = sampleCategories;
 
             // Options
             HamburgerMenu.OptionsItemsSource = new[]
             {
-                new Option { Glyph = "\xEC7A", Name = "More resources", PageType = typeof(About), Tag = moreResources },
                 new Option { Glyph = "\xE946", Name = "About", PageType = typeof(About) }
             };
 
@@ -282,7 +279,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 else
                 {
                     HamburgerMenu.SelectedItem = null;
-                    HamburgerMenu.SelectedOptionsIndex = category != null ? 0 : 1;
+                    HamburgerMenu.SelectedOptionsIndex = 0;
                 }
             }
         }
@@ -369,9 +366,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// <param name="navigationEventArgs">The <see cref="NavigationEventArgs"/> instance containing the event data.</param>
         private void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
         {
-            //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationFrame.CanGoBack
-            //    ? AppViewBackButtonVisibility.Visible
-            //    : AppViewBackButtonVisibility.Collapsed;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationFrame.CanGoBack
+                ? AppViewBackButtonVisibility.Visible
+                : AppViewBackButtonVisibility.Collapsed;
 
             if (_isPaneOpen)
             {

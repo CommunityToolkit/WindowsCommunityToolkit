@@ -10,8 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -40,6 +42,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
             }
         }
 
+        private static List<Sample> _newSamples;
+
+        public List<Sample> NewSamples
+        {
+            get
+            {
+                return _newSamples;
+            }
+
+            set
+            {
+                _newSamples = value;
+                OnPropertyChanged();
+            }
+        }
+
         private List<GitHubRelease> _githubReleases;
 
         public List<GitHubRelease> GitHubReleases
@@ -52,6 +70,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
             set
             {
                 _githubReleases = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private static LandingPageLinks _landingPageLinks;
+
+        public LandingPageLinks LandingPageLinks
+        {
+            get
+            {
+                return _landingPageLinks;
+            }
+
+            set
+            {
+                _landingPageLinks = value;
                 OnPropertyChanged();
             }
         }
@@ -79,6 +113,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
         private async Task Init()
         {
+            var t = UpdateSections();
             RecentSamples = await Samples.GetRecentSamples();
             GitHubReleases = await Data.GitHub.GetPublishedReleases();
         }
@@ -89,6 +124,58 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
             if (button.DataContext is Sample sample)
             {
                 Shell.Current.NavigateToSample(sample);
+            }
+        }
+
+        private async Task UpdateSections()
+        {
+            if (LandingPageLinks == null)
+            {
+                using (var jsonStream = await StreamHelper.GetPackagedFileStreamAsync("landingPageLinks.json"))
+                {
+                    var jsonString = await jsonStream.ReadTextAsync();
+                    LandingPageLinks = JsonConvert.DeserializeObject<LandingPageLinks>(jsonString);
+                }
+
+                var samples = new List<Sample>();
+
+                foreach (var newSample in LandingPageLinks.NewSamples)
+                {
+                    var sample = await Samples.GetSampleByName(newSample);
+                    if (sample != null)
+                    {
+                        samples.Add(sample);
+                    }
+                }
+
+                NewSamples = samples;
+            }
+
+            foreach (var section in LandingPageLinks.Resources.Reverse())
+            {
+                var stackPanel = new StackPanel()
+                {
+                    MinWidth = 267,
+                    Margin = new Thickness(0, 0, 0, 48)
+                };
+
+                stackPanel.Children.Add(
+                    new TextBlock()
+                    {
+                        FontSize = 20,
+                        FontFamily = new Windows.UI.Xaml.Media.FontFamily("Segoe UI"),
+                        Text = section.Title
+                    });
+
+                stackPanel.Children.Add(
+                    new ItemsControl()
+                    {
+                        Margin = new Thickness(0, 16, 0, 0),
+                        ItemsSource = section.Links,
+                        ItemTemplate = Resources["LinkTemplate"] as DataTemplate
+                    });
+
+                ResourcesSection.Items.Insert(0, stackPanel);
             }
         }
 

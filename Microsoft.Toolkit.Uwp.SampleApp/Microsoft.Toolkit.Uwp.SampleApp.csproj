@@ -304,8 +304,8 @@
     <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.bind" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
-    <Content Include="SamplePages\Useful links\UsefulLinks.png" />
     <Content Include="SamplePages\WrapPanel\WrapPanel.png" />
+    <Content Include="landingPageLinks.json" />
     <None Include="Microsoft.Toolkit.Uwp.SampleApp.ruleset" />
     <Content Include="SamplePages\Twitter Service\TwitterLogo.png" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToast.png" />
@@ -416,6 +416,9 @@
     <Compile Include="Data\PhotoDataItemWithDimension.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\GitHubRelease.cs" />
+    <Compile Include="Models\LandingPageLinks.cs" />
+    <Compile Include="Models\LandingPageResource.cs" />
+    <Compile Include="Models\LandingPageLink.cs" />
     <Compile Include="Pages\SamplePicker.xaml.cs">
       <DependentUpon>SamplePicker.xaml</DependentUpon>
     </Compile>
@@ -605,9 +608,6 @@
       <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Twitter Service\TwitterTemplateSelector.cs" />
-    <Compile Include="SamplePages\Useful links\UsefulLinksPage.xaml.cs">
-      <DependentUpon>UsefulLinksPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml.cs">
       <DependentUpon>WeatherLiveTileAndToastPage.xaml</DependentUpon>
     </Compile>
@@ -883,10 +883,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Useful links\UsefulLinksPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

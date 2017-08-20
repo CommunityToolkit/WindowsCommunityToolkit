@@ -594,18 +594,6 @@
         "XamlCodeFile": "FocusTrackerXaml.bind",
         "Icon": "/SamplePages/FocusTracker/FocusTracker.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/developerTools/FocusTracker.md"
-      }
-    ]
-  },
-  {
-    "Name": "More resources",
-    "Icon": "Icons/More.png",
-    "Samples": [
-      {
-        "Name": "Useful links",
-        "Type": "UsefulLinksPage",
-        "About": "List of useful links for UWP developers.",
-        "Icon": "/SamplePages/Useful links/UsefulLinks.png"
       },
       {
         "Name": "Analytics",
