@@ -1,3 +1,15 @@
+---
+title: Notifications Overview 
+author: nmetulev
+ms.author: nikolame
+ms.date: 08/20/2017
+ms.topic: overview
+ms.prod: windows
+ms.technology: uwp
+description: Instead of having to deal with XML, you can now use UWP Community toolkit and its notification extensions to work with Tiles and notifications using a complete object model.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, adaptive live tiles, interactive toast, tiles, notifications
+---
+
 # Notifications Overview 
 
 Adaptive Live Tiles and interactive Toasts are key engagement components of a UWP Application on Windows 10.  

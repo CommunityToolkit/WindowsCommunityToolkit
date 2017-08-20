@@ -1,3 +1,15 @@
+---
+title: VisualTreeExtensions
+author: nmetulev
+ms.author: nikolame
+ms.date: 08/20/2017
+ms.topic: overview
+ms.prod: windows
+ms.technology: uwp
+description: The VisualTreeExtensions provides a collection of extensions methods for UI.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, VisualTreeExtensions
+---
+
 # VisualTreeExtensions
 
 The **VisualTreeExtensions** provides a collection of extensions methods for UI.

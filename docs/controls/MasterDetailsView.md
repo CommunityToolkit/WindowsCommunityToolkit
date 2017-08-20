@@ -1,3 +1,15 @@
+---
+title: MasterDetailsView XAML Control
+author: nmetulev
+ms.author: nikolame
+ms.date: 08/20/2017
+ms.topic: overview
+ms.prod: windows
+ms.technology: uwp
+description: The MasterDetailsView Control presents items in a master/details pattern.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, MasterDetailsView, XAML Control, xaml
+---
+
 # MasterDetailsView XAML Control 
 
 The **MasterDetailsView Control** presents items in a master/details pattern. It shows a collection of items within the "master panel" and the details for that item within the "details panel". The MasterDetailsView reacts to the width it is given to determine if it should show both the master and details or just one of the two. There is a dependency property `ViewState` or an event `ViewStateChanged` that can be used to track which state the control is in.
