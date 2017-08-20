@@ -25,11 +25,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         {
             Model = model;
 
-            // Waits for the Editor to be realised.
-            var editorFetch = model.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            if (!TextToolbar.InDesignMode)
             {
-                Model.Editor.SelectionChanged += Editor_SelectionChanged;
-            });
+                // Waits for the Editor to be realised.
+                var editorFetch = model.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    Model.Editor.SelectionChanged += Editor_SelectionChanged;
+                });
+            }
         }
 
         /// <summary>

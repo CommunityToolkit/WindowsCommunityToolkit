@@ -42,12 +42,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public TextToolbar()
         {
-            this.DefaultStyleKey = typeof(TextToolbar);
+            DefaultStyleKey = typeof(TextToolbar);
             CommonButtons = new CommonButtons(this);
 
             CustomButtons = new ButtonMap();
             RemoveDefaultButtons = new RemovalList();
-            KeyEventHandler = new KeyEventHandler(Editor_KeyDown);
+
+            if (!InDesignMode)
+            {
+                KeyEventHandler = new KeyEventHandler(Editor_KeyDown);
+            }
         }
 
         protected override void OnApplyTemplate()

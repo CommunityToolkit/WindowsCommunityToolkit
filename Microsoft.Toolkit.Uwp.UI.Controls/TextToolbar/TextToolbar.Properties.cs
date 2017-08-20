@@ -112,5 +112,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         public VirtualKey LastKeyPress { get; private set; }
+
+        internal static bool InDesignMode
+        {
+            get { return Windows.ApplicationModel.DesignMode.DesignModeEnabled; }
+        }
     }
 }

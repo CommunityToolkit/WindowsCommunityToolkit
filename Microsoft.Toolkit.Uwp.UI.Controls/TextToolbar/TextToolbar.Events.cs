@@ -34,6 +34,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="args">Property Changed Args</param>
         private static void OnEditorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
+            if (InDesignMode)
+            {
+                return;
+            }
+
             var bar = obj as TextToolbar;
             if (bar != null)
             {
@@ -74,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnFormatterChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             var bar = obj as TextToolbar;
-            if (bar != null)
+            if (bar != null && bar.Formatter != null)
             {
                 bar.DefaultButtons = bar.Formatter.DefaultButtons;
                 bar.BuildBar();
@@ -257,6 +262,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">Key args</param>
         private void Editor_KeyDown(object sender, KeyRoutedEventArgs e)
         {
+            if (InDesignMode)
+            {
+                return;
+            }
+
             LastKeyPress = e.Key;
 
             var root = GetTemplateChild(RootControl) as CommandBar;
