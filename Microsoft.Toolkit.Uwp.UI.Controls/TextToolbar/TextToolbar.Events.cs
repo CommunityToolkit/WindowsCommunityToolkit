@@ -267,26 +267,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var key = FindBestAlternativeKey(e.Key);
 
                     var matchingButtons = root.PrimaryCommands.OfType<ToolbarButton>().Where(item => item.ShortcutKey == key);
-                    if (matchingButtons.Any() && e.Handled)
+                    if (matchingButtons.Any())
                     {
-                        Editor.Document.Undo();
-                        if (string.IsNullOrWhiteSpace(Editor.Document.Selection.Text))
+                        if (e.Handled)
                         {
-                            Editor.Document.Redo();
+                            Editor.Document.Undo();
+                            if (string.IsNullOrWhiteSpace(Editor.Document.Selection.Text))
+                            {
+                                Editor.Document.Redo();
+                            }
+                        }
+
+                        var args = new ShortcutKeyRequestArgs(key, ShiftKeyDown, e);
+                        foreach (var button in matchingButtons)
+                        {
+                            if (button != null && !args.Handled)
+                            {
+                                button.ShortcutRequested(ref args);
+                            }
+                        }
+
+                        ShortcutRequested?.Invoke(this, args);
+                        if (args.Handled)
+                        {
+                            e.Handled = true;
                         }
                     }
-
-                    var args = new ShortcutKeyRequestArgs(key, ShiftKeyDown, e);
-                    foreach (var button in matchingButtons)
-                    {
-                        if (button != null && !args.Handled)
-                        {
-                            button.ShortcutRequested(ref args);
-                        }
-                    }
-
-                    ShortcutRequested?.Invoke(this, args);
-                    e.Handled = args.Handled;
                 }
             }
         }
