@@ -106,14 +106,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
             }
         }
 
-        private void Editor_TextChanged(object sender, RoutedEventArgs e)
-        {
-            if (IsToggled)
-            {
-                TextChangedEvent?.Invoke(sender, e);
-            }
-        }
-
         /// <summary>
         /// Gets or sets the designated formatting task.
         /// </summary>
@@ -123,11 +115,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         /// Gets or sets the designated formatting task when pressing shift at the same time.
         /// </summary>
         public Action<ToolbarButton> ShiftActivation { get; set; }
-
-        /// <summary>
-        /// Gets or sets the event for updating text, if the button is toggled.
-        /// </summary>
-        public RoutedEventHandler TextChangedEvent { get; set; }
 
         /// <summary>
         /// Gets or sets the Tooltip message, explaining what the button does.
@@ -204,16 +191,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         /// </summary>
         internal TextToolbar Model
         {
-            get
-            {
-                return _model;
-            }
-
-            set
-            {
-                _model = value;
-                value.Editor.TextChanged += Editor_TextChanged;
-            }
+            get { return _model; }
+            set { _model = value; }
         }
 
         private TextToolbar _model;
