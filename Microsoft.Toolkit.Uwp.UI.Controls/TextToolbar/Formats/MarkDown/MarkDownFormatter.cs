@@ -245,7 +245,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                 ListLineIterator = 1;
                 ReachedEndLine = false;
 
-                EnsureAtStartOfCurrentLine();
+                EnsureAtNewLine();
                 string text = listChar();
 
                 var lines = Selected.Text.Split(new string[] { Return }, StringSplitOptions.None).ToList();
