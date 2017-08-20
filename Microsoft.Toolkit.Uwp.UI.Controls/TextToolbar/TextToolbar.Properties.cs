@@ -112,7 +112,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         public VirtualKey LastKeyPress { get; private set; }
-
-        private bool formatterLoadedBeforeTemplate = false;
     }
 }

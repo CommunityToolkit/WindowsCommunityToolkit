@@ -52,11 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         protected override void OnApplyTemplate()
         {
-            if (formatterLoadedBeforeTemplate)
-            {
-                BuildBar();
-            }
-
+            BuildBar();
             base.OnApplyTemplate();
         }
     }

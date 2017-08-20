@@ -65,10 +65,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     AttachButtonMap(CustomButtons, root);
                 }
             }
-            else
-            {
-                formatterLoadedBeforeTemplate = true;
-            }
         }
 
         /// <summary>
