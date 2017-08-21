@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Windows.Storage;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// Shared implementation of ObjectStorageHelper

@@ -12,7 +12,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Connectivity
 {
     /// <summary>
     /// Helper class used when working with UUIDs
