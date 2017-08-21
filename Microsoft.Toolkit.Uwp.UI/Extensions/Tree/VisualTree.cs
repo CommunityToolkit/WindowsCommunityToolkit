@@ -15,35 +15,35 @@ using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI
+namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
     /// Defines a collection of extensions methods for UI.
     /// </summary>
-    public static class VisualTreeExtensions
+    public static class VisualTree
     {
         /// <summary>
-        /// Find descendant control using its name.
+        /// Find descendant <see cref="FrameworkElement"/> control using its name.
         /// </summary>
         /// <param name="element">Parent element.</param>
         /// <param name="name">Name of the control to find</param>
         /// <returns>Descendant control or null if not found.</returns>
-        public static FrameworkElement FindDescendantByName(this FrameworkElement element, string name)
+        public static FrameworkElement FindDescendantByName(this DependencyObject element, string name)
         {
             if (element == null || string.IsNullOrWhiteSpace(name))
             {
                 return null;
             }
 
-            if (name.Equals(element.Name, StringComparison.OrdinalIgnoreCase))
+            if (name.Equals((element as FrameworkElement)?.Name, StringComparison.OrdinalIgnoreCase))
             {
-                return element;
+                return element as FrameworkElement;
             }
 
             var childCount = VisualTreeHelper.GetChildrenCount(element);
             for (int i = 0; i < childCount; i++)
             {
-                var result = (VisualTreeHelper.GetChild(element, i) as FrameworkElement).FindDescendantByName(name);
+                var result = VisualTreeHelper.GetChild(element, i).FindDescendantByName(name);
                 if (result != null)
                 {
                     return result;
@@ -87,13 +87,41 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
+        /// Find visual ascendant <see cref="FrameworkElement"/> control using its name.
+        /// </summary>
+        /// <param name="element">Parent element.</param>
+        /// <param name="name">Name of the control to find</param>
+        /// <returns>Descendant control or null if not found.</returns>
+        public static FrameworkElement FindAscendantByName(this DependencyObject element, string name)
+        {
+            if (element == null || string.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
+
+            var parent = VisualTreeHelper.GetParent(element);
+
+            if (parent == null)
+            {
+                return null;
+            }
+
+            if (name.Equals((parent as FrameworkElement)?.Name, StringComparison.OrdinalIgnoreCase))
+            {
+                return parent as FrameworkElement;
+            }
+
+            return parent.FindAscendantByName(name);
+        }
+
+        /// <summary>
         /// Find first visual ascendant control of a specified type.
         /// </summary>
         /// <typeparam name="T">Type to search for.</typeparam>
         /// <param name="element">Child element.</param>
         /// <returns>Ascendant control or null if not found.</returns>
-        public static T FindVisualAscendant<T>(this FrameworkElement element)
-            where T : FrameworkElement
+        public static T FindAscendant<T>(this DependencyObject element)
+            where T : DependencyObject
         {
             var parent = VisualTreeHelper.GetParent(element);
 
@@ -107,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 return parent as T;
             }
 
-            return (parent as FrameworkElement).FindVisualAscendant<T>();
+            return parent.FindAscendant<T>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
     {
         private static double _threshold = 100;
         private static double _rate = 0;
-        private static ListViewBase _instance;
+        private static Windows.UI.Xaml.Controls.ListViewBase _instance;
 
         public static bool GetIsEnabled(DependencyObject obj)
         {
@@ -28,11 +29,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         // Using a DependencyProperty as the backing store for IsEnabled.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsEnabledProperty =
-            DependencyProperty.RegisterAttached("IsEnabled", typeof(bool), typeof(ListViewBase), new PropertyMetadata(false, OnValueChanged));
+            DependencyProperty.RegisterAttached("IsEnabled", typeof(bool), typeof(Windows.UI.Xaml.Controls.ListViewBase), new PropertyMetadata(false, OnValueChanged));
 
         private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var listView = d as ListViewBase;
+            var listView = d as Windows.UI.Xaml.Controls.ListViewBase;
 
             if (listView == null)
             {
@@ -68,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private static void ListView_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            _instance = sender as ListViewBase;
+            _instance = sender as Windows.UI.Xaml.Controls.ListViewBase;
 
             if (e.Pointer.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Mouse)
             {
@@ -98,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private static void ListView_PointerMoved(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            _instance = sender as ListViewBase;
+            _instance = sender as Windows.UI.Xaml.Controls.ListViewBase;
 
             if (e.Pointer.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Mouse)
             {
