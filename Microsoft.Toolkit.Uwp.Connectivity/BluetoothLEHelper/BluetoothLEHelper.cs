@@ -23,7 +23,7 @@ using Windows.Devices.Enumeration;
 using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Connectivity
 {
     /// <summary>
     /// Context for the entire app. This is where all app wide variables are stored

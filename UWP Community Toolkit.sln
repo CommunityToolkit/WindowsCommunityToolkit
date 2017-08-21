@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp", "Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj", "{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}"
 EndProject
@@ -48,6 +48,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.Samples.BackgroundTasks", "Microsoft.Toolkit.Uwp.Samples.BackgroundTasks\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.csproj", "{1AE2CB5C-58A0-4F12-8E6F-2CD4AAADB34C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.DeveloperTools", "Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.csproj", "{E7697922-9555-4CFB-AEE0-C5F4D657E559}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.Connectivity", "Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj", "{B1E850FF-DDE6-44D5-A830-34250E97A687}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Services", "Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj", "{34398053-FC70-4243-84F9-F355DEFFF66D}"
 EndProject
@@ -346,6 +348,22 @@ Global
 		{E7697922-9555-4CFB-AEE0-C5F4D657E559}.Debug|x86.Build.0 = Debug|Any CPU
 		{E7697922-9555-4CFB-AEE0-C5F4D657E559}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7697922-9555-4CFB-AEE0-C5F4D657E559}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Debug|ARM.Build.0 = Debug|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Debug|x64.Build.0 = Debug|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Debug|x86.Build.0 = Debug|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Release|ARM.ActiveCfg = Release|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Release|ARM.Build.0 = Release|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Release|x64.ActiveCfg = Release|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Release|x64.Build.0 = Release|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Release|x86.ActiveCfg = Release|Any CPU
+		{B1E850FF-DDE6-44D5-A830-34250E97A687}.Release|x86.Build.0 = Release|Any CPU
 		{E7697922-9555-4CFB-AEE0-C5F4D657E559}.Release|ARM.ActiveCfg = Release|Any CPU
 		{E7697922-9555-4CFB-AEE0-C5F4D657E559}.Release|ARM.Build.0 = Release|Any CPU
 		{E7697922-9555-4CFB-AEE0-C5F4D657E559}.Release|x64.ActiveCfg = Release|Any CPU
@@ -405,5 +423,8 @@ Global
 		{BAB1CAF4-C400-4A7F-A987-C576DE63CFFD} = {9333C63A-F64F-4797-82B3-017422668A5D}
 		{EFA96B3C-857E-4659-B942-6BEF7719F4CA} = {9333C63A-F64F-4797-82B3-017422668A5D}
 		{1AE2CB5C-58A0-4F12-8E6F-2CD4AAADB34C} = {9AD30620-667D-433C-9961-8D885EE7B762}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5403B0C4-F244-4F73-A35C-FE664D0F4345}
 	EndGlobalSection
 EndGlobal
