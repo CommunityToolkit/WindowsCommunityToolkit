@@ -27,9 +27,16 @@
                        Orientation="{Binding Orientation.Value, Mode=TwoWay}"
                        TooltipPlacement="{Binding TooltipPlacement.Value, Mode=TwoWay}">
 
-            <controls:MenuItem Name="FileMenu"
+            <controls:MenuItem x:Name="FileMenu"
                                controls:Menu.InputGestureText="Alt+F"
                                Header="^File">
+                <controls:MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Symbol="Document" />
+                        <TextBlock Text="File" Margin="5,0,0,0" />
+                    </StackPanel>
+                </controls:MenuItem.Header>
+              
                 <MenuFlyoutSubItem Text="New">
                     <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
                                     Command="{StaticResource NewProject}"

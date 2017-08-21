@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The HamburgerMenuItem provides an abstract implementation for HamburgerMenu entries.
     /// </summary>
-    public abstract class HamburgerMenuItem : Control
+    public abstract class HamburgerMenuItem : DependencyObject
     {
         /// <summary>
         /// Identifies the <see cref="Label"/> dependency property.
@@ -30,6 +30,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="TargetPageType"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty TargetPageTypeProperty = DependencyProperty.Register(nameof(TargetPageType), typeof(Type), typeof(HamburgerMenuItem), new PropertyMetadata(null));
+
+        /// <summary>
+         /// Identifies the <see cref="Tag"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TagProperty = DependencyProperty.Register(nameof(Tag), typeof(object), typeof(HamburgerMenuItem), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets a value that specifies label to display.
@@ -60,6 +65,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set
             {
                 SetValue(TargetPageTypeProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value that specifies an user specific value.
+        /// </summary>
+        public object Tag
+        {
+            get
+            {
+                return GetValue(TagProperty);
+            }
+
+            set
+            {
+                SetValue(TagProperty, value);
             }
         }
     }

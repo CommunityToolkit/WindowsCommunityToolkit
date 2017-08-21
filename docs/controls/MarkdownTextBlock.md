@@ -114,11 +114,11 @@ private async void MarkdownText_OnImageResolving(object sender, ImageResolvingEv
 
 ## Example Code
 
-[MarkdownTextBlock Sample Page](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/MarkdownTextBlock)
+[MarkdownTextBlock Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/MarkdownTextBlock)
 
 ## Default Template 
 
-[MarkdownTextBlock XAML File](../..//Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/MarkdownTextBlock.xaml) is the XAML template used in the toolkit for the default styling.
+[MarkdownTextBlock XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/MarkdownTextBlock.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 
@@ -128,5 +128,5 @@ private async void MarkdownText_OnImageResolving(object sender, ImageResolvingEv
 
 ## API
 
-* [MarkdownTextBlock source code](../..//Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock)
+* [MarkdownTextBlock source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock)
 

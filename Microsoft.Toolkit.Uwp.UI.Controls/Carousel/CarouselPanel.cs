@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -55,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return carouselControl;
                 }
 
-                carouselControl = this.FindVisualAscendant<Carousel>();
+                carouselControl = this.FindAscendant<Carousel>();
 
                 if (carouselControl == null)
                 {
