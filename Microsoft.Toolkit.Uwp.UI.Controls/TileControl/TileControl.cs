@@ -19,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using System.Numerics;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.Toolkit.Uwp.UI.Extensions;
     using Robmikh.CompositionSurfaceFactory;
     using Windows.ApplicationModel;
     using Windows.Foundation;
