@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -24,12 +25,13 @@ using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
-using Windows.Web.Http;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public class Sample
     {
+        private static HttpClient client = new HttpClient();
+
         internal static async Task<Sample> FindAsync(string category, string name)
         {
             var categories = await Samples.GetCategoriesAsync();
@@ -106,11 +108,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             try
             {
-                using (var request = new HttpHelperRequest(new Uri(DocumentationUrl), HttpMethod.Get))
+                using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(DocumentationUrl)))
                 {
-                    using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                    using (var response = await client.SendAsync(request).ConfigureAwait(false))
                     {
-                        if (response.Success)
+                        if (response.IsSuccessStatusCode)
                         {
                             var result = await response.Content.ReadAsStringAsync();
 
