@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -42,12 +42,28 @@
     <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.xml</DocumentationFile>
     <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>5.3.4</Version>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers">
+      <Version>1.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Identity.Client">
+      <Version>1.0.304142221-alpha</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>9.0.1</Version>
+    </PackageReference>
+  </ItemGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="Microsoft.Toolkit.Uwp.ruleset">
       <SubType>Designer</SubType>
     </None>
-    <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\DeepLinkParser\CollectionFormingDeepLinkParser.cs" />
