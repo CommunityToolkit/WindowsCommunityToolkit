@@ -156,7 +156,33 @@
     <Compile Include="OrbitView\OrbitViewPanelItemsArrangedArgs.cs" />
     <Compile Include="SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.cs" />
-    <Compile Include="TextBoxRegEx\TextBoxRegex.cs" />
+    <Compile Include="TextToolbar\Formats\ButtonActions.cs" />
+    <Compile Include="TextToolbar\Formats\Format.cs" />
+    <Compile Include="TextToolbar\Formats\Formatter.cs" />
+    <Compile Include="TextToolbar\Formats\MarkDown\MarkDownButtonActions.cs" />
+    <Compile Include="TextToolbar\Formats\MarkDown\MarkDownFormatter.cs" />
+    <Compile Include="TextToolbar\Formats\RichText\RichTextButtonActions.cs" />
+    <Compile Include="TextToolbar\Formats\RichText\RichTextFormatter.cs" />
+    <Compile Include="TextToolbar\ToolbarFormatActiveConverter.cs" />
+    <Compile Include="TextToolbar\ShortcutKeyRequestArgs.cs" />
+    <Compile Include="TextToolbar\Symbols\List.cs" />
+    <Compile Include="TextToolbar\Symbols\NumberedList.cs" />
+    <Compile Include="TextToolbar\Symbols\Symbol.cs" />
+    <Compile Include="TextToolbar\TextToolbar.cs" />
+    <Compile Include="TextToolbar\TextToolbar.Methods.cs" />
+    <Compile Include="TextToolbar\TextToolbar.Events.cs" />
+    <Compile Include="TextToolbar\TextToolbarStrings.cs" />
+    <Compile Include="TextToolbar\TextToolbar.Properties.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\ButtonMap.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\ButtonType.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\Common\CommonButtons.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\Common\CommonButtons.Events.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\DefaultButton.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\IToolbarItem.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\DefaultButtonModificationList.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\ToolbarButton.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\ToolbarSeparator.cs" />
+    <Compile Include="TextBoxRegex\TextBoxRegex.cs" />
     <Compile Include="TileControl\TileControl.cs" />
     <Compile Include="WrapPanel\WrapPanel.cs" />
     <Compile Include="WrapPanel\WrapPanel.Data.cs" />
@@ -247,6 +273,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="TextToolbar\Symbols\Symbols.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TextToolbar\TextToolbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TextToolbar\ToolbarItems\ToolbarButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TextToolbar\ToolbarItems\ToolbarSeparator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="OrbitView\OrbitView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -328,7 +370,7 @@
     <StartupObject />
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

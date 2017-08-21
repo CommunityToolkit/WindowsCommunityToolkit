@@ -105,6 +105,7 @@
     <Compile Include="Extensions\WebView\WebView.cs" />
     <Compile Include="Extensions\WebView\WebViewExtensions.cs" />
     <Compile Include="Helpers\BindableValueHolder.cs" />
+    <Compile Include="Helpers\DependencyPropertyWatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
