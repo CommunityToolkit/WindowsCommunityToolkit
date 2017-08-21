@@ -210,6 +210,24 @@
         "XamlCodeFile": "Menu.bind",
         "Icon": "/SamplePages/Menu/Menu.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/Menu.md"
+      },      
+      {
+        "Name": "TextBoxRegex",
+        "Type": "TextBoxRegexPage",
+        "About": "TextBoxRegex helps developer to validate a TextBox with a regular expression using the Regex property.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxRegex",
+        "XamlCodeFile": "TextBoxRegex.bind",
+        "Icon": "/SamplePages/TextBoxRegex/TextBoxRegex.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxRegex.md"
+      },
+      {
+        "Name": "AppBarBadgeButton",
+        "Type": "AppBarBadgeButtonPage",
+        "About": "AppBarBadgeButton can indicate a number over a AppBarButton.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/AppBarBadgeButton",
+        "XamlCodeFile": "AppBarBadgeButton.bind",
+        "Icon": "/SamplePages/AppBarBadgeButton/AppBarBadgeButton.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/AppBarBadgeButton.md"
       }
     ]
   },

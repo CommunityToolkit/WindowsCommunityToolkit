@@ -62,6 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="AppBarBadgeButton\AppBarBadgeButton.cs" />
+    <Compile Include="BladeView\Blade.cs" />
+    <Compile Include="BladeView\BladeControl.cs" />
     <Compile Include="BladeView\BladeItem.cs" />
     <Compile Include="BladeView\BladeItem.Properties.cs" />
     <Compile Include="BladeView\BladeMode.cs" />
@@ -189,6 +192,10 @@
     <Compile Include="AdaptiveGridView\AdaptiveGridView.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AppBarBadgeButton\AppBarBadgeButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="BladeView\BladeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
