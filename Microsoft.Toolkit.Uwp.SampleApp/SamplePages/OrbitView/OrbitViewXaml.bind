@@ -41,7 +41,15 @@
 
 
 <!-- Devices -->
-<controls:OrbitView  AnchorsEnabled="True" IsItemClickEnabled="True" ItemClicked="itemClicked" ItemsSource="{x:Bind Devices}" MinItemSize="10" MaxItemSize="100">
+<controls:OrbitView ItemClicked="itemClicked" 
+                    ItemsSource="{x:Bind Devices}"
+                    OrbitsEnabled="@[OrbitsEnabled:Bool:true]"
+                    AnchorsEnabled="@[AnchorsEnabled:Bool:false]"
+                    IsItemClickEnabled="@[IsItemClickEnabled:Bool:true]"
+                    MinItemSize="@[MinItemSize:Slider:20:10-50]"
+                    MaxItemSize="@[MaxItemSize:Slider:60:50-100]"
+                    AnchorColor="@[AnchorColor:Brush:Gray]"
+                    OrbitColor="@[OrbitColor:Brush:Gray]">
   <controls:OrbitView.ItemTemplate>
     <DataTemplate x:DataType="local:DeviceItem">
       <Grid Height="60" Width="60" Background="White">

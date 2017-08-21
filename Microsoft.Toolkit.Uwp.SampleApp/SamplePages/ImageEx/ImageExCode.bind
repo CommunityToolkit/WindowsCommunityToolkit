@@ -1,5 +1,4 @@
 <Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ImageExPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,23 +7,29 @@
     mc:Ignorable="d">
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-      <controls:ImageEx x:Name="ImageExControl1"
-          IsCacheEnabled="@[Enable Cache:Bool:True]"
-          Source="{Binding Thumbnail}"
-          Stretch="UniformToFill"
-          PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
-          PlaceholderStretch="UniformToFill"
-          HorizontalAlignment="Center"
-          VerticalAlignment="Center"/>
-      
-      <controls:RoundImageEx x:Name="RoundImageExControl1"
-          IsCacheEnabled="True"
-          Source="{Binding Thumbnail}"
-          Stretch="UniformToFill"
-          CornerRadius="999"
-          PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
-          PlaceholderStretch="UniformToFill"
-          HorizontalAlignment="Center"
-          VerticalAlignment="Center"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      VerticalScrollMode="Auto">
+            <StackPanel x:Name="Container"
+                        Orientation="Vertical">
+                <controls:ImageEx x:Name="ImageExControl1"
+                                  IsCacheEnabled="@[Enable Cache:Bool:True]"
+                                  Source="/Assets/Photos/LunchBreak.jpg"
+                                  Stretch="UniformToFill"
+                                  PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
+                                  PlaceholderStretch="UniformToFill"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+
+                <controls:RoundImageEx x:Name="RoundImageExControl1"
+                                       IsCacheEnabled="@[Enable Cache]"
+                                       Source="/Assets/Photos/Owl.jpg"
+                                       Stretch="UniformToFill"
+                                       CornerRadius="999"
+                                       PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
+                                       PlaceholderStretch="UniformToFill"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+           </StackPanel>    
+        </ScrollViewer>
     </Grid>
 </Page>

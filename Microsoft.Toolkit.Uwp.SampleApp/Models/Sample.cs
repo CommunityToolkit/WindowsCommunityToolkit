@@ -148,6 +148,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             return string.Empty;
         }
 
+        /// <summary>
+        /// Gets a version of the XamlCode with the explicit values of the option controls.
+        /// </summary>
         public string UpdatedXamlCode
         {
             get
@@ -168,6 +171,35 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                             brush.Color.ToString() : value.Value.ToString();
 
                         result = result.Replace(option.OriginalString, newString);
+                        result = result.Replace("@[" + option.Name + "]", newString);
+                    }
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Gets a version of the XamlCode bound directly to the slider/option controls.
+        /// </summary>
+        public string BindedXamlCode
+        {
+            get
+            {
+                if (_propertyDescriptor == null)
+                {
+                    return string.Empty;
+                }
+
+                var result = XamlCode;
+                var proxy = (IDictionary<string, object>)_propertyDescriptor.Expando;
+                foreach (var option in _propertyDescriptor.Options)
+                {
+                    var value = proxy[option.Name] as ValueHolder;
+                    if (value != null)
+                    {
+                        result = result.Replace(option.OriginalString, "{Binding " + option.Name + ".Value, Mode=OneWay}");
+                        result = result.Replace("@[" + option.Name + "]", "{Binding " + option.Name + ".Value, Mode=OneWay}");
                     }
                 }
 
@@ -192,7 +224,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     XamlCode = await codeStream.ReadTextAsync();
 
                     // Look for @[] values and generate associated properties
-                    var regularExpression = new Regex(@"@\[(?<name>.+?):(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*\]");
+                    var regularExpression = new Regex(@"@\[(?<name>.+?)(:(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*)?\]");
 
                     _propertyDescriptor = new PropertyDescriptor { Expando = new ExpandoObject() };
                     var proxy = (IDictionary<string, object>)_propertyDescriptor.Expando;
@@ -203,10 +235,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         var type = match.Groups["type"].Value;
                         var value = match.Groups["value"].Value;
 
+                        var existingOption = _propertyDescriptor.Options.Where(o => o.Name == name).FirstOrDefault();
+
+                        if (existingOption == null && string.IsNullOrWhiteSpace(type))
+                        {
+                            throw new NotSupportedException($"Unrecognized short identifier '{name}'; Define type and parameters of property in first occurance in {XamlCodeFile}.");
+                        }
+
                         PropertyKind kind;
 
                         if (Enum.TryParse(type, out kind))
                         {
+                            if (existingOption != null)
+                            {
+                                if (existingOption.Kind != kind)
+                                {
+                                    throw new NotSupportedException($"Multiple options with same name but different type not supported: {XamlCodeFile}:{name}");
+                                }
+
+                                continue;
+                            }
+
                             PropertyOptions options;
 
                             switch (kind)

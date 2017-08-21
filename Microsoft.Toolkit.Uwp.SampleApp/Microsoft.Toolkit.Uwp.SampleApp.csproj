@@ -415,6 +415,8 @@
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
     <Compile Include="Data\GitHub.cs" />
+    <Compile Include="Controls\XamlExceptionRange.cs" />
+    <Compile Include="Controls\XamlRenderService.cs" />
     <Compile Include="Data\PhotoDataItemWithDimension.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\GitHubRelease.cs" />
@@ -430,6 +432,7 @@
     <Compile Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperPage.xaml.cs">
       <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\IXamlRenderListener.cs" />
     <Compile Include="SamplePages\ListViewBase\ListViewBasePage.xaml.cs">
       <DependentUpon>ListViewBasePage.xaml</DependentUpon>
     </Compile>

@@ -6,7 +6,6 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.CompositionBehaviors.OpacityBehaviorPage"
     mc:Ignorable="d">
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/ToolkitLogo.png" Height="100" Width="100" >

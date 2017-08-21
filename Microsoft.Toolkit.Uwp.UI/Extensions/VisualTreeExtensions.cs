@@ -87,55 +87,6 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Find all descendant controls of a specified type.
-        /// </summary>
-        /// <typeparam name="T">Type to search for.</typeparam>
-        /// <param name="element">Parent element.</param>
-        /// <returns>IEnumerable of descendant controls or empty if not found.</returns>
-        public static IEnumerable<T> FindDescendants<T>(this DependencyObject element)
-            where T : DependencyObject
-        {
-            var childrenCount = VisualTreeHelper.GetChildrenCount(element);
-
-            for (var i = 0; i < childrenCount; i++)
-            {
-                var child = VisualTreeHelper.GetChild(element, i);
-                var type = child as T;
-                if (type != null)
-                {
-                    yield return type;
-                }
-
-                foreach (T childofChild in child.FindDescendants<T>())
-                {
-                    yield return childofChild;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Find first ascendant control of a specified type.
-        /// </summary>
-        /// <typeparam name="T">Type to search for.</typeparam>
-        /// <param name="element">Child element.</param>
-        /// <returns>Ascendant control or null if not found.</returns>
-        public static T FindAscendant<T>(this FrameworkElement element)
-            where T : FrameworkElement
-        {
-            if (element.Parent == null)
-            {
-                return null;
-            }
-
-            if (element.Parent is T)
-            {
-                return element.Parent as T;
-            }
-
-            return (element.Parent as FrameworkElement).FindAscendant<T>();
-        }
-
-        /// <summary>
         /// Find first visual ascendant control of a specified type.
         /// </summary>
         /// <typeparam name="T">Type to search for.</typeparam>

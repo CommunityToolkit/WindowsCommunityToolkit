@@ -14,11 +14,14 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
+using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.System;
 using Windows.UI.Composition;
+using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -42,6 +45,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private Compositor _compositor;
         private float _defaultShowAnimationDuration = 300;
         private float _defaultHideAnimationDiration = 150;
+        private XamlRenderService _xamlRenderer = new XamlRenderService();
+        private ThreadPoolTimer _autocompileTimer;
 
         public bool DisplayWaitRing
         {
@@ -100,6 +105,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public void NavigateToSample(Sample sample)
         {
             var pageType = Type.GetType("Microsoft.Toolkit.Uwp.SampleApp.SamplePages." + sample.Type);
+            InfoAreaPivot.Items.Clear();
 
             if (pageType != null)
             {
@@ -206,7 +212,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (propertyDesc != null)
                 {
-                    NavigationFrame.DataContext = propertyDesc.Expando;
+                    _xamlRenderer.DataContext = propertyDesc.Expando;
                 }
 
                 Title.Text = _currentSample.Name;
@@ -218,7 +224,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (_currentSample.HasXAMLCode)
                 {
-                    XamlCodeRenderer.XamlSource = this._currentSample.UpdatedXamlCode;
+                    XamlCodeRenderer.Text = _currentSample.UpdatedXamlCode;
 
                     InfoAreaPivot.Items.Add(XamlPivotItem);
 
@@ -380,6 +386,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 ExpandOrCloseProperties();
             }
+
+            if (_currentSample != null && _currentSample.HasXAMLCode)
+            {
+                // Called to load the sample initially as we don't get an Item Pivot Selection Changed with Sample Loaded yet.
+                UpdateXamlRenderAsync(_currentSample.BindedXamlCode);
+            }
         }
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
@@ -431,19 +443,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
-            if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
-            {
-                return;
-            }
-
             if (_currentSample == null)
             {
                 return;
             }
 
-            if (_currentSample.HasXAMLCode)
+            if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
             {
-                XamlCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
+                // If we switch to the Properties Panel, we want to use a binded version of the Xaml Code.
+                if (_currentSample.HasXAMLCode)
+                {
+                    UpdateXamlRenderAsync(_currentSample.BindedXamlCode);
+                }
+
+                return;
+            }
+
+            if (_currentSample.HasXAMLCode && InfoAreaPivot.SelectedItem == XamlPivotItem)
+            {
+                // If we switch to the Live Preview, then we want to use the Value based Text
+                XamlCodeRenderer.Text = _currentSample.UpdatedXamlCode;
+
+                UpdateXamlRenderAsync(_currentSample.UpdatedXamlCode);
             }
 
             if (_currentSample.HasCSharpCode)
@@ -706,6 +727,108 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             //ElementCompositionPreview.SetImplicitHideAnimation(args.ItemContainer, GetOpacityAnimation(0, _defaultHideAnimationDiration));
             ElementCompositionPreview.SetImplicitShowAnimation(args.ItemContainer, showAnimation);
+        }
+
+        private async void UpdateXamlRenderAsync(string text)
+        {
+            var element = _xamlRenderer.Render(text);
+            if (element != null)
+            {
+                // Add element to main panel
+                var content = NavigationFrame.Content as Page;
+                var root = content.FindDescendantByName("XamlRoot");
+
+                if (root is Panel)
+                {
+                    // If we've defined a 'XamlRoot' element to host us as a panel, use that.
+                    (root as Panel).Children.Clear();
+                    (root as Panel).Children.Add(element);
+                }
+                else
+                {
+                    // Otherwise, just replace the entire page's content
+                    content.Content = element;
+                }
+
+                // Tell the page we've finished with an update to the XAML contents, after the control has rendered.
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                {
+                    (content as IXamlRenderListener)?.OnXamlRendered(element as FrameworkElement);
+                });
+            }
+        }
+
+        private static readonly int[] NonCharacterCodes = new int[]
+        {
+            // Modifier Keys
+            16, 17, 18, 20, 91,
+
+            // Esc / Page Keys / Home / End / Insert
+            27, 33, 34, 35, 36, 45,
+
+            // Arrow Keys
+            37, 38, 39, 40,
+
+            // Function Keys
+            112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123
+        };
+
+        private void XamlCodeRenderer_KeyDown(Monaco.CodeEditor sender, Monaco.Helpers.WebKeyEventArgs args)
+        {
+            // Handle Shortcuts.
+            // Ctrl+Enter or F5 Update // TODO: Do we need this in the app handler too? (Thinking no)
+            if ((args.KeyCode == 13 && args.CtrlKey) ||
+                 args.KeyCode == 116)
+            {
+                UpdateXamlRenderAsync(XamlCodeRenderer.Text);
+
+                // Eat key stroke
+                args.Handled = true;
+            }
+
+            // Ignore as a change to the document if we handle it as a shortcut above or it's a special char.
+            if (!args.Handled && Array.IndexOf(NonCharacterCodes, args.KeyCode) == -1)
+            {
+                // TODO: Mark Dirty here if we want to prevent overwrites.
+
+                // Setup Time for Auto-Compile
+                this._autocompileTimer?.Cancel(); // Stop Old Timer
+
+                // Create Compile Timer
+                this._autocompileTimer = ThreadPoolTimer.CreateTimer(
+                    async (e) =>
+                    {
+                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                        {
+                            UpdateXamlRenderAsync(XamlCodeRenderer.Text);
+                        });
+                    }, TimeSpan.FromSeconds(0.5));
+            }
+        }
+    }
+
+    // TODO:  placeholder until it can be moved to extensions
+    public static class Helpers
+    {
+        public static System.Collections.Generic.IEnumerable<T> FindDescendants<T>(this DependencyObject element)
+            where T : DependencyObject
+        {
+            var childrenCount = Windows.UI.Xaml.Media.VisualTreeHelper.GetChildrenCount(element);
+
+            for (var i = 0; i < childrenCount; i++)
+            {
+                var child = Windows.UI.Xaml.Media.VisualTreeHelper.GetChild(element, i);
+                var type = child as T;
+                if (type != null)
+                {
+                    yield return type;
+                }
+
+                foreach (T childofChild in child.FindDescendants<T>())
+                {
+                    yield return childofChild;
+                }
+            }
         }
     }
 }

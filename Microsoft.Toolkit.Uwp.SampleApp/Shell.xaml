@@ -12,6 +12,7 @@
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       x:Name="RootPage"
+      xmlns:monaco="using:Monaco"
       extensions:StatusBar.IsVisible="False"
       extensions:TitleBar.BackgroundColor="{StaticResource Brand-Color}"
       extensions:TitleBar.ButtonBackgroundColor="{StaticResource Brand-Color}"
@@ -239,45 +240,45 @@
                                                 HorizontalAlignment="Stretch"
                                                 Orientation="Vertical" />
                                 </Grid>
-                            </ScrollViewer>
-                        </PivotItem>
+                             </ScrollViewer>
+                    </PivotItem>
 
-                        <PivotItem x:Name="XamlPivotItem"
-                                   Header="XAML">
-                            <controlsLocal:CodeRenderer x:Name="XamlCodeRenderer" />
-                        </PivotItem>
+                    <PivotItem x:Name="XamlPivotItem"
+                               Header="XAML">
+                        <monaco:CodeEditor x:Name="XamlCodeRenderer" CodeLanguage="xml" 
+                                           KeyDown="XamlCodeRenderer_KeyDown"/>
+                    </PivotItem>
 
-                        <PivotItem x:Name="CSharpPivotItem"
-                                   Header="CODE">
-                            <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer" />
-                        </PivotItem>
+                    <PivotItem x:Name="CSharpPivotItem"
+                               Header="CODE">
+                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer" />
+                    </PivotItem>
 
-                        <PivotItem x:Name="JavaScriptPivotItem"
-                                   Header="JAVASCRIPT">
-                            <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
-                        </PivotItem>
+                    <PivotItem x:Name="JavaScriptPivotItem"
+                               Header="JAVASCRIPT">
+                        <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
+                    </PivotItem>
 
-                        <PivotItem x:Name="DocumentationPivotItem"
-                                   Header="DOCUMENTATION">
-                            <ScrollViewer x:Name="DocumentationScrollViewer"
-                                          Padding="10,5"
-                                          Background="{StaticResource Brush-White}">
-                                <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
-                                                            Foreground="{StaticResource Brush-Grey-01}"
-                                                            ImageResolving="DocumentationTextblock_ImageResolving"
-                                                            LinkClicked="DocumentationTextblock_OnLinkClicked" />
-                            </ScrollViewer>
-                        </PivotItem>
-                    </Pivot>
+                    <PivotItem x:Name="DocumentationPivotItem"
+                               Header="DOCUMENTATION">
+                        <ScrollViewer x:Name="DocumentationScrollViewer"
+                                      Padding="10,5"
+                                      Background="{StaticResource Brush-White}">
+                            <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
+                                                        Foreground="{StaticResource Brush-Grey-01}"
+                                                        ImageResolving="DocumentationTextblock_ImageResolving"
+                                                        LinkClicked="DocumentationTextblock_OnLinkClicked" />
+                        </ScrollViewer>
+                    </PivotItem>
+                </Pivot>
 
-                    <controls:GridSplitter x:Name="Splitter"
-                                           Grid.Row="1"
-                                           Width="11"
-                                           HorizontalAlignment="Left"
-                                           Background="{StaticResource Brush-Grey-04}"
-                                           GripperForeground="White"
-                                           ParentLevel="1" 
-                                           Visibility="Collapsed"/>
+                <controls:GridSplitter x:Name="Splitter"
+                                       Grid.Row="1"
+                                       Width="11"
+                                       HorizontalAlignment="Left"
+                                       Background="{StaticResource Brush-Grey-04}"
+                                       GripperForeground="White"
+                                       ParentLevel="1" />
                 </Grid>
                 <Grid x:Name="waitRing"
                       Grid.RowSpan="2"
