@@ -44,7 +44,7 @@
         </ItemsPanelTemplate>
     </Page.Resources>
 
-    <Border>
+    <Border x:Name="Root" Visibility="Collapsed">
         <controls:DropShadowPanel x:Name="DropShadow"
                                   HorizontalAlignment="Center" 
                                   VerticalAlignment="Stretch"
@@ -123,7 +123,19 @@
 
                         </Grid>
 
-                        <Border Grid.Row="4" Grid.Column="1" BorderThickness="0,1,0,0" BorderBrush="#33000000" Margin="0,48"></Border>
+                        <ItemsControl x:Name="NotesSection" Grid.Row="3" Grid.RowSpan="3" Grid.Column="4" ItemsPanel="{StaticResource ItemsWrapGridHorizontalTemplate}">
+
+                            <StackPanel x:Name="WhatNewPanel" Margin="0,0,0,48">
+                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal" Text="{x:Bind LandingPageLinks.NewSectionTitle, Mode=OneWay}"></TextBlock>
+                                <ItemsControl x:Name="WhatNewItemsControl" Margin="0,16,0,0" ItemsSource="{x:Bind NewSamples, Mode=OneWay}" ItemTemplate="{StaticResource SampleTemplate}"></ItemsControl>
+                            </StackPanel>
+
+                            <StackPanel x:Name="ReleaseNotesPanel">
+                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">Release Notes</TextBlock>
+                                <ItemsControl Margin="0,16,0,0" ItemsSource="{x:Bind GitHubReleases, Mode=OneWay}" ItemTemplate="{StaticResource ReleaseNoteTemplate}"></ItemsControl>
+                            </StackPanel>
+
+                        </ItemsControl>
 
                         <ItemsControl x:Name="ResourcesSection" Grid.Row="5" Grid.Column="1" ItemsPanel="{StaticResource ItemsWrapGridHorizontalTemplate}">
 
@@ -141,21 +153,9 @@
                             </StackPanel>
                         </ItemsControl>
 
-                        <ItemsControl x:Name="NotesSection" Grid.Row="3" Grid.RowSpan="3" Grid.Column="4" ItemsPanel="{StaticResource ItemsWrapGridHorizontalTemplate}">
-
-                            <StackPanel x:Name="WhatNewPanel" Margin="0,0,0,48">
-                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal" Text="{x:Bind LandingPageLinks.NewSectionTitle, Mode=OneWay}"></TextBlock>
-                                <ItemsControl x:Name="WhatNewItemsControl" Margin="0,16,0,0" ItemsSource="{x:Bind NewSamples, Mode=OneWay}" ItemTemplate="{StaticResource SampleTemplate}"></ItemsControl>
-                            </StackPanel>
-
-                            <StackPanel x:Name="ReleaseNotesPanel">
-                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">Release Notes</TextBlock>
-                                <ItemsControl Margin="0,16,0,0" ItemsSource="{x:Bind GitHubReleases, Mode=OneWay}" ItemTemplate="{StaticResource ReleaseNoteTemplate}"></ItemsControl>
-                            </StackPanel>
-
-                        </ItemsControl>
 
                         <Border x:Name="Seperator" Grid.Row="4" Grid.Column="4" BorderThickness="0,1,0,0" BorderBrush="#33000000" Margin="0,48"></Border>
+                        <Border Grid.Row="4" Grid.Column="1" BorderThickness="0,1,0,0" BorderBrush="#33000000" Margin="0,48"></Border>
 
                         <HyperlinkButton x:Name="PrivacyButton" Grid.Row="9" Grid.Column="4" VerticalAlignment="Bottom" HorizontalAlignment="Center" Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://go.microsoft.com/fwlink/?LinkId=521839">
                             <TextBlock>Privacy statement</TextBlock>

@@ -10,22 +10,25 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Windows.ApplicationModel;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Hosting;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 {
     public sealed partial class About : INotifyPropertyChanged
     {
+        private Compositor _compositor;
+
         private IEnumerable<Sample> _recentSamples;
 
         public IEnumerable<Sample> RecentSamples
@@ -93,7 +96,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
         public About()
         {
             InitializeComponent();
-            var t = Init();
         }
 
         public static Visibility VisibleIfCollectionEmpty(IEnumerable<Sample> collection)
@@ -109,13 +111,42 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
             var packageVersion = Package.Current.Id.Version;
             Version.Text = $"Version {packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
+
+            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+
+            var t = Init();
         }
 
         private async Task Init()
         {
-            var t = UpdateSections();
-            RecentSamples = await Samples.GetRecentSamples();
-            GitHubReleases = await Data.GitHub.GetPublishedReleases();
+            var loadDataTask = UpdateSections();
+            var recentSamplesTask = Samples.GetRecentSamples();
+            var gitHubTask = Data.GitHub.GetPublishedReleases();
+
+            await Task.WhenAll(loadDataTask, recentSamplesTask, gitHubTask);
+
+            RecentSamples = recentSamplesTask.Result;
+            GitHubReleases = gitHubTask.Result;
+
+            var counter = 1;
+            ElementCompositionPreview.SetImplicitShowAnimation(Root, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 500));
+
+            foreach (var child in InnerGrid.Children)
+            {
+                if (child is ItemsControl itemsControl)
+                {
+                    foreach (var childOfChild in itemsControl.Items)
+                    {
+                        ElementCompositionPreview.SetImplicitShowAnimation(childOfChild as FrameworkElement, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 300, counter++ * 70));
+                    }
+                }
+                else
+                {
+                    ElementCompositionPreview.SetImplicitShowAnimation(child, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 300, counter++ * 70));
+                }
+            }
+
+            Root.Visibility = Visibility.Visible;
         }
 
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)

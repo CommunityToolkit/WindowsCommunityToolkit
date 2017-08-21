@@ -721,23 +721,24 @@
                                                        BlurRadius="30"
                                                        OffsetY="3"
                                                        ShadowOpacity="0.2">
-                            <Grid Background="{TemplateBinding PaneBackground}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                                <Grid Background="{TemplateBinding PaneBackground}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
                                     <Border Background="#48000000" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="3"></Border>
 
-                                <ListView x:Name="ButtonsListView"
+                                    <ListView x:Name="ButtonsListView"
                                           AutomationProperties.Name="Menu items"
                                           IsItemClickEnabled="True"
                                           ItemContainerStyle="{StaticResource HambugerMenuItemStyle}"
                                           ItemTemplate="{TemplateBinding ItemTemplate}"
                                           ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                           ItemsSource="{TemplateBinding ItemsSource}"
-                                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                          local:ListViewHoverScroll.IsEnabled="True"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                                           ScrollViewer.HorizontalScrollMode="Auto"
                                           ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                           ScrollViewer.VerticalScrollMode="Disabled"
@@ -745,28 +746,29 @@
                                           SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           SelectionMode="Single"
                                           TabIndex="1">
-                                    <ListView.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <ItemsStackPanel Orientation="Horizontal" />
-                                        </ItemsPanelTemplate>
-                                    </ListView.ItemsPanel>
-                                </ListView>
+                                        <ListView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <ItemsStackPanel Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ListView.ItemsPanel>
+                                    </ListView>
 
-                                <Grid Grid.Column="1">
-                                    <Button Name="SearchButton"
+                                    <Grid Grid.Column="1">
+                                        <Button Name="SearchButton"
                                             Padding="0"
                                             VerticalAlignment="Stretch"
                                             AutomationProperties.Name="Search button"
                                             Background="Transparent"
                                             BorderThickness="0"
                                             TabIndex="1">
-                                        <FontIcon Margin="16,12"
+                                            <FontIcon Margin="16,12"
                                                   FontFamily="Segoe MDL2 Assets"
                                                   FontSize="16"
+                                                  Opacity="0.6"
                                                   Foreground="{TemplateBinding PaneForeground}"
                                                   Glyph="&#xE721;" />
-                                    </Button>
-                                    <AutoSuggestBox x:Name="SearchBox"
+                                        </Button>
+                                        <AutoSuggestBox x:Name="SearchBox"
                                                     MinWidth="300"
                                                     Margin="5,0"
                                                     VerticalAlignment="Center"
@@ -774,9 +776,9 @@
                                                     QueryIcon="Find"
                                                     TabIndex="1"
                                                     Visibility="Collapsed" />
-                                </Grid>
+                                    </Grid>
 
-                                <ListView x:Name="OptionsListView"
+                                    <ListView x:Name="OptionsListView"
                                           Grid.Column="2"
                                           AutomationProperties.Name="Option items"
                                           IsItemClickEnabled="True"
@@ -790,18 +792,14 @@
                                           SelectedItem="{Binding SelectedOptionsItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           SelectionMode="Single"
                                           TabIndex="2">
-                                    <ListView.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <ItemsStackPanel Orientation="Horizontal" />
-                                        </ItemsPanelTemplate>
-                                    </ListView.ItemsPanel>
-                                </ListView>
-
-                            </Grid>
+                                        <ListView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <ItemsStackPanel Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ListView.ItemsPanel>
+                                    </ListView>
+                                </Grid>
                             </toolkitControls:DropShadowPanel>
-
-
-
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -953,7 +951,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
     </Application.Resources>
 
 </Application>

@@ -47,10 +47,11 @@
                                Style="{StaticResource HamburgerExpanderItem}">
                 <ListView Margin="0,-4,0,0"
                           IsItemClickEnabled="True"
+                          local:ListViewHoverScroll.IsEnabled="True"
                           ItemClick="VerticalSamplePickerListView_ItemClick"
                           ItemTemplate="{StaticResource VerticalSampleTemplate}"
                           ItemsSource="{x:Bind Samples}"
-                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                           ScrollViewer.HorizontalScrollMode="Auto"
                           ScrollViewer.VerticalScrollBarVisibility="Hidden"
                           ScrollViewer.VerticalScrollMode="Disabled"
@@ -124,12 +125,11 @@
                         Background="Transparent"
                         PointerEntered="StackPanel_PointerEntered"
                         PointerExited="StackPanel_PointerExited">
-
                 <Grid Width="120"
                       Height="80">
                     <controls:DropShadowPanel HorizontalContentAlignment="Stretch"
                                           VerticalContentAlignment="Stretch"
-                                          BlurRadius="10"
+                                          BlurRadius="20"
                                           ShadowOpacity="1"
                                           Visibility="Collapsed">
                         <Border></Border>
@@ -138,18 +138,21 @@
                         <Image Source="{Binding Icon}" />
                     </Border>
                 </Grid>
-                
 
                 <TextBlock Margin="0,8,0,0"
                            FontSize="12"
                            FontWeight="Light"
                            Foreground="Black"
                            Text="{x:Bind Name}" />
-
             </StackPanel>
         </DataTemplate>
 
     </Page.Resources>
+
+    <Page.Background>
+        <ImageBrush ImageSource="ms-appx:///Assets/Photos/GiantSlabInOregon.jpg" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"></ImageBrush>
+    </Page.Background>
+    
     <controls:HamburgerMenu x:Name="HamburgerMenu"
                             ItemClick="HamburgerMenu_OnItemClick"
                             ItemTemplate="{StaticResource HorizontalItemTemplate}"
@@ -165,11 +168,6 @@
                 <RowDefinition Height="304" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-
-            <Grid.Background>
-                <ImageBrush ImageSource="ms-appx:///Assets/Photos/GiantSlabInOregon.jpg" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"></ImageBrush>
-            </Grid.Background>
-
 
             <Grid x:Name="RootGrid"
                   Grid.Row="2"
@@ -389,6 +387,7 @@
                 </Border>
                 <ListView x:Name="SamplePickerListView"
                           IsItemClickEnabled="True"
+                          local:ListViewHoverScroll.IsEnabled="True"
                           ItemClick="SamplePickerListView_ItemClick"
                           ContainerContentChanging="SamplePickerListView_ContainerContentChanging"
                           ChoosingItemContainer="SamplePickerListView_ChoosingItemContainer"

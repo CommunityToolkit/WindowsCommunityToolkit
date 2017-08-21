@@ -156,13 +156,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
-            SetTopLevelShowHideAnimation(SamplePickerGrid);
+            AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerGrid);
 
-            SetTopLevelShowHideAnimation(SamplePickerDetailsGrid);
-            SetSecondLevelShowHideAnimation(SamplePickerDetailsGridContent);
+            AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerDetailsGrid);
+            AnimationHelper.SetSecondLevelShowHideAnimation(SamplePickerDetailsGridContent);
 
             //ElementCompositionPreview.SetImplicitHideAnimation(ContentShadow, GetOpacityAnimation(0, 1, _defaultHideAnimationDiration));
-            ElementCompositionPreview.SetImplicitShowAnimation(ContentShadow, GetOpacityAnimation((float)ContentShadow.Opacity, 0, _defaultShowAnimationDuration));
+            ElementCompositionPreview.SetImplicitShowAnimation(ContentShadow, AnimationHelper.GetOpacityAnimation(_compositor, (float)ContentShadow.Opacity, 0, _defaultShowAnimationDuration));
         }
 
         private async void NavigationFrame_Navigating(object sender, NavigatingCancelEventArgs navigationEventArgs)
@@ -171,6 +171,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (navigationEventArgs.SourcePageType == typeof(SamplePicker) || navigationEventArgs.Parameter == null)
             {
                 DataContext = null;
+                _currentSample = null;
                 category = navigationEventArgs.Parameter as SampleCategory;
 
                 if (category != null)
@@ -186,20 +187,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 ShowInfoArea();
 
                 var sampleName = navigationEventArgs.Parameter.ToString();
-                var sample = await Samples.GetSampleByName(sampleName);
+                _currentSample = await Samples.GetSampleByName(sampleName);
+                DataContext = _currentSample;
 
-                if (sample == null)
+                if (_currentSample == null)
                 {
                     HideInfoArea();
                     return;
                 }
 
-                category = await Samples.GetCategoryBySample(sample);
-                await Samples.PushRecentSample(sample);
+                category = await Samples.GetCategoryBySample(_currentSample);
+                await Samples.PushRecentSample(_currentSample);
 
-                var propertyDesc = sample.PropertyDescriptor;
-
-                DataContext = sample;
+                var propertyDesc = _currentSample.PropertyDescriptor;
 
                 InfoAreaPivot.Items.Clear();
 
@@ -208,39 +208,37 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     NavigationFrame.DataContext = propertyDesc.Expando;
                 }
 
-                Title.Text = sample.Name;
-
-                _currentSample = sample;
+                Title.Text = _currentSample.Name;
 
                 if (propertyDesc != null && propertyDesc.Options.Count > 0)
                 {
                     InfoAreaPivot.Items.Add(PropertiesPivotItem);
                 }
 
-                if (sample.HasXAMLCode)
+                if (_currentSample.HasXAMLCode)
                 {
-                    XamlCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
+                    XamlCodeRenderer.XamlSource = this._currentSample.UpdatedXamlCode;
 
                     InfoAreaPivot.Items.Add(XamlPivotItem);
 
                     InfoAreaPivot.SelectedIndex = 0;
                 }
 
-                if (sample.HasCSharpCode)
+                if (_currentSample.HasCSharpCode)
                 {
-                    CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSourceAsync();
+                    CSharpCodeRenderer.CSharpSource = await this._currentSample.GetCSharpSourceAsync();
                     InfoAreaPivot.Items.Add(CSharpPivotItem);
                 }
 
-                if (sample.HasJavaScriptCode)
+                if (_currentSample.HasJavaScriptCode)
                 {
-                    JavaScriptCodeRenderer.CSharpSource = await _currentSample.GetJavaScriptSourceAsync();
+                    JavaScriptCodeRenderer.CSharpSource = await this._currentSample.GetJavaScriptSourceAsync();
                     InfoAreaPivot.Items.Add(JavaScriptPivotItem);
                 }
 
-                if (!string.IsNullOrEmpty(sample.CodeUrl))
+                if (!string.IsNullOrEmpty(_currentSample.CodeUrl))
                 {
-                    GitHub.NavigateUri = new Uri(sample.CodeUrl);
+                    GitHub.NavigateUri = new Uri(_currentSample.CodeUrl);
                     GitHub.Visibility = Visibility.Visible;
                 }
                 else
@@ -248,10 +246,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     GitHub.Visibility = Visibility.Collapsed;
                 }
 
-                if (sample.HasDocumentation)
+                if (_currentSample.HasDocumentation)
                 {
                     InfoAreaPivot.Items.Add(DocumentationPivotItem);
-                    DocumentationTextblock.Text = await _currentSample.GetDocumentationAsync();
+                    DocumentationTextblock.Text = await this._currentSample.GetDocumentationAsync();
                 }
 
                 if (InfoAreaPivot.Items.Count == 0)
@@ -259,28 +257,35 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     HideInfoArea();
                 }
 
-                TitleTextBlock.Text = $"{category.Name} -> {sample.Name}";
-                ApplicationView.SetTitle(this, $"{category.Name} - {sample.Name}");
+                TitleTextBlock.Text = $"{category.Name} -> {_currentSample.Name}";
+                ApplicationView.SetTitle(this, $"{category.Name} - {_currentSample.Name}");
             }
 
-            if (category == null && navigationEventArgs.SourcePageType == typeof(SamplePicker))
+            await SetHamburgerMenuSelection();
+        }
+
+        private async Task SetHamburgerMenuSelection()
+        {
+            if (NavigationFrame.SourcePageType == typeof(SamplePicker))
             {
                 // This is a search
                 HamburgerMenu.SelectedItem = null;
                 HamburgerMenu.SelectedOptionsItem = null;
             }
-            else
+            else if (_currentSample != null)
             {
+                var category = await Samples.GetCategoryBySample(_currentSample);
+
                 if (HamburgerMenu.Items.Contains(category))
                 {
                     HamburgerMenu.SelectedItem = category;
                     HamburgerMenu.SelectedOptionsItem = null;
                 }
-                else
-                {
-                    HamburgerMenu.SelectedItem = null;
-                    HamburgerMenu.SelectedOptionsIndex = 0;
-                }
+            }
+            else
+            {
+                HamburgerMenu.SelectedItem = null;
+                HamburgerMenu.SelectedOptionsIndex = 0;
             }
         }
 
@@ -603,6 +608,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private void ShowSamplePicker(Sample[] samples)
         {
             SamplePickerListView.ItemsSource = samples;
+            if (_currentSample != null && samples.Contains(_currentSample))
+            {
+                SamplePickerListView.SelectedItem = _currentSample;
+            }
+
             SamplePickerGrid.Visibility = Visibility.Visible;
         }
 
@@ -673,54 +683,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private void ContentShadow_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             HideSamplePicker();
-        }
-
-        private void SetTopLevelShowHideAnimation(FrameworkElement element)
-        {
-            ElementCompositionPreview.SetIsTranslationEnabled(element, true);
-
-            //var hideAnimationGroup = _compositor.CreateAnimationGroup();
-            //hideAnimationGroup.Add(GetOpacityAnimation(0, _defaultHideAnimationDiration));
-            //hideAnimationGroup.Add(GetYOffsetAnimation(-(float)element.Height, _defaultHideAnimationDiration));
-            //ElementCompositionPreview.SetImplicitHideAnimation(element, hideAnimationGroup);
-
-            var showAnimationGroup = _compositor.CreateAnimationGroup();
-            showAnimationGroup.Add(GetOpacityAnimation(1, 0, _defaultShowAnimationDuration));
-            showAnimationGroup.Add(GetYOffsetAnimation(0, -(float)element.Height, _defaultShowAnimationDuration));
-
-            ElementCompositionPreview.SetImplicitShowAnimation(element, showAnimationGroup);
-        }
-
-        private void SetSecondLevelShowHideAnimation(FrameworkElement element)
-        {
-            //ElementCompositionPreview.SetImplicitHideAnimation(element, GetOpacityAnimation(0, 1, _defaultHideAnimationDiration));
-            ElementCompositionPreview.SetImplicitShowAnimation(element, GetOpacityAnimation(1, 0, 200, 200));
-        }
-
-        private CompositionAnimation GetYOffsetAnimation(float y, float from, float duration, float delay = 0)
-        {
-            var animation = _compositor.CreateScalarKeyFrameAnimation();
-            animation.Target = "Offset.Y";
-            animation.InsertKeyFrame(0, from);
-            animation.InsertKeyFrame(1, y);
-            animation.Duration = TimeSpan.FromMilliseconds(duration);
-            animation.DelayTime = TimeSpan.FromMilliseconds(delay);
-            animation.DelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
-
-            return animation;
-        }
-
-        private CompositionAnimation GetOpacityAnimation(float opacity, float from, float duration, float delay = 0)
-        {
-            var animation = _compositor.CreateScalarKeyFrameAnimation();
-            animation.Target = "Opacity";
-            animation.InsertKeyFrame(0, from);
-            animation.InsertKeyFrame(1, opacity);
-            animation.Duration = TimeSpan.FromMilliseconds(duration);
-            animation.DelayTime = TimeSpan.FromMilliseconds(delay);
-            animation.DelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
-
-            return animation;
+            SetHamburgerMenuSelection();
         }
 
         private void SamplePickerListView_ContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
@@ -728,7 +691,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var panel = args.ItemContainer.FindAscendant<DropShadowPanel>();
             if (panel != null)
             {
-                ElementCompositionPreview.SetImplicitShowAnimation(panel, GetOpacityAnimation(1, 0, _defaultShowAnimationDuration));
+                ElementCompositionPreview.SetImplicitShowAnimation(panel, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, _defaultShowAnimationDuration));
                 //ElementCompositionPreview.SetImplicitHideAnimation(panel, GetOpacityAnimation(0, _defaultHideAnimationDiration));
             }
         }
@@ -737,7 +700,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             args.ItemContainer = args.ItemContainer ?? new ListViewItem();
 
-            var showAnimation = GetOpacityAnimation(1, 0, _defaultShowAnimationDuration, 200);
+            var showAnimation = AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, _defaultShowAnimationDuration, 200);
             (showAnimation as ScalarKeyFrameAnimation).DelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
 
             //ElementCompositionPreview.SetImplicitHideAnimation(args.ItemContainer, GetOpacityAnimation(0, _defaultHideAnimationDiration));

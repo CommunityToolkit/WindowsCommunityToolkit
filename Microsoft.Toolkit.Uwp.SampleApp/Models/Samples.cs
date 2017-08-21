@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -24,6 +25,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         //private const string _recentSamplesStorageKey = "uct-recent-samples";
 
         private static List<SampleCategory> _samplesCategories;
+        private static SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         private static LinkedList<Sample> _recentSamples;
         private static RoamingObjectStorageHelper _roamingObjectStorageHelper = new RoamingObjectStorageHelper();
@@ -51,6 +53,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public static async Task<List<SampleCategory>> GetCategoriesAsync()
         {
+            await _semaphore.WaitAsync();
             if (_samplesCategories == null)
             {
                 List<SampleCategory> allCategories;
@@ -84,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 _samplesCategories = supportedCategories.ToList();
             }
-
+            _semaphore.Release();
             return _samplesCategories;
         }
 
