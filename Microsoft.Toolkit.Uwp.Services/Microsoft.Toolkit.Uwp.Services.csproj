@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -11,8 +11,8 @@
     <AssemblyName>Microsoft.Toolkit.Uwp.Services</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -40,17 +40,43 @@
     <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.Services.xml</DocumentationFile>
     <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>5.3.4</Version>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers">
+      <Version>1.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Graph">
+      <Version>1.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory">
+      <Version>3.13.7</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.OneDriveSDK">
+      <Version>2.0.6</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.OneDriveSDK.Authentication">
+      <Version>1.0.8</Version>
+    </PackageReference>
+    <PackageReference Include="winsdkfb">
+      <Version>0.12.20161020.4</Version>
+    </PackageReference>
+  </ItemGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="Microsoft.Toolkit.Uwp.Services.ruleset">
       <SubType>Designer</SubType>
     </None>
-    <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\DataProviderBase{TConfig,TSchema}.cs" />
     <Compile Include="Core\ExtensionMethods.cs" />
     <Compile Include="Core\IDataService{T,U,V}.cs" />
+    <Compile Include="Services\MicrosoftTranslator\ServiceLanguage.cs" />
     <Compile Include="Services\Twitter\TwitterStreamCallbacks.cs" />
     <Compile Include="Services\Bing\BingLanguage.cs" />
     <Compile Include="Services\Bing\BingCountry.cs" />
@@ -78,6 +104,8 @@
     <Compile Include="Services\LinkedIn\LinkedInShareRequest.cs" />
     <Compile Include="Services\LinkedIn\LinkedInVisibility.cs" />
     <Compile Include="Services\MicrosoftGraph\JWToken.cs" />
+    <Compile Include="Services\MicrosoftGraph\Events\MicrosoftGraphEventFields.cs" />
+    <Compile Include="Services\MicrosoftGraph\Events\MicrosoftGraphServiceEvent.cs" />
     <Compile Include="Services\MicrosoftGraph\MicrosoftGraphAuthenticationHelper.cs" />
     <Compile Include="Services\MicrosoftGraph\MicrosoftGraphEnums.cs" />
     <Compile Include="Services\MicrosoftGraph\MicrosoftGraphHelper.cs" />
@@ -183,73 +211,21 @@
     <EmbeddedResource Include="Properties\Microsoft.Toolkit.Uwp.Services.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj">
+      <Project>{34398053-fc70-4243-84f9-f355defff66d}</Project>
+      <Name>Microsoft.Toolkit.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj">
       <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>
       <Name>Microsoft.Toolkit.Uwp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj">
+      <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
+      <Name>Microsoft.Toolkit</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug %28Version 1511%29|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug %28Version 1511%29\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.Services.XML</DocumentationFile>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug %28Anniversary Update%29|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug %28Anniversary Update%29\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.Services.XML</DocumentationFile>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28Version 1511%29|AnyCPU'">
-    <OutputPath>bin\Release %28Version 1511%29\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.Services.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28Anniversary Update%29|AnyCPU'">
-    <OutputPath>bin\Release %28Anniversary Update%29\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.Services.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
-    <OutputPath>bin\Publish\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.Services.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

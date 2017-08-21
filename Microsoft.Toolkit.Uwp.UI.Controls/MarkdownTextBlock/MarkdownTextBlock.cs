@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
@@ -21,13 +22,14 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// An efficient and extensible control that can parse and render markdown.
     /// </summary>
-    public sealed class MarkdownTextBlock : Control, ILinkRegister
+    public sealed class MarkdownTextBlock : Control, ILinkRegister, IImageResolver
     {
         /// <summary>
         /// Holds a list of hyperlinks we are listening to.
@@ -48,6 +50,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Fired when a link element in the markdown was tapped.
         /// </summary>
         public event EventHandler<LinkClickedEventArgs> LinkClicked;
+
+        /// <summary>
+        /// Fired when an image from the markdown document needs to be resolved.
+        /// The default implementation is basically <code>new BitmapImage(new Uri(e.Url));</code>.
+        /// </summary>
+        public event EventHandler<ImageResolvingEventArgs> ImageResolving;
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="ImageStretch"/>.
+        /// </summary>
+        public static readonly DependencyProperty ImageStretchProperty = DependencyProperty.Register(
+            nameof(ImageStretch),
+            typeof(Stretch),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(Stretch.None, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets or sets the stretch used for images.
+        /// </summary>
+        public Stretch ImageStretch
+        {
+            get { return (Stretch)GetValue(ImageStretchProperty); }
+            set { SetValue(ImageStretchProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets the markdown text to display.
@@ -1050,7 +1076,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void RenderMarkdown()
         {
             // Make sure we have something to parse.
-            if (Text == null)
+            if (string.IsNullOrWhiteSpace(Text))
             {
                 return;
             }
@@ -1072,7 +1098,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 markdown.Parse(Text);
 
                 // Now try to display it
-                var renderer = new XamlRenderer(markdown, this)
+                var renderer = new XamlRenderer(markdown, this, this)
                 {
                     Background = Background,
                     BorderBrush = BorderBrush,
@@ -1135,7 +1161,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     TableCellPadding = TableCellPadding,
                     TableMargin = TableMargin,
                     TextWrapping = TextWrapping,
-                    LinkForeground = LinkForeground
+                    LinkForeground = LinkForeground,
+                    ImageStretch = ImageStretch
                 };
                 _rootElement.Child = renderer.Render();
             }
@@ -1208,6 +1235,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Fire off the event.
             var eventArgs = new LinkClickedEventArgs(url);
             LinkClicked?.Invoke(this, eventArgs);
+        }
+
+        /// <summary>
+        /// Called when the renderer needs to display a image.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        async Task<ImageSource> IImageResolver.ResolveImageAsync(string url, string tooltip)
+        {
+            var eventArgs = new ImageResolvingEventArgs(url, tooltip);
+            ImageResolving?.Invoke(this, eventArgs);
+
+            await eventArgs.WaitForDeferrals();
+
+            try
+            {
+                return eventArgs.Handled
+                                ? eventArgs.Image
+                                : new BitmapImage(new Uri(url));
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }

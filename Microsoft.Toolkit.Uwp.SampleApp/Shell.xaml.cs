@@ -13,6 +13,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -20,6 +21,7 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
@@ -428,6 +430,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             await Launcher.LaunchUriAsync(new Uri(e.Link));
         }
 
+        private void DocumentationTextblock_ImageResolving(object sender, ImageResolvingEventArgs e)
+        {
+            e.Image = new BitmapImage(new Uri("ms-appx:///Assets/pixel.png"));
+            e.Handled = true;
+        }
+
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (DataContext == null)
@@ -482,7 +490,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             _searchBox.QuerySubmitted += (sender, args) =>
             {
-                NavigationFrame.Navigate(typeof(SamplePicker), _searchBox.Text);
+                var sample = args.ChosenSuggestion as Sample;
+                if (sample != null)
+                {
+                    NavigateToSample(sample);
+                }
+                else
+                {
+                    NavigationFrame.Navigate(typeof(SamplePicker), _searchBox.Text);
+                }
             };
 
             _searchBox.TextChanged += (sender, args) =>

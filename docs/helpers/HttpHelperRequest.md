@@ -1,5 +1,8 @@
 # HttpHelperRequest
 
+(This API is obsolete and will be removed in the future. Please use [System.Net.Http.HttpRequestMessage](https://msdn.microsoft.com/en-us/library/system.net.http.httprequestmessage(v=vs.110).aspx) 
+or [Windows.Web.Http.HttpRequestMessage](https://docs.microsoft.com/en-us/uwp/api/windows.web.http.httprequestmessage) directly)
+
 Represents an HTTP request message including headers. 
 
 ## Example
@@ -62,4 +65,4 @@ An app starts by using one of the **HttpHelperRequest** constructors to create a
 
 ## API
 
-* [HttpHelperRequest source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp/Helpers/HttpHelperRequest.cs)
+* [HttpHelperRequest source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/HttpHelper/HttpHelperRequest.cs)

@@ -11,8 +11,8 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace UnitTests.Helpers
 {
@@ -30,7 +30,7 @@ namespace UnitTests.Helpers
 
             protected virtual void OnRaiseEvent()
             {
-                Raisevent?.Invoke(this, new EventArgs());
+                Raisevent?.Invoke(this, EventArgs.Empty);
             }
         }
 

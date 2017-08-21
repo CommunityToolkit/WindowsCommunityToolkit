@@ -102,12 +102,20 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         {
             if (ActivationOptions != null)
             {
-#pragma warning disable 618
                 if (ActivationOptions.AfterActivationBehavior != ToastAfterActivationBehavior.Default)
-#pragma warning restore 618
                 {
                     throw new InvalidOperationException("ToastContent does not support a custom AfterActivationBehavior. Please ensure ActivationOptions.AfterActivationBehavior is set to Default.");
                 }
+            }
+
+            DateTimeOffset? strippedDisplayTimestamp = null;
+            if (DisplayTimestamp != null)
+            {
+                // We need to make sure we don't include more than 3 decimal points on seconds
+                // The Millisecond value itself is limited to 3 decimal points, thus by doing the following
+                // we bypass the more granular value that can come from Ticks and ensure we only have 3 decimals at most.
+                var val = DisplayTimestamp.Value;
+                strippedDisplayTimestamp = new DateTimeOffset(val.Year, val.Month, val.Day, val.Hour, val.Minute, val.Second, val.Millisecond, val.Offset);
             }
 
             var toast = new Element_Toast()
@@ -116,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 Duration = Duration,
                 Launch = Launch,
                 Scenario = Scenario,
-                DisplayTimestamp = DisplayTimestamp
+                DisplayTimestamp = strippedDisplayTimestamp
             };
 
             ActivationOptions?.PopulateElement(toast);

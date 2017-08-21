@@ -29,18 +29,20 @@ Once you search you should see a list similar to the one below (versions may be 
 | NuGet Package Name | description |
 | --- | --- |
 | Microsoft.Toolkit.Uwp | Main NuGet package includes code only helpers such as Colors conversion tool, Internet Connection detection, Storage file handling, a Stream helper class, etc. |
-| Microsoft.Toolkit.Uwp.Notifications | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes IntelliSense support to avoid having to use the XML syntax. |
-| Microsoft.Toolkit.Uwp.Notifications.Javascript | Notification Packages for JavaScript. |
+| Microsoft.Toolkit.Uwp.Notifications | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes intellisense support to avoid having to use the XML syntax. |
+| Microsoft.Toolkit.Uwp.Notifications.Javascript | Notification Packages for JavaScript |
 | Microsoft.Toolkit.Uwp.Services | Services Package - This NuGet package includes the service helpers for Bing, Facebook, LinkedIn, Microsoft Graph and Twitter. |
 | Microsoft.Toolkit.Uwp.UI | UI Packages - XAML converters, Visual tree extensions and helpers for your XAML UI. |
 | Microsoft.Toolkit.Uwp.UI.Animations | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
 | Microsoft.Toolkit.Uwp.UI.Controls | XAML Controls such as RadialGauge, RangeSelector, etc. | 
+| Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app | 
 
 ## Features
 
 ### Animations
 
 * [Blur](http://docs.uwpcommunitytoolkit.com/en/master/animations/Blur/)
+* [ExpressionBuilder](http://www.uwpcommunitytoolkit.com/en/master/animations/Expressions/)
 * [Fade](http://docs.uwpcommunitytoolkit.com/en/master/animations/Fade/)
 * [FadeHeader](http://docs.uwpcommunitytoolkit.com/en/master/animations/FadeHeader/)
 * [Light](http://docs.uwpcommunitytoolkit.com/en/master/animations/Light/)
@@ -49,11 +51,13 @@ Once you search you should see a list similar to the one below (versions may be 
 * [ReorderGrid](http://docs.uwpcommunitytoolkit.com/en/master/animations/ReorderGrid/)
 * [Rotate](http://docs.uwpcommunitytoolkit.com/en/master/animations/Rotate/)
 * [Scale](http://docs.uwpcommunitytoolkit.com/en/master/animations/Scale/)
+* [Saturation](http://www.uwpcommunitytoolkit.com/en/master/animations/Saturation/)
 
 ### Controls
 
 * [AdaptiveGridView](http://docs.uwpcommunitytoolkit.com/en/master/controls/AdaptiveGridView/)
 * [BladeView](http://docs.uwpcommunitytoolkit.com/en/master/controls/BladeView/)
+* [Carousel](http://www.uwpcommunitytoolkit.com/en/master/controls/Carousel/)
 * [DropShadowPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/DropShadowPanel/)
 * [Expander](http://docs.uwpcommunitytoolkit.com/en/master/controls/Expander/)
 * [GridSplitter](http://docs.uwpcommunitytoolkit.com/en/master/controls/GridSplitter/)
@@ -63,33 +67,44 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Loading](http://docs.uwpcommunitytoolkit.com/en/master/controls/Loading/)
 * [MarkdownTextBlock](http://docs.uwpcommunitytoolkit.com/en/master/controls/MarkdownTextBlock/)
 * [MasterDetailsView](http://docs.uwpcommunitytoolkit.com/en/master/controls/MasterDetailsView/)
+* [Menu](http://docs.uwpcommunitytoolkit.com/en/master/controls/Menu/)
+* [OrbitView](http://docs.uwpcommunitytoolkit.com/en/master/controls/OrbitView/)
 * [PullToRefreshListView](http://docs.uwpcommunitytoolkit.com/en/master/controls/PullToRefreshListview/)
 * [RadialGauge](http://docs.uwpcommunitytoolkit.com/en/master/controls/RadialGauge/)
+* [RadialProgressBar](http://www.uwpcommunitytoolkit.com/en/dev/controls/RadialProgressBar/)
 * [RangeSelector](http://docs.uwpcommunitytoolkit.com/en/master/controls/RangeSelector/)
 * [RotatorTile](http://docs.uwpcommunitytoolkit.com/en/master/controls/RotatorTile/)
 * [ScrollHeader](http://docs.uwpcommunitytoolkit.com/en/master/controls/ScrollHeader/)
 * [SlideableListItem](http://docs.uwpcommunitytoolkit.com/en/master/controls/SlidableListItem/)
-* [SurfaceDialTextboxHelper](http://docs.uwpcommunitytoolkit.com/en/master/controls/SurfaceDialTextboxHelper/)
-* [TextBoxMask](http://docs.uwpcommunitytoolkit.com/en/master/controls/TextBoxMask/)
-* [TextBoxRegex](http://docs.uwpcommunitytoolkit.com/en/master/controls/TextBoxRegex/)
 * [TileControl](http://docs.uwpcommunitytoolkit.com/en/master/controls/TileControl/)
 * [WrapPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/WrapPanel/)
 
-### Code Helpers
+### Developer Tools
+* [AlignmentGrid](http://www.uwpcommunitytoolkit.com/en/master/developer%20tools/AlignmentGrid/)
+* [FocusTracker](http://www.uwpcommunitytoolkit.com/en/master/developer%20tools/FocusTracker/)
 
-* [AdvancedCollectionView](docs.uwpcommunitytoolkit.com/en/master/helpers/AdvancedCollectionView/)
+### Extensions
+* [Hyperlink](http://docs.uwpcommunitytoolkit.com/en/master/extensions/Hyperlink/)
+* [ListViewBase](http://docs.uwpcommunitytoolkit.com/en/master/extensions/ListViewBase/)
+* [SurfaceDialTextbox](http://docs.uwpcommunitytoolkit.com/en/master/extensions/SurfaceDialTextbox/)
+* [TextBoxMask](http://docs.uwpcommunitytoolkit.com/en/master/extensions/TextBoxMask/)
+* [TextBoxRegex](http://docs.uwpcommunitytoolkit.com/en/master/extensions/TextBoxRegex/)
+* [ViewExtensions](http://www.uwpcommunitytoolkit.com/en/master/extensions/ViewExtensions/)
+* [WebView](http://docs.uwpcommunitytoolkit.com/en/master/extensions/WebView/)
+
+### Code Helpers
+* [AdvancedCollectionView](http://docs.uwpcommunitytoolkit.com/en/master/helpers/AdvancedCollectionView/)
 * [BackgroundTaskHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BackgroundTaskHelper/)
 * [BindableValueHolder](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BindableValueHolder/)
+* [BluetoothLEHelper](http://www.uwpcommunitytoolkit.com/en/master/helpers/BluetoothLEHelper/)
 * [Colors](http://docs.uwpcommunitytoolkit.com/en/master/helpers/Colors/)
-* [ConnectionHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ConnectionHelper/)
 * [Converters](http://docs.uwpcommunitytoolkit.com/en/master/helpers/Converters/)
 * [DeepLinkParsers](http://docs.uwpcommunitytoolkit.com/en/master/helpers/DeepLinkParsers/)
 * [DispatcherHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/DispatcherHelper/)
 * [HttpHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/HttpHelper/)
-* [HyperlinkExtensions](http://docs.uwpcommunitytoolkit.com/en/master/helpers/HyperlinkExtensions/)
 * [ImageCache](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ImageCache/)
 * [Incremental Loading Collection](http://docs.uwpcommunitytoolkit.com/en/master/helpers/IncrementalLoadingCollection/)
-* [ListViewBaseExtensions](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ListViewBaseExtensions/)
+* [NetworkHelper](http://www.uwpcommunitytoolkit.com/en/master/helpers/NetworkHelper/)
 * [Object Storage](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ObjectStorage/)
 * [PrinterHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/PrinterHelper/)
 * [StorageFiles](http://docs.uwpcommunitytoolkit.com/en/master/helpers/StorageFiles/)
@@ -97,7 +112,6 @@ Once you search you should see a list similar to the one below (versions may be 
 * [SystemInformation](http://docs.uwpcommunitytoolkit.com/en/master/helpers/SystemInformation/)
 * [VisualTreeExtensions](http://docs.uwpcommunitytoolkit.com/en/master/helpers/VisualTreeExtensions/)
 * [WeakEventListener](http://docs.uwpcommunitytoolkit.com/en/master/helpers/WeakEventListener/)
-* [WebViewExtensions](http://docs.uwpcommunitytoolkit.com/en/master/helpers/WebViewExtensions/)
 
 ### Services
 
@@ -133,7 +147,7 @@ For more information see the [.NET Foundation Code of Conduct](http://www.dotnet
 
 ## Roadmap
 
-Read what we [plan for next iteration](https://github.com/Microsoft/UWPCommunityToolkit/issues?q=is%3Aopen+is%3Aissue+milestone%3Av1.4), and feel free to ask questions.
+Read what we [plan for next iterations](https://github.com/Microsoft/UWPCommunityToolkit/milestones), and feel free to ask questions.
 
 By adding this ([Nuget repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your Visual Studio, you can also get pre-release packages of upcoming version.
 

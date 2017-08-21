@@ -1,5 +1,8 @@
 # HttpHelperResponse
 
+(This API is obsolete and will be removed in the future. Please use [System.Net.Http.HttpResponseMessage](https://msdn.microsoft.com/en-us/library/system.net.http.httpresponsemessage(v=vs.110).aspx) 
+or [Windows.Web.Http.HttpResponseMessage](https://docs.microsoft.com/en-us/uwp/api/Windows.Web.Http.HttpResponseMessage) directly)
+
 Represents an HTTP response message including headers. 
 
 ## Example
@@ -65,4 +68,4 @@ An app receives an instance of **HttpHelperResponse** when it creates an instanc
 
 ## API
 
-* [HttpHelperRequest source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp/Helpers/HttpHelperResponse.cs)
+* [HttpHelperResponse source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/HttpHelper/HttpHelperResponse.cs)

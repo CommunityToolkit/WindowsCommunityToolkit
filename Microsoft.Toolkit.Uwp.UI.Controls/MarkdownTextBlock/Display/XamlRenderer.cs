@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
+using Windows.Foundation.Metadata;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -27,6 +28,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 {
     internal class XamlRenderer
     {
+        private static bool? _textDecorationsSupported = null;
+
+        private static bool TextDecorationsSupported => (bool)(_textDecorationsSupported ??
+                        (_textDecorationsSupported = ApiInformation.IsTypePresent("Windows.UI.Text.TextDecorations")));
+
         /// <summary>
         /// The markdown document that will be rendered.
         /// </summary>
@@ -37,11 +43,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         private readonly ILinkRegister _linkRegister;
 
-        public XamlRenderer(MarkdownDocument document, ILinkRegister linkRegister)
+        /// <summary>
+        /// An interface that is used to resolve images.
+        /// </summary>
+        private readonly IImageResolver _imageResolver;
+
+        public XamlRenderer(MarkdownDocument document, ILinkRegister linkRegister, IImageResolver imageResolver)
         {
             _document = document;
             _linkRegister = linkRegister;
+            _imageResolver = imageResolver;
         }
+
+        /// <summary>
+        /// Gets or sets the stretch used for images.
+        /// </summary>
+        public Stretch ImageStretch { get; set; }
 
         /// <summary>
         /// Gets or sets a brush that provides the background of the control.
@@ -782,7 +799,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        private void RenderTextRun(InlineCollection inlineCollection, TextRunInline element, RenderContext context)
+        /// <returns><see cref="Run"/></returns>
+        private Run RenderTextRun(InlineCollection inlineCollection, TextRunInline element, RenderContext context)
         {
             // Create the text run
             Run textRun = new Run
@@ -792,6 +810,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 
             // Add it
             inlineCollection.Add(textRun);
+
+            return textRun;
         }
 
         /// <summary>
@@ -895,20 +915,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        private void RenderImage(InlineCollection inlineCollection, ImageInline element, RenderContext context)
+        private async void RenderImage(InlineCollection inlineCollection, ImageInline element, RenderContext context)
         {
+            var placeholder = RenderTextRun(inlineCollection, new TextRunInline { Text = element.Text, Type = MarkdownInlineType.TextRun }, context);
+
+            var resolvedImage = await _imageResolver.ResolveImageAsync(element.Url, element.Tooltip);
+
+            // if image can not be resolved we have to return
+            if (resolvedImage == null)
+            {
+                return;
+            }
+
             var image = new Image();
             var imageContainer = new InlineUIContainer() { Child = image };
 
-            image.Source = new BitmapImage(new Uri(element.Url));
+            image.Source = resolvedImage;
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;
-            image.Stretch = Stretch.None;
+            image.Stretch = ImageStretch;
 
             ToolTipService.SetToolTip(image, element.Tooltip);
 
-            // Add it to the current inlines
-            inlineCollection.Add(imageContainer);
+            // Try to add it to the current inlines
+            // Could fail because some containers like Hyperlink cannot have inlined images
+            try
+            {
+                var placeholderIndex = inlineCollection.IndexOf(placeholder);
+                inlineCollection.Remove(placeholder);
+                inlineCollection.Insert(placeholderIndex, imageContainer);
+            }
+            catch
+            {
+                // Ignore error
+            }
         }
 
         /// <summary>
@@ -966,25 +1006,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <param name="context"> Persistent state. </param>
         private void RenderStrikethroughRun(InlineCollection inlineCollection, StrikethroughTextInline element, RenderContext context)
         {
-            Span span = new Span
+            Span span = new Span();
+
+            if (TextDecorationsSupported)
             {
-                FontFamily = new FontFamily("Consolas")
-            };
+                span.TextDecorations = TextDecorations.Strikethrough;
+            }
+            else
+            {
+                span.FontFamily = new FontFamily("Consolas");
+            }
 
             // Render the children into the inline.
             RenderInlineChildren(span.Inlines, element.Inlines, span, context);
 
-            AlterChildRuns(span, (parentSpan, run) =>
+            if (!TextDecorationsSupported)
             {
-                var text = run.Text;
-                var builder = new StringBuilder(text.Length * 2);
-                foreach (var c in text)
+                AlterChildRuns(span, (parentSpan, run) =>
                 {
-                    builder.Append((char)0x0336);
-                    builder.Append(c);
-                }
-                run.Text = builder.ToString();
-            });
+                    var text = run.Text;
+                    var builder = new StringBuilder(text.Length * 2);
+                    foreach (var c in text)
+                    {
+                        builder.Append((char)0x0336);
+                        builder.Append(c);
+                    }
+                    run.Text = builder.ToString();
+                });
+            }
 
             // Add it to the current inlines
             inlineCollection.Add(span);

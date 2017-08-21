@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Xaml.Navigation;
 
@@ -20,6 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class PullToRefreshListViewPage
     {
         private readonly ObservableCollection<Item> _items;
+        private DelegateCommand _refreshIntentCanceledCommand;
 
         public PullToRefreshListViewPage()
         {
@@ -40,5 +42,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             AddItems();
         }
+
+        private void ListView_RefreshIntentCanceled(object sender, EventArgs e)
+        {
+        }
+
+        private DelegateCommand RefreshIntentCanceled => _refreshIntentCanceledCommand ?? (_refreshIntentCanceledCommand = new DelegateCommand(
+            () => { }));
     }
 }

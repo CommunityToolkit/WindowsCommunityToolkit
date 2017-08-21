@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -11,8 +11,8 @@
     <AssemblyName>Microsoft.Toolkit.Uwp</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -42,22 +42,34 @@
     <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.xml</DocumentationFile>
     <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>5.3.4</Version>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers">
+      <Version>1.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Identity.Client">
+      <Version>1.0.304142221-alpha</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>9.0.1</Version>
+    </PackageReference>
+  </ItemGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="Microsoft.Toolkit.Uwp.ruleset">
       <SubType>Designer</SubType>
     </None>
-    <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\DeepLinkParser\CollectionFormingDeepLinkParser.cs" />
     <Compile Include="Helpers\BackgroundTaskHelper.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
-    <Compile Include="Helpers\Network\ConnectionHelper.cs" />
-    <Compile Include="Helpers\Network\ConnectionInformation.cs" />
-    <Compile Include="Helpers\Network\ConnectionType.cs" />
     <Compile Include="Helpers\DispatcherHelper.cs" />
-    <Compile Include="Helpers\Network\NetworkHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\BaseObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\IObjectStorageHelper.cs" />
     <Compile Include="Helpers\ObjectStorage\LocalObjectStorageHelper.cs" />
@@ -69,6 +81,8 @@
     <Compile Include="Helpers\HttpHelper\HttpHelper.cs" />
     <Compile Include="Helpers\HttpHelper\HttpHelperRequest.cs" />
     <Compile Include="Helpers\HttpHelper\HttpHelperResponse.cs" />
+    <Compile Include="Helpers\ScreenUnit.cs" />
+    <Compile Include="Helpers\ScreenUnitHelper.cs" />
     <Compile Include="Helpers\StorageFileHelper.cs" />
     <Compile Include="Helpers\SystemInformation.cs" />
     <Compile Include="Helpers\WeakEventListener.cs" />
@@ -81,74 +95,14 @@
     <Compile Include="Structures\OSVersion.cs" />
     <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.rd.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj">
+      <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
+      <Name>Microsoft.Toolkit</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug %28Version 1511%29|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug %28Version 1511%29\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.XML</DocumentationFile>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug %28Anniversary Update%29|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug %28Anniversary Update%29\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.XML</DocumentationFile>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28Version 1511%29|AnyCPU'">
-    <OutputPath>bin\Release %28Version 1511%29\</OutputPath>
-    <DefineConstants>CODE_ANALYSIS;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.XML</DocumentationFile>
-    <Optimize>true</Optimize>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28Anniversary Update%29|AnyCPU'">
-    <OutputPath>bin\Release %28Anniversary Update%29\</OutputPath>
-    <DefineConstants>CODE_ANALYSIS;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.XML</DocumentationFile>
-    <Optimize>true</Optimize>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
-    <OutputPath>bin\Publish\</OutputPath>
-    <DefineConstants>CODE_ANALYSIS;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

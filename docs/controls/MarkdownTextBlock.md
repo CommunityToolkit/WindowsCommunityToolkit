@@ -17,6 +17,13 @@ Under the hood, the control uses XAML sub elements to build the visual rendering
 
 ```
 
+## Limitations
+
+Here are some limitations you may encounter:
+
+- Images cannot be embedded inside a hyperlink
+- All images are stretched with the same stretch value (defined by ImageStretch property)
+
 ## Example Image
 Note: scrolling is smooth, the gif below is not.
 
@@ -71,13 +78,47 @@ The MarkdownTextBlock control is highly customizable to blend with any theme. Cu
 * TableMargin
 * TextWrapping
 
+## Events
+
+### ImageResolving
+
+Use this event to customize how images in the markdown document are resolved.  
+
+Set the ImageResolvingEventArgs.Image property to the image that should be shown in the rendered markdown document.  
+Also don't forget to set the ImageResolvingEventArgs.Handled flag to true, otherwise your custom image will not be used.
+
+```c#
+private void MarkdownText_OnImageResolving(object sender, ImageResolvingEventArgs e)
+{
+    // This is basically the default implementation
+    e.Image = new BitmapImage(new Uri(e.Url));
+    e.Handled = true;
+}
+```
+
+This event also supports loading the image in an asynchronous way.  
+Just request a Deferral which you complete when you're done.
+
+```c#
+private async void MarkdownText_OnImageResolving(object sender, ImageResolvingEventArgs e)
+{
+    var deferral = e.GetDeferral();
+
+    e.Image = await GetImageFromDatabaseAsync(e.Url);
+    e.Handled = true;
+
+    deferral.Complete();
+}
+```
+
+
 ## Example Code
 
-[MarkdownTextBlock Sample Page](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/MarkdownTextBlock)
+[MarkdownTextBlock Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/MarkdownTextBlock)
 
 ## Default Template 
 
-[MarkdownTextBlock XAML File](../..//Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/MarkdownTextBlock.xaml) is the XAML template used in the toolkit for the default styling.
+[MarkdownTextBlock XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/MarkdownTextBlock.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 
@@ -87,5 +128,5 @@ The MarkdownTextBlock control is highly customizable to blend with any theme. Cu
 
 ## API
 
-* [MarkdownTextBlock source code](../..//Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock)
+* [MarkdownTextBlock source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock)
 

@@ -17,6 +17,7 @@
     <dependencies>
       <dependency id="Microsoft.Toolkit.Uwp" version="$version$" />
       <dependency id="Microsoft.Toolkit.Uwp.UI" version="$version$" />
+      <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.3.3" />
     </dependencies>
   </metadata>
   <files>
@@ -24,5 +25,6 @@
     <file src="$binaries$\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.pdb" target="lib\uap10.0" />
     <file src="$binaries$\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.pri" target="lib\uap10.0" />
     <file src="$binaries$\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.xml" target="lib\uap10.0" />
+    <file src="$binaries$\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools\**\*.*" target="lib\uap10.0\Microsoft.Toolkit.Uwp.DeveloperTools" />
   </files>
 </package>

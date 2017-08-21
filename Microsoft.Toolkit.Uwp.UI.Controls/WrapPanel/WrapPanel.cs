@@ -15,7 +15,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// WrapPanel is a panel that position child control vertically or horizontally based on the orientation and when max width/ max height is recieved a new row(in case of horizontal) or column (in case of vertical) is created to fit new controls.
@@ -51,9 +51,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
         /// <inheritdoc />
         protected override Size MeasureOverride(Size availableSize)
         {
-            var totalMeasure = new UvMeasure();
+            var totalMeasure = UvMeasure.Zero;
             var parentMeasure = new UvMeasure(Orientation, availableSize.Width, availableSize.Height);
-            var lineMeasure = new UvMeasure();
+            var lineMeasure = UvMeasure.Zero;
             foreach (var child in Children)
             {
                 child.Measure(availableSize);
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
                         totalMeasure.V += currentMeasure.V;
 
                         // add new empty line
-                        lineMeasure = new UvMeasure();
+                        lineMeasure = UvMeasure.Zero;
                     }
                 }
             }
@@ -100,6 +100,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
             totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
             totalMeasure.V += lineMeasure.V;
 
+            totalMeasure.U = Math.Ceiling(totalMeasure.U);
+
             return Orientation == Orientation.Horizontal ? new Size(totalMeasure.U, totalMeasure.V) : new Size(totalMeasure.V, totalMeasure.U);
         }
 
@@ -107,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
         protected override Size ArrangeOverride(Size finalSize)
         {
             var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
-            var position = new UvMeasure();
+            var position = UvMeasure.Zero;
 
             double currentV = 0;
             foreach (var child in Children)

@@ -326,6 +326,8 @@
                                           AutomationProperties.Name="Expand"
                                           Style="{StaticResource HeaderToggleButtonStyle}" 
                                           VerticalAlignment="Top" HorizontalAlignment="Stretch"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          Background="{TemplateBinding Background}"
                                           ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}"
                                           IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
                             
