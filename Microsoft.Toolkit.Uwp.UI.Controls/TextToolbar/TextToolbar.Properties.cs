@@ -44,8 +44,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(CustomButtons), typeof(ButtonMap), typeof(TextToolbar), new PropertyMetadata(null, OnButtonMapChanged));
 
         // Using a DependencyProperty as the backing store for RemoveDefaultButtons.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty RemoveDefaultButtonsProperty =
-            DependencyProperty.Register(nameof(ButtonModifications), typeof(DefaultButtonModificationList), typeof(TextToolbar), new PropertyMetadata(null, OnRemoveButtonsChanged));
+        public static readonly DependencyProperty DefaultButtonModificationsProperty =
+            DependencyProperty.Register(nameof(ButtonModifications), typeof(DefaultButtonModificationList), typeof(TextToolbar), new PropertyMetadata(null, OnDefaultButtonModificationsChanged));
 
         // Using a DependencyProperty as the backing store for Labels.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LabelsProperty =
@@ -101,8 +101,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public DefaultButtonModificationList ButtonModifications
         {
-            get { return (DefaultButtonModificationList)GetValue(RemoveDefaultButtonsProperty); }
-            set { SetValue(RemoveDefaultButtonsProperty, value); }
+            get { return (DefaultButtonModificationList)GetValue(DefaultButtonModificationsProperty); }
+            set { SetValue(DefaultButtonModificationsProperty, value); }
         }
 
         public TextToolbarStrings Labels

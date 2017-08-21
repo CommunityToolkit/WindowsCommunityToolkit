@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="obj">TextToolbar</param>
         /// <param name="args">Property Changed Args</param>
-        private static void OnRemoveButtonsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        private static void OnDefaultButtonModificationsChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             var bar = obj as TextToolbar;
             if (bar != null)
@@ -142,14 +142,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (oldSource != null)
                 {
                     oldSource.CollectionChanged -= bar.OnDefaultButtonModificationListChanged;
-
-                    if (root != null)
-                    {
-                        foreach (DefaultButton item in oldSource)
-                        {
-                            bar.AddToolbarItem(item.Button, root);
-                        }
-                    }
                 }
 
                 if (newSource != null)
@@ -158,7 +150,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     foreach (DefaultButton item in newSource)
                     {
-                        bar.RemoveToolbarItem(item.Button);
+                        var element = bar.GetDefaultButton(item.Type);
+                        item.Button = element;
                     }
                 }
             }
@@ -208,7 +201,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Removes Default Buttons if Added, Adds them back if Removed.
+        /// Default Button Modification Instances
         /// </summary>
         /// <param name="sender">Source</param>
         /// <param name="e">Property Changed Args</param>
@@ -222,7 +215,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         var element = GetDefaultButton(item.Type);
                         item.Button = element;
                     }
-
                     break;
             }
         }
