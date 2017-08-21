@@ -40,9 +40,6 @@
     <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.Connectivity.XML</DocumentationFile>
     <CodeAnalysisRuleSet>Microsoft.Toolkit.Uwp.Connectivity.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup>
-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
-  </PropertyGroup>
   <ItemGroup>
     <Compile Include="BluetoothLEHelper\BluetoothLEHelper.cs" />
     <Compile Include="BluetoothLEHelper\GattConvert.cs" />
@@ -58,6 +55,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Microsoft.Toolkit.Uwp.Connectivity.rd.xml" />
   </ItemGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.3.4</Version>

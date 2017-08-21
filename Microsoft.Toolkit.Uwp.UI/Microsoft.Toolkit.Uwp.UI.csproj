@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -43,6 +43,17 @@
     <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.UI.XML</DocumentationFile>
     <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ui.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>5.3.4</Version>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers">
+      <Version>1.0.2</Version>
+    </PackageReference>
+  </ItemGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Compile Include="Extensions\Hyperlink\Hyperlink.Properties.cs" />
@@ -50,7 +61,6 @@
     <Compile Include="Extensions\ListViewBase\ListViewBaseExtensions.cs" />
     <Compile Include="Extensions\ListViewBase\ListViewBase.Data.cs" />
     <None Include="Microsoft.Toolkit.Uwp.UI.ruleset" />
-    <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdvancedCollectionView\AdvancedCollectionView.cs" />
