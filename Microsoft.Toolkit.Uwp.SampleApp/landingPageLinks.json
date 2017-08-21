@@ -1,6 +1,6 @@
 {
   "new-section-title": "What's New",
-  "new-samples": ["Menu","Blur"],
+  "new-samples": [ "Menu", "BluetoothLEHelper", "Bing Service", "Expander", "OrbitView" ],
   "resources": [
     {
       "title": "UWP Community Toolkit",
