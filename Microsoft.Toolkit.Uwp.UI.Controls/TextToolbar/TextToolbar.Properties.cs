@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for RemoveDefaultButtons.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty RemoveDefaultButtonsProperty =
-            DependencyProperty.Register(nameof(RemoveDefaultButtons), typeof(RemovalList), typeof(TextToolbar), new PropertyMetadata(null, OnRemoveButtonsChanged));
+            DependencyProperty.Register(nameof(ButtonModifications), typeof(DefaultButtonModificationList), typeof(TextToolbar), new PropertyMetadata(null, OnRemoveButtonsChanged));
 
         // Using a DependencyProperty as the backing store for Labels.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LabelsProperty =
@@ -99,9 +99,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a list of Default buttons to remove from the UI.
         /// </summary>
-        public RemovalList RemoveDefaultButtons
+        public DefaultButtonModificationList ButtonModifications
         {
-            get { return (RemovalList)GetValue(RemoveDefaultButtonsProperty); }
+            get { return (DefaultButtonModificationList)GetValue(RemoveDefaultButtonsProperty); }
             set { SetValue(RemoveDefaultButtonsProperty, value); }
         }
 

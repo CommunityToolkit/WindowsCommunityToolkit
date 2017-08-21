@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             CommonButtons = new CommonButtons(this);
 
             CustomButtons = new ButtonMap();
-            RemoveDefaultButtons = new RemovalList();
+            ButtonModifications = new DefaultButtonModificationList();
 
             if (!InDesignMode)
             {

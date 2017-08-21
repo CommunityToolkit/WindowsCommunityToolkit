@@ -19,9 +19,9 @@ You can also **Remove** Default Buttons from any format, or **Add** Custom butto
 ### How to Remove/Add Buttons
 ```xml
 <controls:TextToolbar x:Name="Toolbar" Editor="{x:Bind Editor}">
-    <controls:TextToolbar.RemoveDefaultButtons>
-        <buttons:DefaultButton Type="Headers" />
-    </controls:TextToolbar.RemoveDefaultButtons>
+    <controls:TextToolbar.ButtonModifications>
+        <buttons:DefaultButton Type="Headers" IsVisible="False"/>
+    </controls:TextToolbar.ButtonModifications>
     <controls:TextToolbar.CustomButtons>
         <buttons:ToolbarButton
             Name="CustomButton"
@@ -37,7 +37,8 @@ You can also **Remove** Default Buttons from any format, or **Add** Custom butto
 OR
 
 ```C#
-Toolbar.RemoveDefaultButton(DefaultButton.OfType(DefaultButton.ButtonType.Headers));
+var button = Toolbar.GetDefaultButton(ButtonType.Headers);
+button.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
 Toolbar.CustomButtons.Add(new ToolbarButton
 {
     Name = "CustomButton",

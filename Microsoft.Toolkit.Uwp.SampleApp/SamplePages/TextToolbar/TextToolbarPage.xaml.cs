@@ -34,17 +34,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             Shell.Current.RegisterNewCommand("Add/Remove Bold Button", (sender, args) =>
             {
-                var button = DefaultButton.OfType(ButtonType.Bold);
-                if (!boldRemoved)
-                {
-                    Toolbar.RemoveDefaultButtons.Add(button);
-                    boldRemoved = true;
-                }
-                else
-                {
-                    Toolbar.RemoveDefaultButtons.Remove(button);
-                    boldRemoved = false;
-                }
+                var button = Toolbar.GetDefaultButton(ButtonType.Bold);
+                button.Visibility = button.Visibility == Windows.UI.Xaml.Visibility.Visible ? Windows.UI.Xaml.Visibility.Collapsed : Windows.UI.Xaml.Visibility.Visible;
             });
 
             Shell.Current.RegisterNewCommand("Add Custom Button", (sender, args) =>
@@ -52,8 +43,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 AddCustomButton();
             });
         }
-
-        private bool boldRemoved = false;
 
         private int DemoCounter { get; set; } = 0;
 

@@ -27,6 +27,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class TextToolbar
     {
         /// <summary>
+        /// Gets the Button Instance from the DefaultButton
+        /// </summary>
+        /// <param name="button">Default Button</param>
+        /// <returns>Default Toolbar Button</returns>
+        public ToolbarButton GetDefaultButton(ButtonType button)
+        {
+            var root = GetTemplateChild(RootControl) as CommandBar;
+            if (root != null)
+            {
+                var element = root.PrimaryCommands.OfType<ToolbarButton>().FirstOrDefault(item => ((FrameworkElement)item).Name == button.ToString());
+                return element;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Creates one of the Default formatters.
         /// </summary>
         private void CreateFormatter()
@@ -55,9 +72,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 AttachButtonMap(DefaultButtons, root);
 
-                foreach (var button in RemoveDefaultButtons)
+                foreach (var button in ButtonModifications)
                 {
-                    RemoveDefaultButton(button);
+                    var element = GetDefaultButton(button.Type);
+                    button.Button = element;
                 }
 
                 if (CustomButtons != null)
@@ -135,32 +153,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Removes an Element from the Toolbar
         /// </summary>
         /// <param name="item">Item to Remove</param>
-        /// <param name="root">Root Control</param>
-        private void RemoveToolbarItem(IToolbarItem item, CommandBar root)
+        public void RemoveToolbarItem(IToolbarItem item)
         {
+            var root = GetTemplateChild(RootControl) as CommandBar;
             if (root.PrimaryCommands.Contains(item))
             {
                 root.PrimaryCommands.Remove(item);
-            }
-        }
-
-        /// <summary>
-        /// Removes one of the Default Buttons from the Toolbar
-        /// </summary>
-        /// <param name="button">Button to Remove</param>
-        public void RemoveDefaultButton(DefaultButton button)
-        {
-            var root = GetTemplateChild(RootControl) as CommandBar;
-            if (root != null)
-            {
-                var element = root.PrimaryCommands.FirstOrDefault(item => ((FrameworkElement)item).Name == button.ToString()) as IToolbarItem;
-                button.Button = element;
-                root.PrimaryCommands.Remove(element);
-            }
-
-            if (!RemoveDefaultButtons.Contains(button))
-            {
-                RemoveDefaultButtons.Add(button);
             }
         }
 

@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         foreach (IToolbarItem item in oldSource)
                         {
-                            bar.RemoveToolbarItem(item, root);
+                            bar.RemoveToolbarItem(item);
                         }
                     }
                 }
@@ -135,13 +135,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var bar = obj as TextToolbar;
             if (bar != null)
             {
-                var oldSource = args.OldValue as RemovalList;
-                var newSource = args.NewValue as RemovalList;
+                var oldSource = args.OldValue as DefaultButtonModificationList;
+                var newSource = args.NewValue as DefaultButtonModificationList;
                 var root = bar.GetTemplateChild(RootControl) as CommandBar;
 
                 if (oldSource != null)
                 {
-                    oldSource.CollectionChanged -= bar.OnRemoveButtonsModified;
+                    oldSource.CollectionChanged -= bar.OnDefaultButtonModificationListChanged;
 
                     if (root != null)
                     {
@@ -154,11 +154,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (newSource != null)
                 {
-                    newSource.CollectionChanged += bar.OnRemoveButtonsModified;
+                    newSource.CollectionChanged += bar.OnDefaultButtonModificationListChanged;
 
                     foreach (DefaultButton item in newSource)
                     {
-                        bar.RemoveDefaultButton(item);
+                        bar.RemoveToolbarItem(item.Button);
                     }
                 }
             }
@@ -193,7 +193,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     case NotifyCollectionChangedAction.Remove:
                         foreach (IToolbarItem item in e.OldItems)
                         {
-                            RemoveToolbarItem(item, root);
+                            RemoveToolbarItem(item);
 
                             var button = item as ToolbarButton;
                             if (button != null)
@@ -212,26 +212,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="sender">Source</param>
         /// <param name="e">Property Changed Args</param>
-        private void OnRemoveButtonsModified(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnDefaultButtonModificationListChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     foreach (DefaultButton item in e.NewItems)
                     {
-                        RemoveDefaultButton(item);
-                    }
-
-                    break;
-
-                case NotifyCollectionChangedAction.Remove:
-                    var root = GetTemplateChild(RootControl) as CommandBar;
-                    if (root != null)
-                    {
-                        foreach (DefaultButton item in e.OldItems)
-                        {
-                            AddToolbarItem(item.Button, root);
-                        }
+                        var element = GetDefaultButton(item.Type);
+                        item.Button = element;
                     }
 
                     break;

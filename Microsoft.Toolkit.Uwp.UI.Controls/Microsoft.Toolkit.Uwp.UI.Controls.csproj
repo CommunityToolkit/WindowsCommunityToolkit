@@ -159,7 +159,7 @@
     <Compile Include="TextToolbar\ToolbarItems\Common\CommonButtons.Events.cs" />
     <Compile Include="TextToolbar\ToolbarItems\DefaultButton.cs" />
     <Compile Include="TextToolbar\ToolbarItems\IToolbarItem.cs" />
-    <Compile Include="TextToolbar\ToolbarItems\RemovalList.cs" />
+    <Compile Include="TextToolbar\ToolbarItems\DefaultButtonModificationList.cs" />
     <Compile Include="TextToolbar\ToolbarItems\ToolbarButton.cs" />
     <Compile Include="TextToolbar\ToolbarItems\ToolbarSeparator.cs" />
     <Compile Include="TextBoxRegex\TextBoxRegex.cs" />

@@ -14,7 +14,7 @@ using System.Collections.ObjectModel;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 {
-    public class RemovalList : ObservableCollection<DefaultButton>
+    public class DefaultButtonModificationList : ObservableCollection<DefaultButton>
     {
     }
 }

@@ -10,13 +10,19 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Windows.UI.Xaml;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 {
     /// <summary>
-    /// Specifies a DefaultButton, in order to disable it.
+    /// Specifies a DefaultButton, modifies a Button Instance
     /// </summary>
-    public class DefaultButton
+    public class DefaultButton : DependencyObject
     {
+        // Using a DependencyProperty as the backing store for IsVisible.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsVisibleProperty =
+            DependencyProperty.Register(nameof(IsVisible), typeof(bool), typeof(DefaultButton), new PropertyMetadata(true));
+
         /// <summary>
         /// Specifies the Type of DefaultButton in order to remove it.
         /// </summary>
@@ -43,6 +49,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
             return Type.ToString();
         }
 
+        private static void IsVisibleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            var button = obj as DefaultButton;
+            if (button != null && button.Button != null)
+            {
+                var model = button.Button as FrameworkElement;
+                model.Visibility = button.IsVisible ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the Toolbar Item is Visible
+        /// </summary>
+        public bool IsVisible
+        {
+            get { return (bool)GetValue(IsVisibleProperty); }
+            set { SetValue(IsVisibleProperty, value); }
+        }
+
         /// <summary>
         /// Gets or sets the type of Default Button to remove.
         /// </summary>
@@ -51,6 +76,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         /// <summary>
         /// Gets or sets the instance of button that is removed, in order to preserve any modifications when re-attaching to the Toolbar.
         /// </summary>
-        internal IToolbarItem Button { get; set; }
+        internal IToolbarItem Button
+        {
+            get
+            {
+                return _button;
+            }
+
+            set
+            {
+                _button = value;
+                if (_button != null)
+                {
+                    var element = _button as FrameworkElement;
+                    element.Visibility = IsVisible ? Visibility.Visible : Visibility.Collapsed;
+                }
+            }
+        }
+
+        private IToolbarItem _button;
     }
 }
