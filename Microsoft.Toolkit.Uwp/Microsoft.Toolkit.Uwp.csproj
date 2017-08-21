@@ -61,7 +61,6 @@
     <Compile Include="Helpers\DeepLinkParser\CollectionFormingDeepLinkParser.cs" />
     <Compile Include="Helpers\BackgroundTaskHelper.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
-    <Compile Include="Helpers\Network\ConnectionHelper.cs" />
     <Compile Include="Helpers\Network\ConnectionInformation.cs" />
     <Compile Include="Helpers\Network\ConnectionType.cs" />
     <Compile Include="Helpers\DispatcherHelper.cs" />

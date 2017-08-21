@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
