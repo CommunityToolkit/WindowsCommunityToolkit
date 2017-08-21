@@ -803,6 +803,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     }, TimeSpan.FromSeconds(0.5));
             }
         }
+
+        private void XamlCodeRenderer_Loading(object sender, RoutedEventArgs e)
+        {
+            XamlCodeRenderer.Options.Folding = true;
+            XamlCodeRenderer.CodeLanguage = "xml";
+        }
     }
 
     // TODO:  placeholder until it can be moved to extensions

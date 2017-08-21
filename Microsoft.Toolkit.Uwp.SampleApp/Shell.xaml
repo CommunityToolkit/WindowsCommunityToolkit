@@ -264,8 +264,9 @@
 
                     <PivotItem x:Name="XamlPivotItem"
                                Header="XAML">
-                        <monaco:CodeEditor x:Name="XamlCodeRenderer" CodeLanguage="xml" 
-                                           KeyDown="XamlCodeRenderer_KeyDown"/>
+                        <monaco:CodeEditor x:Name="XamlCodeRenderer"
+                                           KeyDown="XamlCodeRenderer_KeyDown"
+                                           Loading="XamlCodeRenderer_Loading"/>
                     </PivotItem>
 
                     <PivotItem x:Name="CSharpPivotItem"
