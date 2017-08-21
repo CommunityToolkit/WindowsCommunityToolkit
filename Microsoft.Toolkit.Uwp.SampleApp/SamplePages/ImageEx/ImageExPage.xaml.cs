@@ -30,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private ObservableCollection<PhotoDataItem> photos;
         private int imageIndex;
         private StackPanel container;
+        private ResourceDictionary resources;
 
         public ImageExPage()
         {
@@ -40,6 +41,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             // Need to use logical tree here as scrollviewer hasn't initialized yet even with dispatch.
             container = control.FindChildByName("Container") as StackPanel;
+            resources = control.Resources;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -98,29 +100,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 newImage = new RoundImageEx
                 {
-                    Height = 200,
-                    Width = 200,
-                    CornerRadius = 999
                 };
+
+                if (resources?.ContainsKey("RoundStyle") == true)
+                {
+                    newImage.Style = resources["RoundStyle"] as Style;
+                }
             }
             else
             {
                 newImage = new ImageEx();
+
+                if (resources?.ContainsKey("RectangleStyle") == true)
+                {
+                    newImage.Style = resources["RectangleStyle"] as Style;
+                }
             }
 
-            newImage.IsCacheEnabled = true;
-            newImage.Stretch = Stretch.UniformToFill;
             newImage.Source = broken ? photos[imageIndex].Thumbnail + "broken" : photos[imageIndex].Thumbnail;
-            newImage.HorizontalAlignment = HorizontalAlignment.Center;
-            newImage.VerticalAlignment = VerticalAlignment.Center;
-            newImage.MaxWidth = 300;
-            newImage.Background = new SolidColorBrush(Colors.Transparent);
-            newImage.Foreground = new SolidColorBrush(Colors.White);
 
             if (placeholder)
             {
                 newImage.PlaceholderSource = new BitmapImage(new Uri("ms-appx:///Assets/Photos/ImageExPlaceholder.jpg"));
-                newImage.PlaceholderStretch = Stretch.UniformToFill;
             }
 
             container?.Children?.Add(newImage);
