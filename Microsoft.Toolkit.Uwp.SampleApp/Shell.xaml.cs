@@ -11,9 +11,11 @@
 // ******************************************************************
 
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
@@ -53,6 +55,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             set { waitRing.Visibility = value ? Visibility.Visible : Visibility.Collapsed; }
         }
 
+        public ObservableCollection<SampleCommand> Commands { get; } = new ObservableCollection<SampleCommand>();
+
         public Shell()
         {
             InitializeComponent();
@@ -75,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             RootGrid.ColumnDefinitions[1].Width = GridLength.Auto;
             RootGrid.RowDefinitions[1].Height = GridLength.Auto;
             _currentSample = null;
-            CommandArea.Children.Clear();
+            Commands.Clear();
             Splitter.Visibility = Visibility.Collapsed;
             TitleTextBlock.Text = string.Empty;
             ApplicationView.SetTitle(this, string.Empty);
@@ -116,17 +120,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public void RegisterNewCommand(string name, RoutedEventHandler action)
         {
-            var commandButton = new Button
-            {
-                Content = name,
-                Margin = new Thickness(10),
-                Foreground = Title.Foreground,
-                MinWidth = 150
-            };
-
-            commandButton.Click += action;
-
-            CommandArea.Children.Add(commandButton);
+            Commands.Add(new SampleCommand(name, () => { action.Invoke(this, new RoutedEventArgs()); }));
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -191,6 +185,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             else
             {
                 TrackingManager.TrackPage(navigationEventArgs.SourcePageType.Name);
+                Commands.Clear();
                 ShowInfoArea();
 
                 var sampleName = navigationEventArgs.Parameter.ToString();
@@ -727,6 +722,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             //ElementCompositionPreview.SetImplicitHideAnimation(args.ItemContainer, GetOpacityAnimation(0, _defaultHideAnimationDiration));
             ElementCompositionPreview.SetImplicitShowAnimation(args.ItemContainer, showAnimation);
+        }
+
+        private Visibility GreaterThanZero(int value)
+        {
+            return value > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private async void UpdateXamlRenderAsync(string text)

@@ -11,8 +11,9 @@
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      x:Name="RootPage"
       xmlns:monaco="using:Monaco"
+      xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core"
       extensions:StatusBar.IsVisible="False"
       extensions:TitleBar.BackgroundColor="{StaticResource Brand-Color}"
       extensions:TitleBar.ButtonBackgroundColor="{StaticResource Brand-Color}"
@@ -169,7 +170,6 @@
                 <RowDefinition Height="304" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-
             <Grid x:Name="RootGrid"
                   Grid.Row="2"
                   Grid.RowSpan="3">
@@ -181,17 +181,46 @@
                     <RowDefinition />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Grid x:Name="DemoAreaGrid">
-                    <Frame x:Name="NavigationFrame"/>
-                    <!--
+                    <Grid x:Name="DemoAreaGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <ItemsControl ItemsSource="{x:Bind Commands}"
+                              Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}"
+                              Background="{StaticResource Brush-Grey-04}"
+                              VerticalAlignment="Top"
+                              HorizontalAlignment="Stretch">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <controls:WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="common:SampleCommand">
+                                    <Button Content="{x:Bind Label}"
+                                    Margin="10"
+                                    MinWidth="150"
+                                    Foreground="{StaticResource Brush-Grey-01}">
+                                        <interactivity:Interaction.Behaviors>
+                                            <core:EventTriggerBehavior EventName="Click">
+                                                <core:InvokeCommandAction Command="{x:Bind}" />
+                                            </core:EventTriggerBehavior>
+                                        </interactivity:Interaction.Behaviors>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Frame x:Name="NavigationFrame" Grid.Row="1"/>
+                        <!--
                         Uncomment this control to help you determine where the focus is.
                         This could be useful when validating accessibility of your control
                     -->
-                    <!--<developerTools:FocusTracker VerticalAlignment="Bottom"
+                        <!--<developerTools:FocusTracker VerticalAlignment="Bottom"
                                              HorizontalAlignment="Center"
                                              IsRunning="True"/>-->
-                </Grid>
-                <Grid x:Name="InfoAreaGrid"
+                    </Grid>
+                    <Grid x:Name="InfoAreaGrid"
                       Background="{StaticResource Brush-Grey-04}"
                       Visibility="Collapsed">
                     <Grid.RowDefinitions>
@@ -228,20 +257,10 @@
                            SelectionChanged="InfoAreaPivot_OnSelectionChanged">
                         <PivotItem x:Name="PropertiesPivotItem"
                                    Header="PROPERTIES">
-                            <ScrollViewer>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
+                                <ScrollViewer>
                                     <controlsLocal:PropertyControl x:Name="Properties" />
-                                    <StackPanel x:Name="CommandArea"
-                                                Grid.Row="1"
-                                                HorizontalAlignment="Stretch"
-                                                Orientation="Vertical" />
-                                </Grid>
-                             </ScrollViewer>
-                    </PivotItem>
+                                </ScrollViewer>
+                            </PivotItem>
 
                     <PivotItem x:Name="XamlPivotItem"
                                Header="XAML">
