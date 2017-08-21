@@ -3,12 +3,12 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbar"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
     <Page.Resources>
-        <local:IsFormat x:Key="IsFormatMarkdown"
+        <converters:ToolbarFormatActiveConverter x:Key="IsFormatMarkdown"
                         Format="MarkDown" />
     </Page.Resources>
 

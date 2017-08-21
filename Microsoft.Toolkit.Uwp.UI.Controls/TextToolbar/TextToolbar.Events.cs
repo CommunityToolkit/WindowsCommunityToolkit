@@ -215,6 +215,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         var element = GetDefaultButton(item.Type);
                         item.Button = element;
                     }
+
                     break;
             }
         }

@@ -2,7 +2,8 @@ private void Previewer_LinkClicked(object sender, LinkClickedEventArgs e)
 {
     try
     {
-        var linkOpen = Task.Run(() => Launcher.LaunchUriAsync(new Uri(e.Link)));
+        var link = new Uri(e.Link);
+        var linkOpen = Task.Run(() => Launcher.LaunchUriAsync(link));
     }
     catch
     {

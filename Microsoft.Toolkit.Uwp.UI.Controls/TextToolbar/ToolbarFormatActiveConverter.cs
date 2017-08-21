@@ -14,20 +14,35 @@ using System;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
 using Windows.UI.Xaml.Data;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbar
+namespace Microsoft.Toolkit.Uwp.UI.Converters
 {
-    public class IsFormat : IValueConverter
+    public class ToolbarFormatActiveConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return (Format)value == Format;
+            if (value is Format)
+            {
+                CurrentFormat = (Format)value;
+                return CurrentFormat == Format;
+            }
+            else
+            {
+                return value;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            if (CurrentFormat != null)
+            {
+                return CurrentFormat;
+            }
+
+            return value;
         }
 
         public Format Format { get; set; }
+
+        private Format? CurrentFormat { get; set; }
     }
 }

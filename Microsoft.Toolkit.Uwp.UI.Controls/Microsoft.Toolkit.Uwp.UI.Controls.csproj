@@ -144,6 +144,7 @@
     <Compile Include="TextToolbar\Formats\MarkDown\MarkDownFormatter.cs" />
     <Compile Include="TextToolbar\Formats\RichText\RichTextButtonActions.cs" />
     <Compile Include="TextToolbar\Formats\RichText\RichTextFormatter.cs" />
+    <Compile Include="TextToolbar\ToolbarFormatActiveConverter.cs" />
     <Compile Include="TextToolbar\ShortcutKeyRequestArgs.cs" />
     <Compile Include="TextToolbar\Symbols\List.cs" />
     <Compile Include="TextToolbar\Symbols\NumberedList.cs" />

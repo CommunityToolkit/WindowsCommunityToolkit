@@ -87,7 +87,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             try
             {
-                var linkOpen = Task.Run(() => Launcher.LaunchUriAsync(new Uri(e.Link)));
+                var link = new Uri(e.Link);
+                var linkOpen = Task.Run(() => Launcher.LaunchUriAsync(link));
             }
             catch
             {
