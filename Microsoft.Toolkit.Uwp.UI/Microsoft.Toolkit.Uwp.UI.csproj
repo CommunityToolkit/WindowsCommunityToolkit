@@ -91,6 +91,7 @@
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Extensions\ApplicationView\ApplicationView.cs" />
     <Compile Include="Extensions\ListViewBase\ListViewBase.Properties.cs" />
+    <Compile Include="Extensions\Tree\LogicalTree.cs" />
     <Compile Include="Extensions\SurfaceDialTextbox\SurfaceDialTextbox.cs" />
     <Compile Include="Extensions\TextBoxMask\TextBoxMask.cs" />
     <Compile Include="Extensions\TextBoxMask\TextBoxMask.Properties.cs" />
@@ -99,7 +100,7 @@
     <Compile Include="Extensions\TextBoxRegEx\TextBoxRegex.Properties.cs" />
     <Compile Include="Extensions\TitleBar\TitleBar.cs" />
     <Compile Include="Extensions\StatusBar\StatusBar.cs" />
-    <Compile Include="Extensions\VisualTreeExtensions.cs" />
+    <Compile Include="Extensions\Tree\VisualTree.cs" />
     <Compile Include="Extensions\WebView\WebView.Properties.cs" />
     <Compile Include="Extensions\WebView\WebView.cs" />
     <Compile Include="Extensions\WebView\WebViewExtensions.cs" />

@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var element = d as FrameworkElement;
                 if (element != null)
                 {
-                    scrollViewer = element.FindVisualAscendant<ScrollViewer>();
+                    scrollViewer = element.FindAscendant<ScrollViewer>();
                     if (scrollViewer == null)
                     {
                         element.Loaded += OnElementLoaded;
@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var element = (FrameworkElement)sender;
             element.Loaded -= OnElementLoaded;
 
-            var scrollViewer = element.FindVisualAscendant<ScrollViewer>();
+            var scrollViewer = element.FindAscendant<ScrollViewer>();
             SetScrollingElement(element, scrollViewer);
 
             CreateParallax(element, scrollViewer, (double)element.GetValue(HorizontalMultiplierProperty), (double)element.GetValue(VerticalMultiplierProperty));
