@@ -192,6 +192,10 @@
       <Project>{34398053-fc70-4243-84f9-f355defff66d}</Project>
       <Name>Microsoft.Toolkit.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
+      <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj">
       <Project>{7189a42d-6f1a-4fa3-8e00-e2c14fdf167a}</Project>
       <Name>Microsoft.Toolkit.Uwp.Services</Name>
