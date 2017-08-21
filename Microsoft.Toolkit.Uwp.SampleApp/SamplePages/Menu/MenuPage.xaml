@@ -25,7 +25,7 @@
                        Orientation="{Binding Orientation.Value, Mode=TwoWay}"
                        TooltipPlacement="{Binding TooltipPlacement.Value, Mode=TwoWay}">
 
-            <controls:MenuItem Name="FileMenu"
+            <controls:MenuItem x:Name="FileMenu"
                                controls:Menu.InputGestureText="Alt+F">
                 <controls:MenuItem.Header>
                     <StackPanel Orientation="Horizontal">

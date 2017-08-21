@@ -38,6 +38,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(IsExpanded), typeof(bool), typeof(Expander), new PropertyMetadata(false, OnIsExpandedPropertyChanged));
 
         /// <summary>
+        /// Identifies the <see cref="ExpandDirection"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ExpandDirectionProperty =
+            DependencyProperty.Register(nameof(ExpandDirection), typeof(ExpandDirection), typeof(Expander), new PropertyMetadata(ExpandDirection.Down, OnExpandDirectionChanged));
+
+        /// <summary>
         /// Gets or sets a value indicating whether the Header of the control.
         /// </summary>
         public string Header
@@ -64,6 +70,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(IsExpandedProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the Expand Direction of the control.
+        /// </summary>
+        public ExpandDirection ExpandDirection
+        {
+            get { return (ExpandDirection)GetValue(ExpandDirectionProperty); }
+            set { SetValue(ExpandDirectionProperty, value); }
+        }
+
         private static void OnIsExpandedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var expander = d as Expander;
@@ -76,6 +91,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else
             {
                 expander.CollapseControl();
+            }
+        }
+
+        private static void OnExpandDirectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var expander = d as Expander;
+            var previousExpandDirection = (ExpandDirection)e.OldValue;
+            var newExpandDirection = (ExpandDirection)e.NewValue;
+
+            if (previousExpandDirection != newExpandDirection)
+            {
+                expander.OnExpandDirectionChanged();
             }
         }
     }
