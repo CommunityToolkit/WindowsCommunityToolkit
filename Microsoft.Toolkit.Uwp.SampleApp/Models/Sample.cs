@@ -36,8 +36,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private static string _docsOnlineRoot = "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/";
         private string _cachedDocumentation = string.Empty;
 
-        private StorageFolder LocalFolder => ApplicationData.Current.LocalFolder;
-
         internal static async Task<Sample> FindAsync(string category, string name)
         {
             var categories = await Samples.GetCategoriesAsync();
