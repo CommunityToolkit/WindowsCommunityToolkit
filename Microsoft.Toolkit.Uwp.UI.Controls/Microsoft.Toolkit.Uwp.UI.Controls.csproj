@@ -70,6 +70,7 @@
     <Compile Include="BladeView\BladeView.Properties.cs" />
     <Compile Include="Carousel\Carousel.cs" />
     <Compile Include="Carousel\CarouselPanel.cs" />
+    <Compile Include="Menu\Menu.Logic.cs" />
     <Compile Include="Expander\ExpandDirection.cs" />
     <Compile Include="LayoutTransformControl\LayoutTransformControl.cs" />
     <Compile Include="LayoutTransformControl\LayoutTransformControl.Properties.cs" />
