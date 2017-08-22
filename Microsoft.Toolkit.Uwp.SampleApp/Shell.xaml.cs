@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerDetailsGrid);
             AnimationHelper.SetSecondLevelShowHideAnimation(SamplePickerDetailsGridContent);
 
-            //ElementCompositionPreview.SetImplicitHideAnimation(ContentShadow, GetOpacityAnimation(0, 1, _defaultHideAnimationDiration));
+            ////ElementCompositionPreview.SetImplicitHideAnimation(ContentShadow, GetOpacityAnimation(0, 1, _defaultHideAnimationDiration));
             ElementCompositionPreview.SetImplicitShowAnimation(ContentShadow, AnimationHelper.GetOpacityAnimation(_compositor, (float)ContentShadow.Opacity, 0, _defaultShowAnimationDuration));
         }
 
@@ -705,10 +705,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             HamburgerMenu.IsPaneOpen = !HamburgerMenu.IsPaneOpen;
         }
 
-        private void ContentShadow_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private async void ContentShadow_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             HideSamplePicker();
-            SetHamburgerMenuSelection();
+            await SetHamburgerMenuSelection();
         }
 
         private void SamplePickerListView_ContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
@@ -717,7 +717,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (panel != null)
             {
                 ElementCompositionPreview.SetImplicitShowAnimation(panel, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, _defaultShowAnimationDuration));
-                //ElementCompositionPreview.SetImplicitHideAnimation(panel, GetOpacityAnimation(0, _defaultHideAnimationDiration));
+                ////ElementCompositionPreview.SetImplicitHideAnimation(panel, GetOpacityAnimation(0, _defaultHideAnimationDiration));
             }
         }
 
@@ -728,7 +728,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var showAnimation = AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, _defaultShowAnimationDuration, 200);
             (showAnimation as ScalarKeyFrameAnimation).DelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
 
-            //ElementCompositionPreview.SetImplicitHideAnimation(args.ItemContainer, GetOpacityAnimation(0, _defaultHideAnimationDiration));
+            ////ElementCompositionPreview.SetImplicitHideAnimation(args.ItemContainer, GetOpacityAnimation(0, _defaultHideAnimationDiration));
             ElementCompositionPreview.SetImplicitShowAnimation(args.ItemContainer, showAnimation);
         }
 
@@ -853,31 +853,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             // In CodeBehind For Now, due to bug: https://github.com/hawkerm/monaco-editor-uwp/issues/10
             XamlCodeRenderer.CodeLanguage = "xml";
-        }
-    }
-
-    // TODO:  placeholder until it can be moved to extensions
-    public static class Helpers
-    {
-        public static System.Collections.Generic.IEnumerable<T> FindDescendants<T>(this DependencyObject element)
-            where T : DependencyObject
-        {
-            var childrenCount = Windows.UI.Xaml.Media.VisualTreeHelper.GetChildrenCount(element);
-
-            for (var i = 0; i < childrenCount; i++)
-            {
-                var child = Windows.UI.Xaml.Media.VisualTreeHelper.GetChild(element, i);
-                var type = child as T;
-                if (type != null)
-                {
-                    yield return type;
-                }
-
-                foreach (T childofChild in child.FindDescendants<T>())
-                {
-                    yield return childofChild;
-                }
-            }
         }
     }
 }

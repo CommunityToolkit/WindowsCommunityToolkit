@@ -35,6 +35,12 @@ See also [VisualTree Extensions](VisualTree.md).
 	// Find first logical child control of a specified type.
 	control = uiElement.FindChild<ListView>();
 
+	// Find all logical child controls of the specified type.
+	foreach (var child in uiElement.FindChildren<ListViewItem>())
+	{
+		// ...
+	}
+
 	// Find first logical parent using its name.
 	control = uiElement.FindParentByName("MyGrid");
 

@@ -11,12 +11,12 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
@@ -70,8 +70,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// Find first logical child control of a specified type.
         /// </summary>
         /// <typeparam name="T">Type to search for.</typeparam>
-        /// <param name="element">Child element.</param>
-        /// <returns>Parent control or null if not found.</returns>
+        /// <param name="element">Parent element.</param>
+        /// <returns>Child control or null if not found.</returns>
         public static T FindChild<T>(this FrameworkElement element)
             where T : FrameworkElement
         {
@@ -113,6 +113,51 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Find all logical child controls of the specified type.
+        /// </summary>
+        /// <typeparam name="T">Type to search for.</typeparam>
+        /// <param name="element">Parent element.</param>
+        /// <returns>Child controls or empty if not found.</returns>
+        public static IEnumerable<T> FindChildren<T>(this FrameworkElement element)
+            where T : FrameworkElement
+        {
+            if (element == null)
+            {
+                yield break;
+            }
+
+            if (element is Panel)
+            {
+                foreach (var child in (element as Panel).Children)
+                {
+                    if (child is T)
+                    {
+                        yield return child as T;
+                    }
+
+                    foreach (T childOfChild in (child as FrameworkElement)?.FindChildren<T>())
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+            else
+            {
+                var content = element.GetContentControl();
+
+                if (content is T)
+                {
+                    yield return content as T;
+                }
+
+                foreach (T childOfChild in (content as FrameworkElement)?.FindChildren<T>())
+                {
+                    yield return childOfChild;
+                }
+            }
         }
 
         /// <summary>
