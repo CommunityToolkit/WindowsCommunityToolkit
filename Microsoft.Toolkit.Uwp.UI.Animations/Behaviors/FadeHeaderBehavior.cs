@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Xaml.Interactivity;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             // Implicit operation: Find the Header object of the control if it uses ListViewBase
             if (HeaderElement == null)
             {
-                var listElement = AssociatedObject as ListViewBase ?? AssociatedObject.FindDescendant<ListViewBase>();
+                var listElement = AssociatedObject as Windows.UI.Xaml.Controls.ListViewBase ?? AssociatedObject.FindDescendant<Windows.UI.Xaml.Controls.ListViewBase>();
                 if (listElement != null)
                 {
                     HeaderElement = listElement.Header as UIElement;

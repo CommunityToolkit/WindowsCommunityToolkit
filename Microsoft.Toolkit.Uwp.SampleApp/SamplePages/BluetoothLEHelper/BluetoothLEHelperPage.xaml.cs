@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using Microsoft.Toolkit.Uwp.Connectivity;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.UI.Core;
 using Windows.UI.Xaml;

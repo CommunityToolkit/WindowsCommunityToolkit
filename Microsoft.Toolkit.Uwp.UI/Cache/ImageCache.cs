@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
             }
 
-            await image.SetSourceAsync(stream).AsTask().ConfigureAwait(false);
+            await image.SetSourceAsync(stream);
 
             return image;
         }
@@ -95,9 +95,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>awaitable task</returns>
         protected override async Task<BitmapImage> InitializeTypeAsync(StorageFile baseFile, List<KeyValuePair<string, object>> initializerKeyValues = null)
         {
-            using (var stream = await baseFile.OpenReadAsync().AsTask().ConfigureAwait(MaintainContext))
+            using (var stream = await baseFile.OpenReadAsync())
             {
-                return await InitializeTypeAsync(stream, initializerKeyValues).ConfigureAwait(false);
+                return await InitializeTypeAsync(stream, initializerKeyValues).ConfigureAwait(MaintainContext);
             }
         }
 
@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             // Get extended properties.
             IDictionary<string, object> extraProperties =
-                await file.Properties.RetrievePropertiesAsync(_extendedPropertyNames).AsTask().ConfigureAwait(false);
+                await file.Properties.RetrievePropertiesAsync(_extendedPropertyNames);
 
             // Get date-accessed property.
             var propValue = extraProperties[DateAccessedProperty];
@@ -132,7 +132,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
             }
 
-            var properties = await file.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
+            var properties = await file.GetBasicPropertiesAsync();
 
             return properties.Size == 0 || DateTime.Now.Subtract(properties.DateModified.DateTime) > duration;
         }

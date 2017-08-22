@@ -71,23 +71,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ApiInformation.IsTypePresent("Windows.UI.Composition.DropShadow"); // SDK >= 14393
 
         /// <summary>
-        /// Gets or sets the casting element.
-        /// </summary>
-        [Deprecated("This property has been replaced with the Content property of the control. It is no longer required to place content within the Element property.", DeprecationType.Deprecate, 1)]
-        public FrameworkElement CastingElement
-        {
-            get
-            {
-                return this.Content as FrameworkElement;
-            }
-
-            set
-            {
-                this.Content = value;
-            }
-        }
-
-        /// <summary>
          /// Gets DropShadow. Exposes the underlying composition object to allow custom Windows.UI.Composition animations.
          /// </summary>
         public DropShadow DropShadow => _dropShadow;
