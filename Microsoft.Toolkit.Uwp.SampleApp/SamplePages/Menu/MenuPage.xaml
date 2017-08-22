@@ -127,7 +127,7 @@
         </controls:Menu>
 
         <StackPanel Grid.Row="1">
-            <TextBlock Text="Click Alt to set focus on Classic Menu" />
+            <TextBlock Text="Press Alt to set focus on Classic Menu" />
             <TextBlock Text="Hold Alt to underline shortcut character. In code, ^ is used before the character you want highlighted" />
             <TextBlock Text="To open File menu click Alt+F" />
             <TextBlock Text="Create new project shortcut: Ctrl+Shift+N" />

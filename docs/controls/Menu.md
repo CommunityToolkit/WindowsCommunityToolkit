@@ -47,7 +47,7 @@ Specify whether to allow tooltip on Alt click or not.
 
 ## MenuItem Properties
 ### Header
-Gets or sets the header of the MenuItem. if you added '^' before any header character this character will be highlighted on clicking or holding Alt, this feature is used to visualize which character can be used beside Alt to open this MenuItem.
+Gets or sets the header of the MenuItem. if you added '^' before any header character this character will be highlighted on pressing or holding Alt, this feature is used to visualize which character can be used beside Alt to open this MenuItem.
 
 ## Menu Properties
 
@@ -68,7 +68,7 @@ Gets or sets the FlyoutMenu style for MenuItem.
 Gets or sets the tooltip styles for MenuItem.
 
 ### TooltipPlacement
-Gets or sets the tooltip PlacementMode on MenuItem. (Bottom,Right,Mouse,Left and Top).
+Gets or sets the tooltip PlacementMode on MenuItem. (Bottom, Right, Mouse, Left and Top).
 
 ### SelectedHeaderItem
 Gets the current selected MenuItem.

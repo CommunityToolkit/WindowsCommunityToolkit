@@ -147,7 +147,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 FlyoutButton.PointerExited -= FlyoutButton_PointerExited;
                 Items.VectorChanged += Items_VectorChanged;
 
-                MenuFlyout.Opening += MenuFlyout_Opening;
                 MenuFlyout.Opened += MenuFlyout_Opened;
                 MenuFlyout.Closed += MenuFlyout_Closed;
                 FlyoutButton.PointerExited += FlyoutButton_PointerExited;
@@ -163,11 +162,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             base.OnApplyTemplate();
-        }
-
-        private void MenuFlyout_Opening(object sender, object e)
-        {
-
         }
 
         internal void CalculateBounds()
