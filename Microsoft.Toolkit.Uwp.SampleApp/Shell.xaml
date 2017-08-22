@@ -182,15 +182,17 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                     <Grid x:Name="DemoAreaGrid">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Border Background="#FFFFFF"
+                            Grid.Row="1">
                         <ItemsControl ItemsSource="{x:Bind Commands}"
-                              Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}"
-                              Background="{StaticResource Brush-Grey-04}"
-                              VerticalAlignment="Top"
-                              HorizontalAlignment="Stretch">
+                                      Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}"
+                                      VerticalAlignment="Top"
+                                      HorizontalAlignment="Stretch"
+                                      Margin="10,10,0,0">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <controls:WrapPanel />
@@ -199,9 +201,9 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="common:SampleCommand">
                                     <Button Content="{x:Bind Label}"
-                                    Margin="10"
-                                    MinWidth="150"
-                                    Foreground="{StaticResource Brush-Grey-01}">
+                                            Margin="0, 0, 10, 10"
+                                            MinWidth="150"
+                                            Foreground="{StaticResource Brush-Grey-01}">
                                         <interactivity:Interaction.Behaviors>
                                             <core:EventTriggerBehavior EventName="Click">
                                                 <core:InvokeCommandAction Command="{x:Bind}" />
@@ -211,7 +213,8 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <Frame x:Name="NavigationFrame" Grid.Row="1"/>
+                    </Border>
+                    <Frame x:Name="NavigationFrame" />
                         <!--
                         Uncomment this control to help you determine where the focus is.
                         This could be useful when validating accessibility of your control
