@@ -56,7 +56,7 @@
 ## [TextBoxMask](extensions/TextBoxMask.md)
 ## [TextBoxRegex](extensions/TextBoxRegex.md)
 ## [ViewExtensions](extensions/ViewExtensions.md)
-## [Visual Tree](helpers/VisualTree.md)
+## [Visual Tree](extensions/VisualTree.md)
 ## [WebView](extensions/WebView.md)
 
 # Helpers
