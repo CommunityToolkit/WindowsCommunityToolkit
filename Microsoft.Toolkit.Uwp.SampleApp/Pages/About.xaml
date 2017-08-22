@@ -45,6 +45,10 @@
     </Page.Resources>
 
     <Border x:Name="Root" Visibility="Collapsed">
+        <Border.Background>
+            <ImageBrush ImageSource="ms-appx:///Assets/Photos/GiantSlabInOregon.jpg" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"></ImageBrush>
+        </Border.Background>
+        
         <controls:DropShadowPanel x:Name="DropShadow"
                                   HorizontalAlignment="Center" 
                                   VerticalAlignment="Stretch"

@@ -151,10 +151,6 @@
 
     </Page.Resources>
 
-    <Page.Background>
-        <ImageBrush ImageSource="ms-appx:///Assets/Photos/GiantSlabInOregon.jpg" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"></ImageBrush>
-    </Page.Background>
-    
     <controls:HamburgerMenu x:Name="HamburgerMenu"
                             ItemClick="HamburgerMenu_OnItemClick"
                             ItemTemplate="{StaticResource HorizontalItemTemplate}"
