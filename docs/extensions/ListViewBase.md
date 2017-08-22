@@ -1,6 +1,18 @@
-# ListViewBase class
+---
+title: ListViewBase extentions
+author: nmetulev
+ms.author: nikolame
+ms.date: 08/20/2017
+ms.topic: overview
+ms.prod: windows
+ms.technology: uwp
+description: ListViewBase extensions provide a lightweight way to extend every control that inherits the ListViewBase class with attached properties.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ListViewBase, extentions
+---
 
-ListViewBase provides a lightweight way to extend every control that inherits the <a href="https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.listviewbase" target="_blank">ListViewBase</a> class with attached properties.
+# ListViewBase extentions
+
+ListViewBase extensions provide a lightweight way to extend every control that inherits the <a href="https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.listviewbase" target="_blank">ListViewBase</a> class with attached properties.
 
 <br/>
 

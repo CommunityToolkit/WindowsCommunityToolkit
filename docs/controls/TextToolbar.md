@@ -1,3 +1,15 @@
+---
+title: TextToolbar XAML Control
+author: nmetulev
+ms.author: nikolame
+ms.date: 08/20/2017
+ms.topic: overview
+ms.prod: windows
+ms.technology: uwp
+description: The TextToolbar Control is a universal Text Editing Control for the RichEditBox Control.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, TextToolbar, RichEditBox, XAML Control, xaml
+---
+
 # TextToolbar XAML Control
 
 The **TextToolbar Control** is a universal Text Editing Control for the **RichEditBox Control**. It can format with **Markdown** Formatting, **Rich Text Format (RTF)** Formatting, and it also allows you to implement your own **Formatter**, so you can edit Text for any other format using the Toolbar.

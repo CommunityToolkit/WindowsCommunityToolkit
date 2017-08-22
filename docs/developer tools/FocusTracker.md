@@ -1,3 +1,15 @@
+---
+title: FocusTracker XAML Control 
+author: nmetulev
+ms.author: nikolame
+ms.date: 08/20/2017
+ms.topic: overview
+ms.prod: windows
+ms.technology: uwp
+description: The FocusTracker Control can be used to display information about the current focused XAML element (if any).
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, FocusTracker, XAML Control, xaml 
+---
+
 # FocusTracker XAML Control 
 
 The **FocusTracker Control** can be used to display information about the current focused XAML element (if any).
