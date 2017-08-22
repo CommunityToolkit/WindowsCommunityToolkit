@@ -161,6 +161,7 @@
                             OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
                             OptionsItemTemplate="{StaticResource VerticalOptionTemplate}"
                             PaneBackground="{StaticResource Brush-Grey-02}"
+                            PaneForeground="White"
                             Style="{StaticResource VerticalHamburgerMenu}">
         <Grid>
             <Grid.RowDefinitions>
