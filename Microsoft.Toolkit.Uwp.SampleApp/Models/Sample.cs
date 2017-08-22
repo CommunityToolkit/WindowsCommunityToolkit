@@ -24,13 +24,19 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.Foundation.Metadata;
+using Windows.Storage;
 using Windows.UI.Xaml;
+using System.IO;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public class Sample
     {
         private static HttpClient client = new HttpClient();
+        private static string _docsOnlineRoot = "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/";
+        private string _cachedDocumentation = string.Empty;
+
+        private StorageFolder LocalFolder => ApplicationData.Current.LocalFolder;
 
         internal static async Task<Sample> FindAsync(string category, string name)
         {
@@ -106,55 +112,111 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public async Task<string> GetDocumentationAsync()
         {
+            if (!string.IsNullOrWhiteSpace(_cachedDocumentation))
+            {
+                return _cachedDocumentation;
+            }
+
+            var filepath = string.Empty;
+            var filename = string.Empty;
+            var branch = "master";
+
+            var docRegex = new Regex("^" + _docsOnlineRoot + "(?<branch>.+?)/docs/(?<file>.+)");
+            var docMatch = docRegex.Match(DocumentationUrl);
+            if (docMatch.Success)
+            {
+                branch = docMatch.Groups["branch"].Value;
+                filepath = docMatch.Groups["file"].Value;
+                filename = Path.GetFileName(filepath);
+            }
+
+            string modifiedDocumentationUrl = DocumentationUrl;
+
+#if !DEBUG // only use the master branch for release mode
+                modifiedDocumentationUrl = $"{_docsOnlineRoot}master/docs/{filepath}";
+#endif
+
             try
             {
-                using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(DocumentationUrl)))
+                using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(modifiedDocumentationUrl)))
                 {
                     using (var response = await client.SendAsync(request).ConfigureAwait(false))
                     {
                         if (response.IsSuccessStatusCode)
                         {
                             var result = await response.Content.ReadAsStringAsync();
+                            _cachedDocumentation = ProcessDocs(result);
 
-                            var metadataRegex = new Regex("^---(.+?)---", RegexOptions.Singleline);
-                            var metadataMatch = metadataRegex.Match(result);
-                            if (metadataMatch.Success)
+                            if (!string.IsNullOrWhiteSpace(_cachedDocumentation))
                             {
-                                result = result.Remove(metadataMatch.Index, metadataMatch.Index + metadataMatch.Length);
+                                await StorageFileHelper.WriteTextToLocalCacheFileAsync(_cachedDocumentation, filename);
                             }
-
-                            // Need to do some cleaning
-                            // Rework code tags
-                            var regex = new Regex("```(xaml|xml|csharp)(?<code>.+?)```", RegexOptions.Singleline);
-
-                            foreach (Match match in regex.Matches(result))
-                            {
-                                var code = match.Groups["code"].Value;
-                                var lines = code.Split('\n');
-                                var newCode = new StringBuilder();
-                                foreach (var line in lines)
-                                {
-                                    newCode.AppendLine("    " + line);
-                                }
-
-                                result = result.Replace(match.Value, newCode.ToString());
-                            }
-
-                            // Images
-                            regex = new Regex("## Example Image.+?##", RegexOptions.Singleline);
-                            result = regex.Replace(result, "##");
-
-                            return result;
                         }
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return ex.Message;
             }
 
-            return string.Empty;
+#if !DEBUG // don't cache for debugging perpuses so it always gets the latests
+            if (string.IsNullOrWhiteSpace(_cachedDocumentation) && StorageFileHelper.IsFileNameValid(filename))
+            {
+                _cachedDocumentation = await StorageFileHelper.ReadTextFromLocalCacheFileAsync(filename);
+            }
+#endif
+
+            if (string.IsNullOrWhiteSpace(_cachedDocumentation))
+            {
+                try
+                {
+                    using (var localDocsStream = await StreamHelper.GetPackagedFileStreamAsync($"docs/{filepath}"))
+                    {
+                        var result = await localDocsStream.ReadTextAsync();
+                        _cachedDocumentation = ProcessDocs(result);
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            return _cachedDocumentation;
+        }
+
+        private string ProcessDocs(string docs)
+        {
+            string result = docs;
+
+            var metadataRegex = new Regex("^---(.+?)---", RegexOptions.Singleline);
+            var metadataMatch = metadataRegex.Match(result);
+            if (metadataMatch.Success)
+            {
+                result = result.Remove(metadataMatch.Index, metadataMatch.Index + metadataMatch.Length);
+            }
+
+            // Need to do some cleaning
+            // Rework code tags
+            var regex = new Regex("```(xaml|xml|csharp)(?<code>.+?)```", RegexOptions.Singleline);
+
+            foreach (Match match in regex.Matches(result))
+            {
+                var code = match.Groups["code"].Value;
+                var lines = code.Split('\n');
+                var newCode = new StringBuilder();
+                foreach (var line in lines)
+                {
+                    newCode.AppendLine("    " + line);
+                }
+
+                result = result.Replace(match.Value, newCode.ToString());
+            }
+
+            // Images
+            regex = new Regex("## Example Image.+?##", RegexOptions.Singleline);
+            result = regex.Replace(result, "##");
+
+            return result;
         }
 
         /// <summary>

@@ -59,9 +59,18 @@ Select the category where you want your page to be listed and add the following 
         "Type": "AdaptiveGridViewPage",
         "About": "The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the total display available space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically. The number and the width of items are calculated based on the screen resolution in order to fully leverage the available screen space. The property ItemsHeight define the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a new column.",
         "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
-        "XamlCodeFile": "AdaptiveGridViewCode.bind" 
+        "XamlCodeFile": "AdaptiveGridViewCode.bind",
+		"DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/AdaptiveGridView.md"
       }
     ]
   }
 ]
 ```
+
+### Adding documentation
+
+Use the DocumentationUrl to add a link to the raw documentation on GitHub. Please follow the following patern:
+
+`https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/{branch}/docs/{file.md}`
+
+> NOTE: When the debugger is not attached to the Sample App (as in production), the branch will automaticaly be changed to **master**

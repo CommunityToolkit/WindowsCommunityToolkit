@@ -281,8 +281,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (_currentSample.HasDocumentation)
                 {
-                    InfoAreaPivot.Items.Add(DocumentationPivotItem);
-                    DocumentationTextblock.Text = await this._currentSample.GetDocumentationAsync();
+                    var docs = await this._currentSample.GetDocumentationAsync();
+                    if (!string.IsNullOrWhiteSpace(docs))
+                    {
+                        DocumentationTextblock.Text = docs;
+                        InfoAreaPivot.Items.Add(DocumentationPivotItem);
+                    }
                 }
 
                 if (InfoAreaPivot.Items.Count == 0)
