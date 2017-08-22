@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (savedSamples != null)
                 {
-                    var sampleNames = savedSamples.Split(';');
+                    var sampleNames = savedSamples.Split(';').Reverse();
                     foreach (var name in sampleNames)
                     {
                         var sample = await GetSampleByName(name);
@@ -127,6 +127,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             samples.AddFirst(sample);
+            while (samples.Count > 10)
+            {
+                samples.RemoveLast();
+            }
+
             SaveRecentSamples();
         }
 
