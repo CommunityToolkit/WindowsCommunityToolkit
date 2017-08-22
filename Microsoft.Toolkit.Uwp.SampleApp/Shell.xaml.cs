@@ -112,7 +112,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public void NavigateToSample(Sample sample)
         {
             var pageType = Type.GetType("Microsoft.Toolkit.Uwp.SampleApp.SamplePages." + sample.Type);
-            InfoAreaPivot.Items.Clear();
 
             if (pageType != null)
             {

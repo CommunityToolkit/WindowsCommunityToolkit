@@ -13,17 +13,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
-using System.Threading;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public static class Samples
     {
-        private const string _recentSamplesStorageKey = "test3";
-        //private const string _recentSamplesStorageKey = "uct-recent-samples";
+        private const string _recentSamplesStorageKey = "uct-recent-samples";
 
         private static List<SampleCategory> _samplesCategories;
         private static SemaphoreSlim _semaphore = new SemaphoreSlim(1);
@@ -88,6 +87,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 _samplesCategories = supportedCategories.ToList();
             }
+
             _semaphore.Release();
             return _samplesCategories;
         }
