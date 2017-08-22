@@ -125,6 +125,35 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             Commands.Add(new SampleCommand(name, () => { action.Invoke(this, new RoutedEventArgs()); }));
         }
 
+        public async Task StartSearch(string startingText = "")
+        {
+            if (_searchBox == null || _searchBox.Visibility == Visibility.Visible)
+            {
+                return;
+            }
+
+            HideSamplePicker();
+            _searchBox.Text = startingText;
+
+            _searchButton.Visibility = Visibility.Collapsed;
+            _searchBox.Visibility = Visibility.Visible;
+
+            // We need to wait for the textbox to be created to focus it (only first time).
+            TextBox innerTextbox = null;
+
+            do
+            {
+                innerTextbox = _searchBox.FindDescendant<TextBox>();
+                innerTextbox?.Focus(FocusState.Programmatic);
+
+                if (innerTextbox == null)
+                {
+                    await Task.Delay(150);
+                }
+            }
+            while (innerTextbox == null);
+        }
+
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -584,28 +613,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             HamburgerMenu.IsPaneOpen = false;
         }
 
-        private async void SearchButton_Click(object sender, RoutedEventArgs e)
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            HideSamplePicker();
-            _searchBox.Text = string.Empty;
-
-            _searchButton.Visibility = Visibility.Collapsed;
-            _searchBox.Visibility = Visibility.Visible;
-
-            // We need to wait for the textbox to be created to focus it (only first time).
-            TextBox innerTextbox = null;
-
-            do
-            {
-                innerTextbox = _searchBox.FindDescendant<TextBox>();
-                innerTextbox?.Focus(FocusState.Programmatic);
-
-                if (innerTextbox == null)
-                {
-                    await Task.Delay(150);
-                }
-            }
-            while (innerTextbox == null);
+            StartSearch();
         }
 
         private void SearchBox_LostFocus(object sender, RoutedEventArgs e)

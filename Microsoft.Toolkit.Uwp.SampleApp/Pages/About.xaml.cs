@@ -116,6 +116,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
             var t = Init();
+
+            Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
+        }
+
+        private void CoreWindow_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
+        {
+            var keyChar = (char)args.VirtualKey;
+            if (char.IsLetterOrDigit(keyChar))
+            {
+                Shell.Current.StartSearch(keyChar.ToString());
+            }
         }
 
         private async Task Init()
