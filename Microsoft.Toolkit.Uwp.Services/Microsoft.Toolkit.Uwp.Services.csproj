@@ -205,9 +205,6 @@
     <Compile Include="Services\Twitter\TwitterUser.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Microsoft.Toolkit.Uwp.Services.rd.xml" />
   </ItemGroup>
   <ItemGroup>
