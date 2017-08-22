@@ -12,6 +12,9 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelperRespons
 
 # HttpHelperResponse
 
+(This API is obsolete and will be removed in the future. Please use [System.Net.Http.HttpResponseMessage](https://msdn.microsoft.com/en-us/library/system.net.http.httpresponsemessage(v=vs.110).aspx) 
+or [Windows.Web.Http.HttpResponseMessage](https://docs.microsoft.com/en-us/uwp/api/Windows.Web.Http.HttpResponseMessage) directly)
+
 Represents an HTTP response message including headers. 
 
 ## Example

@@ -111,10 +111,17 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>5.3.4</Version>
+    </PackageReference>
+  </ItemGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.ruleset" />
-    <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

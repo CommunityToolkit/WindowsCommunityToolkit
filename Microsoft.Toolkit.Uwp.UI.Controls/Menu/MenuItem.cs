@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
@@ -117,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnApplyTemplate()
         {
             FlyoutButton = GetTemplateChild(FlyoutButtonName) as Button;
-            _parentMenu = this.FindAscendant<Menu>();
+            _parentMenu = this.FindParent<Menu>();
             IsOpened = false;
 
             Items.VectorChanged -= Items_VectorChanged;

@@ -22,9 +22,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The <see cref="Expander"/> control allows user to show/hide content based on a boolean state
     /// </summary>
-    [TemplateVisualState(Name = StateContentExpanded, GroupName = GroupContent)]
-    [TemplateVisualState(Name = StateContentCollapsed, GroupName = GroupContent)]
+    [TemplateVisualState(Name = StateContentExpanded, GroupName = ExpandedGroupStateContent)]
+    [TemplateVisualState(Name = StateContentCollapsed, GroupName = ExpandedGroupStateContent)]
+    [TemplateVisualState(Name = StateContentLeftDirection, GroupName = ExpandDirectionGroupStateContent)]
+    [TemplateVisualState(Name = StateContentDownDirection, GroupName = ExpandDirectionGroupStateContent)]
+    [TemplateVisualState(Name = StateContentRightDirection, GroupName = ExpandDirectionGroupStateContent)]
+    [TemplateVisualState(Name = StateContentUpDirection, GroupName = ExpandDirectionGroupStateContent)]
+    [TemplatePart(Name = RootGridPart, Type = typeof(Grid))]
     [TemplatePart(Name = ExpanderToggleButtonPart, Type = typeof(ToggleButton))]
+    [TemplatePart(Name = LayoutTransformerPart, Type = typeof(LayoutTransformControl))]
     [ContentProperty(Name = "Content")]
     public partial class Expander : ContentControl
     {
@@ -49,6 +55,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 button.KeyDown -= ExpanderToggleButtonPart_KeyDown;
                 button.KeyDown += ExpanderToggleButtonPart_KeyDown;
             }
+
+            OnExpandDirectionChanged();
         }
 
         protected virtual void OnExpanded(EventArgs args)
@@ -90,6 +98,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             VisualStateManager.GoToState(this, StateContentCollapsed, true);
             OnCollapsed(EventArgs.Empty);
+        }
+
+        public void OnExpandDirectionChanged()
+        {
+            var button = (ToggleButton)GetTemplateChild(ExpanderToggleButtonPart);
+
+            if (button == null)
+            {
+                return;
+            }
+
+            switch (ExpandDirection)
+            {
+                case ExpandDirection.Left:
+                    VisualStateManager.GoToState(this, StateContentLeftDirection, true);
+                    VisualStateManager.GoToState(button, StateContentLeftDirection, true);
+                    break;
+                case ExpandDirection.Down:
+                    VisualStateManager.GoToState(this, StateContentDownDirection, true);
+                    VisualStateManager.GoToState(button, StateContentDownDirection, true);
+                    break;
+                case ExpandDirection.Right:
+                    VisualStateManager.GoToState(this, StateContentRightDirection, true);
+                    VisualStateManager.GoToState(button, StateContentRightDirection, true);
+                    break;
+                case ExpandDirection.Up:
+                    VisualStateManager.GoToState(this, StateContentUpDirection, true);
+                    VisualStateManager.GoToState(button, StateContentUpDirection, true);
+                    break;
+            }
+
+            // Re-execute animation on expander toggle button (to set correct arrow rotation)
+            VisualStateManager.GoToState(button, "Normal", true);
+            if (button.IsChecked.HasValue && button.IsChecked.Value)
+            {
+                VisualStateManager.GoToState(button, "Checked", true);
+            }
         }
     }
 }
