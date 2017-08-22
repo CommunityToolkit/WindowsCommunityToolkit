@@ -8,11 +8,11 @@ The ParallaxService class allows to create a parallax effect for items contained
 
 ```xml
 <Page ...
-    xmlns:Animations="using:Microsoft.Toolkit.Uwp.UI.Animations"/>
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"/>
 <ScrollViewer>
     <Image Source="ms-appx:///Assets/Image.png"
-            Animations:ParallaxService.VerticalMultiplier="0.5" 
-            Animations:ParallaxService.HorizontalMultiplier="0.5"/>
+            animations:ParallaxService.VerticalMultiplier="0.5" 
+            animations:ParallaxService.HorizontalMultiplier="0.5"/>
     <!-- Other Controls -->
 </ScrollViewer>
 ```
