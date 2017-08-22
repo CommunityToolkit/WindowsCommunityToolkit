@@ -1,0 +1,40 @@
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+  <StackPanel x:Name="MainGrid"
+                             RequestedTheme="@[Theme:Enum:ElementTheme.Default]"
+                             Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <controls:TextToolbar x:Name="Toolbar"
+                             Editor="{x:Bind EditZone}"
+                             IsEnabled="@[IsEnabled:Bool:True]"
+                             Format="@[Format:Enum:Format.RichText]"
+                             Background="#4C4F4F4F" />
+
+    <RichEditBox x:Name="EditZone"
+                             PlaceholderText="Enter Text Here"
+                             TextWrapping="Wrap"
+                             TextChanged="EditZone_TextChanged"
+                             VerticalContentAlignment="Stretch"
+                             Background="{x:Null}"
+                             BorderBrush="{x:Null}"
+                             MinHeight="300" />
+
+    <StackPanel x:Name="MD"
+                             Padding="10"
+                             Visibility="{Binding Format.Value, Mode=OneWay, Converter={StaticResource IsFormatMarkdown}}">
+      <TextBlock Text="MarkDown Preview"
+                           Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
+                           Style="{StaticResource SubtitleTextBlockStyle}" />
+      <controls:MarkdownTextBlock x:Name="Previewer"
+                           Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
+                           LinkClicked="Previewer_LinkClicked"
+                           Canvas.ZIndex="99" />
+    </StackPanel>
+  </StackPanel>
+</Page>

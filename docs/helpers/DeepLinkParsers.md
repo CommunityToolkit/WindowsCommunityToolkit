@@ -1,3 +1,15 @@
+---
+title: DeepLinkParser
+author: nmetulev
+ms.author: nikolame
+ms.date: 08/20/2017
+ms.topic: overview
+ms.prod: windows
+ms.technology: uwp
+description: Provides a way to create, Dictionary<string,string> - inheriting object that provides an additional .Root property to pull the base path of the URI 
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, DeepLinkParser
+---
+
 # DeepLinkParser
 Provides a way to create, from `IActivatedEventArgs` a `Dictionary<string,string>`-inheriting object that provides an additional `.Root` property to pull the base path of the URI (eg: in `MainPage/Options?option1=value1`, `.Root` would be `MainPage/Options`.
 Once you have an instance, simply saying `instance["optionName"]` will pull the value from the querystring for that option.

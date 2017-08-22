@@ -1,3 +1,15 @@
+---
+title: ParallaxService
+author: nmetulev
+ms.author: nikolame
+ms.date: 08/20/2017
+ms.topic: overview
+ms.prod: windows
+ms.technology: uwp
+description: The ParallaxService class allows to create a parallax effect for items contained within an element that scrolls like a ScrollViewer or ListView.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, parallaxservice
+---
+
 # ParallaxService
 
 The **ParallaxService** class allows to create a parallax effect for items contained within an element that scrolls like a ScrollViewer or ListView.

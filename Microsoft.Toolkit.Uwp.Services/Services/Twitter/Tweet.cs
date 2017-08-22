@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// <summary>
     /// Twitter Timeline item.
     /// </summary>
-    public class Tweet : SchemaBase, ITwitterResult
+    public class Tweet : Toolkit.Services.SchemaBase, ITwitterResult
     {
         /// <summary>
         /// Gets or sets time item was created.

@@ -29,6 +29,7 @@
         <Setter Property="IsTabStop" Value="True" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
@@ -36,8 +37,14 @@
                     <Button x:Name="FlyoutButton"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             Content="{TemplateBinding Header}"
                             ContentTemplate="{TemplateBinding HeaderTemplate}"
+                            FontFamily="{TemplateBinding FontFamily}"
+                            FontSize="{TemplateBinding FontSize}"
+                            FontStretch="{TemplateBinding FontStretch}"
+                            FontStyle="{TemplateBinding FontStyle}"
+                            FontWeight="{TemplateBinding FontWeight}"
                             Foreground="{TemplateBinding Foreground}"
                             IsTabStop="False">
                         <VisualStateManager.VisualStateGroups>

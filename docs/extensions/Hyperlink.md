@@ -1,6 +1,18 @@
-# Hyperlink
+---
+title: Hyperlink extensions
+author: nmetulev
+ms.author: nikolame
+ms.date: 08/20/2017
+ms.topic: overview
+ms.prod: windows
+ms.technology: uwp
+description: The Hyperlink extensions allows for a Hyperlink element to invoke the execute method on a bound ICommand instance when clicked.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Hyperlink, extensions
+---
 
-The **Hyperlink** allows for a Hyperlink element to invoke the execute method on a bound [ICommand](https://msdn.microsoft.com/en-us/library/system.windows.input.icommand.aspx) instance when clicked.
+# Hyperlink extension
+
+The **Hyperlink extension** allows for a Hyperlink element to invoke the execute method on a bound [ICommand](https://msdn.microsoft.com/en-us/library/system.windows.input.icommand.aspx) instance when clicked.
 
 ## Example
 

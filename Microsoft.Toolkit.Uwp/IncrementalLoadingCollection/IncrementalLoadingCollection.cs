@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp
     /// <seealso cref="ISupportIncrementalLoading"/>
     public class IncrementalLoadingCollection<TSource, IType> : ObservableCollection<IType>,
          ISupportIncrementalLoading
-         where TSource : IIncrementalSource<IType>
+         where TSource : Collections.IIncrementalSource<IType>
     {
         /// <summary>
         /// Gets or sets an <see cref="Action"/> that is called when a retrieval operation begins.

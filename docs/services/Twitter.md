@@ -1,3 +1,15 @@
+---
+title: Twitter Service
+author: nmetulev
+ms.author: nikolame
+ms.date: 08/20/2017
+ms.topic: overview
+ms.prod: windows
+ms.technology: uwp
+description: The Twitter Service allows users to retrieve or publish data to Twitter. 
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Twitter 
+---
+
 # Twitter Service
 
 The **Twitter Service** allows users to retrieve or publish data to Twitter. 

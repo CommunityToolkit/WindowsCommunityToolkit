@@ -17,6 +17,7 @@
     <dependencies>
       <dependency id="Microsoft.Toolkit.Uwp" version="$version$" />
       <dependency id="Microsoft.Toolkit.Uwp.UI" version="$version$" />
+      <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.3.3" />
     </dependencies>
   </metadata>
   <files>

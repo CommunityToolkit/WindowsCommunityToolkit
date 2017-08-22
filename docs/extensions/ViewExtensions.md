@@ -1,3 +1,15 @@
+---
+title: ViewExtensions
+author: nmetulev
+ms.author: nikolame
+ms.date: 08/20/2017
+ms.topic: overview
+ms.prod: windows
+ms.technology: uwp
+description: The ApplicationViewExtensions, StatusBarExtensions & TitleBarExtensions provide a declarative way of setting AppView, StatusBar & TitleBar properties from XAML.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ViewExtensions, ApplicationViewExtensions, StatusBarExtensions, TitleBarExtensions, statusbar, titlebar, xaml
+---
+
 # ViewExtensions
 
 The **ApplicationViewExtensions, StatusBarExtensions & TitleBarExtensions** provide a declarative way of setting AppView, StatusBar & TitleBar properties from XAML.
