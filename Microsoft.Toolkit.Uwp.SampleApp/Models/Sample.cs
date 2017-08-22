@@ -116,6 +116,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         {
                             var result = await response.Content.ReadAsStringAsync();
 
+                            var metadataRegex = new Regex("^---(.+?)---", RegexOptions.Singleline);
+                            var metadataMatch = metadataRegex.Match(result);
+                            if (metadataMatch.Success)
+                            {
+                                result = result.Remove(metadataMatch.Index, metadataMatch.Index + metadataMatch.Length);
+                            }
+
                             // Need to do some cleaning
                             // Rework code tags
                             var regex = new Regex("```(xaml|xml|csharp)(?<code>.+?)```", RegexOptions.Singleline);
