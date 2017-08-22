@@ -9,7 +9,7 @@
       mc:Ignorable="d">
     
     <!-- Shallow Copy -->
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Image>
             <interactivity:Interaction.Behaviors>
                 <behaviors:Fade />

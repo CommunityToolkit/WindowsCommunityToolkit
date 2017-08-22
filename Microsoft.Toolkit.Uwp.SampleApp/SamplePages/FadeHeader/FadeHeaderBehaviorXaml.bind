@@ -5,7 +5,7 @@
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
       mc:Ignorable="d">
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
     <ListView x:Name="MyListView">
       <interactivity:Interaction.Behaviors>
         <behaviors:FadeHeaderBehavior />
@@ -33,7 +33,8 @@
       <ListView.ItemTemplate>
         <DataTemplate>
           <Grid MinHeight="100"
-                Background="{StaticResource Brush-Grey-04}">
+                Background="{StaticResource Brush-Grey-04}"
+                Opacity="0.9">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
               <ColumnDefinition Width="*" />
