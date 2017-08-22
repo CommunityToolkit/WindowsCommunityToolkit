@@ -4,7 +4,7 @@ The Fade animation fades objects, in and out, over time. Fade animation is appli
 
 ## Syntax
 
-**In XAML**
+**XAML**
 
 ```xml
 <Page ...
@@ -20,7 +20,7 @@ The Fade animation fades objects, in and out, over time. Fade animation is appli
 </interactivity:Interaction.Behaviors>
 ```
 
-**In Code Behind**
+**C#**
 
 ```csharp
 MyUIElement.Fade(value: 0.5f, duration: 2500, delay: 250, easingType: EasingType.Default).Start();
@@ -69,11 +69,11 @@ You can change the way how the animation interpolates between keyframes by defin
     ```
     **Sample Output**
 
-    ![Use Case 1 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Chaining-Animations.gif)
+    ![Use Case 1 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
 
 ## Sample Project
 
-[Fade Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Fade). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
+[Fade Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Fade). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 
 ## Requirements
@@ -81,6 +81,7 @@ You can change the way how the animation interpolates between keyframes by defin
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
 
 ## API
 

@@ -4,7 +4,7 @@ The Blur animation blurs a XAML element by increasing or decreasing pixel size. 
 
 ## Syntax
 
-**In XAML**
+**XAML**
 
 ```xml
 <Page ...
@@ -20,7 +20,7 @@ The Blur animation blurs a XAML element by increasing or decreasing pixel size. 
 </interactivity:Interaction.Behaviors>
 ```
 
-**In Code Behind**
+**C#**
 
 ```csharp
 MyUIElement.Blur(value: 5, duration: 2500, delay: 250).Start();
@@ -68,7 +68,7 @@ await MyUIElement.Blur(value: 5, duration: 2500, delay: 250).StartAsync();  //Bl
     ```
     **Sample Output**
 
-    ![Use Case 2 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Chaining-Animations.gif)
+    ![Use Case 2 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
 
 ## Sample Project
 
@@ -76,9 +76,10 @@ await MyUIElement.Blur(value: 5, duration: 2500, delay: 250).StartAsync();  //Bl
 
 ## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher|
-| --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI.Animations |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
+| ---------------------------------------------------------------- | ----------------------------------- |
+| Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
 
 ## API
 
