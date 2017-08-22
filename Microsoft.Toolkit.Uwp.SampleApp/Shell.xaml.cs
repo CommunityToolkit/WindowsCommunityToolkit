@@ -367,6 +367,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 NavigationFrame.GoBack();
             }
+
+            HideSamplePicker();
         }
 
         /// <summary>
@@ -631,6 +633,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (_currentSample != null && samples.Contains(_currentSample))
             {
                 SamplePickerListView.SelectedItem = _currentSample;
+            }
+            else
+            {
+                SamplePickerListView.SelectedItem = null;
             }
 
             SamplePickerGrid.Visibility = Visibility.Visible;
