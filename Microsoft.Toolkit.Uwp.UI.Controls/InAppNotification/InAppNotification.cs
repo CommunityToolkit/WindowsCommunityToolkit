@@ -35,6 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DefaultStyleKey = typeof(InAppNotification);
         }
 
+        /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
             if (_dismissButton != null)
@@ -85,11 +86,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="text">Text used as the content of the notification</param>
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task ShowAsync(string text, int duration = 0)
+        public Task ShowAsync(string text, int duration = 0)
         {
             ContentTemplate = null;
             Content = text;
-            await ShowAsync(duration);
+            return ShowAsync(duration);
         }
 
         /// <summary>
@@ -98,11 +99,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="element">UIElement used as the content of the notification</param>
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task ShowAsync(UIElement element, int duration = 0)
+        public Task ShowAsync(UIElement element, int duration = 0)
         {
             ContentTemplate = null;
             Content = element;
-            await ShowAsync(duration);
+            return ShowAsync(duration);
         }
 
         /// <summary>
@@ -111,11 +112,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="dataTemplate">DataTemplate used as the content of the notification</param>
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task ShowAsync(DataTemplate dataTemplate, int duration = 0)
+        public Task ShowAsync(DataTemplate dataTemplate, int duration = 0)
         {
             ContentTemplate = dataTemplate;
             Content = null;
-            await ShowAsync(duration);
+            return ShowAsync(duration);
         }
 
         /// <summary>
