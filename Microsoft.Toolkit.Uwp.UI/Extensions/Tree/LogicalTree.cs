@@ -54,6 +54,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     }
                 }
             }
+            else if (element is ItemsControl)
+            {
+                foreach (var item in (element as ItemsControl).Items)
+                {
+                    var result = (item as FrameworkElement)?.FindChildByName(name);
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                }
+            }
             else
             {
                 var result = (element.GetContentControl() as FrameworkElement)?.FindChildByName(name);
@@ -90,6 +101,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     }
 
                     var result = (child as FrameworkElement)?.FindChild<T>();
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                }
+            }
+            else if (element is ItemsControl)
+            {
+                foreach (var item in (element as ItemsControl).Items)
+                {
+                    var result = (item as FrameworkElement)?.FindChild<T>();
                     if (result != null)
                     {
                         return result;
@@ -139,6 +161,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     }
 
                     foreach (T childOfChild in (child as FrameworkElement)?.FindChildren<T>())
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+            else if (element is ItemsControl)
+            {
+                foreach (var item in (element as ItemsControl).Items)
+                {
+                    foreach (T childOfChild in (item as FrameworkElement)?.FindChildren<T>())
                     {
                         yield return childOfChild;
                     }
