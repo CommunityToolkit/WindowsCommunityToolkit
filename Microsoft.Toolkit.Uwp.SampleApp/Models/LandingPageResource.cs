@@ -22,5 +22,4 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         [JsonProperty("links")]
         public LandingPageLink[] Links { get; set; }
     }
-
 }

@@ -14,7 +14,6 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
-
     public class LandingPageLink
     {
         [JsonProperty("title")]
@@ -23,5 +22,4 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         [JsonProperty("url")]
         public string Url { get; set; }
     }
-
 }
