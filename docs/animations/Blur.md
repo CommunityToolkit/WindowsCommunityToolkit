@@ -35,7 +35,7 @@ await MyUIElement.Blur(value: 5, duration: 2500, delay: 250).StartAsync();  //Bl
 
 
 
-## Use Cases
+## Examples
 
 - Use this to shift the focus to foreground controls.
 

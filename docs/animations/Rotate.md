@@ -58,7 +58,7 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ***Note:** EasingType is used only when AnimationSet.UseComposition == false*
 
-## Use Cases
+## Examples
 
 - Use this to create chaining animations with other animations
 

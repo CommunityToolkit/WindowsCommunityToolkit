@@ -72,7 +72,7 @@ ToolkitLogo.Saturation(value: 0, duration: 500, delay: 250);
 
 [Saturation Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Saturation). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
-## Requirements (Windows 10 Device Family)
+## Requirements
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |

@@ -55,7 +55,7 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ***Note:** EasingType is used only when AnimationSet.UseComposition == false*
 
-## Use Cases
+## Examples
 
 - You can just call `Offset()` set the control in the orginal position
 
