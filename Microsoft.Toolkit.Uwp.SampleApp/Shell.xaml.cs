@@ -20,13 +20,18 @@ using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Monaco;
+using Monaco.Editor;
+using Monaco.Helpers;
 using Windows.System;
 using Windows.System.Threading;
+using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
@@ -727,8 +732,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             return value > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        private CssLineStyle _errorStyle = new CssLineStyle()
+        {
+            BackgroundColor = new SolidColorBrush(Colors.IndianRed)
+        };
+
+        private CssGlyphStyle _errorIconStyle = new CssGlyphStyle()
+        {
+            GlyphImage = new Uri("ms-appx-web:///Icons/Error.png")
+        };
+
         private async void UpdateXamlRenderAsync(string text)
         {
+            // Hide any Previous Errors
+            XamlCodeRenderer.Decorations.Clear();
+            XamlCodeRenderer.Options.GlyphMargin = false;
+
+            // Try and Render Xaml to a UIElement
             var element = _xamlRenderer.Render(text);
             if (element != null)
             {
@@ -753,6 +773,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     (content as IXamlRenderListener)?.OnXamlRendered(element as FrameworkElement);
                 });
+            }
+            else if (_xamlRenderer.Errors.Count > 0)
+            {
+                var error = _xamlRenderer.Errors.First();
+
+                XamlCodeRenderer.Options.GlyphMargin = true;
+
+                var range = new Range(error.StartLine, 1, error.EndLine, await XamlCodeRenderer.GetModel().GetLineMaxColumnAsync(error.EndLine));
+
+                // Highlight Error Line
+                XamlCodeRenderer.Decorations.Add(new IModelDeltaDecoration(
+                    range,
+                    new IModelDecorationOptions() { IsWholeLine = true, ClassName = _errorStyle, HoverMessage = new string[] { error.Message } }));
+
+                // Show Glyph Icon
+                XamlCodeRenderer.Decorations.Add(new IModelDeltaDecoration(
+                    range,
+                    new IModelDecorationOptions() { IsWholeLine = true, GlyphMarginClassName = _errorIconStyle, GlyphMarginHoverMessage = new string[] { error.Message } }));
             }
         }
 
@@ -807,6 +845,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private void XamlCodeRenderer_Loading(object sender, RoutedEventArgs e)
         {
             XamlCodeRenderer.Options.Folding = true;
+
+            // In CodeBehind For Now, due to bug: https://github.com/hawkerm/monaco-editor-uwp/issues/10
             XamlCodeRenderer.CodeLanguage = "xml";
         }
     }

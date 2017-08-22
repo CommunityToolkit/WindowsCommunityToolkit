@@ -13,10 +13,10 @@
 using System;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            contentGrid = control.FindDescendantByName("ContentGrid") as Grid;
+            contentGrid = control.FindChildByName("ContentGrid") as Grid;
             hamburgerMenuControl = control.FindDescendantByName("HamburgerMenu") as HamburgerMenu;
             if (hamburgerMenuControl != null)
             {

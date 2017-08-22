@@ -11,8 +11,8 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Toolkit.Uwp.Helpers;
 using System.Reflection;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;

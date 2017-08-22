@@ -36,12 +36,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async void OnXamlRendered(FrameworkElement control)
         {
-            adaptiveGridViewControl = control.FindDescendantByName("AdaptiveGridViewControl") as AdaptiveGridView;
+            adaptiveGridViewControl = control.FindChildByName("AdaptiveGridViewControl") as AdaptiveGridView;
             loadingControl = control.FindDescendantByName("LoadingControl") as Loading;
             loadingContentControl = control.FindChildByName("LoadingContentControl") as ContentControl;
             resources = control.Resources;
 
-            adaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+            if (adaptiveGridViewControl != null)
+            {
+                adaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
