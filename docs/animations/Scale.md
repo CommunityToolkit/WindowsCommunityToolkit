@@ -59,7 +59,7 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ## Examples
 
-- Show large image when user tapped on the image
+- Use this to create popup effect
 
     **Sample Code**
     ```csharp
