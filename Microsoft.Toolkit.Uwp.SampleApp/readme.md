@@ -72,6 +72,11 @@ When the developer switches to the XAML tab, they'll automatically see the selec
 
 You can also reuse a @[Property Name] reference by itself again later to use the same binding/value again in the same template.  This will automatically get mapped to the right place without the need to specify all the types/options again.  Just set those options on your first usage.
 
+If you happen to need a two-way binding for the generated XAML, then add an extra '@' after the property definition in the template:
+
+```
+Value="@[Value:Slider:0:0-180]@"
+```
 
 ## 3. Have a *'Shallow Copy'* of your example in the sample page
 Even though the sample page content is ignored and the dynamic template injected, for the XamlReader to access some classes, a reference to the item is sometimes needed in the hosting app for it to be accessible.  (I assume it's an optimization thing.)  

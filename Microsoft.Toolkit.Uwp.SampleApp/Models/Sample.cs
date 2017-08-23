@@ -274,7 +274,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                             brush.Color.ToString() : value.Value.ToString();
 
                         result = result.Replace(option.OriginalString, newString);
-                        result = result.Replace("@[" + option.Name + "]", newString);
+                        result = result.Replace("@[" + option.Name + "]" + (option.IsTwoWayBinding ? "@" : string.Empty), newString);
                     }
                 }
 
@@ -300,8 +300,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     if (proxy[option.Name] is ValueHolder value)
                     {
-                        result = result.Replace(option.OriginalString, "{Binding " + option.Name + ".Value, Mode=OneWay}");
-                        result = result.Replace("@[" + option.Name + "]", "{Binding " + option.Name + ".Value, Mode=OneWay}");
+                        result = result.Replace(
+                            option.OriginalString,
+                            "{Binding " + option.Name + ".Value, Mode=" + (option.IsTwoWayBinding ? "TwoWay" : "OneWay") + "}");
+                        result = result.Replace(
+                            "@[" + option.Name + "]" + (option.IsTwoWayBinding ? "@" : string.Empty),
+                            "{Binding " + option.Name + ".Value, Mode=" + (option.IsTwoWayBinding ? "TwoWay" : "OneWay") + "}");
                     }
                 }
 
@@ -326,7 +330,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     XamlCode = await codeStream.ReadTextAsync();
 
                     // Look for @[] values and generate associated properties
-                    var regularExpression = new Regex(@"@\[(?<name>.+?)(:(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*)?\]");
+                    var regularExpression = new Regex(@"@\[(?<name>.+?)(:(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*)?\]@?");
 
                     _propertyDescriptor = new PropertyDescriptor { Expando = new ExpandoObject() };
                     var proxy = (IDictionary<string, object>)_propertyDescriptor.Expando;
@@ -442,6 +446,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                             options.Name = name;
                             options.OriginalString = match.Value;
                             options.Kind = kind;
+                            options.IsTwoWayBinding = options.OriginalString.EndsWith("@");
                             proxy[name] = new ValueHolder(options.DefaultValue);
 
                             _propertyDescriptor.Options.Add(options);

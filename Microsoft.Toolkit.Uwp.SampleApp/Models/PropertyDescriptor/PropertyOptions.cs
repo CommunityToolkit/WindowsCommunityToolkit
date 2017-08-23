@@ -21,5 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Models
         public PropertyKind Kind { get; set; }
 
         public object DefaultValue { get; set; }
+
+        public bool IsTwoWayBinding { get; set; }
     }
 }
