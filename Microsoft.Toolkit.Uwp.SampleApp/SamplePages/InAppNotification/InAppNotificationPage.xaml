@@ -270,36 +270,6 @@
 
                 <TextBlock Text="*if duration is less or equal 0, the notification will never be dismissed" />
             </StackPanel>
-            
-            <Button x:Name="ShowNotificationWithRandomTextButton" 
-                    Margin="5"
-                    Content="Show notification with random text"
-                    Click="ShowNotificationWithRandomTextButton_Click" />
-
-            <Button x:Name="ShowNotificationWithButtonsButton" 
-                    Margin="5"
-                    Content="Show notification with buttons (without DataTemplate)"
-                    Click="ShowNotificationWithButtonsButton_Click" />
-
-            <Button x:Name="ShowNotificationWithButtonsDataTemplateButton" 
-                    Margin="5"
-                    Content="Show notification with buttons (with DataTemplate)"
-                    Click="ShowNotificationWithButtonsDataTemplateButton_Click" />
-            
-            <Button x:Name="ShowNotificationWithDropShadowButton" 
-                    Margin="5"
-                    Content="Show notification with Drop Shadow (based on default template)"
-                    Click="ShowNotificationWithDropShadowButton_Click" />
-
-            <Button x:Name="ShowNotificationWithVSCodeTemplateButton" 
-                    Margin="5"
-                    Content="Show notification with Visual Studio Code template (info notification)"
-                    Click="ShowNotificationWithVSCodeTemplateButton_Click" />
-
-            <Button x:Name="DismissNotificationButton" 
-                    Margin="5"
-                    Content="Dismiss"
-                    Click="DismissNotificationButton_Click" />
         </StackPanel>
 
         <controls:InAppNotification x:Name="ExampleInAppNotification" 
