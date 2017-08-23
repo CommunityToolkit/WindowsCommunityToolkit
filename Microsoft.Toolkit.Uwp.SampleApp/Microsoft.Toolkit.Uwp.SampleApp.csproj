@@ -294,6 +294,7 @@
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
     <Content Include="SamplePages\ImageCache\ImageEx.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
+    <Content Include="SamplePages\InAppNotification\InAppNotification.png" />
     <Content Include="SamplePages\Incremental Loading Collection\icon.png" />
     <Content Include="SamplePages\Light\LightBehavior.png" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInLogo.png" />
@@ -432,6 +433,8 @@
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperCode.bind" />
     <Content Include="SamplePages\OrbitView\OrbitViewXaml.bind" />
     <Content Include="SamplePages\Menu\Menu.bind" />
+    <Content Include="SamplePages\InAppNotification\InAppNotificationCode.bind" />
+    <Content Include="SamplePages\InAppNotification\InAppNotificationXaml.bind" />
     <Content Include="SamplePages\ListViewBase\ListViewBaseCode.bind" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewXaml.bind" />
   </ItemGroup>
@@ -468,6 +471,9 @@
       <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\IXamlRenderListener.cs" />
+    <Compile Include="SamplePages\InAppNotification\InAppNotificationPage.xaml.cs">
+      <DependentUpon>InAppNotificationPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\ListViewBase\ListViewBasePage.xaml.cs">
       <DependentUpon>ListViewBasePage.xaml</DependentUpon>
     </Compile>
@@ -728,6 +734,10 @@
     <Page Include="SamplePages\FocusTracker\FocusTrackerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\InAppNotification\InAppNotificationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\TextToolbar\TextToolbarPage.xaml">
       <Generator>MSBuild:Compile</Generator>

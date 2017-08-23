@@ -64,6 +64,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [HamburgerMenu](http://docs.uwpcommunitytoolkit.com/en/master/controls/HamburgerMenu/)
 * [HeaderedTextBlock](http://docs.uwpcommunitytoolkit.com/en/master/controls/HeaderedTextBlock/)
 * [ImageEx](http://docs.uwpcommunitytoolkit.com/en/master/controls/ImageEx/)
+* [InAppNotification](http://docs.uwpcommunitytoolkit.com/en/master/controls/InAppNotification/)
 * [Loading](http://docs.uwpcommunitytoolkit.com/en/master/controls/Loading/)
 * [MarkdownTextBlock](http://docs.uwpcommunitytoolkit.com/en/master/controls/MarkdownTextBlock/)
 * [MasterDetailsView](http://docs.uwpcommunitytoolkit.com/en/master/controls/MasterDetailsView/)
