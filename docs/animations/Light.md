@@ -1,6 +1,6 @@
 # Light
 
-The Light animation behavior performs a point light (A point source of light that emits light in all directions) in the middle of a given UIElement. You set the distance property of the light to determine how bright the light will be. If the the light source is closer then will make the overall UI element darker. ***NOTE**:  Heavy usage of effects may have a negative impact on the performance of your application.* 
+The Light animation behavior performs a point light (A point source of light that emits light in all directions) in the middle of a given UIElement. You set the distance property of the light to determine how bright the light will be. The closer the light source, the darker the UI element will be. ***NOTE**:  Heavy usage of effects may have a negative impact on the performance of your application.* 
 
 ## Syntax
 
@@ -38,7 +38,7 @@ await MyUIElement.Light(distance: 5, duration: 2500, delay: 250).StartAsync(); /
 
 ## Examples
 
-- The light behavior is great drawing the user's eye towards a particular pieces of user interface. Closer the light source, the more focused it will be, but, will make the overall UI element darker. The further away from the light source the more the light will spread over the UIElement.
+- The light behavior is great at drawing the user's eye towards a particular pieces of user interface. Closer the light source, the more focused it will be, but, will make the overall UI element darker. The further away from the light source the more the light will spread over the UIElement.
 - Use this to create chaining animations with other animations
 
     **Sample Code**
