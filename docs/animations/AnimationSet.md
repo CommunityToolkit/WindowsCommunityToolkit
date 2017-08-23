@@ -1,25 +1,8 @@
 # AnimationSet
 
-The AnimationSet class defines an object for storing and managing CompositionAnimations for an element. AnimationSet includes Blur, Fade, Light, Offset, Rotate, Saturation and Scale animations. AnimationSet animations is applied to all the XAML elements in its parent control/panel. AnimationSet animations doesn't affect the functionality of the control.
+The AnimationSet class defines an object for storing and managing Storyboard and CompositionAnimations for an element. AnimationSet includes Blur, Fade, Light, Offset, Rotate, Saturation and Scale animations. AnimationSet animations is applied to all the XAML elements in its parent control/panel. AnimationSet animations doesn't affect the functionality of the control.
 
 ## Syntax
-
-**XAML**
-
-```xml
-<Page ...
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
-    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"/>
-
-<interactivity:Interaction.Behaviors>
-    <interactivity:BehaviorCollection>
-        <behaviors:Blur Value="10" Duration="2500" AutomaticallyStart="True"/>
-        <behaviors:Scale ScaleX="2" ScaleY="2" Duration="2500" AutomaticallyStart="True"/>
-        <!-- Others -->
-    </interactivity:BehaviorCollection>
-</interactivity:Interaction.Behaviors>
-
-```
 
 **C#**
 
@@ -89,6 +72,22 @@ You can change the way how the animation interpolates between keyframes by defin
     **Sample Output**
 
     ![Use Case 1 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/AnimationSet/Use-Case-1.gif)
+- Use `Then()` to create a successive animation
+
+    **Sample Code**
+    ```csharp
+    var animationSet = MyUIElement.Blur(value: 10).Fade(value: 0.5f);
+    animationSet.SetDurationForAll(2500); 
+    animationSet.SetDelayForAll(0);
+    animationSet.Then();
+    animationSet.Fade(value: 1).Scale(scaleX: 2, scaleY: 2, centerX: 100, centerY: 100, easingType: EasingType.Sine);
+    animationSet.SetDurationForAll(2500);
+    animationSet.SetDelayForAll(0);
+    animationSet.Start();
+    ```
+    **Sample Output**
+
+    ![Use Case 2 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/AnimationSet/Use-Case-2.gif)
 
 ## Requirements
 
