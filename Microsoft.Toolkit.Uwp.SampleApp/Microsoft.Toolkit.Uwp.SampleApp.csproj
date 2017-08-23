@@ -433,6 +433,7 @@
     <Content Include="SamplePages\OrbitView\OrbitViewXaml.bind" />
     <Content Include="SamplePages\Menu\Menu.bind" />
     <Content Include="SamplePages\ListViewBase\ListViewBaseCode.bind" />
+    <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
