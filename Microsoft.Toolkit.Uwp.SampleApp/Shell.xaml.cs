@@ -192,6 +192,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerDetailsGrid);
             AnimationHelper.SetSecondLevelShowHideAnimation(SamplePickerDetailsGridContent);
+            AnimationHelper.SetSecondLevelShowHideAnimation(InfoAreaGrid);
+            AnimationHelper.SetSecondLevelShowHideAnimation(Splitter);
 
             ////ElementCompositionPreview.SetImplicitHideAnimation(ContentShadow, GetOpacityAnimation(0, 1, _defaultHideAnimationDiration));
             ElementCompositionPreview.SetImplicitShowAnimation(ContentShadow, AnimationHelper.GetOpacityAnimation(_compositor, (float)ContentShadow.Opacity, 0, _defaultShowAnimationDuration));
