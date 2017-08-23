@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
@@ -24,9 +25,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.Foundation.Metadata;
-using Windows.Storage;
 using Windows.UI.Xaml;
-using System.IO;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -233,8 +232,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 var proxy = (IDictionary<string, object>)_propertyDescriptor.Expando;
                 foreach (var option in _propertyDescriptor.Options)
                 {
-                    var value = proxy[option.Name] as ValueHolder;
-                    if (value != null)
+                    if (proxy[option.Name] is ValueHolder value)
                     {
                         var newString = value.Value is Windows.UI.Xaml.Media.SolidColorBrush brush ?
                                             brush.Color.ToString() : value.Value.ToString();
@@ -264,8 +262,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 var proxy = (IDictionary<string, object>)_propertyDescriptor.Expando;
                 foreach (var option in _propertyDescriptor.Options)
                 {
-                    var value = proxy[option.Name] as ValueHolder;
-                    if (value != null)
+                    if (proxy[option.Name] is ValueHolder value)
                     {
                         result = result.Replace(option.OriginalString, "{Binding " + option.Name + ".Value, Mode=OneWay}");
                         result = result.Replace("@[" + option.Name + "]", "{Binding " + option.Name + ".Value, Mode=OneWay}");
@@ -311,9 +308,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                             throw new NotSupportedException($"Unrecognized short identifier '{name}'; Define type and parameters of property in first occurance in {XamlCodeFile}.");
                         }
 
-                        PropertyKind kind;
-
-                        if (Enum.TryParse(type, out kind))
+                        if (Enum.TryParse(type, out PropertyKind kind))
                         {
                             if (existingOption != null)
                             {
