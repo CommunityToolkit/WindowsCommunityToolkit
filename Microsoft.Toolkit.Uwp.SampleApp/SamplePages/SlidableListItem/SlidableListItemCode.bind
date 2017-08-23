@@ -1,50 +1,71 @@
-<Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.SlidableListItemPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
-    x:Name="Page"
-    mc:Ignorable="d">
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+      xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
+      x:Name="Page"
+      mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Key="EmailsItemTemplate" x:DataType="data:Item">
+      <ResourceDictionary>
+        <local:RemoveItemCommand x:Key="RemoveItemCommand" />
+      </ResourceDictionary>
+        <converters:BoolToObjectConverter x:Key="BoolToVisibilityConverter"
+                                          FalseValue="Collapsed"
+                                          TrueValue="Visible" />
+        <DataTemplate x:Key="EmailsItemTemplate">
             <controls:SlidableListItem 
+                    MinWidth="300"
+                    MaxWidth="800"
                     HorizontalAlignment="Stretch"
-                    LeftIcon="@[LeftIcon:Enum:Symbol.Favorite]" 
-                    RightIcon="@[RightIcon:Enum:Symbol.Delete]" 
-                    LeftLabel="@[LeftLabel:String:Set Favourite]" 
-                    RightLabel="@[RightLabel:String:Delete]"
-                    LeftBackground="@[LeftBackground:Brush:SkyBlue]" 
-                    RightBackground="@[RightBackground:Brush:OrangeRed]"
-                    LeftForeground ="@[LeftForeground:Brush:White]" 
-                    RightForeground ="@[RightForeground:Brush:White]"
                     ActivationWidth="@[ActivationWidth:Slider:100:50-250]"
                     IsLeftCommandEnabled="@[IsLeftCommandEnabled:Bool:true]"
-                    IsRightCommandEnabled="@[IsRightCommandEnabled:Bool:true]"
                     IsOffsetLimited="@[IsOffsetLimited:Bool:true]"
-                    MouseSlidingEnabled="@[MouseSlidingEnabled:Bool:true]"
                     IsPointerReleasedOnSwipingHandled="@[IsPointerReleasedOnSwipingHandled:Bool:false]"
-                    LeftCommand="{x:Bind ToggleFavorite}"
-                    RightCommand="{Binding DeleteItem, ElementName=Page, Mode=OneWay}"
-                    RightCommandParameter="{Binding}">
-                <Grid Height="110" Background="Gray">
-                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                        <CheckBox IsChecked="{x:Bind IsFavorite, Mode=OneWay}"/>
-                        <TextBlock Text="{x:Bind Title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>
-                    </StackPanel>
+                    IsRightCommandEnabled="@[IsRightCommandEnabled:Bool:true]"
+                    LeftBackground="@[LeftBackground:Brush:SkyBlue]" 
+                    LeftCommand="{Binding ToggleFavorite}"
+                    LeftForeground ="@[LeftForeground:Brush:White]" 
+                    LeftIcon="@[LeftIcon:Enum:Symbol.Favorite]" 
+                    LeftLabel="@[LeftLabel:String:Set Favourite]" 
+                    MouseSlidingEnabled="@[MouseSlidingEnabled:Bool:true]"
+                    RightBackground="@[RightBackground:Brush:OrangeRed]"
+                    RightCommand="{StaticResource RemoveItemCommand}"
+                    RightCommandParameter="{Binding}"
+                    RightForeground ="@[RightForeground:Brush:White]"
+                    RightIcon="@[RightIcon:Enum:Symbol.Delete]"
+                    RightLabel="@[RightLabel:String:Delete]">
+                <Grid Height="110" Background="#FFDDDDDD">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition />
+                  </Grid.ColumnDefinitions>
+                  <Grid x:Name="Checkmark"
+                     Background="SkyBlue"
+                     Visibility="{Binding IsFavorite, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <SymbolIcon Foreground="White"
+                                Symbol="Accept" />
+                  </Grid>
+                  <TextBlock Grid.Column="1"
+                             Margin="12"
+                             VerticalAlignment="Center"
+                             FontSize="16"
+                             FontWeight="Light"
+                             Style="{StaticResource CaptionTextBlockStyle}"
+                             Text="{Binding Title}"
+                             TextWrapping="NoWrap" />
                 </Grid>
             </controls:SlidableListItem>
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView x:Name="listView" 
-                  ItemTemplate="{StaticResource EmailsItemTemplate}" 
-                  ItemsSource="{x:Bind _items, Mode=OneWay}" 
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="24">
+        <ListView x:Name="listView"
+                  HorizontalAlignment="Center"
+                  ItemTemplate="{StaticResource EmailsItemTemplate}"
                   SelectionMode="None" 
                   IsItemClickEnabled="False">
             <ListView.ItemContainerStyle>

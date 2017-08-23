@@ -13,39 +13,76 @@
 using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using System.Windows.Input;
+using System;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class SlidableListItemPage
+    public sealed partial class SlidableListItemPage : IXamlRenderListener
     {
-        private ObservableCollection<Item> _items;
-
-        private DelegateCommand<Item> _deleteItem = default(DelegateCommand<Item>);
-
-        public DelegateCommand<Item> DeleteItem => _deleteItem ?? (_deleteItem = new DelegateCommand<Item>(ExecuteDeleteItemCommand, CanExecuteDeleteItemCommand));
+        public static ObservableCollection<Item> Items { get; set; }
 
         public SlidableListItemPage()
         {
             InitializeComponent();
-            ObservableCollection<Item> items = new ObservableCollection<Item>();
-
-            for (var i = 0; i < 1000; i++)
+            if (Items == null)
             {
-                items.Add(new Item() { Title = "Item " + i });
+                Items = new ObservableCollection<Item>();
+
+                for (var i = 0; i < 1000; i++)
+                {
+                    Items.Add(new Item() { Title = "Item " + i });
+                }
+            }
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            var page = control.FindChildByName("page") as Page;
+            if (page != null)
+            {
+                page.DataContext = this;
             }
 
-            _items = items;
+            var listView = control.FindChildByName("listView") as ListView;
+            if (listView != null)
+            {
+                listView.ItemsSource = Items;
+            }
         }
 
         private bool CanExecuteDeleteItemCommand(Item item)
         {
             return true;
         }
+    }
 
-        private void ExecuteDeleteItemCommand(Item item)
+#pragma warning disable SA1402 // File may only contain a single class
+    internal class RemoveItemCommand : ICommand
+#pragma warning restore SA1402 // File may only contain a single class
+    {
+        event EventHandler ICommand.CanExecuteChanged
         {
-            _items.Remove(item);
+            add
+            {
+            }
+
+            remove
+            {
+            }
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            SlidableListItemPage.Items?.Remove(parameter as Item);
         }
     }
 }
