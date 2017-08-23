@@ -300,6 +300,7 @@
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.png" />
     <Content Include="SamplePages\Loading\Loading.png" />
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.png" />
+    <Content Include="SamplePages\MasterDetailsView\OneDriveLogo.png" />
     <Content Include="SamplePages\Menu\Menu.png" />
     <Content Include="SamplePages\Microsoft Graph Service\OfficeLogo.png" />
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
@@ -432,6 +433,7 @@
     <Content Include="SamplePages\OrbitView\OrbitViewXaml.bind" />
     <Content Include="SamplePages\Menu\Menu.bind" />
     <Content Include="SamplePages\ListViewBase\ListViewBaseCode.bind" />
+    <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

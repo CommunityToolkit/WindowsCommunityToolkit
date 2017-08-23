@@ -88,12 +88,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (position.X < _threshold)
             {
                 _rate = position.X - _threshold;
-                ScrollListView();
+                var t = ScrollListView();
             }
             else if (_instance.ActualWidth - position.X < _threshold)
             {
                 _rate = _threshold - (_instance.ActualWidth - position.X);
-                ScrollListView();
+                var t = ScrollListView();
             }
         }
 
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (oldRate == 0 && _rate != 0)
             {
-                ScrollListView();
+                var t = ScrollListView();
             }
         }
     }

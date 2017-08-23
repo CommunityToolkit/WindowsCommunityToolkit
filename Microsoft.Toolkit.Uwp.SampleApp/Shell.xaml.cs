@@ -49,8 +49,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private Compositor _compositor;
         private float _defaultShowAnimationDuration = 300;
-        private float _defaultHideAnimationDiration = 150;
+        //private float _defaultHideAnimationDiration = 150;
         private XamlRenderService _xamlRenderer = new XamlRenderService();
+        private bool _lastRenderedProperties = true;
         private ThreadPoolTimer _autocompileTimer;
 
         public bool DisplayWaitRing
@@ -421,6 +422,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (_currentSample != null && _currentSample.HasXAMLCode)
             {
+                this._lastRenderedProperties = true;
+
                 // Called to load the sample initially as we don't get an Item Pivot Selection Changed with Sample Loaded yet.
                 UpdateXamlRenderAsync(_currentSample.BindedXamlCode);
             }
@@ -428,9 +431,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            var category = e.ClickedItem as SampleCategory;
-
-            if (category != null)
+            if (e.ClickedItem is SampleCategory category)
             {
                 ShowSamplePicker(category.Samples);
             }
@@ -467,9 +468,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             if (InfoAreaPivot.SelectedItem != null)
             {
-                var sample = DataContext as Sample;
-
-                if (sample != null)
+                if (DataContext is Sample sample)
                 {
                     TrackingManager.TrackEvent("PropertyGrid", (InfoAreaPivot.SelectedItem as FrameworkElement)?.Name, sample.Name);
                 }
@@ -485,28 +484,39 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // If we switch to the Properties Panel, we want to use a binded version of the Xaml Code.
                 if (_currentSample.HasXAMLCode)
                 {
+                    _lastRenderedProperties = true;
+
                     UpdateXamlRenderAsync(_currentSample.BindedXamlCode);
                 }
 
                 return;
             }
 
-            if (_currentSample.HasXAMLCode && InfoAreaPivot.SelectedItem == XamlPivotItem)
+            if (_currentSample.HasXAMLCode && InfoAreaPivot.SelectedItem == XamlPivotItem && _lastRenderedProperties)
             {
+                // Use this flag so we don't re-render the XAML tab if we're switching from tabs other than the properties one.
+                _lastRenderedProperties = false;
+
                 // If we switch to the Live Preview, then we want to use the Value based Text
                 XamlCodeRenderer.Text = _currentSample.UpdatedXamlCode;
 
                 UpdateXamlRenderAsync(_currentSample.UpdatedXamlCode);
+
+                return;
             }
 
-            if (_currentSample.HasCSharpCode)
+            if (_currentSample.HasCSharpCode && InfoAreaPivot.SelectedItem == CSharpPivotItem)
             {
                 CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSourceAsync();
+
+                return;
             }
 
-            if (_currentSample.HasJavaScriptCode)
+            if (_currentSample.HasJavaScriptCode && InfoAreaPivot.SelectedItem == JavaScriptPivotItem)
             {
                 JavaScriptCodeRenderer.JavaScriptSource = await _currentSample.GetJavaScriptSourceAsync();
+
+                return;
             }
         }
 
@@ -604,8 +614,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            var sample = args.ChosenSuggestion as Sample;
-            if (sample != null)
+            if (args.ChosenSuggestion is Sample sample)
             {
                 NavigateToSample(sample);
             }
@@ -619,7 +628,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            StartSearch();
+            var t = StartSearch();
         }
 
         private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
