@@ -35,6 +35,9 @@
         <SolidColorBrush x:Key="Brush-Blue-01"
                          Color="{StaticResource Blue-01}" />
 
+        <!-- Converters -->
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+
         <!--  Styles  -->
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="{StaticResource Brush-Grey-01}" />
