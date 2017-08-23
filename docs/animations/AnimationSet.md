@@ -52,20 +52,18 @@ You can change the way how the animation interpolates between keyframes by defin
     private void MyUIElement_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
         preElement = sender as FrameworkElement;
-        var appearAnimation = preElement.Blur(value: 0).Fade(value: 1).Scale(centerX: 100, centerY: 100, easingType: EasingType.Sine);
-        appearAnimation.SetDurationForAll(500);
-        appearAnimation.SetDelayForAll(0);
-        appearAnimation.Start();
+        preElement.Blur(value: 0).Fade(value: 1).Scale(centerX: 100, centerY: 100, easingType: EasingType.Sine);
+                .SetDurationForAll(500);
+                .Start();
     }
 
     private void MyUIElement_PointerExited(object sender, PointerRoutedEventArgs e)
     {
         if (preElement != null)
         {
-            var disappearAnimation = preElement.Blur(value: 0).Fade(value: 0.1f).Scale(scaleX: 0.5f, scaleY: 0.5f, centerX: 100, centerY: 100, easingType: EasingType.Sine);
-            disappearAnimation.SetDurationForAll(500);
-            disappearAnimation.SetDelayForAll(0);
-            disappearAnimation.Start();
+            preElement.Blur(value: 0).Fade(value: 0.1f).Scale(scaleX: 0.5f, scaleY: 0.5f, centerX: 100, centerY: 100, easingType: EasingType.Sine)
+                    .SetDurationForAll(500);
+                    .Start();
         }
     }
     ```
@@ -76,14 +74,11 @@ You can change the way how the animation interpolates between keyframes by defin
 
     **Sample Code**
     ```csharp
-    var animationSet = MyUIElement.Blur(value: 10).Fade(value: 0.5f);
-    animationSet.SetDurationForAll(2500); 
-    animationSet.SetDelayForAll(0);
-    animationSet.Then();
-    animationSet.Fade(value: 1).Scale(scaleX: 2, scaleY: 2, centerX: 100, centerY: 100, easingType: EasingType.Sine);
-    animationSet.SetDurationForAll(2500);
-    animationSet.SetDelayForAll(0);
-    animationSet.Start();
+    MyUIElement.Blur(value: 10).Fade(value: 0.5f)
+            .Then()
+            .Fade(value: 1).Scale(scaleX: 2, scaleY: 2, centerX: 100, centerY: 100, easingType: EasingType.Sine)
+            .SetDurationForAll(2500)
+            .Start();
     ```
     **Sample Output**
 
