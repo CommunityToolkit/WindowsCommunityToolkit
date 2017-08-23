@@ -23,7 +23,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class PullToRefreshListViewPage : IXamlRenderListener
     {
         private readonly ObservableCollection<Item> _items;
-        private DelegateCommand _refreshIntentCanceledCommand;
 
         public PullToRefreshListViewPage()
         {

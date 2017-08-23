@@ -29,20 +29,22 @@ Here is an example:
     <TextBlock Grid.Column="1" 
 		Text="@[Text:String:Hey!]" Foreground="Black" 
 		FontSize="@[FontSize:Slider:12:10-30]" 
-		VerticalAlignment="@[VerticalAlignment:Enum:VerticalAlignment.Center]">
+		VerticalAlignment="@[Vertical Alignment:Enum:VerticalAlignment.Center]">
 	</TextBlock>
 </Grid>
 ```
 
-You can define "interactive" values in this file. The values can be:
+You can define "interactive" values in this file. The value types can be:
 * String: You want the user to provide a text. The string is built like this @[Name:**String**:Default value]
 * Slider: You want the user to provide a double value. The string is built like this @[Name:**Slider**:Default value:min-max]
 * DoubleSlider: Same as slider but with double values (0.01 precision)
-* Enum: You want the user to provide a enum value. The string is built like this @[Name:**Enum**:Default value]
+* Enum: You want the user to provide a enum value. The string is built like this @[Name:**Enum**:EnumType.DefaultValue]
 * Brush: You want the user to select a color from a list. The string is built like this @[Name:**Brush**:Black]
 * Bool: You want the user to enable or disable a property. The string is built like this @[Name:**Bool**:True]
 
-These options will be translated **automatically** to the following syntax when your .bind template is being used on the property page:
+The `Property Name` can also contain spaces, but these will be removed from the property name used for accessing the value in the property bag for any binding/access, see below.
+
+The name and options will be translated **automatically** to the following syntax when your .bind template is being used on the property page:
 
 ```
 <Grid Margin="10">
@@ -70,7 +72,7 @@ When the developer switches to the XAML tab, they'll automatically see the selec
 </Grid>
 ```
 
-You can also reuse a @[Property Name] reference by itself again later to use the same binding/value again in the same template.  This will automatically get mapped to the right place without the need to specify all the types/options again.  Just set those options on your first usage.
+You can also reuse a `@[Property Name]` reference by itself again later to use the same binding/value again in the same template.  This will automatically get mapped to the right place without the need to specify all the types/options again.  Just set those options on your first usage.
 
 If you happen to need a two-way binding for the generated XAML, then add an extra '@' after the property definition in the template:
 

@@ -274,7 +274,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                             brush.Color.ToString() : value.Value.ToString();
 
                         result = result.Replace(option.OriginalString, newString);
-                        result = result.Replace("@[" + option.Name + "]" + (option.IsTwoWayBinding ? "@" : string.Empty), newString);
+                        result = result.Replace("@[" + option.Label + "]@", newString);
+                        result = result.Replace("@[" + option.Label + "]", newString);
                     }
                 }
 
@@ -304,8 +305,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                             option.OriginalString,
                             "{Binding " + option.Name + ".Value, Mode=" + (option.IsTwoWayBinding ? "TwoWay" : "OneWay") + "}");
                         result = result.Replace(
-                            "@[" + option.Name + "]" + (option.IsTwoWayBinding ? "@" : string.Empty),
-                            "{Binding " + option.Name + ".Value, Mode=" + (option.IsTwoWayBinding ? "TwoWay" : "OneWay") + "}");
+                            "@[" + option.Label + "]@",
+                            "{Binding " + option.Name + ".Value, Mode=TwoWay}");
+                        result = result.Replace(
+                            "@[" + option.Label + "]",
+                            "{Binding " + option.Name + ".Value, Mode=OneWay}"); // Order important here.
                     }
                 }
 
@@ -337,7 +341,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                     foreach (Match match in regularExpression.Matches(XamlCode))
                     {
-                        var name = match.Groups["name"].Value;
+                        var label = match.Groups["name"].Value;
+                        var name = label.Replace(" ", string.Empty); // Allow us to have nicer display names, but create valid properties.
                         var type = match.Groups["type"].Value;
                         var value = match.Groups["value"].Value;
 
@@ -443,6 +448,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     break;
                             }
 
+                            options.Label = label;
                             options.Name = name;
                             options.OriginalString = match.Value;
                             options.Kind = kind;

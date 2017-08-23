@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     // Label
                     var label = new TextBlock
                     {
-                        Text = option.Name + ":",
+                        Text = option.Label + ":",
                         Foreground = new SolidColorBrush(Colors.Black)
                     };
                     RootPanel.Children.Add(label);

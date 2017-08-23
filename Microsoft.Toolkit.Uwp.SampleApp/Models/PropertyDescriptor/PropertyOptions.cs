@@ -16,6 +16,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Models
     {
         public string Name { get; set; }
 
+        public string Label { get; set; }
+
         public string OriginalString { get; set; }
 
         public PropertyKind Kind { get; set; }
