@@ -80,7 +80,7 @@ Therefore, for any new control/extension, you should still have a simplified sni
 
 
 ## 4. For Events/Resource Templates: Have your sample page implement the **IXamlRendererListener** interface
-This gets called whenever the template gets parsed (due to loading or user modification).   Here you can use the new [LogicalTree](https://github.com/Microsoft/UWPCommunityToolkit/blob/dev/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs) extensions to grab named controls in the template and register their events.  **Check for null first** as the developer may have removed the name from the element.
+This gets called whenever the template gets parsed (due to loading or user modification).   Here you can use the [LogicalTree](https://github.com/Microsoft/UWPCommunityToolkit/blob/dev/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs) extensions to grab named controls in the template and register their events.  **Check for null first** as the developer may have removed the name from the element.
 
 ```
 var markdownText = control.FindChildByName("MarkdownText") as MarkdownTextBlock;
@@ -109,7 +109,7 @@ if (resources?.ContainsKey("ThingStyle") == true)
 Now, the sample page content in the app is ignored, but you can override that behavior by adding a `<Grid x:Name="XamlRoot"/>` element to the page.  If this element is found, it will serve as the host to the dynamic .bind content instead.  In this manner you can have a status/warning message outside of the control of the developer in the XAML sample tab.
 
 
-## Finally: Update Samples.json
+# Update Samples.json
 After creating your page and the binding text, you just need to reference it in the /SamplePages/samples.json file.
 Select the category where you want your page to be listed and add the following information:
 
@@ -134,8 +134,11 @@ Select the category where you want your page to be listed and add the following 
 
 ### Adding documentation
 
-Use the DocumentationUrl to add a link to the raw documentation on GitHub. Please follow the following patern:
+Every API must be accompanied by Markdown documentation in the docs folder in the root of this repo.
 
-`https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/{branch}/docs/{file.md}`
+Use the DocumentationUrl property to add a link to the raw documentation in *samples.json*. Please follow the following pattern:
 
-> NOTE: When the debugger is not attached to the Sample App (as in production), the branch will automaticaly be changed to **master**
+`https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/{branch}/docs/{folder/file.md}`
+
+> NOTE: When building and running the app in release mode, the branch will automatically be changed to **master** before loading. 
+> Note: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on github, the sample app will use the packaged version

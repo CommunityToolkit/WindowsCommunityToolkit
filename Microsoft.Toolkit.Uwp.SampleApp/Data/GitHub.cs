@@ -12,10 +12,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Windows.Web.Http;
-using System.Linq;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Data
 {
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
                         _releases = JsonConvert.DeserializeObject<List<GitHubRelease>>(result).Take(5).ToList();
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
             }

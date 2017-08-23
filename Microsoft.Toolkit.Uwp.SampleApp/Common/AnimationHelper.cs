@@ -31,11 +31,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var compositor = ElementCompositionPreview.GetElementVisual(element).Compositor;
             ElementCompositionPreview.SetIsTranslationEnabled(element, true);
 
-            //var hideAnimationGroup = _compositor.CreateAnimationGroup();
-            //hideAnimationGroup.Add(GetOpacityAnimation(0, _defaultHideAnimationDiration));
-            //hideAnimationGroup.Add(GetYOffsetAnimation(-(float)element.Height, _defaultHideAnimationDiration));
-            //ElementCompositionPreview.SetImplicitHideAnimation(element, hideAnimationGroup);
-
+            // var hideAnimationGroup = _compositor.CreateAnimationGroup();
+            // hideAnimationGroup.Add(GetOpacityAnimation(0, _defaultHideAnimationDiration));
+            // hideAnimationGroup.Add(GetYOffsetAnimation(-(float)element.Height, _defaultHideAnimationDiration));
+            // ElementCompositionPreview.SetImplicitHideAnimation(element, hideAnimationGroup);
             var showAnimationGroup = compositor.CreateAnimationGroup();
             showAnimationGroup.Add(GetOpacityAnimation(compositor, 1, 0, _defaultShowAnimationDuration));
             showAnimationGroup.Add(GetYOffsetAnimation(compositor, 0, -(float)element.Height, _defaultShowAnimationDuration));
@@ -46,13 +45,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public static void SetSecondLevelShowHideAnimation(FrameworkElement element)
         {
             var compositor = ElementCompositionPreview.GetElementVisual(element).Compositor;
-            //ElementCompositionPreview.SetImplicitHideAnimation(element, GetOpacityAnimation(0, 1, _defaultHideAnimationDiration));
+
+            // ElementCompositionPreview.SetImplicitHideAnimation(element, GetOpacityAnimation(0, 1, _defaultHideAnimationDiration));
             ElementCompositionPreview.SetImplicitShowAnimation(element, GetOpacityAnimation(compositor, 1, 0, 200, 200));
         }
 
         public static CompositionAnimation GetYOffsetAnimation(Compositor compositor, float y, float from, float duration, float delay = 0)
         {
-
             var animation = compositor.CreateScalarKeyFrameAnimation();
             animation.Target = "Offset.Y";
             animation.InsertKeyFrame(0, from);

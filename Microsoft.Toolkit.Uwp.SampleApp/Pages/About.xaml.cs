@@ -131,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
             var keyChar = (char)args.VirtualKey;
             if (char.IsLetterOrDigit(keyChar))
             {
-                Shell.Current.StartSearch(keyChar.ToString());
+                var t = Shell.Current.StartSearch(keyChar.ToString());
             }
         }
 
