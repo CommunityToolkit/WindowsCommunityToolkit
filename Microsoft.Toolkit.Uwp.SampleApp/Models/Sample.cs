@@ -52,7 +52,43 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string About { get; set; }
 
-        public string CodeUrl { get; set; }
+        private string _codeUrl;
+
+        public string CodeUrl
+        {
+            get
+            {
+                return _codeUrl;
+            }
+
+            set
+            {
+#if DEBUG
+                _codeUrl = value;
+#else
+                var regex = new Regex("^https://github.com/Microsoft/UWPCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
+                var docMatch = regex.Match(value);
+
+                var branch = string.Empty;
+                var path = string.Empty;
+                if (docMatch.Success)
+                {
+                    branch = docMatch.Groups["branch"].Value;
+                    path = docMatch.Groups["path"].Value;
+                }
+
+                if (string.IsNullOrWhiteSpace(branch))
+                {
+                    _codeUrl = value;
+                }
+                else
+                {
+                    _codeUrl = $"https://github.com/Microsoft/UWPCommunityToolkit/tree/master/{path}";
+                }
+#endif
+
+            }
+        }
 
         public string CodeFile { get; set; }
 

@@ -123,7 +123,7 @@ Select the category where you want your page to be listed and add the following 
         "Name": "AdaptiveGridView",
         "Type": "AdaptiveGridViewPage",
         "About": "The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the total display available space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically. The number and the width of items are calculated based on the screen resolution in order to fully leverage the available screen space. The property ItemsHeight define the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a new column.",
-        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar",
         "XamlCodeFile": "AdaptiveGridViewCode.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/AdaptiveGridView.md"
       }
@@ -142,3 +142,7 @@ Use the DocumentationUrl property to add a link to the raw documentation in *sam
 
 > NOTE: When building and running the app in release mode, the branch will automatically be changed to **master** before loading. 
 > Note: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on github, the sample app will use the packaged version
+
+### CodeUrl
+
+The value of CodeUrl is modified when the app is built in release mode. The branch is automaticaly changed to **master**. This allows you to test the link in debug while pointing to dev.
