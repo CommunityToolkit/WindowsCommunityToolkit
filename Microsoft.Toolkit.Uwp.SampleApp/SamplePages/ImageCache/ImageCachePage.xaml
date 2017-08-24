@@ -6,76 +6,22 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Page.Resources>
-        <DataTemplate x:Key="PhotosTemplate">
-            <controls:ImageEx HorizontalAlignment="Center"
-                              VerticalAlignment="Center"
-                              Source="{Binding Thumbnail}"
-                              Stretch="Uniform" />
-        </DataTemplate>
-    </Page.Resources>
     <Grid Background="{StaticResource Brush-Grey-05}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel>
-            <StackPanel Name="ButtonsPanel"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal">
-                <Button Name="PreCache"
-                        Margin="10,20"
-                        Content="PreCache photos"
-                        Tapped="PreCache_Tapped" />
+        <TextBlock Name="Message"
+                   Margin="24"
+                   HorizontalAlignment="Center"
+                   TextWrapping="Wrap" />
 
-                <Button Name="PreCacheInMemory"
-                        Margin="10,20"
-                        Content="PreCache photos in memory"
-                        Tapped="PreCacheInMemory_Tapped" />
-
-                <Button Name="LoadImages"
-                        Margin="10,20"
-                        Content="Load photos"
-                        Tapped="LoadImages_Tapped" />
-
-                <Button Name="ClearCache"
-                        Margin="10,20"
-                        Content="Clear cache"
-                        Tapped="ClearCache_Tapped" />
-            </StackPanel>
-            <TextBlock Name="Message"
-                       Margin="24"
-                       HorizontalAlignment="Center"
-                       TextWrapping="Wrap" />
-        </StackPanel>
-
-        <ListView Name="PhotoList"
-                  Grid.Row="1"
-                  ItemTemplate="{StaticResource PhotosTemplate}" />
+        <Grid x:Name="XamlRoot" Grid.Row="2" />
 
         <ProgressRing Name="BusyIndicator"
                       Grid.RowSpan="2"
-                      Background="White"
                       Foreground="Blue" />
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="Full">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="600" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="Small">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Target="ButtonsPanel.Orientation" Value="Vertical" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>
 

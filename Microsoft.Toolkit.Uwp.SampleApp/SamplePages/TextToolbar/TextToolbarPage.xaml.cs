@@ -16,17 +16,39 @@ using Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbar;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class TextToolbarPage
+    public sealed partial class TextToolbarPage : IXamlRenderListener
     {
+        private TextToolbar _toolbar;
+        private MarkdownTextBlock _previewer;
+
         public TextToolbarPage()
         {
             InitializeComponent();
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            _toolbar = control.FindChildByName("Toolbar") as TextToolbar;
+
+            var editZone = control.FindChildByName("EditZone") as RichEditBox;
+            if (editZone != null)
+            {
+                editZone.TextChanged += EditZone_TextChanged;
+            }
+
+            _previewer = control.FindChildByName("Previewer") as MarkdownTextBlock;
+            if (_previewer != null)
+            {
+                _previewer.LinkClicked += Previewer_LinkClicked;
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -35,8 +57,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             Shell.Current.RegisterNewCommand("Add/Remove Bold Button", (sender, args) =>
             {
-                var button = Toolbar.GetDefaultButton(ButtonType.Bold);
-                button.Visibility = button.Visibility == Windows.UI.Xaml.Visibility.Visible ? Windows.UI.Xaml.Visibility.Collapsed : Windows.UI.Xaml.Visibility.Visible;
+                var button = _toolbar?.GetDefaultButton(ButtonType.Bold);
+                if (button != null)
+                {
+                    button.Visibility = button.Visibility == Windows.UI.Xaml.Visibility.Visible ? Windows.UI.Xaml.Visibility.Collapsed : Windows.UI.Xaml.Visibility.Visible;
+                }
             });
 
             Shell.Current.RegisterNewCommand("Add Custom Button", (sender, args) =>
@@ -61,6 +86,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void AddCustomButton()
         {
+            if (_toolbar == null)
+            {
+                return;
+            }
+
             string demoText = "Demo";
             demoText = DemoCounter > 0 ? demoText + DemoCounter : demoText;
 
@@ -81,19 +111,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 ShortcutKey = shortcut,
                 Activation = (b) =>
                 {
-                    var md = Toolbar.Formatter as MarkDownFormatter;
+                    var md = _toolbar.Formatter as MarkDownFormatter;
                     if (md != null)
                     {
                         md.SetSelection($"[{demoText}]", $"[/{demoText}]");
                     }
                     else
                     {
-                        Toolbar.Formatter.Selected.Text = $"This was filled by {demoText} button ";
+                        _toolbar.Formatter.Selected.Text = $"This was filled by {demoText} button ";
                     }
                 }
             };
 
-            Toolbar.CustomButtons.Add(demoButton);
+            _toolbar.CustomButtons.Add(demoButton);
         }
 
         private void Previewer_LinkClicked(object sender, LinkClickedEventArgs e)
@@ -110,11 +140,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void EditZone_TextChanged(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var md = Toolbar.Formatter as MarkDownFormatter;
+            if (_toolbar == null || _previewer == null)
+            {
+                return;
+            }
+
+            var md = _toolbar.Formatter as MarkDownFormatter;
             if (md != null)
             {
                 string text = md.Text;
-                Previewer.Text = string.IsNullOrWhiteSpace(text) ? "Nothing to Preview" : text;
+                _previewer.Text = string.IsNullOrWhiteSpace(text) ? "Nothing to Preview" : text;
             }
         }
     }

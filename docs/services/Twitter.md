@@ -1,10 +1,18 @@
+---
+title: Twitter Service
+author: nmetulev
+ms.date: 08/20/2017
+description: The Twitter Service allows users to retrieve or publish data to Twitter. 
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Twitter 
+---
+
 # Twitter Service
 
 The **Twitter Service** allows users to retrieve or publish data to Twitter. 
 
 [Twitter Developer Site](https://dev.twitter.com) is the main content site for all twitter developers.  Visit the [Twitter Apps List](https://apps.twitter.com/) to manage existing apps.
 
-[Create new Twitter App](https://apps.twitter.com/app/new) can be used to create a new app within the Twitter portal.
+[Create new Twitter App](https://apps.twitter.com/app) can be used to create a new app within the Twitter portal.
 
 ## App Setup
 

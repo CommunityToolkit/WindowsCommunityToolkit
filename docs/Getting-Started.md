@@ -1,3 +1,11 @@
+---
+title: Getting Started with the UWP Community Toolkit
+author: nmetulev
+ms.date: 08/20/2017
+description: Overview of how to get started with the UWP Community Toolkit to build amazing UWP apps
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, get started, visual studio
+---
+
 # Getting Started with the UWP Community Toolkit
 
 The toolkit is available as NuGet packages that can be added to any existing or new project using Visual Studio.
@@ -14,14 +22,17 @@ The toolkit is available as NuGet packages that can be added to any existing or 
 
 4. Add a reference to the toolkit in your XAML pages or C#
 
-
     * In your XAML page, add a reference at the top of your page
 
-            xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+        ```xaml
+        xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+        ```
 
     * In your C# page, add the namespaces to the toolkit
 
-            using Microsoft.Toolkit.Uwp;
+        ```c#
+        using Microsoft.Toolkit.Uwp;
+        ```
 
 
 5. You can copy and paste code snippets for each feature from the [UWP Community Toolkit Sample App](http://aka.ms/uwptoolkitapp). 

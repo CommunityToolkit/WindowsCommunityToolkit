@@ -16,22 +16,31 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Windows.UI;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class ImageExPage
+    public sealed partial class ImageExPage : IXamlRenderListener
     {
         private ObservableCollection<PhotoDataItem> photos;
         private int imageIndex;
+        private StackPanel container;
+        private ResourceDictionary resources;
 
         public ImageExPage()
         {
             InitializeComponent();
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            // Need to use logical tree here as scrollviewer hasn't initialized yet even with dispatch.
+            container = control.FindChildByName("Container") as StackPanel;
+            resources = control.Resources;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -70,15 +79,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             Shell.Current.RegisterNewCommand("Clear image cache", async (sender, args) =>
             {
-                Container.Children.Clear();
+                container?.Children?.Clear();
                 GC.Collect(); // Force GC to free file locks
                 await ImageCache.Instance.ClearAsync();
             });
 
             await LoadDataAsync();
-
-            AddImage(false, true);
-            AddImage(false, true, true);
         }
 
         private async Task LoadDataAsync()
@@ -93,32 +99,31 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 newImage = new RoundImageEx
                 {
-                    Height = 200,
-                    Width = 200,
-                    CornerRadius = 999
                 };
+
+                if (resources?.ContainsKey("RoundStyle") == true)
+                {
+                    newImage.Style = resources["RoundStyle"] as Style;
+                }
             }
             else
             {
                 newImage = new ImageEx();
+
+                if (resources?.ContainsKey("RectangleStyle") == true)
+                {
+                    newImage.Style = resources["RectangleStyle"] as Style;
+                }
             }
 
-            newImage.IsCacheEnabled = true;
-            newImage.Stretch = Stretch.UniformToFill;
             newImage.Source = broken ? photos[imageIndex].Thumbnail + "broken" : photos[imageIndex].Thumbnail;
-            newImage.HorizontalAlignment = HorizontalAlignment.Center;
-            newImage.VerticalAlignment = VerticalAlignment.Center;
-            newImage.MaxWidth = 300;
-            newImage.Background = new SolidColorBrush(Colors.Transparent);
-            newImage.Foreground = new SolidColorBrush(Colors.White);
 
             if (placeholder)
             {
                 newImage.PlaceholderSource = new BitmapImage(new Uri("ms-appx:///Assets/Photos/ImageExPlaceholder.jpg"));
-                newImage.PlaceholderStretch = Stretch.UniformToFill;
             }
 
-            Container.Children.Add(newImage);
+            container?.Children?.Add(newImage);
 
             // Move to next image
             imageIndex++;

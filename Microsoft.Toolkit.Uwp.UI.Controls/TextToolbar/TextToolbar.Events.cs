@@ -53,6 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (newEditor != null)
                 {
                     newEditor.AddHandler(KeyDownEvent, bar.KeyEventHandler, handledEventsToo: true);
+                    bar.CreateFormatter();
                 }
             }
         }

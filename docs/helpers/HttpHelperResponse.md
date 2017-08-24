@@ -1,3 +1,11 @@
+---
+title: HttpHelperResponse
+author: nmetulev
+ms.date: 08/20/2017
+description: Represents an HTTP response message including headers. 
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelperResponse
+---
+
 # HttpHelperResponse
 
 (This API is obsolete and will be removed in the future. Please use [System.Net.Http.HttpResponseMessage](https://msdn.microsoft.com/en-us/library/system.net.http.httpresponsemessage(v=vs.110).aspx) 

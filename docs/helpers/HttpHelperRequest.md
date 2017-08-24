@@ -1,3 +1,11 @@
+---
+title: HttpHelperRequest
+author: nmetulev
+ms.date: 08/20/2017
+description: Represents an HTTP request message including headers. 
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelperRequest
+---
+
 # HttpHelperRequest
 
 (This API is obsolete and will be removed in the future. Please use [System.Net.Http.HttpRequestMessage](https://msdn.microsoft.com/en-us/library/system.net.http.httprequestmessage(v=vs.110).aspx) 

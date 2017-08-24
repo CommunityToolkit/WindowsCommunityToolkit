@@ -1,3 +1,11 @@
+---
+title: Print Helper
+author: nmetulev
+ms.date: 08/20/2017
+description: The PrintHelper is a class used to simplify document printing.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, PrintHelper
+---
+
 # Print Helper
 
 The PrintHelper is a class used to simplify document printing.

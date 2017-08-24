@@ -1,6 +1,14 @@
-# TextBox Mask XAML Property
+---
+title: TextBox Mask XAML Property
+author: nmetulev
+ms.date: 08/20/2017
+description: The TextBoxMask Property allows a user to more easily enter fixed width text in TextBox control where you would like them to enter the data in a certain format
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, TextBoxMask, XAML
+---
 
-The **TextBox Mask Property** allows a user to more easily enter fixed width text in TextBox control where you would like them to enter the data in a certain format, ex: phone number, postal code.
+# TextBoxMask XAML Property
+
+The **TextBoxMask Property** allows a user to more easily enter fixed width text in TextBox control where you would like them to enter the data in a certain format, ex: phone number, postal code.
 
 ### How it works
 

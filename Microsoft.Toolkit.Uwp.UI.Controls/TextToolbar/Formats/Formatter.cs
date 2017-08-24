@@ -30,7 +30,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
                 // Waits for the Editor to be realised.
                 var editorFetch = model.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    Model.Editor.SelectionChanged += Editor_SelectionChanged;
+                    if (Model.Editor != null)
+                    {
+                        Model.Editor.SelectionChanged += Editor_SelectionChanged;
+                    }
                 });
             }
         }

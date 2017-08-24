@@ -1,3 +1,11 @@
+---
+title: Microsoft Translator Service
+author: nmetulev
+ms.date: 08/20/2017
+description: The Microsoft Translator Service allows you to translate text to various supported languages.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, MicrosoftTranslator
+---
+
 # Microsoft Translator Service
 
 The **Microsoft Translator Service** allows you to translate text to various supported languages.

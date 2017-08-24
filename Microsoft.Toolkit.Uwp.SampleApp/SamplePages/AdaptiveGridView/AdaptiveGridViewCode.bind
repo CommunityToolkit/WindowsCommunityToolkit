@@ -1,5 +1,4 @@
 <Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.AdaptiveGridViewPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -21,8 +20,9 @@
             </Grid>
         </DataTemplate>
     </Page.Resources>
+  
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:AdaptiveGridView Name="control"
+        <controls:AdaptiveGridView Name="AdaptiveGridViewControl"
                                    OneRowModeEnabled="@[OneRowModeEnabled:Bool:false]"
                                    ItemHeight="@[ItemHeight:Slider:200:50-500]"
                                    DesiredWidth="@[DesiredWidth:Slider:300:50-500]"

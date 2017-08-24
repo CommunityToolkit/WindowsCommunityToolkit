@@ -1,0 +1,44 @@
+{
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.md"
+        ],
+        "exclude": [
+          "**/obj/**",
+          "**/includes/**",
+          "README.md",
+          "LICENSE",
+          "license.md",
+          "LICENSE-CODE",
+          "ThirdPartyNotices"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "**/*.png",
+          "**/*.jpg",
+          "**/*.gif"
+        ],
+        "exclude": [
+          "**/obj/**",
+          "**/includes/**"
+        ]
+      }
+    ],
+    "overwrite": [],
+    "externalReference": [],
+    "globalMetadata": {
+      "ms.topic": "article",
+      "ms.prod": "windows",
+      "ms.technology": "uwp",
+      "ms.author": "nikolame"      
+    },
+    "fileMetadata": {},
+    "template": [],
+    "dest": "UWPCommunityToolkitDocs"
+  }
+}

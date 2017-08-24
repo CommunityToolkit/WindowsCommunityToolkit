@@ -17,7 +17,7 @@ Every contribution has to come with:
 * A documentation page in the [documentation folder](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/docs). Once validated your documentation will be visible [here](http://docs.uwpcommunitytoolkit.com/en/dev/)
 * A sample for the [Sample app](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp) (If applicable)
 * Unit tests (If applicable)
-* You tested your code with SDK 10586 and SDK 14393
+* You tested your code with SDK 14393 and SDK 15063
 * PR has to target dev branch
 
 PR has to be validated by at least two core members before being merged.
