@@ -1,6 +1,6 @@
 {
   "new-section-title": "What's New",
-  "new-samples": [ "Menu", "BluetoothLEHelper", "Bing Service", "Expander", "OrbitView" ],
+  "new-samples": [ "InAppNotification", "TextToolbar", "Menu", "Expander", "BluetoothLEHelper" ],
   "resources": [
     {
       "title": "UWP Community Toolkit",
@@ -47,7 +47,7 @@
           "url": "https://developer.microsoft.com/en-us/windows/apps/design"
         },
         {
-          "title": "Code Samples",
+          "title": "Code samples",
           "url": "https://developer.microsoft.com/en-us/windows/samples"
         },
         {
