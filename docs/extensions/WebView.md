@@ -32,5 +32,5 @@ The **WebView** allows attaching HTML content to WebView.
 
 ## API
 
-* [WebViewExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/dev/Microsoft.Toolkit.Uwp.UI/Extensions/Webview)
+* [WebViewExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/WebView)
 
