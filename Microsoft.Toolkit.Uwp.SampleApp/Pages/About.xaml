@@ -46,7 +46,7 @@
 
     <Border x:Name="Root" Visibility="Collapsed">
         <Border.Background>
-            <ImageBrush ImageSource="ms-appx:///Assets/Photos/GiantSlabInOregon.jpg" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"></ImageBrush>
+            <ImageBrush ImageSource="ms-appx:///Assets/Photos/artur-rutkowski-97622.jpg" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"></ImageBrush>
         </Border.Background>
         
         <controls:DropShadowPanel x:Name="DropShadow"
@@ -155,6 +155,9 @@
                                     </HyperlinkButton>
                                     <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://github.com/google/code-prettify">
                                         <TextBlock>Code Prettify (Dependency)</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://unsplash.com/?photo=GdTLaWamFHw">
+                                        <TextBlock>Background photo by Artur Rutkowski</TextBlock>
                                     </HyperlinkButton>
                                 </ItemsControl>
                             </StackPanel>
