@@ -74,7 +74,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Place items below header
             var panel = TargetListViewBase.ItemsPanelRoot;
-            Canvas.SetZIndex(panel, -1);
+            if (panel != null)
+            {
+                Canvas.SetZIndex(panel, -1);
+            }
 
             UpdateScrollHeaderBehavior();
         }
