@@ -189,15 +189,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
-            AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerGrid);
+            if (AnimationHelper.IsImplicitHideShowSupported)
+            {
+                AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerGrid);
 
-            AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerDetailsGrid);
-            AnimationHelper.SetSecondLevelShowHideAnimation(SamplePickerDetailsGridContent);
-            AnimationHelper.SetSecondLevelShowHideAnimation(InfoAreaGrid);
-            AnimationHelper.SetSecondLevelShowHideAnimation(Splitter);
+                AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerDetailsGrid);
+                AnimationHelper.SetSecondLevelShowHideAnimation(SamplePickerDetailsGridContent);
+                AnimationHelper.SetSecondLevelShowHideAnimation(InfoAreaGrid);
+                AnimationHelper.SetSecondLevelShowHideAnimation(Splitter);
 
-            ////ElementCompositionPreview.SetImplicitHideAnimation(ContentShadow, GetOpacityAnimation(0, 1, _defaultHideAnimationDiration));
-            ElementCompositionPreview.SetImplicitShowAnimation(ContentShadow, AnimationHelper.GetOpacityAnimation(_compositor, (float)ContentShadow.Opacity, 0, _defaultShowAnimationDuration));
+                ////ElementCompositionPreview.SetImplicitHideAnimation(ContentShadow, GetOpacityAnimation(0, 1, _defaultHideAnimationDiration));
+                ElementCompositionPreview.SetImplicitShowAnimation(ContentShadow, AnimationHelper.GetOpacityAnimation(_compositor, (float)ContentShadow.Opacity, 0, _defaultShowAnimationDuration));
+            }
         }
 
         private async void NavigationFrame_Navigating(object sender, NavigatingCancelEventArgs navigationEventArgs)
@@ -738,6 +741,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void SamplePickerListView_ContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
+            if (!AnimationHelper.IsImplicitHideShowSupported)
+            {
+                return;
+            }
+
             var panel = args.ItemContainer.FindAscendant<DropShadowPanel>();
             if (panel != null)
             {
@@ -748,6 +756,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void SamplePickerListView_ChoosingItemContainer(Windows.UI.Xaml.Controls.ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
+            if (!AnimationHelper.IsImplicitHideShowSupported)
+            {
+                return;
+            }
+
             args.ItemContainer = args.ItemContainer ?? new ListViewItem();
 
             var showAnimation = AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, _defaultShowAnimationDuration, 200);
