@@ -62,7 +62,7 @@
                                 Background="{StaticResource Brush-Grey-04}"
                                 ImageSource="ms-appx:///SamplePages/TileControl/Animations.png"
                                 ParallaxSpeedRatio="{Binding ParallaxSpeedRatio.Value, Mode=OneWay}"
-                                ScrollViewerContainer="{x:Bind FlipView, Mode=OneTime}">
+                                ScrollViewerContainer="{Binding ElementName=FlipView, Mode=OneTime}">
             <FlipView x:Name="FlipView">
 
                 <Border Style="{StaticResource BorderStyle}">
