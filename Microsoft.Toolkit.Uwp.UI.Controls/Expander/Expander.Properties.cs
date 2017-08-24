@@ -44,6 +44,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ExpandDirection), typeof(ExpandDirection), typeof(Expander), new PropertyMetadata(ExpandDirection.Down, OnExpandDirectionChanged));
 
         /// <summary>
+        /// Identifies the <see cref="ExpanderAutomationPropertyName"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ExpanderAutomationPropertyNameProperty =
+            DependencyProperty.Register(nameof(ExpanderAutomationPropertyName), typeof(string), typeof(Expander), new PropertyMetadata("Expand"));
+
+        /// <summary>
+        /// Gets or sets the automation property name for the Expander.
+        /// </summary>
+        public string ExpanderAutomationPropertyName
+        {
+            get { return (string)GetValue(ExpanderAutomationPropertyNameProperty); }
+            set { SetValue(ExpanderAutomationPropertyNameProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the Header of the control.
         /// </summary>
         public string Header

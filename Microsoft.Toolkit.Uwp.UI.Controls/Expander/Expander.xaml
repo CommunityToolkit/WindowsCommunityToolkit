@@ -415,7 +415,7 @@
                                 <ToggleButton x:Name="PART_ExpanderToggleButton" 
                                               Height="40"
                                               TabIndex="0"
-                                              AutomationProperties.Name="Expand"
+                                              AutomationProperties.Name="{TemplateBinding ExpanderAutomationPropertyName}"
                                               Style="{StaticResource HeaderToggleButtonStyle}" 
                                               VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
                                               Foreground="{TemplateBinding Foreground}"
