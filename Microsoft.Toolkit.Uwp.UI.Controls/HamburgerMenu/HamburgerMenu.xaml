@@ -152,7 +152,7 @@
                                 </Grid>
                             </SplitView.Pane>
                             <ContentPresenter x:Name="ContentPart"
-                                              AutomationProperties.Name="Content"
+                                              AutomationProperties.Name="{TemplateBinding ContentAutomationPropertyName}"
                                               Content="{TemplateBinding Content}" />
                         </SplitView>
                         <Button x:Name="HamburgerButton"
