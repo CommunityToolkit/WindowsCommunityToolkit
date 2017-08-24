@@ -24,7 +24,7 @@
       <Button Content="Apply" Margin="10">
         <interactivity:Interaction.Behaviors>
           <core:EventTriggerBehavior EventName="Click">
-            <core:CallMethodAction TargetObject="{Binding ElementName=Saturation}" MethodName="StartAnimation"/>
+            <core:CallMethodAction TargetObject="{Binding ElementName=SaturationBehavior}" MethodName="StartAnimation"/>
           </core:EventTriggerBehavior>
         </interactivity:Interaction.Behaviors>
       </Button>
