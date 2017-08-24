@@ -12,6 +12,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
@@ -67,6 +68,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 AddCustomButton();
             });
+
+            Shell.Current.RegisterNewCommand("Use Custom Formatter", (sender, args) =>
+            {
+                UseCustomFormatter();
+            });
+        }
+
+        private void UseCustomFormatter()
+        {
+            if (_toolbar == null)
+            {
+                return;
+            }
+
+            var formatter = new SampleFormatter(_toolbar);
+            _toolbar.Format = UI.Controls.TextToolbarFormats.Format.Custom;
+            _toolbar.Formatter = formatter;
         }
 
         private int DemoCounter { get; set; } = 0;

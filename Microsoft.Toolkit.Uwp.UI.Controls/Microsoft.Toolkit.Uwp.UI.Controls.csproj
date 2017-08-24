@@ -43,7 +43,7 @@
     <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.UI.Controls.xml</DocumentationFile>
     <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ui.controls.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-    <PropertyGroup>
+  <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
@@ -161,6 +161,7 @@
     <Compile Include="OrbitView\OrbitViewPanelItemsArrangedArgs.cs" />
     <Compile Include="SurfaceDialTextboxHelper\SurfaceDialTextboxHelper.cs" />
     <Compile Include="TextBoxMask\TextBoxMask.cs" />
+    <Compile Include="TextToolbar\EditorChangedArgs.cs" />
     <Compile Include="TextToolbar\Formats\ButtonActions.cs" />
     <Compile Include="TextToolbar\Formats\Format.cs" />
     <Compile Include="TextToolbar\Formats\Formatter.cs" />

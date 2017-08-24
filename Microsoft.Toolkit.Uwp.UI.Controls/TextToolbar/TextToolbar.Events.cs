@@ -55,6 +55,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     newEditor.AddHandler(KeyDownEvent, bar.KeyEventHandler, handledEventsToo: true);
                     bar.CreateFormatter();
                 }
+
+                var editorArgs = new EditorChangedArgs
+                {
+                    Old = oldEditor,
+                    New = newEditor
+                };
+
+                bar.EditorChanged?.Invoke(bar, editorArgs);
             }
         }
 
@@ -312,5 +320,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Fired when a CTRL + "Letter" combination is used inside the Editor.
         /// </summary>
         public event EventHandler<ShortcutKeyRequestArgs> ShortcutRequested;
+
+        /// <summary>
+        /// Fired when the RichEditBox Instance Changes.
+        /// </summary>
+        public event EventHandler<EditorChangedArgs> EditorChanged;
     }
 }
