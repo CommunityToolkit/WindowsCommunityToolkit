@@ -13,6 +13,7 @@
 using System;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Windows.UI.Text;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 {
@@ -24,24 +25,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         public Formatter(TextToolbar model)
         {
             Model = model;
-
-            if (!TextToolbar.InDesignMode)
-            {
-                // Waits for the Editor to be realised.
-                var editorFetch = model.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                {
-                    if (Model.Editor != null)
-                    {
-                        Model.Editor.SelectionChanged += Editor_SelectionChanged;
-                    }
-                });
-            }
+            Model.EditorChanged += Model_EditorChanged;
         }
 
-        /// <summary>
-        /// Shortcut to Carriage Return
-        /// </summary>
-        protected const string Return = "\r";
+        protected virtual void Model_EditorChanged(object sender, EditorChangedArgs e)
+        {
+            if (e.Old != null)
+            {
+                e.Old.SelectionChanged -= Editor_SelectionChanged;
+            }
+
+            if (e.New != null)
+            {
+                e.New.SelectionChanged += Editor_SelectionChanged;
+            }
+        }
 
         /// <summary>
         /// Called for Changes to Selction (Requires unhook if switching RichEditBox).
@@ -202,5 +200,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         {
             get { return Model.Editor.Document.Selection; }
         }
+
+        /// <summary>
+        /// Shortcut to Carriage Return
+        /// </summary>
+        protected const string Return = "\r";
     }
 }
