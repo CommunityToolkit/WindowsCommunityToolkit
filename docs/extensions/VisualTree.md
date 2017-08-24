@@ -28,6 +28,12 @@ See also [LogicalTree Extensions](LogicalTree.md).
 	// Find first visual descendant control of a specified type.
 	control = uiElement.FindDescendant<ListView>();
 
+	// Find all visual descendant controls of the specified type.
+	foreach (var child in uiElement.FindDescendant<ListViewItem>())
+	{
+		// ...
+	}
+
 	// Find first visual ascendant control using its name.
 	control = uiElement.FindAscendantByName("MyScrollViewer");
 

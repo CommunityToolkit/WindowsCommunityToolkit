@@ -6,10 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
     mc:Ignorable="d">
 
     <Page.Resources>
         <ResourceDictionary>
+            <local:DismissCommand x:Key="DismissCommand" />
+            
             <Style x:Key="DismissTextBlockButtonStyle" TargetType="ButtonBase">
                 <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />
                 <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
@@ -112,7 +115,7 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <Grid x:Name="RootGrid" SizeChanged="RootGrid_SizeChanged">
+                        <Grid x:Name="RootGrid">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition Height="Auto" />
@@ -128,8 +131,8 @@
 
                             <StackPanel x:Name="ButtonsStackPanel" Grid.RowSpan="2" Grid.Column="1" 
                                         Orientation="Horizontal" VerticalAlignment="Center">
-                                <Button x:Name="YesButton" Content="Yes" Width="150" Height="30" Click="YesButton_Click" />
-                                <Button x:Name="NoButton" Content="No" Width="150" Height="30" Margin="10 0 0 0" Click="NoButton_Click" />
+                                <Button x:Name="YesButton" Content="Yes" Width="150" Height="30" />
+                                <Button x:Name="NoButton" Content="No" Width="150" Height="30" Margin="10 0 0 0" />
                             </StackPanel>
                         </Grid>
                     </Grid>
@@ -261,22 +264,20 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel Padding="20">
             <StackPanel Margin="5">
-                <TextBox x:Name="NotificationDurationTextBox"
-                         Width="250"
+                <TextBox Width="250"
                          HorizontalAlignment="Left"
                          Text="0"
-                         PlaceholderText="Notification duration (in ms)"
-                         TextChanged="NotificationDurationTextBox_TextChanged" />
+                         PlaceholderText="Notification duration (in ms)"/>
 
                 <TextBlock Text="*if duration is less or equal 0, the notification will never be dismissed" />
             </StackPanel>
         </StackPanel>
 
-        <controls:InAppNotification x:Name="ExampleInAppNotification" 
+        <controls:InAppNotification 
                                     Content="This is a test message."
                                     ShowDismissButton="{Binding Path=ShowDismissButton.Value, Mode=TwoWay}" />
 
-        <controls:InAppNotification x:Name="ExampleVSCodeInAppNotification"
+        <controls:InAppNotification 
                                     MinHeight="35"
                                     Background="#333333"
                                     Foreground="White"
@@ -310,13 +311,10 @@
 
                         <StackPanel Grid.Column="2" Orientation="Horizontal">
                             <Button Content="Action 1" 
-                                    Click="Action1Button_Click"
                                     Style="{StaticResource VisualStudioCodeNotificationButtonStyle}" />
                             <Button Content="Action 2"
-                                    Click="Action2Button_Click"
                                     Style="{StaticResource VisualStudioCodeNotificationButtonStyle}" />
                             <Button Content="Close" 
-                                    Click="CloseButton_Click"
                                     Style="{StaticResource VisualStudioCodeNotificationButtonStyle}" />
                         </StackPanel>
                     </Grid>

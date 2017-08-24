@@ -1,5 +1,4 @@
-<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ScrollHeaderPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:models="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
@@ -8,9 +7,9 @@
       mc:Ignorable="d">
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <ListView Name="listView" ItemsSource="{x:Bind _items, Mode=OneWay}">
+    <ListView Name="listView">
       <ListView.Header>
-        <controls:ScrollHeader TargetListViewBase="{x:Bind listView}" Mode="@[Mode:Enum:ScrollHeaderMode.QuickReturn]">
+        <controls:ScrollHeader TargetListViewBase="{Binding ElementName=listView}" Mode="@[Mode:Enum:ScrollHeaderMode.QuickReturn]">
           <Grid x:Name="MyHeaderGrid"
             MinHeight="250"
             Background="{StaticResource Brush-Blue-01}">
@@ -33,7 +32,7 @@
         </controls:ScrollHeader>
       </ListView.Header>
       <ListView.ItemTemplate>
-        <DataTemplate x:DataType="models:Item">
+        <DataTemplate>
           <Grid MinHeight="100" Background="{StaticResource Brush-Grey-04}">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
@@ -47,7 +46,7 @@
                    Source="ms-appx:///Assets/ToolkitLogo.png" />
             <TextBlock Grid.Column="1"
                        VerticalAlignment="Center"
-                       Text="{x:Bind Title}"
+                       Text="{Binding Title}"
                        TextTrimming="CharacterEllipsis" />
           </Grid>
         </DataTemplate>

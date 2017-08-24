@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -83,6 +84,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
 
             return retValue;
+        }
+
+        /// <summary>
+        /// Find all descendant controls of the specified type.
+        /// </summary>
+        /// <typeparam name="T">Type to search for.</typeparam>
+        /// <param name="element">Parent element.</param>
+        /// <returns>Descendant controls or empty if not found.</returns>
+        public static IEnumerable<T> FindDescendants<T>(this DependencyObject element)
+            where T : DependencyObject
+        {
+            var childrenCount = VisualTreeHelper.GetChildrenCount(element);
+
+            for (var i = 0; i < childrenCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(element, i);
+                var type = child as T;
+                if (type != null)
+                {
+                    yield return type;
+                }
+
+                foreach (T childofChild in child.FindDescendants<T>())
+                {
+                    yield return childofChild;
+                }
+            }
         }
 
         /// <summary>

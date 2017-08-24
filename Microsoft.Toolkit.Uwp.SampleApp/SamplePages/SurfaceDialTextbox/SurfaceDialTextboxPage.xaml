@@ -6,24 +6,15 @@
       xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       mc:Ignorable="d">
 
-    <Grid x:Name="Root"
-          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-
-            <TextBox Width="250"
-                     Margin="0,0,0,10"
-                     HorizontalAlignment="Left"
-                     VerticalAlignment="Top"
-                     extensions:SurfaceDialTextbox.EnableHapticFeedback="{Binding DataContext.EnableHapticFeedback.Value, ElementName=Root, Mode=OneWay}"
-                     extensions:SurfaceDialTextbox.EnableMinMaxValue="{Binding DataContext.EnableMinMaxValue.Value, ElementName=Root, Mode=OneWay}"
-                     extensions:SurfaceDialTextbox.EnableTapToNextControl="{Binding DataContext.EnableTapToNextControl.Value, ElementName=Root, Mode=OneWay}"
-                     extensions:SurfaceDialTextbox.ForceMenuItem="{Binding DataContext.ForceMenuItem.Value, ElementName=Root, Mode=OneWay}"
-                     extensions:SurfaceDialTextbox.Icon="{Binding DataContext.Icon.Value, ElementName=Root, Mode=OneWay}"
-                     extensions:SurfaceDialTextbox.MaxValue="{Binding DataContext.MaxValue.Value, ElementName=Root, Mode=OneWay}"
-                     extensions:SurfaceDialTextbox.MinValue="{Binding DataContext.MinValue.Value, ElementName=Root, Mode=OneWay}"
-                     extensions:SurfaceDialTextbox.StepValue="{Binding DataContext.StepValue.Value, ElementName=Root, Mode=OneWay}"
-                     Text="0" />
-        </StackPanel>
+	<!-- Shallow Copy -->
+    <Grid>
+        <TextBox extensions:SurfaceDialTextbox.StepValue="1.0"
+                 extensions:SurfaceDialTextbox.ForceMenuItem="True"
+                 extensions:SurfaceDialTextbox.EnableHapticFeedback="True"
+                 extensions:SurfaceDialTextbox.EnableMinMaxValue="True"
+                 extensions:SurfaceDialTextbox.MinValue="0"
+                 extensions:SurfaceDialTextbox.MaxValue="100"
+                 extensions:SurfaceDialTextbox.Icon="Ruler"
+                 extensions:SurfaceDialTextbox.EnableTapToNextControl="True" />
     </Grid>
 </Page>

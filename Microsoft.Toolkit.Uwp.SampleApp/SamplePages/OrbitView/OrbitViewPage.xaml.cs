@@ -13,31 +13,74 @@
 using System;
 using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class OrbitViewPage : Page
+    public sealed partial class OrbitViewPage : Page, IXamlRenderListener
     {
-        private ObservableCollection<DeviceItem> _devices = new ObservableCollection<DeviceItem>();
         private Random _random = new Random();
+
+        public ObservableCollection<DeviceItem> DeviceList { get; private set; } = new ObservableCollection<DeviceItem>();
 
         public OrbitViewPage()
         {
             this.InitializeComponent();
 
-            _devices.Add(new DeviceItem() { Distance = 0.1, Label = "My Phone", Symbol = Symbol.CellPhone });
+            DeviceList.Add(new DeviceItem() { Distance = 0.1, Label = "My Phone", Symbol = Symbol.CellPhone });
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            var people = control.FindChildByName("People") as OrbitView;
+            if (people != null)
+            {
+                people.ItemClick += People_ItemClick;
+            }
+
+            var devices = control.FindChildByName("Devices") as OrbitView;
+            if (devices != null)
+            {
+                devices.ItemsSource = DeviceList;
+                devices.ItemClick += Devices_ItemClick;
+            }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            Shell.Current.RegisterNewCommand("Add Device", AddDeviceClick);
         }
 
         private void AddDeviceClick(object sender, RoutedEventArgs e)
         {
-            _devices.Add(new DeviceItem() { Distance = _random.Next(1, 10) / 10f, Label = "My Phone", Symbol = Symbol.CellPhone });
+            switch (_random.Next(3))
+            {
+                case 0:
+                    DeviceList.Add(new DeviceItem() { Distance = _random.Next(1, 10) / 10f, Label = "Other Phone", Symbol = Symbol.CellPhone });
+                    break;
+                case 1:
+                    DeviceList.Add(new DeviceItem() { Distance = _random.Next(1, 10) / 10f, Label = "Camera", Symbol = Symbol.Camera });
+                    break;
+                case 2:
+                    DeviceList.Add(new DeviceItem() { Distance = _random.Next(1, 10) / 10f, Label = "TV", Symbol = Symbol.GoToStart });
+                    break;
+            }
         }
 
-        private void OnItemClicked(object sender, OrbitViewItemClickedEventArgs e)
+        private async void People_ItemClick(object sender, OrbitViewItemClickedEventArgs e)
         {
-            _devices.Remove(e.Item as DeviceItem);
+            await new MessageDialog("You clicked: " + (e.Item as OrbitViewDataItem)?.Label).ShowAsync();
+        }
+
+        private void Devices_ItemClick(object sender, OrbitViewItemClickedEventArgs e)
+        {
+            DeviceList.Remove(e.Item as DeviceItem);
         }
     }
 
