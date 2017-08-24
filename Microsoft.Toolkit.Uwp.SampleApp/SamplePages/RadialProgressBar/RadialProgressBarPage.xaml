@@ -6,23 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
-        <Grid HorizontalAlignment="Center"
-              VerticalAlignment="Center">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50" />
-                <ColumnDefinition Width="250" />
-                <ColumnDefinition Width="50" />
-            </Grid.ColumnDefinitions>
-            <controls:RadialProgressBar x:Name="RadialProgressBarControl"
-                                        Grid.Column="1"
-                                        Maximum="100"
-                                        Minimum="0"
-                                        Thickness="{Binding Thickness.Value, Mode=OneWay}"
-                                        Value="{Binding Value.Value, Mode=OneWay}"
-                                        Width="{Binding Width.Value, Mode=OneWay}"
-                                        Height="{Binding Height.Value, Mode=OneWay}"
-                                        Outline="{Binding Outline.Value, Mode=OneWay}"/>
-        </Grid>
+    <Grid Visibility="Collapsed">
+        <controls:RadialProgressBar />
     </Grid>
 </Page>

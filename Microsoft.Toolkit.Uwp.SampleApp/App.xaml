@@ -42,6 +42,9 @@
         <SolidColorBrush x:Key="Brush-Brand-Color"
                        Color="{StaticResource Brand-Color}" />
 
+        <!-- Converters -->
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+
         <!--  Styles  -->
         <Style TargetType="controls:CodeRenderer">
             <Setter Property="Template">

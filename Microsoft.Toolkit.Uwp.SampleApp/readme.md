@@ -29,20 +29,22 @@ Here is an example:
     <TextBlock Grid.Column="1" 
 		Text="@[Text:String:Hey!]" Foreground="Black" 
 		FontSize="@[FontSize:Slider:12:10-30]" 
-		VerticalAlignment="@[VerticalAlignment:Enum:VerticalAlignment.Center]">
+		VerticalAlignment="@[Vertical Alignment:Enum:VerticalAlignment.Center]">
 	</TextBlock>
 </Grid>
 ```
 
-You can define "interactive" values in this file. The values can be:
+You can define "interactive" values in this file. The value types can be:
 * String: You want the user to provide a text. The string is built like this @[Name:**String**:Default value]
 * Slider: You want the user to provide a double value. The string is built like this @[Name:**Slider**:Default value:min-max]
 * DoubleSlider: Same as slider but with double values (0.01 precision)
-* Enum: You want the user to provide a enum value. The string is built like this @[Name:**Enum**:Default value]
+* Enum: You want the user to provide a enum value. The string is built like this @[Name:**Enum**:EnumType.DefaultValue]
 * Brush: You want the user to select a color from a list. The string is built like this @[Name:**Brush**:Black]
 * Bool: You want the user to enable or disable a property. The string is built like this @[Name:**Bool**:True]
 
-These options will be translated **automatically** to the following syntax when your .bind template is being used on the property page:
+The `Property Name` can also contain spaces, but these will be removed from the property name used for accessing the value in the property bag for any binding/access, see below.
+
+The name and options will be translated **automatically** to the following syntax when your .bind template is being used on the property page:
 
 ```
 <Grid Margin="10">
@@ -70,8 +72,13 @@ When the developer switches to the XAML tab, they'll automatically see the selec
 </Grid>
 ```
 
-You can also reuse a @[Property Name] reference by itself again later to use the same binding/value again in the same template.  This will automatically get mapped to the right place without the need to specify all the types/options again.  Just set those options on your first usage.
+You can also reuse a `@[Property Name]` reference by itself again later to use the same binding/value again in the same template.  This will automatically get mapped to the right place without the need to specify all the types/options again.  Just set those options on your first usage.
 
+If you happen to need a two-way binding for the generated XAML, then add an extra '@' after the property definition in the template:
+
+```
+Value="@[Value:Slider:0:0-180]@"
+```
 
 ## 3. Have a *'Shallow Copy'* of your example in the sample page
 Even though the sample page content is ignored and the dynamic template injected, for the XamlReader to access some classes, a reference to the item is sometimes needed in the hosting app for it to be accessible.  (I assume it's an optimization thing.)  
@@ -123,7 +130,7 @@ Select the category where you want your page to be listed and add the following 
         "Name": "AdaptiveGridView",
         "Type": "AdaptiveGridViewPage",
         "About": "The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the total display available space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically. The number and the width of items are calculated based on the screen resolution in order to fully leverage the available screen space. The property ItemsHeight define the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a new column.",
-        "CodeUrl": "https://github.com/deltakosh/UWPToolkit",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar",
         "XamlCodeFile": "AdaptiveGridViewCode.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/AdaptiveGridView.md"
       }
@@ -142,3 +149,7 @@ Use the DocumentationUrl property to add a link to the raw documentation in *sam
 
 > NOTE: When building and running the app in release mode, the branch will automatically be changed to **master** before loading. 
 > Note: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on github, the sample app will use the packaged version
+
+### CodeUrl
+
+The value of CodeUrl is modified when the app is built in release mode. The branch is automaticaly changed to **master**. This allows you to test the link in debug while pointing to dev.

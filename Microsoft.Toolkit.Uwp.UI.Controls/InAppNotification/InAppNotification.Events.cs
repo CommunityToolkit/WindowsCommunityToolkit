@@ -10,15 +10,24 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.UI.Xaml.Controls;
+using System;
+using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    public sealed partial class RadialProgressBarPage : Page
+    /// <summary>
+    /// In App Notification defines a control to show local notification in the app.
+    /// </summary>
+    public partial class InAppNotification
     {
-        public RadialProgressBarPage()
+        /// <summary>
+        /// Event raised when the notification is dismissed
+        /// </summary>
+        public event EventHandler Dismissed;
+
+        private void DismissButton_Click(object sender, RoutedEventArgs e)
         {
-            InitializeComponent();
+            Dismiss();
         }
     }
 }

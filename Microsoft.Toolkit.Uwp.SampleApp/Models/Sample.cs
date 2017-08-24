@@ -52,7 +52,43 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string About { get; set; }
 
-        public string CodeUrl { get; set; }
+        private string _codeUrl;
+
+        public string CodeUrl
+        {
+            get
+            {
+                return _codeUrl;
+            }
+
+            set
+            {
+#if DEBUG
+                _codeUrl = value;
+#else
+                var regex = new Regex("^https://github.com/Microsoft/UWPCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
+                var docMatch = regex.Match(value);
+
+                var branch = string.Empty;
+                var path = string.Empty;
+                if (docMatch.Success)
+                {
+                    branch = docMatch.Groups["branch"].Value;
+                    path = docMatch.Groups["path"].Value;
+                }
+
+                if (string.IsNullOrWhiteSpace(branch))
+                {
+                    _codeUrl = value;
+                }
+                else
+                {
+                    _codeUrl = $"https://github.com/Microsoft/UWPCommunityToolkit/tree/master/{path}";
+                }
+#endif
+
+            }
+        }
 
         public string CodeFile { get; set; }
 
@@ -238,7 +274,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                             brush.Color.ToString() : value.Value.ToString();
 
                         result = result.Replace(option.OriginalString, newString);
-                        result = result.Replace("@[" + option.Name + "]", newString);
+                        result = result.Replace("@[" + option.Label + "]@", newString);
+                        result = result.Replace("@[" + option.Label + "]", newString);
                     }
                 }
 
@@ -264,8 +301,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     if (proxy[option.Name] is ValueHolder value)
                     {
-                        result = result.Replace(option.OriginalString, "{Binding " + option.Name + ".Value, Mode=OneWay}");
-                        result = result.Replace("@[" + option.Name + "]", "{Binding " + option.Name + ".Value, Mode=OneWay}");
+                        result = result.Replace(
+                            option.OriginalString,
+                            "{Binding " + option.Name + ".Value, Mode=" + (option.IsTwoWayBinding ? "TwoWay" : "OneWay") + "}");
+                        result = result.Replace(
+                            "@[" + option.Label + "]@",
+                            "{Binding " + option.Name + ".Value, Mode=TwoWay}");
+                        result = result.Replace(
+                            "@[" + option.Label + "]",
+                            "{Binding " + option.Name + ".Value, Mode=OneWay}"); // Order important here.
                     }
                 }
 
@@ -290,14 +334,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     XamlCode = await codeStream.ReadTextAsync();
 
                     // Look for @[] values and generate associated properties
-                    var regularExpression = new Regex(@"@\[(?<name>.+?)(:(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*)?\]");
+                    var regularExpression = new Regex(@"@\[(?<name>.+?)(:(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*)?\]@?");
 
                     _propertyDescriptor = new PropertyDescriptor { Expando = new ExpandoObject() };
                     var proxy = (IDictionary<string, object>)_propertyDescriptor.Expando;
 
                     foreach (Match match in regularExpression.Matches(XamlCode))
                     {
-                        var name = match.Groups["name"].Value;
+                        var label = match.Groups["name"].Value;
+                        var name = label.Replace(" ", string.Empty); // Allow us to have nicer display names, but create valid properties.
                         var type = match.Groups["type"].Value;
                         var value = match.Groups["value"].Value;
 
@@ -403,9 +448,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     break;
                             }
 
+                            options.Label = label;
                             options.Name = name;
                             options.OriginalString = match.Value;
                             options.Kind = kind;
+                            options.IsTwoWayBinding = options.OriginalString.EndsWith("@");
                             proxy[name] = new ValueHolder(options.DefaultValue);
 
                             _propertyDescriptor.Options.Add(options);
