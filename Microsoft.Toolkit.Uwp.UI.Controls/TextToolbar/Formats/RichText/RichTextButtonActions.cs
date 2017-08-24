@@ -85,6 +85,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
                 selected.Text = link;
             }
 
+            // Fixes Link Replacement
+            if (!string.IsNullOrWhiteSpace(selected.Link))
+            {
+                selected.Link = string.Empty;
+            }
+
             selected.Link = $"\"{link}\"";
 
             var doc = Formatter.Model.Editor.Document;
