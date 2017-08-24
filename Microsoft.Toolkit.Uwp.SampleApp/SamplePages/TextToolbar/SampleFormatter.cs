@@ -10,14 +10,15 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbar
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples
 {
     public class SampleFormatter : Formatter
     {
-        public SampleFormatter(UI.Controls.TextToolbar model)
+        public SampleFormatter(TextToolbar model)
             : base(model)
         {
         }
