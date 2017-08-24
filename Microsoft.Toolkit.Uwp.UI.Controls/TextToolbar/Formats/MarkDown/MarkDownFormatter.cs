@@ -13,6 +13,7 @@
 using System;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -26,6 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         public MarkDownFormatter(TextToolbar model)
             : base(model)
         {
+            CommonButtons = new CommonButtons(model);
             ButtonActions = new MarkDownButtonActions(this);
         }
 
@@ -403,6 +405,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             return ListLineIterator + ". ";
         }
 
+        private CommonButtons CommonButtons { get; }
+
         public override string Text
         {
             get
@@ -417,8 +421,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         {
             get
             {
-                ListButton = ListButton ?? Model.CommonButtons.List;
-                OrderedListButton = OrderedListButton ?? Model.CommonButtons.OrderedList;
+                ListButton = ListButton ?? CommonButtons.List;
+                OrderedListButton = OrderedListButton ?? CommonButtons.OrderedList;
                 QuoteButton = new ToolbarButton
                 {
                     Name = TextToolbar.QuoteElement,
@@ -429,9 +433,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 
                 return new ButtonMap
                 {
-                    Model.CommonButtons.Bold,
-                    Model.CommonButtons.Italics,
-                    Model.CommonButtons.Strikethrough,
+                    CommonButtons.Bold,
+                    CommonButtons.Italics,
+                    CommonButtons.Strikethrough,
 
                     new ToolbarSeparator(),
 
@@ -451,7 +455,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                     },
                     QuoteButton,
 
-                    Model.CommonButtons.Link,
+                    CommonButtons.Link,
 
                     new ToolbarSeparator(),
 

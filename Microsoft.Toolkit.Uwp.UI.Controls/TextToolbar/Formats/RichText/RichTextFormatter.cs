@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
 using Windows.System;
 using Windows.UI.Text;
 using Windows.UI.Xaml.Controls;
@@ -23,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
         public RichTextFormatter(TextToolbar model)
             : base(model)
         {
+            CommonButtons = new CommonButtons(model);
             ButtonActions = new RichTextButtonActions(this);
         }
 
@@ -86,6 +88,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
             base.OnSelectionChanged();
         }
 
+        private CommonButtons CommonButtons { get; }
+
         public override string Text
         {
             get
@@ -112,9 +116,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
         {
             get
             {
-                BoldButton = Model.CommonButtons.Bold;
-                ItalicButton = Model.CommonButtons.Italics;
-                StrikeButton = Model.CommonButtons.Strikethrough;
+                BoldButton = CommonButtons.Bold;
+                ItalicButton = CommonButtons.Italics;
+                StrikeButton = CommonButtons.Strikethrough;
                 Underline = new ToolbarButton
                 {
                     ToolTip = Model.Labels.UnderlineLabel,
@@ -122,8 +126,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
                     ShortcutKey = VirtualKey.U,
                     Activation = ((RichTextButtonActions)ButtonActions).FormatUnderline
                 };
-                ListButton = Model.CommonButtons.List;
-                OrderedListButton = Model.CommonButtons.OrderedList;
+                ListButton = CommonButtons.List;
+                OrderedListButton = CommonButtons.OrderedList;
 
                 return new ButtonMap
                 {
@@ -133,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
 
                     new ToolbarSeparator(),
 
-                    Model.CommonButtons.Link,
+                    CommonButtons.Link,
                     StrikeButton,
 
                     new ToolbarSeparator(),

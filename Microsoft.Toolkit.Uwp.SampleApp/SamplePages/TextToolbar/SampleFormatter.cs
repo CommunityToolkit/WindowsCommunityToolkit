@@ -12,6 +12,7 @@
 
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples
@@ -21,13 +22,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples
         public SampleFormatter(TextToolbar model)
             : base(model)
         {
+            CommonButtons = new CommonButtons(model);
         }
 
         public override ButtonMap DefaultButtons
         {
             get
             {
-                var bold = Model.CommonButtons.Bold;
+                var bold = CommonButtons.Bold;
                 bold.Activation = item => Selected.Text = "BOLD!!!";
 
                 return new ButtonMap
@@ -36,5 +38,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples
                 };
             }
         }
+
+        private CommonButtons CommonButtons { get; }
     }
 }

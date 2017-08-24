@@ -35,15 +35,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal const string OrderedElement = "OrderedList";
         internal const string HeadersElement = "Headers";
 
-        /// <summary>
-        /// Gets access to Generic Buttons to instantiate for Creating Formatters (does not get the Current Instance from Toolbar)
-        /// </summary>
-        public CommonButtons CommonButtons { get; }
-
         public TextToolbar()
         {
             DefaultStyleKey = typeof(TextToolbar);
-            CommonButtons = new CommonButtons(this);
 
             CustomButtons = new ButtonMap();
             ButtonModifications = new DefaultButtonModificationList();
