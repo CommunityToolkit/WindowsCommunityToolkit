@@ -12,9 +12,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+using System.Diagnostics;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -23,6 +26,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class MasterDetailsViewPage : Page, IXamlRenderListener
     {
+        private double _previousWidth = Window.Current.Bounds.Width;
+
         public MasterDetailsViewPage()
         {
             Emails = new List<Email>
@@ -58,6 +63,36 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             };
 
             InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            Window.Current.SizeChanged += Current_SizeChanged;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            Window.Current.SizeChanged -= Current_SizeChanged;
+        }
+
+        // workaround for loaded unloaded getting called in wrong order when shell template gets swapped
+        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        {
+            if ((e.Size.Width < 700 && _previousWidth >= 700) ||
+                   (e.Size.Width >= 700 && _previousWidth < 700))
+            {
+                _previousWidth = e.Size.Width;
+                var t = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
+                {
+                    await Task.Delay(500);
+                    await Shell.Current.RefreshXamlRenderAsync();
+                });
+            }
+            else
+            {
+                _previousWidth = e.Size.Width;
+            }
+
         }
 
         public ICollection<Email> Emails { get; set; }

@@ -155,6 +155,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             while (innerTextbox == null);
         }
 
+        public async Task RefreshXamlRenderAsync()
+        {
+            if (_currentSample != null)
+            {
+                var code = string.Empty;
+                if (_currentSample.PropertyDescriptor != null &&
+                    _currentSample.PropertyDescriptor.Options.Count > 0 &&
+                    InfoAreaPivot.SelectedIndex == 0)
+                {
+                    code = _currentSample.BindedXamlCode + " ";
+                }
+                else
+                {
+                    code = _currentSample.UpdatedXamlCode + " ";
+                }
+
+                if (!string.IsNullOrWhiteSpace(code))
+                {
+                    await UpdateXamlRenderAsync(code);
+                }
+            }
+        }
+
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
