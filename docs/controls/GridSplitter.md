@@ -1,11 +1,7 @@
 ---
 title: GridSplitter XAML Control
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The GridSplitter Control provides an easy-to-use Splitter that redistributes space between columns or rows of a Grid Control.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, GridSplitter, XAML Control, xaml
 ---

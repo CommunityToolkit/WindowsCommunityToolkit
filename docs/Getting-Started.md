@@ -1,11 +1,7 @@
 ---
 title: Getting Started with the UWP Community Toolkit
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: Overview of how to get started with the UWP Community Toolkit to build amazing UWP apps
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, get started, visual studio
 ---

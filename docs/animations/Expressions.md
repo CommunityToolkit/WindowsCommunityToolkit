@@ -1,11 +1,7 @@
 ---
 title: ExpressionBuilder
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The ExpressionBuilder classes are a C#-only alternative to building Composition Expressions with type safety.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, expressions, expressionbuilder
 ---
