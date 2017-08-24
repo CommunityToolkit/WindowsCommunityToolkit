@@ -1,15 +1,16 @@
 <Page
-    x:Name="CurrentPage"
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.InAppNotificationPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
     <Page.Resources>
         <ResourceDictionary>
+            <local:DismissCommand x:Key="DismissCommand" />
+          
             <Style x:Key="DismissTextBlockButtonStyle" TargetType="ButtonBase">
                 <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />
                 <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
@@ -79,6 +80,12 @@
                     <Grid DataContext="{Binding ElementName=CurrentPage}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup>
+                                <VisualState x:Name="LargeState">
+                                    <VisualState.StateTriggers>
+                                       <AdaptiveTrigger MinWindowWidth="700" />
+                                    </VisualState.StateTriggers>
+                                </VisualState>
+                              
                                 <VisualState x:Name="NarrowState">
                                     <VisualState.Setters>
                                         <Setter Target="TextBlock.(Grid.RowSpan)" Value="1" />
@@ -100,13 +107,7 @@
                                     </VisualState.Setters>
                                     
                                     <VisualState.StateTriggers>
-                                        <StateTrigger IsActive="{Binding IsRootGridActualWidthLargerThan700, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
-                                    </VisualState.StateTriggers>
-                                </VisualState>
-
-                                <VisualState x:Name="LargeState">
-                                    <VisualState.StateTriggers>
-                                        <StateTrigger IsActive="{Binding IsRootGridActualWidthLargerThan700, Mode=OneWay}" />
+                                        <AdaptiveTrigger MinWindowWidth="0" />
                                     </VisualState.StateTriggers>
                                 </VisualState>
                             </VisualStateGroup>
@@ -128,8 +129,12 @@
 
                             <StackPanel x:Name="ButtonsStackPanel" Grid.RowSpan="2" Grid.Column="1" 
                                         Orientation="Horizontal" VerticalAlignment="Center">
-                                <Button x:Name="YesButton" Content="Yes" Width="150" Height="30" Click="YesButton_Click" />
-                                <Button x:Name="NoButton" Content="No" Width="150" Height="30" Margin="10 0 0 0" Click="NoButton_Click" />
+                                <Button x:Name="YesButton" Content="Yes" Width="150" Height="30" 
+                                        Command="{StaticResource DismissCommand}" 
+                                        CommandParameter="{Binding ElementName=ExampleInAppNotification}"/>
+                                <Button x:Name="NoButton" Content="No" Width="150" Height="30" Margin="10 0 0 0" 
+                                        Command="{StaticResource DismissCommand}" 
+                                        CommandParameter="{Binding ElementName=ExampleInAppNotification}"/>
                             </StackPanel>
                         </Grid>
                     </Grid>
@@ -263,43 +268,12 @@
             <StackPanel Margin="5">
                 <TextBox x:Name="NotificationDurationTextBox"
                          Width="250"
+                         Header="Notification Duration (in ms):"
                          HorizontalAlignment="Left"
-                         Text="0"
-                         PlaceholderText="Notification duration (in ms)"
-                         TextChanged="NotificationDurationTextBox_TextChanged" />
+                         Text="0" />
 
-                <TextBlock Text="*if duration is less or equal 0, the notification will never be dismissed" />
+                <TextBlock Margin="4,12,0,0" Text="*if duration is less or equal 0, the notification will never be dismissed" />
             </StackPanel>
-            
-            <Button x:Name="ShowNotificationWithRandomTextButton" 
-                    Margin="5"
-                    Content="Show notification with random text"
-                    Click="ShowNotificationWithRandomTextButton_Click" />
-
-            <Button x:Name="ShowNotificationWithButtonsButton" 
-                    Margin="5"
-                    Content="Show notification with buttons (without DataTemplate)"
-                    Click="ShowNotificationWithButtonsButton_Click" />
-
-            <Button x:Name="ShowNotificationWithButtonsDataTemplateButton" 
-                    Margin="5"
-                    Content="Show notification with buttons (with DataTemplate)"
-                    Click="ShowNotificationWithButtonsDataTemplateButton_Click" />
-            
-            <Button x:Name="ShowNotificationWithDropShadowButton" 
-                    Margin="5"
-                    Content="Show notification with Drop Shadow (based on default template)"
-                    Click="ShowNotificationWithDropShadowButton_Click" />
-
-            <Button x:Name="ShowNotificationWithVSCodeTemplateButton" 
-                    Margin="5"
-                    Content="Show notification with Visual Studio Code template (info notification)"
-                    Click="ShowNotificationWithVSCodeTemplateButton_Click" />
-
-            <Button x:Name="DismissNotificationButton" 
-                    Margin="5"
-                    Content="Dismiss"
-                    Click="DismissNotificationButton_Click" />
         </StackPanel>
 
         <controls:InAppNotification x:Name="ExampleInAppNotification"
@@ -340,13 +314,16 @@
 
                         <StackPanel Grid.Column="2" Orientation="Horizontal">
                             <Button Content="Action 1" 
-                                    Click="Action1Button_Click"
+                                    Command="{StaticResource DismissCommand}"
+                                    CommandParameter="{Binding ElementName=ExampleVSCodeInAppNotification}"
                                     Style="{StaticResource VisualStudioCodeNotificationButtonStyle}" />
                             <Button Content="Action 2"
-                                    Click="Action2Button_Click"
+                                    Command="{StaticResource DismissCommand}"
+                                    CommandParameter="{Binding ElementName=ExampleVSCodeInAppNotification}"
                                     Style="{StaticResource VisualStudioCodeNotificationButtonStyle}" />
-                            <Button Content="Close" 
-                                    Click="CloseButton_Click"
+                            <Button Content="Close"
+                                    Command="{StaticResource DismissCommand}"
+                                    CommandParameter="{Binding ElementName=ExampleVSCodeInAppNotification}"
                                     Style="{StaticResource VisualStudioCodeNotificationButtonStyle}" />
                         </StackPanel>
                     </Grid>
