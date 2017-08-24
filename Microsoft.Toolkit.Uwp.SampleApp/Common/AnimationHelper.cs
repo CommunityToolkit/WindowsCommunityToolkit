@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private static bool? _isImpicitHideShowSupported;
 
-        public static bool IsImplicitHideShowSupported => (bool)(_isImpicitHideShowSupported ?? 
+        public static bool IsImplicitHideShowSupported => (bool)(_isImpicitHideShowSupported ??
             (_isImpicitHideShowSupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4)));
 
         public static void SetTopLevelShowHideAnimation(FrameworkElement element)
