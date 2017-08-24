@@ -41,11 +41,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (editZone != null)
             {
                 editZone.TextChanged += EditZone_TextChanged;
-
-                if (_toolbar != null)
-                {
-                    _toolbar.Editor = editZone;
-                }
             }
 
             _previewer = control.FindChildByName("Previewer") as MarkdownTextBlock;

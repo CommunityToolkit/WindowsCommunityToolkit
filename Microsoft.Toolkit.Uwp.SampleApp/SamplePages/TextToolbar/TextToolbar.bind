@@ -20,10 +20,10 @@
       <RowDefinition />
     </Grid.RowDefinitions>
     <controls:TextToolbar x:Name="Toolbar"
-                             Editor="{Binding EditZone}"
-                             IsEnabled="@[IsEnabled:Bool:True]"
-                             Format="@[Format:Enum:Format.RichText]"
-                             Background="#4C4F4F4F" />
+                          Editor="{Binding ElementName=EditZone}"
+                          IsEnabled="@[IsEnabled:Bool:True]"
+                          Format="@[Format:Enum:Format.RichText]"
+                          Background="#4C4F4F4F" />
 
     <ScrollViewer Grid.Row="1">
       <Grid>
@@ -40,7 +40,7 @@
         <Grid x:Name="MD"
                       Grid.Row="1"
                       Padding="10"
-                      Visibility="{Binding Format.Value, Mode=OneWay, Converter={StaticResource IsFormatMarkdown}}">
+                      Visibility="{Binding Format, ElementName=Toolbar, Mode=OneWay, Converter={StaticResource IsFormatMarkdown}}">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
