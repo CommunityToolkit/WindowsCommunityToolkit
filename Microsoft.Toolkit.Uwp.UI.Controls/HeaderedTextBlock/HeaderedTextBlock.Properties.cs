@@ -75,6 +75,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(false, (d, e) => { ((HeaderedTextBlock)d).UpdateVisibility(); }));
 
         /// <summary>
+        /// Defines the <see cref="HeaderContentAutomationPropertyName"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeaderContentAutomationPropertyNameProperty = DependencyProperty.Register(
+            nameof(HeaderContentAutomationPropertyName),
+            typeof(string),
+            typeof(HeaderedTextBlock),
+            new PropertyMetadata("Header content"));
+
+        /// <summary>
+        /// Gets or sets the automation property name for the header content.
+        /// </summary>
+        public string HeaderContentAutomationPropertyName
+        {
+            get
+            {
+                return (string)GetValue(HeaderContentAutomationPropertyNameProperty);
+            }
+
+            set
+            {
+                SetValue(HeaderContentAutomationPropertyNameProperty, value);
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the header style.
         /// </summary>
         public DataTemplate HeaderTemplate

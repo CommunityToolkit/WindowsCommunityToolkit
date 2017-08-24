@@ -30,7 +30,7 @@
                                           Grid.ColumnSpan="4"
                                           x:DeferLoadStrategy="Lazy"
                                           AutomationProperties.AccessibilityView="Raw"
-                                          AutomationProperties.Name="Header content"
+                                          AutomationProperties.Name="{TemplateBinding HeaderContentAutomationPropertyName}"
                                           Content="{TemplateBinding Header}"
                                           ContentTemplate="{TemplateBinding HeaderTemplate}"
                                           Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
