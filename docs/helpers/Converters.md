@@ -1,11 +1,7 @@
 ---
 title: Converters
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: Commonly used converters that allow the data to be modified as it passes through the binding engine.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, BoolToObjectConverter, BoolToVisibilityConverter, CollectionVisibilityConverter, EmptyCollectionToObjectConverter, EmptyStringToObjectConverter, StringFormatConverter, StringVisibilityConverter
 ---

@@ -28,6 +28,7 @@
 ## [HamburgerMenu](controls/HamburgerMenu.md)
 ## [HeaderedTextBlock](controls/HeaderedTextBlock.md)
 ## [ImageEx](controls/ImageEx.md)
+## [InAppNotification](controls/InAppNotification.md)
 ## [Loading](controls/Loading.md)
 ## [MarkdownTextBlock](controls/MarkdownTextBlock.md)
 ## [MasterDetailsView](controls/MasterDetailsView.md)

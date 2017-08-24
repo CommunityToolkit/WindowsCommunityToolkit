@@ -1,11 +1,7 @@
 ---
 title: DispatcherHelper
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The DispatcherHelper class enables easy interaction with CoreDispatcher, mainly in the case of executing a block of code on the UI thread from a non-UI thread.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, DispatcherHelper
 ---

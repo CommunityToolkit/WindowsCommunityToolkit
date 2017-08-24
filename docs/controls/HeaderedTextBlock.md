@@ -1,11 +1,7 @@
 ---
 title: HeaderedTextBlock XAML Control
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The HeaderedTextBlock Control provides a header for read-only text.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HeaderedTextBlock, XAML Control, xaml
 ---

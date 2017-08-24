@@ -1,11 +1,7 @@
 ---
 title: Scale animation behavior
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The Scale animation behavior allows you to change a control's scale by increasing or decreasing the control through animation. 
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, scale animation, scale
 ---
