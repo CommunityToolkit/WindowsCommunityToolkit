@@ -38,7 +38,7 @@
                                           Visibility="Collapsed" />
 
                         <TextBlock x:Name="TextContent"
-                                   AutomationProperties.Name="Text content"
+                                   AutomationProperties.Name="{TemplateBinding TextContentAutomationPropertyName}"
                                    Style="{TemplateBinding TextStyle}"
                                    Text="{TemplateBinding Text}" />
                         <VisualStateManager.VisualStateGroups>

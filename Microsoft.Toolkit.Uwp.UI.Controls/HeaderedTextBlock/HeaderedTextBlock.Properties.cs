@@ -84,6 +84,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata("Header content"));
 
         /// <summary>
+        /// Defines the <see cref="TextContentAutomationPropertyName"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TextContentAutomationPropertyNameProperty = DependencyProperty.Register(
+            nameof(TextContentAutomationPropertyName),
+            typeof(string),
+            typeof(HeaderedTextBlock),
+            new PropertyMetadata("Text content"));
+
+        /// <summary>
+        /// Gets or sets the automation property name for the header content.
+        /// </summary>
+        public string TextContentAutomationPropertyName
+        {
+            get
+            {
+                return (string)GetValue(TextContentAutomationPropertyNameProperty);
+            }
+
+            set
+            {
+                SetValue(TextContentAutomationPropertyNameProperty, value);
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the automation property name for the header content.
         /// </summary>
         public string HeaderContentAutomationPropertyName
