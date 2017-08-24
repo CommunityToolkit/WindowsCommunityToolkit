@@ -102,14 +102,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpdateShadowSize();
+            if (IsSupported)
+            {
+                UpdateShadowSize();
+            }
         }
 
         private void ConfigureShadowVisualForCastingElement()
         {
             UpdateShadowMask();
 
-            UpdateShadowSize();
+            if (IsSupported)
+            {
+                UpdateShadowSize();
+            }
         }
 
         private void OnBlurRadiusChanged(double newValue)
@@ -130,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnOffsetXChanged(double newValue)
         {
-            if (_dropShadow != null)
+            if (IsSupported && _dropShadow != null)
             {
                 UpdateShadowOffset((float)newValue, _dropShadow.Offset.Y, _dropShadow.Offset.Z);
             }
@@ -138,7 +144,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnOffsetYChanged(double newValue)
         {
-            if (_dropShadow != null)
+            if (IsSupported && _dropShadow != null)
             {
                 UpdateShadowOffset(_dropShadow.Offset.X, (float)newValue, _dropShadow.Offset.Z);
             }
@@ -146,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnOffsetZChanged(double newValue)
         {
-            if (_dropShadow != null)
+            if (IsSupported && _dropShadow != null)
             {
                 UpdateShadowOffset(_dropShadow.Offset.X, _dropShadow.Offset.Y, (float)newValue);
             }
