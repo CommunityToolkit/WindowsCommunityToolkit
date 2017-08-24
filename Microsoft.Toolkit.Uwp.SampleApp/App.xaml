@@ -299,7 +299,7 @@
                                                   Grid.Row="3"
                                                   Width="{TemplateBinding OpenPaneLength}"
                                                   VerticalAlignment="Bottom"
-                                                  AutomationProperties.Name="Option items"
+                                                  AutomationProperties.Name="{TemplateBinding OptionItemsAutomationPropertyName}"
                                                   IsItemClickEnabled="True"
                                                   ItemContainerStyle="{StaticResource HambugerMenuItemStyle}"
                                                   ItemTemplate="{TemplateBinding OptionsItemTemplate}"
