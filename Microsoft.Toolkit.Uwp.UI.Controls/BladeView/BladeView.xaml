@@ -150,7 +150,7 @@
                                     Grid.Column="2"
                                     TabIndex="0"
                                     HorizontalAlignment="Right"
-                                    AutomationProperties.Name="Cancel"
+                                    AutomationProperties.Name="{TemplateBinding CloseButtonAutomationPropertyName}"
                                     Background="{TemplateBinding CloseButtonBackground}"
                                     Content="&#xE711;"
                                     FontFamily="Segoe MDL2 Assets"
