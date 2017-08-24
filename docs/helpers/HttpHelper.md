@@ -1,11 +1,7 @@
 ---
 title: HttpHelper
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: Represents an HTTP request message including headers. 
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelper
 ---

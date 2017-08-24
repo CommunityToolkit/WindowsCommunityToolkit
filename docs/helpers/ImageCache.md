@@ -1,11 +1,7 @@
 ---
 title: ImageCache
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The ImageCache provides methods and tools to cache images in a temporary local folder.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ImageCache
 ---

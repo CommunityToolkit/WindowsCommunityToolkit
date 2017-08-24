@@ -1,11 +1,7 @@
 ---
 title: SystemInformation
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The SystemInformation is a static utility class that provides properties with some system, application and device information.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, SystemInformation
 ---

@@ -1,11 +1,7 @@
 ---
 title: UWP Community Toolkit Nuget Packages
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: UWP Community Toolkit Nuget Packages
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, nuget, visual studio
 ---
