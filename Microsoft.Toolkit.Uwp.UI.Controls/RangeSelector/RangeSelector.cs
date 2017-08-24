@@ -60,6 +60,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty IsTouchOptimizedProperty = DependencyProperty.Register(nameof(IsTouchOptimized), typeof(bool), typeof(RangeSelector), new PropertyMetadata(false, IsTouchOptimizedChangedCallback));
 
+        /// <summary>
+        /// Identifies the MinThumbAutomationPropertyName dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MinThumbAutomationPropertyNameProperty = DependencyProperty.Register(nameof(MinThumbAutomationPropertyName), typeof(string), typeof(RangeSelector), new PropertyMetadata("Min thumb"));
+
+        /// <summary>
+        /// Identifies the MaxThumbAutomationPropertyName dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MaxThumbAutomationPropertyNameProperty = DependencyProperty.Register(nameof(MaxThumbAutomationPropertyName), typeof(string), typeof(RangeSelector), new PropertyMetadata("Max thumb"));
+
         private const double Epsilon = 0.01;
 
         private Border _outOfRangeContentContainer;
@@ -582,6 +592,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set
             {
                 SetValue(IsTouchOptimizedProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the automation property name for the MaxThumb.
+        /// </summary>
+        public string MaxThumbAutomationPropertyName
+        {
+            get
+            {
+                return (string)GetValue(MaxThumbAutomationPropertyNameProperty);
+            }
+
+            set
+            {
+                SetValue(MaxThumbAutomationPropertyNameProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the automation property name for the MinThumb.
+        /// </summary>
+        public string MinThumbAutomationPropertyName
+        {
+            get
+            {
+                return (string)GetValue(MinThumbAutomationPropertyNameProperty);
+            }
+
+            set
+            {
+                SetValue(MinThumbAutomationPropertyNameProperty, value);
             }
         }
 

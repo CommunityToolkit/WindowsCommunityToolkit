@@ -48,13 +48,13 @@
                                        VerticalAlignment="Center"
                                        Fill="{TemplateBinding Foreground}" />
                             <Thumb x:Name="MinThumb"
-                                   AutomationProperties.Name="Min thumb"
+                                   AutomationProperties.Name="{TemplateBinding MinThumbAutomationPropertyName}"
                                    Background="{TemplateBinding Foreground}"
                                    IsTabStop="True" 
                                    Style="{StaticResource SliderThumbStyle}"
                                    TabIndex="0" />
                             <Thumb x:Name="MaxThumb"
-                                   AutomationProperties.Name="Max thumb"
+                                   AutomationProperties.Name="{TemplateBinding MaxThumbAutomationPropertyName}"
                                    Background="{TemplateBinding Foreground}"
                                    IsTabStop="True"
                                    Style="{StaticResource SliderThumbStyle}"
