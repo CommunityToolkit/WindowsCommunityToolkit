@@ -57,12 +57,13 @@ When you create the Class, you will need to override the `DefaultButtons` Proper
 
 If you want to use a Common Button Template, such as Bold, Italics, etc. You can get those from the `Model.CommonButtons` Property in your Inherited Formatter Class, however, you will need to implement the **ButtonActions** Class, and Instantiate it in your Formatter's `ButtonActions` property, or replace the `Action`/`Shift Action` Property on each button you use.
 
-_See the MarkDownFormatter Class for reference on how to create a Formatter_
-
+_See the MarkDownFormatter Class for reference on how to create a Formatter:_
 [MarkDownFormatter Code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/Formats/MarkDown)
 
-_Available CommonButtons_
+_See the Sample Formatter Class from the Sample App:_
+[SampleFormatter Code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/TextToolbar/SampleFormatter.cs)
 
+_Available CommonButtons:_
 [CommonButton Definitions](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/ToolbarItems/Common)
 
 ## Requirements (Windows 10 Device Family)

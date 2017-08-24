@@ -36,9 +36,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal const string HeadersElement = "Headers";
 
         /// <summary>
-        /// Gets access to Generic Buttons that activate Formatter Methods
+        /// Gets access to Generic Buttons to instantiate for Creating Formatters (does not get the Current Instance from Toolbar)
         /// </summary>
-        internal CommonButtons CommonButtons { get; }
+        public CommonButtons CommonButtons { get; }
 
         public TextToolbar()
         {

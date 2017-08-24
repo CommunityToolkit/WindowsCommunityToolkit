@@ -171,12 +171,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         /// <summary>
         /// Gets the formatted version of the Editor's Text
         /// </summary>
-        public abstract string Text { get; }
+        public virtual string Text
+        {
+            get
+            {
+                string currentvalue = string.Empty;
+                Model.Editor.Document.GetText(TextGetOptions.FormatRtf, out currentvalue);
+                return currentvalue;
+            }
+        }
 
         /// <summary>
         /// Gets the Characters used to indicate a New Line
         /// </summary>
-        public abstract string NewLineChars { get; }
+        public virtual string NewLineChars
+        {
+            get
+            {
+                return "\r\n";
+            }
+        }
 
         /// <summary>
         /// Gets the current Editor Selection
