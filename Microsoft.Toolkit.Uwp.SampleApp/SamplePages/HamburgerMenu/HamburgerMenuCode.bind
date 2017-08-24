@@ -53,7 +53,7 @@
                                 CompactPaneLength="@[CompactPaneLength:Slider:48:10-80]"
                                 HamburgerHeight="@[HamburgerHeight:Slider:48:10-80]"
                                 HamburgerVisibility="@[HamburgerVisibility:Enum:Visibility.Visible]"
-                                IsPaneOpen="@[IsPaneOpen:Bool:False]">
+                                IsPaneOpen="@[IsPaneOpen:Bool:False]@">
             <!--  Items  -->
             <controls:HamburgerMenu.ItemsSource>
                 <controls:HamburgerMenuItemCollection>
