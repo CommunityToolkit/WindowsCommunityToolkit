@@ -568,6 +568,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         /// <summary>
         /// Gets or sets the extra randomized duration to be added to the <see cref="RotationDelay"/> property.
+        /// A value between zero and this value *in seconds* will be added to the <see cref="RotationDelay"/>.
         /// </summary>
         public TimeSpan ExtraRandomDuration
         {
