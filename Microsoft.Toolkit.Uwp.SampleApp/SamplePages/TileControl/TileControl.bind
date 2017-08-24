@@ -1,9 +1,9 @@
 <Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    mc:Ignorable="d">
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      mc:Ignorable="d">
 
   <Page.Resources>
     <Style x:Name="TextBlockStyle" TargetType="TextBlock">
@@ -24,27 +24,27 @@
 
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
     </Grid.RowDefinitions>
-    
+
     <TextBlock Margin="10,20"
                    HorizontalAlignment="Center"
                    FontSize="20"
                    Text="TileControl can be used to highlight computer activity:" />
 
     <controls:TileControl Grid.Row="1"
-                          AnimationDuration="@[AnimationDuration:Slider:30:0-100]"
-                          AnimationStepX="@[AnimationStepX:Slider:1:0-3]"
-                          AnimationStepY="@[AnimationStepY:Slider:1:0-3]"
+                          AnimationDuration="@[Animation Duration:Slider:30:0-100]"
+                          AnimationStepX="@[Animation StepX:Slider:1:0-3]"
+                          AnimationStepY="@[Animation StepY:Slider:1:0-3]"
                           Background="#FFDDDDDD"
-                          ImageAlignment="@[ImageAlignment:Enum:ImageAlignment.None]"
+                          ImageAlignment="@[Image Alignment:Enum:ImageAlignment.None]"
                           ImageSource="ms-appx:///SamplePages/TileControl/Animations.png"
-                          IsAnimated="@[IsAnimated:Bool:True]"
+                          IsAnimated="@[Is Animated:Bool:True]@"
                           OffsetX="@[OffsetX:Slider:0:0-150]"
                           OffsetY="@[OffsetY:Slider:0:0-150]"
-                          ScrollOrientation="@[ScrollOrientation:Enum:ScrollOrientation.Both]">
+                          ScrollOrientation="@[Scroll Orientation:Enum:ScrollOrientation.Both]">
       <Border Style="{StaticResource BorderStyle}">
         <TextBlock Style="{StaticResource TextBlockStyle}" Text="Simple Content"></TextBlock>
       </Border>
@@ -55,11 +55,11 @@
                    HorizontalAlignment="Center"
                    FontSize="20"
                    Text="It can also be used for background painting:" />
-                   
-    <controls:TileControl Grid.Row="3" 
-                          Background="#FFDDDDDD" 
-                          ImageSource="ms-appx:///SamplePages/TileControl/Animations.png" 
-                          ParallaxSpeedRatio="@[ParallaxSpeedRatio:DoubleSlider:1.2:1-3]"
+
+    <controls:TileControl Grid.Row="3"
+                          Background="#FFDDDDDD"
+                          ImageSource="ms-appx:///SamplePages/TileControl/Animations.png"
+                          ParallaxSpeedRatio="@[Parallax Speed Ratio:DoubleSlider:1.2:1-3]"
                           ScrollViewerContainer="{Binding ElementName=FlipView, Mode=OneTime}">
       <FlipView x:Name="FlipView">
 

@@ -9,71 +9,74 @@
       x:Name="Page"
       mc:Ignorable="d">
 
-    <Page.Resources>
-      <ResourceDictionary>
-        <local:RemoveItemCommand x:Key="RemoveItemCommand" />
-      </ResourceDictionary>
-        <converters:BoolToObjectConverter x:Key="BoolToVisibilityConverter"
-                                          FalseValue="Collapsed"
-                                          TrueValue="Visible" />
-        <DataTemplate x:Key="EmailsItemTemplate">
-            <controls:SlidableListItem 
-                    MinWidth="300"
-                    MaxWidth="800"
-                    HorizontalAlignment="Stretch"
-                    ActivationWidth="@[ActivationWidth:Slider:100:50-250]"
-                    IsLeftCommandEnabled="@[IsLeftCommandEnabled:Bool:true]"
-                    IsOffsetLimited="@[IsOffsetLimited:Bool:true]"
-                    IsPointerReleasedOnSwipingHandled="@[IsPointerReleasedOnSwipingHandled:Bool:false]"
-                    IsRightCommandEnabled="@[IsRightCommandEnabled:Bool:true]"
-                    LeftBackground="@[LeftBackground:Brush:SkyBlue]" 
-                    LeftCommand="{Binding ToggleFavorite}"
-                    LeftForeground ="@[LeftForeground:Brush:White]" 
-                    LeftIcon="@[LeftIcon:Enum:Symbol.Favorite]" 
-                    LeftLabel="@[LeftLabel:String:Set Favourite]" 
-                    MouseSlidingEnabled="@[MouseSlidingEnabled:Bool:true]"
-                    RightBackground="@[RightBackground:Brush:OrangeRed]"
-                    RightCommand="{StaticResource RemoveItemCommand}"
-                    RightCommandParameter="{Binding}"
-                    RightForeground ="@[RightForeground:Brush:White]"
-                    RightIcon="@[RightIcon:Enum:Symbol.Delete]"
-                    RightLabel="@[RightLabel:String:Delete]">
-                <Grid Height="110" Background="#FFDDDDDD">
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48" />
-                    <ColumnDefinition />
-                  </Grid.ColumnDefinitions>
-                  <Grid x:Name="Checkmark"
-                     Background="SkyBlue"
-                     Visibility="{Binding IsFavorite, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <SymbolIcon Foreground="White"
-                                Symbol="Accept" />
-                  </Grid>
-                  <TextBlock Grid.Column="1"
-                             Margin="12"
-                             VerticalAlignment="Center"
-                             FontSize="16"
-                             FontWeight="Light"
-                             Style="{StaticResource CaptionTextBlockStyle}"
-                             Text="{Binding Title}"
-                             TextWrapping="NoWrap" />
-                </Grid>
-            </controls:SlidableListItem>
-        </DataTemplate>
-    </Page.Resources>
+  <Page.Resources>
+    <ResourceDictionary>
+      <local:RemoveItemCommand x:Key="RemoveItemCommand" />
+    </ResourceDictionary>
+    
+    <converters:BoolToObjectConverter x:Key="BoolToVisibilityConverter"
+                                      FalseValue="Collapsed"
+                                      TrueValue="Visible" />
+    
+    <DataTemplate x:Key="EmailsItemTemplate">
+      <controls:SlidableListItem
+              MinWidth="300"
+              MaxWidth="800"
+              HorizontalAlignment="Stretch"
+              DataContext="{Binding DataContext, ElementName=Page, Mode=OneWay}"
+              ActivationWidth="@[Activation Width:Slider:100:50-250]"
+              IsLeftCommandEnabled="@[Is LeftCommand Enabled:Bool:true]"
+              IsOffsetLimited="@[Is Offset Limited:Bool:true]"
+              IsPointerReleasedOnSwipingHandled="@[Is Pointer Released On Swiping Handled:Bool:false]"
+              IsRightCommandEnabled="@[Is RightCommand Enabled:Bool:true]"
+              LeftBackground="@[Left Background:Brush:SkyBlue]"
+              LeftCommand="{Binding DataContext.ToggleFavorite, RelativeSource={RelativeSource TemplatedParent}}"
+              LeftForeground ="@[Left Foreground:Brush:White]"
+              LeftIcon="@[Left Icon:Enum:Symbol.Favorite]"
+              LeftLabel="@[Left Label:String:Set Favourite]"
+              MouseSlidingEnabled="@[Mouse Sliding Enabled:Bool:true]"
+              RightBackground="@[Right Background:Brush:OrangeRed]"
+              RightCommand="{StaticResource RemoveItemCommand}"
+              RightCommandParameter="{Binding DataContext, RelativeSource={RelativeSource TemplatedParent}}"
+              RightForeground ="@[Right Foreground:Brush:White]"
+              RightIcon="@[Right Icon:Enum:Symbol.Delete]"
+              RightLabel="@[Right Label:String:Delete]">
+        <Grid Height="110" Background="#FFDDDDDD">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="48" />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <Grid x:Name="Checkmark"
+             Background="SkyBlue"
+             Visibility="{Binding DataContext.IsFavorite, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}">
+            <SymbolIcon Foreground="White"
+                        Symbol="Accept" />
+          </Grid>
+          <TextBlock Grid.Column="1"
+                     Margin="12"
+                     VerticalAlignment="Center"
+                     FontSize="16"
+                     FontWeight="Light"
+                     Style="{StaticResource CaptionTextBlockStyle}"
+                     Text="{Binding DataContext.Title, RelativeSource={RelativeSource TemplatedParent}}"
+                     TextWrapping="NoWrap" />
+        </Grid>
+      </controls:SlidableListItem>
+    </DataTemplate>
+  </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="24">
-        <ListView x:Name="listView"
-                  HorizontalAlignment="Center"
-                  ItemTemplate="{StaticResource EmailsItemTemplate}"
-                  SelectionMode="None" 
-                  IsItemClickEnabled="False">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
-                    <Setter Property="Margin" Value="0,1"></Setter>
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
-    </Grid>
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="24">
+    <ListView x:Name="listView"
+              HorizontalAlignment="Center"
+              ItemTemplate="{StaticResource EmailsItemTemplate}"
+              SelectionMode="None"
+              IsItemClickEnabled="False">
+      <ListView.ItemContainerStyle>
+        <Style TargetType="ListViewItem">
+          <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+          <Setter Property="Margin" Value="0,1"></Setter>
+        </Style>
+      </ListView.ItemContainerStyle>
+    </ListView>
+  </Grid>
 </Page>

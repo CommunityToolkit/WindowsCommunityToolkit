@@ -10,14 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Collections.ObjectModel;
-using Microsoft.Toolkit.Uwp.SampleApp.Common;
+using System.Windows.Input;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using System.Windows.Input;
-using System;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -28,25 +28,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public SlidableListItemPage()
         {
             InitializeComponent();
-            if (Items == null)
-            {
-                Items = new ObservableCollection<Item>();
-
-                for (var i = 0; i < 1000; i++)
-                {
-                    Items.Add(new Item() { Title = "Item " + i });
-                }
-            }
         }
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            var page = control.FindChildByName("page") as Page;
-            if (page != null)
-            {
-                page.DataContext = this;
-            }
-
             var listView = control.FindChildByName("listView") as ListView;
             if (listView != null)
             {
@@ -54,9 +39,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private bool CanExecuteDeleteItemCommand(Item item)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            return true;
+            base.OnNavigatedTo(e);
+
+            // Reset items when revisiting sample.
+            Items = new ObservableCollection<Item>();
+
+            for (var i = 0; i < 1000; i++)
+            {
+                Items.Add(new Item() { Title = "Item " + i });
+            }
         }
     }
 
