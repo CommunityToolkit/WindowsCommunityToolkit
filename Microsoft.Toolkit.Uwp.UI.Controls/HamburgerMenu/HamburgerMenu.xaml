@@ -120,7 +120,7 @@
                                     <ListView x:Name="ButtonsListView"
                                               Grid.Row="1"
                                               Width="{TemplateBinding OpenPaneLength}"
-                                              AutomationProperties.Name="Menu items"
+                                              AutomationProperties.Name="{TemplateBinding MenuItemsAutomationPropertyName}"
                                               IsItemClickEnabled="True"
                                               ItemContainerStyle="{StaticResource HambugerMenuItemStyle}"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
