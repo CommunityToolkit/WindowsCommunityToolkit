@@ -162,7 +162,7 @@
                                 Margin="0,0,0,8"
                                 Padding="0"
                                 VerticalAlignment="Top"
-                                AutomationProperties.Name="Main button"
+                                AutomationProperties.Name="{TemplateBinding HamburgerMenuAutomationPropertyName}"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 TabIndex="0">

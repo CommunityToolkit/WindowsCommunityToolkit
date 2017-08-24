@@ -45,6 +45,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty HamburgerMenuTemplateProperty = DependencyProperty.Register(nameof(HamburgerMenuTemplate), typeof(DataTemplate), typeof(HamburgerMenu), new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="HamburgerMenuAutomationPropertyName"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HamburgerMenuAutomationPropertyNameProperty = DependencyProperty.Register(nameof(HamburgerMenuAutomationPropertyName), typeof(string), typeof(HamburgerMenu), new PropertyMetadata("Main button"));
+
+        /// <summary>
+        /// Gets or sets the automation property name for the hamburger icon.
+        /// </summary>
+        public string HamburgerMenuAutomationPropertyName
+        {
+            get { return (string)GetValue(HamburgerMenuAutomationPropertyNameProperty); }
+            set { SetValue(HamburgerMenuAutomationPropertyNameProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets a template for the hamburger icon.
         /// </summary>
         public DataTemplate HamburgerMenuTemplate
