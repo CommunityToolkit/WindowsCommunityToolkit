@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             client = new HttpClient();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 

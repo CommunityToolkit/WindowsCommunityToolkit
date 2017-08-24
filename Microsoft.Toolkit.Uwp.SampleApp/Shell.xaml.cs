@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // Options
             HamburgerMenu.OptionsItemsSource = new[]
             {
-                new Option { Glyph = "\xE946", Name = "About", PageType = typeof(About) }
+                new Option { Glyph = "\xE10F", Name = "About", PageType = typeof(About) }
             };
 
             HideInfoArea();
