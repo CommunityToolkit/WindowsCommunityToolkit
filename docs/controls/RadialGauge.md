@@ -1,11 +1,7 @@
 ---
 title: RadialGauge XAML Control
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The Radial Gauge Control displays a value in a certain range using a needle on a circular face.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Radial Gauge, RadialGauge, xaml control, xaml
 ---

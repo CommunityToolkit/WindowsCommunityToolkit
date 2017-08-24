@@ -1,11 +1,7 @@
 ---
 title: UWP Community Toolkit vontols in the Visual Studio Toolbox
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: Adding the UWP Community Toolkit to your Visual Studio Toolbox
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, visual studio, toolbox
 ---
@@ -22,7 +18,9 @@ Add the UWP Community Toolkit controls into the Visual Studio toolbox by followi
 
 4) Right click in the tab you just created and select *Choose Items...*.  Then select *Browse* from the *Choose Toolbox Items* dialog and navigate to the folder on your machine:
 
+    ```
     c:\Users\%USERNAME%\.nuget\packages\Microsoft.Toolkit.Uwp.UI.Controls\
+    ```
 
 a.  Choose the folder name matching the version you have installed, then continue to the *lib\uap10.0* folder and select the *Microsoft.Toolkit.Uwp.UI.Controls.dll* file.  You should end up with a dialog similar to the one shown below.
 

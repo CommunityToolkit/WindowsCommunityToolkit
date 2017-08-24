@@ -1,11 +1,7 @@
 ---
 title: Colors Helper
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The Colors Helper lets users convert colors from text names, HTML hex, HSV, or HSL to Windows UI Colors
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Colors Helper
 ---

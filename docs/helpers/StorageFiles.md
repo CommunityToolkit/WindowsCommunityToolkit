@@ -1,11 +1,7 @@
 ---
 title: StorageFileHelper
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The StorageFileHelper is a static utility class that provides functions to help with reading and writing of text and bytes to the disk.  These functions are all wrapped into Async tasks.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, StorageFileHelper
 ---

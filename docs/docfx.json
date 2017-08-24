@@ -31,7 +31,12 @@
     ],
     "overwrite": [],
     "externalReference": [],
-    "globalMetadata": {},
+    "globalMetadata": {
+      "ms.topic": "article",
+      "ms.prod": "windows",
+      "ms.technology": "uwp",
+      "ms.author": "nikolame"      
+    },
     "fileMetadata": {},
     "template": [],
     "dest": "UWPCommunityToolkitDocs"

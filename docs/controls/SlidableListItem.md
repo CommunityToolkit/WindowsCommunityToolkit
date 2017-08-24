@@ -1,11 +1,7 @@
 ---
 title: SlidableListItem XAML Control
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The SlideableListItem Control is a UI control that enables actions to be triggered by sliding the content left or right.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, SlidableListItem, XAML Control, xaml
 ---
