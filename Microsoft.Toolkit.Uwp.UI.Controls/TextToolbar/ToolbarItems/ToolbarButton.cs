@@ -96,6 +96,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 
         private void Activate(bool isShift)
         {
+            if (Model.Editor == null)
+            {
+                return;
+            }
+
             if (isShift && ShiftActivation != null)
             {
                 ShiftActivation(this);
