@@ -135,6 +135,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             HideSamplePicker();
+            HamburgerMenu.IsPaneOpen = true;
             _searchBox.Text = startingText;
 
             _searchButton.Visibility = Visibility.Collapsed;
@@ -154,6 +155,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
             while (innerTextbox == null);
+        }
+
+        public async Task RefreshXamlRenderAsync()
+        {
+            if (_currentSample != null)
+            {
+                var code = string.Empty;
+                if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
+                {
+                    code = _currentSample.BindedXamlCode;
+                }
+                else
+                {
+                    code = _currentSample.UpdatedXamlCode;
+                }
+
+                if (!string.IsNullOrWhiteSpace(code))
+                {
+                    await UpdateXamlRenderAsync(code);
+                }
+            }
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -190,15 +212,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
-            AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerGrid);
+            if (AnimationHelper.IsImplicitHideShowSupported)
+            {
+                AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerGrid);
 
-            AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerDetailsGrid);
-            AnimationHelper.SetSecondLevelShowHideAnimation(SamplePickerDetailsGridContent);
-            AnimationHelper.SetSecondLevelShowHideAnimation(InfoAreaGrid);
-            AnimationHelper.SetSecondLevelShowHideAnimation(Splitter);
+                AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerDetailsGrid);
+                AnimationHelper.SetSecondLevelShowHideAnimation(SamplePickerDetailsGridContent);
+                AnimationHelper.SetSecondLevelShowHideAnimation(InfoAreaGrid);
+                AnimationHelper.SetSecondLevelShowHideAnimation(Splitter);
 
-            ////ElementCompositionPreview.SetImplicitHideAnimation(ContentShadow, GetOpacityAnimation(0, 1, _defaultHideAnimationDiration));
-            ElementCompositionPreview.SetImplicitShowAnimation(ContentShadow, AnimationHelper.GetOpacityAnimation(_compositor, (float)ContentShadow.Opacity, 0, _defaultShowAnimationDuration));
+                ////ElementCompositionPreview.SetImplicitHideAnimation(ContentShadow, GetOpacityAnimation(0, 1, _defaultHideAnimationDiration));
+                ElementCompositionPreview.SetImplicitShowAnimation(ContentShadow, AnimationHelper.GetOpacityAnimation(_compositor, (float)ContentShadow.Opacity, 0, _defaultShowAnimationDuration));
+            }
         }
 
         private async void NavigationFrame_Navigating(object sender, NavigatingCancelEventArgs navigationEventArgs)
@@ -432,7 +457,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 this._lastRenderedProperties = true;
 
                 // Called to load the sample initially as we don't get an Item Pivot Selection Changed with Sample Loaded yet.
-                UpdateXamlRenderAsync(_currentSample.BindedXamlCode);
+                var t = UpdateXamlRenderAsync(_currentSample.BindedXamlCode);
             }
         }
 
@@ -500,7 +525,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     _lastRenderedProperties = true;
 
-                    UpdateXamlRenderAsync(_currentSample.BindedXamlCode);
+                    var t = UpdateXamlRenderAsync(_currentSample.BindedXamlCode);
                 }
 
                 return;
@@ -514,8 +539,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // If we switch to the Live Preview, then we want to use the Value based Text
                 XamlCodeRenderer.Text = _currentSample.UpdatedXamlCode;
 
-                UpdateXamlRenderAsync(_currentSample.UpdatedXamlCode);
-
+                var t = UpdateXamlRenderAsync(_currentSample.UpdatedXamlCode);
+                await XamlCodeRenderer.RevealPositionAsync(new Position(1, 1));
                 return;
             }
 
@@ -752,6 +777,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void SamplePickerListView_ContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
+            if (!AnimationHelper.IsImplicitHideShowSupported)
+            {
+                return;
+            }
+
             var panel = args.ItemContainer.FindAscendant<DropShadowPanel>();
             if (panel != null)
             {
@@ -762,6 +792,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void SamplePickerListView_ChoosingItemContainer(Windows.UI.Xaml.Controls.ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
+            if (!AnimationHelper.IsImplicitHideShowSupported)
+            {
+                return;
+            }
+
             args.ItemContainer = args.ItemContainer ?? new ListViewItem();
 
             var showAnimation = AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, _defaultShowAnimationDuration, 200);
@@ -778,7 +813,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private CssLineStyle _errorStyle = new CssLineStyle()
         {
-            BackgroundColor = new SolidColorBrush(Colors.IndianRed)
+            BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0xFF, 0xD6, 0xD6))
         };
 
         private CssGlyphStyle _errorIconStyle = new CssGlyphStyle()
@@ -786,7 +821,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             GlyphImage = new Uri("ms-appx-web:///Icons/Error.png")
         };
 
-        private async void UpdateXamlRenderAsync(string text)
+        private async Task UpdateXamlRenderAsync(string text)
         {
             // Hide any Previous Errors
             XamlCodeRenderer.Decorations.Clear();
@@ -860,7 +895,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if ((args.KeyCode == 13 && args.CtrlKey) ||
                  args.KeyCode == 116)
             {
-                UpdateXamlRenderAsync(XamlCodeRenderer.Text);
+                var t = UpdateXamlRenderAsync(XamlCodeRenderer.Text);
 
                 // Eat key stroke
                 args.Handled = true;
@@ -880,7 +915,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     {
                         await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                         {
-                            UpdateXamlRenderAsync(XamlCodeRenderer.Text);
+                            var t = UpdateXamlRenderAsync(XamlCodeRenderer.Text);
                         });
                     }, TimeSpan.FromSeconds(0.5));
             }

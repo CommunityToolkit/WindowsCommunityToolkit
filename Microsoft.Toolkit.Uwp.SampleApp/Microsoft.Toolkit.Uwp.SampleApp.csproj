@@ -184,6 +184,7 @@
     <Content Include="Assets\Photos\OregonWineryNamaste.jpg" />
     <Content Include="Assets\Photos\Owl.jpg" />
     <Content Include="Assets\Photos\PaintedHillsPathway.jpg" />
+    <Content Include="Assets\Photos\ron-manke-20667.jpg" />
     <Content Include="Assets\Photos\RunningDogPacificCity.jpg" />
     <Content Include="Assets\Photos\ShootingOnAutoOnTheDrone.jpg" />
     <Content Include="Assets\Photos\SmithnRockDownTheRiverView.jpg" />
@@ -1046,7 +1047,7 @@
       $(_GenerateAppxManifestDependsOn)
     </_GenerateAppxManifestDependsOn>
   </PropertyGroup>
-  <Target Name="ModifyAppXPackage" Condition="'$(BuildingProject)' == 'true'" >
+  <Target Name="ModifyAppXPackage" Condition="'$(BuildingProject)' == 'true'">
     <ItemGroup>
       <toolkit_docs Include="$(SolutionDir)docs\**\*.md" />
     </ItemGroup>

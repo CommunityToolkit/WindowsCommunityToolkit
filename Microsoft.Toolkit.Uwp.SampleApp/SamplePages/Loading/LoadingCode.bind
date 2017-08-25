@@ -10,17 +10,17 @@
             <DataTemplate x:Key="WaitListTemplate">
                 <StackPanel Orientation="Horizontal" Padding="12">
                     <ProgressRing IsActive="True" Margin="0,0,12,0" Foreground="{StaticResource Brush-Blue-01}" />
-                    <TextBlock Text="Loading control with wait ring" VerticalAlignment="Center" />
+                    <TextBlock Text="Loading control with wait ring" VerticalAlignment="Center" Foreground="White"/>
                 </StackPanel>
             </DataTemplate>
             <DataTemplate x:Key="ProgressBarTemplate">
                 <ProgressBar IsIndeterminate="True" Width="{Binding ElementName=PageName, Path=ActualWidth}"
-                             Foreground="{StaticResource Brush-Grey-04}" />
+                             Foreground="{StaticResource Brush-Grey-04}"/>
             </DataTemplate>
             <DataTemplate x:Key="LogoTemplate">
                 <StackPanel Orientation="Horizontal" Padding="12">
                     <Image Source="/Assets/ToolkitLogo.png" Height="50" Margin="0,0,12,0" />
-                    <TextBlock Text="Loading control with logo" VerticalAlignment="Center" />
+                    <TextBlock Text="Loading control with logo" VerticalAlignment="Center" Foreground="White"/>
                 </StackPanel>
             </DataTemplate>
 
@@ -63,7 +63,7 @@
 
         <controls:Loading x:Name="LoadingControl" HorizontalContentAlignment="@[HorizontalContentAlignment:Enum:HorizontalAlignment.Center:Left.Right.Center.Stretch]" 
                           VerticalContentAlignment="@[VerticalContentAlignment:Enum:VerticalAlignment.Center:Stretch.Center.Top.Bottom]"
-                          Background="@[Background:Brush:CadetBlue]" Opacity="@[Opacity:DoubleSlider:0.75:0-1]">
+                          Background="@[Background:Brush:Black]" Opacity="@[Opacity:DoubleSlider:0.7:0-1]">
           <ContentControl x:Name="LoadingContentControl"/>
         </controls:Loading>
     </Grid>

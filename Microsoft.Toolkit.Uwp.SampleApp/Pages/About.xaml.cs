@@ -149,21 +149,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
             RecentSamples = recentSamplesTask.Result;
             GitHubReleases = gitHubTask.Result;
 
-            var counter = 1;
-            ElementCompositionPreview.SetImplicitShowAnimation(Root, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 500));
-
-            foreach (var child in InnerGrid.Children)
+            if (AnimationHelper.IsImplicitHideShowSupported)
             {
-                if (child is ItemsControl itemsControl)
+                var counter = 1;
+                ElementCompositionPreview.SetImplicitShowAnimation(Root, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 500));
+
+                foreach (var child in InnerGrid.Children)
                 {
-                    foreach (var childOfChild in itemsControl.Items)
+                    if (child is ItemsControl itemsControl)
                     {
-                        ElementCompositionPreview.SetImplicitShowAnimation(childOfChild as FrameworkElement, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 300, counter++ * 70));
+                        foreach (var childOfChild in itemsControl.Items)
+                        {
+                            ElementCompositionPreview.SetImplicitShowAnimation(childOfChild as FrameworkElement, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 300, counter++ * 70));
+                        }
                     }
-                }
-                else
-                {
-                    ElementCompositionPreview.SetImplicitShowAnimation(child, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 300, counter++ * 70));
+                    else
+                    {
+                        ElementCompositionPreview.SetImplicitShowAnimation(child, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 300, counter++ * 70));
+                    }
                 }
             }
 

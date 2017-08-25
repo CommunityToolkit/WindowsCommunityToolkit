@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
@@ -26,8 +27,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private static float _defaultShowAnimationDuration = 300;
         private static float _defaultHideAnimationDiration = 150;
 
+        private static bool? _isImpicitHideShowSupported;
+
+        public static bool IsImplicitHideShowSupported => (bool)(_isImpicitHideShowSupported ??
+            (_isImpicitHideShowSupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4)));
+
         public static void SetTopLevelShowHideAnimation(FrameworkElement element)
         {
+            if (!IsImplicitHideShowSupported)
+            {
+                return;
+            }
+
             var compositor = ElementCompositionPreview.GetElementVisual(element).Compositor;
             ElementCompositionPreview.SetIsTranslationEnabled(element, true);
 
@@ -44,6 +55,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public static void SetSecondLevelShowHideAnimation(FrameworkElement element)
         {
+            if (!IsImplicitHideShowSupported)
+            {
+                return;
+            }
+
             var compositor = ElementCompositionPreview.GetElementVisual(element).Compositor;
 
             // ElementCompositionPreview.SetImplicitHideAnimation(element, GetOpacityAnimation(0, 1, _defaultHideAnimationDiration));
