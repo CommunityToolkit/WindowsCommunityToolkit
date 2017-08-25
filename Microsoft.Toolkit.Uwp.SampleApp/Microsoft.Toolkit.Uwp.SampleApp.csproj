@@ -168,7 +168,6 @@
     <Content Include="Assets\People\petri.png" />
     <Content Include="Assets\People\shen.png" />
     <Content Include="Assets\People\vlad.png" />
-    <Content Include="Assets\Photos\artur-rutkowski-97622.jpg" />
     <Content Include="Assets\Photos\BigFourSummerHeat.jpg" />
     <Content Include="Assets\Photos\BisonBadlandsChillin.jpg" />
     <Content Include="Assets\Photos\ColumbiaRiverGorge.jpg" />
@@ -185,6 +184,7 @@
     <Content Include="Assets\Photos\OregonWineryNamaste.jpg" />
     <Content Include="Assets\Photos\Owl.jpg" />
     <Content Include="Assets\Photos\PaintedHillsPathway.jpg" />
+    <Content Include="Assets\Photos\ron-manke-20667.jpg" />
     <Content Include="Assets\Photos\RunningDogPacificCity.jpg" />
     <Content Include="Assets\Photos\ShootingOnAutoOnTheDrone.jpg" />
     <Content Include="Assets\Photos\SmithnRockDownTheRiverView.jpg" />
