@@ -77,6 +77,7 @@
     <Compile Include="Core\ExtensionMethods.cs" />
     <Compile Include="Core\IDataService{T,U,V}.cs" />
     <Compile Include="Services\MicrosoftTranslator\ServiceLanguage.cs" />
+    <Compile Include="Services\Twitter\TwitterParser.cs" />
     <Compile Include="Services\Twitter\TwitterStreamCallbacks.cs" />
     <Compile Include="Services\Bing\BingLanguage.cs" />
     <Compile Include="Services\Bing\BingCountry.cs" />

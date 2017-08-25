@@ -21,6 +21,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Services;
 using Microsoft.Toolkit.Services.Exceptions;
 using Newtonsoft.Json;
 using Windows.Security.Authentication.Web;
@@ -35,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// <summary>
     /// Data Provider for connecting to Twitter service.
     /// </summary>
-    public class TwitterDataProvider : Toolkit.Services.DataProviderBase<TwitterDataConfig, Tweet>
+    public class TwitterDataProvider : Toolkit.Services.DataProviderBase<TwitterDataConfig, Toolkit.Services.SchemaBase>
     {
         /// <summary>
         /// Base Url for service.
@@ -462,7 +463,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         /// <param name="config">Query configuration.</param>
         /// <returns>Strongly typed parser.</returns>
-        protected override Toolkit.Services.IParser<Tweet> GetDefaultParser(TwitterDataConfig config)
+        protected override Toolkit.Services.IParser<Toolkit.Services.SchemaBase> GetDefaultParser(TwitterDataConfig config)
         {
             if (config == null)
             {
@@ -475,8 +476,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                     return new TwitterSearchParser();
                 case TwitterQueryType.Home:
                 case TwitterQueryType.User:
+                case TwitterQueryType.Custom:
+                    return new TwitterParser<Toolkit.Services.SchemaBase>();
                 default:
-                    return new TweetParser();
+                    return new TwitterParser<Toolkit.Services.SchemaBase>();
             }
         }
 
@@ -501,6 +504,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                     items = await SearchAsync(config.Query, maxRecords, parser);
                     break;
                 case TwitterQueryType.Home:
+                case TwitterQueryType.Custom:
+                    items = await GetCustomSearch(config.Query, parser);
+                    break;
                 default:
                     items = await GetHomeTimeLineAsync(maxRecords, parser);
                     break;
@@ -604,6 +610,38 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             try
             {
                 var uri = new Uri($"{BaseUrl}/statuses/home_timeline.json?count={maxRecords}");
+
+                TwitterOAuthRequest request = new TwitterOAuthRequest();
+                var rawResult = await request.ExecuteGetAsync(uri, _tokens);
+
+                return parser.Parse(rawResult);
+            }
+            catch (WebException wex)
+            {
+                HttpWebResponse response = wex.Response as HttpWebResponse;
+                if (response != null)
+                {
+                    if ((int)response.StatusCode == 429)
+                    {
+                        throw new TooManyRequestsException();
+                    }
+
+                    if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        throw new OAuthKeysRevokedException();
+                    }
+                }
+
+                throw;
+            }
+        }
+
+        private async Task<IEnumerable<TSchema>> GetCustomSearch<TSchema>(string query, Toolkit.Services.IParser<TSchema> parser)
+            where TSchema : Toolkit.Services.SchemaBase
+        {
+            try
+            {
+                var uri = new Uri($"{BaseUrl}/{query}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
                 var rawResult = await request.ExecuteGetAsync(uri, _tokens);
