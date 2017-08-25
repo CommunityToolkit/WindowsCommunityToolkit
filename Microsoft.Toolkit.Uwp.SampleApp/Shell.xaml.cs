@@ -35,6 +35,7 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -370,6 +371,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             ExpandOrCloseProperties();
         }
 
+        private void PivotTitle_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            ExpandOrCloseProperties();
+        }
+
         private void ExpandOrCloseProperties()
         {
             var states = VisualStateManager.GetVisualStateGroups(HamburgerMenu).FirstOrDefault();
@@ -394,6 +400,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         Grid.SetRow(InfoAreaGrid, 0);
                         _isPaneOpen = true;
                         ExpandButton.Content = "";
+
+                        // Update Read-Only XAML tab when switching back to show changes to TwoWay Bound Properties
+                        if (_currentSample?.HasXAMLCode == true && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
+                        {
+                            XamlReadOnlyCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
+                        }
                     }
 
                     break;
@@ -552,6 +564,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 var t = UpdateXamlRenderAsync(_currentSample.UpdatedXamlCode);
                 await XamlCodeRenderer.RevealPositionAsync(new Position(1, 1));
                 return;
+            }
+
+            if (_currentSample.HasXAMLCode && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
+            {
+                // Update Read-Only XAML tab on non-desktop devices to show changes to Properties
+                XamlReadOnlyCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
             }
 
             if (_currentSample.HasCSharpCode && InfoAreaPivot.SelectedItem == CSharpPivotItem)

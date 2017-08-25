@@ -252,6 +252,7 @@
                                    Margin="12,6"
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Center"
+                                   Tapped="PivotTitle_Tapped"
                                    Foreground="{StaticResource Brush-Grey-01}"
                                    Text="" />
                         <HyperlinkButton x:Name="GitHub"
