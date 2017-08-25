@@ -161,15 +161,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (_currentSample != null)
             {
                 var code = string.Empty;
-                if (_currentSample.PropertyDescriptor != null &&
-                    _currentSample.PropertyDescriptor.Options.Count > 0 &&
-                    InfoAreaPivot.SelectedIndex == 0)
+                if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
                 {
-                    code = _currentSample.BindedXamlCode + " ";
+                    code = _currentSample.BindedXamlCode;
                 }
                 else
                 {
-                    code = _currentSample.UpdatedXamlCode + " ";
+                    code = _currentSample.UpdatedXamlCode;
                 }
 
                 if (!string.IsNullOrWhiteSpace(code))
