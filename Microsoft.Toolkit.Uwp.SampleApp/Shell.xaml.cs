@@ -32,10 +32,10 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -125,7 +125,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public void RegisterNewCommand(string name, RoutedEventHandler action)
         {
-            Commands.Add(new SampleCommand(name, () => { action.Invoke(this, new RoutedEventArgs()); }));
+            Commands.Add(new SampleCommand(name, () =>
+            {
+                try
+                {
+                    action.Invoke(this, new RoutedEventArgs());
+                }
+                catch (Exception ex)
+                {
+                    ExceptionNotification.Show(ex.Message, 3000);
+                }
+            }));
         }
 
         public async Task StartSearch(string startingText = "")

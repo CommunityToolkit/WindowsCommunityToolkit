@@ -178,7 +178,7 @@
                     <RowDefinition />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                    <Grid x:Name="DemoAreaGrid">
+                <Grid x:Name="DemoAreaGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto"/>
@@ -235,7 +235,7 @@
                                              HorizontalAlignment="Center"
                                              IsRunning="True"/>-->
                     </Grid>
-                    <Grid x:Name="InfoAreaGrid"
+                <Grid x:Name="InfoAreaGrid"
                       Background="{StaticResource Brush-Grey-04}"
                       Visibility="Collapsed">
                     <Grid.RowDefinitions>
@@ -323,6 +323,13 @@
                                        GripperForeground="White"
                                        ParentLevel="1" />
                 </Grid>
+                <controls:InAppNotification x:Name="ExceptionNotification"
+                                            Grid.RowSpan="2"
+                                            Style="{StaticResource ExceptionNotification}"
+                                            Grid.ColumnSpan="2"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Center"
+                                            Margin="15"></controls:InAppNotification>
                 <Grid x:Name="waitRing"
                       Grid.RowSpan="2"
                       Grid.ColumnSpan="2"
