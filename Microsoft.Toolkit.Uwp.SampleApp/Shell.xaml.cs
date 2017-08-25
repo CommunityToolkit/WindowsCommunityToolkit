@@ -10,6 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Controls;
@@ -19,10 +23,6 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Monaco;
 using Monaco.Editor;
 using Monaco.Helpers;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.System;
 using Windows.System.Profile;
 using Windows.System.Threading;
@@ -181,7 +181,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            NavigationFrame.Navigating += NavigationFrame_Navigating;
+            NavigationFrame.Navigated += NavigationFrameOnNavigated;
             NavigationFrame.Navigate(typeof(About));
+            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
             // Get list of samples
             var sampleCategories = (await Samples.GetCategoriesAsync()).ToList();
@@ -195,10 +198,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             };
 
             HideInfoArea();
-
-            NavigationFrame.Navigating += NavigationFrame_Navigating;
-            NavigationFrame.Navigated += NavigationFrameOnNavigated;
-            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
             if (!string.IsNullOrWhiteSpace(e?.Parameter?.ToString()))
             {
@@ -238,6 +237,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (category != null)
                 {
                     TrackingManager.TrackPage($"{navigationEventArgs.SourcePageType.Name} - {category.Name}");
+                }
+                else
+                {
+                    TrackingManager.TrackPage($"{navigationEventArgs.SourcePageType.Name}");
                 }
 
                 HideInfoArea();
