@@ -25,6 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = DismissButtonPart, Type = typeof(Button))]
     public sealed partial class InAppNotification : ContentControl
     {
+        private string _id;
         private Button _dismissButton;
 
         /// <summary>
@@ -70,13 +71,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task ShowAsync(int duration = 0)
         {
+            var newId = Guid.NewGuid().ToString();
+            _id = newId;
+
             Visibility = Visibility.Visible;
             VisualStateManager.GoToState(this, StateContentVisible, true);
 
             if (duration > 0)
             {
                 await Task.Delay(duration);
-                Dismiss();
+
+                if (_id == newId)
+                {
+                    Dismiss();
+                }
             }
         }
 
