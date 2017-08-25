@@ -10,10 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Controls;
@@ -23,7 +19,12 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Monaco;
 using Monaco.Editor;
 using Monaco.Helpers;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.System;
+using Windows.System.Profile;
 using Windows.System.Threading;
 using Windows.UI;
 using Windows.UI.Composition;
@@ -251,7 +252,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     InfoAreaPivot.Items.Add(PropertiesPivotItem);
                 }
 
-                if (_currentSample.HasXAMLCode)
+                if (_currentSample.HasXAMLCode && AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Xbox")
                 {
                     XamlCodeRenderer.Text = _currentSample.UpdatedXamlCode;
 
@@ -297,8 +298,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     HideInfoArea();
                 }
 
-                TitleTextBlock.Text = $"{category.Name} -> {_currentSample.Name}";
-                ApplicationView.SetTitle(this, $"{category.Name} - {_currentSample.Name}");
+                TitleTextBlock.Text = $"{category.Name} -> {_currentSample?.Name}";
+                ApplicationView.SetTitle(this, $"{category.Name} - {_currentSample?.Name}");
             }
 
             await SetHamburgerMenuSelection();
@@ -396,14 +397,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-            if (NavigationFrame.CanGoBack)
+            if (SamplePickerGrid.Visibility == Visibility.Visible)
             {
+                HideSamplePicker();
                 backRequestedEventArgs.Handled = true;
-
-                NavigationFrame.GoBack();
             }
+            else if (NavigationFrame.CanGoBack)
+            {
+                NavigationFrame.GoBack();
 
-            HideSamplePicker();
+                HideSamplePicker();
+                backRequestedEventArgs.Handled = true;
+            }
         }
 
         /// <summary>
@@ -435,7 +440,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             if (e.ClickedItem is SampleCategory category)
             {
-                ShowSamplePicker(category.Samples);
+                if (SamplePickerGrid.Visibility != Visibility.Collapsed && HamburgerMenu.SelectedItem == e.ClickedItem)
+                {
+                    HideSamplePicker();
+                }
+                else
+                {
+                    ShowSamplePicker(category.Samples);
+                }
             }
         }
 
@@ -643,6 +655,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             // Connect to search UI
             ConnectToSearch();
+
+            Focus(FocusState.Programmatic);
         }
 
         private void HideSamplePicker()
