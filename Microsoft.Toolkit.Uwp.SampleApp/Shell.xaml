@@ -183,34 +183,6 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Border Background="#FFFFFF"
-                            Grid.Row="1">
-                        <ItemsControl ItemsSource="{x:Bind Commands}"
-                                      Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}"
-                                      VerticalAlignment="Top"
-                                      HorizontalAlignment="Stretch"
-                                      Margin="10,10,0,0">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <controls:WrapPanel />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="common:SampleCommand">
-                                    <Button Content="{x:Bind Label}"
-                                            Margin="0, 0, 10, 10"
-                                            MinWidth="150"
-                                            Foreground="{StaticResource Brush-Grey-01}">
-                                        <interactivity:Interaction.Behaviors>
-                                            <core:EventTriggerBehavior EventName="Click">
-                                                <core:InvokeCommandAction Command="{x:Bind}" />
-                                            </core:EventTriggerBehavior>
-                                        </interactivity:Interaction.Behaviors>
-                                    </Button>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </Border>
                     <Frame x:Name="NavigationFrame" >
                         <Frame.ContentTransitions>
                             <TransitionCollection>
@@ -222,6 +194,39 @@
                             </TransitionCollection>
                         </Frame.ContentTransitions>
                     </Frame>
+                    <controls:DropShadowPanel Grid.Row="1" Color="Black" ShadowOpacity="0.2" BlurRadius="40"
+                                              HorizontalContentAlignment="Stretch" Margin="8,0,8,8">
+                        <Border Background="#FFFFFF">
+                        <ItemsControl ItemsSource="{x:Bind Commands}"
+                                      Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}"
+                                      VerticalAlignment="Top"
+                                      HorizontalAlignment="Stretch"
+                                      Margin="10,10,0,0">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <controls:WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="common:SampleCommand">
+                                    <Button Content="{x:Bind Label}"
+                                            Margin="0, 0, 10, 10"
+                                            MinWidth="150"
+                                            FontSize="12"
+                                            Foreground="{StaticResource Brush-Grey-01}">
+                                        <interactivity:Interaction.Behaviors>
+                                            <core:EventTriggerBehavior EventName="Click">
+                                                <core:InvokeCommandAction Command="{x:Bind}" />
+                                            </core:EventTriggerBehavior>
+                                        </interactivity:Interaction.Behaviors>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                    </controls:DropShadowPanel>
+
+                    
                         <!--
                         Uncomment this control to help you determine where the focus is.
                         This could be useful when validating accessibility of your control
