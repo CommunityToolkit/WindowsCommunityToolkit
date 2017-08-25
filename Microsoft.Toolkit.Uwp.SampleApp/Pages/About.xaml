@@ -120,9 +120,8 @@
                                            FontSize="12" 
                                            Visibility="{x:Bind local:About.VisibleIfCollectionEmpty(RecentSamples), Mode=OneWay}"></TextBlock>
                                     <ItemsControl x:Name="RecentSamplesItemsControl"
-                                              MinHeight="130"
-                                              ItemsPanel="{StaticResource ItemsWrapGridHorizontalTemplate}"
-                                              ItemsSource="{x:Bind RecentSamples, Mode=OneWay}" ItemTemplate="{StaticResource SampleTemplate}">
+                                                  ItemsPanel="{StaticResource ItemsWrapGridHorizontalTemplate}"
+                                                  ItemsSource="{x:Bind RecentSamples, Mode=OneWay}" ItemTemplate="{StaticResource SampleTemplate}">
                                     </ItemsControl>
                                 </Grid>
 
@@ -211,6 +210,7 @@
                         <Setter Target="ReleaseNotesPanel.Margin" Value="0,0,0,48" />
 
                         <Setter Target="WhatNewItemsControl.MinHeight" Value="0" />
+                        <Setter Target="RecentSamplesItemsControl.MinHeight" Value="0" />
 
                     </VisualState.Setters>
                 </VisualState>
@@ -246,6 +246,7 @@
                         <Setter Target="ReleaseNotesPanel.Margin" Value="0,48,0,0" />
 
                         <Setter Target="WhatNewItemsControl.MinHeight" Value="130" />
+                        <Setter Target="RecentSamplesItemsControl.MinHeight" Value="130" />
                         
                     </VisualState.Setters>
 
