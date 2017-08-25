@@ -55,9 +55,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="stream">input stream</param>
         /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
         /// <returns>awaitable task</returns>
-        protected override async Task<BitmapImage> InitializeTypeAsync(IRandomAccessStream stream, List<KeyValuePair<string, object>> initializerKeyValues = null)
+        protected override async Task<BitmapImage> InitializeTypeAsync(Stream stream, List<KeyValuePair<string, object>> initializerKeyValues = null)
         {
-            if (stream.Size == 0)
+            if (stream.Length == 0)
             {
                 throw new FileNotFoundException();
             }
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
             }
 
-            await image.SetSourceAsync(stream);
+            await image.SetSourceAsync(stream.AsRandomAccessStream());
 
             return image;
         }
@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>awaitable task</returns>
         protected override async Task<BitmapImage> InitializeTypeAsync(StorageFile baseFile, List<KeyValuePair<string, object>> initializerKeyValues = null)
         {
-            using (var stream = await baseFile.OpenReadAsync())
+            using (var stream = await baseFile.OpenStreamForReadAsync())
             {
                 return await InitializeTypeAsync(stream, initializerKeyValues).ConfigureAwait(MaintainContext);
             }
