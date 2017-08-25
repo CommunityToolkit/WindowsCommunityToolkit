@@ -128,10 +128,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
         private void CoreWindow_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
         {
-            var keyChar = (char)args.VirtualKey;
-            if (char.IsLetterOrDigit(keyChar))
+            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Xbox")
             {
-                var t = Shell.Current.StartSearch(keyChar.ToString());
+                var keyChar = (char)args.VirtualKey;
+                if (char.IsLetterOrDigit(keyChar))
+                {
+                    var t = Shell.Current.StartSearch(keyChar.ToString());
+                }
             }
         }
 

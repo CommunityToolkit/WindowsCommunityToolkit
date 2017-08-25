@@ -281,7 +281,8 @@
 
                     <PivotItem x:Name="CSharpPivotItem"
                                Header="CODE">
-                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer" />
+                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer"
+                                                    IsFocusEngagementEnabled="False" />
                     </PivotItem>
 
                     <PivotItem x:Name="JavaScriptPivotItem"
@@ -297,7 +298,8 @@
                             <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
                                                         Foreground="{StaticResource Brush-Grey-01}"
                                                         ImageResolving="DocumentationTextblock_ImageResolving"
-                                                        LinkClicked="DocumentationTextblock_OnLinkClicked" />
+                                                        LinkClicked="DocumentationTextblock_OnLinkClicked" 
+                                                        IsFocusEngagementEnabled="False" />
                         </ScrollViewer>
                     </PivotItem>
                 </Pivot>

@@ -7,8 +7,8 @@
              xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
              xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
              xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
+             RequiresPointerMode="Auto"
              RequestedTheme="Light">
-    
     
     <Application.Resources>
 
