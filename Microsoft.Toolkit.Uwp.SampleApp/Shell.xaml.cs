@@ -134,6 +134,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             HideSamplePicker();
+            HamburgerMenu.IsPaneOpen = true;
             _searchBox.Text = startingText;
 
             _searchButton.Visibility = Visibility.Collapsed;
