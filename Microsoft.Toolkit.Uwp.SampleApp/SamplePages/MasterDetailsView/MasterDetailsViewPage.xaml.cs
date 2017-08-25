@@ -17,7 +17,6 @@ using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using System.Diagnostics;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -92,7 +91,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 _previousWidth = e.Size.Width;
             }
-
         }
 
         public ICollection<Email> Emails { get; set; }

@@ -10,6 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Controls;
@@ -19,10 +23,6 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Monaco;
 using Monaco.Editor;
 using Monaco.Helpers;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.System;
 using Windows.System.Profile;
 using Windows.System.Threading;
@@ -35,6 +35,7 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -277,11 +278,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     InfoAreaPivot.Items.Add(PropertiesPivotItem);
                 }
 
-                if (_currentSample.HasXAMLCode && AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Xbox")
+                if (_currentSample.HasXAMLCode)
                 {
-                    XamlCodeRenderer.Text = _currentSample.UpdatedXamlCode;
+                    if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop)
+                    {
+                        // Only makes sense (and works) for now to show Live Xaml on Desktop, so fallback to old system here otherwise.
+                        XamlReadOnlyCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
 
-                    InfoAreaPivot.Items.Add(XamlPivotItem);
+                        InfoAreaPivot.Items.Add(XamlReadOnlyPivotItem);
+                    }
+                    else
+                    {
+                        XamlCodeRenderer.Text = _currentSample.UpdatedXamlCode;
+
+                        InfoAreaPivot.Items.Add(XamlPivotItem);
+                    }
 
                     InfoAreaPivot.SelectedIndex = 0;
                 }
@@ -360,6 +371,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             ExpandOrCloseProperties();
         }
 
+        private void PivotTitle_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            ExpandOrCloseProperties();
+        }
+
         private void ExpandOrCloseProperties()
         {
             var states = VisualStateManager.GetVisualStateGroups(HamburgerMenu).FirstOrDefault();
@@ -384,6 +400,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         Grid.SetRow(InfoAreaGrid, 0);
                         _isPaneOpen = true;
                         ExpandButton.Content = "";
+
+                        // Update Read-Only XAML tab when switching back to show changes to TwoWay Bound Properties
+                        if (_currentSample?.HasXAMLCode == true && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
+                        {
+                            XamlReadOnlyCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
+                        }
                     }
 
                     break;
@@ -542,6 +564,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 var t = UpdateXamlRenderAsync(_currentSample.UpdatedXamlCode);
                 await XamlCodeRenderer.RevealPositionAsync(new Position(1, 1));
                 return;
+            }
+
+            if (_currentSample.HasXAMLCode && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
+            {
+                // Update Read-Only XAML tab on non-desktop devices to show changes to Properties
+                XamlReadOnlyCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
             }
 
             if (_currentSample.HasCSharpCode && InfoAreaPivot.SelectedItem == CSharpPivotItem)

@@ -44,6 +44,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         {
             Errors.Clear();
 
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                // Nothing to do!
+                return null;
+            }
+
             // TODO: add flag about using pre-parsing or not.
             // Pre-parse
             if (!content.Contains("xmlns"))
