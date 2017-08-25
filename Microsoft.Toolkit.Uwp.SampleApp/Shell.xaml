@@ -195,10 +195,10 @@
                         </Frame.ContentTransitions>
                     </Frame>
                     <controls:DropShadowPanel Grid.Row="1" Color="Black" ShadowOpacity="0.2" BlurRadius="40"
-                                              HorizontalContentAlignment="Stretch" Margin="8,0,8,8">
+                                              HorizontalContentAlignment="Stretch" Margin="8,0,8,8"
+                                              Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}">
                         <Border Background="#FFFFFF">
                         <ItemsControl ItemsSource="{x:Bind Commands}"
-                                      Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}"
                                       VerticalAlignment="Top"
                                       HorizontalAlignment="Stretch"
                                       Margin="10,10,0,0">
