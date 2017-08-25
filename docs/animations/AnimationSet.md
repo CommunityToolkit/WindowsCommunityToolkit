@@ -4,6 +4,22 @@ The AnimationSet class defines an object for storing and managing Storyboard and
 
 ## Syntax
 
+**XAML**
+
+```xml
+<Page ...
+     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
+     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"/>
+ 
+<interactivity:Interaction.Behaviors>
+    <interactivity:BehaviorCollection>
+        <behaviors:Blur Value="10" Duration="2500" AutomaticallyStart="True"/>
+        <behaviors:Scale ScaleX="2" ScaleY="2" Duration="2500" AutomaticallyStart="True"/>
+        <!-- Others -->
+    </interactivity:BehaviorCollection>
+</interactivity:Interaction.Behaviors> 
+ ```
+
 **C#**
 
 ```csharp
