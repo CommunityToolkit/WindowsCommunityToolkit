@@ -470,19 +470,15 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 var dataStream = randomAccessStream.AsStreamForWrite();
 
-                using (var response = await HttpClient.GetAsync(uri, cancellationToken))
+                using (var stream = await HttpClient.GetStreamAsync(uri))
                 {
-                    using (var stream = await response.Content.ReadAsStreamAsync())
+                    stream.CopyTo(dataStream);
+
+                    using (var fs = await baseFile.OpenStreamForWriteAsync())
                     {
-                        stream.CopyTo(dataStream);
-                        stream.Position = 0;
+                        stream.CopyTo(fs);
 
-                        using (var fs = await baseFile.OpenStreamForWriteAsync())
-                        {
-                            stream.CopyTo(fs);
-
-                            fs.Flush();
-                        }
+                        fs.Flush();
                     }
                 }
 
