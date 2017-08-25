@@ -74,18 +74,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
         public void Show(int duration = 0)
         {
+            _timer.Stop();
+
             Visibility = Visibility.Visible;
             VisualStateManager.GoToState(this, StateContentVisible, true);
 
             if (duration > 0)
             {
-                _timer.Stop();
                 _timer.Interval = TimeSpan.FromMilliseconds(duration);
                 _timer.Start();
-            }
-            else
-            {
-                _timer.Stop();
             }
         }
 
