@@ -190,7 +190,6 @@
             <Setter Property="UseSystemFocusVisuals" Value="True" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
-            <Setter Property="UseSystemFocusVisuals" Value="False" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">
@@ -764,8 +763,7 @@
                                             AutomationProperties.Name="Search button"
                                             Background="Transparent"
                                             BorderThickness="0"
-                                            TabIndex="1"
-                                            UseSystemFocusVisuals="False">
+                                            TabIndex="1">
                                             <FontIcon Margin="16,12"
                                                   FontFamily="Segoe MDL2 Assets"
                                                   FontSize="16"

@@ -23,8 +23,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Navigation;
-using Windows.System;
-using Windows.System.Profile;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 {
@@ -130,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
         private void CoreWindow_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
         {
-            if (AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Xbox")
+            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Xbox")
             {
                 var keyChar = (char)args.VirtualKey;
                 if (char.IsLetterOrDigit(keyChar))
