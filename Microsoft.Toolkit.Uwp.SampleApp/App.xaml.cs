@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private async System.Threading.Tasks.Task RunAppInitialization(string launchParameters)
         {
             // Go fullscreen on Xbox
-            if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Xbox")
+            if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() == DeviceFormFactor.Xbox)
             {
                 Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
             }

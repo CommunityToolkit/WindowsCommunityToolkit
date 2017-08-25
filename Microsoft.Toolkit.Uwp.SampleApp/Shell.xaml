@@ -279,6 +279,11 @@
                                            Loading="XamlCodeRenderer_Loading"/>
                     </PivotItem>
 
+                    <PivotItem x:Name="XamlReadOnlyPivotItem"
+                               Header="XAML">
+                        <controlsLocal:CodeRenderer x:Name="XamlReadOnlyCodeRenderer" />
+                    </PivotItem>    
+                        
                     <PivotItem x:Name="CSharpPivotItem"
                                Header="CODE">
                         <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer"

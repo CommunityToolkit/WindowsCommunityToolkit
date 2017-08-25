@@ -16,8 +16,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Newtonsoft.Json;
 using Windows.ApplicationModel;
+using Windows.System.Profile;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -128,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
         private void CoreWindow_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
         {
-            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Xbox")
+            if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() == DeviceFormFactor.Xbox)
             {
                 var keyChar = (char)args.VirtualKey;
                 if (char.IsLetterOrDigit(keyChar))
