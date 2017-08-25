@@ -35,7 +35,7 @@
 
 // Show notification with simple text (and a duration of 2 seconds)
 int duration = 2000;
-await ExampleInAppNotification.ShowAsync("Some text.", duration);
+ExampleInAppNotification.Show("Some text.", duration);
 
 // Show notification using a DataTemplate
 object inAppNotificationWithButtonsTemplate;
@@ -43,7 +43,7 @@ bool isTemplatePresent = Resources.TryGetValue("InAppNotificationWithButtonsTemp
 
 if (isTemplatePresent && inAppNotificationWithButtonsTemplate is DataTemplate)
 {
-    await ExampleInAppNotification.ShowAsync(inAppNotificationWithButtonsTemplate as DataTemplate);
+    ExampleInAppNotification.Show(inAppNotificationWithButtonsTemplate as DataTemplate);
 }
 
 // Dismiss notification
