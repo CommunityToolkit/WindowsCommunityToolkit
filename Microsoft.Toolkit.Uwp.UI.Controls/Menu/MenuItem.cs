@@ -385,6 +385,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void ShowMenu()
         {
+            if (!IsEnabled)
+            {
+                return;
+            }
+
             Point location;
             if (MenuFlyout.Placement == FlyoutPlacementMode.Bottom)
             {
