@@ -12,8 +12,7 @@
         <Image HorizontalAlignment="Center"
                Stretch="UniformToFill">
           <Image.Source>
-            <BitmapImage DecodePixelHeight="200"
-                         UriSource="{Binding Thumbnail}" />
+            <BitmapImage UriSource="{Binding Thumbnail}" />
           </Image.Source>
         </Image>
         <Border VerticalAlignment="Bottom">
@@ -52,6 +51,8 @@
           <controls:RotatorTile x:Name="Tile1"
                                 Height="200"
                                 Background="LightGray"
+                                RotationDelay="0:0:3"
+                                ExtraRandomDuration="0:0:3"
                                 Direction="Up"
                                 ItemTemplate="{StaticResource PhotoTemplate}" />
           <Border Height="75"
@@ -70,6 +71,8 @@
           <controls:RotatorTile x:Name="Tile2"
                                 Height="200"
                                 Background="LightGray"
+                                RotationDelay="0:0:1.5"
+                                ExtraRandomDuration="0:0:1"
                                 Direction="Left"
                                 ItemTemplate="{StaticResource PhotoTemplate}" />
 
