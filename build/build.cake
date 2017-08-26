@@ -178,16 +178,13 @@ Task("SignNuGet")
 {
     if(!string.IsNullOrWhiteSpace(signClientSecret))
     {
-        if(!FileExists(signClientAppPath))
-        {
-            Information("\nDownloading Sign Client...");
-            var installSettings = new NuGetInstallSettings {
-                ExcludeVersion  = true,
-                OutputDirectory = tempDir,
-                Version = "0.8.0"
-            };
-            NuGetInstall(new []{"SignClient"}, installSettings);
-        }
+        Information("\nDownloading Sign Client...");
+        var installSettings = new NuGetInstallSettings {
+            ExcludeVersion  = true,
+            OutputDirectory = tempDir,
+            Version = "0.8.0"
+        };
+        NuGetInstall(new []{"SignClient"}, installSettings);
 
         var packages = GetFiles(nupkgDir + "/*.nupkg"); 
         Information("\n Signing " + packages.Count() + " Packages");      
