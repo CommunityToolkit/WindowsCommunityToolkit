@@ -18,7 +18,7 @@ properties {
   
   $signClientSettings = "$buildDir\SignClientSettings.json"
   $hasSignClientSecret = !([string]::IsNullOrEmpty($env:SignClientSecret))
-  $signClientAppPath = "$tempDir\SignClient\Tools\netcoreapp2.0\SignClient.dll"
+  $signClientAppPath = "$tempDir\SignClient\Tools\netcoreapp1.1\SignClient.dll"
 }
 
 task default -depends ?
@@ -164,7 +164,7 @@ task SignNuGet -depends PackNuGet -description "Sign the NuGet packages with the
 
     WriteColoredOutput -ForegroundColor Green "Downloading Sign Client...`n"
     
-    Exec { .$nuget install -excludeversion SignClient -Version 0.8.0 -pre -outputdirectory $tempDir } "Error downloading Sign Client"
+    Exec { .$nuget install -excludeversion SignClient -Version 0.8.0 -outputdirectory $tempDir } "Error downloading Sign Client"
    
     WriteColoredOutput -ForegroundColor Green "Signing NuPkg files...`n"
 
