@@ -25,7 +25,7 @@ var nupkgDir = binDir + "/nupkg";
 
 var signClientSettings = MakeAbsolute(File("SignClientSettings.json")).ToString();
 var signClientSecret = EnvironmentVariable("SignClientSecret");
-var signClientAppPath = tempDir + "/SignClient/Tools/SignClient.dll";
+var signClientAppPath = tempDir + "/SignClient/Tools/netcoreapp1.1/SignClient.dll";
 
 var styler = tempDir + "/XamlStyler.Console/tools/xstyler.exe";
 var stylerFile = baseDir + "/settings.xamlstyler";
@@ -184,8 +184,7 @@ Task("SignNuGet")
             var installSettings = new NuGetInstallSettings {
                 ExcludeVersion  = true,
                 OutputDirectory = tempDir,
-                Prerelease = true,
-                Version = "0.5.0-beta4"
+                Version = "0.8.0"
             };
             NuGetInstall(new []{"SignClient"}, installSettings);
         }
@@ -195,7 +194,7 @@ Task("SignNuGet")
         foreach(var package in packages)
         {
             Information("\nSubmitting " + package + " for signing...");
-            DotNetCoreTool(signClientAppPath, "zip", "-c " + signClientSettings + " -s " + signClientSecret + " -n '" + name + "' -d '" + name +"' -u '" + address + "'");
+            DotNetCoreTool(signClientAppPath, "sign", "-c " + signClientSettings + " -s " + signClientSecret + " -n '" + name + "' -d '" + name +"' -u '" + address + "'");
             Information("\nFinished signing " + package);
         }
     }
