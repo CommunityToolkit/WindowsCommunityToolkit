@@ -27,12 +27,15 @@ var signClientSettings = MakeAbsolute(File("SignClientSettings.json")).ToString(
 var signClientSecret = EnvironmentVariable("SignClientSecret");
 var signClientAppPath = tempDir + "\\SignClient\\Tools\\SignClient.dll";
 
+var styler = tempDir + "\\XamlStyler.Console\\tools\\xstyler.exe";
+var stylerFile = baseDir + "\\settings.xamlstyler";
+
 GitVersion Version = null;
 var name = "UWP Community Toolkit";
 var address = "https://developer.microsoft.com/en-us/windows/uwp-community-toolkit";
 
 //////////////////////////////////////////////////////////////////////
-// TASKS
+// Methods
 //////////////////////////////////////////////////////////////////////
 
 void VerifyHeaders(bool Replace)
@@ -77,12 +80,35 @@ void VerifyHeaders(bool Replace)
     }
 }
 
-Task("UpdateHeaders")
-    .Description("Updates the headers in *.cs files")
-    .Does(() =>
+void CreateNugetPackages()
 {
-    VerifyHeaders(true);
-});
+    var nuGetPackSettings = new NuGetPackSettings
+    {
+        OutputDirectory = nupkgDir,
+        Symbols = true,
+        Properties = new Dictionary<string, string>
+        {
+            { "binaries", binariesDir }
+        }
+    };
+
+    if(Version != null)
+    {
+        nuGetPackSettings.Version = Version.NuGetVersionV2;
+    }
+
+    var nupsecs = GetFiles(buildDir + "\\*.nuspec");
+    Information("\n Packing " + nupsecs.Count() + " Packages");
+    foreach(var nuspec in nupsecs)
+    {
+        Information("\n Packing " + nuspec);
+        NuGetPack(nuspec, nuGetPackSettings);
+    }
+}
+
+//////////////////////////////////////////////////////////////////////
+// Default Task
+//////////////////////////////////////////////////////////////////////
 
 Task("Clean")
     .Description("Clean the output folder")
@@ -135,32 +161,6 @@ Task("Build")
             .WithProperty("TreatWarningsAsErrors", "false")
             .WithProperty("OutDir", binariesDir));
 });
-
-void CreateNugetPackages()
-{
-    var nuGetPackSettings = new NuGetPackSettings
-    {
-        OutputDirectory = nupkgDir,
-        Symbols = true,
-        Properties = new Dictionary<string, string>
-        {
-            { "binaries", binariesDir }
-        }
-    };
-
-    if(Version != null)
-    {
-        nuGetPackSettings.Version = Version.NuGetVersionV2;
-    }
-
-    var nupsecs = GetFiles(buildDir + "\\*.nuspec");
-    Information("\n Packing " + nupsecs.Count() + " Packages");
-    foreach(var nuspec in nupsecs)
-    {
-        Information("\n Packing " + nuspec);
-        NuGetPack(nuspec, nuGetPackSettings);
-    }
-}
 
 Task("PackNuGet")
     .Description("Create the NuGet packages")
@@ -216,6 +216,34 @@ Task("SignNuGet")
 
 Task("Default")
     .IsDependentOn("PackNuGet");
+
+Task("UpdateHeaders")
+    .Description("Updates the headers in *.cs files")
+    .Does(() =>
+{
+    VerifyHeaders(true);
+});
+
+Task("StyleXaml")
+    .Description("Ensures XAML Formatting is Clean")
+    .Does(() =>
+{
+    var installSettings = new NuGetInstallSettings {
+        ExcludeVersion  = true,
+        OutputDirectory = tempDir
+    };
+    
+    NuGetInstall(new []{"xamlstyler.console"}, installSettings);
+
+    Func<IFileSystemInfo, bool> exclude_objDir =
+        fileSystemInfo => !fileSystemInfo.Path.Segments.Contains("obj");
+
+    var files = GetFiles(baseDir + "\\**\\*.xaml", exclude_objDir);
+    foreach(var file in files)
+    {
+        StartProcess(styler, "-f \"" + file + "\" -c \"" + stylerFile + "\"");
+    }
+});
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION
