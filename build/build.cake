@@ -186,14 +186,17 @@ Task("SignNuGet")
 {
     if(!string.IsNullOrWhiteSpace(signClientSecret))
     {
-        Information("\nDownloading Sign Client...");
-        var installSettings = new NuGetInstallSettings {
-            ExcludeVersion  = true,
-            OutputDirectory = tempDir,
-            Prerelease = true,
-            Version = "0.5.0-beta4"
-        };
-        NuGetInstall(new []{"SignClient"}, installSettings);
+        if(!FileExists(signClientAppPath))
+        {
+            Information("\nDownloading Sign Client...");
+            var installSettings = new NuGetInstallSettings {
+                ExcludeVersion  = true,
+                OutputDirectory = tempDir,
+                Prerelease = true,
+                Version = "0.5.0-beta4"
+            };
+            NuGetInstall(new []{"SignClient"}, installSettings);
+        }
 
         var packages = GetFiles(nupkgDir + "\\*.nupkg"); 
         Information("\n Signing " + packages.Count() + " Packages");      
@@ -228,17 +231,22 @@ Task("StyleXaml")
     .Description("Ensures XAML Formatting is Clean")
     .Does(() =>
 {
-    var installSettings = new NuGetInstallSettings {
-        ExcludeVersion  = true,
-        OutputDirectory = tempDir
-    };
-    
-    NuGetInstall(new []{"xamlstyler.console"}, installSettings);
+    if(!FileExists(styler))
+    {
+        Information("\nDownloading XamlStyler...");
+        var installSettings = new NuGetInstallSettings {
+            ExcludeVersion  = true,
+            OutputDirectory = tempDir
+        };
+        
+        NuGetInstall(new []{"xamlstyler.console"}, installSettings);
+    }
 
     Func<IFileSystemInfo, bool> exclude_objDir =
         fileSystemInfo => !fileSystemInfo.Path.Segments.Contains("obj");
 
     var files = GetFiles(baseDir + "\\**\\*.xaml", exclude_objDir);
+    Information("\nChecking " + files.Count() + " file(s) for XAML Structure");
     foreach(var file in files)
     {
         StartProcess(styler, "-f \"" + file + "\" -c \"" + stylerFile + "\"");
