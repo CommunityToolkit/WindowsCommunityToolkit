@@ -100,7 +100,6 @@ void CreateNugetPackages()
     Information("\n Packing " + nupsecs.Count() + " Packages");
     foreach(var nuspec in nupsecs)
     {
-        Information("\n Packing " + nuspec);
         NuGetPack(nuspec, nuGetPackSettings);
     }
 }
@@ -150,15 +149,18 @@ Task("Build")
     EnsureDirectoryExists(binariesDir);
 
     Information("\nBuilding Solution");
-    MSBuild(Solution, configurator =>
-        configurator.SetConfiguration("Release")
-            .SetVerbosity(Verbosity.Quiet)
-            .SetMSBuildPlatform(MSBuildPlatform.x86)
-            .WithTarget("Clean;Restore;Build")
-            .WithProperty("GenerateSolutionSpecificOutputFolder", "true")
-            .WithProperty("GenerateLibraryLayout", "true")
-            .WithProperty("TreatWarningsAsErrors", "false")
-            .WithProperty("OutDir", binariesDir));
+    var buildSettings = new MSBuildSettings
+    {
+        MaxCpuCount = 0
+    }
+    .SetConfiguration("Release")
+    .WithTarget("Clean;Restore;Build")
+    .WithProperty("GenerateSolutionSpecificOutputFolder", "true")
+    .WithProperty("GenerateLibraryLayout", "true")
+    .WithProperty("TreatWarningsAsErrors", "false")
+    .WithProperty("OutDir", binariesDir);
+
+    MSBuild(Solution, buildSettings);
 });
 
 Task("PackNuGet")

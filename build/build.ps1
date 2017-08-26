@@ -13,8 +13,6 @@ This is a Powershell script to bootstrap a Cake build.
 This Powershell script will download NuGet if missing, restore NuGet tools (including Cake)
 and execute your Cake build script with the parameters you provide.
 
-.PARAMETER Script
-The build script to execute.
 .PARAMETER Target
 The build script target to run.
 .PARAMETER Configuration
@@ -40,10 +38,7 @@ https://cakebuild.net
 
 [CmdletBinding()]
 Param(
-    [string]$Script = (Split-Path -Parent $MyInvocation.MyCommand.Definition) + "/build.cake",
     [string]$Target = "Default",
-    [ValidateSet("Release", "Debug")]
-    [string]$Configuration = "Release",
     [ValidateSet("Quiet", "Minimal", "Normal", "Verbose", "Diagnostic")]
     [string]$Verbosity = "Verbose",
     [switch]$Experimental,
@@ -185,5 +180,7 @@ if (!(Test-Path $CAKE_EXE)) {
 
 # Start Cake
 Write-Host "Running build script..."
-Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" -configuration=`"$Configuration`" -verbosity=`"$Verbosity`" $UseMono $UseDryRun $UseExperimental $ScriptArgs"
+$path = Split-Path -Parent $MyInvocation.MyCommand.Definition
+$Script = "$path/build.cake"
+Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" $UseMono $UseDryRun $UseExperimental $ScriptArgs"
 exit $LASTEXITCODE
