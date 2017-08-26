@@ -20,10 +20,10 @@ var buildDir = baseDir + "\\build";
 var Solution = baseDir + "\\UWP Community Toolkit.sln";
 var binDir = baseDir + "\\bin";
 var tempDir = binDir + "\\temp";
-var binariesDir = Directory(binDir + "\\binaries").ToString();
-var nupkgDir = Directory(binDir + "\\nupkg").ToString();
+var binariesDir = MakeAbsolute(Directory(binDir + "\\binaries")).ToString();
+var nupkgDir = MakeAbsolute(Directory(binDir + "\\nupkg")).ToString();
 
-var signClientSettings = File("SignClientSettings.json").ToString();
+var signClientSettings = MakeAbsolute(File("SignClientSettings.json")).ToString();
 var signClientSecret = EnvironmentVariable("SignClientSecret");
 var signClientAppPath = tempDir + "\\SignClient\\Tools\\SignClient.dll";
 
