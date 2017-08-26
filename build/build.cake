@@ -85,7 +85,6 @@ void CreateNugetPackages()
     var nuGetPackSettings = new NuGetPackSettings
     {
         OutputDirectory = nupkgDir,
-        Symbols = true,
         Properties = new Dictionary<string, string>
         {
             { "binaries", binariesDir }
