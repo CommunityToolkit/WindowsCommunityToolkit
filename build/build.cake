@@ -52,7 +52,7 @@ void VerifyHeaders(bool Replace)
         return !(path.EndsWith(".g.cs") || path.EndsWith(".i.cs") || System.IO.Path.GetFileName(path).Contains("TemporaryGeneratedFile"));
     });
 
-    Information("\nChecking " + files.Count() + " file header(s)");
+    Information("Checking " + files.Count() + " file header(s)\n");
     foreach(var file in files)
     {
         var oldContent = FileReadText(file);
@@ -63,12 +63,12 @@ void VerifyHeaders(bool Replace)
         {
             if(Replace)
             {
-                Information("\nUpdating " + file + " header...");
+                Information("Updating " + file + " header...\n");
                 FileWriteText(file, newContent);
             }
             else
             {
-                Error("Wrong/missing header on " + file);
+                Error("Wrong/missing header on " + file + "\n");
                 hasMissing = true;
             }
         }
@@ -97,7 +97,7 @@ void CreateNugetPackages()
     }
 
     var nupsecs = GetFiles(buildDir + "\\*.nuspec");
-    Information("\n Packing " + nupsecs.Count() + " Packages");
+    Information("Packing " + nupsecs.Count() + " Packages\n");
     foreach(var nuspec in nupsecs)
     {
         NuGetPack(nuspec, nuGetPackSettings);
@@ -114,12 +114,12 @@ Task("Clean")
 {
     if(DirectoryExists(binDir))
     {
-        Information("\nCleaning Working Directory");
+        Information("Cleaning Working Directory\n");
         CleanDirectory(binDir);
     }
     else
     {
-        CreateDirectory(binDir);
+        EnsureDirectoryExists(binDir);
     }
 });
 
@@ -148,7 +148,7 @@ Task("Build")
 {
     EnsureDirectoryExists(binariesDir);
 
-    Information("\nBuilding Solution");
+    Information("Building Solution\n");
     var buildSettings = new MSBuildSettings
     {
         MaxCpuCount = 0
@@ -189,7 +189,7 @@ Task("SignNuGet")
     {
         if(!FileExists(signClientAppPath))
         {
-            Information("\nDownloading Sign Client...");
+            Information("Downloading Sign Client...\n");
             var installSettings = new NuGetInstallSettings {
                 ExcludeVersion  = true,
                 OutputDirectory = tempDir,
@@ -200,17 +200,17 @@ Task("SignNuGet")
         }
 
         var packages = GetFiles(nupkgDir + "\\*.nupkg"); 
-        Information("\n Signing " + packages.Count() + " Packages");      
+        Information("Signing " + packages.Count() + " Packages\n");      
         foreach(var package in packages)
         {
-            Information("\nSubmitting " + package + " for signing...");
+            Information("Submitting " + package + " for signing...\n");
             DotNetCoreTool(signClientAppPath, "zip", "-c " + signClientSettings + " -s " + signClientSecret + " -n '" + name + "' -d '" + name +"' -u '" + address + "'");
-            Information("\nFinished signing " + package);
+            Information("Finished signing " + package + "\n");
         }
     }
     else
     {
-        Warning("\nClient Secret not found, not signing packages...");
+        Warning("Client Secret not found, not signing packages...\n");
     }
 });
 
@@ -234,7 +234,7 @@ Task("StyleXaml")
 {
     if(!FileExists(styler))
     {
-        Information("\nDownloading XamlStyler...");
+        Information("Downloading XamlStyler...\n");
         var installSettings = new NuGetInstallSettings {
             ExcludeVersion  = true,
             OutputDirectory = tempDir
@@ -247,7 +247,7 @@ Task("StyleXaml")
         fileSystemInfo => !fileSystemInfo.Path.Segments.Contains("obj");
 
     var files = GetFiles(baseDir + "\\**\\*.xaml", exclude_objDir);
-    Information("\nChecking " + files.Count() + " file(s) for XAML Structure");
+    Information("Checking " + files.Count() + " file(s) for XAML Structure\n");
     foreach(var file in files)
     {
         StartProcess(styler, "-f \"" + file + "\" -c \"" + stylerFile + "\"");
