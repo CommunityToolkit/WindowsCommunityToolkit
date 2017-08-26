@@ -88,9 +88,42 @@ To hide it, simply set the property to `ShowDismissButton="False"`.
 
 ## Events
 
+### Opening
+
+This event is raised when the system or your user started to open of the notification.
+
+```c#
+private void InAppNotification_OnOpening(object sender, EventArgs e)
+{
+    // TODO
+}
+```
+
+### Opened
+
+This event is raised when the notification is fully opened (after open animation).
+
+```c#
+private void InAppNotification_OnOpened(object sender, EventArgs e)
+{
+    // TODO
+}
+```
+
+### Dismissing
+
+This event is raised when the system or your user started to dismiss the notification.
+
+```c#
+private void InAppNotification_OnDismissing(object sender, EventArgs e)
+{
+    // TODO
+}
+```
+
 ### Dismissed
 
-This event is raised when the system or your user dismissed the notification.
+This event is raised when the notification is fully dismissed (after dismiss animation).
 
 ```c#
 private void InAppNotification_OnDismissed(object sender, EventArgs e)
