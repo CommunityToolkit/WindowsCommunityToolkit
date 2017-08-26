@@ -115,9 +115,17 @@ private void InAppNotification_OnOpened(object sender, EventArgs e)
 This event is raised when the system or your user started to dismiss the notification.
 
 ```c#
-private void InAppNotification_OnDismissing(object sender, EventArgs e)
+private void InAppNotification_OnDismissing(object sender, InAppNotificationDismissingEventArgs e)
 {
     // TODO
+    if (e.DismissKind == InAppNotificationDismissKind.User)
+    {
+        // When the user asked to dismiss the notification
+    }
+    if (e.DismissKind == InAppNotificationDismissKind.Timeout)
+    {
+        // When the notification is dismissed after timeout
+    }
 }
 ```
 

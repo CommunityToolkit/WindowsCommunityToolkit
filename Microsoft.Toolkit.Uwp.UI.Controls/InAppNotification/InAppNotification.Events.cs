@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Event raised when the notification is dismissing
         /// </summary>
-        public event EventHandler Dismissing;
+        public event InAppNotificationDismissingEventHandler Dismissing;
 
         /// <summary>
         /// Event raised when the notification is dismissed
@@ -42,12 +42,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void DismissButton_Click(object sender, RoutedEventArgs e)
         {
-            Dismiss();
+            Dismiss(InAppNotificationDismissKind.User);
         }
 
         private void DismissTimer_Tick(object sender, object e)
         {
-            Dismiss();
+            Dismiss(InAppNotificationDismissKind.Timeout);
             _dismissTimer.Stop();
         }
 

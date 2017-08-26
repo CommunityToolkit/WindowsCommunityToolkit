@@ -132,12 +132,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void Dismiss()
         {
+            Dismiss(InAppNotificationDismissKind.User);
+        }
+
+        /// <summary>
+        /// Dismiss the notification
+        /// </summary>
+        /// <param name="dismissKind">Kind of action that triggered dismiss event</param>
+        private void Dismiss(InAppNotificationDismissKind dismissKind)
+        {
             if (Visibility == Visibility.Visible)
             {
                 _animationTimer.Stop();
 
                 VisualStateManager.GoToState(this, StateContentCollapsed, true);
-                Dismissing?.Invoke(this, EventArgs.Empty);
+                Dismissing?.Invoke(this, new InAppNotificationDismissingEventArgs(dismissKind));
 
                 _animationTimer.Interval = TimeSpan.FromMilliseconds(_popupAnimationDuration);
                 _animationTimer.Tick += DismissAnimationTimer_Tick;
