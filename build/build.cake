@@ -15,20 +15,20 @@ var target = Argument("target", "Default");
 // PREPARATION
 //////////////////////////////////////////////////////////////////////
 
-var baseDir = "..";
-var buildDir = baseDir + "\\build";
-var Solution = baseDir + "\\UWP Community Toolkit.sln";
-var binDir = baseDir + "\\bin";
-var tempDir = binDir + "\\temp";
-var binariesDir = MakeAbsolute(Directory(binDir + "\\binaries")).ToString();
-var nupkgDir = MakeAbsolute(Directory(binDir + "\\nupkg")).ToString();
+var baseDir = MakeAbsolute(Directory("../")).ToString();
+var buildDir = baseDir + "/build";
+var Solution = baseDir + "/UWP Community Toolkit.sln";
+var binDir = baseDir + "/bin";
+var tempDir = binDir + "/temp";
+var binariesDir = binDir + "/binaries";
+var nupkgDir = binDir + "/nupkg";
 
 var signClientSettings = MakeAbsolute(File("SignClientSettings.json")).ToString();
 var signClientSecret = EnvironmentVariable("SignClientSecret");
-var signClientAppPath = tempDir + "\\SignClient\\Tools\\SignClient.dll";
+var signClientAppPath = tempDir + "/SignClient/Tools/SignClient.dll";
 
-var styler = tempDir + "\\XamlStyler.Console\\tools\\xstyler.exe";
-var stylerFile = baseDir + "\\settings.xamlstyler";
+var styler = tempDir + "/XamlStyler.Console/tools/xstyler.exe";
+var stylerFile = baseDir + "/settings.xamlstyler";
 
 GitVersion Version = null;
 var name = "UWP Community Toolkit";
@@ -46,7 +46,7 @@ void VerifyHeaders(bool Replace)
     Func<IFileSystemInfo, bool> exclude_objDir =
         fileSystemInfo => !fileSystemInfo.Path.Segments.Contains("obj");
 
-    var files = GetFiles(baseDir + "\\**\\*.cs", exclude_objDir).Where(file => 
+    var files = GetFiles(baseDir + "/**/*.cs", exclude_objDir).Where(file => 
     {
         var path = file.ToString();
         return !(path.EndsWith(".g.cs") || path.EndsWith(".i.cs") || System.IO.Path.GetFileName(path).Contains("TemporaryGeneratedFile"));
@@ -68,7 +68,7 @@ void VerifyHeaders(bool Replace)
             }
             else
             {
-                Error("Wrong/missing header on " + file);
+                Error("\nWrong/missing header on " + file);
                 hasMissing = true;
             }
         }
@@ -96,8 +96,8 @@ void CreateNugetPackages()
         nuGetPackSettings.Version = Version.NuGetVersionV2;
     }
 
-    var nupsecs = GetFiles(buildDir + "\\*.nuspec");
-    Information("\n Packing " + nupsecs.Count() + " Packages");
+    var nupsecs = GetFiles("*.nuspec");
+    Information("\nPacking " + nupsecs.Count() + " Packages");
     foreach(var nuspec in nupsecs)
     {
         NuGetPack(nuspec, nuGetPackSettings);
@@ -171,15 +171,6 @@ Task("PackNuGet")
     CreateNugetPackages();
 });
 
-Task("PackNuGetNoBuild")
-    .Description("Create the NuGet packages with existing binaries")
-    .Does(() =>
-{
-    EnsureDirectoryExists(nupkgDir);
-    Version = GitVersion();
-    CreateNugetPackages();
-});
-
 Task("SignNuGet")
     .Description("Sign the NuGet packages with the Code Signing service")
     .IsDependentOn("PackNuGet")
@@ -199,7 +190,7 @@ Task("SignNuGet")
             NuGetInstall(new []{"SignClient"}, installSettings);
         }
 
-        var packages = GetFiles(nupkgDir + "\\*.nupkg"); 
+        var packages = GetFiles(nupkgDir + "/*.nupkg"); 
         Information("\n Signing " + packages.Count() + " Packages");      
         foreach(var package in packages)
         {
@@ -228,6 +219,15 @@ Task("UpdateHeaders")
     VerifyHeaders(true);
 });
 
+Task("PackNuGetNoBuild")
+    .Description("Create the NuGet packages with existing binaries")
+    .Does(() =>
+{
+    EnsureDirectoryExists(nupkgDir);
+    Version = GitVersion();
+    CreateNugetPackages();
+});
+
 Task("StyleXaml")
     .Description("Ensures XAML Formatting is Clean")
     .Does(() =>
@@ -246,7 +246,7 @@ Task("StyleXaml")
     Func<IFileSystemInfo, bool> exclude_objDir =
         fileSystemInfo => !fileSystemInfo.Path.Segments.Contains("obj");
 
-    var files = GetFiles(baseDir + "\\**\\*.xaml", exclude_objDir);
+    var files = GetFiles(baseDir + "/**/*.xaml", exclude_objDir);
     Information("\nChecking " + files.Count() + " file(s) for XAML Structure");
     foreach(var file in files)
     {
