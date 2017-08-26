@@ -1,4 +1,4 @@
-#tool nuget:?package=GitVersion.CommandLine
+#tool "nuget:?package=GitVersion.CommandLine"
 #addin "Cake.FileHelpers"
 
 using System;
