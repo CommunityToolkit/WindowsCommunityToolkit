@@ -24,7 +24,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = DismissButtonPart, Type = typeof(Button))]
     public sealed partial class InAppNotification : ContentControl
     {
-        private DispatcherTimer _timer = new DispatcherTimer();
+        private int _popupAnimationDuration = 100; // Duration of the popup animation (in milliseconds)
+        private DispatcherTimer _animationTimer = new DispatcherTimer();
+        private DispatcherTimer _dismissTimer = new DispatcherTimer();
         private Button _dismissButton;
 
         /// <summary>
@@ -34,10 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(InAppNotification);
 
-            _timer.Tick += (sender, e) =>
-            {
-                Dismiss();
-            };
+            _dismissTimer.Tick += DismissTimer_Tick;
         }
 
         /// <inheritdoc />
@@ -74,15 +73,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
         public void Show(int duration = 0)
         {
-            _timer.Stop();
+            _animationTimer.Stop();
+            _dismissTimer.Stop();
 
             Visibility = Visibility.Visible;
             VisualStateManager.GoToState(this, StateContentVisible, true);
+            Opening?.Invoke(this, EventArgs.Empty);
+
+            _animationTimer.Interval = TimeSpan.FromMilliseconds(_popupAnimationDuration);
+            _animationTimer.Tick += OpenAnimationTimer_Tick;
+            _animationTimer.Start();
 
             if (duration > 0)
             {
-                _timer.Interval = TimeSpan.FromMilliseconds(duration);
-                _timer.Start();
+                _dismissTimer.Interval = TimeSpan.FromMilliseconds(duration);
+                _dismissTimer.Start();
             }
         }
 
@@ -129,8 +134,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (Visibility == Visibility.Visible)
             {
+                _animationTimer.Stop();
+
                 VisualStateManager.GoToState(this, StateContentCollapsed, true);
-                Dismissed?.Invoke(this, EventArgs.Empty);
+                Dismissing?.Invoke(this, EventArgs.Empty);
+
+                _animationTimer.Interval = TimeSpan.FromMilliseconds(_popupAnimationDuration);
+                _animationTimer.Tick += DismissAnimationTimer_Tick;
+                _animationTimer.Start();
             }
         }
     }
