@@ -25,7 +25,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="$binaries$\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.dll" target="lib\netstandard1.4" />
-    <file src="$binaries$\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.pdb" target="lib\netstandard1.4" />
+    <file src="$binaries$\Microsoft.Toolkit.Services.dll" target="lib\netstandard1.4" />
+    <file src="$binaries$\Microsoft.Toolkit.Services.pdb" target="lib\netstandard1.4" />
   </files>
 </package>

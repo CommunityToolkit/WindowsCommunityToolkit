@@ -21,7 +21,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="$binaries$\Microsoft.Toolkit\Microsoft.Toolkit.dll" target="lib\netstandard1.4" />
-    <file src="$binaries$\Microsoft.Toolkit\Microsoft.Toolkit.pdb" target="lib\netstandard1.4" />
+    <file src="$binaries$\Microsoft.Toolkit.dll" target="lib\netstandard1.4" />
+    <file src="$binaries$\Microsoft.Toolkit.pdb" target="lib\netstandard1.4" />
   </files>
 </package>

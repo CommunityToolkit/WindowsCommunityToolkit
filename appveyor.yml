@@ -23,7 +23,7 @@ init:
 - ps: git config --global core.autocrlf true
 
 build_script:
-- ps: .\build\build.ps1 SignNuGet
+- ps: .\build\build.ps1 -target=SignNuGet
 
 artifacts:
 - path: .\bin\nupkg\*.nupkg
