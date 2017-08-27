@@ -11,12 +11,6 @@ Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is pa
     <Summary>Generate tile, toast, and badge notifications for Windows 10 via code, with the help of IntelliSense, instead of directly using XML.</Summary>
   </PropertyGroup>
   
-  
-
-  <ItemGroup>
-    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.7" PrivateAssets="all" />
-  </ItemGroup>
-  
   <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native' ">
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="5.3.4" />
   </ItemGroup>

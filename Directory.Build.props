@@ -10,25 +10,32 @@
     <PackageReleaseNotes>v2.0: https://github.com/Microsoft/UWPCommunityToolkit/releases/tag/v2.0.0 </PackageReleaseNotes>
     <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
 
-    <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
+
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)Toolkit.ruleset</CodeAnalysisRuleSet>
     
     <DefaultLanguage>en-US</DefaultLanguage>
+
+    <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
+    <IsUwpProject>$(MSBuildProjectName.Contains('Uwp'))</IsUwpProject>
+    <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsUwpProject)' == 'true'">
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false'">
     <PackageReference Include="SourceLink.Create.CommandLine" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
-  <ItemGroup Condition="'$(IsTestProject)' != 'true'">
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="15.3.83" PrivateAssets="All" />
+  <ItemGroup Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true'">
+    <!--<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="15.3.83" PrivateAssets="all" />-->
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
 
-  <!-- UAP versions for uap10.0 where TPMV isn't implied -->
-  <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native'">
-    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
-  </PropertyGroup>
+  <ItemGroup Condition="'$(IsUwpProject)' == 'true'">
+    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.7" PrivateAssets="all" />
+  </ItemGroup>
   
   <PropertyGroup>
     <NerdbankGitVersioningVersion>2.0.37-beta</NerdbankGitVersioningVersion>
