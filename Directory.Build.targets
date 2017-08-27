@@ -2,11 +2,14 @@
 
   <!-- UAP versions for uap10.0 where TPMV isn't implied -->
   <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native'">
-    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.$(DefaultTargetPlatformMinVersion).0</TargetPlatformMinVersion>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native'">
+
+    <PackageReference Condition="'$(UseUwpMetaPackage)' == 'true'" Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="$(UwpMetaPackageVersion)" />
+    
     <SDKReference Condition="'$(UseWindowsDesktopSdk)' == 'true' " Include="WindowsDesktop, Version=$(TargetPlatformVersion)">
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
