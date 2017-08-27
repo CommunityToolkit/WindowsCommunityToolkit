@@ -6,4 +6,14 @@
     <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native'">
+    <SDKReference Condition="'$(UseWindowsDesktopSdk)' == 'true' " Include="WindowsDesktop, Version=$(TargetPlatformVersion)">
+      <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
+    <SDKReference Condition="'$(UseWindowsMobileSdk)' == 'true' " Include="WindowsMobile, Version=$(TargetPlatformVersion)">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
+
+  </ItemGroup>
+
 </Project>
