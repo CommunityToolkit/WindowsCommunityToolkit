@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.4;uap10.0;native</TargetFrameworks>
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
-    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Title>UWP Community Toolkit Notifications</Title>
     <Description>Generate tile, toast, and badge notifications for Windows 10 via code, with the help of IntelliSense, instead of directly using XML.
