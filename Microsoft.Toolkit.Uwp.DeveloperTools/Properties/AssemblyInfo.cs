@@ -25,7 +25,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
 
-[assembly: AssemblyVersion("1.2.1.0")]
-[assembly: AssemblyFileVersion("1.2.1.0")]
-[assembly: AssemblyInformationalVersion("1.2.1-developerTools.821+Branch.developerTools.Sha.9a3bfd5760c1cb9e03a099728d013fe40c4e7c53")]
 [assembly: ComVisible(false)]
