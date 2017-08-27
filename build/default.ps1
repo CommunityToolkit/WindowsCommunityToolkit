@@ -125,7 +125,7 @@ task Version -description "Updates the version entries in AssemblyInfo.cs files"
 task Build -depends Clean, Setup, Verify, Version -description "Build all projects and get the assemblies" {
   New-Item -Path $binariesDir -ItemType Directory | Out-Null
   
-  Exec { msbuild "/t:Clean;Restore;Build" /p:Configuration=Release "/p:OutDir=$binariesDir" /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error building $solutionFile"
+  Exec { msbuild "/t:Clean;Restore;Build" /p:Configuration=Release "/p:OutDir=$binariesDir" "/p:PackageOutputPath=$nupkgDir" /p:GeneratePackageOnBuild=true /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error building $solutionFile"
   
   WriteColoredOutput -ForegroundColor Green "Restoring AssemblyInfo.cs files...`n"
 
