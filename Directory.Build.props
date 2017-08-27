@@ -19,6 +19,10 @@
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsUwpProject>$(MSBuildProjectName.Contains('Uwp'))</IsUwpProject>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
+
+    <UwpMetaPackageVersion>5.3.4</UwpMetaPackageVersion>
+    <DefaultTargetPlatformVersion>15063</DefaultTargetPlatformVersion>
+    <DefaultTargetPlatformMinVersion>14393</DefaultTargetPlatformMinVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(IsUwpProject)' == 'true'">
@@ -33,10 +37,12 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="all" />
 
     <EmbeddedResource Include="**\*.rd.xml" />
+    <Page Include="**\*.xaml" Exclude="**\bin\**\*.xaml;**\obj\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
+    <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(IsUwpProject)' == 'true'">
-    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.7" PrivateAssets="all" />
+    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.8" PrivateAssets="all" />
   </ItemGroup>
 
   
@@ -57,5 +63,6 @@
           BeforeTargets="_GenerateRestoreProjectSpec"
           DependsOnTargets="GetBuildVersion"
           Condition=" '$(NerdbankGitVersioningTasksPath)' != '' " />
+
   
 </Project>

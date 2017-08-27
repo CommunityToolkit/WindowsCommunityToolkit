@@ -5,11 +5,12 @@
     <Title>UWP Community Toolkit</Title>
     <Description>This package includes code only helpers such as Colors conversion tool, Storage file handling, a Stream helper class, etc.</Description>
     <PackageTags>UWP Toolkit Windows</PackageTags>
+    <UseUwpMetaPackage>true</UseUwpMetaPackage>
   </PropertyGroup>
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="5.3.4" />
+    
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     
     <!-- TODO: Update to later version -->
