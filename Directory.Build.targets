@@ -4,6 +4,7 @@
   <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native'">
     <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.$(DefaultTargetPlatformMinVersion).0</TargetPlatformMinVersion>
+    <DebugType>Full</DebugType>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native'">

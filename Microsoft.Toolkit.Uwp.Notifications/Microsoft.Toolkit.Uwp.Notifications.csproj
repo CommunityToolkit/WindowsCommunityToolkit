@@ -3,12 +3,10 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.4;uap10.0;native</TargetFrameworks>
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Title>UWP Community Toolkit Notifications</Title>
     <Description>Generate tile, toast, and badge notifications for Windows 10 via code, with the help of IntelliSense, instead of directly using XML.
 Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is part of the UWP Community Toolkit. Supports C# and C++ UWP project types (see Microsoft.Toolkit.Uwp.Notifications.JavaScript for the JS version). Also works with C# portable class libraries and non-UWP C# projects like server projects.</Description>
     <PackageTags>notifications win10 windows 10 tile tiles toast toasts badge xml uwp c# csharp c++</PackageTags>
-    <Summary>Generate tile, toast, and badge notifications for Windows 10 via code, with the help of IntelliSense, instead of directly using XML.</Summary>
   </PropertyGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native' ">
@@ -26,16 +24,11 @@ Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is pa
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
     <OutputType>winmdobj</OutputType>
-    <DebugType>Full</DebugType>
-    <AllowCrossPlatformRetargeting>false</AllowCrossPlatformRetargeting>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <NugetTargetMoniker>UAP,Version=v10.0</NugetTargetMoniker>
     <PackageTargetFallback>uap10.0</PackageTargetFallback>
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);NETFX_CORE;WINDOWS_UWP;WINRT</DefineConstants>
     <CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>
-
-    <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.10240.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == '' ">10.0.10240.0</TargetPlatformMinVersion>
     <TargetFrameworkIdentifier>.NETCore</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <LanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v15.0\Microsoft.Windows.UI.Xaml.CSharp.targets</LanguageTargets>
