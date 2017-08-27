@@ -36,6 +36,10 @@
   <ItemGroup Condition="'$(IsUwpProject)' == 'true'">
     <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.7" PrivateAssets="all" />
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="**\*.rd.xml" />
+  </ItemGroup>
   
   <PropertyGroup>
     <NerdbankGitVersioningVersion>2.0.37-beta</NerdbankGitVersioningVersion>
