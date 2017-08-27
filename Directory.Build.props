@@ -42,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(IsUwpProject)' == 'true'">
-    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.8" PrivateAssets="all" />
+    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.9" PrivateAssets="all" />
   </ItemGroup>
 
   
@@ -63,6 +63,4 @@
           BeforeTargets="_GenerateRestoreProjectSpec"
           DependsOnTargets="GetBuildVersion"
           Condition=" '$(NerdbankGitVersioningTasksPath)' != '' " />
-
-  
 </Project>
