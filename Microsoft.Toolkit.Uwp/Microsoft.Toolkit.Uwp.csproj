@@ -15,10 +15,8 @@
     <!-- TODO: Update to later version -->
     <PackageReference Include="Microsoft.Identity.Client" Version="1.0.304142221-alpha" />
 
-
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
 
-    <EmbeddedResource Include="**\*.rd.xml" />
   </ItemGroup>
 
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
