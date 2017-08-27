@@ -4,6 +4,7 @@
     <TargetFrameworks>netstandard1.4;uap10.0;native</TargetFrameworks>
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   
   
@@ -20,6 +21,9 @@
     <PackageReference Update="Microsoft.NETCore.UniversalWindowsPlatform" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Microsoft.Toolkit.Uwp.Notifications.targets" Pack="true" PackagePath="build\native" />
+  </ItemGroup>
   
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
