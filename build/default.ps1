@@ -133,7 +133,7 @@ task PackNuGet -depends Build -description "Create the NuGet packages" {
 }
 
 
-task SignNuGet -depends Build -description "Sign the NuGet packages with the Code Signing service" {
+task SignNuGet -depends PackNuGet -description "Sign the NuGet packages with the Code Signing service" {
 
   if($hasSignClientSecret) {
 
