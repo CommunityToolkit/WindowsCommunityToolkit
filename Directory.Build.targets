@@ -1,5 +1,9 @@
 <Project>
 
-
+  <!-- UAP versions for uap10.0 where TPMV isn't implied -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native'">
+    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
+  </PropertyGroup>
 
 </Project>
