@@ -31,15 +31,14 @@
   <ItemGroup Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true'">
     <!--<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="15.3.83" PrivateAssets="all" />-->
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="all" />
+
+    <EmbeddedResource Include="**\*.rd.xml" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(IsUwpProject)' == 'true'">
     <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.7" PrivateAssets="all" />
   </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="**\*.rd.xml" />
-  </ItemGroup>
   
   <PropertyGroup>
     <NerdbankGitVersioningVersion>2.0.37-beta</NerdbankGitVersioningVersion>
