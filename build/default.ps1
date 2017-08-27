@@ -119,7 +119,7 @@ task Build -depends Clean, Setup, Verify, Version -description "Build all projec
   Exec { msbuild "/t:Restore" /p:Configuration=Release "/p:OutDir=$binariesDir" "/p:PackageOutputPath=$nupkgDir" /p:GeneratePackageOnBuild=true /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error restoring $solutionFile"
   Exec { msbuild "/t:Restore" /p:Configuration=Release "/p:OutDir=$binariesDir" "/p:PackageOutputPath=$nupkgDir" /p:GeneratePackageOnBuild=true /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error restoring $solutionFile"
 
-  Exec { msbuild "/t:Build" /p:Configuration=Release "/p:OutDir=$binariesDir" "/p:PackageOutputPath=$nupkgDir" /p:GeneratePackageOnBuild=true /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error building $solutionFile"
+  Exec { msbuild "/t:Build" /p:Configuration=Release "/p:PackageOutputPath=$nupkgDir" /p:GeneratePackageOnBuild=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error building $solutionFile"
  
 }
 
@@ -132,21 +132,8 @@ task PackNuGet -depends Build -description "Create the NuGet packages" {
   }
 }
 
-task PackNuGetNoBuild -description "Create the NuGet packages with existing binaries" {
-  New-Item -Path $nupkgDir -ItemType Directory | Out-Null
-  
-  $versionObj = .$tempDir\nerdbank.gitversioning\tools\Get-Version.ps1
 
-  $version = $versionObj.NuGetPackageVersion
-  
-  Get-ChildItem $buildDir\*.nuspec | % {
-    $fullFilename = $_.FullName
-    
-    Exec { .$nuget pack "$fullFilename" -symbols -Version "$version" -Properties "binaries=$binariesDir" -Output "$nupkgDir" } "Error packaging $projectName"
-  }
-}
-
-task SignNuGet -depends PackNuGet -description "Sign the NuGet packages with the Code Signing service" {
+task SignNuGet -depends Build -description "Sign the NuGet packages with the Code Signing service" {
 
   if($hasSignClientSecret) {
 
