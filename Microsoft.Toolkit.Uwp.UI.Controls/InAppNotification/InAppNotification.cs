@@ -24,10 +24,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = DismissButtonPart, Type = typeof(Button))]
     public sealed partial class InAppNotification : ContentControl
     {
-        private int _popupAnimationDuration = 100; // Duration of the popup animation (in milliseconds)
         private DispatcherTimer _animationTimer = new DispatcherTimer();
         private DispatcherTimer _dismissTimer = new DispatcherTimer();
         private Button _dismissButton;
+        private VisualStateGroup _visualStateGroup;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InAppNotification"/> class.
@@ -48,6 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _dismissButton = (Button)GetTemplateChild(DismissButtonPart);
+            _visualStateGroup = (VisualStateGroup)GetTemplateChild(GroupContent);
 
             if (_dismissButton != null)
             {
@@ -80,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             VisualStateManager.GoToState(this, StateContentVisible, true);
             Opening?.Invoke(this, EventArgs.Empty);
 
-            _animationTimer.Interval = TimeSpan.FromMilliseconds(_popupAnimationDuration);
+            _animationTimer.Interval = TimeSpan.FromMilliseconds(AnimationDuration);
             _animationTimer.Tick += OpenAnimationTimer_Tick;
             _animationTimer.Start();
 
@@ -148,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 VisualStateManager.GoToState(this, StateContentCollapsed, true);
                 Dismissing?.Invoke(this, new InAppNotificationDismissingEventArgs(dismissKind));
 
-                _animationTimer.Interval = TimeSpan.FromMilliseconds(_popupAnimationDuration);
+                _animationTimer.Interval = TimeSpan.FromMilliseconds(AnimationDuration);
                 _animationTimer.Tick += DismissAnimationTimer_Tick;
                 _animationTimer.Start();
             }

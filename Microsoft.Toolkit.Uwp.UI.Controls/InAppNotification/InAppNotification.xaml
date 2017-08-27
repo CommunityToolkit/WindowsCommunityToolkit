@@ -89,12 +89,20 @@
                             <VisualStateGroup x:Name="State">
                                 <VisualState x:Name="Collapsed">
                                     <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="RootGrid">
-                                            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
+                                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0" />
                                         </DoubleAnimationUsingKeyFrames>
 
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RootGrid">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
+                                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="100" />
+                                        </DoubleAnimationUsingKeyFrames>
+
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                       Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0">
                                                 <DiscreteObjectKeyFrame.Value>
                                                     <Visibility>Visible</Visibility>
@@ -111,9 +119,16 @@
 
                                 <VisualState x:Name="Visible">
                                     <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="RootGrid">
-                                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"/>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
+                                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
+                                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="100" />
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0" />
                                         </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>

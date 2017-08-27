@@ -278,7 +278,10 @@
 
         <controls:InAppNotification x:Name="ExampleInAppNotification"
                                     Content="This is a test message."
-                                    ShowDismissButton="@[ShowDismissButton:Bool:True]" />
+                                    ShowDismissButton="@[ShowDismissButton:Bool:True]"
+                                    AnimationDuration="@[AnimationDuration:String:100]"
+                                    VerticalOffset="@[VerticalOffset:String:100]"
+                                    HorizontalOffset="@[HorizontalOffset:String:0]" />
 
         <controls:InAppNotification x:Name="ExampleVSCodeInAppNotification"
                                     MinHeight="35"
@@ -289,7 +292,10 @@
                                     BorderThickness="0"
                                     ShowDismissButton="False"
                                     VerticalAlignment="Top"
-                                    RenderTransformOrigin="0.5,0">
+                                    RenderTransformOrigin="0.5,0"
+                                    AnimationDuration="@[AnimationDuration:String:100]"
+                                    VerticalOffset="@[VerticalOffset:String:100]"
+                                    HorizontalOffset="@[HorizontalOffset:String:0]">
             <controls:InAppNotification.ContentTemplate>
                 <DataTemplate>
                     <Grid>
