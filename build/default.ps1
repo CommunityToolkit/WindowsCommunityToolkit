@@ -136,8 +136,7 @@ task Build -depends Clean, Setup, Verify, Version -description "Build all projec
 }
 
 task PackNuGet -depends Build -description "Create the NuGet packages" {
-  New-Item -Path $nupkgDir -ItemType Directory | Out-Null
-  
+    
   Get-ChildItem $buildDir\*.nuspec | % {
     $fullFilename = $_.FullName
     
