@@ -1,17 +1,44 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;uap10.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;uap10.0;native</TargetFrameworks>
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
+    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
   </PropertyGroup>
+  
+  
 
   <ItemGroup>
     <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.7" PrivateAssets="all" />
   </ItemGroup>
   
-  <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native' ">
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform " Version="5.3.4" />
   </ItemGroup>
+
+  
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
+    <OutputType>winmdobj</OutputType>
+    <DebugType>Full</DebugType>
+    <AllowCrossPlatformRetargeting>false</AllowCrossPlatformRetargeting>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <NugetTargetMoniker>UAP,Version=v10.0</NugetTargetMoniker>
+    <PackageTargetFallback>uap10.0</PackageTargetFallback>
+    <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);NETFX_CORE;WINDOWS_UWP;WINRT</DefineConstants>
+    <CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>
+
+    <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == '' ">10.0.10240.0</TargetPlatformMinVersion>
+    <TargetFrameworkIdentifier>.NETCore</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <LanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v15.0\Microsoft.Windows.UI.Xaml.CSharp.targets</LanguageTargets>
+
+    <!-- Need to override the built-in implicit defines for UAP or it'll be NETCORE5_0 -->
+    <!-- this makes it UAP10_0_10240_0 to match the rest -->
+    <ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">UAP$(TargetPlatformMinVersion.Replace('.', '_'))</ImplicitFrameworkDefine>
+    <DisableImplicitFrameworkDefines Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">true</DisableImplicitFrameworkDefines>
+  </PropertyGroup>
 
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>
