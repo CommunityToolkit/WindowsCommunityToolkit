@@ -54,6 +54,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// </summary>
         public static FacebookService Instance => instance ?? (instance = new FacebookService());
 
+        public string AccessToken
+        {
+            get { return Provider.AccessTokenData.AccessToken; }
+        }
+
         /// <summary>
         /// Gets the current logged user name.
         /// </summary>
