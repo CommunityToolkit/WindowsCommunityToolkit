@@ -192,7 +192,7 @@ if (events == null)
 
 ### Requirements (Windows 10 Device Family)
 
-| [Device family](https://msdn.microsoft.com/windows/uwp/get-started/universal-application-platform-guide) | Universal, 10.0.10586.0 or higher |
+| [Device family](https://msdn.microsoft.com/windows/uwp/get-started/universal-application-platform-guide) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Services |
 
