@@ -77,7 +77,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _animationTimer.Stop();
             _dismissTimer.Stop();
 
-            Opening?.Invoke(this, EventArgs.Empty);
+            var eventArgs = new InAppNotificationOpeningEventArgs();
+            Opening?.Invoke(this, eventArgs);
+
+            if (eventArgs.Cancel)
+            {
+                return;
+            }
+
             Visibility = Visibility.Visible;
             VisualStateManager.GoToState(this, StateContentVisible, true);
 
@@ -146,8 +153,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _animationTimer.Stop();
 
+                var eventArgs = new InAppNotificationDismissingEventArgs(dismissKind);
+                Dismissing?.Invoke(this, eventArgs);
+
+                if (eventArgs.Cancel)
+                {
+                    return;
+                }
+
                 VisualStateManager.GoToState(this, StateContentCollapsed, true);
-                Dismissing?.Invoke(this, new InAppNotificationDismissingEventArgs(dismissKind));
 
                 _animationTimer.Interval = TimeSpan.FromMilliseconds(AnimationDuration);
                 _animationTimer.Tick += DismissAnimationTimer_Tick;

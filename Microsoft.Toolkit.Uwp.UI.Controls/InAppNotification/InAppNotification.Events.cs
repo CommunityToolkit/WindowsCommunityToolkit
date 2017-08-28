@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Event raised when the notification is opening
         /// </summary>
-        public event EventHandler Opening;
+        public event InAppNotificationOpeningEventHandler Opening;
 
         /// <summary>
         /// Event raised when the notification is opened

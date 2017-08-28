@@ -15,33 +15,26 @@ using System;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// A delegate for <see cref="InAppNotification"/> dismissing.
+    /// A delegate for <see cref="InAppNotification"/> opening.
     /// </summary>
     /// <param name="sender">The sender.</param>
     /// <param name="e">The event arguments.</param>
-    public delegate void InAppNotificationDismissingEventHandler(object sender, InAppNotificationDismissingEventArgs e);
+    public delegate void InAppNotificationOpeningEventHandler(object sender, InAppNotificationOpeningEventArgs e);
 
     /// <summary>
     /// Provides data for the <see cref="InAppNotification"/> Dismissing event.
     /// </summary>
-    public class InAppNotificationDismissingEventArgs : EventArgs
+    public class InAppNotificationOpeningEventArgs : EventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="InAppNotificationDismissingEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="InAppNotificationOpeningEventArgs"/> class.
         /// </summary>
-        /// <param name="dismissKind">Dismiss kind that triggered the dismissing event</param>
-        public InAppNotificationDismissingEventArgs(InAppNotificationDismissKind dismissKind)
+        public InAppNotificationOpeningEventArgs()
         {
-            DismissKind = dismissKind;
         }
 
         /// <summary>
-        /// Gets the kind of action for the dismissing event.
-        /// </summary>
-        public InAppNotificationDismissKind DismissKind { get; private set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the notification should be dismissed.
+        /// Gets or sets a value indicating whether the notification should be opened.
         /// </summary>
         public bool Cancel { get; set; }
     }
