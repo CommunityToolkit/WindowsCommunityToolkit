@@ -90,7 +90,7 @@ To hide it, simply set the property to `ShowDismissButton="False"`.
 
 ### Opening
 
-This event is raised when the system or your user started to open of the notification.
+This event is raised just before the notification starts to open.
 
 ```c#
 private void InAppNotification_OnOpening(object sender, EventArgs e)

@@ -15,13 +15,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public enum InAppNotificationDismissKind
     {
         /// <summary>
+        /// When the system dismissed the notification.
+        /// </summary>
+        Programmatic,
+
+        /// <summary>
         /// When user explicitly dismissed the notification.
         /// </summary>
-        User = 1,
+        User,
 
         /// <summary>
         /// When the system dismissed the notification after timeout.
         /// </summary>
-        Timeout = 2
+        Timeout
     }
 }

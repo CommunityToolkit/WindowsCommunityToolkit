@@ -285,15 +285,15 @@
                                     Style="{StaticResource MSEdgeNotificationStyle}"
                                     Content="This is a test message."
                                     ShowDismissButton="@[ShowDismissButton:Bool:True]"
-                                    AnimationDuration="@[AnimationDuration:String:100]"
-                                    VerticalOffset="@[VerticalOffset:String:100]"
-                                    HorizontalOffset="@[HorizontalOffset:String:0]" />
+                                    AnimationDuration="@[AnimationDuration:Slider:100:0-5000]"
+                                    VerticalOffset="@[VerticalOffset:DoubleSlider:100.0:-200.0-200.0]"
+                                    HorizontalOffset="@[HorizontalOffset:DoubleSlider:0.0:-200.0-200.0]" />
 
         <controls:InAppNotification x:Name="ExampleVSCodeInAppNotification"
                                     Style="{StaticResource VSCodeNotificationStyle}"
-                                    AnimationDuration="@[AnimationDuration:String:100]"
-                                    VerticalOffset="@[VerticalOffset:String:100]"
-                                    HorizontalOffset="@[HorizontalOffset:String:0]">
+                                    AnimationDuration="@[AnimationDuration]"
+                                    VerticalOffset="@[VerticalOffset]"
+                                    HorizontalOffset="@[HorizontalOffset]">
             <controls:InAppNotification.ContentTemplate>
                 <DataTemplate>
                     <Grid>

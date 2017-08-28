@@ -77,9 +77,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _animationTimer.Stop();
             _dismissTimer.Stop();
 
+            Opening?.Invoke(this, EventArgs.Empty);
             Visibility = Visibility.Visible;
             VisualStateManager.GoToState(this, StateContentVisible, true);
-            Opening?.Invoke(this, EventArgs.Empty);
 
             _animationTimer.Interval = TimeSpan.FromMilliseconds(AnimationDuration);
             _animationTimer.Tick += OpenAnimationTimer_Tick;
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void Dismiss()
         {
-            Dismiss(InAppNotificationDismissKind.User);
+            Dismiss(InAppNotificationDismissKind.Programmatic);
         }
 
         /// <summary>
