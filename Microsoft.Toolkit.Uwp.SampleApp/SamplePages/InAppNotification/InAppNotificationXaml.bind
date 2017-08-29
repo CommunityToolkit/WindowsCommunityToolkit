@@ -10,7 +10,6 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml" />
                 <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
           
@@ -282,7 +281,6 @@
         </StackPanel>
 
         <controls:InAppNotification x:Name="ExampleInAppNotification"
-                                    Style="{StaticResource MSEdgeNotificationStyle}"
                                     Content="This is a test message."
                                     ShowDismissButton="@[ShowDismissButton:Bool:True]"
                                     AnimationDuration="@[AnimationDuration:Slider:100:0-5000]"

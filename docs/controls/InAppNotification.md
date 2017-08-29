@@ -151,7 +151,46 @@ You can update the animation using three distinct properties :
 
 ## Styling
 
-TODO
+### Using styles
+
+The In App Notification control is designed to support multiple styles. 
+The default style applied is the Microsoft Edge-like notification. ??
+Other styles have been added to the Toolkit so you can easily switch to another of your favorite In App Notification styles.
+
+Here is the list of existing styles : 
+* [Microsoft Edge notification style](../..//Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml)
+* [Visual Studio Code notification style](../..//Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml)
+
+If you want to use another style than the default one, please follow the example below :
+
+1. Import external styles in your resources
+
+```xml
+<Page.Resources>
+    <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
+        </ResourceDictionary.MergedDictionaries>
+    <Page.Resources>
+<ResourceDictionary>
+```
+
+2. Apply the `Style`
+
+```xml
+<controls:InAppNotification 
+    x:Name="ExampleVSCodeInAppNotification"
+    Style="{StaticResource VSCodeNotificationStyle}" />
+```
+
+### Adding styles
+
+If you want to add styles to the Toolkit, please follow these steps :
+
+1. Create a `ResourceDictionary` file under `InAppNotification/Styles/` folder of `Microsoft.Toolkit.Uwp.UI.Controls` project
+2. Create a new `Style` with `TargetType="local:InAppNotification"`
+3. Create a new `ControlTemplate` with `TargetType="local:InAppNotification"` and add a `ContentPresenter` inside the Template
+4. Do not forget to set the `Template` property inside your `Style` resource
 
 ## Example Code
 

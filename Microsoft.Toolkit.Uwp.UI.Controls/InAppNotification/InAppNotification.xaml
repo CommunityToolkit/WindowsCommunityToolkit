@@ -13,5 +13,15 @@
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
         <Setter Property="Visibility" Value="Collapsed" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="MinHeight" Value="55" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="RenderTransformOrigin" Value="0.5,1" />
+        <Setter Property="Margin" Value="20 0" />
+        <Setter Property="Padding" Value="25 10" />
+        <Setter Property="MaxWidth" Value="1200" />
+        <Setter Property="Template" Value="{StaticResource MSEdgeNotificationTemplate}" />
     </Style>
 </ResourceDictionary>

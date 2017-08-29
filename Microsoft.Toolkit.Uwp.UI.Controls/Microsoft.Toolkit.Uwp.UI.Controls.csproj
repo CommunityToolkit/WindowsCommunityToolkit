@@ -76,6 +76,7 @@
     <Compile Include="InAppNotification\InAppNotification.Properties.cs" />
     <Compile Include="InAppNotification\InAppNotificationDismissKind.cs" />
     <Compile Include="InAppNotification\InAppNotificationDismissingEventArgs.cs" />
+    <Compile Include="InAppNotification\InAppNotificationOpeningEventArgs.cs" />
     <Compile Include="Menu\Menu.Logic.cs" />
     <Compile Include="Expander\ExpandDirection.cs" />
     <Compile Include="LayoutTransformControl\LayoutTransformControl.cs" />
