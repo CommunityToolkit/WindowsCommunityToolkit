@@ -60,6 +60,7 @@
         <Setter Property="RenderTransformOrigin" Value="0.5,0" />
         <Setter Property="Margin" Value="20 0" />
         <Setter Property="Padding" Value="0" />
+        <Setter Property="VerticalOffset" Value="-100" />
         <Setter Property="Template" Value="{StaticResource VSCodeNotificationTemplate}" />
     </Style>
 
@@ -78,7 +79,7 @@
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
                                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="100" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="-100" />
                             </DoubleAnimationUsingKeyFrames>
 
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
@@ -107,7 +108,7 @@
 
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
-                                <EasingDoubleKeyFrame KeyTime="0" Value="100" />
+                                <EasingDoubleKeyFrame KeyTime="0" Value="-100" />
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0" />
                             </DoubleAnimationUsingKeyFrames>
                         </Storyboard>

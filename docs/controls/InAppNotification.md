@@ -93,7 +93,7 @@ To hide it, simply set the property to `ShowDismissButton="False"`.
 This event is raised just before the notification starts to open.
 
 ```c#
-private void InAppNotification_OnOpening(object sender, EventArgs e)
+private void InAppNotification_OnOpening(object sender, InAppNotificationOpeningEventArgs e)
 {
     // TODO
 }
@@ -142,23 +142,16 @@ private void InAppNotification_OnDismissed(object sender, EventArgs e)
 
 ## Animation
 
-By default, the popup animation of the control is a bottom to top animation. You can update the popup animation using the `RenderTransformOrigin` property of the control. See examples:
+The default animation are set on each Notification Style. 
+You can update the animation using three distinct properties :
 
-```xml
+* `AnimationDuration` - duration of the popup animation (in milliseconds)
+* `VerticalOffset` - vertical offset of the popup animation
+* `HorizontalOffset` - horizontal offset of the popup animation
 
-<controls:InAppNotification RenderTransformOrigin="0.5,1" />
+## Styling
 
-```
-
-The default value (X: 0.5, Y:1) will show popup animation from bottom to top.
-
-```xml
-
-<controls:InAppNotification RenderTransformOrigin="0.5,0" />
-
-```
-
-An alternate version of the popup animation (used by the vscode-like notification) will start from top to bottom.
+TODO
 
 ## Example Code
 
