@@ -14,6 +14,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
@@ -178,18 +179,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private static void OnCarouselPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue == null)
-            {
-                return;
-            }
-
             Carousel carouselControl = (Carousel)d;
 
             if (e.Property == SelectedIndexProperty)
             {
-                var newValue = carouselControl.Items[(int)e.NewValue];
+                var newValue = (int)e.NewValue == -1 ? null : carouselControl.Items[(int)e.NewValue];
                 var oldValue = e.OldValue == null ? null : carouselControl.Items.ElementAtOrDefault((int)e.OldValue);
-                carouselControl.FocusContainerFromIndex((int)e.NewValue);
+                if (newValue != null)
+                {
+                    carouselControl.FocusContainerFromIndex((int)e.NewValue);
+                }
 
                 // double check
                 if (carouselControl.SelectedItem != newValue)
@@ -205,7 +204,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (e.Property == SelectedItemProperty)
             {
-                var index = carouselControl.Items.IndexOf(e.NewValue);
+                var index = e.NewValue == null ? -1 : carouselControl.Items.IndexOf(e.NewValue);
 
                 // double check
                 if (carouselControl.SelectedIndex != index)
@@ -293,7 +292,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var itemsPanel = carouselControl.GetItemsPanel();
 
                 // Prioritize the SelectedItem over the SelectedIndex
-                if (SelectedItem != null && Items[carouselControl.SelectedIndex] != SelectedItem)
+                if (SelectedItem != null && (Items.Count() <= carouselControl.SelectedIndex || Items[carouselControl.SelectedIndex] != SelectedItem))
                 {
                     var index = carouselControl.Items.IndexOf(SelectedItem);
 

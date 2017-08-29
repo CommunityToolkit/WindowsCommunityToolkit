@@ -1,3 +1,11 @@
+---
+title: ExpressionBuilder
+author: nmetulev
+ms.date: 08/20/2017
+description: The ExpressionBuilder classes are a C#-only alternative to building Composition Expressions with type safety.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, expressions, expressionbuilder
+---
+
 # ExpressionBuilder
 
 - [Quick Start](#quick-start)
@@ -1119,7 +1127,7 @@ _tracker.ConfigurePositionYInertiaModifiers(
 
 ## <a name="requirements"></a>Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher   |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |

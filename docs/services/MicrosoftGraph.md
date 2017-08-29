@@ -1,3 +1,11 @@
+---
+title: MicrosoftGraph Service
+author: nmetulev
+ms.date: 08/20/2017
+description: The MicrosoftGraph Service aim to easily logon to Office 365 Service in order to Retrieve User Information, Retrieve and Send emails, Retrieve User events
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, MicrosoftGraph Service
+---
+
 # MicrosoftGraph Service
 
 The **MicrosoftGraph** Service aim to easily logon to Office 365 Service in order to: 
@@ -21,7 +29,7 @@ If you don't have one, you need to create an Office 365 Developer Site. There ar
  
 ### 2. Register you application in Azure Active Directory
 
-To authenticate your app, you need to register your app with Azure AD, and provide some details about your app. You can register your app manually by using the [Azure Management Portal](manage.windowsazure.com), or by using Visual Studio.
+To authenticate your app, you need to register your app with Azure AD, and provide some details about your app. You can register your app manually by using the [Azure Management Portal](http://manage.windowsazure.com), or by using Visual Studio.
 
 To register your app manually, see [Manually register your app with Azure AD so it can access Office 365 APIs.](https://msdn.microsoft.com/en-us/office/office365/howto/add-common-consent-manually)
 
@@ -29,7 +37,7 @@ To register your app by using Visual Studio, see [Using Visual Studio to registe
 
 After you've registered your app, Azure AD will generate a client ID for your app. You'll need to use this client ID to get your access token.
 
-When you register your app in the [Azure Management Portal](manage.windowsazure.com), you will need to configure details about your application with the following steps:
+When you register your app in the [Azure Management Portal](http://manage.windowsazure.com), you will need to configure details about your application with the following steps:
 
 1. Specify your application as a **Web application and/or web API**
 2. Specify the Redirect Uri as **http://localhost:8000**
@@ -184,7 +192,7 @@ if (events == null)
 
 ### Requirements (Windows 10 Device Family)
 
-| [Device family](https://msdn.microsoft.com/windows/uwp/get-started/universal-application-platform-guide) | Universal, 10.0.10586.0 or higher |
+| [Device family](https://msdn.microsoft.com/windows/uwp/get-started/universal-application-platform-guide) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Services |
 

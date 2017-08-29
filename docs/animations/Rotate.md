@@ -1,3 +1,11 @@
+---
+title: Rotate animation behavior
+author: nmetulev
+ms.date: 08/20/2017
+description: The Rotate animation behavior allows users to modify and animate the control's rotation. 
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, rotate, rotate animation
+---
+
 # Rotate
 
 The Rotate animation allows users to modify and animate the control's rotation. Rotate animation is applied to all the XAML elements in its parent control/panel. Rotate animation doesn't affect the functionality of the control.
@@ -80,7 +88,7 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher   |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |

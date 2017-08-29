@@ -1,3 +1,11 @@
+---
+title: AdaptiveGridView XAML Control
+author: nmetulev
+ms.date: 08/20/2017
+description: The AdaptiveGridView Control presents items in a evenly-spaced set of columns to fill the total available display space.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, AdaptiveGridView, xaml control, xaml
+---
+
 # AdaptiveGridView XAML Control 
 
 The **AdaptiveGridView Control** presents items in a evenly-spaced set of columns to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.
@@ -24,13 +32,9 @@ If there are not enough items to fill one row, the control will stretch the item
 
 [AdaptiveGridView Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/AdaptiveGridView)
 
-## Default Template 
-
-[AdaptiveGridView XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/AdaptiveGridView/AdaptiveGridView.xaml) is the XAML template used in the toolkit for the default styling.
-
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 

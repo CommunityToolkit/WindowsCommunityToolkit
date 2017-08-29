@@ -1,3 +1,11 @@
+---
+title: ImageEx XAML Control
+author: nmetulev
+ms.date: 08/20/2017
+description: The ImageEx Control and RoundImageEx Control downloads images asynchronously, while showing a loading indicator.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ImageEx, RoundImageEx, xaml control, xaml
+---
+
 # ImageEx XAML Control
 
 The **ImageEx Control** and **RoundImageEx Control** downloads images asynchronously, while showing a loading indicator. Source images are then stored in the application's local cache to preserve resources and load time. ImageEx also extends the default *Image* and *ImageBrush* Platform controls respectively to improve performance through caching. 
@@ -37,7 +45,7 @@ You can also use a placeholder image that will be displayed will loading the mai
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 

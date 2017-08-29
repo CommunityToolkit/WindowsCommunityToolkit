@@ -1,6 +1,14 @@
-# TextBox Regex XAML Property
+---
+title: TextBoxRegex XAML Property
+author: nmetulev
+ms.date: 08/20/2017
+description: The TextBoxRegex Property allows text validation using a regular expression or using built in validation types.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, TextBoxRegex, XAML
+---
 
-The **TextBox Regex Property** allows text validation using a regular expression or using built in validation types.
+# TextBoxRegex XAML Property
+
+The **TextBoxRegex Property** allows text validation using a regular expression or using built in validation types.
 
 ### How it works
 
@@ -143,7 +151,7 @@ The following sample demonstrates how to add TextBoxRegex property.
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
 

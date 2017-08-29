@@ -1,3 +1,11 @@
+---
+title: Light animation behavior
+author: nmetulev
+ms.date: 08/20/2017
+description: The Light animation behavior performs a point light in the middle of a given UIElement. 
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, light, light animation
+---
+
 # Light
 
 The Light animation behavior performs a point light (A point source of light that emits light in all directions) in the middle of a given UIElement. You set the distance property of the light to determine how bright the light will be. The closer the light source, the darker the UI element will be. ***NOTE**:  Heavy usage of effects may have a negative impact on the performance of your application.* 

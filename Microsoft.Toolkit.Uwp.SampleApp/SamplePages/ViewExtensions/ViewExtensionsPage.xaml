@@ -13,5 +13,5 @@
       extensions:TitleBar.ForegroundColor="White"
       mc:Ignorable="d">
 
-    <Grid Background="{StaticResource Brush-Grey-05}" />
+    <Grid />
 </Page>

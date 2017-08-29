@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -48,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return _orbitView;
                 }
 
-                _orbitView = this.FindVisualAscendant<OrbitView>();
+                _orbitView = this.FindAscendant<OrbitView>();
 
                 if (_orbitView == null)
                 {

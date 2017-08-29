@@ -1,4 +1,15 @@
+---
+title: HttpHelper
+author: nmetulev
+ms.date: 08/20/2017
+description: Represents an HTTP request message including headers. 
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelper
+---
+
 # HttpHelper
+
+(This API is obsolete and will be removed in the future. Please use [System.Net.Http.HttpClient](https://msdn.microsoft.com/en-us/library/system.net.http.httpclient(v=vs.110).aspx) 
+or [Windows.Web.Http.HttpClient](https://docs.microsoft.com/en-us/uwp/api/Windows.Web.Http.HttpClient) directly)
 
 Represents an HTTP request message including headers. 
 
@@ -47,7 +58,7 @@ It additionally has one method - **SendRequestAsync**. This method requires an i
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
 

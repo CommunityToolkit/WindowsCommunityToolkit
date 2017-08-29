@@ -10,9 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Graph;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Graph;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         private Graph.User _currentUser = null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MicrosoftGraphServiceMessage"/> class.
+        /// Initializes a new instance of the <see cref="MicrosoftGraphServiceEvent"/> class.
         /// </summary>
         /// <param name="graphClientProvider">Instance of GraphClientService class</param>
         /// <param name="currentConnectedUser">Instance of Graph.User class</param>

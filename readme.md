@@ -26,15 +26,18 @@ Once you search you should see a list similar to the one below (versions may be 
 
 ![nuget packages](githubresources/images/NugetPackages.png "Nuget Packages")
 
-| NuGet Package Name | description |
+| NuGet Package Name | Description |
 | --- | --- |
-| Microsoft.Toolkit.Uwp | Main NuGet package includes code only helpers such as Colors conversion tool, Internet Connection detection, Storage file handling, a Stream helper class, etc. |
+| Microsoft.Toolkit | .NET Standard NuGet package containing common code |
+| Microsoft.Toolkit.Services | .NET Standard NuGet package containing cross-platform services |
+| Microsoft.Toolkit.Uwp | Main NuGet package includes code only helpers such as Colors conversion tool, Storage file handling, a Stream helper class, etc. |
 | Microsoft.Toolkit.Uwp.Notifications | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes intellisense support to avoid having to use the XML syntax. |
 | Microsoft.Toolkit.Uwp.Notifications.Javascript | Notification Packages for JavaScript |
-| Microsoft.Toolkit.Uwp.Services | Services Package - This NuGet package includes the service helpers for Bing, Facebook, LinkedIn, Microsoft Graph and Twitter. |
+| Microsoft.Toolkit.Uwp.Services | Services Package - This NuGet package includes the service helpers for Facebook, LinkedIn, Microsoft Graph, Twitter and more |
 | Microsoft.Toolkit.Uwp.UI | UI Packages - XAML converters, Visual tree extensions and helpers for your XAML UI. |
 | Microsoft.Toolkit.Uwp.UI.Animations | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
 | Microsoft.Toolkit.Uwp.UI.Controls | XAML Controls such as RadialGauge, RangeSelector, etc. | 
+| Microsoft.Toolkit.Uwp.Connectivity | API helpers such as BluetoothLEHelper and Networking | 
 | Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app | 
 
 ## Features
@@ -50,8 +53,8 @@ Once you search you should see a list similar to the one below (versions may be 
 * [ParallaxService](http://docs.uwpcommunitytoolkit.com/en/master/animations/ParallaxService/)
 * [ReorderGrid](http://docs.uwpcommunitytoolkit.com/en/master/animations/ReorderGrid/)
 * [Rotate](http://docs.uwpcommunitytoolkit.com/en/master/animations/Rotate/)
-* [Scale](http://docs.uwpcommunitytoolkit.com/en/master/animations/Scale/)
 * [Saturation](http://www.uwpcommunitytoolkit.com/en/master/animations/Saturation/)
+* [Scale](http://docs.uwpcommunitytoolkit.com/en/master/animations/Scale/)
 
 ### Controls
 
@@ -64,6 +67,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [HamburgerMenu](http://docs.uwpcommunitytoolkit.com/en/master/controls/HamburgerMenu/)
 * [HeaderedTextBlock](http://docs.uwpcommunitytoolkit.com/en/master/controls/HeaderedTextBlock/)
 * [ImageEx](http://docs.uwpcommunitytoolkit.com/en/master/controls/ImageEx/)
+* [InAppNotification](http://docs.uwpcommunitytoolkit.com/en/master/controls/InAppNotification/)
 * [Loading](http://docs.uwpcommunitytoolkit.com/en/master/controls/Loading/)
 * [MarkdownTextBlock](http://docs.uwpcommunitytoolkit.com/en/master/controls/MarkdownTextBlock/)
 * [MasterDetailsView](http://docs.uwpcommunitytoolkit.com/en/master/controls/MasterDetailsView/)
@@ -76,6 +80,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [RotatorTile](http://docs.uwpcommunitytoolkit.com/en/master/controls/RotatorTile/)
 * [ScrollHeader](http://docs.uwpcommunitytoolkit.com/en/master/controls/ScrollHeader/)
 * [SlideableListItem](http://docs.uwpcommunitytoolkit.com/en/master/controls/SlidableListItem/)
+* [TextToolbar](http://docs.uwpcommunitytoolkit.com/en/master/controls/TextToolbar/)
 * [TileControl](http://docs.uwpcommunitytoolkit.com/en/master/controls/TileControl/)
 * [WrapPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/WrapPanel/)
 
@@ -86,10 +91,12 @@ Once you search you should see a list similar to the one below (versions may be 
 ### Extensions
 * [Hyperlink](http://docs.uwpcommunitytoolkit.com/en/master/extensions/Hyperlink/)
 * [ListViewBase](http://docs.uwpcommunitytoolkit.com/en/master/extensions/ListViewBase/)
+* [LogicalTree](http://docs.uwpcommunitytoolkit.com/en/master/extensions/LogicalTree/)
 * [SurfaceDialTextbox](http://docs.uwpcommunitytoolkit.com/en/master/extensions/SurfaceDialTextbox/)
 * [TextBoxMask](http://docs.uwpcommunitytoolkit.com/en/master/extensions/TextBoxMask/)
 * [TextBoxRegex](http://docs.uwpcommunitytoolkit.com/en/master/extensions/TextBoxRegex/)
 * [ViewExtensions](http://www.uwpcommunitytoolkit.com/en/master/extensions/ViewExtensions/)
+* [VisualTree](http://docs.uwpcommunitytoolkit.com/en/master/extensions/VisualTree/)
 * [WebView](http://docs.uwpcommunitytoolkit.com/en/master/extensions/WebView/)
 
 ### Code Helpers
@@ -110,7 +117,6 @@ Once you search you should see a list similar to the one below (versions may be 
 * [StorageFiles](http://docs.uwpcommunitytoolkit.com/en/master/helpers/StorageFiles/)
 * [Streams](http://docs.uwpcommunitytoolkit.com/en/master/helpers/Streams/)
 * [SystemInformation](http://docs.uwpcommunitytoolkit.com/en/master/helpers/SystemInformation/)
-* [VisualTreeExtensions](http://docs.uwpcommunitytoolkit.com/en/master/helpers/VisualTreeExtensions/)
 * [WeakEventListener](http://docs.uwpcommunitytoolkit.com/en/master/helpers/WeakEventListener/)
 
 ### Services

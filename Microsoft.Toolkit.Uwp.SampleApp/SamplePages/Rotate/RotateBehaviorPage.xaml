@@ -8,29 +8,18 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Image x:Name="ToolkitLogo"
-               Width="100"
-               Height="100"
-               Source="ms-appx:///Assets/ToolkitLogo.png">
+    <!-- Shallow Copy -->
+    <Grid Visibility="Collapsed">
+        <Image>
             <interactivity:Interaction.Behaviors>
-                <behaviors:Rotate x:Name="Rotation"
-                                  AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=OneWay}"
-                                  CenterX="{Binding CenterX.Value, Mode=OneWay}"
-                                  CenterY="{Binding CenterY.Value, Mode=OneWay}"
-                                  Delay="{Binding Delay.Value, Mode=OneWay}"
-                                  Value="{Binding Value.Value, Mode=OneWay}"
-                                  Duration="{Binding Duration.Value, Mode=OneWay}" />
+                <behaviors:Rotate />
             </interactivity:Interaction.Behaviors>
         </Image>
-        <StackPanel HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom">
-            <Button Margin="10"
-                    Content="Apply">
+        <StackPanel>
+            <Button>
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
-                        <core:CallMethodAction MethodName="StartAnimation"
-                                               TargetObject="{Binding ElementName=Rotation}" />
+                        <core:CallMethodAction />
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </Button>

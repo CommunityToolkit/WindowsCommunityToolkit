@@ -1,3 +1,11 @@
+---
+title: Saturation animation behavior
+author: nmetulev
+ms.date: 08/20/2017
+description: The Saturation animation behavior selectively saturates a XAML element.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, saturation animation, saturation
+---
+
 # Saturation
 
 The Saturation animation selectively saturates a XAML element. Saturation animation is applied to all the XAML elements in its parent control/panel. Saturation animation doesn't affect the functionality of the control.

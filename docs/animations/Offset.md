@@ -1,3 +1,11 @@
+---
+title: Offset animation behavior
+author: nmetulev
+ms.date: 08/20/2017
+description: The Offset animation behavior gets the number of pixels, from the origin of the associated control, then offsets the control.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, offset animation
+---
+
 # Offset
 
 The Offset animation is used to move the control from one place to another. Offset animation is applied to all the XAML elements in its parent control/panel. Offset animation doesn't affect the functionality of the control.
@@ -98,7 +106,7 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher   |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |

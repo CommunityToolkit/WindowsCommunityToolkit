@@ -124,13 +124,26 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
                 return;
             }
 
-            controlName.Text = focusedControl.Name;
-            controlType.Text = focusedControl.GetType().Name;
-            controlAutomationName.Text = AutomationProperties.GetName(focusedControl);
+            if (controlName != null)
+            {
+                controlName.Text = focusedControl.Name;
+            }
 
-            var parentWithName = FindVisualAscendantWithName(focusedControl);
+            if (controlType != null)
+            {
+                controlType.Text = focusedControl.GetType().Name;
+            }
 
-            controlFirstParentWithName.Text = parentWithName?.Name ?? string.Empty;
+            if (controlAutomationName != null)
+            {
+                controlAutomationName.Text = AutomationProperties.GetName(focusedControl);
+            }
+
+            if (controlFirstParentWithName != null)
+            {
+                var parentWithName = FindVisualAscendantWithName(focusedControl);
+                controlFirstParentWithName.Text = parentWithName?.Name ?? string.Empty;
+            }
         }
 
         private FrameworkElement FindVisualAscendantWithName(FrameworkElement element)

@@ -1,3 +1,11 @@
+---
+title: Background Task Helper
+author: nmetulev
+ms.date: 08/20/2017
+description: The Background Task Helper helps users interacting with background tasks in an easier manner. 
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Background Task Helper
+---
+
 # Background Task Helper
 
 The **Background Task Helper** helps users interacting with background tasks in an easier manner. 
@@ -97,7 +105,7 @@ You can find more examples in our [unit tests](https://github.com/Microsoft/UWPC
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
 
