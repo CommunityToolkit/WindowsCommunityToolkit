@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -151,6 +152,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
             _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
+            _printHelper.OnPrintCanceled += PrinteHelper_OnPrintCanceled;
 
             await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App");
         }
@@ -159,6 +161,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         {
             _webView.Width = double.NaN;
             _webView.Height = double.NaN;
+
+            _printHelper.OnPrintFailed -= PrintHelper_OnPrintFailed;
+            _printHelper.OnPrintSucceeded -= PrintHelper_OnPrintSucceeded;
+            _printHelper.OnPrintCanceled -= PrinteHelper_OnPrintCanceled;
+
             _printHelper.Dispose();
 
             Shell.Current.DisplayWaitRing = false;
@@ -176,6 +183,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             ReleasePrintHelper();
             var dialog = new MessageDialog("Printing failed.");
             await dialog.ShowAsync();
+        }
+
+        private void PrinteHelper_OnPrintCanceled()
+        {
+            ReleasePrintHelper();
         }
 
         private async Task ShowDocument(string docText, string pattern)

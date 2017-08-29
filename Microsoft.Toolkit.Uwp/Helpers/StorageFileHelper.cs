@@ -19,7 +19,7 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.Storage.Streams;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// This class provides static helper methods for <see cref="StorageFile" />.
@@ -558,7 +558,7 @@ namespace Microsoft.Toolkit.Uwp
                 throw new ArgumentNullException(nameof(fileName));
             }
 
-            var file = await fileLocation.GetFileAsync(fileName).AsTask().ConfigureAwait(false);
+            var file = await fileLocation.GetFileAsync(fileName);
             return await file.ReadBytesAsync();
         }
 
@@ -646,7 +646,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </returns>
         internal static async Task<bool> FileExistsInFolderAsync(StorageFolder folder, string fileName)
         {
-            var item = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false);
+            var item = await folder.TryGetItemAsync(fileName);
             return (item != null) && item.IsOfType(StorageItemTypes.File);
         }
 
@@ -678,7 +678,7 @@ namespace Microsoft.Toolkit.Uwp
                 UserSearchFilter = $"filename:=\"{fileName}\"" // “:=” is the exact-match operator
             };
 
-            var files = await rootFolder.CreateFileQueryWithOptions(options).GetFilesAsync().AsTask().ConfigureAwait(false);
+            var files = await rootFolder.CreateFileQueryWithOptions(options).GetFilesAsync();
             return files.Count > 0;
         }
 

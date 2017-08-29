@@ -1,3 +1,11 @@
+---
+title: Offset animation behavior
+author: nmetulev
+ms.date: 08/20/2017
+description: The Offset animation behavior gets the number of pixels, from the origin of the associated control, then offsets the control.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, offset animation
+---
+
 # Offset
 
 The **Offset animation behavior** gets the number of pixels, from the origin of the associated control, then offsets the control. 
@@ -89,7 +97,7 @@ MyRectangle.Offset(offsetX: 10, offsetY: 10, duration: 10, delay: 0, easingType:
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Animations |
 

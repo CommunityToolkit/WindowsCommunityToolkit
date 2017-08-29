@@ -3,61 +3,17 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:wrapPanel="using:Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d">
 
-    <Page.Resources>
-        <DataTemplate x:Key="PhotoTemplate">
-            <Grid Width="{Binding Width}"
-                  Height="{Binding Height}"
-                  Margin="3"
-                  PointerPressed="Grid_PointerPressed">
-                <Image HorizontalAlignment="Center"
-                       Stretch="UniformToFill">
-                    <Image.Source>
-                        <BitmapImage DecodePixelHeight="200"
-                                     UriSource="{Binding Thumbnail}" />
-                    </Image.Source>
-                </Image>
-                <Border VerticalAlignment="Bottom">
-                    <Border.Background>
-                        <LinearGradientBrush EndPoint="0,1">
-                            <GradientStop Offset="0" Color="Transparent" />
-                            <GradientStop Offset="1" Color="#33000000" />
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <TextBlock Margin="5,20,5,5"
-                               VerticalAlignment="Bottom"
-                               Text="{Binding Category}" />
-                </Border>
-            </Grid>
-        </DataTemplate>
-    </Page.Resources>
-
-    <Grid Padding="48"
-          Background="{StaticResource Brush-Grey-05}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <Button Name="AddButton"
-                    Margin="0,0,10,0"
-                    Click="AddButton_Click"
-                    Content="Add Control" />
-            <Button Name="SwitchButton"
-                    Click="SwitchButton_Click"
-                    Content="Switch Orientation" />
-        </StackPanel>
-        <ItemsControl Name="WrapPanelContainer"
-                      Grid.Row="1"
-                      Margin="2"
-                      ItemTemplate="{StaticResource PhotoTemplate}">
+    <!-- Shallow Copy -->
+    <Grid Visibility="Collapsed">
+        <ListView>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <wrapPanel:WrapPanel Background="LightGray" />
+                    <controls:WrapPanel />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-        </ItemsControl>
+        </ListView>
     </Grid>
 </Page>
