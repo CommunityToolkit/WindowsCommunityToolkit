@@ -123,17 +123,8 @@ task Build -depends Clean, Setup, Verify, Version -description "Build all projec
  
 }
 
-task PackNuGet -depends Build -description "Create the NuGet packages" {
-    
-  Get-ChildItem $buildDir\*.nuspec | % {
-    $fullFilename = $_.FullName
-    
-    Exec { .$nuget pack "$fullFilename" -Version "$script:version" -Properties "binaries=$binariesDir" -Output "$nupkgDir" } "Error packaging $projectName"
-  }
-}
 
-
-task SignNuGet -depends PackNuGet -description "Sign the NuGet packages with the Code Signing service" {
+task SignNuGet -depends Build -description "Sign the NuGet packages with the Code Signing service" {
 
   if($hasSignClientSecret) {
 
