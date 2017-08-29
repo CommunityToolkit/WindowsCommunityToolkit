@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp", "Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj", "{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp", "Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj", "{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{A139968E-AD78-4E8C-93B8-9A5523BCAC89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI", "Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj", "{3DD8AA7C-3569-4E51-992F-0C2257E8878E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI", "Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj", "{3DD8AA7C-3569-4E51-992F-0C2257E8878E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Animations", "Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj", "{B24A296C-B3EB-4E06-A64E-74AC2D1ACC91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Animations", "Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj", "{B24A296C-B3EB-4E06-A64E-74AC2D1ACC91}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}"
 EndProject
@@ -17,9 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B30036C4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.SampleApp", "Microsoft.Toolkit.Uwp.SampleApp\Microsoft.Toolkit.Uwp.SampleApp.csproj", "{719C43C6-8753-4395-ADAA-2FCC70F76BF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.Services", "Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj", "{7189A42D-6F1A-4FA3-8E00-E2C14FDF167A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.Services", "Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj", "{7189A42D-6F1A-4FA3-8E00-E2C14FDF167A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Controls", "Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj", "{E9FAABFB-D726-42C1-83C1-CB46A29FEA81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls", "Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj", "{E9FAABFB-D726-42C1-83C1-CB46A29FEA81}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{9333C63A-F64F-4797-82B3-017422668A5D}"
 EndProject
@@ -31,9 +31,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{9AD3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.Samples.BackgroundTasks", "Microsoft.Toolkit.Uwp.Samples.BackgroundTasks\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.csproj", "{1AE2CB5C-58A0-4F12-8E6F-2CD4AAADB34C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.DeveloperTools", "Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.csproj", "{E7697922-9555-4CFB-AEE0-C5F4D657E559}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.DeveloperTools", "Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.csproj", "{E7697922-9555-4CFB-AEE0-C5F4D657E559}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.Connectivity", "Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj", "{B1E850FF-DDE6-44D5-A830-34250E97A687}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.Connectivity", "Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj", "{B1E850FF-DDE6-44D5-A830-34250E97A687}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Services", "Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj", "{34398053-FC70-4243-84F9-F355DEFFF66D}"
 EndProject
@@ -53,6 +53,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		build\default.ps1 = build\default.ps1
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.Notifications.JavaScript", "Microsoft.Toolkit.Uwp.Notifications.JavaScript\Microsoft.Toolkit.Uwp.Notifications.JavaScript.csproj", "{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}"
+	ProjectSection(ProjectDependencies) = postProject
+		{97EE849B-403C-490E-80ED-D19D7CC153FD} = {97EE849B-403C-490E-80ED-D19D7CC153FD}
 	EndProjectSection
 EndProject
 Global
@@ -348,6 +353,22 @@ Global
 		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Release|x86.ActiveCfg = Release|x86
 		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Release|x86.Build.0 = Release|x86
 		{EFA96B3C-857E-4659-B942-6BEF7719F4CA}.Release|x86.Deploy.0 = Release|x86
+		{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}.Debug|ARM.Build.0 = Debug|Any CPU
+		{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}.Debug|x64.Build.0 = Debug|Any CPU
+		{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}.Debug|x86.Build.0 = Debug|Any CPU
+		{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}.Release|ARM.ActiveCfg = Release|Any CPU
+		{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}.Release|ARM.Build.0 = Release|Any CPU
+		{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}.Release|x64.ActiveCfg = Release|Any CPU
+		{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}.Release|x64.Build.0 = Release|Any CPU
+		{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}.Release|x86.ActiveCfg = Release|Any CPU
+		{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
