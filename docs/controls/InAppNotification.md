@@ -145,16 +145,18 @@ private void InAppNotification_OnDismissed(object sender, EventArgs e)
 The default animation are set on each Notification Style. 
 You can update the animation using three distinct properties :
 
-* `AnimationDuration` - duration of the popup animation (in milliseconds)
-* `VerticalOffset` - vertical offset of the popup animation
-* `HorizontalOffset` - horizontal offset of the popup animation
+| Animation properties | Type | Description |
+| -- | -- | -- |
+| `AnimationDuration` | int | Duration of the popup animation in milliseconds |
+| `VerticalOffset` | double | Vertical offset of the popup animation |
+| `HorizontalOffset` | double | Horizontal offset of the popup animation |
 
 ## Styling
 
 ### Using styles
 
-The In App Notification control is designed to support multiple styles. 
-The default style applied is the Microsoft Edge-like notification. ??
+The in-app notification control is designed to support multiple styles. 
+The default style applied is the Microsoft Edge-like notification.
 Other styles have been added to the Toolkit so you can easily switch to another of your favorite In App Notification styles.
 
 Here is the list of existing styles : 
