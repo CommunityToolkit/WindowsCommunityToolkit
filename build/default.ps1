@@ -10,7 +10,6 @@ properties {
   $isAppVeyor = Test-Path -Path env:\APPVEYOR
   
   $tempDir = "$binDir\temp"
-  $binariesDir = "$binDir\binaries"
   $nupkgDir = "$binDir\nupkg"
   
   $nuget = "$toolsDir\nuget\nuget.exe"
@@ -113,11 +112,10 @@ task Version -description "Updates the version entries in AssemblyInfo.cs files"
 }
 
 task Build -depends Clean, Setup, Verify, Version -description "Build all projects and get the assemblies" {
-  New-Item -Path $binariesDir -ItemType Directory | Out-Null
-  
+    
   # Force a restore again to get proper version numbers https://github.com/NuGet/Home/issues/4337
-  Exec { msbuild "/t:Restore" /p:Configuration=Release "/p:OutDir=$binariesDir" "/p:PackageOutputPath=$nupkgDir" /p:GeneratePackageOnBuild=true /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error restoring $solutionFile"
-  Exec { msbuild "/t:Restore" /p:Configuration=Release "/p:OutDir=$binariesDir" "/p:PackageOutputPath=$nupkgDir" /p:GeneratePackageOnBuild=true /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error restoring $solutionFile"
+  Exec { msbuild "/t:Restore" /p:Configuration=Release /m "$sourceDir\UWP Community Toolkit.sln" } "Error restoring $solutionFile"
+  Exec { msbuild "/t:Restore" /p:Configuration=Release /m "$sourceDir\UWP Community Toolkit.sln" } "Error restoring $solutionFile"
 
   Exec { msbuild "/t:Build" /p:Configuration=Release "/p:PackageOutputPath=$nupkgDir" /p:GeneratePackageOnBuild=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error building $solutionFile"
  
