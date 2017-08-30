@@ -193,9 +193,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
 #if !DEBUG // don't cache for debugging perpuses so it always gets the latests
-            if (string.IsNullOrWhiteSpace(_cachedDocumentation) && StorageFileHelper.IsFileNameValid(filename))
+            if (string.IsNullOrWhiteSpace(_cachedDocumentation))
             {
-                _cachedDocumentation = await StorageFileHelper.ReadTextFromLocalCacheFileAsync(filename);
+                try
+                {
+                    _cachedDocumentation = await StorageFileHelper.ReadTextFromLocalCacheFileAsync(filename);
+                }
+                catch (Exception)
+                {
+                }
             }
 #endif
 

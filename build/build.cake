@@ -1,5 +1,5 @@
-#tool "nuget:?package=GitVersion.CommandLine"
 #addin "Cake.FileHelpers"
+#addin "Cake.Powershell"
 
 using System;
 using System.Linq;
@@ -18,19 +18,21 @@ var target = Argument("target", "Default");
 var baseDir = MakeAbsolute(Directory("../")).ToString();
 var buildDir = baseDir + "/build";
 var Solution = baseDir + "/UWP Community Toolkit.sln";
+var toolsDir = buildDir + "/tools";
+
 var binDir = baseDir + "/bin";
-var tempDir = binDir + "/temp";
-var binariesDir = binDir + "/binaries";
 var nupkgDir = binDir + "/nupkg";
 
 var signClientSettings = MakeAbsolute(File("SignClientSettings.json")).ToString();
 var signClientSecret = EnvironmentVariable("SignClientSecret");
-var signClientAppPath = tempDir + "/SignClient/Tools/netcoreapp1.1/SignClient.dll";
+var signClientAppPath = toolsDir + "/SignClient/Tools/netcoreapp1.1/SignClient.dll";
 
-var styler = tempDir + "/XamlStyler.Console/tools/xstyler.exe";
+var styler = toolsDir + "/XamlStyler.Console/tools/xstyler.exe";
 var stylerFile = baseDir + "/settings.xamlstyler";
 
-GitVersion Version = null;
+var versionClient = toolsDir + "/nerdbank.gitversioning/tools/Get-Version.ps1";
+string Version = null;
+
 var name = "UWP Community Toolkit";
 var address = "https://developer.microsoft.com/en-us/windows/uwp-community-toolkit";
 
@@ -80,30 +82,6 @@ void VerifyHeaders(bool Replace)
     }
 }
 
-void CreateNugetPackages()
-{
-    var nuGetPackSettings = new NuGetPackSettings
-    {
-        OutputDirectory = nupkgDir,
-        Properties = new Dictionary<string, string>
-        {
-            { "binaries", binariesDir }
-        }
-    };
-
-    if(Version != null)
-    {
-        nuGetPackSettings.Version = Version.NuGetVersionV2;
-    }
-
-    var nupsecs = GetFiles("*.nuspec");
-    Information("\nPacking " + nupsecs.Count() + " Packages");
-    foreach(var nuspec in nupsecs)
-    {
-        NuGetPack(nuspec, nuGetPackSettings);
-    }
-}
-
 //////////////////////////////////////////////////////////////////////
 // Default Task
 //////////////////////////////////////////////////////////////////////
@@ -132,13 +110,24 @@ Task("Verify")
 });
 
 Task("Version")
-    .Description("Updates the version entries in AssemblyInfo.cs files")
+    .Description("Updates the version information in all Projects")
     .IsDependentOn("Verify")
     .Does(() =>
 {
-    Version = GitVersion(new GitVersionSettings {
-        UpdateAssemblyInfo = true
-    });
+    Information("\nDownloading NerdBank GitVersioning...");
+    var installSettings = new NuGetInstallSettings {
+        ExcludeVersion  = true,
+        Prerelease = true,
+        Version = "2.0.37-beta",
+        OutputDirectory = toolsDir
+    };
+    
+    NuGetInstall(new []{"nerdbank.gitversioning"}, installSettings);
+
+    Information("\nRetrieving version...");
+    var results = StartPowershellFile(versionClient);
+    Version = results[1].Properties["NuGetPackageVersion"].Value.ToString();
+    Information("\nBuild Version: " + Version);
 });
 
 Task("Build")
@@ -146,34 +135,31 @@ Task("Build")
     .IsDependentOn("Version")
     .Does(() =>
 {
-    EnsureDirectoryExists(binariesDir);
-
     Information("\nBuilding Solution");
     var buildSettings = new MSBuildSettings
     {
         MaxCpuCount = 0
     }
     .SetConfiguration("Release")
-    .WithTarget("Clean;Restore;Build")
-    .WithProperty("GenerateSolutionSpecificOutputFolder", "true")
-    .WithProperty("GenerateLibraryLayout", "true")
-    .WithProperty("TreatWarningsAsErrors", "false")
-    .WithProperty("OutDir", binariesDir);
+    .WithTarget("Restore");
+
+    // Force a restore again to get proper version numbers https://github.com/NuGet/Home/issues/4337
+    MSBuild(Solution, buildSettings);
+    MSBuild(Solution, buildSettings);
+
+    buildSettings.Targets.Clear();
+    buildSettings.WithTarget("Build")
+        .WithProperty("GenerateSolutionSpecificOutputFolder", "true")   
+        .WithProperty("GenerateLibraryLayout", "true")
+        .WithProperty("TreatWarningsAsErrors", "false")
+        .WithProperty("PackageOutputPath", nupkgDir);
 
     MSBuild(Solution, buildSettings);
 });
 
-Task("PackNuGet")
-    .Description("Create the NuGet packages")
-    .IsDependentOn("Build")
-    .Does(() =>
-{
-    CreateNugetPackages();
-});
-
 Task("SignNuGet")
     .Description("Sign the NuGet packages with the Code Signing service")
-    .IsDependentOn("PackNuGet")
+    .IsDependentOn("Build")
     .Does(() =>
 {
     if(!string.IsNullOrWhiteSpace(signClientSecret))
@@ -181,7 +167,7 @@ Task("SignNuGet")
         Information("\nDownloading Sign Client...");
         var installSettings = new NuGetInstallSettings {
             ExcludeVersion  = true,
-            OutputDirectory = tempDir,
+            OutputDirectory = toolsDir,
             Version = "0.8.0"
         };
         NuGetInstall(new []{"SignClient"}, installSettings);
@@ -206,22 +192,13 @@ Task("SignNuGet")
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-    .IsDependentOn("PackNuGet");
+    .IsDependentOn("Build");
 
 Task("UpdateHeaders")
     .Description("Updates the headers in *.cs files")
     .Does(() =>
 {
     VerifyHeaders(true);
-});
-
-Task("PackNuGetNoBuild")
-    .Description("Create the NuGet packages with existing binaries")
-    .Does(() =>
-{
-    EnsureDirectoryExists(nupkgDir);
-    Version = GitVersion();
-    CreateNugetPackages();
 });
 
 Task("StyleXaml")
@@ -233,7 +210,7 @@ Task("StyleXaml")
         Information("\nDownloading XamlStyler...");
         var installSettings = new NuGetInstallSettings {
             ExcludeVersion  = true,
-            OutputDirectory = tempDir
+            OutputDirectory = toolsDir
         };
         
         NuGetInstall(new []{"xamlstyler.console"}, installSettings);
