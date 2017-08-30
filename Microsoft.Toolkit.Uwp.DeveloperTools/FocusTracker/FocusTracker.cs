@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
     [TemplatePart(Name = "ControlType", Type = typeof(TextBlock))]
     [TemplatePart(Name = "ControlAutomationName", Type = typeof(TextBlock))]
     [TemplatePart(Name = "ControlFirstParentWithName", Type = typeof(TextBlock))]
-    public class FocusTracker: Control
+    public class FocusTracker : Control
     {
         /// <summary>
         /// Defines the <see cref="IsActive"/> dependency property.
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
         {
             var focusTracker = d as FocusTracker;
 
-            if (e.NewValue != null && (bool) e.NewValue)
+            if (e.NewValue != null && (bool)e.NewValue)
             {
                 focusTracker?.Start();
             }
@@ -64,11 +64,8 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
         /// </summary>
         public bool IsActive
         {
-            get { return (bool) GetValue(IsActiveProperty); }
-            set
-            {
-                SetValue(IsActiveProperty, value);
-            }
+            get { return (bool)GetValue(IsActiveProperty); }
+            set { SetValue(IsActiveProperty, value); }
         }
 
         /// <summary>
@@ -86,6 +83,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
                 updateTimer = new DispatcherTimer();
                 updateTimer.Tick += UpdateTimer_Tick;
             }
+
             updateTimer.Start();
         }
 
