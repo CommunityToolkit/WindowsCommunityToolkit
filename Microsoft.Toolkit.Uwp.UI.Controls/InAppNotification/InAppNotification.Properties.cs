@@ -10,9 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -96,113 +94,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var inApNotification = d as InAppNotification;
 
-            if (inApNotification._visualStateGroup != null)
-            {
-                int duration = (int)e.NewValue;
-                var keyTimeFromAnimationDuration = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(duration));
-
-                foreach (var state in inApNotification._visualStateGroup.States)
-                {
-                    foreach (var timeline in state.Storyboard.Children)
-                    {
-                        if (timeline is DoubleAnimationUsingKeyFrames daukf)
-                        {
-                            var keyFramesCount = daukf.KeyFrames.Count;
-                            if (keyFramesCount > 1)
-                            {
-                                daukf.KeyFrames[keyFramesCount - 1].KeyTime = keyTimeFromAnimationDuration;
-                            }
-                        }
-
-                        if (timeline is ObjectAnimationUsingKeyFrames oaukf)
-                        {
-                            var keyFramesCount = oaukf.KeyFrames.Count;
-                            if (keyFramesCount > 1)
-                            {
-                                oaukf.KeyFrames[keyFramesCount - 1].KeyTime = keyTimeFromAnimationDuration;
-                            }
-                        }
-                    }
-                }
-            }
+            int duration = (int)e.NewValue;
+            inApNotification.UpdateAnimationDuration(duration);
         }
 
         private static void OnVerticalOffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var inApNotification = d as InAppNotification;
 
-            if (inApNotification._visualStateGroup != null)
-            {
-                double verticalOffset = (double)e.NewValue;
-
-                foreach (var state in inApNotification._visualStateGroup.States)
-                {
-                    foreach (var timeline in state.Storyboard.Children)
-                    {
-                        if (timeline is DoubleAnimationUsingKeyFrames daukf)
-                        {
-                            var targetProperty = (string)timeline.GetValue(Storyboard.TargetPropertyProperty);
-
-                            if (targetProperty == "(UIElement.RenderTransform).(CompositeTransform.TranslateY)")
-                            {
-                                var keyFramesCount = daukf.KeyFrames.Count;
-
-                                if (keyFramesCount > 1)
-                                {
-                                    if (state.Name == "Visible")
-                                    {
-                                        daukf.KeyFrames[0].Value = verticalOffset;
-                                    }
-
-                                    if (state.Name == "Collapsed")
-                                    {
-                                        daukf.KeyFrames[keyFramesCount - 1].Value = verticalOffset;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            double verticalOffset = (double)e.NewValue;
+            inApNotification.UpdateVerticalOffset(verticalOffset);
         }
 
         private static void OnHorizontalOffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var inApNotification = d as InAppNotification;
 
-            if (inApNotification._visualStateGroup != null)
-            {
-                double horizontalOffset = (double)e.NewValue;
-
-                foreach (var state in inApNotification._visualStateGroup.States)
-                {
-                    foreach (var timeline in state.Storyboard.Children)
-                    {
-                        if (timeline is DoubleAnimationUsingKeyFrames daukf)
-                        {
-                            var targetProperty = (string)timeline.GetValue(Storyboard.TargetPropertyProperty);
-
-                            if (targetProperty == "(UIElement.RenderTransform).(CompositeTransform.TranslateX)")
-                            {
-                                var keyFramesCount = daukf.KeyFrames.Count;
-
-                                if (keyFramesCount > 1)
-                                {
-                                    if (state.Name == "Visible")
-                                    {
-                                        daukf.KeyFrames[0].Value = horizontalOffset;
-                                    }
-
-                                    if (state.Name == "Collapsed")
-                                    {
-                                        daukf.KeyFrames[keyFramesCount - 1].Value = horizontalOffset;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            double horizontalOffset = (double)e.NewValue;
+            inApNotification.UpdateHorizontalOffset(horizontalOffset);
         }
     }
 }
