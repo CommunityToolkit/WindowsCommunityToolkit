@@ -147,12 +147,15 @@ Task("Build")
     MSBuild(Solution, buildSettings);
     MSBuild(Solution, buildSettings);
 
-    buildSettings.Targets.Clear();
-    buildSettings.WithTarget("Build")
-        .WithProperty("GenerateSolutionSpecificOutputFolder", "true")   
-        .WithProperty("GenerateLibraryLayout", "true")
-        .WithProperty("TreatWarningsAsErrors", "false")
-        .WithProperty("PackageOutputPath", nupkgDir);
+    buildSettings = new MSBuildSettings
+    {
+        MaxCpuCount = 0
+    }
+    .WithTarget("Build")
+    .WithProperty("GenerateSolutionSpecificOutputFolder", "true")   
+    .WithProperty("GenerateLibraryLayout", "true")
+    .WithProperty("TreatWarningsAsErrors", "false")
+    .WithProperty("PackageOutputPath", nupkgDir);
 
     MSBuild(Solution, buildSettings);
 });
