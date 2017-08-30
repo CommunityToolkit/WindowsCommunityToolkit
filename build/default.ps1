@@ -14,7 +14,6 @@ properties {
   $nupkgDir = "$binDir\nupkg"
   
   $nuget = "$toolsDir\nuget\nuget.exe"
-  $gitversion = "$toolsDir\gitversion\gitversion.exe"
   
   $signClientSettings = "$buildDir\SignClientSettings.json"
   $hasSignClientSecret = !([string]::IsNullOrEmpty($env:SignClientSecret))
@@ -101,23 +100,14 @@ task Verify -description "Run pre-build verifications" {
 task Version -description "Updates the version entries in AssemblyInfo.cs files" {
   WriteColoredOutput -ForegroundColor Green "Downloading GitVersion...`n"
   
-  Exec { .$nuget install -excludeversion gitversion.commandline -outputdirectory $tempDir } "Error downloading GitVersion"
+  Exec { .$nuget install -excludeversion nerdbank.gitversioning -pre -Version 2.0.37-beta  -outputdirectory $tempDir } "Error downloading Nerdbank.GitVersion"
   
-  WriteColoredOutput -ForegroundColor Green "Restoring AssemblyInfo.cs files...`n"
-  
-  Get-ChildItem $sourceDir -re -in AssemblyInfo.cs | % {
-    git checkout $_
-  }
-  
-  WriteColoredOutput -ForegroundColor Green "Updating AssemblyInfo.cs files...`n"
-  
-  Exec { .$tempDir\gitversion.commandline\tools\gitversion.exe $sourceDir /l console /output buildserver /updateassemblyinfo /nofetch } "Error updating GitVersion"
-  
+
   WriteColoredOutput -ForegroundColor Green "Retrieving version...`n"
 
-  $versionObj = .$tempDir\gitversion.commandline\tools\gitversion.exe /nofetch | ConvertFrom-Json
+  $versionObj = .$tempDir\nerdbank.gitversioning\tools\Get-Version.ps1
 
-  $script:version = $versionObj.NuGetVersionV2
+  $script:version = $versionObj.NuGetPackageVersion
   
   WriteColoredOutput -ForegroundColor Green "Build version: $script:version`n"
 }
@@ -125,40 +115,16 @@ task Version -description "Updates the version entries in AssemblyInfo.cs files"
 task Build -depends Clean, Setup, Verify, Version -description "Build all projects and get the assemblies" {
   New-Item -Path $binariesDir -ItemType Directory | Out-Null
   
-  Exec { msbuild "/t:Clean;Restore;Build" /p:Configuration=Release "/p:OutDir=$binariesDir" /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error building $solutionFile"
-  
-  WriteColoredOutput -ForegroundColor Green "Restoring AssemblyInfo.cs files...`n"
+  # Force a restore again to get proper version numbers https://github.com/NuGet/Home/issues/4337
+  Exec { msbuild "/t:Restore" /p:Configuration=Release "/p:OutDir=$binariesDir" "/p:PackageOutputPath=$nupkgDir" /p:GeneratePackageOnBuild=true /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error restoring $solutionFile"
+  Exec { msbuild "/t:Restore" /p:Configuration=Release "/p:OutDir=$binariesDir" "/p:PackageOutputPath=$nupkgDir" /p:GeneratePackageOnBuild=true /p:GenerateProjectSpecificOutputFolder=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error restoring $solutionFile"
 
-  Get-ChildItem $sourceDir -re -in AssemblyInfo.cs | % {
-    git checkout $_
-  }
+  Exec { msbuild "/t:Build" /p:Configuration=Release "/p:PackageOutputPath=$nupkgDir" /p:GeneratePackageOnBuild=true /p:TreatWarningsAsErrors=false /p:GenerateLibraryLayout=true /m "$sourceDir\UWP Community Toolkit.sln" } "Error building $solutionFile"
+ 
 }
 
-task PackNuGet -depends Build -description "Create the NuGet packages" {
-  New-Item -Path $nupkgDir -ItemType Directory | Out-Null
-  
-  Get-ChildItem $buildDir\*.nuspec | % {
-    $fullFilename = $_.FullName
-    
-    Exec { .$nuget pack "$fullFilename" -Version "$script:version" -Properties "binaries=$binariesDir" -Output "$nupkgDir" } "Error packaging $projectName"
-  }
-}
 
-task PackNuGetNoBuild -description "Create the NuGet packages with existing binaries" {
-  New-Item -Path $nupkgDir -ItemType Directory | Out-Null
-  
-  $versionObj = .$tempDir\gitversion.commandline\tools\gitversion.exe | ConvertFrom-Json
-
-  $version = $versionObj.NuGetVersionV2
-  
-  Get-ChildItem $buildDir\*.nuspec | % {
-    $fullFilename = $_.FullName
-    
-    Exec { .$nuget pack "$fullFilename" -symbols -Version "$version" -Properties "binaries=$binariesDir" -Output "$nupkgDir" } "Error packaging $projectName"
-  }
-}
-
-task SignNuGet -depends PackNuGet -description "Sign the NuGet packages with the Code Signing service" {
+task SignNuGet -depends Build -description "Sign the NuGet packages with the Code Signing service" {
 
   if($hasSignClientSecret) {
 
