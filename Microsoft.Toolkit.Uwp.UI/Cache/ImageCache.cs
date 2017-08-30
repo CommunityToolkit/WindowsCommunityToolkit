@@ -31,6 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Private singleton field.
         /// </summary>
+        [ThreadStatic]
         private static ImageCache _instance;
 
         private List<string> _extendedPropertyNames = new List<string>();
