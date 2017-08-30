@@ -26,6 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private DispatcherTimer _timer = new DispatcherTimer();
         private Button _dismissButton;
+        private InAppNotificationDismissedEventArgs _dismissedEventArgs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InAppNotification"/> class.
@@ -76,8 +77,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _timer.Stop();
 
+            _dismissedEventArgs = new InAppNotificationDismissedEventArgs()
+            {
+                OpenedTime = DateTime.Now
+            };
+
+            Opening?.Invoke(this, EventArgs.Empty);
+
             Visibility = Visibility.Visible;
             VisualStateManager.GoToState(this, StateContentVisible, true);
+
+            Opened?.Invoke(this, EventArgs.Empty);
 
             if (duration > 0)
             {
@@ -129,8 +139,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (Visibility == Visibility.Visible)
             {
+                _dismissedEventArgs.DismissedTime = DateTime.Now;
                 VisualStateManager.GoToState(this, StateContentCollapsed, true);
-                Dismissed?.Invoke(this, EventArgs.Empty);
+                Dismissed?.Invoke(this, _dismissedEventArgs);
             }
         }
     }

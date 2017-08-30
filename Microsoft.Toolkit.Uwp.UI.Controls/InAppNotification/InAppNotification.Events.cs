@@ -21,9 +21,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class InAppNotification
     {
         /// <summary>
-        /// Event raised when the notification is dismissed
+        /// Event raised when the notification is dismissed.
         /// </summary>
-        public event EventHandler Dismissed;
+        public event EventHandler<InAppNotificationDismissedEventArgs> Dismissed;
+
+        /// <summary>
+        /// Event raised when the notification is about to be visible.
+        /// </summary>
+        public event EventHandler Opening;
+
+        /// <summary>
+        /// Event raised when the notification is appeared on the screen.
+        /// </summary>
+        public event EventHandler Opened;
 
         private void DismissButton_Click(object sender, RoutedEventArgs e)
         {
