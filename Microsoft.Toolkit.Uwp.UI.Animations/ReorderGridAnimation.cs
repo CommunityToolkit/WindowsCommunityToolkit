@@ -77,6 +77,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 view.ContainerContentChanging -= OnContainerContentChanging;
                 view.ContainerContentChanging += OnContainerContentChanging;
+
+                view.ChoosingItemContainer -= OnChoosingItemContainer;
+                view.ChoosingItemContainer += OnChoosingItemContainer;
             }
         }
 
@@ -99,12 +102,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var elementVisual = ElementCompositionPreview.GetElementVisual(args.ItemContainer);
             if (args.InRecycleQueue)
             {
-                elementVisual.ImplicitAnimations = null;
+                PokeUIElementZIndex(args.ItemContainer);
             }
             else
             {
                 var elementImplicitAnimation = sender.GetValue(ReorderAnimationProperty) as ImplicitAnimationCollection;
                 elementVisual.ImplicitAnimations = elementImplicitAnimation;
+            }
+        }
+
+        private static void OnChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
+        {
+            if (args.ItemContainer != null)
+            {
+                PokeUIElementZIndex(args.ItemContainer);
             }
         }
 
@@ -119,6 +130,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             animationGroup.Add(offsetAnimation);
 
             return animationGroup;
+        }
+
+        private static void PokeUIElementZIndex(UIElement element)
+        {
+            var oldZIndex = Canvas.GetZIndex(element);
+            Canvas.SetZIndex(element, oldZIndex + 1);
+            Canvas.SetZIndex(element, oldZIndex);
         }
     }
 }
