@@ -87,7 +87,7 @@ You can change the way how the animation interpolates between keyframes by defin
     **Sample Output**
 
     ![Use Case 1 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Saturation/Scale.gif)
-- Use this to create chaining animations with other animations
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
     **Sample Code**
     ```csharp

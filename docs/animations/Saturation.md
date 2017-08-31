@@ -62,7 +62,7 @@ ToolkitLogo.Saturation(value: 0, duration: 500, delay: 250);
 
     ![Use Case 1 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Saturation/Use-Case-1.gif)
 
-- Use this to create chaining animations with other animations
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
     **Sample Code**
     ```csharp
