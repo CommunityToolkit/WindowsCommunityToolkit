@@ -130,7 +130,7 @@
                                            Visibility="{x:Bind local:About.VisibleIfCollectionEmpty(RecentSamples), Mode=OneWay}"></TextBlock>
                                     <ItemsControl x:Name="RecentSamplesItemsControl"
                                                   ItemsPanel="{StaticResource ItemsWrapGridHorizontalTemplate}"
-                                                  ItemsSource="{x:Bind RecentSamples, Mode=OneWay}" ItemTemplate="{StaticResource SampleTemplate}">
+                                                  ItemsSource="{x:Bind RecentSamples, Mode=OneWay}" ItemTemplate="{StaticResource RecentSampleTemplate}">
                                     </ItemsControl>
                                 </Grid>
 

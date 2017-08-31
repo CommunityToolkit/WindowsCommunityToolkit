@@ -39,7 +39,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             InitializeComponent();
             Suspending += OnSuspending;
-            HockeyClient.Current.Configure(string.Empty);
+            try
+            {
+                HockeyClient.Current.Configure(string.Empty);
+            }
+            catch
+            {
+            }
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)
