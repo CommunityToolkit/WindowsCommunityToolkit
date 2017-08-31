@@ -12,6 +12,7 @@
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Documents;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -137,6 +138,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 SetValue(TextProperty, value);
             }
         }
+
+        /// <summary>
+        /// Gets the collection of inline text elements within a Windows.UI.Xaml.Controls.TextBlock.
+        /// </summary>
+        /// <returns>
+        /// A collection that holds all inline text elements from the Windows.UI.Xaml.Controls.TextBlock. The default is an empty collection.</returns>
+        // Hack: I need a InlineCollection from a TextBlock since _textContent is null when XAML accesses the properties
+        public InlineCollection Inlines { get; } = new TextBlock().Inlines;
 
         /// <summary>
         /// Gets or sets the orientation.

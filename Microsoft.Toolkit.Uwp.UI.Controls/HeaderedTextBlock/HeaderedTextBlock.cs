@@ -10,8 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -19,6 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Defines a control for providing a header for read-only text.
     /// </summary>
     [TemplatePart(Name = "HeaderContentPresenter", Type = typeof(ContentPresenter))]
+    [ContentProperty(Name = nameof(Inlines))]
     public partial class HeaderedTextBlock : Control
     {
         private ContentPresenter _headerContentPresenter;
@@ -43,6 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _textContent = GetTemplateChild("TextContent") as TextBlock;
 
             UpdateVisibility();
+            UpdateInlines();
             UpdateForOrientation(this.Orientation);
         }
 
@@ -57,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_textContent != null)
             {
-                _textContent.Visibility = string.IsNullOrWhiteSpace(_textContent.Text) && HideTextIfEmpty
+                _textContent.Visibility = string.IsNullOrWhiteSpace(_textContent.Text) && Inlines == null && HideTextIfEmpty
                                                     ? Visibility.Collapsed
                                                     : Visibility.Visible;
             }
@@ -73,6 +77,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case Orientation.Horizontal:
                     VisualStateManager.GoToState(this, "Horizontal", true);
                     break;
+            }
+        }
+
+        private void UpdateInlines()
+        {
+            if (_textContent == null || Inlines == null || Inlines.Count == 0)
+            {
+                return;
+            }
+
+            _textContent.Inlines.Clear();
+            var inlines = Inlines.ToList();
+
+            Inlines.Clear();
+
+            foreach (var inline in inlines)
+            {
+                _textContent.Inlines.Add(inline);
+            }
+
+            // in UWP if Text is se then the value of Inlines is not used. Following will ensure this.
+            if (!string.IsNullOrEmpty(Text))
+            {
+                var test = Text;
+                Text = null;
+                Text = test;
             }
         }
     }
