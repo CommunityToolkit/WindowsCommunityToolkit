@@ -12,6 +12,7 @@
 
 using System;
 using GoogleAnalytics;
+using Microsoft.HockeyApp;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -25,6 +26,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 AnalyticsManager.Current.ReportUncaughtExceptions = true;
                 AnalyticsManager.Current.AutoAppLifetimeMonitoring = true;
+                HockeyClient.Current.Configure(string.Empty);
             }
             catch
             {
