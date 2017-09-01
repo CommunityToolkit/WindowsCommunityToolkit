@@ -1131,4 +1131,4 @@ _tracker.ConfigurePositionYInertiaModifiers(
 
 ## API
 
-* [Expressions source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp.UI.Animations/Expressions)
+* [Expressions source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Expressions)
