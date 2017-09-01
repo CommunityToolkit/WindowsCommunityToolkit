@@ -71,7 +71,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, expressions, expr
 - [Requirements](#requirements)
 - [API](#api)
 
-# <a name="quick-start"></a>Quick Start 
+## <a name="quick-start"></a>Quick Start 
 
 Welcome to the ExpressionBuilder classes! The ExpressionBuilder classes are a C#-only alternative to building Expressions with type safety. Below is a quick introduction to using the ExpressionBuilder classes with your application. Complete documentation and walkthroughs will start from [Intro](#intro) section.
 
@@ -1134,4 +1134,4 @@ _tracker.ConfigurePositionYInertiaModifiers(
 
 ## <a name="api"></a>API
 
-* [Expressions source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp.UI.Animations/Expressions)
+* [Expressions source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Expressions)

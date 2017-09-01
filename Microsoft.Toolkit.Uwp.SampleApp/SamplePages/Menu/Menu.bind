@@ -142,7 +142,7 @@
       <TextBlock Text="Open project shortcut: Ctrl+Shift+O" />
       <TextBlock Text="Open file shortcut: Ctrl+O" />
       <TextBlock Text="Print shortcut: Ctrl+P" />
-      <TextBlock Text="Exit solution shortcut: Ctrl+Shit+E" />
+      <TextBlock Text="Exit solution shortcut: Ctrl+Shift+E" />
     </StackPanel>
 
   </Grid>

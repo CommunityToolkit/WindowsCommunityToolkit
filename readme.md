@@ -7,8 +7,8 @@ The UWP Community Toolkit is a collection of helper functions, custom controls, 
 
 | Target | Branch | Status | Recommended Nuget packages version |
 | ------ | ------ | ------ | ------ |
-| Production | master | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/master?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/master) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
-| Pre-release beta testing | dev | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/dev?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/dev) | [![MyGet](https://img.shields.io/dotnet.myget/uwpcommunitytoolkit/vpre/Microsoft.Toolkit.Uwp.svg)](https://dotnet.myget.org/gallery/uwpcommunitytoolkit) |
+| Production | rel/2.0.0 | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/rel/2.0.0?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/rel/2.0.0) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
+| Pre-release beta testing | master | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/master?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/master) | [![MyGet](https://img.shields.io/dotnet.myget/uwpcommunitytoolkit/vpre/Microsoft.Toolkit.Uwp.svg)](https://dotnet.myget.org/gallery/uwpcommunitytoolkit) |
 
 ## Getting started
 
@@ -75,7 +75,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [OrbitView](http://docs.uwpcommunitytoolkit.com/en/master/controls/OrbitView/)
 * [PullToRefreshListView](http://docs.uwpcommunitytoolkit.com/en/master/controls/PullToRefreshListview/)
 * [RadialGauge](http://docs.uwpcommunitytoolkit.com/en/master/controls/RadialGauge/)
-* [RadialProgressBar](http://www.uwpcommunitytoolkit.com/en/dev/controls/RadialProgressBar/)
+* [RadialProgressBar](http://www.uwpcommunitytoolkit.com/en/master/controls/RadialProgressBar/)
 * [RangeSelector](http://docs.uwpcommunitytoolkit.com/en/master/controls/RangeSelector/)
 * [RotatorTile](http://docs.uwpcommunitytoolkit.com/en/master/controls/RotatorTile/)
 * [ScrollHeader](http://docs.uwpcommunitytoolkit.com/en/master/controls/ScrollHeader/)
@@ -85,8 +85,8 @@ Once you search you should see a list similar to the one below (versions may be 
 * [WrapPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/WrapPanel/)
 
 ### Developer Tools
-* [AlignmentGrid](http://www.uwpcommunitytoolkit.com/en/master/developer%20tools/AlignmentGrid/)
-* [FocusTracker](http://www.uwpcommunitytoolkit.com/en/master/developer%20tools/FocusTracker/)
+* [AlignmentGrid](http://www.uwpcommunitytoolkit.com/en/master/developer-tools/AlignmentGrid/)
+* [FocusTracker](http://www.uwpcommunitytoolkit.com/en/master/developer-tools/FocusTracker/)
 
 ### Extensions
 * [Hyperlink](http://docs.uwpcommunitytoolkit.com/en/master/extensions/Hyperlink/)

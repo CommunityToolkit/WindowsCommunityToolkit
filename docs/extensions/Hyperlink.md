@@ -31,5 +31,5 @@ The **Hyperlink extension** allows for a Hyperlink element to invoke the execute
 
 ## API
 
-* [Hyperlink source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/dev/Microsoft.Toolkit.Uwp.UI/Extensions/Hyperlink)
+* [Hyperlink source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Hyperlink)
 

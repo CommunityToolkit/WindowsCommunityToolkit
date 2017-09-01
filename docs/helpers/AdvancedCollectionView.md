@@ -102,5 +102,5 @@ If you're removing, modifying or inserting large amounts of items while having f
 
 ## API
 
-* [AdvancedCollectionView source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp.UI/AdvancedCollectionView)
+* [AdvancedCollectionView source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/AdvancedCollectionView)
 

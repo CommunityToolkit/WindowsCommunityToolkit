@@ -38,7 +38,7 @@ MyUIElement.SetValue(ParallaxService.HorizontalMultiplierProperty, 0.5);
 
 ## Sample Project
 
-[ParallaxService Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ParallaxService). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
+[ParallaxService Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ParallaxService). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
 
 ## Requirements
 
@@ -49,4 +49,4 @@ MyUIElement.SetValue(ParallaxService.HorizontalMultiplierProperty, 0.5);
 
 ## API
 
-* [ParallaxService source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/dev/Microsoft.Toolkit.Uwp.UI.Animations/ParallaxService.cs)
+* [ParallaxService source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/ParallaxService.cs)

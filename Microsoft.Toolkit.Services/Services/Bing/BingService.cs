@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Services.Bing
         /// Gets public singleton property.
         /// </summary>
         public static BingService Instance => instance ?? (instance = new BingService());
-        
+
         /// <summary>
         /// Gets a reference to an instance of the underlying data provider.
         /// </summary>
