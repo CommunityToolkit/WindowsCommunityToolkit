@@ -22,116 +22,44 @@
       <RowDefinition Height="auto" />
     </Grid.RowDefinitions>
 
-    <controls:Menu AllowTooltip="@[AllowTooltip:Bool:False]"
-                   Orientation="@[Orientation:Enum:Orientation.Horizontal]"
-                   TooltipPlacement="@[TooltipPlacement:Enum:PlacementMode.Bottom]">
-
-      <controls:MenuItem Name="FileMenu"
-                         controls:Menu.InputGestureText="Alt+F"
-                         Header="^File">
+    <controls:Menu>
+    <controls:MenuItem Header="File">
         <MenuFlyoutSubItem Text="New">
-          <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
-                          Command="{StaticResource NewProject}"
-                          Text="{Binding Path=(controls:Menu.InputGestureText), RelativeSource={RelativeSource Self}, Converter={StaticResource StringFormatConverter}, ConverterParameter='Project        ({0})'}" />
-          <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+N"
-                          Command="{StaticResource NewFile}"
-                          Text="{Binding Path=(controls:Menu.InputGestureText), RelativeSource={RelativeSource Self}, Converter={StaticResource StringFormatConverter}, ConverterParameter='File                       ({0})'}" />
+            <MenuFlyoutItem Text="Project" />
+            <MenuFlyoutSubItem Text="New">
+                <MenuFlyoutItem Text="Project" />
+                <MenuFlyoutItem Text="File" />
+            </MenuFlyoutSubItem>
         </MenuFlyoutSubItem>
-        <MenuFlyoutSubItem Text="Open">
-          <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+O"
-                          Command="{StaticResource GenericCommand}"
-                          CommandParameter="Select Project/Solution"
-                          Text="Project/Solution" />
-          <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+O"
-                          Command="{StaticResource GenericCommand}"
-                          CommandParameter="Select File"
-                          Text="{Binding Path=(controls:Menu.InputGestureText), RelativeSource={RelativeSource Self}, Converter={StaticResource StringFormatConverter}, ConverterParameter='File        ({0})'}" />
+    </controls:MenuItem>
+    <controls:MenuItem Header="File">
+        <MenuFlyoutSubItem Text="New">
+            <MenuFlyoutSubItem Text="New">
+                <MenuFlyoutItem Text="Project" />
+                <MenuFlyoutItem Text="File" />
+            </MenuFlyoutSubItem>
+            <MenuFlyoutItem Text="File" />
         </MenuFlyoutSubItem>
-        <MenuFlyoutSeparator />
-        <MenuFlyoutItem Text="Page Setup" />
-        <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+P"
-                        Command="{StaticResource GenericCommand}"
-                        CommandParameter="Page is Printed!!"
-                        Text="Print" />
-        <MenuFlyoutSeparator />
-        <MenuFlyoutSubItem Text="Recent Files">
-          <MenuFlyoutItem Text="UWP ToolKit GridSplitter" />
-          <MenuFlyoutItem Text="UWP ToolKit WrapPanel" />
+    </controls:MenuItem>
+    <controls:MenuItem Header="File">
+        <MenuFlyoutSubItem Text="New">
+            <MenuFlyoutItem Text="Project" />
+            <MenuFlyoutSubItem Text="New">
+                <MenuFlyoutItem Text="Project" />
+                <MenuFlyoutItem Text="File" />
+            </MenuFlyoutSubItem>
         </MenuFlyoutSubItem>
-        <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+E"
-                        Command="{StaticResource GenericCommand}"
-                        CommandParameter="Solution closed"
-                        Text="Exit" />
-      </controls:MenuItem>
-
-
-      <controls:MenuItem controls:Menu.InputGestureText="Alt+E"
-                         Header="^Edit">
-        <MenuFlyoutSubItem Text="Go To">
-          <MenuFlyoutItem Text="Go To Line" />
-          <MenuFlyoutItem Text="Go To All" />
+    </controls:MenuItem>
+    <controls:MenuItem Header="File">
+        <MenuFlyoutSubItem Text="New">
+            <MenuFlyoutSubItem Text="New">
+                <MenuFlyoutItem Text="Project" />
+                <MenuFlyoutItem Text="File" />
+            </MenuFlyoutSubItem>
+            <MenuFlyoutItem Text="File" />
         </MenuFlyoutSubItem>
-
-        <MenuFlyoutSubItem Text="Find and Replace">
-          <MenuFlyoutItem Text="Find" />
-          <MenuFlyoutItem Text="Replace" />
-        </MenuFlyoutSubItem>
-      </controls:MenuItem>
-
-      <controls:MenuItem controls:Menu.InputGestureText="Alt+V"
-                         Header="^View">
-        <MenuFlyoutSubItem Text="Designer">
-          <MenuFlyoutItem Text="VS Designer" />
-          <MenuFlyoutItem Text="Blend" />
-        </MenuFlyoutSubItem>
-
-        <MenuFlyoutSubItem Text="Solution Explorer">
-          <MenuFlyoutItem Text="Solutions" />
-          <MenuFlyoutItem Text="Projects" />
-        </MenuFlyoutSubItem>
-      </controls:MenuItem>
-
-      <controls:MenuItem controls:Menu.InputGestureText="Alt+P"
-                         Header="^Project">
-        <MenuFlyoutSubItem Text="Add Class">
-          <MenuFlyoutItem Text="Class" />
-          <MenuFlyoutItem Text="Interface" />
-        </MenuFlyoutSubItem>
-
-        <MenuFlyoutSubItem Text="Add new data source">
-          <MenuFlyoutItem Text="SQL" />
-          <MenuFlyoutItem Text="NoSQL" />
-        </MenuFlyoutSubItem>
-      </controls:MenuItem>
-
-      <controls:MenuItem controls:Menu.InputGestureText="Alt+B"
-                         Header="^Build">
-        <MenuFlyoutItem Text="Build Solution" />
-        <MenuFlyoutItem Text="Rebuild Solution" />
-      </controls:MenuItem>
-
-      <controls:MenuItem controls:Menu.InputGestureText="Alt+D"
-                         Header="^Debug">
-        <MenuFlyoutSubItem Text="Windows">
-          <MenuFlyoutItem Text="Windows 8" />
-          <MenuFlyoutItem Text="Windows 10" />
-        </MenuFlyoutSubItem>
-
-        <MenuFlyoutSubItem Text="Graphics">
-          <MenuFlyoutItem Text="Canvas" />
-          <MenuFlyoutItem Text="Grid" />
-        </MenuFlyoutSubItem>
-      </controls:MenuItem>
-
-      <controls:MenuItem controls:Menu.InputGestureText="Alt+H">
-        <controls:MenuItem.Header>
-          <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#57627;" FontSize="12" Margin="0,4,0,4"/>
-        </controls:MenuItem.Header>
-        <MenuFlyoutItem Text="About"/>
-      </controls:MenuItem>
-
-
-    </controls:Menu>
+    </controls:MenuItem>
+</controls:Menu>
 
     <StackPanel Grid.Row="1">
       <TextBlock Text="Press Alt to set focus on Classic Menu" />

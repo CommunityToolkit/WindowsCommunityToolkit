@@ -18,7 +18,7 @@
     </Page.Resources>
 
     <Grid Visibility="Collapsed">
-        <controls:Menu>
+        <!--<controls:Menu>
             <controls:MenuItem controls:Menu.InputGestureText="Alt+F">
                 <MenuFlyoutSubItem Text="New">
                     <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N" />
@@ -33,6 +33,6 @@
                 </controls:MenuItem.Header>
                 <MenuFlyoutItem Text="About"/>
             </controls:MenuItem>
-        </controls:Menu>
+        </controls:Menu>-->
     </Grid>
 </Page>
