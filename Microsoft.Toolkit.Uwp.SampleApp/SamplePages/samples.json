@@ -610,7 +610,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.DeveloperTools/AlignmentGrid",
         "XamlCodeFile": "AlignmentGridXaml.bind",
         "Icon": "/SamplePages/AlignmentGrid/AlignmentGrid.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/developer%20tools/AlignmentGrid.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/developer-tools/AlignmentGrid.md"
       },
       {
         "Name": "FocusTracker",
@@ -619,7 +619,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.DeveloperTools/FocusTracker",
         "XamlCodeFile": "FocusTrackerXaml.bind",
         "Icon": "/SamplePages/FocusTracker/FocusTracker.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/developer%20tools/FocusTracker.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/developer-tools/FocusTracker.md"
       },
       {
         "Name": "Analytics",
