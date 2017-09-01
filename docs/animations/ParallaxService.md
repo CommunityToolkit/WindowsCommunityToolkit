@@ -21,7 +21,7 @@ The **ParallaxService** class allows to create a parallax effect for items conta
 
 You can define horizontal or vertical multiplier to determine the speed ratio that you want to apply to your element.
 
-[ParallaxService Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ParallaxService)
+[ParallaxService Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ParallaxService)
 
 ## Example Image
 
@@ -35,4 +35,4 @@ You can define horizontal or vertical multiplier to determine the speed ratio th
 
 ## API
 
-* [ParallaxService source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/dev/Microsoft.Toolkit.Uwp.UI.Animations/ParallaxService.cs)
+* [ParallaxService source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/ParallaxService.cs)

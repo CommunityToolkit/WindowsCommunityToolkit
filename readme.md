@@ -85,8 +85,8 @@ Once you search you should see a list similar to the one below (versions may be 
 * [WrapPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/WrapPanel/)
 
 ### Developer Tools
-* [AlignmentGrid](http://www.uwpcommunitytoolkit.com/en/master/developer%20tools/AlignmentGrid/)
-* [FocusTracker](http://www.uwpcommunitytoolkit.com/en/master/developer%20tools/FocusTracker/)
+* [AlignmentGrid](http://www.uwpcommunitytoolkit.com/en/master/developer-tools/AlignmentGrid/)
+* [FocusTracker](http://www.uwpcommunitytoolkit.com/en/master/developer-tools/FocusTracker/)
 
 ### Extensions
 * [Hyperlink](http://docs.uwpcommunitytoolkit.com/en/master/extensions/Hyperlink/)
