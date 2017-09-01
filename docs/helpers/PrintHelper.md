@@ -2,7 +2,7 @@
 title: Print Helper
 author: nmetulev
 ms.date: 08/20/2017
-description: The PrintHelper is a class used to simplify document printing.
+description: The PrintHelper is a UWP Community Toolkit helper class that enables the rendering of a framework element per page for printing purposes
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, PrintHelper
 ---
 

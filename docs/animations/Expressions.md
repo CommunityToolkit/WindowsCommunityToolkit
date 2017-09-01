@@ -69,7 +69,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, expressions, expr
         - [Building with ExpressionNodes](#curtain-building-with-expressionnodes)
         - [Final code snippet](#curtain-final-code-snippet)
 
-# <a name="quick-start"></a>Quick Start 
+## <a name="quick-start"></a>Quick Start 
 
 Welcome to the ExpressionBuilder classes! The ExpressionBuilder classes are a C#-only alternative to building Expressions with type safety. Below is a quick introduction to using the ExpressionBuilder classes with your application. Complete documentation and walkthroughs will start from [Intro](#intro) section.
 
