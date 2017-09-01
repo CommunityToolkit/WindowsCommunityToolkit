@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="Color"/> to <see cref="ColorNode"/>.
+        /// Performs an implicit conversion from <see cref="T:Color"/> to <see cref="ColorNode"/>.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
