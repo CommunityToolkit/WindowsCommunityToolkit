@@ -16,11 +16,12 @@
     
     <DefaultLanguage>en-US</DefaultLanguage>
 
+    <IsDesignProject>$(MSBuildProjectName.EndsWith('.Design'))</IsDesignProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
-    <IsUwpProject>$(MSBuildProjectName.Contains('Uwp'))</IsUwpProject>
+    <IsUwpProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Uwp'))</IsUwpProject>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
 
-    <GenerateDocumentationFile Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true'">true</GenerateDocumentationFile>
+    <GenerateDocumentationFile Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">true</GenerateDocumentationFile>
     
     <UwpMetaPackageVersion>5.3.4</UwpMetaPackageVersion>
     <DefaultTargetPlatformVersion>15063</DefaultTargetPlatformVersion>
@@ -34,7 +35,7 @@
   <ItemGroup Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false'">
     <PackageReference Include="SourceLink.Create.CommandLine" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
-  <ItemGroup Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true'">
+  <ItemGroup Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
     <!--<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="15.3.83" PrivateAssets="all" />-->
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="all" />
 
