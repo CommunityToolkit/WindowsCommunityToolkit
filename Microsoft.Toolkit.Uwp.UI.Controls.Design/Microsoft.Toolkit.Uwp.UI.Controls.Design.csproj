@@ -35,6 +35,10 @@
     <Reference Include="System.Runtime" />
     <Reference Include="System.ObjectModel" />
     <Reference Include="System.Runtime.InteropServices.WindowsRuntime" />
+    <Reference Include="Windows.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Microsoft.Windows.Design.Extensibility">
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
