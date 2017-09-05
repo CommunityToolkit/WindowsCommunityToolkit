@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 if (_httpClient == null)
                 {
-                    var messageHandler = new HttpClientHandler() { MaxConnectionsPerServer = 10 };
+                    var messageHandler = new HttpClientHandler() { MaxConnectionsPerServer = 20 };
 
                     _httpClient = new HttpClient(messageHandler);
                 }
@@ -296,7 +296,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="stream">input stream</param>
         /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
         /// <returns>awaitable task</returns>
-        protected abstract Task<T> InitializeTypeAsync(IRandomAccessStream stream, List<KeyValuePair<string, object>> initializerKeyValues = null);
+        protected abstract Task<T> InitializeTypeAsync(Stream stream, List<KeyValuePair<string, object>> initializerKeyValues = null);
 
         /// <summary>
         /// Cache specific hooks to process items from HTTP response
@@ -466,35 +466,30 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             T instance = default(T);
 
-            using (InMemoryRandomAccessStream randomAccessStream = new InMemoryRandomAccessStream())
+            using (MemoryStream ms = new MemoryStream())
             {
-                var dataStream = randomAccessStream.AsStreamForWrite();
-
-                using (var response = await HttpClient.GetAsync(uri, cancellationToken))
+                using (var stream = await HttpClient.GetStreamAsync(uri))
                 {
-                    using (var stream = await response.Content.ReadAsStreamAsync())
+                    stream.CopyTo(ms);
+                    ms.Flush();
+
+                    ms.Position = 0;
+
+                    using (var fs = await baseFile.OpenStreamForWriteAsync())
                     {
-                        stream.CopyTo(dataStream);
-                        stream.Position = 0;
+                        ms.CopyTo(fs);
 
-                        using (var fs = await baseFile.OpenStreamForWriteAsync())
-                        {
-                            stream.CopyTo(fs);
+                        fs.Flush();
 
-                            fs.Flush();
-                        }
+                        ms.Position = 0;
                     }
                 }
 
                 // if its pre-cache we aren't looking to load items in memory
                 if (!preCacheOnly)
                 {
-                    randomAccessStream.Seek(0);
-
-                    instance = await InitializeTypeAsync(randomAccessStream, initializerKeyValues).ConfigureAwait(false);
+                    instance = await InitializeTypeAsync(ms, initializerKeyValues).ConfigureAwait(false);
                 }
-
-                dataStream.Dispose();
             }
 
             return instance;

@@ -30,13 +30,13 @@ You have multiple options to show an in-app notification.
 1. By simply displaying the notification using the current template
 
 ```c#
-await ExampleInAppNotification.ShowAsync();
+ExampleInAppNotification.Show();
 ```
 
 2. By using a simple text content.
 
 ```c#
-await ExampleInAppNotification.ShowAsync("Some text.");
+ExampleInAppNotification.Show("Some text.");
 ```
 
 3. By using a UIElement (with a container as parent, ex: Grid)
@@ -46,7 +46,7 @@ var grid = new Grid();
 
 // TODO : Construct the Grid in C#
 
-await ExampleInAppNotification.ShowAsync(grid);
+ExampleInAppNotification.Show(grid);
 ```
 
 4. By using a DataTemplate
@@ -57,16 +57,16 @@ bool isTemplatePresent = Resources.TryGetValue("InAppNotificationWithButtonsTemp
 
 if (isTemplatePresent && inAppNotificationWithButtonsTemplate is DataTemplate)
 {
-    await ExampleInAppNotification.ShowAsync(inAppNotificationWithButtonsTemplate as DataTemplate);
+    ExampleInAppNotification.Show(inAppNotificationWithButtonsTemplate as DataTemplate);
 }
 ```
 
 ### Notification duration
 
-By passing a second argument to the `ShowAsync()` method, you can set the duration of the notification (in milliseconds).
+By passing a second argument to the `Show()` method, you can set the duration of the notification (in milliseconds).
 
 ```c#
-await ExampleInAppNotification.ShowAsync("Some text.", 2000); // the notification will appear for 2 seconds
+ExampleInAppNotification.Show("Some text.", 2000); // the notification will appear for 2 seconds
 ```
 
 ### Dismiss notification
@@ -121,19 +121,19 @@ An alternate version of the popup animation (used by the vscode-like notificatio
 
 ## Example Code
 
-[InAppNotification Sample Page](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/InAppNotification)
+[InAppNotification Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/InAppNotification)
 
 ## Default Template 
 
-[InAppNotification XAML File](../..//Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/InAppNotification.xaml) is the XAML template used in the toolkit for the default styling.
+[InAppNotification XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/InAppNotification.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 
 ## API
 
-* [InAppNotification source code](../..//Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification)
+* [InAppNotification source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification)
 

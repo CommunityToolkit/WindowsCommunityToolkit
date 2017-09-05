@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -25,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = DismissButtonPart, Type = typeof(Button))]
     public sealed partial class InAppNotification : ContentControl
     {
+        private DispatcherTimer _timer = new DispatcherTimer();
         private Button _dismissButton;
 
         /// <summary>
@@ -33,6 +33,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public InAppNotification()
         {
             DefaultStyleKey = typeof(InAppNotification);
+
+            _timer.Tick += (sender, e) =>
+            {
+                Dismiss();
+            };
         }
 
         /// <inheritdoc />
@@ -67,16 +72,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Show notification using the current template
         /// </summary>
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task ShowAsync(int duration = 0)
+        public void Show(int duration = 0)
         {
+            _timer.Stop();
+
             Visibility = Visibility.Visible;
             VisualStateManager.GoToState(this, StateContentVisible, true);
 
             if (duration > 0)
             {
-                await Task.Delay(duration);
-                Dismiss();
+                _timer.Interval = TimeSpan.FromMilliseconds(duration);
+                _timer.Start();
             }
         }
 
@@ -85,12 +91,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="text">Text used as the content of the notification</param>
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public Task ShowAsync(string text, int duration = 0)
+        public void Show(string text, int duration = 0)
         {
             ContentTemplate = null;
             Content = text;
-            return ShowAsync(duration);
+            Show(duration);
         }
 
         /// <summary>
@@ -98,12 +103,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="element">UIElement used as the content of the notification</param>
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public Task ShowAsync(UIElement element, int duration = 0)
+        public void Show(UIElement element, int duration = 0)
         {
             ContentTemplate = null;
             Content = element;
-            return ShowAsync(duration);
+            Show(duration);
         }
 
         /// <summary>
@@ -111,12 +115,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="dataTemplate">DataTemplate used as the content of the notification</param>
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public Task ShowAsync(DataTemplate dataTemplate, int duration = 0)
+        public void Show(DataTemplate dataTemplate, int duration = 0)
         {
             ContentTemplate = dataTemplate;
             Content = null;
-            return ShowAsync(duration);
+            Show(duration);
         }
 
         /// <summary>

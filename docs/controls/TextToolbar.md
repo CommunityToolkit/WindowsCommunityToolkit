@@ -63,18 +63,19 @@ In order to create your own Formatter, you need to Inherit from the **Formatter*
 
 When you create the Class, you will need to override the `DefaultButtons` Property. This will allow you to define what buttons you want your Format to display on the **Toolbar**.
 
-If you want to use a Common Button Template, such as Bold, Italics, etc. You can get those from the `Model.CommonButtons` Property in your Inherited Formatter Class, however, you will need to implement the **ButtonActions** Class, and Instantiate it in your Formatter's `ButtonActions` property, or replace the `Action`/`Shift Action` Property on each button you use.
+If you want to use a Common Button Template, such as Bold, Italics, etc. You can get those by Instantiating a `CommonButtons` Instance in your Formatter Class, however, you will need to implement the **ButtonActions** Class, and Instantiate it in your Formatter's `ButtonActions` property, or replace the `Action`/`Shift Action` Property on each button you use.
 
-_See the MarkDownFormatter Class for reference on how to create a Formatter_
-
+_See the MarkDownFormatter Class for reference on how to create a Formatter:_
 [MarkDownFormatter Code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/Formats/MarkDown)
 
-_Available CommonButtons_
+_See the Sample Formatter Class from the Sample App:_
+[SampleFormatter Code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/TextToolbar/SampleFormatter.cs)
 
+_Available CommonButtons:_
 [CommonButton Definitions](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/ToolbarItems/Common)
 
 ## Requirements (Windows 10 Device Family)
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 

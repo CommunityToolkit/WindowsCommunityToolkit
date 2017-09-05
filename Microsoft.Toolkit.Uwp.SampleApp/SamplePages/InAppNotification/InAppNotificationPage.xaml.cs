@@ -11,17 +11,21 @@
 // ******************************************************************
 
 using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Windows.Input;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class InAppNotificationPage : Page, INotifyPropertyChanged
+    public sealed partial class InAppNotificationPage : Page, IXamlRenderListener
     {
         private ControlTemplate _defaultInAppNotificationControlTemplate;
+        private InAppNotification _exampleInAppNotification;
+        private InAppNotification _exampleVSCodeInAppNotification;
+        private ResourceDictionary _resources;
 
         public bool IsRootGridActualWidthLargerThan700 { get; set; }
 
@@ -30,17 +34,31 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public InAppNotificationPage()
         {
             InitializeComponent();
+        }
 
-            _defaultInAppNotificationControlTemplate = ExampleInAppNotification.Template;
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            NotificationDuration = 0;
+
+            _exampleInAppNotification = control.FindChildByName("ExampleInAppNotification") as InAppNotification;
+            _defaultInAppNotificationControlTemplate = _exampleInAppNotification?.Template;
+            _exampleVSCodeInAppNotification = control.FindChildByName("ExampleVSCodeInAppNotification") as InAppNotification;
+            _resources = control.Resources;
+
+            var notificationDurationTextBox = control.FindChildByName("NotificationDurationTextBox") as TextBox;
+            if (notificationDurationTextBox != null)
+            {
+                notificationDurationTextBox.TextChanged += NotificationDurationTextBox_TextChanged;
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            Shell.Current.RegisterNewCommand("Show notification with random text", async (sender, args) =>
+            Shell.Current.RegisterNewCommand("Show notification with random text", (sender, args) =>
             {
-                ExampleVSCodeInAppNotification.Dismiss();
+                _exampleVSCodeInAppNotification?.Dismiss();
                 SetDefaultControlTemplate();
 
                 var random = new Random();
@@ -48,23 +66,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 if (result == 1)
                 {
-                    await ExampleInAppNotification.ShowAsync("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin bibendum enim at tincidunt. Praesent egestas ipsum ligula, nec tincidunt lacus semper non.", NotificationDuration);
+                    _exampleInAppNotification?.Show("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin bibendum enim at tincidunt. Praesent egestas ipsum ligula, nec tincidunt lacus semper non.", NotificationDuration);
                 }
 
                 if (result == 2)
                 {
-                    await ExampleInAppNotification.ShowAsync("Pellentesque in risus eget leo rhoncus ultricies nec id ante.", NotificationDuration);
+                    _exampleInAppNotification?.Show("Pellentesque in risus eget leo rhoncus ultricies nec id ante.", NotificationDuration);
                 }
 
                 if (result == 3)
                 {
-                    await ExampleInAppNotification.ShowAsync("Sed quis nisi quis nunc condimentum varius id consectetur metus. Duis mauris sapien, commodo eget erat ac, efficitur iaculis magna. Morbi eu velit nec massa pharetra cursus. Fusce non quam egestas leo finibus interdum eu ac massa. Quisque nec justo leo. Aenean scelerisque placerat ultrices. Sed accumsan lorem at arcu commodo tristique.", NotificationDuration);
+                    _exampleInAppNotification?.Show("Sed quis nisi quis nunc condimentum varius id consectetur metus. Duis mauris sapien, commodo eget erat ac, efficitur iaculis magna. Morbi eu velit nec massa pharetra cursus. Fusce non quam egestas leo finibus interdum eu ac massa. Quisque nec justo leo. Aenean scelerisque placerat ultrices. Sed accumsan lorem at arcu commodo tristique.", NotificationDuration);
                 }
             });
 
-            Shell.Current.RegisterNewCommand("Show notification with buttons (without DataTemplate)", async (sender, args) =>
+            Shell.Current.RegisterNewCommand("Show notification with buttons (without DataTemplate)", (sender, args) =>
             {
-                ExampleVSCodeInAppNotification.Dismiss();
+                _exampleVSCodeInAppNotification?.Dismiss();
                 SetDefaultControlTemplate();
 
                 var grid = new Grid();
@@ -109,63 +127,63 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Grid.SetColumn(stackPanel, 1);
                 grid.Children.Add(stackPanel);
 
-                await ExampleInAppNotification.ShowAsync(grid, NotificationDuration);
+                _exampleInAppNotification?.Show(grid, NotificationDuration);
             });
 
-            Shell.Current.RegisterNewCommand("Show notification with buttons (with DataTemplate)", async (sender, args) =>
+            Shell.Current.RegisterNewCommand("Show notification with buttons (with DataTemplate)", (sender, args) =>
             {
-                ExampleVSCodeInAppNotification.Dismiss();
+                _exampleVSCodeInAppNotification?.Dismiss();
                 SetDefaultControlTemplate();
 
-                object inAppNotificationWithButtonsTemplate;
-                bool isTemplatePresent = Resources.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);
+                object inAppNotificationWithButtonsTemplate = null;
+                bool? isTemplatePresent = _resources?.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);
 
-                if (isTemplatePresent && inAppNotificationWithButtonsTemplate is DataTemplate)
+                if (isTemplatePresent == true && inAppNotificationWithButtonsTemplate is DataTemplate template)
                 {
-                    await ExampleInAppNotification.ShowAsync(inAppNotificationWithButtonsTemplate as DataTemplate, NotificationDuration);
+                    _exampleInAppNotification.Show(template, NotificationDuration);
                 }
             });
 
-            Shell.Current.RegisterNewCommand("Show notification with Drop Shadow (based on default template)", async (sender, args) =>
+            Shell.Current.RegisterNewCommand("Show notification with Drop Shadow (based on default template)", (sender, args) =>
             {
-                ExampleVSCodeInAppNotification.Dismiss();
+                _exampleVSCodeInAppNotification.Dismiss();
 
                 // Update control template
-                object inAppNotificationDropShadowControlTemplate;
-                bool isTemplatePresent = Resources.TryGetValue("InAppNotificationDropShadowControlTemplate", out inAppNotificationDropShadowControlTemplate);
+                object inAppNotificationDropShadowControlTemplate = null;
+                bool? isTemplatePresent = _resources?.TryGetValue("InAppNotificationDropShadowControlTemplate", out inAppNotificationDropShadowControlTemplate);
 
-                if (isTemplatePresent && inAppNotificationDropShadowControlTemplate is ControlTemplate)
+                if (isTemplatePresent == true && inAppNotificationDropShadowControlTemplate is ControlTemplate template)
                 {
-                    ExampleInAppNotification.Template = inAppNotificationDropShadowControlTemplate as ControlTemplate;
+                    _exampleInAppNotification.Template = template;
                 }
 
-                await ExampleInAppNotification.ShowAsync(NotificationDuration);
+                _exampleInAppNotification.Show(NotificationDuration);
             });
 
-            Shell.Current.RegisterNewCommand("Show notification with Visual Studio Code template (info notification)", async (sender, args) =>
+            Shell.Current.RegisterNewCommand("Show notification with Visual Studio Code template (info notification)", (sender, args) =>
             {
-                ExampleInAppNotification.Dismiss();
-                await ExampleVSCodeInAppNotification.ShowAsync(NotificationDuration);
+                _exampleInAppNotification.Dismiss();
+                _exampleVSCodeInAppNotification.Show(NotificationDuration);
             });
 
             Shell.Current.RegisterNewCommand("Dismiss", (sender, args) =>
             {
                 // Dismiss all notifications (should not be replicated in production)
-                ExampleInAppNotification.Dismiss();
-                ExampleVSCodeInAppNotification.Dismiss();
+                _exampleInAppNotification.Dismiss();
+                _exampleVSCodeInAppNotification.Dismiss();
             });
         }
 
         private void SetDefaultControlTemplate()
         {
             // Update control template
-            ExampleInAppNotification.Template = _defaultInAppNotificationControlTemplate;
+            _exampleInAppNotification.Template = _defaultInAppNotificationControlTemplate;
         }
 
         private void NotificationDurationTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             int newDuration;
-            if (int.TryParse(NotificationDurationTextBox.Text, out newDuration))
+            if (int.TryParse((sender as TextBox)?.Text, out newDuration))
             {
                 NotificationDuration = newDuration;
             }
@@ -173,53 +191,38 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void YesButton_Click(object sender, RoutedEventArgs e)
         {
-            ExampleInAppNotification.Dismiss();
+            _exampleInAppNotification?.Dismiss();
         }
 
         private void NoButton_Click(object sender, RoutedEventArgs e)
         {
-            ExampleInAppNotification.Dismiss();
+            _exampleInAppNotification?.Dismiss();
         }
+    }
 
-        private void Action1Button_Click(object sender, RoutedEventArgs e)
+#pragma warning disable SA1402 // File may only contain a single class
+    internal class DismissCommand : ICommand
+#pragma warning restore SA1402 // File may only contain a single class
+    {
+        event EventHandler ICommand.CanExecuteChanged
         {
-            ExampleVSCodeInAppNotification.Dismiss();
-        }
-
-        private void Action2Button_Click(object sender, RoutedEventArgs e)
-        {
-            ExampleVSCodeInAppNotification.Dismiss();
-        }
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            ExampleVSCodeInAppNotification.Dismiss();
-        }
-
-        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            // When the root part size of the In App Notification template changed, we should apply VisualState
-            bool newValue = e.NewSize.Width > 700;
-
-            if (IsRootGridActualWidthLargerThan700 != newValue)
+            add
             {
-                IsRootGridActualWidthLargerThan700 = newValue;
-                OnPropertyChanged(nameof(IsRootGridActualWidthLargerThan700));
+            }
+
+            remove
+            {
             }
         }
 
-        /// <summary>
-        /// Occurs when a property value changes.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Called when [property changed].
-        /// </summary>
-        /// <param name="propertyName">Name of the property.</param>
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public bool CanExecute(object parameter)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            (parameter as InAppNotification)?.Dismiss();
         }
     }
 }

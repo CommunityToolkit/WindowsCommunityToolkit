@@ -16,6 +16,13 @@ private void EditZone_TextChanged(object sender, Windows.UI.Xaml.RoutedEventArgs
     Previewer.Text = string.IsNullOrWhiteSpace(text) ? "Nothing to Preview" : text;
 }
 
+private void UseCustomFormatter()
+{
+    var formatter = new SampleFormatter(Toolbar);
+    Toolbar.Format = UI.Controls.TextToolbarFormats.Format.Custom;
+    Toolbar.Formatter = formatter;
+}
+
 private int DemoCounter { get; set; } = 0;
 
 private void AddCustomButton()

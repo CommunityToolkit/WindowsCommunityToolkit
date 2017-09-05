@@ -114,8 +114,14 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="HockeySDK.UWP">
+      <Version>4.1.6</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.3.4</Version>
+    </PackageReference>
+    <PackageReference Include="Monaco.Editor">
+      <Version>0.3.0-alpha</Version>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers">
       <Version>1.0.2</Version>
@@ -127,7 +133,7 @@
       <Version>1.1.0</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>9.0.1</Version>
+      <Version>10.0.3</Version>
     </PackageReference>
     <PackageReference Include="NotificationsVisualizerLibrary">
       <Version>1.0.5</Version>
@@ -181,6 +187,7 @@
     <Content Include="Assets\Photos\OregonWineryNamaste.jpg" />
     <Content Include="Assets\Photos\Owl.jpg" />
     <Content Include="Assets\Photos\PaintedHillsPathway.jpg" />
+    <Content Include="Assets\Photos\ron-manke-20667.jpg" />
     <Content Include="Assets\Photos\RunningDogPacificCity.jpg" />
     <Content Include="Assets\Photos\ShootingOnAutoOnTheDrone.jpg" />
     <Content Include="Assets\Photos\SmithnRockDownTheRiverView.jpg" />
@@ -262,6 +269,7 @@
     <Content Include="Icons\Animations.png" />
     <Content Include="Icons\About.png" />
     <Content Include="Icons\DeveloperTools.png" />
+    <Content Include="Icons\Error.png" />
     <Content Include="Icons\Extensions.png" />
     <Content Include="Icons\Helpers.png" />
     <Content Include="Icons\Foundation.png" />
@@ -297,6 +305,7 @@
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.png" />
     <Content Include="SamplePages\Loading\Loading.png" />
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.png" />
+    <Content Include="SamplePages\MasterDetailsView\OneDriveLogo.png" />
     <Content Include="SamplePages\Menu\Menu.png" />
     <Content Include="SamplePages\Microsoft Graph Service\OfficeLogo.png" />
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
@@ -332,8 +341,8 @@
     <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.bind" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
-    <Content Include="SamplePages\Useful links\UsefulLinks.png" />
     <Content Include="SamplePages\WrapPanel\WrapPanel.png" />
+    <Content Include="landingPageLinks.json" />
     <None Include="Microsoft.Toolkit.Uwp.SampleApp.ruleset" />
     <Content Include="SamplePages\Twitter Service\TwitterLogo.png" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToast.png" />
@@ -431,26 +440,42 @@
     <Content Include="SamplePages\InAppNotification\InAppNotificationCode.bind" />
     <Content Include="SamplePages\InAppNotification\InAppNotificationXaml.bind" />
     <Content Include="SamplePages\ListViewBase\ListViewBaseCode.bind" />
+    <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\AnalyticsVersionInfoExtensions.cs" />
+    <Compile Include="Common\AnimationHelper.cs" />
     <Compile Include="Common\BoolStringConverter.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\DelegateCommand{T}.cs" />
     <Compile Include="Common\EnumConverter.cs" />
+    <Compile Include="Common\ListViewHoverScroll.cs" />
+    <Compile Include="Common\SampleCommand.cs" />
     <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
+    <Compile Include="Data\GitHub.cs" />
+    <Compile Include="Controls\XamlExceptionRange.cs" />
+    <Compile Include="Controls\XamlRenderService.cs" />
     <Compile Include="Data\PhotoDataItemWithDimension.cs" />
     <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\GitHubRelease.cs" />
+    <Compile Include="Models\LandingPageLinks.cs" />
+    <Compile Include="Models\LandingPageResource.cs" />
+    <Compile Include="Models\LandingPageLink.cs" />
+    <Compile Include="Pages\SamplePicker.xaml.cs">
+      <DependentUpon>SamplePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperPage.xaml.cs">
       <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\IXamlRenderListener.cs" />
     <Compile Include="SamplePages\InAppNotification\InAppNotificationPage.xaml.cs">
       <DependentUpon>InAppNotificationPage.xaml</DependentUpon>
     </Compile>
@@ -468,6 +493,7 @@
       <DependentUpon>FocusTrackerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
+    <Compile Include="SamplePages\TextToolbar\SampleFormatter.cs" />
     <Compile Include="SamplePages\TextToolbar\TextToolbarPage.xaml.cs">
       <DependentUpon>TextToolbarPage.xaml</DependentUpon>
     </Compile>
@@ -637,9 +663,6 @@
       <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Twitter Service\TwitterTemplateSelector.cs" />
-    <Compile Include="SamplePages\Useful links\UsefulLinksPage.xaml.cs">
-      <DependentUpon>UsefulLinksPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml.cs">
       <DependentUpon>WeatherLiveTileAndToastPage.xaml</DependentUpon>
     </Compile>
@@ -677,9 +700,6 @@
     <Compile Include="SamplePages\AdaptiveGridView\AdaptiveGridViewPage.xaml.cs">
       <DependentUpon>AdaptiveGridViewPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\SamplePicker.xaml.cs">
-      <DependentUpon>SamplePicker.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrackingManager.cs" />
   </ItemGroup>
@@ -700,6 +720,10 @@
     <Page Include="Controls\PropertyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SamplePicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Carousel\CarouselPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -925,10 +949,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\Useful links\UsefulLinksPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -973,10 +993,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\SamplePicker.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj">
@@ -991,6 +1007,10 @@
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
       <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Notifications\Microsoft.Toolkit.Uwp.Notifications.csproj">
+      <Project>{97ee849b-403c-490e-80ed-d19d7cc153fd}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Notifications</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.csproj">
       <Project>{1ae2cb5c-58a0-4f12-8e6f-2cd4aaadb34c}</Project>
       <Name>Microsoft.Toolkit.Uwp.Samples.BackgroundTasks</Name>
@@ -1002,10 +1022,6 @@
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj">
       <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
       <Name>Microsoft.Toolkit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Notifications\Microsoft.Toolkit.Uwp.Notifications.UWP\Microsoft.Toolkit.Uwp.Notifications.UWP.csproj">
-      <Project>{fb381278-f4ad-4703-a12a-c43ee0b231bd}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Notifications.UWP</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj">
       <Project>{b24a296c-b3eb-4e06-a64e-74ac2d1acc91}</Project>
@@ -1029,11 +1045,20 @@
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <PropertyGroup>
+    <_GenerateAppxManifestDependsOn>
+      ModifyAppXPackage;
+      $(_GenerateAppxManifestDependsOn)
+    </_GenerateAppxManifestDependsOn>
+  </PropertyGroup>
+  <Target Name="ModifyAppXPackage" Condition="'$(BuildingProject)' == 'true'">
+    <ItemGroup>
+      <toolkit_docs Include="$(SolutionDir)docs\**\*.md" />
+    </ItemGroup>
+    <ItemGroup>
+      <AppxPackagePayload Include="@(toolkit_docs)">
+        <TargetPath>docs/%(RecursiveDir)%(FileName)%(Extension)</TargetPath>
+      </AppxPackagePayload>
+    </ItemGroup>
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

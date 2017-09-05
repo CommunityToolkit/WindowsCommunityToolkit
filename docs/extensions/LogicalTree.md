@@ -31,6 +31,12 @@ See also [VisualTree Extensions](VisualTree.md).
 	// Find first logical child control of a specified type.
 	control = uiElement.FindChild<ListView>();
 
+	// Find all logical child controls of the specified type.
+	foreach (var child in uiElement.FindChildren<ListViewItem>())
+	{
+		// ...
+	}
+
 	// Find first logical parent using its name.
 	control = uiElement.FindParentByName("MyGrid");
 
@@ -44,7 +50,7 @@ See also [VisualTree Extensions](VisualTree.md).
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
 

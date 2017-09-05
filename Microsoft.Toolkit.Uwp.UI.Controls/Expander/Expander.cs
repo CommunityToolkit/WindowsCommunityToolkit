@@ -47,6 +47,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 VisualStateManager.GoToState(this, StateContentExpanded, false);
             }
+            else
+            {
+                VisualStateManager.GoToState(this, StateContentCollapsed, false);
+            }
 
             var button = (ToggleButton)GetTemplateChild(ExpanderToggleButtonPart);
 

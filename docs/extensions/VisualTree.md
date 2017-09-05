@@ -28,6 +28,12 @@ See also [LogicalTree Extensions](LogicalTree.md).
 	// Find first visual descendant control of a specified type.
 	control = uiElement.FindDescendant<ListView>();
 
+	// Find all visual descendant controls of the specified type.
+	foreach (var child in uiElement.FindDescendant<ListViewItem>())
+	{
+		// ...
+	}
+
 	// Find first visual ascendant control using its name.
 	control = uiElement.FindAscendantByName("MyScrollViewer");
 
@@ -37,7 +43,7 @@ See also [LogicalTree Extensions](LogicalTree.md).
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
 

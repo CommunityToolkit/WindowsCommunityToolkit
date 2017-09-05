@@ -6,102 +6,28 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Page.Resources>
-        <DataTemplate x:Key="HamburgerMenuItem"
-                      x:DataType="controls:HamburgerMenuGlyphItem">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <FontIcon Grid.Column="0"
-                          FontFamily="Segoe MDL2 Assets"
-                          FontSize="16"
-                          Foreground="White"
-                          Glyph="{Binding Glyph}" />
-                <TextBlock Grid.Column="1"
-                           VerticalAlignment="Center"
-                           FontSize="16"
-                           Foreground="White"
-                           Text="{x:Bind Label}" />
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Key="HamburgerMenuImageItem"
-                      x:DataType="controls:HamburgerMenuImageItem">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Image Margin="16,12"
-                       Source="{Binding Thumbnail}"
-                       Stretch="UniformToFill" />
-                <TextBlock Grid.Column="1"
-                           VerticalAlignment="Center"
-                           FontSize="16"
-                           Foreground="White"
-                           Text="{x:Bind Label}" />
-            </Grid>
-        </DataTemplate>
-    </Page.Resources>
-
+    <!-- Note: We need to include the HamburgerMenuItemCollection in usage here so that we can access the type in the Xaml Renderer -->
     <Grid Padding="50"
-          Background="{StaticResource Brush-Grey-05}">
-        <controls:HamburgerMenu x:Name="HamburgerMenuControl"
-                                CompactPaneLength="{Binding CompactPaneLength.Value}"
-                                DisplayMode="{Binding DisplayMode.Value}"
-                                Foreground="White"
-                                HamburgerHeight="{Binding HamburgerHeight.Value}"
-                                HamburgerVisibility="{Binding HamburgerVisibility.Value}"
-                                HamburgerWidth="48"
-                                IsPaneOpen="{Binding IsPaneOpen.Value, Mode=TwoWay}"
-                                ItemClick="HamburgerMenu_OnItemClick"
-                                ItemTemplate="{StaticResource HamburgerMenuImageItem}"
-                                OpenPaneLength="{Binding OpenPaneLength.Value}"
-                                OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
-                                OptionsItemTemplate="{StaticResource HamburgerMenuItem}"
-                                PaneBackground="{Binding PaneBackground.Value}">
+          Background="{StaticResource Brush-Grey-05}"
+          Visibility="Collapsed">
+        <controls:HamburgerMenu>
             <!--  Items  -->
             <controls:HamburgerMenu.ItemsSource>
                 <controls:HamburgerMenuItemCollection>
-                    <controls:HamburgerMenuImageItem Label="Big four summer heat"
-                                                     Thumbnail="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg" />
-                    <controls:HamburgerMenuImageItem Label="Bison badlands Chillin"
-                                                     Thumbnail="ms-appx:///Assets/Photos/BisonBadlandsChillin.jpg" />
-                    <controls:HamburgerMenuImageItem Label="Giant slab in Oregon"
-                                                     Thumbnail="ms-appx:///Assets/Photos/GiantSlabInOregon.jpg" />
-                    <controls:HamburgerMenuImageItem Label="Lake Ann Mushroom"
-                                                     Thumbnail="ms-appx:///Assets/Photos/LakeAnnMushroom.jpg" />
+                    <controls:HamburgerMenuImageItem Label="Big four summer heat" />
                 </controls:HamburgerMenuItemCollection>
             </controls:HamburgerMenu.ItemsSource>
 
             <!--  Options  -->
             <controls:HamburgerMenu.OptionsItemsSource>
                 <controls:HamburgerMenuItemCollection>
-                    <controls:HamburgerMenuGlyphItem Glyph=""
+                    <controls:HamburgerMenuGlyphItem Glyph="&#57627;"
                                                      Label="About" />
                 </controls:HamburgerMenuItemCollection>
             </controls:HamburgerMenu.OptionsItemsSource>
 
             <!--  Content  -->
-            <Grid x:Name="ContentGrid">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="48" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Border Grid.Row="0"
-                        Background="Black">
-                    <TextBlock x:Name="Header"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontSize="24"
-                               Foreground="White"
-                               Text="{Binding Label}" />
-                </Border>
-                <Image x:Name="Image"
-                       Grid.Row="1"
-                       Source="{Binding Thumbnail}" />
+            <Grid>
             </Grid>
         </controls:HamburgerMenu>
     </Grid>

@@ -11,18 +11,36 @@
 // ******************************************************************
 
 using System;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class MarkdownTextBlockPage : Page
+    public sealed partial class MarkdownTextBlockPage : Page, IXamlRenderListener
     {
+        private TextBox unformattedText;
+
         public MarkdownTextBlockPage()
         {
             InitializeComponent();
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            unformattedText = control.FindChildByName("UnformattedText") as TextBox;
+
+            var markdownText = control.FindChildByName("MarkdownText") as MarkdownTextBlock;
+
+            if (markdownText != null)
+            {
+                markdownText.LinkClicked += MarkdownText_LinkClicked;
+            }
+
             SetInitalText("Loading text...");
             LoadData();
         }
@@ -43,7 +61,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void SetInitalText(string text)
         {
-            UiUnformattedText.Text = text;
+            if (unformattedText != null)
+            {
+                unformattedText.Text = text;
+            }
         }
 
         private async void MarkdownText_LinkClicked(object sender, UI.Controls.LinkClickedEventArgs e)
