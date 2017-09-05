@@ -336,6 +336,17 @@
                                         <Setter Target="PART_RootGrid.Background" Value="Transparent" />
                                     </VisualState.Setters>
                                 </VisualState>
+                                <VisualState x:Name="OverlayVisible">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_MainContent.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="OverlayHidden">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_MainContent" Value="Visible" />
+                                        <Setter Target="PART_ContentOverlay" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
                             </VisualStateGroup>
 
                             <VisualStateGroup x:Name="ExpandDirectionStates">
@@ -431,6 +442,14 @@
                                               HorizontalContentAlignment="Stretch"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Visibility="Collapsed" />
+
+                            <ContentControl Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                            x:Name="PART_ContentOverlay"
+                                            Canvas.ZIndex="10"
+                                            Content="{TemplateBinding ContentOverlay}"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            Visibility="Collapsed" />
                         </Grid>
                     </Grid>
                 </ControlTemplate>

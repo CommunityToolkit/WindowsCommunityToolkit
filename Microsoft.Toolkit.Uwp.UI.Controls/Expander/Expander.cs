@@ -15,6 +15,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -24,6 +25,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     [TemplateVisualState(Name = StateContentExpanded, GroupName = ExpandedGroupStateContent)]
     [TemplateVisualState(Name = StateContentCollapsed, GroupName = ExpandedGroupStateContent)]
+    [TemplateVisualState(Name = StateContentOverlayVisible, GroupName = ExpandedGroupStateContent)]
+    [TemplateVisualState(Name = StateContentOverlayHidden, GroupName = ExpandedGroupStateContent)]
     [TemplateVisualState(Name = StateContentLeftDirection, GroupName = ExpandDirectionGroupStateContent)]
     [TemplateVisualState(Name = StateContentDownDirection, GroupName = ExpandDirectionGroupStateContent)]
     [TemplateVisualState(Name = StateContentRightDirection, GroupName = ExpandDirectionGroupStateContent)]
@@ -31,6 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = RootGridPart, Type = typeof(Grid))]
     [TemplatePart(Name = ExpanderToggleButtonPart, Type = typeof(ToggleButton))]
     [TemplatePart(Name = LayoutTransformerPart, Type = typeof(LayoutTransformControl))]
+    [TemplatePart(Name = ContentOverlayPart, Type = typeof(ContentPresenter))]
     [ContentProperty(Name = "Content")]
     public partial class Expander : ContentControl
     {
@@ -43,15 +47,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            if (IsExpanded)
-            {
-                VisualStateManager.GoToState(this, StateContentExpanded, false);
-            }
-            else
-            {
-                VisualStateManager.GoToState(this, StateContentCollapsed, false);
-            }
-
             var button = (ToggleButton)GetTemplateChild(ExpanderToggleButtonPart);
 
             if (button != null)
@@ -61,6 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             OnExpandDirectionChanged();
+            OnDisplayModeOrIsExpandedChanged(false);
         }
 
         protected virtual void OnExpanded(EventArgs args)
@@ -73,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Collapsed?.Invoke(this, args);
         }
 
-        private void ExpanderToggleButtonPart_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void ExpanderToggleButtonPart_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key != VirtualKey.Enter)
             {
@@ -94,17 +90,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ExpandControl()
         {
-            VisualStateManager.GoToState(this, StateContentExpanded, true);
+            OnDisplayModeOrIsExpandedChanged();
             OnExpanded(EventArgs.Empty);
         }
 
         private void CollapseControl()
         {
-            VisualStateManager.GoToState(this, StateContentCollapsed, true);
+            OnDisplayModeOrIsExpandedChanged();
             OnCollapsed(EventArgs.Empty);
         }
 
-        public void OnExpandDirectionChanged()
+        private void OnExpandDirectionChanged()
         {
             var button = (ToggleButton)GetTemplateChild(ExpanderToggleButtonPart);
 
@@ -138,6 +134,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (button.IsChecked.HasValue && button.IsChecked.Value)
             {
                 VisualStateManager.GoToState(button, "Checked", true);
+            }
+        }
+
+        private void OnDisplayModeOrIsExpandedChanged(bool useTransitions = true)
+        {
+            if (IsExpanded)
+            {
+                if (DisplayMode == ExpanderDisplayMode.Expand)
+                {
+                    VisualStateManager.GoToState(this, StateContentExpanded, useTransitions);
+                }
+                else
+                {
+                    VisualStateManager.GoToState(this, StateContentOverlayVisible, useTransitions);
+                }
+            }
+            else
+            {
+                if (DisplayMode == ExpanderDisplayMode.Expand)
+                {
+                    VisualStateManager.GoToState(this, StateContentCollapsed, useTransitions);
+                }
+                else
+                {
+                    VisualStateManager.GoToState(this, StateContentOverlayHidden, useTransitions);
+                }
             }
         }
     }

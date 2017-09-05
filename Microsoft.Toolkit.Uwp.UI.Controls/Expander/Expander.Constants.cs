@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class Expander
     {
         /// <summary>
-        /// Key of the VisualStateGroup that open/close content
+        /// Key of the VisualStateGroup that open/close/overlay content
         /// </summary>
         private const string ExpandedGroupStateContent = "ExpandedStates";
 
@@ -31,6 +31,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Key of the VisualState when content is collapsed
         /// </summary>
         private const string StateContentCollapsed = "Collapsed";
+
+        /// <summary>
+        /// Key of the VisualState when content is visible in Overlay mode
+        /// </summary>
+        private const string StateContentOverlayVisible = "OverlayVisible";
+
+        /// <summary>
+        /// Key of the VisualState when content is hidden in Overlay mode
+        /// </summary>
+        private const string StateContentOverlayHidden = "OverlayHidden";
 
         /// <summary>
         /// Key of the UI Element that toggle IsExpanded property
@@ -76,5 +86,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Key of the UI Element that contains the content of the LayoutTransformer (of the expander button)
         /// </summary>
         private const string LayoutTransformerPart = "PART_LayoutTransformer";
+
+        /// <summary>
+        /// Key of the UI Element that contains the content of the control that is visible in Overlay mode
+        /// </summary>
+        private const string ContentOverlayPart = "PART_ContentOverlay";
     }
 }

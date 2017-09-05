@@ -8,33 +8,41 @@
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <StackPanel Margin="20">
-      <controls:Expander x:Name="Expander1" VerticalAlignment="Top" Margin="0,0,0,10" 
+      <controls:Expander x:Name="Expander1" VerticalAlignment="Top" Margin="0,0,0,10"
                          Header="This is the header - expander 1"
                          Foreground="White"
                          Background="@[BackgroundExpander1:Brush:Gray]"
                          IsExpanded="@[IsExpanded1:Bool:False]@"
-                         ExpandDirection="@[ExpandDirection1:Enum:ExpandDirection.Down]">
+                         ExpandDirection="@[ExpandDirection1:Enum:ExpandDirection.Down]"
+                         DisplayMode="@[DisplayMode1:Enum:ExpanderDisplayMode.Overlay]">
         <Grid Height="250">
           <TextBlock HorizontalAlignment="Center"
-                     TextWrapping="Wrap"
-                     Text="This is the content"
-                     VerticalAlignment="Center"
-                     Style="{StaticResource HeaderTextBlockStyle}" />
+                      TextWrapping="Wrap"
+                      Text="This is the content"
+                      VerticalAlignment="Center"
+                      Style="{StaticResource HeaderTextBlockStyle}" />
         </Grid>
+
+        <controls:Expander.ContentOverlay>
+          <Grid Background="Red">
+            <TextBlock Text="Hello" />
+          </Grid>
+        </controls:Expander.ContentOverlay>
       </controls:Expander>
 
-      <controls:Expander x:Name="Expander2" VerticalAlignment="Top" Margin="0" 
+      <controls:Expander x:Name="Expander2" VerticalAlignment="Top" Margin="0"
                          Header="This is the header - expander 2"
                          Foreground="White"
                          Background="@[BackgroundExpander2:Brush:Black]"
                          IsExpanded="@[IsExpanded2:Bool:True]@"
-                         ExpandDirection="@[ExpandDirection2:Enum:ExpandDirection.Right]">
+                         ExpandDirection="@[ExpandDirection2:Enum:ExpandDirection.Right]"
+                         DisplayMode="@[DisplayMode2:Enum:ExpanderDisplayMode.Expand]">
         <Grid Height="250">
           <TextBlock HorizontalAlignment="Center"
-                     TextWrapping="Wrap"
-                     Text="This is the content"
-                     VerticalAlignment="Center"
-                     Style="{StaticResource HeaderTextBlockStyle}" />
+                      TextWrapping="Wrap"
+                      Text="This is the content"
+                      VerticalAlignment="Center"
+                      Style="{StaticResource HeaderTextBlockStyle}" />
         </Grid>
       </controls:Expander>
     </StackPanel>

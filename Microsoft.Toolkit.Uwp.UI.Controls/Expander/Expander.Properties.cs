@@ -44,6 +44,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ExpandDirection), typeof(ExpandDirection), typeof(Expander), new PropertyMetadata(ExpandDirection.Down, OnExpandDirectionChanged));
 
         /// <summary>
+        /// Identifies the <see cref="DisplayMode"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DisplayModeProperty =
+            DependencyProperty.Register(nameof(DisplayMode), typeof(ExpanderDisplayMode), typeof(Expander), new PropertyMetadata(ExpanderDisplayMode.Expand, OnDisplayModeChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="ContentOverlay"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ContentOverlayProperty =
+            DependencyProperty.Register(nameof(ContentOverlay), typeof(UIElement), typeof(Expander), new PropertyMetadata(default(UIElement)));
+
+        /// <summary>
         /// Gets or sets a value indicating whether the Header of the control.
         /// </summary>
         public string Header
@@ -79,6 +91,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ExpandDirectionProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the Expander control should be in Expand or Overlay mode.
+        /// </summary>
+        public ExpanderDisplayMode DisplayMode
+        {
+            get { return (ExpanderDisplayMode)GetValue(DisplayModeProperty); }
+            set { SetValue(DisplayModeProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the ContentOverlay of the control.
+        /// </summary>
+        public object ContentOverlay
+        {
+            get { return GetValue(ContentOverlayProperty); }
+            set { SetValue(ContentOverlayProperty, value); }
+        }
+
         private static void OnIsExpandedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var expander = d as Expander;
@@ -103,6 +133,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (previousExpandDirection != newExpandDirection)
             {
                 expander.OnExpandDirectionChanged();
+            }
+        }
+
+        private static void OnDisplayModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var expander = d as Expander;
+            var previousDisplayMode = (ExpanderDisplayMode)e.OldValue;
+            var newDisplayMode = (ExpanderDisplayMode)e.NewValue;
+
+            if (previousDisplayMode != newDisplayMode)
+            {
+                expander.OnDisplayModeOrIsExpandedChanged();
             }
         }
     }
