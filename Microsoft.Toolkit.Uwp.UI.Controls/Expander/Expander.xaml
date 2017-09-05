@@ -413,7 +413,7 @@
                                 </controls:LayoutTransformControl.Transform>
 
                                 <ToggleButton x:Name="PART_ExpanderToggleButton" 
-                                              Height="40"
+                                              MinHeight="40"
                                               TabIndex="0"
                                               AutomationProperties.Name="Expand"
                                               Style="{StaticResource HeaderToggleButtonStyle}" 
