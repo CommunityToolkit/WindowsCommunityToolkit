@@ -103,9 +103,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether the ContentOverlay of the control.
         /// </summary>
-        public object ContentOverlay
+        public UIElement ContentOverlay
         {
-            get { return GetValue(ContentOverlayProperty); }
+            get { return (UIElement)GetValue(ContentOverlayProperty); }
             set { SetValue(ContentOverlayProperty, value); }
         }
 

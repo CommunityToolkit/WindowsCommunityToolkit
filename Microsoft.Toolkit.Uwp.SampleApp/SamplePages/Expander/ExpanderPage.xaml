@@ -19,15 +19,17 @@
                                DisplayMode="{Binding Path=DisplayMode1.Value, Mode=TwoWay}">
                 <Grid Height="250">
                     <TextBlock HorizontalAlignment="Center" 
-                                TextWrapping="Wrap" 
-                                Text="This is the content"
-                                VerticalAlignment="Center"
-                                Style="{StaticResource HeaderTextBlockStyle}" />
+                               TextWrapping="Wrap" 
+                               Text="This is the content"
+                               VerticalAlignment="Center"
+                               Style="{StaticResource HeaderTextBlockStyle}" />
                 </Grid>
 
                 <controls:Expander.ContentOverlay>
                     <Grid Background="Red">
-                        <TextBlock Text="Hello" />
+                        <TextBlock Text="Hello world!"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
                     </Grid>
                 </controls:Expander.ContentOverlay>
             </controls:Expander>
@@ -42,10 +44,10 @@
                                DisplayMode="{Binding Path=DisplayMode2.Value, Mode=TwoWay}">
                 <Grid Height="250">
                     <TextBlock HorizontalAlignment="Center" 
-                            TextWrapping="Wrap" 
-                            Text="This is the content" 
-                            VerticalAlignment="Center" 
-                            Style="{StaticResource HeaderTextBlockStyle}" />
+                               TextWrapping="Wrap" 
+                               Text="This is the content" 
+                               VerticalAlignment="Center" 
+                               Style="{StaticResource HeaderTextBlockStyle}" />
                 </Grid>
             </controls:Expander>
         </StackPanel>
