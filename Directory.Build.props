@@ -22,7 +22,7 @@
 
     <GenerateDocumentationFile Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true'">true</GenerateDocumentationFile>
     
-    <UwpMetaPackageVersion>5.3.4</UwpMetaPackageVersion>
+    <UwpMetaPackageVersion>5.4.0</UwpMetaPackageVersion>
     <DefaultTargetPlatformVersion>15063</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>14393</DefaultTargetPlatformMinVersion>
   </PropertyGroup>
