@@ -53,10 +53,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
 
         ~Symbol()
         {
-            Dispatcher?.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            try
             {
-                isEnabledWatcher?.Dispose();
-            });
+                Dispatcher?.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    try
+                    {
+                        isEnabledWatcher?.Dispose();
+                    }
+                    catch (System.Exception)
+                    {
+                    }
+                });
+            }
+            catch (System.Exception)
+            {
+            }
         }
     }
 }
