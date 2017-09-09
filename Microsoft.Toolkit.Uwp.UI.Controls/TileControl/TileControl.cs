@@ -291,7 +291,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (currentStrategy == null)
                 {
-                    if (DesignMode.DesignModeEnabled == true || IsCompositionSupported == false)
+                    if ((DesignMode.DesignModeEnabled == true && ControlHelpers.EnhancedDesignModeEnabled == false) || IsCompositionSupported == false)
                     {
                         currentStrategy = UIStrategy.PureXaml;
                     }
@@ -388,7 +388,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         private async Task<bool> LoadImageBrush(Uri uri)
         {
-            if (DesignMode.DesignModeEnabled)
+            if (DesignMode.DesignModeEnabled && !ControlHelpers.EnhancedDesignModeEnabled)
             {
                 return false;
             }

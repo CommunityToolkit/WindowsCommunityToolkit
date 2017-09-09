@@ -619,19 +619,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     scale.Data = pg;
                 }
 
-                if (!DesignMode.DesignModeEnabled)
-                {
-                    OnFaceChanged(radialGauge);
-                }
+                OnFaceChanged(radialGauge);
             }
         }
 
         private static void OnFaceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!DesignMode.DesignModeEnabled)
-            {
-                OnFaceChanged(d);
-            }
+            OnFaceChanged(d);
         }
 
         private static void OnFaceChanged(DependencyObject d)
@@ -639,7 +633,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RadialGauge radialGauge = (RadialGauge)d;
 
             var container = radialGauge.GetTemplateChild(ContainerPartName) as Grid;
-            if (container == null || DesignMode.DesignModeEnabled)
+            if (container == null || (DesignMode.DesignModeEnabled && !ControlHelpers.EnhancedDesignModeEnabled))
             {
                 // Bad template.
                 return;

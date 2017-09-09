@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// On platforms not supporting drop shadows, this control has no effect.
         /// </remarks>
         public static bool IsSupported =>
-            !DesignMode.DesignModeEnabled &&
+            (!DesignMode.DesignModeEnabled || ControlHelpers.EnhancedDesignModeEnabled) &&
             ApiInformation.IsTypePresent("Windows.UI.Composition.DropShadow"); // SDK >= 14393
 
         /// <summary>
