@@ -219,6 +219,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             tooltip.Placement = _parentMenu.TooltipPlacement;
             tooltip.Content = RemoveAlt(inputGestureText);
             tooltip.IsOpen = true;
+            tooltip.IsEnabled = true;
         }
 
         private string RemoveAlt(string inputGesture)
@@ -237,6 +238,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (tooltip != null)
             {
                 tooltip.IsOpen = false;
+                tooltip.IsEnabled = false;
             }
         }
 
