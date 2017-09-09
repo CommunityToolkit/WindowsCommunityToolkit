@@ -244,12 +244,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (_currentElement != null)
                 {
-                    _currentElement.DataContext = _nextElement.DataContext;
-                }
-
-                if (_nextElement != null)
-                {
-                    _nextElement.DataContext = GetNext(); // Preload the next tile
+                    if (_nextElement != null)
+                    {
+                        _currentElement.DataContext = _nextElement.DataContext;
+                        _nextElement.DataContext = GetNext(); // Preload the next tile
+                    }
                 }
             };
             sb.Begin();
