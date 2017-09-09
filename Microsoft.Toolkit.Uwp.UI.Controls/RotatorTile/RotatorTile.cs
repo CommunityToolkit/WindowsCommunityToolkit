@@ -242,13 +242,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _translate.X = _translate.Y = 0;
                 }
 
-                if (_currentElement != null)
+                if (_currentElement != null && _nextElement != null)
                 {
-                    if (_nextElement != null)
-                    {
-                        _currentElement.DataContext = _nextElement.DataContext;
-                        _nextElement.DataContext = GetNext(); // Preload the next tile
-                    }
+                    _currentElement.DataContext = _nextElement.DataContext;
+                    _nextElement.DataContext = GetNext(); // Preload the next tile
                 }
             };
             sb.Begin();
