@@ -32,7 +32,7 @@
             </MenuFlyoutSubItem>
         </MenuFlyoutSubItem>
     </controls:MenuItem>
-    <controls:MenuItem Header="File">
+    <controls:MenuItem Header="File1">
         <MenuFlyoutSubItem Text="New">
             <MenuFlyoutSubItem Text="New">
                 <MenuFlyoutItem Text="Project" />
@@ -41,7 +41,7 @@
             <MenuFlyoutItem Text="File" />
         </MenuFlyoutSubItem>
     </controls:MenuItem>
-    <controls:MenuItem Header="File">
+    <controls:MenuItem Header="File2">
         <MenuFlyoutSubItem Text="New">
             <MenuFlyoutItem Text="Project" />
             <MenuFlyoutSubItem Text="New">
@@ -50,7 +50,7 @@
             </MenuFlyoutSubItem>
         </MenuFlyoutSubItem>
     </controls:MenuItem>
-    <controls:MenuItem Header="File">
+    <controls:MenuItem Header="File3">
         <MenuFlyoutSubItem Text="New">
             <MenuFlyoutSubItem Text="New">
                 <MenuFlyoutItem Text="Project" />
