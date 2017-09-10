@@ -7,15 +7,30 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:DockPanel>
-            <Button Content="Dock=Top" />
-            <Button controls:DockPanel.Dock="Bottom"
-                    Content="Dock=Bottom" />
-            <Button Content="Dock=Left" />
-            <Button controls:DockPanel.Dock="Right"
-                    Content="Dock=Right" />
-            <Button Content="LastChildFill=True" />
-        </controls:DockPanel>
-    </Grid>
+    <controls:DockPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel Height="100"
+                    controls:DockPanel.Dock="Top"
+                    Background="Green" />
+        <StackPanel Width="100"
+                    controls:DockPanel.Dock="Left"
+                    Background="Red" />
+        <StackPanel Height="100"
+                    controls:DockPanel.Dock="Bottom"
+                    Background="Yellow" />
+        <StackPanel Width="100"
+                    controls:DockPanel.Dock="Right"
+                    Background="Gray" />
+
+        <StackPanel Width="100"
+                    controls:DockPanel.Dock="Right"
+                    Background="Red" />
+
+        <StackPanel Height="100"
+                    controls:DockPanel.Dock="Top"
+                    Background="AntiqueWhite" />
+
+        <StackPanel controls:DockPanel.Dock="Top"
+                    Background="Black" />
+
+    </controls:DockPanel>
 </Page>

@@ -44,8 +44,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty LastChildFillProperty
             = DependencyProperty.Register(
                 nameof(LastChildFill),
-                typeof(UIElement),
-                typeof(GridSplitter),
+                typeof(bool),
+                typeof(DockPanel),
                 new PropertyMetadata(true, LastChildFillChanged));
 
         /// <summary>
