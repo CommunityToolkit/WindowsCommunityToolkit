@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
     /// <summary>
     /// AlignmentGrid is used to display a grid to help aligning controls
     /// </summary>
-    public class AlignmentGrid: ContentControl
+    public class AlignmentGrid : ContentControl
     {
         /// <summary>
         /// Identifies the <see cref="LineBrush"/> dependency property.
@@ -72,7 +72,6 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
             get { return (double)GetValue(VerticalStepProperty); }
             set { SetValue(VerticalStepProperty, value); }
         }
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AlignmentGrid"/> class.

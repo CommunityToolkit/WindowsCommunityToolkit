@@ -175,12 +175,41 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
             Root.Visibility = Visibility.Visible;
         }
 
-        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        private void RecentSample_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as HyperlinkButton;
             if (button.DataContext is Sample sample)
             {
+                TrackingManager.TrackEvent("LandingPageRecentClick", sample.Name);
                 Shell.Current.NavigateToSample(sample);
+            }
+        }
+
+        private void NewSample_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as HyperlinkButton;
+            if (button.DataContext is Sample sample)
+            {
+                TrackingManager.TrackEvent("LandingPageNewClick", sample.Name);
+                Shell.Current.NavigateToSample(sample);
+            }
+        }
+
+        private void ReleaseNotes_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as HyperlinkButton;
+            if (button.DataContext is GitHubRelease release)
+            {
+                TrackingManager.TrackEvent("LandingPageReleaseClick", release.Name);
+            }
+        }
+
+        private void Link_Clicked(object sender, RoutedEventArgs e)
+        {
+            var button = sender as HyperlinkButton;
+            if (button.Content is TextBlock textBlock)
+            {
+                TrackingManager.TrackEvent("LandingPageLinkClick", textBlock.Text);
             }
         }
 

@@ -30,7 +30,6 @@ namespace Microsoft.Toolkit.Services
         /// </summary>
         public DataProviderBase()
         {
-            
         }
 
         /// <summary>
@@ -79,7 +78,7 @@ namespace Microsoft.Toolkit.Services
             get { return httpClient ?? (httpClient = new HttpClient()); }
             set { httpClient = value; }
         }
-        
+
         /// <summary>
         /// Derived classes will have to implement this method to return provider data
         /// </summary>

@@ -114,6 +114,9 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="HockeySDK.UWP">
+      <Version>4.1.6</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.3.4</Version>
     </PackageReference>
