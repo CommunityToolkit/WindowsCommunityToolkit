@@ -147,14 +147,15 @@ Task("Build")
     MSBuild(Solution, buildSettings);
     MSBuild(Solution, buildSettings);
 
+    EnsureDirectoryExists(nupkgDir);
+
     buildSettings = new MSBuildSettings
     {
         MaxCpuCount = 0
     }
+    .SetConfiguration("Release")
     .WithTarget("Build")
-    .WithProperty("GenerateSolutionSpecificOutputFolder", "true")   
     .WithProperty("GenerateLibraryLayout", "true")
-    .WithProperty("TreatWarningsAsErrors", "false")
     .WithProperty("PackageOutputPath", nupkgDir);
 
     MSBuild(Solution, buildSettings);
