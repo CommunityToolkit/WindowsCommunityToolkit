@@ -27,19 +27,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var senderElement = sender as FrameworkElement;
             var dockPanel = senderElement?.FindParent<DockPanel>();
 
-            if (dockPanel == null)
-            {
-                return;
-            }
-
-            dockPanel.InvalidateArrange();
-            dockPanel.InvalidateArrange();
+            dockPanel?.InvalidateArrange();
         }
 
         private static void LastChildFillChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var dockPanel = (DockPanel)sender;
-            dockPanel.InvalidateMeasure();
             dockPanel.InvalidateArrange();
         }
 
@@ -51,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return finalSize;
             }
 
-            var currentSize = new Rect(0, 0, finalSize.Width, finalSize.Height);
+            var currentBounds = new Rect(0, 0, finalSize.Width, finalSize.Height);
             var childrenCount = LastChildFill ? Children.Count - 1 : Children.Count;
 
             for (var index = 0; index < childrenCount; index++)
@@ -65,29 +58,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     case Dock.Left:
 
                         width = child.DesiredSize.Width;
-                        child.Arrange(new Rect(currentSize.X, currentSize.Y, width, currentSize.Height - currentSize.Y));
-                        currentSize.X += width;
+                        child.Arrange(new Rect(currentBounds.X, currentBounds.Y, width, currentBounds.Height - currentBounds.Y));
+                        currentBounds.X += width;
 
                         break;
                     case Dock.Top:
 
                         height = child.DesiredSize.Height;
-                        child.Arrange(new Rect(currentSize.X, currentSize.Y, currentSize.Width - currentSize.X, height));
-                        currentSize.Y += height;
+                        child.Arrange(new Rect(currentBounds.X, currentBounds.Y, currentBounds.Width - currentBounds.X, height));
+                        currentBounds.Y += height;
 
                         break;
                     case Dock.Right:
 
                         width = child.DesiredSize.Width;
-                        child.Arrange(new Rect(currentSize.Width - width, currentSize.Y, width, currentSize.Height - currentSize.Y));
-                        currentSize.Width -= width;
+                        child.Arrange(new Rect(currentBounds.Width - width, currentBounds.Y, width, currentBounds.Height - currentBounds.Y));
+                        currentBounds.Width -= width;
 
                         break;
                     case Dock.Bottom:
 
                         height = child.DesiredSize.Height;
-                        child.Arrange(new Rect(currentSize.X, currentSize.Height - height, currentSize.Width - currentSize.X, height));
-                        currentSize.Height -= height;
+                        child.Arrange(new Rect(currentBounds.X, currentBounds.Height - height, currentBounds.Width - currentBounds.X, height));
+                        currentBounds.Height -= height;
 
                         break;
                 }
@@ -95,11 +88,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (LastChildFill)
             {
-                var width = currentSize.Width - currentSize.X;
-                var height = currentSize.Height - currentSize.Y;
+                var width = currentBounds.Width - currentBounds.X;
+                var height = currentBounds.Height - currentBounds.Y;
                 var child = Children[Children.Count - 1];
                 child.Arrange(
-                    new Rect(currentSize.X, currentSize.Y, width > 0 ? width : 0, height > 0 ? height : 0));
+                    new Rect(currentBounds.X, currentBounds.Y, width > 0 ? width : 0, height > 0 ? height : 0));
                 child.SetValue(Canvas.ZIndexProperty, 0);
             }
 
