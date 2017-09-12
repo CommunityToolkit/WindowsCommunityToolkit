@@ -73,14 +73,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                         width = child.DesiredSize.Width;
                         child.Arrange(new Rect(currentBounds.Width - width, currentBounds.Y, width, currentBounds.Height - currentBounds.Y));
-                        currentBounds.Width -= width;
+                        currentBounds.Width -= (currentBounds.Width - width) > 0 ? width : 0;
 
                         break;
                     case Dock.Bottom:
 
                         height = child.DesiredSize.Height;
                         child.Arrange(new Rect(currentBounds.X, currentBounds.Height - height, currentBounds.Width - currentBounds.X, height));
-                        currentBounds.Height -= height;
+                        currentBounds.Height -= (currentBounds.Height - height) > 0 ? height : 0;
 
                         break;
                 }
