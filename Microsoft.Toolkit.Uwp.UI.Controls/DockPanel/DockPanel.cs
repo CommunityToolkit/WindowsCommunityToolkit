@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -57,29 +58,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     case Dock.Left:
 
-                        width = child.DesiredSize.Width;
-                        child.Arrange(new Rect(currentBounds.X, currentBounds.Y, width, currentBounds.Height - currentBounds.Y));
+                        width = Math.Min(child.DesiredSize.Width, GetPositiveOrZero(currentBounds.Width - currentBounds.X));
+                        child.Arrange(new Rect(currentBounds.X, currentBounds.Y, width, GetPositiveOrZero(currentBounds.Height - currentBounds.Y)));
                         currentBounds.X += width;
 
                         break;
                     case Dock.Top:
 
-                        height = child.DesiredSize.Height;
-                        child.Arrange(new Rect(currentBounds.X, currentBounds.Y, currentBounds.Width - currentBounds.X, height));
+                        height = Math.Min(child.DesiredSize.Height, GetPositiveOrZero(currentBounds.Height - currentBounds.Y));
+                        child.Arrange(new Rect(currentBounds.X, currentBounds.Y, GetPositiveOrZero(currentBounds.Width - currentBounds.X), height));
                         currentBounds.Y += height;
 
                         break;
                     case Dock.Right:
 
-                        width = child.DesiredSize.Width;
-                        child.Arrange(new Rect(currentBounds.Width - width, currentBounds.Y, width, currentBounds.Height - currentBounds.Y));
+                        width = Math.Min(child.DesiredSize.Width, GetPositiveOrZero(currentBounds.Width - currentBounds.X));
+                        child.Arrange(new Rect(GetPositiveOrZero(currentBounds.Width - width), currentBounds.Y, width, GetPositiveOrZero(currentBounds.Height - currentBounds.Y)));
                         currentBounds.Width -= (currentBounds.Width - width) > 0 ? width : 0;
 
                         break;
                     case Dock.Bottom:
 
-                        height = child.DesiredSize.Height;
-                        child.Arrange(new Rect(currentBounds.X, currentBounds.Height - height, currentBounds.Width - currentBounds.X, height));
+                        height = Math.Min(child.DesiredSize.Height, GetPositiveOrZero(currentBounds.Height - currentBounds.Y));
+                        child.Arrange(new Rect(currentBounds.X, GetPositiveOrZero(currentBounds.Height - height), GetPositiveOrZero(currentBounds.Width - currentBounds.X), height));
                         currentBounds.Height -= (currentBounds.Height - height) > 0 ? height : 0;
 
                         break;
@@ -88,12 +89,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (LastChildFill)
             {
-                var width = currentBounds.Width - currentBounds.X;
-                var height = currentBounds.Height - currentBounds.Y;
+                var width = GetPositiveOrZero(currentBounds.Width - currentBounds.X);
+                var height = GetPositiveOrZero(currentBounds.Height - currentBounds.Y);
                 var child = Children[Children.Count - 1];
-                child.Arrange(
-                    new Rect(currentBounds.X, currentBounds.Y, width > 0 ? width : 0, height > 0 ? height : 0));
                 child.SetValue(Canvas.ZIndexProperty, 0);
+                child.Arrange(
+                    new Rect(currentBounds.X, currentBounds.Y, width, height));
             }
 
             return finalSize;
@@ -115,14 +116,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 height = Window.Current.Bounds.Height;
             }
 
-            var finalSize = new Size(width, height);
-
             foreach (var child in Children)
             {
-                child.Measure(finalSize);
+                child.Measure(new Size(availableSize.Width, availableSize.Height));
             }
 
-            return finalSize;
+            return new Size(width, height);
+        }
+
+        private static double GetPositiveOrZero(double value)
+        {
+            return Math.Max(value, 0);
         }
     }
 }
