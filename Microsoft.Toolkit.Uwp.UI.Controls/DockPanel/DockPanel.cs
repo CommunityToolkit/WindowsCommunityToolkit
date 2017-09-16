@@ -51,7 +51,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             for (var index = 0; index < childrenCount; index++)
             {
                 var child = Children[index];
-                child.SetValue(Canvas.ZIndexProperty, Children.Count - index);
                 var dock = (Dock)child.GetValue(DockProperty);
                 double width, height;
                 switch (dock)
@@ -92,7 +91,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var width = GetPositiveOrZero(currentBounds.Width - currentBounds.X);
                 var height = GetPositiveOrZero(currentBounds.Height - currentBounds.Y);
                 var child = Children[Children.Count - 1];
-                child.SetValue(Canvas.ZIndexProperty, 0);
                 child.Arrange(
                     new Rect(currentBounds.X, currentBounds.Y, width, height));
             }
