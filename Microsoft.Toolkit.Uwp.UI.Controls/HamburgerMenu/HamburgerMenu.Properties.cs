@@ -83,6 +83,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(HamburgerMenu), new PropertyMetadata(-1));
 
         /// <summary>
+        /// Identifies the <see cref="ItemContainerStyle"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ItemContainerStyleProperty = DependencyProperty.Register("ItemContainerStyle", typeof(Style), typeof(HamburgerMenu), new PropertyMetadata(null));
+
+        /// <summary>
         /// Gets or sets the width of the pane when it's fully expanded.
         /// </summary>
         public double OpenPaneLength
@@ -208,6 +213,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (int)GetValue(SelectedIndexProperty); }
             set { SetValue(SelectedIndexProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value that sets the menu item's container style (useful for overriding the selection indicator)
+        /// </summary>
+        public Style ItemContainerStyle
+        {
+            get { return (Style)GetValue(ItemContainerStyleProperty); }
+            set { SetValue(ItemContainerStyleProperty, value); }
         }
     }
 }

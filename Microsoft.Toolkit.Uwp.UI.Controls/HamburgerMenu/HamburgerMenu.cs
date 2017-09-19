@@ -64,6 +64,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _buttonsListView = (ListViewBase)GetTemplateChild("ButtonsListView");
             _optionsListView = (ListViewBase)GetTemplateChild("OptionsListView");
 
+            if (this.ItemContainerStyle != null)
+            {
+                _buttonsListView.ItemContainerStyle = this.ItemContainerStyle;
+                _optionsListView.ItemContainerStyle = this.ItemContainerStyle;
+            }
+
             if (_hamburgerButton != null)
             {
                 _hamburgerButton.Click += HamburgerButton_Click;
