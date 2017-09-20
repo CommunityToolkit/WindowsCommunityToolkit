@@ -25,7 +25,7 @@ var nupkgDir = binDir + "/nupkg";
 
 var signClientSettings = MakeAbsolute(File("SignClientSettings.json")).ToString();
 var signClientSecret = EnvironmentVariable("SignClientSecret");
-var signClientAppPath = toolsDir + "/SignClient/Tools/netcoreapp1.1/SignClient.dll";
+var signClientAppPath = toolsDir + "/SignClient/Tools/netcoreapp2.0/SignClient.dll";
 
 var styler = toolsDir + "/XamlStyler.Console/tools/xstyler.exe";
 var stylerFile = baseDir + "/settings.xamlstyler";
@@ -118,7 +118,7 @@ Task("Version")
     var installSettings = new NuGetInstallSettings {
         ExcludeVersion  = true,
         Prerelease = true,
-        Version = "2.0.37-beta",
+        Version = "2.0.41",
         OutputDirectory = toolsDir
     };
     
@@ -172,7 +172,7 @@ Task("SignNuGet")
         var installSettings = new NuGetInstallSettings {
             ExcludeVersion  = true,
             OutputDirectory = toolsDir,
-            Version = "0.8.0"
+            Version = "0.9.0"
         };
         NuGetInstall(new []{"SignClient"}, installSettings);
 
