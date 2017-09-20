@@ -12,7 +12,14 @@ using System.Text.RegularExpressions;
 var target = Argument("target", "Default");
 
 //////////////////////////////////////////////////////////////////////
-// PREPARATION
+// VERSIONS
+//////////////////////////////////////////////////////////////////////
+
+var gitVersioningVersion = "2.0.41";
+var signClientVersion = "0.9.0";
+
+//////////////////////////////////////////////////////////////////////
+// VARIABLES
 //////////////////////////////////////////////////////////////////////
 
 var baseDir = MakeAbsolute(Directory("../")).ToString();
@@ -37,7 +44,7 @@ var name = "UWP Community Toolkit";
 var address = "https://developer.microsoft.com/en-us/windows/uwp-community-toolkit";
 
 //////////////////////////////////////////////////////////////////////
-// Methods
+// METHODS
 //////////////////////////////////////////////////////////////////////
 
 void VerifyHeaders(bool Replace)
@@ -83,7 +90,7 @@ void VerifyHeaders(bool Replace)
 }
 
 //////////////////////////////////////////////////////////////////////
-// Default Task
+// DEFAULT TASK
 //////////////////////////////////////////////////////////////////////
 
 Task("Clean")
@@ -117,7 +124,7 @@ Task("Version")
     Information("\nDownloading NerdBank GitVersioning...");
     var installSettings = new NuGetInstallSettings {
         ExcludeVersion  = true,
-        Version = "2.0.41",
+        Version = gitVersioningVersion,
         OutputDirectory = toolsDir
     };
     
@@ -172,7 +179,7 @@ Task("SignNuGet")
         var installSettings = new NuGetInstallSettings {
             ExcludeVersion  = true,
             OutputDirectory = toolsDir,
-            Version = "0.9.0"
+            Version = signClientVersion
         };
         NuGetInstall(new []{"SignClient"}, installSettings);
 
