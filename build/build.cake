@@ -156,7 +156,8 @@ Task("Build")
     .SetConfiguration("Release")
     .WithTarget("Build")
     .WithProperty("GenerateLibraryLayout", "true")
-    .WithProperty("PackageOutputPath", nupkgDir);
+    .WithProperty("PackageOutputPath", nupkgDir)
+    .WithProperty("GeneratePackageOnBuild", "true");
 
     MSBuild(Solution, buildSettings);
 });
