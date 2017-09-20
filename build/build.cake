@@ -210,16 +210,13 @@ Task("StyleXaml")
     .Description("Ensures XAML Formatting is Clean")
     .Does(() =>
 {
-    if(!FileExists(styler))
-    {
-        Information("\nDownloading XamlStyler...");
-        var installSettings = new NuGetInstallSettings {
-            ExcludeVersion  = true,
-            OutputDirectory = toolsDir
-        };
-        
-        NuGetInstall(new []{"xamlstyler.console"}, installSettings);
-    }
+    Information("\nDownloading XamlStyler...");
+    var installSettings = new NuGetInstallSettings {
+        ExcludeVersion  = true,
+        OutputDirectory = toolsDir
+    };
+    
+    NuGetInstall(new []{"xamlstyler.console"}, installSettings);
 
     Func<IFileSystemInfo, bool> exclude_objDir =
         fileSystemInfo => !fileSystemInfo.Path.Segments.Contains("obj");
