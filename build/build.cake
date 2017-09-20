@@ -117,7 +117,6 @@ Task("Version")
     Information("\nDownloading NerdBank GitVersioning...");
     var installSettings = new NuGetInstallSettings {
         ExcludeVersion  = true,
-        Prerelease = true,
         Version = "2.0.41",
         OutputDirectory = toolsDir
     };
