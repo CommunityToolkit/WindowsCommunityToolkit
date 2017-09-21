@@ -295,8 +295,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         currentStrategy = UIStrategy.PureXaml;
                     }
-
-                    currentStrategy = UIStrategy.Composition;
+                    else
+                    {
+                        currentStrategy = UIStrategy.Composition;
+                    }
                 }
 
                 return currentStrategy.Value;
@@ -506,7 +508,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var control = d as TileControl;
             await control.RefreshContainerTileLocked();
-            await control.CreateModuloExpression(control._scrollviewer);
+            if (control.Strategy == UIStrategy.Composition)
+            {
+                await control.CreateModuloExpression(control._scrollviewer);
+            }
         }
 
         /// <inheritdoc/>
