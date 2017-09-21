@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Reflection;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -19,7 +20,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     internal static partial class ControlHelpers
     {
-        private static bool? _isInEnhancedDesignMode;
+        private static Lazy<bool> designModeEnabled = new Lazy<bool>(InitializeDesignerMode);
+
+        private static Lazy<bool> designMode2Enabled = new Lazy<bool>(InitializeDesignMode2);
+
+        public static bool IsRunningInLegacyDesignerMode => ControlHelpers.designModeEnabled.Value && !ControlHelpers.designMode2Enabled.Value;
+
+        public static bool IsRunningInEnhancedDesignerMode => ControlHelpers.designModeEnabled.Value && ControlHelpers.designMode2Enabled.Value;
+
+        public static bool IsRunningInApplicationRuntimeMode => !ControlHelpers.designModeEnabled.Value;
+
+        // Private initializer
+        private static bool InitializeDesignerMode()
+        {
+            return Windows.ApplicationModel.DesignMode.DesignModeEnabled;
+        }
 
         /// <summary>
         /// Used to enable or disable user code inside a XAML designer that targets the Windows 10 Fall Creators Update SDK, or later.
@@ -37,26 +52,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </para>
         /// </remarks>
         /// <returns>True if called from code running inside a XAML designer that targets the Windows 10 Fall Creators Update, or later; otherwise false.</returns>
-        internal static bool EnhancedDesignModeEnabled
+        private static bool InitializeDesignMode2()
         {
-            get
+            bool designMode2Enabled = false;
+            try
             {
-                if (!_isInEnhancedDesignMode.HasValue)
+                // The reflection below prevents the code to take a direct dependency on Fall Creators Update SDK
+                if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.ApplicationModel.DesignMode", "DesignMode2Enabled"))
                 {
-                    _isInEnhancedDesignMode = false;
-                    if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.ApplicationModel.DesignMode", "DesignMode2Enabled"))
+                    var prop = typeof(Windows.ApplicationModel.DesignMode).GetProperty("DesignMode2Enabled");
+                    if (prop != null && prop.PropertyType == typeof(bool))
                     {
-                        // We use reflection to not put a requirement on the SDK we're compiling against
-                        var prop = typeof(Windows.ApplicationModel.DesignMode).GetTypeInfo().GetDeclaredProperty("DesignMode2Enabled");
-                        if (prop != null && prop.PropertyType == typeof(bool))
-                        {
-                            _isInEnhancedDesignMode = (bool)prop.GetValue(null);
-                        }
+                        designMode2Enabled = (bool)prop.GetValue(null);
                     }
                 }
-
-                return _isInEnhancedDesignMode.Value;
             }
+            catch { }
+            return designMode2Enabled;
         }
     }
 }
