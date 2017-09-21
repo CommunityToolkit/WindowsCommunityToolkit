@@ -1,0 +1,68 @@
+{
+  "new-section-title": "What's New",
+  "new-samples": [ "InAppNotification", "TextToolbar", "Menu", "Expander", "BluetoothLEHelper" ],
+  "resources": [
+    {
+      "title": "UWP Community Toolkit",
+      "links": [
+        {
+          "title": "GitHub Repository",
+          "url": "http://aka.ms/uwptoolkit"
+        },
+        {
+          "title": "Documentation",
+          "url": "http://aka.ms/uwptoolkitdocs"
+        },
+        {
+          "title": "GitHub Issues",
+          "url": "https://github.com/Microsoft/UWPCommunityToolkit/issues"
+        },
+        {
+          "title": "Roadmap",
+          "url": "https://github.com/Microsoft/UWPCommunityToolkit/milestones"
+        },
+        {
+          "title": "UserVoice",
+          "url": "https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit"
+        },
+        {
+          "title": "Contributors",
+          "url": "https://github.com/Microsoft/UWPCommunityToolkit/graphs/contributors"
+        }
+      ]
+    },
+    {
+      "title": "Useful links",
+      "links": [
+        {
+          "title": "Developer Center",
+          "url": "https://developer.microsoft.com/windows/"
+        },
+        {
+          "title": "Get started with Windows apps",
+          "url": "https://developer.microsoft.com/windows/apps/getstarted"
+        },
+        {
+          "title": "Windows apps design",
+          "url": "https://developer.microsoft.com/en-us/windows/apps/design"
+        },
+        {
+          "title": "Code samples",
+          "url": "https://developer.microsoft.com/en-us/windows/samples"
+        },
+        {
+          "title": "UWP app samples",
+          "url": "https://github.com/Microsoft/Windows-universal-samples"
+        },
+        {
+          "title": "Windows Template Studio",
+          "url": "https://github.com/microsoft/windowsTemplateStudio"
+        },
+        {
+          "title": "UI for UWP",
+          "url": "https://github.com/telerik/ui-for-uwp"
+        }
+      ]
+    }
+  ]
+}

@@ -109,6 +109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
             "mumble://",
             "ssh://",
             "ms-windows-store://",
+            "sip:"
         };
 
         /// <summary>

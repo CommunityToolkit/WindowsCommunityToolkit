@@ -12,7 +12,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// Event argument raised when the wrap panel's current row or column overflows.

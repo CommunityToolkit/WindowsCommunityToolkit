@@ -1,5 +1,4 @@
 <Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ImageCachePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,14 +9,13 @@
   <Page.Resources>
     <DataTemplate x:Key="PhotosTemplate">
         <controls:ImageEx
-            Source="{Binding}"
+            Source="{Binding Thumbnail}"
             Stretch="Uniform"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"/>
     </DataTemplate>
   </Page.Resources>
-  <Grid Bnackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <ListView Name="control"
-            ItemTemplate="{StaticResource PhotosTemplate}"/>
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ListView Name="PhotoList" ItemTemplate="{StaticResource PhotosTemplate}"/>
   </Grid>
 </Page>

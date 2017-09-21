@@ -1,5 +1,4 @@
 <Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.HamburgerMenuPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,7 +8,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Key="HamburgerMenuItem" x:DataType="controls:HamburgerMenuGlyphItem">
+        <DataTemplate x:Key="HamburgerMenuItem">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
@@ -21,14 +20,14 @@
                       Glyph="{Binding Glyph}" 
                       Foreground="White" />
                 <TextBlock Grid.Column="1" 
-                       Text="{x:Bind Label}" 
+                       Text="{Binding Label}" 
                        Foreground="White" 
                        FontSize="16" 
                        VerticalAlignment="Center" />
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="HamburgerMenuImageItem" x:DataType="controls:HamburgerMenuImageItem">
+        <DataTemplate x:Key="HamburgerMenuImageItem">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
@@ -36,7 +35,7 @@
                 </Grid.ColumnDefinitions>
                 <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" Margin="16,12" />
                 <TextBlock Grid.Column="1" 
-                       Text="{x:Bind Label}" 
+                       Text="{Binding Label}" 
                        Foreground="White" 
                        FontSize="16" 
                        VerticalAlignment="Center" />
@@ -49,14 +48,12 @@
                                 Foreground="White"
                                 ItemTemplate="{StaticResource HamburgerMenuImageItem}"
                                 OptionsItemTemplate="{StaticResource HamburgerMenuItem}"
-                                ItemClick="HamburgerMenu_OnItemClick"
-                                OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
                                 OpenPaneLength="@[OpenPaneLength:Slider:240:50-400]"
                                 DisplayMode="@[DisplayMode:Enum:SplitViewDisplayMode.CompactInline]"
                                 CompactPaneLength="@[CompactPaneLength:Slider:48:10-80]"
                                 HamburgerHeight="@[HamburgerHeight:Slider:48:10-80]"
                                 HamburgerVisibility="@[HamburgerVisibility:Enum:Visibility.Visible]"
-                                IsPaneOpen="@[IsPaneOpen:Bool:False]">
+                                IsPaneOpen="@[IsPaneOpen:Bool:False]@">
             <!--  Items  -->
             <controls:HamburgerMenu.ItemsSource>
                 <controls:HamburgerMenuItemCollection>
@@ -74,7 +71,7 @@
             <!--  Options  -->
             <controls:HamburgerMenu.OptionsItemsSource>
                 <controls:HamburgerMenuItemCollection>
-                    <controls:HamburgerMenuGlyphItem Glyph=""
+                    <controls:HamburgerMenuGlyphItem Glyph="&#57627;"
                                                      Label="About" />
                 </controls:HamburgerMenuItemCollection>
             </controls:HamburgerMenu.OptionsItemsSource>

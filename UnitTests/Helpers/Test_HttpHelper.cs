@@ -24,6 +24,7 @@ namespace UnitTests.Helpers
         [TestMethod]
         public async Task Test_HttpHelper_SendRequestAsync()
         {
+#pragma warning disable CS0612 // Type or member is obsolete
             using (var request = new HttpHelperRequest(new Uri("http://dev.windows.com")))
             {
                 using (var response = await HttpHelper.Instance.SendRequestAsync(request))
@@ -32,6 +33,7 @@ namespace UnitTests.Helpers
                     Assert.IsNotNull(response.Content);
                 }
             }
+#pragma warning restore CS0612 // Type or member is obsolete
         }
     }
 }

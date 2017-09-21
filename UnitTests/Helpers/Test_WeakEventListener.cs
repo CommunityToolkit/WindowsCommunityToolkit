@@ -11,8 +11,8 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace UnitTests.Helpers
 {

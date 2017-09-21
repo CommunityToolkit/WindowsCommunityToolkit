@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name='appClientId'>Azure AD's App client id</param>
         /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile)
+        public bool Initialize(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event)
         {
             if (string.IsNullOrEmpty(appClientId))
             {
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             }
 
             var authenticationModel = _authenticationModel.ToString();
-           return await _authentication.LogoutAsync(authenticationModel);
+            return await _authentication.LogoutAsync(authenticationModel);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             string accessToken = null;
             if (_authenticationModel == AuthenticationModel.V1)
             {
-               accessToken = await _authentication.GetUserTokenAsync(_appClientId);
+                accessToken = await _authentication.GetUserTokenAsync(_appClientId);
             }
             else
             {
@@ -170,6 +170,11 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             if ((_servicesToInitialize & ServicesToInitialize.Message) == ServicesToInitialize.Message)
             {
                 _user.InitializeMessage();
+            }
+
+            if ((_servicesToInitialize & ServicesToInitialize.Event) == ServicesToInitialize.Event)
+            {
+                _user.InitializeEvent();
             }
 
             return _isConnected;

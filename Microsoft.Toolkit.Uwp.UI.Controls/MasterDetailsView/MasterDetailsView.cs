@@ -10,15 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using System.Collections.Generic;
-using System.Numerics;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel;
-using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -286,7 +283,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Frame GetFrame()
         {
-            return _frame ?? (_frame = this.FindVisualAscendant<Frame>());
+            return _frame ?? (_frame = this.FindAscendant<Frame>());
         }
 
         private void UpdateViewState()

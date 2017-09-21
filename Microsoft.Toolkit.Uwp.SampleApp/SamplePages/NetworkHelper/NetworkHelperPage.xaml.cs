@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.Connectivity;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 

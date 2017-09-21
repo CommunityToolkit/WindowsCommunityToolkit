@@ -6,12 +6,5 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
-        <ScrollViewer VerticalScrollBarVisibility="Auto"
-                      VerticalScrollMode="Auto">
-            <StackPanel x:Name="Container"
-                        Orientation="Vertical" />
-        </ScrollViewer>
-    </Grid>
 </Page>
 
