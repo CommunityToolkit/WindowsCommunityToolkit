@@ -13,7 +13,7 @@
 using System;
 using System.Reflection;
 using Microsoft.Windows.Design.Metadata;
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
+using Microsoft.Toolkit.Uwp.Design.Common;
 
 [assembly: ProvideMetadata(typeof(Microsoft.Toolkit.Uwp.UI.Controls.Design.MetadataRegistration))]
 

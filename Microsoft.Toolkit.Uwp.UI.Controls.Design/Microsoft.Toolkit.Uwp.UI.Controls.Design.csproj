@@ -3,7 +3,7 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{7AEFC959-ED7C-4D96-9E92-72609B40FBE0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -13,28 +13,32 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup>
-	<WindowsSdkVersion>10.0</WindowsSdkVersion>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
     <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <Optimize>true</Optimize>
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Runtime" />
     <Reference Include="System.ObjectModel" />
+    <Reference Include="System.Runtime.WindowsRuntime" />
     <Reference Include="System.Runtime.InteropServices.WindowsRuntime" />
+    <Reference Include="Microsoft.Toolkit.Uwp.UI.Controls">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Microsoft.Toolkit.Uwp.UI.Controls\bin\$(Configuration)\uap10.0\Microsoft.Toolkit.Uwp.UI.Controls.dll</HintPath>
+    </Reference>
     <Reference Include="Windows.winmd">
       <IsWinMDFile>true</IsWinMDFile>
       <Private>False</Private>
@@ -72,6 +76,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BladeItemMetadata.cs" />
+    <Compile Include="BladeViewMetadata.cs" />
+    <Compile Include="DropShadowPanelMetadata.cs" />
+    <Compile Include="AdaptiveGridViewMetadata.cs" />
+    <Compile Include="MenuItemMetadata.cs" />
     <Compile Include="MenuMetadata.cs" />
     <Compile Include="MetadataRegistration.cs" />
     <Compile Include="Common\MetadataRegistrationBase.cs" />
@@ -101,14 +110,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
-      <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls\bin\$(Configuration)\uap10.0\Microsoft.Toolkit.Uwp.UI.Controls.xml">
+    <EmbeddedResource Include="..\Microsoft.Toolkit.Uwp.UI.Controls\bin\$(Configuration)\uap10.0\Microsoft.Toolkit.Uwp.UI.Controls.xml">
       <Link>Microsoft.Toolkit.Uwp.UI.Controls.xml</Link>
       <SubType>Designer</SubType>
     </EmbeddedResource>

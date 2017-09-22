@@ -21,11 +21,14 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Design.Common
+namespace Microsoft.Toolkit.Uwp.Design.Common
 {
 	public class MetadataRegistrationBase
 	{
-        AttributeTable masterMetadataTable;
+        private AttributeTable masterMetadataTable;
+
+        internal MetadataRegistrationBase() { }
+
         /// <summary>
 		/// Build design time metadata attribute table.
 		/// </summary>
@@ -131,7 +134,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design.Common
 						
 						Type t = Type.GetType(typeName);
 						if (t != null && t.IsPublic && t.IsClass &&
-                            t.IsSubclassOf(Microsoft.Toolkit.Uwp.UI.Controls.Design.Types.PlatformTypes.DependencyObjectType))
+                            t.IsSubclassOf(Types.PlatformTypes.DependencyObjectType))
 						{
 							string desc = ParseDescription(member);
                             if (desc == null)
@@ -185,20 +188,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design.Common
 		}
 		private static bool IsBrowsable(Type t)
 		{
-			var attrs = t.GetCustomAttributes(Microsoft.Toolkit.Uwp.UI.Controls.Design.Types.PlatformTypes.EditorBrowsableAttributeType, false);
+			var attrs = t.GetCustomAttributes(Types.PlatformTypes.EditorBrowsableAttributeType, false);
 			foreach (var attr in attrs)
 			{
-                return Microsoft.Toolkit.Uwp.UI.Controls.Design.Types.PlatformTypes.IsBrowsable(attr);
+                return Types.PlatformTypes.IsBrowsable(attr);
 			}
 			return true;
 		}
 
 		private static bool IsBrowsable(System.Reflection.PropertyInfo pi)
 		{
-            var attrs = pi.GetCustomAttributes(Microsoft.Toolkit.Uwp.UI.Controls.Design.Types.PlatformTypes.EditorBrowsableAttributeType, false);
+            var attrs = pi.GetCustomAttributes(Types.PlatformTypes.EditorBrowsableAttributeType, false);
 			foreach (var attr in attrs)
 			{
-                return Microsoft.Toolkit.Uwp.UI.Controls.Design.Types.PlatformTypes.IsBrowsable(attr);
+                return Types.PlatformTypes.IsBrowsable(attr);
 			}
 			return true;
 		}

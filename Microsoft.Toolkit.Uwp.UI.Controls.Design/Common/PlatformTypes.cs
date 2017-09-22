@@ -14,9 +14,9 @@ using System;
 using Microsoft.Windows.Design.Metadata;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Design.Types
+namespace Microsoft.Toolkit.Uwp.Design.Types
 {
-	public class PlatformTypes
+	internal class PlatformTypes
 	{
 		public static readonly Type DependencyObjectType = typeof(DependencyObject);
 		public static readonly Type UIElementType = typeof(UIElement);

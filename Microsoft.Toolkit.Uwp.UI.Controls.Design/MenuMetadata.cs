@@ -34,9 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 						//The following is necessary because this is a collection of an abstract type, so we help
 						//the designer with populating supported types that can be added to the collection
                         new NewItemTypesAttribute(new System.Type[] {
-#pragma warning disable 0618 //Ignore obsolete warning
-                            typeof(Microsoft.Toolkit.Uwp.UI.Controls.MenuItem),
-#pragma warning restore 0618 
+                            typeof(MenuItem),
                         }),
 						new AlternateContentPropertyAttribute()
 					);
