@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 var button = _toolbar?.GetDefaultButton(ButtonType.Bold);
                 if (button != null)
                 {
-                    button.Visibility = button.Visibility == Windows.UI.Xaml.Visibility.Visible ? Windows.UI.Xaml.Visibility.Collapsed : Windows.UI.Xaml.Visibility.Visible;
+                    button.Visibility = button.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
                 }
             });
 
@@ -73,6 +73,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 UseCustomFormatter();
             });
+
+            Shell.Current.RegisterNewCommand("Reset Layout", (sender, args) =>
+            {
+                ResetLayout();
+            });
+        }
+
+        private void ResetLayout()
+        {
+            if (_toolbar == null)
+            {
+                return;
+            }
+
+            _toolbar.CustomButtons.Clear();
+            foreach (var item in _toolbar.DefaultButtons)
+            {
+                var button = item as ToolbarButton;
+                if (button != null)
+                {
+                    button.Visibility = Visibility.Visible;
+                }
+            }
         }
 
         private void UseCustomFormatter()
