@@ -40,22 +40,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                     b.AddCustomAttributes(new FeatureAttribute(typeof(DropShadowPanelDefaults)));
 
                     b.AddCustomAttributes(nameof(DropShadowPanel.BlurRadius),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
+                        new PropertyOrderAttribute(PropertyOrder.Early),
+                        new CategoryAttribute(Properties.Resources.CategoryDropShadow)
                         );
+                    b.AddCustomAttributes(nameof(DropShadowPanel.ShadowOpacity),
+                       new PropertyOrderAttribute(PropertyOrder.Early),
+                       new CategoryAttribute(Properties.Resources.CategoryDropShadow)
+                       );
                     b.AddCustomAttributes(nameof(DropShadowPanel.Color),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
+                        new CategoryAttribute(Properties.Resources.CategoryDropShadow)
                         );
                     b.AddCustomAttributes(nameof(DropShadowPanel.OffsetX),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
+                       new PropertyOrderAttribute(PropertyOrder.Late),
+                        new CategoryAttribute(Properties.Resources.CategoryDropShadow)
                         );
                     b.AddCustomAttributes(nameof(DropShadowPanel.OffsetY),
-                       new CategoryAttribute(Properties.Resources.CategoryCommon)
+                       new PropertyOrderAttribute(PropertyOrder.Late),
+                       new CategoryAttribute(Properties.Resources.CategoryDropShadow)
                        );
                     b.AddCustomAttributes(nameof(DropShadowPanel.OffsetZ),
-                       new CategoryAttribute(Properties.Resources.CategoryCommon)
-                       );
-                    b.AddCustomAttributes(nameof(DropShadowPanel.ShadowOpacity),
-                       new CategoryAttribute(Properties.Resources.CategoryCommon)
+                       new PropertyOrderAttribute(PropertyOrder.Late),
+                       new CategoryAttribute(Properties.Resources.CategoryDropShadow)
                        );
 
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));

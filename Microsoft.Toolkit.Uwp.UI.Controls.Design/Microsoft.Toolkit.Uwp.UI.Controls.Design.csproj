@@ -17,14 +17,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls\bin\Debug\uap10.0\Design\</OutputPath>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls\bin\Release\uap10.0\Design\</OutputPath>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Optimize>true</Optimize>
@@ -38,6 +38,7 @@
     <Reference Include="Microsoft.Toolkit.Uwp.UI.Controls">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Microsoft.Toolkit.Uwp.UI.Controls\bin\$(Configuration)\uap10.0\Microsoft.Toolkit.Uwp.UI.Controls.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Windows.winmd">
       <IsWinMDFile>true</IsWinMDFile>
