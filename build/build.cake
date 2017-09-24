@@ -196,8 +196,13 @@ Task("SignNuGet")
                 .AppendSwitchQuoted("-d", name)
                 .AppendSwitchQuoted("-u", address);
 
-            //Excute Signing
-            DotNetCoreExecute(signClientAppPath, arguments);
+            // Execute Signing
+            var result = StartProcess("dotnet", new ProcessSettings {  Arguments = arguments });
+            if(result != 0)
+            {
+                throw new InvalidOperationException("Signing failed!");
+            }
+           
             Information("\nFinished signing " + package);
         }
     }
