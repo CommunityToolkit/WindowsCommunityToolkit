@@ -189,6 +189,7 @@ Task("SignNuGet")
         {
             Information("\nSubmitting " + package + " for signing...");
             var arguments = new ProcessArgumentBuilder()
+                .AppendQuoted(signClientAppPath)
                 .Append("sign")
                 .AppendSwitchQuoted("-s", signClientSecret)
                 .AppendSwitchQuoted("-c", signClientSettings)
