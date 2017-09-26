@@ -325,7 +325,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void ContentGrid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            if ((!MouseSlidingEnabled && e.PointerDeviceType == PointerDeviceType.Mouse) || (!IsLeftCommandEnabled && !IsRightCommandEnabled))
+            if (SwipeStatus == SwipeStatus.Idle)
             {
                 return;
             }
@@ -338,12 +338,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (SwipeStatus == SwipeStatus.SwipingPassedLeftThreshold)
             {
-                RightCommandRequested?.Invoke(this, new EventArgs());
+                RightCommandRequested?.Invoke(this, EventArgs.Empty);
                 RightCommand?.Execute(RightCommandParameter);
             }
             else if (SwipeStatus == SwipeStatus.SwipingPassedRightThreshold)
             {
-                LeftCommandRequested?.Invoke(this, new EventArgs());
+                LeftCommandRequested?.Invoke(this, EventArgs.Empty);
                 LeftCommand?.Execute(LeftCommandParameter);
             }
 

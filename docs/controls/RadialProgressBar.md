@@ -18,7 +18,8 @@ The control uses the same dependency properties as the standard Progress Bar, wi
 	Minimum="0"
 	Maximum="180"
 	Thickness="4"
-	Outline="Red">
+	Outline="Gray"
+	Foreground="Red">
 </controls:RadialProgressBar>
 
 ```

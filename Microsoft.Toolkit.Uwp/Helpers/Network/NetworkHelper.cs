@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp
 
             ConnectionInformation.UpdateConnectionInformation(profile);
 
-            NetworkChanged?.Invoke(this, new EventArgs());
+            NetworkChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

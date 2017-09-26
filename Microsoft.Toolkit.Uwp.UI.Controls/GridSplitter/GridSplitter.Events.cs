@@ -205,7 +205,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // respect the other star row height by setting it's height to it's actual height with stars
 
                 // We need to validate current and sibling height to not cause any un expected behavior
-                if (!IsValidRowHeight(CurrentRow, verticalChange) || 
+                if (!IsValidRowHeight(CurrentRow, verticalChange) ||
                     !IsValidRowHeight(SiblingRow, verticalChange * -1))
                 {
                     return true;

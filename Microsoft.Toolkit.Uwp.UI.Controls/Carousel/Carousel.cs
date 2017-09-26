@@ -11,6 +11,9 @@
 // ******************************************************************
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
@@ -57,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for SelectedIndex.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedIndexProperty =
-            DependencyProperty.Register("SelectedIndex", typeof(int), typeof(Carousel), new PropertyMetadata(0, OnCarouselPropertyChanged));
+            DependencyProperty.Register("SelectedIndex", typeof(int), typeof(Carousel), new PropertyMetadata(-1, OnCarouselPropertyChanged));
 
         /// <summary>
         /// Gets or sets duration of the easing function animation (ms)
@@ -81,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         // Using a DependencyProperty as the backing store for Depth.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ItemDepthProperty = DependencyProperty.Register("ItemDepth", typeof(int), typeof(Carousel), new PropertyMetadata(0d, OnCarouselPropertyChanged));
+        public static readonly DependencyProperty ItemDepthProperty = DependencyProperty.Register("ItemDepth", typeof(int), typeof(Carousel), new PropertyMetadata(0, OnCarouselPropertyChanged));
 
         /// <summary>
         /// Gets or sets easing function to apply for each Transition
@@ -184,14 +187,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (e.Property == SelectedIndexProperty)
             {
-                var item = carouselControl.Items[(int)e.NewValue];
+                var newValue = carouselControl.Items[(int)e.NewValue];
+                var oldValue = e.OldValue == null ? null : carouselControl.Items.ElementAtOrDefault((int)e.OldValue);
                 carouselControl.FocusContainerFromIndex((int)e.NewValue);
 
                 // double check
-                if (carouselControl.SelectedItem != item)
+                if (carouselControl.SelectedItem != newValue)
                 {
-                    carouselControl.SetValue(SelectedItemProperty, item);
+                    carouselControl.SetValue(SelectedItemProperty, newValue);
+                    var newValues = new List<object>() { newValue };
+                    var oldValues = oldValue == null ? new List<object>() : new List<object>() { oldValue };
 
+                    var args = new SelectionChangedEventArgs(oldValues, newValues);
+                    carouselControl.SelectionChanged?.Invoke(carouselControl, args);
                     return;
                 }
             }
@@ -203,7 +211,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (carouselControl.SelectedIndex != index)
                 {
                     carouselControl.SetValue(SelectedIndexProperty, index);
+                    var newValues = new List<object>() { e.NewValue };
+                    var oldValues = e.OldValue == null ? new List<object>() : new List<object>() { e.OldValue };
 
+                    var args = new SelectionChangedEventArgs(oldValues, newValues);
+                    carouselControl.SelectionChanged?.Invoke(carouselControl, args);
                     return;
                 }
             }
@@ -232,6 +244,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 oldElem.IsTabStop = false;
             }
         }
+
+        /// <summary>
+        /// Occurs when the selected item has changed
+        /// </summary>
+        public event SelectionChangedEventHandler SelectionChanged;
 
         /// <summary>
         /// Return ItemsPanel
@@ -286,7 +303,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         carouselControl.SetValue(SelectedIndexProperty, index);
                     }
                 }
-                else if (SelectedItem == null && SelectedIndex >= 0)
+                else if (SelectedItem == null && SelectedIndex >= 0 && carouselControl.Items != null && carouselControl.Items.Count > 0)
                 {
                     var item = carouselControl.Items[SelectedIndex];
 
@@ -420,32 +437,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             e.Handled = true;
         }
 
+        protected override bool IsItemItsOwnContainerOverride(object item)
+        {
+            return false;
+        }
+
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             base.PrepareContainerForItemOverride(element, item);
 
-            if (ItemTemplate == null)
+            FrameworkElement contentControl = element as ContentControl;
+
+            if (contentControl == null)
             {
-                return;
+                contentControl = element as FrameworkElement;
+            }
+            else if (ItemTemplate != null && (contentControl as ContentControl) != null)
+            {
+                ((ContentControl)contentControl).Content = ItemTemplate.LoadContent();
             }
 
-            var contentControl = element as ContentControl;
-
-            // load data templated
-            var contentElement = ItemTemplate.LoadContent() as FrameworkElement;
-
-            if (contentElement == null)
+            if (contentControl == null)
             {
-                return;
+                throw new InvalidCastException("Any element added to the Carousel should be at least a Control component");
             }
 
             contentControl.DataContext = item;
-            contentControl.Content = contentElement;
             contentControl.Opacity = 1;
             contentControl.RenderTransformOrigin = new Point(0.5, 0.5);
-            contentControl.IsTabStop = Items.IndexOf(item) == SelectedIndex;
-            contentControl.UseSystemFocusVisuals = true;
             contentControl.Tag = "CarouselItem";
+
+            if (contentControl as Control != null)
+            {
+                ((Control)contentControl).IsTabStop = Items.IndexOf(item) == SelectedIndex;
+                ((Control)contentControl).UseSystemFocusVisuals = true;
+            }
 
             PlaneProjection planeProjection = new PlaneProjection();
             planeProjection.CenterOfRotationX = 0.5;

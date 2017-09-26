@@ -233,6 +233,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _containerCanvas.IsHitTestVisible = true;
                 ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMax, normalizedPosition, RangeSelectorProperty.MaximumValue));
             }
+
             VisualStateManager.GoToState(this, "Normal", false);
         }
 

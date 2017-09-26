@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The <see cref="ListViewBase"/> from which to get the associated <see cref="ICommand"/> instance</param>
         /// <returns>The <see cref="ICommand"/> instance associated with the the <see cref="ListViewBase"/> or null</returns>
-        public static ICommand GetCommand(ListViewBase obj)
+        public static ICommand GetCommand(DependencyObject obj)
         {
             return (ICommand)obj.GetValue(CommandProperty);
         }
@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The <see cref="ListViewBase"/> to associated the <see cref="ICommand"/> instance to</param>
         /// <param name="value">The <see cref="ICommand"/> instance to bind to the <see cref="ListViewBase"/></param>
-        public static void SetCommand(ListViewBase obj, ICommand value)
+        public static void SetCommand(DependencyObject obj, ICommand value)
         {
             obj.SetValue(CommandProperty, value);
         }
