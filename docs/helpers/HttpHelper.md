@@ -1,4 +1,19 @@
+---
+title: HttpHelper
+author: nmetulev
+ms.author: nikolame
+ms.date: 08/20/2017
+ms.topic: overview
+ms.prod: windows
+ms.technology: uwp
+description: Represents an HTTP request message including headers. 
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelper
+---
+
 # HttpHelper
+
+(This API is obsolete and will be removed in the future. Please use [System.Net.Http.HttpClient](https://msdn.microsoft.com/en-us/library/system.net.http.httpclient(v=vs.110).aspx) 
+or [Windows.Web.Http.HttpClient](https://docs.microsoft.com/en-us/uwp/api/Windows.Web.Http.HttpClient) directly)
 
 Represents an HTTP request message including headers. 
 
@@ -53,4 +68,4 @@ It additionally has one method - **SendRequestAsync**. This method requires an i
 
 ## API
 
-* [HttpHelperRequest source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp/Helpers/HttpHelper.cs)
+* [HttpHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/HttpHelper/HttpHelper.cs)

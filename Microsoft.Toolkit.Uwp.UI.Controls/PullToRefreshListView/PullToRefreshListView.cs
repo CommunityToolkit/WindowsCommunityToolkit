@@ -12,6 +12,7 @@
 
 using System;
 using System.Windows.Input;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

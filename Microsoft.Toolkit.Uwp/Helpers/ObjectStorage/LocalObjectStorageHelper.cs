@@ -12,7 +12,7 @@
 
 using Windows.Storage;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// Store data in the Local environment (only on the current device)

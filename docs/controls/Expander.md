@@ -1,3 +1,15 @@
+---
+title: Expander Control
+author: nmetulev
+ms.author: nikolame
+ms.date: 08/20/2017
+ms.topic: overview
+ms.prod: windows
+ms.technology: uwp
+description: The Expander Control provides an expandable container to host any content.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Expander, xaml Control, xaml
+---
+
 # Expander Control
 
 The **Expander Control** provides an expandable container to host any content.
@@ -8,6 +20,7 @@ You can use these properties :
 * Header
 * HeaderTemplate
 * IsExpanded (define if the content is visible or not)
+* ExpandDirection
 
 You can also use these events :
 
@@ -31,6 +44,17 @@ You can also use these events :
 </controls:Expander>       
 
 ```
+
+## Properties
+
+### ExpandDirection
+
+The `ExpandDirection` property can take 4 values that will expand the content based on the selected direction:
+
+* `Down` - from top to bottom (default)
+* `Up` - from bottom to top
+* `Right` - from left to right
+* `Left` - from right to left
 
 ## Example Image
 

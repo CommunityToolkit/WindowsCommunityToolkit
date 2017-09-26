@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:commands="using:Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
@@ -12,6 +13,7 @@
             <commands:NewProjectCommand x:Key="NewProject" />
             <commands:NewFileCommand x:Key="NewFile" />
             <commands:GenericCommand x:Key="GenericCommand" />
+            <converters:StringFormatConverter x:Key="StringFormatConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -25,22 +27,17 @@
                        Orientation="{Binding Orientation.Value, Mode=TwoWay}"
                        TooltipPlacement="{Binding TooltipPlacement.Value, Mode=TwoWay}">
 
-            <controls:MenuItem Name="FileMenu"
-                               controls:Menu.InputGestureText="Alt+F">
-                <controls:MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <SymbolIcon Symbol="Document" />
-                        <TextBlock Text="File" Margin="5,0,0,0" />
-                    </StackPanel>
-                </controls:MenuItem.Header>
+            <controls:MenuItem x:Name="FileMenu"
+                               controls:Menu.InputGestureText="Alt+F"
+                               Header="^File">
 
                 <MenuFlyoutSubItem Text="New">
                     <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
                                     Command="{StaticResource NewProject}"
-                                    Text="Project" />
+                                    Text="{Binding Path=(controls:Menu.InputGestureText), RelativeSource={RelativeSource Self}, Converter={StaticResource StringFormatConverter}, ConverterParameter='Project        ({0})'}" />
                     <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+N"
                                     Command="{StaticResource NewFile}"
-                                    Text="File" />
+                                    Text="{Binding Path=(controls:Menu.InputGestureText), RelativeSource={RelativeSource Self}, Converter={StaticResource StringFormatConverter}, ConverterParameter='File                       ({0})'}" />
                 </MenuFlyoutSubItem>
                 <MenuFlyoutSubItem Text="Open">
                     <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+O"
@@ -50,7 +47,7 @@
                     <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+O"
                                     Command="{StaticResource GenericCommand}"
                                     CommandParameter="Select File"
-                                    Text="File" />
+                                    Text="{Binding Path=(controls:Menu.InputGestureText), RelativeSource={RelativeSource Self}, Converter={StaticResource StringFormatConverter}, ConverterParameter='File        ({0})'}" />
                 </MenuFlyoutSubItem>
                 <MenuFlyoutSeparator />
                 <MenuFlyoutItem Text="Page Setup" />
@@ -71,7 +68,7 @@
 
 
             <controls:MenuItem controls:Menu.InputGestureText="Alt+E"
-                               Header="Edit">
+                               Header="^Edit">
                 <MenuFlyoutSubItem Text="Go To">
                     <MenuFlyoutItem Text="Go To Line" />
                     <MenuFlyoutItem Text="Go To All" />
@@ -84,7 +81,7 @@
             </controls:MenuItem>
 
             <controls:MenuItem controls:Menu.InputGestureText="Alt+V"
-                               Header="View">
+                               Header="^View">
                 <MenuFlyoutSubItem Text="Designer">
                     <MenuFlyoutItem Text="VS Designer" />
                     <MenuFlyoutItem Text="Blend" />
@@ -97,7 +94,7 @@
             </controls:MenuItem>
 
             <controls:MenuItem controls:Menu.InputGestureText="Alt+P"
-                               Header="Project">
+                               Header="^Project">
                 <MenuFlyoutSubItem Text="Add Class">
                     <MenuFlyoutItem Text="Class" />
                     <MenuFlyoutItem Text="Interface" />
@@ -110,13 +107,13 @@
             </controls:MenuItem>
 
             <controls:MenuItem controls:Menu.InputGestureText="Alt+B"
-                               Header="Build">
+                               Header="^Build">
                 <MenuFlyoutItem Text="Build Solution" />
                 <MenuFlyoutItem Text="Rebuild Solution" />
             </controls:MenuItem>
 
             <controls:MenuItem controls:Menu.InputGestureText="Alt+D"
-                               Header="Debug">
+                               Header="^Debug">
                 <MenuFlyoutSubItem Text="Windows">
                     <MenuFlyoutItem Text="Windows 8" />
                     <MenuFlyoutItem Text="Windows 10" />
@@ -127,11 +124,13 @@
                     <MenuFlyoutItem Text="Grid" />
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
+
         </controls:Menu>
 
         <StackPanel Grid.Row="1">
-            <TextBlock Text="Click Alt to set focus on Classic Menu" />
-            <TextBlock Text="Any menu shortcut is Alt + (The first character of the menu name), ex to open File menu click Alt+F" />
+            <TextBlock Text="Press Alt to set focus on Classic Menu" />
+            <TextBlock Text="Hold Alt to underline shortcut character. In code, ^ is used before the character you want highlighted" />
+            <TextBlock Text="To open File menu click Alt+F" />
             <TextBlock Text="Create new project shortcut: Ctrl+Shift+N" />
             <TextBlock Text="Create new file shortcut: Ctrl+N" />
             <TextBlock Text="Open project shortcut: Ctrl+Shift+O" />

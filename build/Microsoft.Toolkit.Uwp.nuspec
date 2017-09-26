@@ -10,13 +10,15 @@
     <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>This package includes code only helpers such as Colors conversion tool, Internet Connection detection, Storage file handling, a Stream helper class, etc.</description>
+    <description>This package includes code only helpers such as Colors conversion tool, Storage file handling, a Stream helper class, etc.</description>
     <releaseNotes>v1.4: https://github.com/Microsoft/UWPCommunityToolkit/releases/tag/v1.4.0</releaseNotes>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <tags>UWP Toolkit Windows</tags>
     <dependencies>
       <group>
         <dependency id="Newtonsoft.Json" version="[9.0.1,)" />
+        <dependency id="Microsoft.Toolkit" version="$version$" />
+        <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.3.3" />
       </group>
     </dependencies>
   </metadata>

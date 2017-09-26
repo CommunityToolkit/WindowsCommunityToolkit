@@ -1,10 +1,24 @@
+---
+title: Getting Started with the UWP Community Toolkit
+author: nmetulev
+ms.author: nikolame
+ms.date: 08/20/2017
+ms.topic: overview
+ms.prod: windows
+ms.technology: uwp
+description: Overview of how to get started with the UWP Community Toolkit to build amazing UWP apps
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, get started, visual studio
+---
+
 # Getting Started with the UWP Community Toolkit
 
 The toolkit is available as NuGet packages that can be added to any existing or new project using Visual Studio.
 
 1. Download [Visual Studio 2017](https://developer.microsoft.com/en-us/windows/downloads) and ensure you choose the **Universal Windows Platform development** Workload in the Visual Studio installer.
 
-2. Open an existing project, or create a new project using the Blank App template under Visual C# -> Windows -> Universal.  **Important**:  Build 10586 or higher is supported by current version of the Toolkit.   
+    > Note: Visual Studio 2015 is not supported with the UWP Community Toolkit 2.0 or higher
+
+2. Open an existing project, or create a new project using the Blank App template under Visual C# -> Windows -> Universal.  **Important**:  Build 14393 or higher is supported by current version of the Toolkit.   
 
 3. In Solution Explorer panel, right click on your project name and select **Manage NuGet Packages**. Search for **Microsoft.Toolkit.UWP**, and choose your desired [NuGet Packages](Nuget-Packages.md) from the list.
 

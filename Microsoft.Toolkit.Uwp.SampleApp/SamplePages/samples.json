@@ -4,6 +4,16 @@
     "Icon": "Icons/Foundation.png",
     "Samples": [
       {
+        "Name": "TextToolbar",
+        "Type": "TextToolbarPage",
+        "About": "A Toolbar for Editing Text attached to a RichEditBox. It can format RTF and Markdown, or use a Custom Formatter, and specify your own Formatter with Buttons and Actions.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar",
+        "XamlCodeFile": "TextToolbar.bind",
+        "CodeFile": "TextToolbarCode.bind",
+        "Icon": "/SamplePages/TextToolbar/TextToolbar.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextToolbar.md"
+      },
+      {
         "Name": "Carousel",
         "Type": "CarouselPage",
         "About": "Presents items in a carousel control. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
@@ -168,15 +178,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/Loading.md"
       },
       {
-        "Name": "TextBoxMask",
-        "Type": "TextBoxMaskPage",
-        "About": "TextBox Mask property allows a user to more easily enter fixed width text in TextBox control where you would like them to enter the data in a certain format",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxMask",
-        "XamlCodeFile": "TextBoxMask.bind",
-        "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxMask.md"
-      },
-      {
         "Name": "Expander",
         "Type": "ExpanderPage",
         "About": "Expander control allows user to show/hide content based on a boolean state.",
@@ -195,16 +196,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TileControl.md"
       },
       {
-        "Name": "SurfaceDialTextboxHelper",
-        "Type": "SurfaceDialTextboxHelperPage",
-        "About": "Enables support for Surface Dial on any given Textbox. Rotate the Dial to change the numeric value of the Textbox.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SurfaceDialTextboxHelper",
-        "XamlCodeFile": "SurfaceDialTextboxHelperCode.bind",
-        "Icon": "/SamplePages/SurfaceDialTextboxHelper/SurfaceDialTextboxHelper.png",
-        "BadgeUpdateVersionRequired": "Anniversary Update required",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/SurfaceDialTextboxHelper.md"
-      },
-      {
         "Name": "WrapPanel",
         "Type": "WrapPanelPage",
         "About": "The WrapPanel Control positions child elements in sequential position from left to right, breaking content to the next line at the edge of the containing box.",
@@ -212,15 +203,6 @@
         "XamlCodeFile": "WrapPanel.bind",
         "Icon": "/SamplePages/WrapPanel/WrapPanel.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/WrapPanel.md"
-      },
-      {
-        "Name": "TextBoxRegex",
-        "Type": "TextBoxRegexPage",
-        "About": "TextBoxRegex helps developer to validate a TextBox with a regular expression using the Regex property.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextBoxRegex",
-        "XamlCodeFile": "TextBoxRegex.bind",
-        "Icon": "/SamplePages/TextBoxRegex/TextBoxRegex.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/controls/TextBoxRegex.md"
       },
       {
         "Name": "OrbitView",
@@ -546,6 +528,21 @@
         "CodeFile": "AdvancedCollectionView.bind",
         "Icon": "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/AdvancedCollectionView.md"
+      }
+    ]
+  },
+  {
+    "Name": "Extensions",
+    "Icon": "Icons/Extensions.png",
+    "Samples": [
+      {
+        "Name": "ListViewBase",
+        "Type": "ListViewBasePage",
+        "About": "Extensions for all controls that inherit from ListViewBase like ListView.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ListViewBase",
+        "XamlCodeFile": "ListViewBaseCode.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/extensions/ListViewBase.md"
       },
       {
         "Name": "ViewExtensions",
@@ -554,7 +551,35 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ViewExtensions",
         "XamlCodeFile": "ViewExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/helpers/ViewExtensions.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/extensions/ViewExtensions.md"
+      },
+      {
+        "Name": "TextBoxMask",
+        "Type": "TextBoxMaskPage",
+        "About": "TextBox Mask property allows a user to more easily enter fixed width text in TextBox control where you would like them to enter the data in a certain format",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/TextBoxMask",
+        "XamlCodeFile": "TextBoxMask.bind",
+        "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/extensions/TextBoxMask.md"
+      },
+      {
+        "Name": "TextBoxRegex",
+        "Type": "TextBoxRegexPage",
+        "About": "TextBoxRegex helps developer to validate a TextBox with a regular expression using the Regex property.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/TextBoxRegex",
+        "XamlCodeFile": "TextBoxRegex.bind",
+        "Icon": "/SamplePages/TextBoxRegex/TextBoxRegex.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/extensions/TextBoxRegex.md"
+      },
+      {
+        "Name": "SurfaceDialTextbox",
+        "Type": "SurfaceDialTextboxPage",
+        "About": "Enables support for Surface Dial on any given Textbox. Rotate the Dial to change the numeric value of the Textbox.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/SurfaceDialTextbox",
+        "XamlCodeFile": "SurfaceDialTextboxCode.bind",
+        "Icon": "/SamplePages/SurfaceDialTextbox/SurfaceDialTextbox.png",
+        "BadgeUpdateVersionRequired": "Anniversary Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/docs/extensions/SurfaceDialTextbox.md"
       }
     ]
   },

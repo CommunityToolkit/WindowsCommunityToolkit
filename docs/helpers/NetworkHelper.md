@@ -1,3 +1,15 @@
+---
+title: NetworkHelper
+author: nmetulev
+ms.author: nikolame
+ms.date: 08/20/2017
+ms.topic: overview
+ms.prod: windows
+ms.technology: uwp
+description: he NetworkHelper class provides functionality to monitor changes in network connection and allows users to query for network information without additional lookups.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, NetworkHelper
+---
+
 # NetworkHelper
 
 The NetworkHelper class provides functionality to monitor changes in network connection and allows users to query for network information without additional lookups.
