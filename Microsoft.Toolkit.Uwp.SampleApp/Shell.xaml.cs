@@ -186,7 +186,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             base.OnNavigatedTo(e);
             NavigationFrame.Navigating += NavigationFrame_Navigating;
             NavigationFrame.Navigated += NavigationFrameOnNavigated;
-            NavigationFrame.Navigate(typeof(About));
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
             // Get list of samples
@@ -201,6 +200,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             };
 
             HideInfoArea();
+            NavigationFrame.Navigate(typeof(About));
 
             if (!string.IsNullOrWhiteSpace(e?.Parameter?.ToString()))
             {
