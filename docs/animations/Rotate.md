@@ -40,7 +40,7 @@ await MyUIElement.Rotate(value: 0.5f, centerX: 0.0f, centerY: 0.0f, duration: 25
 
 ## Sample Output
 
-![Rotate Behavior animation](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Rotate/Sample-Output.gif)
+![Rotate Behavior animation](../resources/images/Animations/Rotate/Sample-Output.gif)
 
 ## Properties
 
@@ -80,7 +80,7 @@ You can change the way how the animation interpolates between keyframes by defin
     ```
     **Sample Output**
 
-    ![Use Case 1 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
+    ![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
 
 ## Sample Project
 

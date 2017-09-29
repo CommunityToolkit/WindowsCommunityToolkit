@@ -38,7 +38,7 @@ await MyUIElement.Offset(offsetX: 25, offsetY: 25, duration: 2500, delay: 250, e
 
 ## Sample Output
 
-![Offset Behavior animation](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Offset/Sample-Output.gif)
+![Offset Behavior animation](../resources/images/Animations/Offset/Sample-Output.gif)
 
 ## Properties
 
@@ -85,7 +85,7 @@ You can change the way how the animation interpolates between keyframes by defin
     ```
     **Sample Output**
 
-    ![Use Case 2 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Offset/Use-Case-1.gif)
+    ![Use Case 2 Output](../resources/images/Animations/Offset/Use-Case-1.gif)
 - Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
     **Sample Code**
@@ -98,7 +98,7 @@ You can change the way how the animation interpolates between keyframes by defin
     ```
     **Sample Output**
 
-    ![Use Case 2 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
+    ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
 
 ## Sample Project
 

@@ -34,7 +34,7 @@ MyUIElement.SetValue(ParallaxService.HorizontalMultiplierProperty, 0.5);
 
 ## Sample Output
 
-![ParallaxService](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/ParallaxService/Sample-Output.gif)
+![ParallaxService](../resources/images/Animations/ParallaxService/Sample-Output.gif)
 
 ## Sample Project
 

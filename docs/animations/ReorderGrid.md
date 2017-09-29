@@ -28,7 +28,7 @@ MyGridView.SetValue(ReorderGridAnimation.DurationProperty, 250);
 ```
 ## Sample Output
 
-![ReorderGridAnimation](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/ReorderGridAnimation/Sample-Output.gif)
+![ReorderGridAnimation](../resources/images/Animations/ReorderGridAnimation/Sample-Output.gif)
 
 ## Sample Project
 

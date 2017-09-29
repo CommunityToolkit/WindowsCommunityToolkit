@@ -39,7 +39,7 @@ anim.Start();
 
 ## Sample Output
 
-![AnimationSet animations](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
+![AnimationSet animations](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
 
 ## Properties
 
@@ -93,7 +93,7 @@ You can change the way how the animation interpolates between keyframes by defin
     ```
     **Sample Output**
 
-    ![Use Case 1 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/AnimationSet/Use-Case-1.gif)
+    ![Use Case 1 Output](../resources/images/Animations/AnimationSet/Use-Case-1.gif)
 - Use `Then()` to create a successive animation
 
     **Sample Code**
@@ -106,7 +106,7 @@ You can change the way how the animation interpolates between keyframes by defin
     ```
     **Sample Output**
 
-    ![Use Case 2 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/AnimationSet/Use-Case-2.gif)
+    ![Use Case 2 Output](../resources/images/Animations/AnimationSet/Use-Case-2.gif)
 
 ## Requirements
 

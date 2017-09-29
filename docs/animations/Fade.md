@@ -37,7 +37,7 @@ await MyUIElement.Fade(value: 0.5f, duration: 2500, delay: 250, easingType: Easi
 
 ## Sample Output
 
-![Fade Behavior animation](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Fade/Sample-Output.gif)
+![Fade Behavior animation](../resources/images/Animations/Fade/Sample-Output.gif)
 
 ## Properties
 
@@ -77,7 +77,7 @@ You can change the way how the animation interpolates between keyframes by defin
     ```
     **Sample Output**
 
-    ![Use Case 1 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
+    ![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
 
 ## Sample Project
 

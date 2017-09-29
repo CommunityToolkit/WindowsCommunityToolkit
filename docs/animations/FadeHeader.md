@@ -62,7 +62,7 @@ Microsoft.Xaml.Interactivity.Interaction.GetBehaviors(MyListView).Add(new FadeHe
 
 ## Sample Output
 
-![FadeHeader Behavior animation](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/FadeHeader/Sample-Output.gif)
+![FadeHeader Behavior animation](../resources/images/Animations/FadeHeader/Sample-Output.gif)
 
 ## Sample Project
 

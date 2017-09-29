@@ -37,7 +37,7 @@ await MyUIElement.Blur(value: 5, duration: 2500, delay: 250).StartAsync();  //Bl
 
 ## Sample Output
 
-![Blur Behavior animation](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Blur/Sample-Output.gif)
+![Blur Behavior animation](../resources/images/Animations/Blur/Sample-Output.gif)
 
 ## Properties
 
@@ -62,7 +62,7 @@ await MyUIElement.Blur(value: 5, duration: 2500, delay: 250).StartAsync();  //Bl
     ```
     **Sample Output**
 
-    ![Use Case 1 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Blur/Use-Case-1.gif)
+    ![Use Case 1 Output](../resources/images/Animations/Blur/Use-Case-1.gif)
 
 - Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
@@ -76,7 +76,7 @@ await MyUIElement.Blur(value: 5, duration: 2500, delay: 250).StartAsync();  //Bl
     ```
     **Sample Output**
 
-    ![Use Case 2 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
+    ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
 
 ## Sample Project
 

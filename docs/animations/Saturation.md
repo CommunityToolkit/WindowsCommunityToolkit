@@ -36,7 +36,7 @@ ToolkitLogo.Saturation(value: 0, duration: 500, delay: 250);
 
 ## Sample Output
 
-![Saturation Behavior animation](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Saturation/Sample-Output.gif)
+![Saturation Behavior animation](../resources/images/Animations/Saturation/Sample-Output.gif)
 
 ## Properties
 
@@ -60,7 +60,7 @@ ToolkitLogo.Saturation(value: 0, duration: 500, delay: 250);
     ```
     **Sample Output**
 
-    ![Use Case 1 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Saturation/Use-Case-1.gif)
+    ![Use Case 1 Output](../resources/images/Animations/Saturation/Use-Case-1.gif)
 
 - Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
@@ -74,7 +74,7 @@ ToolkitLogo.Saturation(value: 0, duration: 500, delay: 250);
     ```
     **Sample Output**
 
-    ![Use Case 2 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
+    ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
 
 ## Sample Project
 

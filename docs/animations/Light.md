@@ -38,7 +38,7 @@ await MyUIElement.Light(distance: 5, duration: 2500, delay: 250).StartAsync(); /
 
 ## Sample Output
 
-![Light Behavior animation](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Light/Sample-Output.gif)
+![Light Behavior animation](../resources/images/Animations/Light/Sample-Output.gif)
 
 ## Properties
 
@@ -59,7 +59,7 @@ await MyUIElement.Light(distance: 5, duration: 2500, delay: 250).StartAsync(); /
     ```
     **Sample Output**
 
-    ![Use Case 1 Output](https://github.com/Vijay-Nirmal/UWPCommunityToolkit/blob/DocImprovements/docs/resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
+    ![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
 
 ## Sample Project
 
