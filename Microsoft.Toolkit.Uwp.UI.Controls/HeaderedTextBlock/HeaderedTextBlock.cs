@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_textContent != null)
             {
-                _textContent.Visibility = string.IsNullOrWhiteSpace(_textContent.Text) && Inlines == null && HideTextIfEmpty
+                _textContent.Visibility = string.IsNullOrWhiteSpace(_textContent.Text) && HideTextIfEmpty
                                                     ? Visibility.Collapsed
                                                     : Visibility.Visible;
             }
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateInlines()
         {
-            if (_textContent == null || Inlines == null || Inlines.Count == 0)
+            if (_textContent == null || Inlines.Count == 0)
             {
                 return;
             }
