@@ -88,21 +88,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _textContent.Inlines.Clear();
-            var inlines = Inlines.ToList();
 
-            Inlines.Clear();
-
-            foreach (var inline in inlines)
+            foreach (var inline in Inlines)
             {
                 _textContent.Inlines.Add(inline);
             }
 
-            // in UWP if Text is se then the value of Inlines is not used. Following will ensure this.
+            // To follow the behavior of UWP use Text instead of Inlines if Text property is set.
             if (!string.IsNullOrEmpty(Text))
             {
-                var test = Text;
+                var temp = Text;
                 Text = null;
-                Text = test;
+                Text = temp;
             }
         }
     }

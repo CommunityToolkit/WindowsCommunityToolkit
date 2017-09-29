@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
@@ -144,8 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>
         /// A collection that holds all inline text elements from the Windows.UI.Xaml.Controls.TextBlock. The default is an empty collection.</returns>
-        // Hack: I need a InlineCollection from a TextBlock since _textContent is null when XAML accesses the properties
-        public InlineCollection Inlines { get; } = new TextBlock().Inlines;
+        public List<Inline> Inlines { get; } = new List<Inline>();
 
         /// <summary>
         /// Gets or sets the orientation.
