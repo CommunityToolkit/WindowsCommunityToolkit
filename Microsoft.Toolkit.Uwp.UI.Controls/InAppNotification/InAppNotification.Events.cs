@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -33,12 +34,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Event raised when the notification is dismissing
         /// </summary>
+        [Obsolete("Use Closing event instead.")]
         public event InAppNotificationDismissingEventHandler Dismissing;
 
         /// <summary>
         /// Event raised when the notification is dismissed
         /// </summary>
+        [Obsolete("Use Closed event instead.")]
         public event EventHandler Dismissed;
+
+        /// <summary>
+        /// Event raised when the notification is closing
+        /// </summary>
+        public event InAppNotificationClosingEventHandler Closing;
+
+        /// <summary>
+        /// Event raised when the notification is closed
+        /// </summary>
+        public event EventHandler Closed;
 
         private void DismissButton_Click(object sender, RoutedEventArgs e)
         {
@@ -62,6 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _animationTimer.Stop();
             Dismissed?.Invoke(this, EventArgs.Empty);
+            Closed?.Invoke(this, EventArgs.Empty);
             _animationTimer.Tick -= DismissAnimationTimer_Tick;
         }
     }

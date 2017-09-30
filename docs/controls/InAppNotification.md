@@ -110,12 +110,12 @@ private void InAppNotification_OnOpened(object sender, EventArgs e)
 }
 ```
 
-### Dismissing
+### Closing
 
-This event is raised when the system or your user started to dismiss the notification.
+This event is raised when the system or your user started to close the notification.
 
 ```c#
-private void InAppNotification_OnDismissing(object sender, InAppNotificationDismissingEventArgs e)
+private void InAppNotification_OnClosing(object sender, InAppNotificationDismissingEventArgs e)
 {
     // TODO
     if (e.DismissKind == InAppNotificationDismissKind.User)
@@ -129,12 +129,12 @@ private void InAppNotification_OnDismissing(object sender, InAppNotificationDism
 }
 ```
 
-### Dismissed
+### Closed
 
-This event is raised when the notification is fully dismissed (after dismiss animation).
+This event is raised when the notification is fully closed (after close animation).
 
 ```c#
-private void InAppNotification_OnDismissed(object sender, EventArgs e)
+private void InAppNotification_OnClosed(object sender, EventArgs e)
 {
     // TODO
 }
