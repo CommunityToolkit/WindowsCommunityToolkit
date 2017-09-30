@@ -471,9 +471,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var rangeSelector = d as RangeSelector;
 
+            if (rangeSelector == null)
+            {
+                return;
+            }
+
             rangeSelector._minSet = true;
 
-            if (rangeSelector == null || !rangeSelector._valuesAssigned)
+            if (!rangeSelector._valuesAssigned)
             {
                 return;
             }
@@ -530,9 +535,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var rangeSelector = d as RangeSelector;
 
+            if (rangeSelector == null)
+            {
+                return;
+            }
+
             rangeSelector._maxSet = true;
 
-            if (rangeSelector == null || !rangeSelector._valuesAssigned)
+            if (!rangeSelector._valuesAssigned)
             {
                 return;
             }
