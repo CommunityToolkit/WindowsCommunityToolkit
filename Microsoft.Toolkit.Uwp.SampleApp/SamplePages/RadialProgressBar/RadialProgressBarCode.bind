@@ -16,7 +16,7 @@
               <controls:RadialProgressBar
                   x:Name="RadialProgressBarControl"
                   Grid.Column="1"
-                  Value="@[Value:Slider:0:0-100]"
+                  Progress="@[Value:Slider:0:0-100]"
                   Foreground="@[Foreground:Brush:Blue]"
                   Thickness="@[Thickness:Slider:4:4-20]"
                   Minimum="0"

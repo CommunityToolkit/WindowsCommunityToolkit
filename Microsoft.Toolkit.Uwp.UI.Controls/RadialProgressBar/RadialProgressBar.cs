@@ -71,7 +71,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnValueChanged(double oldValue, double newValue)
         {
             base.OnValueChanged(oldValue, newValue);
-            RenderSegment();
+
+            // if someone accidently sets the Value Property instead of Progress
+            // we want to handle that.
+            Progress = newValue;
         }
 
         /// <summary>
@@ -106,6 +109,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty ThicknessProperty = DependencyProperty.Register(nameof(Thickness), typeof(double), typeof(RadialProgressBar), new PropertyMetadata(0.0, ThicknessChangedHandler));
 
         /// <summary>
+        /// Gets or sets the thickness of the circular ouline and segment
+        /// </summary>
+        public double Progress
+        {
+            get { return (double)GetValue(ProgressProperty); }
+            set { SetValue(ProgressProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the Thickness dependency property
+        /// </summary>
+        public static readonly DependencyProperty ProgressProperty = DependencyProperty.Register(nameof(Progress), typeof(double), typeof(RadialProgressBar), new PropertyMetadata(0.0, ProgressChangedHandler));
+
+        /// <summary>
         /// Gets or sets the color of the circular ouline on which the segment is drawn
         /// </summary>
         public Brush Outline
@@ -136,6 +153,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             sender.RenderAll();
         }
 
+        // Render only progress segment when progress is changed
+        private static void ProgressChangedHandler(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = d as RadialProgressBar;
+            sender.RenderSegment();
+        }
+
         // Render outline and progress segment when control is resized.
         private void SizeChangedHandler(object sender, SizeChangedEventArgs e)
         {
@@ -146,7 +170,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double ComputeNormalizedRange()
         {
             var range = Maximum - Minimum;
-            var delta = Value - Minimum;
+            var delta = Progress - Minimum;
             var output = range == 0.0 ? 0.0 : delta / range;
             output = Math.Min(Math.Max(0.0, output), 0.9999);
             return output;
