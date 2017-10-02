@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         }
 
         /// <summary>
-        /// Attempts to parse an image e.g. "![Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)".
+        /// Attempts to parse an image e.g. "![Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)".
         /// </summary>
         /// <param name="markdown"> The markdown text. </param>
         /// <param name="start"> The location to start parsing. </param>

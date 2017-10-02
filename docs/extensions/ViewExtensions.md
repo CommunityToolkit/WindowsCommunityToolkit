@@ -19,7 +19,7 @@ The **ApplicationViewExtensions, StatusBarExtensions & TitleBarExtensions** prov
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:viewHelper="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       extensions:ApplicationViewExtensions.Title="View Extensions"
       extensions:StatusBarExtensions.BackgroundColor="Blue"
       extensions:StatusBarExtensions.BackgroundOpacity="0.8"
@@ -35,7 +35,7 @@ The **ApplicationViewExtensions, StatusBarExtensions & TitleBarExtensions** prov
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
 

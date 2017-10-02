@@ -2,7 +2,7 @@
 title: Menu Control
 author: nmetulev
 ms.date: 08/20/2017
-description: The Menu Control defines a menu of choices for users to invoke
+description: The UWP Community Toolkit Menu control defines a top level menu for commands, options, properties and much more within your UWP apps.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Menu, xaml, xaml control
 ---
 
@@ -152,7 +152,7 @@ internal class NewProjectCommand : ICommand
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 

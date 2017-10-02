@@ -261,65 +261,11 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel Padding="20">
-            <StackPanel Margin="5">
-                <TextBox Width="250"
-                         HorizontalAlignment="Left"
-                         Text="0"
-                         PlaceholderText="Notification duration (in ms)"/>
+    <Grid>
 
-                <TextBlock Text="*if duration is less or equal 0, the notification will never be dismissed" />
-            </StackPanel>
-        </StackPanel>
-
-        <controls:InAppNotification 
-                                    Content="This is a test message."
-                                    ShowDismissButton="{Binding Path=ShowDismissButton.Value, Mode=TwoWay}" />
-
-        <controls:InAppNotification 
-                                    MinHeight="35"
-                                    Background="#333333"
-                                    Foreground="White"
-                                    FontSize="14"
-                                    Padding="0"
-                                    BorderThickness="0"
-                                    ShowDismissButton="False"
-                                    VerticalAlignment="Top"
-                                    RenderTransformOrigin="0.5,0">
-            <controls:InAppNotification.ContentTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <Grid Margin="10 5" Height="20" Background="#007ACC">
-                            <TextBlock Text="info"
-                                       Padding="5 0"
-                                       FontWeight="Bold"
-                                       VerticalAlignment="Center"
-                                       Foreground="White" />
-                        </Grid>
-
-                        <TextBlock Grid.Column="1" 
-                                   VerticalAlignment="Center"
-                                   Text="This a test message."
-                                   TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
-
-                        <StackPanel Grid.Column="2" Orientation="Horizontal">
-                            <Button Content="Action 1" 
-                                    Style="{StaticResource VisualStudioCodeNotificationButtonStyle}" />
-                            <Button Content="Action 2"
-                                    Style="{StaticResource VisualStudioCodeNotificationButtonStyle}" />
-                            <Button Content="Close" 
-                                    Style="{StaticResource VisualStudioCodeNotificationButtonStyle}" />
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </controls:InAppNotification.ContentTemplate>
-        </controls:InAppNotification>
+        <Border Margin="20" BorderBrush="LightGray" BorderThickness="2">
+            <Grid x:Name="XamlRoot"/>
+        </Border>
+        
     </Grid>
 </Page>

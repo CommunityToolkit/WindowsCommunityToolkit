@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using Microsoft.HockeyApp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
@@ -38,6 +39,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             InitializeComponent();
             Suspending += OnSuspending;
+            try
+            {
+                HockeyClient.Current.Configure(string.Empty);
+            }
+            catch
+            {
+            }
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)
@@ -107,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private async System.Threading.Tasks.Task RunAppInitialization(string launchParameters)
         {
             // Go fullscreen on Xbox
-            if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Xbox")
+            if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() == DeviceFormFactor.Xbox)
             {
                 Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
             }

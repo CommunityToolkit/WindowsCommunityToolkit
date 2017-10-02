@@ -2,10 +2,9 @@ image: Visual Studio 2017
 
 branches:
   only:
-  - dev
   - master
-  - build
-  - 1.5.1
+  - rel/2.0.0
+  - rel/2.0.1
 
 environment:
   SignClientSecret:
@@ -23,7 +22,7 @@ init:
 - ps: git config --global core.autocrlf true
 
 build_script:
-- ps: .\build\build.ps1 SignNuGet
+- ps: .\build\build.ps1 -target=SignNuGet
 
 artifacts:
 - path: .\bin\nupkg\*.nupkg

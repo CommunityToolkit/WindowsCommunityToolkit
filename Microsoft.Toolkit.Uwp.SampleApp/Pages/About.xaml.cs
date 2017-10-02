@@ -16,8 +16,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Newtonsoft.Json;
 using Windows.ApplicationModel;
+using Windows.System.Profile;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -128,10 +130,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
         private void CoreWindow_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
         {
-            var keyChar = (char)args.VirtualKey;
-            if (char.IsLetterOrDigit(keyChar))
+            if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() == DeviceFormFactor.Xbox)
             {
-                var t = Shell.Current.StartSearch(keyChar.ToString());
+                var keyChar = (char)args.VirtualKey;
+                if (char.IsLetterOrDigit(keyChar))
+                {
+                    var t = Shell.Current.StartSearch(keyChar.ToString());
+                }
             }
         }
 
@@ -146,33 +151,65 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
             RecentSamples = recentSamplesTask.Result;
             GitHubReleases = gitHubTask.Result;
 
-            var counter = 1;
-            ElementCompositionPreview.SetImplicitShowAnimation(Root, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 500));
-
-            foreach (var child in InnerGrid.Children)
+            if (AnimationHelper.IsImplicitHideShowSupported)
             {
-                if (child is ItemsControl itemsControl)
+                var counter = 1;
+                ElementCompositionPreview.SetImplicitShowAnimation(Root, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 500));
+
+                foreach (var child in InnerGrid.Children)
                 {
-                    foreach (var childOfChild in itemsControl.Items)
+                    if (child is ItemsControl itemsControl)
                     {
-                        ElementCompositionPreview.SetImplicitShowAnimation(childOfChild as FrameworkElement, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 300, counter++ * 70));
+                        foreach (var childOfChild in itemsControl.Items)
+                        {
+                            ElementCompositionPreview.SetImplicitShowAnimation(childOfChild as FrameworkElement, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 300, counter++ * 70));
+                        }
                     }
-                }
-                else
-                {
-                    ElementCompositionPreview.SetImplicitShowAnimation(child, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 300, counter++ * 70));
+                    else
+                    {
+                        ElementCompositionPreview.SetImplicitShowAnimation(child, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 300, counter++ * 70));
+                    }
                 }
             }
 
             Root.Visibility = Visibility.Visible;
         }
 
-        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        private void RecentSample_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as HyperlinkButton;
             if (button.DataContext is Sample sample)
             {
+                TrackingManager.TrackEvent("LandingPageRecentClick", sample.Name);
                 Shell.Current.NavigateToSample(sample);
+            }
+        }
+
+        private void NewSample_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as HyperlinkButton;
+            if (button.DataContext is Sample sample)
+            {
+                TrackingManager.TrackEvent("LandingPageNewClick", sample.Name);
+                Shell.Current.NavigateToSample(sample);
+            }
+        }
+
+        private void ReleaseNotes_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as HyperlinkButton;
+            if (button.DataContext is GitHubRelease release)
+            {
+                TrackingManager.TrackEvent("LandingPageReleaseClick", release.Name);
+            }
+        }
+
+        private void Link_Clicked(object sender, RoutedEventArgs e)
+        {
+            var button = sender as HyperlinkButton;
+            if (button.Content is TextBlock textBlock)
+            {
+                TrackingManager.TrackEvent("LandingPageLinkClick", textBlock.Text);
             }
         }
 

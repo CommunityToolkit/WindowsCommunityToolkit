@@ -178,39 +178,11 @@
                     <RowDefinition />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                    <Grid x:Name="DemoAreaGrid">
+                <Grid x:Name="DemoAreaGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Border Background="#FFFFFF"
-                            Grid.Row="1">
-                        <ItemsControl ItemsSource="{x:Bind Commands}"
-                                      Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}"
-                                      VerticalAlignment="Top"
-                                      HorizontalAlignment="Stretch"
-                                      Margin="10,10,0,0">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <controls:WrapPanel />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="common:SampleCommand">
-                                    <Button Content="{x:Bind Label}"
-                                            Margin="0, 0, 10, 10"
-                                            MinWidth="150"
-                                            Foreground="{StaticResource Brush-Grey-01}">
-                                        <interactivity:Interaction.Behaviors>
-                                            <core:EventTriggerBehavior EventName="Click">
-                                                <core:InvokeCommandAction Command="{x:Bind}" />
-                                            </core:EventTriggerBehavior>
-                                        </interactivity:Interaction.Behaviors>
-                                    </Button>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </Border>
                     <Frame x:Name="NavigationFrame" >
                         <Frame.ContentTransitions>
                             <TransitionCollection>
@@ -222,6 +194,39 @@
                             </TransitionCollection>
                         </Frame.ContentTransitions>
                     </Frame>
+                    <controls:DropShadowPanel Grid.Row="1" Color="Black" ShadowOpacity="0.2" BlurRadius="40"
+                                              HorizontalContentAlignment="Stretch" Margin="8,0,8,8"
+                                              Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}">
+                        <Border Background="#FFFFFF">
+                        <ItemsControl ItemsSource="{x:Bind Commands}"
+                                      VerticalAlignment="Top"
+                                      HorizontalAlignment="Stretch"
+                                      Margin="10,10,0,0">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <controls:WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="common:SampleCommand">
+                                    <Button Content="{x:Bind Label}"
+                                            Margin="0, 0, 10, 10"
+                                            MinWidth="150"
+                                            FontSize="12"
+                                            Foreground="{StaticResource Brush-Grey-01}">
+                                        <interactivity:Interaction.Behaviors>
+                                            <core:EventTriggerBehavior EventName="Click">
+                                                <core:InvokeCommandAction Command="{x:Bind}" />
+                                            </core:EventTriggerBehavior>
+                                        </interactivity:Interaction.Behaviors>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                    </controls:DropShadowPanel>
+
+                    
                         <!--
                         Uncomment this control to help you determine where the focus is.
                         This could be useful when validating accessibility of your control
@@ -230,7 +235,7 @@
                                              HorizontalAlignment="Center"
                                              IsRunning="True"/>-->
                     </Grid>
-                    <Grid x:Name="InfoAreaGrid"
+                <Grid x:Name="InfoAreaGrid"
                       Background="{StaticResource Brush-Grey-04}"
                       Visibility="Collapsed">
                     <Grid.RowDefinitions>
@@ -252,6 +257,7 @@
                                    Margin="12,6"
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Center"
+                                   Tapped="PivotTitle_Tapped"
                                    Foreground="{StaticResource Brush-Grey-01}"
                                    Text="" />
                         <HyperlinkButton x:Name="GitHub"
@@ -279,9 +285,15 @@
                                            Loading="XamlCodeRenderer_Loading"/>
                     </PivotItem>
 
+                    <PivotItem x:Name="XamlReadOnlyPivotItem"
+                               Header="XAML">
+                        <controlsLocal:CodeRenderer x:Name="XamlReadOnlyCodeRenderer" />
+                    </PivotItem>    
+                        
                     <PivotItem x:Name="CSharpPivotItem"
                                Header="CODE">
-                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer" />
+                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer"
+                                                    IsFocusEngagementEnabled="False" />
                     </PivotItem>
 
                     <PivotItem x:Name="JavaScriptPivotItem"
@@ -297,7 +309,8 @@
                             <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
                                                         Foreground="{StaticResource Brush-Grey-01}"
                                                         ImageResolving="DocumentationTextblock_ImageResolving"
-                                                        LinkClicked="DocumentationTextblock_OnLinkClicked" />
+                                                        LinkClicked="DocumentationTextblock_OnLinkClicked" 
+                                                        IsFocusEngagementEnabled="False" />
                         </ScrollViewer>
                     </PivotItem>
                 </Pivot>
@@ -310,6 +323,13 @@
                                        GripperForeground="White"
                                        ParentLevel="1" />
                 </Grid>
+                <controls:InAppNotification x:Name="ExceptionNotification"
+                                            Grid.RowSpan="2"
+                                            Style="{StaticResource ExceptionNotification}"
+                                            Grid.ColumnSpan="2"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Center"
+                                            Margin="15"></controls:InAppNotification>
                 <Grid x:Name="waitRing"
                       Grid.RowSpan="2"
                       Grid.ColumnSpan="2"

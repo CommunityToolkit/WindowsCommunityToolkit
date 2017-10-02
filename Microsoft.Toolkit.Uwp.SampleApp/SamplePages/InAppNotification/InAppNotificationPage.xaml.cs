@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
 
-            Shell.Current.RegisterNewCommand("Show notification with random text", async (sender, args) =>
+            Shell.Current.RegisterNewCommand("Show notification with random text", (sender, args) =>
             {
                 _exampleVSCodeInAppNotification?.Dismiss();
                 SetDefaultControlTemplate();
@@ -66,21 +66,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 if (result == 1)
                 {
-                    await _exampleInAppNotification?.ShowAsync("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin bibendum enim at tincidunt. Praesent egestas ipsum ligula, nec tincidunt lacus semper non.", NotificationDuration);
+                    _exampleInAppNotification?.Show("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin bibendum enim at tincidunt. Praesent egestas ipsum ligula, nec tincidunt lacus semper non.", NotificationDuration);
                 }
 
                 if (result == 2)
                 {
-                    await _exampleInAppNotification?.ShowAsync("Pellentesque in risus eget leo rhoncus ultricies nec id ante.", NotificationDuration);
+                    _exampleInAppNotification?.Show("Pellentesque in risus eget leo rhoncus ultricies nec id ante.", NotificationDuration);
                 }
 
                 if (result == 3)
                 {
-                    await _exampleInAppNotification?.ShowAsync("Sed quis nisi quis nunc condimentum varius id consectetur metus. Duis mauris sapien, commodo eget erat ac, efficitur iaculis magna. Morbi eu velit nec massa pharetra cursus. Fusce non quam egestas leo finibus interdum eu ac massa. Quisque nec justo leo. Aenean scelerisque placerat ultrices. Sed accumsan lorem at arcu commodo tristique.", NotificationDuration);
+                    _exampleInAppNotification?.Show("Sed quis nisi quis nunc condimentum varius id consectetur metus. Duis mauris sapien, commodo eget erat ac, efficitur iaculis magna. Morbi eu velit nec massa pharetra cursus. Fusce non quam egestas leo finibus interdum eu ac massa. Quisque nec justo leo. Aenean scelerisque placerat ultrices. Sed accumsan lorem at arcu commodo tristique.", NotificationDuration);
                 }
             });
 
-            Shell.Current.RegisterNewCommand("Show notification with buttons (without DataTemplate)", async (sender, args) =>
+            Shell.Current.RegisterNewCommand("Show notification with buttons (without DataTemplate)", (sender, args) =>
             {
                 _exampleVSCodeInAppNotification?.Dismiss();
                 SetDefaultControlTemplate();
@@ -127,10 +127,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Grid.SetColumn(stackPanel, 1);
                 grid.Children.Add(stackPanel);
 
-                await _exampleInAppNotification?.ShowAsync(grid, NotificationDuration);
+                _exampleInAppNotification?.Show(grid, NotificationDuration);
             });
 
-            Shell.Current.RegisterNewCommand("Show notification with buttons (with DataTemplate)", async (sender, args) =>
+            Shell.Current.RegisterNewCommand("Show notification with buttons (with DataTemplate)", (sender, args) =>
             {
                 _exampleVSCodeInAppNotification?.Dismiss();
                 SetDefaultControlTemplate();
@@ -140,11 +140,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 if (isTemplatePresent == true && inAppNotificationWithButtonsTemplate is DataTemplate template)
                 {
-                    await _exampleInAppNotification.ShowAsync(template, NotificationDuration);
+                    _exampleInAppNotification.Show(template, NotificationDuration);
                 }
             });
 
-            Shell.Current.RegisterNewCommand("Show notification with Drop Shadow (based on default template)", async (sender, args) =>
+            Shell.Current.RegisterNewCommand("Show notification with Drop Shadow (based on default template)", (sender, args) =>
             {
                 _exampleVSCodeInAppNotification.Dismiss();
 
@@ -157,13 +157,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     _exampleInAppNotification.Template = template;
                 }
 
-                await _exampleInAppNotification.ShowAsync(NotificationDuration);
+                _exampleInAppNotification.Show(NotificationDuration);
             });
 
-            Shell.Current.RegisterNewCommand("Show notification with Visual Studio Code template (info notification)", async (sender, args) =>
+            Shell.Current.RegisterNewCommand("Show notification with Visual Studio Code template (info notification)", (sender, args) =>
             {
                 _exampleInAppNotification.Dismiss();
-                await _exampleVSCodeInAppNotification.ShowAsync(NotificationDuration);
+                _exampleVSCodeInAppNotification.Show(NotificationDuration);
             });
 
             Shell.Current.RegisterNewCommand("Dismiss", (sender, args) =>

@@ -83,7 +83,7 @@
                                      Header="Client Id:" />
                             <HyperlinkButton Margin="0,0,0,15"
                                              Content="Show me how to get this ID"
-                                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/services/MicrosoftGraph/" />
+                                             NavigateUri="http://uwpcommunitytoolkit.com/en/master/services/MicrosoftGraph/" />
                             <Button x:Name="ConnectButton"
                                     Width="75"
                                     Margin="0,10,0,0"

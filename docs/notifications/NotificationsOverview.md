@@ -37,7 +37,7 @@ Instead of having to deal with XML, you can now use UWP Community toolkit and it
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace for C# | Microsoft.Toolkit.Uwp.Notifications |
 | Namespace for JavaScript | Microsoft.Toolkit.Uwp.Notifications.Javascript |
