@@ -29,6 +29,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// </summary>
     public static class SystemInformation
     {
+        private static DateTime _sessionStart;
+
         /// <summary>
         /// Gets Application's name
         /// </summary>
@@ -142,8 +144,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 }
             }
         }
-
-        private static DateTime _sessionStart;
 
         /// <summary>
         /// Track app launch information
