@@ -24,7 +24,7 @@ What kind of change does this PR introduce?
 ## PR Checklist
 Please check if your PR fulfills the following requirements:
 
-- [ ] Tested code with current [supported SDKs](readme.md#supported)
+- [ ] Tested code with current [supported SDKs](../readme.md#supported)
 - [ ] Docs have been added / updated (for bug fixes / features)
 - [ ] Sample in sample app has been added / updated (for bug fixes / features)
 - [ ] Tests for the changes have been added (for bug fixes / features) (if applicable)
