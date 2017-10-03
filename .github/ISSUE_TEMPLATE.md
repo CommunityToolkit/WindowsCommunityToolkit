@@ -58,6 +58,6 @@ Device form factor:
 
 Visual Studio 
 - [ ] 2017 15.3
-- [ ] 2017 15.4 Preview
+- [ ] 2017 15.4
 
 ```

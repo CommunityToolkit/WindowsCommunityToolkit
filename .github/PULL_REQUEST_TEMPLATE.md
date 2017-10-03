@@ -1,3 +1,6 @@
+Issue: #
+<!-- Link to relevant issue. All PRs should be asociated with an issue -->
+
 ## PR Type
 What kind of change does this PR introduce?
 
@@ -16,13 +19,12 @@ What kind of change does this PR introduce?
 
 ## What is the current behavior?
 <!-- Please describe the current behavior that you are modifying, or link to a relevant issue. -->
-Issue Number: N/A
 
 
 ## PR Checklist
 Please check if your PR fulfills the following requirements:
 
-- [ ] Tested code with SDK 14393 and SDK 15063
+- [ ] Tested code with current [supported SDKs](readme.md#supported)
 - [ ] Docs have been added / updated (for bug fixes / features)
 - [ ] Sample in sample app has been added / updated (for bug fixes / features)
 - [ ] Tests for the changes have been added (for bug fixes / features) (if applicable)
@@ -37,7 +39,8 @@ Please check if your PR fulfills the following requirements:
 [ ] No
 ```
 
-<!-- If this PR contains a breaking change, please describe the impact and migration path for existing applications below. -->
+<!-- If this PR contains a breaking change, please describe the impact and migration path for existing applications below. 
+     Please note that breaking changes are likely to be rejected -->
 
 
 ## Other information

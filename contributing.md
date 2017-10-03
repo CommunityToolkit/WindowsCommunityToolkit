@@ -31,7 +31,7 @@ If you find a bug, you can help us by
 ## <a name="pr"></a> Submitting a pull request
 For every controbution, you must:
 
-* test your code with SDK 14393 and SDK 15063
+* test your code with the [supported SDKs](readme.md#supported)
 * follow the [quality guidance](#xaml), [general rules](#rules) and [naming convention](#naming)
 * target master branch (or an appropriate rel branch if appropriate for a bug fix)
 

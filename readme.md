@@ -40,6 +40,10 @@ Once you search you should see a list similar to the one below (versions may be 
 | Microsoft.Toolkit.Uwp.Connectivity | API helpers such as BluetoothLEHelper and Networking | 
 | Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app | 
 
+## <a name="supported"></a> Supported SDKs
+* Anniversary Update (14393)
+* Creators Update (15063)
+
 ## Features
 
 ### Animations
@@ -135,8 +139,9 @@ Once you search you should see a list similar to the one below (versions may be 
 
 ## Feedback and Requests
 
-Please use [GitHub issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for questions and comments.
-For feature requests, please create en entry in our [Uservoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit).
+Please use [GitHub issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for bug reports and feature requests.
+For feature requests, please also create en entry in our [Uservoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit).
+For general questions and support, please use [Stack Overflow](https://stackoverflow.com/search?q=uwp+community+toolkit) where questions should be tagged with the tag `uwp-community-toolkit`
 
 ## Contributing
 Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md).
