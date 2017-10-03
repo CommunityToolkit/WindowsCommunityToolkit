@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
@@ -87,12 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            _textContent.Inlines.Clear();
-
-            foreach (var inline in Inlines)
-            {
-                _textContent.Inlines.Add(inline);
-            }
+            Inlines.ApplyCollectionToTextBlock(_textContent);
 
             // To follow the behavior of UWP use Text instead of Inlines if Text property is set.
             if (!string.IsNullOrEmpty(Text))

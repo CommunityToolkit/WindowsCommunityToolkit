@@ -10,10 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Documents;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -145,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>
         /// A collection that holds all inline text elements from the Windows.UI.Xaml.Controls.TextBlock. The default is an empty collection.</returns>
-        public List<Inline> Inlines { get; } = new List<Inline>();
+        public InlineCollectionWrapper Inlines { get; } = new InlineCollectionWrapper();
 
         /// <summary>
         /// Gets or sets the orientation.
