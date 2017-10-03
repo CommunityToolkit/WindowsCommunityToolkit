@@ -11,7 +11,7 @@ ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 [ ] Feature request <!-- Please file a UserVoice request and include the link below https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit -->
 [ ] Sample app request
 [ ] Documentation issue or request
-[ ] Support request => Please do not submit support request here, instead see https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md#question
+[ ] Question of Support request => Please do not submit support request here, instead see https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md#question
 ```
 
 ## UserVoice link
