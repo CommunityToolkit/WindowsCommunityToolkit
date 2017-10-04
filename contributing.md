@@ -13,7 +13,7 @@ That's why many of the guidelines of this document are obvious and serve only on
  - [Questions](#question)
  - [Issues or Bugs](#issue)
  - [Submitting a pull request](#pr)
- - [Quality insurance for pull requests for XAML controls](#xaml)
+ - [Quality assurance for pull requests for XAML controls](#xaml)
  - [General rules](#rules)
  - [Naming conventions](#naming)
  - [Documentation](#documentation)
@@ -29,11 +29,11 @@ If you find a bug, you can help us by
 [submit a Pull Request](#pr) with a fix.
 
 ## <a name="pr"></a> Submitting a pull request
-For every controbution, you must:
+For every contribution, you must:
 
 * test your code with the [supported SDKs](readme.md#supported)
 * follow the [quality guidance](#xaml), [general rules](#rules) and [naming convention](#naming)
-* target master branch (or an appropriate rel branch if appropriate for a bug fix)
+* target master branch (or an appropriate release branch if appropriate for a bug fix)
 
 * If adding a new feature
     * Before starting coding, **you should open an uservoice entry** under "UWP Community Toolkit" on [Uservoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit) and start discussing with the community to see if your idea/feature is interesting enough. 
@@ -46,7 +46,7 @@ PR has to be validated by at least two core members before being merged.
 
 Once merged, you can get a pre-release package of the toolkit by adding this ([Nuget repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your Visual Studio.
 
-## <a name="xaml"></a> Quality insurance for pull requests for XAML controls
+## <a name="xaml"></a> Quality assurance for pull requests for XAML controls
 We encourage developers to follow the following guidances when submitting pull requests for controls:
  * Your control must be usable and efficient with keyboard only
   * Tab order must be logical
