@@ -1,12 +1,8 @@
 ---
 title: HttpHelperRequest
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
-description: Represents an HTTP request message including headers. 
+description: HttpHelperRequest is a UWP Community Toolkit helper class used with the HttpHelper class to create http requests.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelperRequest
 ---
 
@@ -71,7 +67,7 @@ An app starts by using one of the **HttpHelperRequest** constructors to create a
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
 

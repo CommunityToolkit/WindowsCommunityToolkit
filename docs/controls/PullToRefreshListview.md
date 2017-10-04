@@ -1,11 +1,7 @@
 ---
 title: PullToRefreshListView XAML Control
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The PullToRefreshListView Control lets the user pull down beyond the top limit on the listview to trigger a refresh of the content.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, PullToRefreshListView, XAML Control, xaml
 ---
@@ -58,7 +54,7 @@ be raised and the *RefreshIntentCanceledCommand*, if any, will be executed.
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 

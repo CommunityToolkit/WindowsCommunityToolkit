@@ -1,11 +1,7 @@
 ---
 title: ListViewBase extentions
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: ListViewBase extensions provide a lightweight way to extend every control that inherits the ListViewBase class with attached properties.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ListViewBase, extentions
 ---
@@ -96,11 +92,11 @@ The StretchItemContainerDirection property provides a way to stretch the ItemCon
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
 
 ## API
 
-* [ListViewBase source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/dev/Microsoft.Toolkit.Uwp.UI/Extensions/ListViewBase)
+* [ListViewBase source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/ListViewBase)
 

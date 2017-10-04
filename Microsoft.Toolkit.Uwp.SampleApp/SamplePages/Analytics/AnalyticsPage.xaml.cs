@@ -31,31 +31,31 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             client = new HttpClient();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            Shell.Current.DisplayWaitRing = true;
-            try
-            {
-                using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri("https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/githubresources/content/analytics.md")))
-                {
-                    using (var response = await client.SendAsync(request))
-                    {
-                        if (response.IsSuccessStatusCode)
-                        {
-                            MarkdownTextBlockTextblock.Text = await response.Content.ReadAsStringAsync();
-                        }
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                MarkdownTextBlockTextblock.Text = "Unable to download content: " + exception.Message;
-                TrackingManager.TrackException(exception);
-            }
+            MarkdownTextBlockTextblock.Text = @"# Analytics
 
-            Shell.Current.DisplayWaitRing = false;
+
+## Google analytics
+*****
+
+* [Main page](https://analytics.google.com)
+* [NuGet](https://www.nuget.org/packages/UWP.SDKforGoogleAnalytics.Managed/)
+* [Documentation, code and samples](https://github.com/dotnet/windows-sdk-for-google-analytics)
+&nbsp;  
+&nbsp;  
+
+
+## HockeyApp
+*****
+
+* [Main page](http://hockeyapp.com/)
+* [NuGet](https://www.nuget.org/packages/HockeySDK.UWP/)
+&nbsp;  
+&nbsp;  
+";
         }
 
         private async void MarkdownTextBlockTextblock_OnLinkClicked(object sender, LinkClickedEventArgs e)

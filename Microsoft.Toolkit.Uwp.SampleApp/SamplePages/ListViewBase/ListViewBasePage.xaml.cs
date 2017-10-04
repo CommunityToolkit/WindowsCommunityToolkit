@@ -10,21 +10,27 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class ListViewBasePage : Page
+    public sealed partial class ListViewBasePage : Page, IXamlRenderListener
     {
         public ListViewBasePage()
         {
             this.InitializeComponent();
         }
 
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        public async void OnXamlRendered(FrameworkElement control)
         {
-            SampleListView.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+            var sampleListView = control.FindChildByName("SampleListView") as ListView;
+
+            if (sampleListView != null)
+            {
+                sampleListView.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+            }
         }
     }
 }

@@ -1,11 +1,7 @@
 ---
 title: Logical Tree Extensions
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The LogicalTree extensions provide a collection of extensions methods for UI controls. It provides FrameworkElement extensions to aid in walking the logical tree of control structures.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Logical Tree, extentions
 ---
@@ -35,6 +31,12 @@ See also [VisualTree Extensions](VisualTree.md).
 	// Find first logical child control of a specified type.
 	control = uiElement.FindChild<ListView>();
 
+	// Find all logical child controls of the specified type.
+	foreach (var child in uiElement.FindChildren<ListViewItem>())
+	{
+		// ...
+	}
+
 	// Find first logical parent using its name.
 	control = uiElement.FindParentByName("MyGrid");
 
@@ -48,7 +50,7 @@ See also [VisualTree Extensions](VisualTree.md).
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
 

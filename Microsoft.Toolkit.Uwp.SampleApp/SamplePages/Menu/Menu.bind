@@ -1,5 +1,4 @@
-<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.MenuPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:commands="using:Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -124,6 +123,14 @@
         </MenuFlyoutSubItem>
       </controls:MenuItem>
 
+      <controls:MenuItem controls:Menu.InputGestureText="Alt+H">
+        <controls:MenuItem.Header>
+          <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#57627;" FontSize="12" Margin="0,4,0,4"/>
+        </controls:MenuItem.Header>
+        <MenuFlyoutItem Text="About"/>
+      </controls:MenuItem>
+
+
     </controls:Menu>
 
     <StackPanel Grid.Row="1">
@@ -135,9 +142,8 @@
       <TextBlock Text="Open project shortcut: Ctrl+Shift+O" />
       <TextBlock Text="Open file shortcut: Ctrl+O" />
       <TextBlock Text="Print shortcut: Ctrl+P" />
-      <TextBlock Text="Exit solution shortcut: Ctrl+Shit+E" />
+      <TextBlock Text="Exit solution shortcut: Ctrl+Shift+E" />
     </StackPanel>
-
 
   </Grid>
 </Page>

@@ -1,11 +1,7 @@
 ---
 title: Twitter Service
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The Twitter Service allows users to retrieve or publish data to Twitter. 
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Twitter 
 ---
@@ -16,7 +12,7 @@ The **Twitter Service** allows users to retrieve or publish data to Twitter.
 
 [Twitter Developer Site](https://dev.twitter.com) is the main content site for all twitter developers.  Visit the [Twitter Apps List](https://apps.twitter.com/) to manage existing apps.
 
-[Create new Twitter App](https://apps.twitter.com/app/new) can be used to create a new app within the Twitter portal.
+[Create new Twitter App](https://apps.twitter.com/app) can be used to create a new app within the Twitter portal.
 
 ## App Setup
 
@@ -117,7 +113,7 @@ If you are posting from your app and never seeing them show up in the timeline c
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Services |
 

@@ -1,11 +1,7 @@
 ---
 title: ExpressionBuilder
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The ExpressionBuilder classes are a C#-only alternative to building Composition Expressions with type safety.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, expressions, expressionbuilder
 ---
@@ -73,7 +69,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, expressions, expr
         - [Building with ExpressionNodes](#curtain-building-with-expressionnodes)
         - [Final code snippet](#curtain-final-code-snippet)
 
-# <a name="quick-start"></a>Quick Start 
+## <a name="quick-start"></a>Quick Start 
 
 Welcome to the ExpressionBuilder classes! The ExpressionBuilder classes are a C#-only alternative to building Expressions with type safety. Below is a quick introduction to using the ExpressionBuilder classes with your application. Complete documentation and walkthroughs will start from [Intro](#intro) section.
 
@@ -1129,10 +1125,10 @@ _tracker.ConfigurePositionYInertiaModifiers(
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Animations |
 
 ## API
 
-* [Expressions source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp.UI.Animations/Expressions)
+* [Expressions source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Expressions)

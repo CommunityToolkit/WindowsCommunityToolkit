@@ -1,12 +1,8 @@
 ---
 title: HttpHelper
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
-description: Represents an HTTP request message including headers. 
+description: HttpHelper is a UWP Community Toolkit helper class used to assist in common http and networking scenarios.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelper
 ---
 
@@ -62,7 +58,7 @@ It additionally has one method - **SendRequestAsync**. This method requires an i
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
 

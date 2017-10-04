@@ -22,7 +22,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
     /// </summary>
     public partial class CommonButtons
     {
-        internal CommonButtons(TextToolbar model)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommonButtons"/> class. <para/>
+        /// Requires a TextToolbar Instance to Populate from <see cref="TextToolbarStrings"/> Instance.
+        /// </summary>
+        /// <param name="model">TextToolbar Instance</param>
+        public CommonButtons(TextToolbar model)
         {
             Model = model;
         }

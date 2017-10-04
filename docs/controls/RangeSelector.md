@@ -1,11 +1,7 @@
 ---
 title: RangeSelector XAML Control
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The RangeSelector Control is a Double Slider control that allows the user to select a sub-range of values from a larger range of possible values.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, RangeSelector, XAML Control, xaml, double slider
 ---
@@ -66,7 +62,7 @@ This is because by default, the ScrollViewer will block the thumbs of the RangeS
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 

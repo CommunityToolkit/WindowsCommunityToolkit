@@ -1,11 +1,7 @@
 ---
 title:  ScrollHeader XAML Control
 author: nmetulev
-ms.author: nikolame
 ms.date: 08/20/2017
-ms.topic: overview
-ms.prod: windows
-ms.technology: uwp
 description: The ScrollHeader Control provides a header for ListViews or GridViews that adds the ability to keep its content visible or fade it out while scrolling down.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ScrollHeader, XAML Control, xaml
 ---
@@ -42,7 +38,7 @@ The **ScrollHeader Control** provides a header for ListViews or GridViews that a
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 

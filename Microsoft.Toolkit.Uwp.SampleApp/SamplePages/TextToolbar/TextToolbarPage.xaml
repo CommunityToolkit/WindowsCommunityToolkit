@@ -12,53 +12,9 @@
                         Format="MarkDown" />
     </Page.Resources>
 
-    <Grid x:Name="MainGrid"
-          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-          RequestedTheme="{Binding Theme.Value, Mode=TwoWay}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <controls:TextToolbar x:Name="Toolbar"
-                              Background="#4C4F4F4F"
-                              Editor="{x:Bind EditZone}"
-                              Format="{Binding Format.Value, Mode=TwoWay}"
-                              IsEnabled="{Binding IsEnabled.Value, Mode=TwoWay}" />
-        <ScrollViewer Grid.Row="1">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-                <RichEditBox x:Name="EditZone"
-                             MinHeight="300"
-                             VerticalContentAlignment="Stretch"
-                             Background="{x:Null}"
-                             BorderBrush="{x:Null}"
-                             PlaceholderText="Enter Text Here"
-                             TextChanged="EditZone_TextChanged"
-                             TextWrapping="Wrap" />
-
-                <Grid x:Name="MD"
-                      Grid.Row="1"
-                      Padding="10"
-                      Visibility="{Binding Format.Value, Mode=OneWay, Converter={StaticResource IsFormatMarkdown}}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <TextBlock Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
-                               Style="{StaticResource SubtitleTextBlockStyle}"
-                               Text="MarkDown Preview" />
-                    <controls:MarkdownTextBlock x:Name="Previewer"
-                                                Grid.Row="1"
-                                                Canvas.ZIndex="99"
-                                                Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
-                                                LinkClicked="Previewer_LinkClicked"
-                                                ScrollViewer.IsVerticalRailEnabled="False" />
-                </Grid>
-            </Grid>
-        </ScrollViewer>
+    <Grid>
+        <controls:TextToolbar />
+        <RichEditBox />
+        <controls:MarkdownTextBlock />
     </Grid>
 </Page>
