@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public string ApplicationName => SystemInformation.ApplicationName;
 
         // To get application's version:
-        public string ApplicationVersion => $"{SystemInformation.ApplicationVersion.Major}.{SystemInformation.ApplicationVersion.Minor}.{SystemInformation.ApplicationVersion.Build}.{SystemInformation.ApplicationVersion.Revision}";
+        public string ApplicationVersion => SystemInformation.ApplicationVersion.ToFormattedString();
 
         // To get the most preferred language by the user:
         public CultureInfo Culture => SystemInformation.Culture;
@@ -59,15 +59,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public string IsAppUpdated => SystemInformation.IsAppUpdated.ToString();
 
         // To get the first version installed
-        public string FirstVersionInstalled => SystemInformation.FirstVersionInstalled;
+        public string FirstVersionInstalled => SystemInformation.FirstVersionInstalled.ToFormattedString();
 
-        // To get the first time the app was used
+        // To get the first time the app was launched
         public string FirstUseTime => SystemInformation.FirstUseTime.ToString(Culture.DateTimeFormat);
 
-        // To get the time the app was launched.
+        // To get the time the app was launched
         public string LaunchTime => SystemInformation.LaunchTime.ToString(Culture.DateTimeFormat);
 
-        // To get the last time the app was launched.
+        // To get the time the app was previously launched, not including this instance
         public string LastLaunchTime => SystemInformation.LastLaunchTime.ToString(Culture.DateTimeFormat);
 
         // To get the number of times the app has been launched.

@@ -76,6 +76,7 @@
     <Compile Include="Helpers\ObjectStorage\RoamingObjectStorageHelper.cs" />
     <Compile Include="Helpers\DeepLinkParser\DeepLinkParser.cs" />
     <Compile Include="Helpers\DeepLinkParser\QueryParameterCollection.cs" />
+    <Compile Include="Helpers\PackageVersionHelper.cs" />
     <Compile Include="Helpers\PrintHelper\PrintHelper.cs" />
     <Compile Include="Helpers\PrintHelper\PrintHelperStateBag.cs" />
     <Compile Include="Helpers\HttpHelper\HttpHelper.cs" />

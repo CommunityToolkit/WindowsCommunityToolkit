@@ -97,15 +97,15 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Gets the first version of the app that was installed.
         /// This will be the current version if a previous verison of the app was installed before accessing this property.
         /// </summary>
-        public static string FirstVersionInstalled { get; }
+        public static PackageVersion FirstVersionInstalled { get; }
 
         /// <summary>
-        /// Gets the DateTime (in UTC) that the app as first used.
+        /// Gets the DateTime (in UTC) when the app was launched for the first time
         /// </summary>
         public static DateTime FirstUseTime { get; }
 
         /// <summary>
-        /// Gets the DateTime (in UTC) that this was previously launched.
+        /// Gets the DateTime (in UTC) when the app was previously launched, not including this instance.
         /// Will be DateTime.MinValue if `TrackAppUse` has not been called.
         /// </summary>
         public static DateTime LastLaunchTime { get; private set; }
@@ -151,7 +151,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="args">Details about the launch request and process.</param>
         public static void TrackAppUse(LaunchActivatedEventArgs args)
         {
-            if (new[] { ApplicationExecutionState.ClosedByUser, ApplicationExecutionState.NotRunning }.Contains(args.PreviousExecutionState))
+            if (args.PreviousExecutionState == ApplicationExecutionState.ClosedByUser
+             || args.PreviousExecutionState == ApplicationExecutionState.NotRunning)
             {
                 if (ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(LaunchCount), out object launchCount))
                 {
@@ -269,7 +270,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private static bool DetectIfAppUpdated()
         {
-            var currentVersion = $"{ApplicationVersion.Major}.{ApplicationVersion.Minor}.{ApplicationVersion.Build}.{ApplicationVersion.Revision}";
+            var currentVersion = ApplicationVersion.ToFormattedString();
 
             if (!ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(currentVersion), out object lastVersion))
             {
@@ -305,18 +306,18 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             return result;
         }
 
-        private static string DetectFirstVersionInstalled()
+        private static PackageVersion DetectFirstVersionInstalled()
         {
-            string result;
+            PackageVersion result;
 
             if (ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(FirstVersionInstalled), out object firstVersion))
             {
-                result = firstVersion.ToString();
+                result = firstVersion.ToString().ToPackageVersion();
             }
             else
             {
-                result = $"{ApplicationVersion.Major}.{ApplicationVersion.Minor}.{ApplicationVersion.Build}.{ApplicationVersion.Revision}";
-                ApplicationData.Current.LocalSettings.Values[nameof(FirstVersionInstalled)] = result;
+                result = ApplicationVersion;
+                ApplicationData.Current.LocalSettings.Values[nameof(FirstVersionInstalled)] = ApplicationVersion.ToFormattedString();
             }
 
             return result;
