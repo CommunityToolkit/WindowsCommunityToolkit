@@ -200,10 +200,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             // ParentReference null means is root
-            if (oneDriveItem.ParentReference != null)
-            {
-                _path = oneDriveItem.ParentReference.Path.Replace("/drive/root:", string.Empty);
-            }
+            _path = oneDriveItem.ParentReference?.Path?.Replace("/drive/root:", string.Empty);
         }
 
         /// <summary>
