@@ -107,8 +107,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             foreach (var child in Children)
             {
                 child.Measure(new Size(availableSize.Width, availableSize.Height));
-                width += child.DesiredSize.Width;
-                height += child.DesiredSize.Height;
+                var dock = (Dock)child.GetValue(DockProperty);
+                switch (dock)
+                {
+                    case Dock.Left:
+                    case Dock.Right:
+                        width += child.DesiredSize.Width;
+                        break;
+
+                    case Dock.Top:
+                    case Dock.Bottom:
+                        height += child.DesiredSize.Height;
+                        break;
+                }
             }
 
             return new Size(
