@@ -1,14 +1,7 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+﻿// ****************************************************************** Copyright (c) Microsoft. All rights reserved. This code is licensed under the MIT License (MIT). THE CODE IS PROVIDED “AS IS”,
+// WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE CODE OR THE USE OR OTHER
+// DEALINGS IN THE CODE. ******************************************************************
 
 using System;
 using System.Collections.Generic;
@@ -27,10 +20,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// A modern UI Carousel control. Really flexible. Works with touch, keyboard, mouse.
     /// </summary>
+    /// <seealso cref="Windows.UI.Xaml.Controls.ItemsControl"/>
     public class Carousel : ItemsControl
     {
+        // Using a DependencyProperty as the backing store for EasingFunction. This enables animation, styling, binding, etc...
         /// <summary>
-        /// Using a DependencyProperty as the backing store for EasingFunction. This enables animation, styling, binding, etc...
+        /// The easing function property
         /// </summary>
         public static readonly DependencyProperty EasingFunctionProperty = DependencyProperty.Register("EasingFunction", typeof(EasingFunctionBase), typeof(Carousel), new PropertyMetadata(new ExponentialEase { EasingMode = EasingMode.EaseOut }));
 
@@ -40,6 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty InvertPositiveProperty =
             DependencyProperty.Register("InvertPositive", typeof(bool), typeof(Carousel), new PropertyMetadata(true, OnCarouselPropertyChanged));
 
+        // Using a DependencyProperty as the backing store for IsCircular. This enables animation, styling, binding, etc...
         /// <summary>
         /// Using a DependencyProperty as the backing store for IsCircular. This enables animation, styling, binding, etc...
         /// </summary>
@@ -82,6 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty SelectedIndexProperty =
             DependencyProperty.Register("SelectedIndex", typeof(int), typeof(Carousel), new PropertyMetadata(-1, OnCarouselPropertyChanged));
 
+        // Using a DependencyProperty as the backing store for SelectedItem. This enables animation, styling, binding, etc...
         /// <summary>
         /// Using a DependencyProperty as the backing store for SelectedItem. This enables animation, styling, binding, etc...
         /// </summary>
