@@ -101,25 +101,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override Size MeasureOverride(Size availableSize)
         {
-            var width = availableSize.Width;
-            var height = availableSize.Height;
-
-            if (double.IsInfinity(width))
-            {
-                width = Window.Current.Bounds.Width;
-            }
-
-            if (double.IsInfinity(height))
-            {
-                height = Window.Current.Bounds.Height;
-            }
+            var width = 0.0;
+            var height = 0.0;
 
             foreach (var child in Children)
             {
                 child.Measure(new Size(availableSize.Width, availableSize.Height));
+                width += child.DesiredSize.Width;
+                height += child.DesiredSize.Height;
             }
 
-            return new Size(width, height);
+            return new Size(
+                double.IsInfinity(availableSize.Width) ? width : availableSize.Width,
+                double.IsInfinity(availableSize.Height) ? height : availableSize.Height);
         }
 
         private static double GetPositiveOrZero(double value)
