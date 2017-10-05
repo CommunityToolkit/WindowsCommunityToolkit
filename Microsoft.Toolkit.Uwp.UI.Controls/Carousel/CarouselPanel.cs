@@ -4,12 +4,9 @@
 // DEALINGS IN THE CODE. ******************************************************************
 
 using System;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
-
-using System;
-
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -18,58 +15,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
-using System.Linq;
-
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Structure used when an item moves
-    /// </summary>
-    public struct Proj
-    {
-        /// <summary>
-        /// Gets or sets the depth.
-        /// </summary>
-        /// <value>
-        /// The depth.
-        /// </value>
-        public double Depth { get; set; }
-
-        /// <summary>
-        /// Gets or sets the position.
-        /// </summary>
-        /// <value>
-        /// The position.
-        /// </value>
-        public double Position { get; set; }
-
-        /// <summary>
-        /// Gets or sets the rotation x.
-        /// </summary>
-        /// <value>
-        /// The rotation x.
-        /// </value>
-        public double RotationX { get; set; }
-
-        /// <summary>
-        /// Gets or sets the rotation y.
-        /// </summary>
-        /// <value>
-        /// The rotation y.
-        /// </value>
-        public double RotationY { get; set; }
-
-        /// <summary>
-        /// Gets or sets the rotation z.
-        /// </summary>
-        /// <value>
-        /// The rotation z.
-        /// </value>
-        public double RotationZ { get; set; }
-    }
-
-    /// <summary>
-    /// 
+    /// Panel for Carousel Control.
     /// </summary>
     /// <seealso cref="Windows.UI.Xaml.Controls.Panel" />
     public class CarouselPanel : Panel
@@ -84,13 +33,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private double desiredHeight;
 
-        // temp size
         /// <summary>
         /// The desired width
         /// </summary>
         private double desiredWidth;
 
-        // Storyboard on gesture
         /// <summary>
         /// The storyboard
         /// </summary>
@@ -532,7 +479,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets the projection from pointer.
         /// </summary>
         /// <param name="pointer">The pointer.</param>
-        /// <returns></returns>
+        /// <returns>Returns the projection.</returns>
         private Proj GetProjectionFromPointer(int pointer)
         {
             // margin
@@ -649,6 +596,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Zindex and Opacity
             int zindex = (Carousel.Items.Count * 100) - Math.Abs(pointer);
             Canvas.SetZIndex(element, zindex);
+        }
+
+        /// <summary>
+        /// Structure used when an item moves
+        /// </summary>
+        public struct Proj
+        {
+            /// <summary>
+            /// Gets or sets the depth.
+            /// </summary>
+            /// <value>
+            /// The depth.
+            /// </value>
+            public double Depth { get; set; }
+
+            /// <summary>
+            /// Gets or sets the position.
+            /// </summary>
+            /// <value>
+            /// The position.
+            /// </value>
+            public double Position { get; set; }
+
+            /// <summary>
+            /// Gets or sets the rotation x.
+            /// </summary>
+            /// <value>
+            /// The rotation x.
+            /// </value>
+            public double RotationX { get; set; }
+
+            /// <summary>
+            /// Gets or sets the rotation y.
+            /// </summary>
+            /// <value>
+            /// The rotation y.
+            /// </value>
+            public double RotationY { get; set; }
+
+            /// <summary>
+            /// Gets or sets the rotation z.
+            /// </summary>
+            /// <value>
+            /// The rotation z.
+            /// </value>
+            public double RotationZ { get; set; }
         }
 
         /// <summary>

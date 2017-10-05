@@ -23,79 +23,67 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <seealso cref="Windows.UI.Xaml.Controls.ItemsControl"/>
     public class Carousel : ItemsControl
     {
-        // Using a DependencyProperty as the backing store for EasingFunction. This enables animation, styling, binding, etc...
         /// <summary>
-        /// The easing function property
+        /// Using a DependencyProperty as the backing store for EasingFunction. This enables animation, styling, binding, etc...
         /// </summary>
         public static readonly DependencyProperty EasingFunctionProperty = DependencyProperty.Register("EasingFunction", typeof(EasingFunctionBase), typeof(Carousel), new PropertyMetadata(new ExponentialEase { EasingMode = EasingMode.EaseOut }));
 
-        // Using a DependencyProperty as the backing store for InvertPostive. This enables animation, styling, binding, etc...
         /// <summary>
-        /// The invert positive property
+        /// Using a DependencyProperty as the backing store for InvertPostive. This enables animation, styling, binding, etc...
         /// </summary>
         public static readonly DependencyProperty InvertPositiveProperty =
             DependencyProperty.Register("InvertPositive", typeof(bool), typeof(Carousel), new PropertyMetadata(true, OnCarouselPropertyChanged));
 
-        // Using a DependencyProperty as the backing store for IsCircular. This enables animation, styling, binding, etc...
         /// <summary>
-        /// The is circular property
+        /// Using a DependencyProperty as the backing store for IsCircular. This enables animation, styling, binding, etc...
         /// </summary>
         public static readonly DependencyProperty IsCircularProperty =
             DependencyProperty.Register("IsCircular", typeof(bool), typeof(Carousel), new PropertyMetadata(false, OnCarouselPropertyChanged));
 
-        // Using a DependencyProperty as the backing store for Depth. This enables animation, styling, binding, etc...
         /// <summary>
-        /// The item depth property
+        /// Using a DependencyProperty as the backing store for Depth. This enables animation, styling, binding, etc...
         /// </summary>
         public static readonly DependencyProperty ItemDepthProperty = DependencyProperty.Register("ItemDepth", typeof(int), typeof(Carousel), new PropertyMetadata(0, OnCarouselPropertyChanged));
 
-        // Using a DependencyProperty as the backing store for TranslateX. This enables animation, styling, binding, etc...
         /// <summary>
-        /// The item margin property
+        /// Using a DependencyProperty as the backing store for TranslateX. This enables animation, styling, binding, etc...
         /// </summary>
         public static readonly DependencyProperty ItemMarginProperty = DependencyProperty.Register("ItemMargin", typeof(int), typeof(Carousel), new PropertyMetadata(0, OnCarouselPropertyChanged));
 
-        // Using a DependencyProperty as the backing store for Rotation. This enables animation, styling, binding, etc...
         /// <summary>
-        /// The item rotation x property
+        /// Using a DependencyProperty as the backing store for Rotation. This enables animation, styling, binding, etc...
         /// </summary>
         public static readonly DependencyProperty ItemRotationXProperty = DependencyProperty.Register("ItemRotationX", typeof(double), typeof(Carousel), new PropertyMetadata(0d, OnCarouselPropertyChanged));
 
-        // Using a DependencyProperty as the backing store for Rotation. This enables animation, styling, binding, etc...
         /// <summary>
-        /// The item rotation y property
+        /// Using a DependencyProperty as the backing store for Rotation. This enables animation, styling, binding, etc...
         /// </summary>
         public static readonly DependencyProperty ItemRotationYProperty = DependencyProperty.Register("ItemRotationY", typeof(double), typeof(Carousel), new PropertyMetadata(0d, OnCarouselPropertyChanged));
 
-        // Using a DependencyProperty as the backing store for Rotation. This enables animation, styling, binding, etc...
         /// <summary>
-        /// The item rotation z property
+        /// Using a DependencyProperty as the backing store for Rotation. This enables animation, styling, binding, etc...
         /// </summary>
         public static readonly DependencyProperty ItemRotationZProperty = DependencyProperty.Register("ItemRotationZ", typeof(double), typeof(Carousel), new PropertyMetadata(0d, OnCarouselPropertyChanged));
 
-        // Using a DependencyProperty as the backing store for MaxViewableItems. This enables animation, styling, binding, etc...
         /// <summary>
-        /// The orientation property
+        /// Using a DependencyProperty as the backing store for MaxViewableItems. This enables animation, styling, binding, etc...
         /// </summary>
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(Orientation), typeof(Carousel), new PropertyMetadata(Orientation.Horizontal, OnCarouselPropertyChanged));
 
-        // Using a DependencyProperty as the backing store for SelectedIndex. This enables animation, styling, binding, etc...
         /// <summary>
-        /// The selected index property
+        /// Using a DependencyProperty as the backing store for SelectedIndex. This enables animation, styling, binding, etc...
         /// </summary>
         public static readonly DependencyProperty SelectedIndexProperty =
             DependencyProperty.Register("SelectedIndex", typeof(int), typeof(Carousel), new PropertyMetadata(-1, OnCarouselPropertyChanged));
 
-        // Using a DependencyProperty as the backing store for SelectedItem. This enables animation, styling, binding, etc...
         /// <summary>
-        /// The selected item property
+        /// Using a DependencyProperty as the backing store for SelectedItem. This enables animation, styling, binding, etc...
         /// </summary>
         public static readonly DependencyProperty SelectedItemProperty =
             DependencyProperty.Register("SelectedItem", typeof(object), typeof(Carousel), new PropertyMetadata(null, OnCarouselPropertyChanged));
 
-        // Using a DependencyProperty as the backing store for TransitionDuration. This enables animation, styling, binding, etc...
         /// <summary>
-        /// The transition duration property
+        /// Using a DependencyProperty as the backing store for TransitionDuration. This enables animation, styling, binding, etc...
         /// </summary>
         public static readonly DependencyProperty TransitionDurationProperty = DependencyProperty.Register("TransitionDuration", typeof(int), typeof(Carousel), new PropertyMetadata(200));
 
