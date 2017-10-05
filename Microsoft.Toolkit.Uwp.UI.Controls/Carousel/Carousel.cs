@@ -20,7 +20,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// A modern UI Carousel control. Really flexible. Works with touch, keyboard, mouse.
     /// </summary>
-    /// <seealso cref="Windows.UI.Xaml.Controls.ItemsControl"/>
     public class Carousel : ItemsControl
     {
         /// <summary>

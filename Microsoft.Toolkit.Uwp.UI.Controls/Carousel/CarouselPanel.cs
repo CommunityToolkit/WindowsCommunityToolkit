@@ -20,7 +20,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Panel for Carousel Control.
     /// </summary>
-    /// <seealso cref="Windows.UI.Xaml.Controls.Panel" />
     public class CarouselPanel : Panel
     {
         /// <summary>
