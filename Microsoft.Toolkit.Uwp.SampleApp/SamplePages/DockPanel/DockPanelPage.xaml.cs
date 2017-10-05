@@ -43,10 +43,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
 
-            Shell.Current.RegisterNewCommand("Add Left Child", AddLeftDock);
-            Shell.Current.RegisterNewCommand("Add Right Child", AddRightDock);
             Shell.Current.RegisterNewCommand("Add Top Child", AddTopDock);
+            Shell.Current.RegisterNewCommand("Add Left Child", AddLeftDock);
             Shell.Current.RegisterNewCommand("Add Bottom Child", AddBottomDock);
+            Shell.Current.RegisterNewCommand("Add Right Child", AddRightDock);
             Shell.Current.RegisterNewCommand("Add Stretch Child", AddStretchDock);
             Shell.Current.RegisterNewCommand("Clear All", ClearAllDock);
         }
