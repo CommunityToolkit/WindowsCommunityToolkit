@@ -23,14 +23,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The <see cref="Expander"/> control allows user to show/hide content based on a boolean state
     /// </summary>
-    [TemplateVisualState(Name = StateContentExpanded, GroupName = ExpandedGroupStateContent)]
-    [TemplateVisualState(Name = StateContentCollapsed, GroupName = ExpandedGroupStateContent)]
-    [TemplateVisualState(Name = StateContentOverlayVisible, GroupName = ExpandedGroupStateContent)]
-    [TemplateVisualState(Name = StateContentOverlayHidden, GroupName = ExpandedGroupStateContent)]
     [TemplateVisualState(Name = StateContentLeftDirection, GroupName = ExpandDirectionGroupStateContent)]
     [TemplateVisualState(Name = StateContentDownDirection, GroupName = ExpandDirectionGroupStateContent)]
     [TemplateVisualState(Name = StateContentRightDirection, GroupName = ExpandDirectionGroupStateContent)]
     [TemplateVisualState(Name = StateContentUpDirection, GroupName = ExpandDirectionGroupStateContent)]
+    [TemplateVisualState(Name = StateContentVisibleLeft, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentVisibleDown, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentVisibleRight, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentVisibleUp, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentCollapsedLeft, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentCollapsedDown, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentCollapsedRight, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentCollapsedUp, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentOverlayLeft, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentOverlayDown, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentOverlayRight, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentOverlayUp, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
     [TemplatePart(Name = RootGridPart, Type = typeof(Grid))]
     [TemplatePart(Name = ExpanderToggleButtonPart, Type = typeof(ToggleButton))]
     [TemplatePart(Name = LayoutTransformerPart, Type = typeof(LayoutTransformControl))]
@@ -109,22 +117,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
+            UpdateDisplayModeOrExpanderDirection();
+
             switch (ExpandDirection)
             {
                 case ExpandDirection.Left:
-                    VisualStateManager.GoToState(this, StateContentLeftDirection, true);
                     VisualStateManager.GoToState(button, StateContentLeftDirection, true);
                     break;
                 case ExpandDirection.Down:
-                    VisualStateManager.GoToState(this, StateContentDownDirection, true);
                     VisualStateManager.GoToState(button, StateContentDownDirection, true);
                     break;
                 case ExpandDirection.Right:
-                    VisualStateManager.GoToState(this, StateContentRightDirection, true);
                     VisualStateManager.GoToState(button, StateContentRightDirection, true);
                     break;
                 case ExpandDirection.Up:
-                    VisualStateManager.GoToState(this, StateContentUpDirection, true);
                     VisualStateManager.GoToState(button, StateContentUpDirection, true);
                     break;
             }
@@ -139,28 +145,51 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnDisplayModeOrIsExpandedChanged(bool useTransitions = true)
         {
-            if (IsExpanded)
+            UpdateDisplayModeOrExpanderDirection();
+        }
+
+        private void UpdateDisplayModeOrExpanderDirection()
+        {
+            string visualState = null;
+
+            switch (ExpandDirection)
             {
-                if (DisplayMode == ExpanderDisplayMode.Expand)
-                {
-                    VisualStateManager.GoToState(this, StateContentExpanded, useTransitions);
-                }
-                else
-                {
-                    VisualStateManager.GoToState(this, StateContentOverlayVisible, useTransitions);
-                }
+                case ExpandDirection.Left:
+                    visualState = GetDisplayModeVisualState(StateContentOverlayLeft, StateContentCollapsedLeft, StateContentVisibleLeft);
+                    break;
+                case ExpandDirection.Down:
+                    visualState = GetDisplayModeVisualState(StateContentOverlayDown, StateContentCollapsedDown, StateContentVisibleDown);
+                    break;
+                case ExpandDirection.Right:
+                    visualState = GetDisplayModeVisualState(StateContentOverlayRight, StateContentCollapsedRight, StateContentVisibleRight);
+                    break;
+                case ExpandDirection.Up:
+                    visualState = GetDisplayModeVisualState(StateContentOverlayUp, StateContentCollapsedUp, StateContentVisibleUp);
+                    break;
             }
-            else
+
+            if (!string.IsNullOrWhiteSpace(visualState))
             {
-                if (DisplayMode == ExpanderDisplayMode.Expand)
-                {
-                    VisualStateManager.GoToState(this, StateContentCollapsed, useTransitions);
-                }
-                else
-                {
-                    VisualStateManager.GoToState(this, StateContentOverlayHidden, useTransitions);
-                }
+                VisualStateManager.GoToState(this, visualState, true);
             }
+        }
+
+        private string GetDisplayModeVisualState(string overlayState, string collapsedState, string visibleState)
+        {
+            if (!IsExpanded && DisplayMode == ExpanderDisplayMode.Overlay)
+            {
+                // Overlay
+                return overlayState;
+            }
+
+            if (!IsExpanded && DisplayMode == ExpanderDisplayMode.Expand)
+            {
+                // Collapsed
+                return collapsedState;
+            }
+
+            // Visible
+            return visibleState;
         }
     }
 }
