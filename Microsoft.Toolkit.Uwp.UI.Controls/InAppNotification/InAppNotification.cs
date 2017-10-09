@@ -57,13 +57,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _dismissButton.Click += DismissButton_Click;
             }
 
-            if (_visualStateGroup != null)
-            {
-                UpdateAnimationDuration(AnimationDuration);
-                UpdateVerticalOffset(VerticalOffset);
-                UpdateHorizontalOffset(HorizontalOffset);
-            }
-
             if (Visibility == Visibility.Visible)
             {
                 VisualStateManager.GoToState(this, StateContentVisible, true);
@@ -96,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Visibility = Visibility.Visible;
             VisualStateManager.GoToState(this, StateContentVisible, true);
 
-            _animationTimer.Interval = TimeSpan.FromMilliseconds(AnimationDuration);
+            _animationTimer.Interval = AnimationDuration;
             _animationTimer.Tick += OpenAnimationTimer_Tick;
             _animationTimer.Start();
 
@@ -174,111 +167,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 VisualStateManager.GoToState(this, StateContentCollapsed, true);
 
-                _animationTimer.Interval = TimeSpan.FromMilliseconds(AnimationDuration);
+                _animationTimer.Interval = AnimationDuration;
                 _animationTimer.Tick += DismissAnimationTimer_Tick;
                 _animationTimer.Start();
-            }
-        }
-
-        private void UpdateAnimationDuration(int duration)
-        {
-            if (_visualStateGroup != null)
-            {
-                var keyTimeFromAnimationDuration = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(duration));
-
-                foreach (var state in _visualStateGroup.States)
-                {
-                    foreach (var timeline in state.Storyboard.Children)
-                    {
-                        if (timeline is DoubleAnimationUsingKeyFrames daukf)
-                        {
-                            var keyFramesCount = daukf.KeyFrames.Count;
-                            if (keyFramesCount > 1)
-                            {
-                                daukf.KeyFrames[keyFramesCount - 1].KeyTime = keyTimeFromAnimationDuration;
-                            }
-                        }
-
-                        if (timeline is ObjectAnimationUsingKeyFrames oaukf)
-                        {
-                            var keyFramesCount = oaukf.KeyFrames.Count;
-                            if (keyFramesCount > 1)
-                            {
-                                oaukf.KeyFrames[keyFramesCount - 1].KeyTime = keyTimeFromAnimationDuration;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private void UpdateVerticalOffset(double verticalOffset)
-        {
-            if (_visualStateGroup != null)
-            {
-                foreach (var state in _visualStateGroup.States)
-                {
-                    foreach (var timeline in state.Storyboard.Children)
-                    {
-                        if (timeline is DoubleAnimationUsingKeyFrames daukf)
-                        {
-                            var targetProperty = (string)timeline.GetValue(Storyboard.TargetPropertyProperty);
-
-                            if (targetProperty == "(UIElement.RenderTransform).(CompositeTransform.TranslateY)")
-                            {
-                                var keyFramesCount = daukf.KeyFrames.Count;
-
-                                if (keyFramesCount > 1)
-                                {
-                                    if (state.Name == "Visible")
-                                    {
-                                        daukf.KeyFrames[0].Value = verticalOffset;
-                                    }
-
-                                    if (state.Name == "Collapsed")
-                                    {
-                                        daukf.KeyFrames[keyFramesCount - 1].Value = verticalOffset;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private void UpdateHorizontalOffset(double horizontalOffset)
-        {
-            if (_visualStateGroup != null)
-            {
-                foreach (var state in _visualStateGroup.States)
-                {
-                    foreach (var timeline in state.Storyboard.Children)
-                    {
-                        if (timeline is DoubleAnimationUsingKeyFrames daukf)
-                        {
-                            var targetProperty = (string)timeline.GetValue(Storyboard.TargetPropertyProperty);
-
-                            if (targetProperty == "(UIElement.RenderTransform).(CompositeTransform.TranslateX)")
-                            {
-                                var keyFramesCount = daukf.KeyFrames.Count;
-
-                                if (keyFramesCount > 1)
-                                {
-                                    if (state.Name == "Visible")
-                                    {
-                                        daukf.KeyFrames[0].Value = horizontalOffset;
-                                    }
-
-                                    if (state.Name == "Collapsed")
-                                    {
-                                        daukf.KeyFrames[keyFramesCount - 1].Value = horizontalOffset;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
             }
         }
     }

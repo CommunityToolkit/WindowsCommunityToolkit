@@ -283,7 +283,7 @@
         <controls:InAppNotification x:Name="ExampleInAppNotification"
                                     Content="This is a test message."
                                     ShowDismissButton="@[ShowDismissButton:Bool:True]"
-                                    AnimationDuration="@[AnimationDuration:Slider:100:0-5000]"
+                                    AnimationDuration="@[AnimationDuration:TimeSpan:100:0-5000]"
                                     VerticalOffset="@[VerticalOffset:DoubleSlider:100.0:-200.0-200.0]"
                                     HorizontalOffset="@[HorizontalOffset:DoubleSlider:0.0:-200.0-200.0]" />
 
