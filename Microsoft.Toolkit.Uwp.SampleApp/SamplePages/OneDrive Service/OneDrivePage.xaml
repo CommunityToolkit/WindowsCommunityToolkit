@@ -406,6 +406,7 @@
                                 <ComboBoxItem Content="Microsoft Account" ToolTipService.ToolTip="Authenticate the application with any Microsoft Account">
                                 </ComboBoxItem>
                                 <ComboBoxItem Content="Work or School Accounts" ToolTipService.ToolTip="Authenticate the application with an Office 365 Account "></ComboBoxItem>
+                                <ComboBoxItem Content="Work or School Accounts Or Microsoft Account" ToolTipService.ToolTip="Authenticate the application with an Office 365 Account or a Microsoft Account"></ComboBoxItem>
                             </ComboBox>
                             <TextBox Header="Client Id:" 
                                      x:Name="ClientId" 

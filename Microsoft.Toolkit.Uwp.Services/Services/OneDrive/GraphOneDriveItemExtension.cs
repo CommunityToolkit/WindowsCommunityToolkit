@@ -16,25 +16,25 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.OneDrive.Sdk;
+using Microsoft.Graph;
 using Newtonsoft.Json;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
-using Microsoft.Graph;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
     /// Type OneDriveItemExtension
     /// </summary>
-    public static class OneDriveItemExtension
+    public static class GraphOneDriveItemExtension
     {
+
         /// <summary>
         /// Gets a file's thumbnail set
         /// </summary>
         /// <param name="builder">Http request builder</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes, return a thumbnail set, or null if no thumbnail are available</returns>
-        public static async Task<OneDriveThumbnailSet> GetThumbnailSetAsync(this IItemRequestBuilder builder, CancellationToken cancellationToken)
+        public static async Task<GraphOneDriveThumbnailSet> GetThumbnailSetAsync(this IDriveItemRequestBuilder builder, CancellationToken cancellationToken)
         {
             // Requests the differente size of the thumbnail
             var requestThumbnail = await builder.Thumbnails.Request().GetAsync(cancellationToken).ConfigureAwait(false);
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 return null;
             }
 
-            return new OneDriveThumbnailSet(thumbnailSet);
+            return new GraphOneDriveThumbnailSet(thumbnailSet);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <param name="optionSize"> A value from the enumeration that specifies the size of the image to retrieve. Small ,Medium, Large</param>
         /// <returns>When this method completes, return a stream containing the thumbnail, or null if no thumbnail are available</returns>
-        public static async Task<Stream> GetThumbnailAsync(this IItemRequestBuilder builder, IBaseClient provider, CancellationToken cancellationToken, ThumbnailSize optionSize)
+        public static async Task<Stream> GetThumbnailAsync(this IDriveItemRequestBuilder builder, IGraphServiceClient provider, CancellationToken cancellationToken, ThumbnailSize optionSize)
         {
             // Requests the different sizes of the thumbnail
             var thumbnailSet = await builder.GetThumbnailSetAsync(cancellationToken).ConfigureAwait(false);
@@ -100,15 +100,15 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="request">Http Request to execute</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>a OneDrive item or null if the request fail</returns>
-        public static async Task<Item> SendAuthenticatedRequestAsync(this IBaseClient provider, HttpRequestMessage request, CancellationToken cancellationToken)
+        public static async Task<DriveItem> SendAuthenticatedRequestAsync(this IGraphServiceClient provider, HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            Item oneDriveItem = null;
+            DriveItem oneDriveItem = null;
             await provider.AuthenticationProvider.AuthenticateRequestAsync(request).ConfigureAwait(false);
             var response = await provider.HttpProvider.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 var jsonData = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                oneDriveItem = JsonConvert.DeserializeObject<Item>(jsonData);
+                oneDriveItem = JsonConvert.DeserializeObject<DriveItem>(jsonData);
             }
 
             return oneDriveItem;
@@ -123,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="desiredNewName">New name</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>a OneDrive item or null if the request fail</returns>
-        public static async Task<bool> MoveAsync(this IBaseClient provider, HttpRequestMessage request, OneDriveStorageFolder destinationFolder, string desiredNewName, CancellationToken cancellationToken)
+        public static async Task<bool> MoveAsync(this IGraphServiceClient provider, HttpRequestMessage request, GraphOneDriveStorageFolder destinationFolder, string desiredNewName, CancellationToken cancellationToken)
         {
             OneDriveParentReference rootParentReference = new OneDriveParentReference();
             if (destinationFolder.OneDriveItem.Name == "root")
@@ -153,41 +153,28 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="orderBy">Sort the order of items in the response collection</param>
         /// <param name="filter">Filters the response based on a set of criteria.</param>
         /// <returns>Returns the http request</returns>
-        public static IItemChildrenCollectionRequest CreateChildrenRequest(this IBaseRequestBuilder requestBuilder, int top, OrderBy orderBy = OrderBy.None, string filter = null, bool sdkonedrive=true)
+        public static IDriveItemChildrenCollectionRequest CreateChildrenRequest(this IDriveItemRequestBuilder requestBuilder, int top, OrderBy orderBy = OrderBy.None, string filter = null)
         {
-            IItemChildrenCollectionRequest oneDriveitemsRequest = null;
+            IDriveItemChildrenCollectionRequest oneDriveitemsRequest = null;
             if (orderBy == OrderBy.None && string.IsNullOrEmpty(filter))
             {
-                if (sdkonedrive)
-                {
-                    return ((IItemRequestBuilder)requestBuilder).Children.Request().Top(top);
-                }
-
+                return requestBuilder.Children.Request().Top(top);
             }
 
             if (orderBy == OrderBy.None)
             {
-                if (sdkonedrive)
-                {
-                    return ((IItemRequestBuilder)requestBuilder).Children.Request().Top(top).Filter(filter);
-                }
+                return requestBuilder.Children.Request().Top(top).Filter(filter);
             }
 
             string order = OneDriveHelper.TransformOrderByToODataString(orderBy);
 
             if (string.IsNullOrEmpty(filter))
             {
-                if (sdkonedrive)
-                {
-                    oneDriveitemsRequest = ((IItemRequestBuilder)requestBuilder).Children.Request().Top(top).OrderBy(order);
-                }
+                oneDriveitemsRequest = requestBuilder.Children.Request().Top(top).OrderBy(order);
             }
             else
             {
-                if (sdkonedrive)
-                {
-                    oneDriveitemsRequest = ((IItemRequestBuilder)requestBuilder).Children.Request().Top(top).OrderBy(order).Filter(filter);
-                }
+                oneDriveitemsRequest = requestBuilder.Children.Request().Top(top).OrderBy(order).Filter(filter);
             }
 
             return oneDriveitemsRequest;

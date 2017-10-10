@@ -20,6 +20,8 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
+using Windows.Storage;
+using Microsoft.Toolkit.Uwp.Services.Services.OneDrive;
 
 #pragma warning disable SA1118
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -64,6 +66,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Adal);
                 }
+                else if (indexProvider == 3)
+                {
+                    OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msal); //TODO : Add scope after porting to MSGraph
+                }
 
                 if (!await OneDriveService.Instance.LoginAsync())
                 {
@@ -73,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _currentFolder = _rootFolder = await OneDriveService.Instance.RootFolderAsync();
                 OneDriveItemsList.ItemsSource = _rootFolder.GetItemsAsync();
                 succeeded = true;
-            }
+            }            
             catch (ServiceException serviceEx)
             {
                 await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(serviceEx);
@@ -202,10 +208,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void OneDriveItemsList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            await NavigateToFolderAsync(e.ClickedItem as OneDriveStorageItem);
+            await NavigateToFolderAsync(e.ClickedItem as IOneDriveStorageItem);
         }
 
-        private async Task NavigateToFolderAsync(OneDriveStorageItem item)
+        private async Task NavigateToFolderAsync(IOneDriveStorageItem item)
         {
             if (item.IsFolder())
             {
@@ -283,16 +289,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void RenameButton_Click(object sender, RoutedEventArgs e)
         {
-           await OneDriveSampleHelpers.RenameAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
+           await OneDriveSampleHelpers.RenameAsync((IOneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
            OneDriveItemsList.ItemsSource = _currentFolder.GetItemsAsync();
         }
 
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            await DeleteAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
+            await DeleteAsync((IOneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
         }
 
-        private async Task DeleteAsync(OneDriveStorageItem itemToDelete)
+        private async Task DeleteAsync(IOneDriveStorageItem itemToDelete)
         {
             MessageDialog messageDialog = new MessageDialog($"Are you sure you want to delete '{itemToDelete.Name}'", "Delete");
             messageDialog.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(async (cmd) =>
@@ -322,7 +328,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
-            await OneDriveSampleHelpers.DownloadAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
+            await OneDriveSampleHelpers.DownloadAsync((IOneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
         }
 
         private int _indexProvider = 0;
@@ -343,18 +349,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void CopyToButton_Click(object sender, RoutedEventArgs e)
         {
-            await OneDriveSampleHelpers.CopyToAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _rootFolder);
+            await OneDriveSampleHelpers.CopyToAsync((IOneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _rootFolder);
         }
 
         private async void MoveButton_Click(object sender, RoutedEventArgs e)
         {
-            await OneDriveSampleHelpers.MoveToAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _rootFolder);
+            await OneDriveSampleHelpers.MoveToAsync((IOneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _rootFolder);
         }
 
         private async void ThumbnailButton_Click(object sender, RoutedEventArgs e)
         {
             try
-            {
+            {                
                 Shell.Current.DisplayWaitRing = true;
                 var file = (OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext;
                 using (var stream = await file.GetThumbnailAsync(ThumbnailSize.Large))

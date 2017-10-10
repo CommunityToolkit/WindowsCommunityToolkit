@@ -13,9 +13,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.OneDrive.Sdk;
-using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 using Microsoft.Graph;
+using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -23,11 +22,11 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// Type to handle paged requests to OneDrive.
     /// </summary>
     /// <typeparam name="T">Strong type to return.</typeparam>
-    public class OneDriveRequestSource<T> : Collections.IIncrementalSource<T>
+    public class GraphOneDriveRequestSource<T> : Collections.IIncrementalSource<T>
     {
-        private IBaseClient _provider;
-        private IBaseRequestBuilder _requestBuilder;
-        private IItemChildrenCollectionRequest _nextPage = null;
+        private IGraphServiceClient _provider;
+        private IDriveItemRequestBuilder _requestBuilder;
+        private IDriveItemChildrenCollectionRequest _nextPage = null;
         private OrderBy _orderBy;
         private string _filter;
         private bool _isFirstCall = true;
@@ -35,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Initializes a new instance of the <see cref="OneDriveRequestSource{T}"/> class.
         /// </summary>
-        public OneDriveRequestSource()
+        public GraphOneDriveRequestSource()
         {
         }
 
@@ -46,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="requestBuilder">Http request to execute</param>
         /// <param name="orderBy">Sort the order of items in the response collection</param>
         /// <param name="filter">Filters the response based on a set of criteria.</param>
-        public OneDriveRequestSource(IBaseClient provider, IBaseRequestBuilder requestBuilder, OrderBy orderBy, string filter)
+        public GraphOneDriveRequestSource(IGraphServiceClient provider, IDriveItemRequestBuilder requestBuilder, OrderBy orderBy, string filter)
         {
             _provider = provider;
             _requestBuilder = requestBuilder;
@@ -86,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             return null;
         }
 
-        private IEnumerable<T> ProcessResult(IItemChildrenCollectionPage oneDriveItems)
+        private IEnumerable<T> ProcessResult(IDriveItemChildrenCollectionPage oneDriveItems)
         {
             List<T> items = new List<T>(oneDriveItems.Count);
 
@@ -99,22 +98,21 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             return items;
         }
 
-        private object CreateItem(Item oneDriveItem)
+        private object CreateItem(DriveItem oneDriveItem)
         {
-            IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IOneDriveClient)_provider).Drive.Items[oneDriveItem.Id];
-
+            var requestBuilder = _provider.Drive.Items[oneDriveItem.Id];
 
             if (oneDriveItem.Folder != null)
             {
-                return new OneDriveStorageFolder(_provider, requestBuilder, oneDriveItem);
+                return new GraphOneDriveStorageFolder(_provider, requestBuilder, oneDriveItem);
             }
 
             if (oneDriveItem.File != null)
             {
-                return new OneDriveStorageFile(_provider, requestBuilder, oneDriveItem);
+                return new GraphOneDriveStorageFile(_provider, requestBuilder, oneDriveItem);
             }
 
-            return new OneDriveStorageItem(_provider, requestBuilder, oneDriveItem);
+            return new GraphOneDriveStorageItem(_provider, requestBuilder, oneDriveItem);
         }
     }
 }

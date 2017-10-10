@@ -21,6 +21,7 @@ using Windows.Storage.Streams;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.Toolkit.Uwp.Services.Services.OneDrive;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -126,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// </summary>
         /// <param name="item">File to download from OneDrive</param>
         /// <returns>Task to support await of async call.</returns>
-        public static async Task DownloadAsync(OneDriveStorageItem item)
+        public static async Task DownloadAsync(IOneDriveStorageItem item)
         {
             try
             {
@@ -252,7 +253,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        public static async Task RenameAsync(OneDriveStorageItem itemToRename)
+        public static async Task RenameAsync(IOneDriveStorageItem itemToRename)
         {
             try
             {
@@ -278,7 +279,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        public static async Task CopyToAsync(OneDriveStorageItem item, OneDriveStorageFolder rootFolder)
+        public static async Task CopyToAsync(IOneDriveStorageItem item, OneDriveStorageFolder rootFolder)
         {
             Shell.Current.DisplayWaitRing = true;
             try
@@ -304,7 +305,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        public static async Task MoveToAsync(OneDriveStorageItem item, OneDriveStorageFolder rootFolder)
+        public static async Task MoveToAsync(IOneDriveStorageItem item, OneDriveStorageFolder rootFolder)
         {
             Shell.Current.DisplayWaitRing = true;
             try

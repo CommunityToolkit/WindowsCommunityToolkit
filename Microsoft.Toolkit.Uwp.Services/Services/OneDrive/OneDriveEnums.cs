@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         public enum AccountProviderType
         {
             /// <summary>
-            /// Uses an Azure Active Directory account
+            /// Uses an Azure Active Directory Account
             /// </summary>
             Adal,
 
@@ -31,6 +31,12 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             /// Uses an Microsoft Account
             /// </summary>
             Msa,
+
+            /// <summary>
+            /// Uses an Azure Active Directory Account or
+            /// an Microsoft Account
+            /// </summary>
+            Msal,
 
             /// <summary>
             /// Uses Windows OnlineId

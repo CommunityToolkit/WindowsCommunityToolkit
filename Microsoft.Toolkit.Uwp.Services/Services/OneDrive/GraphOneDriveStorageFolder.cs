@@ -19,26 +19,22 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.OneDrive.Sdk;
 using Microsoft.OneDrive.Sdk.Authentication;
 using Newtonsoft.Json;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
-using OneDriveSdk = Microsoft.OneDrive.Sdk;
-using OneDriveSdkHelper = Microsoft.OneDrive.Sdk.Helpers;
-using Microsoft.Toolkit.Uwp.Services.Services.OneDrive;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
     /// OneDriveStorageFolder Type
     /// </summary>
-    public class OneDriveStorageFolder : OneDriveStorageItem
+    public class GraphOneDriveStorageFolder : GraphOneDriveStorageItem
     {
-        private IItemChildrenCollectionRequest _nextPageItemsRequest;
-        private IItemChildrenCollectionRequest _nextPageFoldersRequest;
-        private IItemChildrenCollectionRequest _nextPageFilesRequest;
+        private IDriveItemChildrenCollectionRequest _nextPageItemsRequest;
+        private IDriveItemChildrenCollectionRequest _nextPageFoldersRequest;
+        private IDriveItemChildrenCollectionRequest _nextPageFilesRequest;
 
         /// <summary>
         /// Requests from OneDrive the file or folder with the specified name from the current folder.
@@ -46,19 +42,19 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="path">The name (or path relative to the current folder) of the file or folder to get.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a DriveItem that represents the specified file or folder.</returns>
-        private async Task<Item> RequestChildrenAsync(string path, CancellationToken cancellationToken)
+        private async Task<DriveItem> RequestChildrenAsync(string path, CancellationToken cancellationToken)
         {
-            return await ((IItemRequestBuilder)RequestBuilder).ItemWithPath(path).Request().GetAsync(cancellationToken).ConfigureAwait(false);
+            return await RequestBuilder.ItemWithPath(path).Request().GetAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        private OneDriveSdkHelper.ChunkedUploadProvider _uploadProvider;
+        private ChunkedUploadProvider _uploadProvider;
 
-        private Microsoft.OneDrive.Sdk.UploadSession _uploadSession;
+        private UploadSession _uploadSession;
 
         /// <summary>
         /// Gets the upload provider
         /// </summary>
-        public OneDriveSdkHelper.ChunkedUploadProvider UploadProvider
+        public ChunkedUploadProvider UploadProvider
         {
             get { return _uploadProvider; }
         }
@@ -75,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="oneDriveProvider">Instance of OneDriveClient class</param>
         /// <param name="requestBuilder">Http request builder.</param>
         /// <param name="oneDriveItem">OneDrive's item</param>
-        public OneDriveStorageFolder(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, Item oneDriveItem)
+        public GraphOneDriveStorageFolder(IGraphServiceClient oneDriveProvider, IDriveItemRequestBuilder requestBuilder, DriveItem oneDriveItem)
             : base(oneDriveProvider, requestBuilder, oneDriveItem)
         {
         }
@@ -86,10 +82,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="desiredName">The desired, new name for the current folder.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns an OneDriveStorageFolder that represents the specified folder.</returns>
-        public async new Task<OneDriveStorageFolder> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
+        public async new Task<GraphOneDriveStorageFolder> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
         {
             var renameItem = await base.RenameAsync(desiredName, cancellationToken);
-            return InitializeOneDriveStorageFolder(((OneDriveStorageItem)renameItem).OneDriveItem);
+            return InitializeGraphOneDriveStorageFolder(renameItem.OneDriveItem);
         }
 
         /// <summary>
@@ -105,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// a file with the specified desiredNewName already exists in the destination folder.
         /// Default : Fail
         /// <returns>When this method completes, it returns a MicrosoftGraphOneDriveFile that represents the new file.</returns>
-        public async Task<OneDriveStorageFile> CreateFileAsync(string desiredName,  CreationCollisionOption options = CreationCollisionOption.FailIfExists, IRandomAccessStream content = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<GraphOneDriveStorageFile> CreateFileAsync(string desiredName,  CreationCollisionOption options = CreationCollisionOption.FailIfExists, IRandomAccessStream content = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             Stream streamContent = null;
             if (string.IsNullOrEmpty(desiredName))
@@ -131,13 +127,13 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 streamContent = content.AsStreamForRead();
             }
 
-            var childrenRequest = ((IItemRequestBuilder)RequestBuilder).Children.Request();
+            var childrenRequest = RequestBuilder.Children.Request();
             string requestUri = $"{childrenRequest.RequestUrl}/{desiredName}/content?@name.conflictBehavior={OneDriveHelper.TransformCollisionOptionToConflictBehavior(options.ToString())}";
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, requestUri);
             request.Content = new StreamContent(streamContent);
-            var createdFile = await ((IOneDriveClient)Provider).SendAuthenticatedRequestAsync(request, cancellationToken);
+            var createdFile = await Provider.SendAuthenticatedRequestAsync(request, cancellationToken);
 
-            return InitializeOneDriveStorageFile(createdFile);
+            return InitializeGraphOneDriveStorageFile(createdFile);
         }
 
         /// <summary>
@@ -147,14 +143,14 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="options">>One of the enumeration values that determines how to handle the collision if a file with the specified desiredName already exists in the current folder.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes, it returns a MicrosoftGraphOneDriveFolder that represents the new subfolder.</returns>
-        public async Task<OneDriveStorageFolder> CreateFolderAsync(string desiredName, CreationCollisionOption options = CreationCollisionOption.FailIfExists, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<GraphOneDriveStorageFolder> CreateFolderAsync(string desiredName, CreationCollisionOption options = CreationCollisionOption.FailIfExists, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (string.IsNullOrEmpty(desiredName))
             {
                 throw new ArgumentNullException(nameof(desiredName));
             }
 
-            var childrenRequest = ((IItemRequestBuilder)RequestBuilder).Children.Request();
+            var childrenRequest = RequestBuilder.Children.Request();
             var requestUri = childrenRequest.RequestUrl;
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri);
@@ -162,8 +158,8 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             var jsonOptions = item.SerializeToJson();
             request.Content = new StringContent(jsonOptions, System.Text.Encoding.UTF8, "application/json");
 
-            var createdFolder = await ((IOneDriveClient)Provider).SendAuthenticatedRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            return InitializeOneDriveStorageFolder(createdFolder);
+            var createdFolder = await Provider.SendAuthenticatedRequestAsync(request, cancellationToken).ConfigureAwait(false);
+            return InitializeGraphOneDriveStorageFolder(createdFolder);
         }
 
         /// <summary>
@@ -172,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="name">The name (or path relative to the current folder) of the file to get.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a MicrosoftGraphOneDriveFile that represents the specified file.</returns>
-        public async Task<OneDriveStorageFile> GetFileAsync(string name, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<GraphOneDriveStorageFile> GetFileAsync(string name, CancellationToken cancellationToken = default(CancellationToken))
         {
             var oneDriveItem = await RequestChildrenAsync(name, cancellationToken);
             if (oneDriveItem == null)
@@ -180,7 +176,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 return null;
             }
 
-            return InitializeOneDriveStorageFile(oneDriveItem);
+            return InitializeGraphOneDriveStorageFile(oneDriveItem);
         }
 
         /// <summary>
@@ -191,10 +187,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="filter">Filters the response based on a set of criteria.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a list of the files in the current folder.</returns>
-        public async Task<List<OneDriveStorageFile>> GetFilesAsync(int top = 20, OrderBy orderBy = OrderBy.None, string filter = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<List<GraphOneDriveStorageFile>> GetFilesAsync(int top = 20, OrderBy orderBy = OrderBy.None, string filter = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            IItemChildrenCollectionRequest oneDriveItemsRequest = CreateChildrenRequest(top, orderBy, filter);
-            return await RequestOneDriveFilesAsync(oneDriveItemsRequest, cancellationToken);
+            IDriveItemChildrenCollectionRequest oneDriveItemsRequest = CreateChildrenRequest(top, orderBy, filter);
+            return await RequestGraphOneDriveFilesAsync(oneDriveItemsRequest, cancellationToken);
         }
 
         /// <summary>
@@ -203,10 +199,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="name">The name (or path relative to the current folder) of the folder to get.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a OneDriveStorageFolder that represents the specified file.</returns>
-        public async Task<OneDriveStorageFolder> GetFolderAsync(string name, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<GraphOneDriveStorageFolder> GetFolderAsync(string name, CancellationToken cancellationToken = default(CancellationToken))
         {
             var oneDriveItem = await RequestChildrenAsync(name, cancellationToken).ConfigureAwait(false);
-            return InitializeOneDriveStorageFolder(oneDriveItem);
+            return InitializeGraphOneDriveStorageFolder(oneDriveItem);
         }
 
         /// <summary>
@@ -217,10 +213,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="filter">Filters the response based on a set of criteria.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a list of the subfolders in the current folder.</returns>
-        public async Task<List<OneDriveStorageFolder>> GetFoldersAsync(int top, OrderBy orderBy = OrderBy.None, string filter = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<List<GraphOneDriveStorageFolder>> GetFoldersAsync(int top, OrderBy orderBy = OrderBy.None, string filter = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            IItemChildrenCollectionRequest oneDriveItemsRequest = CreateChildrenRequest(top, orderBy, filter);
-            return await RequestOneDriveFoldersAsync(oneDriveItemsRequest, cancellationToken);
+            IDriveItemChildrenCollectionRequest oneDriveItemsRequest = CreateChildrenRequest(top, orderBy, filter);
+            return await RequestGraphOneDriveFoldersAsync(oneDriveItemsRequest, cancellationToken);
         }
 
         /// <summary>
@@ -229,10 +225,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="name">The name (or path relative to the current folder) of the folder to get.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a OneDriveStorageFolder that represents the specified file.</returns>
-        public async Task<IOneDriveStorageItem> GetItemAsync(string name, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<GraphOneDriveStorageItem> GetItemAsync(string name, CancellationToken cancellationToken = default(CancellationToken))
         {
             var oneDriveItem = await RequestChildrenAsync(name, cancellationToken).ConfigureAwait(false);
-            return InitializeOneDriveStorageItem(oneDriveItem);
+            return InitializeGraphOneDriveStorageItem(oneDriveItem);
         }
 
         /// <summary>
@@ -243,10 +239,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="filter">Filters the response based on a set of criteria.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a list of the subfolders and files in the current folder.</returns>
-        public async Task<OneDriveStorageItemsCollection> GetItemsAsync(int top, OrderBy orderBy = OrderBy.None, string filter = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<GraphOneDriveStorageItemsCollection> GetItemsAsync(int top, OrderBy orderBy = OrderBy.None, string filter = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            IItemChildrenCollectionRequest oneDriveItemsRequest = RequestBuilder.CreateChildrenRequest(top, orderBy, filter);
-            return await RequestOneDriveItemsAsync(oneDriveItemsRequest, cancellationToken).ConfigureAwait(false);
+            IDriveItemChildrenCollectionRequest oneDriveItemsRequest = RequestBuilder.CreateChildrenRequest(top, orderBy, filter);
+            return await RequestGraphOneDriveItemsAsync(oneDriveItemsRequest, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -255,10 +251,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="orderBy">Sort the order of items in the response collection</param>
         /// <remarks>don't use awaitable</remarks>
         /// <returns>When this method completes successfully, it returns a list of the subfolders and files in the current folder.</returns>
-        public IncrementalLoadingCollection<OneDriveRequestSource<IOneDriveStorageItem>, IOneDriveStorageItem> GetItemsAsync(OrderBy orderBy = OrderBy.None)
+        public IncrementalLoadingCollection<GraphOneDriveRequestSource<GraphOneDriveStorageItem>, GraphOneDriveStorageItem> GetItemsAsync(OrderBy orderBy = OrderBy.None)
         {
-            var requestSource = new OneDriveRequestSource<IOneDriveStorageItem>(Provider, RequestBuilder, orderBy, null);
-            return new IncrementalLoadingCollection<OneDriveRequestSource<IOneDriveStorageItem>, IOneDriveStorageItem>(requestSource);
+            var requestSource = new GraphOneDriveRequestSource<GraphOneDriveStorageItem>(Provider, RequestBuilder, orderBy, null);
+            return new IncrementalLoadingCollection<GraphOneDriveRequestSource<GraphOneDriveStorageItem>, GraphOneDriveStorageItem>(requestSource);
         }
 
         /// <summary>
@@ -268,10 +264,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="maxItemsToRetrieve">The maximum number of items to get</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a list of the subfolders and files in the current folder.</returns>
-        public async Task<OneDriveStorageItemsCollection> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<GraphOneDriveStorageItemsCollection> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve, CancellationToken cancellationToken = default(CancellationToken))
         {
-            IItemChildrenCollectionRequest oneDriveitemsRequest = null;
-            var request = ((IItemRequestBuilder)RequestBuilder).Children.Request();
+            IDriveItemChildrenCollectionRequest oneDriveitemsRequest = null;
+            var request = RequestBuilder.Children.Request();
 
             // skip is not working right now
             // oneDriveitemsRequest = request.Top((int)maxItemsToRetrieve).Skip((int)startIndex);
@@ -279,14 +275,14 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             oneDriveitemsRequest = request.Top(maxToRetrieve);
             var tempo = await oneDriveitemsRequest.GetAsync(cancellationToken).ConfigureAwait(false);
 
-            List<IOneDriveStorageItem> items = new List<IOneDriveStorageItem>();
+            List<GraphOneDriveStorageItem> items = new List<GraphOneDriveStorageItem>();
 
             for (int i = (int)startIndex; i < maxToRetrieve && i < tempo.Count; i++)
             {
-                items.Add(InitializeOneDriveStorageItem(tempo[i]));
+                items.Add(InitializeGraphOneDriveStorageItem(tempo[i]));
             }
 
-            return new OneDriveStorageItemsCollection(items);
+            return new GraphOneDriveStorageItemsCollection(items);
         }
 
         /// <summary>
@@ -294,11 +290,11 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>The next collection of items or null if there are no more items (an item could be a folder or  file)</returns>
-        public async Task<OneDriveStorageItemsCollection> NextItemsAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<GraphOneDriveStorageItemsCollection> NextItemsAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             if (_nextPageItemsRequest != null)
             {
-                return await RequestOneDriveItemsAsync(_nextPageItemsRequest, cancellationToken);
+                return await RequestGraphOneDriveItemsAsync(_nextPageItemsRequest, cancellationToken);
             }
 
             // no more items
@@ -322,11 +318,11 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>The next collection of folders or null if there are no more folders</returns>
-        public async Task<List<OneDriveStorageFolder>> NextFoldersAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<List<GraphOneDriveStorageFolder>> NextFoldersAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             if (_nextPageFoldersRequest != null)
             {
-                return await RequestOneDriveFoldersAsync(_nextPageFoldersRequest, cancellationToken);
+                return await RequestGraphOneDriveFoldersAsync(_nextPageFoldersRequest, cancellationToken);
             }
 
             // no more folders
@@ -338,11 +334,11 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>The next collection of files or null if there are no more files</returns>
-        public async Task<List<OneDriveStorageFile>> NextFilesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<List<GraphOneDriveStorageFile>> NextFilesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             if (_nextPageFilesRequest != null)
             {
-                return await RequestOneDriveFilesAsync(_nextPageFilesRequest, cancellationToken);
+                return await RequestGraphOneDriveFilesAsync(_nextPageFilesRequest, cancellationToken);
             }
 
             // no more folders
@@ -361,7 +357,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 if (Provider.AuthenticationProvider is MsaAuthenticationProvider)
                 {
                     var remainingRequests = _uploadProvider.GetUploadChunkRequests();
-                    var firstChunck = remainingRequests.First<OneDriveSdk.UploadChunkRequest>();
+                    var firstChunck = remainingRequests.First<UploadChunkRequest>();
                     var status = await _uploadProvider.UpdateSessionStatusAsync();
                     return firstChunck.RangeBegin;
                 }
@@ -380,7 +376,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="options">One of the enumeration values that determines how to handle the collision if a file with the specified desiredName already exists in the current folder.</param>
         /// <param name="maxChunkSize">Max chunk size must be a multiple of 320 KiB (ie: 320*1024)</param>
         /// <returns>When this method completes, it returns a MicrosoftGraphOneDriveFile that represents the new file.</returns>
-        public async Task<OneDriveStorageFile> UploadFileAsync(string desiredName, IRandomAccessStream content, CreationCollisionOption options = CreationCollisionOption.FailIfExists,   int maxChunkSize = -1)
+        public async Task<GraphOneDriveStorageFile> UploadFileAsync(string desiredName, IRandomAccessStream content, CreationCollisionOption options = CreationCollisionOption.FailIfExists,   int maxChunkSize = -1)
         {
             int currentChunkSize = maxChunkSize < 0 ? OneDriveUploadConstants.DefaultMaxChunkSizeForUploadSession : maxChunkSize;
 
@@ -416,14 +412,14 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             IsUploadCompleted = false;
             var jsonData = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            _uploadSession = JsonConvert.DeserializeObject<Microsoft.OneDrive.Sdk.UploadSession>(jsonData);
+            _uploadSession = JsonConvert.DeserializeObject<UploadSession>(jsonData);
 
             var streamToUpload = content.AsStreamForRead();
-            _uploadProvider = new Microsoft.OneDrive.Sdk.Helpers.ChunkedUploadProvider(_uploadSession, Provider, streamToUpload, maxChunkSize);
+            _uploadProvider = new ChunkedUploadProvider(_uploadSession, Provider, streamToUpload, maxChunkSize);
 
             var item = await _uploadProvider.UploadAsync().ConfigureAwait(false);
             IsUploadCompleted = true;
-            return InitializeOneDriveStorageFile(item);
+            return InitializeGraphOneDriveStorageFile(item);
         }
 
         /// <summary>
@@ -433,28 +429,28 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="orderBy">Sort the order of items in the response collection</param>
         /// <param name="filter">Filters the response based on a set of criteria.</param>
         /// <returns>Returns the http request</returns>
-        private IItemChildrenCollectionRequest CreateChildrenRequest(int top, OrderBy orderBy = OrderBy.None, string filter = null)
+        private IDriveItemChildrenCollectionRequest CreateChildrenRequest(int top, OrderBy orderBy = OrderBy.None, string filter = null)
         {
-            IItemChildrenCollectionRequest oneDriveitemsRequest = null;
+            IDriveItemChildrenCollectionRequest oneDriveitemsRequest = null;
             if (orderBy == OrderBy.None && string.IsNullOrEmpty(filter))
             {
-                return ((IItemRequestBuilder)RequestBuilder).Children.Request().Top(top);
+                return RequestBuilder.Children.Request().Top(top);
             }
 
             if (orderBy == OrderBy.None)
             {
-                return ((IItemRequestBuilder)RequestBuilder).Children.Request().Top(top).Filter(filter);
+                return RequestBuilder.Children.Request().Top(top).Filter(filter);
             }
 
             string order = $"{orderBy} asc".ToLower();
 
             if (string.IsNullOrEmpty(filter))
             {
-                oneDriveitemsRequest = ((IItemRequestBuilder)RequestBuilder).Children.Request().Top(top).OrderBy(order);
+                oneDriveitemsRequest = RequestBuilder.Children.Request().Top(top).OrderBy(order);
             }
             else
             {
-                oneDriveitemsRequest = ((IItemRequestBuilder)RequestBuilder).Children.Request().Top(top).OrderBy(order).Filter(filter);
+                oneDriveitemsRequest = RequestBuilder.Children.Request().Top(top).OrderBy(order).Filter(filter);
             }
 
             return oneDriveitemsRequest;
@@ -466,20 +462,20 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="request">Http request to execute</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns MicrosoftGraphOneDriveItemCollection that represents the specified files or folders</returns>
-        private async Task<OneDriveStorageItemsCollection> RequestOneDriveItemsAsync(IItemChildrenCollectionRequest request, CancellationToken cancellationToken)
+        private async Task<GraphOneDriveStorageItemsCollection> RequestGraphOneDriveItemsAsync(IDriveItemChildrenCollectionRequest request, CancellationToken cancellationToken)
         {
             var oneDriveItems = await request.GetAsync(cancellationToken).ConfigureAwait(false);
 
             _nextPageItemsRequest = oneDriveItems.NextPageRequest;
 
-            List<IOneDriveStorageItem> items = new List<IOneDriveStorageItem>();
+            List<GraphOneDriveStorageItem> items = new List<GraphOneDriveStorageItem>();
 
             foreach (var oneDriveItem in oneDriveItems)
             {
-                items.Add(InitializeOneDriveStorageItem(oneDriveItem));
+                items.Add(InitializeGraphOneDriveStorageItem(oneDriveItem));
             }
 
-            return new OneDriveStorageItemsCollection(items);
+            return new GraphOneDriveStorageItemsCollection(items);
         }
 
         /// <summary>
@@ -488,18 +484,18 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="request">Http request to execute</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns MicrosoftGraphOneDriveItemCollection that represents the specified files or folders</returns>
-        private async Task<List<OneDriveStorageFolder>> RequestOneDriveFoldersAsync(IItemChildrenCollectionRequest request, CancellationToken cancellationToken)
+        private async Task<List<GraphOneDriveStorageFolder>> RequestGraphOneDriveFoldersAsync(IDriveItemChildrenCollectionRequest request, CancellationToken cancellationToken)
         {
             var oneDriveItems = await request.GetAsync(cancellationToken);
 
             _nextPageFoldersRequest = oneDriveItems.NextPageRequest;
 
-            List<Item> oneDriveFolders = QueryFolders(oneDriveItems);
-            List<OneDriveStorageFolder> folders = new List<OneDriveStorageFolder>();
+            List<DriveItem> oneDriveFolders = QueryFolders(oneDriveItems);
+            List<GraphOneDriveStorageFolder> folders = new List<GraphOneDriveStorageFolder>();
 
             foreach (var oneDriveFolder in oneDriveFolders)
             {
-                folders.Add(InitializeOneDriveStorageFolder(oneDriveFolder));
+                folders.Add(InitializeGraphOneDriveStorageFolder(oneDriveFolder));
             }
 
             return folders;
@@ -510,10 +506,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="itemFolders">Collection of DriveItem </param>
         /// <returns>Only the DriveItems folders </returns>
-        private List<Item> QueryFolders(IItemChildrenCollectionPage itemFolders)
+        private List<DriveItem> QueryFolders(IDriveItemChildrenCollectionPage itemFolders)
         {
             var query = from f in itemFolders.CurrentPage where f.Folder != null || f.SpecialFolder != null select f;
-            return query.ToList<Item>();
+            return query.ToList<DriveItem>();
         }
 
         /// <summary>
@@ -522,21 +518,21 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="request">Http request to execute</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a list of OneDriveStorageFile that represents the specified files</returns>
-        private async Task<List<OneDriveStorageFile>> RequestOneDriveFilesAsync(IItemChildrenCollectionRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<List<GraphOneDriveStorageFile>> RequestGraphOneDriveFilesAsync(IDriveItemChildrenCollectionRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
             var oneDriveItems = await request.GetAsync(cancellationToken);
 
             _nextPageFilesRequest = oneDriveItems.NextPageRequest;
 
             // TODO: The first items on the list are never a file
-            List<Item> oneDriveFiles = QueryFiles(oneDriveItems);
+            List<DriveItem> oneDriveFiles = QueryFiles(oneDriveItems);
 
             // TODO: Algo to get only File
-            List<OneDriveStorageFile> files = new List<OneDriveStorageFile>();
+            List<GraphOneDriveStorageFile> files = new List<GraphOneDriveStorageFile>();
 
             foreach (var oneDriveFile in oneDriveFiles)
             {
-                files.Add(InitializeOneDriveStorageFile(oneDriveFile));
+                files.Add(InitializeGraphOneDriveStorageFile(oneDriveFile));
             }
 
             return files;
@@ -547,10 +543,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="itemFiles">Collection of DriveItem</param>
         /// <returns>A list of DriveItem</returns>
-        private List<Item> QueryFiles(IItemChildrenCollectionPage itemFiles)
+        private List<DriveItem> QueryFiles(IDriveItemChildrenCollectionPage itemFiles)
         {
             var query = from f in itemFiles.CurrentPage where f.File != null select f;
-            return query.ToList<Item>();
+            return query.ToList<DriveItem>();
         }
     }
 }

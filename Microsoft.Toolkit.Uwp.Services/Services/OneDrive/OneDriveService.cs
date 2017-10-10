@@ -29,12 +29,17 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     public class OneDriveService
     {
         /// <summary>
+        /// Field to store if using Microsoft Graph API
+        /// </summary>
+        private static bool _useMicrosoftGraph;
+
+        /// <summary>
         /// Private singleton field.
         /// </summary>
         private static OneDriveService _instance;
 
         /// <summary>
-        /// Field to store Azure AD Application clientid
+        /// Field to store Azure AD Application clientId
         /// </summary>
         private string _appClientId;
 
@@ -66,12 +71,33 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Store a reference to an instance of the underlying data provider.
         /// </summary>
-        private IOneDriveClient _oneDriveProvider;
+        private IOneDriveClient _oneDriveProvider=null;
+
+        /// <summary>
+        /// Store a reference to an instance of the underlying data provider.
+        /// </summary>
+        private IGraphServiceClient _graphProvider=null;
 
         /// <summary>
         /// Gets public singleton property.
         /// </summary>
         public static OneDriveService Instance => _instance ?? (_instance = new OneDriveService());
+
+        /// <summary>
+        /// Gets a reference to an instance of the underlying graph provider.
+        /// </summary>
+        public IGraphServiceClient GraphProvider
+        {
+            get
+            {
+                if (_graphProvider == null)
+                {
+                    throw new InvalidOperationException("Provider not initialized.");
+                }
+
+                return _graphProvider;
+            }
+        }
 
         /// <summary>
         /// Gets a reference to an instance of the underlying data provider.
@@ -167,10 +193,16 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             {
                 throw new InvalidOperationException("Microsoft OneDrive not initialized.");
             }
+            OneDriveAuthenticationHelper.ResourceUri = "https://graph.microsoft.com";
+            string resourceEndpointUri = OneDriveAuthenticationHelper.ResourceUri;
+            if (_accountProviderType == AccountProviderType.Msal)
+            {
 
-            string resourceEndpointUri = null;
+                
 
-            if (_accountProviderType == AccountProviderType.Adal)
+            }
+            // Keep this for compatibility reason
+            else if (_accountProviderType == AccountProviderType.Adal)
             {
                 DiscoveryService discoveryService = null;
                 DiscoverySettings discoverySettings = DiscoverySettings.Load();
@@ -205,7 +237,15 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 resourceEndpointUri = OneDriveAuthenticationHelper.ResourceUri;
             }
 
-            _oneDriveProvider = new OneDriveClient(resourceEndpointUri, _accountProvider);
+            if (_accountProviderType == AccountProviderType.Msal)
+            {
+                _graphProvider = new GraphServiceClient("https://graph.microsoft.com/v1.0/me", _accountProvider);
+            }
+            else
+            {
+                _oneDriveProvider = new OneDriveClient(resourceEndpointUri, _accountProvider);
+            }
+            
 
             _isConnected = true;
             return _isConnected;
@@ -226,9 +266,15 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                     throw new Exception("Unable to sign in");
                 }
             }
-
+            
+            if(_graphProvider != null)
+            {
+                return null;
+            }
             var oneDriveRootItem = await _oneDriveProvider.Drive.Root.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Root, oneDriveRootItem);
+            
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Root, oneDriveRootItem);
+
         }
 
         /// <summary>
@@ -248,7 +294,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.AppRoot.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.AppRoot, oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.AppRoot, oneDriveRootItem);
         }
 
         /// <summary>
@@ -268,7 +314,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.CameraRoll.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.CameraRoll, oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.CameraRoll, oneDriveRootItem);
         }
 
         /// <summary>
@@ -287,8 +333,12 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 }
             }
 
+            if (_graphProvider != null)
+            {
+                return null;
+            }
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.Documents.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.Documents, oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.Documents, oneDriveRootItem);
         }
 
         /// <summary>
@@ -306,9 +356,12 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                     throw new Exception("Unable to sign in");
                 }
             }
-
+            if (_graphProvider != null)
+            {
+                return null;
+            }
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.Music.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.Music, oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.Music, oneDriveRootItem);
         }
 
         /// <summary>
@@ -326,9 +379,12 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                     throw new Exception("Unable to sign in");
                 }
             }
-
+            if (_graphProvider != null)
+            {
+                return null;
+            }
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.Photos.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.Photos, oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.Photos, oneDriveRootItem);
         }
 
         /// <summary>
