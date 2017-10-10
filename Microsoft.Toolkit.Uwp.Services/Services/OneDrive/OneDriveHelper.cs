@@ -101,5 +101,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             return string.Empty;
         }
+
     }
 }

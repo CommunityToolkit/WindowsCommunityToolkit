@@ -16,18 +16,19 @@ using Microsoft.Graph;
 using Microsoft.Toolkit.Uwp.Services.OneDrive;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Microsoft.Toolkit.Uwp.Services.OneDrive;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class FoldersPickerControl : UserControl
     {
-        private OneDriveStorageFolder _rootFolder = null;
-        private List<OneDriveStorageFolder> _folders = null;
+        private IOneDriveStorageFolder _rootFolder = null;
+        private List<IOneDriveStorageFolder> _folders = null;
 
-        private OneDriveStorageFolder _destinationFolder = null;
-        private OneDriveStorageFolder _currentFolder = null;
+        private IOneDriveStorageFolder _destinationFolder = null;
+        private IOneDriveStorageFolder _currentFolder = null;
 
-        public OneDriveStorageFolder SelectedFolder
+        public IOneDriveStorageFolder SelectedFolder
         {
             get
             {
@@ -35,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        public FoldersPickerControl(List<OneDriveStorageFolder> folders, OneDriveStorageFolder rootFolder)
+        public FoldersPickerControl(List<IOneDriveStorageFolder> folders, IOneDriveStorageFolder rootFolder)
         {
             this.InitializeComponent();
             _folders = folders;
@@ -61,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (_currentFolder != null)
             {
-                OneDriveStorageFolder currentFolder = null;
+                IOneDriveStorageFolder currentFolder = null;
                 progressRing.IsActive = true;
                 try
                 {
@@ -74,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                         currentFolder = _rootFolder;
                     }
 
-                    LstFolder.ItemsSource = await currentFolder.GetFoldersAsync(100);
+                    LstFolder.ItemsSource = await currentFolder.GetFoldersAsync();
                     _currentFolder = currentFolder;
                 }
                 catch (ServiceException ex)

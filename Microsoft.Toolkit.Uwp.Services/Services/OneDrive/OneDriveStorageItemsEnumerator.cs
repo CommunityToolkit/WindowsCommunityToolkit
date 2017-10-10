@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.Services.Services.OneDrive;
+using Microsoft.Toolkit.Uwp.Services.OneDrive;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -69,13 +69,14 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             {
                 try
                 {
+                    //TODO : See for MSGRAPPH HERE
                     var currentItem = _items[position];
                     if (currentItem.IsFile() || currentItem.IsOneNote())
                     {
-                        return new OneDriveStorageFile(currentItem.Provider, currentItem.RequestBuilder, ((OneDriveStorageItem)currentItem).OneDriveItem);
+                        return new OneDriveStorageFile(currentItem.Provider, currentItem.RequestBuilder, currentItem.OneDriveItem);
                     }
 
-                        return new OneDriveStorageFolder(currentItem.Provider, currentItem.RequestBuilder, ((OneDriveStorageItem)currentItem).OneDriveItem);
+                        return new OneDriveStorageFolder(currentItem.Provider, currentItem.RequestBuilder, currentItem.OneDriveItem);
                 }
                 catch (IndexOutOfRangeException)
                 {

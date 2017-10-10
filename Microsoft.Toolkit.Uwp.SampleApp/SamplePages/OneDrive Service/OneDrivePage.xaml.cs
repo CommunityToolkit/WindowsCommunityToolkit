@@ -21,15 +21,15 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 using Windows.Storage;
-using Microsoft.Toolkit.Uwp.Services.Services.OneDrive;
+using Microsoft.Toolkit.Uwp.Services.OneDrive;
 
 #pragma warning disable SA1118
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class OneDrivePage : Page
     {
-        private Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveStorageFolder _rootFolder = null;
-        private Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveStorageFolder _currentFolder = null;
+        private Microsoft.Toolkit.Uwp.Services.OneDrive.IOneDriveStorageFolder _rootFolder = null;
+        private Microsoft.Toolkit.Uwp.Services.OneDrive.IOneDriveStorageFolder _currentFolder = null;
 
         public OneDrivePage()
         {
@@ -237,7 +237,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (_currentFolder != null)
             {
-                OneDriveStorageFolder currentFolder = null;
+                IOneDriveStorageFolder currentFolder = null;
                 Shell.Current.DisplayWaitRing = true;
                 try
                 {

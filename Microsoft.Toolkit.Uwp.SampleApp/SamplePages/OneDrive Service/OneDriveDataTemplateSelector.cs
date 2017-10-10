@@ -12,7 +12,6 @@
 
 using Microsoft.Toolkit.Uwp.Services;
 using Microsoft.Toolkit.Uwp.Services.OneDrive;
-using Microsoft.Toolkit.Uwp.Services.Services.OneDrive;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 

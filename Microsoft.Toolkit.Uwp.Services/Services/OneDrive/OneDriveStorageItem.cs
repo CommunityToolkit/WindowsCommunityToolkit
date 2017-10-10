@@ -21,7 +21,7 @@ using Microsoft.OneDrive.Sdk;
 using Newtonsoft.Json;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Microsoft.Toolkit.Uwp.Services.Services.OneDrive;
+using Microsoft.Toolkit.Uwp.Services.OneDrive;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -155,27 +155,27 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             set { _oneDriveProvider = value; }
         }
 
-        private Item _oneDriveItem;
+        private DataItem _oneDriveItem;
 
         /// <summary>
         /// Gets an instance of a DriveItem
         /// </summary>
-        public Item OneDriveItem
+        public DataItem OneDriveItem
         {
             get { return _oneDriveItem; }
         }
-        
+          
         /// <summary>
         ///  Initializes a new instance of the <see cref="OneDriveStorageItem"/> class.
         /// </summary>
         /// <param name="oneDriveProvider">Instance of OneDriveClient class</param>
         /// <param name="requestBuilder">Http request builder.</param>
         /// <param name="oneDriveItem">OneDrive's item</param>
-        public OneDriveStorageItem(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, Item oneDriveItem)
+        public OneDriveStorageItem(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, DataItem oneDriveItem)
         {
             _requestBuilder = requestBuilder;
             _oneDriveProvider = oneDriveProvider;
-            _oneDriveItem = oneDriveItem;
+            _oneDriveItem = oneDriveItem; // new DataItem(oneDriveItem);
             _name = oneDriveItem.Name;
             _dateCreated = oneDriveItem.CreatedDateTime;
             _dateModified = oneDriveItem.LastModifiedDateTime;
@@ -195,7 +195,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             // ParentReference null means is root
-            if(oneDriveItem.ParentReference?.Path != null)
+            if (oneDriveItem.ParentReference?.Path != null)
             {
                 _path = oneDriveItem.ParentReference.Path.Replace("/drive/root:", string.Empty);
             }
@@ -277,13 +277,13 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>When this method completes successfully, it returns an OneDriveStorageItem that represents the specified folder.</returns>
         public async Task<IOneDriveStorageItem> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
         {
-
             Item newOneDriveItem = new Item();
             newOneDriveItem.Name = desiredName;
             newOneDriveItem.Description = "Item Renamed from UWP Toolkit";
 
             var itemRenamed = await ((IItemRequestBuilder)RequestBuilder).Request().UpdateAsync(newOneDriveItem, cancellationToken).ConfigureAwait(false);
-            return new OneDriveStorageItem(_oneDriveProvider, RequestBuilder, newOneDriveItem);
+            DataItem dataItem = new DataItem(itemRenamed);
+            return new OneDriveStorageItem(_oneDriveProvider, RequestBuilder, dataItem);
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="desiredNewName">The desired name of the item after it is moved.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>return success or failure</returns>
-        public async Task<bool> MoveAsync(OneDriveStorageFolder destinationFolder, string desiredNewName = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<bool> MoveAsync(IOneDriveStorageFolder destinationFolder, string desiredNewName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (destinationFolder == null)
             {
@@ -324,7 +324,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="desiredNewName">The desired name of the item after it is moved.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>return success or failure</returns>
-        public async Task<bool> CopyAsync(OneDriveStorageFolder destinationFolder, string desiredNewName = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<bool> CopyAsync(IOneDriveStorageFolder destinationFolder, string desiredNewName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (destinationFolder == null)
             {
@@ -396,8 +396,9 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="oneDriveItem">A OneDrive item</param>
         /// <returns>New instance of OneDriveStorageFolder</returns>
-        protected OneDriveStorageFolder InitializeOneDriveStorageFolder(Item oneDriveItem)
+        protected IOneDriveStorageFolder InitializeOneDriveStorageFolder(DataItem oneDriveItem)
         {
+            
             IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IOneDriveClient)Provider).Drive.Items[oneDriveItem.Id];
             return new OneDriveStorageFolder(Provider, requestBuilder, oneDriveItem);
         }
@@ -407,7 +408,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="oneDriveItem">A OneDrive item</param>
         /// <returns>New instance of OneDriveStorageItem</returns>
-        protected IOneDriveStorageItem InitializeOneDriveStorageItem(Item oneDriveItem)
+        protected IOneDriveStorageItem InitializeOneDriveStorageItem(DataItem oneDriveItem)
         {
             IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IOneDriveClient)Provider).Drive.Items[oneDriveItem.Id];
             return new OneDriveStorageItem(Provider, requestBuilder, oneDriveItem);
@@ -418,7 +419,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="oneDriveItem">A OneDrive item</param>
         /// <returns>New instance of OneDriveStorageItem</returns>
-        protected OneDriveStorageFile InitializeOneDriveStorageFile(Item oneDriveItem)
+        protected IOneDriveStorageFile InitializeOneDriveStorageFile(DataItem oneDriveItem)
         {
             IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IOneDriveClient)Provider).Drive.Items[oneDriveItem.Id];
             return new OneDriveStorageFile(Provider, requestBuilder, oneDriveItem);

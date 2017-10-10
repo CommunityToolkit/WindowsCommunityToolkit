@@ -20,13 +20,14 @@ using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Microsoft.Graph;
+using Microsoft.Toolkit.Uwp.Services.OneDrive;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
     ///  Class representing a OneDrive file
     /// </summary>
-    public class OneDriveStorageFile : OneDriveStorageItem
+    public class OneDriveStorageFile : OneDriveStorageItem, IOneDriveStorageFile
     {
         private string _fileType;
 
@@ -67,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="oneDriveProvider">Instance of OneDriveClient class</param>
         /// <param name="requestBuilder">Http request builder.</param>
         /// <param name="oneDriveItem">OneDrive's item</param>
-        public OneDriveStorageFile(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, Item oneDriveItem)
+        public OneDriveStorageFile(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, DataItem oneDriveItem)
           : base(oneDriveProvider, requestBuilder, oneDriveItem)
         {
             ParseFileType(oneDriveItem.Name);
@@ -79,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="desiredName">The desired, new name for the current folder.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns an OneDriveStorageFile that represents the specified folder.</returns>
-        public async new Task<OneDriveStorageFile> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
+        public async new Task<IOneDriveStorageFile> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
         {
             var renameItem = await base.RenameAsync(desiredName, cancellationToken);
             return InitializeOneDriveStorageFile(((OneDriveStorageItem)renameItem).OneDriveItem);

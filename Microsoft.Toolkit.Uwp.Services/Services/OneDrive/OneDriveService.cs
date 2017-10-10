@@ -266,14 +266,14 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                     throw new Exception("Unable to sign in");
                 }
             }
-            
+
             if(_graphProvider != null)
             {
                 return null;
             }
             var oneDriveRootItem = await _oneDriveProvider.Drive.Root.Request().GetAsync();
-            
-            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Root, oneDriveRootItem);
+            DataItem dataItem = new DataItem(oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Root, dataItem);
 
         }
 
@@ -294,7 +294,8 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.AppRoot.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.AppRoot, oneDriveRootItem);
+            DataItem dataItem = new DataItem(oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.AppRoot, dataItem);
         }
 
         /// <summary>
@@ -314,7 +315,8 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.CameraRoll.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.CameraRoll, oneDriveRootItem);
+            DataItem dataItem = new DataItem(oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.CameraRoll, dataItem);
         }
 
         /// <summary>
@@ -338,7 +340,8 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 return null;
             }
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.Documents.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.Documents, oneDriveRootItem);
+            DataItem dataItem = new DataItem(oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.Documents, dataItem);
         }
 
         /// <summary>
@@ -361,7 +364,8 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 return null;
             }
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.Music.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.Music, oneDriveRootItem);
+            DataItem dataItem = new DataItem(oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.Music, dataItem);
         }
 
         /// <summary>
@@ -384,7 +388,8 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 return null;
             }
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.Photos.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.Photos, oneDriveRootItem);
+            DataItem dataItem = new DataItem(oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.Photos, dataItem);
         }
 
         /// <summary>

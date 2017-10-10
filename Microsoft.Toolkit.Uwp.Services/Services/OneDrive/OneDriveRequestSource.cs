@@ -92,14 +92,15 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             foreach (var oneDriveItem in oneDriveItems)
             {
-                T item = (T)CreateItem(oneDriveItem);
+                DataItem dataItem = new DataItem(oneDriveItem);
+                T item = (T)CreateItem(dataItem);
                 items.Add(item);
             }
 
             return items;
         }
 
-        private object CreateItem(Item oneDriveItem)
+        private object CreateItem(DataItem oneDriveItem)
         {
             IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IOneDriveClient)_provider).Drive.Items[oneDriveItem.Id];
 

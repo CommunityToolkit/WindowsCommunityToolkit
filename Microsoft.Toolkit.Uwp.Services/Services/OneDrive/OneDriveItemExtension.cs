@@ -123,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="desiredNewName">New name</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>a OneDrive item or null if the request fail</returns>
-        public static async Task<bool> MoveAsync(this IBaseClient provider, HttpRequestMessage request, OneDriveStorageFolder destinationFolder, string desiredNewName, CancellationToken cancellationToken)
+        public static async Task<bool> MoveAsync(this IBaseClient provider, HttpRequestMessage request, IOneDriveStorageFolder destinationFolder, string desiredNewName, CancellationToken cancellationToken)
         {
             OneDriveParentReference rootParentReference = new OneDriveParentReference();
             if (destinationFolder.OneDriveItem.Name == "root")
