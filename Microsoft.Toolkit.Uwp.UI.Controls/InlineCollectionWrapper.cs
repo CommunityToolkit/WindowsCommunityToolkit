@@ -19,7 +19,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using Windows.UI.Xaml.Documents;
 
     /// <inheritdoc />
-    /// <summary>A wrapper class for <see cref="TextBlock.Inlines">TextBlock.Inlines</see> to hack the problem that <see cref="Windows.UI.Xaml.Documents.InlineCollection" /> has no accessible constructor</summary>
+    /// <summary>A wrapper class for <see cref="TextBlock.Inlines">TextBlock.Inlines</see> to
+    /// hack the problem that <see cref="Windows.UI.Xaml.Documents.InlineCollection" />.
+    /// has no accessible constructor</summary>
     public class InlineCollectionWrapper : IList<Inline>
     {
         private IList<Inline> _collection;
