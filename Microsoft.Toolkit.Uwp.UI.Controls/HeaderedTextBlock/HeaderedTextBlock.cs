@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _textContent = GetTemplateChild("TextContent") as TextBlock;
 
             UpdateVisibility();
-            UpdateInlines();
+            Inlines.AddItemsToTextBlock(_textContent);
             UpdateForOrientation(this.Orientation);
         }
 
@@ -77,16 +77,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     VisualStateManager.GoToState(this, "Horizontal", true);
                     break;
             }
-        }
-
-        private void UpdateInlines()
-        {
-            if (_textContent == null || Inlines.Count == 0)
-            {
-                return;
-            }
-
-            Inlines.ApplyCollectionToTextBlock(_textContent);
         }
     }
 }

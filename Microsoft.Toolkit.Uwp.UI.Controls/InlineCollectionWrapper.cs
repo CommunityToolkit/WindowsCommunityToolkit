@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Sets the items of this collection as <see cref="TextBlock.Inlines"/> to <paramref name="textBlock"/>.
         /// </summary>
         /// <param name="textBlock">The textBlock where the items are added.</param>
-        internal void ApplyCollectionToTextBlock(TextBlock textBlock)
+        internal void AddItemsToTextBlock(TextBlock textBlock)
         {
             if (textBlock == null)
             {
