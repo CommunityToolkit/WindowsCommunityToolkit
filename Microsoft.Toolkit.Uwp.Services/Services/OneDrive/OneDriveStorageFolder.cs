@@ -47,9 +47,11 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="path">The name (or path relative to the current folder) of the file or folder to get.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a DriveItem that represents the specified file or folder.</returns>
-        private async Task<Item> RequestChildrenAsync(string path, CancellationToken cancellationToken)
+        private async Task<DataItem> RequestChildrenAsync(string path, CancellationToken cancellationToken)
         {
-            return await ((IItemRequestBuilder)RequestBuilder).ItemWithPath(path).Request().GetAsync(cancellationToken).ConfigureAwait(false);
+            var oneDriveItem = await ((IItemRequestBuilder)RequestBuilder).ItemWithPath(path).Request().GetAsync(cancellationToken).ConfigureAwait(false);
+            var dataItem = new DataItem(oneDriveItem);
+            return dataItem;
         }
 
         private OneDriveSdkHelper.ChunkedUploadProvider _uploadProvider;
@@ -182,9 +184,8 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             if (oneDriveItem == null)
             {
                 return null;
-            }
-            var dataItem = new DataItem(oneDriveItem);
-            return InitializeOneDriveStorageFile(dataItem);
+            }            
+            return InitializeOneDriveStorageFile(oneDriveItem);
         }
 
         /// <summary>
@@ -211,8 +212,8 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         public async Task<IOneDriveStorageFolder> GetFolderAsync(string name, CancellationToken cancellationToken = default(CancellationToken))
         {
             var oneDriveItem = await RequestChildrenAsync(name, cancellationToken).ConfigureAwait(false);
-            DataItem dataItem = new DataItem(oneDriveItem);
-            return InitializeOneDriveStorageFolder(dataItem);
+            
+            return InitializeOneDriveStorageFolder(oneDriveItem);
         }
 
         /// <summary>
@@ -240,8 +241,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         public async Task<IOneDriveStorageItem> GetItemAsync(string name, CancellationToken cancellationToken = default(CancellationToken))
         {
             var oneDriveItem = await RequestChildrenAsync(name, cancellationToken).ConfigureAwait(false);
-            DataItem dataItem = new DataItem(oneDriveItem);
-            return InitializeOneDriveStorageItem(dataItem);
+            return InitializeOneDriveStorageItem(oneDriveItem);
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>When this method completes successfully, it returns a list of the subfolders and files in the current folder.</returns>
         public IncrementalLoadingCollection<OneDriveRequestSource<IOneDriveStorageItem>, IOneDriveStorageItem> GetItemsAsync(OrderBy orderBy = OrderBy.None)
         {
-            var requestSource = new OneDriveRequestSource<IOneDriveStorageItem>(Provider, RequestBuilder, orderBy, null);
+            var requestSource = new OneDriveRequestSource<IOneDriveStorageItem>(Provider, RequestBuilder, orderBy, null, true);
             return new IncrementalLoadingCollection<OneDriveRequestSource<IOneDriveStorageItem>, IOneDriveStorageItem>(requestSource);
         }
 
@@ -566,6 +566,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         {
             var query = from f in itemFiles.CurrentPage where f.File != null select f;
             return query.ToList<Item>();
-        }       
+        }
     }
 }

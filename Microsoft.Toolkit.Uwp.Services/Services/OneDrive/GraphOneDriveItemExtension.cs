@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="builder">Http request builder</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes, return a thumbnail set, or null if no thumbnail are available</returns>
-        public static async Task<GraphOneDriveThumbnailSet> GetThumbnailSetAsync(this IDriveItemRequestBuilder builder, CancellationToken cancellationToken)
+        public static async Task<OneDriveThumbnailSet> GetThumbnailSetAsync(this IDriveItemRequestBuilder builder, CancellationToken cancellationToken)
         {
             // Requests the differente size of the thumbnail
             var requestThumbnail = await builder.Thumbnails.Request().GetAsync(cancellationToken).ConfigureAwait(false);
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 return null;
             }
 
-            return new GraphOneDriveThumbnailSet(thumbnailSet);
+            return new OneDriveThumbnailSet(thumbnailSet);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <param name="optionSize"> A value from the enumeration that specifies the size of the image to retrieve. Small ,Medium, Large</param>
         /// <returns>When this method completes, return a stream containing the thumbnail, or null if no thumbnail are available</returns>
-        public static async Task<Stream> GetThumbnailAsync(this IDriveItemRequestBuilder builder, IGraphServiceClient provider, CancellationToken cancellationToken, ThumbnailSize optionSize)
+        public static async Task<Stream> GetThumbnailAsync(this IDriveItemRequestBuilder builder, IBaseClient provider, CancellationToken cancellationToken, ThumbnailSize optionSize)
         {
             // Requests the different sizes of the thumbnail
             var thumbnailSet = await builder.GetThumbnailSetAsync(cancellationToken).ConfigureAwait(false);

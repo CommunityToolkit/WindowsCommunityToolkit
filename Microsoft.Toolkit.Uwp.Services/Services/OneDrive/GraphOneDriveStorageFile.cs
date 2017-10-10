@@ -15,17 +15,18 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Graph;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Microsoft.Graph;
+using Microsoft.Toolkit.Uwp.Services.OneDrive;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
     ///  Class representing a OneDrive file
     /// </summary>
-    public class GraphOneDriveStorageFile : GraphOneDriveStorageItem
+    public class GraphOneDriveStorageFile : GraphOneDriveStorageItem, IOneDriveStorageFile
     {
         private string _fileType;
 
@@ -66,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="oneDriveProvider">Instance of OneDriveClient class</param>
         /// <param name="requestBuilder">Http request builder.</param>
         /// <param name="oneDriveItem">OneDrive's item</param>
-        public GraphOneDriveStorageFile(IGraphServiceClient oneDriveProvider, IDriveItemRequestBuilder requestBuilder, DriveItem oneDriveItem)
+        public GraphOneDriveStorageFile(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, DataItem oneDriveItem)
           : base(oneDriveProvider, requestBuilder, oneDriveItem)
         {
             ParseFileType(oneDriveItem.Name);
@@ -78,10 +79,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="desiredName">The desired, new name for the current folder.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns an OneDriveStorageFile that represents the specified folder.</returns>
-        public async new Task<GraphOneDriveStorageFile> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<IOneDriveStorageFile> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
         {
             var renameItem = await base.RenameAsync(desiredName, cancellationToken);
-            return InitializeGraphOneDriveStorageFile(renameItem.OneDriveItem);
+            return InitializeOneDriveStorageFile(((OneDriveStorageItem)renameItem).OneDriveItem);
         }
 
         /// <summary>
@@ -101,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             return await Task.Run(
                 async () =>
                 {
-                    var requestMessage = Provider.Drive.Items[OneDriveItem.Id].Content.Request().GetHttpRequestMessage();
+                    var requestMessage = ((IGraphServiceClient)Provider).Drive.Items[OneDriveItem.Id].Content.Request().GetHttpRequestMessage();
                     await Provider.AuthenticationProvider.AuthenticateRequestAsync(requestMessage).AsAsyncAction().AsTask(cancellationToken);
                     var downloader = completionGroup == null ? new BackgroundDownloader() : new BackgroundDownloader(completionGroup);
                     foreach (var item in requestMessage.Headers)
@@ -124,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             try
             {
                 System.IO.Stream content = null;
-                content = await RequestBuilder.Content.Request().GetAsync(cancellationToken).ConfigureAwait(false);
+                content = await ((IDriveItemRequestBuilder)RequestBuilder).Content.Request().GetAsync(cancellationToken).ConfigureAwait(false);
                 if (content != null)
                 {
                     contentStream = content.AsRandomAccessStream();

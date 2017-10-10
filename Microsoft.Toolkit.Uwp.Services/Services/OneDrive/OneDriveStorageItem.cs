@@ -398,7 +398,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>New instance of OneDriveStorageFolder</returns>
         protected IOneDriveStorageFolder InitializeOneDriveStorageFolder(DataItem oneDriveItem)
         {
-            
             IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IOneDriveClient)Provider).Drive.Items[oneDriveItem.Id];
             return new OneDriveStorageFolder(Provider, requestBuilder, oneDriveItem);
         }

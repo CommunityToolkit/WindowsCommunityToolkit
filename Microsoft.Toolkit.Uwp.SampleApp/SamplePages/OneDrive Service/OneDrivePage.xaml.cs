@@ -69,6 +69,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 else if (indexProvider == 3)
                 {
                     OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msal); //TODO : Add scope after porting to MSGraph
+                    OneDriveSampleHelpers.UseMsGraph = true;
                 }
 
                 if (!await OneDriveService.Instance.LoginAsync())
@@ -77,7 +78,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
 
                 _currentFolder = _rootFolder = await OneDriveService.Instance.RootFolderAsync();
+
                 OneDriveItemsList.ItemsSource = _rootFolder.GetItemsAsync();
+
                 succeeded = true;
             }            
             catch (ServiceException serviceEx)
@@ -362,7 +365,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             try
             {                
                 Shell.Current.DisplayWaitRing = true;
-                var file = (OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext;
+                var file = (IOneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext;
                 using (var stream = await file.GetThumbnailAsync(ThumbnailSize.Large))
                 {
                     await OneDriveSampleHelpers.DisplayThumbnail(stream, "thumbnail");

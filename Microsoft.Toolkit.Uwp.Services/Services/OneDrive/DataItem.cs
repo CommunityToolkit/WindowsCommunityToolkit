@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Graph;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,12 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             if (item.CreatedBy != null)
             {
                 CreatedBy.User.Id = item.CreatedBy.User.Id;
+                if (item.CreatedBy.User != null)
+                {
+                    CreatedBy.User.DisplayName = item.CreatedBy.User.DisplayName;
+                }
             }
-            
-            CreatedBy.User.DisplayName = item.CreatedBy.User.DisplayName;
+
             CreatedDateTime = item.CreatedDateTime;
             Id = item.Id;
             Name = item.Name;
@@ -45,9 +49,45 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             LastModifiedDateTime = item.LastModifiedDateTime;
-            
-
         }
+
+        public DataItem(DriveItem item)
+        {
+            CreatedBy = new Createdby();
+            if (item.CreatedBy != null)
+            {
+                CreatedBy.User.Id = item.CreatedBy.User.Id;
+                if (item.CreatedBy.User != null)
+                {
+                    CreatedBy.User.DisplayName = item.CreatedBy.User.DisplayName;
+                }
+            }
+
+
+            CreatedDateTime = item.CreatedDateTime;
+            Id = item.Id;
+            Name = item.Name;
+            Size = item.Size;
+            WebUrl = item.WebUrl;
+            ParentReference = new ParentReference();
+            ParentReference.DriveId = item.ParentReference.DriveId;
+            ParentReference.Id = item.ParentReference.Id;
+            ParentReference.Path = item.ParentReference.Path;
+            CTag = item.CTag;
+            if (item.Folder != null)
+            {
+                Folder = new Folder();
+                Folder.ChildCount = item.Folder.ChildCount;
+            }
+            else if (item.File != null)
+            {
+                File = new File();
+                File.Hashes.quickXorHash = item.File.Hashes.Crc32Hash;
+            }
+
+            LastModifiedDateTime = item.LastModifiedDateTime;
+        }
+
         public Createdby CreatedBy { get; set; }
         public DateTimeOffset? CreatedDateTime { get; set; }
         public DateTimeOffset? LastModifiedDateTime { get; set; }

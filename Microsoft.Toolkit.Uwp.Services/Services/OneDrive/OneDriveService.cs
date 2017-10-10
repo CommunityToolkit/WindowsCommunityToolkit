@@ -194,13 +194,14 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 throw new InvalidOperationException("Microsoft OneDrive not initialized.");
             }
             OneDriveAuthenticationHelper.ResourceUri = "https://graph.microsoft.com";
-            string resourceEndpointUri = OneDriveAuthenticationHelper.ResourceUri;
+            string resourceEndpointUri = null;
             if (_accountProviderType == AccountProviderType.Msal)
             {
-
-                
-
+                OneDriveAuthenticationHelper.ResourceUri = "https://graph.microsoft.com";
+                _accountProvider = OneDriveAuthenticationHelper.CreateAdalAuthenticationProvider(_appClientId);
+                await OneDriveAuthenticationHelper.AuthenticateAdalUserAsync(refreshToken: false);
             }
+
             // Keep this for compatibility reason
             else if (_accountProviderType == AccountProviderType.Adal)
             {
@@ -245,7 +246,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             {
                 _oneDriveProvider = new OneDriveClient(resourceEndpointUri, _accountProvider);
             }
-            
+
 
             _isConnected = true;
             return _isConnected;
@@ -255,7 +256,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// Gets the OneDrive root folder
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
-        public async Task<OneDriveStorageFolder> RootFolderAsync()
+        public async Task<IOneDriveStorageFolder> RootFolderAsync()
         {
             // log the user silently with a Microsoft Account associate to Windows
             if (_isConnected == false)
@@ -267,14 +268,17 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 }
             }
 
-            if(_graphProvider != null)
+            DataItem dataItem = null;
+            if (_graphProvider != null)
             {
-                return null;
+                var graphRootItem = await _graphProvider.Drive.Root.Request().GetAsync();
+                 dataItem = new DataItem(graphRootItem);
+                return new GraphOneDriveStorageFolder(_graphProvider, (IBaseRequestBuilder)_graphProvider.Drive.Root, dataItem);
             }
-            var oneDriveRootItem = await _oneDriveProvider.Drive.Root.Request().GetAsync();
-            DataItem dataItem = new DataItem(oneDriveRootItem);
-            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Root, dataItem);
 
+            var oneDriveRootItem = await _oneDriveProvider.Drive.Root.Request().GetAsync();
+            dataItem = new DataItem(oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Root, dataItem);
         }
 
         /// <summary>

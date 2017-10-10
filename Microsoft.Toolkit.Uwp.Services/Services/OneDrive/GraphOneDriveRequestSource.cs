@@ -13,8 +13,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Graph;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
+using Microsoft.Graph;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -24,8 +24,8 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// <typeparam name="T">Strong type to return.</typeparam>
     public class GraphOneDriveRequestSource<T> : Collections.IIncrementalSource<T>
     {
-        private IGraphServiceClient _provider;
-        private IDriveItemRequestBuilder _requestBuilder;
+        private IBaseClient _provider;
+        private IBaseRequestBuilder _requestBuilder;
         private IDriveItemChildrenCollectionRequest _nextPage = null;
         private OrderBy _orderBy;
         private string _filter;
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="requestBuilder">Http request to execute</param>
         /// <param name="orderBy">Sort the order of items in the response collection</param>
         /// <param name="filter">Filters the response based on a set of criteria.</param>
-        public GraphOneDriveRequestSource(IGraphServiceClient provider, IDriveItemRequestBuilder requestBuilder, OrderBy orderBy, string filter)
+        public GraphOneDriveRequestSource(IBaseClient provider, IBaseRequestBuilder requestBuilder, OrderBy orderBy, string filter)
         {
             _provider = provider;
             _requestBuilder = requestBuilder;
@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             // First Call
             if (_isFirstCall)
             {
-                _nextPage = _requestBuilder.CreateChildrenRequest(pageSize, _orderBy, _filter);
+                _nextPage = ((IDriveItemRequestBuilder)_requestBuilder).CreateChildrenRequest(pageSize, _orderBy, _filter);
                 _isFirstCall = false;
             }
 
@@ -91,28 +91,30 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             foreach (var oneDriveItem in oneDriveItems)
             {
-                T item = (T)CreateItem(oneDriveItem);
+                DataItem dataItem = new DataItem(oneDriveItem);
+                T item = (T)CreateItem(dataItem);
                 items.Add(item);
             }
 
             return items;
         }
 
-        private object CreateItem(DriveItem oneDriveItem)
+        private object CreateItem(DataItem oneDriveItem)
         {
-            var requestBuilder = _provider.Drive.Items[oneDriveItem.Id];
+            IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IGraphServiceClient)_provider).Drive.Items[oneDriveItem.Id];
+
 
             if (oneDriveItem.Folder != null)
             {
-                return new GraphOneDriveStorageFolder(_provider, requestBuilder, oneDriveItem);
+                return new OneDriveStorageFolder(_provider, requestBuilder, oneDriveItem);
             }
 
             if (oneDriveItem.File != null)
             {
-                return new GraphOneDriveStorageFile(_provider, requestBuilder, oneDriveItem);
+                return new OneDriveStorageFile(_provider, requestBuilder, oneDriveItem);
             }
 
-            return new GraphOneDriveStorageItem(_provider, requestBuilder, oneDriveItem);
+            return new OneDriveStorageItem(_provider, requestBuilder, oneDriveItem);
         }
     }
 }

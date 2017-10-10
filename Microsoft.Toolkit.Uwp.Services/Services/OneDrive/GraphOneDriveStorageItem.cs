@@ -20,13 +20,14 @@ using Microsoft.Graph;
 using Newtonsoft.Json;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Microsoft.Toolkit.Uwp.Services.OneDrive;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
     /// OneDrive Helper class.
     /// </summary>
-    public class GraphOneDriveStorageItem
+    public class GraphOneDriveStorageItem : IOneDriveStorageItem
     {
         private IRandomAccessStream _thumbNail;
 
@@ -132,39 +133,33 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Store a reference to an instance of the underlying data provider.
         /// </summary>
-        private IGraphServiceClient _oneDriveProvider;
+        private IBaseClient _oneDriveProvider;
 
         /// <summary>
         /// Store a reference to an instance of current request builder
         /// </summary>
-        private IDriveItemRequestBuilder _requestBuilder;
+        private IBaseRequestBuilder _requestBuilder;
 
         /// <summary>
-        /// Gets an IDriveItemRequestBuilder instance
+        /// Gets an Item Request Builder instance
         /// </summary>
-        internal IDriveItemRequestBuilder RequestBuilder
-        {
-            get
-            {
-                return _requestBuilder;
-            }
-        }
+        public IBaseRequestBuilder RequestBuilder => _requestBuilder;
 
         /// <summary>
-        /// Gets or sets GraphServiceClient instance
+        /// Gets or sets IOneDriveServiceClient instance
         /// </summary>
-        internal IGraphServiceClient Provider
+        public IBaseClient Provider
         {
             get { return _oneDriveProvider; }
             set { _oneDriveProvider = value; }
         }
 
-        private DriveItem _oneDriveItem;
+        private DataItem _oneDriveItem;
 
         /// <summary>
         /// Gets an instance of a DriveItem
         /// </summary>
-        public DriveItem OneDriveItem
+        public DataItem OneDriveItem
         {
             get { return _oneDriveItem; }
         }
@@ -175,7 +170,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="oneDriveProvider">Instance of OneDriveClient class</param>
         /// <param name="requestBuilder">Http request builder.</param>
         /// <param name="oneDriveItem">OneDrive's item</param>
-        public GraphOneDriveStorageItem(IGraphServiceClient oneDriveProvider, IDriveItemRequestBuilder requestBuilder, DriveItem oneDriveItem)
+        public GraphOneDriveStorageItem(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, DataItem oneDriveItem)
         {
             _requestBuilder = requestBuilder;
             _oneDriveProvider = oneDriveProvider;
@@ -199,7 +194,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             // ParentReference null means is root
-            if(oneDriveItem.ParentReference?.Path != null)
+            if (oneDriveItem.ParentReference?.Path != null)
             {
                 _path = oneDriveItem.ParentReference.Path.Replace("/drive/root:", string.Empty);
             }
@@ -217,7 +212,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 throw new Microsoft.Graph.ServiceException(new Error { Message = "Could not delete the root folder" });
             }
 
-            await RequestBuilder.Request().DeleteAsync(cancellationToken).ConfigureAwait(false);
+            await ((IDriveItemRequestBuilder)RequestBuilder).Request().DeleteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -225,9 +220,9 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes, return a thumbnail set, or null if no thumbnail are available</returns>
-        public async Task<GraphOneDriveThumbnailSet> GetThumbnailSetAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<OneDriveThumbnailSet> GetThumbnailSetAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await RequestBuilder.GetThumbnailSetAsync(cancellationToken);
+            return await ((IDriveItemRequestBuilder)RequestBuilder).GetThumbnailSetAsync(cancellationToken);
         }
 
         /// <summary>
@@ -238,7 +233,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>When this method completes, return a stream containing the thumbnail, or null if no thumbnail are available</returns>
         public async Task<IRandomAccessStream> GetThumbnailAsync(OneDriveEnums.ThumbnailSize optionSize = OneDriveEnums.ThumbnailSize.Small, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var thumbnailStream = await RequestBuilder.GetThumbnailAsync(Provider, cancellationToken, optionSize);
+            var thumbnailStream = await ((IDriveItemRequestBuilder)RequestBuilder).GetThumbnailAsync(Provider, cancellationToken, optionSize);
             if (thumbnailStream == null)
             {
                 return null;
@@ -278,15 +273,16 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="desiredName">The desired, new name for the current folder.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns>When this method completes successfully, it returns an OneDriveStorageItem that represents the specified folder.</returns>
-        public async Task<GraphOneDriveStorageItem> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
+        /// <returns>When this method completes successfully, it returns an IOneDriveStorageItem that represents the specified folder.</returns>
+        public async Task<IOneDriveStorageItem> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
         {
             DriveItem newOneDriveItem = new DriveItem();
             newOneDriveItem.Name = desiredName;
             newOneDriveItem.Description = "Item Renamed from UWP Toolkit";
 
-            var itemRenamed = await RequestBuilder.Request().UpdateAsync(newOneDriveItem, cancellationToken).ConfigureAwait(false);
-            return new GraphOneDriveStorageItem(_oneDriveProvider, RequestBuilder, newOneDriveItem);
+            var itemRenamed = await ((IDriveItemRequestBuilder)RequestBuilder).Request().UpdateAsync(newOneDriveItem, cancellationToken).ConfigureAwait(false);
+            DataItem dataItem = new DataItem(itemRenamed);
+            return new GraphOneDriveStorageItem(_oneDriveProvider, RequestBuilder, dataItem);
         }
 
         /// <summary>
@@ -296,7 +292,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="desiredNewName">The desired name of the item after it is moved.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>return success or failure</returns>
-        public async Task<bool> MoveAsync(GraphOneDriveStorageFolder destinationFolder, string desiredNewName = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<bool> MoveAsync(IOneDriveStorageFolder destinationFolder, string desiredNewName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (destinationFolder == null)
             {
@@ -327,7 +323,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="desiredNewName">The desired name of the item after it is moved.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>return success or failure</returns>
-        public async Task<bool> CopyAsync(GraphOneDriveStorageFolder destinationFolder, string desiredNewName = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<bool> CopyAsync(IOneDriveStorageFolder destinationFolder, string desiredNewName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (destinationFolder == null)
             {
@@ -356,7 +352,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             parentReference.Name = desiredNewName;
 
-            var copyRequest = Provider.Drive.Items[OneDriveItem.Id].Copy(desiredNewName);
+            var copyRequest = ((IGraphServiceClient)Provider).Drive.Items[OneDriveItem.Id].Copy(desiredNewName);
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, copyRequest.Request().RequestUrl);
             request.Headers.Add("Prefer", "respond-async");
@@ -399,9 +395,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="oneDriveItem">A OneDrive item</param>
         /// <returns>New instance of OneDriveStorageFolder</returns>
-        protected GraphOneDriveStorageFolder InitializeGraphOneDriveStorageFolder(DriveItem oneDriveItem)
+        protected IOneDriveStorageFolder InitializeOneDriveStorageFolder(DataItem oneDriveItem)
         {
-            var requestBuilder = Provider.Drive.Items[oneDriveItem.Id];
+
+            IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IGraphServiceClient)Provider).Drive.Items[oneDriveItem.Id];
             return new GraphOneDriveStorageFolder(Provider, requestBuilder, oneDriveItem);
         }
 
@@ -410,9 +407,9 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="oneDriveItem">A OneDrive item</param>
         /// <returns>New instance of OneDriveStorageItem</returns>
-        protected GraphOneDriveStorageItem InitializeGraphOneDriveStorageItem(DriveItem oneDriveItem)
+        protected IOneDriveStorageItem InitializeOneDriveStorageItem(DataItem oneDriveItem)
         {
-            var requestBuilder = Provider.Drive.Items[oneDriveItem.Id];
+            IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IGraphServiceClient)Provider).Drive.Items[oneDriveItem.Id];
             return new GraphOneDriveStorageItem(Provider, requestBuilder, oneDriveItem);
         }
 
@@ -421,10 +418,12 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="oneDriveItem">A OneDrive item</param>
         /// <returns>New instance of OneDriveStorageItem</returns>
-        protected GraphOneDriveStorageFile InitializeGraphOneDriveStorageFile(DriveItem oneDriveItem)
+        protected IOneDriveStorageFile InitializeOneDriveStorageFile(DataItem oneDriveItem)
         {
-            var requestBuilder = Provider.Drive.Items[oneDriveItem.Id];
+            IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IGraphServiceClient)Provider).Drive.Items[oneDriveItem.Id];
             return new GraphOneDriveStorageFile(Provider, requestBuilder, oneDriveItem);
         }
+
+
     }
 }

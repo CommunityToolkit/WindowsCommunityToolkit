@@ -24,14 +24,17 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     {
         private List<IOneDriveStorageItem> _items;
 
+        private bool _useOneDriveSdk = true;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="OneDriveStorageItemsCollection"/> class.
         /// <para>Permissions : Have full access to user files and files shared with user</para>
         /// </summary>
         /// <param name="items">Items's list to store in the collection</param>
-        public OneDriveStorageItemsCollection(List<IOneDriveStorageItem> items)
+        public OneDriveStorageItemsCollection(List<IOneDriveStorageItem> items, bool useOneDriveSdk = true)
         {
             _items = items;
+            _useOneDriveSdk = useOneDriveSdk;
         }
 
         /// <summary>
@@ -64,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<IOneDriveStorageItem> GetEnumerator()
         {
-            return new OneDriveStorageItemsEnumerator(_items);
+            return new OneDriveStorageItemsEnumerator(_items, _useOneDriveSdk);
         }
 
         /// <summary>
@@ -73,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return new OneDriveStorageItemsEnumerator(_items);
+            return new OneDriveStorageItemsEnumerator(_items, _useOneDriveSdk);
         }
     }
 }
