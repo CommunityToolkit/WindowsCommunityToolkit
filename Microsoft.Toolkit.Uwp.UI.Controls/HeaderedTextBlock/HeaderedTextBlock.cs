@@ -87,14 +87,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             Inlines.ApplyCollectionToTextBlock(_textContent);
-
-            // To follow the behavior of UWP use Text instead of Inlines if Text property is set.
-            if (!string.IsNullOrEmpty(Text))
-            {
-                var temp = Text;
-                Text = null;
-                Text = temp;
-            }
         }
     }
 }
