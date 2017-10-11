@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Store the current connected user
         /// </summary>
-        private Identity.Client.User _user;
+        //public Identity.Client.User _user;
 
         /// <summary>
         /// Store the Oauth2 access token.
@@ -149,10 +149,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             }
            else if (authenticationModel.Equals("V2"))
             {
-                if (_user != null)
-                {
-                    _user.SignOut();
-                }
+                //if (_user != null)
+                //{
+                //    _user.SignOut();
+                //}
             }
 
             ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] = null;
@@ -164,16 +164,16 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             return true;
         }
 
-        private string StoreCredential(Identity.Client.AuthenticationResult authResult)
-        {
-            _user = authResult.User;
-            _expiration = authResult.ExpiresOn;
-            ApplicationData.Current.LocalSettings.Values[STORAGEKEYEXPIRATION] = authResult.ExpiresOn;
-            ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] = authResult.User.DisplayableId;
-            _passwordCredential = new PasswordCredential(STORAGEKEYACCESSTOKEN, authResult.User.DisplayableId, authResult.Token);
-            _vault.Add(_passwordCredential);
-            return authResult.Token;
-        }
+        //private string StoreCredential(Identity.Client.AuthenticationResult authResult)
+        //{
+        //    _user = authResult.User;
+        //    _expiration = authResult.ExpiresOn;
+        //    ApplicationData.Current.LocalSettings.Values[STORAGEKEYEXPIRATION] = authResult.ExpiresOn;
+        //    ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] = authResult.User.DisplayableId;
+        //    _passwordCredential = new PasswordCredential(STORAGEKEYACCESSTOKEN, authResult.User.DisplayableId, authResult.Token);
+        //    _vault.Add(_passwordCredential);
+        //    return authResult.Token;
+        //}
 
         /// <summary>
         /// Get a Microsoft Graph access token using the v2.0 Endpoint.

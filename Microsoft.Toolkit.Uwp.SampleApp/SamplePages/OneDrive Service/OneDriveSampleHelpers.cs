@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public static class OneDriveSampleHelpers
     {
-        public static bool UseMsGraph { get; set; }
+
         public static async Task<string> InputTextDialogAsync(string title)
         {
             TextBox inputTextBox = new TextBox();

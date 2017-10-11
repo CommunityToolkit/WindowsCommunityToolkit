@@ -68,8 +68,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 else if (indexProvider == 3)
                 {
-                    OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msal); //TODO : Add scope after porting to MSGraph
-                    OneDriveSampleHelpers.UseMsGraph = true;
+                    OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msal);
                 }
 
                 if (!await OneDriveService.Instance.LoginAsync())
@@ -363,7 +362,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private async void ThumbnailButton_Click(object sender, RoutedEventArgs e)
         {
             try
-            {                
+            {
                 Shell.Current.DisplayWaitRing = true;
                 var file = (IOneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext;
                 using (var stream = await file.GetThumbnailAsync(ThumbnailSize.Large))

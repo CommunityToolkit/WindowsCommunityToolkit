@@ -12,6 +12,9 @@
 
 
     <PackageReference Include="Microsoft.Graph" Version="1.6.2" />
+
+
+    <PackageReference Include="Microsoft.Identity.Client" Version="1.1.0-preview" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="3.13.7" />
     <PackageReference Include="Microsoft.OneDriveSDK" Version="2.0.6" />
     <PackageReference Include="Microsoft.OneDriveSDK.Authentication" Version="1.0.8" />

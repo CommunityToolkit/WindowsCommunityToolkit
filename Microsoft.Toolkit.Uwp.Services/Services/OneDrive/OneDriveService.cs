@@ -20,6 +20,7 @@ using Microsoft.OneDrive.Sdk.Authentication;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
+using Microsoft.Identity.Client;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -145,9 +146,13 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             _appClientId = appClientId;
 
-            if (accountProviderType != AccountProviderType.Adal)
+            if (accountProviderType == AccountProviderType.Msa)
             {
                 _scopes = OneDriveHelper.TransformScopes(scopes);
+            }
+            else if (accountProviderType == AccountProviderType.Msal)
+            {
+                _scopes = new string[] { "https://graph.microsoft.com/Files.ReadWrite" };
             }
 
             _isInitialized = true;
@@ -178,6 +183,12 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                     DiscoverySettings.Clear();
                     UserInfoSettings.Clear();
                 }
+                else if (_accountProviderType == AccountProviderType.Msal)
+                {
+                    UserInfoSettings.Clear();
+                    IUser user = OneDriveAuthenticationHelper.IdentityClient.Users.First();
+                    OneDriveAuthenticationHelper.IdentityClient.Remove(user);
+                }
             }
         }
 
@@ -193,13 +204,13 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             {
                 throw new InvalidOperationException("Microsoft OneDrive not initialized.");
             }
-            OneDriveAuthenticationHelper.ResourceUri = "https://graph.microsoft.com";
+
             string resourceEndpointUri = null;
             if (_accountProviderType == AccountProviderType.Msal)
             {
-                OneDriveAuthenticationHelper.ResourceUri = "https://graph.microsoft.com";
-                _accountProvider = OneDriveAuthenticationHelper.CreateAdalAuthenticationProvider(_appClientId);
-                await OneDriveAuthenticationHelper.AuthenticateAdalUserAsync(refreshToken: false);
+
+                _accountProvider = OneDriveAuthenticationHelper.CreateMsalAuthenticationProvider(_appClientId, _scopes);
+                await OneDriveAuthenticationHelper.AuthenticateMsalUserAsync(_scopes);
             }
 
             // Keep this for compatibility reason
