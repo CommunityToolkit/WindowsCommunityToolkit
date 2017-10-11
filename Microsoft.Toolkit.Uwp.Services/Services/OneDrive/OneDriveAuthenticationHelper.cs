@@ -16,9 +16,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using ADAL = Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.OneDrive.Sdk.Authentication;
 using Newtonsoft.Json;
+using ADAL = Microsoft.IdentityModel.Clients.ActiveDirectory;
 using MSAL = Microsoft.Identity.Client;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
@@ -55,8 +55,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         {
             get { return _identityClient; }
         }
-
-
 
         /// <summary>
         /// Store connected user's data.

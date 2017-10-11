@@ -11,11 +11,7 @@
 // ******************************************************************
 
 using Microsoft.Graph;
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -23,6 +19,9 @@ using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
+    /// <summary>
+    /// Interface IOneDriveStorageItem
+    /// </summary>
     public interface IOneDriveStorageItem
     {
         /// <summary>

@@ -1,20 +1,29 @@
-﻿using Microsoft.Graph;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Graph;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
-
+    /// <summary>
+    /// Class DataItem
+    /// </summary>
     public class DataItem
     {
-        static DataItem CreateItemFromOneDriveSdk(Microsoft.OneDrive.Sdk.Item item)
-        {
-            return new DataItem(item);
-        }
-
+        /// <summary>
+        ///  Initializes a new instance of the <see cref="DataItem"/> class.
+        /// </summary>
+        /// <param name="item"> OneDrive Item</param>
         public DataItem (Microsoft.OneDrive.Sdk.Item item)
         {
             CreatedBy = new Createdby();
@@ -51,6 +60,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             LastModifiedDateTime = item.LastModifiedDateTime;
         }
 
+        /// <summary>
+        ///  Initializes a new instance of the <see cref="DataItem"/> class.
+        /// </summary>
+        /// <param name="item"> Graph Item</param>
         public DataItem(DriveItem item)
         {
             CreatedBy = new Createdby();
@@ -62,7 +75,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                     CreatedBy.User.DisplayName = item.CreatedBy.User.DisplayName;
                 }
             }
-
 
             CreatedDateTime = item.CreatedDateTime;
             Id = item.Id;
@@ -88,63 +100,176 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             LastModifiedDateTime = item.LastModifiedDateTime;
         }
 
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public Createdby CreatedBy { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public DateTimeOffset? CreatedDateTime { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public DateTimeOffset? LastModifiedDateTime { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public long? Size { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public string WebUrl { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public ParentReference ParentReference { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public object ContentDownloadUrl { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public string CTag { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public Folder Folder { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public File File { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public string eTag { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public object SpecialFolder { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public object ThumbnailUrl { get; set; }
     }
 
+    /// <summary>
+    /// Class Createdby
+    /// </summary>
     public class Createdby
     {
-        public Createdby()
-        {
-            User = new User();
-        }
+        /// <summary>
+        ///  Initializes a new instance of the <see cref="DataItem"/> class.
+        /// </summary>
+        public Createdby() => User = new User();
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public User User { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public object Application { get; set; }
     }
 
+    /// <summary>
+    /// Class User
+    /// </summary>
     public class User
     {
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public string DisplayName { get; set; }
     }
 
+    /// <summary>
+    /// Class ParentReference
+    /// </summary>
     public class ParentReference
     {
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public string DriveId { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public string Path { get; set; }
     }
 
+    /// <summary>
+    /// Class Folder
+    /// </summary>
     public class Folder
     {
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public int? ChildCount { get; set; }
     }
 
+    /// <summary>
+    /// Class Folder
+    /// </summary>
     public class File
     {
+
         public File()
         {
             Hashes = new Hashes();
         }
+
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public Hashes Hashes { get; set; }
     }
 
+    /// <summary>
+    /// Class Folder
+    /// </summary>
     public class Hashes
     {
+        /// <summary>
+        /// Gets or Sets
+        /// </summary>
         public string quickXorHash { get; set; }
     }
-
 }
