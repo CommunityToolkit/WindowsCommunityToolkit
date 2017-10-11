@@ -67,8 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// On platforms not supporting drop shadows, this control has no effect.
         /// </remarks>
         public static bool IsSupported =>
-            !DesignMode.DesignModeEnabled &&
-            ApiInformation.IsTypePresent("Windows.UI.Composition.DropShadow"); // SDK >= 14393
+            (!ControlHelpers.IsRunningInLegacyDesignerMode) && ApiInformation.IsTypePresent("Windows.UI.Composition.DropShadow"); // SDK >= 14393
 
         /// <summary>
          /// Gets DropShadow. Exposes the underlying composition object to allow custom Windows.UI.Composition animations.

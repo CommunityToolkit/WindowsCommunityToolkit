@@ -11,9 +11,12 @@
 // ******************************************************************
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -32,6 +35,45 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
     /// <seealso cref="System.IEquatable{ObservableBluetoothLEDevice}" />
     public class ObservableBluetoothLEDevice : INotifyPropertyChanged, IEquatable<ObservableBluetoothLEDevice>
     {
+        /// <summary>
+        /// Compares RSSI values between ObservableBluetoothLEDevice. Sorts based on closest to furthest where 0 is unknown
+        /// and is sorted as furthest away
+        /// </summary>
+        public class RSSIComparer : IComparer
+        {
+            public int Compare(object x, object y)
+            {
+                ObservableBluetoothLEDevice a = x as ObservableBluetoothLEDevice;
+                ObservableBluetoothLEDevice b = y as ObservableBluetoothLEDevice;
+
+                if( a == null || b == null)
+                {
+                    throw new InvalidOperationException("Compared objects are not ObservableBluetoothLEDevice");
+                }
+
+                // If they're equal
+                if(a.RSSI == b.RSSI)
+                {
+                    return 0;
+                }
+
+                // RSSI == 0 means we don't know it. Always make that the end.
+                if(b.RSSI == 0)
+                {
+                    return -1;
+                }
+
+                if(a.RSSI < b.RSSI || a.RSSI == 0)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+        }
+
         /// <summary>
         /// Source for <see cref="BluetoothLEDevice" />
         /// </summary>
@@ -71,7 +113,17 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// result of finding all the services
         /// </summary>
         private GattDeviceServicesResult _result;
-
+		
+		/// <summary>
+		/// Queue to store the last 10 observed RSSI values
+		/// </summary>
+        private Queue<int> _rssiValue = new Queue<int>(10); 
+        
+        /// <summary>
+        /// Source for <see cref="RSSI"/>
+        /// </summary>
+        private int _rssi;
+		
         /// <summary>
         /// Source for <see cref="ServiceCount" />
         /// </summary>
@@ -95,6 +147,8 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
             IsPaired = DeviceInfo.Pairing.IsPaired;
 
             LoadGlyph();
+
+            this.PropertyChanged += ObservableBluetoothLEDevice_PropertyChanged;
         }
 
         /// <summary>
@@ -203,6 +257,12 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
             {
                 return _services;
             }
+
+            private set
+            {
+                _services = value;
+                OnPropertyChanged();
+            }
         }
 
         /// <summary>
@@ -265,6 +325,35 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
             }
         }
 
+
+        /// <summary>
+        /// Gets the RSSI value of this device
+        /// </summary>
+        public int RSSI
+        {
+            get
+            {
+                return _rssi;
+            }
+
+            private set
+            {
+                if (_rssiValue.Count >= 10)
+                {
+                    _rssiValue.Dequeue();
+                }
+                _rssiValue.Enqueue(value);
+
+                int newValue = (int)Math.Round(_rssiValue.Average(), 0);
+                
+                if (_rssi != newValue)
+                {
+                    _rssi = newValue;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         /// <summary>
         /// Gets the bluetooth address of this device as a string
         /// </summary>
@@ -287,6 +376,17 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         bool IEquatable<ObservableBluetoothLEDevice>.Equals(ObservableBluetoothLEDevice other)
         {
             return other?.DeviceInfo.Id != null && DeviceInfo.Id == other.DeviceInfo.Id;
+        }
+
+        private void ObservableBluetoothLEDevice_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == "DeviceInfo")
+            {
+                if(DeviceInfo.Properties.ContainsKey("System.Devices.Aep.SignalStrength") && DeviceInfo.Properties["System.Devices.Aep.SignalStrength"] != null)
+                {
+                    RSSI = (int)DeviceInfo.Properties["System.Devices.Aep.SignalStrength"];
+                }
+            }
         }
 
         /// <summary>
@@ -326,6 +426,9 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
 
                 if (_result.Status == GattCommunicationStatus.Success)
                 {
+                    // In case we connected before, clear the service list and recreate it
+                    Services.Clear();
+
                     foreach (var serv in _result.Services)
                     {
                         Services.Add(new ObservableGattDeviceService(serv));
