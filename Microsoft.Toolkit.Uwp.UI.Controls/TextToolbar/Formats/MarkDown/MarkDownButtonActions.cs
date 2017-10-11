@@ -15,7 +15,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 {
     /// <summary>
-    /// Class defining actions for MarkDown
+    /// Default button Actions for MarkDown Formatter
     /// </summary>
     public class MarkDownButtonActions : ButtonActions
     {
