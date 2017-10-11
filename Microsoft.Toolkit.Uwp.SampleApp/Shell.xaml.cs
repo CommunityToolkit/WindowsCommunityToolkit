@@ -51,7 +51,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private Compositor _compositor;
         private float _defaultShowAnimationDuration = 300;
-        //private float _defaultHideAnimationDiration = 150;
         private XamlRenderService _xamlRenderer = new XamlRenderService();
         private bool _lastRenderedProperties = true;
         private ThreadPoolTimer _autocompileTimer;

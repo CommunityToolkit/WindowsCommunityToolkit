@@ -14,28 +14,39 @@ using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 {
+    /// <summary>
+    /// Class defining actions for MarkDown
+    /// </summary>
     public class MarkDownButtonActions : ButtonActions
     {
+        /// <summary>
+        /// Constructor for the <see cref="MarkDownButtonActions"/>
+        /// </summary>
+        /// <param name="formatter">The Formatter to use</param>
         public MarkDownButtonActions(MarkDownFormatter formatter)
         {
             Formatter = formatter;
         }
 
+        /// <inheritdoc/>
         public override void FormatBold(ToolbarButton button)
         {
             Formatter.SetSelection("**", "**");
         }
 
+        /// <inheritdoc/>
         public override void FormatItalics(ToolbarButton button)
         {
             Formatter.SetSelection("_", "_");
         }
 
+        /// <inheritdoc/>
         public override void FormatStrikethrough(ToolbarButton button)
         {
             Formatter.SetSelection("~~", "~~");
         }
 
+        /// <inheritdoc/>
         public override void FormatLink(ToolbarButton button, string label, string formattedText, string link)
         {
             var select = Formatter.Selected;
@@ -70,16 +81,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             }
         }
 
+        /// <inheritdoc/>
         public override void FormatList(ToolbarButton button)
         {
             Formatter.SetList(() => "- ", button);
         }
 
+        /// <inheritdoc/>
         public override void FormatOrderedList(ToolbarButton button)
         {
             Formatter.SetList(Formatter.OrderedListIterate, button);
         }
 
+        /// <summary>
+        /// Gets the Formatter used
+        /// </summary>
         public MarkDownFormatter Formatter { get; }
     }
 }

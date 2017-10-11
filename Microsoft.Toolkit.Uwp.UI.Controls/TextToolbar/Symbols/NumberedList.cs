@@ -17,6 +17,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
     /// </summary>
     public class NumberedList : Symbol
     {
+        /// <summary>
+        /// Constructor for the Numbered List Icon
+        /// </summary>
         public NumberedList()
         {
             this.DefaultStyleKey = typeof(NumberedList);
