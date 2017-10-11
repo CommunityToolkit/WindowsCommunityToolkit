@@ -134,7 +134,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             try
             {
                 Shell.Current.DisplayWaitRing = true;
-                var oneDriveFile = (OneDriveStorageFile)item;
+                var oneDriveFile = (IOneDriveStorageFile)item;
                 using (var remoteStream = await oneDriveFile.OpenAsync())
                 {
                     await SaveToLocalFolder(remoteStream, oneDriveFile.Name);

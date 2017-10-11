@@ -16,7 +16,7 @@ using Microsoft.Graph;
 using Microsoft.Toolkit.Uwp.Services.OneDrive;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
+
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void LstFolder_ItemClick(object sender, ItemClickEventArgs e)
         {
-            _destinationFolder = e.ClickedItem as OneDriveStorageFolder;
+            _destinationFolder = e.ClickedItem as IOneDriveStorageFolder;
         }
 
         private async void BackButton_Click(object sender, RoutedEventArgs e)
@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private async Task NavigateToFolderAsync(OneDriveStorageItem item)
+        private async Task NavigateToFolderAsync(IOneDriveStorageItem item)
         {
                 progressRing.IsActive = true;
                 try
@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void NavigateToButton_Click(object sender, RoutedEventArgs e)
         {
-            await NavigateToFolderAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
+            await NavigateToFolderAsync((IOneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
         }
     }
 }

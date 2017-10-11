@@ -313,7 +313,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 desiredNewName = OneDriveItem.Name;
             }
 
-            return await Provider.MoveAsync(request, destinationFolder, desiredNewName, cancellationToken);
+            return await ((IGraphServiceClient)Provider).MoveAsync(request, destinationFolder, desiredNewName, cancellationToken);
         }
 
         /// <summary>
