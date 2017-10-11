@@ -30,6 +30,9 @@
     <Optimize>true</Optimize>
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup>
+    <ValidateFrameworkCompatibility>false</ValidateFrameworkCompatibility>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Runtime" />
     <Reference Include="System.ObjectModel" />
@@ -40,7 +43,7 @@
       <HintPath>..\Microsoft.Toolkit.Uwp.UI.Controls\bin\$(Configuration)\uap10.0\Microsoft.Toolkit.Uwp.UI.Controls.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Windows.winmd">
+	<Reference Include="Windows.winmd">
       <IsWinMDFile>true</IsWinMDFile>
       <Private>False</Private>
     </Reference>
@@ -62,9 +65,10 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="System.Xaml" />
   </ItemGroup>
   <ItemGroup Label="WinRT References">
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Runtime.WindowsRuntime.UI.Xaml" />
     <Reference Include="Windows.Foundation.FoundationContract">
       <HintPath>$(ProgramFiles)\Windows Kits\10\References\Windows.Foundation.FoundationContract\2.0.0.0\Windows.Foundation.FoundationContract.winmd</HintPath>
       <Aliases>WindowsRuntime</Aliases>

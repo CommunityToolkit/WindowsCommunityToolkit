@@ -25,8 +25,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 		{
 			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.TileControl),
 				b =>
-				{   
-					b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+				{
+                    b.AddCustomAttributes(nameof(TileControl.ScrollViewerContainer), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.ImageAlignment), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.ImageSource), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.ScrollOrientation), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.OffsetX), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.OffsetY), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.ParallaxSpeedRatio), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.IsAnimated), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.AnimationStepX), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.AnimationStepY), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(TileControl.AnimationDuration), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
 				}
 			);
 		}

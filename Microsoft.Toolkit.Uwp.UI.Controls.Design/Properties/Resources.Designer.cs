@@ -115,6 +115,60 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Markdown Style - Code.
+        /// </summary>
+        internal static string CategoryMarkdownCodeStyle {
+            get {
+                return ResourceManager.GetString("CategoryMarkdownCodeStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Markdown Style - Header {0}.
+        /// </summary>
+        internal static string CategoryMarkdownHeaderStyle {
+            get {
+                return ResourceManager.GetString("CategoryMarkdownHeaderStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Markdown Style - List.
+        /// </summary>
+        internal static string CategoryMarkdownListStyle {
+            get {
+                return ResourceManager.GetString("CategoryMarkdownListStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Markdown Style - Quote.
+        /// </summary>
+        internal static string CategoryMarkdownQuoteStyle {
+            get {
+                return ResourceManager.GetString("CategoryMarkdownQuoteStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Markdown Style.
+        /// </summary>
+        internal static string CategoryMarkdownStyle {
+            get {
+                return ResourceManager.GetString("CategoryMarkdownStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Markdown Style - Table.
+        /// </summary>
+        internal static string CategoryMarkdownTableStyle {
+            get {
+                return ResourceManager.GetString("CategoryMarkdownTableStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Text.
         /// </summary>
         internal static string CategoryText {

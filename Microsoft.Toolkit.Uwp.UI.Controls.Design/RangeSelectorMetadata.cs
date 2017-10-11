@@ -25,8 +25,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 		{
 			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.RangeSelector),
 				b =>
-				{   
-					b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+				{
+                    b.AddCustomAttributes(nameof(RangeSelector.Minimum), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(RangeSelector.Maximum), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(RangeSelector.RangeMin), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(RangeSelector.RangeMax), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(RangeSelector.IsTouchOptimized), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
 				}
 			);
 		}

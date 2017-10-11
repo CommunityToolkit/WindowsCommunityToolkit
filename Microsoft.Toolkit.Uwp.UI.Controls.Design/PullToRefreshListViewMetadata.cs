@@ -25,8 +25,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 		{
 			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.PullToRefreshListView),
 				b =>
-				{   
-					b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+				{
+                    b.AddCustomAttributes(nameof(PullToRefreshListView.OverscrollLimit), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(PullToRefreshListView.PullThreshold), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(PullToRefreshListView.RefreshCommand),
+                        new EditorBrowsableAttribute(EditorBrowsableState.Advanced),
+                        new CategoryAttribute(Properties.Resources.CategoryCommon)
+                        );
+                    b.AddCustomAttributes(nameof(PullToRefreshListView.RefreshIntentCanceledCommand),
+                        new EditorBrowsableAttribute(EditorBrowsableState.Advanced),
+                        new CategoryAttribute(Properties.Resources.CategoryCommon)
+                        );
+                    b.AddCustomAttributes(nameof(PullToRefreshListView.RefreshIndicatorContent), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(PullToRefreshListView.PullToRefreshLabel), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(PullToRefreshListView.ReleaseToRefreshLabel), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(PullToRefreshListView.PullToRefreshContent), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(PullToRefreshListView.ReleaseToRefreshContent), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(PullToRefreshListView.IsPullToRefreshWithMouseEnabled), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
 				}
 			);
 		}

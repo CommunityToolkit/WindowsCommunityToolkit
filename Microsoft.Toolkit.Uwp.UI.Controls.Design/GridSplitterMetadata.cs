@@ -25,8 +25,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 		{
 			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.GridSplitter),
 				b =>
-				{   
-					b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+				{
+                    b.AddCustomAttributes(nameof(GridSplitter.Element), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(GridSplitter.ResizeDirection), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(GridSplitter.ResizeBehavior), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(GridSplitter.GripperForeground), new CategoryAttribute(Properties.Resources.CategoryBrush));
+                    b.AddCustomAttributes(nameof(GridSplitter.ParentLevel), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(GridSplitter.GripperCursor), new CategoryAttribute(Properties.Resources.CategoryAppearance));
+                    b.AddCustomAttributes(nameof(GridSplitter.GripperCustomCursorResource), 
+                        new CategoryAttribute(Properties.Resources.CategoryAppearance),
+                        new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
+                    );
+                    b.AddCustomAttributes(nameof(GridSplitter.CursorBehavior), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
 				}
 			);
 		}

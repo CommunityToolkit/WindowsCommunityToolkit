@@ -25,8 +25,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 		{
 			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.HamburgerMenu),
 				b =>
-				{   
-					b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+				{
+                    b.AddCustomAttributes(nameof(HamburgerMenu.OpenPaneLength), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(HamburgerMenu.PanePlacement), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(HamburgerMenu.DisplayMode), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(HamburgerMenu.CompactPaneLength), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(HamburgerMenu.PaneForeground), new CategoryAttribute(Properties.Resources.CategoryBrush));
+                    b.AddCustomAttributes(nameof(HamburgerMenu.PaneBackground), new CategoryAttribute(Properties.Resources.CategoryBrush));
+                    b.AddCustomAttributes(nameof(HamburgerMenu.IsPaneOpen), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(HamburgerMenu.ItemsSource), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(HamburgerMenu.ItemTemplate), 
+                        new CategoryAttribute(Properties.Resources.CategoryAppearance),
+                        new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
+                    );
+                    b.AddCustomAttributes(nameof(HamburgerMenu.ItemTemplateSelector), 
+                        new CategoryAttribute(Properties.Resources.CategoryAppearance),
+                        new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
+                    );
+                    b.AddCustomAttributes(nameof(HamburgerMenu.SelectedItem), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(HamburgerMenu.SelectedIndex), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
 				}
 			);
 		}
