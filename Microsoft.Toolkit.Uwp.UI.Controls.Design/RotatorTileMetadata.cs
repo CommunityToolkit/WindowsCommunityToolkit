@@ -18,24 +18,14 @@ using System.ComponentModel;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-	internal class MenuMetadata : AttributeTableBuilder
+	internal class RotatorTileMetadata : AttributeTableBuilder
 	{
-        public MenuMetadata()
+        public RotatorTileMetadata()
 			: base()
 		{
-			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.Menu),
+			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.RotatorTile),
 				b =>
 				{   
-					b.AddCustomAttributes(nameof(Menu.Items),
-						new PropertyOrderAttribute(PropertyOrder.Early),
-						new CategoryAttribute(Properties.Resources.CategoryCommon),
-						//The following is necessary because this is a collection of an abstract type, so we help
-						//the designer with populating supported types that can be added to the collection
-                        new NewItemTypesAttribute(new System.Type[] {
-                            typeof(MenuItem),
-                        }),
-						new AlternateContentPropertyAttribute()
-					);
 					b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
 				}
 			);

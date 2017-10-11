@@ -18,25 +18,18 @@ using System.ComponentModel;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-	internal class MenuMetadata : AttributeTableBuilder
+	internal class WrapPanelMetadata : AttributeTableBuilder
 	{
-        public MenuMetadata()
+        public WrapPanelMetadata()
 			: base()
 		{
-			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.Menu),
+			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel),
 				b =>
 				{   
-					b.AddCustomAttributes(nameof(Menu.Items),
-						new PropertyOrderAttribute(PropertyOrder.Early),
-						new CategoryAttribute(Properties.Resources.CategoryCommon),
-						//The following is necessary because this is a collection of an abstract type, so we help
-						//the designer with populating supported types that can be added to the collection
-                        new NewItemTypesAttribute(new System.Type[] {
-                            typeof(MenuItem),
-                        }),
-						new AlternateContentPropertyAttribute()
+					b.AddCustomAttributes(nameof(WrapPanel.Orientation),
+						new CategoryAttribute(Properties.Resources.CategoryCommon)
 					);
-					b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
 				}
 			);
 		}

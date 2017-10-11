@@ -23,9 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public MenuItemMetadata()
 			: base()
 		{
-#pragma warning disable 0618 //Ignore obsolete warning
 			AddCallback(typeof(MenuItem),
-#pragma warning restore 0618 
 				b =>
 				{   
 					b.AddCustomAttributes(nameof(MenuItem.Header),

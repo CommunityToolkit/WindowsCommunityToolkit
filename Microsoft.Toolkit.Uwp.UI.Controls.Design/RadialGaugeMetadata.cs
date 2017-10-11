@@ -12,31 +12,32 @@
 
 using Microsoft.Toolkit.Uwp.UI.Controls.Design.Common;
 using Microsoft.Windows.Design;
+using Microsoft.Windows.Design.Features;
 using Microsoft.Windows.Design.Metadata;
+using Microsoft.Windows.Design.Model;
 using Microsoft.Windows.Design.PropertyEditing;
 using System.ComponentModel;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-	internal class MenuMetadata : AttributeTableBuilder
+    internal class RadialGaugeDefaults : DefaultInitializer
+    {
+        public override void InitializeDefaults(ModelItem item)
+        {
+            item.Properties[nameof(RadialGauge.Value)].SetValue(0d);
+        }
+    }
+
+    internal class RadialGaugeMetadata : AttributeTableBuilder
 	{
-        public MenuMetadata()
+        public RadialGaugeMetadata()
 			: base()
 		{
-			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.Menu),
+			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.RadialGauge),
 				b =>
-				{   
-					b.AddCustomAttributes(nameof(Menu.Items),
-						new PropertyOrderAttribute(PropertyOrder.Early),
-						new CategoryAttribute(Properties.Resources.CategoryCommon),
-						//The following is necessary because this is a collection of an abstract type, so we help
-						//the designer with populating supported types that can be added to the collection
-                        new NewItemTypesAttribute(new System.Type[] {
-                            typeof(MenuItem),
-                        }),
-						new AlternateContentPropertyAttribute()
-					);
-					b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+                {
+                    b.AddCustomAttributes(new FeatureAttribute(typeof(RadialGaugeDefaults)));
+                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
 				}
 			);
 		}
