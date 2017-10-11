@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class ShortcutKeyRequestArgs
     {
         /// <summary>
-        /// Constructor for the <see cref="ShortcutKeyRequestArgs"/>
+        /// Initializes a new instance of the <see cref="ShortcutKeyRequestArgs"/> class.
         /// </summary>
         /// <param name="key"><see cref="VirtualKey"/> pressed</param>
         /// <param name="shiftKeyHeld">value indicating if the SHIFT key was pressed</param>

@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
     public class RichTextFormatter : Formatter
     {
         /// <summary>
-        /// Constructor for the <see cref="RichTextFormatter"/>
+        /// Initializes a new instance of the <see cref="RichTextFormatter"/> class.
         /// </summary>
         /// <param name="model">The <see cref="TextToolbar"/></param>
         public RichTextFormatter(TextToolbar model)
@@ -158,7 +158,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
         }
 
         /// <summary>
-        /// Format used for formatting selection in editor
+        /// Gets or sets format used for formatting selection in editor
         /// </summary>
         public ITextCharacterFormat SelectionFormat
         {

@@ -65,17 +65,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected const string FailedState = "Failed";
 
         /// <summary>
-        /// The backing image object
+        /// Gets the backing image object
         /// </summary>
         protected object Image { get; private set; }
 
         /// <summary>
-        /// backing object for the ProgressRing
+        /// Gets backing object for the ProgressRing
         /// </summary>
         protected ProgressRing Progress { get; private set; }
 
         /// <summary>
-        /// Object used for lock
+        /// Gets object used for lock
         /// </summary>
         protected object LockObj { get; private set; }
 

@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
     public class List : Symbol
     {
         /// <summary>
-        /// Constructor for the List Icon
+        /// Initializes a new instance of the <see cref="List"/> class.
         /// </summary>
         public List()
         {

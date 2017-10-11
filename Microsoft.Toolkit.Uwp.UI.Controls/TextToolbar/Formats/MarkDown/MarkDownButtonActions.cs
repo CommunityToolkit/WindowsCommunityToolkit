@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
     public class MarkDownButtonActions : ButtonActions
     {
         /// <summary>
-        /// Constructor for the <see cref="MarkDownButtonActions"/>
+        /// Initializes a new instance of the <see cref="MarkDownButtonActions"/> class.
         /// </summary>
         /// <param name="formatter">The Formatter to use</param>
         public MarkDownButtonActions(MarkDownFormatter formatter)

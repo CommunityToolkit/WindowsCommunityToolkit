@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal const string HeadersElement = "Headers";
 
         /// <summary>
-        /// Constructor for the <see cref="TextToolbar"/>
+        /// Initializes a new instance of the <see cref="TextToolbar"/> class.
         /// </summary>
         public TextToolbar()
         {

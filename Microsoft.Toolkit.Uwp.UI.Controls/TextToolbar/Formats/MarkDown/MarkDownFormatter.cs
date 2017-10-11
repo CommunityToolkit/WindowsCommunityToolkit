@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
     public class MarkDownFormatter : Formatter
     {
         /// <summary>
-        /// Constructor for the <see cref="MarkDownFormatter"/>
+        /// Initializes a new instance of the <see cref="MarkDownFormatter"/> class.
         /// </summary>
         /// <param name="model"><see cref="TextToolbar"/> where formatter will be used</param>
         public MarkDownFormatter(TextToolbar model)

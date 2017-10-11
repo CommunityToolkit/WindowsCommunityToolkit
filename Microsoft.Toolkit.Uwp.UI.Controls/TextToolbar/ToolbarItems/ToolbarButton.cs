@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
             DependencyProperty.Register(nameof(ShortcutFancyName), typeof(string), typeof(ToolbarButton), new PropertyMetadata(null));
 
         /// <summary>
-        /// Constructor for <see cref="ToolbarButton"/>
+        /// Initializes a new instance of the <see cref="ToolbarButton"/> class.
         /// </summary>
         public ToolbarButton()
         {
@@ -177,7 +177,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         }
 
         /// <summary>
-        /// Gets or sets whether the <see cref="ToolbarButton"/> is Toggled
+        /// Gets or sets a value indicating whether the <see cref="ToolbarButton"/> is Toggled
         /// </summary>
         public bool IsToggled
         {

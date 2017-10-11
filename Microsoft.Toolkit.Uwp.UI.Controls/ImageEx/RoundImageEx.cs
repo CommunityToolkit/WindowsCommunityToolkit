@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected const string PartImageRectangle = "ImageRectangle";
 
         /// <summary>
-        /// The root rectangle of the image
+        /// Gets the root rectangle of the image
         /// </summary>
         protected Rectangle ImageRectangle { get; private set; }
 

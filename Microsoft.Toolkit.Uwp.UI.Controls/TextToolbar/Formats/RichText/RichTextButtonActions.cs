@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
     public class RichTextButtonActions : ButtonActions
     {
         /// <summary>
-        /// Constructor for the <see cref="RichTextButtonActions"/>
+        /// Initializes a new instance of the <see cref="RichTextButtonActions"/> class.
         /// </summary>
         /// <param name="formatter">The <see cref="RichTextFormatter"/></param>
         public RichTextButtonActions(RichTextFormatter formatter)
@@ -166,7 +166,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
         }
 
         /// <summary>
-        /// The <see cref="RichTextFormatter"/>
+        /// Gets the <see cref="RichTextFormatter"/>
         /// </summary>
         public RichTextFormatter Formatter { get; }
     }

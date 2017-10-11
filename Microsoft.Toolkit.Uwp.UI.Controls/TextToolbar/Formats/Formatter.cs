@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
     public abstract class Formatter
     {
         /// <summary>
-        /// Constructor for the <see cref="Formatter"/> class
+        /// Initializes a new instance of the <see cref="Formatter"/> class.
         /// </summary>
         /// <param name="model">The <see cref="TextToolbar"/>where Formatter is used</param>
         public Formatter(TextToolbar model)

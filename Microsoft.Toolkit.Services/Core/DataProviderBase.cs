@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Services
     public abstract class DataProviderBase<TConfig>
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the <see cref="DataProviderBase{TConfig}"/> class.
         /// </summary>
         public DataProviderBase()
         {
@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Services
         private static HttpClient httpClient;
 
         /// <summary>
-        /// Static instance of HttpClient.
+        /// Gets or sets static instance of HttpClient.
         /// </summary>
         public static HttpClient HttpClient
         {

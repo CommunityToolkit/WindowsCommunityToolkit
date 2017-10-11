@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Carousel carouselControl;
 
         /// <summary>
-        /// The constructor for the <see cref="CarouselPanel"/>
+        /// Initializes a new instance of the <see cref="CarouselPanel"/> class.
         /// </summary>
         public CarouselPanel()
         {
@@ -496,27 +496,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public struct Proj
     {
         /// <summary>
-        /// Position of an item
+        /// Gets or sets the position of an item
         /// </summary>
         public double Position { get; set; }
 
         /// <summary>
-        /// Depth of an item
+        /// Gets or sets the depth of an item
         /// </summary>
         public double Depth { get; set; }
 
         /// <summary>
-        /// Rotation around the X axis
+        /// Gets or sets the rotation around the X axis
         /// </summary>
         public double RotationX { get; set; }
 
         /// <summary>
-        /// Rotation around the Y axis
+        /// Gets or sets the rotation around the Y axis
         /// </summary>
         public double RotationY { get; set; }
 
         /// <summary>
-        /// Rotation around the Z axis
+        /// Gets or sets the rotation around the Z axis
         /// </summary>
         public double RotationZ { get; set; }
     }

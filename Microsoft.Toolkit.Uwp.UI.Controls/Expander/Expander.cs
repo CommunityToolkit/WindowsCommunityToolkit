@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class Expander : ContentControl
     {
         /// <summary>
-        /// Default constructor for the Expander control
+        /// Initializes a new instance of the <see cref="Expander"/> class.
         /// </summary>
         public Expander()
         {
