@@ -38,11 +38,6 @@
     <Reference Include="System.ObjectModel" />
     <Reference Include="System.Runtime.WindowsRuntime" />
     <Reference Include="System.Runtime.InteropServices.WindowsRuntime" />
-    <Reference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Microsoft.Toolkit.Uwp.UI.Controls\bin\$(Configuration)\uap10.0\Microsoft.Toolkit.Uwp.UI.Controls.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
 	<Reference Include="Windows.winmd">
       <IsWinMDFile>true</IsWinMDFile>
       <Private>False</Private>
@@ -65,6 +60,12 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj" Condition="'$(ExcludeRestorePackageImports)' != 'true'">
+      <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
+      <Private>False</Private>
+      <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup Label="WinRT References">
     <Reference Include="System.Xaml" />
