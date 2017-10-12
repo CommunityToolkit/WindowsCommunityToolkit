@@ -27,8 +27,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 				b =>
 				{
                     b.AddCustomAttributes(nameof(HamburgerMenu.OpenPaneLength), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(HamburgerMenu.PanePlacement), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(HamburgerMenu.DisplayMode), new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes("PanePlacement", new CategoryAttribute(Properties.Resources.CategoryCommon));
+                    b.AddCustomAttributes("DisplayMode", new CategoryAttribute(Properties.Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(HamburgerMenu.CompactPaneLength), new CategoryAttribute(Properties.Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(HamburgerMenu.PaneForeground), new CategoryAttribute(Properties.Resources.CategoryBrush));
                     b.AddCustomAttributes(nameof(HamburgerMenu.PaneBackground), new CategoryAttribute(Properties.Resources.CategoryBrush));
