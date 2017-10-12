@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.RadialProgressBar),
 				b =>
 				{
-                    b.AddCustomAttributes(new FeatureAttribute(typeof(RadialProgressBar)));
+                    b.AddCustomAttributes(new FeatureAttribute(typeof(RadialProgressBarDefaults)));
                     b.AddCustomAttributes(nameof(RadialProgressBar.Thickness), new CategoryAttribute(Properties.Resources.CategoryAppearance));
                     b.AddCustomAttributes(nameof(RadialProgressBar.Outline), new CategoryAttribute(Properties.Resources.CategoryBrush));
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
