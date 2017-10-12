@@ -48,7 +48,7 @@
   </Choose>
 
   <Choose>
-    <When Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false' and '$(IsSampleProject)' != 'true'">
+    <When Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
       <ItemGroup>
         <PackageReference Include="SourceLink.Create.CommandLine" Version="2.2.0" PrivateAssets="All" />
       </ItemGroup>
