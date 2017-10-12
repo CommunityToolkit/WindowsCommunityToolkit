@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     internal sealed class Element_ToastInput : IElement_ToastActionsChild
     {
         /// <summary>
-        /// The id attribute is required and is for developers to retrieve user inputs once the app is activated (in the foreground or background).
+        /// Gets or sets the required attributes for developers to retrieve user inputs once the app is activated (in the foreground or background).
         /// </summary>
         [NotificationXmlAttribute("id")]
         public string Id { get; set; }
@@ -27,19 +27,19 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public ToastInputType Type { get; set; }
 
         /// <summary>
-        /// The title attribute is optional and is for developers to specify a title for the input for shells to render when there is affordance.
+        /// Gets or sets the optional title attribute and is for developers to specify a title for the input for shells to render when there is affordance.
         /// </summary>
         [NotificationXmlAttribute("title")]
         public string Title { get; set; }
 
         /// <summary>
-        /// The placeholderContent attribute is optional and is the grey-out hint text for text input type. This attribute is ignored when the input type is not �text�.
+        /// Gets or sets the optional placeholderContent attribute and is the grey-out hint text for text input type. This attribute is ignored when the input type is not �text�.
         /// </summary>
         [NotificationXmlAttribute("placeHolderContent")]
         public string PlaceholderContent { get; set; }
 
         /// <summary>
-        /// The defaultInput attribute is optional and it allows developer to provide a default input value.
+        /// Gets or sets the optional defaultInput attribute and it allows developer to provide a default input value.
         /// </summary>
         [NotificationXmlAttribute("defaultInput")]
         public string DefaultInput { get; set; }

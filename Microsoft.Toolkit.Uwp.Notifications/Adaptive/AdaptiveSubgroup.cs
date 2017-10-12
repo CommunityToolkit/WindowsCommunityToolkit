@@ -22,14 +22,14 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class AdaptiveSubgroup
     {
         /// <summary>
-        /// <see cref="AdaptiveText"/> and <see cref="AdaptiveImage"/> are valid children of subgroups.
+        /// Gets a list of Children. <see cref="AdaptiveText"/> and <see cref="AdaptiveImage"/> are valid children of subgroups.
         /// </summary>
         public IList<IAdaptiveSubgroupChild> Children { get; private set; } = new List<IAdaptiveSubgroupChild>();
 
         private int? _hintWeight;
 
         /// <summary>
-        /// Control the width of this subgroup column by specifying the weight, relative to the other subgroups.
+        /// Gets or sets the width of this subgroup column by specifying the weight, relative to the other subgroups.
         /// </summary>
         public int? HintWeight
         {
@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// Control the vertical alignment of this subgroup's content.
+        /// Gets or sets the vertical alignment of this subgroup's content.
         /// </summary>
         public AdaptiveSubgroupTextStacking HintTextStacking { get; set; } = Element_AdaptiveSubgroup.DEFAULT_TEXT_STACKING;
 

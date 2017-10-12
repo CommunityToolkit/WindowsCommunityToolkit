@@ -20,7 +20,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class ToastContextMenuItem
     {
         /// <summary>
-        /// Initializes a Toast context menu item with the required properties.
+        /// Initializes a new instance of the <see cref="ToastContextMenuItem"/> class.
+        /// A Toast context menu item with the required properties.
         /// </summary>
         /// <param name="content">The text to display on the menu item.</param>
         /// <param name="arguments">App-defined string of arguments that the app can later retrieve once it is activated when the user clicks the menu item.</param>
@@ -41,22 +42,22 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// Required. The text to display on the menu item.
+        /// Gets the text to display on the menu item. Required
         /// </summary>
         public string Content { get; private set; }
 
         /// <summary>
-        /// Required. App-defined string of arguments that the app can later retrieve once it is activated when the user clicks the menu item.
+        /// Gets app-defined string of arguments that the app can later retrieve once it is activated when the user clicks the menu item. Required
         /// </summary>
         public string Arguments { get; private set; }
 
         /// <summary>
-        /// Controls what type of activation this menu item will use when clicked. Defaults to Foreground.
+        /// Gets or sets what type of activation this menu item will use when clicked. Defaults to Foreground.
         /// </summary>
         public ToastActivationType ActivationType { get; set; } = ToastActivationType.Foreground;
 
         /// <summary>
-        /// New in Creators Update: Additional options relating to activation of the toast context menu item.
+        /// Gets or sets additional options relating to activation of the toast context menu item. New in Creators Update
         /// </summary>
         public ToastActivationOptions ActivationOptions { get; set; }
 
