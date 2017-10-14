@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="OptionsItemsSource"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty OptionsItemsSourceProperty = DependencyProperty.Register(nameof(OptionsItemsSource), typeof(object), typeof(HamburgerMenu), new PropertyMetadata(null));
+        public static readonly DependencyProperty OptionsItemsSourceProperty = DependencyProperty.Register(nameof(OptionsItemsSource), typeof(object), typeof(HamburgerMenu), new PropertyMetadata(null, OnItemsSourceChanged));
 
         /// <summary>
         /// Identifies the <see cref="OptionsItemTemplate"/> dependency property.
