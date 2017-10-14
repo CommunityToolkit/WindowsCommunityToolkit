@@ -24,8 +24,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = PartImageRectangle, Type = typeof(Rectangle))]
     public partial class RoundImageEx : ImageExBase
     {
+        /// <summary>
+        /// The name of the root rectangle in the template
+        /// </summary>
         protected const string PartImageRectangle = "ImageRectangle";
 
+        /// <summary>
+        /// Gets the root rectangle of the image
+        /// </summary>
         protected Rectangle ImageRectangle { get; private set; }
 
         /// <summary>

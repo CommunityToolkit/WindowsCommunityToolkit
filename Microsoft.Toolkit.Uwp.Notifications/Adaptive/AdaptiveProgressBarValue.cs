@@ -25,12 +25,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public double Value { get; set; }
 
         /// <summary>
-        /// Gets or sets whether the progress bar is indeterminate.
+        /// Gets or sets a value indicating whether the progress bar is indeterminate.
         /// </summary>
         public bool IsIndeterminate { get; set; }
 
         /// <summary>
-        /// Private constructor
+        /// Initializes a new instance of the <see cref="AdaptiveProgressBarValue"/> class.
         /// </summary>
         private AdaptiveProgressBarValue()
         {
@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// Returns an indeterminate progress bar value.
+        /// Gets an indeterminate progress bar value.
         /// </summary>
         public static AdaptiveProgressBarValue Indeterminate
         {

@@ -51,6 +51,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             Model.Formatter.ButtonActions.FormatOrderedList(button);
         }
 
+        /// <summary>
+        /// Opens a <see cref="ContentDialog"/> for the user to enter a URL
+        /// </summary>
+        /// <param name="button">The <see cref="ToolbarButton"/> invoked</param>
         public async void OpenLinkCreator(ToolbarButton button)
         {
             var selection = button.Model.Editor.Document.Selection;
@@ -87,11 +91,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 
             if (result == ContentDialogResult.Primary)
             {
-                string labelText;
-                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out labelText);
+                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string labelText);
 
-                string formattedlabelText;
-                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out formattedlabelText);
+                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string formattedlabelText);
 
                 Model.Formatter.ButtonActions.FormatLink(button, labelText.Trim(), formattedlabelText.Trim(), linkBox.Text.Trim());
             }

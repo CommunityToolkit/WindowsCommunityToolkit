@@ -52,13 +52,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void PlaceholderSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as ImageExBase;
-            if (control != null)
+            if (d is ImageExBase control)
             {
                 control.OnPlaceholderSourceChanged(e);
             }
         }
 
+        /// <summary>
+        /// Invoked when Placeholder source has changed
+        /// </summary>
+        /// <param name="e">Event args</param>
         protected virtual void OnPlaceholderSourceChanged(DependencyPropertyChangedEventArgs e)
         {
         }

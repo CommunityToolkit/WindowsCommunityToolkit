@@ -46,11 +46,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [ContentProperty(Name = "Content")]
     public partial class Expander : ContentControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Expander"/> class.
+        /// </summary>
         public Expander()
         {
             DefaultStyleKey = typeof(Expander);
         }
 
+        /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -67,11 +71,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             OnDisplayModeOrIsExpandedChanged(false);
         }
 
+        /// <summary>
+        /// Called when control is expanded
+        /// </summary>
+        /// <param name="args">EventArgs</param>
         protected virtual void OnExpanded(EventArgs args)
         {
             Expanded?.Invoke(this, args);
         }
 
+        /// <summary>
+        /// Called when control is collapsed
+        /// </summary>
+        /// <param name="args">EventArgs</param>
         protected virtual void OnCollapsed(EventArgs args)
         {
             Collapsed?.Invoke(this, args);
@@ -108,6 +120,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             OnCollapsed(EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Called when the ExpandDirection on Expander changes
+        /// </summary>
         private void OnExpandDirectionChanged()
         {
             var button = (ToggleButton)GetTemplateChild(ExpanderToggleButtonPart);
