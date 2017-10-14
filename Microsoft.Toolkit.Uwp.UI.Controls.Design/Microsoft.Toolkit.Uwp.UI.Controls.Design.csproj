@@ -66,6 +66,10 @@
   <ItemGroup Label="WinRT References">
     <Reference Include="System.Xaml" />
     <Reference Include="System.Runtime.WindowsRuntime.UI.Xaml" />
+    <Reference Include="Windows.winmd"> 
+      <IsWinMDFile>true</IsWinMDFile> 
+      <Private>False</Private> 
+    </Reference> 
     <Reference Include="Windows.UI.Xaml.winmd">
       <IsWinMDFile>true</IsWinMDFile>
       <Private>False</Private>
