@@ -34,6 +34,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 
         private TextToolbar Model { get; }
 
+        /// <summary>
+        /// Gets the <see cref="ToolbarButton"/> for Bold
+        /// </summary>
         public ToolbarButton Bold
         {
             get
@@ -49,6 +52,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="ToolbarButton"/> for Italics
+        /// </summary>
         public ToolbarButton Italics
         {
             get
@@ -64,6 +70,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="ToolbarButton"/> for Strikethrough
+        /// </summary>
         public ToolbarButton Strikethrough
         {
             get
@@ -80,6 +89,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="ToolbarButton"/> for Link
+        /// </summary>
         public ToolbarButton Link
         {
             get
@@ -96,6 +108,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="ToolbarButton"/> for List
+        /// </summary>
         public ToolbarButton List
         {
             get
@@ -110,6 +125,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="ToolbarButton"/> for OrderedList
+        /// </summary>
         public ToolbarButton OrderedList
         {
             get

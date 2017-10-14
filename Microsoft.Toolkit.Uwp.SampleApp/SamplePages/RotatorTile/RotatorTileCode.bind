@@ -42,6 +42,8 @@
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel x:Name="Panel1"
@@ -84,6 +86,48 @@
                        TextWrapping="Wrap" />
           </Border>
         </StackPanel>
+
+        <StackPanel x:Name="Panel3"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Width="400"
+                    Margin="0,0,20,0">
+          <controls:RotatorTile x:Name="Tile3"
+                                Height="200"
+                                Background="LightGray"
+                                RotationDelay="0:0:3"
+                                ExtraRandomDuration="0:0:3"
+                                Direction="Down"
+                                ItemTemplate="{StaticResource PhotoTemplate}" />
+          <Border Height="75"
+                  Margin="20,20,20,20"
+                  Padding="5">
+            <TextBlock VerticalAlignment="Top"
+                       Text="{Binding ElementName=Tile1, Path=CurrentItem.Title}"
+                       TextWrapping="Wrap" />
+          </Border>
+        </StackPanel>
+
+        <StackPanel x:Name="Panel4"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="200">
+          <controls:RotatorTile x:Name="Tile4"
+                                Height="200"
+                                Background="LightGray"
+                                RotationDelay="0:0:1.5"
+                                ExtraRandomDuration="0:0:1"
+                                Direction="Right"
+                                ItemTemplate="{StaticResource PhotoTemplate}" />
+
+          <Border Height="75"
+                  Margin="20,20,20,0"
+                  Padding="5">
+            <TextBlock VerticalAlignment="Top"
+                       Text="{Binding ElementName=Tile2, Path=CurrentItem.Title}"
+                       TextWrapping="Wrap" />
+          </Border>
+        </StackPanel>
       </Grid>
     </ScrollViewer>
     <VisualStateManager.VisualStateGroups>
@@ -104,7 +148,15 @@
             <Setter Target="Panel2.Width" Value="150" />
             <Setter Target="Tile1.Height" Value="150" />
             <Setter Target="Tile2.Height" Value="150" />
-            <Setter Target="Panel1.Margin" Value="0" />
+            <Setter Target="Panel1.Margin" Value="0" />            
+            <Setter Target="Panel3.(Grid.Row)" Value="2" />
+            <Setter Target="Panel4.(Grid.Column)" Value="0" />
+            <Setter Target="Panel4.(Grid.Row)" Value="3" />
+            <Setter Target="Panel3.Width" Value="250" />
+            <Setter Target="Panel4.Width" Value="150" />
+            <Setter Target="Tile3.Height" Value="150" />
+            <Setter Target="Tile4.Height" Value="150" />
+            <Setter Target="Panel3.Margin" Value="0" />
           </VisualState.Setters>
         </VisualState>
       </VisualStateGroup>

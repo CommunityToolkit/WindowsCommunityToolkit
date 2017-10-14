@@ -39,7 +39,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(SelectedItemProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for SelectedItem.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the SelectedItem Property
+        /// </summary>
         public static readonly DependencyProperty SelectedItemProperty =
             DependencyProperty.Register("SelectedItem", typeof(object), typeof(Carousel), new PropertyMetadata(null, OnCarouselPropertyChanged));
 
@@ -59,7 +61,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        // Using a DependencyProperty as the backing store for SelectedIndex.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the SelectedIndex Property
+        /// </summary>
         public static readonly DependencyProperty SelectedIndexProperty =
             DependencyProperty.Register("SelectedIndex", typeof(int), typeof(Carousel), new PropertyMetadata(-1, OnCarouselPropertyChanged));
 
@@ -72,7 +76,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(TransitionDurationProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for TransitionDuration.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the TransitionDuration Property
+        /// </summary>
         public static readonly DependencyProperty TransitionDurationProperty = DependencyProperty.Register("TransitionDuration", typeof(int), typeof(Carousel), new PropertyMetadata(200));
 
         /// <summary>
@@ -84,7 +90,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ItemDepthProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Depth.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the ItemDepth Property
+        /// </summary>
         public static readonly DependencyProperty ItemDepthProperty = DependencyProperty.Register("ItemDepth", typeof(int), typeof(Carousel), new PropertyMetadata(0, OnCarouselPropertyChanged));
 
         /// <summary>
@@ -96,7 +104,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(EasingFunctionProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for EasingFunction.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the EasingFunction Property
+        /// </summary>
         public static readonly DependencyProperty EasingFunctionProperty = DependencyProperty.Register("EasingFunction", typeof(EasingFunctionBase), typeof(Carousel), new PropertyMetadata(new ExponentialEase { EasingMode = EasingMode.EaseOut }));
 
         /// <summary>
@@ -108,7 +118,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ItemMarginProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for TranslateX.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the ItemMargin Property
+        /// </summary>
         public static readonly DependencyProperty ItemMarginProperty = DependencyProperty.Register("ItemMargin", typeof(int), typeof(Carousel), new PropertyMetadata(0, OnCarouselPropertyChanged));
 
         /// <summary>
@@ -122,7 +134,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(InvertPositiveProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for InvertPostive.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the InvertPositive Property
+        /// </summary>
         public static readonly DependencyProperty InvertPositiveProperty =
             DependencyProperty.Register("InvertPositive", typeof(bool), typeof(Carousel), new PropertyMetadata(true, OnCarouselPropertyChanged));
 
@@ -135,7 +149,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ItemRotationXProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Rotation.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the ItemRotationX Property
+        /// </summary>
         public static readonly DependencyProperty ItemRotationXProperty = DependencyProperty.Register("ItemRotationX", typeof(double), typeof(Carousel), new PropertyMetadata(0d, OnCarouselPropertyChanged));
 
         /// <summary>
@@ -147,7 +163,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ItemRotationYProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Rotation.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the ItemRotationY Property
+        /// </summary>
         public static readonly DependencyProperty ItemRotationYProperty = DependencyProperty.Register("ItemRotationY", typeof(double), typeof(Carousel), new PropertyMetadata(0d, OnCarouselPropertyChanged));
 
         /// <summary>
@@ -159,7 +177,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ItemRotationZProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Rotation.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the ItemRotation Property
+        /// </summary>
         public static readonly DependencyProperty ItemRotationZProperty = DependencyProperty.Register("ItemRotationZ", typeof(double), typeof(Carousel), new PropertyMetadata(0d, OnCarouselPropertyChanged));
 
         /// <summary>
@@ -171,7 +191,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(OrientationProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for MaxViewableItems.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the Orientation Property
+        /// </summary>
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(Orientation), typeof(Carousel), new PropertyMetadata(Orientation.Horizontal, OnCarouselPropertyChanged));
 
         /// <summary>
@@ -436,11 +458,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             e.Handled = true;
         }
 
+        /// <inheritdoc/>
         protected override bool IsItemItsOwnContainerOverride(object item)
         {
             return false;
         }
 
+        /// <inheritdoc/>
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             base.PrepareContainerForItemOverride(element, item);
