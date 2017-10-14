@@ -22,12 +22,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
     /// </summary>
     public abstract class Formatter
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Formatter"/> class.
+        /// </summary>
+        /// <param name="model">The <see cref="TextToolbar"/>where Formatter is used</param>
         public Formatter(TextToolbar model)
         {
             Model = model;
             Model.EditorChanged += Model_EditorChanged;
         }
 
+        /// <summary>
+        /// Called when text editor has changed
+        /// </summary>
+        /// <param name="sender"><see cref="TextToolbar"/> invoking the event</param>
+        /// <param name="e"><see cref="EditorChangedArgs"/></param>
         protected virtual void Model_EditorChanged(object sender, EditorChangedArgs e)
         {
             if (e.Old != null)
@@ -122,8 +131,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         /// <returns>Text Array</returns>
         public virtual string[] GetLines()
         {
-            string doc;
-            Model.Editor.Document.GetText(TextGetOptions.None, out doc);
+            Model.Editor.Document.GetText(TextGetOptions.None, out string doc);
             var lines = doc.Split(new string[] { NewLineChars }, StringSplitOptions.None);
             return lines;
         }

@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public interface IToastActions
     {
         /// <summary>
-        /// New in Anniversary Update: Custom context menu items, providing additional actions when the user right clicks the Toast notification.
+        /// Gets custom context menu items, providing additional actions when the user right clicks the Toast notification. New in Anniversary Update
         /// </summary>
         IList<ToastContextMenuItem> ContextMenuItems { get; }
     }
