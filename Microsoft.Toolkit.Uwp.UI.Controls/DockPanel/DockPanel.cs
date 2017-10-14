@@ -101,30 +101,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override Size MeasureOverride(Size availableSize)
         {
-            var width = 0.0;
-            var height = 0.0;
+            var parentWidth = 0.0;
+            var parentHeight = 0.0;
+            var accumulatedWidth = 0.0;
+            var accumulatedHeight = 0.0;
 
             foreach (var child in Children)
             {
-                child.Measure(new Size(availableSize.Width, availableSize.Height));
-                var dock = (Dock)child.GetValue(DockProperty);
-                switch (dock)
+                var childConstraint = new Size(
+                    GetPositiveOrZero(availableSize.Width - accumulatedWidth),
+                    GetPositiveOrZero(availableSize.Height - accumulatedHeight));
+
+                child.Measure(childConstraint);
+                var childDesiredSize = child.DesiredSize;
+
+                switch ((Dock)child.GetValue(DockProperty))
                 {
                     case Dock.Left:
                     case Dock.Right:
-                        width += child.DesiredSize.Width;
+                        parentHeight = Math.Max(parentHeight, accumulatedHeight + childDesiredSize.Height);
+                        accumulatedWidth += childDesiredSize.Width;
                         break;
 
                     case Dock.Top:
                     case Dock.Bottom:
-                        height += child.DesiredSize.Height;
+                        parentWidth = Math.Max(parentWidth, accumulatedWidth + childDesiredSize.Width);
+                        accumulatedHeight += childDesiredSize.Height;
                         break;
                 }
             }
 
-            return new Size(
-                double.IsInfinity(availableSize.Width) ? width : availableSize.Width,
-                double.IsInfinity(availableSize.Height) ? height : availableSize.Height);
+            parentWidth = Math.Max(parentWidth, accumulatedWidth);
+            parentHeight = Math.Max(parentHeight, accumulatedHeight);
+            return new Size(parentWidth, parentHeight);
         }
 
         private static double GetPositiveOrZero(double value)
