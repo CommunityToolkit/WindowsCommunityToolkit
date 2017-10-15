@@ -36,23 +36,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private ControlTemplate _previousTemplateUsed;
 
-        private NavigationView _navigationView;
+        private object _navigationView;
 
         /// <summary>
         /// Gets the <see cref="NavigationView"/>. Returns null when device does not support
         /// NavigationView or when <see cref="UseNavigationViewWhenPossible"/> is set to false
         /// </summary>
-        public NavigationView NavigationView
-        {
-            get { return _navigationView; }
-        }
+        //public NavigationView NavigationView
+        //{
+        //    get { return _navigationView; }
+        //}
 
-        private bool UsingNavView => UseNavigationViewWhenPossible && IsNavViewSupported;
+        private bool UsingNavView => UseNavigationViewWhenPossible && IsNavigationViewSupported;
 
         /// <summary>
         /// Gets a value indicating whether <see cref="NavigationView"/> is supported
         /// </summary>
-        public static bool IsNavViewSupported => (bool)(_isNavViewSupported ??
+        public static bool IsNavigationViewSupported => (bool)(_isNavViewSupported ??
             (_isNavViewSupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5)));
 
         /// <summary>
@@ -88,11 +88,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _optionsListView.ItemClick -= OptionsListView_ItemClick;
             }
 
-            if (UsingNavView && _navigationView != null)
+            if (UsingNavView && _navigationView is NavigationView navView && navView != null)
             {
-                _navigationView.ItemInvoked -= NavigationViewItemInvoked;
-                _navigationView.SelectionChanged -= NavigationViewSelectionChanged;
-                _navigationView.Loaded -= NavigationViewLoaded;
+                navView.ItemInvoked -= NavigationViewItemInvoked;
+                navView.SelectionChanged -= NavigationViewSelectionChanged;
+                navView.Loaded -= NavigationViewLoaded;
             }
 
             _hamburgerButton = (Button)GetTemplateChild("HamburgerButton");
@@ -101,16 +101,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (UsingNavView)
             {
-                _navigationView = (NavigationView)GetTemplateChild("NavView");
+                var _navView = (NavigationView)GetTemplateChild("NavView");
 
-                if (_navigationView != null)
+                if (_navView != null)
                 {
-                    _navigationView.ItemInvoked += NavigationViewItemInvoked;
-                    _navigationView.SelectionChanged += NavigationViewSelectionChanged;
-                    _navigationView.Loaded += NavigationViewLoaded;
-                    _navigationView.MenuItemTemplateSelector = new HamburgerMenuNavViewItemTemplateSelector(this);
+                    _navView.ItemInvoked += NavigationViewItemInvoked;
+                    _navView.SelectionChanged += NavigationViewSelectionChanged;
+                    _navView.Loaded += NavigationViewLoaded;
+                    _navView.MenuItemTemplateSelector = new HamburgerMenuNavViewItemTemplateSelector(this);
 
                     OnItemsSourceChanged(this, null);
+
+                    _navigationView = _navView;
                 }
             }
 
@@ -136,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var hm = d as HamburgerMenu;
 
-            if (hm.UsingNavView && hm._navigationView != null)
+            if (hm.UsingNavView && hm._navigationView is NavigationView navView && navView != null)
             {
                 var items = hm.ItemsSource as IEnumerable<object>;
                 var options = hm.OptionsItemsSource as IEnumerable<object>;
@@ -164,7 +166,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
 
-                hm._navigationView.MenuItemsSource = combined;
+                navView.MenuItemsSource = combined;
             }
         }
 
@@ -172,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var menu = d as HamburgerMenu;
 
-            if (menu.UseNavigationViewWhenPossible && HamburgerMenu.IsNavViewSupported)
+            if (menu.UseNavigationViewWhenPossible && HamburgerMenu.IsNavigationViewSupported)
             {
                 ResourceDictionary dict = new ResourceDictionary();
                 dict.Source = new System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/Themes/Generic.xaml");
@@ -191,21 +193,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var menu = d as HamburgerMenu;
-            if (menu.UsingNavView)
+            if (menu.UsingNavView && menu._navigationView is NavigationView navView)
             {
-                menu._navigationView.SelectedItem = e.NewValue;
+                navView.SelectedItem = e.NewValue;
             }
         }
 
         private static void OnSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var menu = d as HamburgerMenu;
-            if (menu.UsingNavView)
+            if (menu.UsingNavView && menu._navigationView is NavigationView navView)
             {
                 var items = menu.ItemsSource as IEnumerable<object>;
                 if (items != null)
                 {
-                    menu._navigationView.SelectedItem = (int)e.NewValue >= 0 ? items.ElementAt((int)e.NewValue) : null;
+                    navView.SelectedItem = (int)e.NewValue >= 0 ? items.ElementAt((int)e.NewValue) : null;
                 }
             }
         }
@@ -213,20 +215,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnSelectedOptionsIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var menu = d as HamburgerMenu;
-            if (menu.UsingNavView)
+            if (menu.UsingNavView && menu._navigationView is NavigationView navView)
             {
                 var options = menu.ItemsSource as IEnumerable<object>;
                 if (options != null)
                 {
-                    menu._navigationView.SelectedItem = (int)e.NewValue >= 0 ? options.ElementAt((int)e.NewValue) : null;
+                    navView.SelectedItem = (int)e.NewValue >= 0 ? options.ElementAt((int)e.NewValue) : null;
                 }
             }
         }
 
         private void NavigationViewLoaded(object sender, RoutedEventArgs e)
         {
-            _navigationView.Loaded -= NavigationViewLoaded;
-            var hamburgerButton = _navigationView.FindDescendantByName("TogglePaneButton") as Button;
+            var navView = sender as NavigationView;
+            navView.Loaded -= NavigationViewLoaded;
+            var hamburgerButton = navView.FindDescendantByName("TogglePaneButton") as Button;
 
             if (hamburgerButton != null)
             {
