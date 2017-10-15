@@ -70,11 +70,6 @@
       <IsWinMDFile>true</IsWinMDFile> 
       <Private>False</Private> 
     </Reference> 
-    <Reference Include="Windows.UI.Xaml.winmd">
-      <IsWinMDFile>true</IsWinMDFile>
-      <Private>False</Private>
-      <HintPath>$(windir)\System32\WinMetadata\Windows.UI.Xaml.winmd</HintPath>
-    </Reference>
     <Reference Include="Windows.Foundation.FoundationContract">
       <HintPath>$(ProgramFiles)\Windows Kits\10\References\Windows.Foundation.FoundationContract\2.0.0.0\Windows.Foundation.FoundationContract.winmd</HintPath>
       <Aliases>WindowsRuntime</Aliases>
