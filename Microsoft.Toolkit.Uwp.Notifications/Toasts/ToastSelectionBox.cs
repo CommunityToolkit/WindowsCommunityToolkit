@@ -21,36 +21,32 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class ToastSelectionBox : IToastInput
     {
         /// <summary>
-        /// Initializes a new Toast SelectionBox input control with the required elements.
+        /// Initializes a new instance of the <see cref="ToastSelectionBox"/> class.
+        /// A Toast SelectionBox input control with the required elements.
         /// </summary>
         /// <param name="id">Developer-provided ID that the developer uses later to retrieve input when the Toast is interacted with.</param>
         public ToastSelectionBox(string id)
         {
-            if (id == null)
-            {
-                throw new ArgumentNullException(nameof(id));
-            }
-
-            Id = id;
+            Id = id ?? throw new ArgumentNullException(nameof(id));
         }
 
         /// <summary>
-        /// The ID property is required, and is used so that developers can retrieve user input once the app is activated.
+        /// Gets the required ID property used so that developers can retrieve user input once the app is activated.
         /// </summary>
         public string Id { get; private set; }
 
         /// <summary>
-        /// Title text to display above the SelectionBox.
+        /// Gets or sets title text to display above the SelectionBox.
         /// </summary>
         public string Title { get; set; }
 
         /// <summary>
-        /// This controls which item is selected by default, and refers to the Id property of <see cref="ToastSelectionBoxItem"/>. If you do not provide this, the default selection will be empty (user sees nothing).
+        /// Gets or sets which item is selected by default, and refers to the Id property of <see cref="ToastSelectionBoxItem"/>. If you do not provide this, the default selection will be empty (user sees nothing).
         /// </summary>
         public string DefaultSelectionBoxItemId { get; set; }
 
         /// <summary>
-        /// The selection items that the user can pick from in this SelectionBox. Only 5 items can be added.
+        /// Gets the selection items that the user can pick from in this SelectionBox. Only 5 items can be added.
         /// </summary>
         public IList<ToastSelectionBoxItem> Items { get; private set; } = new LimitedList<ToastSelectionBoxItem>(5);
 

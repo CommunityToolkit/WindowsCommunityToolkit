@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class TileBindingContentIconic : ITileBindingContent
     {
         /// <summary>
-        /// At minimum, to support both Desktop and Phone, Small and Medium tiles, provide a square aspect ratio image with a resolution of 200x200, PNG format, with transparency and no color other than white. For more info see: http://blogs.msdn.com/b/tiles_and_toasts/archive/2015/07/31/iconic-tile-template-for-windows-10.aspx
+        /// Gets or sets, at minimum, to support both Desktop and Phone, Small and Medium tiles, a square aspect ratio image with a resolution of 200x200, PNG format, with transparency and no color other than white. For more info see: http://blogs.msdn.com/b/tiles_and_toasts/archive/2015/07/31/iconic-tile-template-for-windows-10.aspx
         /// </summary>
         public TileBasicImage Icon { get; set; }
 

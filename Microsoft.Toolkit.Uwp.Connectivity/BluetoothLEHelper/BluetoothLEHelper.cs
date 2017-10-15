@@ -322,7 +322,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
                 StopEnumeration();
 
                 EnumerationCompleted?.Invoke(sender, EventArgs.Empty);
-            }    
+            }
         }
 
         /// <summary>
@@ -340,7 +340,6 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
                                         (bool)device.DeviceInfo.Properties["System.Devices.Aep.Bluetooth.Le.IsConnectable"]) ||
                                         (device.DeviceInfo.Properties.Keys.Contains("System.Devices.Aep.IsConnected") &&
                                         (bool)device.DeviceInfo.Properties["System.Devices.Aep.IsConnected"]);
-
 
                 if (connectable)
                 {

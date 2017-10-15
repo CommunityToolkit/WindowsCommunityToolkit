@@ -20,28 +20,35 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class ToastButtonSnooze : IToastButton
     {
         /// <summary>
-        /// Custom text displayed on the button that overrides the default localized "Snooze" text.
+        /// Gets custom text displayed on the button that overrides the default localized "Snooze" text.
         /// </summary>
         public string CustomContent { get; private set; }
 
         /// <summary>
-        /// An optional image icon for the button to display.
+        /// Gets or sets an optional image icon for the button to display.
         /// </summary>
         public string ImageUri { get; set; }
 
         /// <summary>
-        /// Optionally specify the ID of an existing <see cref="ToastSelectionBox"/> in order to allow the user to pick a custom snooze time. The ID's of the <see cref="ToastSelectionBoxItem"/>s inside the selection box must represent the snooze interval in minutes. For example, if the user selects an item that has an ID of "120", then the notification will be snoozed for 2 hours. When the user clicks this button, if you specified a SelectionBoxId, the system will parse the ID of the selected item and snooze by that amount of minutes. If you didn't specify a SelectionBoxId, the system will snooze by the default system snooze time.
+        /// Gets or sets the ID of an existing <see cref="ToastSelectionBox"/> in order to allow the
+        /// user to pick a custom snooze time. Optional. The ID's of the <see cref="ToastSelectionBoxItem"/>s
+        /// inside the selection box must represent the snooze interval in minutes. For example,
+        /// if the user selects an item that has an ID of "120", then the notification will be snoozed
+        /// for 2 hours. When the user clicks this button, if you specified a SelectionBoxId, the system
+        /// will parse the ID of the selected item and snooze by that amount of minutes. If you didn't specify
+        /// a SelectionBoxId, the system will snooze by the default system snooze time.
         /// </summary>
         public string SelectionBoxId { get; set; }
 
         /// <summary>
-        /// Initializes a system-handled snooze button that displays localized "Snooze" text on the button and automatically handles snoozing.
+        /// Initializes a new instance of the <see cref="ToastButtonSnooze"/> class.
         /// </summary>
         public ToastButtonSnooze()
         {
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ToastButtonSnooze"/> class.
         /// Initializes a system-handled snooze button that displays your text on the button and automatically handles snoozing.
         /// </summary>
         /// <param name="customContent">The text you want displayed on the button.</param>

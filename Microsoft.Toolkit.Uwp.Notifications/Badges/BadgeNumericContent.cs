@@ -22,6 +22,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class BadgeNumericContent : INotificationContent
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="BadgeNumericContent"/> class.
         /// Default constructor to create a numeric badge content object.
         /// </summary>
         public BadgeNumericContent()
@@ -29,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="BadgeNumericContent"/> class.
         /// Constructor to create a numeric badge content object with a number.
         /// </summary>
         /// <param name="number">
@@ -41,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// The number that will appear on the badge.  If the number is 0, the badge
+        /// Gets or sets the number that will appear on the badge. If the number is 0, the badge
         /// will be removed.
         /// </summary>
         public uint Number
