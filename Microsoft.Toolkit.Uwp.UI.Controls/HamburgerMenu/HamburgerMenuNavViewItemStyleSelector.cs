@@ -10,20 +10,23 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// <see cref="StyleSelector"/> to be used with <see cref="NavigationView"/>
+    /// HamburgerMenuNavViewItemStyleSelector is used by the <see cref="HamburgerMenu"/>
+    /// </summary>
     public class HamburgerMenuNavViewItemStyleSelector : StyleSelector
     {
+        /// <summary>
+        /// Gets or sets the <see cref="Style"/> to be set if the container is a <see cref="NavigationViewItem"/>
+        /// </summary>
         public Style MenuItemStyle { get; set; }
 
+        /// <inheritdoc/>
         protected override Style SelectStyleCore(object item, DependencyObject container)
         {
             if (container is NavigationViewItem)

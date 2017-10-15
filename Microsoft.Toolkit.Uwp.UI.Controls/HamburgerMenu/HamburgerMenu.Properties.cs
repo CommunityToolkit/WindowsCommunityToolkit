@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -225,6 +226,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (bool)GetValue(UseNavigationViewWhenPossibleProperty); }
             set { SetValue(UseNavigationViewWhenPossibleProperty, value); }
+        }
+
+        private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var hm = d as HamburgerMenu;
+            if (hm.UsingNavView)
+            {
+                hm.NavViewSetItemsSource();
+            }
+        }
+
+        private static void OnUseNavigationViewWhenPossibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var menu = d as HamburgerMenu;
+
+            if (menu.UseNavigationViewWhenPossible && HamburgerMenu.IsNavigationViewSupported)
+            {
+                ResourceDictionary dict = new ResourceDictionary();
+                dict.Source = new System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/Themes/Generic.xaml");
+                menu._previousTemplateUsed = menu.Template;
+                menu.Template = dict["HamburgerMenuNavViewTemplate"] as ControlTemplate;
+            }
+            else if (!menu.UseNavigationViewWhenPossible &&
+                     e.OldValue is bool oldValue &&
+                     oldValue &&
+                     menu._previousTemplateUsed != null)
+            {
+                menu.Template = menu._previousTemplateUsed;
+            }
+        }
+
+        private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var menu = d as HamburgerMenu;
+            if (menu.UsingNavView)
+            {
+                menu.NavViewSetSelectedItem(e.NewValue);
+            }
+        }
+
+        private static void OnSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var menu = d as HamburgerMenu;
+            if (menu.UsingNavView)
+            {
+                if (menu.ItemsSource is IEnumerable<object> items)
+                {
+                    menu.NavViewSetSelectedItem((int)e.NewValue >= 0 ? items.ElementAt((int)e.NewValue) : null);
+                }
+            }
+        }
+
+        private static void OnSelectedOptionsIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var menu = d as HamburgerMenu;
+
+            if (menu.UsingNavView)
+            {
+                if (menu.ItemsSource is IEnumerable<object> options)
+                {
+                    menu.NavViewSetSelectedItem((int)e.NewValue >= 0 ? options.ElementAt((int)e.NewValue) : null);
+                }
+            }
         }
     }
 }
