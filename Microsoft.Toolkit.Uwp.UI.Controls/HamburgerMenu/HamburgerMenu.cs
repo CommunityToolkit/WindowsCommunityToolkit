@@ -122,10 +122,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 navView.SelectionChanged += NavigationViewSelectionChanged;
                 navView.Loaded += NavigationViewLoaded;
                 navView.MenuItemTemplateSelector = new HamburgerMenuNavViewItemTemplateSelector(this);
+                _navigationView = navView;
 
                 OnItemsSourceChanged(this, null);
-
-                _navigationView = navView;
             }
         }
 
