@@ -63,8 +63,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(nameof(ItemsSource), typeof(object), typeof(HamburgerMenu), new PropertyMetadata(null, OnItemsSourceChanged));
 
-        
-
         /// <summary>
         /// Identifies the <see cref="ItemTemplate"/> dependency property.
         /// </summary>
@@ -78,12 +76,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="SelectedItem"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(HamburgerMenu), new PropertyMetadata(null));
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(HamburgerMenu), new PropertyMetadata(null, OnSelectedItemChanged));
 
         /// <summary>
         /// Identifies the <see cref="SelectedIndex"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(HamburgerMenu), new PropertyMetadata(-1));
+        public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(HamburgerMenu), new PropertyMetadata(-1, OnSelectedIndexChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="UseNavigationViewWhenPossible"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty UseNavigationViewWhenPossibleProperty =
+            DependencyProperty.Register("UseNavigationViewWhenPossible", typeof(bool), typeof(HamburgerMenu), new PropertyMetadata(false, OnUseNavigationViewWhenPossibleChanged));
 
         /// <summary>
         /// Gets or sets the width of the pane when it's fully expanded.
@@ -211,6 +215,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (int)GetValue(SelectedIndexProperty); }
             set { SetValue(SelectedIndexProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the HamburgerMenu shoud use the NavigationView when possible (Fall Creators Update and above)
+        /// When set to true and the device supports NavigationView, the HamburgerMenu will use a template based on NavigationView
+        /// </summary>
+        public bool UseNavigationViewWhenPossible
+        {
+            get { return (bool)GetValue(UseNavigationViewWhenPossibleProperty); }
+            set { SetValue(UseNavigationViewWhenPossibleProperty, value); }
         }
     }
 }
