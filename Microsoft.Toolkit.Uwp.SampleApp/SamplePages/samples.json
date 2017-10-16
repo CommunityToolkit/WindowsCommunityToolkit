@@ -377,6 +377,22 @@
         "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
         "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/ReorderGrid.md"
+      },
+      {
+        "Name": "Implicit Animations",
+        "Type": "ImplicitAnimationsPage",
+        "About": "Attached properties to enable Implicit animations (including Show and Hide animations) through XAML",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
+        "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
+        "BadgeUpdateVersionRequired": "Creators Update required"
+      },
+      {
+        "Name": "Connected Animations",
+        "Type": "ConnectedAnimationsPage",
+        "About": "Attached properties to enable Connected animations through XAML",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
+        "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
+        "BadgeUpdateVersionRequired": "Creators Update required"
       }
     ]
   },
@@ -484,7 +500,7 @@
       {
         "Name": "BackgroundTaskHelper",
         "Type": "BackgroundTaskHelperPage",
-        "About": "Allows easy registration and maintainance of background task",
+        "About": "Allows easy registration and maintenance of background task",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/BackgroundTaskHelper.cs",
         "CodeFile": "BackgroundTaskHelperCode.bind",
         "Icon": "/Assets/Helpers.png",

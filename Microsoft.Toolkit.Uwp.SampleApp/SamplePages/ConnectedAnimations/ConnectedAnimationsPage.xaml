@@ -1,0 +1,19 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ConnectedAnimationsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Frame Navigated="Frame_Navigated" Navigating="RootFrame_Navigating" x:Name="RootFrame"></Frame>
+        <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
+            <Button x:Name="BackButton" Click="BackButton_Click" IsEnabled="False" >Back</Button>
+            <Button Click="GoToFirstClicked" Content="First Page"></Button>
+            <Button Click="GoToSecondClicked" Content="Second Page"></Button>
+            <Button Click="GoToThirdClicked" Content="ThirdPage"></Button>
+        </StackPanel>
+    </Grid>
+</Page>

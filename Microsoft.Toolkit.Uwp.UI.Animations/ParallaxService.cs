@@ -149,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             expression.SetScalarParameter("HorizontalMultiplier", (float)horizontalMultiplier);
             expression.SetScalarParameter("VerticalMultiplier", (float)verticalMultiplier);
 
-            Visual visual = ElementCompositionPreview.GetElementVisual(parallaxElement);
+            Windows.UI.Composition.Visual visual = ElementCompositionPreview.GetElementVisual(parallaxElement);
             visual.StartAnimation("TransformMatrix", expression);
         }
     }

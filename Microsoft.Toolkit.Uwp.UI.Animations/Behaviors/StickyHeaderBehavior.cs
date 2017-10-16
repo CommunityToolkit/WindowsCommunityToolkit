@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         private double _previousVerticalScrollOffset;
         private CompositionPropertySet _scrollProperties;
         private CompositionPropertySet _animationProperties;
-        private Visual _headerVisual;
+        private Windows.UI.Composition.Visual _headerVisual;
 
         /// <summary>
         /// Gets or sets the target element for the ScrollHeader behavior.
