@@ -8,12 +8,13 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Frame Navigated="Frame_Navigated" Navigating="RootFrame_Navigating" x:Name="RootFrame"></Frame>
-        <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel  VerticalAlignment="Top" Orientation="Horizontal">
             <Button x:Name="BackButton" Click="BackButton_Click" IsEnabled="False" >Back</Button>
-            <Button Click="GoToFirstClicked" Content="First Page"></Button>
-            <Button Click="GoToSecondClicked" Content="Second Page"></Button>
-            <Button Click="GoToThirdClicked" Content="ThirdPage"></Button>
         </StackPanel>
+        <Frame Grid.Row="1" Navigated="Frame_Navigated" Navigating="RootFrame_Navigating" x:Name="RootFrame"></Frame>
     </Grid>
 </Page>

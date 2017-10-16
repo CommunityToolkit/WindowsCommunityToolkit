@@ -36,20 +36,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             RootFrame.GoBack();
         }
-
-        private void GoToFirstClicked(object sender, RoutedEventArgs e)
-        {
-            RootFrame.Navigate(typeof(FirstPage));
-        }
-
-        private void GoToSecondClicked(object sender, RoutedEventArgs e)
-        {
-            RootFrame.Navigate(typeof(SecondPage));
-        }
-
-        private void GoToThirdClicked(object sender, RoutedEventArgs e)
-        {
-            RootFrame.Navigate(typeof(ThirdPage));
-        }
     }
 }

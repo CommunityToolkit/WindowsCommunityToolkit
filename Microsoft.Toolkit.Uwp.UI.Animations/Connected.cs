@@ -38,6 +38,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     _navigationFrame.Navigated -= NavigationFrame_Navigated;
                 }
 
+                _connectedAnimationsProps.Clear();
+                _previousPageConnectedAnimationProps.Clear();
+                _coordinatedAnimationElements.Clear();
+
                 _navigationFrame = value;
                 _navigationFrame.Navigating += NavigationFrame_Navigating;
                 _navigationFrame.Navigated += NavigationFrame_Navigated;
@@ -69,6 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 foreach (var props in _connectedAnimationsProps)
                 {
                     var connectedAnimation = cas.GetAnimation(props.Key);
+                    var animationHandled = false;
                     if (connectedAnimation != null)
                     {
                         if (props.IsListAnimation && parameter != null)
@@ -87,6 +92,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                                     connectedAnimation.Cancel();
                                 }
                             });
+
+                            animationHandled = true;
                         }
                         else if (!props.IsListAnimation)
                         {
@@ -98,10 +105,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                             {
                                 connectedAnimation.TryStart(props.Element);
                             }
+
+                            animationHandled = true;
                         }
                     }
 
-                    if (_previousPageConnectedAnimationProps.ContainsKey(props.Key))
+                    if (_previousPageConnectedAnimationProps.ContainsKey(props.Key) && animationHandled)
                     {
                         _previousPageConnectedAnimationProps.Remove(props.Key);
                     }

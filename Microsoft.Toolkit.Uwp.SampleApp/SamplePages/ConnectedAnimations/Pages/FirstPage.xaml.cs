@@ -26,5 +26,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ConnectedAnimations.Pages
         {
             this.InitializeComponent();
         }
+
+        private void Border_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SecondPage));
+        }
     }
 }
