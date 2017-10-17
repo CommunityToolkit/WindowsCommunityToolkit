@@ -12,13 +12,17 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -28,26 +32,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class MenuItem : ItemsControl
     {
         private const string FlyoutButtonName = "FlyoutButton";
+        private const char UnderlineCharacter = '^';
         private readonly bool _isAccessKeySupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3);
+        private readonly bool _isTextTextDecorationsSupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4);
         private Menu _parentMenu;
         private bool _isOpened;
-        private MenuFlyout _menuFlyout;
-        private Rect _bounds;
+        private bool _menuFlyoutRepositioned;
+        private bool _menuFlyoutPlacementChanged;
+        private string _originalHeader;
+        private bool _isInternalHeaderUpdate;
+
+        internal MenuFlyout MenuFlyout { get; set; }
 
         internal Button FlyoutButton { get; private set; }
+
+        private Rect _bounds;
 
         /// <summary>
         /// Identifies the <see cref="Header"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(object), typeof(MenuItem), new PropertyMetadata(null));
+        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(object), typeof(MenuItem), new PropertyMetadata(null, HeaderPropertyChanged));
 
         /// <summary>
         /// Gets or sets the title to appear in the title bar
         /// </summary>
         public object Header
         {
-            get { return (object)GetValue(HeaderProperty); }
+            get { return GetValue(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }
+        }
+
+        private object InternalHeader
+        {
+            set
+            {
+                _isInternalHeaderUpdate = true;
+                Header = value;
+            }
         }
 
         /// <summary>
@@ -95,42 +116,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// This method is used to show the menu for current item
-        /// </summary>
-        public void ShowMenu()
-        {
-            Point location = _menuFlyout.Placement == FlyoutPlacementMode.Bottom
-                ? new Point(0, FlyoutButton.ActualHeight)
-                : new Point(FlyoutButton.ActualWidth, 0);
-            _menuFlyout.ShowAt(FlyoutButton, location);
-        }
-
-        /// <summary>
         /// This method is used to hide the menu for current item
         /// </summary>
         public void HideMenu()
         {
-            _menuFlyout?.Hide();
+            MenuFlyout?.Hide();
         }
 
         /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
             FlyoutButton = GetTemplateChild(FlyoutButtonName) as Button;
-            _parentMenu = this.FindAscendant<Menu>();
+            _parentMenu = this.FindParent<Menu>();
             IsOpened = false;
 
             Items.VectorChanged -= Items_VectorChanged;
-            LayoutUpdated -= MenuItem_LayoutUpdated;
 
-            if (_menuFlyout == null)
+            if (MenuFlyout == null)
             {
-                _menuFlyout = new MenuFlyout();
+                MenuFlyout = new MenuFlyout();
             }
             else
             {
-                _menuFlyout.Opened -= MenuFlyout_Opened;
-                _menuFlyout.Closed -= MenuFlyout_Closed;
+                MenuFlyout.Opened -= MenuFlyout_Opened;
+
+                MenuFlyout.Closed -= MenuFlyout_Closed;
             }
 
             if (FlyoutButton != null)
@@ -138,18 +148,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 FlyoutButton.PointerExited -= FlyoutButton_PointerExited;
                 Items.VectorChanged += Items_VectorChanged;
 
-                _menuFlyout.Placement = _parentMenu.Orientation == Orientation.Horizontal
-                    ? FlyoutPlacementMode.Bottom
-                    : FlyoutPlacementMode.Right;
-
-                FlyoutButton.Flyout = _menuFlyout;
-
-                LayoutUpdated += MenuItem_LayoutUpdated;
-                _menuFlyout.Opened += MenuFlyout_Opened;
-                _menuFlyout.Closed += MenuFlyout_Closed;
+                MenuFlyout.Opened += MenuFlyout_Opened;
+                MenuFlyout.Closed += MenuFlyout_Closed;
                 FlyoutButton.PointerExited += FlyoutButton_PointerExited;
 
-                _menuFlyout.MenuFlyoutPresenterStyle = _parentMenu.MenuFlyoutStyle;
+                MenuFlyout.MenuFlyoutPresenterStyle = _parentMenu.MenuFlyoutStyle;
                 ReAddItemsToFlyout();
 
                 if (_isAccessKeySupported)
@@ -162,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-        private void MenuItem_LayoutUpdated(object sender, object e)
+        internal void CalculateBounds()
         {
             var ttv = TransformToVisual(Window.Current.Content);
             Point screenCoords = ttv.TransformPoint(new Point(0, 0));
@@ -216,7 +219,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             tooltip.Placement = _parentMenu.TooltipPlacement;
             tooltip.Content = RemoveAlt(inputGestureText);
-            tooltip.IsOpen = !tooltip.IsOpen;
+            tooltip.IsOpen = true;
         }
 
         private string RemoveAlt(string inputGesture)
@@ -240,12 +243,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ReAddItemsToFlyout()
         {
-            if (_menuFlyout == null)
+            if (MenuFlyout == null)
             {
                 return;
             }
 
-            _menuFlyout.Items.Clear();
+            MenuFlyout.Items.Clear();
             foreach (var item in Items)
             {
                 AddItemToFlyout(item);
@@ -257,13 +260,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var menuItem = item as MenuFlyoutItemBase;
             if (menuItem != null)
             {
-                _menuFlyout.Items.Add(menuItem);
+                MenuFlyout.Items.Add(menuItem);
             }
             else
             {
                 var newMenuItem = new MenuFlyoutItem();
                 newMenuItem.DataContext = item;
-                _menuFlyout.Items.Add(newMenuItem);
+                MenuFlyout.Items.Add(newMenuItem);
             }
         }
 
@@ -272,13 +275,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var menuItem = item as MenuFlyoutItemBase;
             if (menuItem != null)
             {
-                _menuFlyout.Items.Insert(index, menuItem);
+                MenuFlyout.Items.Insert(index, menuItem);
             }
             else
             {
                 var newMenuItem = new MenuFlyoutItem();
                 newMenuItem.DataContext = item;
-                _menuFlyout.Items.Insert(index, newMenuItem);
+                MenuFlyout.Items.Insert(index, newMenuItem);
             }
         }
 
@@ -294,10 +297,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     AddItemToFlyout(sender.ElementAt(index));
                     break;
                 case CollectionChange.ItemRemoved:
-                    _menuFlyout.Items.RemoveAt(index);
+                    MenuFlyout.Items.RemoveAt(index);
                     break;
                 case CollectionChange.ItemChanged:
-                    _menuFlyout.Items.RemoveAt(index);
+                    MenuFlyout.Items.RemoveAt(index);
                     InsertItemToFlyout(sender.ElementAt(index), index);
                     break;
             }
@@ -314,14 +317,96 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void MenuFlyout_Closed(object sender, object e)
         {
             IsOpened = false;
+            _menuFlyoutRepositioned = false;
+            _menuFlyoutPlacementChanged = false;
             VisualStateManager.GoToState(this, "Normal", true);
         }
 
         private void MenuFlyout_Opened(object sender, object e)
         {
+            if (_parentMenu.UpdateMenuItemsFlyoutPlacement() && !_menuFlyoutPlacementChanged)
+            {
+                _menuFlyoutPlacementChanged = true;
+                ShowMenu();
+            }
+
+            _parentMenu.CalculateBounds();
             IsOpened = true;
             VisualStateManager.GoToState(this, "Opened", true);
             _parentMenu.IsInTransitionState = false;
+
+            if (!_menuFlyoutRepositioned)
+            {
+                var popup = VisualTreeHelper.GetOpenPopups(Window.Current).FirstOrDefault(p => p.Child is MenuFlyoutPresenter);
+
+                if (popup != null)
+                {
+                    var mfp = (MenuFlyoutPresenter)popup.Child;
+                    var height = mfp.ActualHeight;
+                    var width = mfp.ActualWidth;
+
+                    var flytoutButtonPoint = FlyoutButton.TransformToVisual(Window.Current.Content).TransformPoint(new Point(0, 0));
+
+                    if ((width > Window.Current.Bounds.Width - flytoutButtonPoint.X &&
+                        (MenuFlyout.Placement == FlyoutPlacementMode.Bottom)) ||
+                        (height > Window.Current.Bounds.Height - flytoutButtonPoint.Y &&
+                        (MenuFlyout.Placement == FlyoutPlacementMode.Right)))
+                    {
+                        ShowMenuRepositioned(width, height);
+                    }
+                }
+            }
+        }
+
+        private void ShowMenuRepositioned(double menuWidth, double menuHeight)
+        {
+            _menuFlyoutRepositioned = true;
+            Point location;
+            if (MenuFlyout.Placement == FlyoutPlacementMode.Bottom)
+            {
+                location = new Point(FlyoutButton.ActualWidth - menuWidth, FlyoutButton.ActualHeight);
+            }
+            else if (MenuFlyout.Placement == FlyoutPlacementMode.Right)
+            {
+                location = new Point(FlyoutButton.ActualWidth, FlyoutButton.ActualHeight - menuHeight);
+            }
+            else
+            {
+                // let the flyout decide where to show
+                MenuFlyout.ShowAt(FlyoutButton);
+                return;
+            }
+
+            MenuFlyout.ShowAt(FlyoutButton, location);
+        }
+
+        /// <summary>
+        /// This method is used to show the menu for current item
+        /// </summary>
+        public void ShowMenu()
+        {
+            if (!IsEnabled)
+            {
+                return;
+            }
+
+            Point location;
+            if (MenuFlyout.Placement == FlyoutPlacementMode.Bottom)
+            {
+                location = new Point(0, FlyoutButton.ActualHeight);
+            }
+            else if (MenuFlyout.Placement == FlyoutPlacementMode.Right)
+            {
+                location = new Point(FlyoutButton.ActualWidth, 0);
+            }
+            else
+            {
+                // let the flyout decide where to show
+                MenuFlyout.ShowAt(FlyoutButton);
+                return;
+            }
+
+            MenuFlyout.ShowAt(FlyoutButton, location);
         }
 
         /// <inheritdoc />
@@ -337,6 +422,109 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _parentMenu.SelectedMenuItem = this;
             base.OnGotFocus(e);
+        }
+
+        internal void Underline()
+        {
+            if (_originalHeader == null)
+            {
+                return;
+            }
+
+            var underlineCharacterIndex = _originalHeader.IndexOf(UnderlineCharacter);
+
+            var underlinedCharacter = _originalHeader[underlineCharacterIndex + 1];
+            var text = new TextBlock();
+
+            var runWithUnderlinedCharacter = new Run
+            {
+                Text = underlinedCharacter.ToString()
+            };
+
+            if (_isTextTextDecorationsSupported)
+            {
+                runWithUnderlinedCharacter.TextDecorations = Windows.UI.Text.TextDecorations.Underline;
+            }
+
+            var firstPartBuilder = new StringBuilder();
+            var secondPartBuilder = new StringBuilder();
+
+            for (int i = 0; i < underlineCharacterIndex; i++)
+            {
+                firstPartBuilder.Append(_originalHeader[i]);
+            }
+
+            for (int i = underlineCharacterIndex + 2; i < _originalHeader.Length; i++)
+            {
+                secondPartBuilder.Append(_originalHeader[i]);
+            }
+
+            var firstPart = firstPartBuilder.ToString();
+            var secondPart = secondPartBuilder.ToString();
+
+            if (!string.IsNullOrEmpty(firstPart))
+            {
+                text.Inlines.Add(new Run
+                {
+                    Text = firstPart
+                });
+            }
+
+            text.Inlines.Add(runWithUnderlinedCharacter);
+
+            if (!string.IsNullOrEmpty(secondPart))
+            {
+                text.Inlines.Add(new Run
+                {
+                    Text = secondPart
+                });
+            }
+
+            InternalHeader = text;
+        }
+
+        private static void HeaderPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            var menuItem = (MenuItem)sender;
+
+            if (menuItem._isInternalHeaderUpdate)
+            {
+                menuItem._isInternalHeaderUpdate = false;
+                return;
+            }
+
+            menuItem._originalHeader = null;
+
+            var headerString = menuItem.Header as string;
+
+            if (string.IsNullOrEmpty(headerString))
+            {
+                return;
+            }
+
+            var underlineCharacterIndex = headerString.IndexOf(UnderlineCharacter);
+
+            if (underlineCharacterIndex == -1)
+            {
+                return;
+            }
+
+            if (underlineCharacterIndex == headerString.Length - 1)
+            {
+                menuItem.InternalHeader = headerString.Replace(UnderlineCharacter.ToString(), string.Empty);
+                return;
+            }
+
+            menuItem._originalHeader = headerString;
+            menuItem.InternalHeader = headerString.Replace(UnderlineCharacter.ToString(), string.Empty);
+        }
+
+        internal void RemoveUnderline()
+        {
+            if (_originalHeader != null)
+            {
+                InternalHeader = _originalHeader.Replace(UnderlineCharacter.ToString(), string.Empty);
+            }
         }
     }
 }

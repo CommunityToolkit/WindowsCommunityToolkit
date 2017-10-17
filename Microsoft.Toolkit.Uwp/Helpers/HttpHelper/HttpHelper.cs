@@ -27,6 +27,7 @@ namespace Microsoft.Toolkit.Uwp
     /// <summary>
     /// This class exposes functionality of HttpClient through a singleton to take advantage of built-in connection pooling.
     /// </summary>
+    [Obsolete]
     public class HttpHelper
     {
         /// <summary>

@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class Menu : ItemsControl
     {
-        private WrapPanel.WrapPanel _wrapPanel;
+        private WrapPanel _wrapPanel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Menu"/> class.
@@ -118,11 +118,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             Loaded -= Menu_Loaded;
             Unloaded -= Menu_Unloaded;
-            LayoutUpdated -= Menu_LayoutUpdated;
 
             Loaded += Menu_Loaded;
             Unloaded += Menu_Unloaded;
-            LayoutUpdated += Menu_LayoutUpdated;
 
             base.OnApplyTemplate();
         }

@@ -1,3 +1,11 @@
+---
+title: Menu Control
+author: nmetulev
+ms.date: 08/20/2017
+description: The UWP Community Toolkit Menu control defines a top level menu for commands, options, properties and much more within your UWP apps.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Menu, xaml, xaml control
+---
+
 # Menu Control
 
 The **Menu Control** defines a menu of choices for users to invoke, it is inheriting from `ItemsControl`. The default ItemsPanel for the menu control is `WrapPanel` and it only supports MenuItem as an item\children.
@@ -10,9 +18,7 @@ The **Menu Control** positions it's items the way the WrapPanel does based on th
 
 To invoke any command on any Menu, MenuItem or MenuFlyoutItem you must use property `InputGestureText`
 
-If the tooltip is allowed on the Menu control when clicking Alt a tooltip with the input gesture text will show\hide.
-
-![Menu Overview](../resources/images/Menu.png "Menu")  
+If the tooltip is allowed on the Menu control when clicking Alt a tooltip with the input gesture text will show\hide.  
 
 ## Syntax
 
@@ -35,6 +41,10 @@ If the tooltip is allowed on the Menu control when clicking Alt a tooltip with t
 
 ```
 
+## Example Image
+
+![Menu Overview](../resources/images/Controls-Menu.gif "Menu")
+
 ## External Properties
 
 ### InputGestureText
@@ -45,10 +55,21 @@ Sets the text describing an input gesture that will call the command tied to the
 ### AllowTooltip
 Specify whether to allow tooltip on Alt click or not.
 
+## MenuItem Properties
+### Header
+Gets or sets the header of the MenuItem. if you added '^' before any header character this character will be highlighted on pressing or holding Alt, this feature is used to visualize which character can be used beside Alt to open this MenuItem.
+
 ## Menu Properties
 
 ### Orientation
-Gets or sets the orientation of the Menu, Horizontal or vertical means that child controls will be added horizontally until the width of the panel can't fit more control then a new row is added to fit new horizontal added child controls, vertical means that child will be added vertically until the height of the panel is received then a new column is added
+Gets or sets the orientation of the Menu, Horizontal or vertical means that child controls will be added horizontally until the width of the panel can't fit more control then a new row is added to fit new horizontal added child controls, vertical means that child will be added vertically until the height of the panel is received then a new column is added.
+
+### FlyoutPlacement
+Gets or sets the placement of the flyoutMenu (Auto, Top, Bottom, Left, Right and Full).
+If the MenuPlacement is Bottom the FlyoutMenu will be aligned with the bottom left corner of the MenuItem
+If the MenuPlacement is Right the FlyoutMenu will be aligned with the top right corner of the MenuItem
+If the MenuPlacement is Auto the calculation of the menu placement will be based on Menu Orientation properties, case orientation is Horizontal FLyoutMenu placement will be Bottom, case orientation is Vertical FlyoutMenu placement will be Right.
+If the MenuPlacement is left or top the FlyoutMenu placement will be displayed left/top but without any alignment with the MenuItem.
 
 ### MenuFlyoutStyle
 Gets or sets the FlyoutMenu style for MenuItem.
@@ -57,7 +78,7 @@ Gets or sets the FlyoutMenu style for MenuItem.
 Gets or sets the tooltip styles for MenuItem.
 
 ### TooltipPlacement
-Gets or sets the tooltip PlacementMode on MenuItem. (Bottom,Right,Mouse,Left and Top)
+Gets or sets the tooltip PlacementMode on MenuItem. (Bottom, Right, Mouse, Left and Top).
 
 ### SelectedHeaderItem
 Gets the current selected MenuItem.
@@ -127,11 +148,11 @@ internal class NewProjectCommand : ICommand
 
 ## Default Template 
 
-[Menu XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/Menu/MenuPage.xaml) is the XAML template used in the toolkit for the default styling.
+[Menu XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/Menu/Menu.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 

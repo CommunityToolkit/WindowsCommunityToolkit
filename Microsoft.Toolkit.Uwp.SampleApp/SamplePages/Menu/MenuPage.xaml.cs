@@ -10,16 +10,26 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class MenuPage
+    public sealed partial class MenuPage : IXamlRenderListener
     {
+        private MenuItem fileMenu;
+
         public MenuPage()
         {
             InitializeComponent();
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            fileMenu = control.FindChildByName("FileMenu") as MenuItem;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -28,17 +38,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             Shell.Current.RegisterNewCommand("Add Item to file menu", (sender, args) =>
             {
-                var flyoutItem = new MenuFlyoutItem
+                if (fileMenu != null)
                 {
-                    Text = "Click to remove"
-                };
+                    var flyoutItem = new MenuFlyoutItem
+                    {
+                        Text = "Click to remove"
+                    };
 
-                flyoutItem.Click += (a, b) =>
-                {
-                    FileMenu.Items.Remove(flyoutItem);
-                };
+                    flyoutItem.Click += (a, b) =>
+                    {
+                        fileMenu.Items.Remove(flyoutItem);
+                    };
 
-                FileMenu.Items.Add(flyoutItem);
+                    fileMenu.Items.Add(flyoutItem);
+                }
             });
         }
     }

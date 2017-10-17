@@ -22,17 +22,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The <see cref="Expander"/> control allows user to show/hide content based on a boolean state
     /// </summary>
-    [TemplateVisualState(Name = StateContentExpanded, GroupName = GroupContent)]
-    [TemplateVisualState(Name = StateContentCollapsed, GroupName = GroupContent)]
+    [TemplateVisualState(Name = StateContentExpanded, GroupName = ExpandedGroupStateContent)]
+    [TemplateVisualState(Name = StateContentCollapsed, GroupName = ExpandedGroupStateContent)]
+    [TemplateVisualState(Name = StateContentLeftDirection, GroupName = ExpandDirectionGroupStateContent)]
+    [TemplateVisualState(Name = StateContentDownDirection, GroupName = ExpandDirectionGroupStateContent)]
+    [TemplateVisualState(Name = StateContentRightDirection, GroupName = ExpandDirectionGroupStateContent)]
+    [TemplateVisualState(Name = StateContentUpDirection, GroupName = ExpandDirectionGroupStateContent)]
+    [TemplatePart(Name = RootGridPart, Type = typeof(Grid))]
     [TemplatePart(Name = ExpanderToggleButtonPart, Type = typeof(ToggleButton))]
+    [TemplatePart(Name = LayoutTransformerPart, Type = typeof(LayoutTransformControl))]
     [ContentProperty(Name = "Content")]
     public partial class Expander : ContentControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Expander"/> class.
+        /// </summary>
         public Expander()
         {
             DefaultStyleKey = typeof(Expander);
         }
 
+        /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -40,6 +50,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (IsExpanded)
             {
                 VisualStateManager.GoToState(this, StateContentExpanded, false);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, StateContentCollapsed, false);
             }
 
             var button = (ToggleButton)GetTemplateChild(ExpanderToggleButtonPart);
@@ -49,13 +63,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 button.KeyDown -= ExpanderToggleButtonPart_KeyDown;
                 button.KeyDown += ExpanderToggleButtonPart_KeyDown;
             }
+
+            OnExpandDirectionChanged();
         }
 
+        /// <summary>
+        /// Called when control is expanded
+        /// </summary>
+        /// <param name="args">EventArgs</param>
         protected virtual void OnExpanded(EventArgs args)
         {
             Expanded?.Invoke(this, args);
         }
 
+        /// <summary>
+        /// Called when control is collapsed
+        /// </summary>
+        /// <param name="args">EventArgs</param>
         protected virtual void OnCollapsed(EventArgs args)
         {
             Collapsed?.Invoke(this, args);
@@ -90,6 +114,46 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             VisualStateManager.GoToState(this, StateContentCollapsed, true);
             OnCollapsed(EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Called when the ExpandDirection on Expander changes
+        /// </summary>
+        public void OnExpandDirectionChanged()
+        {
+            var button = (ToggleButton)GetTemplateChild(ExpanderToggleButtonPart);
+
+            if (button == null)
+            {
+                return;
+            }
+
+            switch (ExpandDirection)
+            {
+                case ExpandDirection.Left:
+                    VisualStateManager.GoToState(this, StateContentLeftDirection, true);
+                    VisualStateManager.GoToState(button, StateContentLeftDirection, true);
+                    break;
+                case ExpandDirection.Down:
+                    VisualStateManager.GoToState(this, StateContentDownDirection, true);
+                    VisualStateManager.GoToState(button, StateContentDownDirection, true);
+                    break;
+                case ExpandDirection.Right:
+                    VisualStateManager.GoToState(this, StateContentRightDirection, true);
+                    VisualStateManager.GoToState(button, StateContentRightDirection, true);
+                    break;
+                case ExpandDirection.Up:
+                    VisualStateManager.GoToState(this, StateContentUpDirection, true);
+                    VisualStateManager.GoToState(button, StateContentUpDirection, true);
+                    break;
+            }
+
+            // Re-execute animation on expander toggle button (to set correct arrow rotation)
+            VisualStateManager.GoToState(button, "Normal", true);
+            if (button.IsChecked.HasValue && button.IsChecked.Value)
+            {
+                VisualStateManager.GoToState(button, "Checked", true);
+            }
         }
     }
 }

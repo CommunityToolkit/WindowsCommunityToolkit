@@ -1,3 +1,11 @@
+---
+title: NetworkHelper
+author: nmetulev
+ms.date: 08/20/2017
+description: he NetworkHelper class provides functionality to monitor changes in network connection and allows users to query for network information without additional lookups.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, NetworkHelper
+---
+
 # NetworkHelper
 
 The NetworkHelper class provides functionality to monitor changes in network connection and allows users to query for network information without additional lookups.
@@ -42,7 +50,7 @@ You can find more examples in our [unit tests](https://github.com/Microsoft/UWPC
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
 

@@ -1,4 +1,12 @@
-# Blade XAML Control 
+---
+title: BladeView XAML Control
+author: nmetulev
+ms.date: 08/20/2017
+description: The BladeView provides a container to host blades as extra detail pages in, for example, a master-detail scenario.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, BladeView, XAML Control, xaml
+---
+
+# BladeView XAML Control 
 
 The BladeView provides a container to host blades as extra detail pages in, for example, a master-detail scenario. The control is based on how the Azure Portal works. 
 
@@ -86,7 +94,7 @@ For example; if you set `AutoCollapseCountThreshold` to 3, the BladeView will st
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family]("http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 
