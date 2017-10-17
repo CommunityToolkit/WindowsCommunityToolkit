@@ -39,7 +39,7 @@ MyUIElement.Scale(scaleX: 2, scaleY: 2, centerX: 0, centerY: 0, duration: 2500, 
 
 ## Sample Output
 
-![Scale Behavior animation](../resources/images/Animations/Fade/Sample-Output.gif)
+![Scale Behavior animation](../resources/images/Animations/Scale/Sample-Output.gif)
 
 ## Properties
 
