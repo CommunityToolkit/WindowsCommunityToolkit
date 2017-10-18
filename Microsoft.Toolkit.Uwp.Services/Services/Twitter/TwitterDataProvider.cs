@@ -13,15 +13,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Services;
 using Microsoft.Toolkit.Services.Exceptions;
 using Newtonsoft.Json;
 using Windows.Security.Authentication.Web;
@@ -46,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         private const string PublishUrl = "https://upload.twitter.com/1.1";
         private const string UserStreamUrl = "https://userstream.twitter.com/1.1";
 
-        private static HttpClient client;
+        private static HttpClient _client;
 
         /// <summary>
         /// Base Url for service.
@@ -80,11 +77,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             _tokens = tokens;
             _vault = new PasswordVault();
 
-            if (client == null)
+            if (_client == null)
             {
                 HttpClientHandler handler = new HttpClientHandler();
                 handler.AutomaticDecompression = DecompressionMethods.GZip;
-                client = new HttpClient(handler);
+                _client = new HttpClient(handler);
             }
         }
 
@@ -689,7 +686,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(twitterUrl)))
             {
-                using (var response = await client.SendAsync(request).ConfigureAwait(false))
+                using (var response = await _client.SendAsync(request).ConfigureAwait(false))
                 {
                     var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                     if (response.IsSuccessStatusCode)
@@ -773,7 +770,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             {
                 request.Headers.Authorization = new AuthenticationHeaderValue("OAuth", authorizationHeaderParams);
 
-                using (var response = await client.SendAsync(request).ConfigureAwait(false))
+                using (var response = await _client.SendAsync(request).ConfigureAwait(false))
                 {
                     data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 }
