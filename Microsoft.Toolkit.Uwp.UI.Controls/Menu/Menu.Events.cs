@@ -100,9 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var element = FocusManager.GetFocusedElement();
-
-            if (NavigateUsingKeyboard(element, args, this, Orientation))
+            if (NavigateUsingKeyboard(args, this, Orientation))
             {
                 return;
             }
