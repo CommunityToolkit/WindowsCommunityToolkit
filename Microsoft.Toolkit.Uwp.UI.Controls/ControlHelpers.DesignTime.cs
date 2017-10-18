@@ -67,7 +67,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
             }
-            catch { }
+            catch
+            {
+            }
+
             return designMode2Enabled;
         }
     }

@@ -317,7 +317,6 @@ namespace UnitTests.Markdown.Parse
 
         // This test is ignored because it is written to pass the "reddit" quirks of markdown.
         // This parser doesn't conform to the reddit quirks, thus they shall not pass.
-
         [Ignore]
         [TestMethod]
         [TestCategory("Parse - block")]

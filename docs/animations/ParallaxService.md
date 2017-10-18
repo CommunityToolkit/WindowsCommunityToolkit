@@ -8,30 +8,44 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, parallaxservice
 
 # ParallaxService
 
-The **ParallaxService** class allows to create a parallax effect for items contained within an element that scrolls like a ScrollViewer or ListView.
+The ParallaxService class allows to create a parallax effect for items contained within an element that scrolls like a ScrollViewer or ListView.
 
 ## Syntax
 
+**XAML**
+
 ```xml
-
-<Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.png"
-       ParallaxService.VerticalMultiplier="2.5/>
-
+<Page ...
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"/>
+<ScrollViewer>
+    <Image Source="ms-appx:///Assets/Image.png"
+            animations:ParallaxService.VerticalMultiplier="0.5" 
+            animations:ParallaxService.HorizontalMultiplier="0.5"/>
+    <!-- Other Controls -->
+</ScrollViewer>
 ```
 
-You can define horizontal or vertical multiplier to determine the speed ratio that you want to apply to your element.
+**C#**
 
-[ParallaxService Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ParallaxService)
+```csharp
+MyUIElement.SetValue(ParallaxService.VerticalMultiplierProperty, 0.5);
+MyUIElement.SetValue(ParallaxService.HorizontalMultiplierProperty, 0.5);
+```
 
-## Example Image
+## Sample Output
 
-![ParallaxService](../resources/images/ParallaxService.gif "ParallaxService")
+![ParallaxService](../resources/images/Animations/ParallaxService/Sample-Output.gif)
 
-## Requirements (Windows 10 Device Family)
+## Sample Project
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
-| --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI.Animations |
+[ParallaxService Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ParallaxService). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
+
+## Requirements
+
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
+| ---------------------------------------------------------------- | ----------------------------------- |
+| Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
 
 ## API
 

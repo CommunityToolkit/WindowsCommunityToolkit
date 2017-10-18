@@ -17,6 +17,7 @@
 ## [Rotate](animations/Rotate.md)
 ## [Saturation](animations/Saturation.md)
 ## [Scale](animations/Scale.md)
+## [AnimationSet](animations/AnimationSet.md)
 
 # Controls
 ## [AdaptiveGridView](controls/AdaptiveGridView.md)

@@ -10,10 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Activation;
 using Windows.Security.ExchangeActiveSyncProvisioning;
+using Windows.Storage;
 using Windows.System;
 using Windows.System.Profile;
 using Windows.System.UserProfile;
@@ -25,6 +29,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// </summary>
     public static class SystemInformation
     {
+        private static DateTime _sessionStart;
+
         /// <summary>
         /// Gets Application's name
         /// </summary>
@@ -76,6 +82,143 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public static string DeviceManufacturer { get; }
 
         /// <summary>
+        /// Gets a value indicating whether the app is being used for the first time since it was installed.
+        /// Use this to tell if you should do or display something different for the app's first use.
+        /// </summary>
+        public static bool IsFirstRun { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the app is being used for the first time since being upgraded from an older version.
+        /// Use this to tell if you should display details about what has changed.
+        /// </summary>
+        public static bool IsAppUpdated { get; }
+
+        /// <summary>
+        /// Gets the first version of the app that was installed.
+        /// This will be the current version if a previous verison of the app was installed before accessing this property.
+        /// </summary>
+        public static PackageVersion FirstVersionInstalled { get; }
+
+        /// <summary>
+        /// Gets the DateTime (in UTC) when the app was launched for the first time
+        /// </summary>
+        public static DateTime FirstUseTime { get; }
+
+        /// <summary>
+        /// Gets the DateTime (in UTC) when the app was previously launched, not including this instance.
+        /// Will be DateTime.MinValue if `TrackAppUse` has not been called.
+        /// </summary>
+        public static DateTime LastLaunchTime { get; private set; }
+
+        /// <summary>
+        /// Gets the number of times the app has been launched.
+        /// Will be zero if `TrackAppUse` has not been called.
+        /// </summary>
+        public static long LaunchCount { get; private set; }
+
+        /// <summary>
+        /// Gets the DateTime (in UTC) that this instance of the app was launched.
+        /// Will be DateTime.MinValue if `TrackAppUse` has not been called.
+        /// </summary>
+        public static DateTime LaunchTime { get; private set; }
+
+        /// <summary>
+        /// Gets the length of time this instance of the app has been running.
+        /// Will be TimeSpan.MinValue if `TrackAppUse` has not been called.
+        /// </summary>
+        public static TimeSpan AppUptime
+        {
+            get
+            {
+                if (LaunchCount > 0)
+                {
+                    var subsessionLength = DateTime.UtcNow.Subtract(_sessionStart).Ticks;
+
+                    ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(AppUptime), out object uptimeSoFar);
+
+                    return new TimeSpan((long)uptimeSoFar + subsessionLength);
+                }
+                else
+                {
+                    return TimeSpan.MinValue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Track app launch information
+        /// </summary>
+        /// <param name="args">Details about the launch request and process.</param>
+        public static void TrackAppUse(LaunchActivatedEventArgs args)
+        {
+            if (args.PreviousExecutionState == ApplicationExecutionState.ClosedByUser
+             || args.PreviousExecutionState == ApplicationExecutionState.NotRunning)
+            {
+                if (ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(LaunchCount), out object launchCount))
+                {
+                    LaunchCount = (long)launchCount + 1;
+                }
+                else
+                {
+                    LaunchCount = 1;
+                }
+
+                ApplicationData.Current.LocalSettings.Values[nameof(LaunchCount)] = LaunchCount;
+
+                LaunchTime = DateTime.UtcNow;
+
+                if (ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(LastLaunchTime), out object lastLaunch))
+                {
+                    LastLaunchTime = DateTime.FromFileTimeUtc((long)lastLaunch);
+                }
+
+                ApplicationData.Current.LocalSettings.Values[nameof(LastLaunchTime)] = LaunchTime.ToFileTimeUtc();
+
+                ApplicationData.Current.LocalSettings.Values[nameof(AppUptime)] = 0L;
+            }
+
+            void App_VisibilityChanged(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.VisibilityChangedEventArgs e)
+            {
+                if (e.Visible)
+                {
+                    _sessionStart = DateTime.UtcNow;
+                }
+                else
+                {
+                    var subsessionLength = DateTime.UtcNow.Subtract(_sessionStart).Ticks;
+
+                    ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(AppUptime), out object uptimeSoFar);
+
+                    ApplicationData.Current.LocalSettings.Values[nameof(AppUptime)] = (long)uptimeSoFar + subsessionLength;
+                }
+            }
+
+            Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged -= App_VisibilityChanged;
+            Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged += App_VisibilityChanged;
+        }
+
+        /// <summary>
+        /// Launch the store app so the user can leave a review
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation</returns>
+        public static async Task LaunchStoreForReviewAsync()
+        {
+            await Launcher.LaunchUriAsync(new Uri(string.Format("ms-windows-store://review/?PFN={0}", Package.Current.Id.FamilyName)));
+        }
+
+        /// <summary>
+        /// Add to the record of how long the app has been running.
+        /// Use this to optionally include time spent in background tasks or extended execution.
+        /// </summary>
+        /// <param name="duration">The amount to time to add</param>
+        public static void AddToAppUptime(TimeSpan duration)
+        {
+            ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(AppUptime), out object uptimeSoFar);
+
+            ApplicationData.Current.LocalSettings.Values[nameof(AppUptime)] = (long)uptimeSoFar + duration.Ticks;
+        }
+
+        /// <summary>
         /// Initializes static members of the <see cref="SystemInformation"/> class.
         /// </summary>
         static SystemInformation()
@@ -105,6 +248,86 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             OperatingSystem = deviceInfo.OperatingSystem;
             DeviceManufacturer = deviceInfo.SystemManufacturer;
             DeviceModel = deviceInfo.SystemProductName;
+            IsFirstRun = DetectIfFirstUse();
+            IsAppUpdated = DetectIfAppUpdated();
+            FirstUseTime = DetectFirstUseTime();
+            FirstVersionInstalled = DetectFirstVersionInstalled();
+            InitializeValuesSetWithTrackAppUse();
+        }
+
+        private static bool DetectIfFirstUse()
+        {
+            if (ApplicationData.Current.LocalSettings.Values.ContainsKey(nameof(IsFirstRun)))
+            {
+                return false;
+            }
+            else
+            {
+                ApplicationData.Current.LocalSettings.Values[nameof(IsFirstRun)] = true;
+                return true;
+            }
+        }
+
+        private static bool DetectIfAppUpdated()
+        {
+            var currentVersion = ApplicationVersion.ToFormattedString();
+
+            if (!ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(currentVersion), out object lastVersion))
+            {
+                ApplicationData.Current.LocalSettings.Values[nameof(currentVersion)] = currentVersion;
+            }
+            else
+            {
+                if (currentVersion != lastVersion.ToString())
+                {
+                    ApplicationData.Current.LocalSettings.Values[nameof(currentVersion)] = currentVersion;
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static DateTime DetectFirstUseTime()
+        {
+            DateTime result;
+
+            if (ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(FirstUseTime), out object firstUse))
+            {
+                result = DateTime.FromFileTimeUtc((long)firstUse);
+            }
+            else
+            {
+                result = DateTime.UtcNow;
+                ApplicationData.Current.LocalSettings.Values[nameof(FirstUseTime)] = result.ToFileTimeUtc();
+            }
+
+            return result;
+        }
+
+        private static PackageVersion DetectFirstVersionInstalled()
+        {
+            PackageVersion result;
+
+            if (ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(FirstVersionInstalled), out object firstVersion))
+            {
+                result = firstVersion.ToString().ToPackageVersion();
+            }
+            else
+            {
+                result = ApplicationVersion;
+                ApplicationData.Current.LocalSettings.Values[nameof(FirstVersionInstalled)] = ApplicationVersion.ToFormattedString();
+            }
+
+            return result;
+        }
+
+        private static void InitializeValuesSetWithTrackAppUse()
+        {
+            LaunchTime = DateTime.MinValue;
+            LaunchCount = 0;
+            LastLaunchTime = DateTime.MinValue;
         }
     }
 }

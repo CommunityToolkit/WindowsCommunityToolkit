@@ -35,6 +35,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal const string OrderedElement = "OrderedList";
         internal const string HeadersElement = "Headers";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TextToolbar"/> class.
+        /// </summary>
         public TextToolbar()
         {
             DefaultStyleKey = typeof(TextToolbar);
@@ -48,6 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
             if (Formatter == null)
