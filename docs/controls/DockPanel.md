@@ -1,7 +1,7 @@
 ---
 title: DockPanel XAML Control
-author: nmetulev
-ms.date: 14/10/2017
+author: IbraheemOsama
+ms.date: 10/18/2017
 description: Defines an area where you can arrange child elements either horizontally or vertically, relative to each other.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, DockPanel, XAML Control, xaml
 ---
@@ -26,7 +26,6 @@ You can set DockPanel LastChildFill property to true if you want the last item a
                 LastChildFill="False" />
 
 ```
-
 
 ## Example Image
 

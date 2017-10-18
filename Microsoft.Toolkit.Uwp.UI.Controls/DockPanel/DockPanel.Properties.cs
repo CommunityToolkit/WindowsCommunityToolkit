@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(true, LastChildFillChanged));
 
         /// <summary>
-        /// Gets or sets a value that indicates whether the last child element within a DockPanel stretches to fill the remaining available space.
+        /// Gets or sets a value indicating whether the last child element within a DockPanel stretches to fill the remaining available space.
         /// </summary>
         public bool LastChildFill
         {
