@@ -49,7 +49,7 @@ Once you search you should see a list similar to the one below (versions may be 
 ### Animations
 
 * [Blur](http://docs.uwpcommunitytoolkit.com/en/master/animations/Blur/)
-* [ExpressionBuilder](http://www.uwpcommunitytoolkit.com/en/master/animations/Expressions/)
+* [ExpressionBuilder](http://docs.uwpcommunitytoolkit.com/en/master/animations/Expressions/)
 * [Fade](http://docs.uwpcommunitytoolkit.com/en/master/animations/Fade/)
 * [FadeHeader](http://docs.uwpcommunitytoolkit.com/en/master/animations/FadeHeader/)
 * [Light](http://docs.uwpcommunitytoolkit.com/en/master/animations/Light/)
@@ -57,14 +57,14 @@ Once you search you should see a list similar to the one below (versions may be 
 * [ParallaxService](http://docs.uwpcommunitytoolkit.com/en/master/animations/ParallaxService/)
 * [ReorderGrid](http://docs.uwpcommunitytoolkit.com/en/master/animations/ReorderGrid/)
 * [Rotate](http://docs.uwpcommunitytoolkit.com/en/master/animations/Rotate/)
-* [Saturation](http://www.uwpcommunitytoolkit.com/en/master/animations/Saturation/)
+* [Saturation](http://docs.uwpcommunitytoolkit.com/en/master/animations/Saturation/)
 * [Scale](http://docs.uwpcommunitytoolkit.com/en/master/animations/Scale/)
 
 ### Controls
 
 * [AdaptiveGridView](http://docs.uwpcommunitytoolkit.com/en/master/controls/AdaptiveGridView/)
 * [BladeView](http://docs.uwpcommunitytoolkit.com/en/master/controls/BladeView/)
-* [Carousel](http://www.uwpcommunitytoolkit.com/en/master/controls/Carousel/)
+* [Carousel](http://docs.uwpcommunitytoolkit.com/en/master/controls/Carousel/)
 * [DropShadowPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/DropShadowPanel/)
 * [Expander](http://docs.uwpcommunitytoolkit.com/en/master/controls/Expander/)
 * [GridSplitter](http://docs.uwpcommunitytoolkit.com/en/master/controls/GridSplitter/)
@@ -79,7 +79,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [OrbitView](http://docs.uwpcommunitytoolkit.com/en/master/controls/OrbitView/)
 * [PullToRefreshListView](http://docs.uwpcommunitytoolkit.com/en/master/controls/PullToRefreshListview/)
 * [RadialGauge](http://docs.uwpcommunitytoolkit.com/en/master/controls/RadialGauge/)
-* [RadialProgressBar](http://www.uwpcommunitytoolkit.com/en/master/controls/RadialProgressBar/)
+* [RadialProgressBar](http://docs.uwpcommunitytoolkit.com/en/master/controls/RadialProgressBar/)
 * [RangeSelector](http://docs.uwpcommunitytoolkit.com/en/master/controls/RangeSelector/)
 * [RotatorTile](http://docs.uwpcommunitytoolkit.com/en/master/controls/RotatorTile/)
 * [ScrollHeader](http://docs.uwpcommunitytoolkit.com/en/master/controls/ScrollHeader/)
@@ -89,8 +89,8 @@ Once you search you should see a list similar to the one below (versions may be 
 * [WrapPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/WrapPanel/)
 
 ### Developer Tools
-* [AlignmentGrid](http://www.uwpcommunitytoolkit.com/en/master/developer-tools/AlignmentGrid/)
-* [FocusTracker](http://www.uwpcommunitytoolkit.com/en/master/developer-tools/FocusTracker/)
+* [AlignmentGrid](http://docs.uwpcommunitytoolkit.com/en/master/developer-tools/AlignmentGrid/)
+* [FocusTracker](http://docs.uwpcommunitytoolkit.com/en/master/developer-tools/FocusTracker/)
 
 ### Extensions
 * [Hyperlink](http://docs.uwpcommunitytoolkit.com/en/master/extensions/Hyperlink/)
@@ -99,7 +99,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [SurfaceDialTextbox](http://docs.uwpcommunitytoolkit.com/en/master/extensions/SurfaceDialTextbox/)
 * [TextBoxMask](http://docs.uwpcommunitytoolkit.com/en/master/extensions/TextBoxMask/)
 * [TextBoxRegex](http://docs.uwpcommunitytoolkit.com/en/master/extensions/TextBoxRegex/)
-* [ViewExtensions](http://www.uwpcommunitytoolkit.com/en/master/extensions/ViewExtensions/)
+* [ViewExtensions](http://docs.uwpcommunitytoolkit.com/en/master/extensions/ViewExtensions/)
 * [VisualTree](http://docs.uwpcommunitytoolkit.com/en/master/extensions/VisualTree/)
 * [WebView](http://docs.uwpcommunitytoolkit.com/en/master/extensions/WebView/)
 
@@ -107,7 +107,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [AdvancedCollectionView](http://docs.uwpcommunitytoolkit.com/en/master/helpers/AdvancedCollectionView/)
 * [BackgroundTaskHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BackgroundTaskHelper/)
 * [BindableValueHolder](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BindableValueHolder/)
-* [BluetoothLEHelper](http://www.uwpcommunitytoolkit.com/en/master/helpers/BluetoothLEHelper/)
+* [BluetoothLEHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BluetoothLEHelper/)
 * [Colors](http://docs.uwpcommunitytoolkit.com/en/master/helpers/Colors/)
 * [Converters](http://docs.uwpcommunitytoolkit.com/en/master/helpers/Converters/)
 * [DeepLinkParsers](http://docs.uwpcommunitytoolkit.com/en/master/helpers/DeepLinkParsers/)
@@ -115,9 +115,9 @@ Once you search you should see a list similar to the one below (versions may be 
 * [HttpHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/HttpHelper/)
 * [ImageCache](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ImageCache/)
 * [Incremental Loading Collection](http://docs.uwpcommunitytoolkit.com/en/master/helpers/IncrementalLoadingCollection/)
-* [NetworkHelper](http://www.uwpcommunitytoolkit.com/en/master/helpers/NetworkHelper/)
+* [NetworkHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/NetworkHelper/)
 * [Object Storage](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ObjectStorage/)
-* [PrinterHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/PrinterHelper/)
+* [PrintHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/PrintHelper/)
 * [StorageFiles](http://docs.uwpcommunitytoolkit.com/en/master/helpers/StorageFiles/)
 * [Streams](http://docs.uwpcommunitytoolkit.com/en/master/helpers/Streams/)
 * [SystemInformation](http://docs.uwpcommunitytoolkit.com/en/master/helpers/SystemInformation/)

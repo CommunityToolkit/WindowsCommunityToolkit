@@ -39,7 +39,7 @@ MyUIElement.Scale(scaleX: 2, scaleY: 2, centerX: 0, centerY: 0, duration: 2500, 
 
 ## Sample Output
 
-![Scale Behavior animation](../resources/images/Animations/Fade/Sample-Output.gif)
+![Scale Behavior animation](../resources/images/Animations/Scale/Sample-Output.gif)
 
 ## Properties
 
@@ -86,7 +86,7 @@ You can change the way how the animation interpolates between keyframes by defin
     ```
     **Sample Output**
 
-    ![Use Case 1 Output](../resources/images/Animations/Saturation/Scale.gif)
+    ![Use Case 1 Output](../resources/images/Animations/Scale/Sample-Output.gif)
 - Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
     **Sample Code**
