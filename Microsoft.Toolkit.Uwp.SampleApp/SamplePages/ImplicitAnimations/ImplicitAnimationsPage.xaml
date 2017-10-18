@@ -26,17 +26,17 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" extensions:Visual.KeepCenterPointCentered="True">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" extensions:VisualExtensions.KeepCenterPointCentered="True">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal">
                                         <VisualState.Setters>
-                                            <Setter Target="RootGrid.(extensions:Visual.Scale)" Value="1"></Setter>
+                                            <Setter Target="RootGrid.(extensions:VisualExtensions.Scale)" Value="1"></Setter>
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="PointerOver">
                                         <VisualState.Setters>
-                                            <Setter Target="RootGrid.(extensions:Visual.Scale)" Value="2"></Setter>
+                                            <Setter Target="RootGrid.(extensions:VisualExtensions.Scale)" Value="2"></Setter>
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
@@ -49,7 +49,7 @@
                                               BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentTransitions="{TemplateBinding ContentTransitions}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                             </ContentPresenter>
                             <animations:Implicit.Animations>
-                                <animations:CScaleAnimation Duration="0:0:0.4"></animations:CScaleAnimation>
+                                <animations:ScaleAnimation Duration="0:0:0.4"></animations:ScaleAnimation>
                             </animations:Implicit.Animations>
                         </Grid>
                     </ControlTemplate>
@@ -73,27 +73,27 @@
                     Background="Red"
                     Canvas.Top="100"
                     Canvas.Left="100"
-                    extensions:Visual.CenterPoint="50,50,0">
+                    extensions:VisualExtensions.CenterPoint="50,50,0">
 
                 <animations:Implicit.ShowAnimations>
-                    <animations:CTranslationAnimation Duration="0:0:1" To="0, 0, 0" ></animations:CTranslationAnimation>
-                    <animations:COpacityAnimation Duration="0:0:1" To="1.0"></animations:COpacityAnimation>
+                    <animations:TranslationAnimation Duration="0:0:1" To="0, 0, 0" ></animations:TranslationAnimation>
+                    <animations:OpacityAnimation Duration="0:0:1" To="1.0"></animations:OpacityAnimation>
                 </animations:Implicit.ShowAnimations>
 
                 <animations:Implicit.HideAnimations>
-                    <animations:CScalarAnimation Target="Opacity" Duration="0:0:1" To="0.0"></animations:CScalarAnimation>
-                    <animations:CScalarAnimation Target="Translation.Y" Duration="0:0:1" To="-200">
-                        <animations:CScalarKeyFrame Key="0.1" Value="30"></animations:CScalarKeyFrame>
-                        <animations:CScalarKeyFrame Key="0.5" Value="0.0"></animations:CScalarKeyFrame>
-                    </animations:CScalarAnimation>
+                    <animations:ScalarAnimation Target="Opacity" Duration="0:0:1" To="0.0"></animations:ScalarAnimation>
+                    <animations:ScalarAnimation Target="Translation.Y" Duration="0:0:1" To="-200">
+                        <animations:ScalarKeyFrame Key="0.1" Value="30"></animations:ScalarKeyFrame>
+                        <animations:ScalarKeyFrame Key="0.5" Value="0.0"></animations:ScalarKeyFrame>
+                    </animations:ScalarAnimation>
                 </animations:Implicit.HideAnimations>
 
                 <animations:Implicit.Animations>
-                    <animations:CVector3Animation Target="Offset"  Duration="0:0:1"></animations:CVector3Animation>
-                    <animations:CScalarAnimation Target="RotationAngleInDegrees" ImplicitTarget="Offset"  Duration="0:0:1.2" From="0" To="0">
-                        <animations:CScalarKeyFrame Key="0.9" Value="80"></animations:CScalarKeyFrame>
-                    </animations:CScalarAnimation>
-                    <animations:CVector3Animation Target="Scale" Duration="0:0:1"></animations:CVector3Animation>
+                    <animations:Vector3Animation Target="Offset"  Duration="0:0:1"></animations:Vector3Animation>
+                    <animations:ScalarAnimation Target="RotationAngleInDegrees" ImplicitTarget="Offset"  Duration="0:0:1.2" From="0" To="0">
+                        <animations:ScalarKeyFrame Key="0.9" Value="80"></animations:ScalarKeyFrame>
+                    </animations:ScalarAnimation>
+                    <animations:Vector3Animation Target="Scale" Duration="0:0:1"></animations:Vector3Animation>
                 </animations:Implicit.Animations>
 
             </Border>

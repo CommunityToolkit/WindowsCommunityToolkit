@@ -24,7 +24,7 @@
         </StackPanel>
 
         <GridView x:Name="listView" 
-                  Margin="0, 40" 
+                  Margin="0, 40, 0, 0" 
                   SelectionMode="None" 
                   Grid.Row="1"
                   ItemClick="ListView_ItemClick" 

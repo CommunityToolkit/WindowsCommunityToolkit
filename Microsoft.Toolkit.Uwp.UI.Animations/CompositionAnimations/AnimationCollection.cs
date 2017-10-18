@@ -9,12 +9,19 @@ using Windows.UI.Xaml.Hosting;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
-    public class CAnimationCollection : ObservableCollection<CAnimation>
+    /// <summary>
+    /// An ObservableCollection of <see cref="AnimationBase"/>
+    /// </summary>
+    public class AnimationCollection : ObservableCollection<AnimationBase>
     {
-        public UIElement Element { get; set; }
+        internal UIElement Element { get; set; }
 
-        public event EventHandler AnimationCollectionChanged;
+        private void AnimationChanged(object sender, EventArgs e)
+        {
+            AnimationCollectionChanged?.Invoke(this, null);
+        }
 
+        /// <inheritdoc/>
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             base.OnCollectionChanged(e);
@@ -26,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (e.NewItems != null)
             {
-                foreach (CAnimation newAnim in e.NewItems)
+                foreach (AnimationBase newAnim in e.NewItems)
                 {
                     newAnim.AnimationChanged += AnimationChanged;
                 }
@@ -34,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (e.OldItems != null)
             {
-                foreach (CAnimation oldAnim in e.OldItems)
+                foreach (AnimationBase oldAnim in e.OldItems)
                 {
                     oldAnim.AnimationChanged -= AnimationChanged;
                 }
@@ -43,21 +50,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             AnimationCollectionChanged?.Invoke(this, null);
         }
 
-        private void AnimationChanged(object sender, EventArgs e)
-        {
-            AnimationCollectionChanged?.Invoke(this, null);
-        }
+        /// <summary>
+        /// Gets fired when an animation has been added/removed or modified
+        /// </summary>
+        public event EventHandler AnimationCollectionChanged;
 
+        /// <summary>
+        /// Creates a <see cref="CompositionAnimationGroup"/> that can be used to animate a visual on the
+        /// Composition layer
+        /// </summary>
+        /// <param name="element">The element used to get the <see cref="Compositor"/></param>
+        /// <returns><see cref="CompositionAnimationGroup"/></returns>
         public CompositionAnimationGroup GetCompositionAnimationGroup(UIElement element)
         {
             var visual = ElementCompositionPreview.GetElementVisual(element);
-
             var compositor = visual.Compositor;
             var animationGroup = compositor.CreateAnimationGroup();
 
             foreach (var cAnim in this)
             {
-                var compositionAnimation = cAnim.GetCompositionAnimation(visual);
+                var compositionAnimation = cAnim.GetCompositionAnimation(compositor);
                 if (compositionAnimation != null)
                 {
                     animationGroup.Add(compositionAnimation);
@@ -67,10 +79,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return animationGroup;
         }
 
+        /// <summary>
+        /// Creates a <see cref="ImplicitAnimationCollection"/> that can be used to apply implicit animation on a
+        /// visual on the Composition layer
+        /// </summary>
+        /// <param name="element">The element used to get the <see cref="Compositor"/></param>
+        /// <returns><see cref="ImplicitAnimationCollection"/></returns>
         public ImplicitAnimationCollection GetImplicitAnimationCollection(UIElement element)
         {
             var visual = ElementCompositionPreview.GetElementVisual(element);
-
             var compositor = visual.Compositor;
             var implicitAnimations = compositor.CreateImplicitAnimationCollection();
 
@@ -80,13 +97,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 CompositionAnimation animation;
                 if (!string.IsNullOrWhiteSpace(cAnim.Target)
-                    && (animation = cAnim.GetCompositionAnimation(visual)) != null)
+                    && (animation = cAnim.GetCompositionAnimation(compositor)) != null)
                 {
                     var target = cAnim.ImplicitTarget ?? cAnim.Target;
                     if (!animations.ContainsKey(target))
                     {
                         animations[target] = compositor.CreateAnimationGroup();
                     }
+
                     animations[target].Add(animation);
                 }
             }
@@ -99,6 +117,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return implicitAnimations;
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the collection contains an animation that targets the Translation property
+        /// </summary>
         public bool ContainsTranslationAnimation => this.Where(anim => anim.Target.StartsWith("Translation")).Count() > 0;
     }
 }

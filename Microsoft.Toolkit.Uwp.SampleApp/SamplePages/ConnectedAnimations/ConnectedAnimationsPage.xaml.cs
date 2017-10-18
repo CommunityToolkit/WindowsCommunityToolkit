@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
-            BackButton.IsEnabled = RootFrame.CanGoBack;
+            BackButton.Visibility = RootFrame.CanGoBack ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void RootFrame_Navigating(object sender, NavigatingCancelEventArgs e)

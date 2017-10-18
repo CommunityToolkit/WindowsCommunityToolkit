@@ -1,16 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
-    public static class Visual
+    /// <summary>
+    /// Extension methods and attached properties for <see cref="Visual"/> objects
+    /// </summary>
+    public static class VisualExtensions
     {
+        /// <summary>
+        /// Converts a <see cref="string"/> to <see cref="Vector2"/>
+        /// </summary>
+        /// <param name="str">A string in the format of "float, float"</param>
+        /// <returns><see cref="Vector2"/></returns>
         public static Vector2 ToVector2(this string str)
         {
             var strLength = str.Count();
@@ -36,8 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 }
                 else if (count == 2)
                 {
-                    vector = new Vector2(float.Parse(values[0]),
-                                         float.Parse(values[1]));
+                    vector = new Vector2(float.Parse(values[0]), float.Parse(values[1]));
                 }
                 else
                 {
@@ -52,6 +57,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             return vector;
         }
 
+        /// <summary>
+        /// Converts a <see cref="string"/> to <see cref="Vector3"/>
+        /// </summary>
+        /// <param name="str">A string in the format of "float, float, float"</param>
+        /// <returns><see cref="Vector3"/></returns>
         public static Vector3 ToVector3(this string str)
         {
             var strLength = str.Count();
@@ -77,9 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 }
                 else if (count == 3)
                 {
-                    vector = new Vector3(float.Parse(values[0]),
-                                         float.Parse(values[1]),
-                                         float.Parse(values[2]));
+                    vector = new Vector3(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]));
                 }
                 else
                 {
@@ -94,6 +102,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             return vector;
         }
 
+        /// <summary>
+        /// Converts a <see cref="string"/> to <see cref="Vector4"/>
+        /// </summary>
+        /// <param name="str">A string in the format of "float, float, float, float"</param>
+        /// <returns><see cref="Vector4"/></returns>
         public static Vector4 ToVector4(this string str)
         {
             var strLength = str.Count();
@@ -119,10 +132,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 }
                 else if (count == 4)
                 {
-                    vector = new Vector4(float.Parse(values[0]),
-                                         float.Parse(values[1]),
-                                         float.Parse(values[2]),
-                                         float.Parse(values[3]));
+                    vector = new Vector4(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]), float.Parse(values[3]));
                 }
                 else
                 {
@@ -137,11 +147,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             return vector;
         }
 
-        public static Windows.UI.Composition.Visual GetVisual(UIElement element)
+        /// <summary>
+        /// Retreives the <see cref="Visual"/> object of a <see cref="UIElement"/>
+        /// </summary>
+        /// <param name="element">The <see cref="UIElement"/></param>
+        /// <returns>The <see cref="Visual"/> backing the <see cref="UIElement"/></returns>
+        public static Visual GetVisual(UIElement element)
         {
             return ElementCompositionPreview.GetElementVisual(element);
         }
 
+        /// <summary>
+        /// Gets the <see cref="Visual.AnchorPoint"/> of a UIElement in a string form
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <returns>A <see cref="Vector2"/> string representation of the <see cref="Visual.AnchorPoint"/></returns>
         public static string GetAnchorPoint(DependencyObject obj)
         {
             if (obj is UIElement element)
@@ -149,9 +169,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var visual = GetVisual(obj as UIElement);
                 return visual.AnchorPoint.ToString();
             }
+
             return (string)obj.GetValue(AnchorPointProperty);
         }
 
+        /// <summary>
+        /// Sets the <see cref="Visual.AnchorPoint"/> of a UIElement in a string form
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <param name="value">The string representation of the <see cref="Vector2"/> to be set</param>
         public static void SetAnchorPoint(DependencyObject obj, string value)
         {
             if (obj is UIElement element)
@@ -159,9 +185,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var visual = GetVisual(obj as UIElement);
                 visual.AnchorPoint = value.ToVector2();
             }
+
             obj.SetValue(AnchorPointProperty, value);
         }
 
+        /// <summary>
+        /// Gets the <see cref="Visual.CenterPoint"/> of a UIElement in a string form
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <returns>A <see cref="Vector3"/> string representation of the <see cref="Visual.CenterPoint"/></returns>
         public static string GetCenterPoint(DependencyObject obj)
         {
             if (obj is UIElement element)
@@ -173,6 +205,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             return (string)obj.GetValue(CenterPointProperty);
         }
 
+        /// <summary>
+        /// Sets the <see cref="Visual.CenterPoint"/> of a UIElement in a string form
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <param name="value">The string representation of the <see cref="Vector3"/> to be set</param>
         public static void SetCenterPoint(DependencyObject obj, string value)
         {
             if (obj is UIElement element)
@@ -180,9 +217,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var visual = GetVisual(obj as UIElement);
                 visual.CenterPoint = value.ToVector3();
             }
+
             obj.SetValue(CenterPointProperty, value);
         }
 
+        /// <summary>
+        /// Gets the <see cref="Visual.Offset"/> of a UIElement in a string form
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <returns>A <see cref="Vector3"/> string representation of the <see cref="Visual.Offset"/></returns>
         public static string GetOffset(DependencyObject obj)
         {
             if (obj is UIElement element)
@@ -190,9 +233,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var visual = GetVisual(obj as UIElement);
                 return visual.Offset.ToString();
             }
+
             return (string)obj.GetValue(OffsetProperty);
         }
 
+        /// <summary>
+        /// Sets the <see cref="Visual.Offset"/> of a UIElement in a string form
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <param name="value">The string representation of the <see cref="Vector3"/> to be set</param>
         public static void SetOffset(DependencyObject obj, string value)
         {
             if (obj is UIElement element)
@@ -200,9 +249,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var visual = GetVisual(obj as UIElement);
                 visual.Offset = value.ToVector3();
             }
+
             obj.SetValue(OffsetProperty, value);
         }
 
+        /// <summary>
+        /// Gets the <see cref="Visual.Opacity"/> of a UIElement
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <returns>The <see cref="Visual.Opacity"/> of the <see cref="UIElement"/></returns>
         public static double GetOpacity(DependencyObject obj)
         {
             if (obj is UIElement element)
@@ -214,6 +269,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             return (double)obj.GetValue(OpacityProperty);
         }
 
+        /// <summary>
+        /// Sets the <see cref="Visual.Opacity"/> of a UIElement
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <param name="value">The opacity to be set between 0.0 and 1.0</param>
         public static void SetOpacity(DependencyObject obj, double value)
         {
             if (obj is UIElement element)
@@ -225,6 +285,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             obj.SetValue(OpacityProperty, value);
         }
 
+        /// <summary>
+        /// Gets the <see cref="Visual.RotationAngle"/> of a UIElement in radians
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <returns>The <see cref="Visual.RotationAngle"/> of the <see cref="UIElement"/></returns>
         public static double GetRotationAngle(DependencyObject obj)
         {
             if (obj is UIElement element)
@@ -232,9 +297,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var visual = GetVisual(obj as UIElement);
                 return visual.RotationAngle;
             }
+
             return (double)obj.GetValue(RotationAngleProperty);
         }
 
+        /// <summary>
+        /// Sets the <see cref="Visual.RotationAngle"/> of a UIElement in radians
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <param name="value">The rotation in radians</param>
         public static void SetRotationAngle(DependencyObject obj, double value)
         {
             if (obj is UIElement element)
@@ -242,9 +313,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var visual = GetVisual(obj as UIElement);
                 visual.RotationAngle = (float)value;
             }
+
             obj.SetValue(RotationAngleProperty, value);
         }
 
+        /// <summary>
+        /// Gets the <see cref="Visual.RotationAngleInDegrees"/> of a UIElement in degrees
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <returns>The <see cref="Visual.RotationAngleInDegrees"/> of the <see cref="UIElement"/></returns>
         public static double GetRotationAngleInDegrees(DependencyObject obj)
         {
             if (obj is UIElement element)
@@ -252,9 +329,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var visual = GetVisual(obj as UIElement);
                 return visual.RotationAngleInDegrees;
             }
+
             return (double)obj.GetValue(RotationAngleInDegreesProperty);
         }
 
+        /// <summary>
+        /// Sets the <see cref="Visual.RotationAngleInDegrees"/> of a UIElement in radians
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <param name="value">The rotation in degrees</param>
         public static void SetRotationAngleInDegrees(DependencyObject obj, double value)
         {
             if (obj is UIElement element)
@@ -262,9 +345,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var visual = GetVisual(obj as UIElement);
                 visual.RotationAngleInDegrees = (float)value;
             }
+
             obj.SetValue(RotationAngleInDegreesProperty, value);
         }
 
+        /// <summary>
+        /// Gets the <see cref="Visual.RotationAxis"/> of a UIElement in a string form
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <returns>A <see cref="Vector3"/> string representation of the <see cref="Visual.RotationAxis"/></returns>
         public static string GetRotationAxis(DependencyObject obj)
         {
             if (obj is UIElement element)
@@ -272,9 +361,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var visual = GetVisual(obj as UIElement);
                 return visual.RotationAxis.ToString();
             }
+
             return (string)obj.GetValue(RotationAxisProperty);
         }
 
+        /// <summary>
+        /// Sets the <see cref="Visual.RotationAxis"/> of a UIElement in a string form
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <param name="value">The string representation of the <see cref="Vector3"/> to be set</param>
         public static void SetRotationAxis(DependencyObject obj, string value)
         {
             if (obj is UIElement element)
@@ -282,9 +377,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var visual = GetVisual(obj as UIElement);
                 visual.RotationAxis = value.ToVector3();
             }
+
             obj.SetValue(RotationAxisProperty, value);
         }
 
+        /// <summary>
+        /// Gets the <see cref="Visual.Scale"/> of a UIElement in a string form
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <returns>A <see cref="Vector3"/> string representation of the <see cref="Visual.Scale"/></returns>
         public static string GetScale(DependencyObject obj)
         {
             if (obj is UIElement element)
@@ -292,9 +393,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var visual = GetVisual(obj as UIElement);
                 return visual.Scale.ToString();
             }
+
             return (string)obj.GetValue(ScaleProperty);
         }
 
+        /// <summary>
+        /// Sets the <see cref="Visual.Scale"/> of a UIElement in a string form
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <param name="value">The string representation of the <see cref="Vector3"/> to be set</param>
         public static void SetScale(DependencyObject obj, string value)
         {
             if (obj is UIElement element)
@@ -302,9 +409,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var visual = GetVisual(obj as UIElement);
                 visual.Scale = value.ToVector3();
             }
+
             obj.SetValue(ScaleProperty, value);
         }
 
+        /// <summary>
+        /// Gets the <see cref="Visual.Size"/> of a UIElement in a string form
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <returns>A <see cref="Vector2"/> string representation of the <see cref="Visual.Size"/></returns>
         public static string GetSize(DependencyObject obj)
         {
             if (obj is UIElement element)
@@ -312,9 +425,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var visual = GetVisual(obj as UIElement);
                 return visual.Size.ToString();
             }
+
             return (string)obj.GetValue(SizeProperty);
         }
 
+        /// <summary>
+        /// Sets the <see cref="Visual.Size"/> of a UIElement in a string form
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <param name="value">The string representation of the <see cref="Vector2"/> to be set</param>
         public static void SetSize(DependencyObject obj, string value)
         {
             if (obj is UIElement element)
@@ -322,78 +441,91 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var visual = GetVisual(obj as UIElement);
                 visual.Size = value.ToVector2();
             }
+
             obj.SetValue(SizeProperty, value);
         }
 
+        /// <summary>
+        /// Gets a value whether the <see cref="Visual.CenterPoint"/> of the <see cref="UIElement"/>
+        /// is centered even when the visual is resized
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <returns>true if the <see cref="Visual.CenterPoint"/> is always centered</returns>
         public static bool GetKeepCenterPointCentered(DependencyObject obj)
         {
             return (bool)obj.GetValue(KeepCenterPointCenteredProperty);
         }
 
+        /// <summary>
+        /// Sets a value whether the <see cref="Visual.CenterPoint"/> of the <see cref="UIElement"/>
+        /// is centered even when the visual is resized
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <param name="value">true if the <see cref="Visual.CenterPoint"/> should always be centered</param>
         public static void SetKeepCenterPointCentered(DependencyObject obj, bool value)
         {
             obj.SetValue(KeepCenterPointCenteredProperty, value);
         }
 
+        /// <summary>
+        /// Identifies the AnchorPointProperty attached property.
+        /// </summary>
         public static readonly DependencyProperty AnchorPointProperty =
-            DependencyProperty.RegisterAttached("AnchorPoint",
-                                                typeof(string),
-                                                typeof(Visual),
-                                                new PropertyMetadata(null, OnAnchorPointChanged));
+            DependencyProperty.RegisterAttached("AnchorPoint", typeof(string), typeof(VisualExtensions), new PropertyMetadata(null, OnAnchorPointChanged));
 
+        /// <summary>
+        /// Identifies the CenterPoint attached property.
+        /// </summary>
         public static readonly DependencyProperty CenterPointProperty =
-            DependencyProperty.RegisterAttached("CenterPoint",
-                                                typeof(string),
-                                                typeof(Visual),
-                                                new PropertyMetadata(null, OnCenterPointChanged));
+            DependencyProperty.RegisterAttached("CenterPoint", typeof(string), typeof(VisualExtensions), new PropertyMetadata(null, OnCenterPointChanged));
 
+        /// <summary>
+        /// Identifies the Offset attached property.
+        /// </summary>
         public static readonly DependencyProperty OffsetProperty =
-            DependencyProperty.RegisterAttached("Offset",
-                                                typeof(string),
-                                                typeof(Visual),
-                                                new PropertyMetadata(null, OnOffsetChanged));
+            DependencyProperty.RegisterAttached("Offset", typeof(string), typeof(VisualExtensions), new PropertyMetadata(null, OnOffsetChanged));
 
+        /// <summary>
+        /// Identifies the Opacity attached property.
+        /// </summary>
         public static readonly DependencyProperty OpacityProperty =
-            DependencyProperty.RegisterAttached("Opacity",
-                                                typeof(double),
-                                                typeof(Visual),
-                                                new PropertyMetadata(double.NaN, OnOpacityChanged));
+            DependencyProperty.RegisterAttached("Opacity", typeof(double), typeof(VisualExtensions), new PropertyMetadata(double.NaN, OnOpacityChanged));
 
+        /// <summary>
+        /// Identifies the RotationAngle attached property.
+        /// </summary>
         public static readonly DependencyProperty RotationAngleProperty =
-            DependencyProperty.RegisterAttached("RotationAngle",
-                                                typeof(double),
-                                                typeof(Visual),
-                                                new PropertyMetadata(double.NaN, OnRotationAngleChanged));
+            DependencyProperty.RegisterAttached("RotationAngle", typeof(double), typeof(VisualExtensions), new PropertyMetadata(double.NaN, OnRotationAngleChanged));
 
+        /// <summary>
+        /// Identifies the RotationAngleInDegrees attached property.
+        /// </summary>
         public static readonly DependencyProperty RotationAngleInDegreesProperty =
-            DependencyProperty.RegisterAttached("RotationAngleInDegrees",
-                                                typeof(double),
-                                                typeof(Visual),
-                                                new PropertyMetadata(double.NaN, OnRotationAngleInDegreesChanged));
+            DependencyProperty.RegisterAttached("RotationAngleInDegrees", typeof(double), typeof(VisualExtensions), new PropertyMetadata(double.NaN, OnRotationAngleInDegreesChanged));
 
+        /// <summary>
+        /// Identifies the RotationAxis attached property.
+        /// </summary>
         public static readonly DependencyProperty RotationAxisProperty =
-            DependencyProperty.RegisterAttached("RotationAxis",
-                                                typeof(string),
-                                                typeof(Visual),
-                                                new PropertyMetadata(null, OnRotationAxisChanged));
+            DependencyProperty.RegisterAttached("RotationAxis", typeof(string), typeof(VisualExtensions), new PropertyMetadata(null, OnRotationAxisChanged));
 
+        /// <summary>
+        /// Identifies the Scale attached property.
+        /// </summary>
         public static readonly DependencyProperty ScaleProperty =
-            DependencyProperty.RegisterAttached("Scale",
-                                                typeof(string),
-                                                typeof(Visual),
-                                                new PropertyMetadata(null, OnScaleChanged));
+            DependencyProperty.RegisterAttached("Scale", typeof(string), typeof(VisualExtensions), new PropertyMetadata(null, OnScaleChanged));
 
+        /// <summary>
+        /// Identifies the Size attached property.
+        /// </summary>
         public static readonly DependencyProperty SizeProperty =
-            DependencyProperty.RegisterAttached("Size",
-                                                typeof(string),
-                                                typeof(Visual),
-                                                new PropertyMetadata(null, OnSizeChanged));
+            DependencyProperty.RegisterAttached("Size", typeof(string), typeof(VisualExtensions), new PropertyMetadata(null, OnSizeChanged));
 
+        /// <summary>
+        /// Identifies the KeepCenterPointCentered attached property.
+        /// </summary>
         public static readonly DependencyProperty KeepCenterPointCenteredProperty =
-            DependencyProperty.RegisterAttached("KeepCenterPointCentered",
-                                                typeof(bool),
-                                                typeof(Visual),
-                                                new PropertyMetadata(false, OnKeepCenterPointCenteredChanged));
+            DependencyProperty.RegisterAttached("KeepCenterPointCentered", typeof(bool), typeof(VisualExtensions), new PropertyMetadata(false, OnKeepCenterPointCenteredChanged));
 
         private static void OnAnchorPointChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -469,18 +601,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void OnKeepCenterPointCenteredChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!(d is FrameworkElement element))
+            if (d is FrameworkElement element)
             {
-                return;
-            }
+                element.SizeChanged -= KeepCenteredElementSizeChanged;
 
-            element.SizeChanged -= KeepCenteredElementSizeChanged;
-
-            if (e.NewValue is bool keepCentered && keepCentered)
-            {
-                element.SizeChanged += KeepCenteredElementSizeChanged;
-                var visual = GetVisual(element);
-                visual.CenterPoint = new Vector3((float)element.ActualWidth / 2, (float)element.ActualHeight / 2, 0);
+                if (e.NewValue is bool keepCentered && keepCentered)
+                {
+                    element.SizeChanged += KeepCenteredElementSizeChanged;
+                    var visual = GetVisual(element);
+                    visual.CenterPoint = new Vector3((float)element.ActualWidth / 2, (float)element.ActualHeight / 2, 0);
+                }
             }
         }
 

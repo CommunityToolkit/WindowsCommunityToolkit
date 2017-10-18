@@ -2,14 +2,19 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
-    public class CScalarAnimation : CTypedAnimation<CScalarKeyFrame, double>
+    /// <summary>
+    /// Animation that animates a value of type float
+    /// </summary>
+    public class ScalarAnimation : TypedAnimationBase<ScalarKeyFrame, double>
     {
+        /// <inheritdoc/>
         protected override KeyFrameAnimation GetTypedAnimationFromCompositor(Compositor compositor)
         {
             return compositor.CreateScalarKeyFrameAnimation();
         }
 
-        protected override void InsertKeyFrameToTypedAnimation(KeyFrameAnimation animation, CScalarKeyFrame keyFrame)
+        /// <inheritdoc/>
+        protected override void InsertKeyFrameToTypedAnimation(KeyFrameAnimation animation, ScalarKeyFrame keyFrame)
         {
             (animation as ScalarKeyFrameAnimation).InsertKeyFrame((float)keyFrame.Key, (float)keyFrame.Value);
         }
