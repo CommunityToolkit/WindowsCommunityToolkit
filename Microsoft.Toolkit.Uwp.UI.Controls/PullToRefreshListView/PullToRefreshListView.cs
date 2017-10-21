@@ -122,6 +122,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _refreshIntentCanceled = false;
         private double _overscrollMultiplier;
         private bool _isManipulatingWithMouse;
+        private double _startingVerticalOffset;
 
         /// <summary>
         /// Occurs when the user has requested content to be refreshed
@@ -233,14 +234,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // Other input are already managed by the scroll viewer
             if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse
-                && IsPullToRefreshWithMouseEnabled
-                && _scroller.VerticalOffset < 1)
+                && IsPullToRefreshWithMouseEnabled)
             {
+                if (_scroller.VerticalOffset < 1)
+                {
+                    DisplayPullToRefreshContent();
+                    CompositionTarget.Rendering -= CompositionTarget_Rendering;
+                    CompositionTarget.Rendering += CompositionTarget_Rendering;
+                    _isManipulatingWithMouse = true;
+                }
+
+                _startingVerticalOffset = _scroller.VerticalOffset;
+                _root.ManipulationDelta -= Scroller_ManipulationDelta;
                 _root.ManipulationDelta += Scroller_ManipulationDelta;
-                DisplayPullToRefreshContent();
-                CompositionTarget.Rendering -= CompositionTarget_Rendering;
-                CompositionTarget.Rendering += CompositionTarget_Rendering;
-                _isManipulatingWithMouse = true;
             }
         }
 
@@ -268,7 +274,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (e.Cumulative.Translation.Y <= 0)
+            if (e.Cumulative.Translation.Y <= 0 || _scroller.VerticalOffset >= 1)
+            {
+                _scroller.ChangeView(_scroller.HorizontalOffset, _scroller.VerticalOffset - e.Delta.Translation.Y, 1);
+                return;
+            }
+
+            if (_startingVerticalOffset >= 1)
             {
                 return;
             }
