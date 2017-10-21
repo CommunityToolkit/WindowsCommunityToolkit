@@ -493,8 +493,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
 
-                _refreshIndicatorTransform.TranslateY = _pullDistance - offset
+                if (_isManipulatingWithMouse)
+                {
+                    _refreshIndicatorTransform.TranslateY = _pullDistance - offset
                                                         - _refreshIndicatorBorder.ActualHeight;
+                }
+                else
+                {
+                    _refreshIndicatorTransform.TranslateY = _pullDistance
+                                                        - _refreshIndicatorBorder.ActualHeight;
+                }
             }
             else
             {
