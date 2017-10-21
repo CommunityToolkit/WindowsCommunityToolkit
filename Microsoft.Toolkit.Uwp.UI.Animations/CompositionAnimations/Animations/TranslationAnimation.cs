@@ -28,5 +28,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             Target = "Translation";
         }
+
+        /// <inheritdoc/>
+        public override CompositionAnimation GetCompositionAnimation(Compositor compositor)
+        {
+            if (AnimationBase.IsImplicitHideShowSupported)
+            {
+                return base.GetCompositionAnimation(compositor);
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

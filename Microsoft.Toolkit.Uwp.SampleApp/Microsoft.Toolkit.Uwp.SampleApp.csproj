@@ -1081,7 +1081,7 @@
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <PropertyGroup>
+  <!--<PropertyGroup>
     <_GenerateAppxManifestDependsOn>
       ModifyAppXPackage;
       $(_GenerateAppxManifestDependsOn)
@@ -1096,5 +1096,5 @@
         <TargetPath>docs/%(RecursiveDir)%(FileName)%(Extension)</TargetPath>
       </AppxPackagePayload>
     </ItemGroup>
-  </Target>
+  </Target>-->
 </Project>

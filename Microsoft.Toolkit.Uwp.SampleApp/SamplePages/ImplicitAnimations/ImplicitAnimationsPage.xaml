@@ -26,13 +26,13 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" extensions:VisualExtensions.KeepCenterPointCentered="True">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" extensions:VisualExtensions.KeepCenterPointCentered="True" extensions:VisualExtensions.Scale="3">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal">
-                                        <VisualState.Setters>
+                                        <!--<VisualState.Setters>
                                             <Setter Target="RootGrid.(extensions:VisualExtensions.Scale)" Value="1"></Setter>
-                                        </VisualState.Setters>
+                                        </VisualState.Setters>-->
                                     </VisualState>
                                     <VisualState x:Name="PointerOver">
                                         <VisualState.Setters>

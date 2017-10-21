@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             DependencyProperty.Register("To", typeof(U), typeof(TypedAnimationBase<T, U>), new PropertyMetadata(GetDefaultValue(), OnAnimationPropertyChanged));
 
         /// <summary>
-        /// Gets or sets the value at the begining.
+        /// Gets or sets the value at the beginning.
         /// Setting this value adds a new <see cref="KeyFrame"/> where the Key = 0
         /// </summary>
         public U From
@@ -101,10 +101,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         protected abstract KeyFrameAnimation GetTypedAnimationFromCompositor(Compositor compositor);
 
         /// <summary>
-        /// Inserts the value and a specifid key in the typed <see cref="KeyFrameAnimation"/>
+        /// Inserts the value and a specified key in the typed <see cref="KeyFrameAnimation"/>
         /// </summary>
         /// <param name="animation">The animation where the key frame will be inserted</param>
-        /// <param name="keyFrame">The keyframe that will be inserted</param>
+        /// <param name="keyFrame">The key frame that will be inserted</param>
         protected abstract void InsertKeyFrameToTypedAnimation(KeyFrameAnimation animation, T keyFrame);
 
         // these two methods are required to support double (non nullable type)

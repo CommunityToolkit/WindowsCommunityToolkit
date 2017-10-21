@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
@@ -96,6 +97,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void ShowAnimationsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if (!AnimationBase.IsImplicitHideShowSupported)
+            {
+                return;
+            }
+
             if (e.OldValue is AnimationCollection oldCollection)
             {
                 oldCollection.AnimationCollectionChanged -= ShowCollectionChanged;
@@ -120,6 +126,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void HideAnimationsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if (!AnimationBase.IsImplicitHideShowSupported)
+            {
+                return;
+            }
+
             if (e.OldValue is AnimationCollection oldCollection)
             {
                 oldCollection.AnimationCollectionChanged -= HideCollectionChanged;
@@ -168,6 +179,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void ShowCollectionChanged(object sender, EventArgs e)
         {
+            if (!AnimationBase.IsImplicitHideShowSupported)
+            {
+                return;
+            }
+
             var collection = sender as AnimationCollection;
             if (collection.Element == null)
             {
@@ -179,6 +195,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void HideCollectionChanged(object sender, EventArgs e)
         {
+            if (!AnimationBase.IsImplicitHideShowSupported)
+            {
+                return;
+            }
+
             var collection = sender as AnimationCollection;
             if (collection.Element == null)
             {
@@ -203,7 +224,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static CompositionAnimationGroup GetCompositionAnimationGroup(AnimationCollection collection, UIElement element)
         {
-            if (collection.ContainsTranslationAnimation)
+            if (AnimationBase.IsImplicitHideShowSupported && collection.ContainsTranslationAnimation)
             {
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
             }
@@ -213,7 +234,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static ImplicitAnimationCollection GetImplicitAnimationCollection(AnimationCollection collection, UIElement element)
         {
-            if (collection.ContainsTranslationAnimation)
+            if (AnimationBase.IsImplicitHideShowSupported && collection.ContainsTranslationAnimation)
             {
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
             }
