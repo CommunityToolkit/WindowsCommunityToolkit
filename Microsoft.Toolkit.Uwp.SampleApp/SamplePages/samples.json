@@ -384,6 +384,7 @@
         "About": "Attached properties to enable Implicit animations (including Show and Hide animations) through XAML",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
         "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
+        "XamlCodeFile": "ImplicitAnimationsCode.bind",
         "BadgeUpdateVersionRequired": "Creators Update required"
       },
       {

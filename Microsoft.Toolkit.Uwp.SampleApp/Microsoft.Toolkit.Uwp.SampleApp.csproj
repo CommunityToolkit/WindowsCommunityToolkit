@@ -442,6 +442,7 @@
     <Content Include="SamplePages\InAppNotification\InAppNotificationXaml.bind" />
     <Content Include="SamplePages\ListViewBase\ListViewBaseCode.bind" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewXaml.bind" />
+    <Content Include="SamplePages\Implicit Animations\ImplicitAnimationsCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -489,7 +490,7 @@
     <Compile Include="SamplePages\ConnectedAnimations\Pages\ThirdPage.xaml.cs">
       <DependentUpon>ThirdPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ImplicitAnimations\ImplicitAnimationsPage.xaml.cs">
+    <Compile Include="SamplePages\Implicit Animations\ImplicitAnimationsPage.xaml.cs">
       <DependentUpon>ImplicitAnimationsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\InAppNotification\InAppNotificationPage.xaml.cs">
@@ -773,7 +774,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\ImplicitAnimations\ImplicitAnimationsPage.xaml">
+    <Page Include="SamplePages\Implicit Animations\ImplicitAnimationsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
