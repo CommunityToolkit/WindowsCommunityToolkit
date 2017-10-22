@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OneDriveStorageFile"/> class.
+        /// Initializes a new instance of the <see cref="GraphOneDriveStorageFile"/> class.
         /// <para>Permissions : Have full access to user files and files shared with user</para>
         /// </summary>
         /// <param name="oneDriveProvider">Instance of OneDriveClient class</param>
