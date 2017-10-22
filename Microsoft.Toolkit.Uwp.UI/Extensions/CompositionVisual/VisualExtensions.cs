@@ -160,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Retreives the <see cref="Visual"/> object of a <see cref="UIElement"/>
+        /// Retrieves the <see cref="Visual"/> object of a <see cref="UIElement"/>
         /// </summary>
         /// <param name="element">The <see cref="UIElement"/></param>
         /// <returns>The <see cref="Visual"/> backing the <see cref="UIElement"/></returns>
