@@ -202,6 +202,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             if (_scrollViewer != null)
             {
                 _scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
+                _scrollViewer.GotFocus -= ScrollViewer_GotFocus;
             }
 
             if (HeaderElement is FrameworkElement element)

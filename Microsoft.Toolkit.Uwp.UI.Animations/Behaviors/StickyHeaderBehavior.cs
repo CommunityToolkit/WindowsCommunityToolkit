@@ -206,6 +206,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 element.SizeChanged -= ScrollHeader_SizeChanged;
             }
 
+            if (_scrollViewer != null)
+            {
+                _scrollViewer.GotFocus -= ScrollViewer_GotFocus;
+            }
+
             StopAnimation();
         }
 
