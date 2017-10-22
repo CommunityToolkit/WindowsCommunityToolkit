@@ -202,12 +202,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _scroller.Loaded += Scroller_Loaded;
 
-                if (IsPullToRefreshWithMouseEnabled)
-                {
-                    _root.ManipulationMode = ManipulationModes.TranslateY;
-                    _root.ManipulationStarted += Scroller_ManipulationStarted;
-                    _root.ManipulationCompleted += Scroller_ManipulationCompleted;
-                }
+                SetupMouseMode();
 
                 _scroller.DirectManipulationCompleted += Scroller_DirectManipulationCompleted;
                 _scroller.DirectManipulationStarted += Scroller_DirectManipulationStarted;
@@ -352,6 +347,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void Scroller_DirectManipulationCompleted(object sender, object e)
         {
             OnManipulationCompleted();
+            _root.ManipulationMode = ManipulationModes.System;
         }
 
         /// <summary>
@@ -602,9 +598,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _scrollerVerticalScrollBar.PointerExited += ScrollerVerticalScrollBar_PointerExited;
         }
 
-        private void ScrollerVerticalScrollBar_PointerExited(object sender, PointerRoutedEventArgs e)
+        private void Scroller_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            if (IsPullToRefreshWithMouseEnabled)
+            _root.ManipulationMode = ManipulationModes.System;
+        }
+
+        private void Scroller_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            if (IsPullToRefreshWithMouseEnabled && e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
                 _root.ManipulationMode = ManipulationModes.TranslateY;
             }
@@ -613,6 +614,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void ScrollerVerticalScrollBar_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             _root.ManipulationMode = ManipulationModes.System;
+            _root.ManipulationStarted -= Scroller_ManipulationStarted;
+            _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
+        }
+
+        private void ScrollerVerticalScrollBar_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (IsPullToRefreshWithMouseEnabled)
+            {
+                _root.ManipulationStarted -= Scroller_ManipulationStarted;
+                _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
+                _root.ManipulationStarted += Scroller_ManipulationStarted;
+                _root.ManipulationCompleted += Scroller_ManipulationCompleted;
+            }
         }
 
         /// <summary>
@@ -762,23 +776,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             set
             {
-                if (_root != null)
-                {
-                    if (value)
-                    {
-                        _root.ManipulationMode = ManipulationModes.TranslateY;
-                        _root.ManipulationStarted += Scroller_ManipulationStarted;
-                        _root.ManipulationCompleted += Scroller_ManipulationCompleted;
-                    }
-                    else
-                    {
-                        _root.ManipulationMode = ManipulationModes.System;
-                        _root.ManipulationStarted -= Scroller_ManipulationStarted;
-                        _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
-                    }
-                }
-
                 SetValue(IsPullToRefreshWithMouseEnabledProperty, value);
+                SetupMouseMode();
+            }
+        }
+
+        private void SetupMouseMode()
+        {
+            if (_root != null && _scroller != null)
+            {
+                if (IsPullToRefreshWithMouseEnabled)
+                {
+                    _root.ManipulationStarted -= Scroller_ManipulationStarted;
+                    _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
+                    _scroller.PointerMoved -= Scroller_PointerMoved;
+                    _scroller.PointerExited -= Scroller_PointerExited;
+
+                    _root.ManipulationStarted += Scroller_ManipulationStarted;
+                    _root.ManipulationCompleted += Scroller_ManipulationCompleted;
+                    _scroller.PointerMoved += Scroller_PointerMoved;
+                    _scroller.PointerExited += Scroller_PointerExited;
+                }
+                else
+                {
+                    _root.ManipulationMode = ManipulationModes.System;
+                    _root.ManipulationStarted -= Scroller_ManipulationStarted;
+                    _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
+                    _scroller.PointerMoved -= Scroller_PointerMoved;
+                    _scroller.PointerExited -= Scroller_PointerExited;
+                }
             }
         }
     }
