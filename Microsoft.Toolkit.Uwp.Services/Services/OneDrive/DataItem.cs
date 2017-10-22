@@ -12,6 +12,8 @@
 
 using System;
 using Microsoft.Graph;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -242,6 +244,12 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Gets or Sets
         /// </summary>
+        public Folder()
+        {
+            ChildCount = 0;
+        }
+
+        [JsonProperty("childCount")]
         public int? ChildCount { get; set; }
     }
 

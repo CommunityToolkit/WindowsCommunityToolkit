@@ -161,7 +161,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             var requestUri = childrenRequest.RequestUrl;
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri);
-            OneDriveItem item = new OneDriveItem { Name = desiredName, Folder = new Microsoft.OneDrive.Sdk.Folder { }, ConflictBehavior = options.ToString() };
+            OneDriveItem item = new OneDriveItem { Name = desiredName, Folder = new Folder { }, ConflictBehavior = options.ToString() };
             var jsonOptions = item.SerializeToJson();
             request.Content = new StringContent(jsonOptions, System.Text.Encoding.UTF8, "application/json");
 

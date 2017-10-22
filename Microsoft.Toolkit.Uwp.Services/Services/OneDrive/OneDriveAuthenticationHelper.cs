@@ -195,14 +195,19 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>An oauth2 access token.</returns>
         internal static async Task<string> AuthenticateAdalUserAsync(bool refreshToken = false)
         {
-            if (_userInfoSettings == null && refreshToken == false)
+
+            if (_userInfoSettings == null)
             {
                 _userInfoSettings = SaveUserInfo(await _azureAdContext.AcquireTokenAsync(_resourceUri, _appClientId, new Uri(DefaultRedirectUri), new ADAL.PlatformParameters(ADAL.PromptBehavior.RefreshSession, false)));
             }
 
-            if (_userInfoSettings.Expiration <= DateTimeOffset.UtcNow.AddMinutes(5) || refreshToken == true)
+            try
             {
                 _userInfoSettings = SaveUserInfo(await _azureAdContext.AcquireTokenSilentAsync(_resourceUri, _appClientId));
+            }
+            catch (ADAL.AdalServiceException)
+            {
+                _userInfoSettings = SaveUserInfo(await _azureAdContext.AcquireTokenAsync(_resourceUri, _appClientId, new Uri(DefaultRedirectUri), new ADAL.PlatformParameters(ADAL.PromptBehavior.RefreshSession, false)));
             }
 
             return _userInfoSettings.AccessToken;
@@ -221,17 +226,30 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 _identityClient = new MSAL.PublicClientApplication(_appClientId);
             }
 
-            if (_userInfoSettings == null && refreshToken == false)
+            if (_userInfoSettings == null)
             {
                 _userInfoSettings = SaveUserInfo(await _identityClient.AcquireTokenAsync(scopes));
             }
 
-            if (_userInfoSettings.Expiration <= DateTimeOffset.UtcNow.AddMinutes(5) && refreshToken == true)
+            try
             {
                 _userInfoSettings = SaveUserInfo(await _identityClient.AcquireTokenSilentAsync(scopes, _identityClient.Users.First()));
             }
+            catch (MSAL.MsalClientException)
+            {
+                _userInfoSettings = SaveUserInfo(await _identityClient.AcquireTokenAsync(scopes));
+            }
 
             return _userInfoSettings.AccessToken;
+        }
+
+        internal static void ClearUserInfo()
+        {
+            if (_userInfoSettings != null)
+            {
+                UserInfoSettings.Clear();
+                _userInfoSettings = null;
+            }
         }
 
         private static UserInfoSettings SaveUserInfo(ADAL.AuthenticationResult authResult)

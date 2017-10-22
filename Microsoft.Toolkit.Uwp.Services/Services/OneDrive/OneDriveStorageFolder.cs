@@ -163,10 +163,11 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             var requestUri = childrenRequest.RequestUrl;
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri);
-            OneDriveItem item = new OneDriveItem { Name = desiredName, Folder = new Microsoft.OneDrive.Sdk.Folder { }, ConflictBehavior = options.ToString() };
-            var jsonOptions = item.SerializeToJson();
-            request.Content = new StringContent(jsonOptions, System.Text.Encoding.UTF8, "application/json");
+            OneDriveItem item = new OneDriveItem { Name = desiredName, Folder = new Folder() { }, ConflictBehavior = options.ToString(),  };
 
+            var jsonOptions = JsonConvert.SerializeObject(item);
+            request.Content = new StringContent(jsonOptions, System.Text.Encoding.UTF8, "application/json");
+            
             var createdFolder = await ((IOneDriveClient)Provider).SendAuthenticatedRequestAsync(request, cancellationToken).ConfigureAwait(false);
             var dataItem = new DataItem(createdFolder);
             return InitializeOneDriveStorageFolder(dataItem);
@@ -184,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             if (oneDriveItem == null)
             {
                 return null;
-            }            
+            }
             return InitializeOneDriveStorageFile(oneDriveItem);
         }
 

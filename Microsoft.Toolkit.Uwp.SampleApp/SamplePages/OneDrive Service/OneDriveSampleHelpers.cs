@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     string newFolderName = await OneDriveSampleHelpers.InputTextDialogAsync("New Folder Name");
                     if (!string.IsNullOrEmpty(newFolderName))
                     {
-                        
+
                         await folder.CreateFolderAsync(newFolderName);
                     }
                 }

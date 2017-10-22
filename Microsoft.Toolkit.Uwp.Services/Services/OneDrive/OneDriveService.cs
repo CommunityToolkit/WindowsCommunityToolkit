@@ -180,15 +180,15 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 else if (_accountProviderType == AccountProviderType.Adal)
                 {
                     OneDriveAuthenticationHelper.AzureAdContext.TokenCache.Clear();
-                    DiscoverySettings.Clear();
-                    UserInfoSettings.Clear();
                 }
                 else if (_accountProviderType == AccountProviderType.Msal)
                 {
-                    UserInfoSettings.Clear();
+
                     IUser user = OneDriveAuthenticationHelper.IdentityClient.Users.First();
                     OneDriveAuthenticationHelper.IdentityClient.Remove(user);
                 }
+
+                OneDriveAuthenticationHelper.ClearUserInfo();
             }
         }
 
@@ -216,22 +216,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             // Keep this for compatibility reason
             else if (_accountProviderType == AccountProviderType.Adal)
             {
-                DiscoveryService discoveryService = null;
-                DiscoverySettings discoverySettings = DiscoverySettings.Load();
 
-                if (discoverySettings == null)
-                {
-                    // For OneDrive for business only
-                    var authDiscoveryResult = await OneDriveAuthenticationHelper.AuthenticateAdalUserForDiscoveryAsync(_appClientId);
-                    discoveryService = await OneDriveAuthenticationHelper.GetUserServiceResource(authDiscoveryResult);
-                    discoverySettings = new DiscoverySettings { ServiceEndpointUri = discoveryService.ServiceEndpointUri, ServiceResourceId = discoveryService.ServiceResourceId };
-                    discoverySettings.Save();
-                }
-
-                OneDriveAuthenticationHelper.ResourceUri = discoverySettings.ServiceResourceId;
+                OneDriveAuthenticationHelper.ResourceUri = "https://graph.microsoft.com/";
                 _accountProvider = OneDriveAuthenticationHelper.CreateAdalAuthenticationProvider(_appClientId);
                 await OneDriveAuthenticationHelper.AuthenticateAdalUserAsync(true);
-                resourceEndpointUri = discoverySettings.ServiceEndpointUri;
             }
             else if (_accountProviderType == AccountProviderType.Msa)
             {
@@ -249,7 +237,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 resourceEndpointUri = OneDriveAuthenticationHelper.ResourceUri;
             }
 
-            if (_accountProviderType == AccountProviderType.Msal)
+            if (_accountProviderType == AccountProviderType.Msal || _accountProviderType == AccountProviderType.Adal)
             {
                 _graphProvider = new GraphServiceClient("https://graph.microsoft.com/v1.0/me", _accountProvider);
             }

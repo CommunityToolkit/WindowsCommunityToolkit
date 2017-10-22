@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// Gets or sets folder.
         /// </summary>
         [DataMember(Name = "folder", EmitDefaultValue = false, IsRequired = false)]
-        public Microsoft.OneDrive.Sdk.Folder Folder { get; set; }
+        public Folder Folder { get; set; }
 
         /// <summary>
         /// Gets or sets file.
