@@ -176,10 +176,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>A <see cref="Vector2"/> string representation of the <see cref="Visual.AnchorPoint"/></returns>
         public static string GetAnchorPoint(DependencyObject obj)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                return visual.AnchorPoint.ToString();
+                return GetAnchorPointForElement(element);
             }
 
             return (string)obj.GetValue(AnchorPointProperty);
@@ -192,10 +191,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="value">The string representation of the <see cref="Vector2"/> to be set</param>
         public static void SetAnchorPoint(DependencyObject obj, string value)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                visual.AnchorPoint = value.ToVector2();
+                SetAnchorPointForElement(value, element);
             }
 
             obj.SetValue(AnchorPointProperty, value);
@@ -208,10 +206,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>A <see cref="Vector3"/> string representation of the <see cref="Visual.CenterPoint"/></returns>
         public static string GetCenterPoint(DependencyObject obj)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                return visual.CenterPoint.ToString();
+                return GetCenterPointForElement(element);
             }
 
             return (string)obj.GetValue(CenterPointProperty);
@@ -224,10 +221,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="value">The string representation of the <see cref="Vector3"/> to be set</param>
         public static void SetCenterPoint(DependencyObject obj, string value)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                visual.CenterPoint = value.ToVector3();
+                SetCenterPointForElement(value, element);
             }
 
             obj.SetValue(CenterPointProperty, value);
@@ -240,10 +236,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>A <see cref="Vector3"/> string representation of the <see cref="Visual.Offset"/></returns>
         public static string GetOffset(DependencyObject obj)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                return visual.Offset.ToString();
+                return GetOffsetForElement(element);
             }
 
             return (string)obj.GetValue(OffsetProperty);
@@ -256,10 +251,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="value">The string representation of the <see cref="Vector3"/> to be set</param>
         public static void SetOffset(DependencyObject obj, string value)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                visual.Offset = value.ToVector3();
+                SetOffsetForElement(value, element);
             }
 
             obj.SetValue(OffsetProperty, value);
@@ -272,10 +266,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>The <see cref="Visual.Opacity"/> of the <see cref="UIElement"/></returns>
         public static double GetOpacity(DependencyObject obj)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                return visual.Opacity;
+                return GetOpacityForElement(element);
             }
 
             return (double)obj.GetValue(OpacityProperty);
@@ -288,10 +281,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="value">The opacity to be set between 0.0 and 1.0</param>
         public static void SetOpacity(DependencyObject obj, double value)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                visual.Opacity = (float)value;
+                SetOpacityForElement(value, element);
             }
 
             obj.SetValue(OpacityProperty, value);
@@ -304,10 +296,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>The <see cref="Visual.RotationAngle"/> of the <see cref="UIElement"/></returns>
         public static double GetRotationAngle(DependencyObject obj)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                return visual.RotationAngle;
+                return GetRotationAngleForElement(element);
             }
 
             return (double)obj.GetValue(RotationAngleProperty);
@@ -320,10 +311,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="value">The rotation in radians</param>
         public static void SetRotationAngle(DependencyObject obj, double value)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                visual.RotationAngle = (float)value;
+                SetRotationAngleForElement(value, element);
             }
 
             obj.SetValue(RotationAngleProperty, value);
@@ -336,10 +326,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>The <see cref="Visual.RotationAngleInDegrees"/> of the <see cref="UIElement"/></returns>
         public static double GetRotationAngleInDegrees(DependencyObject obj)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                return visual.RotationAngleInDegrees;
+                return GetRotationAngleInDegreesForElement(element);
             }
 
             return (double)obj.GetValue(RotationAngleInDegreesProperty);
@@ -352,10 +341,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="value">The rotation in degrees</param>
         public static void SetRotationAngleInDegrees(DependencyObject obj, double value)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                visual.RotationAngleInDegrees = (float)value;
+                SetRotationAngleInDegreesForElement(value, element);
             }
 
             obj.SetValue(RotationAngleInDegreesProperty, value);
@@ -368,10 +356,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>A <see cref="Vector3"/> string representation of the <see cref="Visual.RotationAxis"/></returns>
         public static string GetRotationAxis(DependencyObject obj)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                return visual.RotationAxis.ToString();
+                return GetRotationAxisForElement(element);
             }
 
             return (string)obj.GetValue(RotationAxisProperty);
@@ -384,10 +371,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="value">The string representation of the <see cref="Vector3"/> to be set</param>
         public static void SetRotationAxis(DependencyObject obj, string value)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                visual.RotationAxis = value.ToVector3();
+                SetRotationAxisForElement(value, element);
             }
 
             obj.SetValue(RotationAxisProperty, value);
@@ -400,10 +386,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>A <see cref="Vector3"/> string representation of the <see cref="Visual.Scale"/></returns>
         public static string GetScale(DependencyObject obj)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                return visual.Scale.ToString();
+                return GetScaleForElement(element);
             }
 
             return (string)obj.GetValue(ScaleProperty);
@@ -416,10 +401,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="value">The string representation of the <see cref="Vector3"/> to be set</param>
         public static void SetScale(DependencyObject obj, string value)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                visual.Scale = value.ToVector3();
+                SetScaleForElement(value, element);
             }
 
             obj.SetValue(ScaleProperty, value);
@@ -432,10 +416,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>A <see cref="Vector2"/> string representation of the <see cref="Visual.Size"/></returns>
         public static string GetSize(DependencyObject obj)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                return visual.Size.ToString();
+                return GetSizeForElement(element);
             }
 
             return (string)obj.GetValue(SizeProperty);
@@ -448,10 +431,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="value">The string representation of the <see cref="Vector2"/> to be set</param>
         public static void SetSize(DependencyObject obj, string value)
         {
-            if (obj is UIElement element)
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
             {
-                var visual = GetVisual(obj as UIElement);
-                visual.Size = value.ToVector2();
+                SetSizeForElement(value, element);
             }
 
             obj.SetValue(SizeProperty, value);
@@ -613,15 +595,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void OnKeepCenterPointCenteredChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is FrameworkElement element)
+            if (d is FrameworkElement element && !DesignTimeHelpers.IsRunningInLegacyDesignerMode)
             {
-                element.SizeChanged -= KeepCenteredElementSizeChanged;
+                SetupKeepCenterPointCentered(e, element);
+            }
+        }
 
-                if (e.NewValue is bool keepCentered && keepCentered)
+        private static void SetupKeepCenterPointCentered(DependencyPropertyChangedEventArgs e, FrameworkElement element)
+        {
+            element.SizeChanged -= KeepCenteredElementSizeChanged;
+
+            if (e.NewValue is bool keepCentered)
+            {
+                if (keepCentered)
                 {
+                    element.SizeChanged -= KeepCenteredElementSizeChanged;
                     element.SizeChanged += KeepCenteredElementSizeChanged;
                     var visual = GetVisual(element);
                     visual.CenterPoint = new Vector3((float)element.ActualWidth / 2, (float)element.ActualHeight / 2, 0);
+                }
+                else
+                {
+                    element.SizeChanged -= KeepCenteredElementSizeChanged;
                 }
             }
         }
@@ -631,6 +626,114 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             var element = sender as FrameworkElement;
             var visual = GetVisual(element);
             visual.CenterPoint = new Vector3((float)element.ActualWidth / 2, (float)element.ActualHeight / 2, 0);
+        }
+
+        private static string GetAnchorPointForElement(UIElement element)
+        {
+            var visual = GetVisual(element);
+            return visual.AnchorPoint.ToString();
+        }
+
+        private static void SetAnchorPointForElement(string value, UIElement element)
+        {
+            var visual = GetVisual(element);
+            visual.AnchorPoint = value.ToVector2();
+        }
+
+        private static string GetCenterPointForElement(UIElement element)
+        {
+            var visual = GetVisual(element);
+            return visual.CenterPoint.ToString();
+        }
+
+        private static void SetCenterPointForElement(string value, UIElement element)
+        {
+            var visual = GetVisual(element);
+            visual.CenterPoint = value.ToVector3();
+        }
+
+        private static string GetOffsetForElement(UIElement element)
+        {
+            var visual = GetVisual(element);
+            return visual.Offset.ToString();
+        }
+
+        private static void SetOffsetForElement(string value, UIElement element)
+        {
+            var visual = GetVisual(element);
+            visual.Offset = value.ToVector3();
+        }
+
+        private static double GetOpacityForElement(UIElement element)
+        {
+            var visual = GetVisual(element);
+            return visual.Opacity;
+        }
+
+        private static void SetOpacityForElement(double value, UIElement element)
+        {
+            var visual = GetVisual(element);
+            visual.Opacity = (float)value;
+        }
+
+        private static double GetRotationAngleForElement(UIElement element)
+        {
+            var visual = GetVisual(element);
+            return visual.RotationAngle;
+        }
+
+        private static void SetRotationAngleForElement(double value, UIElement element)
+        {
+            var visual = GetVisual(element);
+            visual.RotationAngle = (float)value;
+        }
+
+        private static double GetRotationAngleInDegreesForElement(UIElement element)
+        {
+            var visual = GetVisual(element);
+            return visual.RotationAngleInDegrees;
+        }
+
+        private static void SetRotationAngleInDegreesForElement(double value, UIElement element)
+        {
+            var visual = GetVisual(element);
+            visual.RotationAngleInDegrees = (float)value;
+        }
+
+        private static string GetRotationAxisForElement(UIElement element)
+        {
+            var visual = GetVisual(element);
+            return visual.RotationAxis.ToString();
+        }
+
+        private static void SetRotationAxisForElement(string value, UIElement element)
+        {
+            var visual = GetVisual(element);
+            visual.RotationAxis = value.ToVector3();
+        }
+
+        private static string GetScaleForElement(UIElement element)
+        {
+            var visual = GetVisual(element);
+            return visual.Scale.ToString();
+        }
+
+        private static void SetScaleForElement(string value, UIElement element)
+        {
+            var visual = GetVisual(element);
+            visual.Scale = value.ToVector3();
+        }
+
+        private static string GetSizeForElement(UIElement element)
+        {
+            var visual = GetVisual(element);
+            return visual.Size.ToString();
+        }
+
+        private static void SetSizeForElement(string value, UIElement element)
+        {
+            var visual = GetVisual(element);
+            visual.Size = value.ToVector2();
         }
     }
 }

@@ -61,6 +61,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <inheritdoc/>
         public override CompositionAnimation GetCompositionAnimation(Compositor compositor)
         {
+            if (DesignTimeHelpers.IsRunningInLegacyDesignerMode)
+            {
+                return null;
+            }
+
             if (string.IsNullOrWhiteSpace(Target))
             {
                 return null;
