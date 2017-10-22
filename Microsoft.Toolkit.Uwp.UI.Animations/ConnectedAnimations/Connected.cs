@@ -192,60 +192,89 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             obj.SetValue(KeyProperty, value);
         }
 
+        /// <summary>
+        /// Gets the <see cref="UIElement"/> that is the anchor for the coordinated connected animation
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/></param>
+        /// <returns>The anchor <see cref="UIElement"/></returns>
         public static UIElement GetAnchorElement(DependencyObject obj)
         {
             return (UIElement)obj.GetValue(AnchorElementProperty);
         }
 
+        /// <summary>
+        /// Sets the <see cref="UIElement"/> that is the anchor for the coordinated connected animation
+        /// </summary>
+        /// <param name="obj">The <see cref="UIElement"/> that will follow the anchor element</param>
+        /// <param name="value">The <see cref="UIElement"/> that should be followed</param>
         public static void SetAnchorElement(DependencyObject obj, UIElement value)
         {
             obj.SetValue(AnchorElementProperty, value);
         }
 
+        /// <summary>
+        /// Gets the connected animation key associated with the ListViewBase item being animated
+        /// </summary>
+        /// <param name="obj">The <see cref="ListViewBase"/></param>
+        /// <returns>The connected animation key</returns>
         public static string GetListItemKey(DependencyObject obj)
         {
             return (string)obj.GetValue(ListItemKeyProperty);
         }
 
+        /// <summary>
+        /// Sets the connected animation key for the <see cref="ListViewBase"/> item being animated
+        /// </summary>
+        /// <param name="obj">The <see cref="ListViewBase"/></param>
+        /// <param name="value">The connected animation key</param>
         public static void SetListItemKey(DependencyObject obj, string value)
         {
             obj.SetValue(ListItemKeyProperty, value);
         }
 
+        /// <summary>
+        /// Gets the name of the element in the <see cref="DataTemplate"/> that is animated
+        /// </summary>
+        /// <param name="obj">The <see cref="ListViewBase"/></param>
+        /// <returns>The name of the element being animated</returns>
         public static string GetListItemElementName(DependencyObject obj)
         {
             return (string)obj.GetValue(ListItemElementNameProperty);
         }
 
+        /// <summary>
+        /// Sets the name of the element in the <see cref="DataTemplate"/> that is animated
+        /// </summary>
+        /// <param name="obj">The <see cref="ListViewBase"/></param>
+        /// <param name="value">The name of the element to animate</param>
         public static void SetListItemElementName(DependencyObject obj, string value)
         {
             obj.SetValue(ListItemElementNameProperty, value);
         }
 
+        /// <summary>
+        /// Identifies the Connected.Key XAML attached property
+        /// </summary>
         public static readonly DependencyProperty KeyProperty =
-            DependencyProperty.RegisterAttached("Key",
-                                                typeof(string),
-                                                typeof(Connected),
-                                                new PropertyMetadata(null, OnKeyChanged));
+            DependencyProperty.RegisterAttached("Key", typeof(string), typeof(Connected), new PropertyMetadata(null, OnKeyChanged));
 
+        /// <summary>
+        /// Identifies the Connected.AnchorElement XAML attached property
+        /// </summary>
         public static readonly DependencyProperty AnchorElementProperty =
-            DependencyProperty.RegisterAttached("AnchorElement",
-                                                typeof(UIElement),
-                                                typeof(Connected),
-                                                new PropertyMetadata(null, OnAnchorElementChanged));
+            DependencyProperty.RegisterAttached("AnchorElement", typeof(UIElement), typeof(Connected), new PropertyMetadata(null, OnAnchorElementChanged));
 
+        /// <summary>
+        /// Identifies the Connected.ListItemKey XAML attached property
+        /// </summary>
         public static readonly DependencyProperty ListItemKeyProperty =
-            DependencyProperty.RegisterAttached("ListItemKey",
-                                                typeof(string),
-                                                typeof(Connected),
-                                                new PropertyMetadata(null, OnListItemKeyChanged));
+            DependencyProperty.RegisterAttached("ListItemKey", typeof(string), typeof(Connected), new PropertyMetadata(null, OnListItemKeyChanged));
 
-
+        /// <summary>
+        /// Identifies the Connected.ListItemElementName XAML attached property
+        /// </summary>
         public static readonly DependencyProperty ListItemElementNameProperty =
-            DependencyProperty.RegisterAttached("ListItemElementName",
-                                                typeof(string),
-                                                typeof(Connected),
-                                                new PropertyMetadata(null, OnListItemElementNameChanged));
+            DependencyProperty.RegisterAttached("ListItemElementName", typeof(string), typeof(Connected), new PropertyMetadata(null, OnListItemElementNameChanged));
 
         private static void OnKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -274,31 +303,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void OnAnchorElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!(d is UIElement element))
+            if (d is UIElement element)
             {
-                return;
-            }
-
-            if (e.OldValue is UIElement oldElement)
-            {
-                if (_coordinatedAnimationElements.TryGetValue(oldElement, out var oldElementList))
+                if (e.OldValue is UIElement oldElement)
                 {
-                    oldElementList.Remove(element);
+                    if (_coordinatedAnimationElements.TryGetValue(oldElement, out var oldElementList))
+                    {
+                        oldElementList.Remove(element);
+                    }
+                }
+
+                if (e.NewValue is UIElement anchorElement)
+                {
+                    if (!_coordinatedAnimationElements.TryGetValue(anchorElement, out var list))
+                    {
+                        list = new List<UIElement>();
+                        _coordinatedAnimationElements[anchorElement] = list;
+                    }
+
+                    list.Add(element);
                 }
             }
-
-            if (!(e.NewValue is UIElement anchorElement))
-            {
-                return;
-            }
-
-            if (!_coordinatedAnimationElements.TryGetValue(anchorElement, out var list))
-            {
-                list = new List<UIElement>();
-                _coordinatedAnimationElements[anchorElement] = list;
-            }
-
-            list.Add(element);
         }
 
         private static void OnListItemKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -349,38 +374,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void AddListViewBaseItemAnimationDetails(DependencyObject d)
         {
-            if (!(d is Windows.UI.Xaml.Controls.ListViewBase listViewBase))
+            if (d is Windows.UI.Xaml.Controls.ListViewBase listViewBase)
             {
-                return;
+                var elementName = GetListItemElementName(d);
+                var key = GetListItemKey(d);
+
+                if (string.IsNullOrWhiteSpace(elementName) ||
+                    string.IsNullOrWhiteSpace(key))
+                {
+                    return;
+                }
+
+                var props = new ConnectedAnimationProperties()
+                {
+                    Key = key,
+                    IsListAnimation = true,
+                    ElementName = elementName,
+                    ListViewBase = listViewBase
+                };
+
+                _connectedAnimationsProps.Add(props);
             }
-            var elementName = GetListItemElementName(d);
-            var key = GetListItemKey(d);
-
-            if (string.IsNullOrWhiteSpace(elementName) ||
-                string.IsNullOrWhiteSpace(key))
-            {
-                return;
-            }
-
-            var props = new ConnectedAnimationProperties()
-            {
-                Key = key,
-                IsListAnimation = true,
-                ElementName = elementName,
-                ListViewBase = listViewBase
-            };
-
-            _connectedAnimationsProps.Add(props);
-        }
-
-        internal class ConnectedAnimationProperties
-        {
-            public string Key { get; set; }
-            public UIElement Element { get; set; }
-            public List<UIElement> CoordinatedElements { get; set; }
-            public string ElementName { get; set; }
-            public Windows.UI.Xaml.Controls.ListViewBase ListViewBase { get; set; }
-            public bool IsListAnimation { get; set; } = false;
         }
     }
 }
