@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void ShowAnimationsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!AnimationBase.IsImplicitHideShowSupported)
+            if (!AnimationBase.IsCreatorsUpdateOrAbove)
             {
                 return;
             }
@@ -147,7 +147,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void HideAnimationsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!AnimationBase.IsImplicitHideShowSupported)
+            if (!AnimationBase.IsCreatorsUpdateOrAbove)
             {
                 return;
             }
@@ -184,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void ShowCollectionChanged(object sender, EventArgs e)
         {
-            if (!AnimationBase.IsImplicitHideShowSupported)
+            if (!AnimationBase.IsCreatorsUpdateOrAbove)
             {
                 return;
             }
@@ -200,7 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void HideCollectionChanged(object sender, EventArgs e)
         {
-            if (!AnimationBase.IsImplicitHideShowSupported)
+            if (!AnimationBase.IsCreatorsUpdateOrAbove)
             {
                 return;
             }
@@ -228,7 +228,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static CompositionAnimationGroup GetCompositionAnimationGroup(AnimationCollection collection, UIElement element)
         {
-            if (AnimationBase.IsImplicitHideShowSupported && collection.ContainsTranslationAnimation)
+            if (AnimationBase.IsCreatorsUpdateOrAbove && collection.ContainsTranslationAnimation)
             {
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
             }
@@ -238,7 +238,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static ImplicitAnimationCollection GetImplicitAnimationCollection(AnimationCollection collection, UIElement element)
         {
-            if (AnimationBase.IsImplicitHideShowSupported && collection.ContainsTranslationAnimation)
+            if (AnimationBase.IsCreatorsUpdateOrAbove && collection.ContainsTranslationAnimation)
             {
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
             }

@@ -118,14 +118,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             set { SetValue(DelayProperty, value); }
         }
 
-        private static bool? _isImpicitHideShowSupported;
+        private static bool? _isCreatorsUpdateOrAbove;
 
         /// <summary>
         /// Gets a value indicating whether Universal API Contract 4 is available on the current device
         /// where Implicit Show/Hide animations and Translation property on <see cref="Visual"/> are available
         /// </summary>
-        public static bool IsImplicitHideShowSupported => (bool)(_isImpicitHideShowSupported ??
-            (_isImpicitHideShowSupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4)));
+        public static bool IsCreatorsUpdateOrAbove => (bool)(_isCreatorsUpdateOrAbove ??
+            (_isCreatorsUpdateOrAbove = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4)));
 
         /// <summary>
         /// Gets a <see cref="CompositionAnimation"/> that can be used on the Composition layer

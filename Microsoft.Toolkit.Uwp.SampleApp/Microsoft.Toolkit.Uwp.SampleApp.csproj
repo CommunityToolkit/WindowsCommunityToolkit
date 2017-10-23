@@ -401,7 +401,7 @@
     <Content Include="SamplePages\NetworkHelper\NetworkHelperCode.bind" />
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
-    <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
+    <Content Include="SamplePages\Connected Animations\ConnectedAnimationsCode.bind" />
     <Content Include="SamplePages\ParallaxService\ParallaxPage.bind" />
     <Content Include="SamplePages\Loading\LoadingCode.bind" />
     <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.bind" />
@@ -443,6 +443,7 @@
     <Content Include="SamplePages\ListViewBase\ListViewBaseCode.bind" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewXaml.bind" />
     <Content Include="SamplePages\Implicit Animations\ImplicitAnimationsCode.bind" />
+    <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -478,16 +479,16 @@
       <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\IXamlRenderListener.cs" />
-    <Compile Include="SamplePages\ConnectedAnimations\ConnectedAnimationsPage.xaml.cs">
+    <Compile Include="SamplePages\Connected Animations\ConnectedAnimationsPage.xaml.cs">
       <DependentUpon>ConnectedAnimationsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ConnectedAnimations\Pages\FirstPage.xaml.cs">
+    <Compile Include="SamplePages\Connected Animations\Pages\FirstPage.xaml.cs">
       <DependentUpon>FirstPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ConnectedAnimations\Pages\SecondPage.xaml.cs">
+    <Compile Include="SamplePages\Connected Animations\Pages\SecondPage.xaml.cs">
       <DependentUpon>SecondPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ConnectedAnimations\Pages\ThirdPage.xaml.cs">
+    <Compile Include="SamplePages\Connected Animations\Pages\ThirdPage.xaml.cs">
       <DependentUpon>ThirdPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Implicit Animations\ImplicitAnimationsPage.xaml.cs">
@@ -754,19 +755,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\ConnectedAnimations\ConnectedAnimationsPage.xaml">
+    <Page Include="SamplePages\Connected Animations\ConnectedAnimationsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\ConnectedAnimations\Pages\FirstPage.xaml">
+    <Page Include="SamplePages\Connected Animations\Pages\FirstPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\ConnectedAnimations\Pages\SecondPage.xaml">
+    <Page Include="SamplePages\Connected Animations\Pages\SecondPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\ConnectedAnimations\Pages\ThirdPage.xaml">
+    <Page Include="SamplePages\Connected Animations\Pages\ThirdPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1082,7 +1083,7 @@
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!--<PropertyGroup>
+  <PropertyGroup>
     <_GenerateAppxManifestDependsOn>
       ModifyAppXPackage;
       $(_GenerateAppxManifestDependsOn)
@@ -1097,5 +1098,5 @@
         <TargetPath>docs/%(RecursiveDir)%(FileName)%(Extension)</TargetPath>
       </AppxPackagePayload>
     </ItemGroup>
-  </Target>-->
+  </Target>
 </Project>

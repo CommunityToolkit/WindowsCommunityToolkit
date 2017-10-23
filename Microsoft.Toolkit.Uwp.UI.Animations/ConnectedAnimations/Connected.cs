@@ -50,11 +50,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     _navigationFrame.Navigated -= NavigationFrame_Navigated;
                 }
 
+                _navigationFrame = value;
+
+                if (!AnimationBase.IsCreatorsUpdateOrAbove)
+                {
+                    return;
+                }
+
                 _connectedAnimationsProps.Clear();
                 _previousPageConnectedAnimationProps.Clear();
                 _coordinatedAnimationElements.Clear();
 
-                _navigationFrame = value;
                 _navigationFrame.Navigating += NavigationFrame_Navigating;
                 _navigationFrame.Navigated += NavigationFrame_Navigated;
             }
@@ -88,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     var animationHandled = false;
                     if (connectedAnimation != null)
                     {
-                        if (props.IsListAnimation && parameter != null)
+                        if (props.IsListAnimation && parameter != null && AnimationBase.IsCreatorsUpdateOrAbove)
                         {
                             props.ListViewBase.ScrollIntoView(parameter);
 
@@ -109,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         }
                         else if (!props.IsListAnimation)
                         {
-                            if (_coordinatedAnimationElements.TryGetValue(props.Element, out var coordinatedElements))
+                            if (AnimationBase.IsCreatorsUpdateOrAbove && _coordinatedAnimationElements.TryGetValue(props.Element, out var coordinatedElements))
                             {
                                 connectedAnimation.TryStart(props.Element, coordinatedElements);
                             }
@@ -152,7 +158,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var cas = ConnectedAnimationService.GetForCurrentView();
             foreach (var props in _connectedAnimationsProps)
             {
-                if (props.IsListAnimation && parameter != null)
+                if (props.IsListAnimation && parameter != null && AnimationBase.IsCreatorsUpdateOrAbove)
                 {
                     props.ListViewBase.PrepareConnectedAnimation(props.Key, e.Parameter, props.ElementName);
                 }
@@ -278,6 +284,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void OnKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if (!AnimationBase.IsCreatorsUpdateOrAbove)
+            {
+                return;
+            }
+
             SetupFrame();
 
             if (e.OldValue is string oldKey)
@@ -303,6 +314,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void OnAnchorElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if (!AnimationBase.IsCreatorsUpdateOrAbove)
+            {
+                return;
+            }
+
             if (d is UIElement element)
             {
                 if (e.OldValue is UIElement oldElement)
@@ -328,6 +344,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void OnListItemKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if (!AnimationBase.IsCreatorsUpdateOrAbove)
+            {
+                return;
+            }
+
             SetupFrame();
 
             if (e.OldValue is string oldKey)
@@ -344,6 +365,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void OnListItemElementNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if (!AnimationBase.IsCreatorsUpdateOrAbove)
+            {
+                return;
+            }
+
             SetupFrame();
 
             if (e.OldValue is string oldElementName)
@@ -374,7 +400,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void AddListViewBaseItemAnimationDetails(DependencyObject d)
         {
-            if (d is Windows.UI.Xaml.Controls.ListViewBase listViewBase)
+            if (AnimationBase.IsCreatorsUpdateOrAbove && d is Windows.UI.Xaml.Controls.ListViewBase listViewBase)
             {
                 var elementName = GetListItemElementName(d);
                 var key = GetListItemKey(d);
