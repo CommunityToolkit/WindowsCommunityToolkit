@@ -53,6 +53,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Windows, Version=255.255.255.255, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\Windows.winmd</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -66,10 +70,6 @@
   <ItemGroup Label="WinRT References">
     <Reference Include="System.Xaml" />
     <Reference Include="System.Runtime.WindowsRuntime.UI.Xaml" />
-    <Reference Include="Windows.winmd"> 
-      <IsWinMDFile>true</IsWinMDFile> 
-      <Private>False</Private> 
-    </Reference> 
     <Reference Include="Windows.Foundation.FoundationContract">
       <HintPath>$(ProgramFiles)\Windows Kits\10\References\Windows.Foundation.FoundationContract\2.0.0.0\Windows.Foundation.FoundationContract.winmd</HintPath>
       <Aliases>WindowsRuntime</Aliases>
@@ -148,7 +148,7 @@
     <EmbeddedResource Include="Icons\Microsoft.Toolkit.Uwp.UI.Controls.RotatorTile.icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="Pack" >
+  <Target Name="Pack">
     <!-- No-op to avoid build error when packing solution from commandline -->
   </Target>
 </Project>
