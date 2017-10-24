@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Size _imageSize = Size.Empty;
 
         private UriSurface _uriSurface = null;
-        private Windows.UI.Composition.Visual _rootVisual = null;
+        private Visual _rootVisual = null;
 
         private DispatcherTimer _timerAnimation = null;
 
@@ -538,7 +538,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (strategy == UIStrategy.Composition)
                 {
                     // Get the Visual of the root element
-                    Windows.UI.Composition.Visual rootVisual = ElementCompositionPreview.GetElementVisual(rootElement);
+                    Visual rootVisual = ElementCompositionPreview.GetElementVisual(rootElement);
 
                     if (rootVisual != null)
                     {

@@ -385,7 +385,8 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
         "Icon": "/Assets/Helpers.png",
         "XamlCodeFile": "ImplicitAnimationsCode.bind",
-        "BadgeUpdateVersionRequired": "Creators Update required"
+        "BadgeUpdateVersionRequired": "Creators Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/ImplicitAnimations.md"
       },
       {
         "Name": "Connected Animations",
