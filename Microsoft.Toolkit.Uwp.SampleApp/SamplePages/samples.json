@@ -383,7 +383,7 @@
         "Type": "ImplicitAnimationsPage",
         "About": "Attached properties to enable Implicit animations (including Show and Hide animations) through XAML",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
-        "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
+        "Icon": "/Assets/Helpers.png",
         "XamlCodeFile": "ImplicitAnimationsCode.bind",
         "BadgeUpdateVersionRequired": "Creators Update required"
       },
@@ -393,8 +393,8 @@
         "About": "Attached properties to enable Connected animations through XAML",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/ConnectedAnimations",
         "XamlCodeFile": "ConnectedAnimationsCode.bind",
-        "DisableXamlEditorRendering":  true,
-        "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
+        "DisableXamlEditorRendering": true,
+        "Icon": "/Assets/Helpers.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/ConnectedAnimations.md"
       }
@@ -623,7 +623,7 @@
         "About": "Attached properties to modify object visual properties through XAML",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/Visual",
         "XamlCodeFile": "VisualExtensionsCode.bind",
-        "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
+        "Icon": "/Assets/Helpers.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/VisualEx.md"
       }
