@@ -433,7 +433,7 @@
     <Content Include="SamplePages\Carousel\CarouselCode.bind" />
     <Content Include="SamplePages\AlignmentGrid\AlignmentGridXaml.bind" />
     <Content Include="SamplePages\FocusTracker\FocusTrackerXaml.bind" />
-    <Content Include="SamplePages\TextToolbar\TextToolbar.bind" />
+    <Content Include="SamplePages\Visual Extensions\VisualExtensionsCode.bind" />
     <Content Include="SamplePages\TextToolbar\TextToolbarCode.bind" />
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperCode.bind" />
     <Content Include="SamplePages\OrbitView\OrbitViewXaml.bind" />
@@ -444,6 +444,7 @@
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewXaml.bind" />
     <Content Include="SamplePages\Implicit Animations\ImplicitAnimationsCode.bind" />
     <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
+    <Content Include="SamplePages\TextToolbar\TextToolbar.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -681,6 +682,9 @@
       <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Twitter Service\TwitterTemplateSelector.cs" />
+    <Compile Include="SamplePages\Visual Extensions\VisualExtensionsPage.xaml.cs">
+      <DependentUpon>VisualExtensionsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml.cs">
       <DependentUpon>WeatherLiveTileAndToastPage.xaml</DependentUpon>
     </Compile>
@@ -986,6 +990,10 @@
     <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Visual Extensions\VisualExtensionsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml">
       <SubType>Designer</SubType>

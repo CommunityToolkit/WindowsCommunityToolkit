@@ -15,7 +15,7 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// Animation that animates the <see cref="Visual.RotationAngleInDegrees"/> property
+    /// ScalarAnimation that animates the <see cref="Visual.RotationAngleInDegrees"/> property
     /// </summary>
     public class RotationInDegreesAnimation : ScalarAnimation
     {

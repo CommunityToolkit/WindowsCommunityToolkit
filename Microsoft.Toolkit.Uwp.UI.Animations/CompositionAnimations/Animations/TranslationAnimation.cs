@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Hosting;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// Animation that animates the <see cref="Visual"/> Translation property
+    /// Vector3Animation that animates the <see cref="Visual"/> Translation property
     /// <seealso cref="ElementCompositionPreview.SetIsTranslationEnabled"/>
     /// </summary>
     public class TranslationAnimation : Vector3Animation

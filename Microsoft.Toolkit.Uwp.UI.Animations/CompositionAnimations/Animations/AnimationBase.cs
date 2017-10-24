@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Identifies the <see cref="KeyFrames"/> property
         /// </summary>
-        public static readonly DependencyProperty ScalarKeyFramesProperty =
+        public static readonly DependencyProperty KeyFramesProperty =
             DependencyProperty.Register("KeyFrames", typeof(KeyFrameCollection), typeof(AnimationBase), new PropertyMetadata(null, OnAnimationPropertyChanged));
 
         /// <summary>
@@ -75,11 +75,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             get
             {
-                var collection = (KeyFrameCollection)GetValue(ScalarKeyFramesProperty);
+                var collection = (KeyFrameCollection)GetValue(KeyFramesProperty);
                 if (collection == null)
                 {
                     collection = new KeyFrameCollection();
-                    SetValue(ScalarKeyFramesProperty, collection);
+                    SetValue(KeyFramesProperty, collection);
                 }
 
                 return collection;
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             set
             {
-                SetValue(ScalarKeyFramesProperty, value);
+                SetValue(KeyFramesProperty, value);
             }
         }
 

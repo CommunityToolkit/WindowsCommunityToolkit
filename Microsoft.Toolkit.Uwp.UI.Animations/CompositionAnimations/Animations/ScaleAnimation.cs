@@ -15,7 +15,7 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// Animation that animates the <see cref="Visual.Scale"/> property
+    /// Vector3Animation that animates the <see cref="Visual.Scale"/> property
     /// </summary>
     public class ScaleAnimation : Vector3Animation
     {

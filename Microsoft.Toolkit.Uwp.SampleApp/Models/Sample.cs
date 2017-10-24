@@ -96,6 +96,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string XamlCodeFile { get; set; }
 
+        public bool DisableXamlEditorRendering { get; set; }
+
         public string XamlCode { get; private set; }
 
         public string DocumentationUrl { get; set; }

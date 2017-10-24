@@ -20,7 +20,7 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// Animation that animates the <see cref="Visual.Opacity"/> property
+    /// ScalarAnimation that animates the <see cref="Visual.Opacity"/> property
     /// </summary>
     public class OpacityAnimation : ScalarAnimation
     {

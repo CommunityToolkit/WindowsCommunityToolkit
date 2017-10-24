@@ -393,6 +393,7 @@
         "About": "Attached properties to enable Connected animations through XAML",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/ConnectedAnimations",
         "XamlCodeFile": "ConnectedAnimationsCode.bind",
+        "DisableXamlEditorRendering":  true,
         "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/ConnectedAnimations.md"
@@ -615,6 +616,16 @@
         "Icon": "/SamplePages/SurfaceDialTextbox/SurfaceDialTextbox.png",
         "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/SurfaceDialTextboxHelper.md"
+      },
+      {
+        "Name": "Visual Extensions",
+        "Type": "VisualExtensionsPage",
+        "About": "Attached properties to modify object visual properties through XAML",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/Visual",
+        "XamlCodeFile": "VisualExtensionsCode.bind",
+        "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
+        "BadgeUpdateVersionRequired": "Creators Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/VisualEx.md"
       }
     ]
   },

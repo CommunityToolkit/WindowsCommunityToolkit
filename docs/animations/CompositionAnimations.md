@@ -29,37 +29,98 @@ These XAML elements enable developer to specify composition animations directly 
 ## Animations
 
 ### Common Properties
+* **Duration (TimeSpan)**: The duration of the animation. Default is 400ms
+* **Delay (TimeSpan)**: The delay before starting the animation. Default is 0ms
+* **KeyFrames (KeyFrameCollection)**: Key frames for the animation. Each animation will only use the appropriate type KeyFrame (see below for each animation) and ExpressionKeyFrame
+* **Target (string)**: The property to animate
+* **ImplicitTarget (string)**: The property that, if changed, will invoke this animation. This property is only used when specifying Implicit Animations. If this value is not set, it will default to the **Target** property
+* **From (T)**: Setting this value will insert a new key frame at Key 0
+* **To (T)**: Setting this value will insert a new key frame at Key 1
 
 ### ScalarAnimation
 
+Animation that animates a scalar (double) value. 
+
+#### Accepted KeyFrame type
+ScalarKeyFrame and ExpressionKeyFrame
+
 ### Vector2Animation, Vector3Animation, Vector4Animation
 
-### OpacityAnimation
+Animation that animates a value of type Vector2, Vector3, or Vector4
 
-### RotationAnimation
+#### Accepted KeyFrame type
+Vector2(3)(4)KeyFrame and ExpressionKeyFrame
 
-### RotationInDegreesAnimation
+To specify the Vector2, Vector3, or Vector4 value in XAML, the From and To properties are of type string. Use the following format to specify the value:
+* Vector2 - "0" or "0, 0"
+* Vector3 - "0" or "0, 0, 0"
+* Vector4 - "0" or "0, 0, 0, 0"
 
-### ScaleAnimation
+### OpacityAnimation (Scalar)
 
-### TranslationAnimation
+ScalarAnimation where `Target = "Opacity". Animates the Visual.Opacity property
 
-### OffsetAnimations
+### RotationAnimation (Scalar)
+
+ScalarAnimation where `Target = "RotationAngle". Animates the Visual.RotationAngle property
+
+### RotationInDegreesAnimation (Scalar)
+
+ScalarAnimation where `Target = "RotationAngleInDegrees". Animates the Visual.RotationAngleInDegrees property
+
+### ScaleAnimation (Vector3)
+
+Vector3Animation where `Target = "Scale". Animates the Visual.Scale property
+
+### TranslationAnimation (Vector3)
+
+Vector3Animation where `Target = "Translation". Animates the Visual.Translation property
+
+### OffsetAnimations (Vector3)
+
+Vector3Animation where `Target = "Offset". Animates the Visual.Offset property
 
 
 ## KeyFrames
 
 ### Common Properties
 
+* **Key (double)**: A value between 0.0 and 1.0
+* **Value (T)**: The value that should be reached at specified Key
+
 ### ExpressionKeyFrame
+
+A KeyFrame of type string
 
 ### ScalarKeyFrame
 
+A KeyFrame of type double
+
 ### Vector2KeyFrame, Vector3KeyFrame, Vector4KeyFrame
+
+A KeyFrame of type string representing a Vector2, Vector3 or Vector4
+
+To specify the Vector2, Vector3, or Vector4 value, use the following format:
+* Vector2 - "0" or "0, 0"
+* Vector3 - "0" or "0, 0, 0"
+* Vector4 - "0" or "0, 0, 0, 0"
 
 
 ## AnimationCollection
 
+An ObservableCollection of animations. 
+
+The AnimationCollection exposes the properties:
+* **ContainsTranslationAnimation**: True if any of the animations in the collection target the **Visual.Translation** property.
+
+The AnimationCollection exposes the methods:
+
+* **GetCompositionAnimationGroup(UIElement)**: Generates a *CompositionAnimationGroup* that can be used to animate a visual on the Composition layer
+* **GetImplicitAnimationCollection(UIElement)**: Creates a *ImplicitAnimationCollection* that can be used to apply implicit animation on a visual on the Composition layer
+
+
+The AnimationCollection exposes the events:
+* **AnimationCollectionChanged**: Raised when an animation has been added, removed, or a value of an animation has been changed
 
 ## Requirements
 

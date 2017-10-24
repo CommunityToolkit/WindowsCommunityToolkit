@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Gets fired when an animation has been added/removed or modified
+        /// Raised when an animation has been added/removed or modified
         /// </summary>
         public event EventHandler AnimationCollectionChanged;
 

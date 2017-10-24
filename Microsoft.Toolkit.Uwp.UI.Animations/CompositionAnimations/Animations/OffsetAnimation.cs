@@ -20,7 +20,7 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// Animation that animates the <see cref="Visual.Offset"/> property
+    /// Vector3Animation that animates the <see cref="Visual.Offset"/> property
     /// </summary>
     public class OffsetAnimation : Vector3Animation
     {
