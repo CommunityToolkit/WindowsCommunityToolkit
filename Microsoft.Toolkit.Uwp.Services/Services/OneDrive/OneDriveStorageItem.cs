@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         {
             get { return _oneDriveItem; }
         }
-          
+
         /// <summary>
         ///  Initializes a new instance of the <see cref="OneDriveStorageItem"/> class.
         /// </summary>
@@ -423,7 +423,5 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IOneDriveClient)Provider).Drive.Items[oneDriveItem.Id];
             return new OneDriveStorageFile(Provider, requestBuilder, oneDriveItem);
         }
-
-
     }
 }

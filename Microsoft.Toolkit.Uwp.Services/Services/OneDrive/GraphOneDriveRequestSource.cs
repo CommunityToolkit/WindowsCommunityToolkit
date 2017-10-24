@@ -13,8 +13,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 using Microsoft.Graph;
+using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -102,7 +102,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         private object CreateItem(DataItem oneDriveItem)
         {
             IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IGraphServiceClient)_provider).Drive.Items[oneDriveItem.Id];
-
 
             if (oneDriveItem.Folder != null)
             {

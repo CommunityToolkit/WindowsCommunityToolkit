@@ -9,11 +9,10 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-
-using Microsoft.Graph;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Graph;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
@@ -151,6 +150,5 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns> No object or value is returned by this method when it completes.</returns>
         Task DeleteAsync(CancellationToken cancellationToken = default(CancellationToken));
-
     }
 }

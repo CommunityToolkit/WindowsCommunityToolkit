@@ -153,41 +153,31 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="orderBy">Sort the order of items in the response collection</param>
         /// <param name="filter">Filters the response based on a set of criteria.</param>
         /// <returns>Returns the http request</returns>
-        public static IItemChildrenCollectionRequest CreateChildrenRequest(this IBaseRequestBuilder requestBuilder, int top, OrderBy orderBy = OrderBy.None, string filter = null, bool sdkonedrive=true)
+        public static IItemChildrenCollectionRequest CreateChildrenRequest(this IBaseRequestBuilder requestBuilder, int top, OrderBy orderBy = OrderBy.None, string filter = null)
         {
             IItemChildrenCollectionRequest oneDriveitemsRequest = null;
             if (orderBy == OrderBy.None && string.IsNullOrEmpty(filter))
             {
-                if (sdkonedrive)
-                {
                     return ((IItemRequestBuilder)requestBuilder).Children.Request().Top(top);
-                }
-
             }
 
             if (orderBy == OrderBy.None)
             {
-                if (sdkonedrive)
-                {
-                    return ((IItemRequestBuilder)requestBuilder).Children.Request().Top(top).Filter(filter);
-                }
+
+                return ((IItemRequestBuilder)requestBuilder).Children.Request().Top(top).Filter(filter);
             }
 
             string order = OneDriveHelper.TransformOrderByToODataString(orderBy);
 
             if (string.IsNullOrEmpty(filter))
             {
-                if (sdkonedrive)
-                {
                     oneDriveitemsRequest = ((IItemRequestBuilder)requestBuilder).Children.Request().Top(top).OrderBy(order);
-                }
+
             }
             else
             {
-                if (sdkonedrive)
-                {
+
                     oneDriveitemsRequest = ((IItemRequestBuilder)requestBuilder).Children.Request().Top(top).OrderBy(order).Filter(filter);
-                }
             }
 
             return oneDriveitemsRequest;

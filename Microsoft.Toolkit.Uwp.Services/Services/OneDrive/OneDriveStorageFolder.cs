@@ -27,8 +27,6 @@ using Windows.Storage.Streams;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 using OneDriveSdk = Microsoft.OneDrive.Sdk;
 using OneDriveSdkHelper = Microsoft.OneDrive.Sdk.Helpers;
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
-
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -91,7 +89,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>When this method completes successfully, it returns an OneDriveStorageFolder that represents the specified folder.</returns>
         public async new Task<IOneDriveStorageFolder> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
         {
-
             var renameItem = await base.RenameAsync(desiredName, cancellationToken);
             return InitializeOneDriveStorageFolder(((OneDriveStorageItem)renameItem).OneDriveItem);
         }
@@ -163,11 +160,11 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             var requestUri = childrenRequest.RequestUrl;
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri);
-            OneDriveItem item = new OneDriveItem { Name = desiredName, Folder = new Folder() { }, ConflictBehavior = options.ToString(),  };
+            OneDriveItem item = new OneDriveItem { Name = desiredName, Folder = new OneDriveFolder() { }, ConflictBehavior = options.ToString(),  };
 
             var jsonOptions = JsonConvert.SerializeObject(item);
             request.Content = new StringContent(jsonOptions, System.Text.Encoding.UTF8, "application/json");
-            
+
             var createdFolder = await ((IOneDriveClient)Provider).SendAuthenticatedRequestAsync(request, cancellationToken).ConfigureAwait(false);
             var dataItem = new DataItem(createdFolder);
             return InitializeOneDriveStorageFolder(dataItem);
@@ -186,6 +183,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             {
                 return null;
             }
+
             return InitializeOneDriveStorageFile(oneDriveItem);
         }
 
@@ -202,7 +200,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             IItemChildrenCollectionRequest oneDriveItemsRequest = CreateChildrenRequest(top, orderBy, filter);
             return await RequestOneDriveFilesAsync(oneDriveItemsRequest, cancellationToken);
         }
-      
 
         /// <summary>
         /// Gets the folder with the specified name from the current folder.
@@ -213,7 +210,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         public async Task<IOneDriveStorageFolder> GetFolderAsync(string name, CancellationToken cancellationToken = default(CancellationToken))
         {
             var oneDriveItem = await RequestChildrenAsync(name, cancellationToken).ConfigureAwait(false);
-            
             return InitializeOneDriveStorageFolder(oneDriveItem);
         }
 
@@ -230,8 +226,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             IItemChildrenCollectionRequest oneDriveItemsRequest = CreateChildrenRequest(top, orderBy, filter);
             return await RequestOneDriveFoldersAsync(oneDriveItemsRequest, cancellationToken);
         }
-
-
 
         /// <summary>
         /// Gets the item with the specified name from the current folder.
@@ -259,7 +253,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             return await RequestOneDriveItemsAsync(oneDriveItemsRequest, cancellationToken).ConfigureAwait(false);
         }
 
-        //TODO : For MSGRAPH
         /// <summary>
         /// Gets the items from the current folder.
         /// </summary>

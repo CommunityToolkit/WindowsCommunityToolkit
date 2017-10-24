@@ -30,11 +30,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     public class OneDriveService
     {
         /// <summary>
-        /// Field to store if using Microsoft Graph API
-        /// </summary>
-        private static bool _useMicrosoftGraph;
-
-        /// <summary>
         /// Private singleton field.
         /// </summary>
         private static OneDriveService _instance;
@@ -72,12 +67,12 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Store a reference to an instance of the underlying data provider.
         /// </summary>
-        private IOneDriveClient _oneDriveProvider=null;
+        private IOneDriveClient _oneDriveProvider = null;
 
         /// <summary>
         /// Store a reference to an instance of the underlying data provider.
         /// </summary>
-        private IGraphServiceClient _graphProvider=null;
+        private IGraphServiceClient _graphProvider = null;
 
         /// <summary>
         /// Gets public singleton property.
@@ -183,7 +178,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 }
                 else if (_accountProviderType == AccountProviderType.Msal)
                 {
-
                     IUser user = OneDriveAuthenticationHelper.IdentityClient.Users.First();
                     OneDriveAuthenticationHelper.IdentityClient.Remove(user);
                 }
@@ -208,7 +202,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             string resourceEndpointUri = null;
             if (_accountProviderType == AccountProviderType.Msal)
             {
-
                 _accountProvider = OneDriveAuthenticationHelper.CreateMsalAuthenticationProvider(_appClientId, _scopes);
                 await OneDriveAuthenticationHelper.AuthenticateMsalUserAsync(_scopes);
             }
@@ -216,7 +209,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             // Keep this for compatibility reason
             else if (_accountProviderType == AccountProviderType.Adal)
             {
-
                 OneDriveAuthenticationHelper.ResourceUri = "https://graph.microsoft.com/";
                 _accountProvider = OneDriveAuthenticationHelper.CreateAdalAuthenticationProvider(_appClientId);
                 await OneDriveAuthenticationHelper.AuthenticateAdalUserAsync(true);

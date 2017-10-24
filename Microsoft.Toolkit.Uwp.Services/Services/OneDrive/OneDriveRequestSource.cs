@@ -9,13 +9,12 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.OneDrive.Sdk;
-using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
-using Microsoft.Graph;
+  using System.Collections.Generic;
+  using System.Threading;
+  using System.Threading.Tasks;
+  using Microsoft.Graph;
+  using Microsoft.OneDrive.Sdk;
+  using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {

@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
-    ///  RootParentReference class
+    ///  RootParentReference class use for the request
     /// </summary>
     public class OneDriveParentReference
     {

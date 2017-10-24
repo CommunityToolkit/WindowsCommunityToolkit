@@ -9,7 +9,6 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-
 using System;
 using System.IO;
 using System.Net.Http;
@@ -20,7 +19,6 @@ using Microsoft.Graph;
 using Newtonsoft.Json;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -397,7 +395,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>New instance of OneDriveStorageFolder</returns>
         protected IOneDriveStorageFolder InitializeOneDriveStorageFolder(DataItem oneDriveItem)
         {
-
             IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IGraphServiceClient)Provider).Drive.Items[oneDriveItem.Id];
             return new GraphOneDriveStorageFolder(Provider, requestBuilder, oneDriveItem);
         }
@@ -423,7 +420,5 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IGraphServiceClient)Provider).Drive.Items[oneDriveItem.Id];
             return new GraphOneDriveStorageFile(Provider, requestBuilder, oneDriveItem);
         }
-
-
     }
 }

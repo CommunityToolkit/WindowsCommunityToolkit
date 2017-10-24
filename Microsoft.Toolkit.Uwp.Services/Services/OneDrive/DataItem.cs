@@ -11,8 +11,8 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Graph;
 using System.Runtime.Serialization;
+using Microsoft.Graph;
 using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         ///  Initializes a new instance of the <see cref="DataItem"/> class.
         /// </summary>
         /// <param name="item"> OneDrive Item</param>
-        public DataItem (Microsoft.OneDrive.Sdk.Item item)
+        public DataItem(Microsoft.OneDrive.Sdk.Item item)
         {
             CreatedBy = new Createdby();
             if (item.CreatedBy != null)
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             ParentReference.Id = item.ParentReference.Id;
             ParentReference.Path = item.ParentReference.Path;
             CTag = item.CTag;
-            if (item.Folder != null )
+            if (item.Folder != null)
             {
                 Folder = new Folder();
                 Folder.ChildCount = item.Folder.ChildCount;
@@ -118,27 +118,27 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         public DateTimeOffset? LastModifiedDateTime { get; set; }
 
         /// <summary>
-        /// Gets or Sets
+        /// Gets or Sets the item id
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or Sets
+        /// Gets or Sets the item name
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets
+        /// Gets or Sets the size of the item
         /// </summary>
         public long? Size { get; set; }
 
         /// <summary>
-        /// Gets or Sets
+        /// Gets or Sets the web url
         /// </summary>
         public string WebUrl { get; set; }
 
         /// <summary>
-        /// Gets or Sets
+        /// Gets or Sets a reference the OneDrive item's parent
         /// </summary>
         public ParentReference ParentReference { get; set; }
 
@@ -165,7 +165,8 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Gets or Sets
         /// </summary>
-        public string eTag { get; set; }
+        [JsonProperty("eTag")]
+        public string ETag { get; set; }
 
         /// <summary>
         /// Gets or Sets
@@ -249,6 +250,9 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             ChildCount = 0;
         }
 
+        /// <summary>
+        /// Gets or Sets the number of Folder's children
+        /// </summary>
         [JsonProperty("childCount")]
         public int? ChildCount { get; set; }
     }

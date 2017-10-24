@@ -165,7 +165,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>return next expected ranges, 0 if no more data</returns>
         Task<long> GetUploadStatusAsync();
 
-
         /// <summary>
         /// Creates a new large file in the current folder.
         /// Use this method when your file is larger than
@@ -176,7 +175,5 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="maxChunkSize">Max chunk size must be a multiple of 320 KiB (ie: 320*1024)</param>
         /// <returns>When this method completes, it returns a MicrosoftGraphOneDriveFile that represents the new file.</returns>
         Task<IOneDriveStorageFile> UploadFileAsync(string desiredName, IRandomAccessStream content, CreationCollisionOption options = CreationCollisionOption.FailIfExists, int maxChunkSize = -1);
-        
-
     }
 }

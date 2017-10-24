@@ -10,26 +10,23 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Graph;
-using Newtonsoft.Json;
-using Windows.Storage;
-using Windows.Storage.Streams;
-using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
-
-
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
-
-
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Microsoft.Graph;
+    using Microsoft.Toolkit.Uwp.Services.OneDrive;
+    using Newtonsoft.Json;
+    using Windows.Storage;
+    using Windows.Storage.Streams;
+    using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
+
     /// <summary>
     /// OneDriveStorageFolder Type
     /// </summary>
@@ -161,7 +158,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             var requestUri = childrenRequest.RequestUrl;
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri);
-            OneDriveItem item = new OneDriveItem { Name = desiredName, Folder = new Folder { }, ConflictBehavior = options.ToString() };
+            OneDriveItem item = new OneDriveItem { Name = desiredName, Folder = new OneDriveFolder { }, ConflictBehavior = options.ToString() };
             var jsonOptions = item.SerializeToJson();
             request.Content = new StringContent(jsonOptions, System.Text.Encoding.UTF8, "application/json");
 
@@ -183,6 +180,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             {
                 return null;
             }
+
             return InitializeOneDriveStorageFile(oneDriveItem);
         }
 
@@ -199,7 +197,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             IDriveItemChildrenCollectionRequest oneDriveItemsRequest = CreateChildrenRequest(top, orderBy, filter);
             return await RequestOneDriveFilesAsync(oneDriveItemsRequest, cancellationToken);
         }
-
 
         /// <summary>
         /// Gets the folder with the specified name from the current folder.
@@ -227,8 +224,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             return await RequestOneDriveFoldersAsync(oneDriveItemsRequest, cancellationToken);
         }
 
-
-
         /// <summary>
         /// Gets the item with the specified name from the current folder.
         /// </summary>
@@ -255,7 +250,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             return await RequestOneDriveItemsAsync(oneDriveItemsRequest, cancellationToken).ConfigureAwait(false);
         }
 
-        //TODO : For MSGRAPH
         /// <summary>
         /// Gets the items from the current folder.
         /// </summary>

@@ -10,19 +10,26 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using System.Runtime.Serialization;
+using Microsoft.Graph;
 using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
-    /// Parent class use for the request
+    /// Class File
     /// </summary>
-    public class OneDriveParent
+    public class OneDriveFile
     {
+        public OneDriveFile()
+        {
+            Hashes = new Hashes();
+        }
+
         /// <summary>
-        /// Gets or sets parent path
+        /// Gets or Sets
         /// </summary>
-        [JsonProperty("path")]
-        public string Path { get; set; }
+        public Hashes Hashes { get; set; }
     }
 }

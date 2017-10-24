@@ -27,16 +27,18 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     {
         private List<IOneDriveStorageItem> _items;
         private int position = -1;
-        private bool UseOneDriveSdk = true;
+        private bool _useOneDriveSdk = true;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OneDriveStorageItemsEnumerator"/> class.
         /// <para>Permissions : Have full access to user files and files shared with user</para>
         /// </summary>
         /// <param name="items">Items's list to store in the collection</param>
-        public OneDriveStorageItemsEnumerator(List<IOneDriveStorageItem> items, bool useOneDriveSdk= true)
+        /// <param name="useOneDriveSdk">flag which indicate if we use the OneDrive SDK or the MS Graph SDK</param>
+        public OneDriveStorageItemsEnumerator(List<IOneDriveStorageItem> items, bool useOneDriveSdk = true)
         {
             _items = items;
+            _useOneDriveSdk = useOneDriveSdk;
         }
 
         /// <summary>
@@ -73,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                     var currentItem = _items[position];
                     if (currentItem.IsFile() || currentItem.IsOneNote())
                     {
-                        if (UseOneDriveSdk == true)
+                        if (_useOneDriveSdk == true)
                         {
                             return new OneDriveStorageFile(currentItem.Provider, currentItem.RequestBuilder, currentItem.OneDriveItem);
                         }
@@ -81,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                         return new GraphOneDriveStorageFile(currentItem.Provider, currentItem.RequestBuilder, currentItem.OneDriveItem);
                     }
 
-                        if (UseOneDriveSdk == true)
+                        if (_useOneDriveSdk == true)
                         {
                             return new OneDriveStorageFolder(currentItem.Provider, currentItem.RequestBuilder, currentItem.OneDriveItem);
                         }

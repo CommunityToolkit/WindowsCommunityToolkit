@@ -53,16 +53,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Storage key name for access token.
-        /// </summary>
-        private static readonly string STORAGEKEYACCESSTOKEN = "AccessToken";
-
-        /// <summary>
-        /// Storage key name for token expiration.
-        /// </summary>
-        private static readonly string STORAGEKEYEXPIRATION = "Expiration";
-
-        /// <summary>
         /// Storage key name for user name.
         /// </summary>
         private static readonly string STORAGEKEYUSER = "user";
@@ -71,11 +61,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// Password vault used to store access tokens
         /// </summary>
         private readonly PasswordVault _vault;
-
-        /// <summary>
-        /// Store the current connected user
-        /// </summary>
-        //public Identity.Client.User _user;
 
         /// <summary>
         /// Store the Oauth2 access token.
@@ -87,8 +72,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// </summary>
         /// <remarks>By default the life time of the first access token is 3600 (1h)</remarks>
         private DateTimeOffset _expiration;
-
-        private PasswordCredential _passwordCredential;
 
         /// <summary>
         /// Azure Active Directory Authentication context use to get an access token
@@ -147,33 +130,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                     return response.IsSuccessStatusCode;
                 }
             }
-           else if (authenticationModel.Equals("V2"))
-            {
-                //if (_user != null)
-                //{
-                //    _user.SignOut();
-                //}
-            }
 
             ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] = null;
-            if (_passwordCredential != null)
-            {
-                _vault.Remove(_passwordCredential);
-            }
-
             return true;
         }
-
-        //private string StoreCredential(Identity.Client.AuthenticationResult authResult)
-        //{
-        //    _user = authResult.User;
-        //    _expiration = authResult.ExpiresOn;
-        //    ApplicationData.Current.LocalSettings.Values[STORAGEKEYEXPIRATION] = authResult.ExpiresOn;
-        //    ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] = authResult.User.DisplayableId;
-        //    _passwordCredential = new PasswordCredential(STORAGEKEYACCESSTOKEN, authResult.User.DisplayableId, authResult.Token);
-        //    _vault.Add(_passwordCredential);
-        //    return authResult.Token;
-        //}
 
         /// <summary>
         /// Get a Microsoft Graph access token using the v2.0 Endpoint.

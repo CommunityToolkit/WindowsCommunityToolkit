@@ -10,10 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Toolkit.Uwp.Services.OneDrive;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -31,6 +31,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <para>Permissions : Have full access to user files and files shared with user</para>
         /// </summary>
         /// <param name="items">Items's list to store in the collection</param>
+        /// <param name="useOneDriveSdk">flag which indicate if we use the OneDrive SDK or the MS Graph SDK</param>
         public OneDriveStorageItemsCollection(List<IOneDriveStorageItem> items, bool useOneDriveSdk = true)
         {
             _items = items;

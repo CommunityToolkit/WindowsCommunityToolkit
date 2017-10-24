@@ -9,19 +9,17 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Uwp.Services.OneDrive;
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
-using Windows.Storage;
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
 
 #pragma warning disable SA1118
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -80,8 +78,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 OneDriveItemsList.ItemsSource = _rootFolder.GetItemsAsync();
 
+               // var a= await  _rootFolder.GetItemsAsync(0,100);
+
                 succeeded = true;
-            }            
+            }
             catch (ServiceException serviceEx)
             {
                 await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(serviceEx);

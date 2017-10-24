@@ -195,7 +195,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>An oauth2 access token.</returns>
         internal static async Task<string> AuthenticateAdalUserAsync(bool refreshToken = false)
         {
-
             if (_userInfoSettings == null)
             {
                 _userInfoSettings = SaveUserInfo(await _azureAdContext.AcquireTokenAsync(_resourceUri, _appClientId, new Uri(DefaultRedirectUri), new ADAL.PlatformParameters(ADAL.PromptBehavior.RefreshSession, false)));
