@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.Services.OneDrive;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,25 +23,28 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// <summary>
     ///  Class OneDriveStorageItemsEnumerator
     /// </summary>
-    public class OneDriveStorageItemsEnumerator : IEnumerator<OneDriveStorageItem>
+    public class OneDriveStorageItemsEnumerator : IEnumerator<IOneDriveStorageItem>
     {
-        private List<OneDriveStorageItem> _items;
+        private List<IOneDriveStorageItem> _items;
         private int position = -1;
+        private bool _useOneDriveSdk = true;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OneDriveStorageItemsEnumerator"/> class.
         /// <para>Permissions : Have full access to user files and files shared with user</para>
         /// </summary>
         /// <param name="items">Items's list to store in the collection</param>
-        public OneDriveStorageItemsEnumerator(List<OneDriveStorageItem> items)
+        /// <param name="useOneDriveSdk">flag which indicate if we use the OneDrive SDK or the MS Graph SDK</param>
+        public OneDriveStorageItemsEnumerator(List<IOneDriveStorageItem> items, bool useOneDriveSdk = true)
         {
             _items = items;
+            _useOneDriveSdk = useOneDriveSdk;
         }
 
         /// <summary>
         /// Gets the current OneDrive Item
         /// </summary>
-        public OneDriveStorageItem Current
+        public IOneDriveStorageItem Current
         {
             get
             {
@@ -62,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Gets the current OneDrive Item
         /// </summary>
-        public OneDriveStorageItem CurrentItem
+        public IOneDriveStorageItem CurrentItem
         {
             get
             {
@@ -71,10 +75,20 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                     var currentItem = _items[position];
                     if (currentItem.IsFile() || currentItem.IsOneNote())
                     {
-                        return new OneDriveStorageFile(currentItem.Provider, currentItem.RequestBuilder, currentItem.OneDriveItem);
+                        if (_useOneDriveSdk == true)
+                        {
+                            return new OneDriveStorageFile(currentItem.Provider, currentItem.RequestBuilder, currentItem.OneDriveItem);
+                        }
+
+                        return new GraphOneDriveStorageFile(currentItem.Provider, currentItem.RequestBuilder, currentItem.OneDriveItem);
                     }
 
-                        return new OneDriveStorageFolder(currentItem.Provider, currentItem.RequestBuilder, currentItem.OneDriveItem);
+                        if (_useOneDriveSdk == true)
+                        {
+                            return new OneDriveStorageFolder(currentItem.Provider, currentItem.RequestBuilder, currentItem.OneDriveItem);
+                        }
+
+                        return new GraphOneDriveStorageFolder(currentItem.Provider, currentItem.RequestBuilder, currentItem.OneDriveItem);
                 }
                 catch (IndexOutOfRangeException)
                 {

@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
-    /// The type OneDriveItem.
+    /// The type OneDriveItem use for the request
     /// </summary>
     [DataContract]
     [JsonConverter(typeof(DerivedTypeConverter))]
@@ -40,13 +40,13 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// Gets or sets folder.
         /// </summary>
         [DataMember(Name = "folder", EmitDefaultValue = false, IsRequired = false)]
-        public Microsoft.OneDrive.Sdk.Folder Folder { get; set; }
+        public OneDriveFolder Folder { get; set; }
 
         /// <summary>
         /// Gets or sets file.
         /// </summary>
         [DataMember(Name = "file", EmitDefaultValue = false, IsRequired = false)]
-        public Microsoft.OneDrive.Sdk.File File { get; set; }
+        public OneDriveFile File { get; set; }
 
         private string _conflictBehavior;
 

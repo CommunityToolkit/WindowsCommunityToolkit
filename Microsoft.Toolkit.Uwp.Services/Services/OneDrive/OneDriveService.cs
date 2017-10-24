@@ -20,6 +20,7 @@ using Microsoft.OneDrive.Sdk.Authentication;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
+using Microsoft.Identity.Client;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -34,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         private static OneDriveService _instance;
 
         /// <summary>
-        /// Field to store Azure AD Application clientid
+        /// Field to store Azure AD Application clientId
         /// </summary>
         private string _appClientId;
 
@@ -66,12 +67,33 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Store a reference to an instance of the underlying data provider.
         /// </summary>
-        private IOneDriveClient _oneDriveProvider;
+        private IOneDriveClient _oneDriveProvider = null;
+
+        /// <summary>
+        /// Store a reference to an instance of the underlying data provider.
+        /// </summary>
+        private IGraphServiceClient _graphProvider = null;
 
         /// <summary>
         /// Gets public singleton property.
         /// </summary>
         public static OneDriveService Instance => _instance ?? (_instance = new OneDriveService());
+
+        /// <summary>
+        /// Gets a reference to an instance of the underlying graph provider.
+        /// </summary>
+        public IGraphServiceClient GraphProvider
+        {
+            get
+            {
+                if (_graphProvider == null)
+                {
+                    throw new InvalidOperationException("Provider not initialized.");
+                }
+
+                return _graphProvider;
+            }
+        }
 
         /// <summary>
         /// Gets a reference to an instance of the underlying data provider.
@@ -119,9 +141,13 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             _appClientId = appClientId;
 
-            if (accountProviderType != AccountProviderType.Adal)
+            if (accountProviderType == AccountProviderType.Msa)
             {
                 _scopes = OneDriveHelper.TransformScopes(scopes);
+            }
+            else if (accountProviderType == AccountProviderType.Msal)
+            {
+                _scopes = new string[] { "https://graph.microsoft.com/Files.ReadWrite" };
             }
 
             _isInitialized = true;
@@ -149,9 +175,14 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 else if (_accountProviderType == AccountProviderType.Adal)
                 {
                     OneDriveAuthenticationHelper.AzureAdContext.TokenCache.Clear();
-                    DiscoverySettings.Clear();
-                    UserInfoSettings.Clear();
                 }
+                else if (_accountProviderType == AccountProviderType.Msal)
+                {
+                    IUser user = OneDriveAuthenticationHelper.IdentityClient.Users.First();
+                    OneDriveAuthenticationHelper.IdentityClient.Remove(user);
+                }
+
+                OneDriveAuthenticationHelper.ClearUserInfo();
             }
         }
 
@@ -169,25 +200,18 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             string resourceEndpointUri = null;
-
-            if (_accountProviderType == AccountProviderType.Adal)
+            if (_accountProviderType == AccountProviderType.Msal)
             {
-                DiscoveryService discoveryService = null;
-                DiscoverySettings discoverySettings = DiscoverySettings.Load();
+                _accountProvider = OneDriveAuthenticationHelper.CreateMsalAuthenticationProvider(_appClientId, _scopes);
+                await OneDriveAuthenticationHelper.AuthenticateMsalUserAsync(_scopes);
+            }
 
-                if (discoverySettings == null)
-                {
-                    // For OneDrive for business only
-                    var authDiscoveryResult = await OneDriveAuthenticationHelper.AuthenticateAdalUserForDiscoveryAsync(_appClientId);
-                    discoveryService = await OneDriveAuthenticationHelper.GetUserServiceResource(authDiscoveryResult);
-                    discoverySettings = new DiscoverySettings { ServiceEndpointUri = discoveryService.ServiceEndpointUri, ServiceResourceId = discoveryService.ServiceResourceId };
-                    discoverySettings.Save();
-                }
-
-                OneDriveAuthenticationHelper.ResourceUri = discoverySettings.ServiceResourceId;
+            // Keep this for compatibility reason
+            else if (_accountProviderType == AccountProviderType.Adal)
+            {
+                OneDriveAuthenticationHelper.ResourceUri = "https://graph.microsoft.com/";
                 _accountProvider = OneDriveAuthenticationHelper.CreateAdalAuthenticationProvider(_appClientId);
                 await OneDriveAuthenticationHelper.AuthenticateAdalUserAsync(true);
-                resourceEndpointUri = discoverySettings.ServiceEndpointUri;
             }
             else if (_accountProviderType == AccountProviderType.Msa)
             {
@@ -205,7 +229,14 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 resourceEndpointUri = OneDriveAuthenticationHelper.ResourceUri;
             }
 
-            _oneDriveProvider = new OneDriveClient(resourceEndpointUri, _accountProvider);
+            if (_accountProviderType == AccountProviderType.Msal || _accountProviderType == AccountProviderType.Adal)
+            {
+                _graphProvider = new GraphServiceClient("https://graph.microsoft.com/v1.0/me", _accountProvider);
+            }
+            else
+            {
+                _oneDriveProvider = new OneDriveClient(resourceEndpointUri, _accountProvider);
+            }
 
             _isConnected = true;
             return _isConnected;
@@ -215,7 +246,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// Gets the OneDrive root folder
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
-        public async Task<OneDriveStorageFolder> RootFolderAsync()
+        public async Task<IOneDriveStorageFolder> RootFolderAsync()
         {
             // log the user silently with a Microsoft Account associate to Windows
             if (_isConnected == false)
@@ -227,15 +258,24 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 }
             }
 
+            DataItem dataItem = null;
+            if (_graphProvider != null)
+            {
+                var graphRootItem = await _graphProvider.Drive.Root.Request().GetAsync();
+                 dataItem = new DataItem(graphRootItem);
+                return new GraphOneDriveStorageFolder(_graphProvider, (IBaseRequestBuilder)_graphProvider.Drive.Root, dataItem);
+            }
+
             var oneDriveRootItem = await _oneDriveProvider.Drive.Root.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Root, oneDriveRootItem);
+            dataItem = new DataItem(oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Root, dataItem);
         }
 
         /// <summary>
         /// Gets the OneDrive app root folder
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
-        public async Task<OneDriveStorageFolder> AppRootFolderAsync()
+        public async Task<IOneDriveStorageFolder> AppRootFolderAsync()
         {
             // log the user silently with a Microsoft Account associate to Windows
             if (_isConnected == false)
@@ -247,15 +287,24 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 }
             }
 
+            DataItem dataItem = null;
+            if (_graphProvider != null)
+            {
+                var graphRootItem = await _graphProvider.Drive.Special.AppRoot.Request().GetAsync();
+                dataItem = new DataItem(graphRootItem);
+                return new GraphOneDriveStorageFolder(_graphProvider, (IBaseRequestBuilder)_graphProvider.Drive.Special.AppRoot, dataItem);
+            }
+
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.AppRoot.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.AppRoot, oneDriveRootItem);
+            dataItem = new DataItem(oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.AppRoot, dataItem);
         }
 
         /// <summary>
         /// Gets the OneDrive camera roll folder
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
-        public async Task<OneDriveStorageFolder> CameraRollFolderAsync()
+        public async Task<IOneDriveStorageFolder> CameraRollFolderAsync()
         {
             // log the user silently with a Microsoft Account associate to Windows
             if (_isConnected == false)
@@ -267,15 +316,22 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 }
             }
 
+            DataItem dataItem = null;
+            if (_graphProvider != null)
+            {
+                throw new NotImplementedException();
+            }
+
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.CameraRoll.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.CameraRoll, oneDriveRootItem);
+            dataItem = new DataItem(oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.CameraRoll, dataItem);
         }
 
         /// <summary>
         /// Gets the OneDrive documents folder
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
-        public async Task<OneDriveStorageFolder> DocumentsFolderAsync()
+        public async Task<IOneDriveStorageFolder> DocumentsFolderAsync()
         {
             // log the user silently with a Microsoft Account associate to Windows
             if (_isConnected == false)
@@ -287,15 +343,22 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 }
             }
 
+            DataItem dataItem = null;
+            if (_graphProvider != null)
+            {
+                throw new NotImplementedException();
+            }
+
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.Documents.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.Documents, oneDriveRootItem);
+            dataItem = new DataItem(oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.Documents, dataItem);
         }
 
         /// <summary>
         /// Gets the OneDrive music folder
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
-        public async Task<OneDriveStorageFolder> MusicFolderAsync()
+        public async Task<IOneDriveStorageFolder> MusicFolderAsync()
         {
             // log the user silently with a Microsoft Account associate to Windows
             if (_isConnected == false)
@@ -307,15 +370,22 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 }
             }
 
+            DataItem dataItem = null;
+            if (_graphProvider != null)
+            {
+                throw new NotImplementedException();
+            }
+
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.Music.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.Music, oneDriveRootItem);
+            dataItem = new DataItem(oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.Music, dataItem);
         }
 
         /// <summary>
         /// Gets the OneDrive photos folder
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
-        public async Task<OneDriveStorageFolder> PhotosFolderAsync()
+        public async Task<IOneDriveStorageFolder> PhotosFolderAsync()
         {
             // log the user silently with a Microsoft Account associate to Windows
             if (_isConnected == false)
@@ -327,8 +397,15 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 }
             }
 
+            DataItem dataItem = null;
+            if (_graphProvider != null)
+            {
+                throw new NotImplementedException();
+            }
+
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.Photos.Request().GetAsync();
-            return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.Photos, oneDriveRootItem);
+            dataItem = new DataItem(oneDriveRootItem);
+            return new OneDriveStorageFolder(_oneDriveProvider, (IBaseRequestBuilder)_oneDriveProvider.Drive.Special.Photos, dataItem);
         }
 
         /// <summary>

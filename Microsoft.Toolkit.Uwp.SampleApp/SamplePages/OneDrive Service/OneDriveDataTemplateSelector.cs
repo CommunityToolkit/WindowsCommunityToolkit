@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
-            var oneDriveItem = item as OneDriveStorageItem;
+            var oneDriveItem = item as IOneDriveStorageItem;
             if (oneDriveItem != null)
             {
                 if (oneDriveItem.IsFile())

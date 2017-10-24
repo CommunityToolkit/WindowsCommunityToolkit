@@ -43,12 +43,25 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         ///  Initializes a new instance of the <see cref="OneDriveThumbnailSet"/> class.
         /// </summary>
         /// <param name="set">Original set from OneDrive SDK</param>
-        internal OneDriveThumbnailSet(ThumbnailSet set)
+        internal OneDriveThumbnailSet(Microsoft.OneDrive.Sdk.ThumbnailSet set)
         {
             Small = set.Small.Url;
             Medium = set.Medium.Url;
             Large = set.Large.Url;
             Source = set.Source?.Url;
         }
+
+        /// <summary>
+        ///  Initializes a new instance of the <see cref="OneDriveThumbnailSet"/> class.
+        /// </summary>
+        /// <param name="set">Original set from OneDrive SDK</param>
+        internal OneDriveThumbnailSet(Microsoft.Graph.ThumbnailSet set)
+        {
+            Small = set.Small.Url;
+            Medium = set.Medium.Url;
+            Large = set.Large.Url;
+            Source = set.Source?.Url;
+        }
+
     }
 }

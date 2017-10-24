@@ -9,23 +9,24 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Graph;
-using Microsoft.OneDrive.Sdk;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Microsoft.Graph;
+using Microsoft.Toolkit.Uwp.Services.OneDrive;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
     ///  Class representing a OneDrive file
     /// </summary>
-    public class OneDriveStorageFile : OneDriveStorageItem, IOneDriveStorageFile
+    public class GraphOneDriveStorageFile : GraphOneDriveStorageItem, IOneDriveStorageFile
     {
         private string _fileType;
 
@@ -60,13 +61,13 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OneDriveStorageFile"/> class.
+        /// Initializes a new instance of the <see cref="GraphOneDriveStorageFile"/> class.
         /// <para>Permissions : Have full access to user files and files shared with user</para>
         /// </summary>
         /// <param name="oneDriveProvider">Instance of OneDriveClient class</param>
         /// <param name="requestBuilder">Http request builder.</param>
         /// <param name="oneDriveItem">OneDrive's item</param>
-        public OneDriveStorageFile(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, DataItem oneDriveItem)
+        public GraphOneDriveStorageFile(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, DataItem oneDriveItem)
           : base(oneDriveProvider, requestBuilder, oneDriveItem)
         {
             ParseFileType(oneDriveItem.Name);
@@ -101,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             return await Task.Run(
                 async () =>
                 {
-                    var requestMessage = ((IOneDriveClient)Provider).Drive.Items[OneDriveItem.Id].Content.Request().GetHttpRequestMessage();
+                    var requestMessage = ((IGraphServiceClient)Provider).Drive.Items[OneDriveItem.Id].Content.Request().GetHttpRequestMessage();
                     await Provider.AuthenticationProvider.AuthenticateRequestAsync(requestMessage).AsAsyncAction().AsTask(cancellationToken);
                     var downloader = completionGroup == null ? new BackgroundDownloader() : new BackgroundDownloader(completionGroup);
                     foreach (var item in requestMessage.Headers)
@@ -124,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             try
             {
                 System.IO.Stream content = null;
-                content = await ((IItemRequestBuilder)RequestBuilder).Content.Request().GetAsync(cancellationToken).ConfigureAwait(false);
+                content = await ((IDriveItemRequestBuilder)RequestBuilder).Content.Request().GetAsync(cancellationToken).ConfigureAwait(false);
                 if (content != null)
                 {
                     contentStream = content.AsRandomAccessStream();

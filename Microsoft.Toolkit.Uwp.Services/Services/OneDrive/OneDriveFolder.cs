@@ -10,19 +10,30 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using System.Runtime.Serialization;
+using Microsoft.Graph;
 using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
-    /// Parent class use for the request
+    /// Class OneDriveFolder
     /// </summary>
-    public class OneDriveParent
+    public class OneDriveFolder
     {
         /// <summary>
-        /// Gets or sets parent path
+        /// Initializes a new instance of the <see cref="OneDriveFolder"/> class.
         /// </summary>
-        [JsonProperty("path")]
-        public string Path { get; set; }
+        public OneDriveFolder()
+        {
+            ChildCount = 0;
+        }
+
+        /// <summary>
+        /// Gets or Sets the number of Folder's children
+        /// </summary>
+        [JsonProperty("childCount")]
+        public int? ChildCount { get; set; }
     }
 }

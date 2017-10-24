@@ -16,9 +16,10 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.OneDrive.Sdk.Authentication;
 using Newtonsoft.Json;
+using ADAL = Microsoft.IdentityModel.Clients.ActiveDirectory;
+using MSAL = Microsoft.Identity.Client;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -35,14 +36,24 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Azure Active Directory Authentication context use to get an access token
         /// </summary>
-        private static AuthenticationContext _azureAdContext = new AuthenticationContext(Authority);
+        private static ADAL.AuthenticationContext _azureAdContext = new ADAL.AuthenticationContext(Authority);
 
         /// <summary>
         /// Gets Azure Active Directory Context
         /// </summary>
-        public static AuthenticationContext AzureAdContext
+        public static ADAL.AuthenticationContext AzureAdContext
         {
             get { return _azureAdContext; }
+        }
+
+        private static MSAL.PublicClientApplication _identityClient = null;
+
+        /// <summary>
+        /// Gets MSAL identity client
+        /// </summary>
+        public static MSAL.PublicClientApplication IdentityClient
+        {
+            get { return _identityClient; }
         }
 
         /// <summary>
@@ -111,6 +122,27 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         }
 
         /// <summary>
+        /// Create an ADAL Authentication provider
+        /// </summary>
+        /// <param name="appClientId">client application id</param>
+        /// <param name="scopes">Scopes represent various permission levels that an app can request from a user</param>
+        /// <returns>an authentication provider for Azure Active Directory</returns>
+        internal static IAuthenticationProvider CreateMsalAuthenticationProvider(string appClientId, string[] scopes)
+        {
+            _appClientId = appClientId;
+            _accountProvider = new DelegateAuthenticationProvider(
+                    async (requestMessage) =>
+                    {
+                        requestMessage.Headers.Authorization =
+                                           new AuthenticationHeaderValue(
+                                                    "bearer",
+                                                    await OneDriveAuthenticationHelper.AuthenticateMsalUserAsync(scopes).ConfigureAwait(false));
+                        return;
+                    });
+            return _accountProvider;
+        }
+
+        /// <summary>
         /// Gets an access token in order to discover the onedrive for business endpoint of the authenticated user.
         /// </summary>
         /// <param name="appClientId">client application id</param>
@@ -119,7 +151,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         {
             var discoveryResourceUri = "https://api.office.com/discovery/";
             _appClientId = appClientId;
-            IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(discoveryResourceUri, appClientId, new Uri(DefaultRedirectUri), new IdentityModel.Clients.ActiveDirectory.PlatformParameters(PromptBehavior.Auto, true));
+            IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(discoveryResourceUri, appClientId, new Uri(DefaultRedirectUri), new ADAL.PlatformParameters(ADAL.PromptBehavior.Auto, true));
             _userInfoSettings = SaveUserInfo(userAuthnResult);
             return userAuthnResult;
         }
@@ -157,28 +189,78 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         }
 
         /// <summary>
-        /// Get a Microsoft Graph access token from Azure AD.
+        /// Get a Microsoft Graph access token from Azure AD V1.
         /// </summary>
         /// <param name="refreshToken">Flag indicating if the token has to be redeem</param>
         /// <returns>An oauth2 access token.</returns>
         internal static async Task<string> AuthenticateAdalUserAsync(bool refreshToken = false)
         {
-            if (_userInfoSettings == null && refreshToken == false)
+            if (_userInfoSettings == null)
             {
-                _userInfoSettings = SaveUserInfo(await _azureAdContext.AcquireTokenAsync(_resourceUri, _appClientId, new Uri(DefaultRedirectUri), new IdentityModel.Clients.ActiveDirectory.PlatformParameters(PromptBehavior.RefreshSession, false)));
+                _userInfoSettings = SaveUserInfo(await _azureAdContext.AcquireTokenAsync(_resourceUri, _appClientId, new Uri(DefaultRedirectUri), new ADAL.PlatformParameters(ADAL.PromptBehavior.RefreshSession, false)));
             }
 
-            if (_userInfoSettings.Expiration <= DateTimeOffset.UtcNow.AddMinutes(5) || refreshToken == true)
+            try
             {
                 _userInfoSettings = SaveUserInfo(await _azureAdContext.AcquireTokenSilentAsync(_resourceUri, _appClientId));
+            }
+            catch (ADAL.AdalServiceException)
+            {
+                _userInfoSettings = SaveUserInfo(await _azureAdContext.AcquireTokenAsync(_resourceUri, _appClientId, new Uri(DefaultRedirectUri), new ADAL.PlatformParameters(ADAL.PromptBehavior.RefreshSession, false)));
             }
 
             return _userInfoSettings.AccessToken;
         }
 
-        private static UserInfoSettings SaveUserInfo(AuthenticationResult authResult)
+        /// <summary>
+        /// Get a Microsoft Graph access token from Azure AD V2.
+        /// </summary>
+        /// <param name="scopes">Scopes represent various permission levels that an app can request from a user</param>
+        /// /// <param name="refreshToken">Flag indicating if the token has to be redeem</param>
+        /// <returns>An oauth2 access token.</returns>
+        internal static async Task<string> AuthenticateMsalUserAsync(string[] scopes, bool refreshToken = false)
+        {
+            if (_identityClient == null)
+            {
+                _identityClient = new MSAL.PublicClientApplication(_appClientId);
+            }
+
+            if (_userInfoSettings == null)
+            {
+                _userInfoSettings = SaveUserInfo(await _identityClient.AcquireTokenAsync(scopes));
+            }
+
+            try
+            {
+                _userInfoSettings = SaveUserInfo(await _identityClient.AcquireTokenSilentAsync(scopes, _identityClient.Users.First()));
+            }
+            catch (MSAL.MsalClientException)
+            {
+                _userInfoSettings = SaveUserInfo(await _identityClient.AcquireTokenAsync(scopes));
+            }
+
+            return _userInfoSettings.AccessToken;
+        }
+
+        internal static void ClearUserInfo()
+        {
+            if (_userInfoSettings != null)
+            {
+                UserInfoSettings.Clear();
+                _userInfoSettings = null;
+            }
+        }
+
+        private static UserInfoSettings SaveUserInfo(ADAL.AuthenticationResult authResult)
         {
             var userInfo = new UserInfoSettings { Expiration = authResult.ExpiresOn, UserPrincipalName = authResult.UserInfo.DisplayableId, AccessToken = authResult.AccessToken };
+            userInfo.Save();
+            return userInfo;
+        }
+
+        private static UserInfoSettings SaveUserInfo(MSAL.AuthenticationResult authResult)
+        {
+            var userInfo = new UserInfoSettings { Expiration = authResult.ExpiresOn, UserPrincipalName = authResult.User.DisplayableId, AccessToken = authResult.AccessToken };
             userInfo.Save();
             return userInfo;
         }
