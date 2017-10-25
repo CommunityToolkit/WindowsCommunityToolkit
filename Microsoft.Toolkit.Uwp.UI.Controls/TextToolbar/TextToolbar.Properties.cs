@@ -113,6 +113,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public VirtualKey LastKeyPress { get; private set; }
 
+        /// <summary>
+        /// Enables use of URI Checker for Link Creator.
+        /// </summary>
+        public bool UseURIChecker { get; set; } = true;
+
         internal static bool InDesignMode
         {
             get { return Windows.ApplicationModel.DesignMode.DesignModeEnabled; }

@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for OkLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OkLabelProperty =
-            DependencyProperty.Register(nameof(OkLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Ok"));
+            DependencyProperty.Register(nameof(OkLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("OK"));
 
         // Using a DependencyProperty as the backing store for CancelLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CancelLabelProperty =
@@ -78,6 +78,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Using a DependencyProperty as the backing store for HeaderLabel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HeaderLabelProperty =
             DependencyProperty.Register(nameof(HeaderLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Header"));
+
+        // Using a DependencyProperty as the backing store for LinkInvalidLabel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LinkInvalidLabelProperty =
+            DependencyProperty.Register(nameof(LinkInvalidLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Link Format is Invaild"));
+
+        // Using a DependencyProperty as the backing store for WarningLabel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty WarningLabelProperty =
+            DependencyProperty.Register(nameof(WarningLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Warning"));
 
         public string BoldLabel
         {
@@ -167,6 +175,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (string)GetValue(HeaderLabelProperty); }
             set { SetValue(HeaderLabelProperty, value); }
+        }
+
+        public string LinkInvalidLabel
+        {
+            get { return (string)GetValue(LinkInvalidLabelProperty); }
+            set { SetValue(LinkInvalidLabelProperty, value); }
+        }
+
+        public string WarningLabel
+        {
+            get { return (string)GetValue(WarningLabelProperty); }
+            set { SetValue(WarningLabelProperty, value); }
         }
     }
 }

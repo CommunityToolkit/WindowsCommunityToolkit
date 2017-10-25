@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             string headerVal = "#";
             for (int i = 1; i <= 5; i++)
             {
-                string val = string.Concat(Enumerable.Repeat(headerVal, i)) + " ";
+                string val = string.Concat(Enumerable.Repeat(headerVal, i));
                 var item = new ListBoxItem
                 {
                     Content = new MarkdownTextBlock
@@ -62,17 +62,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         {
             var item = sender as FrameworkElement;
 
-            var selectStart = Selected.StartPosition;
-            var selectEnd = Selected.EndPosition;
-
             EnsureAtStartOfCurrentLine();
-            string linesStart = item.Tag as string;
+            string linesStart = (item.Tag as string) + " ";
 
-            SetSelection(linesStart, string.Empty, false);
+            if (Selected.Text.StartsWith(linesStart))
+            {
+                // Revert Header.
+                Selected.Text = Selected.Text.Substring(linesStart.Length);
+            }
+            else
+            {
+                // Clear Header before replacing.
+                Selected.Text = Selected.Text.TrimStart('#', ' ');
+                SetSelection(linesStart, string.Empty, false);
+            }
 
-            Selected.StartPosition = selectStart + linesStart.Length;
-            Selected.EndPosition = selectEnd + linesStart.Length;
-
+            Selected.StartPosition = Selected.EndPosition;
             headerFlyout?.Hide();
         }
 
@@ -251,13 +256,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                 string text = listChar();
 
                 var lines = Selected.Text.Split(new string[] { Return }, StringSplitOptions.None).ToList();
-                if (!wrapNewLines)
-                {
-                    lines.RemoveAt(lines.Count - 1); // remove last escape as selected end of last line
-                }
-                else
+                if (wrapNewLines)
                 {
                     lines.Insert(0, string.Empty);
+                }
+                else if (lines.Count > 1)
+                {
+                    lines.RemoveAt(lines.Count - 1); // remove last escape as selected end of last line
                 }
 
                 for (int i = 0; i < lines.Count; i++)
@@ -302,11 +307,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         /// <returns>True if List formatting is reversing, otherwise false</returns>
         protected virtual bool DetermineListReverse(Func<string> listChar, bool wrapNewLines)
         {
-            if (string.IsNullOrWhiteSpace(Selected.Text))
-            {
-                return false;
-            }
-
             if (wrapNewLines && DetermineInlineWrapListReverse(listChar))
             {
                 return true;
@@ -314,6 +314,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 
             string text = string.Empty;
             int startpos = Selected.StartPosition;
+
+            // Test if line contains List Char, if so, reverse. For Single Line Operations Only.
+            if (!Selected.Text.Contains("\r"))
+            {
+                var testChar = listChar();
+                Selected.StartPosition -= testChar.Length;
+                if (Selected.Text.StartsWith(testChar))
+                {
+                    Selected.Text = Selected.Text.Substring(testChar.Length);
+                    return true;
+                }
+                else
+                {
+                    Selected.StartPosition = startpos;
+                }
+            }
 
             var lines = Selected.Text.Split(new string[] { Return }, StringSplitOptions.None).ToList();
             if (wrapNewLines)

@@ -87,13 +87,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 
             if (result == ContentDialogResult.Primary)
             {
-                string labelText;
-                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out labelText);
+                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string labelText);
+                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string formattedlabelText);
 
-                string formattedlabelText;
-                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out formattedlabelText);
+                string linkText = linkBox.Text.Trim();
+                var wellFormed = Uri.IsWellFormedUriString(linkText, UriKind.Absolute);
 
-                Model.Formatter.ButtonActions.FormatLink(button, labelText.Trim(), formattedlabelText.Trim(), linkBox.Text.Trim());
+                if (Model.UseURIChecker && !string.IsNullOrWhiteSpace(linkText) && !wellFormed)
+                {
+                    var confirmBad = await new ContentDialog
+                    {
+                        Title = Model.Labels.WarningLabel,
+                        Content = Model.Labels.LinkInvalidLabel,
+                        PrimaryButtonText = Model.Labels.OkLabel,
+                        SecondaryButtonText = Model.Labels.CancelLabel
+                    }.ShowAsync();
+
+                    if (confirmBad == ContentDialogResult.Secondary)
+                    {
+                        return;
+                    }
+                }
+
+                Model.Formatter.ButtonActions.FormatLink(button, labelText.Trim(), formattedlabelText.Trim(), linkText);
             }
         }
     }
