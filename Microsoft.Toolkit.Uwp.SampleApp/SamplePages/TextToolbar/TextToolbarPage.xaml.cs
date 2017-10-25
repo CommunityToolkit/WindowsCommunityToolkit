@@ -12,9 +12,11 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.System;
@@ -48,6 +50,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (_previewer != null)
             {
                 _previewer.LinkClicked += Previewer_LinkClicked;
+            }
+
+            if (ToolbarFormat != null && (Format)ToolbarFormat.Value == Format.Custom)
+            {
+                UseCustomFormatter();
             }
         }
 
@@ -88,29 +95,30 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             _toolbar.CustomButtons.Clear();
-            foreach (var item in _toolbar.DefaultButtons)
+            if (_toolbar.DefaultButtons != null)
             {
-                var button = item as ToolbarButton;
-                if (button != null)
+                foreach (var item in _toolbar.DefaultButtons)
                 {
-                    button.Visibility = Visibility.Visible;
+                    var button = item as ToolbarButton;
+                    if (button != null)
+                    {
+                        button.Visibility = Visibility.Visible;
+                    }
                 }
             }
         }
 
         private void UseCustomFormatter()
         {
-            if (_toolbar == null)
+            if (_toolbar == null || ToolbarFormat == null)
             {
                 return;
             }
 
             var formatter = new SampleFormatter(_toolbar);
-            _toolbar.Format = UI.Controls.TextToolbarFormats.Format.Custom;
+            ToolbarFormat.Value = Format.Custom;
             _toolbar.Formatter = formatter;
         }
-
-        private int DemoCounter { get; set; } = 0;
 
         private void AddCustomButton()
         {
@@ -166,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void EditZone_TextChanged(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void EditZone_TextChanged(object sender, RoutedEventArgs e)
         {
             if (_toolbar == null || _previewer == null)
             {
@@ -178,6 +186,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 string text = md.Text;
                 _previewer.Text = string.IsNullOrWhiteSpace(text) ? "Nothing to Preview" : text;
+            }
+        }
+
+        private int DemoCounter { get; set; } = 0;
+
+        private ValueHolder ToolbarFormat
+        {
+            get
+            {
+                var sample = DataContext as Sample;
+                var properties = sample.PropertyDescriptor.Expando as System.Collections.Generic.IDictionary<string, object>;
+                if (properties.TryGetValue("Format", out var format))
+                {
+                    return format as ValueHolder;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
     }
