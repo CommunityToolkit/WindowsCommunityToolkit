@@ -30,13 +30,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Identifies the <see cref="From"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty FromProperty =
-            DependencyProperty.Register("From", typeof(U), typeof(TypedAnimationBase<T, U>), new PropertyMetadata(GetDefaultValue(), OnAnimationPropertyChanged));
+            DependencyProperty.Register(nameof(From), typeof(U), typeof(TypedAnimationBase<T, U>), new PropertyMetadata(GetDefaultValue(), OnAnimationPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="To"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ToProperty =
-            DependencyProperty.Register("To", typeof(U), typeof(TypedAnimationBase<T, U>), new PropertyMetadata(GetDefaultValue(), OnAnimationPropertyChanged));
+            DependencyProperty.Register(nameof(To), typeof(U), typeof(TypedAnimationBase<T, U>), new PropertyMetadata(GetDefaultValue(), OnAnimationPropertyChanged));
 
         /// <summary>
         /// Gets or sets the value at the beginning.

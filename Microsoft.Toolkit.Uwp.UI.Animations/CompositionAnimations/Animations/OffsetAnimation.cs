@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public OffsetAnimation()
         {
-            Target = "Offset";
+            Target = nameof(Visual.Offset);
         }
     }
 }

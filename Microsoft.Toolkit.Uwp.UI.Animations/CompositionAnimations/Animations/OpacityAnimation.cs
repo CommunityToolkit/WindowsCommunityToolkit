@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public OpacityAnimation()
         {
-            Target = "Opacity";
+            Target = nameof(Visual.Opacity);
         }
     }
 }

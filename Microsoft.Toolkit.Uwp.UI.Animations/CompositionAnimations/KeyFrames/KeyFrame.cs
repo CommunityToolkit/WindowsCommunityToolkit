@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Identifies the <see cref="Key"/> dependency property
         /// </summary>
         public static readonly DependencyProperty KeyProperty =
-            DependencyProperty.Register("Key", typeof(double), typeof(KeyFrame), new PropertyMetadata(0.0));
+            DependencyProperty.Register(nameof(Key), typeof(double), typeof(KeyFrame), new PropertyMetadata(0.0));
 
         /// <summary>
         /// Gets or sets the key of the key frame

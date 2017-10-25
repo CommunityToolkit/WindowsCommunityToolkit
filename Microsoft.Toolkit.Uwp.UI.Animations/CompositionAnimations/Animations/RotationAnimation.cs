@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public RotationAnimation()
         {
-            Target = "RotationAngle";
+            Target = nameof(Visual.RotationAngle);
         }
     }
 }

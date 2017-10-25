@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public RotationInDegreesAnimation()
         {
-            Target = "RotationAngleInDegrees";
+            Target = nameof(Visual.RotationAngleInDegrees);
         }
     }
 }

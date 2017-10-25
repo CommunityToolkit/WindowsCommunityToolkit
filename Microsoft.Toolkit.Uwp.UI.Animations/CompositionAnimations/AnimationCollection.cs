@@ -132,6 +132,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets a value indicating whether the collection contains an animation that targets the Translation property
         /// </summary>
-        public bool ContainsTranslationAnimation => this.Where(anim => anim.Target.StartsWith("Translation")).Count() > 0;
+        public bool ContainsTranslationAnimation => this.Where(anim => !string.IsNullOrWhiteSpace(anim.Target) && anim.Target.StartsWith("Translation")).Count() > 0;
     }
 }

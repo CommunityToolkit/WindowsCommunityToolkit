@@ -28,31 +28,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Identifies the <see cref="Target"/> property
         /// </summary>
         public static readonly DependencyProperty TargetProperty =
-            DependencyProperty.Register("Target", typeof(string), typeof(AnimationBase), new PropertyMetadata(string.Empty, OnAnimationPropertyChanged));
+            DependencyProperty.Register(nameof(Target), typeof(string), typeof(AnimationBase), new PropertyMetadata(null, OnAnimationPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="Duration"/> property
         /// </summary>
         public static readonly DependencyProperty DurationProperty =
-            DependencyProperty.Register("Duration", typeof(TimeSpan), typeof(AnimationBase), new PropertyMetadata(TimeSpan.FromMilliseconds(400), OnAnimationPropertyChanged));
+            DependencyProperty.Register(nameof(Duration), typeof(TimeSpan), typeof(AnimationBase), new PropertyMetadata(TimeSpan.FromMilliseconds(400), OnAnimationPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="KeyFrames"/> property
         /// </summary>
         public static readonly DependencyProperty KeyFramesProperty =
-            DependencyProperty.Register("KeyFrames", typeof(KeyFrameCollection), typeof(AnimationBase), new PropertyMetadata(null, OnAnimationPropertyChanged));
+            DependencyProperty.Register(nameof(KeyFrames), typeof(KeyFrameCollection), typeof(AnimationBase), new PropertyMetadata(null, OnAnimationPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="ImplicitTarget"/> property
         /// </summary>
         public static readonly DependencyProperty ImplicitTargetProperty =
-            DependencyProperty.Register("ImplicitTarget", typeof(string), typeof(AnimationBase), new PropertyMetadata(null, OnAnimationPropertyChanged));
+            DependencyProperty.Register(nameof(ImplicitTarget), typeof(string), typeof(AnimationBase), new PropertyMetadata(null, OnAnimationPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="Delay"/> property
         /// </summary>
         public static readonly DependencyProperty DelayProperty =
-            DependencyProperty.Register("Delay", typeof(TimeSpan), typeof(AnimationBase), new PropertyMetadata(TimeSpan.Zero, OnAnimationPropertyChanged));
+            DependencyProperty.Register(nameof(Delay), typeof(TimeSpan), typeof(AnimationBase), new PropertyMetadata(TimeSpan.Zero, OnAnimationPropertyChanged));
 
         /// <summary>
         /// Raised when a property changes
