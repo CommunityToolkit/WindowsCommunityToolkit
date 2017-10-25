@@ -4,7 +4,6 @@
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <ControlTemplate x:Key="SlidableListItemSwipeControlStyle" TargetType="local:SlidableListItem">
-
         <SwipeControl x:Name="SwipeControl">
             <Grid Background="{TemplateBinding Background}">
                 <ContentPresenter />

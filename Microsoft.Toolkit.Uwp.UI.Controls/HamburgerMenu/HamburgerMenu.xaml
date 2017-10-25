@@ -4,7 +4,6 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu/HamburgerMenuTemplate.xaml" />
-        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu/HamburgerMenuNavViewTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="local:HamburgerMenu">

@@ -244,7 +244,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (menu.UseNavigationViewWhenPossible && HamburgerMenu.IsNavigationViewSupported)
             {
                 ResourceDictionary dict = new ResourceDictionary();
-                dict.Source = new System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/Themes/Generic.xaml");
+                dict.Source = new System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu/HamburgerMenuNavViewTemplate.xaml");
                 menu._previousTemplateUsed = menu.Template;
                 menu.Template = dict["HamburgerMenuNavViewTemplate"] as ControlTemplate;
             }
