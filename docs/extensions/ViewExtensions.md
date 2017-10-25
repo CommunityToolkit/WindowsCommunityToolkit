@@ -19,7 +19,7 @@ The **ApplicationViewExtensions, StatusBarExtensions & TitleBarExtensions** prov
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:viewHelper="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       extensions:ApplicationViewExtensions.Title="View Extensions"
       extensions:StatusBarExtensions.BackgroundColor="Blue"
       extensions:StatusBarExtensions.BackgroundOpacity="0.8"
@@ -41,7 +41,7 @@ The **ApplicationViewExtensions, StatusBarExtensions & TitleBarExtensions** prov
 
 ## API
 
-* [ApplicationViewExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/ApplicationView.cs)
-* [StatusBarExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/StatusBar.cs)
-* [TitleBarExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/TitleBar.cs)
+* [ApplicationViewExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/ApplicationView/ApplicationView.cs)
+* [StatusBarExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/StatusBar/StatusBar.cs)
+* [TitleBarExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/TitleBar/TitleBar.cs)
 
