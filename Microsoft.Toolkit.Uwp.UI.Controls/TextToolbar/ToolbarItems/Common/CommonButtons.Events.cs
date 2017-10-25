@@ -51,6 +51,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             Model.Formatter.ButtonActions.FormatOrderedList(button);
         }
 
+        /// <summary>
+        /// Opens a <see cref="ContentDialog"/> for the user to enter a URL
+        /// </summary>
+        /// <param name="button">The <see cref="ToolbarButton"/> invoked</param>
         public async void OpenLinkCreator(ToolbarButton button)
         {
             var selection = button.Model.Editor.Document.Selection;

@@ -23,31 +23,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class TextToolbar
     {
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="Editor"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty EditorProperty =
             DependencyProperty.Register(nameof(Editor), typeof(RichEditBox), typeof(TextToolbar), new PropertyMetadata(null, OnEditorChanged));
 
-        // Using a DependencyProperty as the backing store for Formatting.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="Format"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty FormatProperty =
             DependencyProperty.Register(nameof(Format), typeof(Format), typeof(TextToolbar), new PropertyMetadata(Format.RichText, OnFormatTypeChanged));
 
-        // Using a DependencyProperty as the backing store for TextFormat.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="Formatter"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty FormatterProperty =
             DependencyProperty.Register(nameof(Formatter), typeof(Formatter), typeof(TextToolbar), new PropertyMetadata(null, OnFormatterChanged));
 
-        // Using a DependencyProperty as the backing store for DefaultButtons.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="DefaultButton"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty DefaultButtonsProperty =
             DependencyProperty.Register(nameof(DefaultButtons), typeof(ButtonMap), typeof(TextToolbar), new PropertyMetadata(null));
 
-        // Using a DependencyProperty as the backing store for CustomButtons.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="CustomButtons"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty CustomButtonsProperty =
             DependencyProperty.Register(nameof(CustomButtons), typeof(ButtonMap), typeof(TextToolbar), new PropertyMetadata(null, OnButtonMapChanged));
 
-        // Using a DependencyProperty as the backing store for RemoveDefaultButtons.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="ButtonModifications"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty DefaultButtonModificationsProperty =
             DependencyProperty.Register(nameof(ButtonModifications), typeof(DefaultButtonModificationList), typeof(TextToolbar), new PropertyMetadata(null, OnDefaultButtonModificationsChanged));
 
-        // Using a DependencyProperty as the backing store for Labels.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="Labels"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty LabelsProperty =
             DependencyProperty.Register(nameof(Labels), typeof(TextToolbarStrings), typeof(TextToolbar), new PropertyMetadata(new TextToolbarStrings()));
 
@@ -105,12 +119,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(DefaultButtonModificationsProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the default string Labels
+        /// </summary>
         public TextToolbarStrings Labels
         {
             get { return (TextToolbarStrings)GetValue(LabelsProperty); }
             set { SetValue(LabelsProperty, value); }
         }
 
+        /// <summary>
+        /// Gets the last key pressed
+        /// </summary>
         public VirtualKey LastKeyPress { get; private set; }
 
         /// <summary>

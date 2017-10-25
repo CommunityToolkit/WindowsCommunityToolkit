@@ -25,7 +25,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
     public static class AnimationHelper
     {
         private static float _defaultShowAnimationDuration = 300;
-        private static float _defaultHideAnimationDiration = 150;
 
         private static bool? _isImpicitHideShowSupported;
 

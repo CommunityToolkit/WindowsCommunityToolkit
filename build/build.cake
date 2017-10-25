@@ -188,7 +188,23 @@ Task("SignNuGet")
         foreach(var package in packages)
         {
             Information("\nSubmitting " + package + " for signing...");
-            DotNetCoreTool(signClientAppPath, "sign", "-c " + signClientSettings + " -s " + signClientSecret + " -n '" + name + "' -d '" + name +"' -u '" + address + "'");
+            var arguments = new ProcessArgumentBuilder()
+                .AppendQuoted(signClientAppPath)
+                .Append("sign")
+                .AppendSwitchQuotedSecret("-s", signClientSecret)
+                .AppendSwitchQuoted("-c", signClientSettings)
+                .AppendSwitchQuoted("-i", MakeAbsolute(package).FullPath)
+                .AppendSwitchQuoted("-n", name)
+                .AppendSwitchQuoted("-d", name)
+                .AppendSwitchQuoted("-u", address);
+
+            // Execute Signing
+            var result = StartProcess("dotnet", new ProcessSettings {  Arguments = arguments });
+            if(result != 0)
+            {
+                throw new InvalidOperationException("Signing failed!");
+            }
+           
             Information("\nFinished signing " + package);
         }
     }

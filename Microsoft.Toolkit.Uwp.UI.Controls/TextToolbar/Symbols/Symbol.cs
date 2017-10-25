@@ -16,6 +16,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
 {
+    /// <summary>
+    /// Common implementation for a symbol icon
+    /// </summary>
     [TemplateVisualState(GroupName = Common, Name = Normal)]
     [TemplateVisualState(GroupName = Common, Name = Disabled)]
     public abstract class Symbol : Control
@@ -24,6 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
         internal const string Normal = "Normal";
         internal const string Disabled = "Disabled";
 
+        /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
             isEnabledWatcher = new DependencyPropertyWatcher<bool>(this, nameof(IsEnabled));
@@ -51,6 +55,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
 
         private DependencyPropertyWatcher<bool> isEnabledWatcher;
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="Symbol"/> class.
+        /// </summary>
         ~Symbol()
         {
             try

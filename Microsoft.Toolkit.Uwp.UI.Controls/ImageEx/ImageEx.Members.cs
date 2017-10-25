@@ -38,6 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(NineGridProperty, value); }
         }
 
+        /// <inheritdoc/>
         public override CompositionBrush GetAlphaMask()
         {
             return IsInitialized ? (Image as Image).GetAlphaMask() : null;

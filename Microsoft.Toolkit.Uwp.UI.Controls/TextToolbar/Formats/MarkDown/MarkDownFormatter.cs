@@ -22,8 +22,15 @@ using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 {
+    /// <summary>
+    /// Formatter implementation for MarkDown
+    /// </summary>
     public class MarkDownFormatter : Formatter
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MarkDownFormatter"/> class.
+        /// </summary>
+        /// <param name="model"><see cref="TextToolbar"/> where formatter will be used</param>
         public MarkDownFormatter(TextToolbar model)
             : base(model)
         {
@@ -31,6 +38,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             ButtonActions = new MarkDownButtonActions(this);
         }
 
+        /// <summary>
+        /// Invoked the flyout to style a header
+        /// </summary>
+        /// <param name="button">The button pressed</param>
         public void StyleHeader(ToolbarButton button)
         {
             var list = new ListBox { Margin = new Thickness(0), Padding = new Thickness(0) };
@@ -81,6 +92,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             headerFlyout?.Hide();
         }
 
+        /// <summary>
+        /// Formats a string as code
+        /// </summary>
+        /// <param name="button">Button invoking the action</param>
         public void FormatCode(ToolbarButton button)
         {
             if (DetermineSimpleReverse("`", "`"))
@@ -102,6 +117,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             }
         }
 
+        /// <summary>
+        /// Formats a string as quote
+        /// </summary>
+        /// <param name="button">Button invoking the actions</param>
         public void FormatQuote(ToolbarButton button)
         {
             SetList(() => "> ", button);
@@ -423,6 +442,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 
         private CommonButtons CommonButtons { get; }
 
+        /// <inheritdoc/>
         public override string Text
         {
             get
@@ -433,6 +453,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             }
         }
 
+        /// <inheritdoc/>
         public override ButtonMap DefaultButtons
         {
             get
@@ -497,6 +518,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 
         internal ToolbarButton OrderedListButton { get; set; }
 
+        /// <inheritdoc/>
         public override string NewLineChars => "\r\r";
 
         private Flyout headerFlyout;

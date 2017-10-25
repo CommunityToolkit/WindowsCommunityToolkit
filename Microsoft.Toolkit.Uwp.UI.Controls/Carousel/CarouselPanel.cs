@@ -22,6 +22,9 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// The panel used in the <see cref="Carousel"/> control
+    /// </summary>
     public class CarouselPanel : Panel
     {
         // Storyboard on gesture
@@ -33,6 +36,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Carousel carouselControl;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CarouselPanel"/> class.
+        /// </summary>
         public CarouselPanel()
         {
             IsHitTestVisible = true;
@@ -466,9 +472,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static void AddAnimation(Storyboard storyboard, DependencyObject element, int duration, double toValue, string propertyPath, EasingFunctionBase easingFunction = null)
         {
-            DoubleAnimation timeline = new DoubleAnimation();
-            timeline.To = toValue;
-            timeline.Duration = TimeSpan.FromMilliseconds(duration);
+            DoubleAnimation timeline = new DoubleAnimation
+            {
+                To = toValue,
+                Duration = TimeSpan.FromMilliseconds(duration)
+            };
+
             if (easingFunction != null)
             {
                 timeline.EasingFunction = easingFunction;
@@ -486,14 +495,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public struct Proj
     {
+        /// <summary>
+        /// Gets or sets the position of an item
+        /// </summary>
         public double Position { get; set; }
 
+        /// <summary>
+        /// Gets or sets the depth of an item
+        /// </summary>
         public double Depth { get; set; }
 
+        /// <summary>
+        /// Gets or sets the rotation around the X axis
+        /// </summary>
         public double RotationX { get; set; }
 
+        /// <summary>
+        /// Gets or sets the rotation around the Y axis
+        /// </summary>
         public double RotationY { get; set; }
 
+        /// <summary>
+        /// Gets or sets the rotation around the Z axis
+        /// </summary>
         public double RotationZ { get; set; }
     }
 }
