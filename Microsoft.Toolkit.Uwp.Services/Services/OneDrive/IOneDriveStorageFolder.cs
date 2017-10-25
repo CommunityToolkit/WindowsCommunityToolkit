@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="desiredName">The desired, new name for the current folder.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns an OneDriveStorageFolder that represents the specified folder.</returns>
-        Task<IOneDriveStorageFolder> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken));
+        new Task<IOneDriveStorageFolder> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Creates a new file in the current folder. This method also specifies what to

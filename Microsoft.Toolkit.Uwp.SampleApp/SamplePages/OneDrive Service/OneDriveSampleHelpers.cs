@@ -9,7 +9,6 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
@@ -21,7 +20,6 @@ using Windows.Storage.Streams;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -108,7 +106,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     string newFolderName = await OneDriveSampleHelpers.InputTextDialogAsync("New Folder Name");
                     if (!string.IsNullOrEmpty(newFolderName))
                     {
-
                         await folder.CreateFolderAsync(newFolderName);
                     }
                 }

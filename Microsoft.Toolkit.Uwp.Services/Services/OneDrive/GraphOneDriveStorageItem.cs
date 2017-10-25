@@ -152,12 +152,12 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             set { _oneDriveProvider = value; }
         }
 
-        private DataItem _oneDriveItem;
+        private DriveItem _oneDriveItem;
 
         /// <summary>
         /// Gets an instance of a DriveItem
         /// </summary>
-        public DataItem OneDriveItem
+        public DriveItem OneDriveItem
         {
             get { return _oneDriveItem; }
         }
@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="oneDriveProvider">Instance of OneDriveClient class</param>
         /// <param name="requestBuilder">Http request builder.</param>
         /// <param name="oneDriveItem">OneDrive's item</param>
-        public GraphOneDriveStorageItem(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, DataItem oneDriveItem)
+        public GraphOneDriveStorageItem(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, DriveItem oneDriveItem)
         {
             _requestBuilder = requestBuilder;
             _oneDriveProvider = oneDriveProvider;
@@ -279,8 +279,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             newOneDriveItem.Description = "Item Renamed from UWP Toolkit";
 
             var itemRenamed = await ((IDriveItemRequestBuilder)RequestBuilder).Request().UpdateAsync(newOneDriveItem, cancellationToken).ConfigureAwait(false);
-            DataItem dataItem = new DataItem(itemRenamed);
-            return new GraphOneDriveStorageItem(_oneDriveProvider, RequestBuilder, dataItem);
+            return new GraphOneDriveStorageItem(_oneDriveProvider, RequestBuilder, itemRenamed);
         }
 
         /// <summary>
@@ -393,7 +392,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="oneDriveItem">A OneDrive item</param>
         /// <returns>New instance of OneDriveStorageFolder</returns>
-        protected IOneDriveStorageFolder InitializeOneDriveStorageFolder(DataItem oneDriveItem)
+        protected IOneDriveStorageFolder InitializeOneDriveStorageFolder(DriveItem oneDriveItem)
         {
             IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IGraphServiceClient)Provider).Drive.Items[oneDriveItem.Id];
             return new GraphOneDriveStorageFolder(Provider, requestBuilder, oneDriveItem);
@@ -404,7 +403,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="oneDriveItem">A OneDrive item</param>
         /// <returns>New instance of OneDriveStorageItem</returns>
-        protected IOneDriveStorageItem InitializeOneDriveStorageItem(DataItem oneDriveItem)
+        protected IOneDriveStorageItem InitializeOneDriveStorageItem(DriveItem oneDriveItem)
         {
             IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IGraphServiceClient)Provider).Drive.Items[oneDriveItem.Id];
             return new GraphOneDriveStorageItem(Provider, requestBuilder, oneDriveItem);
@@ -415,7 +414,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="oneDriveItem">A OneDrive item</param>
         /// <returns>New instance of OneDriveStorageItem</returns>
-        protected IOneDriveStorageFile InitializeOneDriveStorageFile(DataItem oneDriveItem)
+        protected IOneDriveStorageFile InitializeOneDriveStorageFile(DriveItem oneDriveItem)
         {
             IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IGraphServiceClient)Provider).Drive.Items[oneDriveItem.Id];
             return new GraphOneDriveStorageFile(Provider, requestBuilder, oneDriveItem);

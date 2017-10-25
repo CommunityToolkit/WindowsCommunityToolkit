@@ -42,11 +42,9 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="path">The name (or path relative to the current folder) of the file or folder to get.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a DriveItem that represents the specified file or folder.</returns>
-        private async Task<DataItem> RequestChildrenAsync(string path, CancellationToken cancellationToken)
+        private async Task<DriveItem> RequestChildrenAsync(string path, CancellationToken cancellationToken)
         {
-            var oneDriveItem = await ((IDriveItemRequestBuilder)RequestBuilder).ItemWithPath(path).Request().GetAsync(cancellationToken).ConfigureAwait(false);
-            var dataItem = new DataItem(oneDriveItem);
-            return dataItem;
+            return await ((IDriveItemRequestBuilder)RequestBuilder).ItemWithPath(path).Request().GetAsync(cancellationToken).ConfigureAwait(false);
         }
 
         private ChunkedUploadProvider _uploadProvider;
@@ -73,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="oneDriveProvider">Instance of OneDriveClient class</param>
         /// <param name="requestBuilder">Http request builder.</param>
         /// <param name="oneDriveItem">OneDrive's item</param>
-        public GraphOneDriveStorageFolder(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, DataItem oneDriveItem)
+        public GraphOneDriveStorageFolder(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, DriveItem oneDriveItem)
             : base(oneDriveProvider, requestBuilder, oneDriveItem)
         {
         }
@@ -86,9 +84,8 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>When this method completes successfully, it returns an OneDriveStorageFolder that represents the specified folder.</returns>
         public async new Task<IOneDriveStorageFolder> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
         {
-
             var renameItem = await base.RenameAsync(desiredName, cancellationToken);
-            return InitializeOneDriveStorageFolder(((GraphOneDriveStorageItem)renameItem).OneDriveItem);
+            return InitializeOneDriveStorageFolder(renameItem.OneDriveItem);
         }
 
         /// <summary>
@@ -135,9 +132,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, requestUri);
             request.Content = new StreamContent(streamContent);
             var createdFile = await ((IGraphServiceClient)Provider).SendAuthenticatedRequestAsync(request, cancellationToken);
-
-            var dataItem = new DataItem(createdFile);
-            return InitializeOneDriveStorageFile(dataItem);
+            return InitializeOneDriveStorageFile(createdFile);
         }
 
         /// <summary>
@@ -163,8 +158,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             request.Content = new StringContent(jsonOptions, System.Text.Encoding.UTF8, "application/json");
 
             var createdFolder = await ((IGraphServiceClient)Provider).SendAuthenticatedRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var dataItem = new DataItem(createdFolder);
-            return InitializeOneDriveStorageFolder(dataItem);
+            return InitializeOneDriveStorageFolder(createdFolder);
         }
 
         /// <summary>
@@ -258,7 +252,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>When this method completes successfully, it returns a list of the subfolders and files in the current folder.</returns>
         public IncrementalLoadingCollection<OneDriveRequestSource<IOneDriveStorageItem>, IOneDriveStorageItem> GetItemsAsync(OrderBy orderBy = OrderBy.None)
         {
-            var requestSource = new OneDriveRequestSource<IOneDriveStorageItem>(Provider, RequestBuilder, orderBy, null, false);
+            var requestSource = new OneDriveRequestSource<IOneDriveStorageItem>(Provider, RequestBuilder, orderBy, null);
             return new IncrementalLoadingCollection<OneDriveRequestSource<IOneDriveStorageItem>, IOneDriveStorageItem>(requestSource);
         }
 
@@ -284,8 +278,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             for (int i = (int)startIndex; i < maxToRetrieve && i < tempo.Count; i++)
             {
-                DataItem dataItem = new DataItem(tempo[i]);
-                items.Add(InitializeOneDriveStorageItem(dataItem));
+                items.Add(InitializeOneDriveStorageItem(tempo[i]));
             }
 
             return new OneDriveStorageItemsCollection(items, false);
@@ -358,6 +351,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>return next expected ranges, 0 if no more data</returns>
         public async Task<long> GetUploadStatusAsync()
         {
+            await Task.Delay(0);
             return 0;
         }
 
@@ -411,10 +405,9 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             var streamToUpload = content.AsStreamForRead();
             _uploadProvider = new ChunkedUploadProvider(_uploadSession, Provider, streamToUpload, maxChunkSize);
 
-            var item = await _uploadProvider.UploadAsync().ConfigureAwait(false);
+            var uploadedItem = await _uploadProvider.UploadAsync().ConfigureAwait(false);
             IsUploadCompleted = true;
-            DataItem dataItem = new DataItem(item);
-            return InitializeOneDriveStorageFile(dataItem);
+            return InitializeOneDriveStorageFile(uploadedItem);
         }
 
         /// <summary>
@@ -467,8 +460,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             foreach (var oneDriveItem in oneDriveItems)
             {
-                DataItem dataItem = new DataItem(oneDriveItem);
-                items.Add(InitializeOneDriveStorageItem(dataItem));
+                items.Add(InitializeOneDriveStorageItem(oneDriveItem));
             }
 
             return new OneDriveStorageItemsCollection(items, false);
@@ -491,8 +483,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             foreach (var oneDriveFolder in oneDriveFolders)
             {
-                DataItem dataItem = new DataItem(oneDriveFolder);
-                folders.Add(InitializeOneDriveStorageFolder(dataItem));
+                folders.Add(InitializeOneDriveStorageFolder(oneDriveFolder));
             }
 
             return folders;
@@ -529,8 +520,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             foreach (var oneDriveFile in oneDriveFiles)
             {
-                DataItem dataItem = new DataItem(oneDriveFile);
-                files.Add(InitializeOneDriveStorageFile(dataItem));
+                files.Add(InitializeOneDriveStorageFile(oneDriveFile));
             }
 
             return files;

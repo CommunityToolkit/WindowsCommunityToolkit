@@ -22,6 +22,9 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// </summary>
     public class OneDriveFile
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OneDriveFile"/> class
+        /// </summary>
         public OneDriveFile()
         {
             Hashes = new Hashes();

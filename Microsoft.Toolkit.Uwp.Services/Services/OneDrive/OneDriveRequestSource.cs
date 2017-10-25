@@ -47,13 +47,12 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="requestBuilder">Http request to execute</param>
         /// <param name="orderBy">Sort the order of items in the response collection</param>
         /// <param name="filter">Filters the response based on a set of criteria.</param>
-        public OneDriveRequestSource(IBaseClient provider, IBaseRequestBuilder requestBuilder, OrderBy orderBy, string filter, bool useOneDriveSdk= true)
+        public OneDriveRequestSource(IBaseClient provider, IBaseRequestBuilder requestBuilder, OrderBy orderBy, string filter)
         {
             _provider = provider;
             _requestBuilder = requestBuilder;
             _orderBy = orderBy;
             _filter = filter;
-            _useOneDriveSdk = useOneDriveSdk;
         }
 
         /// <summary>
@@ -65,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>Strong typed page of data.</returns>
         public async Task<IEnumerable<T>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (_useOneDriveSdk == true)
+            if (_requestBuilder.GetType() == typeof(ItemRequestBuilder))
             {
                 return await GetPageOneDriveSdkAsync(pageIndex, pageSize, cancellationToken);
             }
@@ -78,7 +77,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             // First Call
             if (_isFirstCall)
             {
-
                 _nextPage = _requestBuilder.CreateChildrenRequest(pageSize, _orderBy, _filter);
 
                 _isFirstCall = false;
@@ -105,7 +103,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             // First Call
             if (_isFirstCall)
             {
-
                 _nextPageGraph = ((IDriveItemRequestBuilder)_requestBuilder).CreateChildrenRequest(pageSize, _orderBy, _filter);
 
                 _isFirstCall = false;
@@ -133,8 +130,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             foreach (var oneDriveItem in oneDriveItems)
             {
-                DataItem dataItem = new DataItem(oneDriveItem);
-                T item = (T)CreateItemOneDriveSdk(dataItem);
+                T item = (T)CreateItemOneDriveSdk(oneDriveItem);
                 items.Add(item);
             }
 
@@ -147,32 +143,31 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             foreach (var oneDriveItem in oneDriveItems)
             {
-                DataItem dataItem = new DataItem(oneDriveItem);
-                T item = (T)CreateItemGraphSdk(dataItem);
+                T item = (T)CreateItemGraphSdk(oneDriveItem);
                 items.Add(item);
             }
 
             return items;
         }
 
-        private object CreateItemOneDriveSdk(DataItem oneDriveItem)
+        private object CreateItemOneDriveSdk(Item oneDriveItem)
         {
             IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IOneDriveClient)_provider).Drive.Items[oneDriveItem.Id];
 
             if (oneDriveItem.Folder != null)
             {
-                return new OneDriveStorageFolder(_provider, requestBuilder, oneDriveItem);
+                return new OneDriveStorageFolder(_provider, requestBuilder, oneDriveItem.CopyToDriveItem());
             }
 
             if (oneDriveItem.File != null)
             {
-                return new OneDriveStorageFile(_provider, requestBuilder, oneDriveItem);
+                return new OneDriveStorageFile(_provider, requestBuilder, oneDriveItem.CopyToDriveItem());
             }
 
-            return new OneDriveStorageItem(_provider, requestBuilder, oneDriveItem);
+            return new OneDriveStorageItem(_provider, requestBuilder, oneDriveItem.CopyToDriveItem());
         }
 
-        private object CreateItemGraphSdk(DataItem oneDriveItem)
+        private object CreateItemGraphSdk(DriveItem oneDriveItem)
         {
             IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IGraphServiceClient)_provider).Drive.Items[oneDriveItem.Id];
 

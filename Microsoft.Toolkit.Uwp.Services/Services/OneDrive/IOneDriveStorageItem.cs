@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Gets an instance of a DriveItem
         /// </summary>
-        DataItem OneDriveItem { get; }
+        DriveItem OneDriveItem { get; }
 
         /// <summary>
         /// Check if the item is a file

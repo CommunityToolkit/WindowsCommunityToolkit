@@ -9,17 +9,15 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-
 using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Graph;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Microsoft.Graph;
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -67,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="oneDriveProvider">Instance of OneDriveClient class</param>
         /// <param name="requestBuilder">Http request builder.</param>
         /// <param name="oneDriveItem">OneDrive's item</param>
-        public GraphOneDriveStorageFile(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, DataItem oneDriveItem)
+        public GraphOneDriveStorageFile(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, DriveItem oneDriveItem)
           : base(oneDriveProvider, requestBuilder, oneDriveItem)
         {
             ParseFileType(oneDriveItem.Name);
@@ -79,10 +77,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="desiredName">The desired, new name for the current folder.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns an OneDriveStorageFile that represents the specified folder.</returns>
-        public async Task<IOneDriveStorageFile> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
+        public new async Task<IOneDriveStorageFile> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
         {
             var renameItem = await base.RenameAsync(desiredName, cancellationToken);
-            return InitializeOneDriveStorageFile(((OneDriveStorageItem)renameItem).OneDriveItem);
+            return InitializeOneDriveStorageFile(renameItem.OneDriveItem);
         }
 
         /// <summary>

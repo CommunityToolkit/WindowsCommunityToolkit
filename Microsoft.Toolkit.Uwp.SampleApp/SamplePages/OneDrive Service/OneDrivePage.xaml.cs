@@ -78,8 +78,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 OneDriveItemsList.ItemsSource = _rootFolder.GetItemsAsync();
 
-               // var a= await  _rootFolder.GetItemsAsync(0,100);
-
                 succeeded = true;
             }
             catch (ServiceException serviceEx)

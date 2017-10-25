@@ -27,7 +27,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// </summary>
     public static class GraphOneDriveItemExtension
     {
-
         /// <summary>
         /// Gets a file's thumbnail set
         /// </summary>
