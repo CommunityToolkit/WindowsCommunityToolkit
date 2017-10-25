@@ -219,7 +219,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the HamburgerMenu shoud use the NavigationView when possible (Fall Creators Update and above)
+        /// Gets or sets a value indicating whether the HamburgerMenu should use the NavigationView when possible (Fall Creators Update and above)
         /// When set to true and the device supports NavigationView, the HamburgerMenu will use a template based on NavigationView
         /// </summary>
         public bool UseNavigationViewWhenPossible
