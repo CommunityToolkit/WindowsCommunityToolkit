@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -24,43 +25,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// An ObservableCollection of <see cref="AnimationBase"/>
     /// </summary>
-    public class AnimationCollection : ObservableCollection<AnimationBase>
+    public class AnimationCollection : IList<AnimationBase>
     {
-        internal UIElement Element { get; set; }
+        // needed in order to be able to update animations when a animations are added/removed or
+        // animation properties change (for example in binding)
+        private WeakReference<UIElement> _parent;
 
-        private void AnimationChanged(object sender, EventArgs e)
+        private List<AnimationBase> _internalList = new List<AnimationBase>();
+
+        internal UIElement Parent
         {
-            AnimationCollectionChanged?.Invoke(this, null);
+            get
+            {
+                _parent.TryGetTarget(out var element);
+                return element;
+            }
+
+            set => _parent = new WeakReference<UIElement>(value);
         }
+
+        /// <summary>
+        /// Gets a value indicating whether the collection contains an animation that targets the Translation property
+        /// </summary>
+        public bool ContainsTranslationAnimation => this.Where(anim => !string.IsNullOrWhiteSpace(anim.Target) && anim.Target.StartsWith("Translation")).Count() > 0;
 
         /// <inheritdoc/>
-        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            base.OnCollectionChanged(e);
+        public int Count => _internalList.Count;
 
-            if (e.Action == NotifyCollectionChangedAction.Move)
-            {
-                return;
-            }
+        /// <inheritdoc/>
+        public bool IsReadOnly => false;
 
-            if (e.NewItems != null)
-            {
-                foreach (AnimationBase newAnim in e.NewItems)
-                {
-                    newAnim.AnimationChanged += AnimationChanged;
-                }
-            }
-
-            if (e.OldItems != null)
-            {
-                foreach (AnimationBase oldAnim in e.OldItems)
-                {
-                    oldAnim.AnimationChanged -= AnimationChanged;
-                }
-            }
-
-            AnimationCollectionChanged?.Invoke(this, null);
-        }
+        /// <inheritdoc/>
+        public AnimationBase this[int index] { get => _internalList[index]; set => Insert(index, value); }
 
         /// <summary>
         /// Raised when an animation has been added/removed or modified
@@ -129,9 +125,92 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return implicitAnimations;
         }
 
-        /// <summary>
-        /// Gets a value indicating whether the collection contains an animation that targets the Translation property
-        /// </summary>
-        public bool ContainsTranslationAnimation => this.Where(anim => !string.IsNullOrWhiteSpace(anim.Target) && anim.Target.StartsWith("Translation")).Count() > 0;
+        private void AnimationChanged(object sender, EventArgs e)
+        {
+            AnimationCollectionChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <inheritdoc/>
+        public int IndexOf(AnimationBase item)
+        {
+            return _internalList.IndexOf(item);
+        }
+
+        /// <inheritdoc/>
+        public void Insert(int index, AnimationBase item)
+        {
+            item.AnimationChanged += AnimationChanged;
+            _internalList.Insert(index, item);
+            AnimationCollectionChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <inheritdoc/>
+        public void RemoveAt(int index)
+        {
+            if (index >= 0 && index < _internalList.Count)
+            {
+                var animation = _internalList[index];
+                animation.AnimationChanged -= AnimationChanged;
+            }
+
+            _internalList.RemoveAt(index);
+            AnimationCollectionChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <inheritdoc/>
+        public void Add(AnimationBase item)
+        {
+            item.AnimationChanged += AnimationChanged;
+            _internalList.Add(item);
+            AnimationCollectionChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <inheritdoc/>
+        public void Clear()
+        {
+            foreach (var animation in _internalList)
+            {
+                animation.AnimationChanged -= AnimationChanged;
+            }
+
+            _internalList.Clear();
+            AnimationCollectionChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <inheritdoc/>
+        public bool Contains(AnimationBase item)
+        {
+            return _internalList.Contains(item);
+        }
+
+        /// <inheritdoc/>
+        public void CopyTo(AnimationBase[] array, int arrayIndex)
+        {
+            _internalList.CopyTo(array, arrayIndex);
+        }
+
+        /// <inheritdoc/>
+        public bool Remove(AnimationBase item)
+        {
+            var result = _internalList.Remove(item);
+            if (result)
+            {
+                item.AnimationChanged -= AnimationChanged;
+                AnimationCollectionChanged?.Invoke(this, EventArgs.Empty);
+            }
+
+            return result;
+        }
+
+        /// <inheritdoc/>
+        public IEnumerator<AnimationBase> GetEnumerator()
+        {
+            return _internalList.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _internalList.GetEnumerator();
+        }
     }
 }

@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (e.NewValue is AnimationCollection animationCollection && d is UIElement element)
             {
-                animationCollection.Element = element;
+                animationCollection.Parent = element;
                 animationCollection.AnimationCollectionChanged -= ShowCollectionChanged;
                 animationCollection.AnimationCollectionChanged += ShowCollectionChanged;
                 ElementCompositionPreview.SetImplicitShowAnimation(element, GetCompositionAnimationGroup(animationCollection, element));
@@ -159,7 +159,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (e.NewValue is AnimationCollection animationCollection && d is UIElement element)
             {
-                animationCollection.Element = element;
+                animationCollection.Parent = element;
                 animationCollection.AnimationCollectionChanged -= HideCollectionChanged;
                 animationCollection.AnimationCollectionChanged += HideCollectionChanged;
                 ElementCompositionPreview.SetImplicitHideAnimation(element, GetCompositionAnimationGroup(animationCollection, element));
@@ -175,7 +175,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (e.NewValue is AnimationCollection animationCollection && d is UIElement element)
             {
-                animationCollection.Element = element;
+                animationCollection.Parent = element;
                 animationCollection.AnimationCollectionChanged -= AnimationsCollectionChanged;
                 animationCollection.AnimationCollectionChanged += AnimationsCollectionChanged;
                 ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = GetImplicitAnimationCollection(animationCollection, element);
@@ -190,12 +190,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var collection = sender as AnimationCollection;
-            if (collection.Element == null)
+            if (collection.Parent == null)
             {
                 return;
             }
 
-            ElementCompositionPreview.SetImplicitShowAnimation(collection.Element, GetCompositionAnimationGroup(collection, collection.Element));
+            ElementCompositionPreview.SetImplicitShowAnimation(collection.Parent, GetCompositionAnimationGroup(collection, collection.Parent));
         }
 
         private static void HideCollectionChanged(object sender, EventArgs e)
@@ -206,24 +206,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var collection = sender as AnimationCollection;
-            if (collection.Element == null)
+            if (collection.Parent == null)
             {
                 return;
             }
 
-            ElementCompositionPreview.SetImplicitHideAnimation(collection.Element, GetCompositionAnimationGroup(collection, collection.Element));
+            ElementCompositionPreview.SetImplicitHideAnimation(collection.Parent, GetCompositionAnimationGroup(collection, collection.Parent));
         }
 
         private static void AnimationsCollectionChanged(object sender, EventArgs e)
         {
             var collection = sender as AnimationCollection;
-            if (collection.Element == null)
+            if (collection.Parent == null)
             {
                 return;
             }
 
-            ElementCompositionPreview.GetElementVisual(collection.Element).ImplicitAnimations =
-                                            GetImplicitAnimationCollection(collection, collection.Element);
+            ElementCompositionPreview.GetElementVisual(collection.Parent).ImplicitAnimations =
+                                            GetImplicitAnimationCollection(collection, collection.Parent);
         }
 
         private static CompositionAnimationGroup GetCompositionAnimationGroup(AnimationCollection collection, UIElement element)
