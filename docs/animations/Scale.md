@@ -14,7 +14,7 @@ The Scale animation  allows you to change a control's scale by increasing or dec
 
 **XAML**
 
-```xml
+```xaml
 <Page ...
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"/>
