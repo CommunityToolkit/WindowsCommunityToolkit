@@ -34,8 +34,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>a cloned DriveItem</returns>
         public static DriveItem CopyToDriveItem(this Item item)
         {
-            var driveItem = new DriveItem();
-            driveItem.AdditionalData = item.AdditionalData;
+            var driveItem = new DriveItem { AdditionalData = item.AdditionalData };
             if (item.Audio != null)
             {
                 driveItem.Audio = new Graph.Audio { AdditionalData = item.Audio.AdditionalData, Album = item.Audio.Album, AlbumArtist = item.Audio.AlbumArtist, Artist = item.Audio.Artist, Bitrate = item.Audio.Bitrate, Composers = item.Audio.Composers, Copyright = item.Audio.Copyright, Disc = item.Audio.Disc, DiscCount = item.Audio.DiscCount, Duration = item.Audio.Duration, Genre = item.Audio.Genre, HasDrm = item.Audio.HasDrm, IsVariableBitrate = item.Audio.IsVariableBitrate, Title = item.Audio.Title, Track = item.Audio.Track, TrackCount = item.Audio.TrackCount, Year = item.Audio.Year };
@@ -43,8 +42,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             if (item.Children != null)
             {
-                driveItem.Children = new DriveItemChildrenCollectionPage();
-                driveItem.Children.AdditionalData = item.Children.AdditionalData;
+                driveItem.Children = new DriveItemChildrenCollectionPage
+                {
+                    AdditionalData = item.Children.AdditionalData
+                };
             }
 
             driveItem.Content = item.Content;
@@ -104,8 +105,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             if (item.Permissions != null)
             {
-                driveItem.Permissions = new DriveItemPermissionsCollectionPage();
-                driveItem.Permissions.AdditionalData = item.Permissions.AdditionalData;
+                driveItem.Permissions = new DriveItemPermissionsCollectionPage
+                {
+                    AdditionalData = item.Permissions.AdditionalData
+                };
                 foreach (var permission in item.Permissions)
                 {
                     var driveItemPermission = new Graph.Permission { AdditionalData = permission.AdditionalData, GrantedTo = permission.GrantedTo.CopyTo(), Id = permission.Id, InheritedFrom = permission.InheritedFrom.CopyTo(), ODataType = permission.ODataType, Roles = permission.Roles, ShareId = permission.ShareId };
@@ -168,7 +171,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="itemReference">Current One Drive ItemReference</param>
         /// <returns>A Graph ItemReference</returns>
-        public static Graph.ItemReference CopyTo(this Microsoft.OneDrive.Sdk.ItemReference itemReference)
+        private static Graph.ItemReference CopyTo(this Microsoft.OneDrive.Sdk.ItemReference itemReference)
         {
             return new Graph.ItemReference { AdditionalData = itemReference.AdditionalData, DriveId = itemReference.DriveId, DriveType = "consumer", Id = itemReference.Id, Path = itemReference.Path };
         }
@@ -180,8 +183,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns> A Graph IdenditySet</returns>
         public static Graph.IdentitySet CopyTo(this Microsoft.OneDrive.Sdk.IdentitySet identitySet)
         {
-            var graphIdentitySet = new Graph.IdentitySet();
-            graphIdentitySet.AdditionalData = identitySet.AdditionalData;
+            var graphIdentitySet = new Graph.IdentitySet
+            {
+                AdditionalData = identitySet.AdditionalData
+            };
             if (identitySet.Application != null)
             {
                 graphIdentitySet.Application = identitySet.Application.CopyTo();
@@ -205,7 +210,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="identity">Current one drive identity</param>
         /// <returns> A Graph Idendity</returns>
-        public static Graph.Identity CopyTo(this Microsoft.OneDrive.Sdk.Identity identity)
+        private static Graph.Identity CopyTo(this Microsoft.OneDrive.Sdk.Identity identity)
         {
             return new Graph.Identity { AdditionalData = identity.AdditionalData, DisplayName = identity.DisplayName, Id = identity.Id };
         }
@@ -305,9 +310,10 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="desiredNewName">New name</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>a OneDrive item or null if the request fail</returns>
-        public static async Task<bool> MoveAsync(this IBaseClient provider, HttpRequestMessage request, IOneDriveStorageFolder destinationFolder, string desiredNewName, CancellationToken cancellationToken)
+        internal static async Task<bool> MoveAsync(this IBaseClient provider, HttpRequestMessage request, IOneDriveStorageFolder destinationFolder, string desiredNewName, CancellationToken cancellationToken)
         {
-            OneDriveParentReference rootParentReference = new OneDriveParentReference();
+           OneDriveParentReference rootParentReference = new OneDriveParentReference();
+
             if (destinationFolder.OneDriveItem.Name == "root")
             {
                 rootParentReference.Parent.Path = "/drive/root:/";

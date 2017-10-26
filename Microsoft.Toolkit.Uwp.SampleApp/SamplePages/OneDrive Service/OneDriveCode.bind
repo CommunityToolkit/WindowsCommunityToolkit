@@ -3,9 +3,23 @@
 // Authentication 
 // In order to use the OneDriveService you need to authenticate the user and get an access token
 
-// OneDrive consumer you have two options:
+// What's new ?
+// In this version we added the converged authentication 
+// This means, you can use now, either an MSA Account (ie: (name@outlook.com, name@hotmail.com) or 
+// an Azure Active Directory account link with your Office 365 for OneDrive and OneDrive For Business 
+
+// To register your application :
+// 1) Go to the https://apps.dev.microsoft.com portal
+// 2) In the section Converged Applications, click on the "Add an app" button
+// 3) Register your application
+// 4) In the Platform section, click "Add platform" then choose "Native Application"
+// 5) Copy the "Application Id" and use it in the SampleApp with the "Work Or School Accounts Or Microsoft Account" Authentication Provider.
+
+
+// OneDrive consumer you have three options:
 // 1) If the user is connected to a Windows session with a Microsoft Account, the service is able to silently get an access token.
 //    For that you need to associate your application to the Store (Project->Store->Associate App With Store...)
+//    In the SampleApp choose "OnlineId" as Authentication Provider
 // 2) Or you have to register your app
 //  - go to https://dev.onedrive.com/app-registration.htm
 //  - When prompted, sign in with your Microsoft Account credentials.
@@ -14,31 +28,58 @@
 //  - Copy the Application ID
 //  - Add a platform and select mobile application
 //  - Save
+//  In the SampleApp choose "Microsoft Account" as Authentication Provider
+// 3) Use the Converged Applications (See Step 5 in the What's new section below)
 
-// OneDrive For Business you need to register your app from the Azure Management Portal
-// For more information to manualy register your app see go to the following article
-// https://docs.microsoft.com/en-US/azure/active-directory/develop/active-directory-authentication-scenarios#basics-of-registering-an-application-in-azure-ad
-// When registering your application don't forget to add the Office 365 Sharepoint Online application with the "Read and Write user Files" permissions. You should set your Redirect URI to "urn:ietf:wg:oauth:2.0:oob". You may also need to add the following capabilities to your Package.appxmanifest: privateNetworkClientServer; enterpriseAuthentication
+// OneDrive For Business you have two options: 
+// 1) You register your app from the Azure Management Portal
+//	  For more information to manualy register your app see the following article
+//    https://docs.microsoft.com/en-US/azure/active-directory/develop/active-directory-authentication-scenarios#basics-of-registering-an-application-in-azure-ad
+//    When registering your application don't forget to add the Office 365 Sharepoint Online application with the "Read and Write user Files" permissions. 
+//	  You should set your Redirect URI to "urn:ietf:wg:oauth:2.0:oob". You may also need to add the following capabilities to your Package.appxmanifest: privateNetworkClientServer; enterpriseAuthentication
+//    In the SampleApp choose the "Work Or School Accounts" as Authentication Provider
+// 2) Use the Converged Applications (See Step 5 in the What's new section below)
+
+// Breaking changes:
+// In this version we include the Microsoft Graph API (https://developer.microsoft.com/en-us/graph/docs/concepts/overview)
+// in order to use it with the converged authentication.
+// This means we added a new set of classes GraphOneDriveStorageXXX and keep the OneDriveStorageXXX for compatibility reasons.
+// So the methods return interfaces IOneDriveStorageXXX instead of classes in order to be compatible with the two set of classes.
+
+// If you explictly use the classes OneDriveStorageXXX you have to change it with the appropriate Interfaces.
+// Nevertheless the OneDriveStorageXXX still exist, (especially for compatibity with the "OnlineId" Authentication Provider which doesn't work yet with the Graph Api).
+// Let say you have the following code
+// OneDriveStorageFolder rootFolder = await OneDriveService.Instance.RootFolderAsync();
+// this code doesn't work any more, the solution is to cast with the OneDriveStorageFolder class
+// OneDriveStorageFolder rootFolder = (OneDriveStorageFolder)await OneDriveService.Instance.RootFolderAsync();
+// If you want your code works with all Authentication providers, the better choice is to use the interfaces IOneDriveStorageXXX
+
+// For the rest this works as is.
 
 // First get the root of your OneDrive
-// By default the service silently connects the current Windows user if Windows is associated with a Microsoft Account
+// By default the service silently connects the current Windows user if Windows is associated with a Microsoft Account and if you choose the OnlineId authetication provider
 var folder = await OneDriveService.Instance.RootFolderAsync();
 
 // if Windows is not associated with a Microsoft Account, you need
-// 1) Initialize the service using an authentication provider AccountProviderType.Msa or AccountProviderType.Adal
+// 1) Initialize the service using an authentication provider, either AccountProviderType.Msa, AccountProviderType.Adal or AccountProviderType.Msal
 OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msa, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
+or
+OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Adal);
+or
+OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msal);
+
 // 2) Sign in
 if (!await OneDriveService.Instance.LoginAsync())
 {
     throw new Exception("Unable to sign in");
 }
 
-// Once you have a reference to the Root Folder you can get a list of all items
-// List the Items from the current folder
-var OneDriveItems = await folder.GetItemsAsync();
+// Once you have a reference to the Root Folder you can get a list of items by page
+// Exemple List the 10 first Items from the current folder
+var OneDriveItems = await folder.GetItemsAsync(10);
 do
 {
-	//Get the next page of items
+	//Get the next page of 10 items
     OneDriveItems = await folder.NextItemsAsync();   
 }
 while (OneDriveItems != null);

@@ -72,25 +72,14 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             ParseFileType(oneDriveItem.Name);
         }
 
-        /// <summary>
-        /// Renames the current file.
-        /// </summary>
-        /// <param name="desiredName">The desired, new name for the current folder.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns>When this method completes successfully, it returns an OneDriveStorageFile that represents the specified folder.</returns>
+        /// <inheritdoc/>
         public new async Task<IOneDriveStorageFile> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
         {
             var renameItem = await base.RenameAsync(desiredName, cancellationToken);
             return InitializeOneDriveStorageFile(renameItem.OneDriveItem);
         }
 
-        /// <summary>
-        /// Creates a background download for the current file
-        /// </summary>
-        /// <param name="destinationFile">A <see cref="StorageFile"/> to which content will be downloaded</param>
-        /// <param name="completionGroup">The <see cref="BackgroundTransferCompletionGroup"/> to which should <see cref="BackgroundDownloader"/> reffer to</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request</param>
-        /// <returns>The created <see cref="DownloadOperation"/></returns>
+        /// <inheritdoc/>
         public async Task<DownloadOperation> CreateBackgroundDownloadAsync(StorageFile destinationFile, BackgroundTransferCompletionGroup completionGroup = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (destinationFile == null)
@@ -112,12 +101,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 }, cancellationToken);
         }
 
-        /// <summary>
-        /// Opens a random-access stream over the specified file.
-        /// </summary>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns>When this method completes, it returns an IRandomAccessStream that contains the
-        ///     requested random-access stream.</returns>
+        /// <inheritdoc/>
         public async Task<IRandomAccessStream> OpenAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             IRandomAccessStream contentStream = null;

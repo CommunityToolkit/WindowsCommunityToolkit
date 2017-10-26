@@ -18,18 +18,18 @@ using Microsoft.Toolkit.Uwp.Services.OneDrive;
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
-    ///  Class OneDriveStorageItemsCollection
+    ///  Class GraphOneDriveStorageItemsCollection
     /// </summary>
-    public class OneDriveStorageItemsCollection : IReadOnlyList<IOneDriveStorageItem>
+    public class GraphOneDriveStorageItemsCollection : IReadOnlyList<IOneDriveStorageItem>
     {
         private List<IOneDriveStorageItem> _items;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OneDriveStorageItemsCollection"/> class.
+        /// Initializes a new instance of the <see cref="GraphOneDriveStorageItemsCollection"/> class.
         /// <para>Permissions : Have full access to user files and files shared with user</para>
         /// </summary>
         /// <param name="items">Items's list to store in the collection</param>
-        public OneDriveStorageItemsCollection(List<IOneDriveStorageItem> items)
+        public GraphOneDriveStorageItemsCollection(List<IOneDriveStorageItem> items)
         {
             _items = items;
         }
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<IOneDriveStorageItem> GetEnumerator()
         {
-            return new OneDriveStorageItemsEnumerator(_items);
+            return new GraphOneDriveStorageItemsEnumerator(_items);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return new OneDriveStorageItemsEnumerator(_items);
+            return new GraphOneDriveStorageItemsEnumerator(_items);
         }
     }
 }

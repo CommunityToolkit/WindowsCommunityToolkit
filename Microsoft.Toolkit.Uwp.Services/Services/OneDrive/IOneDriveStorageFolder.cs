@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="desiredName">The desired, new name for the current folder.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns>When this method completes successfully, it returns an OneDriveStorageFolder that represents the specified folder.</returns>
+        /// <returns>When this method completes successfully, it returns an IOneDriveStorageFolder that represents the specified folder.</returns>
         new Task<IOneDriveStorageFolder> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
@@ -48,8 +48,8 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// One of the enumeration values that determines how to handle the collision if
         /// a file with the specified desiredNewName already exists in the destination folder.
         /// Default : Fail
-        /// <returns>When this method completes, it returns a MicrosoftGraphOneDriveFile that represents the new file.</returns>
-        Task<IOneDriveStorageFile> CreateFileAsync(string desiredName, CreationCollisionOption options = CreationCollisionOption.FailIfExists, IRandomAccessStream content = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <returns>When this method completes, it returns a IOneDriveStorageFile that represents the new file.</returns>
+        Task<IOneDriveStorageFile> CreateFileAsync(string desiredName, CreationCollisionOption options, IRandomAccessStream content = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Creates a new subfolder in the current folder.
@@ -57,15 +57,15 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="desiredName">The name of the new subfolder to create in the current folder.</param>
         /// <param name="options">>One of the enumeration values that determines how to handle the collision if a file with the specified desiredName already exists in the current folder.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns>When this method completes, it returns a MicrosoftGraphOneDriveFolder that represents the new subfolder.</returns>
-        Task<IOneDriveStorageFolder> CreateFolderAsync(string desiredName, CreationCollisionOption options = CreationCollisionOption.FailIfExists, CancellationToken cancellationToken = default(CancellationToken));
+        /// <returns>When this method completes, it returns a IOneDriveStorageFolder that represents the new subfolder.</returns>
+        Task<IOneDriveStorageFolder> CreateFolderAsync(string desiredName, CreationCollisionOption options, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Gets the file with the specified name from the current folder.
         /// </summary>
         /// <param name="name">The name (or path relative to the current folder) of the file to get.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns>When this method completes successfully, it returns a MicrosoftGraphOneDriveFile that represents the specified file.</returns>
+        /// <returns>When this method completes successfully, it returns a IOneDriveStorageFile that represents the specified file.</returns>
         Task<IOneDriveStorageFile> GetFileAsync(string name, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="name">The name (or path relative to the current folder) of the folder to get.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns>When this method completes successfully, it returns a OneDriveStorageFolder that represents the specified file.</returns>
+        /// <returns>When this method completes successfully, it returns a IOneDriveStorageFolder that represents the specified file.</returns>
         Task<IOneDriveStorageFolder> GetFolderAsync(string name, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="name">The name (or path relative to the current folder) of the folder to get.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns>When this method completes successfully, it returns a OneDriveStorageFolder that represents the specified file.</returns>
+        /// <returns>When this method completes successfully, it returns a IOneDriveStorageItem that represents the specified file.</returns>
         Task<IOneDriveStorageItem> GetItemAsync(string name, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="filter">Filters the response based on a set of criteria.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a list of the subfolders and files in the current folder.</returns>
-        Task<OneDriveStorageItemsCollection> GetItemsAsync(int top, OneDriveEnums.OrderBy orderBy = OneDriveEnums.OrderBy.None, string filter = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<IReadOnlyList<IOneDriveStorageItem>> GetItemsAsync(int top, OneDriveEnums.OrderBy orderBy = OneDriveEnums.OrderBy.None, string filter = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Gets the items from the current folder.
@@ -129,14 +129,14 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="maxItemsToRetrieve">The maximum number of items to get</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a list of the subfolders and files in the current folder.</returns>
-        Task<OneDriveStorageItemsCollection> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve, CancellationToken cancellationToken = default(CancellationToken));
+        Task<IReadOnlyList<IOneDriveStorageItem>> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Retrieve the next page of items
         /// </summary>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>The next collection of items or null if there are no more items (an item could be a folder or  file)</returns>
-        Task<OneDriveStorageItemsCollection> NextItemsAsync(CancellationToken cancellationToken = default(CancellationToken));
+        Task<IReadOnlyList<IOneDriveStorageItem>> NextItemsAsync(CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Cancel the upload Session
@@ -173,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="content">The data's stream to push into the file</param>
         /// <param name="options">One of the enumeration values that determines how to handle the collision if a file with the specified desiredName already exists in the current folder.</param>
         /// <param name="maxChunkSize">Max chunk size must be a multiple of 320 KiB (ie: 320*1024)</param>
-        /// <returns>When this method completes, it returns a MicrosoftGraphOneDriveFile that represents the new file.</returns>
+        /// <returns>When this method completes, it returns a IOneDriveStorageFile that represents the new file.</returns>
         Task<IOneDriveStorageFile> UploadFileAsync(string desiredName, IRandomAccessStream content, CreationCollisionOption options = CreationCollisionOption.FailIfExists, int maxChunkSize = -1);
     }
 }

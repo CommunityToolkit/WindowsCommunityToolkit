@@ -31,7 +31,6 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         private OrderBy _orderBy;
         private string _filter;
         private bool _isFirstCall = true;
-        private bool _useOneDriveSdk = true;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OneDriveRequestSource{T}"/> class.

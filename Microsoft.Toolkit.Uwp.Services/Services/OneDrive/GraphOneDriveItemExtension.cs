@@ -23,7 +23,7 @@ using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
-    /// Type OneDriveItemExtension
+    /// Type GraphOneDriveItemExtension
     /// </summary>
     public static class GraphOneDriveItemExtension
     {
@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <param name="optionSize"> A value from the enumeration that specifies the size of the image to retrieve. Small ,Medium, Large</param>
         /// <returns>When this method completes, return a stream containing the thumbnail, or null if no thumbnail are available</returns>
-        public static async Task<Stream> GetThumbnailAsync(this IDriveItemRequestBuilder builder, IBaseClient provider, CancellationToken cancellationToken, ThumbnailSize optionSize)
+        internal static async Task<Stream> GetThumbnailAsync(this IDriveItemRequestBuilder builder, IBaseClient provider, CancellationToken cancellationToken, ThumbnailSize optionSize)
         {
             // Requests the different sizes of the thumbnail
             var thumbnailSet = await builder.GetThumbnailSetAsync(cancellationToken).ConfigureAwait(false);
@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Send an httpRequest to get an Onedrive Item
         /// </summary>
-        /// <param name="provider">OneDriveClient Provider</param>
+        /// <param name="provider">Graph Client Provider</param>
         /// <param name="request">Http Request to execute</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>a OneDrive item or null if the request fail</returns>
@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         }
 
         /// <summary>
-        /// Send an httpRequest to get an Onedrive Item
+        /// Send an httpRequest to get an One drive Item
         /// </summary>
         /// <param name="provider">OneDriveClient Provider</param>
         /// <param name="request">Http Request to execute</param>
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="desiredNewName">New name</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>a OneDrive item or null if the request fail</returns>
-        public static async Task<bool> MoveAsync(this IGraphServiceClient provider, HttpRequestMessage request, GraphOneDriveStorageFolder destinationFolder, string desiredNewName, CancellationToken cancellationToken)
+        internal static async Task<bool> MoveAsync(this IGraphServiceClient provider, HttpRequestMessage request, GraphOneDriveStorageFolder destinationFolder, string desiredNewName, CancellationToken cancellationToken)
         {
             OneDriveParentReference rootParentReference = new OneDriveParentReference();
             if (destinationFolder.OneDriveItem.Name == "root")
@@ -152,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <param name="orderBy">Sort the order of items in the response collection</param>
         /// <param name="filter">Filters the response based on a set of criteria.</param>
         /// <returns>Returns the http request</returns>
-        public static IDriveItemChildrenCollectionRequest CreateChildrenRequest(this IDriveItemRequestBuilder requestBuilder, int top, OrderBy orderBy = OrderBy.None, string filter = null)
+        internal static IDriveItemChildrenCollectionRequest CreateChildrenRequest(this IDriveItemRequestBuilder requestBuilder, int top, OrderBy orderBy = OrderBy.None, string filter = null)
         {
             IDriveItemChildrenCollectionRequest oneDriveitemsRequest = null;
             if (orderBy == OrderBy.None && string.IsNullOrEmpty(filter))

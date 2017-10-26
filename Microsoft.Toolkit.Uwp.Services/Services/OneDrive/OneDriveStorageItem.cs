@@ -200,11 +200,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
         }
 
-        /// <summary>
-        /// Deletes the current item.
-        /// </summary>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns> No object or value is returned by this method when it completes.</returns>
+        /// <inheritdoc/>
         public async Task DeleteAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             if (_name == "root")
@@ -215,22 +211,13 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             await ((IItemRequestBuilder)RequestBuilder).Request().DeleteAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Retrieves a thumbnail set for the file
-        /// </summary>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns>When this method completes, return a thumbnail set, or null if no thumbnail are available</returns>
+        /// <inheritdoc/>
         public async Task<OneDriveThumbnailSet> GetThumbnailSetAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             return await ((IItemRequestBuilder)RequestBuilder).GetThumbnailSetAsync(cancellationToken);
         }
 
-        /// <summary>
-        /// Retrieves a thumbnail image for the file
-        /// </summary>
-        /// <param name="optionSize"> A value from the enumeration that specifies the size of the image to retrieve. Small ,Medium, Large</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns>When this method completes, return a stream containing the thumbnail, or null if no thumbnail are available</returns>
+        /// <inheritdoc/>
         public async Task<IRandomAccessStream> GetThumbnailAsync(OneDriveEnums.ThumbnailSize optionSize = OneDriveEnums.ThumbnailSize.Small, CancellationToken cancellationToken = default(CancellationToken))
         {
             var thumbnailStream = await ((IItemRequestBuilder)RequestBuilder).GetThumbnailAsync(Provider, cancellationToken, optionSize);
@@ -243,11 +230,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             return _thumbNail;
         }
 
-        /// <summary>
-        ///  Determines whether the current IStorageItem matches the specified StorageItemTypes value.
-        /// </summary>
-        /// <param name="type">The value to match against.</param>
-        /// <returns>True if the IStorageItem matches the specified value; otherwise false.</returns>
+        /// <inheritdoc/>
         public bool IsOfType(StorageItemTypes type)
         {
             if (IsFolder() && type == StorageItemTypes.Folder)
@@ -268,28 +251,15 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             return false;
         }
 
-        /// <summary>
-        /// Renames the current folder.
-        /// </summary>
-        /// <param name="desiredName">The desired, new name for the current folder.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns>When this method completes successfully, it returns an OneDriveStorageItem that represents the specified folder.</returns>
+        /// <inheritdoc/>
         public async Task<IOneDriveStorageItem> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Item newOneDriveItem = new Item();
-            newOneDriveItem.Name = desiredName;
-            newOneDriveItem.Description = "Item Renamed from UWP Toolkit";
+            Item newOneDriveItem = new Item { Name = desiredName, Description = "Item Renamed from UWP Toolkit" };
             var itemRenamed = await ((IItemRequestBuilder)RequestBuilder).Request().UpdateAsync(newOneDriveItem, cancellationToken).ConfigureAwait(false);
             return new OneDriveStorageItem(_oneDriveProvider, RequestBuilder, itemRenamed.CopyToDriveItem());
         }
 
-        /// <summary>
-        /// Moves the current item to the specified folder and renames the item according to the desired name.
-        /// </summary>
-        /// <param name="destinationFolder">The destination folder where the item is moved.</param>
-        /// <param name="desiredNewName">The desired name of the item after it is moved.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns>return success or failure</returns>
+        /// <inheritdoc/>
         public async Task<bool> MoveAsync(IOneDriveStorageFolder destinationFolder, string desiredNewName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (destinationFolder == null)
@@ -314,13 +284,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             return await Provider.MoveAsync(request, destinationFolder, desiredNewName, cancellationToken);
         }
 
-        /// <summary>
-        /// Copy the current item to the specified folder and renames the item according to the desired name.
-        /// </summary>
-        /// <param name="destinationFolder">The destination folder where the item is moved.</param>
-        /// <param name="desiredNewName">The desired name of the item after it is moved.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns>return success or failure</returns>
+        /// <inheritdoc/>
         public async Task<bool> CopyAsync(IOneDriveStorageFolder destinationFolder, string desiredNewName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (destinationFolder == null)
@@ -361,28 +325,19 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             return response.IsSuccessStatusCode;
         }
 
-        /// <summary>
-        /// Check if the item is a folder
-        /// </summary>
-        /// <returns>Return true if it's a folder</returns>
+        /// <inheritdoc/>
         public bool IsFolder()
         {
             return OneDriveItem.Folder != null ? true : false;
         }
 
-        /// <summary>
-        /// Check if the item is a file
-        /// </summary>
-        /// <returns>Return true if it's a file</returns>
+        /// <inheritdoc/>>
         public bool IsFile()
         {
             return OneDriveItem.File != null ? true : false;
         }
 
-        /// <summary>
-        /// Check if the item is a OneNote focument
-        /// </summary>
-        /// <returns>Return true if it's a OneNote document</returns>
+        /// <inheritdoc/>
         public bool IsOneNote()
         {
             return !IsFile() && !IsFolder() ? true : false;
@@ -414,7 +369,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// Initialize a OneDriveStorageItem
         /// </summary>
         /// <param name="oneDriveItem">A OneDrive item</param>
-        /// <returns>New instance of OneDriveStorageItem</returns>
+        /// <returns>New instance of OneDriveStorageFile</returns>
         protected IOneDriveStorageFile InitializeOneDriveStorageFile(DriveItem oneDriveItem)
         {
             IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IOneDriveClient)Provider).Drive.Items[oneDriveItem.Id];
