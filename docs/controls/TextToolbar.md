@@ -79,12 +79,13 @@ _Available CommonButtons:_
 | --- | --- |
 | Editor | Gets or sets the RichEditBox to Attach to, this is required for any formatting to work. |
 | Format | Gets or sets which formatter to use, and which buttons to provide. |
+| Formatter | Gets or sets the formatter instance which is used to format the text, using the buttons and shortcuts. |
 | DefaultButtons | Gets the default buttons for this format. |
 | CustomButtons | Gets or sets a list of buttons to add on top of the Default Button set. |
 | ButtonModifications | Gets or sets a list of Default buttons to Modify. |
 | Labels | Gets or sets the default string Labels |
 | LastKeyPress | Gets the last key pressed using the Editor. |
-| UseURIChecker | Enables use of URI Checker for Link Creator. This allows you to verify Absolute URIs, before creating the Link. |
+| UseURIChecker | Gets or sets a value indicating whether to enable use of URI Checker for Link Creator. This allows you to verify Absolute URIs, before creating the Link. |
 
 ## Requirements (Windows 10 Device Family)
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |

@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the formatter which is used to format the text from the buttons.
+        /// Gets or sets the formatter instance which is used to format the text, using the buttons and shortcuts.
         /// </summary>
         public Formatter Formatter
         {
@@ -140,9 +140,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public VirtualKey LastKeyPress { get; private set; }
 
         /// <summary>
-        /// Enables use of URI Checker for Link Creator.
+        /// Gets or sets a value indicating whether to enable use of URI Checker for Link Creator. This allows you to verify Absolute URIs, before creating the Link.
         /// </summary>
-        public bool UseURIChecker 
+        public bool UseURIChecker
         {
             get { return (bool)GetValue(UseURICheckerProperty); }
             set { SetValue(UseURICheckerProperty, value); }
