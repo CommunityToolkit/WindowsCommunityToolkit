@@ -14,7 +14,7 @@ The AnimationSet class defines an object for storing and managing Storyboard and
 
 **XAML**
 
-```xml
+```xaml
 <Page ...
      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"/>

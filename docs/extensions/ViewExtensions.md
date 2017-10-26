@@ -12,7 +12,7 @@ The **ApplicationViewExtensions, StatusBarExtensions & TitleBarExtensions** prov
 
 ## Example
 
-```xml
+```xaml
 <Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ViewExtensionsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

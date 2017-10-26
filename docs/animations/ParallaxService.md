@@ -14,7 +14,7 @@ The ParallaxService class allows to create a parallax effect for items contained
 
 **XAML**
 
-```xml
+```xaml
 <Page ...
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"/>
 <ScrollViewer>

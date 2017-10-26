@@ -12,7 +12,7 @@ The **RangeSelector Control** is a *Double Slider* control that allows the user 
 
 Please note that if you are using a RangeSelector within a ScrollViewer you'll need to add the following code:
 
-```xml
+```xaml
 
 <controls:RangeSelector x:Name="Selector" ThumbDragStarted="Selector_OnDragStarted" ThumbDragCompleted="Selector_OnDragCompleted"></controls:RangeSelector>
 
@@ -39,7 +39,7 @@ This is because by default, the ScrollViewer will block the thumbs of the RangeS
 
 ## Syntax
 
-```xml
+```xaml
 
 <controls:RangeSelector x:Name="RangeSelectorControl" 
 	Minimum="10" 
