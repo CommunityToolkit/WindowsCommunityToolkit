@@ -11,17 +11,53 @@
 // ******************************************************************
 
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace UnitTests.UI
 {
     /// <summary>
     /// Sample class to test AdvancedCollectionViewSource functionality
     /// </summary>
-    internal class Person : IComparable
+    internal class Person : IComparable, INotifyPropertyChanged
     {
-        public string Name { get; set; }
+        private string _name;
 
-        public int Age { get; set; }
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private int _age;
+
+        public int Age
+        {
+            get
+            {
+                return _age;
+            }
+
+            set
+            {
+                if (_age != value)
+                {
+                    _age = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public int CompareTo(object obj)
         {
@@ -33,6 +69,13 @@ namespace UnitTests.UI
             }
 
             return Age.CompareTo(other.Age);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
