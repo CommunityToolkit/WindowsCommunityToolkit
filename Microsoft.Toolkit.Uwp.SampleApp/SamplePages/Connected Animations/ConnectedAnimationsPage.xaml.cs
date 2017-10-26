@@ -27,7 +27,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public ConnectedAnimationsPage()
         {
             this.InitializeComponent();
-            Connected.NavigationFrame = RootFrame;
             RootFrame.Navigate(typeof(FirstPage));
         }
 

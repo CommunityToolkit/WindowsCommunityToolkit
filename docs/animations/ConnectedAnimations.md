@@ -43,18 +43,16 @@ The Connected Animations XAML Attached Properties enable connected animations to
 ## Properties
 
 ### Connected.Key
-Registers element with the [ConnectedAnimationsService](https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.animation.connectedanimation.aspx). For the animation to work, make sure there are elements registered with the same key on two different pages when animating
-
-> Note: By default, the attached properties register event handlers on the top most frame in order to prepare and complete the animations. If your pages are hosted in a different frame (for example if using NavigationView or HamburgerMenu), you will need to specify the new frame by setting in in your code behind. Ex: `Connected.NavigationFrame = MyFrame;`
+Registers element with the [ConnectedAnimationsService](https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.animation.connectedanimation.aspx). For the animation to work, the same key must be registered on two different pages when navigating
 
 ### Connected.AnchorElement
 To enable [coordinated animations](https://docs.microsoft.com/en-us/windows/uwp/style/connected-animation#coordinated-animation), use the AnchorElement attached property on the element that should appear alongside the connected animation element by specifying the connected animation element
 
 ### Connected.ListItemKey
-Registers a ListView/GridView for connected animations. When navigating from/to a page that is using this property, the connected animation will use the item passed as a **parameter** in the page navigation to select the item in the list that should animate. The Connected.ListItemElementName attached property should also be set for the animation to be registered
+Registers a ListView/GridView for connected animations. When navigating from/to a page that is using this property, the connected animation will use the item passed as a **parameter** in the page navigation to select the item in the list that should animate. The Connected.ListItemElementName attached property must also be set for the animation to be registered
 
 ### Connected.ListItemElementName
-Specifies what named element in the DataTemplate of an item should animate. The Connected.ListItemKey attached property should also be set for the animation to be registered.
+Specifies what named element in the DataTemplate of an item should animate. The Connected.ListItemKey attached property must also be set for the animation to be registered.
 
 ## Requirements
 
