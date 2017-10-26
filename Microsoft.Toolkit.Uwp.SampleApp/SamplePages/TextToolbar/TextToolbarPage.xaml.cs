@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 var button = _toolbar?.GetDefaultButton(ButtonType.Bold);
                 if (button != null)
                 {
-                    button.Visibility = button.Visibility == Windows.UI.Xaml.Visibility.Visible ? Windows.UI.Xaml.Visibility.Collapsed : Windows.UI.Xaml.Visibility.Visible;
+                    button.Visibility = button.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
                 }
             });
 
