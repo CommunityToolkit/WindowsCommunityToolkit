@@ -118,15 +118,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             set { SetValue(DelayProperty, value); }
         }
 
-        private static bool? _isCreatorsUpdateOrAbove;
-
-        /// <summary>
-        /// Gets a value indicating whether Universal API Contract 4 is available on the current device
-        /// where Implicit Show/Hide animations and Translation property on <see cref="Visual"/> are available
-        /// </summary>
-        public static bool IsCreatorsUpdateOrAbove => (bool)(_isCreatorsUpdateOrAbove ??
-            (_isCreatorsUpdateOrAbove = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4)));
-
         /// <summary>
         /// Gets a <see cref="CompositionAnimation"/> that can be used on the Composition layer
         /// </summary>
@@ -137,11 +128,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Called when any property of the animation changes
         /// </summary>
+        protected void OnAnimationChanged()
+        {
+            AnimationChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Called when any property of the animation changes
+        /// </summary>
         /// <param name="d">The animation where a property has changed</param>
         /// <param name="e">The details about the property change</param>
-        protected static void OnAnimationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnAnimationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as AnimationBase).AnimationChanged?.Invoke(d, null);
+            (d as AnimationBase).OnAnimationChanged();
         }
     }
 }

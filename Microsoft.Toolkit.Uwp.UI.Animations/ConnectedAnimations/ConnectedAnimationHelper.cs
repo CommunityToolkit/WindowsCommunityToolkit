@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// Attaches to a <see cref="Frame"/> navigation events to handle connected animations
     /// <seealso cref="Connected"/>
     /// </summary>
-    public class ConnectedAnimationHelper
+    internal class ConnectedAnimationHelper
     {
         private Dictionary<string, ConnectedAnimationProperties> _connectedAnimationsProps = new Dictionary<string, ConnectedAnimationProperties>();
         private Dictionary<string, ConnectedAnimationProperties> _previousPageConnectedAnimationProps = new Dictionary<string, ConnectedAnimationProperties>();
@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 throw new ArgumentNullException(nameof(frame));
             }
 
-            if (!AnimationBase.IsCreatorsUpdateOrAbove)
+            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
             {
                 return;
             }
@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         /// <summary>
         /// Registers the ListViewBase element items to participate in a connected animation
-        /// When page is navigated, the paramater used in the navigation is used to decide
+        /// When page is navigated, the parameter used in the navigation is used to decide
         /// which item to animate
         /// </summary>
         /// <param name="listViewBase">The <see cref="ListViewBase"/></param>
@@ -165,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var cas = ConnectedAnimationService.GetForCurrentView();
             foreach (var props in _connectedAnimationsProps.Values)
             {
-                if (props.IsListAnimation && parameter != null && AnimationBase.IsCreatorsUpdateOrAbove)
+                if (props.IsListAnimation && parameter != null && ApiInformationHelper.IsCreatorsUpdateOrAbove)
                 {
                     props.ListViewBase.PrepareConnectedAnimation(props.Key, e.Parameter, props.ElementName);
                 }
@@ -219,7 +219,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     var animationHandled = false;
                     if (connectedAnimation != null)
                     {
-                        if (props.IsListAnimation && parameter != null && AnimationBase.IsCreatorsUpdateOrAbove)
+                        if (props.IsListAnimation && parameter != null && ApiInformationHelper.IsCreatorsUpdateOrAbove)
                         {
                             props.ListViewBase.ScrollIntoView(parameter);
 
@@ -240,7 +240,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         }
                         else if (!props.IsListAnimation)
                         {
-                            if (AnimationBase.IsCreatorsUpdateOrAbove && _coordinatedAnimationElements.TryGetValue(props.Element, out var coordinatedElements))
+                            if (ApiInformationHelper.IsCreatorsUpdateOrAbove && _coordinatedAnimationElements.TryGetValue(props.Element, out var coordinatedElements))
                             {
                                 connectedAnimation.TryStart(props.Element, coordinatedElements);
                             }

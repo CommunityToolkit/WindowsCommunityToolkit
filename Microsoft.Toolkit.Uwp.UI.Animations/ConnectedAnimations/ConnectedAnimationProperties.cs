@@ -27,6 +27,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         public Windows.UI.Xaml.Controls.ListViewBase ListViewBase { get; set; }
 
-        public bool IsListAnimation { get; set; } = false;
+        public bool IsListAnimation { get; set; }
     }
 }

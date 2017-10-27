@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 
@@ -18,25 +19,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// A generic class extending <see cref="AnimationBase"/> to provide common implementation for most animations
     /// </summary>
-    /// <typeparam name="T">Type of <see cref="TypedKeyFrame{U}"/> to use</typeparam>
+    /// <typeparam name="TKeyFrame">Type of <see cref="TypedKeyFrame{U}"/> to use</typeparam>
     /// <typeparam name="U">Type of value being animated.</typeparam>
-    public abstract class TypedAnimationBase<T, U> : AnimationBase
-        where T : TypedKeyFrame<U>, new()
+    public abstract class TypedAnimationBase<TKeyFrame, U> : AnimationBase
+        where TKeyFrame : TypedKeyFrame<U>, new()
     {
-        private T fromKeyFrame;
-        private T toKeyFrame;
+        private TKeyFrame _fromKeyFrame;
+        private TKeyFrame _toKeyFrame;
 
         /// <summary>
         /// Identifies the <see cref="From"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty FromProperty =
-            DependencyProperty.Register(nameof(From), typeof(U), typeof(TypedAnimationBase<T, U>), new PropertyMetadata(GetDefaultValue(), OnAnimationPropertyChanged));
+            DependencyProperty.Register(nameof(From), typeof(U), typeof(TypedAnimationBase<TKeyFrame, U>), new PropertyMetadata(GetDefaultValue(), OnAnimationPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="To"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ToProperty =
-            DependencyProperty.Register(nameof(To), typeof(U), typeof(TypedAnimationBase<T, U>), new PropertyMetadata(GetDefaultValue(), OnAnimationPropertyChanged));
+            DependencyProperty.Register(nameof(To), typeof(U), typeof(TypedAnimationBase<TKeyFrame, U>), new PropertyMetadata(GetDefaultValue(), OnAnimationPropertyChanged));
 
         /// <summary>
         /// Gets or sets the value at the beginning.
@@ -85,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             foreach (var keyFrame in KeyFrames)
             {
-                if (keyFrame is T typedKeyFrame)
+                if (keyFrame is TKeyFrame typedKeyFrame)
                 {
                     InsertKeyFrameToTypedAnimation(animation, typedKeyFrame);
                 }
@@ -110,7 +111,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="animation">The animation where the key frame will be inserted</param>
         /// <param name="keyFrame">The key frame that will be inserted</param>
-        protected abstract void InsertKeyFrameToTypedAnimation(KeyFrameAnimation animation, T keyFrame);
+        protected abstract void InsertKeyFrameToTypedAnimation(KeyFrameAnimation animation, TKeyFrame keyFrame);
+
+        private static void OnAnimationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as TypedAnimationBase<TKeyFrame, U>).OnAnimationChanged();
+        }
 
         // these two methods are required to support double (non nullable type)
         private static object GetDefaultValue()
@@ -135,30 +141,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private void PrepareKeyFrames()
         {
-            if (fromKeyFrame != null)
+            if (_fromKeyFrame != null)
             {
-                KeyFrames.Remove(fromKeyFrame);
+                KeyFrames.Remove(_fromKeyFrame);
             }
 
-            if (toKeyFrame != null)
+            if (_toKeyFrame != null)
             {
-                KeyFrames.Remove(toKeyFrame);
+                KeyFrames.Remove(_toKeyFrame);
             }
 
             if (!IsValueNull(From))
             {
-                fromKeyFrame = new T();
-                fromKeyFrame.Key = 0f;
-                fromKeyFrame.Value = From;
-                KeyFrames.Add(fromKeyFrame);
+                _fromKeyFrame = new TKeyFrame();
+                _fromKeyFrame.Key = 0f;
+                _fromKeyFrame.Value = From;
+                KeyFrames.Add(_fromKeyFrame);
             }
 
             if (!IsValueNull(To))
             {
-                toKeyFrame = new T();
-                toKeyFrame.Key = 1f;
-                toKeyFrame.Value = To;
-                KeyFrames.Add(toKeyFrame);
+                _toKeyFrame = new TKeyFrame();
+                _toKeyFrame.Key = 1f;
+                _toKeyFrame.Value = To;
+                KeyFrames.Add(_toKeyFrame);
             }
         }
     }

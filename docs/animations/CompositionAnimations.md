@@ -108,19 +108,13 @@ To specify the Vector2, Vector3, or Vector4 value, use the following format:
 
 ## AnimationCollection
 
-An ObservableCollection of animations. 
+A collection of animations. 
 
 The AnimationCollection exposes the properties:
 * **ContainsTranslationAnimation**: True if any of the animations in the collection target the **Visual.Translation** property.
 
-The AnimationCollection exposes the methods:
-
-* **GetCompositionAnimationGroup(UIElement)**: Generates a *CompositionAnimationGroup* that can be used to animate a visual on the Composition layer
-* **GetImplicitAnimationCollection(UIElement)**: Creates a *ImplicitAnimationCollection* that can be used to apply implicit animation on a visual on the Composition layer
-
-
 The AnimationCollection exposes the events:
-* **AnimationCollectionChanged**: Raised when an animation has been added, removed, or a value of an animation has been changed
+* **AnimationCollectionChanged**: Raised when an animation has been added, removed, or a value of an animation has changed
 
 ## Requirements
 

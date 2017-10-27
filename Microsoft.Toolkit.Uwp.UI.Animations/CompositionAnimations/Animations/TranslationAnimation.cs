@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <inheritdoc/>
         public override CompositionAnimation GetCompositionAnimation(Compositor compositor)
         {
-            if (AnimationBase.IsCreatorsUpdateOrAbove)
+            if (ApiInformationHelper.IsCreatorsUpdateOrAbove)
             {
                 return base.GetCompositionAnimation(compositor);
             }

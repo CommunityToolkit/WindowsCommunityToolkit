@@ -13,8 +13,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -69,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="element">The element used to get the <see cref="Compositor"/></param>
         /// <returns><see cref="CompositionAnimationGroup"/></returns>
-        public CompositionAnimationGroup GetCompositionAnimationGroup(UIElement element)
+        internal CompositionAnimationGroup GetCompositionAnimationGroup(UIElement element)
         {
             var visual = ElementCompositionPreview.GetElementVisual(element);
             var compositor = visual.Compositor;
@@ -93,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="element">The element used to get the <see cref="Compositor"/></param>
         /// <returns><see cref="ImplicitAnimationCollection"/></returns>
-        public ImplicitAnimationCollection GetImplicitAnimationCollection(UIElement element)
+        internal ImplicitAnimationCollection GetImplicitAnimationCollection(UIElement element)
         {
             var visual = ElementCompositionPreview.GetElementVisual(element);
             var compositor = visual.Compositor;

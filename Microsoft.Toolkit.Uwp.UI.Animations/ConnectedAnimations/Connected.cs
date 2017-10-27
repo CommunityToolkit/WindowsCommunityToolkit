@@ -171,7 +171,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void OnKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!AnimationBase.IsCreatorsUpdateOrAbove)
+            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
             {
                 return;
             }
@@ -198,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void OnAnchorElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!AnimationBase.IsCreatorsUpdateOrAbove)
+            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
             {
                 return;
             }
@@ -226,7 +226,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void OnListItemKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!AnimationBase.IsCreatorsUpdateOrAbove)
+            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
             {
                 return;
             }
@@ -252,7 +252,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void OnListItemElementNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!AnimationBase.IsCreatorsUpdateOrAbove)
+            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
             {
                 return;
             }
@@ -308,7 +308,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void AddListViewBaseItemAnimationDetails(ConnectedAnimationHelper helper, Windows.UI.Xaml.Controls.ListViewBase listViewBase)
         {
-            if (AnimationBase.IsCreatorsUpdateOrAbove && listViewBase != null)
+            if (ApiInformationHelper.IsCreatorsUpdateOrAbove && listViewBase != null)
             {
                 var elementName = GetListItemElementName(listViewBase);
                 var key = GetListItemKey(listViewBase);
