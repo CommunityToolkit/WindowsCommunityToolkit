@@ -55,6 +55,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             DependencyProperty.Register(nameof(Delay), typeof(TimeSpan), typeof(AnimationBase), new PropertyMetadata(TimeSpan.Zero, OnAnimationPropertyChanged));
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="AnimationBase"/> class.
+        /// </summary>
+        public AnimationBase()
+        {
+            if (KeyFrames == null)
+            {
+                KeyFrames = new KeyFrameCollection();
+            }
+        }
+
+        /// <summary>
         /// Raised when a property changes
         /// </summary>
         public event EventHandler AnimationChanged;
@@ -75,14 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             get
             {
-                var collection = (KeyFrameCollection)GetValue(KeyFramesProperty);
-                if (collection == null)
-                {
-                    collection = new KeyFrameCollection();
-                    SetValue(KeyFramesProperty, collection);
-                }
-
-                return collection;
+                return (KeyFrameCollection)GetValue(KeyFramesProperty);
             }
 
             set

@@ -20,11 +20,13 @@
             <animations:ScalarAnimation></animations:ScalarAnimation>
             <animations:ScaleAnimation></animations:ScaleAnimation>
             <animations:Vector2Animation>
-                <animations:Vector2KeyFrame></animations:Vector2KeyFrame>
-                <animations:Vector3KeyFrame></animations:Vector3KeyFrame>
-                <animations:Vector4KeyFrame></animations:Vector4KeyFrame>
-                <animations:ExpressionKeyFrame></animations:ExpressionKeyFrame>
-                <animations:ScalarKeyFrame></animations:ScalarKeyFrame>
+                <animations:KeyFrameCollection>
+                    <animations:Vector2KeyFrame></animations:Vector2KeyFrame>
+                    <animations:Vector3KeyFrame></animations:Vector3KeyFrame>
+                    <animations:Vector4KeyFrame></animations:Vector4KeyFrame>
+                    <animations:ExpressionKeyFrame></animations:ExpressionKeyFrame>
+                    <animations:ScalarKeyFrame></animations:ScalarKeyFrame>
+                </animations:KeyFrameCollection>
             </animations:Vector2Animation>
             <animations:Vector3Animation></animations:Vector3Animation>
             <animations:Vector4Animation></animations:Vector4Animation>
