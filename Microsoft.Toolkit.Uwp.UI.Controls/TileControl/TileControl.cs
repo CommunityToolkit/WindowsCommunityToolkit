@@ -14,11 +14,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Numerics;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
     using Microsoft.Toolkit.Uwp.UI.Extensions;
     using Robmikh.CompositionSurfaceFactory;
     using Windows.ApplicationModel;
@@ -32,7 +32,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using Windows.UI.Xaml.Media;
     using Windows.UI.Xaml.Media.Imaging;
     using Windows.UI.Xaml.Shapes;
-    using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
 
     /// <summary>
     /// Orientation of the scroll
