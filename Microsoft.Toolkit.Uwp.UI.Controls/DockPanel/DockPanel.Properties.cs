@@ -19,13 +19,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class DockPanel
     {
-        private const string DockName = "Dock";
-
         /// <summary>
         /// Gets or sets a value that indicates the position of a child element within a parent <see cref="DockPanel"/>.
         /// </summary>
         public static readonly DependencyProperty DockProperty = DependencyProperty.RegisterAttached(
-            DockName,
+            "Dock",
             typeof(Dock),
             typeof(FrameworkElement),
             new PropertyMetadata(Dock.Left, DockChanged));
