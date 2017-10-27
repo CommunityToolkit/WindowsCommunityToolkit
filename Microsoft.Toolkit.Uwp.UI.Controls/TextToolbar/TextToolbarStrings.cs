@@ -122,6 +122,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(WarningLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Warning"));
 
         /// <summary>
+        /// Identifies the <see cref="RelativeLabel"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty RelativeLabelProperty =
+            DependencyProperty.Register(nameof(RelativeLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Relative"));
+
+        /// <summary>
         /// Gets or sets the label for Bold
         /// </summary>
         public string BoldLabel
@@ -272,6 +278,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (string)GetValue(WarningLabelProperty); }
             set { SetValue(WarningLabelProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the label for Relative
+        /// </summary>
+        public string RelativeLabel
+        {
+            get { return (string)GetValue(RelativeLabelProperty); }
+            set { SetValue(RelativeLabelProperty, value); }
         }
     }
 }

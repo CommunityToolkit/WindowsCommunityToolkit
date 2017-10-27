@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="UseURIChecker"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty UseURICheckerProperty =
-            DependencyProperty.Register(nameof(UseURIChecker), typeof(bool), typeof(TextToolbar), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(UseURIChecker), typeof(bool), typeof(TextToolbar), new PropertyMetadata(true));
 
         /// <summary>
         /// Gets or sets the RichEditBox to Attach to, this is required for any formatting to work.
