@@ -10,6 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
     // Ignore warning: 'BooleanNode' defines operator == or operator != but does not override Object.Equals(object o) && Object.GetHashCode()
@@ -69,6 +71,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         public static implicit operator BooleanNode(bool value)
         {
             return new BooleanNode(value);
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="BooleanNode"/> to <see cref="bool"/>.
+        /// </summary>
+        /// <param name="node">The node to convert</param>
+        public static implicit operator bool(BooleanNode node)
+        {
+            return node._value;
         }
 
         /// <summary>
