@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
 
                 _currentFolder = _rootFolder = await OneDriveService.Instance.RootFolderAsync();
-
+                OneDriveItemsList.ItemsSource = _rootFolder.GetItemsAsync();
                 succeeded = true;
             }
             catch (ServiceException serviceEx)
