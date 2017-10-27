@@ -33,6 +33,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Identifies the <see cref="Value"/> dependency property
         /// </summary>
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register(nameof(Value), typeof(T), typeof(TypedKeyFrame<T>), new PropertyMetadata(0.0));
+            DependencyProperty.Register(nameof(Value), typeof(T), typeof(TypedKeyFrame<T>), new PropertyMetadata(default(T)));
     }
 }
