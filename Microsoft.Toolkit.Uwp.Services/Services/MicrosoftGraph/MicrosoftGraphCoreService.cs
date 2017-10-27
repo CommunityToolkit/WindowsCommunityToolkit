@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 
             _user = new MicrosoftGraphUserService(_graphProvider);
 
-            if ((_servicesToInitialize & ServicesToInitialize.UserProfile) == ServicesToInitialize.UserProfile)
+            if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile)
             {
                 await GetUserAsyncProfile();
             }
@@ -86,17 +86,17 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             // {
             //    _user.InitializeDrive();
             // }
-            if ((_servicesToInitialize & ServicesToInitialize.Message) == ServicesToInitialize.Message)
+            if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Message) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Message)
             {
                 _user.InitializeMessage();
             }
 
-            if ((_servicesToInitialize & ServicesToInitialize.Event) == ServicesToInitialize.Event)
+            if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Event) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Event)
             {
                 _user.InitializeEvent();
             }
 
-            return _isConnected;
+            return IsConnected;
         }
 
         /// <summary>
@@ -112,11 +112,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                   new DelegateAuthenticationProvider(
                      async (requestMessage) =>
                      {
-                                     // requestMessage.Headers.Add('outlook.timezone', 'Romance Standard Time');
-                                     requestMessage.Headers.Authorization =
-                                            new AuthenticationHeaderValue(
-                                                     "bearer",
-                                                     await ((MicrosoftGraphAuthenticationHelper)Authentication).GetUserTokenAsync(appClientId).ConfigureAwait(false));
+                        requestMessage.Headers.Authorization =
+                            new AuthenticationHeaderValue(
+                                        "bearer",
+                                        await ((MicrosoftGraphAuthenticationHelper)Authentication).GetUserTokenAsync(appClientId).ConfigureAwait(false));
                          return;
                      }));
             }
@@ -126,11 +125,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                     new DelegateAuthenticationProvider(
                         async (requestMessage) =>
                         {
-                                            // requestMessage.Headers.Add('outlook.timezone', 'Romance Standard Time');
-                                            requestMessage.Headers.Authorization =
-                                                new AuthenticationHeaderValue(
-                                                            "bearer",
-                                                            await Authentication.GetUserTokenV2Async(appClientId).ConfigureAwait(false));
+                            requestMessage.Headers.Authorization =
+                                new AuthenticationHeaderValue(
+                                            "bearer",
+                                            await Authentication.GetUserTokenV2Async(appClientId).ConfigureAwait(false));
                             return;
                         }));
             }

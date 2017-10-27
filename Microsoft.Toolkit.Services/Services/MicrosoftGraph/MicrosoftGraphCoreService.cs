@@ -66,9 +66,9 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         protected string AppClientId { get; set; }
 
         /// <summary>
-        /// Field to store the services to initialize
+        /// Gets or sets field to store the services to initialize
         /// </summary>
-        private ServicesToInitialize _servicesToInitialize;
+        protected ServicesToInitialize ServicesToInitialize { get; set; }
 
         /// <summary>
         /// Fields to store a MicrosoftGraphServiceMessages instance
@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             AppClientId = appClientId;
             _graphProvider = CreateGraphClientProvider(appClientId);
-            _servicesToInitialize = servicesToInitialize;
+            ServicesToInitialize = servicesToInitialize;
             IsInitialized = true;
             return true;
         }
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             _user = new MicrosoftGraphUserService(_graphProvider);
 
-            if ((_servicesToInitialize & ServicesToInitialize.UserProfile) == ServicesToInitialize.UserProfile)
+            if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile)
             {
                 await GetUserAsyncProfile();
             }
@@ -151,12 +151,12 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             // {
             //    _user.InitializeDrive();
             // }
-            if ((_servicesToInitialize & ServicesToInitialize.Message) == ServicesToInitialize.Message)
+            if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Message) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Message)
             {
                 _user.InitializeMessage();
             }
 
-            if ((_servicesToInitialize & ServicesToInitialize.Event) == ServicesToInitialize.Event)
+            if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Event) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Event)
             {
                 _user.InitializeEvent();
             }
