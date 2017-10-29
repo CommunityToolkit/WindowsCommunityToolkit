@@ -52,6 +52,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty SelectedOptionsIndexProperty = DependencyProperty.Register(nameof(SelectedOptionsIndex), typeof(int), typeof(HamburgerMenu), new PropertyMetadata(-1));
 
         /// <summary>
+        /// Identifies the <see cref="OptionItemsAutomationPropertyName"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty OptionItemsAutomationPropertyNameProperty = DependencyProperty.Register(nameof(OptionItemsAutomationPropertyName), typeof(string), typeof(HamburgerMenu), new PropertyMetadata("Option items"));
+
+        /// <summary>
+        /// Gets or sets an object source used to generate the content of the options.
+        /// </summary>
+        public string OptionItemsAutomationPropertyName
+        {
+            get { return (string)GetValue(OptionItemsAutomationPropertyNameProperty); }
+            set { SetValue(OptionItemsAutomationPropertyNameProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets an object source used to generate the content of the options.
         /// </summary>
         public object OptionsItemsSource

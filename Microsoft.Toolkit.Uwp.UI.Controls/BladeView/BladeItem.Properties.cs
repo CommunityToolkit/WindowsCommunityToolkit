@@ -57,6 +57,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty CloseButtonForegroundProperty = DependencyProperty.Register(nameof(CloseButtonForeground), typeof(Brush), typeof(BladeItem), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         /// <summary>
+        /// Identifies the <see cref="CloseButtonAutomationPropertyName"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty CloseButtonAutomationPropertyNameProperty = DependencyProperty.Register(nameof(CloseButtonAutomationPropertyName), typeof(string), typeof(BladeItem), new PropertyMetadata("Cancel"));
+
+        /// <summary>
+        /// Gets or sets the automation property name for the close button.
+        /// </summary>
+        public string CloseButtonAutomationPropertyName
+        {
+            get { return (string)GetValue(CloseButtonAutomationPropertyNameProperty); }
+            set { SetValue(CloseButtonAutomationPropertyNameProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the foreground color of the close button
         /// </summary>
         public Brush CloseButtonForeground

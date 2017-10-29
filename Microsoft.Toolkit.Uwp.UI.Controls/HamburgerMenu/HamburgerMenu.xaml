@@ -120,7 +120,7 @@
                                     <ListView x:Name="ButtonsListView"
                                               Grid.Row="1"
                                               Width="{TemplateBinding OpenPaneLength}"
-                                              AutomationProperties.Name="Menu items"
+                                              AutomationProperties.Name="{TemplateBinding MenuItemsAutomationPropertyName}"
                                               IsItemClickEnabled="True"
                                               ItemContainerStyle="{StaticResource HambugerMenuItemStyle}"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
@@ -136,7 +136,7 @@
                                               Grid.Row="2"
                                               Width="{TemplateBinding OpenPaneLength}"
                                               VerticalAlignment="Bottom"
-                                              AutomationProperties.Name="Option items"
+                                              AutomationProperties.Name="{TemplateBinding OptionItemsAutomationPropertyName}"
                                               IsItemClickEnabled="True"
                                               ItemContainerStyle="{StaticResource HambugerMenuItemStyle}"
                                               ItemTemplate="{TemplateBinding OptionsItemTemplate}"
@@ -152,7 +152,7 @@
                                 </Grid>
                             </SplitView.Pane>
                             <ContentPresenter x:Name="ContentPart"
-                                              AutomationProperties.Name="Content"
+                                              AutomationProperties.Name="{TemplateBinding ContentAutomationPropertyName}"
                                               Content="{TemplateBinding Content}" />
                         </SplitView>
                         <Button x:Name="HamburgerButton"
@@ -162,7 +162,7 @@
                                 Margin="0,0,0,8"
                                 Padding="0"
                                 VerticalAlignment="Top"
-                                AutomationProperties.Name="Main button"
+                                AutomationProperties.Name="{TemplateBinding HamburgerMenuAutomationPropertyName}"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 TabIndex="0">

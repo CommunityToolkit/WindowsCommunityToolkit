@@ -30,7 +30,7 @@
                                           Grid.ColumnSpan="4"
                                           x:DeferLoadStrategy="Lazy"
                                           AutomationProperties.AccessibilityView="Raw"
-                                          AutomationProperties.Name="Header content"
+                                          AutomationProperties.Name="{TemplateBinding HeaderContentAutomationPropertyName}"
                                           Content="{TemplateBinding Header}"
                                           ContentTemplate="{TemplateBinding HeaderTemplate}"
                                           Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
@@ -38,7 +38,7 @@
                                           Visibility="Collapsed" />
 
                         <TextBlock x:Name="TextContent"
-                                   AutomationProperties.Name="Text content"
+                                   AutomationProperties.Name="{TemplateBinding TextContentAutomationPropertyName}"
                                    Style="{TemplateBinding TextStyle}"
                                    Text="{TemplateBinding Text}" />
                         <VisualStateManager.VisualStateGroups>

@@ -734,7 +734,7 @@
                                     <Border Background="#48000000" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="3"></Border>
 
                                     <ListView x:Name="ButtonsListView"
-                                          AutomationProperties.Name="Menu items"
+                                          AutomationProperties.Name="{TemplateBinding MenuItemsAutomationPropertyName}"
                                           IsItemClickEnabled="True"
                                           ItemContainerStyle="{StaticResource HambugerMenuItemStyle}"
                                           ItemTemplate="{TemplateBinding ItemTemplate}"
@@ -861,7 +861,7 @@
                                                     Height="{TemplateBinding HamburgerHeight}"
                                                     Padding="0"
                                                     VerticalAlignment="Top"
-                                                    AutomationProperties.Name="Main button"
+                                                    AutomationProperties.Name="{TemplateBinding HamburgerMenuAutomationPropertyName}"
                                                     Background="Transparent"
                                                     BorderThickness="0"
                                                     TabIndex="0"
@@ -908,7 +908,7 @@
                                                       ZoomMode="Disabled">
                                             <StackPanel>
                                                 <ListView x:Name="ButtonsListView"
-                                                          AutomationProperties.Name="Menu items"
+                                                          AutomationProperties.Name="{TemplateBinding MenuItemsAutomationPropertyName}"
                                                           ItemContainerStyle="{StaticResource VerticalHambugerMenuItemStyle}"
                                                           ItemTemplate="{TemplateBinding ItemTemplate}"
                                                           ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
@@ -929,7 +929,7 @@
                                                 <ListView x:Name="OptionsListView"
                                                           Grid.Row="3"
                                                           VerticalAlignment="Bottom"
-                                                          AutomationProperties.Name="Option items"
+                                                          AutomationProperties.Name="{TemplateBinding OptionItemsAutomationPropertyName}"
                                                           IsItemClickEnabled="True"
                                                           ItemContainerStyle="{StaticResource VerticalHambugerMenuItemStyle}"
                                                           ItemTemplate="{TemplateBinding OptionsItemTemplate}"
@@ -946,7 +946,7 @@
                                     </Grid>
                                 </SplitView.Pane>
                                 <ContentPresenter x:Name="ContentPart"
-                                                  AutomationProperties.Name="Content"
+                                                  AutomationProperties.Name="{TemplateBinding ContentAutomationPropertyName}"
                                                   Content="{TemplateBinding Content}" />
                             </SplitView>
                         </Grid>

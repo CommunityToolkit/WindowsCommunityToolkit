@@ -83,6 +83,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(HamburgerMenu), new PropertyMetadata(-1));
 
         /// <summary>
+        /// Identifies the <see cref="MenuItemsAutomationPropertyName"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MenuItemsAutomationPropertyNameProperty = DependencyProperty.Register(nameof(MenuItemsAutomationPropertyName), typeof(string), typeof(HamburgerMenu), new PropertyMetadata("Menu items"));
+
+        /// <summary>
+        /// Identifies the <see cref="ContentAutomationPropertyName"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ContentAutomationPropertyNameProperty = DependencyProperty.Register(nameof(ContentAutomationPropertyName), typeof(string), typeof(HamburgerMenu), new PropertyMetadata("Content"));
+
+        /// <summary>
+        /// Gets or sets the automation property name for the content.
+        /// </summary>
+        public string ContentAutomationPropertyName
+        {
+            get { return (string)GetValue(ContentAutomationPropertyNameProperty); }
+            set { SetValue(ContentAutomationPropertyNameProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the automation property name for the menu items.
+        /// </summary>
+        public string MenuItemsAutomationPropertyName
+        {
+            get { return (string)GetValue(MenuItemsAutomationPropertyNameProperty); }
+            set { SetValue(MenuItemsAutomationPropertyNameProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the width of the pane when it's fully expanded.
         /// </summary>
         public double OpenPaneLength
