@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples;
@@ -40,15 +41,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             _toolbar = control.FindChildByName("Toolbar") as TextToolbar;
 
-            var editZone = control.FindChildByName("EditZone") as RichEditBox;
-            if (editZone != null)
+            if (control.FindChildByName("EditZone") is RichEditBox editZone)
             {
                 editZone.TextChanged += EditZone_TextChanged;
             }
 
-            _previewer = control.FindChildByName("Previewer") as MarkdownTextBlock;
-            if (_previewer != null)
+            if (control.FindChildByName("Previewer") is MarkdownTextBlock previewer)
             {
+                _previewer = previewer;
                 _previewer.LinkClicked += Previewer_LinkClicked;
             }
 
@@ -99,8 +99,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 foreach (var item in _toolbar.DefaultButtons)
                 {
-                    var button = item as ToolbarButton;
-                    if (button != null)
+                    if (item is ToolbarButton button)
                     {
                         button.Visibility = Visibility.Visible;
                     }
@@ -147,8 +146,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 ShortcutKey = shortcut,
                 Activation = (b) =>
                 {
-                    var md = _toolbar.Formatter as MarkDownFormatter;
-                    if (md != null)
+                    if (_toolbar.Formatter is MarkDownFormatter md)
                     {
                         md.SetSelection($"[{demoText}]", $"[/{demoText}]");
                     }
@@ -181,8 +179,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            var md = _toolbar.Formatter as MarkDownFormatter;
-            if (md != null)
+            if (_toolbar.Formatter is MarkDownFormatter md)
             {
                 string text = md.Text;
                 _previewer.Text = string.IsNullOrWhiteSpace(text) ? "Nothing to Preview" : text;
@@ -195,16 +192,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             get
             {
-                var sample = DataContext as Sample;
-                var properties = sample.PropertyDescriptor.Expando as System.Collections.Generic.IDictionary<string, object>;
-                if (properties.TryGetValue("Format", out var format))
+                if (DataContext is Sample sample)
                 {
-                    return format as ValueHolder;
+                    if (sample.PropertyDescriptor.Expando is IDictionary<string, object> properties && properties.TryGetValue("Format", out var format))
+                    {
+                        return format as ValueHolder;
+                    }
                 }
-                else
-                {
-                    return null;
-                }
+
+                return null;
             }
         }
     }
