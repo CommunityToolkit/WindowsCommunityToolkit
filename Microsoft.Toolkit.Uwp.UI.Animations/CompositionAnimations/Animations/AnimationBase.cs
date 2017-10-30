@@ -11,9 +11,9 @@
 // ******************************************************************
 
 using System;
-using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
@@ -53,6 +53,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public static readonly DependencyProperty DelayProperty =
             DependencyProperty.Register(nameof(Delay), typeof(TimeSpan), typeof(AnimationBase), new PropertyMetadata(TimeSpan.Zero, OnAnimationPropertyChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="SetInitialValueBeforeDelay"/> property
+        /// </summary>
+        public static readonly DependencyProperty SetInitialValueBeforeDelayProperty =
+            DependencyProperty.Register(nameof(SetInitialValueBeforeDelay), typeof(bool), typeof(AnimationBase), new PropertyMetadata(false, OnAnimationPropertyChanged));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationBase"/> class.
@@ -120,6 +126,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             get { return (TimeSpan)GetValue(DelayProperty); }
             set { SetValue(DelayProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the value at keyframe 0 should be set before the delay
+        /// </summary>
+        public bool SetInitialValueBeforeDelay
+        {
+            get { return (bool)GetValue(SetInitialValueBeforeDelayProperty); }
+            set { SetValue(SetInitialValueBeforeDelayProperty, value); }
+        }
+
+        /// <summary>
+        /// Starts the animation on the specified element
+        /// </summary>
+        /// <param name="element">The <see cref="UIElement"/> to be animated</param>
+        public void StartAnimation(UIElement element)
+        {
+            var visual = ElementCompositionPreview.GetElementVisual(element);
+            var compositor = visual.Compositor;
+
+            if (Target.Contains("Translation"))
+            {
+                ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+            }
+
+            var compositionAnimation = GetCompositionAnimation(compositor);
+            visual.StartAnimation(Target, compositionAnimation);
         }
 
         /// <summary>

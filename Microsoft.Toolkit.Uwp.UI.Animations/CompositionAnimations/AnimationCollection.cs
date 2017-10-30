@@ -62,6 +62,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public event EventHandler AnimationCollectionChanged;
 
         /// <summary>
+        /// Starts the animations in the collection
+        /// </summary>
+        /// <param name="element">The <see cref="UIElement"/> to be animated</param>
+        public void StartAnimation(UIElement element)
+        {
+            foreach (var animation in this)
+            {
+                animation.StartAnimation(element);
+            }
+        }
+
+        /// <summary>
         /// Creates a <see cref="CompositionAnimationGroup"/> that can be used to animate a visual on the
         /// Composition layer
         /// </summary>
