@@ -69,5 +69,25 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Manually refreshes the view
         /// </summary>
         void Refresh();
+
+        /// <summary>
+        /// Manually refreshes the filter on the view
+        /// </summary>
+        void RefreshFilter();
+
+        /// <summary>
+        /// Manually refreshes the sorting on the view
+        /// </summary>
+        void RefreshSorting();
+
+        /// <summary>
+        /// Add a property to re-filter an item on when it is changed
+        /// </summary>
+        void ObserveFilterProperty(string propertyName);
+
+        /// <summary>
+        /// Clears all properties items are re-filtered on
+        /// </summary>
+        void ClearObservedFilterProperties();
     }
 }

@@ -6,6 +6,7 @@
 ## [Adding the UWP Community Toolkit to your Visual Studio Toolbox](Toolbox-Support.md)
 
 # Animations
+## [AnimationSet](animations/AnimationSet.md)
 ## [Blur](animations/Blur.md)
 ## [ExpressionBuilder](animations/Expressions.md)
 ## [Fade](animations/Fade.md)

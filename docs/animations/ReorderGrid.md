@@ -14,7 +14,7 @@ The ReorderGridAnimation class allows your GridView controls to animate items in
 
 **XAML**
 
-```xml
+```xaml
 <Page ...
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"/>
 <GridView x:Name="MyGridView"

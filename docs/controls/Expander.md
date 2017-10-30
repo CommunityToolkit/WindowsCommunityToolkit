@@ -25,7 +25,7 @@ You can also use these events :
 
 ## Syntax
 
-```xml
+```xaml
 
 <controls:Expander Header="Header of the expander"
                    Foreground="White"

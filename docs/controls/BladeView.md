@@ -12,7 +12,7 @@ The BladeView provides a container to host blades as extra detail pages in, for 
 
 ## Syntax
 
-```xml
+```xaml
 
 <controls:BladeView>
     <controls:BladeItem IsOpen="True"
@@ -63,7 +63,7 @@ public enum BladeMode
 
 Here is an example of a BladeView where the `BladeMode` property is binded to a value in the code-behind.
 
-```xml
+```xaml
 
 <controls:BladeView x:Name="BladeView"
                     Padding="0"
