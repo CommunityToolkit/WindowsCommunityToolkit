@@ -10,12 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Windows.Storage.Streams;
-using Microsoft.Toolkit.Services.MicrosoftGraph;
 
 namespace Microsoft.Toolkit.Services.MicrosoftGraph
 {
