@@ -12,9 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\MicrosoftGraph\Events\" />
-    <Folder Include="Services\MicrosoftGraph\Message\" />
-    <Folder Include="Services\MicrosoftGraph\User\" />
     <Folder Include="Services\OneDrive\" />
   </ItemGroup>
 

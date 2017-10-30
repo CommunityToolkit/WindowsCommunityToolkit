@@ -10,26 +10,17 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-
-namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
+namespace Microsoft.Toolkit.Services.MicrosoftGraph
 {
     /// <summary>
-    /// Message's Fields
+    /// Event's Fields
     /// </summary>
-    [Obsolete("This enum is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-
-    public enum MicrosoftGraphMessageFields
+    public enum MicrosoftGraphEventFields
     {
         /// <summary>
-        /// Indicates whether the message has attachments.
+        /// The collection of attendees for the event.
         /// </summary>
-        Attachments,
-
-        /// <summary>
-        /// The Bcc: recipients for the message.
-        /// </summary>
-        BccRecipients,
+        Attendees,
 
         /// <summary>
         /// The body of the message.
@@ -47,29 +38,14 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         Categories,
 
         /// <summary>
-        /// The Cc: recipients for the message.
-        /// </summary>
-        CcRecipients,
-
-        /// <summary>
         /// The version of the message.
         /// </summary>
         ChangeKey,
 
         /// <summary>
-        /// The ID of the conversation the email belongs to.
-        /// </summary>
-        ConversationId,
-
-        /// <summary>
         /// The date and time the message was created.
         /// </summary>
         CreatedDateTime,
-
-        /// <summary>
-        /// The mailbox owner and sender of the message.
-        /// </summary>
-        From,
 
         /// <summary>
         /// Indicates whether the message has attachments.
@@ -87,64 +63,99 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         Importance,
 
         /// <summary>
-        /// The classification of the message for the user, based on inferred relevance or importance, or on an explicit override. Possible values are: focused or other.
+        /// Set to true if the event lasts all day.
         /// </summary>
-        InferenceClassification,
+        IsAllDay,
 
         /// <summary>
-        /// The message ID in the format specified by RFC2822.
+        /// Set to true if the event has been canceled.
         /// </summary>
-        InternetMessageId,
+        IsCancelled,
 
         /// <summary>
-        /// Indicates whether a read receipt is requested for the message.
+        /// Set to true if the message sender is also the organizer.
         /// </summary>
-        IsDeliveryReceiptRequested,
+        IsOrganizer,
 
         /// <summary>
-        /// Indicates whether the message is a draft. A message is a draft if it hasn't been sent yet.
+        /// Set to true if an alert is set to remind the user of the event.
         /// </summary>
-        IsDraft,
+        IsReminderOn,
 
         /// <summary>
-        /// Indicates whether the message has been read.
-        /// </summary>
-        IsRead,
-
-        /// <summary>
-        /// Indicates whether a read receipt is requested for the message.
-        /// </summary>
-        IsReadReceiptRequested,
-
-        /// <summary>
-        /// The date and time the message was last changed.
+        /// The Timestamp type represents date and time information.
         /// </summary>
         LastModifiedDateTime,
 
         /// <summary>
-        /// The unique identifier for the message's parent mailFolder.
+        /// The location of the event.
         /// </summary>
-        ParentFolderId,
+        Location,
 
         /// <summary>
-        /// The date and time the message was received.
+        /// A URL for an online meeting.
         /// </summary>
-        ReceivedDateTime,
+        OnlineMeetingUrl,
 
         /// <summary>
-        /// The email addresses to use when replying.
+        /// The organizer of the event.
         /// </summary>
-        ReplyTo,
+        Organizer,
 
         /// <summary>
-        /// The account that is actually used to generate the message.
+        /// The end time zone that was set when the event was created.
         /// </summary>
-        Sender,
+        OriginalEndTimeZone,
 
         /// <summary>
-        /// The date and time the message was sent.
+        /// The Timestamp type represents date and time information.
         /// </summary>
-        SentDateTime,
+        OriginalStart,
+
+        /// <summary>
+        /// The start time zone that was set when the event was created.
+        /// </summary>
+        OriginalStartTimeZone,
+
+        /// <summary>
+        /// The recurrence pattern for the event.
+        /// </summary>
+        Recurrence,
+
+        /// <summary>
+        /// The number of minutes before the event start time that the reminder alert occurs.
+        /// </summary>
+        ReminderMinutesBeforeStart,
+
+        /// <summary>
+        /// Set to true if the sender would like a response when the event is accepted or declined.
+        /// </summary>
+        ResponseRequested,
+
+        /// <summary>
+        /// Indicates the type of response sent in response to an event message.
+        /// </summary>
+        ResponseStatus,
+
+        /// <summary>
+        /// Possible values are: Normal, Personal, Private, Confidential.
+        /// </summary>
+        Sensitivity,
+
+        /// <summary>
+        /// The categories assigned to the item.
+        /// </summary>
+        SeriesMasterId,
+
+        /// <summary>
+        /// The status to show: Free = 0, Tentative = 1, Busy = 2, Oof = 3, WorkingElsewhere = 4, Unknown = -1.
+        /// </summary>
+        ShowAs,
+
+        /// <summary>
+        /// The date, time, and time zone that the event starts.
+        /// </summary>
+        Start,
 
         /// <summary>
         /// The subject of the message.
@@ -152,14 +163,9 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         Subject,
 
         /// <summary>
-        /// The To: recipients for the message.
+        /// The event type: SingleInstance = 0, Occurrence = 1, Exception = 2, SeriesMaster = 3.
         /// </summary>
-        ToRecipients,
-
-        /// <summary>
-        /// The part of the body of the message that is unique to the current message.
-        /// </summary>
-        UniqueBody,
+        Type,
 
         /// <summary>
         /// The URL to open the message in Outlook Web App.

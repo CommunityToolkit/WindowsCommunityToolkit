@@ -13,15 +13,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.Graph;
-using System;
 
-namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
+namespace Microsoft.Toolkit.Services.MicrosoftGraph
 {
     /// <summary>
     /// GraphServiceClient Extensions
     /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-
     public static class MicrosoftGraphExtensions
     {
         /// <summary>
@@ -31,7 +28,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="dest">The destination collection</param>
         public static void AddTo(this IUserMessagesCollectionPage source, ObservableCollection<Graph.Message> dest)
         {
-            Toolkit.Services.MicrosoftGraph.MicrosoftGraphExtensions.AddTo(source, dest);
+            foreach (var item in source)
+            {
+                dest.Add(item);
+            }
         }
 
         /// <summary>
@@ -41,7 +41,16 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <param name="dest">A collection of Microsoft Graph recipients</param>
         public static void CopyTo(this string[] source, List<Recipient> dest)
         {
-            Toolkit.Services.MicrosoftGraph.MicrosoftGraphExtensions.CopyTo(source, dest);
+            foreach (var recipient in source)
+            {
+                dest.Add(new Recipient
+                {
+                    EmailAddress = new EmailAddress
+                    {
+                        Address = recipient,
+                    }
+                });
+            }
         }
     }
 }

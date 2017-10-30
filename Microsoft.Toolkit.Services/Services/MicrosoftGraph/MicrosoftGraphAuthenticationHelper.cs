@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Microsoft.Identity.Client;
 using Microsoft.Toolkit.Services.Exceptions;
 using Newtonsoft.Json;
+using Microsoft.Toolkit.Services.Core;
 
 namespace Microsoft.Toolkit.Services.MicrosoftGraph
 {
@@ -57,6 +58,11 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         }
 
         /// <summary>
+        /// Gets or sets platform-specific implementation for authentication.
+        /// </summary>
+        public static IPlatformAuthentication PlatformAuthentication { get; set; }
+
+        /// <summary>
         /// Gets or sets the Oauth2 access token.
         /// </summary>
         protected string TokenForUser { get; set; }
@@ -87,7 +93,12 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             JwToken jwtToken = null;
             if (TokenForUser == null)
             {
-                var webAuthResult = await AuthenticateAsync(new Uri(authorizationUrl), new Uri(DefaultRedirectUri));
+                if (PlatformAuthentication == null)
+                {
+                    throw new NotSupportedException("MicrosoftGraphAuthenticationHelper::PlatformAuthentication not set. Unable to authenticate.");
+                }
+
+                var webAuthResult = await PlatformAuthentication.AuthenticateAsync(new Uri(authorizationUrl), new Uri(DefaultRedirectUri));
                 authorizationCode = ParseAuthorizationCode(webAuthResult);
                 jwtToken = await RequestTokenAsync(appClientId, authorizationCode);
                 TokenForUser = jwtToken.AccessToken;
@@ -114,17 +125,6 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                 response = await client.SendAsync(request);
                 return response.IsSuccessStatusCode;
             }
-        }
-
-        /// <summary>
-        /// Platform specific implementation of user authentication / authorization.
-        /// </summary>
-        /// <param name="authorizationUrl">Endpoint for authorization.</param>
-        /// <param name="redirectUri">RedirectUri for app utilizing graph service.</param>
-        /// <returns>Authorization token to be parsed.</returns>
-        protected async virtual Task<string> AuthenticateAsync(Uri authorizationUrl, Uri redirectUri)
-        {
-            throw new NotImplementedException();
         }
 
         protected async Task<JwToken> RequestTokenAsync(string appClientId, string code)

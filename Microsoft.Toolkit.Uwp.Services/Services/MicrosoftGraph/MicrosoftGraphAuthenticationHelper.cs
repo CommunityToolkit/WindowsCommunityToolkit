@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Windows.Security.Authentication.Web;
 using Windows.Security.Credentials;
 using Windows.Storage;
+using Microsoft.Toolkit.Uwp.Services.Core;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
@@ -42,6 +43,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         public MicrosoftGraphAuthenticationHelper()
         {
             _vault = new PasswordVault();
+            PlatformAuthentication = new WebAuthBrokerAuthenticator();
         }
 
         /// <summary>
@@ -120,18 +122,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             }
 
             return true;
-        }
-
-        protected async override Task<string> AuthenticateAsync(Uri authorizationUrl, Uri redirectUri)
-        {
-            var webAuthResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, authorizationUrl, redirectUri);
-
-            if (webAuthResult.ResponseStatus == WebAuthenticationStatus.Success)
-            {
-                return webAuthResult.ResponseData;
-            }
-
-            return string.Empty;
         }
     }
 }
