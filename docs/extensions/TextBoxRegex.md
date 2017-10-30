@@ -25,7 +25,7 @@ Main Attached Properties:
 
 ## Syntax
 
-```xml
+```xaml
 
             <TextBox extensions:TextBoxRegex.Regex="^\s*\+?\s*([0-9][\s-]*){9,}$" />
 
@@ -51,7 +51,7 @@ Main Attached Properties:
 
 The following sample demonstrates how to add TextBoxRegex property.
 
-```xml
+```xaml
 
 <Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextBoxRegexPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

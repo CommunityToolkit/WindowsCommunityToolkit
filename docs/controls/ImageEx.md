@@ -13,7 +13,7 @@ You can also use a placeholder image that will be displayed will loading the mai
  
 ## Syntax
 
-```xml
+```xaml
 
 <controls:ImageEx Name="ImageExControl"
 	IsCacheEnabled="True"

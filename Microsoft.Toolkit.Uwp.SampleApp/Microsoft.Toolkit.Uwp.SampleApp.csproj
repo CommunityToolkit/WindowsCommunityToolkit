@@ -279,6 +279,7 @@
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
+    <Content Include="SamplePages\DockPanel\DockPanel.png" />
     <Content Include="SamplePages\FocusTracker\FocusTracker.png" />
     <Content Include="SamplePages\Analytics\Analytics.png" />
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
@@ -442,6 +443,9 @@
     <Content Include="SamplePages\InAppNotification\InAppNotificationXaml.bind" />
     <Content Include="SamplePages\ListViewBase\ListViewBaseCode.bind" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewXaml.bind" />
+    <Content Include="SamplePages\DockPanel\DockPanel.bind">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -477,6 +481,9 @@
       <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\IXamlRenderListener.cs" />
+    <Compile Include="SamplePages\DockPanel\DockPanelPage.xaml.cs">
+      <DependentUpon>DockPanelPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\InAppNotification\InAppNotificationPage.xaml.cs">
       <DependentUpon>InAppNotificationPage.xaml</DependentUpon>
     </Compile>
@@ -735,6 +742,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\DockPanel\DockPanelPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

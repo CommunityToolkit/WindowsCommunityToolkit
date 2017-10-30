@@ -16,7 +16,7 @@ The WrapPanel position child controls based on orientation, horizontal orientati
 
 ## Syntax
 
-```xml
+```xaml
 
 <wrapPanel:WrapPanel Name="VerticalWrapPanel"
                                  Grid.Row="1"
@@ -36,7 +36,7 @@ The WrapPanel position child controls based on orientation, horizontal orientati
 
 The following sample demonstrates how to add WrapPanel Control.
 
-```xml
+```xaml
 
 <Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.WrapPanelPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

@@ -20,12 +20,12 @@ You can also **Remove** Default Buttons from any format, or **Add** Custom butto
 
 ## Syntax
 ### UI Layout
-```xml
+```xaml
 <controls:TextToolbar x:Name="Toolbar" Editor="{x:Bind Editor}" Format="MarkDown" />
 <RichEditBox x:Name="Editor" PlaceholderText="Enter Text Here" />
 ```
 ### How to Remove/Add Buttons
-```xml
+```xaml
 <controls:TextToolbar x:Name="Toolbar" Editor="{x:Bind Editor}">
     <controls:TextToolbar.ButtonModifications>
         <buttons:DefaultButton Type="Headers" IsVisible="False"/>
