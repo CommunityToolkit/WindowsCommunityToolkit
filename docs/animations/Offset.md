@@ -14,7 +14,7 @@ The Offset animation is used to move the control from one place to another. Offs
 
 **XAML**
 
-```xml
+```xaml
 <Page ...
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"/>

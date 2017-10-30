@@ -14,7 +14,7 @@ The Light animation behavior performs a point light (A point source of light tha
 
 **XAML**
 
-```xml
+```xaml
 <Page ...
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"/>

@@ -308,7 +308,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void AddListViewBaseItemAnimationDetails(ConnectedAnimationHelper helper, Windows.UI.Xaml.Controls.ListViewBase listViewBase)
         {
-            if (ApiInformationHelper.IsCreatorsUpdateOrAbove && listViewBase != null)
+            if (ApiInformationHelper.IsCreatorsUpdateOrAbove && listViewBase != null && helper != null)
             {
                 var elementName = GetListItemElementName(listViewBase);
                 var key = GetListItemKey(listViewBase);
@@ -319,7 +319,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     return;
                 }
 
-                helper?.RegisterListItem(listViewBase, key, elementName);
+                helper.RegisterListItem(listViewBase, key, elementName);
             }
         }
     }

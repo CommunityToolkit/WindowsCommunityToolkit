@@ -14,7 +14,7 @@ The Blur animation blurs a XAML element by increasing or decreasing pixel size. 
 
 **XAML**
 
-```xml
+```xaml
 <Page ...
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"/>
@@ -48,7 +48,7 @@ await MyUIElement.Blur(value: 5, duration: 2500, delay: 250).StartAsync();  //Bl
 - Use this to shift the focus to foreground controls.
 
     **Sample Code**
-    ```xml
+    ```xaml
     <Grid>
         <Grid>
             <interactivity:Interaction.Behaviors>

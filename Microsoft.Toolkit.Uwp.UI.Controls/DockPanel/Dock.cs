@@ -10,28 +10,31 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using Windows.UI.Xaml.Data;
-
-namespace Microsoft.Toolkit.Uwp.SampleApp.Common
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    public class EnumConverter : IValueConverter
+    /// <summary>
+    /// Specifies the Dock position of a child element that is inside a <see cref="DockPanel"/>.
+    /// </summary>
+    public enum Dock
     {
-        private readonly Type _enumType;
+        /// <summary>
+        /// Dock left
+        /// </summary>
+        Left,
 
-        public EnumConverter(Type enumType)
-        {
-            _enumType = enumType;
-        }
+        /// <summary>
+        /// Dock Top
+        /// </summary>
+        Top,
 
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            return value.ToString();
-        }
+        /// <summary>
+        /// Dock Right
+        /// </summary>
+        Right,
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return Enum.Parse(_enumType, value.ToString());
-        }
+        /// <summary>
+        /// Dock Bottom
+        /// </summary>
+        Bottom
     }
 }

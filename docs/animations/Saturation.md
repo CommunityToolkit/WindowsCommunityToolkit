@@ -14,7 +14,7 @@ The Saturation animation selectively saturates a XAML element. Saturation animat
 
 **XAML**
 
-```xml
+```xaml
 <Page ...
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"/>

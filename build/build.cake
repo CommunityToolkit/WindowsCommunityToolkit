@@ -85,7 +85,7 @@ void VerifyHeaders(bool Replace)
 
     if(!Replace && hasMissing)
     {
-        throw new Exception("Please run '.\\build.ps1 -target=UpdateHeaders' and commit the changes.");
+        throw new Exception("Please run UpdateHeaders.bat or '.\\build.ps1 -target=UpdateHeaders' and commit the changes.");
     }
 }
 
