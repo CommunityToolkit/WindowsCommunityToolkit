@@ -33,8 +33,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using Windows.UI.Xaml.Media.Imaging;
     using Windows.UI.Xaml.Shapes;
 
-    using static Microsoft.Toolkit.Uwp.UI.Animations.Expressions.ExpressionFunctions;
-
     /// <summary>
     /// Orientation of the scroll
     /// </summary>
@@ -881,20 +879,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var imageWidthNode = propertySetNodeModulo.GetScalarProperty(imageWidthParam);
             if (scrollviewer == null)
             {
-                var offsetXNode = Ceil(propertySetNodeModulo.GetScalarProperty(offsetXParam));
-                var offsetYNode = Ceil(propertySetNodeModulo.GetScalarProperty(offsetYParam));
+                var offsetXNode = ExpressionFunctions.Ceil(propertySetNodeModulo.GetScalarProperty(offsetXParam));
+                var offsetYNode = ExpressionFunctions.Ceil(propertySetNodeModulo.GetScalarProperty(offsetYParam));
 
                 // expressions are created to simulate a positive and negative modulo with the size of the image and the offset
                 expressionXVal = (offsetXNode == 0f)
                    ? 0
                    : (offsetXNode < 0
-                       ? -(Abs(offsetXNode - (Ceil(offsetXNode / imageWidthNode) * imageWidthNode)) % imageWidthNode)
+                       ? -(ExpressionFunctions.Abs(offsetXNode - (ExpressionFunctions.Ceil(offsetXNode / imageWidthNode) * imageWidthNode)) % imageWidthNode)
                        : -(imageWidthNode - (offsetXNode % imageWidthNode)));
 
                 expressionYVal = offsetYNode == 0
                    ? 0
                    : (offsetYNode < 0
-                       ? -(Abs(offsetYNode - (Ceil(offsetYNode / imageHeightNode) * imageHeightNode)) % imageHeightNode)
+                       ? -(ExpressionFunctions.Abs(offsetYNode - (ExpressionFunctions.Ceil(offsetYNode / imageHeightNode) * imageHeightNode)) % imageHeightNode)
                        : -(imageHeightNode - (offsetYNode % imageHeightNode)));
             }
             else
@@ -903,18 +901,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollviewer);
                 var scrollPropSet = scrollProperties.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
 
-                var xCommon = Ceil((scrollPropSet.Translation.X * propertySetNodeModulo.GetScalarProperty(speedParam)) + propertySetNodeModulo.GetScalarProperty(offsetXParam));
+                var xCommon = ExpressionFunctions.Ceil((scrollPropSet.Translation.X * propertySetNodeModulo.GetScalarProperty(speedParam)) + propertySetNodeModulo.GetScalarProperty(offsetXParam));
                 expressionXVal = xCommon == 0
                     ? 0
                     : (xCommon < 0
-                        ? -(Abs(xCommon - (Ceil(xCommon / imageWidthNode) * imageWidthNode)) % imageWidthNode)
+                        ? -(ExpressionFunctions.Abs(xCommon - (ExpressionFunctions.Ceil(xCommon / imageWidthNode) * imageWidthNode)) % imageWidthNode)
                         : -(imageWidthNode - (xCommon % imageWidthNode)));
 
-                var yCommon = Ceil((scrollPropSet.Translation.Y * propertySetNodeModulo.GetScalarProperty(speedParam)) + propertySetNodeModulo.GetScalarProperty(offsetYParam));
+                var yCommon = ExpressionFunctions.Ceil((scrollPropSet.Translation.Y * propertySetNodeModulo.GetScalarProperty(speedParam)) + propertySetNodeModulo.GetScalarProperty(offsetYParam));
                 expressionYVal = yCommon == 0
                     ? 0
                     : (yCommon < 0
-                        ? -(Abs(yCommon - (Ceil(yCommon / imageHeightNode) * imageHeightNode)) % imageHeightNode)
+                        ? -(ExpressionFunctions.Abs(yCommon - (ExpressionFunctions.Ceil(yCommon / imageHeightNode) * imageHeightNode)) % imageHeightNode)
                         : -(imageHeightNode - (yCommon % imageHeightNode)));
             }
 
