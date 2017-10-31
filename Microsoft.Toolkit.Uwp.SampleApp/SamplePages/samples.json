@@ -34,10 +34,11 @@
       {
         "Name": "HamburgerMenu",
         "Type": "HamburgerMenuPage",
-        "About": "The HamburgerMenu provides a simple to use side bar menu that you can show/hide using a hamburger button.",
+        "About": "The HamburgerMenu is deprecated and will be removed in a future major release. Please use the NavigationView available in the Fall Creators Update.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu",
         "XamlCodeFile": "HamburgerMenuCode.bind",
         "Icon": "/SamplePages/HamburgerMenu/HamburgerMenu.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/HamburgerMenu.md"
       },
       {
@@ -112,6 +113,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem",
         "XamlCodeFile": "SlidableListItemCode.bind",
         "Icon": "/SamplePages/SlidableListItem/SlidableListItem.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/SlidableListItem.md"
       },
       {
@@ -375,6 +377,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
         "XamlCodeFile": "ParallaxPage.bind",
         "Icon": "/SamplePages/ParallaxService/Parallax.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/ParallaxService.md"
       },
       {
