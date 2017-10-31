@@ -9,7 +9,7 @@
     mc:Ignorable="d">
 
     <Grid Visibility="Collapsed">
-        <controls:DockPanel />
+        <controls:HeaderedItemsControl />
     </Grid>
     
 </Page>
