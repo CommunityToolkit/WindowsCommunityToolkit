@@ -446,6 +446,8 @@
     <Content Include="SamplePages\DockPanel\DockPanel.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlXaml.bind" />
+    <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControlXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -483,6 +485,9 @@
     <Compile Include="Common\IXamlRenderListener.cs" />
     <Compile Include="SamplePages\DockPanel\DockPanelPage.xaml.cs">
       <DependentUpon>DockPanelPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\HeaderedContentControl\HeaderedContentControlPage.xaml.cs">
+      <DependentUpon>HeaderedContentControlPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlPage.xaml.cs">
       <DependentUpon>HeaderedItemsControlPage.xaml</DependentUpon>
@@ -755,6 +760,10 @@
     <Page Include="SamplePages\FocusTracker\FocusTrackerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\HeaderedContentControl\HeaderedContentControlPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlPage.xaml">
       <SubType>Designer</SubType>
@@ -1059,9 +1068,7 @@
       <Name>Microsoft.Toolkit.Uwp</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SamplePages\HeaderedContentControl\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
