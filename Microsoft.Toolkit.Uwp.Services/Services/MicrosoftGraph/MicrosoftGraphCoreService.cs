@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
-            Authentication = new MicrosoftGraphAuthenticationHelper();
+            Authentication = new MicrosoftGraphAuthenticationHelper(DelegatedPermissionScopes);
             string accessToken = null;
             if (AuthenticationModel == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.AuthenticationModel.V1)
             {

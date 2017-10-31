@@ -32,7 +32,6 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         protected const string DefaultRedirectUri = "urn:ietf:wg:oauth:2.0:oob";
         protected const string AuthorityV2Model = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
 
-        protected const string Scope = "openid+profile+https://graph.microsoft.com/Files.ReadWrite https://graph.microsoft.com/Mail.ReadWrite https://graph.microsoft.com/User.ReadWrite+offline_access";
         protected const string AuthorizationTokenService = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
         protected const string LogoutUrlV2Model = "https://login.microsoftonline.com/common/oauth2/v2.0/logout";
 
@@ -48,11 +47,22 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         }
 
         /// <summary>
+        /// Gets or sets delegated permission Scopes
+        /// </summary>
+        protected string[] DelegatedPermissionScopes { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftGraphAuthenticationHelper"/> class.
         /// </summary>
         public MicrosoftGraphAuthenticationHelper()
         {
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MicrosoftGraphAuthenticationHelper"/> class.
+        /// </summary>
+        /// <param name="delegatedPermissionScopes">Delegated Permission Scopes</param>
+        public MicrosoftGraphAuthenticationHelper(string[] delegatedPermissionScopes) => DelegatedPermissionScopes = delegatedPermissionScopes;
 
         /// <summary>
         /// Gets or sets platform-specific implementation for authentication.
@@ -84,8 +94,10 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <returns>An oauth2 access token.</returns>
         internal async Task<string> GetUserTokenV2Async(string appClientId)
         {
+            var scopes = string.Join(" ", DelegatedPermissionScopes);
+
             string authorizationCode = null;
-            string authorizationUrl = $"{AuthorityV2Model}?response_type=code&client_id={appClientId}&redirect_uri={DefaultRedirectUri}&scope={Scope}&response_mode=query";
+            string authorizationUrl = $"{AuthorityV2Model}?response_type=code&client_id={appClientId}&redirect_uri={DefaultRedirectUri}&scope={scopes}&response_mode=query";
 
             JwToken jwtToken = null;
             if (TokenForUser == null)
@@ -126,7 +138,9 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
         protected async Task<JwToken> RequestTokenAsync(string appClientId, string code)
         {
-            var requestBody = $"grant_type=authorization_code&client_id={appClientId}&code={code}&redirect_uri={DefaultRedirectUri}&scope={Scope}";
+            var scopes = string.Join(" ", DelegatedPermissionScopes);
+
+            var requestBody = $"grant_type=authorization_code&client_id={appClientId}&code={code}&redirect_uri={DefaultRedirectUri}&scope={scopes}";
             var requestBytes = Encoding.UTF8.GetBytes(requestBody);
 
             // Build request.

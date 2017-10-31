@@ -58,7 +58,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             MicrosoftGraphService.Instance.AuthenticationModel = endpointVersion;
 
             // Initialize the service
-            MicrosoftGraphService.Instance.Initialize(ClientId.Text);
+            switch (endpointVersion)
+            {
+                case AuthenticationModel.V1:
+                    MicrosoftGraphService.Instance.Initialize(ClientId.Text);
+                    break;
+                case AuthenticationModel.V2:
+                    var scopes = DelegatedPermissionScopes.Text.Split(' ');
+                    MicrosoftGraphService.Instance.Initialize(ClientId.Text, ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, scopes);
+                    break;
+                default:
+                    break;
+            }
 
             // Login via Azure Active Directory
             if (!await MicrosoftGraphService.Instance.LoginAsync())
@@ -260,6 +271,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             UserBox.Visibility = Visibility.Collapsed;
             ClientIdBox.Visibility = Visibility.Visible;
             ConnectButton.Visibility = Visibility.Visible;
+        }
+
+        private void VersionEndpointDropdown_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
+            if (DelegatedPermissionScopes != null)
+            {
+                DelegatedPermissionScopes.Visibility = item.Tag.ToString() == "v2" ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
     }
 }

@@ -41,6 +41,17 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="MicrosoftGraphAuthenticationHelper"/> class.
+        /// </summary>
+        /// <param name="delegatedPermissionScopes">Delegated Permission Scopes</param>
+        public MicrosoftGraphAuthenticationHelper(string[] delegatedPermissionScopes)
+            : base(delegatedPermissionScopes)
+        {
+            _vault = new PasswordVault();
+            PlatformAuthentication = new WebAuthBrokerAuthenticator();
+        }
+
+        /// <summary>
         /// Storage key name for user name.
         /// </summary>
         private static readonly string STORAGEKEYUSER = "user";

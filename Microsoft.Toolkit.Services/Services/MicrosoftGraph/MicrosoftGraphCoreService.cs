@@ -71,6 +71,11 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         protected ServicesToInitialize ServicesToInitialize { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating deletgated permission scopes for MSAL (v2) endpoint
+        /// </summary>
+        protected string[] DelegatedPermissionScopes { get; set; }
+
+        /// <summary>
         /// Gets or sets fields to store a MicrosoftGraphServiceMessages instance
         /// </summary>
         public virtual MicrosoftGraphUserService User { get; set; }
@@ -80,8 +85,9 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// </summary>
         /// <param name='appClientId'>Azure AD's App client id</param>
         /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
+        /// <param name="delegatedPermissionScopes">Permission scopes for MSAL v2 endpoints</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event)
+        public bool Initialize(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null)
         {
             if (string.IsNullOrEmpty(appClientId))
             {
@@ -92,6 +98,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             GraphProvider = CreateGraphClientProvider(appClientId);
             ServicesToInitialize = servicesToInitialize;
             IsInitialized = true;
+            DelegatedPermissionScopes = delegatedPermissionScopes;
             return true;
         }
 
@@ -122,7 +129,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
-            Authentication = new MicrosoftGraphAuthenticationHelper();
+            Authentication = new MicrosoftGraphAuthenticationHelper(DelegatedPermissionScopes);
             string accessToken = await Authentication.GetUserTokenV2Async(AppClientId);
 
             if (string.IsNullOrEmpty(accessToken))
