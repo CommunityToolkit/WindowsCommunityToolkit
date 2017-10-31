@@ -15,6 +15,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// Represents a control that contains multiple items and has a header.
+    /// </summary>
     public class HeaderedItemsControl : ItemsControl
     {
         /// <summary>
