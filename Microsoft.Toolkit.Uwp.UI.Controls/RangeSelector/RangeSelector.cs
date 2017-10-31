@@ -11,6 +11,8 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -60,7 +62,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty IsTouchOptimizedProperty = DependencyProperty.Register(nameof(IsTouchOptimized), typeof(bool), typeof(RangeSelector), new PropertyMetadata(false, IsTouchOptimizedChangedCallback));
 
+        /// <summary>
+        /// Identifies the StepValue dependency property.
+        /// </summary>
+        public static readonly DependencyProperty StepValueProperty = DependencyProperty.Register(nameof(StepValue), typeof(double), typeof(RangeSelector), new PropertyMetadata(0.0, StepValueChangedCallback));
+
         private const double Epsilon = 0.01;
+
+        private List<double> stepValues;
 
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
@@ -177,6 +186,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 ArrangeForTouch();
             }
+
+            ResetStepValues();
 
             base.OnApplyTemplate();
         }
@@ -484,6 +495,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var newValue = (double)e.NewValue;
+            rangeSelector.RangeMinToStepValue();
 
             if (rangeSelector._valuesAssigned)
             {
@@ -548,6 +560,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var newValue = (double)e.NewValue;
+            rangeSelector.RangeMaxToStepValue();
 
             if (rangeSelector._valuesAssigned)
             {
@@ -604,6 +617,92 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             rangeSelector.ArrangeForTouch();
+        }
+
+        /// <summary>
+        /// Gets or sets the step value for range selector.
+        /// </summary>
+        /// <value>
+        /// The value for step.
+        /// </value>
+        public double StepValue
+        {
+            get
+            {
+                return (double)GetValue(StepValueProperty);
+            }
+
+            set
+            {
+                SetValue(StepValueProperty, value);
+            }
+        }
+
+        private static void StepValueChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var rangeSelector = d as RangeSelector;
+            if (rangeSelector == null)
+            {
+                return;
+            }
+
+            if (rangeSelector.StepValue != 0)
+            {
+                rangeSelector.ResetStepValues();
+            }
+        }
+
+        private void ResetStepValues()
+        {
+            if (StepValue != 0)
+            {
+                if (stepValues == null)
+                {
+                    stepValues = new List<double>();
+                }
+                else
+                {
+                    stepValues.Clear();
+                }
+
+                double newStep = Minimum + StepValue;
+                while (newStep < Maximum)
+                {
+                    stepValues.Add(newStep);
+                    newStep += StepValue;
+                }
+
+                RangeMinToStepValue();
+                RangeMaxToStepValue();
+            }
+        }
+
+        private void RangeMinToStepValue()
+        {
+            if (StepValue != 0)
+            {
+                RangeMin = MoveToStepValue(RangeMin);
+            }
+        }
+
+        private void RangeMaxToStepValue()
+        {
+            if (StepValue != 0)
+            {
+                RangeMax = MoveToStepValue(RangeMax);
+            }
+        }
+
+        private double MoveToStepValue(double rangeValue)
+        {
+            if (stepValues.Any() && rangeValue != Maximum && rangeValue != Minimum)
+            {
+                return stepValues.Where(s => s >= rangeValue).FirstOrDefault();
+            }
+            else
+            {
+                return rangeValue;
+            }
         }
 
         private void ArrangeForTouch()
