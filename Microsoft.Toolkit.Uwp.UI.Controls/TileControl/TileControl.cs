@@ -884,7 +884,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var offsetXNode = Ceil(propertySetNodeModulo.GetScalarProperty(offsetXParam));
                 var offsetYNode = Ceil(propertySetNodeModulo.GetScalarProperty(offsetYParam));
 
-                // expressions are create to simulate a positive and negative modulo with the size of the image and the offset
+                // expressions are created to simulate a positive and negative modulo with the size of the image and the offset
                 expressionXVal = (offsetXNode == 0f)
                    ? 0
                    : (offsetXNode < 0
@@ -899,7 +899,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                // expressions are create to simulate a positive and negative modulo with the size of the image and the offset and the ScrollViewer offset (Translation)
+                // expressions are created to simulate a positive and negative modulo with the size of the image and the offset and the ScrollViewer offset (Translation)
                 var scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollviewer);
                 var scrollPropSet = scrollProperties.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
 
