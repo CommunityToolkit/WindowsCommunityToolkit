@@ -901,14 +901,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollviewer);
                 var scrollPropSet = scrollProperties.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
 
-                var xCommon = ExpressionFunctions.Ceil((scrollPropSet.Translation.X * propertySetNodeModulo.GetScalarProperty(speedParam)) + propertySetNodeModulo.GetScalarProperty(offsetXParam));
+                var speed = propertySetNodeModulo.GetScalarProperty(speedParam);
+                var xCommon = ExpressionFunctions.Ceil((scrollPropSet.Translation.X * speed) + propertySetNodeModulo.GetScalarProperty(offsetXParam));
                 expressionXVal = xCommon == 0
                     ? 0
                     : (xCommon < 0
                         ? -(ExpressionFunctions.Abs(xCommon - (ExpressionFunctions.Ceil(xCommon / imageWidthNode) * imageWidthNode)) % imageWidthNode)
                         : -(imageWidthNode - (xCommon % imageWidthNode)));
 
-                var yCommon = ExpressionFunctions.Ceil((scrollPropSet.Translation.Y * propertySetNodeModulo.GetScalarProperty(speedParam)) + propertySetNodeModulo.GetScalarProperty(offsetYParam));
+                var yCommon = ExpressionFunctions.Ceil((scrollPropSet.Translation.Y * speed) + propertySetNodeModulo.GetScalarProperty(offsetYParam));
                 expressionYVal = yCommon == 0
                     ? 0
                     : (yCommon < 0
