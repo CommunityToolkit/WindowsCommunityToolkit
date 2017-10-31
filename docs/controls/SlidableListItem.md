@@ -2,7 +2,7 @@
 title: SlidableListItem XAML Control
 author: nmetulev
 ms.date: 08/20/2017
-description: The SlideableListItem Control is a UI control that enables actions to be triggered by sliding the content left or right.
+description: The SlidableListItem Control is a UI control that enables actions to be triggered by sliding the content left or right.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, SlidableListItem, XAML Control, xaml
 ---
 
@@ -10,7 +10,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, SlidableListItem,
 
 > NOTE: The SlidableListItem is deprecated and will be removed in a future major release. Please use the [SwipeControl](https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/swipe) available in the Fall Creators Update. Read the [Moving to SwipeControl](#swipe) section for more info.
 
-The **SlideableListItem Control** is a UI control that enables actions to be triggered by sliding the content left or right. This effect can be forced to ignore the mouse if only touch screen interaction is desired.
+The **SlidableListItem Control** is a UI control that enables actions to be triggered by sliding the content left or right. This effect can be forced to ignore the mouse if only touch screen interaction is desired.
 
 This control can be used as a ListView Data Template root to create effects similar to those common in mobile email apps like Outlook.
 
@@ -99,7 +99,7 @@ The SlidableListItem and SwipeControl share the same concepts and provide the sa
     * Execute mode - works the same way as the commanding on the SlidableListItem, where the user executes a command with a single swipe
     * Reveal mode - the user swipes an item to open a menu where the commands can be executed by tapping them
 * **Swipe direction:** SlidableListItem only supports left and right swiping while the SwipeControl supports all four directions (Up, Down, Left, Right)
-* **SwipeItem:** The Fall Creators Update defines new objects to help define the swipe commands. Unlike the SlidableListItem where each command is defined through properties on the control itseld, the SwipeControl accepts a collection of SwipeItems that define the commands. This is where you can specify properties such as background, foreground, icon, label, and invoked events.
+* **SwipeItem:** The Fall Creators Update defines new objects to help define the swipe commands. Unlike the SlidableListItem where each command is defined through properties on the control itself, the SwipeControl accepts a collection of SwipeItems that define the commands. This is where you can specify properties such as background, foreground, icon, label, and invoked events.
 
 ### Making the transition easier
 Starting with v2.1 of the UWP Community Toolkit, the SwipeControl provides a new property called **UseSwipeControlWhenPossible**. Setting the value to true will force the SlidableListItem to use a template based on the SwipeControl when running on the Fall Creators Update and above, and the regular template otherwise.
