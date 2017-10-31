@@ -188,7 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _isImageSourceLoaded = false;
         private bool _isRootElementSizeChanged = false;
 
-        private CompositionPropertySet _propertyOffsetModulo = null;
+        private CompositionPropertySet _propertySetModulo = null;
         private object _lockerOffset = new object();
 
         private double _animationX = 0;
@@ -866,14 +866,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ExpressionNode expressionXVal = null;
             ExpressionNode expressionYVal = null;
 
-            var propertyOffsetModulo = compositor.CreatePropertySet();
-            propertyOffsetModulo.InsertScalar(imageWidthParam, (float)imageWidth);
-            propertyOffsetModulo.InsertScalar(offsetXParam, (float)OffsetX);
-            propertyOffsetModulo.InsertScalar(imageHeightParam, (float)imageHeight);
-            propertyOffsetModulo.InsertScalar(offsetYParam, (float)OffsetY);
-            propertyOffsetModulo.InsertScalar(speedParam, (float)ParallaxSpeedRatio);
+            var propertySetModulo = compositor.CreatePropertySet();
+            propertySetModulo.InsertScalar(imageWidthParam, (float)imageWidth);
+            propertySetModulo.InsertScalar(offsetXParam, (float)OffsetX);
+            propertySetModulo.InsertScalar(imageHeightParam, (float)imageHeight);
+            propertySetModulo.InsertScalar(offsetYParam, (float)OffsetY);
+            propertySetModulo.InsertScalar(speedParam, (float)ParallaxSpeedRatio);
 
-            var propertySetNodeModulo = propertyOffsetModulo.GetReference();
+            var propertySetNodeModulo = propertySetModulo.GetReference();
 
             var imageHeightNode = propertySetNodeModulo.GetScalarProperty(imageHeightParam);
             var imageWidthNode = propertySetNodeModulo.GetScalarProperty(imageWidthParam);
@@ -955,7 +955,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _containerVisual.StartAnimation("Offset.X", expressionX);
             _containerVisual.StartAnimation("Offset.Y", expressionY);
 
-            _propertyOffsetModulo = propertyOffsetModulo;
+            _propertySetModulo = propertySetModulo;
         }
 
         private void RefreshMove()
@@ -972,13 +972,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (Strategy == UIStrategy.Composition)
                 {
-                    if (_propertyOffsetModulo == null)
+                    if (_propertySetModulo == null)
                     {
                         return;
                     }
 
-                    _propertyOffsetModulo.InsertScalar("offsetX", (float)x);
-                    _propertyOffsetModulo.InsertScalar("offsetY", (float)y);
+                    _propertySetModulo.InsertScalar("offsetX", (float)x);
+                    _propertySetModulo.InsertScalar("offsetY", (float)y);
                 }
                 else
                 {
@@ -1047,23 +1047,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RefreshImageSize(double width, double height)
         {
-            if (_propertyOffsetModulo == null)
+            if (_propertySetModulo == null)
             {
                 return;
             }
 
-            _propertyOffsetModulo.InsertScalar("imageWidth", (float)width);
-            _propertyOffsetModulo.InsertScalar("imageHeight", (float)height);
+            _propertySetModulo.InsertScalar("imageWidth", (float)width);
+            _propertySetModulo.InsertScalar("imageHeight", (float)height);
         }
 
         private void RefreshScrollSpeedRatio(double speedRatio)
         {
-            if (_propertyOffsetModulo == null)
+            if (_propertySetModulo == null)
             {
                 return;
             }
 
-            _propertyOffsetModulo.InsertScalar("speed", (float)speedRatio);
+            _propertySetModulo.InsertScalar("speed", (float)speedRatio);
         }
 
         /// <summary>
