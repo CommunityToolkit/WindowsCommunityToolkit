@@ -21,6 +21,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class HeaderedContentControl : ContentControl
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="HeaderedContentControl"/> class.
+        /// </summary>
+        public HeaderedContentControl()
+        {
+            DefaultStyleKey = typeof(HeaderedContentControl);
+        }
+
+        /// <summary>
         /// Identifies the <see cref="Header"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
