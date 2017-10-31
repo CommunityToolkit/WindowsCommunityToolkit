@@ -883,17 +883,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var offsetYNode = ExpressionFunctions.Ceil(propertySetNodeModulo.GetScalarProperty(offsetYParam));
 
                 // expressions are created to simulate a positive and negative modulo with the size of the image and the offset
-                expressionXVal = (offsetXNode == 0f)
-                   ? 0
-                   : (offsetXNode < 0
-                       ? -(ExpressionFunctions.Abs(offsetXNode - (ExpressionFunctions.Ceil(offsetXNode / imageWidthNode) * imageWidthNode)) % imageWidthNode)
-                       : -(imageWidthNode - (offsetXNode % imageWidthNode)));
+                expressionXVal = ExpressionFunctions.Conditional(
+                    offsetXNode == 0,
+                    0,
+                    ExpressionFunctions.Conditional(
+                        offsetXNode < 0,
+                        -(ExpressionFunctions.Abs(offsetXNode - (ExpressionFunctions.Ceil(offsetXNode / imageWidthNode) * imageWidthNode)) % imageWidthNode),
+                        -(imageWidthNode - (offsetXNode % imageWidthNode))));
 
-                expressionYVal = offsetYNode == 0
-                   ? 0
-                   : (offsetYNode < 0
-                       ? -(ExpressionFunctions.Abs(offsetYNode - (ExpressionFunctions.Ceil(offsetYNode / imageHeightNode) * imageHeightNode)) % imageHeightNode)
-                       : -(imageHeightNode - (offsetYNode % imageHeightNode)));
+                expressionYVal = ExpressionFunctions.Conditional(
+                    offsetYNode == 0,
+                    0,
+                    ExpressionFunctions.Conditional(
+                        offsetYNode < 0,
+                        -(ExpressionFunctions.Abs(offsetYNode - (ExpressionFunctions.Ceil(offsetYNode / imageHeightNode) * imageHeightNode)) % imageHeightNode),
+                        -(imageHeightNode - (offsetYNode % imageHeightNode))));
             }
             else
             {
@@ -903,18 +907,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 var speed = propertySetNodeModulo.GetScalarProperty(speedParam);
                 var xCommon = ExpressionFunctions.Ceil((scrollPropSet.Translation.X * speed) + propertySetNodeModulo.GetScalarProperty(offsetXParam));
-                expressionXVal = xCommon == 0
-                    ? 0
-                    : (xCommon < 0
-                        ? -(ExpressionFunctions.Abs(xCommon - (ExpressionFunctions.Ceil(xCommon / imageWidthNode) * imageWidthNode)) % imageWidthNode)
-                        : -(imageWidthNode - (xCommon % imageWidthNode)));
+                expressionXVal = ExpressionFunctions.Conditional(
+                    xCommon == 0,
+                    0,
+                    ExpressionFunctions.Conditional(
+                        xCommon < 0,
+                        -(ExpressionFunctions.Abs(xCommon - (ExpressionFunctions.Ceil(xCommon / imageWidthNode) * imageWidthNode)) % imageWidthNode),
+                        -(imageWidthNode - (xCommon % imageWidthNode))));
 
                 var yCommon = ExpressionFunctions.Ceil((scrollPropSet.Translation.Y * speed) + propertySetNodeModulo.GetScalarProperty(offsetYParam));
-                expressionYVal = yCommon == 0
-                    ? 0
-                    : (yCommon < 0
-                        ? -(ExpressionFunctions.Abs(yCommon - (ExpressionFunctions.Ceil(yCommon / imageHeightNode) * imageHeightNode)) % imageHeightNode)
-                        : -(imageHeightNode - (yCommon % imageHeightNode)));
+                expressionYVal = ExpressionFunctions.Conditional(
+                    yCommon == 0,
+                    0,
+                    ExpressionFunctions.Conditional(
+                        yCommon < 0,
+                        -(ExpressionFunctions.Abs(yCommon - (ExpressionFunctions.Ceil(yCommon / imageHeightNode) * imageHeightNode)) % imageHeightNode),
+                        -(imageHeightNode - (yCommon % imageHeightNode))));
             }
 
             if (scrollOrientation == ScrollOrientation.Horizontal || scrollOrientation == ScrollOrientation.Both)
