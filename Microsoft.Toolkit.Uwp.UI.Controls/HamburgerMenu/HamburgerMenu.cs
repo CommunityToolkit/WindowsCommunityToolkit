@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "HamburgerButton", Type = typeof(Button))]
     [TemplatePart(Name = "ButtonsListView", Type = typeof(Windows.UI.Xaml.Controls.ListViewBase))]
     [TemplatePart(Name = "OptionsListView", Type = typeof(Windows.UI.Xaml.Controls.ListViewBase))]
-    [Obsolete("The HamburgerMenu will be removed in a future major release. Please use the NavigationView control available in the Fall Creator Update")]
+    [Obsolete("The HamburgerMenu will be removed in a future major release. Please use the NavigationView control available in the Fall Creators Update")]
     public partial class HamburgerMenu : ContentControl
     {
         private static bool? _isNavViewSupported;

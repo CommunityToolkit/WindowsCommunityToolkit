@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Types of swipe status.
     /// </summary>
-    [Obsolete("The SwipeStatus will be removed alongside SlidableListItem in a future major release. Please use the SwipeControl available in the Fall Creator Update")]
+    [Obsolete("The SwipeStatus will be removed alongside SlidableListItem in a future major release. Please use the SwipeControl available in the Fall Creators Update")]
     public enum SwipeStatus
     {
         /// <summary>

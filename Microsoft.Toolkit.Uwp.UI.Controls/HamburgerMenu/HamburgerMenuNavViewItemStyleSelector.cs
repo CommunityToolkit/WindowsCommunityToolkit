@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <see cref="StyleSelector"/> to be used with <see cref="NavigationView"/>
     /// HamburgerMenuNavViewItemStyleSelector is used by the <see cref="HamburgerMenu"/>
     /// </summary>
-    [Obsolete("The HamburgerMenuNavViewItemStyleSelector will be removed alongside the HamburgerMenu in a future major release. Please use the ParallaxView control available in the Fall Creator Update")]
+    [Obsolete("The HamburgerMenuNavViewItemStyleSelector will be removed alongside the HamburgerMenu in a future major release. Please use the ParallaxView control available in the Fall Creators Update")]
     public class HamburgerMenuNavViewItemStyleSelector : StyleSelector
     {
         /// <summary>
