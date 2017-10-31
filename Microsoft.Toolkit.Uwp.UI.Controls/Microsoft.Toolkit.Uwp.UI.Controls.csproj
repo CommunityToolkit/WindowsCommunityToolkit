@@ -11,7 +11,7 @@
 
   <ItemGroup>
 
-    <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.2" />
+    <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.3" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
 
   </ItemGroup>
