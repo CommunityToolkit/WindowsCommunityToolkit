@@ -74,15 +74,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="BooleanNode"/> to <see cref="bool"/>.
-        /// </summary>
-        /// <param name="node">The node to convert</param>
-        public static implicit operator bool(BooleanNode node)
-        {
-            return node._value;
-        }
-
-        /// <summary>
         /// Implements the == operator.
         /// </summary>
         /// <param name="left">The left.</param>
