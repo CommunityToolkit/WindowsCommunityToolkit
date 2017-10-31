@@ -22,6 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class HamburgerMenuPage : IXamlRenderListener
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         private HamburgerMenu hamburgerMenuControl;
         private Grid contentGrid;
 
@@ -54,5 +55,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 contentGrid.DataContext = e.InvokedItem;
             }
         }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

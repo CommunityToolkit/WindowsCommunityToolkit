@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The HamburgerMenuGlyphItem provides a glyph based implementation for HamburgerMenu entries.
     /// </summary>
-    [Obsolete("The HamburgerMenuGlyphItem will be removed alongside the HamburgerMenu in a future major release. Please use the ParallaxView control available in the Fall Creator Update")]
+    [Obsolete("The HamburgerMenuGlyphItem will be removed alongside the HamburgerMenu in a future major release. Please use the ParallaxView control available in the Fall Creators Update")]
     public class HamburgerMenuGlyphItem : HamburgerMenuItem
     {
         /// <summary>

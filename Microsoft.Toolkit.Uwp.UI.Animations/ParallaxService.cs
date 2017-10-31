@@ -22,19 +22,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// Provides the ability to create a parallax effect to items within a ScrollViewer or List control
     /// </summary>
-    [Obsolete("The ParallaxService will be removed in a future major release. Please use the ParallaxView control available in the Fall Creator Update")]
+    [Obsolete("The ParallaxService will be removed in a future major release. Please use the ParallaxView control available in the Fall Creators Update")]
     public class ParallaxService
     {
         /// <summary>
         /// Identifies the ParallaxService.VerticalMultiplier XAML attached property.
         /// </summary>
-        [Obsolete("The ParallaxService will be removed in a future major release. Please use the ParallaxView control available in the Fall Creator Update")]
+        [Obsolete("The ParallaxService will be removed in a future major release. Please use the ParallaxView control available in the Fall Creators Update")]
         public static readonly DependencyProperty VerticalMultiplierProperty = DependencyProperty.RegisterAttached("VerticalMultiplier", typeof(double), typeof(ParallaxService), new PropertyMetadata(0d, OnMultiplierChanged));
 
         /// <summary>
         /// Identifies the ParallaxService.HorizontalMultiplier attached property.
         /// </summary>
-        [Obsolete("The ParallaxService will be removed in a future major release. Please use the ParallaxView control available in the Fall Creator Update")]
+        [Obsolete("The ParallaxService will be removed in a future major release. Please use the ParallaxView control available in the Fall Creators Update")]
         public static readonly DependencyProperty HorizontalMultiplierProperty = DependencyProperty.RegisterAttached("HorizontalMultiplier", typeof(double), typeof(ParallaxService), new PropertyMetadata(0d, OnMultiplierChanged));
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="element">The target element for the attached property value..</param>
         /// <returns>A value for how fast the parallax effect should scroll vertically.</returns>
-        [Obsolete("The ParallaxService will be removed in a future major release. Please use the ParallaxView control available in the Fall Creator Update")]
+        [Obsolete("The ParallaxService will be removed in a future major release. Please use the ParallaxView control available in the Fall Creators Update")]
         public static double GetVerticalMultiplier(UIElement element)
         {
             return (double)element.GetValue(VerticalMultiplierProperty);
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="element">The target element for the attached property value.</param>
         /// <param name="value">The value for how fast the parallax effect should scroll vertically.</param>
-        [Obsolete("The ParallaxService will be removed in a future major release. Please use the ParallaxView control available in the Fall Creator Update")]
+        [Obsolete("The ParallaxService will be removed in a future major release. Please use the ParallaxView control available in the Fall Creators Update")]
         public static void SetVerticalMultiplier(UIElement element, double value)
         {
             element.SetValue(VerticalMultiplierProperty, value);
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="element">The target element for the attached property value..</param>
         /// <returns>A value for how fast the parallax effect should scroll vertically.</returns>
-        [Obsolete("The ParallaxService will be removed in a future major release. Please use the ParallaxView control available in the Fall Creator Update")]
+        [Obsolete("The ParallaxService will be removed in a future major release. Please use the ParallaxView control available in the Fall Creators Update")]
         public static double GetHorizontalMultiplier(UIElement element)
         {
             return (double)element.GetValue(HorizontalMultiplierProperty);
@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="element">The target element for the attached property value.</param>
         /// <param name="value">The value for how fast the parallax effect should scroll horizontally.</param>
-        [Obsolete("The ParallaxService will be removed in a future major release. Please use the ParallaxView control available in the Fall Creator Update")]
+        [Obsolete("The ParallaxService will be removed in a future major release. Please use the ParallaxView control available in the Fall Creators Update")]
         public static void SetHorizontalMultiplier(UIElement element, double value)
         {
             element.SetValue(HorizontalMultiplierProperty, value);

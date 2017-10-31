@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = PartCommandContainer, Type = typeof(Grid))]
     [TemplatePart(Name = PartLeftCommandPanel, Type = typeof(StackPanel))]
     [TemplatePart(Name = PartRightCommandPanel, Type = typeof(StackPanel))]
+    [Obsolete("The SlidableListItem will be removed in a future major release. Please use the SwipeControl available in the Fall Creator Update")]
     public class SlidableListItem : ContentControl
     {
         /// <summary>
