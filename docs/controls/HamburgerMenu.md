@@ -152,7 +152,7 @@ The HamburgerMenu and NavigationView share the same concepts and provide the sam
 
 ### What developers need to know to move to NavigationView?
 
-* **Pane:** Both the NavigationView and HamburgerMenu are based on the SplitView, so the same properties exist in both controls. However, the NavigationView uses the new AcrylicBrush for the background which creates the semi-transparent material out of the box. Additionally, the navigation view automatically changes its display mode based on the amount of screen size available to it, so you are no longer required to that yourself.
+* **Pane:** Both the NavigationView and HamburgerMenu are based on the SplitView, so the same properties exist in both controls. However, the NavigationView uses the new AcrylicBrush for the background which creates the semi-transparent material out of the box. Additionally, the navigation view automatically changes its display mode based on the amount of screen size available to it, so you are no longer required to write all that code.
 * **NavigationViewItems and Item Templates:** The NavigationView uses a similar pattern to define the Menu Items, with some naming changes. Here is the mapping from some properties in the HamburgerMenu to the comparable properties in the NavigationView:
 
     | HamburgerMenu | NavigationView |
@@ -161,8 +161,8 @@ The HamburgerMenu and NavigationView share the same concepts and provide the sam
     | ItemTemplate | MenuItemTemplate |
     | ItemClick | ItemInvoked |
 
-    The *OptionsItemsSource* and *OptionItemsTemplate* is not available in the NavigationView. Instead, the NavigationView has two additional new properties that provide a much more flexible way of handling setting and optional items:
-    * An optional entry for app settings. Simply set the property *IsSettingsVisible* and the NavigationView will display the settings button at the bottom. You can even customize the settings item 
+    The *OptionsItemsSource* and *OptionItemsTemplate* is not available in the NavigationView. Instead, the NavigationView has two additional new properties that provide a much more flexible way of handling settings and optional items:
+    * An optional property for app settings. Simply set the property *IsSettingsVisible* to true and the NavigationView will display the settings button at the bottom. You can even customize the settings item 
 
         ```csharp
         var settingsItem = HamburgerMenu.SettingsItem as NavigationViewItem;
