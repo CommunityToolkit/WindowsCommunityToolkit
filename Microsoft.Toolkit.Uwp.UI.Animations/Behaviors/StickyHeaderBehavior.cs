@@ -238,7 +238,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 
         private void ScrollViewer_GotFocus(object sender, RoutedEventArgs e)
         {
-            var scroller = sender as ScrollViewer;
+            var scroller = (ScrollViewer)sender;
 
             var focusedElement = FocusManager.GetFocusedElement();
 
