@@ -10,8 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Newtonsoft.Json;
 using System;
+using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {

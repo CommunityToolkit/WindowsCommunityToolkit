@@ -11,15 +11,12 @@
 // ******************************************************************
 
 using System;
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Identity.Client;
-using Microsoft.Toolkit.Services.Exceptions;
-using Newtonsoft.Json;
 using Microsoft.Toolkit.Services.Core;
+using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Services.MicrosoftGraph
 {

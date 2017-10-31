@@ -10,10 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.Graph;
-using System;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {

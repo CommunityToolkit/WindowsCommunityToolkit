@@ -1,16 +1,15 @@
-﻿using Microsoft.Toolkit.Services.MicrosoftGraph;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Threading;
-using Windows.Storage.Streams;
+using System.Threading.Tasks;
 using Microsoft.Graph;
-using System.IO;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
+using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
+    /// <summary>
+    /// Platform-specific implementation to capture photo.
+    /// </summary>
     public class MicrosoftGraphUserServicePhotos : IMicrosoftGraphUserServicePhotos
     {
         private GraphServiceClient _graphProvider;
@@ -59,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns>A stream containing the user"s photo</returns>
         public async Task<object> GetPhotoAsync()
         {
-            return GetPhotoAsync(CancellationToken.None);
+            return await GetPhotoAsync(CancellationToken.None);
         }
     }
 }

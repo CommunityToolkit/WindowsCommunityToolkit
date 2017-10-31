@@ -10,10 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Graph;
 using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.Graph;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
@@ -23,11 +23,26 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
     public partial class MicrosoftGraphService : Toolkit.Services.MicrosoftGraph.MicrosoftGraphService
     {
         /// <summary>
-        /// Field to store the model of authentication
+        /// Gets or sets field to store the model of authentication
         /// V1 Only for Work or Scholar account
         /// V2 for MSA and Work or Scholar account
         /// </summary>
         public Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.AuthenticationModel AuthenticationModel { get; set; }
+
+        /// <summary>
+        /// Private singleton field.
+        /// </summary>
+        private static MicrosoftGraphService _instance;
+
+        /// <summary>
+        /// Gets public singleton property.
+        /// </summary>
+        public static new MicrosoftGraphService Instance => _instance ?? (_instance = new MicrosoftGraphService());
+
+        /// <summary>
+        /// Gets or sets fields to store a MicrosoftGraphServiceMessages instance
+        /// </summary>
+        public new MicrosoftGraphUserService User { get; set; }
 
         /// <summary>
         /// Logout the current user
@@ -75,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 
             IsConnected = true;
 
-            _user = new MicrosoftGraphUserService(_graphProvider);
+            User = new MicrosoftGraphUserService(GraphProvider);
 
             if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile)
             {
@@ -88,12 +103,12 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             // }
             if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Message) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Message)
             {
-                _user.InitializeMessage();
+                User.InitializeMessage();
             }
 
             if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Event) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Event)
             {
-                _user.InitializeEvent();
+                User.InitializeEvent();
             }
 
             return IsConnected;
@@ -134,5 +149,18 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             }
         }
 
+        /// <summary>
+        /// Initialize a instance of MicrosoftGraphUserService class
+        /// </summary>
+        /// <returns><see cref="Task"/> representing the asynchronous operation.</returns>
+        protected override async Task GetUserAsyncProfile()
+        {
+            Toolkit.Services.MicrosoftGraph.MicrosoftGraphUserFields[] selectedFields =
+            {
+                Toolkit.Services.MicrosoftGraph.MicrosoftGraphUserFields.Id
+            };
+
+            await User.GetProfileAsync(selectedFields);
+        }
     }
 }

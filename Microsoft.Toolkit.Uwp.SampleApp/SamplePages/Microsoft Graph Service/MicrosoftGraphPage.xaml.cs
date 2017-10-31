@@ -22,6 +22,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -50,6 +51,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 return;
             }
+
+            var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
+            var endpointVersion = item.Tag.ToString() == "v2" ? AuthenticationModel.V2 : AuthenticationModel.V1;
+
+            MicrosoftGraphService.Instance.AuthenticationModel = endpointVersion;
 
             // Initialize the service
             MicrosoftGraphService.Instance.Initialize(ClientId.Text);
@@ -242,10 +248,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void LogOutButton_Click(object sender, RoutedEventArgs e)
+        private async void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
             MessagesList.LoadMoreItemsAsync().Cancel();
-            MicrosoftGraphService.Instance.Logout();
+            await MicrosoftGraphService.Instance.Logout();
             EventsList.Visibility = Visibility.Collapsed;
             EventsBox.Visibility = Visibility.Collapsed;
             MessagesList.Visibility = Visibility.Collapsed;

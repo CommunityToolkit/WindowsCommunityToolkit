@@ -11,18 +11,12 @@
 // ******************************************************************
 
 using System;
-using System.IO;
-using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Newtonsoft.Json;
-using Windows.Security.Authentication.Web;
+using Microsoft.Toolkit.Uwp.Services.Core;
 using Windows.Security.Credentials;
 using Windows.Storage;
-using Microsoft.Toolkit.Uwp.Services.Core;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {

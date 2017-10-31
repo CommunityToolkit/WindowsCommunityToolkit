@@ -31,19 +31,19 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Private singleton field.
-        /// </summary>
-        private static MicrosoftGraphService _instance;
-
-        /// <summary>
         /// Gets or sets Authentication instance.
         /// </summary>
         internal MicrosoftGraphAuthenticationHelper Authentication { get; set; }
 
         /// <summary>
-        /// Store a reference to an instance of the underlying data provider.
+        /// Gets or sets store a reference to an instance of the underlying data provider.
         /// </summary>
-        private GraphServiceClient _graphProvider;
+        protected GraphServiceClient GraphProvider { get; set; }
+
+        /// <summary>
+        /// Private singleton field.
+        /// </summary>
+        private static MicrosoftGraphService _instance;
 
         /// <summary>
         /// Gets public singleton property.
@@ -71,17 +71,9 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         protected ServicesToInitialize ServicesToInitialize { get; set; }
 
         /// <summary>
-        /// Fields to store a MicrosoftGraphServiceMessages instance
+        /// Gets or sets fields to store a MicrosoftGraphServiceMessages instance
         /// </summary>
-        private MicrosoftGraphUserService _user;
-
-        /// <summary>
-        /// Gets a reference to an instance of the MicrosoftGraphUserService class
-        /// </summary>
-        public MicrosoftGraphUserService User
-        {
-            get { return _user; }
-        }
+        public virtual MicrosoftGraphUserService User { get; set; }
 
         /// <summary>
         /// Initialize Microsoft Graph.
@@ -97,7 +89,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             }
 
             AppClientId = appClientId;
-            _graphProvider = CreateGraphClientProvider(appClientId);
+            GraphProvider = CreateGraphClientProvider(appClientId);
             ServicesToInitialize = servicesToInitialize;
             IsInitialized = true;
             return true;
@@ -140,7 +132,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             IsConnected = true;
 
-            _user = new MicrosoftGraphUserService(_graphProvider);
+            User = new MicrosoftGraphUserService(GraphProvider);
 
             if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile)
             {
@@ -153,12 +145,12 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             // }
             if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Message) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Message)
             {
-                _user.InitializeMessage();
+                User.InitializeMessage();
             }
 
             if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Event) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Event)
             {
-                _user.InitializeEvent();
+                User.InitializeEvent();
             }
 
             return IsConnected;
@@ -188,14 +180,14 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Initialize a instance of MicrosoftGraphUserService class
         /// </summary>
         /// <returns><see cref="Task"/> representing the asynchronous operation.</returns>
-        private async Task GetUserAsyncProfile()
+        protected virtual async Task GetUserAsyncProfile()
         {
             MicrosoftGraphUserFields[] selectedFields =
             {
                 MicrosoftGraphUserFields.Id
             };
 
-            await _user.GetProfileAsync(selectedFields);
+            await User.GetProfileAsync(selectedFields);
         }
     }
 }

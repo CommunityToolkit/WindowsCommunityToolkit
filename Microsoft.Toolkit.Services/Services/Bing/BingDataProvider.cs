@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Services.Bing
                     queryTypeParameter = "/news";
                     break;
             }
-            
+
             var uri = new Uri($"{BaseUrl}{queryTypeParameter}/search?q={locParameter}{languageParameter}{WebUtility.UrlEncode(config.Query)}&format=rss&count={maxRecords}&first={(pageIndex * maxRecords) + (pageIndex > 0 ? 1 : 0)}");
 
             using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, uri))
