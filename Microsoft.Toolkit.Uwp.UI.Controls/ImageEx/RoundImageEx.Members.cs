@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 
@@ -31,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the corner radius of the image
         /// </summary>
+		[Obsolete("Use ImageEx directly instead for 16299 and above.", false)]
         public double CornerRadius
         {
             get { return (double)GetValue(CornerRadiusProperty); }
