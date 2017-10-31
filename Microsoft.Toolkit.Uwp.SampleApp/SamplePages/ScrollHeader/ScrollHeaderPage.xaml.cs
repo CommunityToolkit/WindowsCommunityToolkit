@@ -12,25 +12,43 @@
 
 using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class ScrollHeaderPage
+    public sealed partial class ScrollHeaderPage : IXamlRenderListener
     {
         private ObservableCollection<Item> _items;
 
         public ScrollHeaderPage()
         {
             InitializeComponent();
+        }
 
-            ObservableCollection<Item> items = new ObservableCollection<Item>();
-
-            for (var i = 0; i < 100; i++)
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            var listView = control.FindChildByName("listView") as ListView;
+            if (listView != null)
             {
-                items.Add(new Item() { Title = "Item " + i });
+                listView.ItemsSource = _items;
             }
+        }
 
-            _items = items;
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // Reset items when revisiting sample.
+            _items = new ObservableCollection<Item>();
+
+            for (var i = 0; i < 1000; i++)
+            {
+                _items.Add(new Item() { Title = "Item " + i });
+            }
         }
     }
 }

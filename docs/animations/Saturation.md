@@ -1,73 +1,91 @@
+---
+title: Saturation animation behavior
+author: nmetulev
+ms.date: 08/20/2017
+description: The Saturation animation behavior selectively saturates a XAML element.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, saturation animation, saturation
+---
+
 # Saturation
 
-The **Saturation animation behavior** selectively saturates a XAML element.
-
-Sometimes you want an element to desaturate, a common example of this could be when you mouse over a UI Element, now you can apply a SaturationBehavior to the original element at run time. 
-
-**NOTE**:  This animation REQUIRES the [Windows 10 Anniversary SDK 14393](https://blogs.windows.com/windowsexperience/2016/07/18/build14393/) 10.0.14393.0 in order for it to work.
+The Saturation animation selectively saturates a XAML element. Saturation animation is applied to all the XAML elements in its parent control/panel. Saturation animation doesn't affect the functionality of the control.
 
 ## Syntax
 
-You can either use the saturation behavior from your XAML code:
+**XAML**
 
-```xml
+```xaml
+<Page ...
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"/>
 
-    <interactivity:Interaction.Behaviors>
+<interactivity:Interaction.Behaviors>
     <behaviors:Saturation x:Name="SaturationBehavior" 
-           Value="10" 
-           Duration="500" 
+           Value="0" 
+           Duration="2500" 
            Delay="250" 
            AutomaticallyStart="True"/>
-    </interactivity:Interaction.Behaviors>
-
+</interactivity:Interaction.Behaviors>
 ```
 
-or directly from code:
+**C#**
 
 ```csharp
-
-ToolkitLogo.Saturation(value: 10, duration: 500, delay: 250);       
-
+ToolkitLogo.Saturation(value: 0, duration: 500, delay: 250);       
 ```
+
+## Sample Output
+
+![Saturation Behavior animation](../resources/images/Animations/Saturation/Sample-Output.gif)
 
 ## Properties
 
-| Property Name | Type | Description |
-| --- | --- | --- |
-| Value | double | A range between 0 and 1 on how to saturate the UI Element. 1 is maximum saturation, 0 is desaturated.  |
-| Duration | double | The number of milliseconds the animation should run for |
-| Delay | double | The number of milliseconds before the animation is started |
 
-## Chaining animations
 
-Behavior animations can also be chained and awaited.
+## Examples
 
-```csharp
+- Sometimes you want an element to desaturate, a common example of this could be when you mouse over a UI Element, now you can apply a SaturationBehavior to the original element at run time.
 
-    Element.Rotate(value: 30f, duration: 0.3).StartAsync();
+    **Sample Code**
+    ```csharp
+    private void MyUIElement_PointerEntered(object sender, PointerRoutedEventArgs e)
+    {
+        MyUIElement.Saturation(value: 1).Start();
+    }
 
-    await Element.Rotate(value: 30f, duration: 0.3).StartAsync();
+    private void MyUIElement_PointerExited(object sender, PointerRoutedEventArgs e)
+    {
+        MyUIElement.Saturation(value: 0).Start();
+    }
+    ```
+    **Sample Output**
 
-    var anim = element.Rotate(30f).Fade(0.5).Blur(5);
-    anim.SetDurationForAll(2);
+    ![Use Case 1 Output](../resources/images/Animations/Saturation/Use-Case-1.gif)
+
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
+
+    **Sample Code**
+    ```csharp
+    var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
+    anim.SetDurationForAll(2500);
+    anim.SetDelay(250);
     anim.Completed += animation_completed;
-    anim.StartAsync();
+    anim.Start();
+    ```
+    **Sample Output**
 
-    anim.Stop();
+    ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
 
-```
+## Sample Project
 
-[Saturation Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Saturation)
+[Saturation Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Saturation). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
-## Example Image
+## Requirements
 
-![Saturation Behavior animation](../resources/images/Animations-Saturation.gif "Saturation Behavior")
-
-## Requirements (Windows 10 Device Family)
-
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, [Windows 10 Anniversary SDK 14393](https://blogs.windows.com/windowsexperience/2016/07/18/build14393/) 10.0.14393.0 |
-| --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI.Animations |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
+| ---------------------------------------------------------------- | ----------------------------------- |
+| Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
 
 ## API
 

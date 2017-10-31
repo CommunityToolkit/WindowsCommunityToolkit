@@ -50,8 +50,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _dropShadow = compositor.CreateDropShadow();
                 _shadowVisual.Shadow = _dropShadow;
-
-                SizeChanged += OnSizeChanged;
             }
         }
 
@@ -77,16 +75,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
+        /// <inheritdoc/>
+        protected override void OnContentChanged(object oldContent, object newContent)
+        {
+            if (oldContent != null)
+            {
+                if (oldContent is FrameworkElement oldElement)
+                {
+                    oldElement.SizeChanged -= OnSizeChanged;
+                }
+            }
+
+            if (newContent != null)
+            {
+                if (newContent is FrameworkElement newElement)
+                {
+                    newElement.SizeChanged += OnSizeChanged;
+                }
+            }
+
+            base.OnContentChanged(oldContent, newContent);
+        }
+
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpdateShadowSize();
+            if (IsSupported)
+            {
+                UpdateShadowSize();
+            }
         }
 
         private void ConfigureShadowVisualForCastingElement()
         {
             UpdateShadowMask();
 
-            UpdateShadowSize();
+            if (IsSupported)
+            {
+                UpdateShadowSize();
+            }
         }
 
         private void OnBlurRadiusChanged(double newValue)
@@ -107,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnOffsetXChanged(double newValue)
         {
-            if (_dropShadow != null)
+            if (IsSupported && _dropShadow != null)
             {
                 UpdateShadowOffset((float)newValue, _dropShadow.Offset.Y, _dropShadow.Offset.Z);
             }
@@ -115,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnOffsetYChanged(double newValue)
         {
-            if (_dropShadow != null)
+            if (IsSupported && _dropShadow != null)
             {
                 UpdateShadowOffset(_dropShadow.Offset.X, (float)newValue, _dropShadow.Offset.Z);
             }
@@ -123,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnOffsetZChanged(double newValue)
         {
-            if (_dropShadow != null)
+            if (IsSupported && _dropShadow != null)
             {
                 UpdateShadowOffset(_dropShadow.Offset.X, _dropShadow.Offset.Y, (float)newValue);
             }
@@ -160,10 +186,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     mask = ((TextBlock)Content).GetAlphaMask();
                 }
-                else if (Content is ImageExBase)
+                else if (Content is ImageExBase imageExBase)
                 {
-                    var imageExBase = (ImageExBase)Content;
-
                     imageExBase.ImageExInitialized += ImageExInitialized;
 
                     if (imageExBase.IsInitialized)
@@ -206,8 +230,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_shadowVisual != null)
             {
                 Vector2 newSize = new Vector2(0, 0);
-                FrameworkElement contentFE = Content as FrameworkElement;
-                if (contentFE != null)
+                if (Content is FrameworkElement contentFE)
                 {
                     newSize = new Vector2((float)contentFE.ActualWidth, (float)contentFE.ActualHeight);
                 }

@@ -113,6 +113,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(DecodePixelWidthProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the stretch behavior of the image
+        /// </summary>
         public Stretch Stretch
         {
             get { return (Stretch)GetValue(StretchProperty); }

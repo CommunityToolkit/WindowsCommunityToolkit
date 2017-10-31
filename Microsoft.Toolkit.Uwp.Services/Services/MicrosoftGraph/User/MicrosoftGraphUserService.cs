@@ -48,6 +48,19 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             get { return _message; }
         }
 
+        ///// <summary>
+        ///// MicrosoftGraphServiceEvent instance
+        ///// </summary>
+        private MicrosoftGraphServiceEvent _event;
+
+        /// <summary>
+        /// Gets MicrosoftGraphServiceEvent instance
+        /// </summary>
+        public MicrosoftGraphServiceEvent Event
+        {
+            get { return _event; }
+        }
+
         /// <summary>
         /// Retrieve current connected user's data.
         /// <para>Permission Scopes:
@@ -127,6 +140,14 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         internal void InitializeMessage()
         {
             _message = new MicrosoftGraphServiceMessage(_graphProvider, _currentConnectedUser);
+        }
+
+        /// <summary>
+        /// Create an instance of MicrosoftGraphServiceEvent
+        /// </summary>
+        internal void InitializeEvent()
+        {
+            _event = new MicrosoftGraphServiceEvent(_graphProvider, _currentConnectedUser);
         }
     }
 }

@@ -18,17 +18,25 @@ using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public class MicrosoftGraphSource : IIncrementalSource<Message>
+    public class MicrosoftGraphSource<T> : Collections.IIncrementalSource<T>
     {
         private bool isFirstCall = true;
 
-        public async Task<IEnumerable<Message>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<IEnumerable<T>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
         {
-            IUserMessagesCollectionPage messages = null;
+            IEnumerable<T> items = null;
 
             if (isFirstCall)
             {
-                messages = await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(cancellationToken, pageSize);
+                if (typeof(T) == typeof(Message))
+                {
+                    items = (IEnumerable<T>)await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(cancellationToken, pageSize);
+                }
+
+                if (typeof(T) == typeof(Event))
+                {
+                    items = (IEnumerable<T>)await MicrosoftGraphService.Instance.User.Event.GetEventsAsync(cancellationToken, pageSize);
+                }
 
                 isFirstCall = false;
             }
@@ -36,13 +44,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
-                    return messages;
+                    return items;
                 }
 
-                messages = await MicrosoftGraphService.Instance.User.Message.NextPageEmailsAsync();
+                if (typeof(T) == typeof(Message))
+                {
+                    items = (IEnumerable<T>)await MicrosoftGraphService.Instance.User.Message.NextPageEmailsAsync(cancellationToken);
+                }
+
+                if (typeof(T) == typeof(Event))
+                {
+                    items = (IEnumerable<T>)await MicrosoftGraphService.Instance.User.Event.NextPageEventsAsync(cancellationToken);
+                }
             }
 
-            return messages;
+            return items;
         }
     }
 }

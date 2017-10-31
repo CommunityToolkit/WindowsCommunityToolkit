@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
     [TemplatePart(Name = "ControlType", Type = typeof(TextBlock))]
     [TemplatePart(Name = "ControlAutomationName", Type = typeof(TextBlock))]
     [TemplatePart(Name = "ControlFirstParentWithName", Type = typeof(TextBlock))]
-    public class FocusTracker: Control
+    public class FocusTracker : Control
     {
         /// <summary>
         /// Defines the <see cref="IsActive"/> dependency property.
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
         {
             var focusTracker = d as FocusTracker;
 
-            if (e.NewValue != null && (bool) e.NewValue)
+            if (e.NewValue != null && (bool)e.NewValue)
             {
                 focusTracker?.Start();
             }
@@ -60,15 +60,12 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
         private TextBlock controlFirstParentWithName;
 
         /// <summary>
-        /// Gets or sets a boolean indicating whether the tracker is running or not.
+        /// Gets or sets a value indicating whether the tracker is running or not.
         /// </summary>
         public bool IsActive
         {
-            get { return (bool) GetValue(IsActiveProperty); }
-            set
-            {
-                SetValue(IsActiveProperty, value);
-            }
+            get { return (bool)GetValue(IsActiveProperty); }
+            set { SetValue(IsActiveProperty, value); }
         }
 
         /// <summary>
@@ -86,6 +83,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
                 updateTimer = new DispatcherTimer();
                 updateTimer.Tick += UpdateTimer_Tick;
             }
+
             updateTimer.Start();
         }
 
@@ -124,13 +122,26 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
                 return;
             }
 
-            controlName.Text = focusedControl.Name;
-            controlType.Text = focusedControl.GetType().Name;
-            controlAutomationName.Text = AutomationProperties.GetName(focusedControl);
+            if (controlName != null)
+            {
+                controlName.Text = focusedControl.Name;
+            }
 
-            var parentWithName = FindVisualAscendantWithName(focusedControl);
+            if (controlType != null)
+            {
+                controlType.Text = focusedControl.GetType().Name;
+            }
 
-            controlFirstParentWithName.Text = parentWithName?.Name ?? string.Empty;
+            if (controlAutomationName != null)
+            {
+                controlAutomationName.Text = AutomationProperties.GetName(focusedControl);
+            }
+
+            if (controlFirstParentWithName != null)
+            {
+                var parentWithName = FindVisualAscendantWithName(focusedControl);
+                controlFirstParentWithName.Text = parentWithName?.Name ?? string.Empty;
+            }
         }
 
         private FrameworkElement FindVisualAscendantWithName(FrameworkElement element)

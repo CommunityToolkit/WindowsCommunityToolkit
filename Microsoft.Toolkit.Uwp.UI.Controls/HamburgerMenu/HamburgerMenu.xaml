@@ -2,54 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
-    <Style TargetType="local:HamburgerMenuGlyphItem">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="local:HamburgerMenuGlyphItem">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="48" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <FontIcon FontFamily="Segoe MDL2 Assets"
-                                  FontSize="16"
-                                  Foreground="White"
-                                  Glyph="{TemplateBinding Glyph}" 
-                                  Margin="16,12"/>
-                        <TextBlock FontSize="16"
-                                   Foreground="White"
-                                   Grid.Column="1"
-                                   Text="{TemplateBinding Label}"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="local:HamburgerMenuImageItem">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="local:HamburgerMenuImageItem">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="48" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Image Margin="16,12"
-                               Source="{TemplateBinding Thumbnail}"
-                               Stretch="UniformToFill"/>
-                        <TextBlock FontSize="16"
-                                   Foreground="White"
-                                   Grid.Column="1"
-                                   Text="{TemplateBinding Label}"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="HambugerMenuItemStyle" TargetType="ListViewItem">
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="Background" Value="Transparent" />

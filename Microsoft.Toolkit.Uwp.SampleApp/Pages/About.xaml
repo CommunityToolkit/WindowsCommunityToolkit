@@ -3,85 +3,264 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:sampleapp="using:Microsoft.Toolkit.Uwp.SampleApp"
+      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.Pages"
       mc:Ignorable="d">
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="0,36,0,0"
-                        HorizontalAlignment="Center">
-                <TextBlock Margin="12,0"
-                           HorizontalAlignment="Center"
-                           FontSize="36"
-                           FontWeight="Light"
-                           Foreground="{StaticResource Brush-Grey-03}"
-                           Text="UWP Community Toolkit Sample App"
-                           TextAlignment="Center"
-                           TextWrapping="WrapWholeWords" />
-                <TextBlock x:Name="Version"
-                           Margin="0,0,0,24"
-                           TextAlignment="Center" />
-                <TextBlock MaxWidth="500"
-                           Margin="12,0,12,12"
-                           Text="This app demonstrates the controls, services and APIs available in the UWP Community Toolkit. The toolkit is available as NuGet package for your C# or VB.NET projects. Source code of the toolkit and the sample app is available on GitHub."
-                           TextAlignment="Center"
-                           TextWrapping="WrapWholeWords" />
+    <Page.Resources>
+        <DataTemplate x:DataType="sampleapp:Sample" x:Key="RecentSampleTemplate">
+            <HyperlinkButton Width="267" HorizontalContentAlignment="Left" Style="{StaticResource AboutHyperlinkButtonStyle}" Click="RecentSample_Click">
+                <TextBlock Text="{x:Bind Name}"></TextBlock>
+            </HyperlinkButton>
+        </DataTemplate>
 
-                <TextBlock FontSize="16"
-                           FontWeight="SemiBold"
-                           Text="UWP Community Toolkit and Sample App code"
-                           TextAlignment="Center"
-                           TextWrapping="Wrap" />
-                <HyperlinkButton Margin="0,0,0,12"
-                                 HorizontalAlignment="Center"
-                                 FontSize="14"
-                                 FontWeight="Light"
-                                 Foreground="{StaticResource Brush-Blue-01}"
-                                 NavigateUri="http://aka.ms/uwptoolkit">
-                    Github repository
-                </HyperlinkButton>
+        <DataTemplate x:DataType="sampleapp:Sample" x:Key="NewSampleTemplate">
+            <HyperlinkButton Width="267" HorizontalContentAlignment="Left" Style="{StaticResource AboutHyperlinkButtonStyle}" Click="NewSample_Click">
+                <TextBlock Text="{x:Bind Name}"></TextBlock>
+            </HyperlinkButton>
+        </DataTemplate>
 
-                <TextBlock FontSize="16"
-                           FontWeight="SemiBold"
-                           Text="Documentation"
-                           TextAlignment="Center" />
-                <HyperlinkButton Margin="0,0,0,12"
-                                 HorizontalAlignment="Center"
-                                 FontSize="14"
-                                 FontWeight="Light"
-                                 Foreground="{StaticResource Brush-Blue-01}"
-                                 NavigateUri="http://aka.ms/uwptoolkitdocs">
-                    Documentation homepage
-                </HyperlinkButton>
+        <DataTemplate x:DataType="sampleapp:GitHubRelease" x:Key="ReleaseNoteTemplate">
+            <HyperlinkButton HorizontalAlignment="Left"
+                             HorizontalContentAlignment="Stretch" 
+                             NavigateUri="{x:Bind Url}"
+                             Width="208"
+                             Click="ReleaseNotes_Click"
+                             Style="{StaticResource AboutHyperlinkButtonStyle}">
+                <Grid>
+                    <TextBlock Text="{x:Bind FullName}"></TextBlock>
+                    <TextBlock HorizontalAlignment="Right"
+                               Opacity="0.5"
+                               Foreground="Black"
+                               Text="{x:Bind Published.ToString('MMM d', {x:Null})}"></TextBlock>
+                </Grid>
+            </HyperlinkButton>
+        </DataTemplate>
 
-                <TextBlock FontSize="16"
-                           FontWeight="SemiBold"
-                           Text="Dependencies"
-                           TextAlignment="Center" />
-                <HyperlinkButton HorizontalAlignment="Center"
-                                 FontSize="14"
-                                 FontWeight="Light"
-                                 Foreground="{StaticResource Brush-Blue-01}"
-                                 NavigateUri="http://www.newtonsoft.com/json">
-                    Newtonsoft Json
-                </HyperlinkButton>
-                <HyperlinkButton HorizontalAlignment="Center"
-                                 FontSize="14"
-                                 FontWeight="Light"
-                                 Foreground="{StaticResource Brush-Blue-01}"
-                                 NavigateUri="https://github.com/google/code-prettify">
-                    Code Prettify
-                </HyperlinkButton>
+        <DataTemplate x:DataType="sampleapp:LandingPageLink" x:Key="LinkTemplate">
+            <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" 
+                             NavigateUri="{x:Bind Url}"
+                             Click="Link_Clicked">
+                <TextBlock Text="{x:Bind Title}"></TextBlock>
+            </HyperlinkButton>
+        </DataTemplate>
 
-                <HyperlinkButton Margin="0,30,0,0"
-                                 HorizontalAlignment="Center"
-                                 FontSize="14"
-                                 FontWeight="Light"
-                                 Foreground="{StaticResource Brush-Blue-01}"
-                                 NavigateUri="https://go.microsoft.com/fwlink/?LinkId=521839">
-                    Privacy statement
-                </HyperlinkButton>
-            </StackPanel>
-        </ScrollViewer>
-    </Grid>
+        <ItemsPanelTemplate x:Key="ItemsWrapGridHorizontalTemplate">
+            <controls:WrapPanel Orientation="Horizontal"></controls:WrapPanel>
+        </ItemsPanelTemplate>
+    </Page.Resources>
+
+    <Border x:Name="Root" Visibility="Collapsed">
+        <Border.Background>
+            <ImageBrush ImageSource="ms-appx:///Assets/Photos/ron-manke-20667.jpg" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"></ImageBrush>
+        </Border.Background>
+        
+        <controls:DropShadowPanel x:Name="DropShadow"
+                                  HorizontalAlignment="Center" 
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Stretch"
+                                  VerticalContentAlignment="Stretch"
+                                  Color="Black"
+                                  BlurRadius="30"
+                                  ShadowOpacity="0.4">
+            <Grid x:Name="RootGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="664"></ColumnDefinition>
+                    <ColumnDefinition Width="336"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Border Background="#F4FFFFFF">
+                    <interactivity:Interaction.Behaviors>
+                        <behaviors:Blur AutomaticallyStart="True"
+                                        Delay="0"
+                                        Value="3"
+                                        Duration="0" />
+                    </interactivity:Interaction.Behaviors>
+                </Border>
+
+                <Border Background="#19000000" Width="1" HorizontalAlignment="Right"></Border>
+
+                <Border Grid.Column="1" Background="#F4F3F3F3">
+                    <interactivity:Interaction.Behaviors>
+                        <behaviors:Blur AutomaticallyStart="True"
+                                        Delay="0"
+                                        Value="3"
+                                        Duration="0" />
+                    </interactivity:Interaction.Behaviors>
+                </Border>
+
+                <ScrollViewer Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
+                    <Grid x:Name="InnerGrid" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="64"></ColumnDefinition>
+                            <ColumnDefinition Width="536"></ColumnDefinition>
+                            <ColumnDefinition Width="64"></ColumnDefinition>
+                            <ColumnDefinition Width="64"></ColumnDefinition>
+                            <ColumnDefinition Width="208"></ColumnDefinition>
+                            <ColumnDefinition Width="64"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="84"></RowDefinition>
+                            <RowDefinition Height="48"></RowDefinition>
+                            <RowDefinition Height="84"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="AUto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="36"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="1" Grid.Column="1" TextAlignment="Center" FontSize="36" FontFamily="Segoe UI" FontWeight="Light">Get Started</TextBlock>
+
+                        <Grid Grid.Row="3" Grid.Column="1">
+                            <StackPanel>
+                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">Recent Activity</TextBlock>
+
+                                <Grid Margin="0,16,0,0">
+                                    <TextBlock Text="None" 
+                                           Opacity="0.5" 
+                                           FontFamily="Segoe UI" 
+                                           FontSize="12" 
+                                           Visibility="{x:Bind local:About.VisibleIfCollectionEmpty(RecentSamples), Mode=OneWay}"></TextBlock>
+                                    <ItemsControl x:Name="RecentSamplesItemsControl"
+                                                  ItemsPanel="{StaticResource ItemsWrapGridHorizontalTemplate}"
+                                                  ItemsSource="{x:Bind RecentSamples, Mode=OneWay}" ItemTemplate="{StaticResource RecentSampleTemplate}">
+                                    </ItemsControl>
+                                </Grid>
+
+                            </StackPanel>
+
+                        </Grid>
+
+                        <ItemsControl x:Name="NotesSection" Grid.Row="3" Grid.RowSpan="3" Grid.Column="4" ItemsPanel="{StaticResource ItemsWrapGridHorizontalTemplate}">
+
+                            <StackPanel x:Name="WhatNewPanel" Margin="0,0,0,48">
+                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal" Text="{x:Bind LandingPageLinks.NewSectionTitle, Mode=OneWay}"></TextBlock>
+                                <ItemsControl x:Name="WhatNewItemsControl" Margin="0,16,0,0" ItemsSource="{x:Bind NewSamples, Mode=OneWay}" ItemTemplate="{StaticResource NewSampleTemplate}"></ItemsControl>
+                            </StackPanel>
+
+                            <StackPanel x:Name="ReleaseNotesPanel">
+                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">Release Notes</TextBlock>
+                                <ItemsControl Margin="0,16,0,0" ItemsSource="{x:Bind GitHubReleases, Mode=OneWay}" ItemTemplate="{StaticResource ReleaseNoteTemplate}"></ItemsControl>
+                            </StackPanel>
+
+                        </ItemsControl>
+
+                        <ItemsControl x:Name="ResourcesSection" Grid.Row="5" Grid.Column="1" ItemsPanel="{StaticResource ItemsWrapGridHorizontalTemplate}">
+
+                            <StackPanel MinWidth="267" Margin="0,0,0,48">
+                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">About the App</TextBlock>
+                                <ItemsControl Margin="0,16,0,0">
+                                    <TextBlock x:Name="Version" FontSize="12" Margin="0,0,0,10"></TextBlock>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="http://www.newtonsoft.com/json" Click="Link_Clicked">
+                                        <TextBlock>Newtonsoft Json (Dependency)</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://github.com/google/code-prettify" Click="Link_Clicked">
+                                        <TextBlock>Code Prettify (Dependency)</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://unsplash.com/photos/xghkLM1p1zA" Click="Link_Clicked">
+                                        <TextBlock>Background photo by Ron Manke</TextBlock>
+                                    </HyperlinkButton>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ItemsControl>
+
+
+                        <Border x:Name="Seperator" Grid.Row="4" Grid.Column="4" BorderThickness="0,1,0,0" BorderBrush="#33000000" Margin="0,48"></Border>
+                        <Border Grid.Row="4" Grid.Column="1" BorderThickness="0,1,0,0" BorderBrush="#33000000" Margin="0,48"></Border>
+
+                        <HyperlinkButton x:Name="PrivacyButton" Grid.Row="9" Grid.Column="4" VerticalAlignment="Bottom" HorizontalAlignment="Center" Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://go.microsoft.com/fwlink/?LinkId=521839">
+                            <TextBlock>Privacy statement</TextBlock>
+                        </HyperlinkButton>
+
+
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+        </controls:DropShadowPanel>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="DropShadow.HorizontalAlignment" Value="Stretch" />
+                        
+                        <Setter Target="RootGrid.ColumnDefinitions[0].Width" Value="*" />
+                        <Setter Target="RootGrid.ColumnDefinitions[1].Width" Value="0" />
+
+                        <Setter Target="InnerGrid.ColumnDefinitions[0].Width" Value="0" />
+                        <Setter Target="InnerGrid.ColumnDefinitions[1].Width" Value="*" />
+                        <Setter Target="InnerGrid.ColumnDefinitions[2].Width" Value="0" />
+                        <Setter Target="InnerGrid.ColumnDefinitions[3].Width" Value="0" />
+                        <Setter Target="InnerGrid.ColumnDefinitions[4].Width" Value="0" />
+                        <Setter Target="InnerGrid.ColumnDefinitions[5].Width" Value="0" />
+                        <Setter Target="InnerGrid.Margin" Value="64,0" />
+
+                        <Setter Target="ResourcesSection.(Grid.Row)" Value="7" />
+                        <Setter Target="NotesSection.(Grid.Row)" Value="5" />
+                        <Setter Target="NotesSection.(Grid.Column)" Value="1" />
+                        <Setter Target="NotesSection.(Grid.RowSpan)" Value="1" />
+                        <Setter Target="PrivacyButton.(Grid.Column)" Value="1" />
+                        <Setter Target="Seperator.(Grid.Row)" Value="6" />
+                        <Setter Target="Seperator.(Grid.Column)" Value="1" />
+                        <Setter Target="Seperator.Margin" Value="0,0,0,48" />
+
+                        <Setter Target="WhatNewPanel.MinWidth" Value="267" />
+                        <Setter Target="ReleaseNotesPanel.MinWidth" Value="267" />
+                        <Setter Target="ReleaseNotesPanel.Margin" Value="0,0,0,48" />
+
+                        <Setter Target="WhatNewItemsControl.MinHeight" Value="0" />
+                        <Setter Target="RecentSamplesItemsControl.MinHeight" Value="0" />
+
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1000" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="DropShadow.HorizontalAlignment" Value="Center" />
+                        
+                        <Setter Target="RootGrid.ColumnDefinitions[0].Width" Value="664" />
+                        <Setter Target="RootGrid.ColumnDefinitions[1].Width" Value="336" />
+
+                        <Setter Target="InnerGrid.ColumnDefinitions[0].Width" Value="64" />
+                        <Setter Target="InnerGrid.ColumnDefinitions[1].Width" Value="536" />
+                        <Setter Target="InnerGrid.ColumnDefinitions[2].Width" Value="64" />
+                        <Setter Target="InnerGrid.ColumnDefinitions[3].Width" Value="64" />
+                        <Setter Target="InnerGrid.ColumnDefinitions[4].Width" Value="208" />
+                        <Setter Target="InnerGrid.ColumnDefinitions[5].Width" Value="64" />
+                        <Setter Target="InnerGrid.Margin" Value="0" />
+
+                        <Setter Target="ResourcesSection.(Grid.Row)" Value="5" />
+                        <Setter Target="NotesSection.(Grid.Row)" Value="3" />
+                        <Setter Target="NotesSection.(Grid.Column)" Value="4" />
+                        <Setter Target="NotesSection.(Grid.RowSpan)" Value="3" />
+                        <Setter Target="PrivacyButton.(Grid.Column)" Value="4" />
+                        <Setter Target="Seperator.(Grid.Row)" Value="4" />
+                        <Setter Target="Seperator.(Grid.Column)" Value="4" />
+                        <Setter Target="Seperator.Margin" Value="0,48" />
+
+                        <Setter Target="WhatNewPanel.MinWidth" Value="0" />
+                        <Setter Target="ReleaseNotesPanel.MinWidth" Value="0" />
+                        <Setter Target="ReleaseNotesPanel.Margin" Value="0,48,0,0" />
+
+                        <Setter Target="WhatNewItemsControl.MinHeight" Value="130" />
+                        <Setter Target="RecentSamplesItemsControl.MinHeight" Value="130" />
+                        
+                    </VisualState.Setters>
+
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Border>
 </Page>
-

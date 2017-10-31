@@ -1,3 +1,11 @@
+---
+title: Carousel XAML Control
+author: nmetulev
+ms.date: 08/20/2017
+description: The Carousel control inherites from ItemsControl, representing a nice and smooth carousel.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, carousel, xaml control, xaml
+---
+
 # Carousel XAML Control 
 
 The `Carousel` control provides a new control, inherited from the `ItemsControl`, representing a nice and smooth carousel.  
@@ -8,7 +16,7 @@ The `Carousel` control works fine with mouse, touch, mouse and keyboard as well.
 
 ## Syntax
 
-```xml
+```xaml
 
 <controls:Carousel x:Name="CarouselControl"
                     InvertPositive="{Binding InvertPositive.Value, Mode=OneWay}"
@@ -159,7 +167,7 @@ If **true**, all the items where `index` > `SelectedIndex` will have an opposite
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family]("http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 

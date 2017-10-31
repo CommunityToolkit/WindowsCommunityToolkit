@@ -27,14 +27,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty ThumbnailProperty = DependencyProperty.Register(nameof(Thumbnail), typeof(ImageSource), typeof(HamburgerMenuItem), new PropertyMetadata(null));
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HamburgerMenuImageItem"/> class.
-        /// </summary>
-        public HamburgerMenuImageItem()
-        {
-            DefaultStyleKey = typeof(HamburgerMenuImageItem);
-        }
-
-        /// <summary>
         /// Gets or sets a value that specifies a bitmap to display with an Image control.
         /// </summary>
         public ImageSource Thumbnail

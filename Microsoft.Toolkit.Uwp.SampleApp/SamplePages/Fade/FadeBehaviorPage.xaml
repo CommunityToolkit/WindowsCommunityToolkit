@@ -7,27 +7,19 @@
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Image x:Name="ToolkitLogo"
-               Width="100"
-               Height="100"
-               Source="ms-appx:///Assets/ToolkitLogo.png">
+    
+    <!-- Shallow Copy -->
+    <Grid>
+        <Image>
             <interactivity:Interaction.Behaviors>
-                <behaviors:Fade x:Name="OpacityBehavior"
-                                AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=OneWay}"
-                                Delay="{Binding Delay.Value, Mode=OneWay}"
-                                Value="{Binding Value.Value, Mode=OneWay}"
-                                Duration="{Binding Duration.Value, Mode=OneWay}" />
+                <behaviors:Fade />
             </interactivity:Interaction.Behaviors>
         </Image>
-        <StackPanel HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom">
-            <Button Margin="10"
-                    Content="Apply">
+        <StackPanel>
+            <Button>
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
-                        <core:CallMethodAction MethodName="StartAnimation"
-                                               TargetObject="{Binding ElementName=OpacityBehavior}" />
+                        <core:CallMethodAction />
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </Button>
