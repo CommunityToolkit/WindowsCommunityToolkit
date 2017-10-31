@@ -22,7 +22,7 @@
 
     
     
-    <UwpMetaPackageVersion>5.3.4</UwpMetaPackageVersion>
+    <UwpMetaPackageVersion>5.4.1</UwpMetaPackageVersion>
     <DefaultTargetPlatformVersion>16299</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>14393</DefaultTargetPlatformMinVersion>
   </PropertyGroup>
