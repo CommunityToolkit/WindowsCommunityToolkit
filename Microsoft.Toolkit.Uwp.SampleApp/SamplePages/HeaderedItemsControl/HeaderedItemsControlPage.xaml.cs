@@ -10,7 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System.Collections.Generic;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -18,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class HeaderedItemsControlPage : Page
+    public sealed partial class HeaderedItemsControlPage : Page, IXamlRenderListener
     {
         public HeaderedItemsControlPage()
         {
@@ -27,6 +30,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             this.InitializeComponent();
         }
 
-        private IEnumerable<string> Items { get; }
+        public IEnumerable<string> Items { get; }
+
+        public void OnXamlRendered(FrameworkElement element)
+        {
+            foreach (var control in element.FindChildren<HeaderedItemsControl>())
+            {
+                control.DataContext = this;
+            }
+        }
     }
 }

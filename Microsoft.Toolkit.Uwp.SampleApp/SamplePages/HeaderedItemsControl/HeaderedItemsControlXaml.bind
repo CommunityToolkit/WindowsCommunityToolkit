@@ -4,6 +4,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="Page"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -11,16 +12,18 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <controls:HeaderedItemsControl Header="Header1" ItemsSource="{x:Bind Items}" >
+        <controls:HeaderedItemsControl Header="Header 1" 
+                                       ItemsSource="{Binding Items}" >
         </controls:HeaderedItemsControl>
         <controls:HeaderedItemsControl Grid.Row="1"
-                                       Header="Header 2" 
-                                       ItemsSource="{x:Bind Items}" >
+                                       Header="Header 2"
+                                       ItemsSource="{Binding Items}" >
             <controls:HeaderedItemsControl.HeaderTemplate>
                 <DataTemplate>
-                    <TextBlock FontSize="@[FontSize:Slider:16:10-30]" 
+                    <TextBlock DataContext="{Binding DataContext, ElementName=Page, Mode=OneWay}"
+                               FontSize="@[FontSize:Slider:16:10-30]" 
                                Foreground="@[Foreground:Brush:Blue]"
-                               Text="{Binding}" />
+                               Text="@[Header:String:Header 2]" />
                 </DataTemplate>
             </controls:HeaderedItemsControl.HeaderTemplate>
             <ItemsControl.ItemsPanel>
