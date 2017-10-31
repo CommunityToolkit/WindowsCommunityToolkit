@@ -109,7 +109,7 @@
       {
         "Name": "SlidableListItem",
         "Type": "SlidableListItemPage",
-        "About": "A UI control that enables actions to be triggered by sliding the content left or right. In most cases, it will be used as a ListView DataTemplate root similar to email apps, but it is not required.",
+        "About": "The SlidableListItem is deprecated and will be removed in a future major release. Please use the SwipeControl available in the Fall Creators Update.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem",
         "XamlCodeFile": "SlidableListItemCode.bind",
         "Icon": "/SamplePages/SlidableListItem/SlidableListItem.png",
