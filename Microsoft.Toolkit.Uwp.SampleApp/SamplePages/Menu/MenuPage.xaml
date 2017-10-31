@@ -16,23 +16,4 @@
             <converters:StringFormatConverter x:Key="StringFormatConverter" />
         </ResourceDictionary>
     </Page.Resources>
-
-    <Grid Visibility="Collapsed">
-        <controls:Menu>
-            <controls:MenuItem controls:Menu.InputGestureText="Alt+F">
-                <MenuFlyoutSubItem Text="New">
-                    <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N" />
-                </MenuFlyoutSubItem>
-                <MenuFlyoutSeparator />
-                <MenuFlyoutItem Text="Page Setup" />
-            </controls:MenuItem>
-
-            <controls:MenuItem controls:Menu.InputGestureText="Alt+H">
-                <controls:MenuItem.Header>
-                    <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#57627;" FontSize="12" Margin="0,4,0,4"/>
-                </controls:MenuItem.Header>
-                <MenuFlyoutItem Text="About"/>
-            </controls:MenuItem>
-        </controls:Menu>
-    </Grid>
 </Page>
