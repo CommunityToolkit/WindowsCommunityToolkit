@@ -92,7 +92,7 @@ Gets a value indicating whether the menu is opened or not.
 
 The following sample demonstrates how to add Menu Control.
 
-```xml
+```xaml
 
 <Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.MenuPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

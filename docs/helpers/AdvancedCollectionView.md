@@ -18,6 +18,7 @@ In your viewmodel instead of having a public [IEnumerable](https://docs.microsof
 * filtering your list using a [Predicate](https://docs.microsoft.com/en-us/dotnet/core/api/system.predicate-1): this will automatically filter your list only to the items that pass the check by the predicate provided
 * deferring notifications using the `NotificationDeferrer` helper: with a convenient _using_ pattern you can increase performance while doing large-scale modifications in your list by waiting with updates until you've completed your work
 * incremental loading: if your source collection supports the feature then AdvancedCollectionView will do as well (it simply forwards the calls)
+* live shaping: when constructing the `AdvancedCollectionView` you may specify that the collection use live shaping. This means that the collection will re-filter or re-sort if there are changes to the sort properties or filter properties that are specified using `ObserveFilterProperty`
 
 ## Example
 
@@ -54,9 +55,9 @@ In your viewmodel instead of having a public [IEnumerable](https://docs.microsof
         new Person { Name = "8" },
     };
 
-    // Set up the AdvancedCollectionView to filter and sort the original list
+    // Set up the AdvancedCollectionView with live shaping enabled to filter and sort the original list
 
-    var acv = new AdvancedCollectionView(oc);
+    var acv = new AdvancedCollectionView(oc, true);
 
     // Let's filter out the integers
     int nul;
@@ -65,6 +66,13 @@ In your viewmodel instead of having a public [IEnumerable](https://docs.microsof
     // And sort ascending by the property "Name"
     acv.SortDescriptions.Add(new SortDescription("Name", SortDirection.Ascending));
 
+    // Let's add a Person to the observable collection
+    var person = new Person { Name = "Aardvark" };
+    oc.Add(person);
+    
+    // Our added person is now at the top of the list, but if we rename this person, we can trigger a re-sort
+    person.Name = "Zaphod"; // Now a re-sort is triggered and person will be last in the list
+    
     // AdvancedCollectionView can be bound to anything that uses collections. 
     YourListView.ItemsSource = acv;
 

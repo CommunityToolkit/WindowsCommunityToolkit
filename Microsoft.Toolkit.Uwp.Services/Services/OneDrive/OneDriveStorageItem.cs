@@ -200,7 +200,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             // ParentReference null means is root
-            if (oneDriveItem.ParentReference != null)
+            if (oneDriveItem.ParentReference?.Path != null)
             {
                 _path = oneDriveItem.ParentReference.Path.Replace("/drive/root:", string.Empty);
             }
@@ -282,9 +282,11 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>When this method completes successfully, it returns an OneDriveStorageItem that represents the specified folder.</returns>
         public async Task<OneDriveStorageItem> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Item newOneDriveItem = new Item();
-            newOneDriveItem.Name = desiredName;
-            newOneDriveItem.Description = "Item Renamed from UWP Toolkit";
+            Item newOneDriveItem = new Item
+            {
+                Name = desiredName,
+                Description = "Item Renamed from UWP Toolkit"
+            };
 
             var itemRenamed = await RequestBuilder.Request().UpdateAsync(newOneDriveItem, cancellationToken).ConfigureAwait(false);
             return new OneDriveStorageItem(_oneDriveProvider, RequestBuilder, newOneDriveItem);

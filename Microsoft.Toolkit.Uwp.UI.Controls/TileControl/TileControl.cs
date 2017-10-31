@@ -220,8 +220,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <remarks>
         /// On platforms not supporting Composition, this <See cref="UIStrategy"/> is automaticaly set to PureXaml.
         /// </remarks>
-        public static bool IsCompositionSupported =>
-            ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
+        public static bool IsCompositionSupported => !ControlHelpers.IsRunningInLegacyDesignerMode &&
+             ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TileControl"/> class.
@@ -293,12 +293,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (currentStrategy == null)
                 {
-                    if (DesignMode.DesignModeEnabled == true || IsCompositionSupported == false)
+                    if (!IsCompositionSupported)
                     {
                         currentStrategy = UIStrategy.PureXaml;
                     }
-
-                    currentStrategy = UIStrategy.Composition;
+                    else
+                    {
+                        currentStrategy = UIStrategy.Composition;
+                    }
                 }
 
                 return currentStrategy.Value;
@@ -390,7 +392,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         private async Task<bool> LoadImageBrush(Uri uri)
         {
-            if (DesignMode.DesignModeEnabled)
+            if (ControlHelpers.IsRunningInLegacyDesignerMode)
             {
                 return false;
             }
@@ -508,7 +510,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var control = d as TileControl;
             await control.RefreshContainerTileLocked();
-            await control.CreateModuloExpression(control._scrollviewer);
+            if (control.Strategy == UIStrategy.Composition)
+            {
+                await control.CreateModuloExpression(control._scrollviewer);
+            }
         }
 
         /// <inheritdoc/>

@@ -14,7 +14,7 @@ The loading control is for showing an animation with some content when the user 
 
 An example of how we can build the loading control.
 
-```xml
+```xaml
 <controls:Loading x:Name="LoadingControl" IsLoading="{Binding IsBusy}">
     <ContentControl x:Name="LoadingContentControl"/>
 </controls:Loading>
@@ -23,7 +23,7 @@ An example of how we can build the loading control.
 - Use the **LoadingControl** to show specialized content.
 - You can also use **BorderBrush** and **BorderThickness** to change the **LoadingControl**.
 
-```xml
+```xaml
 <controls:Loading x:Name="LoadingControl" IsLoading="{Binding IsBusy}"  >
     <StackPanel Orientation="Horizontal" Padding="12">
         <Grid Margin="0,0,8,0">
