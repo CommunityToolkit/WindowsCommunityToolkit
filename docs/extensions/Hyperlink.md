@@ -12,7 +12,7 @@ The **Hyperlink extension** allows for a Hyperlink element to invoke the execute
 
 ## Example
 
-```xml
+```xaml
 	// Use Hyperlink in a wrapped TextBlock with text either side and ensure it executes a command when
 	// clicked passing the current data context as the command parameter.
 	<TextBlock>
@@ -31,5 +31,5 @@ The **Hyperlink extension** allows for a Hyperlink element to invoke the execute
 
 ## API
 
-* [Hyperlink source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/dev/Microsoft.Toolkit.Uwp.UI/Extensions/Hyperlink)
+* [Hyperlink source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Hyperlink)
 

@@ -2,7 +2,7 @@
 title: Print Helper
 author: nmetulev
 ms.date: 08/20/2017
-description: The PrintHelper is a class used to simplify document printing.
+description: The PrintHelper is a UWP Community Toolkit helper class that enables the rendering of a framework element per page for printing purposes
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, PrintHelper
 ---
 
@@ -16,7 +16,7 @@ Please note that controls cannot be linked to a visual tree. This means that the
 If you want to use a control from your current XAML page, you can disconnect it before sending it to print (by removing it from its container) or you can create just create a new one from scratch.
 
 Please check the sample app code to see how to disconnect/reconnect a control that you want to print: 
-https://github.com/Microsoft/UWPCommunityToolkit/blob/dev/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PrintHelper/PrintHelperPage.xaml.cs 
+https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PrintHelper/PrintHelperPage.xaml.cs 
 
 Several events are available to control the printing process:
 * OnPrintFailed will be triggered if the user cancels the print or if something goes wrong

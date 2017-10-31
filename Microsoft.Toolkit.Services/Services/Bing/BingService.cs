@@ -14,8 +14,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Services.Core;
 using Microsoft.Toolkit.Collections;
+using Microsoft.Toolkit.Services.Core;
 
 namespace Microsoft.Toolkit.Services.Bing
 {
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Services.Bing
         /// Gets public singleton property.
         /// </summary>
         public static BingService Instance => instance ?? (instance = new BingService());
-        
+
         /// <summary>
         /// Gets a reference to an instance of the underlying data provider.
         /// </summary>

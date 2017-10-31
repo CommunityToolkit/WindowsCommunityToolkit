@@ -137,18 +137,17 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Notifications\Microsoft.Toolkit.Uwp.Notifications.WinRT\Microsoft.Toolkit.Uwp.Notifications.WinRT.csproj">
-      <Project>{b63c8a9a-e8f5-4759-8526-9b0d65c4bdb5}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Notifications.WinRT</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="..\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Toolkit.Uwp.Notifications">
+      <HintPath>..\..\Microsoft.Toolkit.Uwp.Notifications\bin\$(Configuration)\native\Microsoft.Toolkit.Uwp.Notifications.winmd</HintPath>
+    </Reference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

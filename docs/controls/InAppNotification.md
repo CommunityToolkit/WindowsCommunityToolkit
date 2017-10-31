@@ -14,7 +14,7 @@ The *InAppNotification* control offers the ability to show local notifications i
 
 The control should be placed where you want your notification to be displayed in the page, generally in the root grid.
 
-```xml
+```xaml
 
 <controls:InAppNotification
     x:Name="ExampleInAppNotification" />
@@ -103,7 +103,7 @@ private void InAppNotification_OnDismissed(object sender, EventArgs e)
 
 By default, the popup animation of the control is a bottom to top animation. You can update the popup animation using the `RenderTransformOrigin` property of the control. See examples:
 
-```xml
+```xaml
 
 <controls:InAppNotification RenderTransformOrigin="0.5,1" />
 
@@ -111,7 +111,7 @@ By default, the popup animation of the control is a bottom to top animation. You
 
 The default value (X: 0.5, Y:1) will show popup animation from bottom to top.
 
-```xml
+```xaml
 
 <controls:InAppNotification RenderTransformOrigin="0.5,0" />
 
@@ -121,7 +121,7 @@ An alternate version of the popup animation (used by the vscode-like notificatio
 
 ## Example Code
 
-[InAppNotification Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/InAppNotification)
+[InAppNotification Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/InAppNotification)
 
 ## Default Template 
 

@@ -2,7 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
-    
+    <Description>This .NET standard library enables access to different data sources such as Bing. It is part of the UWP Community Toolkit.</Description>
+    <PackageTags>UWP Toolkit Windows Bing</PackageTags>
+    <Title>UWP Community Toolkit .NET Standard Services</Title>
+
     <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
     <DebugType>Full</DebugType>
   </PropertyGroup>
