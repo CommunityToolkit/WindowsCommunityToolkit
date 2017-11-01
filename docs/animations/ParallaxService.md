@@ -8,7 +8,8 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, parallaxservice
 
 # ParallaxService
 
-> NOTE: The ParallaxService is deprecated and will be removed in a future major release. Please use the [ParallaxView](https://docs.microsoft.com/en-us/windows/uwp/style/parallax) available in the Fall Creators Update. Read the [Moving to ParallaxView](#parallaxview) section for more info.
+> [!NOTE]
+The ParallaxService is deprecated and will be removed in a future major release. Please use the [ParallaxView](https://docs.microsoft.com/en-us/windows/uwp/style/parallax) available in the Fall Creators Update. Read the [Moving to ParallaxView](#parallaxview) section for more info.
 
 The ParallaxService class allows to create a parallax effect for items contained within an element that scrolls like a ScrollViewer or ListView.
 
