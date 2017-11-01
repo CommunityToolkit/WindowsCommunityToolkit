@@ -16,7 +16,7 @@ The Connected Animations XAML Attached Properties enable connected animations to
 
 **XAML**
 
-```xml
+```xaml
 <Page ...
      xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"/>
  

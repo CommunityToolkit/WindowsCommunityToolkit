@@ -18,7 +18,7 @@ The Implicit Animations Attached Properties can be used in combination with the 
 
 **XAML**
 
-```xml
+```xaml
 <Page ...
      xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"/>
 
