@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void NavigationViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             var options = OptionsItemsSource as IEnumerable<object>;
-            var isOption = options.Contains(args.InvokedItem);
+            var isOption = options != null && options.Contains(args.InvokedItem);
 
             ItemInvoked?.Invoke(this, new HamburgetMenuItemInvokedEventArgs() { InvokedItem = args.InvokedItem, IsItemOptions = isOption });
         }

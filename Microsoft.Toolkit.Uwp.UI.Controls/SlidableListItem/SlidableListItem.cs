@@ -174,8 +174,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const int SnappedCommandMargin = 20;
         private const int AnimationSetDuration = 200;
 
-        private static bool? _isSwipeControlSupported;
-
         private Grid _contentGrid;
         private CompositeTransform _transform;
         private Grid _commandContainer;
@@ -202,8 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets a value indicating whether <see cref="SwipeControl"/> is supported
         /// </summary>
-        public static bool IsSwipeControlSupported => (bool)(_isSwipeControlSupported ??
-            (_isSwipeControlSupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5)));
+        public static bool IsSwipeControlSupported { get; } = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlidableListItem"/> class.
@@ -266,6 +263,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnUseSwipeControlWhenPossibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var slider = d as SlidableListItem;
+            if (slider == null)
+            {
+                return;
+            }
 
             if (slider.UseSwipeControlWhenPossible && SlidableListItem.IsSwipeControlSupported)
             {
@@ -276,17 +277,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (!slider.UseSwipeControlWhenPossible &&
                      e.OldValue is bool oldValue &&
-                     oldValue &&
-                     slider._previousTemplateUsed != null)
+                     oldValue)
             {
-                slider.Template = slider._previousTemplateUsed;
+                if (slider._previousTemplateUsed != null)
+                {
+                    slider.Template = slider._previousTemplateUsed;
+                }
+                else
+                {
+                    ResourceDictionary dict = new ResourceDictionary();
+                    dict.Source = new System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem/SlidableListItem.xaml");
+                    slider.Template = dict["SlidableListItemDefaultTemplate"] as ControlTemplate;
+                }
             }
         }
 
         private static void OnSwipeControlValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as SlidableListItem;
-            if (control.UsingSwipeControl)
+            if (d is SlidableListItem control && control.UsingSwipeControl)
             {
                 control.UpdateSwipeControlItems();
             }
@@ -294,9 +302,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnApplyTemplateSwipeControl()
         {
-            var swipeControl = GetTemplateChild("SwipeControl") as SwipeControl;
-
-            if (swipeControl != null)
+            if (GetTemplateChild("SwipeControl") is SwipeControl swipeControl)
             {
                 _swipeControl = swipeControl;
                 UpdateSwipeControlItems();

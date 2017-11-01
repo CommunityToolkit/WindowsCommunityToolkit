@@ -30,8 +30,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [Obsolete("The HamburgerMenu will be removed in a future major release. Please use the NavigationView control available in the Fall Creators Update")]
     public partial class HamburgerMenu : ContentControl
     {
-        private static bool? _isNavViewSupported;
-
         private Button _hamburgerButton;
         private Windows.UI.Xaml.Controls.ListViewBase _buttonsListView;
         private Windows.UI.Xaml.Controls.ListViewBase _optionsListView;
@@ -44,8 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets a value indicating whether <see cref="NavigationView"/> is supported
         /// </summary>
-        public static bool IsNavigationViewSupported => (bool)(_isNavViewSupported ??
-            (_isNavViewSupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5)));
+        public static bool IsNavigationViewSupported { get; } = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HamburgerMenu"/> class.
@@ -116,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 navView.Loaded -= NavigationViewLoaded;
             }
 
-            navView = (NavigationView)GetTemplateChild("NavView");
+            navView = GetTemplateChild("NavView") as NavigationView;
 
             if (navView != null)
             {
@@ -175,6 +172,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void NavigationViewLoaded(object sender, RoutedEventArgs e)
         {
             var navView = sender as NavigationView;
+            if (navView == null)
+            {
+                return;
+            }
+
             navView.Loaded -= NavigationViewLoaded;
 
             if (navView.FindDescendantByName("TogglePaneButton") is Button hamburgerButton)

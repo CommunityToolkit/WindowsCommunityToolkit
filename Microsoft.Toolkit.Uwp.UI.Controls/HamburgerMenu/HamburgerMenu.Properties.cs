@@ -230,8 +230,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var hm = d as HamburgerMenu;
-            if (hm.UsingNavView)
+            if (d is HamburgerMenu hm && hm.UsingNavView)
             {
                 hm.NavViewSetItemsSource();
             }
@@ -240,6 +239,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnUseNavigationViewWhenPossibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var menu = d as HamburgerMenu;
+            if (menu == null)
+            {
+                return;
+            }
 
             if (menu.UseNavigationViewWhenPossible && HamburgerMenu.IsNavigationViewSupported)
             {
@@ -259,8 +262,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var menu = d as HamburgerMenu;
-            if (menu.UsingNavView)
+            if (d is HamburgerMenu menu && menu.UsingNavView)
             {
                 menu.NavViewSetSelectedItem(e.NewValue);
             }
@@ -268,8 +270,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var menu = d as HamburgerMenu;
-            if (menu.UsingNavView)
+            if (d is HamburgerMenu menu && menu.UsingNavView)
             {
                 if (menu.ItemsSource is IEnumerable<object> items)
                 {
@@ -280,9 +281,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnSelectedOptionsIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var menu = d as HamburgerMenu;
-
-            if (menu.UsingNavView)
+            if (d is HamburgerMenu menu && menu.UsingNavView)
             {
                 if (menu.ItemsSource is IEnumerable<object> options)
                 {
