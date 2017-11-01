@@ -10,10 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph.Platform;
 using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph

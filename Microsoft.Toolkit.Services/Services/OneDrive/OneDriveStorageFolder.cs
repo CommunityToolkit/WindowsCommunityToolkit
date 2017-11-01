@@ -1,4 +1,4 @@
-﻿// ******************************************************************
+// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,16 +9,14 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-using System;
+
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Newtonsoft.Json;
+using Microsoft.Toolkit.Services.OneDrive.Platform;
+using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
 namespace Microsoft.Toolkit.Services.OneDrive
 {
@@ -30,6 +28,11 @@ namespace Microsoft.Toolkit.Services.OneDrive
         private IDriveItemChildrenCollectionRequest _nextPageItemsRequest;
         private IDriveItemChildrenCollectionRequest _nextPageFoldersRequest;
         private IDriveItemChildrenCollectionRequest _nextPageFilesRequest;
+
+        /// <summary>
+        /// Gets or sets platform-specific implementation of platform services.
+        /// </summary>
+        public IOneDriveStorageFolderPlatform StorageFolderPlatformService { get; set; }
 
         /// <summary>
         /// Requests from OneDrive the file or folder with the specified name from the current folder.
@@ -47,11 +50,21 @@ namespace Microsoft.Toolkit.Services.OneDrive
         private UploadSession _uploadSession;
 
         /// <summary>
-        /// Gets the upload provider
+        /// Gets or sets the upload provider
         /// </summary>
-        private ChunkedUploadProvider UploadProvider
+        internal ChunkedUploadProvider UploadProvider
         {
             get { return _uploadProvider; }
+            set { _uploadProvider = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the upload session
+        /// </summary>
+        internal UploadSession UploadSession
+        {
+            get { return _uploadSession; }
+            set { _uploadSession = value; }
         }
 
         /// <summary>
@@ -69,6 +82,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         public OneDriveStorageFolder(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, DriveItem oneDriveItem)
             : base(oneDriveProvider, requestBuilder, oneDriveItem)
         {
+            StorageFolderPlatformService = OneDriveService.ServicePlatformInitializer.CreateOneDriveStorageFolderPlatformInstance(OneDriveService.Instance, this);
         }
 
         /// <summary>
@@ -81,85 +95,6 @@ namespace Microsoft.Toolkit.Services.OneDrive
         {
             var renameItem = await base.RenameAsync(desiredName, cancellationToken);
             return InitializeOneDriveStorageFolder(renameItem.OneDriveItem);
-        }
-
-        /// <summary>
-        /// Creates a new file in the current folder. This method also specifies what to
-        /// do if a file with the same name already exists in the current folder.
-        /// </summary>
-        /// <param name="desiredName">The name of the new file to create in the current folder.</param>
-        /// <param name="options">One of the enumeration values that determines how to handle the collision if a file with the specified desiredName already exists in the current folder.</param>
-        /// <param name="content">The data's stream to push into the file</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <remarks>With OneDrive Consumer, the content could not be null</remarks>
-        /// One of the enumeration values that determines how to handle the collision if
-        /// a file with the specified desiredNewName already exists in the destination folder.
-        /// Default : Fail
-        /// <returns>When this method completes, it returns a IOneDriveStorageFile that represents the new file.</returns>
-
-        public async Task<OneDriveStorageFile> CreateFileAsync(string desiredName, CreationCollisionOption options = CreationCollisionOption.FailIfExists, IRandomAccessStream content = null, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            Stream streamContent = null;
-            if (string.IsNullOrEmpty(desiredName))
-            {
-                throw new ArgumentNullException(nameof(desiredName));
-            }
-
-            if (content == null)
-            {
-                // Because OneDrive (Not OneDrive For business) don't allow to create a file with no content
-                // Put a single byte, then the caller can call Item.WriteAsync() to put the real content in the file
-                byte[] buffer = new byte[1];
-                buffer[0] = 0x00;
-                streamContent = new MemoryStream(buffer);
-            }
-            else
-            {
-                if (content.Size > OneDriveUploadConstants.SimpleUploadMaxSize)
-                {
-                    throw new ServiceException(new Error { Message = "The file size cannot exceed 4MB, use UploadFileAsync instead ", Code = "MaxSizeExceeded", ThrowSite = "UWP Community Toolkit" });
-                }
-
-                streamContent = content.AsStreamForRead();
-            }
-
-            var childrenRequest = ((IDriveItemRequestBuilder)RequestBuilder).Children.Request();
-            string requestUri = $"{childrenRequest.RequestUrl}/{desiredName}/content?@name.conflictBehavior={OneDriveHelper.TransformCollisionOptionToConflictBehavior(options.ToString())}";
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, requestUri)
-            {
-                Content = new StreamContent(streamContent)
-            };
-            var createdFile = await ((IGraphServiceClient)Provider).SendAuthenticatedRequestAsync(request, cancellationToken);
-            return InitializeOneDriveStorageFile(createdFile);
-        }
-
-        /// <summary>
-        /// Creates a new subfolder in the current folder.
-        /// </summary>
-        /// <param name="desiredName">The name of the new subfolder to create in the current folder.</param>
-        /// <param name="options">>One of the enumeration values that determines how to handle the collision if a file with the specified desiredName already exists in the current folder.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns>When this method completes, it returns a IOneDriveStorageFolder that represents the new subfolder.</returns>
-        public async Task<OneDriveStorageFolder> CreateFolderAsync(string desiredName, CreationCollisionOption options = CreationCollisionOption.FailIfExists, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (string.IsNullOrEmpty(desiredName))
-            {
-                throw new ArgumentNullException(nameof(desiredName));
-            }
-
-            var childrenRequest = ((IDriveItemRequestBuilder)RequestBuilder).Children.Request();
-            var requestUri = childrenRequest.RequestUrl;
-
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri);
-            DriveItem item = new DriveItem { Name = desiredName, Folder = new Graph.Folder { } };
-            item.AdditionalData = new Dictionary<string, object>();
-            item.AdditionalData.Add(new KeyValuePair<string, object>("@microsoft.graph.conflictBehavior", OneDriveHelper.TransformCollisionOptionToConflictBehavior(options.ToString())));
-
-            var jsonOptions = JsonConvert.SerializeObject(item);
-            request.Content = new StringContent(jsonOptions, System.Text.Encoding.UTF8, "application/json");
-
-            var createdFolder = await ((IGraphServiceClient)Provider).SendAuthenticatedRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            return InitializeOneDriveStorageFolder(createdFolder);
         }
 
         /// <summary>
@@ -243,18 +178,6 @@ namespace Microsoft.Toolkit.Services.OneDrive
         {
             IDriveItemChildrenCollectionRequest oneDriveItemsRequest = ((IDriveItemRequestBuilder)RequestBuilder).CreateChildrenRequest(top, orderBy, filter);
             return await RequestOneDriveItemsAsync(oneDriveItemsRequest, cancellationToken).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Gets the items from the current folder.
-        /// </summary>
-        /// <param name="orderBy">Sort the order of items in the response collection</param>
-        /// <remarks>don't use awaitable</remarks>
-        /// <returns>When this method completes successfully, it returns a list of the subfolders and files in the current folder.</returns>
-        public IncrementalLoadingCollection<OneDriveRequestSource<OneDriveStorageItem>, OneDriveStorageItem> GetItemsAsync(OrderBy orderBy = OrderBy.None)
-        {
-            var requestSource = new OneDriveRequestSource<OneDriveStorageItem>(Provider, RequestBuilder, orderBy, null);
-            return new IncrementalLoadingCollection<OneDriveRequestSource<OneDriveStorageItem>, OneDriveStorageItem>(requestSource);
         }
 
         /// <summary>
@@ -354,63 +277,6 @@ namespace Microsoft.Toolkit.Services.OneDrive
         {
             await Task.Delay(0);
             return 0;
-        }
-
-        /// <summary>
-        /// Creates a new large file in the current folder.
-        /// Use this method when your file is larger than
-        /// </summary>
-        /// <param name="desiredName">The name of the new file to create in the current folder.</param>
-        /// <param name="content">The data's stream to push into the file</param>
-        /// <param name="options">One of the enumeration values that determines how to handle the collision if a file with the specified desiredName already exists in the current folder.</param>
-        /// <param name="maxChunkSize">Max chunk size must be a multiple of 320 KiB (ie: 320*1024)</param>
-        /// <returns>When this method completes, it returns a IOneDriveStorageFile that represents the new file.</returns>
-        public async Task<OneDriveStorageFile> UploadFileAsync(string desiredName, IRandomAccessStream content, CreationCollisionOption options = CreationCollisionOption.FailIfExists, int maxChunkSize = -1)
-        {
-            int currentChunkSize = maxChunkSize < 0 ? OneDriveUploadConstants.DefaultMaxChunkSizeForUploadSession : maxChunkSize;
-
-            if (currentChunkSize % OneDriveUploadConstants.RequiredChunkSizeIncrementForUploadSession != 0)
-            {
-                throw new ArgumentException("Max chunk size must be a multiple of 320 KiB", nameof(maxChunkSize));
-            }
-
-            if (string.IsNullOrEmpty(desiredName))
-            {
-                throw new ArgumentNullException(nameof(desiredName));
-            }
-
-            if (content == null)
-            {
-                throw new ArgumentNullException(nameof(content));
-            }
-
-            var uploadSessionUri = $"{Provider.BaseUrl}/drive/items/{OneDriveItem.Id}:/{desiredName}:/createUploadSession";
-
-            var conflictBehavior = new OneDriveItemConflictBehavior { Item = new OneDriveConflictItem { ConflictBehavior = OneDriveHelper.TransformCollisionOptionToConflictBehavior(options.ToString()) } };
-
-            var jsonConflictBehavior = JsonConvert.SerializeObject(conflictBehavior);
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, uploadSessionUri)
-            {
-                Content = new StringContent(jsonConflictBehavior, Encoding.UTF8, "application/json")
-            };
-            await Provider.AuthenticationProvider.AuthenticateRequestAsync(request).ConfigureAwait(false);
-
-            var response = await Provider.HttpProvider.SendAsync(request).ConfigureAwait(false);
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new ServiceException(new Error { Message = "Could not create an UploadSession", Code = "NoUploadSession", ThrowSite = "UWP Community Toolkit" });
-            }
-
-            IsUploadCompleted = false;
-            var jsonData = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            _uploadSession = JsonConvert.DeserializeObject<UploadSession>(jsonData);
-
-            var streamToUpload = content.AsStreamForRead();
-            _uploadProvider = new ChunkedUploadProvider(_uploadSession, Provider, streamToUpload, maxChunkSize);
-
-            var uploadedItem = await _uploadProvider.UploadAsync().ConfigureAwait(false);
-            IsUploadCompleted = true;
-            return InitializeOneDriveStorageFile(uploadedItem);
         }
 
         /// <summary>

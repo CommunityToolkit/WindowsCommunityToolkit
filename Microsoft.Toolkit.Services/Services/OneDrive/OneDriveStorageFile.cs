@@ -1,4 +1,4 @@
-﻿// ******************************************************************
+// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.IO;
 using System.Linq;
@@ -24,6 +25,11 @@ namespace Microsoft.Toolkit.Services.OneDrive
     /// </summary>
     public class OneDriveStorageFile : OneDriveStorageItem
     {
+        /// <summary>
+        /// Gets or sets platform-specific implementation of platform services.
+        /// </summary>
+        public IOneDriveStorageFilePlatform StorageFilePlatformService { get; set; }
+
         private string _fileType;
 
         /// <summary>
@@ -66,6 +72,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         public OneDriveStorageFile(IBaseClient graphProvider, IBaseRequestBuilder requestBuilder, DriveItem oneDriveItem)
           : base(graphProvider, requestBuilder, oneDriveItem)
         {
+            StorageFilePlatformService = OneDriveService.ServicePlatformInitializer.CreateOneDriveStorageFilePlatformInstance(OneDriveService.Instance, this);
             ParseFileType(oneDriveItem.Name);
         }
 
@@ -80,11 +87,5 @@ namespace Microsoft.Toolkit.Services.OneDrive
             var renameItem = await base.RenameAsync(desiredName, cancellationToken);
             return InitializeOneDriveStorageFile(renameItem.OneDriveItem);
         }
-
-        /// <summary>
-        /// Gets or sets platform-specific implementation of file services.
-        /// </summary>
-        public IOneDriveStorageFilePlatform FileServices { get; set; }
-
     }
 }

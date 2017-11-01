@@ -15,29 +15,33 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
 namespace Microsoft.Toolkit.Services.OneDrive.Platform
 {
     /// <summary>
     /// Platform abstraction.
     /// </summary>
-    public interface IOneDriveStorageFilePlatform
+    public interface IOneDriveStorageItemPlatform
     {
         /// <summary>
-        /// Opens a random-access stream over the specified file.
+        /// Gets the thumbnail's item.
         /// </summary>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
-        /// <returns>When this method completes, it returns an IRandomAccessStream that contains the
-        ///     requested random-access stream.</returns>
-        Task<object> OpenAsync(CancellationToken cancellationToken = default(CancellationToken));
+        object ThumbNail { get; }
 
         /// <summary>
-        /// Creates a background download for the current file
+        /// Retrieves a thumbnail image for the file
         /// </summary>
-        /// <param name="destinationFile">Storage file to download to.</param>
-        /// <param name="completionGroup">Completion Group.</param>
-        /// <param name="cancellationToken">Cancellation Token.</param>
-        /// <returns>The created DownloadOperation.</returns>
-        Task<object> CreateBackgroundDownloadAsync(object destinationFile, object completionGroup = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <param name="optionSize"> A value from the enumeration that specifies the size of the image to retrieve. Small ,Medium, Large</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
+        /// <returns>When this method completes, return a stream containing the thumbnail, or null if no thumbnail are available</returns>
+        Task<object> GetThumbnailAsync(ThumbnailSize optionSize = ThumbnailSize.Small, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        ///  Determines whether the current IStorageItem matches the specified StorageItemTypes value.
+        /// </summary>
+        /// <param name="type">The value to match against.</param>
+        /// <returns>True if the IStorageItem matches the specified value; otherwise false.</returns>
+        bool IsOfType(object type);
     }
 }

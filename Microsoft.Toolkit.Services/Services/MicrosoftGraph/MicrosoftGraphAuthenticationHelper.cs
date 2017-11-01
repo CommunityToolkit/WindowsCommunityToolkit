@@ -11,15 +11,10 @@
 // ******************************************************************
 
 using System;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Services.Core;
-using Newtonsoft.Json;
-using MSAL = Microsoft.Identity.Client;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Identity.Client;
+using MSAL = Microsoft.Identity.Client;
 
 namespace Microsoft.Toolkit.Services.MicrosoftGraph
 {

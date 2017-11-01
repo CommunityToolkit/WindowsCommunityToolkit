@@ -347,7 +347,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 desiredNewName = this.OneDriveItem.Name;
             }
 
-            OneDriveParentReference parentReference = new OneDriveParentReference();
+            Toolkit.Services.OneDrive.OneDriveParentReference parentReference = new Toolkit.Services.OneDrive.OneDriveParentReference();
             if (destinationFolder.OneDriveItem.Name == "root")
             {
                 parentReference.Parent.Path = "/drive/root:/";

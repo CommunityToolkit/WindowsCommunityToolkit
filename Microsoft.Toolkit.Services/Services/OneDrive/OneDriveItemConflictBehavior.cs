@@ -10,15 +10,19 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using Newtonsoft.Json;
 
-namespace Microsoft.Toolkit.Uwp.Services.OneDrive
+namespace Microsoft.Toolkit.Services.OneDrive
 {
     /// <summary>
-    /// Class Item
+    ///  Class OneDriveItemConflictBehavior which define
     /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public class OneDriveConflictItem : Toolkit.Services.OneDrive.OneDriveConflictItem
+    public class OneDriveItemConflictBehavior
     {
+        /// <summary>
+        /// Gets or sets the item's name
+        /// </summary>
+        [JsonProperty("item")]
+        public OneDriveConflictItem Item { get; set; }
     }
 }

@@ -26,6 +26,16 @@ namespace Microsoft.Toolkit.Services.OneDrive
     public class OneDriveService
     {
         /// <summary>
+        /// Gets or sets platform initializer.
+        /// </summary>
+        public static IOneDriveServicePlatformInitializer ServicePlatformInitializer { get; set; }
+
+        /// <summary>
+        /// Gets or sets platform implementation of background download service.
+        /// </summary>
+        public IOneDriveServicePlatform ServicePlatformService { get; set; }
+
+        /// <summary>
         /// Private field for singleton.
         /// </summary>
         private static OneDriveService _instance;
@@ -56,11 +66,6 @@ namespace Microsoft.Toolkit.Services.OneDrive
         protected string[] Scopes { get; set; }
 
         /// <summary>
-        /// Fields to store the account provider
-        /// </summary>
-        private IAuthenticationProvider _accountProvider;
-
-        /// <summary>
         /// Gets a reference to an instance of the underlying data provider.
         /// </summary>
         public MicrosoftGraphService Provider
@@ -84,6 +89,8 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <returns>True or false</returns>
         public bool Initialize(string appClientId, string[] scopes)
         {
+            ServicePlatformService = ServicePlatformInitializer.CreateOneDriveServicePlatformInstance(this);
+
             AppClientId = appClientId;
             Scopes = scopes;
             IsInitialized = true;
@@ -205,10 +212,5 @@ namespace Microsoft.Toolkit.Services.OneDrive
         {
             throw new NotImplementedException();
         }
-
-        /// <summary>
-        /// Gets or sets platform implementation of background download service.
-        /// </summary>
-        public IOneDriveServiceBackgroundDownload BackgroundDownloadService { get; set; }
     }
 }

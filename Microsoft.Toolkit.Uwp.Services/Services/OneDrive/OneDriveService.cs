@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.OneDrive.Sdk;
 using Microsoft.OneDrive.Sdk.Authentication;
+using Microsoft.Toolkit.Uwp.Services.OneDrive.Platform;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
@@ -37,6 +38,28 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// Gets public singleton property.
         /// </summary>
         public static new OneDriveService Instance => _instance ?? (_instance = new OneDriveService());
+
+        /// <summary>
+        /// Private field for singleton.
+        /// </summary>
+        private static Toolkit.Services.OneDrive.OneDriveService _graphInstance;
+
+        /// <summary>
+        /// Gets public singleton property.
+        /// </summary>
+        public static Toolkit.Services.OneDrive.OneDriveService GraphInstance
+        {
+            get
+            {
+                if (_graphInstance == null)
+                {
+                    ServicePlatformInitializer = new OneDriveServicePlatformInitializer();
+                    _graphInstance = new Toolkit.Services.OneDrive.OneDriveService();
+                }
+
+                return _graphInstance;
+            }
+        }
 
         /// <summary>
         /// Fields to store the account provider
@@ -195,7 +218,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// Gets the OneDrive root folder
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
-        public async Task<OneDriveStorageFolder> RootFolderAsync()
+        public new async Task<OneDriveStorageFolder> RootFolderAsync()
         {
             // log the user silently with a Microsoft Account associate to Windows
             if (IsConnected == false)
@@ -215,7 +238,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// Gets the OneDrive app root folder
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
-        public async Task<OneDriveStorageFolder> AppRootFolderAsync()
+        public new async Task<OneDriveStorageFolder> AppRootFolderAsync()
         {
             // log the user silently with a Microsoft Account associate to Windows
             if (IsConnected == false)
@@ -235,7 +258,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// Gets the OneDrive camera roll folder
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
-        public async Task<OneDriveStorageFolder> CameraRollFolderAsync()
+        public new async Task<OneDriveStorageFolder> CameraRollFolderAsync()
         {
             // log the user silently with a Microsoft Account associate to Windows
             if (IsConnected == false)
@@ -255,7 +278,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// Gets the OneDrive documents folder
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
-        public async Task<OneDriveStorageFolder> DocumentsFolderAsync()
+        public new async Task<OneDriveStorageFolder> DocumentsFolderAsync()
         {
             // log the user silently with a Microsoft Account associate to Windows
             if (IsConnected == false)
@@ -275,7 +298,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// Gets the OneDrive music folder
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
-        public async Task<OneDriveStorageFolder> MusicFolderAsync()
+        public new async Task<OneDriveStorageFolder> MusicFolderAsync()
         {
             // log the user silently with a Microsoft Account associate to Windows
             if (IsConnected == false)
@@ -295,7 +318,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// Gets the OneDrive photos folder
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
-        public async Task<OneDriveStorageFolder> PhotosFolderAsync()
+        public new async Task<OneDriveStorageFolder> PhotosFolderAsync()
         {
             // log the user silently with a Microsoft Account associate to Windows
             if (IsConnected == false)
