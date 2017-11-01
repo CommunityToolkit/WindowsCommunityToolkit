@@ -37,7 +37,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         public MicrosoftGraphAuthenticationHelper()
         {
             _vault = new PasswordVault();
-            PlatformAuthentication = new WebAuthBrokerAuthenticator();
         }
 
         /// <summary>
@@ -48,7 +47,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             : base(delegatedPermissionScopes)
         {
             _vault = new PasswordVault();
-            PlatformAuthentication = new WebAuthBrokerAuthenticator();
         }
 
         /// <summary>
@@ -123,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 
             if (authenticationModel.Equals("V2"))
             {
-                return await LogoutV2Async();
+                return await base.LogoutAsync();
             }
 
             return true;

@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\OneDrive\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.Graph" Version="1.6.2" />
     <PackageReference Include="Microsoft.Identity.Client" Version="1.1.0-preview" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />

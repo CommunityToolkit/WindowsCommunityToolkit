@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Toolkit.Services.MicrosoftGraph
+namespace Microsoft.Toolkit.Services.MicrosoftGraph.Platform
 {
     /// <summary>
     /// Platform-specific implementation to retrieve graph photos.

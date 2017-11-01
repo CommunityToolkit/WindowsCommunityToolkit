@@ -17,6 +17,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
 using Newtonsoft.Json;
+using MSAL = Microsoft.Identity.Client;
+using System.Linq;
+using Microsoft.Identity.Client;
 
 namespace Microsoft.Toolkit.Services.MicrosoftGraph
 {
@@ -35,16 +38,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         protected const string AuthorizationTokenService = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
         protected const string LogoutUrlV2Model = "https://login.microsoftonline.com/common/oauth2/v2.0/logout";
 
-        private static HttpClient httpClient;
-
-        /// <summary>
-        /// Gets or sets static instance of HttpClient.
-        /// </summary>
-        public static HttpClient HttpClient
-        {
-            get { return httpClient ?? (httpClient = new HttpClient()); }
-            set { httpClient = value; }
-        }
+        private static MSAL.PublicClientApplication _identityClient = null;
 
         /// <summary>
         /// Gets or sets delegated permission Scopes
@@ -63,11 +57,6 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// </summary>
         /// <param name="delegatedPermissionScopes">Delegated Permission Scopes</param>
         public MicrosoftGraphAuthenticationHelper(string[] delegatedPermissionScopes) => DelegatedPermissionScopes = delegatedPermissionScopes;
-
-        /// <summary>
-        /// Gets or sets platform-specific implementation for authentication.
-        /// </summary>
-        public static IPlatformAuthentication PlatformAuthentication { get; set; }
 
         /// <summary>
         /// Gets or sets the Oauth2 access token.
@@ -94,26 +83,23 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <returns>An oauth2 access token.</returns>
         internal async Task<string> GetUserTokenV2Async(string appClientId)
         {
-            var scopes = string.Join(" ", DelegatedPermissionScopes);
-
-            string authorizationCode = null;
-            string authorizationUrl = $"{AuthorityV2Model}?response_type=code&client_id={appClientId}&redirect_uri={DefaultRedirectUri}&scope={scopes}&response_mode=query";
-
-            JwToken jwtToken = null;
-            if (TokenForUser == null)
+            if (_identityClient == null)
             {
-                if (PlatformAuthentication == null)
-                {
-                    throw new NotSupportedException("MicrosoftGraphAuthenticationHelper::PlatformAuthentication not set. Unable to authenticate.");
-                }
-
-                var webAuthResult = await PlatformAuthentication.AuthenticateAsync(new Uri(authorizationUrl), new Uri(DefaultRedirectUri));
-                authorizationCode = ParseAuthorizationCode(webAuthResult);
-                jwtToken = await RequestTokenAsync(appClientId, authorizationCode);
-                TokenForUser = jwtToken.AccessToken;
+                _identityClient = new MSAL.PublicClientApplication(appClientId);
             }
 
-            return TokenForUser;
+            MSAL.AuthenticationResult authenticationResult = null;
+
+            try
+            {
+                authenticationResult = await _identityClient.AcquireTokenSilentAsync(DelegatedPermissionScopes, _identityClient.Users.First());
+            }
+            catch (Exception)
+            {
+                authenticationResult = await _identityClient.AcquireTokenAsync(DelegatedPermissionScopes);
+            }
+
+            return authenticationResult?.AccessToken;
         }
 
         /// <summary>
@@ -122,89 +108,21 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <returns>Success or failure</returns>
         internal async Task<bool> LogoutAsync()
         {
-            return await LogoutV2Async();
+            return await Task.Run(() => { return LogoutV2(); });
         }
 
-        internal async Task<bool> LogoutV2Async()
+        internal bool LogoutV2()
         {
-            HttpResponseMessage response = null;
-            using (var client = new HttpClient())
+            try
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, LogoutUrlV2Model);
-                response = await client.SendAsync(request);
-                return response.IsSuccessStatusCode;
+                _identityClient.Remove(_identityClient.Users.FirstOrDefault());
             }
-        }
-
-        protected async Task<JwToken> RequestTokenAsync(string appClientId, string code)
-        {
-            var scopes = string.Join(" ", DelegatedPermissionScopes);
-
-            var requestBody = $"grant_type=authorization_code&client_id={appClientId}&code={code}&redirect_uri={DefaultRedirectUri}&scope={scopes}";
-            var requestBytes = Encoding.UTF8.GetBytes(requestBody);
-
-            // Build request.
-            using (var request = new HttpRequestMessage(HttpMethod.Post, AuthorizationTokenService))
+            catch (MsalException)
             {
-                request.Content = new ByteArrayContent(requestBytes);
-                request.Content.Headers.Add("ContentType", "application/x-www-form-urlencoded");
-
-                using (var response = await HttpClient.SendAsync(request).ConfigureAwait(false))
-                {
-                    string responseBody = response.Content == null ? null : await response.Content.ReadAsStringAsync();
-
-                    if (response.IsSuccessStatusCode && !string.IsNullOrEmpty(responseBody))
-                    {
-                        // Parse the JWT.
-                        var jwt = JsonConvert.DeserializeObject<JwToken>(responseBody);
-                        return jwt;
-                    }
-                }
+                return false;
             }
 
-            // Consent was not obtained.
-            return null;
-        }
-
-       /// <summary>
-       /// Retrieve the authorisation code
-       /// </summary>
-       /// <param name="responseData">string contening the authorisation code</param>
-       /// <returns>The authorization code</returns>
-        private string ParseAuthorizationCode(string responseData)
-        {
-            string code = null;
-            var queryParams = SplitQueryString(responseData);
-            foreach (var param in queryParams)
-            {
-                // Split the current parameter into name and value.
-                var parts = param.Split('=');
-                var paramName = parts[0].ToLowerInvariant().Trim();
-                var paramValue = WebUtility.UrlDecode(parts[1]).Trim();
-
-                // Process the output parameter.
-                if (paramName.Equals("code"))
-                {
-                    code = paramValue;
-                }
-            }
-
-            return code;
-        }
-
-        private string[] SplitQueryString(string queryString)
-        {
-            // Do some hygiene on the query string upfront to ease the parsing.
-            queryString.Trim();
-            var queryStringBegin = queryString.IndexOf('?');
-
-            if (queryStringBegin >= 0)
-            {
-                queryString = queryString.Substring(queryStringBegin + 1);
-            }
-
-            // Now split the query string.
-            return queryString.Split('&');
+            return true;
         }
     }
 }

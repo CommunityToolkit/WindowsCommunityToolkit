@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <summary>
         /// Gets or sets store a reference to an instance of the underlying data provider.
         /// </summary>
-        protected GraphServiceClient GraphProvider { get; set; }
+        public GraphServiceClient GraphProvider { get; set; }
 
         /// <summary>
         /// Private singleton field.
@@ -146,10 +146,6 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                 await GetUserAsyncProfile();
             }
 
-            // if ((_servicesToInitialize & ServicesToInitialize.OneDrive) == ServicesToInitialize.OneDrive)
-            // {
-            //    _user.InitializeDrive();
-            // }
             if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Message) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Message)
             {
                 User.InitializeMessage();

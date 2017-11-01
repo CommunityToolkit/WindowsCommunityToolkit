@@ -13,6 +13,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Toolkit.Services.MicrosoftGraph.Platform;
 
 namespace Microsoft.Toolkit.Services.MicrosoftGraph
 {

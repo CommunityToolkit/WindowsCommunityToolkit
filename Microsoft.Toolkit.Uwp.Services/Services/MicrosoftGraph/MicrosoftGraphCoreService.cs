@@ -136,16 +136,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             }
             else
             {
-                return new GraphServiceClient(
-                    new DelegateAuthenticationProvider(
-                        async (requestMessage) =>
-                        {
-                            requestMessage.Headers.Authorization =
-                                new AuthenticationHeaderValue(
-                                            "bearer",
-                                            await Authentication.GetUserTokenV2Async(appClientId).ConfigureAwait(false));
-                            return;
-                        }));
+                return base.CreateGraphClientProvider(appClientId);
             }
         }
 

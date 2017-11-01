@@ -10,15 +10,26 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-
-namespace Microsoft.Toolkit.Uwp.Services.OneDrive
+namespace Microsoft.Toolkit.Services.OneDrive
 {
     /// <summary>
-    ///  Class ofr the OneDrive Constants
+    ///  Class of the OneDrive Constants
     /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public class OneDriveUploadConstants : Toolkit.Services.OneDrive.OneDriveUploadConstants
+    public class OneDriveUploadConstants
     {
+        /// <summary>
+        /// Maximum file size for a simple upload
+        /// </summary>
+        public const int SimpleUploadMaxSize = 4 * 1024 * 1024;
+
+        /// <summary>
+        /// Default chunk when uploading a karge file
+        /// </summary>
+        public const int DefaultMaxChunkSizeForUploadSession = 5 * 1024 * 1024;
+
+        /// <summary>
+        /// Chunk size increment
+        /// </summary>
+        public const int RequiredChunkSizeIncrementForUploadSession = 320 * 1024;
     }
 }
