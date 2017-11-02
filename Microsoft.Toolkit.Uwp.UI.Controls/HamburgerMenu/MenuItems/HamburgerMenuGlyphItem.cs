@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -17,6 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The HamburgerMenuGlyphItem provides a glyph based implementation for HamburgerMenu entries.
     /// </summary>
+    [Obsolete("The HamburgerMenuGlyphItem will be removed alongside the HamburgerMenu in a future major release. Please use the NavigationView control available in the Fall Creators Update")]
     public class HamburgerMenuGlyphItem : HamburgerMenuItem
     {
         /// <summary>

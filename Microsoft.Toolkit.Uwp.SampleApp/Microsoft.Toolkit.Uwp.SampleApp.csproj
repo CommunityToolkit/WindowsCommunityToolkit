@@ -11,7 +11,7 @@
     <AssemblyName>Microsoft.Toolkit.Uwp.SampleApp</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -119,7 +119,7 @@
       <Version>4.1.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.3.4</Version>
+      <Version>5.4.1</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.3.0-alpha</Version>
@@ -1072,5 +1072,14 @@
         <TargetPath>docs/%(RecursiveDir)%(FileName)%(Extension)</TargetPath>
       </AppxPackagePayload>
     </ItemGroup>
+  </Target>
+  
+  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
+  <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
+    <ItemGroup>
+      <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />
+    </ItemGroup>
+    <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
+    <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f | findstr /v /b &quot;#pragma&quot; &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
   </Target>
 </Project>

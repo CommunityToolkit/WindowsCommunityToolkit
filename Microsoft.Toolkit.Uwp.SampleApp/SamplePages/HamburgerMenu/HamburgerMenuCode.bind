@@ -18,10 +18,10 @@
                       FontSize="16"
                       FontFamily="Segoe MDL2 Assets" 
                       Glyph="{Binding Glyph}" 
-                      Foreground="White" />
+                      Foreground="Black" />
                 <TextBlock Grid.Column="1" 
                        Text="{Binding Label}" 
-                       Foreground="White" 
+                       Foreground="Black" 
                        FontSize="16" 
                        VerticalAlignment="Center" />
             </Grid>
@@ -36,7 +36,7 @@
                 <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" Margin="16,12" />
                 <TextBlock Grid.Column="1" 
                        Text="{Binding Label}" 
-                       Foreground="White" 
+                       Foreground="Black" 
                        FontSize="16" 
                        VerticalAlignment="Center" />
             </Grid>
@@ -44,8 +44,10 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="50" BorderThickness="1" BorderBrush="Black">
-        <controls:HamburgerMenu PaneBackground="@[PaneBackground:Brush:Black]" x:Name="HamburgerMenu"
-                                Foreground="White"
+        <controls:HamburgerMenu x:Name="HamburgerMenu"
+                                PaneBackground="@[PaneBackground:Brush:LightGray]"
+                                PaneForeground="Black"
+                                SelectedIndex="@[SelectedIndex:Slider:0:0-3]@"
                                 ItemTemplate="{StaticResource HamburgerMenuImageItem}"
                                 OptionsItemTemplate="{StaticResource HamburgerMenuItem}"
                                 OpenPaneLength="@[OpenPaneLength:Slider:240:50-400]"
@@ -53,7 +55,8 @@
                                 CompactPaneLength="@[CompactPaneLength:Slider:48:10-80]"
                                 HamburgerHeight="@[HamburgerHeight:Slider:48:10-80]"
                                 HamburgerVisibility="@[HamburgerVisibility:Enum:Visibility.Visible]"
-                                IsPaneOpen="@[IsPaneOpen:Bool:False]@">
+                                IsPaneOpen="@[IsPaneOpen:Bool:False]@"
+                                UseNavigationViewWhenPossible="@[UseNavigationViewWhenPossible:Bool:True]">
             <!--  Items  -->
             <controls:HamburgerMenu.ItemsSource>
                 <controls:HamburgerMenuItemCollection>
@@ -83,12 +86,12 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Border Grid.Row="0"
-                        Background="Black">
+                        Background="LightGray">
                     <TextBlock x:Name="Header"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                FontSize="24"
-                               Foreground="White"
+                               Foreground="Black"
                                Text="{Binding Label}" />
                 </Border>
                 <Image x:Name="Image"

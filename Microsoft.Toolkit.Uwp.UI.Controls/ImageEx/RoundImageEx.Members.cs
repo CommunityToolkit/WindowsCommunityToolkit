@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 
@@ -25,13 +26,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="CornerRadius"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty CornerRadiusProperty =
+        public static new readonly DependencyProperty CornerRadiusProperty =
             DependencyProperty.Register(nameof(CornerRadius), typeof(double), typeof(RoundImageEx), new PropertyMetadata(0));
 
         /// <summary>
         /// Gets or sets the corner radius of the image
         /// </summary>
-        public double CornerRadius
+        [Obsolete("Use ImageEx directly instead for 16299 and above.", false)]
+        public new double CornerRadius
         {
             get { return (double)GetValue(CornerRadiusProperty); }
             set { SetValue(CornerRadiusProperty, value); }

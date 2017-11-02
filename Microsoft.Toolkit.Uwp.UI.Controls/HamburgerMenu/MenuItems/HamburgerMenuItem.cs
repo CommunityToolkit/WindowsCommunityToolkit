@@ -12,13 +12,13 @@
 
 using System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// The HamburgerMenuItem provides an abstract implementation for HamburgerMenu entries.
     /// </summary>
+    [Obsolete("The HamburgerMenuItem will be removed alongside the HamburgerMenu in a future major release. Please use the NavigationView control available in the Fall Creators Update")]
     public abstract class HamburgerMenuItem : DependencyObject
     {
         /// <summary>

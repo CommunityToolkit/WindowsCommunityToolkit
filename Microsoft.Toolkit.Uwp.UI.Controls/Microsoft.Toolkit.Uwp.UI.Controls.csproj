@@ -11,14 +11,24 @@
 
   <ItemGroup>
 
-    <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.2" />
+    <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.3" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
 
   </ItemGroup>
  
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
+    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>
   
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
+
+  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
+  <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
+    <ItemGroup>
+      <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />
+    </ItemGroup>
+    <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
+    <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
+  </Target>
 </Project>
