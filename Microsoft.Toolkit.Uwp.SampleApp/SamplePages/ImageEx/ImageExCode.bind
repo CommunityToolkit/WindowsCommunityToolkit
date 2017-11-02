@@ -46,7 +46,7 @@
                                   CornerRadius="30,60,30,60"
                                   Style="{StaticResource RectangleStyle}"/>
               
-                <TextBlock Text="Above ImageEx will have rounded corners on RS3." Margin="4" HorizontalAlignment="Center"/>
+                <TextBlock Text="Above ImageEx will have rounded corners on the Fall Creators Update." Margin="4" HorizontalAlignment="Center"/>
 
                 <controls:RoundImageEx x:Name="RoundImageExControl1"
                                        IsCacheEnabled="@[Enable Cache]"
