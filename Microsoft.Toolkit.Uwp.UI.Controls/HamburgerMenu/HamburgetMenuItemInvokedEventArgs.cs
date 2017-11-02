@@ -1,4 +1,4 @@
-﻿// ******************************************************************
+// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -15,19 +15,19 @@ using System;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Event args for a SwipeStatus changing event
+    /// EventArgs used for the <see cref="HamburgerMenu"/> ItemInvoked event
     /// </summary>
-    [Obsolete("The SwipeStatusChangedEventArgs will be removed alongside SlidableListItem in a future major release. Please use the SwipeControl available in the Fall Creators Update")]
-    public class SwipeStatusChangedEventArgs
+    [Obsolete("The HamburgetMenuItemInvokedEventArgs will be removed alongside the HamburgerMenu in a future major release. Please use the NavigationView control available in the Fall Creators Update")]
+    public class HamburgetMenuItemInvokedEventArgs : EventArgs
     {
         /// <summary>
-        /// Gets the old value.
+        /// Gets the invoked item
         /// </summary>
-        public SwipeStatus OldValue { get; internal set; }
+        public object InvokedItem { get; internal set; }
 
         /// <summary>
-        /// Gets the new value.
+        /// Gets a value indicating whether the invoked item is an options item
         /// </summary>
-        public SwipeStatus NewValue { get; internal set; }
+        public bool IsItemOptions { get; internal set; }
     }
 }
