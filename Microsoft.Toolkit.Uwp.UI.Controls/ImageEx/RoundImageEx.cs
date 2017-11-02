@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
@@ -22,6 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Once downloaded, the source image is stored in the App local cache to preserve resources and load time next time the image needs to be displayed.
     /// </summary>
     [TemplatePart(Name = PartImageRectangle, Type = typeof(Rectangle))]
+    [Obsolete("Use CornerRadius on ImageEx instead for 16299 and above.", false)]
     public partial class RoundImageEx : ImageExBase
     {
         /// <summary>
