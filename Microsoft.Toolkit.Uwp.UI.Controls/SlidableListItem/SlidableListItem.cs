@@ -200,7 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets a value indicating whether <see cref="SwipeControl"/> is supported
         /// </summary>
-        public static bool IsSwipeControlSupported { get; } = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5);
+        public static bool IsSwipeControlSupported { get; } = ApiInformation.IsTypePresent("Windows.UI.Xaml.Controls.SwipeControl");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlidableListItem"/> class.

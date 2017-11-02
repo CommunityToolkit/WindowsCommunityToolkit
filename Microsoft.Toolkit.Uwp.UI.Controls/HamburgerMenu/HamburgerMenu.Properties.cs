@@ -230,9 +230,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is HamburgerMenu hm && hm.UsingNavView)
+            if (d is HamburgerMenu hamburgerMenu && hamburgerMenu.UsingNavView)
             {
-                hm.NavViewSetItemsSource();
+                hamburgerMenu.NavViewSetItemsSource();
             }
         }
 

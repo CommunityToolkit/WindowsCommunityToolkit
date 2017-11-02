@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets a value indicating whether <see cref="NavigationView"/> is supported
         /// </summary>
-        public static bool IsNavigationViewSupported { get; } = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5);
+        public static bool IsNavigationViewSupported { get; } = ApiInformation.IsTypePresent("Windows.UI.Xaml.Controls.NavigationView");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HamburgerMenu"/> class.
@@ -106,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnApplyTemplateNavView()
         {
-            if (_navigationView is NavigationView navView && navView != null)
+            if (_navigationView is NavigationView navView)
             {
                 navView.ItemInvoked -= NavigationViewItemInvoked;
                 navView.SelectionChanged -= NavigationViewSelectionChanged;

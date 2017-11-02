@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The HamburgerMenuItemCollection provides typed collection of HamburgerMenuItem.
     /// </summary>
-    [Obsolete("The HamburgerMenuItemCollection will be removed alongside the HamburgerMenu in a future major release. Please use the ParallaxView control available in the Fall Creators Update")]
+    [Obsolete("The HamburgerMenuItemCollection will be removed alongside the HamburgerMenu in a future major release. Please use the NavigationView control available in the Fall Creators Update")]
     public class HamburgerMenuItemCollection : List<HamburgerMenuItem>
     {
     }
