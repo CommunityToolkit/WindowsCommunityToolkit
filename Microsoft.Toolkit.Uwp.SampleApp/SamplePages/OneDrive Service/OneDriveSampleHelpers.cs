@@ -14,6 +14,7 @@ using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Toolkit.Services.OneDrive;
 using Microsoft.Toolkit.Uwp.Services.OneDrive;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -97,7 +98,36 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// </summary>
         /// <param name="folder">Destination folder where to create the new folder</param>
         /// <returns>Task to support await of async call.</returns>
-        public static async Task NewFolderAsync(OneDriveStorageFolder folder)
+        public static async Task NewFolderAsync(Toolkit.Services.OneDrive.OneDriveStorageFolder folder)
+        {
+            if (folder != null)
+            {
+                Shell.Current.DisplayWaitRing = true;
+                try
+                {
+                    string newFolderName = await OneDriveSampleHelpers.InputTextDialogAsync("New Folder Name");
+                    if (!string.IsNullOrEmpty(newFolderName))
+                    {
+                        await folder.StorageFolderPlatformService.CreateFolderAsync(newFolderName);
+                    }
+                }
+                catch (ServiceException ex)
+                {
+                    await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(ex);
+                }
+                finally
+                {
+                    Shell.Current.DisplayWaitRing = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Create a new folder in the current folder
+        /// </summary>
+        /// <param name="folder">Destination folder where to create the new folder</param>
+        /// <returns>Task to support await of async call.</returns>
+        public static async Task NewFolderAsync(Services.OneDrive.OneDriveStorageFolder folder)
         {
             if (folder != null)
             {
@@ -126,12 +156,39 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// </summary>
         /// <param name="item">File to download from OneDrive</param>
         /// <returns>Task to support await of async call.</returns>
-        public static async Task DownloadAsync(OneDriveStorageItem item)
+        public static async Task DownloadAsync(Toolkit.Services.OneDrive.OneDriveStorageItem item)
         {
             try
             {
                 Shell.Current.DisplayWaitRing = true;
-                var oneDriveFile = (OneDriveStorageFile)item;
+                var oneDriveFile = (Toolkit.Services.OneDrive.OneDriveStorageFile)item;
+                using (var remoteStream = (await oneDriveFile.StorageFilePlatformService.OpenAsync()) as IRandomAccessStream)
+                {
+                    await SaveToLocalFolder(remoteStream, oneDriveFile.Name);
+                }
+            }
+            catch (Exception ex)
+            {
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
+                TrackingManager.TrackException(ex);
+            }
+            finally
+            {
+                Shell.Current.DisplayWaitRing = false;
+            }
+        }
+
+        /// <summary>
+        /// Download a file
+        /// </summary>
+        /// <param name="item">File to download from OneDrive</param>
+        /// <returns>Task to support await of async call.</returns>
+        public static async Task DownloadAsync(Services.OneDrive.OneDriveStorageItem item)
+        {
+            try
+            {
+                Shell.Current.DisplayWaitRing = true;
+                var oneDriveFile = (Services.OneDrive.OneDriveStorageFile)item;
                 using (var remoteStream = await oneDriveFile.OpenAsync())
                 {
                     await SaveToLocalFolder(remoteStream, oneDriveFile.Name);
@@ -172,7 +229,49 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// </summary>
         /// <param name="folder">The destination folder</param>
         /// <returns>Task to support await of async call.</returns>
-        public static async Task UploadSimpleFileAsync(OneDriveStorageFolder folder)
+        public static async Task UploadSimpleFileAsync(Toolkit.Services.OneDrive.OneDriveStorageFolder folder)
+        {
+            Shell.Current.DisplayWaitRing = true;
+
+            try
+            {
+                if (folder != null)
+                {
+                    var selectedFile = await OpenLocalFileAsync();
+                    if (selectedFile != null)
+                    {
+                        using (var localStream = await selectedFile.OpenReadAsync())
+                        {
+                            var fileCreated = await folder.StorageFolderPlatformService.CreateFileAsync(selectedFile.Name, CreationCollisionOption.GenerateUniqueName, localStream);
+                        }
+                    }
+                }
+            }
+            catch (OperationCanceledException ex)
+            {
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
+            }
+            catch (ServiceException graphEx)
+            {
+                await OneDriveSampleHelpers.DisplayMessageAsync(graphEx.Error.Message);
+            }
+            catch (Exception ex)
+            {
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
+                TrackingManager.TrackException(ex);
+            }
+            finally
+            {
+                Shell.Current.DisplayWaitRing = false;
+            }
+        }
+
+        /// <summary>
+        /// Upload simple file.
+        /// </summary>
+        /// <param name="folder">The destination folder</param>
+        /// <returns>Task to support await of async call.</returns>
+        public static async Task UploadSimpleFileAsync(Services.OneDrive.OneDriveStorageFolder folder)
         {
             Shell.Current.DisplayWaitRing = true;
 
@@ -214,7 +313,50 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// </summary>
         /// <param name="folder">The destination folder</param>
         /// <returns>Task to support await of async call.</returns>
-        public static async Task UploadLargeFileAsync(OneDriveStorageFolder folder)
+        public static async Task UploadLargeFileAsync(Toolkit.Services.OneDrive.OneDriveStorageFolder folder)
+        {
+            try
+            {
+                if (folder != null)
+                {
+                    var selectedFile = await OpenLocalFileAsync();
+                    if (selectedFile != null)
+                    {
+                        using (var localStream = await selectedFile.OpenReadAsync())
+                        {
+                            Shell.Current.DisplayWaitRing = true;
+
+                            // If the file exceed the Maximum size (ie 4MB)
+                            var largeFileCreated = await folder.StorageFolderPlatformService.UploadFileAsync(selectedFile.Name, localStream, CreationCollisionOption.GenerateUniqueName, 320 * 1024);
+                        }
+                    }
+                }
+            }
+            catch (OperationCanceledException ex)
+            {
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
+            }
+            catch (ServiceException graphEx)
+            {
+                await OneDriveSampleHelpers.DisplayMessageAsync(graphEx.Error.Message);
+            }
+            catch (Exception ex)
+            {
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
+                TrackingManager.TrackException(ex);
+            }
+            finally
+            {
+                Shell.Current.DisplayWaitRing = false;
+            }
+        }
+
+        /// <summary>
+        /// Upload large file.
+        /// </summary>
+        /// <param name="folder">The destination folder</param>
+        /// <returns>Task to support await of async call.</returns>
+        public static async Task UploadLargeFileAsync(Services.OneDrive.OneDriveStorageFolder folder)
         {
             try
             {
@@ -252,7 +394,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        public static async Task RenameAsync(OneDriveStorageItem itemToRename)
+        public static async Task RenameAsync(Toolkit.Services.OneDrive.OneDriveStorageItem itemToRename)
         {
             try
             {
@@ -278,7 +420,33 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        public static async Task CopyToAsync(OneDriveStorageItem item, OneDriveStorageFolder rootFolder)
+        public static async Task RenameAsync(Services.OneDrive.OneDriveStorageItem itemToRename)
+        {
+            try
+            {
+                Shell.Current.DisplayWaitRing = true;
+                string newName = await OneDriveSampleHelpers.InputTextDialogAsync("New Name");
+                if (!string.IsNullOrEmpty(newName))
+                {
+                    await itemToRename.RenameAsync(newName);
+                }
+            }
+            catch (ServiceException graphEx)
+            {
+                await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(graphEx);
+            }
+            catch (Exception ex)
+            {
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
+                TrackingManager.TrackException(ex);
+            }
+            finally
+            {
+                Shell.Current.DisplayWaitRing = false;
+            }
+        }
+
+        public static async Task CopyToAsync(Toolkit.Services.OneDrive.OneDriveStorageItem item, Toolkit.Services.OneDrive.OneDriveStorageFolder rootFolder)
         {
             Shell.Current.DisplayWaitRing = true;
             try
@@ -304,7 +472,33 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        public static async Task MoveToAsync(OneDriveStorageItem item, OneDriveStorageFolder rootFolder)
+        public static async Task CopyToAsync(Services.OneDrive.OneDriveStorageItem item, Services.OneDrive.OneDriveStorageFolder rootFolder)
+        {
+            Shell.Current.DisplayWaitRing = true;
+            try
+            {
+                var folder = await OneDriveSampleHelpers.OpenFolderPicker("Copy to", rootFolder);
+                if (folder != null)
+                {
+                    await item.CopyAsync(folder);
+                }
+            }
+            catch (ServiceException exService)
+            {
+                await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(exService);
+            }
+            catch (Exception ex)
+            {
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
+                TrackingManager.TrackException(ex);
+            }
+            finally
+            {
+                Shell.Current.DisplayWaitRing = false;
+            }
+        }
+
+        public static async Task MoveToAsync(Toolkit.Services.OneDrive.OneDriveStorageItem item, Toolkit.Services.OneDrive.OneDriveStorageFolder rootFolder)
         {
             Shell.Current.DisplayWaitRing = true;
             try
@@ -330,7 +524,52 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        public static async Task<OneDriveStorageFolder> OpenFolderPicker(string title, OneDriveStorageFolder rootFolder)
+        public static async Task MoveToAsync(Services.OneDrive.OneDriveStorageItem item, Services.OneDrive.OneDriveStorageFolder rootFolder)
+        {
+            Shell.Current.DisplayWaitRing = true;
+            try
+            {
+                var folder = await OneDriveSampleHelpers.OpenFolderPicker("Move to", rootFolder);
+                if (folder != null)
+                {
+                    await item.MoveAsync(folder);
+                }
+            }
+            catch (ServiceException exService)
+            {
+                await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(exService);
+            }
+            catch (Exception ex)
+            {
+                await OneDriveSampleHelpers.DisplayMessageAsync(ex.Message);
+                TrackingManager.TrackException(ex);
+            }
+            finally
+            {
+                Shell.Current.DisplayWaitRing = false;
+            }
+        }
+
+        public static async Task<Toolkit.Services.OneDrive.OneDriveStorageFolder> OpenFolderPicker(string title, Toolkit.Services.OneDrive.OneDriveStorageFolder rootFolder)
+        {
+            FoldersPickerControl folderPicker = new FoldersPickerControl(await rootFolder.GetFoldersAsync(100), rootFolder);
+
+            ContentDialog dialog = new ContentDialog();
+            dialog.Content = folderPicker;
+            dialog.Title = title;
+            dialog.PrimaryButtonText = "Ok";
+
+            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+            {
+                return folderPicker.SelectedGraphFolder;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static async Task<Services.OneDrive.OneDriveStorageFolder> OpenFolderPicker(string title, Services.OneDrive.OneDriveStorageFolder rootFolder)
         {
             FoldersPickerControl folderPicker = new FoldersPickerControl(await rootFolder.GetFoldersAsync(100), rootFolder);
 

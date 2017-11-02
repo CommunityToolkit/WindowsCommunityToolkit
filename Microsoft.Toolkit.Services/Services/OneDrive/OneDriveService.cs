@@ -95,6 +95,8 @@ namespace Microsoft.Toolkit.Services.OneDrive
             Scopes = scopes;
             IsInitialized = true;
 
+            Provider.Initialize(appClientId, MicrosoftGraphEnums.ServicesToInitialize.OneDrive, scopes);
+
             if (Provider.Authentication == null)
             {
                 Provider.Authentication = new MicrosoftGraphAuthenticationHelper(Scopes);
@@ -140,7 +142,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         }
 
         /// <summary>
-        /// Gets the OneDrive root folder
+        /// Gets the OneDrive root folder (default drive)
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
         public virtual async Task<OneDriveStorageFolder> RootFolderAsync()
@@ -156,6 +158,25 @@ namespace Microsoft.Toolkit.Services.OneDrive
 
             var oneDriveRootItem = await Provider.GraphProvider.Drive.Root.Request().GetAsync();
             return new OneDriveStorageFolder(Provider.GraphProvider, Provider.GraphProvider.Drive.Root, oneDriveRootItem);
+        }
+
+        /// <summary>
+        /// Gets the OneDrive root folder for Me
+        /// </summary>
+        /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
+        public virtual async Task<OneDriveStorageFolder> RootFolderForMeAsync()
+        {
+            // log the user silently with a Microsoft Account associate to Windows
+            if (IsConnected == false)
+            {
+                if (!await OneDriveService.Instance.LoginAsync())
+                {
+                    throw new Exception("Unable to sign in");
+                }
+            }
+
+            var oneDriveRootItem = await Provider.GraphProvider.Me.Drive.Root.Request().GetAsync();
+            return new OneDriveStorageFolder(Provider.GraphProvider, Provider.GraphProvider.Me.Drive.Root, oneDriveRootItem);
         }
 
         /// <summary>
@@ -178,7 +199,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         }
 
         /// <summary>
-        /// Gets the OneDrive camera roll folder
+        /// Gets the OneDrive camera roll folder - not yet supported.
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
         public virtual Task<OneDriveStorageFolder> CameraRollFolderAsync()
@@ -187,7 +208,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         }
 
         /// <summary>
-        /// Gets the OneDrive documents folder
+        /// Gets the OneDrive documents folder - not yet supported.
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
         public virtual Task<OneDriveStorageFolder> DocumentsFolderAsync()
@@ -196,7 +217,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         }
 
         /// <summary>
-        /// Gets the OneDrive music folder
+        /// Gets the OneDrive music folder - not yet supported.
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
         public virtual Task<OneDriveStorageFolder> MusicFolderAsync()
@@ -205,7 +226,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         }
 
         /// <summary>
-        /// Gets the OneDrive photos folder
+        /// Gets the OneDrive photos folder - not yet supported.
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
         public virtual Task<OneDriveStorageFolder> PhotosFolderAsync()

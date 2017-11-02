@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         private static OneDriveService _instance;
 
         /// <summary>
-        /// Gets public singleton property.
+        /// Gets public singleton - legacy instance that depends on OneDrive SDK - still required for OnlineId support. Consider using GraphInstance.
         /// </summary>
         public static new OneDriveService Instance => _instance ?? (_instance = new OneDriveService());
 
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         private static Toolkit.Services.OneDrive.OneDriveService _graphInstance;
 
         /// <summary>
-        /// Gets public singleton property.
+        /// Gets public singleton property - new version that depends on Graph service / SDK - only supports ADAL v2 endpoint.
         /// </summary>
         public static Toolkit.Services.OneDrive.OneDriveService GraphInstance
         {

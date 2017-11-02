@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         public OneDriveStorageItem(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, DriveItem oneDriveItem)
         {
             StorageItemPlatformService = OneDriveService.ServicePlatformInitializer.CreateOneDriveStorageItemPlatformInstance(OneDriveService.Instance, this);
-
+            
             _requestBuilder = requestBuilder;
             _oneDriveProvider = oneDriveProvider;
             _oneDriveItem = oneDriveItem;
@@ -189,7 +189,12 @@ namespace Microsoft.Toolkit.Services.OneDrive
             // ParentReference null means is root
             if (oneDriveItem.ParentReference?.Path != null)
             {
-                _path = oneDriveItem.ParentReference.Path.Replace("/drive/root:", string.Empty);
+                string rootMarker = "/root:";
+                int index = oneDriveItem.ParentReference.Path.LastIndexOf(rootMarker) + rootMarker.Length;
+                if (index >= 0)
+                {
+                    _path = oneDriveItem.ParentReference.Path.Substring(index);
+                }
             }
         }
 
@@ -343,7 +348,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <returns>New instance of GraphOneDriveStorageFolder</returns>
         internal OneDriveStorageFolder InitializeOneDriveStorageFolder(DriveItem oneDriveItem)
         {
-            IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IGraphServiceClient)Provider).Drive.Items[oneDriveItem.Id];
+            IBaseRequestBuilder requestBuilder = GetDriveRequestBuilderFromDriveId(oneDriveItem.ParentReference.DriveId).Items[oneDriveItem.Id];
             return new OneDriveStorageFolder(Provider, requestBuilder, oneDriveItem);
         }
 
@@ -354,7 +359,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <returns>New instance of GraphOneDriveStorageItem</returns>
         internal OneDriveStorageItem InitializeOneDriveStorageItem(DriveItem oneDriveItem)
         {
-            IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IGraphServiceClient)Provider).Drive.Items[oneDriveItem.Id];
+            IBaseRequestBuilder requestBuilder = GetDriveRequestBuilderFromDriveId(oneDriveItem.ParentReference.DriveId).Items[oneDriveItem.Id];
             return new OneDriveStorageItem(Provider, requestBuilder, oneDriveItem);
         }
 
@@ -365,8 +370,13 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <returns>New instance of GraphOneDriveStorageFile</returns>
         internal OneDriveStorageFile InitializeOneDriveStorageFile(DriveItem oneDriveItem)
         {
-            IBaseRequestBuilder requestBuilder = (IBaseRequestBuilder)((IGraphServiceClient)Provider).Drive.Items[oneDriveItem.Id];
+            IBaseRequestBuilder requestBuilder = GetDriveRequestBuilderFromDriveId(oneDriveItem.ParentReference.DriveId).Items[oneDriveItem.Id];
             return new OneDriveStorageFile(Provider, requestBuilder, oneDriveItem);
+        }
+
+        internal IDriveRequestBuilder GetDriveRequestBuilderFromDriveId(string driveId)
+        {
+            return (IBaseRequestBuilder)((IGraphServiceClient)Provider).Drives[driveId] as IDriveRequestBuilder;
         }
     }
 }

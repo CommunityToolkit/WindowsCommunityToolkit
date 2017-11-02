@@ -63,6 +63,11 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive.Platform
         /// <returns>When this method completes, it returns a IOneDriveStorageFile that represents the new file.</returns>
         public async Task<Toolkit.Services.OneDrive.OneDriveStorageFile> CreateFileAsync(string desiredName, object options, object content = null, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (options == null)
+            {
+                options = CreationCollisionOption.FailIfExists;
+            }
+
             return await CreateFileInternalAsync(desiredName, (CreationCollisionOption)options, content as IRandomAccessStream, cancellationToken);
         }
 
@@ -73,8 +78,13 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive.Platform
         /// <param name="options">>One of the enumeration values that determines how to handle the collision if a file with the specified desiredName already exists in the current folder.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes, it returns a IOneDriveStorageFolder that represents the new subfolder.</returns>
-        public async Task<Toolkit.Services.OneDrive.OneDriveStorageFolder> CreateFolderAsync(string desiredName, object options, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<Toolkit.Services.OneDrive.OneDriveStorageFolder> CreateFolderAsync(string desiredName, object options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (options == null)
+            {
+                options = CreationCollisionOption.FailIfExists;
+            }
+
             return await CreateFolderInternalAsync(desiredName, (CreationCollisionOption)options, cancellationToken);
         }
 

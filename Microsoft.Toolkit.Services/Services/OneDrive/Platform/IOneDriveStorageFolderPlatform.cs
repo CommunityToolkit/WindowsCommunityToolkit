@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Services.OneDrive.Platform
         /// a file with the specified desiredNewName already exists in the destination folder.
         /// Default : Fail
         /// <returns>When this method completes, it returns a IOneDriveStorageFile that represents the new file.</returns>
-        Task<OneDriveStorageFile> CreateFileAsync(string desiredName, object options, object content = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<OneDriveStorageFile> CreateFileAsync(string desiredName, object options = null, object content = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Creates a new subfolder in the current folder.
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Services.OneDrive.Platform
         /// <param name="options">>One of the enumeration values that determines how to handle the collision if a file with the specified desiredName already exists in the current folder.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes, it returns a IOneDriveStorageFolder that represents the new subfolder.</returns>
-        Task<OneDriveStorageFolder> CreateFolderAsync(string desiredName, object options, CancellationToken cancellationToken = default(CancellationToken));
+        Task<OneDriveStorageFolder> CreateFolderAsync(string desiredName, object options = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Creates a new large file in the current folder.
