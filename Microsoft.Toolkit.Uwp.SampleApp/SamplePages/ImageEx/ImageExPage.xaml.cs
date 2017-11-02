@@ -97,9 +97,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ImageExBase newImage = null;
             if (round)
             {
+                #pragma warning disable CS0618 // Type or member is obsolete
                 newImage = new RoundImageEx
                 {
                 };
+                #pragma warning restore CS0618 // Type or member is obsolete
 
                 if (resources?.ContainsKey("RoundStyle") == true)
                 {

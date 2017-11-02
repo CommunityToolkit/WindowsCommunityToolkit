@@ -178,10 +178,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal IEnumerable<MenuFlyoutItemBase> GetMenuFlyoutItems()
         {
             var allItems = new List<MenuFlyoutItemBase>();
-            var menuFlyout = FlyoutButton.Flyout as MenuFlyout;
-            if (menuFlyout != null)
+            if (MenuFlyout != null)
             {
-                GetMenuFlyoutItemItems(menuFlyout.Items, allItems);
+                GetMenuFlyoutItemItems(MenuFlyout.Items, allItems);
             }
 
             return allItems;
@@ -220,6 +219,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             tooltip.Placement = _parentMenu.TooltipPlacement;
             tooltip.Content = RemoveAlt(inputGestureText);
             tooltip.IsOpen = true;
+            tooltip.IsEnabled = true;
         }
 
         private string RemoveAlt(string inputGesture)
@@ -238,6 +238,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (tooltip != null)
             {
                 tooltip.IsOpen = false;
+                tooltip.IsEnabled = false;
             }
         }
 

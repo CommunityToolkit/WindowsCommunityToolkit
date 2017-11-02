@@ -225,7 +225,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 
                         if (c == '\r')
                         {
-                            if (pos < maxEndingPos && markdown[pos] == '\n')
+                            if (pos < maxEndingPos && markdown[pos + 1] == '\n')
                             {
                                 pos++; // Swallow the complete linefeed.
                             }
