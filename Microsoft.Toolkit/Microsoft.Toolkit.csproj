@@ -5,6 +5,9 @@
     <Title>UWP Community Toolkit .NET Standard</Title>
     <Description>This package includes .NET Standard code only helpers.</Description>
     <PackageTags>UWP Toolkit Windows</PackageTags>
+
+    <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
+    <DebugType>Full</DebugType>
   </PropertyGroup>
 
 </Project>
