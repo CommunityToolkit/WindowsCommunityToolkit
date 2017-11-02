@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         public OneDriveStorageItem(IBaseClient oneDriveProvider, IBaseRequestBuilder requestBuilder, DriveItem oneDriveItem)
         {
             StorageItemPlatformService = OneDriveService.ServicePlatformInitializer.CreateOneDriveStorageItemPlatformInstance(OneDriveService.Instance, this);
-            
+
             _requestBuilder = requestBuilder;
             _oneDriveProvider = oneDriveProvider;
             _oneDriveItem = oneDriveItem;
