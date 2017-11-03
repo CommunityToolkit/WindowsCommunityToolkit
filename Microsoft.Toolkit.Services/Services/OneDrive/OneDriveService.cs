@@ -82,13 +82,16 @@ namespace Microsoft.Toolkit.Services.OneDrive
         }
 
         /// <summary>
-        /// Intialize OneDrive (Graph) service
+        /// Intializes OneDrive service.
         /// </summary>
-        /// <param name="appClientId">App Client Id.</param>
-        /// <param name="scopes">Permission Scopes.</param>
-        /// <returns>True or false</returns>
-        public bool Initialize(string appClientId, string[] scopes)
+        /// <typeparam name="T">Concrete instance of type IOneDriveServicePlatformInitializer</typeparam>
+        /// <param name="appClientId">Client Id.</param>
+        /// <param name="scopes">Permission scopes.</param>
+        /// <returns>True or false.</returns>
+        public bool Initialize<T>(string appClientId, string[] scopes)
+            where T : IOneDriveServicePlatformInitializer, new()
         {
+            ServicePlatformInitializer = new T();
             ServicePlatformService = ServicePlatformInitializer.CreateOneDriveServicePlatformInstance(this);
 
             AppClientId = appClientId;
