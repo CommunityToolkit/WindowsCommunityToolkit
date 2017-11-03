@@ -14,6 +14,7 @@ using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Toolkit.Services.MicrosoftGraph.Platform;
 using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
 namespace Microsoft.Toolkit.Services.MicrosoftGraph
@@ -80,6 +81,33 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// </summary>
         public virtual MicrosoftGraphUserService User { get; set; }
 
+        private IMicrosoftGraphUserServicePhotos _photosService;
+
+        /// <summary>
+        /// Initialize Microsoft Graph.
+        /// </summary>
+        /// <typeparam name="T">Concrete type that inherits IMicrosoftGraphUserServicePhotos.</typeparam>
+        /// <param name='appClientId'>Azure AD's App client id</param>
+        /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
+        /// <param name="delegatedPermissionScopes">Permission scopes for MSAL v2 endpoints</param>
+        /// <returns>Success or failure.</returns>
+        public bool Initialize<T>(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null)
+            where T : IMicrosoftGraphUserServicePhotos, new()
+        {
+            if (string.IsNullOrEmpty(appClientId))
+            {
+                throw new ArgumentNullException(nameof(appClientId));
+            }
+
+            _photosService = new T();
+            AppClientId = appClientId;
+            GraphProvider = CreateGraphClientProvider(appClientId);
+            ServicesToInitialize = servicesToInitialize;
+            IsInitialized = true;
+            DelegatedPermissionScopes = delegatedPermissionScopes;
+            return true;
+        }
+
         /// <summary>
         /// Initialize Microsoft Graph.
         /// </summary>
@@ -139,7 +167,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             IsConnected = true;
 
-            User = new MicrosoftGraphUserService(GraphProvider);
+            User = new MicrosoftGraphUserService(GraphProvider, _photosService);
 
             if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile)
             {

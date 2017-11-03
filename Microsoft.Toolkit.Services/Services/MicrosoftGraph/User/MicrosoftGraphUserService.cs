@@ -29,9 +29,11 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Initializes a new instance of the <see cref="MicrosoftGraphUserService"/> class.
         /// </summary>
         /// <param name="graphProvider">Instance of GraphClientService class</param>
-        public MicrosoftGraphUserService(GraphServiceClient graphProvider)
+        /// <param name="photosService">Instance of IMicrosoftGraphUserServicePhotos</param>
+        public MicrosoftGraphUserService(GraphServiceClient graphProvider, IMicrosoftGraphUserServicePhotos photosService)
         {
             _graphProvider = graphProvider;
+            PhotosService = photosService;
         }
 
         ///// <summary>

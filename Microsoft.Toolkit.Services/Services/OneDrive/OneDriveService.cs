@@ -11,11 +11,9 @@
 // ******************************************************************
 
 using System;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Graph;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
+using Microsoft.Toolkit.Services.MicrosoftGraph.Platform;
 using Microsoft.Toolkit.Services.OneDrive.Platform;
 
 namespace Microsoft.Toolkit.Services.OneDrive
@@ -85,13 +83,39 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// Intializes OneDrive service.
         /// </summary>
         /// <typeparam name="T">Concrete instance of type IOneDriveServicePlatformInitializer</typeparam>
+        /// <typeparam name="U">Concrete instance of type IMicrosoftGraphUserServicePhotos</typeparam>
         /// <param name="appClientId">Client Id.</param>
         /// <param name="scopes">Permission scopes.</param>
         /// <returns>True or false.</returns>
-        public bool Initialize<T>(string appClientId, string[] scopes)
+        public bool Initialize<T, U>(string appClientId, string[] scopes)
             where T : IOneDriveServicePlatformInitializer, new()
+            where U : IMicrosoftGraphUserServicePhotos, new()
         {
             ServicePlatformInitializer = new T();
+            ServicePlatformService = ServicePlatformInitializer.CreateOneDriveServicePlatformInstance(this);
+
+            AppClientId = appClientId;
+            Scopes = scopes;
+            IsInitialized = true;
+
+            Provider.Initialize<U>(appClientId, MicrosoftGraphEnums.ServicesToInitialize.OneDrive, scopes);
+
+            if (Provider.Authentication == null)
+            {
+                Provider.Authentication = new MicrosoftGraphAuthenticationHelper(Scopes);
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Intializes OneDrive service.
+        /// </summary>
+        /// <param name="appClientId">Client Id.</param>
+        /// <param name="scopes">Permission scopes.</param>
+        /// <returns>True or false.</returns>
+        public bool Initialize(string appClientId, string[] scopes)
+        {
             ServicePlatformService = ServicePlatformInitializer.CreateOneDriveServicePlatformInstance(this);
 
             AppClientId = appClientId;

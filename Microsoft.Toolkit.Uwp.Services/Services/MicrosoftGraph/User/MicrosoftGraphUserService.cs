@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// </summary>
         /// <param name="graphProvider">Instance of GraphClientService class</param>
         public MicrosoftGraphUserService(GraphServiceClient graphProvider)
-            : base(graphProvider)
+            : base(graphProvider, null)
         {
             PhotosService = new MicrosoftGraphUserServicePhotos(graphProvider);
         }
