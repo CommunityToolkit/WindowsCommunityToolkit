@@ -75,12 +75,19 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Get a Microsoft Graph access token using the v2.0 Endpoint.
         /// </summary>
         /// <param name="appClientId">Application client ID</param>
+        /// <param name="uiParent">UiParent instance - required for Android</param>
+        /// <param name="redirectUri">Redirect Uri - required for Android</param>
         /// <returns>An oauth2 access token.</returns>
-        internal async Task<string> GetUserTokenV2Async(string appClientId)
+        internal async Task<string> GetUserTokenV2Async(string appClientId, UIParent uiParent = null, string redirectUri = null)
         {
             if (_identityClient == null)
             {
                 _identityClient = new MSAL.PublicClientApplication(appClientId);
+            }
+
+            if (!string.IsNullOrEmpty(redirectUri))
+            {
+                _identityClient.RedirectUri = redirectUri;
             }
 
             MSAL.AuthenticationResult authenticationResult = null;
@@ -91,7 +98,14 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             }
             catch (Exception)
             {
-                authenticationResult = await _identityClient.AcquireTokenAsync(DelegatedPermissionScopes);
+                if (uiParent != null)
+                {
+                    authenticationResult = await _identityClient.AcquireTokenAsync(DelegatedPermissionScopes, uiParent);
+                }
+                else
+                {
+                    authenticationResult = await _identityClient.AcquireTokenAsync(DelegatedPermissionScopes);
+                }
             }
 
             return authenticationResult?.AccessToken;

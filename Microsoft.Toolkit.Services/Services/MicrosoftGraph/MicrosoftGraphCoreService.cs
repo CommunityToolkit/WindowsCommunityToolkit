@@ -14,6 +14,7 @@ using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Identity.Client;
 using Microsoft.Toolkit.Services.MicrosoftGraph.Platform;
 using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
@@ -83,6 +84,10 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
         private IMicrosoftGraphUserServicePhotos _photosService;
 
+        private UIParent _uiParent = null;
+
+        private string _redirectUri = string.Empty;
+
         /// <summary>
         /// Initialize Microsoft Graph.
         /// </summary>
@@ -90,8 +95,10 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <param name='appClientId'>Azure AD's App client id</param>
         /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
         /// <param name="delegatedPermissionScopes">Permission scopes for MSAL v2 endpoints</param>
+        /// <param name="uiParent">UiParent instance - required for Android</param>
+        /// <param name="redirectUri">Redirect Uri - required for Android</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize<T>(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null)
+        public bool Initialize<T>(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
             where T : IMicrosoftGraphUserServicePhotos, new()
         {
             if (string.IsNullOrEmpty(appClientId))
@@ -99,6 +106,8 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                 throw new ArgumentNullException(nameof(appClientId));
             }
 
+            _redirectUri = redirectUri;
+            _uiParent = uiParent;
             _photosService = new T();
             AppClientId = appClientId;
             GraphProvider = CreateGraphClientProvider(appClientId);
@@ -114,14 +123,18 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <param name='appClientId'>Azure AD's App client id</param>
         /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
         /// <param name="delegatedPermissionScopes">Permission scopes for MSAL v2 endpoints</param>
+        /// <param name="uiParent">UiParent instance - required for Android</param>
+        /// <param name="redirectUri">Redirect Uri - required for Android</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null)
+        public bool Initialize(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
         {
             if (string.IsNullOrEmpty(appClientId))
             {
                 throw new ArgumentNullException(nameof(appClientId));
             }
 
+            _redirectUri = redirectUri;
+            _uiParent = uiParent;
             AppClientId = appClientId;
             GraphProvider = CreateGraphClientProvider(appClientId);
             ServicesToInitialize = servicesToInitialize;
@@ -158,7 +171,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             }
 
             Authentication = new MicrosoftGraphAuthenticationHelper(DelegatedPermissionScopes);
-            string accessToken = await Authentication.GetUserTokenV2Async(AppClientId);
+            string accessToken = await Authentication.GetUserTokenV2Async(AppClientId, _uiParent);
 
             if (string.IsNullOrEmpty(accessToken))
             {
