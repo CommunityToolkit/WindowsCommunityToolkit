@@ -147,7 +147,7 @@ You can update the animation using three distinct properties :
 
 | Animation properties | Type | Description |
 | -- | -- | -- |
-| `AnimationDuration` | int | Duration of the popup animation in milliseconds |
+| `AnimationDuration` | TimeSpan | Duration of the popup animation in milliseconds |
 | `VerticalOffset` | double | Vertical offset of the popup animation |
 | `HorizontalOffset` | double | Horizontal offset of the popup animation |
 
