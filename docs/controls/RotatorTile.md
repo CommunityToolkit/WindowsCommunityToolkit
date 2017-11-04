@@ -12,7 +12,7 @@ The **Rotator Tile Control** is an ItemsControl that rotates through a set of it
 
 ## Syntax
 
-```xml
+```xaml
 
 <controls:RotatorTile x:Name="Tile1"
 	Background="LightGray"

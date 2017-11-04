@@ -6,6 +6,7 @@
 ## [Adding the UWP Community Toolkit to your Visual Studio Toolbox](Toolbox-Support.md)
 
 # Animations
+## [AnimationSet](animations/AnimationSet.md)
 ## [Blur](animations/Blur.md)
 ## [ExpressionBuilder](animations/Expressions.md)
 ## [Fade](animations/Fade.md)
@@ -17,7 +18,6 @@
 ## [Rotate](animations/Rotate.md)
 ## [Saturation](animations/Saturation.md)
 ## [Scale](animations/Scale.md)
-## [AnimationSet](animations/AnimationSet.md)
 
 # Controls
 ## [AdaptiveGridView](controls/AdaptiveGridView.md)

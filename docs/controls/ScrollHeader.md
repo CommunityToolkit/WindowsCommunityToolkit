@@ -12,7 +12,7 @@ The **ScrollHeader Control** provides a header for ListViews or GridViews that a
 
 ## Syntax
 
-```xml
+```xaml
 
 <ListView Name="listView" ItemsSource="{x:Bind _items, Mode=OneWay}">
 	<ListView.Header>

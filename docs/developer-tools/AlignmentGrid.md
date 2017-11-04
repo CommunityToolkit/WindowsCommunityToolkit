@@ -15,7 +15,7 @@ Line color can be defined with `LineBrush` property.
 
 ## Syntax
 
-```xml
+```xaml
 
 <developerTools:AlignmentGrid
                     Opacity="1"

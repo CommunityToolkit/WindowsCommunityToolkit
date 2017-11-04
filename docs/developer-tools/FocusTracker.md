@@ -18,7 +18,7 @@ The **FocusTracker Control** can be used to display information about the curren
 
 ## Syntax
 
-```xml
+```xaml
 
 <developerTools:FocusTracker IsActive="True"/>
 
