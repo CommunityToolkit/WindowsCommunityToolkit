@@ -10,15 +10,16 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// The HamburgerMenuImageItem provides an image based implementation for HamburgerMenu entries.
     /// </summary>
+    [Obsolete("The HamburgerMenuImageItem will be removed alongside the HamburgerMenu in a future major release. Please use the NavigationView control available in the Fall Creators Update")]
     public class HamburgerMenuImageItem : HamburgerMenuItem
     {
         /// <summary>

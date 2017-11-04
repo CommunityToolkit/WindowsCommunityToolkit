@@ -10,11 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// Event args for a SwipeStatus changing event
     /// </summary>
+    [Obsolete("The SwipeStatusChangedEventArgs will be removed alongside SlidableListItem in a future major release. Please use the SwipeControl available in the Fall Creators Update")]
     public class SwipeStatusChangedEventArgs
     {
         /// <summary>

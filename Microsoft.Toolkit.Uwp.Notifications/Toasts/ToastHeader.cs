@@ -20,6 +20,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class ToastHeader
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ToastHeader"/> class.
         /// Constructs a toast header with all the required properties.
         /// </summary>
         /// <param name="id">A developer-created identifier that uniquely identifies this header. If two notifications have the same header id, they will be displayed underneath the same header in Action Center.</param>
@@ -93,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// New in Creators Update: Additional options relating to activation of the toast header.
+        /// Gets or sets additional options relating to activation of the toast header. New in Creators Update
         /// </summary>
         public ToastActivationOptions ActivationOptions { get; set; }
 

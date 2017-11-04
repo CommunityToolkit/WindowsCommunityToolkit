@@ -26,5 +26,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyMetadata("TargetPlatform", "UAP")]
 
-
 [assembly: ComVisible(false)]

@@ -11,7 +11,7 @@
     <AssemblyName>Microsoft.Toolkit.Uwp.SampleApp</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -20,6 +20,7 @@
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>7A086872CBF1D8A795A97B9559A3C88B3550527E</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -114,8 +115,11 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="HockeySDK.UWP">
+      <Version>4.1.6</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.3.4</Version>
+      <Version>5.4.1</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.3.0-alpha</Version>
@@ -275,6 +279,7 @@
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
+    <Content Include="SamplePages\DockPanel\DockPanel.png" />
     <Content Include="SamplePages\FocusTracker\FocusTracker.png" />
     <Content Include="SamplePages\Analytics\Analytics.png" />
     <Content Include="SamplePages\Bing Service\BingCode.bind" />
@@ -438,6 +443,9 @@
     <Content Include="SamplePages\InAppNotification\InAppNotificationXaml.bind" />
     <Content Include="SamplePages\ListViewBase\ListViewBaseCode.bind" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewXaml.bind" />
+    <Content Include="SamplePages\DockPanel\DockPanel.bind">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -473,6 +481,9 @@
       <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\IXamlRenderListener.cs" />
+    <Compile Include="SamplePages\DockPanel\DockPanelPage.xaml.cs">
+      <DependentUpon>DockPanelPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\InAppNotification\InAppNotificationPage.xaml.cs">
       <DependentUpon>InAppNotificationPage.xaml</DependentUpon>
     </Compile>
@@ -731,6 +742,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\DockPanel\DockPanelPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1057,5 +1072,14 @@
         <TargetPath>docs/%(RecursiveDir)%(FileName)%(Extension)</TargetPath>
       </AppxPackagePayload>
     </ItemGroup>
+  </Target>
+  
+  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
+  <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
+    <ItemGroup>
+      <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />
+    </ItemGroup>
+    <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
+    <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f | findstr /v /b &quot;#pragma&quot; &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
   </Target>
 </Project>

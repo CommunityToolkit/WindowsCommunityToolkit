@@ -51,10 +51,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private Compositor _compositor;
         private float _defaultShowAnimationDuration = 300;
-        //private float _defaultHideAnimationDiration = 150;
         private XamlRenderService _xamlRenderer = new XamlRenderService();
         private bool _lastRenderedProperties = true;
         private ThreadPoolTimer _autocompileTimer;
+
+        private DateTime _timeSampleEditedFirst = DateTime.MinValue;
+        private DateTime _timeSampleEditedLast = DateTime.MinValue;
+        private bool _xamlCodeRendererSupported = false;
 
         public bool DisplayWaitRing
         {
@@ -77,18 +80,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             RootGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
             RootGrid.RowDefinitions[1].Height = new GridLength(32);
             Splitter.Visibility = Visibility.Visible;
-        }
-
-        public void HideInfoArea()
-        {
-            InfoAreaGrid.Visibility = Visibility.Collapsed;
-            RootGrid.ColumnDefinitions[1].Width = GridLength.Auto;
-            RootGrid.RowDefinitions[1].Height = GridLength.Auto;
-            _currentSample = null;
-            Commands.Clear();
-            Splitter.Visibility = Visibility.Collapsed;
-            TitleTextBlock.Text = string.Empty;
-            ApplicationView.SetTitle(this, string.Empty);
         }
 
         public void ShowOnlyHeader(string title)
@@ -192,7 +183,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            NavigationFrame.Navigate(typeof(About));
+            NavigationFrame.Navigating += NavigationFrame_Navigating;
+            NavigationFrame.Navigated += NavigationFrameOnNavigated;
+            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
             // Get list of samples
             var sampleCategories = (await Samples.GetCategoriesAsync()).ToList();
@@ -206,10 +199,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             };
 
             HideInfoArea();
-
-            NavigationFrame.Navigating += NavigationFrame_Navigating;
-            NavigationFrame.Navigated += NavigationFrameOnNavigated;
-            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+            NavigationFrame.Navigate(typeof(About));
 
             if (!string.IsNullOrWhiteSpace(e?.Parameter?.ToString()))
             {
@@ -239,6 +229,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private async void NavigationFrame_Navigating(object sender, NavigatingCancelEventArgs navigationEventArgs)
         {
+            ProcessSampleEditorTime();
+
             SampleCategory category;
             if (navigationEventArgs.SourcePageType == typeof(SamplePicker) || navigationEventArgs.Parameter == null)
             {
@@ -249,6 +241,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (category != null)
                 {
                     TrackingManager.TrackPage($"{navigationEventArgs.SourcePageType.Name} - {category.Name}");
+                }
+                else
+                {
+                    TrackingManager.TrackPage($"{navigationEventArgs.SourcePageType.Name}");
                 }
 
                 HideInfoArea();
@@ -302,6 +298,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         XamlCodeRenderer.Text = _currentSample.UpdatedXamlCode;
 
                         InfoAreaPivot.Items.Add(XamlPivotItem);
+
+                        _xamlCodeRendererSupported = true;
                     }
 
                     InfoAreaPivot.SelectedIndex = 0;
@@ -349,6 +347,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             await SetHamburgerMenuSelection();
+        }
+
+        private void HideInfoArea()
+        {
+            InfoAreaGrid.Visibility = Visibility.Collapsed;
+            RootGrid.ColumnDefinitions[1].Width = GridLength.Auto;
+            RootGrid.RowDefinitions[1].Height = GridLength.Auto;
+            _currentSample = null;
+            Commands.Clear();
+            Splitter.Visibility = Visibility.Collapsed;
+            TitleTextBlock.Text = string.Empty;
+            ApplicationView.SetTitle(this, string.Empty);
         }
 
         private async Task SetHamburgerMenuSelection()
@@ -954,6 +964,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                         {
                             var t = UpdateXamlRenderAsync(XamlCodeRenderer.Text);
+
+                            if (_timeSampleEditedFirst == DateTime.MinValue)
+                            {
+                                _timeSampleEditedFirst = DateTime.Now;
+                            }
+
+                            _timeSampleEditedLast = DateTime.Now;
                         });
                     }, TimeSpan.FromSeconds(0.5));
             }
@@ -965,6 +982,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             // In CodeBehind For Now, due to bug: https://github.com/hawkerm/monaco-editor-uwp/issues/10
             XamlCodeRenderer.CodeLanguage = "xml";
+        }
+
+        private void ProcessSampleEditorTime()
+        {
+            if (_currentSample != null &&
+                _currentSample.HasXAMLCode &&
+                _xamlCodeRendererSupported)
+            {
+                if (_timeSampleEditedFirst != DateTime.MinValue &&
+                    _timeSampleEditedLast != DateTime.MinValue)
+                {
+                    int secondsEdditingSample = (int)Math.Floor((_timeSampleEditedLast - _timeSampleEditedFirst).TotalSeconds);
+                    TrackingManager.TrackEvent("xamleditor", "edited", _currentSample.Name, secondsEdditingSample);
+                }
+                else
+                {
+                    TrackingManager.TrackEvent("xamleditor", "not_edited", _currentSample.Name);
+                }
+            }
+
+            _timeSampleEditedFirst = _timeSampleEditedLast = DateTime.MinValue;
         }
     }
 }

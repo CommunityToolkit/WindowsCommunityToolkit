@@ -21,17 +21,19 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class ToastActionsCustom : IToastActions
     {
         /// <summary>
-        /// Inputs like <see cref="ToastTextBox"/> and <see cref="ToastSelectionBox"/> can be added to the Toast. Only up to 5 inputs can be added; after that, an exception is thrown.
+        /// Gets inputs like <see cref="ToastTextBox"/> and <see cref="ToastSelectionBox"/>. Only up to 5 inputs can be added; after that, an exception is thrown.
         /// </summary>
         public IList<IToastInput> Inputs { get; private set; } = new LimitedList<IToastInput>(5);
 
         /// <summary>
-        /// Buttons are displayed after all the inputs (or adjacent to inputs if used as quick reply buttons). Only up to 5 buttons can be added (or fewer if you are also including context menu items). After that, an exception is thrown. You can add <see cref="ToastButton"/>, <see cref="ToastButtonSnooze"/>, or <see cref="ToastButtonDismiss"/>
+        /// Gets buttons displayed after all the inputs (or adjacent to inputs if used as quick reply buttons). Only up to 5 buttons can be added (or fewer if you are also including context menu items). After that, an exception is thrown. You can add <see cref="ToastButton"/>, <see cref="ToastButtonSnooze"/>, or <see cref="ToastButtonDismiss"/>
         /// </summary>
         public IList<IToastButton> Buttons { get; private set; } = new LimitedList<IToastButton>(5);
 
         /// <summary>
-        /// New in Anniversary Update: Custom context menu items, providing additional actions when the user right clicks the Toast notification. You can only have up to 5 buttons and context menu items *combined*. Thus, if you have one context menu item, you can only have four buttons, etc.
+        /// Gets custom context menu items, providing additional actions when the user right clicks the Toast notification.
+        /// You can only have up to 5 buttons and context menu items *combined*. Thus, if you have one context menu item,
+        /// you can only have four buttons, etc. New in Anniversary Update:
         /// </summary>
         public IList<ToastContextMenuItem> ContextMenuItems { get; private set; } = new List<ToastContextMenuItem>();
 

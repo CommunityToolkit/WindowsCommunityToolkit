@@ -14,7 +14,7 @@ The *InAppNotification* control offers the ability to show local notifications i
 
 The control should be placed where you want your notification to be displayed in the page, generally in the root grid.
 
-```xml
+```xaml
 
 <controls:InAppNotification
     x:Name="ExampleInAppNotification" />
@@ -167,7 +167,7 @@ If you want to use another style than the default one, please follow the example
 
 1. Import external styles in your resources
 
-```xml
+```xaml
 <Page.Resources>
     <ResourceDictionary>
         <ResourceDictionary.MergedDictionaries>
@@ -196,11 +196,11 @@ If you want to add styles to the Toolkit, please follow these steps :
 
 ## Example Code
 
-[InAppNotification Sample Page](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/InAppNotification)
+[InAppNotification Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/InAppNotification)
 
 ## Default Template 
 
-[InAppNotification XAML File](../..//Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/InAppNotification.xaml) is the XAML template used in the toolkit for the default styling.
+[InAppNotification XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/InAppNotification.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 
@@ -210,5 +210,5 @@ If you want to add styles to the Toolkit, please follow these steps :
 
 ## API
 
-* [InAppNotification source code](../..//Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification)
+* [InAppNotification source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification)
 

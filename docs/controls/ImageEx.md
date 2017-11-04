@@ -13,7 +13,7 @@ You can also use a placeholder image that will be displayed will loading the mai
  
 ## Syntax
 
-```xml
+```xaml
 
 <controls:ImageEx Name="ImageExControl"
 	IsCacheEnabled="True"
@@ -42,6 +42,10 @@ You can also use a placeholder image that will be displayed will loading the mai
 
 [ImageEx Control XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx/ImageEx.xaml) is the XAML template used in the toolkit for the default styling.
 [RoundImageEx Control XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx/RoundImageEx.xaml) is the XAML template used in the toolkit for the default styling of the Control that has Corner Rounding.
+
+## Platform Specific Notes
+
+On Windows 10.0.16299.0 or higher, **CornerRadius** is supported on ImageEx.  Use of this property will not cause an exception on downlevel platforms; however, the desired effect will not render.
 
 ## Requirements (Windows 10 Device Family)
 

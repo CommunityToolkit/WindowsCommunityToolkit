@@ -8,11 +8,16 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, scale animation, 
 
 # Scale
 
-The **Scale animation behavior** allows you to change a control's scale by increasing or decreasing the control through animation. For example, perhaps you want an entry field to change size when the user taps it.
+The Scale animation  allows you to change a control's scale by increasing or decreasing the control through animation. Scale animation is applied to all the XAML elements in its parent control/panel. Scale animation doesn't affect the functionality of the control.
 
 ## Syntax
 
-```xml
+**XAML**
+
+```xaml
+<Page ...
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"/>
 
 <interactivity:Interaction.Behaviors>
     <behaviors:Scale x:Name="Scale" 
@@ -24,89 +29,88 @@ The **Scale animation behavior** allows you to change a control's scale by incre
                      Delay="500" 
                      AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
-
 ```
 
-or directly from code:
+**C#**
 
 ```csharp
-
-MyRectangle.Scale(
-                scaleX: (float)ScaleX,
-                scaleY: (float)ScaleY,
-                centerX: (float)CenterX,
-                centerY: (float)CenterY,
-                duration: Duration,
-                delay: Delay);                
-
+MyUIElement.Scale(scaleX: 2, scaleY: 2, centerX: 0, centerY: 0, duration: 2500, delay: 250, easingType: EasingType.Default).Start();
 ```
+
+## Sample Output
+
+![Scale Behavior animation](../resources/images/Animations/Scale/Sample-Output.gif)
 
 ## Properties
 
-| Property Name | Type | Description |
-| --- | --- | --- |
-| ScaleX | float | The scale of the element along the x axis |
-| ScaleY | float | The scale of the element along the y axis |
-| CenterX | float | The pivot point on the x axis |
-| CenterY | float | The pivot point on the y axis |
-| Duration | double | The number of milliseconds the animation should run for |
-| Delay | double | The number of milliseconds before the animation is started |
 
-## Chaining animations
 
-Behaviors can also be chained and awaited.
+### EasingType
 
-```csharp
+You can change the way how the animation interpolates between keyframes by defining the EasingType.
 
-    Element.Rotate(value: 30f, duration: 0.3).StartAsync();
+| EasingType | Explanation                                                                                                | Graphical Explanation                      |
+| ---------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| Default    | Creates an animation that accelerates with the default EasingType which is specified in AnimationExtensions.DefaultEasingType which is by default Cubic |                                                                                                                           |
+| Linear     | Creates an animation that accelerates or decelerates linear                                                                                             |                                                                                                                           |
+| Back       | Retracts the motion of an animation slightly before it begins to animate in the path indicated                                                          | ![BackEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/backease-graph.png)           |
+| Bounce     | Creates a bouncing effect                                                                                                                               | ![BounceEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/bounceease-graph.png)       |
+| Circle     | Creates an animation that accelerates or decelerates using a circular function                                                                          | ![CircleEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/circleease-graph.png)       |
+| Cubic      | Creates an animation that accelerates or decelerates using the formula f(t) = t3                                                                        | ![CubicEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/cubicease-graph.png)         |
+| Elastic    | Creates an animation that resembles a spring oscillating back and forth until it comes to rest                                                          | ![ElasticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/elasticease-graph.png)     |
+| Quadratic  | Creates an animation that accelerates or decelerates using the formula f(t) = t2                                                                        | ![QuadraticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quadraticease-graph.png) |
+| Quartic    | Creates an animation that accelerates or decelerates using the formula f(t) = t4                                                                        | ![QuarticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quarticease-graph.png)     |
+| Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
+| Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
 
-    await Element.Rotate(value: 30f, duration: 0.3).StartAsync();
+***Note:** EasingType is used only when AnimationSet.UseComposition == false*
 
-    var anim = element.Rotate(30f).Fade(0.5).Blur(5);
-    anim.SetDurationForAll(2);
+## Examples
+
+- Use this to create popup effect
+
+    **Sample Code**
+    ```csharp
+    UIElement lastTapped = null;
+    private void MyUIElement_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        if (lastTapped != null)
+        {
+            lastTapped.Scale(centerX: 50, centerY: 50).Start();
+            Canvas.SetZIndex(lastTapped, 0);
+        }
+        lastTapped = sender as UIElement;
+        Canvas.SetZIndex(lastTapped, 1);
+        lastTapped.Scale(scaleX: 2, scaleY: 2, centerX: 50, centerY: 50).Start();
+    }
+    ```
+    **Sample Output**
+
+    ![Use Case 1 Output](../resources/images/Animations/Scale/Sample-Output.gif)
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
+
+    **Sample Code**
+    ```csharp
+    var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
+    anim.SetDurationForAll(2500);
+    anim.SetDelay(250);
     anim.Completed += animation_completed;
-    anim.StartAsync();
+    anim.Start();
+    ```
+    **Sample Output**
 
-    anim.Stop();
+    ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
 
-```
+## Sample Project
 
-[Scale Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Scale)
+[Scale Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Scale). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
-## EasingType
+## Requirements
 
-You can change the way how the animation interpolates between keyframes by defining the EasingType using an optional parameter.
-
-| EasingType | Explanation|
-| --- | --- |
-| Default | Creates an animation that accelerates with the default EasingType which is specified in AnimationExtensions.DefaultEasingType which is by default Cubic. |
-| Linear | Creates an animation that accelerates or decelerates linear. |
-| Cubic | Creates an animation that accelerates or decelerates using the formula f(t) = t3. |
-| Back | Retracts the motion of an animation slightly before it begins to animate in the path indicated. |
-| Bounce | Creates a bouncing effect. |
-| Elastic | Creates an animation that resembles a spring oscillating back and forth until it comes to rest.|
-| Circle | Creates an animation that accelerates or decelerates using a circular function. |
-| Quadratic | Creates an animation that accelerates or decelerates using the formula f(t) = t2. |
-| Quartic | Creates an animation that accelerates or decelerates using the formula f(t) = t4. |
-| Quintic | Create an animation that accelerates or decelerates using the formula f(t) = t5. |
-| Sine | Creates an animation that accelerates or decelerates using a sine formula. |
-
-**Example Usage:**
-```csharp
-MyRectangle.Offset(value: 10, duration: 10, delay: 0, easingType: EasingType.Bounce);       
-```
-
-*Please note that EasingType is used only when AnimationSet.UseComposition == false*
-
-## Example Image
-
-![Scale Behavior animation](../resources/images/Animations-Scale.gif "Scale Behavior")
-
-## Requirements (Windows 10 Device Family)
-
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
-| --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI.Animations |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
+| ---------------------------------------------------------------- | ----------------------------------- |
+| Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
 
 ## API
 
