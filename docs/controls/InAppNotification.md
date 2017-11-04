@@ -29,19 +29,19 @@ You have multiple options to show an in-app notification.
 
 1. By simply displaying the notification using the current template
 
-```c#
+```csharp
 ExampleInAppNotification.Show();
 ```
 
 2. By using a simple text content.
 
-```c#
+```csharp
 ExampleInAppNotification.Show("Some text.");
 ```
 
 3. By using a UIElement (with a container as parent, ex: Grid)
 
-```c#
+```csharp
 var grid = new Grid();
 
 // TODO : Construct the Grid in C#
@@ -51,7 +51,7 @@ ExampleInAppNotification.Show(grid);
 
 4. By using a DataTemplate
 
-```c#
+```csharp
 object inAppNotificationWithButtonsTemplate;
 bool isTemplatePresent = Resources.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);
 
@@ -65,13 +65,13 @@ if (isTemplatePresent && inAppNotificationWithButtonsTemplate is DataTemplate)
 
 By passing a second argument to the `Show()` method, you can set the duration of the notification (in milliseconds).
 
-```c#
+```csharp
 ExampleInAppNotification.Show("Some text.", 2000); // the notification will appear for 2 seconds
 ```
 
 ### Dismiss notification
 
-```c#
+```csharp
 ExampleInAppNotification.Dismiss();
 ```
 
@@ -92,7 +92,7 @@ To hide it, simply set the property to `ShowDismissButton="False"`.
 
 This event is raised just before the notification starts to open.
 
-```c#
+```csharp
 private void InAppNotification_OnOpening(object sender, InAppNotificationOpeningEventArgs e)
 {
     // TODO
@@ -103,7 +103,7 @@ private void InAppNotification_OnOpening(object sender, InAppNotificationOpening
 
 This event is raised when the notification is fully opened (after open animation).
 
-```c#
+```csharp
 private void InAppNotification_OnOpened(object sender, EventArgs e)
 {
     // TODO
@@ -114,7 +114,7 @@ private void InAppNotification_OnOpened(object sender, EventArgs e)
 
 This event is raised when the system or your user started to close the notification.
 
-```c#
+```csharp
 private void InAppNotification_OnClosing(object sender, InAppNotificationDismissingEventArgs e)
 {
     // TODO
@@ -133,7 +133,7 @@ private void InAppNotification_OnClosing(object sender, InAppNotificationDismiss
 
 This event is raised when the notification is fully closed (after close animation).
 
-```c#
+```csharp
 private void InAppNotification_OnClosed(object sender, EventArgs e)
 {
     // TODO
@@ -179,7 +179,7 @@ If you want to use another style than the default one, please follow the example
 
 2. Apply the `Style`
 
-```xml
+```xaml
 <controls:InAppNotification 
     x:Name="ExampleVSCodeInAppNotification"
     Style="{StaticResource VSCodeNotificationStyle}" />
