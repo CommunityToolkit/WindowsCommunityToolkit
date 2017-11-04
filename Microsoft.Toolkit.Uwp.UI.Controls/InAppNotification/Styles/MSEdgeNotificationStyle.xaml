@@ -77,13 +77,15 @@
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
                                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0" />
+                                <EasingDoubleKeyFrame local:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      Value="{Binding HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}}" />
                             </DoubleAnimationUsingKeyFrames>
 
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
                                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="100" />
+                                <EasingDoubleKeyFrame local:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" 
+                                                      Value="{Binding VerticalOffset, RelativeSource={RelativeSource TemplatedParent}}"/>
                             </DoubleAnimationUsingKeyFrames>
 
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
@@ -93,7 +95,7 @@
                                         <Visibility>Visible</Visibility>
                                     </DiscreteObjectKeyFrame.Value>
                                 </DiscreteObjectKeyFrame>
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0.1">
+                                <DiscreteObjectKeyFrame local:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}">
                                     <DiscreteObjectKeyFrame.Value>
                                         <Visibility>Collapsed</Visibility>
                                     </DiscreteObjectKeyFrame.Value>
@@ -106,14 +108,14 @@
                         <Storyboard>
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
-                                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0" />
+                                <EasingDoubleKeyFrame KeyTime="0" Value="{Binding HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}}" />
+                                <EasingDoubleKeyFrame local:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" Value="0" />
                             </DoubleAnimationUsingKeyFrames>
 
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" 
                                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
-                                <EasingDoubleKeyFrame KeyTime="0" Value="100" />
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0" />
+                                <EasingDoubleKeyFrame KeyTime="0" Value="{Binding VerticalOffset, RelativeSource={RelativeSource TemplatedParent}}" />
+                                <EasingDoubleKeyFrame local:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" Value="0" />
                             </DoubleAnimationUsingKeyFrames>
                         </Storyboard>
                     </VisualState>

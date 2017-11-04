@@ -10,16 +10,31 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Models
+using System;
+using Windows.UI.Xaml.Data;
+
+namespace Microsoft.Toolkit.Uwp.SampleApp.Common
 {
-    public enum PropertyKind
+    public class TimeSpanConverter : IValueConverter
     {
-        Slider,
-        DoubleSlider,
-        String,
-        Enum,
-        Bool,
-        Brush,
-        TimeSpan
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is TimeSpan tSpan)
+            {
+                return tSpan.TotalMilliseconds;
+            }
+
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            if (value is double milliseconds)
+            {
+                return TimeSpan.FromMilliseconds(milliseconds);
+            }
+
+            return TimeSpan.MinValue;
+        }
     }
 }

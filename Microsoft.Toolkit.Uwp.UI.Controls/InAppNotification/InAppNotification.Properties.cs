@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -29,19 +30,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="AnimationDuration"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AnimationDurationProperty =
-            DependencyProperty.Register(nameof(AnimationDuration), typeof(int), typeof(InAppNotification), new PropertyMetadata(100, OnAnimationDurationChanged));
+            DependencyProperty.Register(nameof(AnimationDuration), typeof(TimeSpan), typeof(InAppNotification), new PropertyMetadata(TimeSpan.FromMilliseconds(100)));
 
         /// <summary>
         /// Identifies the <see cref="VerticalOffset"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty VerticalOffsetProperty =
-            DependencyProperty.Register(nameof(VerticalOffset), typeof(double), typeof(InAppNotification), new PropertyMetadata(100, OnVerticalOffsetChanged));
+            DependencyProperty.Register(nameof(VerticalOffset), typeof(double), typeof(InAppNotification), new PropertyMetadata(100));
 
         /// <summary>
         /// Identifies the <see cref="HorizontalOffset"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HorizontalOffsetProperty =
-            DependencyProperty.Register(nameof(HorizontalOffset), typeof(double), typeof(InAppNotification), new PropertyMetadata(0, OnHorizontalOffsetChanged));
+            DependencyProperty.Register(nameof(HorizontalOffset), typeof(double), typeof(InAppNotification), new PropertyMetadata(0));
 
         /// <summary>
         /// Gets or sets a value indicating whether to show the Dismiss button of the control.
@@ -55,9 +56,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating the duration of the popup animation (in milliseconds).
         /// </summary>
-        public int AnimationDuration
+        public TimeSpan AnimationDuration
         {
-            get { return (int)GetValue(AnimationDurationProperty); }
+            get { return (TimeSpan)GetValue(AnimationDurationProperty); }
             set { SetValue(AnimationDurationProperty, value); }
         }
 
@@ -88,30 +89,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 bool showDismissButton = (bool)e.NewValue;
                 inApNotification._dismissButton.Visibility = showDismissButton ? Visibility.Visible : Visibility.Collapsed;
             }
-        }
-
-        private static void OnAnimationDurationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var inApNotification = d as InAppNotification;
-
-            int duration = (int)e.NewValue;
-            inApNotification.UpdateAnimationDuration(duration);
-        }
-
-        private static void OnVerticalOffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var inApNotification = d as InAppNotification;
-
-            double verticalOffset = (double)e.NewValue;
-            inApNotification.UpdateVerticalOffset(verticalOffset);
-        }
-
-        private static void OnHorizontalOffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var inApNotification = d as InAppNotification;
-
-            double horizontalOffset = (double)e.NewValue;
-            inApNotification.UpdateHorizontalOffset(horizontalOffset);
         }
     }
 }
