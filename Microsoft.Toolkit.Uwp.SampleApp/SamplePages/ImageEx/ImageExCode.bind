@@ -38,6 +38,15 @@
                                   Source="/Assets/Photos/LunchBreak.jpg"
                                   PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
                                   Style="{StaticResource RectangleStyle}"/>
+              
+                <controls:ImageEx x:Name="ImageExControl2"
+                                  IsCacheEnabled="@[Enable Cache:Bool:True]"
+                                  Source="/Assets/Photos/LunchBreak.jpg"
+                                  PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
+                                  CornerRadius="30,60,30,60"
+                                  Style="{StaticResource RectangleStyle}"/>
+              
+                <TextBlock Text="Above ImageEx will have rounded corners on the Fall Creators Update." Margin="4" HorizontalAlignment="Center"/>
 
                 <controls:RoundImageEx x:Name="RoundImageExControl1"
                                        IsCacheEnabled="@[Enable Cache]"

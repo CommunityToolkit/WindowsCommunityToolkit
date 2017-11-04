@@ -15,7 +15,7 @@ You can control the following property of the drop shadow effect : Offset, Color
 
 ## Syntax
 
-```xml
+```xaml
 
 <controls:DropShadowPanel BlurRadius="4.0"
                           ShadowOpacity="0.70"

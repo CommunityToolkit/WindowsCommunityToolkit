@@ -14,6 +14,9 @@ The UWP Community Toolkit is a collection of helper functions, custom controls, 
 
 Please read the [getting Started with the UWP Toolkit](http://uwpcommunitytoolkit.com/en/master/Getting-Started/) page for more detailed information about using the toolkit.
 
+## Documentation
+All documentation for the toolkit is hosted on [Microsoft Docs](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/). All API documentation can be found at the [.NET API Browser.](https://docs.microsoft.com/en-us/dotnet/api/?term=microsoft.toolkit)
+
 ## UWP Community Toolkit Sample App
 
 Want to see the toolkit in action before jumping into the code?  Download and play with the [UWP Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
@@ -43,6 +46,7 @@ Once you search you should see a list similar to the one below (versions may be 
 ## <a name="supported"></a> Supported SDKs
 * Anniversary Update (14393)
 * Creators Update (15063)
+* Fall Creators Update (16299)
 
 ## Features
 
