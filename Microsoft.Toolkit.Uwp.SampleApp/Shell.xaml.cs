@@ -212,6 +212,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.XamlCompositionBrushBase"))
+            {
+                AcrylicBrush myBrush = new AcrylicBrush();
+                myBrush.BackgroundSource = AcrylicBackgroundSource.Backdrop;
+                myBrush.TintColor = Color.FromArgb(255, 0xF3, 0xF3, 0xF3);
+                myBrush.FallbackColor = Color.FromArgb(216, 0xF3, 0xF3, 0xF3);
+                myBrush.TintOpacity = 0.9;
+
+                SamplePickerGrid.Background = myBrush;
+            }
+            else
+            {
+                FindName("SamplePickerGridBackground");
+            }
+
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
             if (AnimationHelper.IsImplicitHideShowSupported)

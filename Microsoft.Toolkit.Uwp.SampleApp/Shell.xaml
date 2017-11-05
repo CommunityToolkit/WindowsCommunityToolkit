@@ -351,9 +351,15 @@
             <Border x:Name="ContentShadow"
                     Grid.RowSpan="5"
                     Tapped="ContentShadow_Tapped"
-                    Background="Black"
-                    Opacity="0.2"
+                    Background="Transparent"
                     Visibility="{Binding Visibility, ElementName=SamplePickerGrid}">
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:Blur AutomaticallyStart="True"
+                                        Delay="0"
+                                        Value="2"
+                                        Duration="0" />
+                </interactivity:Interaction.Behaviors>
+                <Border Background="#33000000"></Border>
             </Border>
 
             <Grid Grid.Row="3"
@@ -431,10 +437,9 @@
                   Visibility="Collapsed"
                   VerticalAlignment="Top">
                 <Border Background="#F3F3F3"
-                        Opacity="0.96">
-                    <animations:Implicit.Animations>
-                        <animations:ScalarAnimation Target="Size.Y"></animations:ScalarAnimation>
-                    </animations:Implicit.Animations>
+                        Opacity="0.96"
+                        x:Name="SamplePickerGridBackground"
+                        x:DeferLoadStrategy="Lazy">
                     <interactivity:Interaction.Behaviors>
                         <behaviors:Blur AutomaticallyStart="True"
                                         Delay="0"
