@@ -24,7 +24,7 @@ The Composition Visual Attached Properties allow developers to modify common pro
 		extensions:VisualEx.Opacity="0.5"
 		extensions:VisualEx.RotationAngleInDegrees="80"
 		extensions:VisualEx.Scale="2, 0.5, 1"
-		extensions:VisualEx.KeepCenterPointCentered="True" />
+		extensions:VisualEx.NormalizedCenterPoint="0.5, 0.5, 0" />
 ```
 
 ## Properties
@@ -61,8 +61,8 @@ The scale to apply to the visual.
 ### Size (Vector2)
 The width and height of the visual.
 
-### KeepCenterPointCentered (bool)
-If set to True, the Visual.CenterPoint will be set to the center of the element, even if the element is resized
+### NormalizedCenterPoint (Vector3)
+The point about which rotation or scaling occurs, normalized between the values 0.0 and 1.0
 
 ## Requirements (Windows 10 Device Family)
 

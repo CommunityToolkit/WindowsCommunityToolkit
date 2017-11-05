@@ -440,25 +440,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Gets a value whether the <see cref="Visual.CenterPoint"/> of the <see cref="UIElement"/>
+        /// Gets the <see cref="Visual.CenterPoint"/> of the <see cref="UIElement"/> normalized between 0.0 and 1.0
         /// is centered even when the visual is resized
         /// </summary>
         /// <param name="obj">The <see cref="UIElement"/></param>
-        /// <returns>true if the <see cref="Visual.CenterPoint"/> is always centered</returns>
-        public static bool GetKeepCenterPointCentered(DependencyObject obj)
+        /// <returns>a string representing Vector3 as the normalized <see cref="Visual.CenterPoint"/></returns>
+        public static string GetNormalizedCenterPoint(DependencyObject obj)
         {
-            return (bool)obj.GetValue(KeepCenterPointCenteredProperty);
+            return (string)obj.GetValue(NormalizedCenterPointProperty);
         }
 
         /// <summary>
-        /// Sets a value whether the <see cref="Visual.CenterPoint"/> of the <see cref="UIElement"/>
+        /// Sets the normalized <see cref="Visual.CenterPoint"/> of the <see cref="UIElement"/>
         /// is centered even when the visual is resized
         /// </summary>
         /// <param name="obj">The <see cref="UIElement"/></param>
-        /// <param name="value">true if the <see cref="Visual.CenterPoint"/> should always be centered</param>
-        public static void SetKeepCenterPointCentered(DependencyObject obj, bool value)
+        /// <param name="value">A string representing a Vector3 normalized between 0.0 and 1.0</param>
+        public static void SetNormalizedCenterPoint(DependencyObject obj, string value)
         {
-            obj.SetValue(KeepCenterPointCenteredProperty, value);
+            obj.SetValue(NormalizedCenterPointProperty, value);
         }
 
         /// <summary>
@@ -516,10 +516,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             DependencyProperty.RegisterAttached("Size", typeof(string), typeof(VisualEx), new PropertyMetadata(null, OnSizeChanged));
 
         /// <summary>
-        /// Identifies the KeepCenterPointCentered attached property.
+        /// Identifies the NormalizedCenterPoint attached property.
         /// </summary>
-        public static readonly DependencyProperty KeepCenterPointCenteredProperty =
-            DependencyProperty.RegisterAttached("KeepCenterPointCentered", typeof(bool), typeof(VisualEx), new PropertyMetadata(false, OnKeepCenterPointCenteredChanged));
+        public static readonly DependencyProperty NormalizedCenterPointProperty =
+            DependencyProperty.RegisterAttached("NormalizedCenterPoint", typeof(string), typeof(VisualEx), new PropertyMetadata(false, OnNormalizedCenterPointChanged));
 
         private static void OnAnchorPointChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -593,30 +593,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
         }
 
-        private static void OnKeepCenterPointCenteredChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnNormalizedCenterPointChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is FrameworkElement element && !DesignTimeHelpers.IsRunningInLegacyDesignerMode)
             {
-                SetupKeepCenterPointCentered(e, element);
+                SetupNormalizedCenterPoint(e, element);
             }
         }
 
-        private static void SetupKeepCenterPointCentered(DependencyPropertyChangedEventArgs e, FrameworkElement element)
+        private static void SetupNormalizedCenterPoint(DependencyPropertyChangedEventArgs e, FrameworkElement element)
         {
             element.SizeChanged -= KeepCenteredElementSizeChanged;
 
-            if (e.NewValue is bool keepCentered)
+            if (e.NewValue is string normalizedValue)
             {
-                if (keepCentered)
+                element.SizeChanged -= KeepCenteredElementSizeChanged;
+                try
                 {
-                    element.SizeChanged -= KeepCenteredElementSizeChanged;
-                    element.SizeChanged += KeepCenteredElementSizeChanged;
+                    var vectorValue = normalizedValue.ToVector3();
+                    if (vectorValue.X < 0 || vectorValue.X > 1 || vectorValue.Y < 0 || vectorValue.Y > 1)
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(NormalizedCenterPointProperty), "Value must be between 0.0 and 1.0");
+                    }
+
                     var visual = GetVisual(element);
-                    visual.CenterPoint = new Vector3((float)element.ActualWidth / 2, (float)element.ActualHeight / 2, 0);
+                    visual.CenterPoint = new Vector3((float)element.ActualWidth * vectorValue.X, (float)element.ActualHeight * vectorValue.Y, 0);
+
+                    element.SizeChanged += KeepCenteredElementSizeChanged;
                 }
-                else
+                catch (Exception)
                 {
-                    element.SizeChanged -= KeepCenteredElementSizeChanged;
+                    throw;
                 }
             }
         }
@@ -624,8 +631,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static void KeepCenteredElementSizeChanged(object sender, SizeChangedEventArgs e)
         {
             var element = sender as FrameworkElement;
+
+            var normalizedValue = GetNormalizedCenterPoint(element);
+            var vectorValue = normalizedValue.ToVector3();
             var visual = GetVisual(element);
-            visual.CenterPoint = new Vector3((float)element.ActualWidth / 2, (float)element.ActualHeight / 2, 0);
+            visual.CenterPoint = new Vector3((float)element.ActualWidth * vectorValue.X, (float)element.ActualHeight * vectorValue.Y, 0);
         }
 
         private static string GetAnchorPointForElement(UIElement element)
