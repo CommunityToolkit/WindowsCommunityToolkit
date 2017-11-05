@@ -869,10 +869,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 var animationCollection = new AnimationCollection()
                 {
                     new OpacityAnimation() { From = 0, To = 1, Duration = TimeSpan.FromMilliseconds(400), Delay = staggerDelay, SetInitialValueBeforeDelay = true },
-                    new ScaleAnimation() { From = "0.9", To = "1", Duration = TimeSpan.FromMilliseconds(4000), Delay = staggerDelay }
+                    new ScaleAnimation() { From = "0.9", To = "1", Duration = TimeSpan.FromMilliseconds(400), Delay = staggerDelay }
                 };
 
-                VisualEx.SetCenterPoint(itemContainer, "40, 60, 0");
+                VisualEx.SetNormalizedCenterPoint(itemContainer, "0.5");
 
                 animationCollection.StartAnimation(itemContainer);
             }
