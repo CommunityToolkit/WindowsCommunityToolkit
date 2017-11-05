@@ -69,8 +69,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private const double Epsilon = 0.01;
 
-        private List<double> stepValues;
-
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
         private Thumb _minThumb;
@@ -656,22 +654,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (StepValue != 0)
             {
-                if (stepValues == null)
-                {
-                    stepValues = new List<double>();
-                }
-                else
-                {
-                    stepValues.Clear();
-                }
-
-                double newStep = Minimum + StepValue;
-                while (newStep < Maximum)
-                {
-                    stepValues.Add(newStep);
-                    newStep += StepValue;
-                }
-
                 RangeMinToStepValue();
                 RangeMaxToStepValue();
             }
@@ -695,9 +677,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private double MoveToStepValue(double rangeValue)
         {
-            if (stepValues.Any() && rangeValue != Maximum && rangeValue != Minimum)
+            if (rangeValue != Maximum && rangeValue != Minimum)
             {
-                return stepValues.Where(s => s >= rangeValue).FirstOrDefault();
+                return rangeValue - Enumerable.Range((int)Minimum, (int)Maximum)
+                    .Where(x => x % StepValue == 0)
+                    .Min(x => Math.Abs(rangeValue - x));
             }
             else
             {
