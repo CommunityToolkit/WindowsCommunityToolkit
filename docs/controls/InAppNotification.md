@@ -21,7 +21,8 @@ The control should be placed where you want your notification to be displayed in
 
 ```
 
-**Note:** Since the control is part of the page visual tree, it will render in the order it was added in the parent control, and might be hidden by other elements. For the control to render on top of other elements, add it as the last child of the parent control or set the Canvas.ZIndex to a high number.
+> [!NOTE]
+Since the control is part of the page visual tree, it will render in the order it was added in the parent control, and might be hidden by other elements. For the control to render on top of other elements, add it as the last child of the parent control or set the Canvas.ZIndex to a high number.
 
 ### Show notification
 
