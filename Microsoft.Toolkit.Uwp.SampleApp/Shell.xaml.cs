@@ -36,6 +36,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -215,7 +216,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (AnimationHelper.IsImplicitHideShowSupported)
             {
-                AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerGrid);
+                //AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerGrid);
 
                 AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerDetailsGrid);
                 AnimationHelper.SetSecondLevelShowHideAnimation(SamplePickerDetailsGridContent);
@@ -772,9 +773,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (panel != null)
                 {
                     panel.Visibility = Visibility.Visible;
+                    var animation = new OpacityAnimation() { To = 1, Duration = TimeSpan.FromMilliseconds(600) };
+                    animation.StartAnimation(panel);
+
+                    var parentAnimation = new ScaleAnimation() { To = "1.1", Duration = TimeSpan.FromMilliseconds(600) };
+                    parentAnimation.StartAnimation(panel.Parent as UIElement);
                 }
 
-                ShowSampleDetails(((FrameworkElement)sender).DataContext as Sample);
+                //ShowSampleDetails(((FrameworkElement)sender).DataContext as Sample);
             }
         }
 
@@ -784,7 +790,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var panel = (sender as FrameworkElement).FindDescendant<DropShadowPanel>();
             if (panel != null)
             {
-                panel.Visibility = Visibility.Collapsed;
+                var animation = new OpacityAnimation() { To = 0, Duration = TimeSpan.FromMilliseconds(1200) };
+                animation.StartAnimation(panel);
+
+                var parentAnimation = new ScaleAnimation() { To = "1", Duration = TimeSpan.FromMilliseconds(1200) };
+                parentAnimation.StartAnimation(panel.Parent as UIElement);
             }
         }
 
@@ -823,35 +833,51 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             await SetHamburgerMenuSelection();
         }
 
-        private void SamplePickerListView_ContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            if (!AnimationHelper.IsImplicitHideShowSupported)
-            {
-                return;
-            }
-
-            var panel = args.ItemContainer.FindAscendant<DropShadowPanel>();
-            if (panel != null)
-            {
-                ElementCompositionPreview.SetImplicitShowAnimation(panel, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, _defaultShowAnimationDuration));
-                ////ElementCompositionPreview.SetImplicitHideAnimation(panel, GetOpacityAnimation(0, _defaultHideAnimationDiration));
-            }
-        }
-
         private void SamplePickerListView_ChoosingItemContainer(Windows.UI.Xaml.Controls.ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
-            if (!AnimationHelper.IsImplicitHideShowSupported)
+            if (!AnimationHelper.IsImplicitHideShowSupported || args.ItemContainer != null)
             {
                 return;
             }
 
-            args.ItemContainer = args.ItemContainer ?? new ListViewItem();
+            GridViewItem container = (GridViewItem)args.ItemContainer ?? new GridViewItem();
+            container.Loaded += ContainerItem_Loaded;
 
-            var showAnimation = AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, _defaultShowAnimationDuration, 200);
-            (showAnimation as ScalarKeyFrameAnimation).DelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
+            args.ItemContainer = container;
+        }
 
-            ////ElementCompositionPreview.SetImplicitHideAnimation(args.ItemContainer, GetOpacityAnimation(0, _defaultHideAnimationDiration));
-            ElementCompositionPreview.SetImplicitShowAnimation(args.ItemContainer, showAnimation);
+        private void ContainerItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            var itemsPanel = (ItemsWrapGrid)SamplePickerListView.ItemsPanelRoot;
+            var itemContainer = (GridViewItem)sender;
+
+            var itemIndex = SamplePickerListView.IndexFromContainer(itemContainer);
+
+            var referenceIndex = itemsPanel.FirstVisibleIndex;
+
+            if (SamplePickerListView.SelectedIndex >= 0)
+            {
+                referenceIndex = SamplePickerListView.SelectedIndex;
+            }
+
+            var relativeIndex = Math.Abs(itemIndex - referenceIndex);
+
+            if (itemContainer.Content != _currentSample && itemIndex >= 0 && itemIndex >= itemsPanel.FirstVisibleIndex && itemIndex <= itemsPanel.LastVisibleIndex)
+            {
+                var staggerDelay = TimeSpan.FromMilliseconds(relativeIndex * 30);
+
+                var animationCollection = new AnimationCollection()
+                {
+                    new OpacityAnimation() { From = 0, To = 1, Duration = TimeSpan.FromMilliseconds(400), Delay = staggerDelay, SetInitialValueBeforeDelay = true },
+                    new ScaleAnimation() { From = "0.9", To = "1", Duration = TimeSpan.FromMilliseconds(4000), Delay = staggerDelay }
+                };
+
+                VisualEx.SetCenterPoint(itemContainer, "40, 60, 0");
+
+                animationCollection.StartAnimation(itemContainer);
+            }
+
+            itemContainer.Loaded -= this.ContainerItem_Loaded;
         }
 
         private Visibility GreaterThanZero(int value)

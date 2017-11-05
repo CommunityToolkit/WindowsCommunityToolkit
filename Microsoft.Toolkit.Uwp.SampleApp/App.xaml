@@ -5,6 +5,8 @@
              xmlns:toolkitControls="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
              xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+             xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+             xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
              xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
              xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
              RequiresPointerMode="Auto"
@@ -269,7 +271,7 @@
         </Style>
 
         <Style x:Key="SecondaryHambugerMenuItemStyle"
-               TargetType="ListViewItem">
+               TargetType="GridViewItem">
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Padding" Value="0" />
@@ -279,9 +281,21 @@
             <Setter Property="UseSystemFocusVisuals" Value="True" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="Transitions" Value="{x:Null}"></Setter>
+            <Setter Property="animations:Implicit.ShowAnimations">
+                <Setter.Value>
+                    <animations:AnimationCollection>
+                        <animations:OpacityAnimation Duration="0:0:0.2" 
+                                                     Delay="0:0:0.2" 
+                                                     SetInitialValueBeforeDelay="True" 
+                                                     From="0" 
+                                                     To="1"></animations:OpacityAnimation>
+                    </animations:AnimationCollection>
+                </Setter.Value>
+            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="ListViewItem">
+                    <ControlTemplate TargetType="GridViewItem">
                         <Grid x:Name="LayoutRoot"
                               Background="{TemplateBinding Background}"
                               Control.IsTemplateFocusTarget="True">
@@ -723,7 +737,7 @@
                                                        VerticalContentAlignment="Stretch"
                                                        BlurRadius="30"
                                                        OffsetY="3"
-                                                       ShadowOpacity="0.2">
+                                                       ShadowOpacity="0">
                                 <Grid Background="{TemplateBinding PaneBackground}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />

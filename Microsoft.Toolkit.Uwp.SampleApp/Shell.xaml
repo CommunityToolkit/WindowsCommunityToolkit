@@ -8,6 +8,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:developerTools="using:Microsoft.Toolkit.Uwp.DeveloperTools"
       xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -128,15 +129,17 @@
                         PointerEntered="StackPanel_PointerEntered"
                         PointerExited="StackPanel_PointerExited">
                 <Grid Width="120"
-                      Height="80">
+                      Height="80"
+                      extensions:VisualEx.CenterPoint="40,60,0">
                     <controls:DropShadowPanel HorizontalContentAlignment="Stretch"
-                                          VerticalContentAlignment="Stretch"
-                                          BlurRadius="20"
-                                          ShadowOpacity="1"
-                                          Visibility="Collapsed">
+                                              VerticalContentAlignment="Stretch"
+                                              BlurRadius="20"
+                                              ShadowOpacity="0.8"
+                                              extensions:VisualEx.Opacity="0"
+                                              Visibility="Collapsed">
                         <Border></Border>
                     </controls:DropShadowPanel>
-                    <Border Background="Black">
+                    <Border Background="#E6E6E6">
                         <Image Source="{Binding Icon}" />
                     </Border>
                 </Grid>
@@ -163,8 +166,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="0" /> <!-- TODO -->
-                <RowDefinition Height="152" />
-                <RowDefinition Height="304" />
+                <RowDefinition Height="0" />
+                <RowDefinition Height="0" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid x:Name="RootGrid"
@@ -424,11 +427,14 @@
             </Grid>
 
             <Grid x:Name="SamplePickerGrid"
-                  Grid.Row="2"
-                  Height="152"
-                  Visibility="Collapsed">
+                  Grid.RowSpan="5"
+                  Visibility="Collapsed"
+                  VerticalAlignment="Top">
                 <Border Background="#F3F3F3"
                         Opacity="0.96">
+                    <animations:Implicit.Animations>
+                        <animations:ScalarAnimation Target="Size.Y"></animations:ScalarAnimation>
+                    </animations:Implicit.Animations>
                     <interactivity:Interaction.Behaviors>
                         <behaviors:Blur AutomaticallyStart="True"
                                         Delay="0"
@@ -436,28 +442,22 @@
                                         Duration="0" />
                     </interactivity:Interaction.Behaviors>
                 </Border>
-                <ListView x:Name="SamplePickerListView"
+                <GridView x:Name="SamplePickerListView"
                           IsItemClickEnabled="True"
-                          local:ListViewHoverScroll.IsEnabled="True"
+                          animations:ReorderGridAnimation.Duration="200"
                           ItemClick="SamplePickerListView_ItemClick"
-                          ContainerContentChanging="SamplePickerListView_ContainerContentChanging"
                           ChoosingItemContainer="SamplePickerListView_ChoosingItemContainer"
                           ItemContainerStyle="{StaticResource SecondaryHambugerMenuItemStyle}"
                           ItemTemplate="{StaticResource HorizontalSampleTemplate}"
-                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                          ScrollViewer.HorizontalScrollMode="Auto"
-                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                          ScrollViewer.VerticalScrollMode="Disabled"
-                          SelectionMode="Single">
-                    <ListView.ItemContainerTransitions>
-                        <TransitionCollection />
-                    </ListView.ItemContainerTransitions>
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsStackPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                </ListView>
+                          SelectionMode="Single"
+                          ItemContainerTransitions="{x:Null}"
+                          Transitions="{x:Null}">
+                </GridView>
+
+                <animations:Implicit.ShowAnimations>
+                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                    <animations:TranslationAnimation From="0, -1000, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
+                </animations:Implicit.ShowAnimations>
             </Grid>
 
             <controls:DropShadowPanel x:Name="TitleGrid"
