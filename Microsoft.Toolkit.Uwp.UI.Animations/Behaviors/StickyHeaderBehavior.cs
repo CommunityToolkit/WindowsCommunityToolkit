@@ -11,11 +11,13 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
@@ -105,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// for the Header as it is scrolling off-screen. The opacity reaches 0 when the Header
         /// is entirely scrolled off.
         /// </summary>
-        /// <returns><c>true</c> if the assignment was successfull; otherwise, <c>false</c>.</returns>
+        /// <returns><c>true</c> if the assignment was successful; otherwise, <c>false</c>.</returns>
         private bool AssignAnimation()
         {
             StopAnimation();
@@ -172,6 +174,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             headerElement.SizeChanged -= ScrollHeader_SizeChanged;
             headerElement.SizeChanged += ScrollHeader_SizeChanged;
 
+            _scrollViewer.GotFocus -= ScrollViewer_GotFocus;
+            _scrollViewer.GotFocus += ScrollViewer_GotFocus;
+
             var compositor = _scrollProperties.Compositor;
 
             if (_animationProperties == null)
@@ -196,10 +201,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// </summary>
         private void RemoveAnimation()
         {
-            var element = HeaderElement as FrameworkElement;
-            if (element != null)
+            if (HeaderElement is FrameworkElement element)
             {
                 element.SizeChanged -= ScrollHeader_SizeChanged;
+            }
+
+            if (_scrollViewer != null)
+            {
+                _scrollViewer.GotFocus -= ScrollViewer_GotFocus;
             }
 
             StopAnimation();
@@ -225,6 +234,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         private void ScrollHeader_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             AssignAnimation();
+        }
+
+        private void ScrollViewer_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var scroller = (ScrollViewer)sender;
+
+            var focusedElement = FocusManager.GetFocusedElement();
+
+            if (focusedElement is UIElement element)
+            {
+                FrameworkElement header = (FrameworkElement)HeaderElement;
+
+                var point = element.TransformToVisual(scroller).TransformPoint(new Point(0, 0));
+
+                if (point.Y < header.ActualHeight)
+                {
+                    scroller.ChangeView(0, scroller.VerticalOffset - (header.ActualHeight - point.Y), 1, false);
+                }
+            }
         }
     }
 }
