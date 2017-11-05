@@ -15,6 +15,6 @@
             extensions:VisualEx.Opacity="0.5"
             extensions:VisualEx.RotationAngleInDegrees="80"
             extensions:VisualEx.Scale="2, 0.5, 1"
-            extensions:VisualEx.KeepCenterPointCentered="False" />
+            extensions:VisualEx.NormalizedCenterPoint="0.5" />
   </Grid>
 </Page>
