@@ -45,10 +45,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public static Shell Current { get; private set; }
 
         private bool _isPaneOpen;
-        private Sample _currentSample;
         private AutoSuggestBox _searchBox;
         private Button _searchButton;
-        private bool _hamburgerMenuClosing = false;
 
         private Compositor _compositor;
         private float _defaultShowAnimationDuration = 300;
@@ -137,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-            HideSamplePicker();
+            HamburgerMenu.HideSamplePicker();
             HamburgerMenu.IsPaneOpen = true;
             _searchBox.Text = startingText;
 
@@ -162,16 +160,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public async Task RefreshXamlRenderAsync()
         {
-            if (_currentSample != null)
+            if (HamburgerMenu.CurrentSample != null)
             {
                 var code = string.Empty;
                 if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
                 {
-                    code = _currentSample.BindedXamlCode;
+                    code = HamburgerMenu.CurrentSample.BindedXamlCode;
                 }
                 else
                 {
-                    code = _currentSample.UpdatedXamlCode;
+                    code = HamburgerMenu.CurrentSample.UpdatedXamlCode;
                 }
 
                 if (!string.IsNullOrWhiteSpace(code))
@@ -212,21 +210,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.XamlCompositionBrushBase"))
-            {
-                AcrylicBrush myBrush = new AcrylicBrush();
-                myBrush.BackgroundSource = AcrylicBackgroundSource.Backdrop;
-                myBrush.TintColor = Color.FromArgb(255, 0xF3, 0xF3, 0xF3);
-                myBrush.FallbackColor = Color.FromArgb(216, 0xF3, 0xF3, 0xF3);
-                myBrush.TintOpacity = 0.9;
-
-                SamplePickerGrid.Background = myBrush;
-            }
-            else
-            {
-                FindName("SamplePickerGridBackground");
-            }
-
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
             if (AnimationHelper.IsImplicitHideShowSupported)
@@ -239,7 +222,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 AnimationHelper.SetSecondLevelShowHideAnimation(Splitter);
 
                 ////ElementCompositionPreview.SetImplicitHideAnimation(ContentShadow, GetOpacityAnimation(0, 1, _defaultHideAnimationDiration));
-                ElementCompositionPreview.SetImplicitShowAnimation(ContentShadow, AnimationHelper.GetOpacityAnimation(_compositor, (float)ContentShadow.Opacity, 0, _defaultShowAnimationDuration));
+               // ElementCompositionPreview.SetImplicitShowAnimation(ContentShadow, AnimationHelper.GetOpacityAnimation(_compositor, (float)ContentShadow.Opacity, 0, _defaultShowAnimationDuration));
             }
         }
 
@@ -251,7 +234,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (navigationEventArgs.SourcePageType == typeof(SamplePicker) || navigationEventArgs.Parameter == null)
             {
                 DataContext = null;
-                _currentSample = null;
+                HamburgerMenu.CurrentSample = null;
                 category = navigationEventArgs.Parameter as SampleCategory;
 
                 if (category != null)
@@ -272,19 +255,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 ShowInfoArea();
 
                 var sampleName = navigationEventArgs.Parameter.ToString();
-                _currentSample = await Samples.GetSampleByName(sampleName);
-                DataContext = _currentSample;
+                HamburgerMenu.CurrentSample = await Samples.GetSampleByName(sampleName);
+                DataContext = HamburgerMenu.CurrentSample;
 
-                if (_currentSample == null)
+                if (HamburgerMenu.CurrentSample == null)
                 {
                     HideInfoArea();
                     return;
                 }
 
-                category = await Samples.GetCategoryBySample(_currentSample);
-                await Samples.PushRecentSample(_currentSample);
+                category = await Samples.GetCategoryBySample(HamburgerMenu.CurrentSample);
+                await Samples.PushRecentSample(HamburgerMenu.CurrentSample);
 
-                var propertyDesc = _currentSample.PropertyDescriptor;
+                var propertyDesc = HamburgerMenu.CurrentSample.PropertyDescriptor;
 
                 InfoAreaPivot.Items.Clear();
 
@@ -293,25 +276,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     _xamlRenderer.DataContext = propertyDesc.Expando;
                 }
 
-                Title.Text = _currentSample.Name;
+                Title.Text = HamburgerMenu.CurrentSample.Name;
 
                 if (propertyDesc != null && propertyDesc.Options.Count > 0)
                 {
                     InfoAreaPivot.Items.Add(PropertiesPivotItem);
                 }
 
-                if (_currentSample.HasXAMLCode)
+                if (HamburgerMenu.CurrentSample.HasXAMLCode)
                 {
-                    if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop || _currentSample.DisableXamlEditorRendering)
+                    if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop || HamburgerMenu.CurrentSample.DisableXamlEditorRendering)
                     {
                         // Only makes sense (and works) for now to show Live Xaml on Desktop, so fallback to old system here otherwise.
-                        XamlReadOnlyCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
+                        XamlReadOnlyCodeRenderer.XamlSource = HamburgerMenu.CurrentSample.UpdatedXamlCode;
 
                         InfoAreaPivot.Items.Add(XamlReadOnlyPivotItem);
                     }
                     else
                     {
-                        XamlCodeRenderer.Text = _currentSample.UpdatedXamlCode;
+                        XamlCodeRenderer.Text = HamburgerMenu.CurrentSample.UpdatedXamlCode;
 
                         InfoAreaPivot.Items.Add(XamlPivotItem);
 
@@ -321,21 +304,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     InfoAreaPivot.SelectedIndex = 0;
                 }
 
-                if (_currentSample.HasCSharpCode)
+                if (HamburgerMenu.CurrentSample.HasCSharpCode)
                 {
-                    CSharpCodeRenderer.CSharpSource = await this._currentSample.GetCSharpSourceAsync();
+                    CSharpCodeRenderer.CSharpSource = await this.HamburgerMenu.CurrentSample.GetCSharpSourceAsync();
                     InfoAreaPivot.Items.Add(CSharpPivotItem);
                 }
 
-                if (_currentSample.HasJavaScriptCode)
+                if (HamburgerMenu.CurrentSample.HasJavaScriptCode)
                 {
-                    JavaScriptCodeRenderer.CSharpSource = await this._currentSample.GetJavaScriptSourceAsync();
+                    JavaScriptCodeRenderer.CSharpSource = await this.HamburgerMenu.CurrentSample.GetJavaScriptSourceAsync();
                     InfoAreaPivot.Items.Add(JavaScriptPivotItem);
                 }
 
-                if (!string.IsNullOrEmpty(_currentSample.CodeUrl))
+                if (!string.IsNullOrEmpty(HamburgerMenu.CurrentSample.CodeUrl))
                 {
-                    GitHub.NavigateUri = new Uri(_currentSample.CodeUrl);
+                    GitHub.NavigateUri = new Uri(HamburgerMenu.CurrentSample.CodeUrl);
                     GitHub.Visibility = Visibility.Visible;
                 }
                 else
@@ -343,9 +326,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     GitHub.Visibility = Visibility.Collapsed;
                 }
 
-                if (_currentSample.HasDocumentation)
+                if (HamburgerMenu.CurrentSample.HasDocumentation)
                 {
-                    var docs = await this._currentSample.GetDocumentationAsync();
+                    var docs = await this.HamburgerMenu.CurrentSample.GetDocumentationAsync();
                     if (!string.IsNullOrWhiteSpace(docs))
                     {
                         DocumentationTextblock.Text = docs;
@@ -358,11 +341,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     HideInfoArea();
                 }
 
-                TitleTextBlock.Text = $"{category.Name} -> {_currentSample?.Name}";
-                ApplicationView.SetTitle(this, $"{category.Name} - {_currentSample?.Name}");
+                TitleTextBlock.Text = $"{category.Name} -> {HamburgerMenu.CurrentSample?.Name}";
+                ApplicationView.SetTitle(this, $"{category.Name} - {HamburgerMenu.CurrentSample?.Name}");
             }
 
-            await SetHamburgerMenuSelection();
+            //await SetHamburgerMenuSelection();
         }
 
         private void HideInfoArea()
@@ -370,37 +353,37 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             InfoAreaGrid.Visibility = Visibility.Collapsed;
             RootGrid.ColumnDefinitions[1].Width = GridLength.Auto;
             RootGrid.RowDefinitions[1].Height = GridLength.Auto;
-            _currentSample = null;
+            HamburgerMenu.CurrentSample = null;
             Commands.Clear();
             Splitter.Visibility = Visibility.Collapsed;
             TitleTextBlock.Text = string.Empty;
             ApplicationView.SetTitle(this, string.Empty);
         }
 
-        private async Task SetHamburgerMenuSelection()
-        {
-            if (NavigationFrame.SourcePageType == typeof(SamplePicker))
-            {
-                // This is a search
-                HamburgerMenu.SelectedItem = null;
-                HamburgerMenu.SelectedOptionsItem = null;
-            }
-            else if (_currentSample != null)
-            {
-                var category = await Samples.GetCategoryBySample(_currentSample);
+        //private async Task SetHamburgerMenuSelection()
+        //{
+        //    if (NavigationFrame.SourcePageType == typeof(SamplePicker))
+        //    {
+        //        // This is a search
+        //        HamburgerMenu.SelectedItem = null;
+        //        HamburgerMenu.SelectedOptionsItem = null;
+        //    }
+        //    else if (HamburgerMenu.CurrentSample != null)
+        //    {
+        //        var category = await Samples.GetCategoryBySample(HamburgerMenu.CurrentSample);
 
-                if (HamburgerMenu.Items.Contains(category))
-                {
-                    HamburgerMenu.SelectedItem = category;
-                    HamburgerMenu.SelectedOptionsItem = null;
-                }
-            }
-            else
-            {
-                HamburgerMenu.SelectedItem = null;
-                HamburgerMenu.SelectedOptionsIndex = 0;
-            }
-        }
+        //        if (HamburgerMenu.Items.Contains(category))
+        //        {
+        //            HamburgerMenu.SelectedItem = category;
+        //            HamburgerMenu.SelectedOptionsItem = null;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        HamburgerMenu.SelectedItem = null;
+        //        HamburgerMenu.SelectedOptionsIndex = 0;
+        //    }
+        //}
 
         private void ExpandButton_Click(object sender, RoutedEventArgs e)
         {
@@ -438,9 +421,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         ExpandButton.Content = "";
 
                         // Update Read-Only XAML tab when switching back to show changes to TwoWay Bound Properties
-                        if (_currentSample?.HasXAMLCode == true && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
+                        if (HamburgerMenu.CurrentSample?.HasXAMLCode == true && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
                         {
-                            XamlReadOnlyCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
+                            XamlReadOnlyCodeRenderer.XamlSource = HamburgerMenu.CurrentSample.UpdatedXamlCode;
                         }
                     }
 
@@ -480,16 +463,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-            if (SamplePickerGrid.Visibility == Visibility.Visible)
-            {
-                HideSamplePicker();
-                backRequestedEventArgs.Handled = true;
-            }
-            else if (NavigationFrame.CanGoBack)
+           if (NavigationFrame.CanGoBack)
             {
                 NavigationFrame.GoBack();
-
-                HideSamplePicker();
                 backRequestedEventArgs.Handled = true;
             }
         }
@@ -510,27 +486,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 ExpandOrCloseProperties();
             }
 
-            if (_currentSample != null && _currentSample.HasXAMLCode)
+            if (HamburgerMenu.CurrentSample != null && HamburgerMenu.CurrentSample.HasXAMLCode)
             {
                 this._lastRenderedProperties = true;
 
                 // Called to load the sample initially as we don't get an Item Pivot Selection Changed with Sample Loaded yet.
-                var t = UpdateXamlRenderAsync(_currentSample.BindedXamlCode);
-            }
-        }
-
-        private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
-        {
-            if (e.ClickedItem is SampleCategory category)
-            {
-                if (SamplePickerGrid.Visibility != Visibility.Collapsed && HamburgerMenu.SelectedItem == e.ClickedItem)
-                {
-                    HideSamplePicker();
-                }
-                else
-                {
-                    ShowSamplePicker(category.Samples);
-                }
+                var t = UpdateXamlRenderAsync(HamburgerMenu.CurrentSample.BindedXamlCode);
             }
         }
 
@@ -551,7 +512,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 NavigationFrame.Navigate(option.PageType);
             }
 
-            HideSamplePicker();
             HamburgerMenu.IsPaneOpen = false;
 
             var expanders = HamburgerMenu.FindDescendants<Expander>();
@@ -571,7 +531,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
-            if (_currentSample == null)
+            if (HamburgerMenu.CurrentSample == null)
             {
                 return;
             }
@@ -579,45 +539,45 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
             {
                 // If we switch to the Properties Panel, we want to use a binded version of the Xaml Code.
-                if (_currentSample.HasXAMLCode)
+                if (HamburgerMenu.CurrentSample.HasXAMLCode)
                 {
                     _lastRenderedProperties = true;
 
-                    var t = UpdateXamlRenderAsync(_currentSample.BindedXamlCode);
+                    var t = UpdateXamlRenderAsync(HamburgerMenu.CurrentSample.BindedXamlCode);
                 }
 
                 return;
             }
 
-            if (_currentSample.HasXAMLCode && InfoAreaPivot.SelectedItem == XamlPivotItem && _lastRenderedProperties)
+            if (HamburgerMenu.CurrentSample.HasXAMLCode && InfoAreaPivot.SelectedItem == XamlPivotItem && _lastRenderedProperties)
             {
                 // Use this flag so we don't re-render the XAML tab if we're switching from tabs other than the properties one.
                 _lastRenderedProperties = false;
 
                 // If we switch to the Live Preview, then we want to use the Value based Text
-                XamlCodeRenderer.Text = _currentSample.UpdatedXamlCode;
+                XamlCodeRenderer.Text = HamburgerMenu.CurrentSample.UpdatedXamlCode;
 
-                var t = UpdateXamlRenderAsync(_currentSample.UpdatedXamlCode);
+                var t = UpdateXamlRenderAsync(HamburgerMenu.CurrentSample.UpdatedXamlCode);
                 await XamlCodeRenderer.RevealPositionAsync(new Position(1, 1));
                 return;
             }
 
-            if (_currentSample.HasXAMLCode && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
+            if (HamburgerMenu.CurrentSample.HasXAMLCode && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
             {
                 // Update Read-Only XAML tab on non-desktop devices to show changes to Properties
-                XamlReadOnlyCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
+                XamlReadOnlyCodeRenderer.XamlSource = HamburgerMenu.CurrentSample.UpdatedXamlCode;
             }
 
-            if (_currentSample.HasCSharpCode && InfoAreaPivot.SelectedItem == CSharpPivotItem)
+            if (HamburgerMenu.CurrentSample.HasCSharpCode && InfoAreaPivot.SelectedItem == CSharpPivotItem)
             {
-                CSharpCodeRenderer.CSharpSource = await _currentSample.GetCSharpSourceAsync();
+                CSharpCodeRenderer.CSharpSource = await HamburgerMenu.CurrentSample.GetCSharpSourceAsync();
 
                 return;
             }
 
-            if (_currentSample.HasJavaScriptCode && InfoAreaPivot.SelectedItem == JavaScriptPivotItem)
+            if (HamburgerMenu.CurrentSample.HasJavaScriptCode && InfoAreaPivot.SelectedItem == JavaScriptPivotItem)
             {
-                JavaScriptCodeRenderer.JavaScriptSource = await _currentSample.GetJavaScriptSourceAsync();
+                JavaScriptCodeRenderer.JavaScriptSource = await HamburgerMenu.CurrentSample.GetJavaScriptSourceAsync();
 
                 return;
             }
@@ -635,33 +595,33 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             e.Handled = true;
         }
 
-        private async void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (e.NewSize.Width <= 700)
-            {
-                if (e.PreviousSize.Width > 700)
-                {
-                    HideSamplePicker();
-                    ConnectToSearch();
-                }
+        //private async void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        //{
+        //    if (e.NewSize.Width <= 700)
+        //    {
+        //        if (e.PreviousSize.Width > 700)
+        //        {
+        //            HideSamplePicker();
+        //            ConnectToSearch();
+        //        }
 
-                if (HamburgerMenu.IsPaneOpen)
-                {
-                    _hamburgerMenuClosing = true;
-                    await Task.Delay(800);
-                    HamburgerMenu.OpenPaneLength = Window.Current.Bounds.Width;
-                    _hamburgerMenuClosing = false;
-                }
-                else if (!_hamburgerMenuClosing)
-                {
-                    HamburgerMenu.OpenPaneLength = Window.Current.Bounds.Width;
-                }
-            }
-            else if (e.PreviousSize.Width <= 700)
-            {
-                ConnectToSearch();
-            }
-        }
+        //        if (HamburgerMenu.IsPaneOpen)
+        //        {
+        //            _hamburgerMenuClosing = true;
+        //            await Task.Delay(800);
+        //            HamburgerMenu.OpenPaneLength = Window.Current.Bounds.Width;
+        //            _hamburgerMenuClosing = false;
+        //        }
+        //        else if (!_hamburgerMenuClosing)
+        //        {
+        //            HamburgerMenu.OpenPaneLength = Window.Current.Bounds.Width;
+        //        }
+        //    }
+        //    else if (e.PreviousSize.Width <= 700)
+        //    {
+        //        ConnectToSearch();
+        //    }
+        //}
 
         private void GitHub_OnClick(object sender, RoutedEventArgs e)
         {
@@ -748,27 +708,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             Focus(FocusState.Programmatic);
         }
 
-        private void HideSamplePicker()
-        {
-            HideSampleDetails();
-            SamplePickerGrid.Visibility = Visibility.Collapsed;
-        }
-
-        private void ShowSamplePicker(Sample[] samples)
-        {
-            SamplePickerListView.ItemsSource = samples;
-            if (_currentSample != null && samples.Contains(_currentSample))
-            {
-                SamplePickerListView.SelectedItem = _currentSample;
-            }
-            else
-            {
-                SamplePickerListView.SelectedItem = null;
-            }
-
-            SamplePickerGrid.Visibility = Visibility.Visible;
-        }
-
         private void HideSampleDetails()
         {
             SamplePickerDetailsGrid.Visibility = Visibility.Collapsed;
@@ -780,42 +719,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             SamplePickerDetailsGrid.Visibility = Visibility.Visible;
         }
 
-        private void StackPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void HamburgerMenu_SamplePickerItemClick(object sender, ItemClickEventArgs e)
         {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
-            {
-                var panel = (sender as FrameworkElement).FindDescendant<DropShadowPanel>();
-                if (panel != null)
-                {
-                    panel.Visibility = Visibility.Visible;
-                    var animation = new OpacityAnimation() { To = 1, Duration = TimeSpan.FromMilliseconds(600) };
-                    animation.StartAnimation(panel);
-
-                    var parentAnimation = new ScaleAnimation() { To = "1.1", Duration = TimeSpan.FromMilliseconds(600) };
-                    parentAnimation.StartAnimation(panel.Parent as UIElement);
-                }
-
-                //ShowSampleDetails(((FrameworkElement)sender).DataContext as Sample);
-            }
-        }
-
-        private void StackPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            HideSampleDetails();
-            var panel = (sender as FrameworkElement).FindDescendant<DropShadowPanel>();
-            if (panel != null)
-            {
-                var animation = new OpacityAnimation() { To = 0, Duration = TimeSpan.FromMilliseconds(1200) };
-                animation.StartAnimation(panel);
-
-                var parentAnimation = new ScaleAnimation() { To = "1", Duration = TimeSpan.FromMilliseconds(1200) };
-                parentAnimation.StartAnimation(panel.Parent as UIElement);
-            }
-        }
-
-        private void SamplePickerListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            HideSamplePicker();
             NavigateToSample(e.ClickedItem as Sample);
         }
 
@@ -840,59 +745,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private void HamburgerButtonClicked(object sender, RoutedEventArgs e)
         {
             HamburgerMenu.IsPaneOpen = !HamburgerMenu.IsPaneOpen;
-        }
-
-        private async void ContentShadow_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-            HideSamplePicker();
-            await SetHamburgerMenuSelection();
-        }
-
-        private void SamplePickerListView_ChoosingItemContainer(Windows.UI.Xaml.Controls.ListViewBase sender, ChoosingItemContainerEventArgs args)
-        {
-            if (!AnimationHelper.IsImplicitHideShowSupported || args.ItemContainer != null)
-            {
-                return;
-            }
-
-            GridViewItem container = (GridViewItem)args.ItemContainer ?? new GridViewItem();
-            container.Loaded += ContainerItem_Loaded;
-
-            args.ItemContainer = container;
-        }
-
-        private void ContainerItem_Loaded(object sender, RoutedEventArgs e)
-        {
-            var itemsPanel = (ItemsWrapGrid)SamplePickerListView.ItemsPanelRoot;
-            var itemContainer = (GridViewItem)sender;
-
-            var itemIndex = SamplePickerListView.IndexFromContainer(itemContainer);
-
-            var referenceIndex = itemsPanel.FirstVisibleIndex;
-
-            if (SamplePickerListView.SelectedIndex >= 0)
-            {
-                referenceIndex = SamplePickerListView.SelectedIndex;
-            }
-
-            var relativeIndex = Math.Abs(itemIndex - referenceIndex);
-
-            if (itemContainer.Content != _currentSample && itemIndex >= 0 && itemIndex >= itemsPanel.FirstVisibleIndex && itemIndex <= itemsPanel.LastVisibleIndex)
-            {
-                var staggerDelay = TimeSpan.FromMilliseconds(relativeIndex * 30);
-
-                var animationCollection = new AnimationCollection()
-                {
-                    new OpacityAnimation() { From = 0, To = 1, Duration = TimeSpan.FromMilliseconds(400), Delay = staggerDelay, SetInitialValueBeforeDelay = true },
-                    new ScaleAnimation() { From = "0.9", To = "1", Duration = TimeSpan.FromMilliseconds(400), Delay = staggerDelay }
-                };
-
-                VisualEx.SetNormalizedCenterPoint(itemContainer, "0.5");
-
-                animationCollection.StartAnimation(itemContainer);
-            }
-
-            itemContainer.Loaded -= this.ContainerItem_Loaded;
         }
 
         private Visibility GreaterThanZero(int value)
@@ -1036,19 +888,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void ProcessSampleEditorTime()
         {
-            if (_currentSample != null &&
-                _currentSample.HasXAMLCode &&
+            if (HamburgerMenu.CurrentSample != null &&
+                HamburgerMenu.CurrentSample.HasXAMLCode &&
                 _xamlCodeRendererSupported)
             {
                 if (_timeSampleEditedFirst != DateTime.MinValue &&
                     _timeSampleEditedLast != DateTime.MinValue)
                 {
                     int secondsEdditingSample = (int)Math.Floor((_timeSampleEditedLast - _timeSampleEditedFirst).TotalSeconds);
-                    TrackingManager.TrackEvent("xamleditor", "edited", _currentSample.Name, secondsEdditingSample);
+                    TrackingManager.TrackEvent("xamleditor", "edited", HamburgerMenu.CurrentSample.Name, secondsEdditingSample);
                 }
                 else
                 {
-                    TrackingManager.TrackEvent("xamleditor", "not_edited", _currentSample.Name);
+                    TrackingManager.TrackEvent("xamleditor", "not_edited", HamburgerMenu.CurrentSample.Name);
                 }
             }
 

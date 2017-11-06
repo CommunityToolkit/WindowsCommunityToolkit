@@ -9,6 +9,7 @@
              xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
              xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
              xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
+             xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
              RequiresPointerMode="Auto"
              RequestedTheme="Light">
     
@@ -706,6 +707,33 @@
             </Setter>
         </Style>
 
+        <DataTemplate x:Key="SampleTemplate">
+            <StackPanel Padding="16,24"
+                        Background="Transparent">
+                <Grid Width="120"
+                      Height="80"
+                      extensions:VisualEx.CenterPoint="40,60,0">
+                    <toolkitControls:DropShadowPanel HorizontalContentAlignment="Stretch"
+                                              VerticalContentAlignment="Stretch"
+                                              BlurRadius="20"
+                                              ShadowOpacity="0.8"
+                                              extensions:VisualEx.Opacity="0"
+                                              Visibility="Collapsed">
+                        <Border></Border>
+                    </toolkitControls:DropShadowPanel>
+                    <Border Background="#E6E6E6">
+                        <Image Source="{Binding Icon}" />
+                    </Border>
+                </Grid>
+
+                <TextBlock Margin="0,8,0,0"
+                           FontSize="12"
+                           FontWeight="Light"
+                           Foreground="Black"
+                           Text="{Binding Name}" />
+            </StackPanel>
+        </DataTemplate>
+
         <Style x:Key="HorizontalHamburgerMenu"
                TargetType="toolkitControls:HamburgerMenu">
             <Setter Property="HamburgerMenuTemplate">
@@ -733,21 +761,95 @@
                                               AutomationProperties.Name="Content"
                                               Content="{TemplateBinding Content}" />
 
-                            <toolkitControls:DropShadowPanel HorizontalContentAlignment="Stretch"
-                                                       VerticalContentAlignment="Stretch"
-                                                       BlurRadius="30"
-                                                       OffsetY="3"
-                                                       ShadowOpacity="0">
-                                <Grid Background="{TemplateBinding PaneBackground}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
 
-                                    <Border Background="#48000000" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="3"></Border>
 
-                                    <ListView x:Name="ButtonsListView"
+                            <Grid Grid.Row="1">
+
+                                <Border x:Name="ContentShadow"
+                                        Background="Transparent"
+                                        Visibility="{Binding Visibility, ElementName=SamplePickerGrid}">
+                                    <interactivity:Interaction.Behaviors>
+                                        <behaviors:Blur AutomaticallyStart="True"
+                                                        Delay="0"
+                                                        Value="2"
+                                                        Duration="0" />
+                                    </interactivity:Interaction.Behaviors>
+                                    <Border Background="#33000000"></Border>
+                                    <animations:Implicit.ShowAnimations>
+                                        <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                                    </animations:Implicit.ShowAnimations>
+                                    <animations:Implicit.HideAnimations>
+                                        <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.2"></animations:OpacityAnimation>
+                                    </animations:Implicit.HideAnimations>
+                                </Border>
+
+                                <Grid x:Name="SamplePickerGrid"
+                                      x:DeferLoadStrategy="Lazy"
+                                      Visibility="Collapsed"
+                                      VerticalAlignment="Top">
+                                    <Border Background="#F3F3F3"
+                                            Opacity="0.96"
+                                            x:Name="SamplePickerGridBackground"
+                                            x:DeferLoadStrategy="Lazy">
+                                        <interactivity:Interaction.Behaviors>
+                                            <behaviors:Blur AutomaticallyStart="True"
+                                                            Delay="0"
+                                                            Value="3"
+                                                            Duration="0" />
+                                        </interactivity:Interaction.Behaviors>
+                                    </Border>
+                                    <GridView x:Name="SamplePickerGridView"
+                                              IsItemClickEnabled="True"
+                                              animations:ReorderGridAnimation.Duration="200"
+                                              ItemContainerStyle="{StaticResource SecondaryHambugerMenuItemStyle}"
+                                              ItemTemplate="{StaticResource SampleTemplate}"
+                                              SelectionMode="Single"
+                                              ItemContainerTransitions="{x:Null}"
+                                              Transitions="{x:Null}">
+                                        <animations:Implicit.ShowAnimations>
+                                            <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" Delay="0:0:0.2" SetInitialValueBeforeDelay="True"></animations:OpacityAnimation>
+                                        </animations:Implicit.ShowAnimations>
+                                    </GridView>
+
+                                    <animations:Implicit.ShowAnimations>
+                                        <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                                        <animations:TranslationAnimation From="0, -1000, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
+                                    </animations:Implicit.ShowAnimations>
+                                    <animations:Implicit.HideAnimations>
+                                        <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.5"></animations:OpacityAnimation>
+                                        <animations:TranslationAnimation To="0, -1000, 0" From="0" Duration="0:0:0.5"></animations:TranslationAnimation>
+                                    </animations:Implicit.HideAnimations>
+                                </Grid>
+
+                            </Grid>
+                            
+                            <Grid Background="{TemplateBinding PaneBackground}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Border Background="#48000000" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="4"></Border>
+
+                                <Button x:Name="HamburgerButton"
+                                        Width="{TemplateBinding HamburgerWidth}"
+                                        Height="{TemplateBinding HamburgerHeight}"
+                                        Padding="0"
+                                        VerticalAlignment="Top"
+                                        AutomationProperties.Name="Main button"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        TabIndex="0"
+                                        Visibility="Collapsed">
+                                    <ContentControl Margin="{TemplateBinding HamburgerMargin}"
+                                                    ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
+                                                    Foreground="{TemplateBinding PaneForeground}"
+                                                    IsTabStop="False" />
+                                </Button>
+
+                                <ListView x:Name="ButtonsListView"
                                           AutomationProperties.Name="Menu items"
                                           IsItemClickEnabled="True"
                                           ItemContainerStyle="{StaticResource HambugerMenuItemStyle}"
@@ -762,30 +864,39 @@
                                           SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           SelectionMode="Single"
-                                          TabIndex="1">
-                                        <ListView.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <ItemsStackPanel Orientation="Horizontal" />
-                                            </ItemsPanelTemplate>
-                                        </ListView.ItemsPanel>
-                                    </ListView>
+                                          TabIndex="1"
+                                          Grid.Column="1">
+                                    <animations:Implicit.ShowAnimations>
+                                        <animations:TranslationAnimation From="-500, 0, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
+                                        <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                                    </animations:Implicit.ShowAnimations>
+                                    <animations:Implicit.HideAnimations>
+                                        <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.2"></animations:OpacityAnimation>
+                                        <animations:TranslationAnimation To="-500, 0, 0" From="0" Duration="0:0:0.2"></animations:TranslationAnimation>
+                                    </animations:Implicit.HideAnimations>
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <ItemsStackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
+                                </ListView>
 
-                                    <Grid Grid.Column="1">
-                                        <Button Name="SearchButton"
+                                <Grid Grid.Column="2">
+                                    <Button Name="SearchButton"
                                             Padding="0"
                                             VerticalAlignment="Stretch"
                                             AutomationProperties.Name="Search button"
                                             Background="Transparent"
                                             BorderThickness="0"
                                             TabIndex="1">
-                                            <FontIcon Margin="16,12"
+                                        <FontIcon Margin="16,12"
                                                   FontFamily="Segoe MDL2 Assets"
                                                   FontSize="16"
                                                   Opacity="0.6"
                                                   Foreground="{TemplateBinding PaneForeground}"
                                                   Glyph="&#xE721;" />
-                                        </Button>
-                                        <AutoSuggestBox x:Name="SearchBox"
+                                    </Button>
+                                    <AutoSuggestBox x:Name="SearchBox"
                                                     MinWidth="300"
                                                     Margin="5,0"
                                                     VerticalAlignment="Center"
@@ -793,10 +904,10 @@
                                                     QueryIcon="Find"
                                                     TabIndex="1"
                                                     Visibility="Collapsed" />
-                                    </Grid>
+                                </Grid>
 
-                                    <ListView x:Name="OptionsListView"
-                                          Grid.Column="2"
+                                <ListView x:Name="OptionsListView"
+                                          Grid.Column="3"
                                           AutomationProperties.Name="Option items"
                                           IsItemClickEnabled="True"
                                           ItemContainerStyle="{StaticResource HambugerMenuItemStyle}"
@@ -809,14 +920,37 @@
                                           SelectedItem="{Binding SelectedOptionsItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           SelectionMode="Single"
                                           TabIndex="2">
-                                        <ListView.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <ItemsStackPanel Orientation="Horizontal" />
-                                            </ItemsPanelTemplate>
-                                        </ListView.ItemsPanel>
-                                    </ListView>
-                                </Grid>
-                            </toolkitControls:DropShadowPanel>
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <ItemsStackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
+                                </ListView>
+
+                            </Grid>
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="WindowStates">
+                                    <VisualState x:Name="NarrowState">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="0" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Target="HamburgerButton.Visibility" Value="Visible" />
+                                            <Setter Target="ButtonsListView.Visibility" Value="Collapsed" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="WideState">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="700" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Target="HamburgerButton.Visibility" Value="Collapsed" />
+                                            <Setter Target="ButtonsListView.Visibility" Value="Visible" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>

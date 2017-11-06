@@ -6,7 +6,6 @@
       xmlns:controlsLocal="using:Microsoft.Toolkit.Uwp.SampleApp.Controls"
       xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:developerTools="using:Microsoft.Toolkit.Uwp.DeveloperTools"
       xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
@@ -21,7 +20,6 @@
       extensions:TitleBar.ButtonForegroundColor="{StaticResource Grey-04}"
       extensions:TitleBar.ForegroundColor="{StaticResource Grey-04}"
       Loaded="Shell_OnLoaded"
-      SizeChanged="Page_SizeChanged"
       mc:Ignorable="d">
     <Page.Resources>
         <converters:EmptyStringToObjectConverter x:Key="EmptyStringToObject"
@@ -122,46 +120,17 @@
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="HorizontalSampleTemplate"
-                      x:DataType="local:Sample">
-            <StackPanel Padding="16,24"
-                        Background="Transparent"
-                        PointerEntered="StackPanel_PointerEntered"
-                        PointerExited="StackPanel_PointerExited">
-                <Grid Width="120"
-                      Height="80"
-                      extensions:VisualEx.CenterPoint="40,60,0">
-                    <controls:DropShadowPanel HorizontalContentAlignment="Stretch"
-                                              VerticalContentAlignment="Stretch"
-                                              BlurRadius="20"
-                                              ShadowOpacity="0.8"
-                                              extensions:VisualEx.Opacity="0"
-                                              Visibility="Collapsed">
-                        <Border></Border>
-                    </controls:DropShadowPanel>
-                    <Border Background="#E6E6E6">
-                        <Image Source="{Binding Icon}" />
-                    </Border>
-                </Grid>
-
-                <TextBlock Margin="0,8,0,0"
-                           FontSize="12"
-                           FontWeight="Light"
-                           Foreground="Black"
-                           Text="{x:Bind Name}" />
-            </StackPanel>
-        </DataTemplate>
-
     </Page.Resources>
 
-    <controls:HamburgerMenu x:Name="HamburgerMenu"
-                            ItemClick="HamburgerMenu_OnItemClick"
-                            ItemTemplate="{StaticResource HorizontalItemTemplate}"
-                            OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
-                            OptionsItemTemplate="{StaticResource VerticalOptionTemplate}"
-                            PaneBackground="{StaticResource Brush-Grey-02}"
-                            PaneForeground="White"
-                            Style="{StaticResource VerticalHamburgerMenu}">
+    <controlsLocal:ExtendedHamburgerMenu x:Name="HamburgerMenu"
+                                         ItemTemplate="{StaticResource HorizontalItemTemplate}"
+                                         SamplePickerItemClick="HamburgerMenu_SamplePickerItemClick"
+                                         OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
+                                         OptionsItemTemplate="{StaticResource HorizontalOptionTemplate}"
+                                         PaneBackground="White"
+                                         PaneForeground="Black"
+                                         Style="{StaticResource HorizontalHamburgerMenu}">
+        
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -170,6 +139,7 @@
                 <RowDefinition Height="0" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+            
             <Grid x:Name="RootGrid"
                   Grid.Row="2"
                   Grid.RowSpan="3">
@@ -201,43 +171,35 @@
                                               HorizontalContentAlignment="Stretch" Margin="8,0,8,8"
                                               Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}">
                         <Border Background="#FFFFFF">
-                        <ItemsControl ItemsSource="{x:Bind Commands}"
+                            <ItemsControl ItemsSource="{x:Bind Commands}"
                                       VerticalAlignment="Top"
                                       HorizontalAlignment="Stretch"
                                       Margin="10,10,0,0">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <controls:WrapPanel/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="common:SampleCommand">
-                                    <Button Content="{x:Bind Label}"
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <controls:WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="common:SampleCommand">
+                                        <Button Content="{x:Bind Label}"
                                             Margin="0, 0, 10, 10"
                                             MinWidth="150"
                                             FontSize="12"
                                             Foreground="{StaticResource Brush-Grey-01}">
-                                        <interactivity:Interaction.Behaviors>
-                                            <core:EventTriggerBehavior EventName="Click">
-                                                <core:InvokeCommandAction Command="{x:Bind}" />
-                                            </core:EventTriggerBehavior>
-                                        </interactivity:Interaction.Behaviors>
-                                    </Button>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </Border>
+                                            <interactivity:Interaction.Behaviors>
+                                                <core:EventTriggerBehavior EventName="Click">
+                                                    <core:InvokeCommandAction Command="{x:Bind}" />
+                                                </core:EventTriggerBehavior>
+                                            </interactivity:Interaction.Behaviors>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Border>
                     </controls:DropShadowPanel>
-
                     
-                        <!--
-                        Uncomment this control to help you determine where the focus is.
-                        This could be useful when validating accessibility of your control
-                    -->
-                        <!--<developerTools:FocusTracker VerticalAlignment="Bottom"
-                                             HorizontalAlignment="Center"
-                                             IsRunning="True"/>-->
-                    </Grid>
+                </Grid>
                 <Grid x:Name="InfoAreaGrid"
                       Background="{StaticResource Brush-Grey-04}"
                       Visibility="Collapsed">
@@ -348,20 +310,6 @@
                 </Grid>
             </Grid>
 
-            <Border x:Name="ContentShadow"
-                    Grid.RowSpan="5"
-                    Tapped="ContentShadow_Tapped"
-                    Background="Transparent"
-                    Visibility="{Binding Visibility, ElementName=SamplePickerGrid}">
-                <interactivity:Interaction.Behaviors>
-                    <behaviors:Blur AutomaticallyStart="True"
-                                        Delay="0"
-                                        Value="2"
-                                        Duration="0" />
-                </interactivity:Interaction.Behaviors>
-                <Border Background="#33000000"></Border>
-            </Border>
-
             <Grid Grid.Row="3"
                   IsHitTestVisible="False">
                 <Grid x:Name="SamplePickerDetailsGrid"
@@ -432,39 +380,6 @@
                 </Grid>
             </Grid>
 
-            <Grid x:Name="SamplePickerGrid"
-                  Grid.RowSpan="5"
-                  Visibility="Collapsed"
-                  VerticalAlignment="Top">
-                <Border Background="#F3F3F3"
-                        Opacity="0.96"
-                        x:Name="SamplePickerGridBackground"
-                        x:DeferLoadStrategy="Lazy">
-                    <interactivity:Interaction.Behaviors>
-                        <behaviors:Blur AutomaticallyStart="True"
-                                        Delay="0"
-                                        Value="3"
-                                        Duration="0" />
-                    </interactivity:Interaction.Behaviors>
-                </Border>
-                <GridView x:Name="SamplePickerListView"
-                          IsItemClickEnabled="True"
-                          animations:ReorderGridAnimation.Duration="200"
-                          ItemClick="SamplePickerListView_ItemClick"
-                          ChoosingItemContainer="SamplePickerListView_ChoosingItemContainer"
-                          ItemContainerStyle="{StaticResource SecondaryHambugerMenuItemStyle}"
-                          ItemTemplate="{StaticResource HorizontalSampleTemplate}"
-                          SelectionMode="Single"
-                          ItemContainerTransitions="{x:Null}"
-                          Transitions="{x:Null}">
-                </GridView>
-
-                <animations:Implicit.ShowAnimations>
-                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
-                    <animations:TranslationAnimation From="0, -1000, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
-                </animations:Implicit.ShowAnimations>
-            </Grid>
-
             <controls:DropShadowPanel x:Name="TitleGrid"
                                       HorizontalContentAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
@@ -525,13 +440,6 @@
                         <Setter Target="ExpandButton.Content" Value="" />
 
                         <Setter Target="Splitter.Visibility" Value="Collapsed" />
-
-                        <Setter Target="HamburgerMenu.Style" Value="{StaticResource VerticalHamburgerMenu}" />
-                        <Setter Target="HamburgerMenu.ItemTemplate" Value="{StaticResource VerticalItemTemplate}" />
-                        <Setter Target="HamburgerMenu.OptionsItemTemplate" Value="{StaticResource VerticalOptionTemplate}" />
-                        <Setter Target="HamburgerMenu.IsPaneOpen" Value="False" />
-
-                        <Setter Target="TitleGrid.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="WideState">
@@ -552,18 +460,10 @@
                         <Setter Target="ExpandButton.Content" Value="" />
 
                         <Setter Target="Splitter.Visibility" Value="Visible" />
-
-                        <Setter Target="HamburgerMenu.Style" Value="{StaticResource HorizontalHamburgerMenu}" />
-                        <Setter Target="HamburgerMenu.ItemTemplate" Value="{StaticResource HorizontalItemTemplate}" />
-                        <Setter Target="HamburgerMenu.OptionsItemTemplate" Value="{StaticResource HorizontalOptionTemplate}" />
-                        <Setter Target="HamburgerMenu.PaneBackground" Value="White" />
-                        <Setter Target="HamburgerMenu.PaneForeground" Value="Black" />
-
-                        <Setter Target="TitleGrid.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
 
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-    </controls:HamburgerMenu>
+    </controlsLocal:ExtendedHamburgerMenu>
 </Page>

@@ -472,6 +472,7 @@
     <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
+    <Compile Include="Controls\ExtendedHamburgerMenu.cs" />
     <Compile Include="Data\GitHub.cs" />
     <Compile Include="Controls\XamlExceptionRange.cs" />
     <Compile Include="Controls\XamlRenderService.cs" />
@@ -1125,7 +1126,6 @@
       </AppxPackagePayload>
     </ItemGroup>
   </Target>
-  
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
     <ItemGroup>
