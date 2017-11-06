@@ -611,11 +611,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 try
                 {
                     var vectorValue = normalizedValue.ToVector3();
-                    if (vectorValue.X < 0 || vectorValue.X > 1 || vectorValue.Y < 0 || vectorValue.Y > 1)
-                    {
-                        throw new ArgumentOutOfRangeException(nameof(NormalizedCenterPointProperty), "Value must be between 0.0 and 1.0");
-                    }
-
                     var visual = GetVisual(element);
                     visual.CenterPoint = new Vector3((float)element.ActualWidth * vectorValue.X, (float)element.ActualHeight * vectorValue.Y, 0);
 
