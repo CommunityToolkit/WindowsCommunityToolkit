@@ -71,6 +71,26 @@
                     </StackPanel>
                 </DataTemplate>
             </controls:MasterDetailsView.NoSelectionContentTemplate>
+            <controls:MasterDetailsView.MasterCommandBar>
+                <CommandBar>
+                    <AppBarButton Icon="Back" Label="Back"/>
+                    <AppBarButton Icon="Forward" Label="Forward"/>
+
+                    <CommandBar.Content>
+                        <TextBlock Margin="12,14">
+                            <Run Text="{Binding Emails.Count}"/>
+                            <Run Text="Items"/>
+                        </TextBlock>
+                    </CommandBar.Content>
+                </CommandBar>
+            </controls:MasterDetailsView.MasterCommandBar>
+            <controls:MasterDetailsView.DetailsCommandBar>
+                <CommandBar>
+                    <AppBarButton Icon="MailReply" Label="Reply"/>
+                    <AppBarButton Icon="MailReplyAll" Label="Reply All"/>
+                    <AppBarButton Icon="MailForward" Label="Forward"/>
+                </CommandBar>
+            </controls:MasterDetailsView.DetailsCommandBar>
         </controls:MasterDetailsView>
     </Grid>
 </Page>
