@@ -20,9 +20,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
     {
         private Button _hamburgerButton;
         private ListView _buttonsListView;
+        private ListView _optionsListView;
         private Grid _samplePickerGrid;
         private GridView _samplePickerGridView;
         private Border _contentShadow;
+        private Grid _searchGrid;
 
         /// <summary>
         /// Event raised when an item is clicked
@@ -82,6 +84,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             OptionsItemClick -= ExtendedHamburgerMenu_OptionsItemClick;
 
             _hamburgerButton = GetTemplateChild("HamburgerButton") as Button;
+            _optionsListView = GetTemplateChild("OptionsListView") as ListView;
+            _searchGrid = GetTemplateChild("SearchGrid") as Grid;
 
             if (_hamburgerButton != null)
             {
@@ -291,7 +295,32 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             if (_buttonsListView != null)
             {
-                _buttonsListView.Visibility = _buttonsListView.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+                if (_buttonsListView.Visibility == Visibility.Collapsed)
+                {
+                    _buttonsListView.Visibility =  Visibility.Visible;
+                    if (_optionsListView != null)
+                    {
+                        _optionsListView.Visibility = Visibility.Collapsed;
+                    }
+
+                    if (_searchGrid != null)
+                    {
+                        _searchGrid.Visibility = Visibility.Collapsed;
+                    }
+                }
+                else
+                {
+                    _buttonsListView.Visibility = Visibility.Collapsed;
+                    if (_optionsListView != null)
+                    {
+                        _optionsListView.Visibility = Visibility.Visible;
+                    }
+
+                    if (_searchGrid != null)
+                    {
+                        _searchGrid.Visibility = Visibility.Visible;
+                    }
+                }
             }
         }
     }

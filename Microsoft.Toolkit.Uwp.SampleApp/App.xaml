@@ -831,23 +831,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <Border Background="#48000000" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="4"></Border>
 
-                                <Button x:Name="HamburgerButton"
-                                        Width="{TemplateBinding HamburgerWidth}"
-                                        Height="{TemplateBinding HamburgerHeight}"
-                                        Padding="0"
-                                        VerticalAlignment="Top"
-                                        AutomationProperties.Name="Main button"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        TabIndex="0"
-                                        Visibility="Collapsed">
-                                    <ContentControl Margin="{TemplateBinding HamburgerMargin}"
-                                                    ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
-                                                    Foreground="{TemplateBinding PaneForeground}"
-                                                    IsTabStop="False" />
-                                </Button>
 
                                 <ListView x:Name="ButtonsListView"
                                           AutomationProperties.Name="Menu items"
@@ -874,6 +858,9 @@
                                         <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.2"></animations:OpacityAnimation>
                                         <animations:TranslationAnimation To="-500, 0, 0" From="0" Duration="0:0:0.2"></animations:TranslationAnimation>
                                     </animations:Implicit.HideAnimations>
+                                    <animations:Implicit.Animations>
+                                        <animations:OffsetAnimation Duration="0:0:0.2"></animations:OffsetAnimation>
+                                    </animations:Implicit.Animations>
                                     <ListView.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <ItemsStackPanel Orientation="Horizontal" />
@@ -881,7 +868,7 @@
                                     </ListView.ItemsPanel>
                                 </ListView>
 
-                                <Grid Grid.Column="2">
+                                <Grid Grid.Column="2" x:Name="SearchGrid">
                                     <Button Name="SearchButton"
                                             Padding="0"
                                             VerticalAlignment="Stretch"
@@ -904,6 +891,14 @@
                                                     QueryIcon="Find"
                                                     TabIndex="1"
                                                     Visibility="Collapsed" />
+                                    <animations:Implicit.ShowAnimations>
+                                        <animations:TranslationAnimation From="100, 0, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
+                                        <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                                    </animations:Implicit.ShowAnimations>
+                                    <animations:Implicit.HideAnimations>
+                                        <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.2"></animations:OpacityAnimation>
+                                        <animations:TranslationAnimation To="100, 0, 0" From="0" Duration="0:0:0.2"></animations:TranslationAnimation>
+                                    </animations:Implicit.HideAnimations>
                                 </Grid>
 
                                 <ListView x:Name="OptionsListView"
@@ -925,7 +920,34 @@
                                             <ItemsStackPanel Orientation="Horizontal" />
                                         </ItemsPanelTemplate>
                                     </ListView.ItemsPanel>
+                                    <animations:Implicit.ShowAnimations>
+                                        <animations:TranslationAnimation From="100, 0, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
+                                        <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                                    </animations:Implicit.ShowAnimations>
+                                    <animations:Implicit.HideAnimations>
+                                        <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.2"></animations:OpacityAnimation>
+                                        <animations:TranslationAnimation To="100, 0, 0" From="0" Duration="0:0:0.2"></animations:TranslationAnimation>
+                                    </animations:Implicit.HideAnimations>
                                 </ListView>
+
+                                <Button x:Name="HamburgerButton"
+                                        Width="{TemplateBinding HamburgerWidth}"
+                                        Height="{TemplateBinding HamburgerHeight}"
+                                        Padding="0"
+                                        VerticalAlignment="Top"
+                                        AutomationProperties.Name="Main button"
+                                        Background="White"
+                                        BorderThickness="0"
+                                        TabIndex="0"
+                                        Visibility="Collapsed">
+                                    <ContentControl Margin="{TemplateBinding HamburgerMargin}"
+                                                    ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
+                                                    Foreground="{TemplateBinding PaneForeground}"
+                                                    Background="White"
+                                                    IsTabStop="False" />
+                                </Button>
+
+                                <Border Background="#48000000" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="4"></Border>
 
                             </Grid>
 
@@ -947,6 +969,8 @@
                                         <VisualState.Setters>
                                             <Setter Target="HamburgerButton.Visibility" Value="Collapsed" />
                                             <Setter Target="ButtonsListView.Visibility" Value="Visible" />
+                                            <Setter Target="OptionsListView.Visibility" Value="Visible" />
+                                            <Setter Target="SearchGrid.Visibility" Value="Visible" />
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>
