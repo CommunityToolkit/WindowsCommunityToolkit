@@ -10,16 +10,23 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Models
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    public enum PropertyKind
+    public enum InAppNotificationDismissKind
     {
-        Slider,
-        DoubleSlider,
-        String,
-        Enum,
-        Bool,
-        Brush,
-        TimeSpan
+        /// <summary>
+        /// When the system dismissed the notification.
+        /// </summary>
+        Programmatic,
+
+        /// <summary>
+        /// When user explicitly dismissed the notification.
+        /// </summary>
+        User,
+
+        /// <summary>
+        /// When the system dismissed the notification after timeout.
+        /// </summary>
+        Timeout
     }
 }

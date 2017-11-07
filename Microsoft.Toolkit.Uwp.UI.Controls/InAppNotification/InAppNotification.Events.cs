@@ -21,13 +21,55 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class InAppNotification
     {
         /// <summary>
+        /// Event raised when the notification is opening
+        /// </summary>
+        public event InAppNotificationOpeningEventHandler Opening;
+
+        /// <summary>
+        /// Event raised when the notification is opened
+        /// </summary>
+        public event EventHandler Opened;
+
+        /// <summary>
         /// Event raised when the notification is dismissed
         /// </summary>
+        [Obsolete("Use Closed event instead.")]
         public event EventHandler Dismissed;
+
+        /// <summary>
+        /// Event raised when the notification is closing
+        /// </summary>
+        public event InAppNotificationClosingEventHandler Closing;
+
+        /// <summary>
+        /// Event raised when the notification is closed
+        /// </summary>
+        public event InAppNotificationClosedEventHandler Closed;
 
         private void DismissButton_Click(object sender, RoutedEventArgs e)
         {
-            Dismiss();
+            Dismiss(InAppNotificationDismissKind.User);
+        }
+
+        private void DismissTimer_Tick(object sender, object e)
+        {
+            Dismiss(InAppNotificationDismissKind.Timeout);
+            _dismissTimer.Stop();
+        }
+
+        private void OpenAnimationTimer_Tick(object sender, object e)
+        {
+            _animationTimer.Stop();
+            Opened?.Invoke(this, EventArgs.Empty);
+            _animationTimer.Tick -= OpenAnimationTimer_Tick;
+        }
+
+        private void DismissAnimationTimer_Tick(object sender, object e)
+        {
+            _animationTimer.Stop();
+            Dismissed?.Invoke(this, EventArgs.Empty);
+            Closed?.Invoke(this, new InAppNotificationClosedEventArgs(_lastDismissKind));
+            _animationTimer.Tick -= DismissAnimationTimer_Tick;
         }
     }
 }
