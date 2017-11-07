@@ -18,97 +18,98 @@ using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
-   /// <summary>
-   /// Helper class for easily changing the mouseover cursor type.
-   /// </summary>
-   public class Mouse : DependencyObject
-   {
-      /// <summary>
-      /// Dependency property for specifying the target <see cref="CoreCursorType"/> to be shown
-      /// over the target <see cref="FrameworkElement"/>.
-      /// </summary>
-      public static readonly DependencyProperty CursorProperty =
-          DependencyProperty.RegisterAttached("Cursor", typeof(CoreCursorType), typeof(Mouse), new PropertyMetadata(CoreCursorType.Arrow, CursorChanged));
+    /// <summary>
+    /// Helper class for easily changing the mouseover cursor type.
+    /// </summary>
+    public class Mouse : DependencyObject
+    {
+        private static readonly object s_cursorLock = new object();
+        private static readonly CoreCursor s_defaultCursor = new CoreCursor(CoreCursorType.Arrow, 1);
+        private static readonly Dictionary<CoreCursorType, CoreCursor> s_cursors =
+            new Dictionary<CoreCursorType, CoreCursor> { { CoreCursorType.Arrow, s_defaultCursor } };
 
-      /// <summary>
-      /// Set the target <see cref="CoreCursorType"/>.
-      /// </summary>
-      /// <param name="element">Object where the selector cursor type should be shown.</param>
-      /// <param name="value">Target cursor type value.</param>
-      public static void SetCursor(FrameworkElement element, CoreCursorType value)
-      {
-         element.SetValue(CursorProperty, value);
-      }
+        /// <summary>
+        /// Dependency property for specifying the target <see cref="CoreCursorType"/> to be shown
+        /// over the target <see cref="FrameworkElement"/>.
+        /// </summary>
+        public static readonly DependencyProperty CursorProperty =
+            DependencyProperty.RegisterAttached("Cursor", typeof(CoreCursorType), typeof(Mouse), new PropertyMetadata(CoreCursorType.Arrow, CursorChanged));
 
-      /// <summary>
-      /// Get the current <see cref="CoreCursorType"/>.
-      /// </summary>
-      /// <param name="element">Object where the selector cursor type should be shown.</param>
-      /// <returns>Cursor type set on target element.</returns>
-      public static CoreCursorType GetCursor(FrameworkElement element)
-      {
-         return (CoreCursorType)element.GetValue(CursorProperty);
-      }
+        /// <summary>
+        /// Set the target <see cref="CoreCursorType"/>.
+        /// </summary>
+        /// <param name="element">Object where the selector cursor type should be shown.</param>
+        /// <param name="value">Target cursor type value.</param>
+        public static void SetCursor(FrameworkElement element, CoreCursorType value)
+        {
+            element.SetValue(CursorProperty, value);
+        }
 
-      private static void CursorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-      {
-         FrameworkElement element = d as FrameworkElement;
-         if (element == null)
-         {
-            throw new NullReferenceException(nameof(element));
-         }
+        /// <summary>
+        /// Get the current <see cref="CoreCursorType"/>.
+        /// </summary>
+        /// <param name="element">Object where the selector cursor type should be shown.</param>
+        /// <returns>Cursor type set on target element.</returns>
+        public static CoreCursorType GetCursor(FrameworkElement element)
+        {
+            return (CoreCursorType) element.GetValue(CursorProperty);
+        }
 
-         CoreCursorType value = (CoreCursorType)e.NewValue;
-
-         lock (CursorLock)
-         {
-            if (!Cursors.ContainsKey(value))
+        private static void CursorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var element = d as FrameworkElement;
+            if (element == null)
             {
-               Cursors[value] = new CoreCursor(value, 1);
+                throw new NullReferenceException(nameof(element));
             }
 
-            // make sure event handlers are not attached twice to element
-            element.PointerEntered -= Element_PointerEntered;
-            element.PointerEntered += Element_PointerEntered;
-            element.PointerExited -= Element_PointerExited;
-            element.PointerExited += Element_PointerExited;
-            element.Unloaded -= ElementOnUnloaded;
-            element.Unloaded += ElementOnUnloaded;
-         }
-      }
+            var value = (CoreCursorType) e.NewValue;
 
-      private static void Element_PointerEntered(object sender, PointerRoutedEventArgs e)
-      {
-         CoreCursorType cursor = GetCursor((FrameworkElement)sender);
-         Window.Current.CoreWindow.PointerCursor = Cursors[cursor];
-      }
+            // lock ensures CoreCursor creation and event handlers attachment/detachment is atomic
+            lock (s_cursorLock)
+            {
+                if (!s_cursors.ContainsKey(value))
+                {
+                    s_cursors[value] = new CoreCursor(value, 1);
+                }
 
-      private static void Element_PointerExited(object sender, PointerRoutedEventArgs e)
-      {
-         // when exiting change the cursor to the target Mouse.Cursor value of the new element
-         CoreCursor cursor;
-         if (e.OriginalSource is FrameworkElement newElement)
-         {
-            cursor = Cursors[GetCursor(newElement)];
-         }
-         else
-         {
-            cursor = DefaultCursor;
-         }
+                // make sure event handlers are not attached twice to element
+                element.PointerEntered -= Element_PointerEntered;
+                element.PointerEntered += Element_PointerEntered;
+                element.PointerExited -= Element_PointerExited;
+                element.PointerExited += Element_PointerExited;
+                element.Unloaded -= ElementOnUnloaded;
+                element.Unloaded += ElementOnUnloaded;
+            }
+        }
 
-         Window.Current.CoreWindow.PointerCursor = cursor;
-      }
+        private static void Element_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            CoreCursorType cursor = GetCursor((FrameworkElement) sender);
+            Window.Current.CoreWindow.PointerCursor = s_cursors[cursor];
+        }
 
-      private static void ElementOnUnloaded(object sender, RoutedEventArgs routedEventArgs)
-      {
-         // when the element is programatically unloaded, reset the cursor back to default
-         // this is necessary when click triggers immediate change in layout and PointerExited is not called
-         Window.Current.CoreWindow.PointerCursor = DefaultCursor;
-      }
+        private static void Element_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            // when exiting change the cursor to the target Mouse.Cursor value of the new element
+            CoreCursor cursor;
+            if (e.OriginalSource is FrameworkElement newElement)
+            {
+                cursor = s_cursors[GetCursor(newElement)];
+            }
+            else
+            {
+                cursor = s_defaultCursor;
+            }
 
-      private static readonly object CursorLock = new object();
-      private static readonly CoreCursor DefaultCursor = new CoreCursor(CoreCursorType.Arrow, 1);
-      private static readonly Dictionary<CoreCursorType, CoreCursor> Cursors =
-          new Dictionary<CoreCursorType, CoreCursor> { { CoreCursorType.Arrow, DefaultCursor } };
-   }
+            Window.Current.CoreWindow.PointerCursor = cursor;
+        }
+
+        private static void ElementOnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            // when the element is programatically unloaded, reset the cursor back to default
+            // this is necessary when click triggers immediate change in layout and PointerExited is not called
+            Window.Current.CoreWindow.PointerCursor = s_defaultCursor;
+        }
+    }
 }

@@ -14,12 +14,12 @@ The **Mouse.Cursor attached property** enables you to easily change the mouse cu
 
 First we need to add the namespace declaration, in this case we added to the root Page element:
 ```xaml
-xmlns:ui="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
 ```
 
 Then we can use the attached property on any FrameworkElement in XAML:
 ```xaml
-ui:Mouse.Cursor="Hand"
+extensions:Mouse.Cursor="Hand"
 ```
 
 This is how it looks in full Page context:
@@ -27,10 +27,10 @@ This is how it looks in full Page context:
 <Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.MouseCursorPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
-    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI.Extensions">
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Border ui:Mouse.Cursor="Hand"
+        <Border extensions:Mouse.Cursor="Hand"
 	        Width="220" Height="120" Background="DeepSkyBlue"
 	        HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
