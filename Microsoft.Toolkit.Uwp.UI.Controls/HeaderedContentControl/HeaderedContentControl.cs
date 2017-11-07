@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             "Header",
             typeof(object),
             typeof(HeaderedContentControl),
-            new PropertyMetadata(null));
+            new PropertyMetadata(null, OnHeaderChanged));
 
         /// <summary>
         /// Identifies the <see cref="HeaderTemplate"/> dependency property.
