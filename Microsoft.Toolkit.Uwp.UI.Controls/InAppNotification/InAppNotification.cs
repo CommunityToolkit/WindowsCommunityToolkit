@@ -154,13 +154,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _animationTimer.Stop();
 
-                var dismissingEventArgs = new InAppNotificationDismissingEventArgs(dismissKind);
-                Dismissing?.Invoke(this, dismissingEventArgs);
-
                 var closingEventArgs = new InAppNotificationClosingEventArgs(dismissKind);
                 Closing?.Invoke(this, closingEventArgs);
 
-                if (dismissingEventArgs.Cancel || closingEventArgs.Cancel)
+                if (closingEventArgs.Cancel)
                 {
                     return;
                 }

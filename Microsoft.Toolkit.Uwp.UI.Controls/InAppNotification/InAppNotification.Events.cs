@@ -32,12 +32,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event EventHandler Opened;
 
         /// <summary>
-        /// Event raised when the notification is dismissing
-        /// </summary>
-        [Obsolete("Use Closing event instead.")]
-        public event InAppNotificationDismissingEventHandler Dismissing;
-
-        /// <summary>
         /// Event raised when the notification is dismissed
         /// </summary>
         [Obsolete("Use Closed event instead.")]
