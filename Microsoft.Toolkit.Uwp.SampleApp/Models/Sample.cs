@@ -31,8 +31,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public class Sample
     {
+        private const string _repoOnlineRoot = "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/";
+        private const string _docsOnlineRoot = "https://raw.githubusercontent.com/MicrosoftDocs/UWPCommunityToolkitDocs/";
+
         private static HttpClient client = new HttpClient();
-        private static string _docsOnlineRoot = "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/";
         private string _cachedDocumentation = string.Empty;
 
         internal static async Task<Sample> FindAsync(string category, string name)
@@ -154,21 +156,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             var filepath = string.Empty;
             var filename = string.Empty;
-            var branch = "master";
 
-            var docRegex = new Regex("^" + _docsOnlineRoot + "(?<branch>.+?)/docs/(?<file>.+)");
+            var docRegex = new Regex("^" + _repoOnlineRoot + "(?<branch>.+?)/docs/(?<file>.+)");
             var docMatch = docRegex.Match(DocumentationUrl);
             if (docMatch.Success)
             {
-                branch = docMatch.Groups["branch"].Value;
                 filepath = docMatch.Groups["file"].Value;
                 filename = Path.GetFileName(filepath);
             }
 
+#if !DEBUG // use the docs repo in release mode
+            string modifiedDocumentationUrl = $"{_docsOnlineRoot}master/docs/{filepath}";
+#else
             string modifiedDocumentationUrl = DocumentationUrl;
-
-#if !DEBUG // only use the master branch for release mode
-                modifiedDocumentationUrl = $"{_docsOnlineRoot}master/docs/{filepath}";
 #endif
 
             try
