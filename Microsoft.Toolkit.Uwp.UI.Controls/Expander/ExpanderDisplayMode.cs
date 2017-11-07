@@ -10,24 +10,21 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Event args for a SwipeStatus changing event
+    /// Display mode of the Expander that will update the behavior of the content visibility
     /// </summary>
-    [Obsolete("The SwipeStatusChangedEventArgs will be removed alongside SlidableListItem in a future major release. Please use the SwipeControl available in the Fall Creators Update")]
-    public class SwipeStatusChangedEventArgs
+    public enum ExpanderDisplayMode
     {
         /// <summary>
-        /// Gets the old value.
+        /// Default mode (the content is totally collapsed)
         /// </summary>
-        public SwipeStatus OldValue { get; internal set; }
+        Expand,
 
         /// <summary>
-        /// Gets the new value.
+        /// Overlay mode (only the overlay content is visible)
         /// </summary>
-        public SwipeStatus NewValue { get; internal set; }
+        Overlay
     }
 }

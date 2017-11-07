@@ -337,7 +337,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // Get Xaml code
                 using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{XamlCodeFile}"))
                 {
-                    XamlCode = await codeStream.ReadTextAsync();
+                    XamlCode = await codeStream.ReadTextAsync(Encoding.UTF8);
 
                     // Look for @[] values and generate associated properties
                     var regularExpression = new Regex(@"@\[(?<name>.+?)(:(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*)?\]@?");

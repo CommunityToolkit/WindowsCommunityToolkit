@@ -22,8 +22,8 @@
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
  
     
-    <UwpMetaPackageVersion>5.3.4</UwpMetaPackageVersion>
-    <DefaultTargetPlatformVersion>15063</DefaultTargetPlatformVersion>
+    <UwpMetaPackageVersion>5.4.1</UwpMetaPackageVersion>
+    <DefaultTargetPlatformVersion>16299</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>14393</DefaultTargetPlatformMinVersion>
   </PropertyGroup>
 
