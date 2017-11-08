@@ -1,0 +1,44 @@
+author: vinothrajendran(rvinothrajendran)
+ms.date: 11/08/2017
+description: The AppPinManager class helps to user add the app shortcut in StartMenu or TaskBar in a easier way
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, StartMenu, TaskBar, PinManager 
+---
+
+# AppPinManager 
+
+The **AppPinManager** is a class used to add the application shortcut in StartMenu or TaskBar.It has following APIs
+
+1.Task<PinResult> CurrentAppToTaskBarAsync()
+Pin the current app shortcut in Windows10 TaskBar
+Example 
+var result = await AppPinManager.CurrentAppToTaskBarAsync();
+
+2.Task<PinResult> SpecificAppToTaskBarAsync(AppListEntry appListEntry)
+Pin the specified app shortcut in Windows10 TaskBar
+Example 
+var appList = (await Package.Current.GetAppListEntriesAsync())[0];
+var result = await AppPinManager.SpecificAppToTaskBarAsync(appList);
+
+
+3.Task<PinResult> SpecificAppToStartMenuAsync(AppListEntry entry)
+Pin the specified app shortcut in Windows10 StartMenu
+Example
+var appList = (await Package.Current.GetAppListEntriesAsync())[0];
+var result = await AppPinManager.SpecificAppToStartMenuAsync(appList);
+
+4.Task<PinResult> UserSpecificAppToStartMenuAsync(User user, AppListEntry entry)
+Pin the specified app shortcut in Windows10 StartMenu based on the user 
+Example
+var appList = (await Package.Current.GetAppListEntriesAsync())[0];
+var result = await AppPinManager.UserSpecificAppToStartMenuAsync(user,appList);
+Note : user , you have to pass the User object
+
+All the APIs return the PinResult as a status
+public enum PinResult
+{
+        UnsupportedDevice = 0,
+        UnsupportedOs = 1,
+        PinNotAllowed = 2,
+        PinPresent = 3,
+        PinAlreadyPresent = 4
+}
