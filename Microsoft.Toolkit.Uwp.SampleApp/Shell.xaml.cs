@@ -186,7 +186,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             ProcessSampleEditorTime();
 
             SampleCategory category;
-            if (navigationEventArgs.SourcePageType == typeof(SamplePicker) || navigationEventArgs.Parameter == null)
+            if (navigationEventArgs.Parameter == null)
             {
                 DataContext = null;
                 HamburgerMenu.CurrentSample = null;
@@ -296,8 +296,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     HideInfoArea();
                 }
 
-                HamburgerMenu.Title= $"{category.Name} -> {HamburgerMenu.CurrentSample?.Name}";
-                ApplicationView.SetTitle(this, $"{category.Name} - {HamburgerMenu.CurrentSample?.Name}");
+                HamburgerMenu.Title = $"{category.Name} > {HamburgerMenu.CurrentSample?.Name}";
+                ApplicationView.SetTitle(this, $"{category.Name} > {HamburgerMenu.CurrentSample?.Name}");
             }
         }
 
@@ -431,11 +431,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-            if (option.Tag != null)
-            {
-                NavigationFrame.Navigate(typeof(SamplePicker), option.Tag);
-            }
-            else if (NavigationFrame.CurrentSourcePageType != option.PageType)
+           if (NavigationFrame.CurrentSourcePageType != option.PageType)
             {
                 NavigationFrame.Navigate(option.PageType);
             }
