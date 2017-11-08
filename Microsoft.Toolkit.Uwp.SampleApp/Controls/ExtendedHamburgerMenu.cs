@@ -25,6 +25,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         private GridView _samplePickerGridView;
         private Border _contentShadow;
         private Grid _searchGrid;
+        private TextBlock _titleTextBlock;
+        private AutoSuggestBox _searchBox;
+        private Button _searchButton;
 
         /// <summary>
         /// Event raised when an item is clicked
@@ -32,6 +35,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         public event ItemClickEventHandler SamplePickerItemClick;
 
         private Sample _currentSample;
+
+        public string Title
+        {
+            get { return (string)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register("Title", typeof(string), typeof(ExtendedHamburgerMenu), new PropertyMetadata(string.Empty));
 
         public Sample CurrentSample
         {
@@ -55,14 +67,34 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             }
         }
 
-        public void ShowSamplePicker(Sample[] samples)
+        public async void ShowSamplePicker(Sample[] samples = null)
         {
             if (!SetupSamplePicker())
             {
                 return;
             }
 
+            if (samples == null && _currentSample != null)
+            {
+                var category = await Samples.GetCategoryBySample(_currentSample);
+                if (category != null)
+                {
+                    samples = category.Samples;
+                }
+            }
+
+            if (samples == null)
+            {
+                samples = (await Samples.GetCategoriesAsync()).FirstOrDefault()?.Samples;
+            }
+
+            if (samples == null)
+            {
+                return;
+            }
+
             _samplePickerGridView.ItemsSource = samples;
+
             if (_currentSample != null && samples.Contains(_currentSample))
             {
                 _samplePickerGridView.SelectedItem = _currentSample;
@@ -75,9 +107,43 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             _samplePickerGrid.Visibility = Visibility.Visible;
         }
 
+        public async Task StartSearch(string startingText = "")
+        {
+            if (_searchBox == null || _searchBox.Visibility == Visibility.Visible)
+            {
+                return;
+            }
+
+            HideSamplePicker();
+            _searchBox.Text = startingText;
+
+            _searchButton.Visibility = Visibility.Collapsed;
+            _searchBox.Visibility = Visibility.Visible;
+
+            // We need to wait for the textbox to be created to focus it (only first time).
+            TextBox innerTextbox = null;
+
+            do
+            {
+                innerTextbox = _searchBox.FindDescendant<TextBox>();
+                innerTextbox?.Focus(FocusState.Programmatic);
+
+                if (innerTextbox == null)
+                {
+                    await Task.Delay(150);
+                }
+            }
+            while (innerTextbox == null);
+        }
+
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
+            if (_hamburgerButton != null)
+            {
+                _hamburgerButton.Click -= HamburgerButton_Click;
+            }
 
             SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
             ItemClick -= ExtendedHamburgerMenu_ItemClick;
@@ -86,6 +152,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             _hamburgerButton = GetTemplateChild("HamburgerButton") as Button;
             _optionsListView = GetTemplateChild("OptionsListView") as ListView;
             _searchGrid = GetTemplateChild("SearchGrid") as Grid;
+            _titleTextBlock = GetTemplateChild("TitleTextBlock") as TextBlock;
+            _buttonsListView = GetTemplateChild("ButtonsListView") as ListView;
 
             if (_hamburgerButton != null)
             {
@@ -95,6 +163,97 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
             ItemClick += ExtendedHamburgerMenu_ItemClick;
             OptionsItemClick += ExtendedHamburgerMenu_OptionsItemClick;
+
+            SetupSearch();
+        }
+
+        private void SetupSearch()
+        {
+            if (_searchBox != null)
+            {
+                _searchBox.LostFocus -= SearchBox_LostFocus;
+                _searchBox.TextChanged -= SearchBox_TextChanged;
+                _searchBox.KeyDown -= SearchBox_KeyDown;
+            }
+
+            if (_searchButton != null)
+            {
+                _searchButton.Click -= SearchButton_Click;
+                _searchButton.GotFocus -= SearchButton_GotFocus;
+            }
+
+            _searchBox = GetTemplateChild("SearchBox") as AutoSuggestBox;
+            _searchButton = GetTemplateChild("SearchButton") as Button;
+
+            if (_searchBox == null || _searchButton == null)
+            {
+                return;
+            }
+
+            _searchBox.LostFocus += SearchBox_LostFocus;
+            _searchBox.TextChanged += SearchBox_TextChanged;
+            _searchBox.KeyDown += SearchBox_KeyDown;
+
+            _searchButton.Click += SearchButton_Click;
+            _searchButton.GotFocus += SearchButton_GotFocus;
+
+            _searchBox.DisplayMemberPath = "Name";
+            _searchBox.TextMemberPath = "Name";
+        }
+
+        private void SearchBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Down)
+            {
+                if (_samplePickerGrid.Visibility == Visibility.Visible)
+                {
+                    _samplePickerGridView.Focus(FocusState.Keyboard);
+                }
+            }
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            var t = StartSearch();
+        }
+
+        private void SearchButton_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var t = StartSearch();
+        }
+
+        private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                return;
+            }
+
+            UpdateSearchSuggestions();
+        }
+
+        private async void UpdateSearchSuggestions()
+        {
+            var samples = (await Samples.FindSamplesByName(_searchBox.Text)).OrderBy(s => s.Name).ToArray();
+            if (samples.Count() > 0)
+            {
+                ShowSamplePicker(samples);
+            }
+            else
+            {
+                HideSamplePicker();
+            }
+        }
+
+        private async void SearchBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            _searchButton.Visibility = Visibility.Visible;
+
+            new ScaleAnimation() { To = "0, 1, 1", Duration = TimeSpan.FromMilliseconds(300) }.StartAnimation(_searchBox);
+
+            await Task.Delay(300);
+
+            _searchBox.Visibility = Visibility.Collapsed;
         }
 
         private void ExtendedHamburgerMenu_OptionsItemClick(object sender, ItemClickEventArgs e)
@@ -199,6 +358,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         {
             HideSamplePicker();
             var noop = SetHamburgerMenuSelection();
+
+            if (_hamburgerButton != null && _hamburgerButton.Visibility == Visibility.Visible)
+            {
+                HideItemsInNarrowView();
+            }
         }
 
         private void SamplePickerGridView_ChoosingItemContainer(Windows.UI.Xaml.Controls.ListViewBase sender, ChoosingItemContainerEventArgs args)
@@ -284,44 +448,71 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         {
             HideSamplePicker();
             SamplePickerItemClick?.Invoke(this, e);
+
+            if (_hamburgerButton != null && _hamburgerButton.Visibility == Visibility.Visible)
+            {
+                HideItemsInNarrowView();
+            }
         }
 
         private void HamburgerButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            if (_buttonsListView == null)
-            {
-                _buttonsListView = GetTemplateChild("ButtonsListView") as ListView;
-            }
-
             if (_buttonsListView != null)
             {
                 if (_buttonsListView.Visibility == Visibility.Collapsed)
                 {
-                    _buttonsListView.Visibility =  Visibility.Visible;
-                    if (_optionsListView != null)
-                    {
-                        _optionsListView.Visibility = Visibility.Collapsed;
-                    }
-
-                    if (_searchGrid != null)
-                    {
-                        _searchGrid.Visibility = Visibility.Collapsed;
-                    }
+                    ExpandItemsInNarrowView();
                 }
                 else
                 {
-                    _buttonsListView.Visibility = Visibility.Collapsed;
-                    if (_optionsListView != null)
-                    {
-                        _optionsListView.Visibility = Visibility.Visible;
-                    }
-
-                    if (_searchGrid != null)
-                    {
-                        _searchGrid.Visibility = Visibility.Visible;
-                    }
+                    HideItemsInNarrowView();
                 }
             }
+        }
+
+        private void ExpandItemsInNarrowView()
+        {
+            _buttonsListView.Visibility = Visibility.Visible;
+            if (_optionsListView != null)
+            {
+                _optionsListView.Visibility = Visibility.Collapsed;
+            }
+
+            if (_searchGrid != null)
+            {
+                _searchGrid.Visibility = Visibility.Collapsed;
+            }
+
+            if (_titleTextBlock != null)
+            {
+                _titleTextBlock.Visibility = Visibility.Collapsed;
+            }
+
+            ShowSamplePicker();
+
+            new RotationInDegreesAnimation() { To = 90, Duration = TimeSpan.FromMilliseconds(300) }.StartAnimation(_hamburgerButton.Content as UIElement);
+        }
+
+        private void HideItemsInNarrowView()
+        {
+            _buttonsListView.Visibility = Visibility.Collapsed;
+            if (_optionsListView != null)
+            {
+                _optionsListView.Visibility = Visibility.Visible;
+            }
+
+            if (_searchGrid != null)
+            {
+                _searchGrid.Visibility = Visibility.Visible;
+            }
+
+            if (_titleTextBlock != null)
+            {
+                _titleTextBlock.Visibility = Visibility.Visible;
+            }
+
+            HideSamplePicker();
+            new RotationInDegreesAnimation() { To = 0, Duration = TimeSpan.FromMilliseconds(300) }.StartAnimation(_hamburgerButton.Content as UIElement);
         }
     }
 }

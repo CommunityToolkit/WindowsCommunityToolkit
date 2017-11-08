@@ -27,16 +27,13 @@ using Windows.System;
 using Windows.System.Profile;
 using Windows.System.Threading;
 using Windows.UI;
-using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Toolkit.Uwp.UI.Animations;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -48,8 +45,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private AutoSuggestBox _searchBox;
         private Button _searchButton;
 
-        private Compositor _compositor;
-        private float _defaultShowAnimationDuration = 300;
         private XamlRenderService _xamlRenderer = new XamlRenderService();
         private bool _lastRenderedProperties = true;
         private ThreadPoolTimer _autocompileTimer;
@@ -128,34 +123,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }));
         }
 
-        public async Task StartSearch(string startingText = "")
+        public Task StartSearch(string startingText = "")
         {
-            if (_searchBox == null || _searchBox.Visibility == Visibility.Visible)
-            {
-                return;
-            }
-
-            HamburgerMenu.HideSamplePicker();
-            HamburgerMenu.IsPaneOpen = true;
-            _searchBox.Text = startingText;
-
-            _searchButton.Visibility = Visibility.Collapsed;
-            _searchBox.Visibility = Visibility.Visible;
-
-            // We need to wait for the textbox to be created to focus it (only first time).
-            TextBox innerTextbox = null;
-
-            do
-            {
-                innerTextbox = _searchBox.FindDescendant<TextBox>();
-                innerTextbox?.Focus(FocusState.Programmatic);
-
-                if (innerTextbox == null)
-                {
-                    await Task.Delay(150);
-                }
-            }
-            while (innerTextbox == null);
+            return HamburgerMenu.StartSearch(startingText);
         }
 
         public async Task RefreshXamlRenderAsync()
@@ -208,21 +178,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     NavigateToSample(targetSample);
                 }
-            }
-
-            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-
-            if (AnimationHelper.IsImplicitHideShowSupported)
-            {
-                //AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerGrid);
-
-                AnimationHelper.SetTopLevelShowHideAnimation(SamplePickerDetailsGrid);
-                AnimationHelper.SetSecondLevelShowHideAnimation(SamplePickerDetailsGridContent);
-                AnimationHelper.SetSecondLevelShowHideAnimation(InfoAreaGrid);
-                AnimationHelper.SetSecondLevelShowHideAnimation(Splitter);
-
-                ////ElementCompositionPreview.SetImplicitHideAnimation(ContentShadow, GetOpacityAnimation(0, 1, _defaultHideAnimationDiration));
-               // ElementCompositionPreview.SetImplicitShowAnimation(ContentShadow, AnimationHelper.GetOpacityAnimation(_compositor, (float)ContentShadow.Opacity, 0, _defaultShowAnimationDuration));
             }
         }
 
@@ -341,11 +296,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     HideInfoArea();
                 }
 
-                TitleTextBlock.Text = $"{category.Name} -> {HamburgerMenu.CurrentSample?.Name}";
+                HamburgerMenu.Title= $"{category.Name} -> {HamburgerMenu.CurrentSample?.Name}";
                 ApplicationView.SetTitle(this, $"{category.Name} - {HamburgerMenu.CurrentSample?.Name}");
             }
-
-            //await SetHamburgerMenuSelection();
         }
 
         private void HideInfoArea()
@@ -356,34 +309,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             HamburgerMenu.CurrentSample = null;
             Commands.Clear();
             Splitter.Visibility = Visibility.Collapsed;
-            TitleTextBlock.Text = string.Empty;
+            HamburgerMenu.Title = string.Empty;
             ApplicationView.SetTitle(this, string.Empty);
         }
-
-        //private async Task SetHamburgerMenuSelection()
-        //{
-        //    if (NavigationFrame.SourcePageType == typeof(SamplePicker))
-        //    {
-        //        // This is a search
-        //        HamburgerMenu.SelectedItem = null;
-        //        HamburgerMenu.SelectedOptionsItem = null;
-        //    }
-        //    else if (HamburgerMenu.CurrentSample != null)
-        //    {
-        //        var category = await Samples.GetCategoryBySample(HamburgerMenu.CurrentSample);
-
-        //        if (HamburgerMenu.Items.Contains(category))
-        //        {
-        //            HamburgerMenu.SelectedItem = category;
-        //            HamburgerMenu.SelectedOptionsItem = null;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        HamburgerMenu.SelectedItem = null;
-        //        HamburgerMenu.SelectedOptionsIndex = 0;
-        //    }
-        //}
 
         private void ExpandButton_Click(object sender, RoutedEventArgs e)
         {
@@ -595,156 +523,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             e.Handled = true;
         }
 
-        //private async void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-        //{
-        //    if (e.NewSize.Width <= 700)
-        //    {
-        //        if (e.PreviousSize.Width > 700)
-        //        {
-        //            HideSamplePicker();
-        //            ConnectToSearch();
-        //        }
-
-        //        if (HamburgerMenu.IsPaneOpen)
-        //        {
-        //            _hamburgerMenuClosing = true;
-        //            await Task.Delay(800);
-        //            HamburgerMenu.OpenPaneLength = Window.Current.Bounds.Width;
-        //            _hamburgerMenuClosing = false;
-        //        }
-        //        else if (!_hamburgerMenuClosing)
-        //        {
-        //            HamburgerMenu.OpenPaneLength = Window.Current.Bounds.Width;
-        //        }
-        //    }
-        //    else if (e.PreviousSize.Width <= 700)
-        //    {
-        //        ConnectToSearch();
-        //    }
-        //}
-
         private void GitHub_OnClick(object sender, RoutedEventArgs e)
         {
             TrackingManager.TrackEvent("Link", GitHub.NavigateUri.ToString());
         }
 
-        private void ConnectToSearch()
-        {
-            if (_searchBox != null)
-            {
-                _searchBox.LostFocus -= SearchBox_LostFocus;
-                _searchBox.QuerySubmitted -= SearchBox_QuerySubmitted;
-                _searchBox.TextChanged -= SearchBox_TextChanged;
-            }
-
-            if (_searchButton != null)
-            {
-                _searchButton.Click -= SearchButton_Click;
-            }
-
-            _searchButton = HamburgerMenu.FindDescendantByName("SearchButton") as Button;
-            _searchBox = HamburgerMenu.FindDescendantByName("SearchBox") as AutoSuggestBox;
-
-            if (_searchBox == null || _searchButton == null)
-            {
-                return;
-            }
-
-            _searchBox.LostFocus += SearchBox_LostFocus;
-            _searchBox.QuerySubmitted += SearchBox_QuerySubmitted;
-            _searchBox.TextChanged += SearchBox_TextChanged;
-
-            _searchButton.Click += SearchButton_Click;
-
-            _searchBox.DisplayMemberPath = "Name";
-            _searchBox.TextMemberPath = "Name";
-        }
-
-        private async void UpdateSearchSuggestions()
-        {
-            _searchBox.ItemsSource = (await Samples.FindSamplesByName(_searchBox.Text)).OrderBy(s => s.Name);
-        }
-
-        private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                return;
-            }
-
-            UpdateSearchSuggestions();
-        }
-
-        private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            if (args.ChosenSuggestion is Sample sample)
-            {
-                NavigateToSample(sample);
-            }
-            else
-            {
-                NavigationFrame.Navigate(typeof(SamplePicker), _searchBox.Text);
-            }
-
-            HamburgerMenu.IsPaneOpen = false;
-        }
-
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
-        {
-            var t = StartSearch();
-        }
-
-        private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            _searchButton.Visibility = Visibility.Visible;
-            _searchBox.Visibility = Visibility.Collapsed;
-        }
-
-        private void Shell_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            // Connect to search UI
-            ConnectToSearch();
-
-            Focus(FocusState.Programmatic);
-        }
-
-        private void HideSampleDetails()
-        {
-            SamplePickerDetailsGrid.Visibility = Visibility.Collapsed;
-        }
-
-        private void ShowSampleDetails(Sample sample)
-        {
-            SamplePickerDetailsGrid.DataContext = sample;
-            SamplePickerDetailsGrid.Visibility = Visibility.Visible;
-        }
-
         private void HamburgerMenu_SamplePickerItemClick(object sender, ItemClickEventArgs e)
         {
             NavigateToSample(e.ClickedItem as Sample);
-        }
-
-        private void VerticalSamplePickerListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            HamburgerMenu.IsPaneOpen = false;
-            NavigateToSample(e.ClickedItem as Sample);
-        }
-
-        private void Expander_Expanded(object sender, EventArgs e)
-        {
-            var expanders = HamburgerMenu.FindDescendants<Expander>();
-            foreach (var expander in expanders)
-            {
-                if (expander != sender)
-                {
-                    expander.IsExpanded = false;
-                }
-            }
-        }
-
-        private void HamburgerButtonClicked(object sender, RoutedEventArgs e)
-        {
-            HamburgerMenu.IsPaneOpen = !HamburgerMenu.IsPaneOpen;
         }
 
         private Visibility GreaterThanZero(int value)
