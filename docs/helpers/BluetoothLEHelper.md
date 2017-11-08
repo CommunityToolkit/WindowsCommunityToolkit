@@ -175,6 +175,6 @@ if (BluetoothLEHelper.IsBluetoothLESupported)
 
 ## API
 
-* [BluetoothLEHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/BluetoothLEHelper/)
+* [BluetoothLEHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Connectivity/BluetoothLEHelper)
 
 
