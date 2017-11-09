@@ -220,7 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
             }
 
-            await InternalClearAsync(files).ConfigureAwait(false);
+            await InternalClearAsync(filesToDelete).ConfigureAwait(false);
 
             _inMemoryFileStorage.Remove(keys);
         }
