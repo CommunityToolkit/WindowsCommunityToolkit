@@ -52,6 +52,8 @@
                                                  EmptyValue="Collapsed"
                                                  NotEmptyValue="Visible" />
 
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
         <!--  Styles  -->
         <Style TargetType="controls:CodeRenderer">
             <Setter Property="Template">
@@ -183,8 +185,6 @@
                            Text="{Binding}" />
             </Grid>
         </DataTemplate>
-
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
         <Style x:Key="HambugerMenuItemStyle"
                TargetType="ListViewItem">
@@ -578,63 +578,8 @@
             </Setter>
         </Style>
 
-        <Style x:Name="HamburgerExpanderItem"
-               TargetType="toolkitControls:Expander">
-            <Setter Property="Header" Value="Header" />
-            <Setter Property="IsTabStop" Value="False" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="toolkitControls:Expander">
-                        <Grid>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-
-                                <ToggleButton x:Name="PART_ExpanderToggleButton"
-                                              Padding="30,14"
-                                              HorizontalAlignment="Stretch"
-                                              VerticalAlignment="Top"
-                                              AutomationProperties.Name="Expand"
-                                              Background="Transparent"
-                                              Content="{TemplateBinding Header}"
-                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                              FontFamily="Segoe UI"
-                                              FontSize="20px"
-                                              FontWeight="SemiBold"
-                                              Foreground="{TemplateBinding Foreground}"
-                                              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                              Opacity="0.8"
-                                              Style="{StaticResource SampleAppHeaderToggleButtonStyle}"
-                                              TabIndex="0" />
-
-                                <ContentPresenter x:Name="PART_MainContent"
-                                                  Grid.Row="1"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  HorizontalContentAlignment="Stretch"
-                                                  Background="{TemplateBinding Background}"
-                                                  Visibility="Collapsed" />
-                            </Grid>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="ExpandedStates">
-                                    <VisualState x:Name="Expanded">
-                                        <VisualState.Setters>
-                                            <Setter Target="PART_MainContent.Visibility" Value="Visible" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Collapsed" />
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <DataTemplate x:Key="SampleTemplate">
-            <StackPanel Padding="16,24"
+            <StackPanel Padding="16,28, 16, 10"
                         Background="Transparent">
                 <Grid Width="120"
                       Height="80"
@@ -648,15 +593,38 @@
                         <Border></Border>
                     </toolkitControls:DropShadowPanel>
                     <Border Background="#E6E6E6">
-                        <Image Source="{Binding Icon}" />
+                        <Image x:Name="SampleIcon" Source="{Binding Icon}" />
                     </Border>
                 </Grid>
 
-                <TextBlock Margin="0,8,0,0"
-                           FontSize="12"
-                           FontWeight="Light"
-                           Foreground="Black"
-                           Text="{Binding Name}" />
+                <Grid Margin="0,8,0,0" Width="120">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock FontSize="12"
+                               FontWeight="Light"
+                               VerticalAlignment="Center"
+                               Foreground="Black"
+                               TextTrimming="CharacterEllipsis"
+                               Text="{Binding Name}" />
+                    <Button Opacity="0.6"
+                            Grid.Column="1"
+                            Padding="0"
+                            HorizontalAlignment="Right"
+                            AutomationProperties.Name="Main button"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            TabIndex="0">
+                        <FontIcon VerticalAlignment="Center" 
+                                  HorizontalAlignment="Right"
+                                  Margin="10"
+                                  FontFamily="Segoe MDL2 Assets"
+                                  FontSize="10"
+                                  Glyph="&#xE946;" />
+                    </Button>
+                </Grid>
+                
             </StackPanel>
         </DataTemplate>
 
@@ -764,75 +732,6 @@
                                     </animations:Implicit.HideAnimations>
                                 </Grid>
 
-                                <!--<Grid IsHitTestVisible="False">
-                                    <Grid x:Name="SamplePickerDetailsGrid"
-                                          Height="304"
-                                          Visibility="Collapsed">
-                                        <Border Background="#F3F3F3"
-                                                Opacity="0.96">
-                                            <interactivity:Interaction.Behaviors>
-                                                <behaviors:Blur AutomaticallyStart="True"
-                                                                Delay="0"
-                                                                Value="3"
-                                                                Duration="0" />
-                                            </interactivity:Interaction.Behaviors>
-                                        </Border>
-                                        <Border x:Name="SamplePickerDetailsGridContent"
-                                                BorderThickness="0,0,0,1"
-                                                BorderBrush="#48000000">
-                                            <Grid Width="700"
-                                                  Height="192"
-                                                  VerticalAlignment="Center">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="200" />
-                                                    <ColumnDefinition Width="72" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <Border Grid.Column="0"
-                                                        Margin="0,0,12,0"
-                                                        VerticalAlignment="Stretch"
-                                                        Background="Black">
-                                                    <Image Width="120"
-                                                           Height="120"
-                                                           Source="{Binding Icon}" />
-                                                </Border>
-                                                <Grid Grid.Column="2">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto" />
-                                                        <RowDefinition Height="16" />
-                                                        <RowDefinition Height="Auto" />
-                                                        <RowDefinition Height="Auto" />
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock VerticalAlignment="Top"
-                                                               FontSize="48"
-                                                               FontWeight="Normal"
-                                                               Foreground="Black"
-                                                               Text="{Binding Name}"
-                                                               TextTrimming="CharacterEllipsis" />
-                                                    <TextBlock Grid.Row="2"
-                                                               VerticalAlignment="Top"
-                                                               CharacterSpacing="30"
-                                                               FontSize="15"
-                                                               Foreground="Black"
-                                                               LineHeight="22"
-                                                               Text="{Binding About}"
-                                                               TextWrapping="Wrap" />
-                                                    <Grid Grid.Row="3"
-                                                          Margin="0,16,0,0"
-                                                          Background="{StaticResource Brush-Blue-01}"
-                                                          Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
-                                                        <TextBlock Margin="0,2,0,2"
-                                                                   HorizontalAlignment="Center"
-                                                                   VerticalAlignment="Bottom"
-                                                                   Foreground="White"
-                                                                   Text="{Binding BadgeUpdateVersionRequired}" />
-                                                    </Grid>
-                                                </Grid>
-                                            </Grid>
-                                        </Border>
-                                    </Grid>
-                                </Grid>-->
-
                             </Grid>
                             
                             <Grid Background="{TemplateBinding PaneBackground}">
@@ -850,7 +749,6 @@
                                           ItemTemplate="{TemplateBinding ItemTemplate}"
                                           ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                           ItemsSource="{TemplateBinding ItemsSource}"
-                                          local:ListViewHoverScroll.IsEnabled="True"
                                           ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                                           ScrollViewer.HorizontalScrollMode="Auto"
                                           ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -980,6 +878,94 @@
                                 <Border Background="#48000000" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="4"></Border>
 
                             </Grid>
+
+                            <Canvas Background="Transparent"
+                                    x:Name="MoreInfoCanvas"
+                                    Visibility="Collapsed"
+                                    Grid.RowSpan="2">
+
+                                <Grid x:Name="MoreInfoContent"
+                                      Width="260"
+                                      Height="300"
+                                      extensions:VisualEx.NormalizedCenterPoint="0.5">
+
+                                    <toolkitControls:DropShadowPanel 
+                                                                     VerticalContentAlignment="Stretch"
+                                                                     HorizontalContentAlignment="Stretch"
+                                                                     ShadowOpacity="0.6"
+                                                                     Color="Black"
+                                                                     BlurRadius="10">
+                                        <Border Background="#F4F3F3F3"
+                                                    Grid.RowSpan="3"
+                                                    Opacity="0.96">
+                                            <interactivity:Interaction.Behaviors>
+                                                <behaviors:Blur AutomaticallyStart="True"
+                                                                Delay="0"
+                                                                Value="3"
+                                                                Duration="0" />
+                                            </interactivity:Interaction.Behaviors>
+                                        </Border>
+                                    </toolkitControls:DropShadowPanel>
+
+                                    <Grid Padding="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="160" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+
+                                        <Image Width="240"
+                                               x:Name="MoreInfoImage"
+                                                   Height="160"
+                                                   Grid.Row="0"
+                                                   Source="{Binding Icon}" />
+                                        
+                                        <Grid Grid.Row="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="80" />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0"
+                                                       Margin="0, 10"
+                                                       FontSize="14"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="Black"
+                                                       Text="{Binding Name}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Grid.Row="1"
+                                                       FontSize="12"
+                                                       Foreground="Black"
+                                                       Text="{Binding About}"
+                                                       TextWrapping="Wrap" />
+
+                                            <animations:Implicit.ShowAnimations>
+                                                <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.4" Delay="0:0:0.2" SetInitialValueBeforeDelay="True"></animations:OpacityAnimation>
+                                                <animations:TranslationAnimation From="0, 20, 0" To="0" Duration="0:0:0.3" Delay="0:0:0.2"></animations:TranslationAnimation>
+                                            </animations:Implicit.ShowAnimations>
+                                        </Grid>
+                                        
+                                        <!--<Grid Grid.Row="3"
+                                                    Margin="0,16,0,0"
+                                                    Background="{StaticResource Brush-Blue-01}"
+                                                    Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
+                                                <TextBlock Margin="0,2,0,2"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Bottom"
+                                                            Foreground="White"
+                                                            Text="{Binding BadgeUpdateVersionRequired}" />
+                                            </Grid>-->
+                                    </Grid>
+
+                                    <animations:Implicit.ShowAnimations>
+                                        <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                                        <animations:ScaleAnimation From="0" To="1" Duration="0:0:0.3"></animations:ScaleAnimation>
+                                    </animations:Implicit.ShowAnimations>
+                                    <animations:Implicit.HideAnimations>
+                                        <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.2"></animations:OpacityAnimation>
+                                        <animations:ScaleAnimation To="0" From="1" Duration="0:0:0.2"></animations:ScaleAnimation>
+                                    </animations:Implicit.HideAnimations>
+                                </Grid>
+
+                            </Canvas>
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="WindowStates">

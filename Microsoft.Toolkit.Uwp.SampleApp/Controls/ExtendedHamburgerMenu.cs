@@ -11,6 +11,8 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
@@ -28,6 +30,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         private TextBlock _titleTextBlock;
         private AutoSuggestBox _searchBox;
         private Button _searchButton;
+        private Canvas _moreInfoCanvas;
+        private FrameworkElement _moreInfoContent;
+
+        private Image _moreInfoImage;
 
         /// <summary>
         /// Event raised when an item is clicked
@@ -107,15 +113,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             _samplePickerGrid.Visibility = Visibility.Visible;
         }
 
-        public async Task StartSearch(string startingText = "")
+        public async Task StartSearch(string startingText = null)
         {
             if (_searchBox == null || _searchBox.Visibility == Visibility.Visible)
             {
                 return;
             }
 
-            HideSamplePicker();
-            _searchBox.Text = startingText;
+            var currentSearchText = _searchBox.Text;
+
+            _searchBox.Text = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(startingText))
+            {
+                _searchBox.Text = startingText;
+            }
+            else
+            {
+                _searchBox.Text = currentSearchText;
+            }
 
             _searchButton.Visibility = Visibility.Collapsed;
             _searchBox.Visibility = Visibility.Visible;
@@ -145,6 +161,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 _hamburgerButton.Click -= HamburgerButton_Click;
             }
 
+            if (_moreInfoCanvas != null)
+            {
+                _moreInfoCanvas.Tapped -= MoreInfoCanvas_Tapped;
+                SizeChanged += OnSizeChanged;
+            }
+
             SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
             ItemClick -= ExtendedHamburgerMenu_ItemClick;
             OptionsItemClick -= ExtendedHamburgerMenu_OptionsItemClick;
@@ -154,10 +176,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             _searchGrid = GetTemplateChild("SearchGrid") as Grid;
             _titleTextBlock = GetTemplateChild("TitleTextBlock") as TextBlock;
             _buttonsListView = GetTemplateChild("ButtonsListView") as ListView;
+            _moreInfoCanvas = GetTemplateChild("MoreInfoCanvas") as Canvas;
+            _moreInfoContent = GetTemplateChild("MoreInfoContent") as FrameworkElement;
+            _moreInfoImage = GetTemplateChild("MoreInfoImage") as Image;
 
             if (_hamburgerButton != null)
             {
                 _hamburgerButton.Click += HamburgerButton_Click;
+            }
+
+            if (_moreInfoCanvas != null)
+            {
+                _moreInfoCanvas.Tapped += MoreInfoCanvas_Tapped;
+                SizeChanged += OnSizeChanged;
             }
 
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
@@ -278,6 +309,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 {
                     ShowSamplePicker(category.Samples);
                 }
+
+                _buttonsListView.ScrollIntoView(e.ClickedItem, ScrollIntoViewAlignment.Leading);
             }
         }
 
@@ -303,7 +336,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             if (_samplePickerGrid != null)
             {
-                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.XamlCompositionBrushBase"))
+                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.AcrylicBrush"))
                 {
                     AcrylicBrush myBrush = new AcrylicBrush
                     {
@@ -385,6 +418,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             var itemsPanel = (ItemsWrapGrid)_samplePickerGridView.ItemsPanelRoot;
             var itemContainer = (GridViewItem)sender;
 
+            var button = itemContainer.FindDescendant<Button>();
+            if (button != null)
+            {
+                button.Click -= MoreInfoClicked;
+                button.Click += MoreInfoClicked;
+            }
+
             var itemIndex = _samplePickerGridView.IndexFromContainer(itemContainer);
 
             var referenceIndex = itemsPanel.FirstVisibleIndex;
@@ -412,6 +452,71 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             }
 
             itemContainer.Loaded -= this.ContainerItem_Loaded;
+        }
+
+        private void MoreInfoClicked(object sender, RoutedEventArgs e)
+        {
+            if (_moreInfoContent == null)
+            {
+                return;
+            }
+
+            var button = (Button)sender;
+            var sample = button.DataContext as Sample;
+
+            var container = button.FindAscendant<GridViewItem>();
+            if (container == null)
+            {
+                return;
+            }
+
+            var point = container.TransformToVisual(this).TransformPoint(new Windows.Foundation.Point(0, 0));
+
+            var x = point.X - ((_moreInfoContent.Width - container.ActualWidth) / 2);
+            var y = point.Y - ((_moreInfoContent.Height - container.ActualHeight) / 2);
+
+            x = Math.Max(x, 10);
+            x = Math.Min(x, ActualWidth - _moreInfoContent.Width - 10);
+
+            y = Math.Max(y, 10);
+            y = Math.Min(y, ActualHeight - _moreInfoContent.Height - 10);
+
+            Canvas.SetLeft(_moreInfoContent, x);
+            Canvas.SetTop(_moreInfoContent, y);
+
+            _samplePickerGridView.PrepareConnectedAnimation("sample_icon", sample, "SampleIcon");
+
+            _moreInfoContent.DataContext = sample;
+            _moreInfoCanvas.Visibility = Visibility.Visible;
+
+            var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("sample_icon");
+            var result = animation.TryStart(_moreInfoImage);
+        }
+
+        private void HideMoreInfo()
+        {
+            if (_moreInfoImage != null && _moreInfoContent.DataContext != null)
+            {
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("sample_icon", _moreInfoImage);
+            }
+
+            _moreInfoCanvas.Visibility = Visibility.Collapsed;
+
+            if ( _moreInfoImage != null && _moreInfoContent.DataContext != null)
+            {
+                var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("sample_icon");
+                var t = _samplePickerGridView.TryStartConnectedAnimationAsync(animation, _moreInfoContent.DataContext, "SampleIcon");
+            }
+        }
+
+        private void MoreInfoCanvas_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            HideMoreInfo();
+        }
+
+        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            HideMoreInfo();
         }
 
         private void ItemContainer_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
