@@ -484,13 +484,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             Canvas.SetLeft(_moreInfoContent, x);
             Canvas.SetTop(_moreInfoContent, y);
 
-            _samplePickerGridView.PrepareConnectedAnimation("sample_icon", sample, "SampleIcon");
+            // _samplePickerGridView.PrepareConnectedAnimation("sample_icon", sample, "SampleIcon");
 
             _moreInfoContent.DataContext = sample;
             _moreInfoCanvas.Visibility = Visibility.Visible;
 
-            var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("sample_icon");
-            var result = animation.TryStart(_moreInfoImage);
+            // var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("sample_icon");
+            // var result = animation.TryStart(_moreInfoImage);
         }
 
         private void HideMoreInfo()
@@ -507,6 +507,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("sample_icon");
                 var t = _samplePickerGridView.TryStartConnectedAnimationAsync(animation, _moreInfoContent.DataContext, "SampleIcon");
             }
+
+            _moreInfoContent.DataContext = null;
         }
 
         private void MoreInfoCanvas_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
