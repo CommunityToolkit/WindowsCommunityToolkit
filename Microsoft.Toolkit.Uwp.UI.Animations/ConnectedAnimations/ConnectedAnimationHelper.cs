@@ -26,9 +26,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     internal class ConnectedAnimationHelper
     {
-        private Dictionary<string, ConnectedAnimationProperties> _connectedAnimationsProps = new Dictionary<string, ConnectedAnimationProperties>();
-        private Dictionary<string, ConnectedAnimationProperties> _previousPageConnectedAnimationProps = new Dictionary<string, ConnectedAnimationProperties>();
-        private Dictionary<UIElement, List<UIElement>> _coordinatedAnimationElements = new Dictionary<UIElement, List<UIElement>>();
+        private readonly Dictionary<string, ConnectedAnimationProperties> _connectedAnimationsProps = new Dictionary<string, ConnectedAnimationProperties>();
+        private readonly Dictionary<string, ConnectedAnimationProperties> _previousPageConnectedAnimationProps = new Dictionary<string, ConnectedAnimationProperties>();
+        private readonly Dictionary<UIElement, List<UIElement>> _coordinatedAnimationElements = new Dictionary<UIElement, List<UIElement>>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConnectedAnimationHelper"/> class.
@@ -194,11 +194,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            RoutedEventHandler handler = null;
-            handler = (s, args) =>
+            void loadedHandler(object s, RoutedEventArgs args)
             {
                 var page = s as Page;
-                page.Loaded -= handler;
+                page.Loaded -= loadedHandler;
 
                 object parameter;
                 if (e.NavigationMode == Windows.UI.Xaml.Navigation.NavigationMode.Back)
@@ -263,16 +262,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 foreach (var previousProps in _previousPageConnectedAnimationProps)
                 {
                     var connectedAnimation = cas.GetAnimation(previousProps.Key);
-                    if (connectedAnimation != null)
-                    {
-                        connectedAnimation.Cancel();
-                    }
+                    connectedAnimation?.Cancel();
                 }
 
                 _previousPageConnectedAnimationProps.Clear();
-            };
+            }
 
-            navigatedPage.Loaded += handler;
+            navigatedPage.Loaded += loadedHandler;
         }
     }
 }

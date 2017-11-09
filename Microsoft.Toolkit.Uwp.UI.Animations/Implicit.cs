@@ -189,7 +189,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            var collection = sender as AnimationCollection;
+            var collection = (AnimationCollection)sender;
             if (collection.Parent == null)
             {
                 return;
@@ -205,7 +205,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            var collection = sender as AnimationCollection;
+            var collection = (AnimationCollection)sender;
             if (collection.Parent == null)
             {
                 return;
@@ -216,7 +216,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void AnimationsCollectionChanged(object sender, EventArgs e)
         {
-            var collection = sender as AnimationCollection;
+            var collection = (AnimationCollection)sender;
             if (collection.Parent == null)
             {
                 return;

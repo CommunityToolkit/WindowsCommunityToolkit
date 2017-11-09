@@ -13,6 +13,7 @@
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -24,8 +25,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = DismissButtonPart, Type = typeof(Button))]
     public sealed partial class InAppNotification : ContentControl
     {
-        private DispatcherTimer _timer = new DispatcherTimer();
+        private InAppNotificationDismissKind _lastDismissKind;
+        private DispatcherTimer _animationTimer = new DispatcherTimer();
+        private DispatcherTimer _dismissTimer = new DispatcherTimer();
         private Button _dismissButton;
+        private VisualStateGroup _visualStateGroup;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InAppNotification"/> class.
@@ -34,10 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(InAppNotification);
 
-            _timer.Tick += (sender, e) =>
-            {
-                Dismiss();
-            };
+            _dismissTimer.Tick += DismissTimer_Tick;
         }
 
         /// <inheritdoc />
@@ -49,6 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _dismissButton = (Button)GetTemplateChild(DismissButtonPart);
+            _visualStateGroup = (VisualStateGroup)GetTemplateChild(GroupContent);
 
             if (_dismissButton != null)
             {
@@ -74,15 +76,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
         public void Show(int duration = 0)
         {
-            _timer.Stop();
+            _animationTimer.Stop();
+            _dismissTimer.Stop();
+
+            var eventArgs = new InAppNotificationOpeningEventArgs();
+            Opening?.Invoke(this, eventArgs);
+
+            if (eventArgs.Cancel)
+            {
+                return;
+            }
 
             Visibility = Visibility.Visible;
             VisualStateManager.GoToState(this, StateContentVisible, true);
 
+            _animationTimer.Interval = AnimationDuration;
+            _animationTimer.Tick += OpenAnimationTimer_Tick;
+            _animationTimer.Start();
+
             if (duration > 0)
             {
-                _timer.Interval = TimeSpan.FromMilliseconds(duration);
-                _timer.Start();
+                _dismissTimer.Interval = TimeSpan.FromMilliseconds(duration);
+                _dismissTimer.Start();
             }
         }
 
@@ -127,10 +142,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void Dismiss()
         {
+            Dismiss(InAppNotificationDismissKind.Programmatic);
+        }
+
+        /// <summary>
+        /// Dismiss the notification
+        /// </summary>
+        /// <param name="dismissKind">Kind of action that triggered dismiss event</param>
+        private void Dismiss(InAppNotificationDismissKind dismissKind)
+        {
             if (Visibility == Visibility.Visible)
             {
+                _animationTimer.Stop();
+
+                var closingEventArgs = new InAppNotificationClosingEventArgs(dismissKind);
+                Closing?.Invoke(this, closingEventArgs);
+
+                if (closingEventArgs.Cancel)
+                {
+                    return;
+                }
+
                 VisualStateManager.GoToState(this, StateContentCollapsed, true);
-                Dismissed?.Invoke(this, EventArgs.Empty);
+
+                _lastDismissKind = dismissKind;
+
+                _animationTimer.Interval = AnimationDuration;
+                _animationTimer.Tick += DismissAnimationTimer_Tick;
+                _animationTimer.Start();
             }
         }
     }

@@ -66,6 +66,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(Labels), typeof(TextToolbarStrings), typeof(TextToolbar), new PropertyMetadata(new TextToolbarStrings()));
 
         /// <summary>
+        /// Identifies the <see cref="UseURIChecker"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty UseURICheckerProperty =
+            DependencyProperty.Register(nameof(UseURIChecker), typeof(bool), typeof(TextToolbar), new PropertyMetadata(true));
+
+        /// <summary>
         /// Gets or sets the RichEditBox to Attach to, this is required for any formatting to work.
         /// </summary>
         public RichEditBox Editor
@@ -84,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the formatter which is used to format the text from the buttons.
+        /// Gets or sets the formatter instance which is used to format the text, using the buttons and shortcuts.
         /// </summary>
         public Formatter Formatter
         {
@@ -93,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets the default buttons for this format
+        /// Gets the default buttons for this format.
         /// </summary>
         public ButtonMap DefaultButtons
         {
@@ -102,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a list of buttons to add to the Default Button set.
+        /// Gets or sets a list of buttons to add on top of the Default Button set.
         /// </summary>
         public ButtonMap CustomButtons
         {
@@ -111,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a list of Default buttons to remove from the UI.
+        /// Gets or sets a list of Default buttons to Modify.
         /// </summary>
         public DefaultButtonModificationList ButtonModifications
         {
@@ -129,9 +135,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets the last key pressed
+        /// Gets the last key pressed using the Editor.
         /// </summary>
         public VirtualKey LastKeyPress { get; private set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to enable use of URI Checker for Link Creator. This allows you to verify Absolute URIs, before creating the Link.
+        /// </summary>
+        public bool UseURIChecker
+        {
+            get { return (bool)GetValue(UseURICheckerProperty); }
+            set { SetValue(UseURICheckerProperty, value); }
+        }
 
         internal static bool InDesignMode
         {

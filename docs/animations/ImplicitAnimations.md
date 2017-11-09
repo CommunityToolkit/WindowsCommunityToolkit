@@ -6,7 +6,7 @@ description: The Implicit Animations Attached Properties enable implicit animati
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, composition animations, animation, implicit animations, XAML, implicit, composition, show animation, hide animation
 ---
 
-# Composition Animations in XAML
+# Implicit Composition Animations in XAML
 
 Implicit Animations are Composition Animations that are used to describe how and when animations occur as a response to direct property changes, such as Opacity or Offset. Show and Hide animations describe the animation to be applied to an element when the Visibility is changed, or the element is added/removed to the visual tree
 
@@ -80,5 +80,4 @@ Specifies an [AnimationCollection](CompositionAnimations.md) with animations to 
 
 ## API
 
-* [Implicit animations source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations)
-
+* [Implicit animations source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Implicit.cs)

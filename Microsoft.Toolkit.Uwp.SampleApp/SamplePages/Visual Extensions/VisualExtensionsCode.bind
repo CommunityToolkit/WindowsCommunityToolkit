@@ -11,7 +11,6 @@
     <Border Height="100"
             Width="100"
             Background="Purple"
-            extensions:VisualEx.CenterPoint="50,50,0"
             extensions:VisualEx.Opacity="0.5"
             extensions:VisualEx.RotationAngleInDegrees="80"
             extensions:VisualEx.Scale="2, 0.5, 1"

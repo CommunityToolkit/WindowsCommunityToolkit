@@ -18,7 +18,7 @@ The Connected Animations XAML Attached Properties enable connected animations to
 
 ```xaml
 <Page ...
-     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"/>
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"/>
  
 <Border x:Name="Element" animations:Connected.Key="item"></Border>
 
@@ -32,9 +32,7 @@ The Connected Animations XAML Attached Properties enable connected animations to
         </DataTemplate>
     </GridView.ItemTemplate>
 </GridView>
-
  ```
-
 
 ## Sample Output
 

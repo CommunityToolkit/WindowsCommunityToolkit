@@ -11,6 +11,11 @@
 
     <Page.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml" />
+                <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
             <local:DismissCommand x:Key="DismissCommand" />
             
             <Style x:Key="DismissTextBlockButtonStyle" TargetType="ButtonBase">

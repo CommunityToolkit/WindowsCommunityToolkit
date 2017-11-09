@@ -1,4 +1,4 @@
-// ******************************************************************
+﻿// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -10,20 +10,23 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.UI.Xaml;
-
-namespace Microsoft.Toolkit.Uwp.UI.Animations
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    internal class ConnectedAnimationProperties
+    public enum InAppNotificationDismissKind
     {
-        public string Key { get; set; }
+        /// <summary>
+        /// When the system dismissed the notification.
+        /// </summary>
+        Programmatic,
 
-        public UIElement Element { get; set; }
+        /// <summary>
+        /// When user explicitly dismissed the notification.
+        /// </summary>
+        User,
 
-        public string ElementName { get; set; }
-
-        public Windows.UI.Xaml.Controls.ListViewBase ListViewBase { get; set; }
-
-        public bool IsListAnimation { get; set; }
+        /// <summary>
+        /// When the system dismissed the notification after timeout.
+        /// </summary>
+        Timeout
     }
 }
