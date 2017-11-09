@@ -25,11 +25,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public class AnimationCollection : IList<AnimationBase>
     {
+        private readonly List<AnimationBase> _internalList = new List<AnimationBase>();
+
         // needed in order to be able to update animations when a animations are added/removed or
         // animation properties change (for example in binding)
         private WeakReference<UIElement> _parent;
-
-        private List<AnimationBase> _internalList = new List<AnimationBase>();
 
         internal UIElement Parent
         {
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets a value indicating whether the collection contains an animation that targets the Translation property
         /// </summary>
-        public bool ContainsTranslationAnimation => this.Where(anim => !string.IsNullOrWhiteSpace(anim.Target) && anim.Target.StartsWith("Translation")).Count() > 0;
+        public bool ContainsTranslationAnimation => this.Count(anim => !string.IsNullOrWhiteSpace(anim.Target) && anim.Target.StartsWith("Translation")) > 0;
 
         /// <inheritdoc/>
         public int Count => _internalList.Count;

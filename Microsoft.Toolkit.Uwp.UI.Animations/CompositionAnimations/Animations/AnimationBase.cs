@@ -90,15 +90,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public KeyFrameCollection KeyFrames
         {
-            get
-            {
-                return (KeyFrameCollection)GetValue(KeyFramesProperty);
-            }
-
-            set
-            {
-                SetValue(KeyFramesProperty, value);
-            }
+            get { return (KeyFrameCollection)GetValue(KeyFramesProperty); }
+            set { SetValue(KeyFramesProperty, value); }
         }
 
         /// <summary>

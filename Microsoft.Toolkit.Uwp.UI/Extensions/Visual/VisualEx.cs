@@ -31,23 +31,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns><see cref="Vector2"/></returns>
         public static Vector2 ToVector2(this string str)
         {
-            var strLength = str.Count();
-            if (strLength < 1)
-            {
-                throw new Exception();
-            }
-            else if (str[0] == '<' && str[strLength - 1] == '>')
-            {
-                str = str.Substring(1, strLength - 2);
-            }
-
-            string[] values = str.Split(',');
-
-            var count = values.Count();
-            Vector2 vector = Vector2.Zero;
-
             try
             {
+                var strLength = str.Count();
+                if (strLength < 1)
+                {
+                    throw new Exception();
+                }
+                else if (str[0] == '<' && str[strLength - 1] == '>')
+                {
+                    str = str.Substring(1, strLength - 2);
+                }
+
+                string[] values = str.Split(',');
+
+                var count = values.Count();
+                Vector2 vector;
+
                 if (count == 1)
                 {
                     vector = new Vector2(float.Parse(values[0]));
@@ -60,13 +60,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 {
                     throw new Exception();
                 }
+
+                return vector;
             }
             catch (Exception)
             {
                 throw new FormatException($"Cannot convert {str} to Vector2. Use format \"float, float\"");
             }
-
-            return vector;
         }
 
         /// <summary>
@@ -76,23 +76,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns><see cref="Vector3"/></returns>
         public static Vector3 ToVector3(this string str)
         {
-            var strLength = str.Count();
-            if (strLength < 1)
-            {
-                throw new Exception();
-            }
-            else if (str[0] == '<' && str[strLength - 1] == '>')
-            {
-                str = str.Substring(1, strLength - 2);
-            }
-
-            string[] values = str.Split(',');
-
-            var count = values.Count();
-            Vector3 vector = Vector3.Zero;
-
             try
             {
+                var strLength = str.Count();
+                if (strLength < 1)
+                {
+                    throw new Exception();
+                }
+                else if (str[0] == '<' && str[strLength - 1] == '>')
+                {
+                    str = str.Substring(1, strLength - 2);
+                }
+
+                string[] values = str.Split(',');
+
+                var count = values.Count();
+                Vector3 vector;
+
                 if (count == 1)
                 {
                     vector = new Vector3(float.Parse(values[0]));
@@ -105,13 +105,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 {
                     throw new Exception();
                 }
+
+                return vector;
             }
             catch (Exception)
             {
                 throw new FormatException($"Cannot convert {str} to Vector3. Use format \"float, float, float\"");
             }
-
-            return vector;
         }
 
         /// <summary>
@@ -121,23 +121,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns><see cref="Vector4"/></returns>
         public static Vector4 ToVector4(this string str)
         {
-            var strLength = str.Count();
-            if (strLength < 1)
-            {
-                throw new Exception();
-            }
-            else if (str[0] == '<' && str[strLength - 1] == '>')
-            {
-                str = str.Substring(1, strLength - 2);
-            }
-
-            string[] values = str.Split(',');
-
-            var count = values.Count();
-            Vector4 vector = Vector4.Zero;
-
             try
             {
+                var strLength = str.Count();
+                if (strLength < 1)
+                {
+                    throw new Exception();
+                }
+                else if (str[0] == '<' && str[strLength - 1] == '>')
+                {
+                    str = str.Substring(1, strLength - 2);
+                }
+
+                string[] values = str.Split(',');
+
+                var count = values.Count();
+                Vector4 vector;
+
                 if (count == 1)
                 {
                     vector = new Vector4(float.Parse(values[0]));
@@ -150,13 +150,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 {
                     throw new Exception();
                 }
+
+                return vector;
             }
             catch (Exception)
             {
                 throw new FormatException($"Cannot convert {str} to Vector4. Use format \"float, float, float, float\"");
             }
-
-            return vector;
         }
 
         /// <summary>
@@ -533,7 +533,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             if (e.NewValue is string str)
             {
-                SetCenterPoint(d, e.NewValue as string);
+                SetCenterPoint(d, str);
             }
         }
 
@@ -608,18 +608,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             if (e.NewValue is string normalizedValue)
             {
                 element.SizeChanged -= KeepCenteredElementSizeChanged;
-                try
-                {
-                    var vectorValue = normalizedValue.ToVector3();
-                    var visual = GetVisual(element);
-                    visual.CenterPoint = new Vector3((float)element.ActualWidth * vectorValue.X, (float)element.ActualHeight * vectorValue.Y, 0);
 
-                    element.SizeChanged += KeepCenteredElementSizeChanged;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                var vectorValue = normalizedValue.ToVector3();
+                var visual = GetVisual(element);
+                visual.CenterPoint = new Vector3((float)element.ActualWidth * vectorValue.X, (float)element.ActualHeight * vectorValue.Y, 0);
+
+                element.SizeChanged += KeepCenteredElementSizeChanged;
             }
         }
 

@@ -116,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static void OnAnimationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as TypedAnimationBase<TKeyFrame, U>).OnAnimationChanged();
+            ((TypedAnimationBase<TKeyFrame, U>)d).OnAnimationChanged();
         }
 
         // these two methods are required to support double (non nullable type)

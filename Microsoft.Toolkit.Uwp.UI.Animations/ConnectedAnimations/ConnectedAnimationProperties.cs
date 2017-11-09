@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Collections.Generic;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
@@ -20,8 +19,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public string Key { get; set; }
 
         public UIElement Element { get; set; }
-
-        public List<UIElement> CoordinatedElements { get; set; }
 
         public string ElementName { get; set; }
 

@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class ImplicitAnimationsPage : IXamlRenderListener
     {
-        private Random random = new Random();
+        private Random _random = new Random();
         private UIElement _element;
 
         public ImplicitAnimationsPage()
@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            _element = control.FindChildByName("Element") as UIElement;
+            _element = control.FindChildByName("Element");
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -54,8 +54,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 if (_element != null)
                 {
-                    Canvas.SetTop(_element, random.NextDouble() * this.ActualHeight);
-                    Canvas.SetLeft(_element, random.NextDouble() * this.ActualWidth);
+                    Canvas.SetTop(_element, _random.NextDouble() * this.ActualHeight);
+                    Canvas.SetLeft(_element, _random.NextDouble() * this.ActualWidth);
                 }
             });
 
@@ -65,8 +65,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     var visual = ElementCompositionPreview.GetElementVisual(_element);
                     visual.Scale = new Vector3(
-                        (float)random.NextDouble() * 2,
-                        (float)random.NextDouble() * 2,
+                        (float)_random.NextDouble() * 2,
+                        (float)_random.NextDouble() * 2,
                         1);
                 }
             });
