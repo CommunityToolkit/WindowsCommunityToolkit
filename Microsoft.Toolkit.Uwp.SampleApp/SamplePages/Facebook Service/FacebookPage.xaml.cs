@@ -106,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            await FacebookService.Instance.PostToFeedWithDialogAsync(TitleText.Text, DescriptionText.Text, UrlText.Text);
+            await FacebookService.Instance.PostToFeedWithDialogAsync(UrlText.Text);
             var message = new MessageDialog("Post sent to facebook");
             await message.ShowAsync();
         }

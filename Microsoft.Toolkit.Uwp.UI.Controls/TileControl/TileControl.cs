@@ -19,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using System.Numerics;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.Toolkit.Uwp.UI.Extensions;
     using Robmikh.CompositionSurfaceFactory;
     using Windows.ApplicationModel;
     using Windows.Foundation;
@@ -600,8 +601,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            Debug.WriteLine("RefreshContainerVisual=" + _rootElement.ActualWidth);
-                RefreshContainerTile(_rootElement.ActualWidth, _rootElement.ActualHeight, _imageSize.Width, _imageSize.Height, ScrollOrientation);
+            RefreshContainerTile(_rootElement.ActualWidth, _rootElement.ActualHeight, _imageSize.Width, _imageSize.Height, ScrollOrientation);
         }
 
         /// <summary>

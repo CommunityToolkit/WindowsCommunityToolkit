@@ -1,3 +1,11 @@
+---
+title: MarkdownTextBlock XAML Control
+author: nmetulev
+ms.date: 08/20/2017
+description: The MarkdownTextBlock control provides full markdown parsing and rendering for Universal Windows Apps.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, MarkdownTextBlock, xaml, xaml control
+---
+
 # MarkdownTextBlock XAML Control 
 
 The *MarkdownTextBlock control* provides full markdown parsing and rendering for Universal Windows Apps. Originally created for the open source reddit app Baconit, the control was engineered to be simple to use and very efficient. One of the main design considerations for the control was it needed to be performant enough to provide a great user experience in virtualized lists. With the custom markdown parser and efficient XAML rendering, we were able to achieve excellent performance; providing a smooth UI experience even with complex Markdown on low end hardware.
@@ -114,11 +122,11 @@ private async void MarkdownText_OnImageResolving(object sender, ImageResolvingEv
 
 ## Example Code
 
-[MarkdownTextBlock Sample Page](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/MarkdownTextBlock)
+[MarkdownTextBlock Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/MarkdownTextBlock)
 
 ## Default Template 
 
-[MarkdownTextBlock XAML File](../..//Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/MarkdownTextBlock.xaml) is the XAML template used in the toolkit for the default styling.
+[MarkdownTextBlock XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/MarkdownTextBlock.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 
@@ -128,5 +136,5 @@ private async void MarkdownText_OnImageResolving(object sender, ImageResolvingEv
 
 ## API
 
-* [MarkdownTextBlock source code](../..//Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock)
+* [MarkdownTextBlock source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock)
 

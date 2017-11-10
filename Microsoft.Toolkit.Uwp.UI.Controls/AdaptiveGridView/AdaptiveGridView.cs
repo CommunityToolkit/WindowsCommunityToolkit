@@ -222,8 +222,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RecalculateLayout(double containerWidth)
         {
+            var itemsPanel = ItemsPanelRoot as Panel;
+            var panelMargin = itemsPanel != null ?
+                              itemsPanel.Margin.Left + itemsPanel.Margin.Right :
+                              0;
+
             // width should be the displayable width
-            containerWidth = containerWidth - Padding.Left - Padding.Top;
+            containerWidth = containerWidth - Padding.Left - Padding.Right - panelMargin;
             if (containerWidth > 0)
             {
                 var newWidth = CalculateItemWidth(containerWidth);

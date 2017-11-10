@@ -1,5 +1,4 @@
 <Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.BlurBehaviorPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.OffsetBehavior"
@@ -21,11 +20,11 @@
                         AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
       </interactivity:Interaction.Behaviors>
     </Image>
-    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom">
+    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
       <Button Content="Apply" Margin="10">
         <interactivity:Interaction.Behaviors>
           <core:EventTriggerBehavior EventName="Click">
-            <core:CallMethodAction TargetObject="{Binding ElementName=Saturation}" MethodName="StartAnimation"/>
+            <core:CallMethodAction TargetObject="{Binding ElementName=SaturationBehavior}" MethodName="StartAnimation"/>
           </core:EventTriggerBehavior>
         </interactivity:Interaction.Behaviors>
       </Button>

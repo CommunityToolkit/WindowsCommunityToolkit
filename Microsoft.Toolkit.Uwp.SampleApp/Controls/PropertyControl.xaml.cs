@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
@@ -26,10 +27,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
     public sealed partial class PropertyControl
     {
+        private static Dictionary<Color, string> _colorNames;
+
         private Sample _currentSample;
 
         public PropertyControl()
         {
+            if (_colorNames == null)
+            {
+                _colorNames = new Dictionary<Color, string>();
+                foreach (var color in typeof(Colors).GetRuntimeProperties())
+                {
+                    _colorNames[(Color)color.GetValue(null)] = color.Name;
+                }
+            }
+
             InitializeComponent();
         }
 
@@ -58,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     // Label
                     var label = new TextBlock
                     {
-                        Text = option.Name + ":",
+                        Text = option.Label + ":",
                         Foreground = new SolidColorBrush(Colors.Black)
                     };
                     RootPanel.Children.Add(label);
@@ -67,6 +79,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     Control controlToAdd;
                     DependencyProperty dependencyProperty;
                     IValueConverter converter = null;
+
+                    IDictionary<string, object> propertyDict = propertyDesc.Expando;
 
                     switch (option.Kind)
                     {
@@ -86,6 +100,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                                 slider.StepFrequency = 0.01;
                             }
 
+                            if ((propertyDict[option.Name] as ValueHolder).Value is double value)
+                            {
+                                slider.Value = value;
+                            }
+
                             controlToAdd = slider;
                             dependencyProperty = RangeBase.ValueProperty;
 
@@ -95,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             var comboBox = new ComboBox
                             {
                                 ItemsSource = Enum.GetNames(enumType),
-                                SelectedItem = option.DefaultValue.ToString()
+                                SelectedItem = (propertyDict[option.Name] as ValueHolder).Value.ToString()
                             };
 
                             converter = new EnumConverter(enumType);
@@ -105,6 +124,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                         case PropertyKind.Bool:
                             var checkBox = new ToggleSwitch();
 
+                            if ((propertyDict[option.Name] as ValueHolder).Value is bool isOn)
+                            {
+                                checkBox.IsOn = isOn;
+                            }
+
                             controlToAdd = checkBox;
                             dependencyProperty = ToggleSwitch.IsOnProperty;
                             break;
@@ -112,7 +136,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             var colorComboBox = new ComboBox();
                             var dataSource = typeof(Colors).GetTypeInfo().DeclaredProperties.Select(p => p.Name).ToList();
                             colorComboBox.ItemsSource = dataSource;
-                            colorComboBox.SelectedIndex = dataSource.IndexOf(option.DefaultValue.ToString());
+
+                            if ((propertyDict[option.Name] as ValueHolder).Value is SolidColorBrush brush &&
+                                _colorNames.TryGetValue(brush.Color, out var color))
+                            {
+                                colorComboBox.SelectedIndex = dataSource.IndexOf(color);
+                            }
+                            else
+                            {
+                                colorComboBox.SelectedIndex = dataSource.IndexOf(option.DefaultValue.ToString());
+                            }
 
                             converter = new SolidColorBrushConverter();
 
@@ -120,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             dependencyProperty = Selector.SelectedItemProperty;
                             break;
                         default:
-                            var textBox = new TextBox { Text = option.DefaultValue.ToString() };
+                            var textBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
 
                             controlToAdd = textBox;
                             dependencyProperty = TextBox.TextProperty;

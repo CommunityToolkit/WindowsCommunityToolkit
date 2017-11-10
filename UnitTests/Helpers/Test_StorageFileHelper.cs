@@ -13,9 +13,9 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Windows.Storage;
+using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace UnitTests.Helpers
 {

@@ -5,60 +5,29 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
+
+    <!-- Note: We need to include the HamburgerMenuItemCollection in usage here so that we can access the type in the Xaml Renderer -->
     <Grid Padding="50"
-          Background="{StaticResource Brush-Grey-05}">
-        <controls:HamburgerMenu x:Name="HamburgerMenuControl"
-                                CompactPaneLength="{Binding CompactPaneLength.Value}"
-                                DisplayMode="{Binding DisplayMode.Value}"
-                                Foreground="White"
-                                HamburgerHeight="{Binding HamburgerHeight.Value}"
-                                HamburgerVisibility="{Binding HamburgerVisibility.Value}"
-                                HamburgerWidth="48"
-                                IsPaneOpen="{Binding IsPaneOpen.Value, Mode=TwoWay}"
-                                ItemClick="HamburgerMenu_OnItemClick"
-                                OpenPaneLength="{Binding OpenPaneLength.Value}"
-                                OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
-                                PaneBackground="{Binding PaneBackground.Value}">
+          Background="{StaticResource Brush-Grey-05}"
+          Visibility="Collapsed">
+        <controls:HamburgerMenu>
             <!--  Items  -->
             <controls:HamburgerMenu.ItemsSource>
                 <controls:HamburgerMenuItemCollection>
-                    <controls:HamburgerMenuImageItem Thumbnail="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg"
-                                                     Label="Big four summer heat" />
-                    <controls:HamburgerMenuImageItem Thumbnail="ms-appx:///Assets/Photos/BisonBadlandsChillin.jpg"
-                                                     Label="Bison badlands Chillin" />
-                    <controls:HamburgerMenuImageItem Thumbnail="ms-appx:///Assets/Photos/GiantSlabInOregon.jpg"
-                                                     Label="Giant slab in Oregon" />
-                    <controls:HamburgerMenuImageItem Thumbnail="ms-appx:///Assets/Photos/LakeAnnMushroom.jpg"
-                                                     Label="Lake Ann Mushroom" />
+                    <controls:HamburgerMenuImageItem Label="Big four summer heat" />
                 </controls:HamburgerMenuItemCollection>
             </controls:HamburgerMenu.ItemsSource>
 
             <!--  Options  -->
             <controls:HamburgerMenu.OptionsItemsSource>
                 <controls:HamburgerMenuItemCollection>
-                    <controls:HamburgerMenuGlyphItem Glyph=""
+                    <controls:HamburgerMenuGlyphItem Glyph="&#57627;"
                                                      Label="About" />
                 </controls:HamburgerMenuItemCollection>
             </controls:HamburgerMenu.OptionsItemsSource>
 
             <!--  Content  -->
-            <Grid x:Name="ContentGrid">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="48" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Border Grid.Row="0"
-                        Background="Black">
-                    <TextBlock x:Name="Header"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontSize="24"
-                               Foreground="White"
-                               Text="{Binding Label}" />
-                </Border>
-                <Image x:Name="Image"
-                       Grid.Row="1"
-                       Source="{Binding Thumbnail}" />
+            <Grid>
             </Grid>
         </controls:HamburgerMenu>
     </Grid>

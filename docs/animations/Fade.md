@@ -1,3 +1,11 @@
+---
+title: Fade animation behavior
+author: nmetulev
+ms.date: 08/20/2017
+description: The Fade animation behavior fades objects, in and out, over time.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, fade, fade animation
+---
+
 # Fade
 
 The **Fade animation behavior** fades objects, in and out, over time.

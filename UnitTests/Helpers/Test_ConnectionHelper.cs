@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.Connectivity;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
 namespace UnitTests.Helpers
@@ -18,6 +18,8 @@ namespace UnitTests.Helpers
     [TestClass]
     public class Test_ConnectionHelper
     {
+        public NetworkHelper NetworkHelper { get; private set; }
+
         [TestCategory("Helpers")]
         [TestMethod]
         public void Test_ConnectionHelper_IsInternetOnMeteredConnection()

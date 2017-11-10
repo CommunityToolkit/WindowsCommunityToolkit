@@ -18,7 +18,7 @@ properties {
   
   $signClientSettings = "$buildDir\SignClientSettings.json"
   $hasSignClientSecret = !([string]::IsNullOrEmpty($env:SignClientSecret))
-  $signClientAppPath = "$tempDir\SignClient\Tools\SignClient.dll"
+  $signClientAppPath = "$tempDir\SignClient\Tools\netcoreapp1.1\SignClient.dll"
 }
 
 task default -depends ?
@@ -164,7 +164,7 @@ task SignNuGet -depends PackNuGet -description "Sign the NuGet packages with the
 
     WriteColoredOutput -ForegroundColor Green "Downloading Sign Client...`n"
     
-    Exec { .$nuget install -excludeversion SignClient -Version 0.5.0-beta4 -pre -outputdirectory $tempDir } "Error downloading Sign Client"
+    Exec { .$nuget install -excludeversion SignClient -Version 0.8.0 -outputdirectory $tempDir } "Error downloading Sign Client"
    
     WriteColoredOutput -ForegroundColor Green "Signing NuPkg files...`n"
 
@@ -173,7 +173,7 @@ task SignNuGet -depends PackNuGet -description "Sign the NuGet packages with the
       
       WriteColoredOutput -ForegroundColor Green "Submitting '$nupkg' for signing...`n"
       
-      dotnet $signClientAppPath 'zip' -c $signClientSettings -i $nupkg -s $env:SignClientSecret -n 'UWP Community Toolkit' -d 'UWP Community Toolkit' -u 'https://developer.microsoft.com/en-us/windows/uwp-community-toolkit' 
+      dotnet $signClientAppPath 'sign' -c $signClientSettings -i $nupkg -s $env:SignClientSecret -n 'UWP Community Toolkit' -d 'UWP Community Toolkit' -u 'https://developer.microsoft.com/en-us/windows/uwp-community-toolkit' 
   
       WriteColoredOutput -ForegroundColor Green "Finished signing '$nupkg'`n"
     }

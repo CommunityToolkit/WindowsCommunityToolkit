@@ -468,6 +468,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <param name="link">Link contained as part of the post</param>
         /// <param name="pictureUrl">URL of a picture attached to this post. Can be null</param>
         /// <returns>Task to support await of async call.</returns>
+        [Obsolete("This method has been deprecated by Facebook Graph API v2.9. Please use PostToFeedAsync(link) instead.")]
         public async Task<bool> PostToFeedAsync(string message, string title = null, string description = null, string link = null, string pictureUrl = null, string place = null)
         {
             /*
@@ -536,6 +537,44 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         }
 
         /// <summary>
+        /// Enables direct posting data to the timeline.
+        /// </summary>
+        /// <param name="link">Link contained as part of the post. Cannot be null.</param>
+        /// <returns>Task to support await of async call.</returns>
+        public async Task<bool> PostToFeedAsync(string link)
+        {
+            if (Provider.LoggedIn)
+            {
+                var parameters = new PropertySet { { "link", link } };
+
+                string path = FBSession.ActiveSession.User.Id + "/feed";
+                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookPost>);
+
+                var singleValue = new FBSingleValue(path, parameters, factory);
+                var result = await singleValue.PostAsync();
+                if (result.Succeeded)
+                {
+                    var postResponse = result.Object as FacebookPost;
+                    if (postResponse != null)
+                    {
+                        return true;
+                    }
+                }
+
+                Debug.WriteLine(string.Format("Could not post. {0}", result.ErrorInfo?.ErrorUserMessage));
+                return false;
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await PostToFeedAsync(link);
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Enables posting data to the timeline using Facebook dialog.
         /// </summary>
         /// <param name="title">Title of the post.</param>
@@ -543,6 +582,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <param name="link">Link contained as part of the post. Cannot be null</param>
         /// <param name="pictureUrl">URL of a picture attached to this post. Can be null</param>
         /// <returns>Task to support await of async call.</returns>
+        [Obsolete("This method has been deprecated by Facebook Graph API v2.9. Please use PostToFeedWithDialogAsync(link) instead.")]
         public async Task<bool> PostToFeedWithDialogAsync(string title, string description, string link, string pictureUrl = null)
         {
             if (Provider.LoggedIn)
@@ -575,7 +615,39 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         }
 
         /// <summary>
-        /// Request list data from service provider based upon a given config / query.
+        /// Request list data from service provider based upon a given config / query. Enables
+        /// posting data to the timeline using Facebook dialog.
+        /// </summary>
+        /// <param name="link">Link contained as part of the post. Cannot be null.</param>
+        /// <returns>Task to support await of async call.</returns>
+        public async Task<bool> PostToFeedWithDialogAsync(string link)
+        {
+            if (Provider.LoggedIn)
+            {
+                var parameters = new PropertySet { { "link", link } };
+
+                var result = await Provider.ShowFeedDialogAsync(parameters);
+
+                if (result.Succeeded)
+                {
+                    return true;
+                }
+
+                Debug.WriteLine(string.Format("Could not post. {0}", result.ErrorInfo?.ErrorUserMessage));
+                return false;
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await PostToFeedWithDialogAsync(link);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Enables posting a picture to the timeline
         /// </summary>
         /// <param name="config">FacebookDataConfig instance.</param>
         /// <param name="maxRecords">Upper limit of records to return.</param>

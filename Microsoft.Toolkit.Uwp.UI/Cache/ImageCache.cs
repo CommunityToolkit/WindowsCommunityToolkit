@@ -31,6 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Private singleton field.
         /// </summary>
+        [ThreadStatic]
         private static ImageCache _instance;
 
         private List<string> _extendedPropertyNames = new List<string>();
@@ -55,9 +56,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="stream">input stream</param>
         /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
         /// <returns>awaitable task</returns>
-        protected override async Task<BitmapImage> InitializeTypeAsync(IRandomAccessStream stream, List<KeyValuePair<string, object>> initializerKeyValues = null)
+        protected override async Task<BitmapImage> InitializeTypeAsync(Stream stream, List<KeyValuePair<string, object>> initializerKeyValues = null)
         {
-            if (stream.Size == 0)
+            if (stream.Length == 0)
             {
                 throw new FileNotFoundException();
             }
@@ -82,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
             }
 
-            await image.SetSourceAsync(stream).AsTask().ConfigureAwait(false);
+            await image.SetSourceAsync(stream.AsRandomAccessStream());
 
             return image;
         }
@@ -95,9 +96,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>awaitable task</returns>
         protected override async Task<BitmapImage> InitializeTypeAsync(StorageFile baseFile, List<KeyValuePair<string, object>> initializerKeyValues = null)
         {
-            using (var stream = await baseFile.OpenReadAsync().AsTask().ConfigureAwait(MaintainContext))
+            using (var stream = await baseFile.OpenStreamForReadAsync())
             {
-                return await InitializeTypeAsync(stream, initializerKeyValues).ConfigureAwait(false);
+                return await InitializeTypeAsync(stream, initializerKeyValues).ConfigureAwait(MaintainContext);
             }
         }
 
@@ -117,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             // Get extended properties.
             IDictionary<string, object> extraProperties =
-                await file.Properties.RetrievePropertiesAsync(_extendedPropertyNames).AsTask().ConfigureAwait(false);
+                await file.Properties.RetrievePropertiesAsync(_extendedPropertyNames);
 
             // Get date-accessed property.
             var propValue = extraProperties[DateAccessedProperty];
@@ -132,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
             }
 
-            var properties = await file.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
+            var properties = await file.GetBasicPropertiesAsync();
 
             return properties.Size == 0 || DateTime.Now.Subtract(properties.DateModified.DateTime) > duration;
         }

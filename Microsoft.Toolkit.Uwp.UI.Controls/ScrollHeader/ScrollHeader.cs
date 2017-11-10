@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="TargetListViewBase"/> property.
         /// </summary>
         public static readonly DependencyProperty TargetListViewBaseProperty =
-            DependencyProperty.Register(nameof(TargetListViewBase), typeof(ListViewBase), typeof(ScrollHeader), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TargetListViewBase), typeof(ListViewBase), typeof(ScrollHeader), new PropertyMetadata(null, OnTargetChanged));
 
         /// <summary>
         /// Gets or sets a value indicating whether the current mode.
@@ -74,7 +74,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Place items below header
             var panel = TargetListViewBase.ItemsPanelRoot;
-            Canvas.SetZIndex(panel, -1);
+            if (panel != null)
+            {
+                Canvas.SetZIndex(panel, -1);
+            }
 
             UpdateScrollHeaderBehavior();
         }
@@ -82,6 +85,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             (d as ScrollHeader)?.UpdateScrollHeaderBehavior();
+        }
+
+        private static void OnTargetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as ScrollHeader)?.OnApplyTemplate();
         }
 
         private void UpdateScrollHeaderBehavior()

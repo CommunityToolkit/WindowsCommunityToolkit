@@ -1,3 +1,11 @@
+---
+title: AdvancedCollectionView
+author: nmetulev
+ms.date: 08/20/2017
+description: The AdvancedCollectionView is a collection view implementation that support filtering, sorting and incremental loading. It's meant to be used in a viewmodel. 
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, AdvancedCollectionView
+---
+
 # AdvancedCollectionView
 
 The AdvancedCollectionView is a collection view implementation that support filtering, sorting and incremental loading. It's meant to be used in a viewmodel. 
@@ -90,7 +98,7 @@ If you're removing, modifying or inserting large amounts of items while having f
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp |
+| Namespace | Microsoft.Toolkit.Uwp.UI |
 
 ## API
 

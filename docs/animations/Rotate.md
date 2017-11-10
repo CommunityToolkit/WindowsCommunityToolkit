@@ -1,3 +1,11 @@
+---
+title: Rotate animation behavior
+author: nmetulev
+ms.date: 08/20/2017
+description: The Rotate animation behavior allows users to modify and animate the control's rotation. 
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, rotate, rotate animation
+---
+
 # Rotate
 
 The **Rotate animation behavior** allows users to modify and animate the control's rotation. Parameters include: angle values, time, pause delay, duration, and diameter.
