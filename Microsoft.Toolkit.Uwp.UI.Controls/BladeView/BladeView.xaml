@@ -132,12 +132,10 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock x:Name="TitleBar"
-                                       Margin="4,0,0,0"
-                                       HorizontalAlignment="Left"
-                                       VerticalAlignment="Center"
-                                       Foreground="{TemplateBinding TitleBarForeground}"
-                                       Text="{TemplateBinding Title}" />
+                            <ContentPresenter x:Name="TitleBar"
+                                              Content="{TemplateBinding Header}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                              Foreground="{TemplateBinding TitleBarForeground}"/>
                             <Button Name="EnlargeButton"
                                     Grid.Column="1"
                                     TabIndex="0"

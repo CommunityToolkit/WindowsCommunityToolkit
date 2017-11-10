@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -29,11 +30,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="Title"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(BladeItem), new PropertyMetadata(default(string)));
+        [Obsolete("Use the Header property instead. This property will be removed in a future major release.")]
+        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(BladeItem), new PropertyMetadata(default(string), OnTitleChanged));
 
         /// <summary>
         /// Identifies the <see cref="TitleBarBackground"/> dependency property.
         /// </summary>
+        [Obsolete("Use the HeaderTemplate property instead. This property will be removed in a future major release.")]
         public static readonly DependencyProperty TitleBarBackgroundProperty = DependencyProperty.Register(nameof(TitleBarBackground), typeof(Brush), typeof(BladeItem), new PropertyMetadata(default(Brush)));
 
         /// <summary>
@@ -49,6 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="TitleBarForeground"/> dependency property
         /// </summary>
+        [Obsolete("Use the HeaderTemplate property instead. This property will be removed in a future major release.")]
         public static readonly DependencyProperty TitleBarForegroundProperty = DependencyProperty.Register(nameof(TitleBarForeground), typeof(Brush), typeof(BladeItem), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
 
         /// <summary>
@@ -68,6 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the titlebar foreground color
         /// </summary>
+        [Obsolete("Use the HeaderTemplate property instead. This property will be removed in a future major release.")]
         public Brush TitleBarForeground
         {
             get { return (Brush)GetValue(TitleBarForegroundProperty); }
@@ -86,6 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the title to appear in the title bar
         /// </summary>
+        [Obsolete("Use the Header property instead. This property will be removed in a future major release.")]
         public string Title
         {
             get { return (string)GetValue(TitleProperty); }
@@ -95,6 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the background color of the title bar
         /// </summary>
+        [Obsolete("Use the HeaderTemplate property instead. This property will be removed in a future major release.")]
         public Brush TitleBarBackground
         {
             get { return (Brush)GetValue(TitleBarBackgroundProperty); }
@@ -124,6 +131,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             BladeItem bladeItem = (BladeItem)dependencyObject;
             bladeItem.Visibility = bladeItem.IsOpen ? Visibility.Visible : Visibility.Collapsed;
             bladeItem.VisibilityChanged?.Invoke(bladeItem, bladeItem.Visibility);
+        }
+
+        private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BladeItem bladeItem = (BladeItem)d;
+#pragma warning disable CS0618 // Type or member is obsolete
+            bladeItem.Header = bladeItem.Title;
+#pragma warning restore CS0618 // Type or member is obsolete
         }
     }
 }
