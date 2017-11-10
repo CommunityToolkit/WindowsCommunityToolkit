@@ -32,9 +32,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                     b.AddCustomAttributes(nameof(BladeItem.TitleBarVisibility),
                         new CategoryAttribute(Properties.Resources.CategoryCommon)
                         );
-                    b.AddCustomAttributes(nameof(BladeItem.Title),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
-                        );
                     b.AddCustomAttributes(nameof(BladeItem.IsOpen),
                         new CategoryAttribute(Properties.Resources.CategoryCommon)
                         );
