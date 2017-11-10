@@ -65,8 +65,12 @@
                                 Header="Custom title bar"
 								                Style="{StaticResource BladeStyle}"
                                 IsOpen="False"
-                                TitleBarBackground="@[Titlebar Background:Brush:CornflowerBlue]"
-                                TitleBarForeground="White">
+                                TitleBarBackground="@[Titlebar Background:Brush:CornflowerBlue]">
+              <controls:BladeItem.HeaderTemplate>
+                  <DataTemplate>
+                      <TextBlock Text="{Binding}" Foreground="White"/>
+                  </DataTemplate>
+              </controls:BladeItem.HeaderTemplate>
                 <TextBlock Margin="24"
 						               HorizontalAlignment="Center"
                            VerticalAlignment="Center"
