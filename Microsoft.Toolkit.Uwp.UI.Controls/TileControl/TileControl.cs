@@ -218,7 +218,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <remarks>
         /// On platforms not supporting Composition, this <See cref="UIStrategy"/> is automaticaly set to PureXaml.
         /// </remarks>
-        public static bool IsCompositionSupported => !ControlHelpers.IsRunningInLegacyDesignerMode &&
+        public static bool IsCompositionSupported => !DesignTimeHelpers.IsRunningInLegacyDesignerMode &&
              ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         /// <summary>
@@ -390,7 +390,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         private async Task<bool> LoadImageBrush(Uri uri)
         {
-            if (ControlHelpers.IsRunningInLegacyDesignerMode)
+            if (DesignTimeHelpers.IsRunningInLegacyDesignerMode)
             {
                 return false;
             }

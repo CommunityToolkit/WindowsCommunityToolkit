@@ -402,7 +402,7 @@
     <Content Include="SamplePages\NetworkHelper\NetworkHelperCode.bind" />
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
-    <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
+    <Content Include="SamplePages\Connected Animations\ConnectedAnimationsCode.bind" />
     <Content Include="SamplePages\ParallaxService\ParallaxPage.bind" />
     <Content Include="SamplePages\Loading\LoadingCode.bind" />
     <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.bind" />
@@ -434,7 +434,7 @@
     <Content Include="SamplePages\Carousel\CarouselCode.bind" />
     <Content Include="SamplePages\AlignmentGrid\AlignmentGridXaml.bind" />
     <Content Include="SamplePages\FocusTracker\FocusTrackerXaml.bind" />
-    <Content Include="SamplePages\TextToolbar\TextToolbar.bind" />
+    <Content Include="SamplePages\Visual Extensions\VisualExtensionsCode.bind" />
     <Content Include="SamplePages\TextToolbar\TextToolbarCode.bind" />
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperCode.bind" />
     <Content Include="SamplePages\OrbitView\OrbitViewXaml.bind" />
@@ -443,6 +443,9 @@
     <Content Include="SamplePages\InAppNotification\InAppNotificationXaml.bind" />
     <Content Include="SamplePages\ListViewBase\ListViewBaseCode.bind" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewXaml.bind" />
+    <Content Include="SamplePages\Implicit Animations\ImplicitAnimationsCode.bind" />
+    <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
+    <Content Include="SamplePages\TextToolbar\TextToolbar.bind" />
     <Content Include="SamplePages\DockPanel\DockPanel.bind">
       <SubType>Designer</SubType>
     </Content>
@@ -482,6 +485,21 @@
       <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\IXamlRenderListener.cs" />
+    <Compile Include="SamplePages\Connected Animations\ConnectedAnimationsPage.xaml.cs">
+      <DependentUpon>ConnectedAnimationsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Connected Animations\Pages\FirstPage.xaml.cs">
+      <DependentUpon>FirstPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Connected Animations\Pages\SecondPage.xaml.cs">
+      <DependentUpon>SecondPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Connected Animations\Pages\ThirdPage.xaml.cs">
+      <DependentUpon>ThirdPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Implicit Animations\ImplicitAnimationsPage.xaml.cs">
+      <DependentUpon>ImplicitAnimationsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\DockPanel\DockPanelPage.xaml.cs">
       <DependentUpon>DockPanelPage.xaml</DependentUpon>
     </Compile>
@@ -672,6 +690,9 @@
       <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Twitter Service\TwitterTemplateSelector.cs" />
+    <Compile Include="SamplePages\Visual Extensions\VisualExtensionsPage.xaml.cs">
+      <DependentUpon>VisualExtensionsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml.cs">
       <DependentUpon>WeatherLiveTileAndToastPage.xaml</DependentUpon>
     </Compile>
@@ -746,6 +767,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\Connected Animations\ConnectedAnimationsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Connected Animations\Pages\FirstPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Connected Animations\Pages\SecondPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Connected Animations\Pages\ThirdPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\DockPanel\DockPanelPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -753,6 +790,10 @@
     <Page Include="SamplePages\FocusTracker\FocusTrackerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Implicit Animations\ImplicitAnimationsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\InAppNotification\InAppNotificationPage.xaml">
       <SubType>Designer</SubType>
@@ -961,6 +1002,10 @@
     <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Visual Extensions\VisualExtensionsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml">
       <SubType>Designer</SubType>

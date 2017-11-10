@@ -286,7 +286,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (_currentSample.HasXAMLCode)
                 {
-                    if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop)
+                    if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop || _currentSample.DisableXamlEditorRendering)
                     {
                         // Only makes sense (and works) for now to show Live Xaml on Desktop, so fallback to old system here otherwise.
                         XamlReadOnlyCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
@@ -876,7 +876,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             XamlCodeRenderer.Options.GlyphMargin = false;
 
             // Try and Render Xaml to a UIElement
-            var element = _xamlRenderer.Render(text);
+            UIElement element = null;
+            try
+            {
+                element = _xamlRenderer.Render(text);
+            }
+            catch (Exception ex)
+            {
+                ExceptionNotification.Show(ex.Message, 3000);
+            }
+
             if (element != null)
             {
                 // Add element to main panel
