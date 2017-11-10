@@ -9,10 +9,13 @@
 
     <Page.Resources>
         <ResourceDictionary>
+<<<<<<< HEAD
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
           
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             <local:DismissCommand x:Key="DismissCommand" />
           
             <Style x:Key="DismissTextBlockButtonStyle" TargetType="ButtonBase">
@@ -282,6 +285,7 @@
 
         <controls:InAppNotification x:Name="ExampleInAppNotification"
                                     Content="This is a test message."
+<<<<<<< HEAD
                                     ShowDismissButton="@[ShowDismissButton:Bool:True]"
                                     AnimationDuration="@[AnimationDuration:TimeSpan:100:0-5000]"
                                     VerticalOffset="@[VerticalOffset:DoubleSlider:100.0:-200.0-200.0]"
@@ -292,19 +296,54 @@
                                     AnimationDuration="@[AnimationDuration]"
                                     VerticalOffset="@[VerticalOffset]"
                                     HorizontalOffset="@[HorizontalOffset]">
+=======
+                                    ShowDismissButton="@[ShowDismissButton:Bool:True]" />
+
+        <controls:InAppNotification x:Name="ExampleVSCodeInAppNotification"
+                                    MinHeight="35"
+                                    Background="#333333"
+                                    Foreground="White"
+                                    FontSize="14"
+                                    Padding="0"
+                                    BorderThickness="0"
+                                    ShowDismissButton="False"
+                                    VerticalAlignment="Top"
+                                    RenderTransformOrigin="0.5,0">
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             <controls:InAppNotification.ContentTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
+<<<<<<< HEAD
+=======
+                            <ColumnDefinition Width="Auto" />
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                             <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
+<<<<<<< HEAD
                         <TextBlock VerticalAlignment="Center"
                                    Text="This a test message."
                                    TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
+=======
+                        <Grid Margin="10 5" Height="20" Background="#007ACC">
+                            <TextBlock Text="info"
+                                       Padding="5 0"
+                                       FontWeight="Bold"
+                                       VerticalAlignment="Center"
+                                       Foreground="White" />
+                        </Grid>
+
+                        <TextBlock Grid.Column="1" 
+                                   VerticalAlignment="Center"
+                                   Text="This a test message."
+                                   TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+
+                        <StackPanel Grid.Column="2" Orientation="Horizontal">
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                             <Button Content="Action 1" 
                                     Command="{StaticResource DismissCommand}"
                                     CommandParameter="{Binding ElementName=ExampleVSCodeInAppNotification}"

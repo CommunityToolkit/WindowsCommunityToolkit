@@ -3,8 +3,12 @@
     "content": [
       {
         "files": [
+<<<<<<< HEAD
           "**/*.md",
           "**/*.yml"
+=======
+          "**/*.md"
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         ],
         "exclude": [
           "**/obj/**",
@@ -33,6 +37,7 @@
     "overwrite": [],
     "externalReference": [],
     "globalMetadata": {
+<<<<<<< HEAD
       "titleSuffix": "UWP Community Toolkit",
       "searchScope": ["UWPtoolkit"],
       "uhfHeaderId": "MSDocsHeader-UWP-Community",
@@ -44,6 +49,12 @@
       "ms.date": "08/30/2017",
       "breadcrumb_path": "/windows/uwpcommunitytoolkit/breadcrumb/toc.json",
       "extendBreadcrumb": true
+=======
+      "ms.topic": "article",
+      "ms.prod": "windows",
+      "ms.technology": "uwp",
+      "ms.author": "nikolame"      
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
     },
     "fileMetadata": {},
     "template": [],

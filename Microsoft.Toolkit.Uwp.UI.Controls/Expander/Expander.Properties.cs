@@ -44,6 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ExpandDirection), typeof(ExpandDirection), typeof(Expander), new PropertyMetadata(ExpandDirection.Down, OnExpandDirectionChanged));
 
         /// <summary>
+<<<<<<< HEAD
         /// Identifies the <see cref="DisplayMode"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DisplayModeProperty =
@@ -56,6 +57,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ContentOverlay), typeof(UIElement), typeof(Expander), new PropertyMetadata(default(UIElement)));
 
         /// <summary>
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         /// Gets or sets a value indicating whether the Header of the control.
         /// </summary>
         public string Header
@@ -91,6 +94,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ExpandDirectionProperty, value); }
         }
 
+<<<<<<< HEAD
         /// <summary>
         /// Gets or sets a value indicating whether the Expander control should be in Expand or Overlay mode.
         /// </summary>
@@ -109,6 +113,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ContentOverlayProperty, value); }
         }
 
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         private static void OnIsExpandedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var expander = d as Expander;
@@ -135,6 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 expander.OnExpandDirectionChanged();
             }
         }
+<<<<<<< HEAD
 
         private static void OnDisplayModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -147,5 +154,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 expander.OnDisplayModeOrIsExpandedChanged();
             }
         }
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
     }
 }

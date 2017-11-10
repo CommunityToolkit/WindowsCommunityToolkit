@@ -17,9 +17,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
     /// </summary>
     public class List : Symbol
     {
+<<<<<<< HEAD
         /// <summary>
         /// Initializes a new instance of the <see cref="List"/> class.
         /// </summary>
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public List()
         {
             this.DefaultStyleKey = typeof(List);

@@ -205,10 +205,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         }
 
                         break;
+<<<<<<< HEAD
 
                     case NotifyCollectionChangedAction.Reset:
                         BuildBar();
                         break;
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                 }
             }
         }

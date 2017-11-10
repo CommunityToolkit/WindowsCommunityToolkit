@@ -14,9 +14,12 @@ using System.Collections.ObjectModel;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 {
+<<<<<<< HEAD
     /// <summary>
     /// ObservableCollection of <see cref="DefaultButton"/>
     /// </summary>
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
     public class DefaultButtonModificationList : ObservableCollection<DefaultButton>
     {
     }

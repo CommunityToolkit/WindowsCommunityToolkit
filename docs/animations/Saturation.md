@@ -5,6 +5,13 @@ ms.date: 08/20/2017
 description: The Saturation animation behavior selectively saturates a XAML element.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, saturation animation, saturation
 ---
+<<<<<<< HEAD
+=======
+
+# Saturation
+
+The **Saturation animation behavior** selectively saturates a XAML element.
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 # Saturation
 

@@ -11,6 +11,7 @@
 
   <Grid>
     <Border Background="Gray" Width="200" Height="200">
+<<<<<<< HEAD
       <Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/ToolkitLogo.png" Height="100" Width="100" />
       <interactivity:Interaction.Behaviors>
         <behaviors:Blur x:Name="BlurBehavior"
@@ -19,6 +20,17 @@
                         Delay="@[Delay:DoubleSlider:0.0:0.0-5000.0]"
                         AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
       </interactivity:Interaction.Behaviors>
+=======
+      <Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/ToolkitLogo.png" Height="100" Width="100" >
+        <interactivity:Interaction.Behaviors>
+          <behaviors:Blur x:Name="BlurBehavior"
+                          Value="@[Value:DoubleSlider:1.0:0.0-10.0]"
+                          Duration="@[Duration:DoubleSlider:3000.0:0.0-10000.0]"
+                          Delay="@[Delay:DoubleSlider:0.0:0.0-5000.0]"
+                          AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
+        </interactivity:Interaction.Behaviors>
+      </Image>
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
     </Border>
     <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
       <Button Content="Apply" Margin="10">

@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+<<<<<<< HEAD
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -18,6 +19,12 @@ using Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
+=======
+using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.System;
@@ -41,11 +48,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             _toolbar = control.FindChildByName("Toolbar") as TextToolbar;
 
+<<<<<<< HEAD
             if (control.FindChildByName("EditZone") is RichEditBox editZone)
+=======
+            var editZone = control.FindChildByName("EditZone") as RichEditBox;
+            if (editZone != null)
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             {
                 editZone.TextChanged += EditZone_TextChanged;
             }
 
+<<<<<<< HEAD
             if (control.FindChildByName("Previewer") is MarkdownTextBlock previewer)
             {
                 _previewer = previewer;
@@ -56,6 +69,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 UseCustomFormatter();
             }
+=======
+            _previewer = control.FindChildByName("Previewer") as MarkdownTextBlock;
+            if (_previewer != null)
+            {
+                _previewer.LinkClicked += Previewer_LinkClicked;
+            }
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -67,7 +87,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 var button = _toolbar?.GetDefaultButton(ButtonType.Bold);
                 if (button != null)
                 {
+<<<<<<< HEAD
                     button.Visibility = button.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+=======
+                    button.Visibility = button.Visibility == Windows.UI.Xaml.Visibility.Visible ? Windows.UI.Xaml.Visibility.Collapsed : Windows.UI.Xaml.Visibility.Visible;
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                 }
             });
 
@@ -80,6 +104,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 UseCustomFormatter();
             });
+<<<<<<< HEAD
 
             Shell.Current.RegisterNewCommand("Reset Layout", (sender, args) =>
             {
@@ -105,20 +130,35 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     }
                 }
             }
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         }
 
         private void UseCustomFormatter()
         {
+<<<<<<< HEAD
             if (_toolbar == null || ToolbarFormat == null)
+=======
+            if (_toolbar == null)
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             {
                 return;
             }
 
             var formatter = new SampleFormatter(_toolbar);
+<<<<<<< HEAD
             ToolbarFormat.Value = Format.Custom;
             _toolbar.Formatter = formatter;
         }
 
+=======
+            _toolbar.Format = UI.Controls.TextToolbarFormats.Format.Custom;
+            _toolbar.Formatter = formatter;
+        }
+
+        private int DemoCounter { get; set; } = 0;
+
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         private void AddCustomButton()
         {
             if (_toolbar == null)
@@ -146,7 +186,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 ShortcutKey = shortcut,
                 Activation = (b) =>
                 {
+<<<<<<< HEAD
                     if (_toolbar.Formatter is MarkDownFormatter md)
+=======
+                    var md = _toolbar.Formatter as MarkDownFormatter;
+                    if (md != null)
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                     {
                         md.SetSelection($"[{demoText}]", $"[/{demoText}]");
                     }
@@ -172,19 +217,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
+<<<<<<< HEAD
         private void EditZone_TextChanged(object sender, RoutedEventArgs e)
+=======
+        private void EditZone_TextChanged(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         {
             if (_toolbar == null || _previewer == null)
             {
                 return;
             }
 
+<<<<<<< HEAD
             if (_toolbar.Formatter is MarkDownFormatter md)
+=======
+            var md = _toolbar.Formatter as MarkDownFormatter;
+            if (md != null)
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             {
                 string text = md.Text;
                 _previewer.Text = string.IsNullOrWhiteSpace(text) ? "Nothing to Preview" : text;
             }
         }
+<<<<<<< HEAD
 
         private int DemoCounter { get; set; } = 0;
 
@@ -203,5 +258,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return null;
             }
         }
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
     }
 }

@@ -40,8 +40,12 @@
               RightCommandParameter="{Binding DataContext, RelativeSource={RelativeSource TemplatedParent}}"
               RightForeground ="@[Right Foreground:Brush:White]"
               RightIcon="@[Right Icon:Enum:Symbol.Delete]"
+<<<<<<< HEAD
               RightLabel="@[Right Label:String:Delete]"
               UseSwipeControlWhenPossible="@[UseSwipeControlWhenPossible:Bool:True]">
+=======
+              RightLabel="@[Right Label:String:Delete]">
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         <Grid Height="110" Background="#FFDDDDDD">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="48" />

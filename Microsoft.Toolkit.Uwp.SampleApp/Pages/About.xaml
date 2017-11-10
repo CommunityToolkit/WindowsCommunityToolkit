@@ -11,12 +11,18 @@
       mc:Ignorable="d">
 
     <Page.Resources>
+<<<<<<< HEAD
         <DataTemplate x:DataType="sampleapp:Sample" x:Key="RecentSampleTemplate">
             <HyperlinkButton Width="267" HorizontalContentAlignment="Left" Style="{StaticResource AboutHyperlinkButtonStyle}" Click="RecentSample_Click">
+=======
+        <DataTemplate x:DataType="sampleapp:Sample" x:Key="SampleTemplate">
+            <HyperlinkButton Width="267" HorizontalContentAlignment="Left" Style="{StaticResource AboutHyperlinkButtonStyle}" Click="HyperlinkButton_Click">
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                 <TextBlock Text="{x:Bind Name}"></TextBlock>
             </HyperlinkButton>
         </DataTemplate>
 
+<<<<<<< HEAD
         <DataTemplate x:DataType="sampleapp:Sample" x:Key="NewSampleTemplate">
             <HyperlinkButton Width="267" HorizontalContentAlignment="Left" Style="{StaticResource AboutHyperlinkButtonStyle}" Click="NewSample_Click">
                 <TextBlock Text="{x:Bind Name}"></TextBlock>
@@ -36,14 +42,32 @@
                                Opacity="0.5"
                                Foreground="Black"
                                Text="{x:Bind Published.ToString('MMM d', {x:Null})}"></TextBlock>
+=======
+        <DataTemplate x:DataType="sampleapp:GitHubRelease" x:Key="ReleaseNoteTemplate">
+            <HyperlinkButton HorizontalAlignment="Left"
+                                                             HorizontalContentAlignment="Stretch" 
+                                                             NavigateUri="{x:Bind Url}"
+                                                             Width="208"
+                                                             Style="{StaticResource AboutHyperlinkButtonStyle}">
+                <Grid>
+                    <TextBlock Text="{x:Bind FullName}"></TextBlock>
+                    <TextBlock HorizontalAlignment="Right"
+                                                               Opacity="0.5"
+                                                               Foreground="Black"
+                                                               Text="{x:Bind Published.ToString('MMM d', {x:Null})}"></TextBlock>
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                 </Grid>
             </HyperlinkButton>
         </DataTemplate>
 
         <DataTemplate x:DataType="sampleapp:LandingPageLink" x:Key="LinkTemplate">
+<<<<<<< HEAD
             <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" 
                              NavigateUri="{x:Bind Url}"
                              Click="Link_Clicked">
+=======
+            <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="{x:Bind Url}">
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                 <TextBlock Text="{x:Bind Title}"></TextBlock>
             </HyperlinkButton>
         </DataTemplate>
@@ -130,7 +154,11 @@
                                            Visibility="{x:Bind local:About.VisibleIfCollectionEmpty(RecentSamples), Mode=OneWay}"></TextBlock>
                                     <ItemsControl x:Name="RecentSamplesItemsControl"
                                                   ItemsPanel="{StaticResource ItemsWrapGridHorizontalTemplate}"
+<<<<<<< HEAD
                                                   ItemsSource="{x:Bind RecentSamples, Mode=OneWay}" ItemTemplate="{StaticResource RecentSampleTemplate}">
+=======
+                                                  ItemsSource="{x:Bind RecentSamples, Mode=OneWay}" ItemTemplate="{StaticResource SampleTemplate}">
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                                     </ItemsControl>
                                 </Grid>
 
@@ -142,7 +170,11 @@
 
                             <StackPanel x:Name="WhatNewPanel" Margin="0,0,0,48">
                                 <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal" Text="{x:Bind LandingPageLinks.NewSectionTitle, Mode=OneWay}"></TextBlock>
+<<<<<<< HEAD
                                 <ItemsControl x:Name="WhatNewItemsControl" Margin="0,16,0,0" ItemsSource="{x:Bind NewSamples, Mode=OneWay}" ItemTemplate="{StaticResource NewSampleTemplate}"></ItemsControl>
+=======
+                                <ItemsControl x:Name="WhatNewItemsControl" Margin="0,16,0,0" ItemsSource="{x:Bind NewSamples, Mode=OneWay}" ItemTemplate="{StaticResource SampleTemplate}"></ItemsControl>
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                             </StackPanel>
 
                             <StackPanel x:Name="ReleaseNotesPanel">
@@ -158,6 +190,7 @@
                                 <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">About the App</TextBlock>
                                 <ItemsControl Margin="0,16,0,0">
                                     <TextBlock x:Name="Version" FontSize="12" Margin="0,0,0,10"></TextBlock>
+<<<<<<< HEAD
                                     <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="http://www.newtonsoft.com/json" Click="Link_Clicked">
                                         <TextBlock>Newtonsoft Json (Dependency)</TextBlock>
                                     </HyperlinkButton>
@@ -165,6 +198,15 @@
                                         <TextBlock>Code Prettify (Dependency)</TextBlock>
                                     </HyperlinkButton>
                                     <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://unsplash.com/photos/xghkLM1p1zA" Click="Link_Clicked">
+=======
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="http://www.newtonsoft.com/json">
+                                        <TextBlock>Newtonsoft Json (Dependency)</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://github.com/google/code-prettify">
+                                        <TextBlock>Code Prettify (Dependency)</TextBlock>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://unsplash.com/photos/xghkLM1p1zA">
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                                         <TextBlock>Background photo by Ron Manke</TextBlock>
                                     </HyperlinkButton>
                                 </ItemsControl>

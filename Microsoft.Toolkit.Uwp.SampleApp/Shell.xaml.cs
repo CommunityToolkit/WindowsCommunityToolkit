@@ -51,6 +51,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private Compositor _compositor;
         private float _defaultShowAnimationDuration = 300;
+<<<<<<< HEAD
         private XamlRenderService _xamlRenderer = new XamlRenderService();
         private bool _lastRenderedProperties = true;
         private ThreadPoolTimer _autocompileTimer;
@@ -58,6 +59,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private DateTime _timeSampleEditedFirst = DateTime.MinValue;
         private DateTime _timeSampleEditedLast = DateTime.MinValue;
         private bool _xamlCodeRendererSupported = false;
+=======
+        //private float _defaultHideAnimationDiration = 150;
+        private XamlRenderService _xamlRenderer = new XamlRenderService();
+        private bool _lastRenderedProperties = true;
+        private ThreadPoolTimer _autocompileTimer;
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
         public bool DisplayWaitRing
         {
@@ -82,6 +89,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             Splitter.Visibility = Visibility.Visible;
         }
 
+<<<<<<< HEAD
+=======
+        public void HideInfoArea()
+        {
+            InfoAreaGrid.Visibility = Visibility.Collapsed;
+            RootGrid.ColumnDefinitions[1].Width = GridLength.Auto;
+            RootGrid.RowDefinitions[1].Height = GridLength.Auto;
+            _currentSample = null;
+            Commands.Clear();
+            Splitter.Visibility = Visibility.Collapsed;
+            TitleTextBlock.Text = string.Empty;
+            ApplicationView.SetTitle(this, string.Empty);
+        }
+
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public void ShowOnlyHeader(string title)
         {
             Title.Text = title;
@@ -142,6 +164,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             _searchButton.Visibility = Visibility.Collapsed;
             _searchBox.Visibility = Visibility.Visible;
+<<<<<<< HEAD
 
             // We need to wait for the textbox to be created to focus it (only first time).
             TextBox innerTextbox = null;
@@ -151,6 +174,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 innerTextbox = _searchBox.FindDescendant<TextBox>();
                 innerTextbox?.Focus(FocusState.Programmatic);
 
+=======
+
+            // We need to wait for the textbox to be created to focus it (only first time).
+            TextBox innerTextbox = null;
+
+            do
+            {
+                innerTextbox = _searchBox.FindDescendant<TextBox>();
+                innerTextbox?.Focus(FocusState.Programmatic);
+
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                 if (innerTextbox == null)
                 {
                     await Task.Delay(150);
@@ -183,9 +217,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+<<<<<<< HEAD
             NavigationFrame.Navigating += NavigationFrame_Navigating;
             NavigationFrame.Navigated += NavigationFrameOnNavigated;
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+=======
+            NavigationFrame.Navigate(typeof(About));
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
             // Get list of samples
             var sampleCategories = (await Samples.GetCategoriesAsync()).ToList();
@@ -286,6 +324,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (_currentSample.HasXAMLCode)
                 {
+<<<<<<< HEAD
                     if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop || _currentSample.DisableXamlEditorRendering)
                     {
                         // Only makes sense (and works) for now to show Live Xaml on Desktop, so fallback to old system here otherwise.
@@ -300,6 +339,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         InfoAreaPivot.Items.Add(XamlPivotItem);
 
                         _xamlCodeRendererSupported = true;
+=======
+                    if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop)
+                    {
+                        // Only makes sense (and works) for now to show Live Xaml on Desktop, so fallback to old system here otherwise.
+                        XamlReadOnlyCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
+
+                        InfoAreaPivot.Items.Add(XamlReadOnlyPivotItem);
+                    }
+                    else
+                    {
+                        XamlCodeRenderer.Text = _currentSample.UpdatedXamlCode;
+
+                        InfoAreaPivot.Items.Add(XamlPivotItem);
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                     }
 
                     InfoAreaPivot.SelectedIndex = 0;
@@ -349,6 +402,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             await SetHamburgerMenuSelection();
         }
 
+<<<<<<< HEAD
         private void HideInfoArea()
         {
             InfoAreaGrid.Visibility = Visibility.Collapsed;
@@ -361,6 +415,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             ApplicationView.SetTitle(this, string.Empty);
         }
 
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         private async Task SetHamburgerMenuSelection()
         {
             if (NavigationFrame.SourcePageType == typeof(SamplePicker))
@@ -706,6 +762,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 NavigateToSample(sample);
             }
             else
+<<<<<<< HEAD
             {
                 NavigationFrame.Navigate(typeof(SamplePicker), _searchBox.Text);
             }
@@ -764,6 +821,66 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             SamplePickerDetailsGrid.Visibility = Visibility.Visible;
         }
 
+=======
+            {
+                NavigationFrame.Navigate(typeof(SamplePicker), _searchBox.Text);
+            }
+
+            HamburgerMenu.IsPaneOpen = false;
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            var t = StartSearch();
+        }
+
+        private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            _searchButton.Visibility = Visibility.Visible;
+            _searchBox.Visibility = Visibility.Collapsed;
+        }
+
+        private void Shell_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            // Connect to search UI
+            ConnectToSearch();
+
+            Focus(FocusState.Programmatic);
+        }
+
+        private void HideSamplePicker()
+        {
+            HideSampleDetails();
+            SamplePickerGrid.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowSamplePicker(Sample[] samples)
+        {
+            SamplePickerListView.ItemsSource = samples;
+            if (_currentSample != null && samples.Contains(_currentSample))
+            {
+                SamplePickerListView.SelectedItem = _currentSample;
+            }
+            else
+            {
+                SamplePickerListView.SelectedItem = null;
+            }
+
+            SamplePickerGrid.Visibility = Visibility.Visible;
+        }
+
+        private void HideSampleDetails()
+        {
+            SamplePickerDetailsGrid.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowSampleDetails(Sample sample)
+        {
+            SamplePickerDetailsGrid.DataContext = sample;
+            SamplePickerDetailsGrid.Visibility = Visibility.Visible;
+        }
+
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         private void StackPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
@@ -816,6 +933,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             HamburgerMenu.IsPaneOpen = !HamburgerMenu.IsPaneOpen;
         }
+<<<<<<< HEAD
 
         private async void ContentShadow_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
@@ -888,6 +1006,71 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (element != null)
             {
+=======
+
+        private async void ContentShadow_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            HideSamplePicker();
+            await SetHamburgerMenuSelection();
+        }
+
+        private void SamplePickerListView_ContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            if (!AnimationHelper.IsImplicitHideShowSupported)
+            {
+                return;
+            }
+
+            var panel = args.ItemContainer.FindAscendant<DropShadowPanel>();
+            if (panel != null)
+            {
+                ElementCompositionPreview.SetImplicitShowAnimation(panel, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, _defaultShowAnimationDuration));
+                ////ElementCompositionPreview.SetImplicitHideAnimation(panel, GetOpacityAnimation(0, _defaultHideAnimationDiration));
+            }
+        }
+
+        private void SamplePickerListView_ChoosingItemContainer(Windows.UI.Xaml.Controls.ListViewBase sender, ChoosingItemContainerEventArgs args)
+        {
+            if (!AnimationHelper.IsImplicitHideShowSupported)
+            {
+                return;
+            }
+
+            args.ItemContainer = args.ItemContainer ?? new ListViewItem();
+
+            var showAnimation = AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, _defaultShowAnimationDuration, 200);
+            (showAnimation as ScalarKeyFrameAnimation).DelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
+
+            ////ElementCompositionPreview.SetImplicitHideAnimation(args.ItemContainer, GetOpacityAnimation(0, _defaultHideAnimationDiration));
+            ElementCompositionPreview.SetImplicitShowAnimation(args.ItemContainer, showAnimation);
+        }
+
+        private Visibility GreaterThanZero(int value)
+        {
+            return value > 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private CssLineStyle _errorStyle = new CssLineStyle()
+        {
+            BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0xFF, 0xD6, 0xD6))
+        };
+
+        private CssGlyphStyle _errorIconStyle = new CssGlyphStyle()
+        {
+            GlyphImage = new Uri("ms-appx-web:///Icons/Error.png")
+        };
+
+        private async Task UpdateXamlRenderAsync(string text)
+        {
+            // Hide any Previous Errors
+            XamlCodeRenderer.Decorations.Clear();
+            XamlCodeRenderer.Options.GlyphMargin = false;
+
+            // Try and Render Xaml to a UIElement
+            var element = _xamlRenderer.Render(text);
+            if (element != null)
+            {
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                 // Add element to main panel
                 var content = NavigationFrame.Content as Page;
                 var root = content.FindDescendantByName("XamlRoot");
@@ -973,6 +1156,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
                         {
                             var t = UpdateXamlRenderAsync(XamlCodeRenderer.Text);
+<<<<<<< HEAD
 
                             if (_timeSampleEditedFirst == DateTime.MinValue)
                             {
@@ -980,6 +1164,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                             }
 
                             _timeSampleEditedLast = DateTime.Now;
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                         });
                     }, TimeSpan.FromSeconds(0.5));
             }
@@ -991,6 +1177,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             // In CodeBehind For Now, due to bug: https://github.com/hawkerm/monaco-editor-uwp/issues/10
             XamlCodeRenderer.CodeLanguage = "xml";
+<<<<<<< HEAD
         }
 
         private void ProcessSampleEditorTime()
@@ -1012,6 +1199,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             _timeSampleEditedFirst = _timeSampleEditedLast = DateTime.MinValue;
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         }
     }
 }

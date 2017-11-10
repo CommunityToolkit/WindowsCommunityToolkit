@@ -11,7 +11,11 @@
     <AssemblyName>UnitTests.Notifications.UWP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+<<<<<<< HEAD
     <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
+=======
+    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
     <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -99,7 +103,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+<<<<<<< HEAD
       <Version>5.4.1</Version>
+=======
+      <Version>5.3.4</Version>
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

@@ -160,6 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                         yield return child as T;
                     }
 
+<<<<<<< HEAD
                     var childFrameworkElement = child as FrameworkElement;
 
                     if (childFrameworkElement != null)
@@ -168,6 +169,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                         {
                             yield return childOfChild;
                         }
+=======
+                    foreach (T childOfChild in (child as FrameworkElement)?.FindChildren<T>())
+                    {
+                        yield return childOfChild;
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                     }
                 }
             }
@@ -175,6 +181,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             {
                 foreach (var item in (element as ItemsControl).Items)
                 {
+<<<<<<< HEAD
                     var childFrameworkElement = item as FrameworkElement;
 
                     if (childFrameworkElement != null)
@@ -183,6 +190,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                         {
                             yield return childOfChild;
                         }
+=======
+                    foreach (T childOfChild in (item as FrameworkElement)?.FindChildren<T>())
+                    {
+                        yield return childOfChild;
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                     }
                 }
             }
@@ -195,6 +207,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     yield return content as T;
                 }
 
+<<<<<<< HEAD
                 var childFrameworkElement = content as FrameworkElement;
 
                 if (childFrameworkElement != null)
@@ -203,6 +216,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     {
                         yield return childOfChild;
                     }
+=======
+                foreach (T childOfChild in (content as FrameworkElement)?.FindChildren<T>())
+                {
+                    yield return childOfChild;
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                 }
             }
         }
@@ -265,7 +283,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             var contentpropname = ContentPropertySearch(element.GetType());
             if (contentpropname != null)
             {
+<<<<<<< HEAD
                 return element.GetType()?.GetProperty(contentpropname)?.GetValue(element) as UIElement;
+=======
+                return element.GetType().GetProperty(contentpropname).GetValue(element) as UIElement;
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             }
 
             return null;

@@ -10,7 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+<<<<<<< HEAD
 using System;
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -27,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ShowDismissButton), typeof(bool), typeof(InAppNotification), new PropertyMetadata(true, OnShowDismissButtonChanged));
 
         /// <summary>
+<<<<<<< HEAD
         /// Identifies the <see cref="AnimationDuration"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AnimationDurationProperty =
@@ -45,6 +49,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(HorizontalOffset), typeof(double), typeof(InAppNotification), new PropertyMetadata(0));
 
         /// <summary>
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         /// Gets or sets a value indicating whether to show the Dismiss button of the control.
         /// </summary>
         public bool ShowDismissButton
@@ -53,6 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ShowDismissButtonProperty, value); }
         }
 
+<<<<<<< HEAD
         /// <summary>
         /// Gets or sets a value indicating the duration of the popup animation (in milliseconds).
         /// </summary>
@@ -80,13 +87,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(HorizontalOffsetProperty, value); }
         }
 
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         private static void OnShowDismissButtonChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var inApNotification = d as InAppNotification;
 
+<<<<<<< HEAD
             if (inApNotification._dismissButton != null)
             {
                 bool showDismissButton = (bool)e.NewValue;
+=======
+            bool showDismissButton = (bool)e.NewValue;
+
+            if (inApNotification._dismissButton != null)
+            {
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                 inApNotification._dismissButton.Visibility = showDismissButton ? Visibility.Visible : Visibility.Collapsed;
             }
         }

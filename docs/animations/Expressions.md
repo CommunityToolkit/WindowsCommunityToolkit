@@ -68,10 +68,15 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, expressions, expr
         - [Summary Expression Definition](#curtain-summary-expression-definition)
         - [Building with ExpressionNodes](#curtain-building-with-expressionnodes)
         - [Final code snippet](#curtain-final-code-snippet)
+<<<<<<< HEAD
 - [Requirements](#requirements)
 - [API](#api)
 
 ## <a name="quick-start"></a>Quick Start 
+=======
+
+# <a name="quick-start"></a>Quick Start 
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 Welcome to the ExpressionBuilder classes! The ExpressionBuilder classes are a C#-only alternative to building Expressions with type safety. Below is a quick introduction to using the ExpressionBuilder classes with your application. Complete documentation and walkthroughs will start from [Intro](#intro) section.
 
@@ -1125,6 +1130,7 @@ _tracker.ConfigurePositionYInertiaModifiers(
 	new InteractionTrackerInertiaModifier[] { modifier });
 ```
 
+<<<<<<< HEAD
 ## <a name="requirements"></a>Requirements
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
@@ -1135,3 +1141,14 @@ _tracker.ConfigurePositionYInertiaModifiers(
 ## <a name="api"></a>API
 
 * [Expressions source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Expressions)
+=======
+## Requirements (Windows 10 Device Family)
+
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| --- | --- |
+| Namespace | Microsoft.Toolkit.Uwp.UI.Animations |
+
+## API
+
+* [Expressions source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp.UI.Animations/Expressions)
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd

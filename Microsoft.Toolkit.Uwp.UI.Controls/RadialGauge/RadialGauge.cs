@@ -619,7 +619,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     scale.Data = pg;
                 }
 
+<<<<<<< HEAD
                 if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode)
+=======
+                if (!DesignMode.DesignModeEnabled)
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                 {
                     OnFaceChanged(radialGauge);
                 }
@@ -628,7 +632,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnFaceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+<<<<<<< HEAD
             if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode)
+=======
+            if (!DesignMode.DesignModeEnabled)
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             {
                 OnFaceChanged(d);
             }

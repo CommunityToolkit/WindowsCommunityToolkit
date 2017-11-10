@@ -10,9 +10,15 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+<<<<<<< HEAD
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Toolkit.Services.Rss;
+=======
+using Microsoft.Toolkit.Services.Rss;
+using System.Collections.Generic;
+using System.Linq;
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 namespace Microsoft.Toolkit.Services.Bing
 {

@@ -51,10 +51,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             Model.Formatter.ButtonActions.FormatOrderedList(button);
         }
 
+<<<<<<< HEAD
         /// <summary>
         /// Opens a <see cref="ContentDialog"/> for the user to enter a URL
         /// </summary>
         /// <param name="button">The <see cref="ToolbarButton"/> invoked</param>
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public async void OpenLinkCreator(ToolbarButton button)
         {
             var selection = button.Model.Editor.Document.Selection;
@@ -70,6 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 PlaceholderText = Model.Labels.UrlLabel
             };
 
+<<<<<<< HEAD
             CheckBox relativeBox = null;
 
             var contentPanel = new StackPanel
@@ -90,6 +94,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 contentPanel.Children.Add(relativeBox);
             }
 
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             labelBox.Document.SetDefaultCharacterFormat(selection.CharacterFormat);
             selection.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string Labeltext);
             labelBox.Document.SetText(Windows.UI.Text.TextSetOptions.FormatRtf, Labeltext);
@@ -97,13 +103,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             var result = await new ContentDialog
             {
                 Title = Model.Labels.CreateLinkLabel,
+<<<<<<< HEAD
                 Content = contentPanel,
+=======
+                Content = new StackPanel
+                {
+                    Children =
+                    {
+                        labelBox,
+                        linkBox
+                    }
+                },
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                 PrimaryButtonText = Model.Labels.OkLabel,
                 SecondaryButtonText = Model.Labels.CancelLabel
             }.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
+<<<<<<< HEAD
                 labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string labelText);
                 labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string formattedlabelText);
 
@@ -125,6 +143,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 }
 
                 Model.Formatter.ButtonActions.FormatLink(button, labelText.Trim(), formattedlabelText.Trim(), linkText);
+=======
+                string labelText;
+                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out labelText);
+
+                string formattedlabelText;
+                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out formattedlabelText);
+
+                Model.Formatter.ButtonActions.FormatLink(button, labelText.Trim(), formattedlabelText.Trim(), linkBox.Text.Trim());
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             }
         }
     }

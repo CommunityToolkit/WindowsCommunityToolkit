@@ -175,16 +175,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
             Root.Visibility = Visibility.Visible;
         }
 
+<<<<<<< HEAD
         private void RecentSample_Click(object sender, RoutedEventArgs e)
+=======
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         {
             var button = sender as HyperlinkButton;
             if (button.DataContext is Sample sample)
             {
+<<<<<<< HEAD
                 TrackingManager.TrackEvent("LandingPageRecentClick", sample.Name);
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                 Shell.Current.NavigateToSample(sample);
             }
         }
 
+<<<<<<< HEAD
         private void NewSample_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as HyperlinkButton;
@@ -213,6 +221,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
             }
         }
 
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         private async Task UpdateSections()
         {
             if (LandingPageLinks == null)

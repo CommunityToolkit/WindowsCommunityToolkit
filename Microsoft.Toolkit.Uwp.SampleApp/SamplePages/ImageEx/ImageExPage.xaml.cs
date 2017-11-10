@@ -101,7 +101,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 newImage = new RoundImageEx
                 {
                 };
+<<<<<<< HEAD
                 #pragma warning restore CS0618 // Type or member is obsolete
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
                 if (resources?.ContainsKey("RoundStyle") == true)
                 {

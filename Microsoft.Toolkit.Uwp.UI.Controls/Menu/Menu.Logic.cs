@@ -18,7 +18,10 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+<<<<<<< HEAD
 using Windows.UI.Xaml.Input;
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -32,6 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string AltValue = "ALT";
         private FlyoutPlacementMode? _currentFlyoutPlacement;
 
+<<<<<<< HEAD
         private static bool NavigateUsingKeyboard(KeyEventArgs args, Menu menu, Orientation orientation)
         {
             var element = FocusManager.GetFocusedElement();
@@ -47,6 +51,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return true;
             }
 
+=======
+        private static bool NavigateUsingKeyboard(object element, KeyEventArgs args, Menu menu, Orientation orientation)
+        {
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             if (!menu.IsOpened && element is MenuItem)
             {
                 menu.UpdateMenuItemsFlyoutPlacement();
@@ -89,8 +97,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return true;
                 }
 
+<<<<<<< HEAD
                 if (element is MenuFlyoutSubItem menuFlyoutSubItem)
                 {
+=======
+                if (element is MenuFlyoutSubItem)
+                {
+                    var menuFlyoutSubItem = (MenuFlyoutSubItem)element;
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                     if (menuFlyoutSubItem.Parent is MenuItem && element == menu._lastFocusElement)
                     {
                         menu.IsInTransitionState = true;

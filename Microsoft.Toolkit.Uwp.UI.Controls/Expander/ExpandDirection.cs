@@ -12,9 +12,12 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+<<<<<<< HEAD
     /// <summary>
     /// Expand direction enumeration
     /// </summary>
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
     public enum ExpandDirection
     {
         /// <summary>

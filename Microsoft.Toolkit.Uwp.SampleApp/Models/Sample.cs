@@ -195,6 +195,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
 #if !DEBUG // don't cache for debugging perpuses so it always gets the latests
+<<<<<<< HEAD
             if (string.IsNullOrWhiteSpace(_cachedDocumentation))
             {
                 try
@@ -204,6 +205,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 catch (Exception)
                 {
                 }
+=======
+            if (string.IsNullOrWhiteSpace(_cachedDocumentation) && StorageFileHelper.IsFileNameValid(filename))
+            {
+                _cachedDocumentation = await StorageFileHelper.ReadTextFromLocalCacheFileAsync(filename);
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             }
 #endif
 
@@ -234,6 +240,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (metadataMatch.Success)
             {
                 result = result.Remove(metadataMatch.Index, metadataMatch.Index + metadataMatch.Length);
+<<<<<<< HEAD
             }
 
             // Need to do some cleaning
@@ -253,6 +260,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 result = result.Replace(match.Value, newCode.ToString());
             }
 
+=======
+            }
+
+            // Need to do some cleaning
+            // Rework code tags
+            var regex = new Regex("```(xaml|xml|csharp)(?<code>.+?)```", RegexOptions.Singleline);
+
+            foreach (Match match in regex.Matches(result))
+            {
+                var code = match.Groups["code"].Value;
+                var lines = code.Split('\n');
+                var newCode = new StringBuilder();
+                foreach (var line in lines)
+                {
+                    newCode.AppendLine("    " + line);
+                }
+
+                result = result.Replace(match.Value, newCode.ToString());
+            }
+
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             // Images
             regex = new Regex("## Example Image.+?##", RegexOptions.Singleline);
             result = regex.Replace(result, "##");

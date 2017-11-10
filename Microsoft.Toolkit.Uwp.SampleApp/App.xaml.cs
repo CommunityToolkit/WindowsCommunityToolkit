@@ -11,7 +11,10 @@
 // ******************************************************************
 
 using System;
+<<<<<<< HEAD
 using Microsoft.HockeyApp;
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;

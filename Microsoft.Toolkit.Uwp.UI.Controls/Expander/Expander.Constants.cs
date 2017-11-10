@@ -20,16 +20,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Key of the VisualStateGroup that trigger display mode (visible/collapsed/overlay) and direction content
         /// </summary>
+<<<<<<< HEAD
         private const string DisplayModeAndDirectionStatesGroupStateContent = "DisplayModeAndDirectionStates";
+=======
+        private const string ExpandedGroupStateContent = "ExpandedStates";
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
         /// <summary>
         /// Key of the VisualState when expander is visible and expander direction is set to Left
         /// </summary>
+<<<<<<< HEAD
         private const string StateContentVisibleLeft = "VisibleLeft";
+=======
+        private const string StateContentExpanded = "Expanded";
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
         /// <summary>
         /// Key of the VisualState when expander is visible and expander direction is set to Down
         /// </summary>
+<<<<<<< HEAD
         private const string StateContentVisibleDown = "VisibleDown";
 
         /// <summary>
@@ -81,6 +90,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Key of the VisualState when expander is overlay and expander direction is set to Up
         /// </summary>
         private const string StateContentOverlayUp = "OverlayUp";
+=======
+        private const string StateContentCollapsed = "Collapsed";
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
         /// <summary>
         /// Key of the UI Element that toggle IsExpanded property
@@ -126,10 +138,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Key of the UI Element that contains the content of the LayoutTransformer (of the expander button)
         /// </summary>
         private const string LayoutTransformerPart = "PART_LayoutTransformer";
+<<<<<<< HEAD
 
         /// <summary>
         /// Key of the UI Element that contains the content of the control that is visible in Overlay mode
         /// </summary>
         private const string ContentOverlayPart = "PART_ContentOverlay";
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
     }
 }

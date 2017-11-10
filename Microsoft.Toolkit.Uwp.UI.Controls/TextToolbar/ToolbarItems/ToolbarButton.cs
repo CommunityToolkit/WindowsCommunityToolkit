@@ -24,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
     /// </summary>
     public class ToolbarButton : AppBarButton, IToolbarItem, INotifyPropertyChanged
     {
+<<<<<<< HEAD
         /// <summary>
         /// Identifies the <see cref="ToolTip"/> dependency property.
         /// </summary>
@@ -51,13 +52,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         /// <summary>
         /// Initializes a new instance of the <see cref="ToolbarButton"/> class.
         /// </summary>
+=======
+        // Using a DependencyProperty as the backing store for Label.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ToolTipProperty =
+            DependencyProperty.Register(nameof(ToolTip), typeof(string), typeof(ToolbarButton), new PropertyMetadata(null, ToolTipChanged));
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShortcutKeyProperty =
+            DependencyProperty.Register(nameof(ShortcutKey), typeof(VirtualKey?), typeof(ToolbarButton), new PropertyMetadata(null));
+
+        // Using a DependencyProperty as the backing store for IsToggled.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsToggledProperty =
+            DependencyProperty.Register(nameof(Toggled), typeof(Visibility), typeof(ToolbarButton), new PropertyMetadata(Visibility.Collapsed));
+
+        // Using a DependencyProperty as the backing store for ShortcutFancyName.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShortcutFancyNameProperty =
+            DependencyProperty.Register(nameof(ShortcutFancyName), typeof(string), typeof(ToolbarButton), new PropertyMetadata(null));
+
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public ToolbarButton()
         {
             this.DefaultStyleKey = typeof(ToolbarButton);
             Click += ToolbarButton_Click;
         }
 
+<<<<<<< HEAD
         /// <inheritdoc/>
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         protected override void OnApplyTemplate()
         {
             UpdateTooltip();
@@ -66,7 +88,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 
         private static void ToolTipChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
+<<<<<<< HEAD
             if (obj is ToolbarButton button)
+=======
+            var button = obj as ToolbarButton;
+            if (button != null)
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             {
                 button.UpdateTooltip();
             }
@@ -176,9 +203,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
             }
         }
 
+<<<<<<< HEAD
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="ToolbarButton"/> is Toggled
         /// </summary>
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public bool IsToggled
         {
             get
@@ -218,7 +248,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 
         private int _position = -1;
 
+<<<<<<< HEAD
         /// <inheritdoc/>
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

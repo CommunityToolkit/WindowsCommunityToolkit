@@ -16,9 +16,12 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
 {
+<<<<<<< HEAD
     /// <summary>
     /// Common implementation for a symbol icon
     /// </summary>
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
     [TemplateVisualState(GroupName = Common, Name = Normal)]
     [TemplateVisualState(GroupName = Common, Name = Disabled)]
     public abstract class Symbol : Control
@@ -27,7 +30,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
         internal const string Normal = "Normal";
         internal const string Disabled = "Disabled";
 
+<<<<<<< HEAD
         /// <inheritdoc/>
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         protected override void OnApplyTemplate()
         {
             isEnabledWatcher = new DependencyPropertyWatcher<bool>(this, nameof(IsEnabled));
@@ -55,6 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
 
         private DependencyPropertyWatcher<bool> isEnabledWatcher;
 
+<<<<<<< HEAD
         /// <summary>
         /// Finalizes an instance of the <see cref="Symbol"/> class.
         /// </summary>
@@ -76,6 +83,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
             catch (System.Exception)
             {
             }
+=======
+        ~Symbol()
+        {
+            Dispatcher?.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                isEnabledWatcher?.Dispose();
+            });
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         }
     }
 }

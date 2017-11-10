@@ -21,6 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class InAppNotification
     {
         /// <summary>
+<<<<<<< HEAD
         /// Event raised when the notification is opening
         /// </summary>
         public event InAppNotificationOpeningEventHandler Opening;
@@ -70,6 +71,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Dismissed?.Invoke(this, EventArgs.Empty);
             Closed?.Invoke(this, new InAppNotificationClosedEventArgs(_lastDismissKind));
             _animationTimer.Tick -= DismissAnimationTimer_Tick;
+=======
+        /// Event raised when the notification is dismissed
+        /// </summary>
+        public event EventHandler Dismissed;
+
+        private void DismissButton_Click(object sender, RoutedEventArgs e)
+        {
+            Dismiss();
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         }
     }
 }

@@ -42,6 +42,7 @@
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition Height="Auto" />
+<<<<<<< HEAD
           <RowDefinition Height="Auto" />
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -93,11 +94,24 @@
                     Width="400"
                     Margin="0,0,20,0">
           <controls:RotatorTile x:Name="Tile3"
+=======
+        </Grid.RowDefinitions>
+
+        <StackPanel x:Name="Panel1"
+                    Grid.Column="0"
+                    Width="400"
+                    Margin="0,0,20,0">
+          <controls:RotatorTile x:Name="Tile1"
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                                 Height="200"
                                 Background="LightGray"
                                 RotationDelay="0:0:3"
                                 ExtraRandomDuration="0:0:3"
+<<<<<<< HEAD
                                 Direction="Down"
+=======
+                                Direction="Up"
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                                 ItemTemplate="{StaticResource PhotoTemplate}" />
           <Border Height="75"
                   Margin="20,20,20,20"
@@ -108,16 +122,28 @@
           </Border>
         </StackPanel>
 
+<<<<<<< HEAD
         <StackPanel x:Name="Panel4"
                     Grid.Row="1"
                     Grid.Column="1"
                     Width="200">
           <controls:RotatorTile x:Name="Tile4"
+=======
+        <StackPanel x:Name="Panel2"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Width="200">
+          <controls:RotatorTile x:Name="Tile2"
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                                 Height="200"
                                 Background="LightGray"
                                 RotationDelay="0:0:1.5"
                                 ExtraRandomDuration="0:0:1"
+<<<<<<< HEAD
                                 Direction="Right"
+=======
+                                Direction="Left"
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                                 ItemTemplate="{StaticResource PhotoTemplate}" />
 
           <Border Height="75"
@@ -148,6 +174,7 @@
             <Setter Target="Panel2.Width" Value="150" />
             <Setter Target="Tile1.Height" Value="150" />
             <Setter Target="Tile2.Height" Value="150" />
+<<<<<<< HEAD
             <Setter Target="Panel1.Margin" Value="0" />            
             <Setter Target="Panel3.(Grid.Row)" Value="2" />
             <Setter Target="Panel4.(Grid.Column)" Value="0" />
@@ -157,6 +184,9 @@
             <Setter Target="Tile3.Height" Value="150" />
             <Setter Target="Tile4.Height" Value="150" />
             <Setter Target="Panel3.Margin" Value="0" />
+=======
+            <Setter Target="Panel1.Margin" Value="0" />
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
           </VisualState.Setters>
         </VisualState>
       </VisualStateGroup>

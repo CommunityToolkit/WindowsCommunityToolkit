@@ -2,7 +2,11 @@
 title: HttpHelperResponse
 author: nmetulev
 ms.date: 08/20/2017
+<<<<<<< HEAD
 description: HttpHelperResponse is a UWP Community Toolkit helper class used with the HttpHelper class to read http responses.
+=======
+description: Represents an HTTP response message including headers. 
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelperResponse
 ---
 

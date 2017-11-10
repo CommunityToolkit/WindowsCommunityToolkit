@@ -16,12 +16,17 @@ using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Converters
 {
+<<<<<<< HEAD
     /// <summary>
     /// Compares if Formats are equal and returns bool
     /// </summary>
     public class ToolbarFormatActiveConverter : IValueConverter
     {
         /// <inheritdoc/>
+=======
+    public class ToolbarFormatActiveConverter : IValueConverter
+    {
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value is Format)
@@ -35,7 +40,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
             }
         }
 
+<<<<<<< HEAD
         /// <inheritdoc/>
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             if (CurrentFormat != null)
@@ -46,9 +54,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
             return value;
         }
 
+<<<<<<< HEAD
         /// <summary>
         /// Gets or sets the <see cref="Format"/> to compare
         /// </summary>
+=======
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public Format Format { get; set; }
 
         private Format? CurrentFormat { get; set; }

@@ -657,10 +657,77 @@
                                         </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
+<<<<<<< HEAD
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
                         <Grid x:Name="PART_RootGrid">
+=======
+                                <VisualState x:Name="Collapsed">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_RootGrid.Background" Value="Transparent" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+
+                            <VisualStateGroup x:Name="ExpandDirectionStates">
+                                <VisualState x:Name="RightDirection">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_LayoutTransformer.(Grid.Row)" Value="0" />
+                                        <Setter Target="PART_LayoutTransformer.(Grid.RowSpan)" Value="2" />
+                                        <Setter Target="PART_LayoutTransformer.(Grid.Column)" Value="0" />
+                                        <Setter Target="PART_LayoutTransformer.(Grid.ColumnSpan)" Value="1" />
+
+                                        <Setter Target="PART_MainContent.(Grid.Row)" Value="0" />
+                                        <Setter Target="PART_MainContent.(Grid.RowSpan)" Value="2" />
+                                        <Setter Target="PART_MainContent.(Grid.Column)" Value="1" />
+                                        <Setter Target="PART_MainContent.(Grid.ColumnSpan)" Value="1" />
+
+                                        <Setter Target="RotateLayoutTransform.Angle" Value="-90" />
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="DownDirection" />
+
+                                <VisualState x:Name="LeftDirection">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_LayoutTransformer.(Grid.Row)" Value="0" />
+                                        <Setter Target="PART_LayoutTransformer.(Grid.RowSpan)" Value="2" />
+                                        <Setter Target="PART_LayoutTransformer.(Grid.Column)" Value="1" />
+                                        <Setter Target="PART_LayoutTransformer.(Grid.ColumnSpan)" Value="1" />
+
+                                        <Setter Target="PART_MainContent.(Grid.Row)" Value="0" />
+                                        <Setter Target="PART_MainContent.(Grid.RowSpan)" Value="2" />
+                                        <Setter Target="PART_MainContent.(Grid.Column)" Value="0" />
+                                        <Setter Target="PART_MainContent.(Grid.ColumnSpan)" Value="1" />
+
+                                        <Setter Target="RotateLayoutTransform.Angle" Value="-90" />
+
+                                        <Setter Target="ColumnOne.Width" Value="*" />
+                                        <Setter Target="ColumnTwo.Width" Value="Auto" />
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="UpDirection">
+                                    <VisualState.Setters>
+                                        <Setter Target="PART_LayoutTransformer.(Grid.Row)" Value="1" />
+                                        <Setter Target="PART_LayoutTransformer.(Grid.RowSpan)" Value="1" />
+                                        <Setter Target="PART_LayoutTransformer.(Grid.Column)" Value="0" />
+                                        <Setter Target="PART_LayoutTransformer.(Grid.ColumnSpan)" Value="2" />
+
+                                        <Setter Target="PART_MainContent.(Grid.Row)" Value="0" />
+                                        <Setter Target="PART_MainContent.(Grid.RowSpan)" Value="1" />
+                                        <Setter Target="PART_MainContent.(Grid.Column)" Value="0" />
+                                        <Setter Target="PART_MainContent.(Grid.ColumnSpan)" Value="2" />
+
+                                        <Setter Target="RotateLayoutTransform.Angle" Value="0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Grid x:Name="PART_RootGrid" Background="{TemplateBinding Background}">
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -685,10 +752,15 @@
                                               Style="{StaticResource HeaderToggleButtonStyle}" 
                                               VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
                                               Foreground="{TemplateBinding Foreground}"
+<<<<<<< HEAD
+=======
+                                              Background="{TemplateBinding Background}"
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                                               ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}"
                                               IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
                             </controls:LayoutTransformControl>
 
+<<<<<<< HEAD
                             <ContentControl Grid.Row="1" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="2"
                                             x:Name="PART_ContentOverlay"
                                             Content="{TemplateBinding ContentOverlay}"
@@ -704,6 +776,11 @@
 
                             <ContentPresenter Grid.Row="1" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="2"
                                               x:Name="PART_MainContent"
+=======
+                            <ContentPresenter Grid.Row="1" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                              x:Name="PART_MainContent"
+                                              Background="{TemplateBinding Background}"
+>>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               HorizontalContentAlignment="Stretch"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
