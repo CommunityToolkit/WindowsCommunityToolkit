@@ -36,7 +36,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="TitleBarBackground"/> dependency property.
         /// </summary>
-        [Obsolete("Use the HeaderTemplate property instead. This property will be removed in a future major release.")]
         public static readonly DependencyProperty TitleBarBackgroundProperty = DependencyProperty.Register(nameof(TitleBarBackground), typeof(Brush), typeof(BladeItem), new PropertyMetadata(default(Brush)));
 
         /// <summary>
@@ -101,7 +100,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the background color of the title bar
         /// </summary>
-        [Obsolete("Use the HeaderTemplate property instead. This property will be removed in a future major release.")]
         public Brush TitleBarBackground
         {
             get { return (Brush)GetValue(TitleBarBackgroundProperty); }
