@@ -96,6 +96,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string XamlCodeFile { get; set; }
 
+        public bool DisableXamlEditorRendering { get; set; }
+
         public string XamlCode { get; private set; }
 
         public string DocumentationUrl { get; set; }
@@ -380,6 +382,37 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     try
                                     {
                                         var sliderOptions = new SliderPropertyOptions { DefaultValue = double.Parse(value) };
+                                        var parameters = match.Groups["parameters"].Value;
+                                        var split = parameters.Split('-');
+                                        int minIndex = 0;
+                                        int minMultiplier = 1;
+                                        if (string.IsNullOrEmpty(split[0]))
+                                        {
+                                            minIndex = 1;
+                                            minMultiplier = -1;
+                                        }
+
+                                        sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex]);
+                                        sliderOptions.MaxValue = double.Parse(split[minIndex + 1]);
+                                        if (split.Length > 2 + minIndex)
+                                        {
+                                            sliderOptions.Step = double.Parse(split[split.Length - 1]);
+                                        }
+
+                                        options = sliderOptions;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Debug.WriteLine($"Unable to extract slider info from {value}({ex.Message})");
+                                        TrackingManager.TrackException(ex);
+                                        continue;
+                                    }
+
+                                    break;
+                                case PropertyKind.TimeSpan:
+                                    try
+                                    {
+                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = TimeSpan.FromMilliseconds(double.Parse(value)) };
                                         var parameters = match.Groups["parameters"].Value;
                                         var split = parameters.Split('-');
                                         int minIndex = 0;
