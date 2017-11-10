@@ -85,7 +85,7 @@
 
     <Style TargetType="controls:BladeItem">
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="TitleBarBackground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
+        <Setter Property="TitleBarForeground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
         <Setter Property="CloseButtonForeground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
