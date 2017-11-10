@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -24,6 +25,8 @@ using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.Foundation.Metadata;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
@@ -277,6 +280,31 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            var background = new Image()
+            {
+                Source = new BitmapImage(new Uri("ms-appx:///Assets/Photos/ron-manke-20667.jpg")),
+                Stretch = Windows.UI.Xaml.Media.Stretch.UniformToFill
+            };
+
+            if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Controls.ParallaxView"))
+            {
+                var parallaxView = new ParallaxView()
+                {
+                    Source = Scroller,
+                    VerticalShift = 50,
+                    Child = background
+                };
+
+                BackgroundBorder.Child = parallaxView;
+            }
+            else
+            {
+                BackgroundBorder.Child = background;
+            }
         }
     }
 }

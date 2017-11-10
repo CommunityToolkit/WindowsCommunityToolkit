@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Numerics;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -12,8 +11,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Media.Imaging;
-using System.Numerics;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
@@ -161,6 +158,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             {
                 _hamburgerButton.Click -= HamburgerButton_Click;
             }
+
             SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
             ItemClick -= ExtendedHamburgerMenu_ItemClick;
             OptionsItemClick -= ExtendedHamburgerMenu_OptionsItemClick;
@@ -213,26 +211,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             _samplePickerGrid = GetTemplateChild("SamplePickerGrid") as Grid;
             _samplePickerGridView = GetTemplateChild("SamplePickerGridView") as GridView;
             _contentShadow = GetTemplateChild("ContentShadow") as Border;
-
-            if (_samplePickerGrid != null)
-            {
-                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.AcrylicBrush"))
-                {
-                    AcrylicBrush myBrush = new AcrylicBrush
-                    {
-                        BackgroundSource = AcrylicBackgroundSource.Backdrop,
-                        TintColor = Color.FromArgb(255, 0xF3, 0xF3, 0xF3),
-                        FallbackColor = Color.FromArgb(216, 0xF3, 0xF3, 0xF3),
-                        TintOpacity = 0.9
-                    };
-
-                    _samplePickerGrid.Background = myBrush;
-                }
-                else
-                {
-                    GetTemplateChild("SamplePickerGridBackground");
-                }
-            }
 
             if (_samplePickerGridView != null)
             {
@@ -359,8 +337,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 {
                     ShowSamplePicker(category.Samples);
                 }
-
-                _buttonsListView.ScrollIntoView(e.ClickedItem, ScrollIntoViewAlignment.Leading);
             }
         }
 
@@ -372,7 +348,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 e.Handled = true;
             }
         }
-
 
         private async Task SetHamburgerMenuSelection()
         {
@@ -496,7 +471,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             VisualEx.SetCenterPoint(_moreInfoContent, new Vector3((float)centerX, (float)centerY, 0).ToString());
 
             // _samplePickerGridView.PrepareConnectedAnimation("sample_icon", sample, "SampleIcon");
-
             _moreInfoContent.DataContext = sample;
             _moreInfoCanvas.Visibility = Visibility.Visible;
 
@@ -513,7 +487,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             _moreInfoCanvas.Visibility = Visibility.Collapsed;
 
-            if ( _moreInfoImage != null && _moreInfoContent.DataContext != null)
+            if (_moreInfoImage != null && _moreInfoContent.DataContext != null)
             {
                 var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("sample_icon");
                 var t = _samplePickerGridView.TryStartConnectedAnimationAsync(animation, _moreInfoContent.DataContext, "SampleIcon");

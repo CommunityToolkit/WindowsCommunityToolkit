@@ -698,17 +698,9 @@
                                                                      Margin="0,0,0,-3">
                                         <Border Height="1"></Border>
                                     </toolkitControls:DropShadowPanel>
-                                    <Border Background="#F3F3F3"
-                                            Opacity="0.96"
-                                            x:Name="SamplePickerGridBackground"
-                                            x:DeferLoadStrategy="Lazy">
-                                        <interactivity:Interaction.Behaviors>
-                                            <behaviors:Blur AutomaticallyStart="True"
-                                                            Delay="0"
-                                                            Value="3"
-                                                            Duration="0" />
-                                        </interactivity:Interaction.Behaviors>
-                                    </Border>
+
+                                    <Border x:Name="SamplePickerGridBackground" 
+                                            local:AcrylicHelper.Color="#F3F3F3F3"></Border>
                                     <GridView x:Name="SamplePickerGridView"
                                               IsItemClickEnabled="True"
                                               animations:ReorderGridAnimation.Duration="200"

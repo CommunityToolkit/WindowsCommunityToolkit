@@ -8,6 +8,7 @@
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:sampleapp="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.Pages"
+      Loaded="Page_Loaded"
       mc:Ignorable="d">
 
     <Page.Resources>
@@ -53,10 +54,9 @@
         </ItemsPanelTemplate>
     </Page.Resources>
 
-    <Border x:Name="Root" Visibility="Collapsed">
-        <Border.Background>
-            <ImageBrush ImageSource="ms-appx:///Assets/Photos/ron-manke-20667.jpg" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"></ImageBrush>
-        </Border.Background>
+    <Grid x:Name="Root" Visibility="Collapsed">
+
+        <Border x:Name="BackgroundBorder"></Border>
         
         <controls:DropShadowPanel x:Name="DropShadow"
                                   HorizontalAlignment="Center" 
@@ -65,34 +65,22 @@
                                   VerticalContentAlignment="Stretch"
                                   Color="Black"
                                   BlurRadius="30"
-                                  ShadowOpacity="0.4">
+                                  ShadowOpacity="0">
             <Grid x:Name="RootGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="664"></ColumnDefinition>
                     <ColumnDefinition Width="336"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Border Background="#F4FFFFFF">
-                    <interactivity:Interaction.Behaviors>
-                        <behaviors:Blur AutomaticallyStart="True"
-                                        Delay="0"
-                                        Value="3"
-                                        Duration="0" />
-                    </interactivity:Interaction.Behaviors>
+                <Border sampleapp:AcrylicHelper.Color="#F4FFFFFF">
                 </Border>
 
                 <Border Background="#19000000" Width="1" HorizontalAlignment="Right"></Border>
 
-                <Border Grid.Column="1" Background="#F4F3F3F3">
-                    <interactivity:Interaction.Behaviors>
-                        <behaviors:Blur AutomaticallyStart="True"
-                                        Delay="0"
-                                        Value="3"
-                                        Duration="0" />
-                    </interactivity:Interaction.Behaviors>
+                <Border Grid.Column="1" sampleapp:AcrylicHelper.Color="#D4F3F3F3">
                 </Border>
 
-                <ScrollViewer Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer x:Name="Scroller" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
                     <Grid x:Name="InnerGrid" HorizontalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="64"></ColumnDefinition>
@@ -262,5 +250,5 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-    </Border>
+    </Grid>
 </Page>
