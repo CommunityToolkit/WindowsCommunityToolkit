@@ -39,7 +39,7 @@ All the APIs return the `PinResult` enum as a status
 
 ## Examples
 
-Pinning the current app shortcut in Windows 10 StartMenu
+Pinning the specified app shortcut in Windows 10 StartMenu
 
 ```csharp
 var appList = (await Package.Current.GetAppListEntriesAsync())[0];
@@ -48,7 +48,7 @@ var result = await AppPinManager.PinSpecificAppToStartMenuAsync(appList);
 
 ## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.15063.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.Helpers |
 | NuGet package | [Microsoft.Toolkit.Uwp](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
