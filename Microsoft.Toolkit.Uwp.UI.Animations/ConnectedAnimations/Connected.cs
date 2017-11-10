@@ -108,22 +108,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Gets the <see cref="ConnectedAnimationHelper"/> attached to a <see cref="Frame"/>
         /// Creates a new <see cref="ConnectedAnimationHelper"/> if one is not attached
         /// </summary>
-        /// <param name="obj">The <see cref="Frame"/></param>
+        /// <param name="frame">The <see cref="Frame"/></param>
         /// <returns><see cref="ConnectedAnimationHelper"/> attached to the Frame</returns>
-        private static ConnectedAnimationHelper GetConnectedAnimationHelper(DependencyObject obj)
+        private static ConnectedAnimationHelper GetConnectedAnimationHelper(Frame frame)
         {
-            var frame = obj as Frame;
-            if (frame == null)
-            {
-                return null;
-            }
-
-            var helper = (ConnectedAnimationHelper)obj.GetValue(ConnectedAnimationHelperProperty);
+            var helper = (ConnectedAnimationHelper)frame.GetValue(ConnectedAnimationHelperProperty);
 
             if (helper == null)
             {
                 helper = new ConnectedAnimationHelper(frame);
-                obj.SetValue(ConnectedAnimationHelperProperty, helper);
+                frame.SetValue(ConnectedAnimationHelperProperty, helper);
             }
 
             return helper;
@@ -132,11 +126,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Sets the <see cref="ConnectedAnimationHelper"/> to a <see cref="Frame"/>
         /// </summary>
-        /// <param name="obj">The Frame to attach the <see cref="ConnectedAnimationHelper"/></param>
+        /// <param name="frame">The Frame to attach the <see cref="ConnectedAnimationHelper"/></param>
         /// <param name="value"><see cref="ConnectedAnimationHelper"/> to attach</param>
-        private static void SetConnectedAnimationHelper(DependencyObject obj, ConnectedAnimationHelper value)
+        private static void SetConnectedAnimationHelper(Frame frame, ConnectedAnimationHelper value)
         {
-            obj.SetValue(ConnectedAnimationHelperProperty, value);
+            frame.SetValue(ConnectedAnimationHelperProperty, value);
         }
 
         /// <summary>

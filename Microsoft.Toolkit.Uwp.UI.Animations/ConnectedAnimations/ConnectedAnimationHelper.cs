@@ -203,7 +203,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 if (e.NavigationMode == Windows.UI.Xaml.Navigation.NavigationMode.Back)
                 {
                     var sourcePage = (sender as Frame).ForwardStack.LastOrDefault();
-                    parameter = sourcePage?.Parameter ?? null;
+                    parameter = sourcePage?.Parameter;
                 }
                 else
                 {

@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -148,14 +149,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             CompositionPropertySet scrollerViewerManipulation = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scroller);
+            var scrollPropSet = scrollerViewerManipulation.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
 
-            Compositor compositor = scrollerViewerManipulation.Compositor;
-
-            ExpressionAnimation expression = compositor.CreateExpressionAnimation(
-                "Matrix4x4.CreateFromTranslation(Vector3(HorizontalMultiplier * scroller.Translation.X, VerticalMultiplier * scroller.Translation.Y, 0.0f))");
-            expression.SetReferenceParameter("scroller", scrollerViewerManipulation);
-            expression.SetScalarParameter("HorizontalMultiplier", (float)horizontalMultiplier);
-            expression.SetScalarParameter("VerticalMultiplier", (float)verticalMultiplier);
+            var parallax = ExpressionFunctions.Vector3((float)horizontalMultiplier * scrollPropSet.Translation.X, (float)verticalMultiplier * scrollPropSet.Translation.Y, 0f);
+            var expression = ExpressionFunctions.CreateTranslation(parallax);
 
             Visual visual = ElementCompositionPreview.GetElementVisual(parallaxElement);
             visual.StartAnimation("TransformMatrix", expression);
