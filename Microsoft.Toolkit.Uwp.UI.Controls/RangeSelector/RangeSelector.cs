@@ -65,9 +65,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the StepFrequency dependency property.
         /// </summary>
-        public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(0.0, StepFrequencyChangedCallback));
+        public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultStepFrequency, StepFrequencyChangedCallback));
 
         private const double Epsilon = 0.01;
+
+        private const double DefaultStepFrequency = 0.0;
 
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
@@ -649,16 +651,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ResetStepFrequency()
         {
-            if (StepFrequency != 0)
-            {
-                RangeMinToStepFrequency();
-                RangeMaxToStepFrequency();
-            }
+            RangeMinToStepFrequency();
+            RangeMaxToStepFrequency();
         }
 
         private void RangeMinToStepFrequency()
         {
-            if (StepFrequency != 0)
+            if (StepFrequency != DefaultStepFrequency)
             {
                 RangeMin = MoveToStepFrequency(RangeMin);
             }
@@ -666,7 +665,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RangeMaxToStepFrequency()
         {
-            if (StepFrequency != 0)
+            if (StepFrequency != DefaultStepFrequency)
             {
                 RangeMax = MoveToStepFrequency(RangeMax);
             }
