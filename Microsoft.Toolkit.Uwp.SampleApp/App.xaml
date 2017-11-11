@@ -586,8 +586,9 @@
                       extensions:VisualEx.CenterPoint="40,60,0">
                     <toolkitControls:DropShadowPanel HorizontalContentAlignment="Stretch"
                                               VerticalContentAlignment="Stretch"
-                                              BlurRadius="20"
-                                              ShadowOpacity="0.8"
+                                              BlurRadius="30"
+                                              ShadowOpacity="0.6"
+                                                     OffsetY="3"
                                               extensions:VisualEx.Opacity="0"
                                               Visibility="Collapsed">
                         <Border></Border>
@@ -880,12 +881,12 @@
                                       extensions:VisualEx.NormalizedCenterPoint="0.5">
                                     <Grid VerticalAlignment="Top">
 
-                                        <toolkitControls:DropShadowPanel 
-                                                                         VerticalContentAlignment="Stretch"
+                                        <toolkitControls:DropShadowPanel VerticalContentAlignment="Stretch"
                                                                          HorizontalContentAlignment="Stretch"
                                                                          ShadowOpacity="0.6"
                                                                          Color="Black"
-                                                                         BlurRadius="10">
+                                                                         OffsetY="6"
+                                                                         BlurRadius="60">
                                             <Border Background="#F4F3F3F3"
                                                     Opacity="0.96">
                                                 <interactivity:Interaction.Behaviors>
