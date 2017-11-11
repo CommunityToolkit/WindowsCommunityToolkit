@@ -618,7 +618,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the step value for range selector.
+        /// Gets or sets the step frequency, which is the interval between the values on the RangeSelector
         /// </summary>
         /// <value>
         /// The value for step.
