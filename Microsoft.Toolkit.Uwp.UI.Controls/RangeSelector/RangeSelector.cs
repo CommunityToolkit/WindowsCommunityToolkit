@@ -63,9 +63,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty IsTouchOptimizedProperty = DependencyProperty.Register(nameof(IsTouchOptimized), typeof(bool), typeof(RangeSelector), new PropertyMetadata(false, IsTouchOptimizedChangedCallback));
 
         /// <summary>
-        /// Identifies the StepValue dependency property.
+        /// Identifies the StepFrequency dependency property.
         /// </summary>
-        public static readonly DependencyProperty StepValueProperty = DependencyProperty.Register(nameof(StepValue), typeof(double), typeof(RangeSelector), new PropertyMetadata(0.0, StepValueChangedCallback));
+        public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(0.0, StepFrequencyChangedCallback));
 
         private const double Epsilon = 0.01;
 
@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ArrangeForTouch();
             }
 
-            ResetStepValues();
+            ResetStepFrequency();
 
             base.OnApplyTemplate();
         }
@@ -493,7 +493,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var newValue = (double)e.NewValue;
-            rangeSelector.RangeMinToStepValue();
+            rangeSelector.RangeMinToStepFrequency();
 
             if (rangeSelector._valuesAssigned)
             {
@@ -558,7 +558,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var newValue = (double)e.NewValue;
-            rangeSelector.RangeMaxToStepValue();
+            rangeSelector.RangeMaxToStepFrequency();
 
             if (rangeSelector._valuesAssigned)
             {
@@ -623,20 +623,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <value>
         /// The value for step.
         /// </value>
-        public double StepValue
+        public double StepFrequency
         {
             get
             {
-                return (double)GetValue(StepValueProperty);
+                return (double)GetValue(StepFrequencyProperty);
             }
 
             set
             {
-                SetValue(StepValueProperty, value);
+                SetValue(StepFrequencyProperty, value);
             }
         }
 
-        private static void StepValueChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void StepFrequencyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var rangeSelector = d as RangeSelector;
             if (rangeSelector == null)
@@ -644,43 +644,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (rangeSelector.StepValue != 0)
+            if (rangeSelector.StepFrequency != 0)
             {
-                rangeSelector.ResetStepValues();
+                rangeSelector.ResetStepFrequency();
             }
         }
 
-        private void ResetStepValues()
+        private void ResetStepFrequency()
         {
-            if (StepValue != 0)
+            if (StepFrequency != 0)
             {
-                RangeMinToStepValue();
-                RangeMaxToStepValue();
+                RangeMinToStepFrequency();
+                RangeMaxToStepFrequency();
             }
         }
 
-        private void RangeMinToStepValue()
+        private void RangeMinToStepFrequency()
         {
-            if (StepValue != 0)
+            if (StepFrequency != 0)
             {
-                RangeMin = MoveToStepValue(RangeMin);
+                RangeMin = MoveToStepFrequency(RangeMin);
             }
         }
 
-        private void RangeMaxToStepValue()
+        private void RangeMaxToStepFrequency()
         {
-            if (StepValue != 0)
+            if (StepFrequency != 0)
             {
-                RangeMax = MoveToStepValue(RangeMax);
+                RangeMax = MoveToStepFrequency(RangeMax);
             }
         }
 
-        private double MoveToStepValue(double rangeValue)
+        private double MoveToStepFrequency(double rangeValue)
         {
             if (rangeValue != Maximum && rangeValue != Minimum)
             {
                 return rangeValue - Enumerable.Range((int)Minimum, (int)Maximum)
-                    .Where(x => x % StepValue == 0)
+                    .Where(x => x % StepFrequency == 0)
                     .Min(x => Math.Abs(rangeValue - x));
             }
             else
