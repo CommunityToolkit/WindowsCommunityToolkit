@@ -676,9 +676,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (rangeValue != Maximum && rangeValue != Minimum)
             {
-                return rangeValue - Enumerable.Range((int)Minimum, (int)Maximum)
-                    .Where(x => x % StepFrequency == 0)
-                    .Min(x => Math.Abs(rangeValue - x));
+                return Minimum + (((int)((rangeValue - Minimum) / StepFrequency)) * StepFrequency);
             }
             else
             {
