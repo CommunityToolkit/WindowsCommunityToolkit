@@ -103,6 +103,13 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="IsExpanded" Value="True"/>
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:BladeItem">
