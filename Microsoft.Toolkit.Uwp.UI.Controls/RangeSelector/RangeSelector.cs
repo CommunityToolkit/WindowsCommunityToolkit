@@ -644,10 +644,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (rangeSelector.StepFrequency != 0)
-            {
-                rangeSelector.ResetStepFrequency();
-            }
+            rangeSelector.ResetStepFrequency();
         }
 
         private void ResetStepFrequency()
