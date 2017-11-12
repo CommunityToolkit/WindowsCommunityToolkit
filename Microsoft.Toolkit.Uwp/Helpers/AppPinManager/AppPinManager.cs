@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>PinResult</returns>
         public static async Task<PinResult> PinCurrentAppToTaskBarAsync()
         {
-            var pinResult = PinResult.UnsupportedOs;
+            var resultPinResult = PinResult.UnsupportedOs;
 
             if (ApiInformation.IsTypePresent("Windows.UI.Shell.TaskbarManager"))
             {
@@ -41,32 +41,26 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     {
                         if (await TaskbarManager.GetDefault().IsCurrentAppPinnedAsync())
                         {
-                            pinResult = PinResult.PinAlreadyPresent;
+                            resultPinResult = PinResult.PinAlreadyPresent;
                         }
                         else
                         {
-                            if (await TaskbarManager.GetDefault().RequestPinCurrentAppAsync())
-                            {
-                                pinResult = PinResult.PinPresent;
-                            }
-                            else
-                            {
-                                pinResult = PinResult.PinAlreadyPresent;
-                            }
+                            var result = await TaskbarManager.GetDefault().RequestPinCurrentAppAsync();
+                            resultPinResult = result ? PinResult.PinPresent : PinResult.PinOperationFailed;
                         }
                     }
                     else
                     {
-                        pinResult = PinResult.PinNotAllowed;
+                        resultPinResult = PinResult.PinNotAllowed;
                     }
                 }
                 else
                 {
-                    pinResult = PinResult.UnsupportedDevice;
+                    resultPinResult = PinResult.UnsupportedDevice;
                 }
             }
 
-            return pinResult;
+            return resultPinResult;
         }
 
         /// <summary>
@@ -76,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>PinResult</returns>
         public static async Task<PinResult> PinSpecificAppToTaskBarAsync(AppListEntry appListEntry)
         {
-            var pinResult = PinResult.UnsupportedOs;
+            var resultPinResult = PinResult.UnsupportedOs;
 
             if (ApiInformation.IsTypePresent("Windows.UI.Shell.TaskbarManager"))
             {
@@ -86,32 +80,26 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     {
                         if (await TaskbarManager.GetDefault().IsAppListEntryPinnedAsync(appListEntry))
                         {
-                            pinResult = PinResult.PinAlreadyPresent;
+                            resultPinResult = PinResult.PinAlreadyPresent;
                         }
                         else
                         {
-                            if (await TaskbarManager.GetDefault().RequestPinAppListEntryAsync(appListEntry))
-                            {
-                                pinResult = PinResult.PinPresent;
-                            }
-                            else
-                            {
-                                pinResult = PinResult.PinAlreadyPresent;
-                            }
+                            var result = await TaskbarManager.GetDefault().RequestPinAppListEntryAsync(appListEntry);
+                            resultPinResult = result ? PinResult.PinPresent : PinResult.PinOperationFailed;
                         }
                     }
                     else
                     {
-                        pinResult = PinResult.PinNotAllowed;
+                        resultPinResult = PinResult.PinNotAllowed;
                     }
                 }
                 else
                 {
-                    pinResult = PinResult.UnsupportedDevice;
+                    resultPinResult = PinResult.UnsupportedDevice;
                 }
             }
 
-            return pinResult;
+            return resultPinResult;
         }
 
         /// <summary>
@@ -132,14 +120,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     }
                     else
                     {
-                        if (await StartScreenManager.GetDefault().RequestAddAppListEntryAsync(entry))
-                        {
-                            resultPinResult = PinResult.PinPresent;
-                        }
-                        else
-                        {
-                            resultPinResult = PinResult.PinAlreadyPresent;
-                        }
+                        var result = await StartScreenManager.GetDefault().RequestAddAppListEntryAsync(entry);
+                        resultPinResult = result ? PinResult.PinPresent : PinResult.PinOperationFailed;
                     }
                 }
                 else
@@ -170,14 +152,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     }
                     else
                     {
-                        if (await StartScreenManager.GetForUser(user).RequestAddAppListEntryAsync(entry))
-                        {
-                            resultPinResult = PinResult.PinPresent;
-                        }
-                        else
-                        {
-                            resultPinResult = PinResult.PinAlreadyPresent;
-                        }
+                        var result = await StartScreenManager.GetForUser(user).RequestAddAppListEntryAsync(entry);
+                        resultPinResult = result ? PinResult.PinPresent : PinResult.PinOperationFailed;
                     }
                 }
                 else

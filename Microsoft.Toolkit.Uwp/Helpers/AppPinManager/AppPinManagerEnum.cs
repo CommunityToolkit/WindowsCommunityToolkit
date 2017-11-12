@@ -1,8 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
@@ -17,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         UnsupportedDevice = 0,
 
         /// <summary>
-        ///  Unsupported Windows 10 OS ( Pin support Version StartMenu >= 15063 ,TaskBar >= 16299)
+        ///  Unsupported Windows 10 OS ( Pin supported SDK Version StartMenu >= 15063 ,TaskBar >= 16299)
         /// </summary>
         UnsupportedOs = 1,
 
@@ -34,6 +40,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// App has already is avaliable in StartMenu orTaskBar
         /// </summary>
-        PinAlreadyPresent = 4
+        PinAlreadyPresent = 4,
+
+        /// <summary>
+        /// Pin Operation is Failed
+        /// </summary>
+        PinOperationFailed = 5
     }
 }
