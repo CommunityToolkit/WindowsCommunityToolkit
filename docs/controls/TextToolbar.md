@@ -20,20 +20,12 @@ You can also **Remove** Default Buttons from any format, or **Add** Custom butto
 
 ## Syntax
 ### UI Layout
-<<<<<<< HEAD
 ```xaml
-=======
-```xml
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 <controls:TextToolbar x:Name="Toolbar" Editor="{x:Bind Editor}" Format="MarkDown" />
 <RichEditBox x:Name="Editor" PlaceholderText="Enter Text Here" />
 ```
 ### How to Remove/Add Buttons
-<<<<<<< HEAD
 ```xaml
-=======
-```xml
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 <controls:TextToolbar x:Name="Toolbar" Editor="{x:Bind Editor}">
     <controls:TextToolbar.ButtonModifications>
         <buttons:DefaultButton Type="Headers" IsVisible="False"/>
@@ -82,7 +74,6 @@ _See the Sample Formatter Class from the Sample App:_
 _Available CommonButtons:_
 [CommonButton Definitions](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/ToolbarItems/Common)
 
-<<<<<<< HEAD
 ## Properties
 | Property | Description |
 | --- | --- |
@@ -98,10 +89,6 @@ _Available CommonButtons:_
 
 ## Requirements (Windows 10 Device Family)
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
-=======
-## Requirements (Windows 10 Device Family)
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 

@@ -18,17 +18,10 @@
                       FontSize="16"
                       FontFamily="Segoe MDL2 Assets" 
                       Glyph="{Binding Glyph}" 
-<<<<<<< HEAD
                       Foreground="Black" />
                 <TextBlock Grid.Column="1" 
                        Text="{Binding Label}" 
                        Foreground="Black" 
-=======
-                      Foreground="White" />
-                <TextBlock Grid.Column="1" 
-                       Text="{Binding Label}" 
-                       Foreground="White" 
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                        FontSize="16" 
                        VerticalAlignment="Center" />
             </Grid>
@@ -43,11 +36,7 @@
                 <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" Margin="16,12" />
                 <TextBlock Grid.Column="1" 
                        Text="{Binding Label}" 
-<<<<<<< HEAD
                        Foreground="Black" 
-=======
-                       Foreground="White" 
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                        FontSize="16" 
                        VerticalAlignment="Center" />
             </Grid>
@@ -55,15 +44,10 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="50" BorderThickness="1" BorderBrush="Black">
-<<<<<<< HEAD
         <controls:HamburgerMenu x:Name="HamburgerMenu"
                                 PaneBackground="@[PaneBackground:Brush:LightGray]"
                                 PaneForeground="Black"
                                 SelectedIndex="@[SelectedIndex:Slider:0:0-3]@"
-=======
-        <controls:HamburgerMenu PaneBackground="@[PaneBackground:Brush:Black]" x:Name="HamburgerMenu"
-                                Foreground="White"
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                                 ItemTemplate="{StaticResource HamburgerMenuImageItem}"
                                 OptionsItemTemplate="{StaticResource HamburgerMenuItem}"
                                 OpenPaneLength="@[OpenPaneLength:Slider:240:50-400]"
@@ -71,12 +55,8 @@
                                 CompactPaneLength="@[CompactPaneLength:Slider:48:10-80]"
                                 HamburgerHeight="@[HamburgerHeight:Slider:48:10-80]"
                                 HamburgerVisibility="@[HamburgerVisibility:Enum:Visibility.Visible]"
-<<<<<<< HEAD
                                 IsPaneOpen="@[IsPaneOpen:Bool:False]@"
                                 UseNavigationViewWhenPossible="@[UseNavigationViewWhenPossible:Bool:True]">
-=======
-                                IsPaneOpen="@[IsPaneOpen:Bool:False]@">
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             <!--  Items  -->
             <controls:HamburgerMenu.ItemsSource>
                 <controls:HamburgerMenuItemCollection>

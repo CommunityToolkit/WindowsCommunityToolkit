@@ -1,15 +1,8 @@
 ---
-<<<<<<< HEAD
 title: UWP Community Toolkit controls in the Visual Studio Toolbox
 author: nmetulev
 ms.date: 08/20/2017
 description: Adding the UWP Community Toolkit to your Visual Studio Toolbox simplifies the development workflow with the Visual Studio designer 
-=======
-title: UWP Community Toolkit vontols in the Visual Studio Toolbox
-author: nmetulev
-ms.date: 08/20/2017
-description: Adding the UWP Community Toolkit to your Visual Studio Toolbox
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, visual studio, toolbox
 ---
 

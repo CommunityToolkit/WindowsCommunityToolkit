@@ -27,7 +27,7 @@ The BladeView provides a container to host blades as extra detail pages in, for 
     </controls:BladeItem>
 
     <controls:BladeItem x:Name="DefaultBlade" 
-	                    Title="A blade"
+	                    Header="A blade"
                         IsOpen="False">
         <TextBlock HorizontalAlignment="Center"
                    VerticalAlignment="Center"
@@ -94,11 +94,7 @@ For example; if you set `AutoCollapseCountThreshold` to 3, the BladeView will st
 
 ## Requirements (Windows 10 Device Family)
 
-<<<<<<< HEAD
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
-=======
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 

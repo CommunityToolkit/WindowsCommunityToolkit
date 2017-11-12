@@ -18,7 +18,6 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
 {
-<<<<<<< HEAD
     /// <summary>
     /// Rudimentary showcase of RichText and Toggleable Toolbar Buttons.
     /// </summary>
@@ -28,11 +27,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
         /// Initializes a new instance of the <see cref="RichTextFormatter"/> class.
         /// </summary>
         /// <param name="model">The <see cref="TextToolbar"/></param>
-=======
-    // Rudimentary showcase of RichText and Toggleable Toolbar Buttons.
-    public class RichTextFormatter : Formatter
-    {
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public RichTextFormatter(TextToolbar model)
             : base(model)
         {
@@ -40,10 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
             ButtonActions = new RichTextButtonActions(this);
         }
 
-<<<<<<< HEAD
         /// <inheritdoc/>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public override void OnSelectionChanged()
         {
             if (Selected.CharacterFormat.Bold == FormatEffect.On)
@@ -106,10 +97,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
 
         private CommonButtons CommonButtons { get; }
 
-<<<<<<< HEAD
         /// <inheritdoc/>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public override string Text
         {
             get
@@ -132,10 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
 
         internal ToolbarButton OrderedListButton { get; set; }
 
-<<<<<<< HEAD
         /// <inheritdoc/>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public override ButtonMap DefaultButtons
         {
             get
@@ -172,22 +157,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
             }
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Gets or sets format used for formatting selection in editor
         /// </summary>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public ITextCharacterFormat SelectionFormat
         {
             get { return Selected.CharacterFormat; }
             set { Selected.CharacterFormat = value; }
         }
 
-<<<<<<< HEAD
         /// <inheritdoc/>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public override string NewLineChars => "\r\n";
     }
 }

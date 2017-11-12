@@ -2,11 +2,7 @@
 title: TileControl XAML Control
 author: nmetulev
 ms.date: 08/20/2017
-<<<<<<< HEAD
 description: The Tile Control is a control that repeats an image many times. It enables you to use animation and synchronization with a ScrollViewer to create parallax effect. XAML or Microsoft Composition are automatically used to render the control.
-=======
-description: The Tile Control is a control that repeat an image many times.
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, TileControl, XAML Control, xaml
 ---
 

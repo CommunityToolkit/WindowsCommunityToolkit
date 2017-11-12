@@ -25,13 +25,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public string ProtocolActivationTargetApplicationPfn { get; set; }
 
         /// <summary>
-<<<<<<< HEAD:Microsoft.Toolkit.Uwp.Notifications/Toasts/ToastActivationOptions.cs
         /// Gets or sets the behavior that the toast should use when the user invokes this action.
         /// Note that this option only works on <see cref="ToastButton"/> and <see cref="ToastContextMenuItem"/>.
         /// Desktop-only, supported in builds 16251 or higher. New in Fall Creators Update
-=======
-        /// New in Fall Creators Update: Specifies the behavior that the toast should use when the user invokes this action. Note that this option only works on <see cref="ToastButton"/> and <see cref="ToastContextMenuItem"/>. Desktop-only, supported in builds 16251 or higher.
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd:Notifications/Microsoft.Toolkit.Uwp.Notifications.Shared/Toasts/ToastActivationOptions.cs
         /// </summary>
         public ToastAfterActivationBehavior AfterActivationBehavior { get; set; } = ToastAfterActivationBehavior.Default;
 

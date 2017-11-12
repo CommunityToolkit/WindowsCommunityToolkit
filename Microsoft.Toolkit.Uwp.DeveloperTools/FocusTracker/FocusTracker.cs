@@ -126,7 +126,6 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
             {
                 controlName.Text = focusedControl.Name;
             }
-<<<<<<< HEAD
 
             if (controlType != null)
             {
@@ -138,19 +137,6 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
                 controlAutomationName.Text = AutomationProperties.GetName(focusedControl);
             }
 
-=======
-
-            if (controlType != null)
-            {
-                controlType.Text = focusedControl.GetType().Name;
-            }
-
-            if (controlAutomationName != null)
-            {
-                controlAutomationName.Text = AutomationProperties.GetName(focusedControl);
-            }
-
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             if (controlFirstParentWithName != null)
             {
                 var parentWithName = FindVisualAscendantWithName(focusedControl);

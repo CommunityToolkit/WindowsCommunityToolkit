@@ -17,10 +17,7 @@ You can use these properties :
 * HeaderTemplate
 * IsExpanded (define if the content is visible or not)
 * ExpandDirection
-<<<<<<< HEAD
 * DisplayMode
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 You can also use these events :
 
@@ -56,7 +53,6 @@ The `ExpandDirection` property can take 4 values that will expand the content ba
 * `Right` - from left to right
 * `Left` - from right to left
 
-<<<<<<< HEAD
 ### DisplayMode
 
 The `DisplayMode` property can take 2 values that will modify the behavior of the Expander control:
@@ -64,8 +60,6 @@ The `DisplayMode` property can take 2 values that will modify the behavior of th
 * `Expand` - the content is either visible or collapsed (default)
 * `Overlay` - when the content is collapsed, an overlay content is shown
 
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 ## Example Image
 
 ![Expander animation](../resources/images/Controls-Expander.gif "Expander")
@@ -80,11 +74,7 @@ The `DisplayMode` property can take 2 values that will modify the behavior of th
 
 ## Requirements (Windows 10 Device Family)
 
-<<<<<<< HEAD
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
-=======
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 

@@ -13,15 +13,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-<<<<<<< HEAD
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Exceptions;
-=======
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Services.Exceptions;
-using System.Net.Http;
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 namespace Microsoft.Toolkit.Services
 {
@@ -32,18 +26,10 @@ namespace Microsoft.Toolkit.Services
     public abstract class DataProviderBase<TConfig>
     {
         /// <summary>
-<<<<<<< HEAD
         /// Initializes a new instance of the <see cref="DataProviderBase{TConfig}"/> class.
         /// </summary>
         public DataProviderBase()
         {
-=======
-        /// Constructor
-        /// </summary>
-        public DataProviderBase()
-        {
-            
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         }
 
         /// <summary>
@@ -85,22 +71,14 @@ namespace Microsoft.Toolkit.Services
         private static HttpClient httpClient;
 
         /// <summary>
-<<<<<<< HEAD
         /// Gets or sets static instance of HttpClient.
-=======
-        /// Static instance of HttpClient.
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         /// </summary>
         public static HttpClient HttpClient
         {
             get { return httpClient ?? (httpClient = new HttpClient()); }
             set { httpClient = value; }
         }
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         /// <summary>
         /// Derived classes will have to implement this method to return provider data
         /// </summary>

@@ -130,31 +130,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (AllowTooltip)
             {
                 HideMenuItemsTooltips();
-<<<<<<< HEAD
             }
 
-            if (menuItem != null || IsOpened)
-            {
-                return;
-            }
-
-            _isLostFocus = true;
-            if (!AllowTooltip)
-            {
-                RemoveUnderlineMenuItems();
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
-            }
-
-<<<<<<< HEAD
-        private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
-        {
-            if (Items.Count == 0)
-            {
-                return;
-            }
-
-=======
             if (menuItem != null || IsOpened)
             {
                 return;
@@ -169,7 +146,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
         {
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
+            if (Items.Count == 0)
+            {
+                return;
+            }
+
             _lastFocusElement = FocusManager.GetFocusedElement() as Control;
 
             if (args.VirtualKey == VirtualKey.Menu)
@@ -178,11 +159,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (_isLostFocus)
                     {
-<<<<<<< HEAD
                         ((MenuItem)Items[0]).Focus(FocusState.Programmatic);
-=======
-                        Focus(FocusState.Programmatic);
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
                         if (!(_lastFocusElement is MenuItem))
                         {

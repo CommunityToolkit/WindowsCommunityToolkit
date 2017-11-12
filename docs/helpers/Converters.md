@@ -87,11 +87,7 @@ and using it like that :
 `BoolToVisibilityConverter` can be used to easily change a boolean value to a Visibility based one. 
 If targetting 14393 or later, this is done automatically through [x:Bind][1].  First, declare the converter in your resources:
 
-<<<<<<< HEAD
 ```xaml
-=======
-```xml
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 <Page.Resources>
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -101,11 +97,7 @@ If targetting 14393 or later, this is done automatically through [x:Bind][1].  F
 
 and use it like this :
 
-<<<<<<< HEAD
 ```xaml
-=======
-```xml
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 <Image Visibility="{Binding Path=MyBoolValue, Converter={StaticResource BoolToVisibilityConverter}}" />
 
@@ -113,11 +105,7 @@ and use it like this :
 
 you can also invert the boolean as a ConverterParameter:
 
-<<<<<<< HEAD
 ```xaml
-=======
-```xml
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 <Image Visibility="{Binding Path=MyBoolValue, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
 
@@ -125,11 +113,7 @@ you can also invert the boolean as a ConverterParameter:
 
 or if you want to not pass a parameter, you can use `BoolToObjectConverter` to create an `InverseBoolToVisibilityConveter`:
 
-<<<<<<< HEAD
 ```xaml
-=======
-```xml
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 <Page.Resources>
     <converters:BoolToObjectConverter x:Key="InverseBoolToVisibilityConverter" TrueValue="Collapsed" FalseValue="Visible"/>
@@ -146,11 +130,7 @@ That result can also be inverted withe a ConverterParameter.
 
 For instance you can generalize the `CollectionVisibilityConverter` using the `EmptyCollectionToObjectConverter`:
 
-<<<<<<< HEAD
 ```xaml
-=======
-```xml
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 <Page.Resources>
     <converters:EmptyCollectionToObjectConverter x:Key="CollectionVisibilityConverter" EmptyValue="Collapsed" NotEmptyValue="Visible"/>
@@ -160,11 +140,7 @@ For instance you can generalize the `CollectionVisibilityConverter` using the `E
 
 this can be used as follows to hide a list with no items and instead show text through inversion with the ConverterParameter:
 
-<<<<<<< HEAD
 ```xaml
-=======
-```xml
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 <ListView Visibility="{Binding Path=MyCollectionValue, Converter={StaticResource CollectionVisibilityConverter}}" />
 
@@ -178,11 +154,7 @@ this can be used as follows to hide a list with no items and instead show text t
 It only allows for a single input value (the binding string), but can be formatted with the regular string.Format
 methods.  First, add it to your page resources:
 
-<<<<<<< HEAD
 ```xaml
-=======
-```xml
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 <Page.Resources>
     <converters:StringFormatConverter x:Key="StringFormatConverter"/>
@@ -192,11 +164,7 @@ methods.  First, add it to your page resources:
 
 then use it like so:
 
-<<<<<<< HEAD
 ```xaml
-=======
-```xml
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 <TestBlock Text="{Binding IsLoading, Converter={StaticResource StringFormatConverter}, ConverterParameter='Is Loading: {0}'}" />
 

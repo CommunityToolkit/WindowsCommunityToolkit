@@ -19,13 +19,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
     /// </summary>
     public class DefaultButton : DependencyObject
     {
-<<<<<<< HEAD
         /// <summary>
         /// Identifies the <see cref="IsVisible"/> dependency property.
         /// </summary>
-=======
-        // Using a DependencyProperty as the backing store for IsVisible.  This enables animation, styling, binding, etc...
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public static readonly DependencyProperty IsVisibleProperty =
             DependencyProperty.Register(nameof(IsVisible), typeof(bool), typeof(DefaultButton), new PropertyMetadata(true));
 
@@ -39,29 +35,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
             return new DefaultButton { Type = type };
         }
 
-<<<<<<< HEAD
         /// <inheritdoc/>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public override bool Equals(object obj)
         {
             var other = obj as DefaultButton;
             return other != null && other.Type == Type;
         }
 
-<<<<<<< HEAD
         /// <inheritdoc/>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public override int GetHashCode()
         {
             return Type.GetHashCode();
         }
 
-<<<<<<< HEAD
         /// <inheritdoc/>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public override string ToString()
         {
             return Type.ToString();
@@ -69,12 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 
         private static void IsVisibleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-<<<<<<< HEAD
             if (obj is DefaultButton button && button.Button != null)
-=======
-            var button = obj as DefaultButton;
-            if (button != null && button.Button != null)
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             {
                 var model = button.Button as FrameworkElement;
                 model.Visibility = button.IsVisible ? Visibility.Visible : Visibility.Collapsed;

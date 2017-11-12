@@ -2,11 +2,7 @@
 title: UWP Community Toolkit Nuget Packages
 author: nmetulev
 ms.date: 08/20/2017
-<<<<<<< HEAD
 description: The UWP Community Toolkit is updated regularly with new controls, services, APIs, and more importantly, bug fixes. Make sure to regularly update your nuget packages
-=======
-description: UWP Community Toolkit Nuget Packages
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, nuget, visual studio
 ---
 

@@ -14,13 +14,10 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.UI
 {
-<<<<<<< HEAD
     /// <summary>
     /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.Controls.WebView"/>
     /// that allows attaching HTML string content/>.
     /// </summary>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
     [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.WebView instead")]
     public class WebViewExtensions : Microsoft.Toolkit.Uwp.UI.Extensions.WebView
     {

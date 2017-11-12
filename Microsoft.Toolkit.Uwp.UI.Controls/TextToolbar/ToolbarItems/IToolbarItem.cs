@@ -14,12 +14,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 {
-<<<<<<< HEAD
     /// <summary>
     /// Interface that defines the position of an item in a <see cref="TextToolbar"/>
     /// </summary>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
     public interface IToolbarItem : ICommandBarElement
     {
         /// <summary>

@@ -20,15 +20,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class ShortcutKeyRequestArgs
     {
-<<<<<<< HEAD
         /// <summary>
         /// Initializes a new instance of the <see cref="ShortcutKeyRequestArgs"/> class.
         /// </summary>
         /// <param name="key"><see cref="VirtualKey"/> pressed</param>
         /// <param name="shiftKeyHeld">value indicating if the SHIFT key was pressed</param>
         /// <param name="args"><see cref="KeyRoutedEventArgs"/> from the original event handler</param>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public ShortcutKeyRequestArgs(VirtualKey key, bool shiftKeyHeld, KeyRoutedEventArgs args)
         {
             Key = key;

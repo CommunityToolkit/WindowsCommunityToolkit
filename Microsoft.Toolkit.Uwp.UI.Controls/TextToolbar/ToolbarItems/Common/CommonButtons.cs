@@ -34,12 +34,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 
         private TextToolbar Model { get; }
 
-<<<<<<< HEAD
         /// <summary>
         /// Gets the <see cref="ToolbarButton"/> for Bold
         /// </summary>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public ToolbarButton Bold
         {
             get
@@ -55,12 +52,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             }
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Gets the <see cref="ToolbarButton"/> for Italics
         /// </summary>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public ToolbarButton Italics
         {
             get
@@ -76,12 +70,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             }
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Gets the <see cref="ToolbarButton"/> for Strikethrough
         /// </summary>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public ToolbarButton Strikethrough
         {
             get
@@ -98,12 +89,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             }
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Gets the <see cref="ToolbarButton"/> for Link
         /// </summary>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public ToolbarButton Link
         {
             get
@@ -120,12 +108,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             }
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Gets the <see cref="ToolbarButton"/> for List
         /// </summary>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public ToolbarButton List
         {
             get
@@ -140,12 +125,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             }
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Gets the <see cref="ToolbarButton"/> for OrderedList
         /// </summary>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public ToolbarButton OrderedList
         {
             get

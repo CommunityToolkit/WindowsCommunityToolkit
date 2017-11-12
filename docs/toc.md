@@ -6,10 +6,7 @@
 ## [Adding the UWP Community Toolkit to your Visual Studio Toolbox](Toolbox-Support.md)
 
 # Animations
-<<<<<<< HEAD
 ## [AnimationSet](animations/AnimationSet.md)
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 ## [Blur](animations/Blur.md)
 ## [ExpressionBuilder](animations/Expressions.md)
 ## [Fade](animations/Fade.md)
@@ -50,13 +47,8 @@
 ## [WrapPanel](controls/WrapPanel.md)
 
 # Developer tools
-<<<<<<< HEAD
 ## [AlignmentGrid](developer-tools/AlignmentGrid.md)
 ## [FocusTracker](developer-tools/FocusTracker.md)
-=======
-## [AlignmentGrid](developer%20tools/AlignmentGrid.md)
-## [FocusTracker](developer%20tools/FocusTracker.md)
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 # Extensions
 ## [Hyperlink](extensions/Hyperlink.md)

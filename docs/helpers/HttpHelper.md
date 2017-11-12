@@ -2,11 +2,7 @@
 title: HttpHelper
 author: nmetulev
 ms.date: 08/20/2017
-<<<<<<< HEAD
 description: HttpHelper is a UWP Community Toolkit helper class used to assist in common http and networking scenarios.
-=======
-description: Represents an HTTP request message including headers. 
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelper
 ---
 

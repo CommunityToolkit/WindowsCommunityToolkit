@@ -43,7 +43,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 tile2.ItemsSource = _pictures;
             }
-<<<<<<< HEAD
 
             var tile3 = control.FindChildByName("Tile3") as RotatorTile;
 
@@ -58,8 +57,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 tile4.ItemsSource = _pictures;
             }
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)

@@ -5,11 +5,6 @@ ms.date: 08/20/2017
 description: The UWP Community Toolkit Blur animation behavior selectively blurs a XAML element by increasing or decreasing pixel size
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, blur, blur animation
 ---
-<<<<<<< HEAD
-=======
-
-# Blur
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 # Blur
 

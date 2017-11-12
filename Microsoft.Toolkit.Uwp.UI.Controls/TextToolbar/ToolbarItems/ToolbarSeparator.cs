@@ -14,7 +14,6 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 {
-<<<<<<< HEAD
     /// <summary>
     /// Seperates a collection of <see cref="IToolbarItem"/>
     /// </summary>
@@ -23,19 +22,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
         /// <summary>
         /// Initializes a new instance of the <see cref="ToolbarSeparator"/> class.
         /// </summary>
-=======
-    public class ToolbarSeparator : AppBarSeparator, IToolbarItem
-    {
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public ToolbarSeparator()
         {
             this.DefaultStyleKey = typeof(ToolbarSeparator);
         }
 
-<<<<<<< HEAD
         /// <inheritdoc/>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public int Position { get; set; } = -1;
     }
 }

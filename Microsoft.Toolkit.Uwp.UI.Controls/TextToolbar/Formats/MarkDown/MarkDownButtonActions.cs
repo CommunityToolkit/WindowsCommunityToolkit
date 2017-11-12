@@ -14,7 +14,6 @@ using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 {
-<<<<<<< HEAD
     /// <summary>
     /// Default button Actions for MarkDown Formatter
     /// </summary>
@@ -24,60 +23,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         /// Initializes a new instance of the <see cref="MarkDownButtonActions"/> class.
         /// </summary>
         /// <param name="formatter">The Formatter to use</param>
-=======
-    public class MarkDownButtonActions : ButtonActions
-    {
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public MarkDownButtonActions(MarkDownFormatter formatter)
         {
             Formatter = formatter;
         }
 
-<<<<<<< HEAD
         /// <inheritdoc/>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public override void FormatBold(ToolbarButton button)
         {
             Formatter.SetSelection("**", "**");
         }
 
-<<<<<<< HEAD
         /// <inheritdoc/>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public override void FormatItalics(ToolbarButton button)
         {
             Formatter.SetSelection("_", "_");
         }
 
-<<<<<<< HEAD
         /// <inheritdoc/>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public override void FormatStrikethrough(ToolbarButton button)
         {
             Formatter.SetSelection("~~", "~~");
         }
 
-<<<<<<< HEAD
         /// <inheritdoc/>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public override void FormatLink(ToolbarButton button, string label, string formattedText, string link)
         {
             var select = Formatter.Selected;
             int originalStart = Formatter.Selected.StartPosition;
 
-<<<<<<< HEAD
             // Replaces Selection of first Line only.
             if (select.Text.Contains("\r"))
             {
                 select.EndPosition = select.Text.IndexOf("\r");
             }
 
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             if (string.IsNullOrWhiteSpace(label))
             {
                 if (!string.IsNullOrWhiteSpace(link))
@@ -97,50 +77,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             }
             else if (string.IsNullOrWhiteSpace(link))
             {
-<<<<<<< HEAD
                 Formatter.SetSelection($"[{label}](", ")", false, Formatter.Model.Labels.UrlLabel);
-=======
-                Formatter.SetSelection("[", $"]({Formatter.Model.Labels.UrlLabel})", false, label);
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             }
             else
             {
                 select.Text = $"[{label}]({link})";
                 select.StartPosition = select.EndPosition;
-<<<<<<< HEAD
             }
         }
 
         /// <inheritdoc/>
-=======
-                select.EndPosition = select.StartPosition;
-            }
-        }
-
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public override void FormatList(ToolbarButton button)
         {
             Formatter.SetList(() => "- ", button);
         }
 
-<<<<<<< HEAD
         /// <inheritdoc/>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         public override void FormatOrderedList(ToolbarButton button)
         {
             Formatter.SetList(Formatter.OrderedListIterate, button);
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Gets the Formatter used
         /// </summary>
         public MarkDownFormatter Formatter { get; }
     }
 }
-=======
-        public MarkDownFormatter Formatter { get; }
-    }
-}
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd

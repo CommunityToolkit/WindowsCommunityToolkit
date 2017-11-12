@@ -1,11 +1,7 @@
 ---
 title: HamburgerMenu XAML Control
 author: nmetulev
-<<<<<<< HEAD
 ms.date: 11/20/2017
-=======
-ms.date: 08/20/2017
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 description: The Hamburger Menu Control provides an easy-to-use, side-bar menu which users can show or hide by using a Hamburger button
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HamburgerMenu, xaml control, xaml
 ---

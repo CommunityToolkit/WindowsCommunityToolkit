@@ -75,21 +75,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-<<<<<<< HEAD
         /// <inheritdoc/>
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         protected override void OnContentChanged(object oldContent, object newContent)
         {
             if (oldContent != null)
             {
-<<<<<<< HEAD
                 if (oldContent is FrameworkElement oldElement)
-=======
-                var oldElement = oldContent as FrameworkElement;
-
-                if (oldElement != null)
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                 {
                     oldElement.SizeChanged -= OnSizeChanged;
                 }
@@ -97,13 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (newContent != null)
             {
-<<<<<<< HEAD
                 if (newContent is FrameworkElement newElement)
-=======
-                var newElement = newContent as FrameworkElement;
-
-                if (newElement != null)
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                 {
                     newElement.SizeChanged += OnSizeChanged;
                 }

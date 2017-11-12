@@ -22,10 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class HamburgerMenuPage : IXamlRenderListener
     {
-<<<<<<< HEAD
 #pragma warning disable CS0618 // Type or member is obsolete
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         private HamburgerMenu hamburgerMenuControl;
         private Grid contentGrid;
 
@@ -35,30 +32,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         }
 
         public void OnXamlRendered(FrameworkElement control)
-<<<<<<< HEAD
         {
             contentGrid = control.FindChildByName("ContentGrid") as Grid;
             hamburgerMenuControl = control.FindDescendantByName("HamburgerMenu") as HamburgerMenu;
             if (hamburgerMenuControl != null)
             {
                 hamburgerMenuControl.ItemInvoked += HamburgerMenuControl_ItemInvoked;
-=======
-        {
-            contentGrid = control.FindChildByName("ContentGrid") as Grid;
-            hamburgerMenuControl = control.FindDescendantByName("HamburgerMenu") as HamburgerMenu;
-            if (hamburgerMenuControl != null)
-            {
-                hamburgerMenuControl.ItemClick += HamburgerMenu_OnItemClick;
-                hamburgerMenuControl.OptionsItemClick += HamburgerMenu_OnOptionsItemClick;
-            }
-        }
-
-        private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
-        {
-            if (contentGrid != null)
-            {
-                contentGrid.DataContext = e.ClickedItem;
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             }
         }
 

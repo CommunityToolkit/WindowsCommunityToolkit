@@ -13,8 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -35,11 +33,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// <summary>
     /// Data Provider for connecting to Twitter service.
     /// </summary>
-<<<<<<< HEAD
     public class TwitterDataProvider : Toolkit.Services.DataProviderBase<TwitterDataConfig, Toolkit.Services.SchemaBase>
-=======
-    public class TwitterDataProvider : Toolkit.Services.DataProviderBase<TwitterDataConfig, Tweet>
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
     {
         /// <summary>
         /// Base Url for service.
@@ -49,11 +43,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         private const string PublishUrl = "https://upload.twitter.com/1.1";
         private const string UserStreamUrl = "https://userstream.twitter.com/1.1";
 
-<<<<<<< HEAD
         private static HttpClient _client;
-=======
-        private static HttpClient client;
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
         /// <summary>
         /// Base Url for service.
@@ -87,19 +77,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             _tokens = tokens;
             _vault = new PasswordVault();
 
-<<<<<<< HEAD
             if (_client == null)
             {
                 HttpClientHandler handler = new HttpClientHandler();
                 handler.AutomaticDecompression = DecompressionMethods.GZip;
                 _client = new HttpClient(handler);
-=======
-            if (client == null)
-            {
-                HttpClientHandler handler = new HttpClientHandler();
-                handler.AutomaticDecompression = DecompressionMethods.GZip;
-                client = new HttpClient(handler);
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
             }
         }
 
@@ -478,11 +460,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         /// <param name="config">Query configuration.</param>
         /// <returns>Strongly typed parser.</returns>
-<<<<<<< HEAD
         protected override Toolkit.Services.IParser<Toolkit.Services.SchemaBase> GetDefaultParser(TwitterDataConfig config)
-=======
-        protected override Toolkit.Services.IParser<Tweet> GetDefaultParser(TwitterDataConfig config)
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         {
             if (config == null)
             {
@@ -708,11 +686,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(twitterUrl)))
             {
-<<<<<<< HEAD
                 using (var response = await _client.SendAsync(request).ConfigureAwait(false))
-=======
-                using (var response = await client.SendAsync(request).ConfigureAwait(false))
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                 {
                     var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                     if (response.IsSuccessStatusCode)
@@ -796,11 +770,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             {
                 request.Headers.Authorization = new AuthenticationHeaderValue("OAuth", authorizationHeaderParams);
 
-<<<<<<< HEAD
                 using (var response = await _client.SendAsync(request).ConfigureAwait(false))
-=======
-                using (var response = await client.SendAsync(request).ConfigureAwait(false))
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                 {
                     data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 }

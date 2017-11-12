@@ -10,10 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-<<<<<<< HEAD
 using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;

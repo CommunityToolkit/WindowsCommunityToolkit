@@ -1,24 +1,26 @@
-﻿// ****************************************************************** Copyright (c) Microsoft. All
-// rights reserved. This code is licensed under the MIT License (MIT). THE CODE IS PROVIDED “AS IS”,
-// WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE CODE OR THE
-// USE OR OTHER DEALINGS IN THE CODE. ******************************************************************
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Security.Authentication.Web;
 using Windows.Storage.Streams;
 using winsdkfb;
 using winsdkfb.Graph;
-using System.Linq;
 
 namespace Microsoft.Toolkit.Uwp.Services.Facebook
 {
@@ -48,6 +50,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         public FacebookService()
         {
         }
+
+        /// <summary>
+
+        /// Gets a Windows Store ID associated with the current app
+
+        /// </summary>
 
         /// <summary>
         /// Gets public singleton property.
@@ -80,43 +88,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
             }
         }
 
-        /// <summary>
-        /// Gets a Windows Store ID associated with the current app
-        /// </summary>
         public string WindowsStoreId => WebAuthenticationBroker.GetCurrentApplicationCallbackUri().ToString();
-
-        /// <summary>
-        /// Returns the <see cref="FacebookPicture"/> object associated with the page
-        /// </summary>
-        /// <param name="pageId">id of the page for retrieving the picture</param>
-        /// <returns>A <see cref="FacebookPicture"/> object</returns>
-        public async Task<FacebookPicture> GetPagePictureInfoAsync(string pageId)
-        {
-            if (Provider.LoggedIn)
-            {
-                var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookDataHost<FacebookPicture>>);
-
-                PropertySet propertySet = new PropertySet { { "redirect", "0" } };
-                var singleValue = new FBSingleValue($"/{pageId}/picture", propertySet, factory);
-
-                var result = await singleValue.GetAsync();
-
-                if (result.Succeeded)
-                {
-                    return ((FacebookDataHost<FacebookPicture>)result.Object).Data;
-                }
-
-                throw new Exception(result.ErrorInfo?.Message);
-            }
-
-            var isLoggedIn = await LoginAsync();
-            if (isLoggedIn)
-            {
-                return await GetPagePictureInfoAsync(pageId);
-            }
-
-            return null;
-        }
 
         /// <summary>
         /// Retrieves a photo by id.
@@ -274,24 +246,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <summary>
         /// Initialize underlying provider with relevent token information.
         /// </summary>
-<<<<<<< HEAD
-        /// <param name="title">Title of the post.</param>
-        /// <param name="message">Message of the post.</param>
-        /// <param name="description">Description of the post.</param>
-        /// <param name="link">Link contained as part of the post. Cannot be null</param>
-        /// <param name="pictureUrl">URL of a picture attached to this post. Can be null</param>
-        /// <returns>Task to support await of async call.</returns>
-        [Obsolete("This method has been deprecated by Facebook Graph API v2.9. Please use PostToFeedAsync(link) instead.")]
-        public async Task<bool> PostToFeedAsync(string title, string message, string description, string link, string pictureUrl = null)
-=======
         /// <param name="oAuthTokens">Token instance.</param>
-        /// <param name="requiredPermissions">
-        /// List of required required permissions. public_profile and user_posts permissions will be
-        /// used by default.
-        /// </param>
+        /// <param name="requiredPermissions">List of required required permissions. public_profile and user_posts permissions will be used by default.</param>
         /// <returns>Success or failure.</returns>
         public bool Initialize(FacebookOAuthTokens oAuthTokens, FacebookPermissions requiredPermissions = FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts | FacebookPermissions.PublishActions)
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
         {
             if (oAuthTokens == null)
             {
@@ -305,20 +263,20 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// Initialize underlying provider with relevent token information.
         /// </summary>
         /// <param name="appId">Application ID (Provided by Facebook developer site)</param>
-        /// <param name="requiredPermissions">
-        /// List of required required permissions. public_profile and user_posts permissions will be
-        /// used by default.
-        /// </param>
+        /// <param name="requiredPermissions">List of required required permissions. public_profile and user_posts permissions will be used by default.</param>
         /// <param name="windowsStoreId">Windows Store SID</param>
         /// <returns>Success or failure.</returns>
         public bool Initialize(string appId, FacebookPermissions requiredPermissions = FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts | FacebookPermissions.PublishActions, string windowsStoreId = null)
+
         {
             if (string.IsNullOrEmpty(appId))
+
             {
                 throw new ArgumentNullException(nameof(appId));
             }
 
             if (string.IsNullOrEmpty(windowsStoreId))
+
             {
                 windowsStoreId = WindowsStoreId;
             }
@@ -326,23 +284,30 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
             isInitialized = true;
 
             Provider.FBAppId = appId;
+
             Provider.WinAppId = windowsStoreId;
 
             // Permissions
+
             var permissionList = new List<string>();
 
             foreach (FacebookPermissions value in Enum.GetValues(typeof(FacebookPermissions)))
             {
                 if ((requiredPermissions & value) != 0)
+
                 {
                     var name = value.ToString();
+
                     var finalName = new StringBuilder();
 
                     foreach (var c in name)
+
                     {
                         if (char.IsUpper(c))
                         {
+
                             if (finalName.Length > 0)
+
                             {
                                 finalName.Append('_');
                             }
@@ -350,6 +315,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
                             finalName.Append(char.ToLower(c));
                         }
                         else
+
                         {
                             finalName.Append(c);
                         }
@@ -403,13 +369,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <summary>
         /// Enables posting a picture to the timeline
         /// </summary>
-        /// <param name="feedId">id of user feed or page feed</param>
-        /// <param name="published">set photo in published or unpublished state</param>
         /// <param name="title">Title of the post.</param>
         /// <param name="pictureName">Picture name.</param>
         /// <param name="pictureStream">Picture stream to upload.</param>
-        /// <returns>Return picture information</returns>
-        public async Task<FacebookPicture> PostPictureToFeedAsync(string feedId, bool published, string title, string pictureName, IRandomAccessStreamWithContentType pictureStream)
+        /// <returns>Return ID of the picture</returns>
+        public async Task<string> PostPictureToFeedAsync(string title, string pictureName, IRandomAccessStreamWithContentType pictureStream)
         {
             if (pictureStream == null)
             {
@@ -422,11 +386,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
                 var parameters = new PropertySet
                 {
                     { "source", facebookPictureStream },
-                    { "name", title },
-                    { "published", published }
+                    { "name", title }
                 };
 
-                string path = feedId + "/photos";
+                string path = FBSession.ActiveSession.User.Id + "/photos";
                 var factory = new FBJsonClassFactory(JsonConvert.DeserializeObject<FacebookPicture>);
 
                 var singleValue = new FBSingleValue(path, parameters, factory);
@@ -436,29 +399,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
                     var photoResponse = result.Object as FacebookPicture;
                     if (photoResponse != null)
                     {
-                        return photoResponse;
+                        return photoResponse.Id;
                     }
                 }
 
                 return null;
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Enables posting a picture to the timeline
-        /// </summary>
-        /// <param name="title">Title of the post.</param>
-        /// <param name="pictureName">Picture name.</param>
-        /// <param name="pictureStream">Picture stream to upload.</param>
-        /// <returns>Return ID of the picture</returns>
-        public async Task<string> PostPictureToFeedAsync(string title, string pictureName, IRandomAccessStreamWithContentType pictureStream)
-        {
-            var photoInformation = await PostPictureToFeedAsync(FBSession.ActiveSession.User.Id, true, title, pictureName, pictureStream);
-            if (photoInformation != null)
-            {
-                return photoInformation.Id;
             }
 
             var isLoggedIn = await LoginAsync();
@@ -476,48 +421,19 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <param name="title">Title of the post.</param>
         /// <param name="message">Message of the post.</param>
         /// <param name="description">Description of the post.</param>
-        /// <param name="link">Link contained as part of the post</param>
+        /// <param name="link">Link contained as part of the post. Cannot be null</param>
         /// <param name="pictureUrl">URL of a picture attached to this post. Can be null</param>
         /// <returns>Task to support await of async call.</returns>
         [Obsolete("This method has been deprecated by Facebook Graph API v2.9. Please use PostToFeedAsync(link) instead.")]
-        public async Task<bool> PostToFeedAsync(string message, string title = null, string description = null, string link = null, string pictureUrl = null, string place = null)
+        public async Task<bool> PostToFeedAsync(string title, string message, string description, string link, string pictureUrl = null)
         {
-            /*
-             $response = $facebook->api("/me/feed", 'POST',
-  array(
-    'access_token=' => $access_token,
-    'message' => 'Testing multi-photo post!',
-    'attached_media[0]' => '{"media_fbid":"1002088839996"}',
-    'attached_media[1]' => '{"media_fbid":"1002088840149"}'
-  )
-);
-*/
             if (Provider.LoggedIn)
             {
-                var parameters = new PropertySet { { "message", message } };
-                if (!string.IsNullOrEmpty(title))
-                {
-                    parameters.Add(new KeyValuePair<string, object>("title", title));
-                }
-
-                if (!string.IsNullOrEmpty(description))
-                {
-                    parameters.Add(new KeyValuePair<string, object>("description", description));
-                }
-
-                if (!string.IsNullOrEmpty(link))
-                {
-                    parameters.Add(new KeyValuePair<string, object>("link", link));
-                }
+                var parameters = new PropertySet { { "title", title }, { "message", link }, { "description", description }, { "link", link } };
 
                 if (!string.IsNullOrEmpty(pictureUrl))
                 {
                     parameters.Add(new KeyValuePair<string, object>("picture", pictureUrl));
-                }
-
-                if (place != null)
-                {
-                    parameters.Add(new KeyValuePair<string, object>("place", place));
                 }
 
                 string path = FBSession.ActiveSession.User.Id + "/feed";
@@ -626,7 +542,6 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         }
 
         /// <summary>
-<<<<<<< HEAD
         /// Enables posting data to the timeline using Facebook dialog.
         /// </summary>
         /// <param name="link">Link contained as part of the post. Cannot be null.</param>
@@ -658,42 +573,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         }
 
         /// <summary>
-        /// Enables posting a picture to the timeline
-=======
-        /// Request list data from service provider based upon a given config / query. Enables
-        /// posting data to the timeline using Facebook dialog.
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
-        /// </summary>
-        /// <param name="link">Link contained as part of the post. Cannot be null.</param>
-        /// <returns>Task to support await of async call.</returns>
-        public async Task<bool> PostToFeedWithDialogAsync(string link)
-        {
-            if (Provider.LoggedIn)
-            {
-                var parameters = new PropertySet { { "link", link } };
-
-                var result = await Provider.ShowFeedDialogAsync(parameters);
-
-                if (result.Succeeded)
-                {
-                    return true;
-                }
-
-                Debug.WriteLine(string.Format("Could not post. {0}", result.ErrorInfo?.ErrorUserMessage));
-                return false;
-            }
-
-            var isLoggedIn = await LoginAsync();
-            if (isLoggedIn)
-            {
-                return await PostToFeedWithDialogAsync(link);
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Enables posting a picture to the timeline
+        /// Request list data from service provider based upon a given config / query.
         /// </summary>
         /// <param name="config">FacebookDataConfig instance.</param>
         /// <param name="maxRecords">Upper limit of records to return.</param>
@@ -709,12 +589,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <typeparam name="T">Strong type of model.</typeparam>
         /// <param name="config">FacebookDataConfig instance.</param>
         /// <param name="maxRecords">Upper limit of records to return.</param>
-        /// <param name="fields">
-        /// A comma seperated string of required fields, which will have strongly typed
-        /// representation in the model passed in.
-        /// </param>
+        /// <param name="fields">A comma seperated string of required fields, which will have strongly typed representation in the model passed in.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
-        public async Task<List<T>> RequestAsync<T>(FacebookDataConfig config, int maxRecords = 20, string fields = "id,message,from,created_time,link,full_picture,name")
+        public async Task<List<T>> RequestAsync<T>(FacebookDataConfig config, int maxRecords = 20, string fields = "id,message,from,created_time,link,full_picture")
         {
             if (Provider.LoggedIn)
             {
@@ -753,10 +630,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
         /// <param name="config">FacebookDataConfig instance.</param>
         /// <param name="pageSize">Upper limit of records to return.</param>
         /// <param name="maxPages">Upper limit of pages to return.</param>
-        /// <param name="fields">
-        /// A comma seperated string of required fields, which will have strongly typed
-        /// representation in the model passed in.
-        /// </param>
+        /// <param name="fields">A comma seperated string of required fields, which will have strongly typed representation in the model passed in.</param>
         /// <returns>Strongly typed list of data returned from the service.</returns>
         public async Task<IncrementalLoadingCollection<FacebookRequestSource<T>, T>> RequestAsync<T>(FacebookDataConfig config, int pageSize, int maxPages, string fields = "id,message,from,created_time,link,full_picture")
         {
@@ -774,6 +648,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
             }
 
             return null;
+        }
+
+        public Task RequestAsync<T>(object myPages)
+        {
+            throw new NotImplementedException();
         }
     }
 }

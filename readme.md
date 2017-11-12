@@ -53,11 +53,7 @@ Once you search you should see a list similar to the one below (versions may be 
 ### Animations
 
 * [Blur](http://docs.uwpcommunitytoolkit.com/en/master/animations/Blur/)
-<<<<<<< HEAD
 * [ExpressionBuilder](http://docs.uwpcommunitytoolkit.com/en/master/animations/Expressions/)
-=======
-* [ExpressionBuilder](http://www.uwpcommunitytoolkit.com/en/master/animations/Expressions/)
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 * [Fade](http://docs.uwpcommunitytoolkit.com/en/master/animations/Fade/)
 * [FadeHeader](http://docs.uwpcommunitytoolkit.com/en/master/animations/FadeHeader/)
 * [Light](http://docs.uwpcommunitytoolkit.com/en/master/animations/Light/)
@@ -67,10 +63,6 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Rotate](http://docs.uwpcommunitytoolkit.com/en/master/animations/Rotate/)
 * [Saturation](http://docs.uwpcommunitytoolkit.com/en/master/animations/Saturation/)
 * [Scale](http://docs.uwpcommunitytoolkit.com/en/master/animations/Scale/)
-<<<<<<< HEAD
-=======
-* [Saturation](http://www.uwpcommunitytoolkit.com/en/master/animations/Saturation/)
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 ### Controls
 
@@ -96,10 +88,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [RotatorTile](http://docs.uwpcommunitytoolkit.com/en/master/controls/RotatorTile/)
 * [ScrollHeader](http://docs.uwpcommunitytoolkit.com/en/master/controls/ScrollHeader/)
 * [SlideableListItem](http://docs.uwpcommunitytoolkit.com/en/master/controls/SlidableListItem/)
-<<<<<<< HEAD
 * [TextToolbar](http://docs.uwpcommunitytoolkit.com/en/master/controls/TextToolbar/)
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 * [TileControl](http://docs.uwpcommunitytoolkit.com/en/master/controls/TileControl/)
 * [WrapPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/WrapPanel/)
 
@@ -118,18 +107,6 @@ Once you search you should see a list similar to the one below (versions may be 
 * [VisualTree](http://docs.uwpcommunitytoolkit.com/en/master/extensions/VisualTree/)
 * [WebView](http://docs.uwpcommunitytoolkit.com/en/master/extensions/WebView/)
 
-<<<<<<< HEAD
-=======
-### Extensions
-* [Hyperlink](http://docs.uwpcommunitytoolkit.com/en/master/extensions/Hyperlink/)
-* [ListViewBase](http://docs.uwpcommunitytoolkit.com/en/master/extensions/ListViewBase/)
-* [SurfaceDialTextbox](http://docs.uwpcommunitytoolkit.com/en/master/extensions/SurfaceDialTextbox/)
-* [TextBoxMask](http://docs.uwpcommunitytoolkit.com/en/master/extensions/TextBoxMask/)
-* [TextBoxRegex](http://docs.uwpcommunitytoolkit.com/en/master/extensions/TextBoxRegex/)
-* [ViewExtensions](http://www.uwpcommunitytoolkit.com/en/master/extensions/ViewExtensions/)
-* [WebView](http://docs.uwpcommunitytoolkit.com/en/master/extensions/WebView/)
-
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 ### Code Helpers
 * [AdvancedCollectionView](http://docs.uwpcommunitytoolkit.com/en/master/helpers/AdvancedCollectionView/)
 * [BackgroundTaskHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BackgroundTaskHelper/)
@@ -142,20 +119,12 @@ Once you search you should see a list similar to the one below (versions may be 
 * [HttpHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/HttpHelper/)
 * [ImageCache](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ImageCache/)
 * [Incremental Loading Collection](http://docs.uwpcommunitytoolkit.com/en/master/helpers/IncrementalLoadingCollection/)
-<<<<<<< HEAD
 * [NetworkHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/NetworkHelper/)
-=======
-* [NetworkHelper](http://www.uwpcommunitytoolkit.com/en/master/helpers/NetworkHelper/)
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 * [Object Storage](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ObjectStorage/)
 * [PrintHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/PrintHelper/)
 * [StorageFiles](http://docs.uwpcommunitytoolkit.com/en/master/helpers/StorageFiles/)
 * [Streams](http://docs.uwpcommunitytoolkit.com/en/master/helpers/Streams/)
 * [SystemInformation](http://docs.uwpcommunitytoolkit.com/en/master/helpers/SystemInformation/)
-<<<<<<< HEAD
-=======
-* [VisualTreeExtensions](http://docs.uwpcommunitytoolkit.com/en/master/helpers/VisualTreeExtensions/)
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 * [WeakEventListener](http://docs.uwpcommunitytoolkit.com/en/master/helpers/WeakEventListener/)
 
 ### Services

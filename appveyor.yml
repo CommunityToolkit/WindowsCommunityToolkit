@@ -3,15 +3,10 @@ image: Visual Studio 2017
 branches:
   only:
   - master
-<<<<<<< HEAD
   - rel/2.0.0
   - rel/2.0.1
   - rel/2.1.0
   - rel/3.0.0
-=======
-  - build
-  - 1.5.1
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 environment:
   SignClientSecret:

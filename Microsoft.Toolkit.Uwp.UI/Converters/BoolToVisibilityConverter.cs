@@ -17,12 +17,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// <summary>
     /// This class converts a boolean value into a Visibility enumeration.
     /// </summary>
-    public class boolToVisibilityConverter : BoolToObjectConverter
+    public class BoolToVisibilityConverter : BoolToObjectConverter
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="boolToVisibilityConverter"/> class.
+        /// Initializes a new instance of the <see cref="BoolToVisibilityConverter"/> class.
         /// </summary>
-        public boolToVisibilityConverter()
+        public BoolToVisibilityConverter()
         {
             TrueValue = Visibility.Visible;
             FalseValue = Visibility.Collapsed;

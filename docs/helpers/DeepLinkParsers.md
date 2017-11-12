@@ -57,11 +57,7 @@ The method that does the heavy lifting of parsing in to the `Dictionary<string,s
 
 ## QueryParameterCollection
 This helper class aids in the creation of a `Collection<KeyValuePair<string,string>>` populated with they key-value pairs of all parameters in a query string.
-<<<<<<< HEAD
 ### Example
-=======
-## Example
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 ```c#
 var myUrl = http://microsoft.com/?user=fooUser&email=fooUser@outlook.com&firstName=John&lastName=Doe
@@ -71,11 +67,7 @@ foreach (var pair in paramCollection)
 	Console.WriteLine($"{pair.Key} - {pair.Value}");
 }
 ```
-<<<<<<< HEAD
 ### Output
-=======
-## Output
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 ```c#
 user - fooUser
@@ -84,7 +76,6 @@ firstname - John
 lastName - Doe
 ```
 
-<<<<<<< HEAD
 ### Requirements (Windows 10 Device Family)
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
@@ -92,14 +83,5 @@ lastName - Doe
 | Namespace | Microsoft.Toolkit.Uwp |
 
 ### API
-=======
-## Requirements (Windows 10 Device Family)
-
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
-| --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp |
-
-## API
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
 
 * [DeepLinkParser source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/DeepLinkParser)

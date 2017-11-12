@@ -18,10 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using System.Numerics;
     using System.Threading;
     using System.Threading.Tasks;
-<<<<<<< HEAD
     using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
-=======
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
     using Microsoft.Toolkit.Uwp.UI.Extensions;
     using Robmikh.CompositionSurfaceFactory;
     using Windows.ApplicationModel;

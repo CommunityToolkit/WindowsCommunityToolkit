@@ -45,11 +45,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 {
                     if (response.IsSuccessStatusCode)
                     {
-<<<<<<< HEAD
                         await response.Content.CopyToAsync(outputStream.AsStreamForWrite()).ConfigureAwait(false);
-=======
-                        await response.Content.CopyToAsync(outputStream.AsStreamForWrite());
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                         outputStream.Seek(0);
                     }
                 }
@@ -68,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             this Uri uri,
             StorageFile targetFile)
         {
-            using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite))
+            using (var fileStream = await targetFile.OpenAsync(FileAccessMode.ReadWrite).AsTask().ConfigureAwait(false))
             {
                 using (var request = new HttpRequestMessage(HttpMethod.Get, uri))
                 {
@@ -76,11 +72,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     {
                         if (response.IsSuccessStatusCode)
                         {
-<<<<<<< HEAD
                             await response.Content.CopyToAsync(fileStream.AsStreamForWrite()).ConfigureAwait(false);
-=======
-                            await response.Content.CopyToAsync(fileStream.AsStreamForWrite());
->>>>>>> fb2912293936b8803e6224af5086e6d0c8780bcd
                         }
                     }
                 }
