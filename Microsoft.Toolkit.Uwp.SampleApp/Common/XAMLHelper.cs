@@ -1,29 +1,28 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Animations;
-using System.Reflection;
+﻿using System.Reflection;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.UI;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
-    public static class AcrylicHelper
+    public static class XAMLHelper
     {
-        public static Color GetColor(FrameworkElement obj)
+        public static Color GetBackground(FrameworkElement obj)
         {
-            return (Color)obj.GetValue(ColorProperty);
+            return (Color)obj.GetValue(BackgroundProperty);
         }
 
-        public static void SetColor(FrameworkElement obj, Color value)
+        public static void SetBackground(FrameworkElement obj, Color value)
         {
-            obj.SetValue(ColorProperty, value);
+            obj.SetValue(BackgroundProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for Color.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ColorProperty =
-            DependencyProperty.RegisterAttached("Color", typeof(Color), typeof(AcrylicHelper), new PropertyMetadata(Colors.White, OnColorChanged));
+        // Using a DependencyProperty as the backing store for Background.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty BackgroundProperty =
+            DependencyProperty.RegisterAttached("Background", typeof(Color), typeof(XAMLHelper), new PropertyMetadata(Colors.White, OnBackgroundChanged));
 
-        private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnBackgroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue is Color color)
             {

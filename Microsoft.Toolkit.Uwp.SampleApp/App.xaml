@@ -701,7 +701,7 @@
                                     </toolkitControls:DropShadowPanel>
 
                                     <Border x:Name="SamplePickerGridBackground" 
-                                            local:AcrylicHelper.Color="#F3F3F3F3"></Border>
+                                            local:XAMLHelper.Background="#F3F3F3F3"></Border>
                                     <GridView x:Name="SamplePickerGridView"
                                               IsItemClickEnabled="True"
                                               animations:ReorderGridAnimation.Duration="200"

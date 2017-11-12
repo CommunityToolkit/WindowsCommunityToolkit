@@ -465,9 +465,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\AcrylicHelper.cs" />
+    <Compile Include="Common\XAMLHelper.cs" />
     <Compile Include="Common\AnalyticsVersionInfoExtensions.cs" />
-    <Compile Include="Common\AnimationHelper.cs" />
     <Compile Include="Common\BoolStringConverter.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\DelegateCommand{T}.cs" />
@@ -1139,7 +1138,7 @@
       </AppxPackagePayload>
     </ItemGroup>
   </Target>
-  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
+   <!--https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app--> 
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
     <ItemGroup>
       <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />

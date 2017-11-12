@@ -72,20 +72,18 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Frame x:Name="NavigationFrame" >
-                    <Frame.ContentTransitions>
-                        <TransitionCollection>
-                            <NavigationThemeTransition>
-                                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                                    <DrillInNavigationTransitionInfo/>
-                                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                            </NavigationThemeTransition>
-                        </TransitionCollection>
-                    </Frame.ContentTransitions>
-                </Frame>
+                <Frame x:Name="NavigationFrame" ></Frame>
                 <controls:DropShadowPanel Grid.Row="1" Color="Black" ShadowOpacity="0.2" BlurRadius="40"
                                             HorizontalContentAlignment="Stretch" Margin="8,0,8,8"
                                             Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:TranslationAnimation From="0, 100, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
+                        <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                    </animations:Implicit.ShowAnimations>
+                    <animations:Implicit.HideAnimations>
+                        <animations:TranslationAnimation To="0, 100, 0" From="0" Duration="0:0:0.3"></animations:TranslationAnimation>
+                        <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                    </animations:Implicit.HideAnimations>
                     <Border Background="#FFFFFF">
                         <ItemsControl ItemsSource="{x:Bind Commands}"
                                     VerticalAlignment="Top"
@@ -117,8 +115,18 @@
                     
             </Grid>
             <Grid x:Name="InfoAreaGrid"
-                    Background="{StaticResource Brush-Grey-04}"
-                    Visibility="Collapsed">
+                  Background="{StaticResource Brush-Grey-04}"
+                  Visibility="Collapsed">
+
+                <animations:Implicit.ShowAnimations>
+                    <animations:TranslationAnimation From="200, 0, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
+                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                </animations:Implicit.ShowAnimations>
+                <animations:Implicit.HideAnimations>
+                    <animations:TranslationAnimation To="200, 0, 0" Duration="0:0:0.2"></animations:TranslationAnimation>
+                    <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.2"></animations:OpacityAnimation>
+                </animations:Implicit.HideAnimations>
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition />

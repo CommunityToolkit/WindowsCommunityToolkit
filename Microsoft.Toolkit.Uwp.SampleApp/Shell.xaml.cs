@@ -42,8 +42,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public static Shell Current { get; private set; }
 
         private bool _isPaneOpen;
-        private AutoSuggestBox _searchBox;
-        private Button _searchButton;
 
         private XamlRenderService _xamlRenderer = new XamlRenderService();
         private bool _lastRenderedProperties = true;

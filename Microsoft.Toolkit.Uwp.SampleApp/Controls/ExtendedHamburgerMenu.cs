@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.UI;
+using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
@@ -18,6 +17,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
     public class ExtendedHamburgerMenu : HamburgerMenu
 #pragma warning restore CS0618 // Type or member is obsolete
     {
+        private static readonly bool _isCreatorsUpdateOrAbove = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4);
+
         private Button _hamburgerButton;
         private ListView _buttonsListView;
         private ListView _optionsListView;
@@ -308,9 +309,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         {
             _searchButton.Visibility = Visibility.Visible;
 
-            new ScaleAnimation() { To = "0, 1, 1", Duration = TimeSpan.FromMilliseconds(300) }.StartAnimation(_searchBox);
+            if (_isCreatorsUpdateOrAbove)
+            {
+                new ScaleAnimation() { To = "0, 1, 1", Duration = TimeSpan.FromMilliseconds(300) }.StartAnimation(_searchBox);
 
-            await Task.Delay(300);
+                await Task.Delay(300);
+            }
 
             _searchBox.Visibility = Visibility.Collapsed;
         }
@@ -381,7 +385,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private void SamplePickerGridView_ChoosingItemContainer(Windows.UI.Xaml.Controls.ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
-            if (!AnimationHelper.IsImplicitHideShowSupported || args.ItemContainer != null)
+            if (args.ItemContainer != null)
             {
                 return;
             }
@@ -398,12 +402,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         {
             var itemsPanel = (ItemsWrapGrid)_samplePickerGridView.ItemsPanelRoot;
             var itemContainer = (GridViewItem)sender;
+            itemContainer.Loaded -= this.ContainerItem_Loaded;
 
             var button = itemContainer.FindDescendant<Button>();
             if (button != null)
             {
                 button.Click -= MoreInfoClicked;
                 button.Click += MoreInfoClicked;
+            }
+
+            if (!_isCreatorsUpdateOrAbove)
+            {
+                return;
             }
 
             var itemIndex = _samplePickerGridView.IndexFromContainer(itemContainer);
@@ -431,8 +441,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
                 animationCollection.StartAnimation(itemContainer);
             }
-
-            itemContainer.Loaded -= this.ContainerItem_Loaded;
         }
 
         private void MoreInfoClicked(object sender, RoutedEventArgs e)
@@ -480,14 +488,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private void HideMoreInfo()
         {
-            if (_moreInfoImage != null && _moreInfoContent.DataContext != null)
+            if (_isCreatorsUpdateOrAbove && _moreInfoImage != null && _moreInfoContent.DataContext != null)
             {
                 ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("sample_icon", _moreInfoImage);
             }
 
             _moreInfoCanvas.Visibility = Visibility.Collapsed;
 
-            if (_moreInfoImage != null && _moreInfoContent.DataContext != null)
+            if (_isCreatorsUpdateOrAbove && _moreInfoImage != null && _moreInfoContent.DataContext != null)
             {
                 var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("sample_icon");
                 var t = _samplePickerGridView.TryStartConnectedAnimationAsync(animation, _moreInfoContent.DataContext, "SampleIcon");
