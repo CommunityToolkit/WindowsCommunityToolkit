@@ -446,6 +446,7 @@
     <Content Include="SamplePages\DockPanel\DockPanel.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\AppPinManager\AppPinManagerHelperCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -477,6 +478,9 @@
     </Compile>
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\AppPinManager\AppPinManagerHelperPage.xaml.cs">
+      <DependentUpon>AppPinManagerHelperPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperPage.xaml.cs">
       <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
@@ -733,6 +737,10 @@
     <Page Include="Pages\SamplePicker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\AppPinManager\AppPinManagerHelperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Carousel\CarouselPage.xaml">
       <Generator>MSBuild:Compile</Generator>
