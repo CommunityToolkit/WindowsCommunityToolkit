@@ -1,7 +1,7 @@
 ---
 title: AppPinManager helper
 author: rvinothrajendran
-ms.date: 08/11/2017
+ms.date: 11/08/2017
 description: The AppPinManager class helps to user add the app shortcut in StartMenu or TaskBar in a easier way
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, StartMenu, TaskBar, PinManager 
 ---
@@ -36,6 +36,7 @@ All the APIs return the `PinResult` enum as a status
 | PinNotAllowed |  Unable to pin due as pinning is not allowed |
 | PinPresent | Successfully pinned |
 | PinAlreadyPresent | Pin already exist |
+| PinOperationFailed | Pin Operation is failed may be user has canceled|
 
 ## Examples
 
