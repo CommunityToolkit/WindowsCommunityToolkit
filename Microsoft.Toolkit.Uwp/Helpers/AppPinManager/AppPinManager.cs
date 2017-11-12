@@ -33,31 +33,33 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             var resultPinResult = PinResult.UnsupportedOs;
 
-            if (ApiInformation.IsTypePresent("Windows.UI.Shell.TaskbarManager"))
+            if (!ApiInformation.IsTypePresent("Windows.UI.Shell.TaskbarManager"))
             {
-                if (TaskbarManager.GetDefault().IsSupported)
+                return resultPinResult;
+            }
+
+            if (TaskbarManager.GetDefault().IsSupported)
+            {
+                if (TaskbarManager.GetDefault().IsPinningAllowed)
                 {
-                    if (TaskbarManager.GetDefault().IsPinningAllowed)
+                    if (await TaskbarManager.GetDefault().IsCurrentAppPinnedAsync())
                     {
-                        if (await TaskbarManager.GetDefault().IsCurrentAppPinnedAsync())
-                        {
-                            resultPinResult = PinResult.PinAlreadyPresent;
-                        }
-                        else
-                        {
-                            var result = await TaskbarManager.GetDefault().RequestPinCurrentAppAsync();
-                            resultPinResult = result ? PinResult.PinPresent : PinResult.PinOperationFailed;
-                        }
+                        resultPinResult = PinResult.PinAlreadyPresent;
                     }
                     else
                     {
-                        resultPinResult = PinResult.PinNotAllowed;
+                        var result = await TaskbarManager.GetDefault().RequestPinCurrentAppAsync();
+                        resultPinResult = result ? PinResult.PinPresent : PinResult.PinOperationFailed;
                     }
                 }
                 else
                 {
-                    resultPinResult = PinResult.UnsupportedDevice;
+                    resultPinResult = PinResult.PinNotAllowed;
                 }
+            }
+            else
+            {
+                resultPinResult = PinResult.UnsupportedDevice;
             }
 
             return resultPinResult;
@@ -72,31 +74,33 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             var resultPinResult = PinResult.UnsupportedOs;
 
-            if (ApiInformation.IsTypePresent("Windows.UI.Shell.TaskbarManager"))
+            if (!ApiInformation.IsTypePresent("Windows.UI.Shell.TaskbarManager"))
             {
-                if (TaskbarManager.GetDefault().IsSupported)
+                return resultPinResult;
+            }
+
+            if (TaskbarManager.GetDefault().IsSupported)
+            {
+                if (TaskbarManager.GetDefault().IsPinningAllowed)
                 {
-                    if (TaskbarManager.GetDefault().IsPinningAllowed)
+                    if (await TaskbarManager.GetDefault().IsAppListEntryPinnedAsync(appListEntry))
                     {
-                        if (await TaskbarManager.GetDefault().IsAppListEntryPinnedAsync(appListEntry))
-                        {
-                            resultPinResult = PinResult.PinAlreadyPresent;
-                        }
-                        else
-                        {
-                            var result = await TaskbarManager.GetDefault().RequestPinAppListEntryAsync(appListEntry);
-                            resultPinResult = result ? PinResult.PinPresent : PinResult.PinOperationFailed;
-                        }
+                        resultPinResult = PinResult.PinAlreadyPresent;
                     }
                     else
                     {
-                        resultPinResult = PinResult.PinNotAllowed;
+                        var result = await TaskbarManager.GetDefault().RequestPinAppListEntryAsync(appListEntry);
+                        resultPinResult = result ? PinResult.PinPresent : PinResult.PinOperationFailed;
                     }
                 }
                 else
                 {
-                    resultPinResult = PinResult.UnsupportedDevice;
+                    resultPinResult = PinResult.PinNotAllowed;
                 }
+            }
+            else
+            {
+                resultPinResult = PinResult.UnsupportedDevice;
             }
 
             return resultPinResult;
@@ -110,24 +114,27 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public static async Task<PinResult> PinSpecificAppToStartMenuAsync(AppListEntry entry)
         {
             var resultPinResult = PinResult.UnsupportedOs;
-            if (ApiInformation.IsTypePresent("Windows.UI.StartScreen.StartScreenManager"))
+
+            if (!ApiInformation.IsTypePresent("Windows.UI.StartScreen.StartScreenManager"))
             {
-                if (StartScreenManager.GetDefault().SupportsAppListEntry(entry))
+                return resultPinResult;
+            }
+
+            if (StartScreenManager.GetDefault().SupportsAppListEntry(entry))
+            {
+                if (await StartScreenManager.GetDefault().ContainsAppListEntryAsync(entry))
                 {
-                    if (await StartScreenManager.GetDefault().ContainsAppListEntryAsync(entry))
-                    {
-                        resultPinResult = PinResult.PinAlreadyPresent;
-                    }
-                    else
-                    {
-                        var result = await StartScreenManager.GetDefault().RequestAddAppListEntryAsync(entry);
-                        resultPinResult = result ? PinResult.PinPresent : PinResult.PinOperationFailed;
-                    }
+                    resultPinResult = PinResult.PinAlreadyPresent;
                 }
                 else
                 {
-                    resultPinResult = PinResult.UnsupportedDevice;
+                    var result = await StartScreenManager.GetDefault().RequestAddAppListEntryAsync(entry);
+                    resultPinResult = result ? PinResult.PinPresent : PinResult.PinOperationFailed;
                 }
+            }
+            else
+            {
+                resultPinResult = PinResult.UnsupportedDevice;
             }
 
             return resultPinResult;
@@ -142,24 +149,27 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public static async Task<PinResult> PinUserSpecificAppToStartMenuAsync(User user, AppListEntry entry)
         {
             var resultPinResult = PinResult.UnsupportedOs;
-            if (ApiInformation.IsTypePresent("Windows.UI.StartScreen.StartScreenManager"))
+
+            if (!ApiInformation.IsTypePresent("Windows.UI.StartScreen.StartScreenManager"))
             {
-                if (StartScreenManager.GetForUser(user).SupportsAppListEntry(entry))
+                return resultPinResult;
+            }
+
+            if (StartScreenManager.GetForUser(user).SupportsAppListEntry(entry))
+            {
+                if (await StartScreenManager.GetForUser(user).ContainsAppListEntryAsync(entry))
                 {
-                    if (await StartScreenManager.GetForUser(user).ContainsAppListEntryAsync(entry))
-                    {
-                        resultPinResult = PinResult.PinAlreadyPresent;
-                    }
-                    else
-                    {
-                        var result = await StartScreenManager.GetForUser(user).RequestAddAppListEntryAsync(entry);
-                        resultPinResult = result ? PinResult.PinPresent : PinResult.PinOperationFailed;
-                    }
+                    resultPinResult = PinResult.PinAlreadyPresent;
                 }
                 else
                 {
-                    resultPinResult = PinResult.UnsupportedDevice;
+                    var result = await StartScreenManager.GetForUser(user).RequestAddAppListEntryAsync(entry);
+                    resultPinResult = result ? PinResult.PinPresent : PinResult.PinOperationFailed;
                 }
+            }
+            else
+            {
+                resultPinResult = PinResult.UnsupportedDevice;
             }
 
             return resultPinResult;
