@@ -45,6 +45,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double desiredWidth;
 
         /// <summary>
+        /// The global delta
+        /// </summary>
+        private double globalDelta = 0;
+
+        /// <summary>
         /// The storyboard
         /// </summary>
         private Storyboard storyboard = new Storyboard();
@@ -66,9 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the Current Carousel control
         /// </summary>
-        /// <value>
-        /// The carousel.
-        /// </value>
+        /// <value>The carousel.</value>
         /// <exception cref="Exception">This CarouselPanel must be used as an ItemsPanel in a Carousel control</exception>
         public Carousel Carousel
         {
@@ -122,46 +125,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">The <see cref="ManipulationCompletedRoutedEventArgs"/> instance containing the event data.</param>
         internal void OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            // Need to know which direction we took for this manipulation.
-            var translation = Carousel.Orientation == Orientation.Horizontal ? e.Cumulative.Translation.X : e.Cumulative.Translation.Y;
+            this.Carousel.SelectedIndex = this.GetSelectedIndexFromDelta(this.globalDelta);
+            this.globalDelta = 0;
 
-            // if manipulation is not enough to change index we will have to force refresh
-            var lastIndex = Carousel.SelectedIndex;
-
-            // potentially border effects
-            bool hasBreak = false;
-
-            for (int i = 0; i < Children.Count - 1; i++)
-            {
-                var child = Children[i];
-
-                PlaneProjection projection = child.Projection as PlaneProjection;
-                CompositeTransform compositeTransform = child.RenderTransform as CompositeTransform;
-
-                if (projection == null || compositeTransform == null)
-                {
-                    continue;
-                }
-
-                var margin = Carousel.ItemMargin;
-                var size = Carousel.Orientation == Orientation.Horizontal ? desiredWidth : desiredHeight;
-                var left = Carousel.Orientation == Orientation.Horizontal ? compositeTransform.TranslateX : compositeTransform.TranslateY;
-                var right = left + size + margin;
-                var condition = translation < 0 ? (left > 0) : (right > 0);
-
-                if (condition)
-                {
-                    Carousel.SelectedIndex = i;
-                    hasBreak = true;
-                    break;
-                }
-            }
-
-            if (!hasBreak)
-            {
-                Carousel.SelectedIndex = translation > 0 ? 0 : Children.Count - 1;
-            }
-
+            // Don't animate since manipulation already animates
+            this.UpdatePosition(false);
             e.Handled = true;
         }
 
@@ -172,41 +140,95 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">The <see cref="ManipulationDeltaRoutedEventArgs"/> instance containing the event data.</param>
         internal void OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            var previousIndex = Carousel.SelectedIndex;
+            double delta = this.Carousel.Orientation == Orientation.Horizontal ? e.Delta.Translation.X : e.Delta.Translation.Y;
+            this.globalDelta += delta;
 
-            for (int i = 0; i < Children.Count; i++)
+            // Calculate the approx position (selected index) where the selected item may end given the delta.
+            int newIndex = this.GetSelectedIndexFromDelta(this.globalDelta);
+
+            // Using the new index find where every items will move to.
+            SingleLinkedList<UIElement> forwardList = new SingleLinkedList<UIElement>(this.Children, newIndex, this.Carousel.IsCircular);
+            SingleLinkedList<UIElement> backwardList = new SingleLinkedList<UIElement>(this.Children, newIndex, this.Carousel.IsCircular);
+            List<Tuple<UIElement, Proj>> positionedElements = new List<Tuple<UIElement, Proj>>();
+
+            Proj proj = this.GetProjectionFromManipulation(forwardList.GetCurrent(), delta);
+            this.ApplyProjection(forwardList.GetCurrent(), proj);
+
+            UIElement prevElement = backwardList.Previous();
+            UIElement nextElement = forwardList.Next();
+
+            int relativePosition = 1;
+            while (prevElement != nextElement)
             {
-                var item = Children[i];
-
-                var delta = Carousel.Orientation == Orientation.Horizontal ? e.Delta.Translation.X : e.Delta.Translation.Y;
-                var itemLength = Carousel.Orientation == Orientation.Horizontal ? item.DesiredSize.Width : item.DesiredSize.Height;
-
-                var proj = GetProjectionFromManipulation(item, delta);
-
-                ApplyProjection(item, proj);
-
-                // We have to take care of the first and last items when manipulating
-                if ((i == 0 && proj.Position > itemLength / 2) || (i == Children.Count - 1 && proj.Position < -itemLength))
+                // Ensure that the elements are not processed twice. This may happen when items count is odd.
+                if (prevElement != null && positionedElements.FirstOrDefault(item => item.Item1.Equals(prevElement)) == null)
                 {
-                    e.Handled = true;
-                    e.Complete();
-                    Carousel.SelectedIndex = i;
+                    proj = this.GetProjectionFromManipulation(prevElement, delta);
 
-                    // force refresh if we are already on the first / last item
-                    if (previousIndex == i)
-                    {
-                        UpdatePosition();
-                    }
-
-                    return;
+                    this.ApplyProjection(prevElement, proj);
+                    positionedElements.Add(new Tuple<UIElement, Proj>(prevElement, proj));
                 }
 
-                // Calculate the Z index to be sure selected item is over all others
-                var zindexItemIndex = delta > 0 ? Carousel.SelectedIndex - 1 : Carousel.SelectedIndex + 1;
-                var deltaFromSelectedIndex = Math.Abs(zindexItemIndex - i);
+                if (nextElement != null && positionedElements?.FirstOrDefault(item => item.Item1.Equals(nextElement)) == null)
+                {
+                    proj = this.GetProjectionFromManipulation(nextElement, delta);
 
-                int zindex = (Children.Count * 100) - deltaFromSelectedIndex;
-                Canvas.SetZIndex(item, zindex);
+                    this.ApplyProjection(nextElement, proj);
+                    positionedElements.Add(new Tuple<UIElement, Proj>(nextElement, proj));
+                }
+
+                prevElement = backwardList.Previous();
+                nextElement = forwardList.Next();
+
+                relativePosition++;
+            }
+
+            double panelPosition = this.Carousel.Orientation == Orientation.Horizontal ? this.Carousel.ActualWidth / 2 : this.Carousel.ActualHeight / 2;
+
+            // Find if the carousel is circular, if there is a need to bring items from the other end.
+            if (this.Carousel.IsCircular)
+            {
+                int direction = 1;
+
+                if (delta > 0)
+                {
+                    // Sort in the ascending order so that we can find how far the panel is covered.
+                    positionedElements.Sort((element1, element2) => element1.Item2.Position.CompareTo(element2.Item2.Position));
+                }
+                else
+                {
+                    // Sort in the descending order so that we can find how far the panel is covered.
+                    positionedElements.Sort((element1, element2) => element2.Item2.Position.CompareTo(element1.Item2.Position));
+                    direction = -1;
+                }
+
+                while (IsOpenSpaceVisible(panelPosition, positionedElements, direction))
+                {
+                    // Add the items from the last to the front but within the range of end.
+                    Proj tempProj = positionedElements.First().Item2;
+                    tempProj.Position -= (this.Carousel.Orientation == Orientation.Horizontal ? desiredWidth : desiredHeight) * direction;
+                    tempProj.Position -= this.Carousel.ItemMargin * direction;
+
+                    this.ApplyProjection(positionedElements.Last().Item1, tempProj);
+
+                    Tuple<UIElement, Proj> lastItem = new Tuple<UIElement, Proj>(positionedElements.Last().Item1, tempProj);
+                    positionedElements.Remove(lastItem);
+                    positionedElements.Insert(0, lastItem);
+                }
+            }
+            else
+            {
+                // See if the manipulation is ending the item in out of bounds.
+                positionedElements.Sort((element1, element2) => element1.Item2.Position.CompareTo(element2.Item2.Position));
+
+                if (delta > 0 && positionedElements.First().Item2.Position >= panelPosition)
+                {
+                    e.Complete();
+                }
+                else if (delta < 0 && positionedElements.Last().Item2.Position <= -panelPosition)
+                {
+                    e.Complete();
+                }
             }
 
             e.Handled = true;
@@ -215,7 +237,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Update all positions. Launch every animations on all items with a unique StoryBoard
         /// </summary>
-        internal void UpdatePosition()
+        internal void UpdatePosition(bool shouldAnimate)
         {
             this.storyboard = new Storyboard();
             this.ManipulationMode = ManipulationModes.None;
@@ -225,7 +247,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 int selectedIndex = this.Carousel.SelectedIndex;
 
-                this.UpdatePositionForItem(this.Children[selectedIndex], 0);
+                this.UpdatePositionForItem(this.Children[selectedIndex], 0, shouldAnimate);
 
                 SingleLinkedList<UIElement> forwardList = new SingleLinkedList<UIElement>(this.Children, selectedIndex, this.Carousel.IsCircular);
                 SingleLinkedList<UIElement> backwardList = new SingleLinkedList<UIElement>(this.Children, selectedIndex, this.Carousel.IsCircular);
@@ -240,13 +262,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // Ensure that the elements are not processed twice. This may happen when items count is odd.
                     if (prevElement != null && !positionedElements.Contains(prevElement))
                     {
-                        this.UpdatePositionForItem(prevElement, relativePosition * -1);
+                        this.UpdatePositionForItem(prevElement, relativePosition * -1, shouldAnimate);
                         positionedElements.Add(prevElement);
                     }
 
                     if (nextElement != null && !positionedElements.Contains(nextElement))
                     {
-                        this.UpdatePositionForItem(nextElement, relativePosition);
+                        this.UpdatePositionForItem(nextElement, relativePosition, shouldAnimate);
                         positionedElements.Add(nextElement);
                     }
 
@@ -270,9 +292,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Arrange all items
         /// </summary>
         /// <param name="finalSize">The final area within the parent that this object should use to arrange itself and its children.</param>
-        /// <returns>
-        /// Return an item size
-        /// </returns>
+        /// <returns>Return an item size</returns>
         protected override Size ArrangeOverride(Size finalSize)
         {
             double centerLeft = 0;
@@ -326,10 +346,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Measure items
         /// </summary>
-        /// <param name="availableSize">The available size that this object can give to child objects. Infinity can be specified as a value to indicate that the object will size to whatever content is available.</param>
-        /// <returns>
-        /// Return carousel size
-        /// </returns>
+        /// <param name="availableSize">
+        /// The available size that this object can give to child objects. Infinity can be specified as a value to indicate that the object will size to whatever content is available.
+        /// </param>
+        /// <returns>Return carousel size</returns>
         protected override Size MeasureOverride(Size availableSize)
         {
             var containerWidth = 0d;
@@ -379,6 +399,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Determines whether there is unfilled space in the carousel visible area.
+        /// </summary>
+        /// <param name="pos">The position.</param>
+        /// <param name="sortedItems">The sorted items.</param>
+        /// <param name="direction">The direction.</param>
+        /// <returns>
+        ///   <c>true</c> if [unfilled space in the carousel visible area]; otherwise, <c>false</c>.
+        /// </returns>
+        private static bool IsOpenSpaceVisible(double pos, List<Tuple<UIElement, Proj>> sortedItems, int direction)
+        {
+            if (direction == 1)
+            {
+                return sortedItems.First().Item2.Position > -pos && sortedItems.Last().Item2.Position > pos;
+            }
+            else
+            {
+                return sortedItems.First().Item2.Position < pos && sortedItems.Last().Item2.Position < -pos;
+            }
+        }
+
+        /// <summary>
         /// Apply the projection, with or without a storyboard involved
         /// </summary>
         /// <param name="element">The element.</param>
@@ -419,12 +460,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 string rotationYProjection = "(UIElement.Projection).(PlaneProjection.RotationY)";
                 string rotationZProjection = "(UIElement.Projection).(PlaneProjection.RotationZ)";
 
-                AddAnimation(storyboard, element, Carousel.TransitionDuration, proj.Position, localProjectionOrientation, Carousel.EasingFunction);
-                AddAnimation(storyboard, element, Carousel.TransitionDuration, 0, localProjectionOrientationInvert, Carousel.EasingFunction);
-                AddAnimation(storyboard, element, Carousel.TransitionDuration, proj.Depth, globalDepthProjection, Carousel.EasingFunction);
-                AddAnimation(storyboard, element, Carousel.TransitionDuration, proj.RotationX, rotationXProjection, Carousel.EasingFunction);
-                AddAnimation(storyboard, element, Carousel.TransitionDuration, proj.RotationY, rotationYProjection, Carousel.EasingFunction);
-                AddAnimation(storyboard, element, Carousel.TransitionDuration, proj.RotationZ, rotationZProjection, Carousel.EasingFunction);
+                double animationThreshold = this.Carousel.Orientation == Orientation.Horizontal ? this.Carousel.ActualWidth : this.Carousel.ActualHeight;
+
+                AddAnimation(storyboard, element, this.Carousel.TransitionDuration, proj.Position, localProjectionOrientation, this.Carousel.EasingFunction);
+                AddAnimation(storyboard, element, this.Carousel.TransitionDuration, 0, localProjectionOrientationInvert, this.Carousel.EasingFunction);
+                AddAnimation(storyboard, element, this.Carousel.TransitionDuration, proj.Depth, globalDepthProjection, this.Carousel.EasingFunction);
+                AddAnimation(storyboard, element, this.Carousel.TransitionDuration, proj.RotationX, rotationXProjection, this.Carousel.EasingFunction);
+                AddAnimation(storyboard, element, this.Carousel.TransitionDuration, proj.RotationY, rotationYProjection, this.Carousel.EasingFunction);
+                AddAnimation(storyboard, element, this.Carousel.TransitionDuration, proj.RotationZ, rotationZProjection, this.Carousel.EasingFunction);
             }
         }
 
@@ -433,9 +476,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="element">The element.</param>
         /// <param name="delta">The delta.</param>
-        /// <returns>
-        /// Return the new projection
-        /// </returns>
+        /// <returns>Return the new projection</returns>
         private Proj GetProjectionFromManipulation(UIElement element, double delta)
         {
             PlaneProjection projection = element.Projection as PlaneProjection;
@@ -450,9 +491,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Calculate the new position of the current item
             var newPosition = Carousel.Orientation == Orientation.Horizontal ? compositeTransform.TranslateX : compositeTransform.TranslateY;
             newPosition = newPosition + delta;
-
-            // Calculate the relative position (to keep something positive)
-            var relativePosition = Math.Abs(newPosition);
+            double relativePosition = Math.Abs(newPosition);
 
             // max Depth
             double depth = (double)-Carousel.ItemDepth;
@@ -519,9 +558,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// get the projection from a current index. Used On ArrangeOverride step
         /// </summary>
         /// <param name="childIndex">Index of the child.</param>
-        /// <returns>
-        /// Return the new projection
-        /// </returns>
+        /// <returns>Return the new projection</returns>
         private Proj GetProjectionFromSelectedIndex(int childIndex)
         {
             // margin
@@ -555,6 +592,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets the approx. selected index from delta.
+        /// </summary>
+        /// <param name="delta">The delta.</param>
+        /// <returns>The approx. selected index given the delta.</returns>
+        private int GetSelectedIndexFromDelta(double delta)
+        {
+            SingleLinkedList<UIElement> linkedList = new SingleLinkedList<UIElement>(this.Children, this.Carousel.SelectedIndex, this.Carousel.IsCircular);
+            UIElement element = linkedList.GetCurrent();
+
+            double itemDelta = 0;
+
+            while (Math.Abs(delta) > (itemDelta + this.Carousel.ItemMargin) && element != null)
+            {
+                itemDelta += this.Carousel.Orientation == Orientation.Horizontal ? element.DesiredSize.Width : element.DesiredSize.Height;
+                itemDelta += this.Carousel.ItemMargin;
+
+                element = (delta > 0) ? linkedList.Previous() : linkedList.Next();
+            }
+
+            return (element == null) ? ((delta > 0) ? 0 : this.Children.Count - 1) : this.Children.IndexOf(element);
+        }
+
+        /// <summary>
         /// Tapp an item
         /// </summary>
         /// <param name="sender">The sender.</param>
@@ -584,7 +644,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="element">The element.</param>
         /// <param name="pointer">The pointer.</param>
-        private void UpdatePositionForItem(UIElement element, int pointer)
+        private void UpdatePositionForItem(UIElement element, int pointer, bool shouldAnimate)
         {
             PlaneProjection planeProjection = element.Projection as PlaneProjection;
 
@@ -594,13 +654,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Get target projection
-            var props = GetProjectionFromPointer(pointer);
+            Proj props = GetProjectionFromPointer(pointer);
 
             // Apply projection
-            ApplyProjection(element, props, storyboard);
+            this.ApplyProjection(element, props, shouldAnimate ? storyboard : null);
 
             // Zindex and Opacity
-            int zindex = (Carousel.Items.Count * 100) - Math.Abs(pointer);
+            int zindex = (this.Carousel.Items.Count * 100) - Math.Abs(pointer);
             Canvas.SetZIndex(element, zindex);
         }
 
@@ -612,41 +672,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             /// <summary>
             /// Gets or sets the depth.
             /// </summary>
-            /// <value>
-            /// The depth.
-            /// </value>
+            /// <value>The depth.</value>
             public double Depth { get; set; }
 
             /// <summary>
             /// Gets or sets the position.
             /// </summary>
-            /// <value>
-            /// The position.
-            /// </value>
+            /// <value>The position.</value>
             public double Position { get; set; }
 
             /// <summary>
             /// Gets or sets the rotation x.
             /// </summary>
-            /// <value>
-            /// The rotation x.
-            /// </value>
+            /// <value>The rotation x.</value>
             public double RotationX { get; set; }
 
             /// <summary>
             /// Gets or sets the rotation y.
             /// </summary>
-            /// <value>
-            /// The rotation y.
-            /// </value>
+            /// <value>The rotation y.</value>
             public double RotationY { get; set; }
 
             /// <summary>
             /// Gets or sets the rotation z.
             /// </summary>
-            /// <value>
-            /// The rotation z.
-            /// </value>
+            /// <value>The rotation z.</value>
             public double RotationZ { get; set; }
         }
 
@@ -657,7 +707,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private class SingleLinkedList<T>
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="SingleLinkedList{T}" /> class.
+            /// Initializes a new instance of the <see cref="SingleLinkedList{T}"/> class.
             /// </summary>
             /// <param name="items">The items.</param>
             /// <param name="pointerPos">The pointer position.</param>
@@ -672,25 +722,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             /// <summary>
             /// Gets a value indicating whether this instance is circular.
             /// </summary>
-            /// <value>
-            ///   <c>true</c> if this instance is circular; otherwise, <c>false</c>.
-            /// </value>
+            /// <value><c>true</c> if this instance is circular; otherwise, <c>false</c>.</value>
             public bool IsCircular { get; private set; }
 
             /// <summary>
             /// Gets the items.
             /// </summary>
-            /// <value>
-            /// The items.
-            /// </value>
+            /// <value>The items.</value>
             public ICollection<T> Items { get; private set; }
 
             /// <summary>
             /// Gets the pointer position.
             /// </summary>
-            /// <value>
-            /// The pointer position. Returns -1 if the end or beginnning of list is reach in a non-circular list.
-            /// </value>
+            /// <value>The pointer position. Returns -1 if the end or beginnning of list is reach in a non-circular list.</value>
             public int PointerPosition { get; private set; }
 
             /// <summary>

@@ -572,7 +572,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            itemsPanel.UpdatePosition();
+            itemsPanel.UpdatePosition(true);
         }
     }
 }
