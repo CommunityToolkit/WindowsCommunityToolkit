@@ -51,7 +51,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private Compositor _compositor;
         private float _defaultShowAnimationDuration = 300;
-        //private float _defaultHideAnimationDiration = 150;
         private XamlRenderService _xamlRenderer = new XamlRenderService();
         private bool _lastRenderedProperties = true;
         private ThreadPoolTimer _autocompileTimer;
@@ -186,7 +185,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             base.OnNavigatedTo(e);
             NavigationFrame.Navigating += NavigationFrame_Navigating;
             NavigationFrame.Navigated += NavigationFrameOnNavigated;
-            NavigationFrame.Navigate(typeof(About));
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
             // Get list of samples
@@ -201,6 +199,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             };
 
             HideInfoArea();
+            NavigationFrame.Navigate(typeof(About));
 
             if (!string.IsNullOrWhiteSpace(e?.Parameter?.ToString()))
             {
@@ -287,7 +286,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (_currentSample.HasXAMLCode)
                 {
-                    if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop)
+                    if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop || _currentSample.DisableXamlEditorRendering)
                     {
                         // Only makes sense (and works) for now to show Live Xaml on Desktop, so fallback to old system here otherwise.
                         XamlReadOnlyCodeRenderer.XamlSource = _currentSample.UpdatedXamlCode;
@@ -877,7 +876,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             XamlCodeRenderer.Options.GlyphMargin = false;
 
             // Try and Render Xaml to a UIElement
-            var element = _xamlRenderer.Render(text);
+            UIElement element = null;
+            try
+            {
+                element = _xamlRenderer.Render(text);
+            }
+            catch (Exception ex)
+            {
+                ExceptionNotification.Show(ex.Message, 3000);
+            }
+
             if (element != null)
             {
                 // Add element to main panel

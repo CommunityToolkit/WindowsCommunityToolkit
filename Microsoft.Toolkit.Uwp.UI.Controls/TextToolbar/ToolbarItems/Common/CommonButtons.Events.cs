@@ -51,6 +51,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             Model.Formatter.ButtonActions.FormatOrderedList(button);
         }
 
+        /// <summary>
+        /// Opens a <see cref="ContentDialog"/> for the user to enter a URL
+        /// </summary>
+        /// <param name="button">The <see cref="ToolbarButton"/> invoked</param>
         public async void OpenLinkCreator(ToolbarButton button)
         {
             var selection = button.Model.Editor.Document.Selection;
@@ -66,6 +70,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 PlaceholderText = Model.Labels.UrlLabel
             };
 
+            CheckBox relativeBox = null;
+
+            var contentPanel = new StackPanel
+            {
+                Children =
+                    {
+                        labelBox,
+                        linkBox
+                    }
+            };
+
+            if (Model.UseURIChecker)
+            {
+                relativeBox = new CheckBox
+                {
+                    Content = Model.Labels.RelativeLabel
+                };
+                contentPanel.Children.Add(relativeBox);
+            }
+
             labelBox.Document.SetDefaultCharacterFormat(selection.CharacterFormat);
             selection.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string Labeltext);
             labelBox.Document.SetText(Windows.UI.Text.TextSetOptions.FormatRtf, Labeltext);
@@ -73,27 +97,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             var result = await new ContentDialog
             {
                 Title = Model.Labels.CreateLinkLabel,
-                Content = new StackPanel
-                {
-                    Children =
-                    {
-                        labelBox,
-                        linkBox
-                    }
-                },
+                Content = contentPanel,
                 PrimaryButtonText = Model.Labels.OkLabel,
                 SecondaryButtonText = Model.Labels.CancelLabel
             }.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
-                string labelText;
-                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out labelText);
+                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string labelText);
+                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string formattedlabelText);
 
-                string formattedlabelText;
-                labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out formattedlabelText);
+                string linkText = linkBox.Text.Trim();
 
-                Model.Formatter.ButtonActions.FormatLink(button, labelText.Trim(), formattedlabelText.Trim(), linkBox.Text.Trim());
+                if (Model.UseURIChecker && !string.IsNullOrWhiteSpace(linkText))
+                {
+                    var wellFormed = Uri.IsWellFormedUriString(linkText, relativeBox?.IsChecked == true ? UriKind.RelativeOrAbsolute : UriKind.Absolute);
+                    if (!wellFormed)
+                    {
+                        await new ContentDialog
+                        {
+                            Title = Model.Labels.WarningLabel,
+                            Content = Model.Labels.LinkInvalidLabel,
+                            PrimaryButtonText = Model.Labels.OkLabel
+                        }.ShowAsync();
+                        return;
+                    }
+                }
+
+                Model.Formatter.ButtonActions.FormatLink(button, labelText.Trim(), formattedlabelText.Trim(), linkText);
             }
         }
     }

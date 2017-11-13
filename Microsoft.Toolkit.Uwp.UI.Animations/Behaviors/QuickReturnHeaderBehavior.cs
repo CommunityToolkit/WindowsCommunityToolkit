@@ -10,12 +10,15 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
@@ -103,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// for the Header as it is scrolling off-screen. The opacity reaches 0 when the Header
         /// is entirely scrolled off.
         /// </summary>
-        /// <returns><c>true</c> if the assignment was successfull; otherwise, <c>false</c>.</returns>
+        /// <returns><c>true</c> if the assignment was successful; otherwise, <c>false</c>.</returns>
         private bool AssignAnimation()
         {
             StopAnimation();
@@ -169,6 +172,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             _scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
             _scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
 
+            _scrollViewer.GotFocus -= ScrollViewer_GotFocus;
+            _scrollViewer.GotFocus += ScrollViewer_GotFocus;
+
             headerElement.SizeChanged -= ScrollHeader_SizeChanged;
             headerElement.SizeChanged += ScrollHeader_SizeChanged;
 
@@ -180,9 +186,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 _animationProperties.InsertScalar("OffsetY", 0.0f);
             }
 
-            var expressionAnimation = compositor.CreateExpressionAnimation($"max(min(animationProperties.OffsetY, -ScrollingProperties.Translation.Y), 0)");
-            expressionAnimation.SetReferenceParameter("ScrollingProperties", _scrollProperties);
-            expressionAnimation.SetReferenceParameter("animationProperties", _animationProperties);
+            var propSetOffset = _animationProperties.GetReference().GetScalarProperty("OffsetY");
+            var scrollPropSet = _scrollProperties.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
+            var expressionAnimation = ExpressionFunctions.Max(ExpressionFunctions.Min(propSetOffset, -scrollPropSet.Translation.Y), 0);
 
             _headerVisual.StartAnimation("Offset.Y", expressionAnimation);
 
@@ -197,10 +203,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             if (_scrollViewer != null)
             {
                 _scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
+                _scrollViewer.GotFocus -= ScrollViewer_GotFocus;
             }
 
-            var element = HeaderElement as FrameworkElement;
-            if (element != null)
+            if (HeaderElement is FrameworkElement element)
             {
                 element.SizeChanged -= ScrollHeader_SizeChanged;
             }
@@ -245,9 +251,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 else if (_headerPosition > _scrollViewer.VerticalOffset)
                 {
                     // scrolling up: move header up, align with top border.
-                    // the expression animation makes sure it never relly is shown below border, so no lag effect!
+                    // the expression animation makes sure it never really is shown below border, so no lag effect!
                     _headerPosition = _scrollViewer.VerticalOffset;
                     _animationProperties.InsertScalar("OffsetY", (float)_headerPosition);
+                }
+            }
+        }
+
+        private void ScrollViewer_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var scroller = (ScrollViewer)sender;
+
+            var focusedElement = FocusManager.GetFocusedElement();
+
+            if (focusedElement is UIElement element)
+            {
+                FrameworkElement header = (FrameworkElement)HeaderElement;
+
+                var point = element.TransformToVisual(scroller).TransformPoint(new Point(0, 0));
+
+                if (point.Y < header.ActualHeight)
+                {
+                    scroller.ChangeView(0, scroller.VerticalOffset - (header.ActualHeight - point.Y), 1, false);
                 }
             }
         }

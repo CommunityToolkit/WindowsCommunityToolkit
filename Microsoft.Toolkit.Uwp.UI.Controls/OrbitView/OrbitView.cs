@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -66,10 +67,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
-                var items = new List<OrbitViewDataItem>();
-                items.Add(new OrbitViewDataItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
-                items.Add(new OrbitViewDataItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
-                items.Add(new OrbitViewDataItem() { Distance = 0.1, Diameter = 0.5, Label = "test" });
+                var items = new List<OrbitViewDataItem>
+                {
+                    new OrbitViewDataItem() { Distance = 0.1, Diameter = 0.5, Label = "test" },
+                    new OrbitViewDataItem() { Distance = 0.1, Diameter = 0.5, Label = "test" },
+                    new OrbitViewDataItem() { Distance = 0.1, Diameter = 0.5, Label = "test" }
+                };
                 ItemsSource = items;
             }
         }
@@ -259,6 +262,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty CenterContentProperty =
             DependencyProperty.Register(nameof(CenterContent), typeof(object), typeof(OrbitView), new PropertyMetadata(null));
 
+        /// <inheritdoc/>
         protected override DependencyObject GetContainerForItemOverride()
         {
             var element = new OrbitViewItem();
@@ -340,8 +344,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.ClearContainerForItemOverride(element, item);
 
-            Ellipse orbit;
-            _orbits.TryGetValue(element, out orbit);
+            _orbits.TryGetValue(element, out Ellipse orbit);
 
             if (orbit != null)
             {
@@ -349,8 +352,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _orbitsContainer.Children.Remove(orbit);
             }
 
-            Line anchor;
-            _anchors.TryGetValue(element, out anchor);
+            _anchors.TryGetValue(element, out Line anchor);
 
             if (anchor != null)
             {
@@ -358,8 +360,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _anchorCanvas.Children.Remove(anchor);
             }
 
-            var control = element as OrbitViewItem;
-            if (control != null)
+            if (element is OrbitViewItem control)
             {
                 control.KeyUp -= OrbitViewItem_KeyUp;
                 control.PointerReleased -= OrbitViewItem_PointerReleased;
@@ -412,8 +413,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 foreach (var element in orbitView.ItemsPanelRoot.Children)
                 {
-                    var control = element as ContentControl;
-                    if (control != null && control.DataContext is OrbitViewDataItem)
+                    if (element is ContentControl control && control.DataContext is OrbitViewDataItem)
                     {
                         var item = (OrbitViewDataItem)control.DataContext;
                         if (item.Diameter >= 0)
@@ -514,8 +514,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (OrbitsEnabled)
             {
-                Ellipse orbit;
-                _orbits.TryGetValue(e.ElementProperties.Element, out orbit);
+                _orbits.TryGetValue(e.ElementProperties.Element, out Ellipse orbit);
 
                 if (orbit == null)
                 {
@@ -547,8 +546,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (e.Key == Windows.System.VirtualKey.Left)
             {
                 e.Handled = true;
-                var currentEllement = FocusManager.GetFocusedElement() as ContentControl;
-                if (currentEllement != null)
+                if (FocusManager.GetFocusedElement() is ContentControl currentEllement)
                 {
                     var index = ItemsPanelRoot.Children.IndexOf(currentEllement);
                     var nextIndex = (index + 1) % Items.Count;
@@ -559,8 +557,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else if (e.Key == Windows.System.VirtualKey.Right)
             {
                 e.Handled = true;
-                var currentEllement = FocusManager.GetFocusedElement() as ContentControl;
-                if (currentEllement != null)
+                if (FocusManager.GetFocusedElement() is ContentControl currentEllement)
                 {
                     var index = ItemsPanelRoot.Children.IndexOf(currentEllement);
                     var nextIndex = index > 0 ? index - 1 : Items.Count - 1;
@@ -630,48 +627,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var anchorVisual = ElementCompositionPreview.GetElementVisual(anchor);
             var elementVisual = ElementCompositionPreview.GetElementVisual(element);
             var centerVisual = ElementCompositionPreview.GetElementVisual(_centerContent);
+            var elementNode = elementVisual.GetReference();
+            var centerNode = centerVisual.GetReference();
 
-            string expression = string.Empty;
-            var elementY = "(elementVisual.Offset.Y + elementVisual.Size.Y / 2)";
-            var centerY = "(centerVisual.Offset.Y + centerVisual.Size.Y / 2)";
-            var elementX = "(elementVisual.Offset.X + elementVisual.Size.X / 2)";
-            var centerX = "(centerVisual.Offset.X + centerVisual.Size.X / 2)";
+            ScalarNode expression = null;
+            var elementY = elementNode.Offset.Y + (elementNode.Size.Y / 2);
+            var centerY = centerNode.Offset.Y + (centerNode.Size.Y / 2);
+            var elementX = elementNode.Offset.X + (elementNode.Size.X / 2);
+            var centerX = centerNode.Offset.X + (centerNode.Size.X / 2);
 
             var startingAngle = Math.Atan2(y, x);
 
             if (startingAngle > Math.PI / 4 && startingAngle < 3 * Math.PI / 4)
             {
-                expression = $"Atan((-1 * ({elementX} - {centerX})) / ( {elementY} - {centerY})) - PI / 2";
+                expression = ExpressionFunctions.ATan((-1 * (elementX - centerX)) / (elementY - centerY)) - ((float)Math.PI / 2.0f);
             }
             else if (startingAngle >= 3 * Math.PI / 4 || startingAngle < -3 * Math.PI / 4)
             {
-                expression = $"Atan(({elementY} - {centerY}) / ({elementX} - {centerX})) + PI";
+                expression = ExpressionFunctions.ATan((elementY - centerY) / (elementX - centerX)) + (float)Math.PI;
             }
             else if (startingAngle >= -3 * Math.PI / 4 && startingAngle < Math.PI / -4)
             {
-                expression = $"Atan(({elementX} - {centerX}) / (-1 * ({elementY} - {centerY}))) + PI  / 2";
+                expression = ExpressionFunctions.ATan((elementX - centerX) / (-1 * (elementY - centerY))) + ((float)Math.PI / 2.0f);
             }
             else
             {
-                expression = $"Atan(({elementY} - {centerY}) / ({elementX} - {centerX}))";
+                expression = ExpressionFunctions.ATan((elementY - centerY) / (elementX - centerX));
             }
 
             anchorVisual.CenterPoint = new Vector3(0);
-            var rotationExpression = _compositor.CreateExpressionAnimation();
-            rotationExpression.Expression = expression;
-            rotationExpression.SetReferenceParameter("centerVisual", centerVisual);
-            rotationExpression.SetReferenceParameter("elementVisual", elementVisual);
-            anchorVisual.StartAnimation(nameof(anchorVisual.RotationAngle), rotationExpression);
+            anchorVisual.StartAnimation(nameof(anchorVisual.RotationAngle), expression);
 
-            var offsetExpression = _compositor.CreateExpressionAnimation();
-            offsetExpression.Expression = "Vector3(centerVisual.Offset.X + centerVisual.Size.X / 2, centerVisual.Offset.Y + centerVisual.Size.Y / 2, 0)";
-            offsetExpression.SetReferenceParameter("centerVisual", centerVisual);
+            var offsetExpression = ExpressionFunctions.Vector3(centerNode.Offset.X + (centerNode.Size.X / 2), centerNode.Offset.Y + (centerNode.Size.Y / 2), 0);
             anchorVisual.StartAnimation(nameof(anchorVisual.Offset), offsetExpression);
 
-            var scaleExpression = _compositor.CreateExpressionAnimation();
-            scaleExpression.Expression = $"Vector3(Pow(Pow({elementX} - {centerX}, 2) + Pow({elementY} - {centerY}, 2), 0.5)/100, 1, 1)";
-            scaleExpression.SetReferenceParameter("centerVisual", centerVisual);
-            scaleExpression.SetReferenceParameter("elementVisual", elementVisual);
+            var scaleExpression = ExpressionFunctions.Vector3(ExpressionFunctions.Pow(ExpressionFunctions.Pow(elementX - centerX, 2) + ExpressionFunctions.Pow(elementY - centerY, 2), 0.5f) / 100, 1, 1);
             anchorVisual.StartAnimation(nameof(anchorVisual.Scale), scaleExpression);
 
             return anchor;

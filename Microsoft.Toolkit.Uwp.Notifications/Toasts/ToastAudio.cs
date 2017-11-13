@@ -20,17 +20,17 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class ToastAudio
     {
         /// <summary>
-        /// The media file to play in place of the default sound.
+        /// Gets or sets the media file to play in place of the default sound.
         /// </summary>
         public Uri Src { get; set; }
 
         /// <summary>
-        /// Set to true if the sound should repeat as long as the Toast is shown; false to play only once (default).
+        /// Gets or sets a value indicating whether sound should repeat as long as the Toast is shown; false to play only once (default).
         /// </summary>
         public bool Loop { get; set; } = Element_ToastAudio.DEFAULT_LOOP;
 
         /// <summary>
-        /// True to mute the sound; false to allow the Toast notification sound to play (default).
+        /// Gets or sets a value indicating whether sound is muted; false to allow the Toast notification sound to play (default).
         /// </summary>
         public bool Silent { get; set; } = Element_ToastAudio.DEFAULT_SILENT;
 

@@ -22,7 +22,8 @@
     <controls:TextToolbar x:Name="Toolbar"
                           Editor="{Binding ElementName=EditZone}"
                           IsEnabled="@[IsEnabled:Bool:True]"
-                          Format="@[Format:Enum:Format.RichText]"
+                          Format="@[Format:Enum:Format.RichText]@"
+                          UseURIChecker="@[UseURIChecker:Bool:True]"
                           Background="#4C4F4F4F" />
 
     <ScrollViewer Grid.Row="1">

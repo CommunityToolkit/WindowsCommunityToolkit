@@ -75,13 +75,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
+        /// <inheritdoc/>
         protected override void OnContentChanged(object oldContent, object newContent)
         {
             if (oldContent != null)
             {
-                var oldElement = oldContent as FrameworkElement;
-
-                if (oldElement != null)
+                if (oldContent is FrameworkElement oldElement)
                 {
                     oldElement.SizeChanged -= OnSizeChanged;
                 }
@@ -89,9 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (newContent != null)
             {
-                var newElement = newContent as FrameworkElement;
-
-                if (newElement != null)
+                if (newContent is FrameworkElement newElement)
                 {
                     newElement.SizeChanged += OnSizeChanged;
                 }
@@ -189,10 +186,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     mask = ((TextBlock)Content).GetAlphaMask();
                 }
-                else if (Content is ImageExBase)
+                else if (Content is ImageExBase imageExBase)
                 {
-                    var imageExBase = (ImageExBase)Content;
-
                     imageExBase.ImageExInitialized += ImageExInitialized;
 
                     if (imageExBase.IsInitialized)
@@ -235,8 +230,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_shadowVisual != null)
             {
                 Vector2 newSize = new Vector2(0, 0);
-                FrameworkElement contentFE = Content as FrameworkElement;
-                if (contentFE != null)
+                if (Content is FrameworkElement contentFE)
                 {
                     newSize = new Vector2((float)contentFE.ActualWidth, (float)contentFE.ActualHeight);
                 }

@@ -20,12 +20,12 @@ You can also **Remove** Default Buttons from any format, or **Add** Custom butto
 
 ## Syntax
 ### UI Layout
-```xml
+```xaml
 <controls:TextToolbar x:Name="Toolbar" Editor="{x:Bind Editor}" Format="MarkDown" />
 <RichEditBox x:Name="Editor" PlaceholderText="Enter Text Here" />
 ```
 ### How to Remove/Add Buttons
-```xml
+```xaml
 <controls:TextToolbar x:Name="Toolbar" Editor="{x:Bind Editor}">
     <controls:TextToolbar.ButtonModifications>
         <buttons:DefaultButton Type="Headers" IsVisible="False"/>
@@ -73,6 +73,19 @@ _See the Sample Formatter Class from the Sample App:_
 
 _Available CommonButtons:_
 [CommonButton Definitions](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar/ToolbarItems/Common)
+
+## Properties
+| Property | Description |
+| --- | --- |
+| Editor | Gets or sets the RichEditBox to Attach to, this is required for any formatting to work. |
+| Format | Gets or sets which formatter to use, and which buttons to provide. |
+| Formatter | Gets or sets the formatter instance which is used to format the text, using the buttons and shortcuts. |
+| DefaultButtons | Gets the default buttons for this format. |
+| CustomButtons | Gets or sets a list of buttons to add on top of the Default Button set. |
+| ButtonModifications | Gets or sets a list of Default buttons to Modify. |
+| Labels | Gets or sets the default string Labels |
+| LastKeyPress | Gets the last key pressed using the Editor. |
+| UseURIChecker | Gets or sets a value indicating whether to enable use of URI Checker for Link Creator. This allows you to verify Absolute URIs, before creating the Link. |
 
 ## Requirements (Windows 10 Device Family)
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |

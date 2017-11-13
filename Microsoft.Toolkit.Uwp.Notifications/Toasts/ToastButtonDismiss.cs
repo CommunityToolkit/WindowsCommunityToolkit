@@ -20,23 +20,24 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class ToastButtonDismiss : IToastButton
     {
         /// <summary>
-        /// Custom text displayed on the button that overrides the default localized "Dismiss" text.
+        /// Gets custom text displayed on the button that overrides the default localized "Dismiss" text.
         /// </summary>
         public string CustomContent { get; private set; }
 
         /// <summary>
-        /// An optional image icon for the button to display.
+        /// Gets or sets an optional image icon for the button to display.
         /// </summary>
         public string ImageUri { get; set; }
 
         /// <summary>
-        /// Initializes a system-handled dismiss button that displays localized "Dismiss" text on the button.
+        /// Initializes a new instance of the <see cref="ToastButtonDismiss"/> class.
         /// </summary>
         public ToastButtonDismiss()
         {
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ToastButtonDismiss"/> class.
         /// Constructs a system-handled dismiss button that displays your text on the button.
         /// </summary>
         /// <param name="customContent">The text you want displayed on the button.</param>

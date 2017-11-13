@@ -28,8 +28,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         User,
 
         /// <summary>
-        /// Searc
+        /// Search
         /// </summary>
-        Search
+        Search,
+
+        /// <summary>
+        /// Custom
+        /// </summary>
+        Custom
     }
 }
