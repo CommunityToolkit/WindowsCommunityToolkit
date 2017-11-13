@@ -1,14 +1,7 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+﻿// ****************************************************************** Copyright (c) Microsoft. All rights reserved. This code is licensed under the MIT License (MIT). THE CODE IS PROVIDED “AS IS”,
+// WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE CODE OR THE USE OR OTHER
+// DEALINGS IN THE CODE. ******************************************************************
 
 using System;
 using System.Collections.Generic;
@@ -30,6 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <seealso cref="Windows.UI.Xaml.Controls.ItemsControl"/>
     public class Carousel : ItemsControl
     {
+        // Using a DependencyProperty as the backing store for EasingFunction. This enables animation, styling, binding, etc...
         /// <summary>
         /// The easing function property
         /// </summary>
@@ -40,6 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty InvertPositiveProperty = DependencyProperty.Register("InvertPositive", typeof(bool), typeof(Carousel), new PropertyMetadata(true, OnCarouselPropertyChanged));
 
+        // Using a DependencyProperty as the backing store for IsCircular. This enables animation, styling, binding, etc...
         /// <summary>
         /// Using a DependencyProperty as the backing store for IsCircular. This enables animation, styling, binding, etc...
         /// </summary>
@@ -55,6 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty ItemMarginProperty = DependencyProperty.Register("ItemMargin", typeof(int), typeof(Carousel), new PropertyMetadata(0, OnCarouselPropertyChanged));
 
+        // Using a DependencyProperty as the backing store for SelectedItem. This enables animation, styling, binding, etc...
         /// <summary>
         /// Using a DependencyProperty as the backing store for Rotation. This enables animation, styling, binding, etc...
         /// </summary>
@@ -302,6 +298,76 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             e.Handled = true;
+        }
+
+        /// <summary>
+        /// Returns the container used for each item
+        /// </summary>
+        /// <returns>Returns always a ContentControl</returns>
+        protected override DependencyObject GetContainerForItemOverride()
+        {
+            return new ContentControl();
+        }
+
+        /// <summary>
+        /// Determines whether the specified item is (or is eligible to be) its own container.
+        /// </summary>
+        /// <param name="item">The item to check.</param>
+        /// <returns>**true** if the item is (or is eligible to be) its own container; otherwise, **false**.</returns>
+        protected override bool IsItemItsOwnContainerOverride(object item)
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// Prepares the specified element to display the specified item.
+        /// </summary>
+        /// <param name="element">The element that's used to display the specified item.</param>
+        /// <param name="item">The item to display.</param>
+        /// <exception cref="InvalidCastException">Any element added to the Carousel should be at least a Control component</exception>
+        protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+        {
+            base.PrepareContainerForItemOverride(element, item);
+
+            FrameworkElement contentControl = element as ContentControl;
+
+            if (contentControl == null)
+            {
+                contentControl = element as FrameworkElement;
+            }
+            else if (ItemTemplate != null && (contentControl as ContentControl) != null)
+            {
+                ((ContentControl)contentControl).Content = ItemTemplate.LoadContent();
+            }
+
+            if (contentControl == null)
+            {
+                throw new InvalidCastException("Any element added to the Carousel should be at least a Control component");
+            }
+
+            contentControl.DataContext = item;
+            contentControl.Opacity = 1;
+            contentControl.RenderTransformOrigin = new Point(0.5, 0.5);
+            contentControl.Tag = "CarouselItem";
+
+            if (contentControl as Control != null)
+            {
+                ((Control)contentControl).IsTabStop = Items.IndexOf(item) == SelectedIndex;
+                ((Control)contentControl).UseSystemFocusVisuals = true;
+            }
+
+            PlaneProjection planeProjection = new PlaneProjection();
+            planeProjection.CenterOfRotationX = 0.5;
+            planeProjection.CenterOfRotationY = 0.5;
+            planeProjection.CenterOfRotationZ = 0.5;
+
+            var compositeTransform = new CompositeTransform();
+            compositeTransform.CenterX = 0.5;
+            compositeTransform.CenterY = 0.5;
+            compositeTransform.CenterY = 0.5;
+
+            contentControl.Projection = planeProjection;
+            contentControl.RenderTransform = compositeTransform;
         }
 
         /// <summary>
