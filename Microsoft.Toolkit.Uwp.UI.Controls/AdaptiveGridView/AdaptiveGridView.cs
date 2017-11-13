@@ -184,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         itemsWrapGridPanel.Orientation = Orientation.Vertical;
                     }
 
-                    SetBinding(MaxHeightProperty, b);
+                    ItemsPanelRoot.SetBinding(Panel.MaxHeightProperty, b);
 
                     _savedHorizontalScrollMode = ScrollViewer.GetHorizontalScrollMode(this);
                     _savedVerticalScrollMode = ScrollViewer.GetVerticalScrollMode(this);
@@ -199,7 +199,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    ClearValue(MaxHeightProperty);
+                    ItemsPanelRoot.ClearValue(Panel.MaxHeightProperty);
 
                     if (!_needToRestoreScrollStates)
                     {
