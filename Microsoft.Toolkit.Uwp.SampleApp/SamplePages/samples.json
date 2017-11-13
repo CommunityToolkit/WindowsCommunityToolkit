@@ -413,7 +413,7 @@
         "Type": "ImplicitAnimationsPage",
         "About": "Attached properties to enable Implicit animations (including Show and Hide animations) through XAML",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
-        "Icon": "/Assets/Helpers.png",
+        "Icon": "/SamplePages/Implicit Animations/ImplicitAnimations.png",
         "XamlCodeFile": "ImplicitAnimationsCode.bind",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/ImplicitAnimations.md"
@@ -425,7 +425,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/ConnectedAnimations",
         "XamlCodeFile": "ConnectedAnimationsCode.bind",
         "DisableXamlEditorRendering": true,
-        "Icon": "/Assets/Helpers.png",
+        "Icon": "/SamplePages/Connected Animations/ConnectedAnimations.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/ConnectedAnimations.md"
       }
@@ -654,7 +654,7 @@
         "About": "Attached properties to modify object visual properties through XAML",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/Visual",
         "XamlCodeFile": "VisualExtensionsCode.bind",
-        "Icon": "/Assets/Helpers.png",
+        "Icon": "/SamplePages/Visual Extensions/VisualExtensions.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/VisualEx.md"
       }
