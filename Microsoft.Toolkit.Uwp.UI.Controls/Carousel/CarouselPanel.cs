@@ -1,17 +1,19 @@
-﻿// ****************************************************************** Copyright (c) Microsoft. All rights reserved. This code is licensed under the MIT License (MIT). THE CODE IS PROVIDED “AS IS”,
-// WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
-// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE CODE OR THE USE OR OTHER
-// DEALINGS IN THE CODE. ******************************************************************
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-
-using System;
-
-using System.Collections.Generic;
-using System.Linq;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -19,8 +21,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-
-using System.Linq;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -37,6 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// The desired height
         /// </summary>
+        private double desiredHeight;
 
         /// <summary>
         /// The desired width
@@ -403,9 +404,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="pos">The position.</param>
         /// <param name="sortedItems">The sorted items.</param>
         /// <param name="direction">The direction.</param>
-        /// <returns>
-        ///   <c>true</c> if [unfilled space in the carousel visible area]; otherwise, <c>false</c>.
-        /// </returns>
+        /// <returns><c>true</c> if [unfilled space in the carousel visible area]; otherwise, <c>false</c>.</returns>
         private static bool IsOpenSpaceVisible(double pos, List<Tuple<UIElement, Proj>> sortedItems, int direction)
         {
             if (direction == 1)
@@ -643,6 +642,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="element">The element.</param>
         /// <param name="pointer">The pointer.</param>
+        /// <param name="shouldAnimate">if set to <c>true</c> [should animate].</param>
         private void UpdatePositionForItem(UIElement element, int pointer, bool shouldAnimate)
         {
             PlaneProjection planeProjection = element.Projection as PlaneProjection;
