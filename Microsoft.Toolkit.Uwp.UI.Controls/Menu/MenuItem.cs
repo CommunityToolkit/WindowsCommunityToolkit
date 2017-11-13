@@ -54,6 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _isInternalHeaderUpdate = true;
                 Header = value;
+                _isInternalHeaderUpdate = false;
             }
         }
 
@@ -477,7 +478,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_isInternalHeaderUpdate)
             {
-                _isInternalHeaderUpdate = false;
                 return;
             }
 
