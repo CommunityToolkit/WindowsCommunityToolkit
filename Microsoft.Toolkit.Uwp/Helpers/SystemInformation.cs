@@ -134,9 +134,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 {
                     var subsessionLength = DateTime.UtcNow.Subtract(_sessionStart).Ticks;
 
-                    ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(AppUptime), out object uptimeSoFar);
+                    var hasPreviousAppUptime =
+                        ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(AppUptime),
+                            out object uptimeSoFar);
 
-                    return new TimeSpan((long)uptimeSoFar + subsessionLength);
+                    return hasPreviousAppUptime ?
+                        new TimeSpan((long)uptimeSoFar + subsessionLength)
+                        : new TimeSpan(subsessionLength);
                 }
                 else
                 {
@@ -187,9 +191,19 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 {
                     var subsessionLength = DateTime.UtcNow.Subtract(_sessionStart).Ticks;
 
-                    ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(AppUptime), out object uptimeSoFar);
+                    var hasPreviousAppUptime =
+                        ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(AppUptime),
+                            out object uptimeSoFar);
 
-                    ApplicationData.Current.LocalSettings.Values[nameof(AppUptime)] = (long)uptimeSoFar + subsessionLength;
+                    if (hasPreviousAppUptime)
+                    {
+                        ApplicationData.Current.LocalSettings.Values[nameof(AppUptime)] =
+                            (long)uptimeSoFar + subsessionLength;
+                    }
+                    else
+                    {
+                        ApplicationData.Current.LocalSettings.Values[nameof(AppUptime)] = subsessionLength;
+                    }
                 }
             }
 
@@ -213,9 +227,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="duration">The amount to time to add</param>
         public static void AddToAppUptime(TimeSpan duration)
         {
-            ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(AppUptime), out object uptimeSoFar);
-
-            ApplicationData.Current.LocalSettings.Values[nameof(AppUptime)] = (long)uptimeSoFar + duration.Ticks;
+            if (ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(AppUptime),
+                out object uptimeSoFar))
+            {
+                ApplicationData.Current.LocalSettings.Values[nameof(AppUptime)] = (long)uptimeSoFar + duration.Ticks;
+            }
         }
 
         /// <summary>
