@@ -411,6 +411,7 @@
     <Content Include="SamplePages\Light\LightBehaviorCode.bind" />
     <Content Include="SamplePages\Light\LightBehaviorXaml.bind" />
     <Content Include="SamplePages\TextBoxMask\TextBoxMask.bind" />
+	<Content Include="SamplePages\AppPinManager\AppPinManagerHelperCode.bind" />
     <Content Include="SamplePages\TileControl\TileControl.bind">
       <SubType>Designer</SubType>
     </Content>
@@ -452,8 +453,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlXaml.bind" />
-    <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControlXaml.bind" />
-    <Content Include="SamplePages\AppPinManager\AppPinManagerHelperCode.bind" />
+    <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControlXaml.bind" />    
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
