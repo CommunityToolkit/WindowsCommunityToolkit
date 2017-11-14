@@ -170,8 +170,10 @@
                 <PivotItem x:Name="XamlPivotItem"
                             Header="XAML">
                     <monaco:CodeEditor x:Name="XamlCodeRenderer"
-                                        KeyDown="XamlCodeRenderer_KeyDown"
-                                        Loading="XamlCodeRenderer_Loading"/>
+                                       CodeLanguage="xml"
+                                       KeyDown="XamlCodeRenderer_KeyDown"
+                                       Loading="XamlCodeRenderer_Loading"
+                                       InternalException="XamlCodeRenderer_InternalException"/>
                 </PivotItem>
 
                 <PivotItem x:Name="XamlReadOnlyPivotItem"

@@ -34,6 +34,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using System.Diagnostics;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -481,6 +482,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 var t = UpdateXamlRenderAsync(HamburgerMenu.CurrentSample.UpdatedXamlCode);
                 await XamlCodeRenderer.RevealPositionAsync(new Position(1, 1));
+
+                XamlCodeRenderer.Focus(FocusState.Programmatic);
                 return;
             }
 
@@ -661,9 +664,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private void XamlCodeRenderer_Loading(object sender, RoutedEventArgs e)
         {
             XamlCodeRenderer.Options.Folding = true;
+        }
 
-            // In CodeBehind For Now, due to bug: https://github.com/hawkerm/monaco-editor-uwp/issues/10
-            XamlCodeRenderer.CodeLanguage = "xml";
+        private void XamlCodeRenderer_InternalException(CodeEditor sender, Exception args)
+        {
+            TrackingManager.TrackException(args);
+
+            // If you hit an issue here, please report repro steps along with all the info from the Exception object.
+            #if DEBUG
+            Debugger.Break();
+            #endif
         }
 
         private void ProcessSampleEditorTime()
