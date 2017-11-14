@@ -98,14 +98,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             }
             catch (Exception)
             {
-                if (uiParent != null)
-                {
-                    authenticationResult = await _identityClient.AcquireTokenAsync(DelegatedPermissionScopes, uiParent);
-                }
-                else
-                {
-                    authenticationResult = await _identityClient.AcquireTokenAsync(DelegatedPermissionScopes);
-                }
+                authenticationResult = await _identityClient.AcquireTokenAsync(DelegatedPermissionScopes, uiParent);
             }
 
             return authenticationResult?.AccessToken;
