@@ -460,12 +460,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 double animationThreshold = this.Carousel.Orientation == Orientation.Horizontal ? this.Carousel.ActualWidth : this.Carousel.ActualHeight;
 
-                AddAnimation(storyboard, element, this.Carousel.TransitionDuration, proj.Position, localProjectionOrientation, this.Carousel.EasingFunction);
-                AddAnimation(storyboard, element, this.Carousel.TransitionDuration, 0, localProjectionOrientationInvert, this.Carousel.EasingFunction);
-                AddAnimation(storyboard, element, this.Carousel.TransitionDuration, proj.Depth, globalDepthProjection, this.Carousel.EasingFunction);
-                AddAnimation(storyboard, element, this.Carousel.TransitionDuration, proj.RotationX, rotationXProjection, this.Carousel.EasingFunction);
-                AddAnimation(storyboard, element, this.Carousel.TransitionDuration, proj.RotationY, rotationYProjection, this.Carousel.EasingFunction);
-                AddAnimation(storyboard, element, this.Carousel.TransitionDuration, proj.RotationZ, rotationZProjection, this.Carousel.EasingFunction);
+                // Check if the item is flowing beyond the visible area. Set the transition duration to 0, so that those animations are not visible in UI as flicker.
+                int transitDuration = this.Carousel.TransitionDuration;
+                if (Math.Abs(proj.Position) > (this.Carousel.Orientation == Orientation.Horizontal ? this.Carousel.ActualWidth / 2 : this.Carousel.ActualHeight / 2))
+                {
+                    transitDuration = 0;
+                }
+
+                AddAnimation(storyboard, element, transitDuration, proj.Position, localProjectionOrientation, this.Carousel.EasingFunction);
+                AddAnimation(storyboard, element, transitDuration, 0, localProjectionOrientationInvert, this.Carousel.EasingFunction);
+                AddAnimation(storyboard, element, transitDuration, proj.Depth, globalDepthProjection, this.Carousel.EasingFunction);
+                AddAnimation(storyboard, element, transitDuration, proj.RotationX, rotationXProjection, this.Carousel.EasingFunction);
+                AddAnimation(storyboard, element, transitDuration, proj.RotationY, rotationYProjection, this.Carousel.EasingFunction);
+                AddAnimation(storyboard, element, transitDuration, proj.RotationZ, rotationZProjection, this.Carousel.EasingFunction);
             }
         }
 
