@@ -171,7 +171,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             }
 
             Authentication = new MicrosoftGraphAuthenticationHelper(DelegatedPermissionScopes);
-            string accessToken = await Authentication.GetUserTokenV2Async(AppClientId, _uiParent);
+            string accessToken = await Authentication.GetUserTokenV2Async(AppClientId, _uiParent, _redirectUri);
 
             if (string.IsNullOrEmpty(accessToken))
             {

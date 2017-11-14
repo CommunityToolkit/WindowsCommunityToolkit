@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Microsoft.Toolkit.Services.MicrosoftGraph.Platform;
 using Microsoft.Toolkit.Services.OneDrive.Platform;
+using Microsoft.Identity.Client;
 
 namespace Microsoft.Toolkit.Services.OneDrive
 {
@@ -86,8 +87,10 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <typeparam name="U">Concrete instance of type IMicrosoftGraphUserServicePhotos</typeparam>
         /// <param name="appClientId">Client Id.</param>
         /// <param name="scopes">Permission scopes.</param>
+        /// <param name="uiParent">UiParent instance - required for Android</param>
+        /// <param name="redirectUri">Redirect Uri - required for Android</param>
         /// <returns>True or false.</returns>
-        public bool Initialize<T, U>(string appClientId, string[] scopes)
+        public bool Initialize<T, U>(string appClientId, string[] scopes, UIParent uiParent = null, string redirectUri = null)
             where T : IOneDriveServicePlatformInitializer, new()
             where U : IMicrosoftGraphUserServicePhotos, new()
         {
@@ -98,7 +101,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
             Scopes = scopes;
             IsInitialized = true;
 
-            Provider.Initialize<U>(appClientId, MicrosoftGraphEnums.ServicesToInitialize.OneDrive, scopes);
+            Provider.Initialize<U>(appClientId, MicrosoftGraphEnums.ServicesToInitialize.OneDrive, scopes, uiParent, redirectUri);
 
             if (Provider.Authentication == null)
             {
@@ -113,8 +116,10 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// </summary>
         /// <param name="appClientId">Client Id.</param>
         /// <param name="scopes">Permission scopes.</param>
+        /// <param name="uiParent">UiParent instance - required for Android</param>
+        /// <param name="redirectUri">Redirect Uri - required for Android</param>
         /// <returns>True or false.</returns>
-        public bool Initialize(string appClientId, string[] scopes)
+        public bool Initialize(string appClientId, string[] scopes, UIParent uiParent = null, string redirectUri = null)
         {
             ServicePlatformService = ServicePlatformInitializer.CreateOneDriveServicePlatformInstance(this);
 
@@ -122,7 +127,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
             Scopes = scopes;
             IsInitialized = true;
 
-            Provider.Initialize(appClientId, MicrosoftGraphEnums.ServicesToInitialize.OneDrive, scopes);
+            Provider.Initialize(appClientId, MicrosoftGraphEnums.ServicesToInitialize.OneDrive, scopes, uiParent, redirectUri);
 
             if (Provider.Authentication == null)
             {

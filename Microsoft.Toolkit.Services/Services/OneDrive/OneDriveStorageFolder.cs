@@ -402,7 +402,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <returns>A list of DriveItem</returns>
         private List<DriveItem> QueryFiles(IDriveItemChildrenCollectionPage itemFiles)
         {
-            var query = from f in itemFiles.CurrentPage where f.File != null select f;
+            var query = from f in itemFiles.CurrentPage where !string.IsNullOrEmpty(f.Id) select f;
             return query.ToList<DriveItem>();
         }
     }
