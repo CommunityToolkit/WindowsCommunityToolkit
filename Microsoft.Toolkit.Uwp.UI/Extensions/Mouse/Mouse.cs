@@ -21,12 +21,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Helper class for easily changing the mouseover cursor type.
     /// </summary>
-    public class Mouse : DependencyObject
+    public class Mouse
     {
-        private static readonly object s_cursorLock = new object();
-        private static readonly CoreCursor s_defaultCursor = new CoreCursor(CoreCursorType.Arrow, 1);
-        private static readonly Dictionary<CoreCursorType, CoreCursor> s_cursors =
-            new Dictionary<CoreCursorType, CoreCursor> { { CoreCursorType.Arrow, s_defaultCursor } };
+        private static readonly object _cursorLock = new object();
+        private static readonly CoreCursor _defaultCursor = new CoreCursor(CoreCursorType.Arrow, 1);
+        private static readonly Dictionary<CoreCursorType, CoreCursor> _cursors =
+            new Dictionary<CoreCursorType, CoreCursor> { { CoreCursorType.Arrow, _defaultCursor } };
 
         /// <summary>
         /// Dependency property for specifying the target <see cref="CoreCursorType"/> to be shown
@@ -66,11 +66,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             var value = (CoreCursorType) e.NewValue;
 
             // lock ensures CoreCursor creation and event handlers attachment/detachment is atomic
-            lock (s_cursorLock)
+            lock (_cursorLock)
             {
-                if (!s_cursors.ContainsKey(value))
+                if (!_cursors.ContainsKey(value))
                 {
-                    s_cursors[value] = new CoreCursor(value, 1);
+                    _cursors[value] = new CoreCursor(value, 1);
                 }
 
                 // make sure event handlers are not attached twice to element
@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static void Element_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             CoreCursorType cursor = GetCursor((FrameworkElement) sender);
-            Window.Current.CoreWindow.PointerCursor = s_cursors[cursor];
+            Window.Current.CoreWindow.PointerCursor = _cursors[cursor];
         }
 
         private static void Element_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -95,11 +95,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             CoreCursor cursor;
             if (e.OriginalSource is FrameworkElement newElement)
             {
-                cursor = s_cursors[GetCursor(newElement)];
+                cursor = _cursors[GetCursor(newElement)];
             }
             else
             {
-                cursor = s_defaultCursor;
+                cursor = _defaultCursor;
             }
 
             Window.Current.CoreWindow.PointerCursor = cursor;
@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             // when the element is programatically unloaded, reset the cursor back to default
             // this is necessary when click triggers immediate change in layout and PointerExited is not called
-            Window.Current.CoreWindow.PointerCursor = s_defaultCursor;
+            Window.Current.CoreWindow.PointerCursor = _defaultCursor;
         }
     }
 }
