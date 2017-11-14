@@ -2,7 +2,7 @@
 title: AppPinManager helper
 author: rvinothrajendran
 ms.date: 11/08/2017
-description: The AppPinManager class helps to user add the app shortcut in StartMenu or TaskBar in a easier way
+description: The AppPinManager class helps the user add the app shortcut in StartMenu or TaskBar in a easier way
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, StartMenu, TaskBar, PinManager 
 ---
 
@@ -47,12 +47,28 @@ var appList = (await Package.Current.GetAppListEntriesAsync())[0];
 var result = await AppPinManager.PinSpecificAppToStartMenuAsync(appList);
 ```
 
-## Requirements
+## StartMenu APIs Requirements
+
+| PinSpecificAppToStartMenuAsync(AppListEntry) |
+| PinUserSpecificAppToStartMenuAsync(User, AppListEntry) |
+
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.15063.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.Helpers |
 | NuGet package | [Microsoft.Toolkit.Uwp](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
+
+## TaskBar APIs Requirements
+
+| PinCurrentAppToTaskBarAsync() |
+| PinSpecificAppToTaskBarAsync(AppListEntry) |
+
+
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.16299.0 or higher   |
+| ---------------------------------------------------------------- | ----------------------------------- |
+| Namespace                                                        | Microsoft.Toolkit.Uwp.Helpers |
+| NuGet package | [Microsoft.Toolkit.Uwp](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
+
 
 ## API
 
