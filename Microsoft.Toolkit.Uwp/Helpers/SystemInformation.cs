@@ -17,7 +17,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Security.ExchangeActiveSyncProvisioning;
-using Windows.Storage;
 using Windows.System;
 using Windows.System.Profile;
 using Windows.System.UserProfile;
@@ -134,13 +133,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 {
                     var subsessionLength = DateTime.UtcNow.Subtract(_sessionStart).Ticks;
 
-                    var hasPreviousAppUptime =
-                        ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(AppUptime),
-                            out object uptimeSoFar);
+                    var localStorageHelper = new LocalObjectStorageHelper();
+                    var uptimeSoFar = localStorageHelper.Read<long>(nameof(AppUptime));
 
-                    return hasPreviousAppUptime ?
-                        new TimeSpan((long)uptimeSoFar + subsessionLength)
-                        : new TimeSpan(subsessionLength);
+                    return new TimeSpan(uptimeSoFar + subsessionLength);
                 }
                 else
                 {
@@ -158,27 +154,21 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             if (args.PreviousExecutionState == ApplicationExecutionState.ClosedByUser
              || args.PreviousExecutionState == ApplicationExecutionState.NotRunning)
             {
-                if (ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(LaunchCount), out object launchCount))
-                {
-                    LaunchCount = (long)launchCount + 1;
-                }
-                else
-                {
-                    LaunchCount = 1;
-                }
+                var localStorageHelper = new LocalObjectStorageHelper();
 
-                ApplicationData.Current.LocalSettings.Values[nameof(LaunchCount)] = LaunchCount;
+                LaunchCount = localStorageHelper.Read<long>(nameof(LaunchCount)) + 1;
+
+                localStorageHelper.Save(nameof(LaunchCount), LaunchCount);
 
                 LaunchTime = DateTime.UtcNow;
 
-                if (ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(LastLaunchTime), out object lastLaunch))
-                {
-                    LastLaunchTime = DateTime.FromFileTimeUtc((long)lastLaunch);
-                }
+                var lastLaunch = localStorageHelper.Read<long>(nameof(LastLaunchTime));
+                LastLaunchTime = lastLaunch != default(long)
+                    ? DateTime.FromFileTimeUtc(lastLaunch)
+                    : LaunchTime;
 
-                ApplicationData.Current.LocalSettings.Values[nameof(LastLaunchTime)] = LaunchTime.ToFileTimeUtc();
-
-                ApplicationData.Current.LocalSettings.Values[nameof(AppUptime)] = 0L;
+                localStorageHelper.Save(nameof(LastLaunchTime), LaunchTime.ToFileTimeUtc());
+                localStorageHelper.Save(nameof(AppUptime), 0L);
             }
 
             void App_VisibilityChanged(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.VisibilityChangedEventArgs e)
@@ -191,19 +181,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 {
                     var subsessionLength = DateTime.UtcNow.Subtract(_sessionStart).Ticks;
 
-                    var hasPreviousAppUptime =
-                        ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(AppUptime),
-                            out object uptimeSoFar);
+                    var localStorageHelper = new LocalObjectStorageHelper();
 
-                    if (hasPreviousAppUptime)
-                    {
-                        ApplicationData.Current.LocalSettings.Values[nameof(AppUptime)] =
-                            (long)uptimeSoFar + subsessionLength;
-                    }
-                    else
-                    {
-                        ApplicationData.Current.LocalSettings.Values[nameof(AppUptime)] = subsessionLength;
-                    }
+                    var uptimeSoFar = localStorageHelper.Read<long>(nameof(AppUptime));
+
+                    localStorageHelper.Save(nameof(AppUptime), uptimeSoFar + subsessionLength);
                 }
             }
 
@@ -227,11 +209,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="duration">The amount to time to add</param>
         public static void AddToAppUptime(TimeSpan duration)
         {
-            if (ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(AppUptime),
-                out object uptimeSoFar))
-            {
-                ApplicationData.Current.LocalSettings.Values[nameof(AppUptime)] = (long)uptimeSoFar + duration.Ticks;
-            }
+            var localStorageHelper = new LocalObjectStorageHelper();
+            var uptimeSoFar = localStorageHelper.Read<long>(nameof(AppUptime));
+            localStorageHelper.Save(nameof(AppUptime), uptimeSoFar + duration.Ticks);
         }
 
         /// <summary>
@@ -273,13 +253,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private static bool DetectIfFirstUse()
         {
-            if (ApplicationData.Current.LocalSettings.Values.ContainsKey(nameof(IsFirstRun)))
+            var localStorageHelper = new LocalObjectStorageHelper();
+            if (localStorageHelper.KeyExists(nameof(IsFirstRun)))
             {
                 return false;
             }
             else
             {
-                ApplicationData.Current.LocalSettings.Values[nameof(IsFirstRun)] = true;
+                localStorageHelper.Save(nameof(IsFirstRun), true);
                 return true;
             }
         }
@@ -287,17 +268,18 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private static bool DetectIfAppUpdated()
         {
             var currentVersion = ApplicationVersion.ToFormattedString();
+            var localStorageHelper = new LocalObjectStorageHelper();
 
-            if (!ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(currentVersion), out object lastVersion))
+            if (!localStorageHelper.KeyExists(nameof(currentVersion)))
             {
-                ApplicationData.Current.LocalSettings.Values[nameof(currentVersion)] = currentVersion;
+                localStorageHelper.Save(nameof(currentVersion), currentVersion);
             }
             else
             {
-                if (currentVersion != lastVersion.ToString())
+                var lastVersion = localStorageHelper.Read<string>(nameof(currentVersion));
+                if (currentVersion != lastVersion)
                 {
-                    ApplicationData.Current.LocalSettings.Values[nameof(currentVersion)] = currentVersion;
-
+                    localStorageHelper.Save(nameof(currentVersion), currentVersion);
                     return true;
                 }
             }
@@ -308,15 +290,17 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private static DateTime DetectFirstUseTime()
         {
             DateTime result;
+            var localStorageHelper = new LocalObjectStorageHelper();
 
-            if (ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(FirstUseTime), out object firstUse))
+            if (localStorageHelper.KeyExists(nameof(FirstUseTime)))
             {
-                result = DateTime.FromFileTimeUtc((long)firstUse);
+                var firstUse = localStorageHelper.Read<long>(nameof(FirstUseTime));
+                result = DateTime.FromFileTimeUtc(firstUse);
             }
             else
             {
                 result = DateTime.UtcNow;
-                ApplicationData.Current.LocalSettings.Values[nameof(FirstUseTime)] = result.ToFileTimeUtc();
+                localStorageHelper.Save(nameof(FirstUseTime), result);
             }
 
             return result;
@@ -325,15 +309,16 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private static PackageVersion DetectFirstVersionInstalled()
         {
             PackageVersion result;
+            var localStorageHelper = new LocalObjectStorageHelper();
 
-            if (ApplicationData.Current.LocalSettings.Values.TryGetValue(nameof(FirstVersionInstalled), out object firstVersion))
+            if (localStorageHelper.KeyExists(nameof(FirstVersionInstalled)))
             {
-                result = firstVersion.ToString().ToPackageVersion();
+                result = localStorageHelper.Read<string>(nameof(FirstVersionInstalled)).ToPackageVersion();
             }
             else
             {
                 result = ApplicationVersion;
-                ApplicationData.Current.LocalSettings.Values[nameof(FirstVersionInstalled)] = ApplicationVersion.ToFormattedString();
+                localStorageHelper.Save(nameof(FirstVersionInstalled), ApplicationVersion.ToFormattedString());
             }
 
             return result;
