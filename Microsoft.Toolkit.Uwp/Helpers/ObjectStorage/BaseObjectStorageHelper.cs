@@ -15,6 +15,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Windows.Storage;
+using System;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
@@ -86,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             if (typeInfo.IsPrimitive || type == typeof(string))
             {
-                return (T)value;
+                return (T)Convert.ChangeType(value, type);
             }
 
             return JsonConvert.DeserializeObject<T>((string)value);
