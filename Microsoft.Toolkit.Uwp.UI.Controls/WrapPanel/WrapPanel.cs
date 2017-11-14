@@ -23,6 +23,49 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class WrapPanel : Panel
     {
         /// <summary>
+        /// Gets or sets a uniform Horizontal distance (in pixels) between items when <see cref="Orientation"/> is set to Horizontal,
+        /// or between columns of items when <see cref="Orientation"/> is set to Vertical.
+        /// </summary>
+        public double HorizontalSpacing
+        {
+            get { return (double)GetValue(HorizontalSpacingProperty); }
+            set { SetValue(HorizontalSpacingProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="HorizontalSpacing"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HorizontalSpacingProperty =
+            DependencyProperty.Register(
+                nameof(HorizontalSpacing),
+                typeof(double),
+                typeof(WrapPanel),
+                new PropertyMetadata(0d, LayoutPropertyChanged));
+
+
+        /// <summary>
+        /// Gets or sets a uniform Vertical distance (in pixels) between items when <see cref="Orientation"/> is set to Vertical,
+        /// or between rows of items when <see cref="Orientation"/> is set to Horizontal.
+        /// </summary>
+        public double VerticalSpacing
+        {
+            get { return (double)GetValue(VerticalSpacingProperty); }
+            set { SetValue(VerticalSpacingProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="VerticalSpacing"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty VerticalSpacingProperty =
+            DependencyProperty.Register(
+                nameof(VerticalSpacing),
+                typeof(double),
+                typeof(WrapPanel),
+                new PropertyMetadata(0d, LayoutPropertyChanged));
+
+
+
+        /// <summary>
         /// Gets or sets the orientation of the WrapPanel, Horizontal or vertical means that child controls will be added horizontally until the width of the panel can't fit more control then a new row is added to fit new horizontal added child controls, vertical means that child will be added vertically until the height of the panel is recieved then a new column is added
         /// </summary>
         public Orientation Orientation
@@ -36,17 +79,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty OrientationProperty =
             DependencyProperty.Register(
-                "Orientation",
+                nameof(Orientation),
                 typeof(Orientation),
                 typeof(WrapPanel),
-                new PropertyMetadata(Orientation.Horizontal, OrientationPropertyChanged));
+                new PropertyMetadata(Orientation.Horizontal, LayoutPropertyChanged));
 
-        private static void OrientationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void LayoutPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var wrapPanel = d as WrapPanel;
-            wrapPanel?.InvalidateMeasure();
-            wrapPanel?.InvalidateArrange();
+            if (d is WrapPanel wp)
+            {
+                if (wp.Orientation == Orientation.Horizontal)
+                {
+                    wp.uSpacing = wp.HorizontalSpacing;
+                    wp.vSpacing = wp.VerticalSpacing;
+                }
+                else
+                {
+                    wp.uSpacing = wp.VerticalSpacing;
+                    wp.vSpacing = wp.HorizontalSpacing;
+                }
+
+                wp.InvalidateMeasure();
+                wp.InvalidateArrange();
+            }
         }
+
+        private double uSpacing = 0d;
+        private double vSpacing = 0d;
 
         /// <inheritdoc />
         protected override Size MeasureOverride(Size availableSize)
@@ -62,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (parentMeasure.U > currentMeasure.U + lineMeasure.U)
                 {
-                    lineMeasure.U += currentMeasure.U;
+                    lineMeasure.U += currentMeasure.U + uSpacing;
                     lineMeasure.V = Math.Max(lineMeasure.V, currentMeasure.V);
                 }
                 else
@@ -70,7 +129,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // new line should be added
                     // to get the max U to provide it correctly to ui width ex: ---| or -----|
                     totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
-                    totalMeasure.V += lineMeasure.V;
+                    totalMeasure.V += lineMeasure.V + vSpacing;
 
                     // if the next new row still can handle more controls
                     if (parentMeasure.U > currentMeasure.U)
@@ -119,7 +178,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     // next row!
                     position.U = 0;
-                    position.V += currentV;
+                    position.V += currentV + vSpacing;
                     currentV = 0;
                 }
 
@@ -134,7 +193,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // adjust the location for the next items
-                position.U += desiredMeasure.U;
+                position.U += desiredMeasure.U + uSpacing;
                 currentV = Math.Max(desiredMeasure.V, currentV);
             }
 
