@@ -82,6 +82,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 return @default;
             }
 
+            if (value == null)
+            {
+                return @default;
+            }
+
             var type = typeof(T);
             var typeInfo = type.GetTypeInfo();
 
