@@ -13,22 +13,31 @@
 using System;
 using System.Reflection;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
-    /// Internal class used to provide helpers for controls
+    /// Class used to provide helpers for design time
     /// </summary>
-    internal static partial class ControlHelpers
+    public static class DesignTimeHelpers
     {
         private static Lazy<bool> designModeEnabled = new Lazy<bool>(InitializeDesignerMode);
 
         private static Lazy<bool> designMode2Enabled = new Lazy<bool>(InitializeDesignMode2);
 
-        public static bool IsRunningInLegacyDesignerMode => ControlHelpers.designModeEnabled.Value && !ControlHelpers.designMode2Enabled.Value;
+        /// <summary>
+        /// Gets a value indicating whether app is running in the Legacy Designer
+        /// </summary>
+        public static bool IsRunningInLegacyDesignerMode => DesignTimeHelpers.designModeEnabled.Value && !DesignTimeHelpers.designMode2Enabled.Value;
 
-        public static bool IsRunningInEnhancedDesignerMode => ControlHelpers.designModeEnabled.Value && ControlHelpers.designMode2Enabled.Value;
+        /// <summary>
+        /// Gets a value indicating whether app is running in the Enhanced Designer
+        /// </summary>
+        public static bool IsRunningInEnhancedDesignerMode => DesignTimeHelpers.designModeEnabled.Value && DesignTimeHelpers.designMode2Enabled.Value;
 
-        public static bool IsRunningInApplicationRuntimeMode => !ControlHelpers.designModeEnabled.Value;
+        /// <summary>
+        /// Gets a value indicating whether app is not running in the Designer
+        /// </summary>
+        public static bool IsRunningInApplicationRuntimeMode => !DesignTimeHelpers.designModeEnabled.Value;
 
         // Private initializer
         private static bool InitializeDesignerMode()
