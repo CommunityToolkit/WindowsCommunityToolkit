@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// WrapPanel is a panel that position child control vertically or horizontally based on the orientation and when max width/ max height is recieved a new row(in case of horizontal) or column (in case of vertical) is created to fit new controls.
+    /// WrapPanel is a panel that position child control vertically or horizontally based on the orientation and when max width / max height is reached a new row (in case of horizontal) or column (in case of vertical) is created to fit new controls.
     /// </summary>
     public partial class WrapPanel : Panel
     {
@@ -90,13 +90,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (wp.Orientation == Orientation.Horizontal)
                 {
-                    wp.uSpacing = wp.HorizontalSpacing;
-                    wp.vSpacing = wp.VerticalSpacing;
+                    wp._uSpacing = wp.HorizontalSpacing;
+                    wp._vSpacing = wp.VerticalSpacing;
                 }
                 else
                 {
-                    wp.uSpacing = wp.VerticalSpacing;
-                    wp.vSpacing = wp.HorizontalSpacing;
+                    wp._uSpacing = wp.VerticalSpacing;
+                    wp._vSpacing = wp.HorizontalSpacing;
                 }
 
                 wp.InvalidateMeasure();
@@ -104,8 +104,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private double uSpacing = 0d;
-        private double vSpacing = 0d;
+        private double _uSpacing = 0d;
+        private double _vSpacing = 0d;
 
         /// <inheritdoc />
         protected override Size MeasureOverride(Size availableSize)
@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (parentMeasure.U > currentMeasure.U + lineMeasure.U)
                 {
-                    lineMeasure.U += currentMeasure.U + uSpacing;
+                    lineMeasure.U += currentMeasure.U + _uSpacing;
                     lineMeasure.V = Math.Max(lineMeasure.V, currentMeasure.V);
                 }
                 else
@@ -129,7 +129,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // new line should be added
                     // to get the max U to provide it correctly to ui width ex: ---| or -----|
                     totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
-                    totalMeasure.V += lineMeasure.V + vSpacing;
+                    totalMeasure.V += lineMeasure.V + _vSpacing;
 
                     // if the next new row still can handle more controls
                     if (parentMeasure.U > currentMeasure.U)
@@ -178,7 +178,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     // next row!
                     position.U = 0;
-                    position.V += currentV + vSpacing;
+                    position.V += currentV + _vSpacing;
                     currentV = 0;
                 }
 
@@ -193,7 +193,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // adjust the location for the next items
-                position.U += desiredMeasure.U + uSpacing;
+                position.U += desiredMeasure.U + _uSpacing;
                 currentV = Math.Max(desiredMeasure.V, currentV);
             }
 
