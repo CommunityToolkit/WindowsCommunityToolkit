@@ -34,6 +34,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using System.Diagnostics;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -668,6 +669,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private void XamlCodeRenderer_InternalException(CodeEditor sender, Exception args)
         {
             TrackingManager.TrackException(args);
+
+            // If you hit an issue here, please report repro steps along with all the info from the Exception object.
+            #if DEBUG
+            Debugger.Break();
+            #endif
         }
 
         private void ProcessSampleEditorTime()
