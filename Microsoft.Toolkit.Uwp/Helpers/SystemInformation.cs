@@ -28,8 +28,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// </summary>
     public static class SystemInformation
     {
-        private static DateTime _sessionStart;
         private static readonly LocalObjectStorageHelper _localObjectStorageHelper = new LocalObjectStorageHelper();
+        private static DateTime _sessionStart;
 
         /// <summary>
         /// Gets Application's name
@@ -153,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (args.PreviousExecutionState == ApplicationExecutionState.ClosedByUser
              || args.PreviousExecutionState == ApplicationExecutionState.NotRunning)
-            {               
+            {
                 LaunchCount = _localObjectStorageHelper.Read<long>(nameof(LaunchCount)) + 1;
 
                 _localObjectStorageHelper.Save(nameof(LaunchCount), LaunchCount);
@@ -204,7 +204,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="duration">The amount to time to add</param>
         public static void AddToAppUptime(TimeSpan duration)
-        {          
+        {
             var uptimeSoFar = _localObjectStorageHelper.Read<long>(nameof(AppUptime));
             _localObjectStorageHelper.Save(nameof(AppUptime), uptimeSoFar + duration.Ticks);
         }

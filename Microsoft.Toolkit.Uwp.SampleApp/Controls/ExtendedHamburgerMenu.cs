@@ -147,6 +147,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             _searchButton.Visibility = Visibility.Collapsed;
             _searchBox.Visibility = Visibility.Visible;
 
+            _searchBox.Focus(FocusState.Programmatic);
+
             // We need to wait for the textbox to be created to focus it (only first time).
             TextBox innerTextbox = null;
 
@@ -165,6 +167,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         protected override void OnApplyTemplate()
         {
+            Window.Current.CoreWindow.CharacterReceived -= CoreWindow_CharacterReceived;
+            Window.Current.CoreWindow.CharacterReceived += CoreWindow_CharacterReceived;
+
             base.OnApplyTemplate();
 
             if (_hamburgerButton != null)
@@ -193,6 +198,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             SetupMoreInfo();
             SetupSearch();
+        }
+
+        private void CoreWindow_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
+        {
+            if (args.KeyCode == 27)
+            {
+                HideSamplePicker();
+            }
         }
 
         private void SetupMoreInfo()
@@ -246,6 +259,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 _searchBox.LostFocus -= SearchBox_LostFocus;
                 _searchBox.TextChanged -= SearchBox_TextChanged;
                 _searchBox.KeyDown -= SearchBox_KeyDown;
+                _searchBox.QuerySubmitted -= SearchBox_QuerySubmitted;
             }
 
             if (_searchButton != null)
@@ -265,6 +279,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             _searchBox.LostFocus += SearchBox_LostFocus;
             _searchBox.TextChanged += SearchBox_TextChanged;
             _searchBox.KeyDown += SearchBox_KeyDown;
+            _searchBox.QuerySubmitted += SearchBox_QuerySubmitted;
 
             _searchButton.Click += SearchButton_Click;
             _searchButton.GotFocus += SearchButton_GotFocus;
@@ -301,6 +316,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 return;
             }
 
+            UpdateSearchSuggestions();
+        }
+
+        private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
             UpdateSearchSuggestions();
         }
 
