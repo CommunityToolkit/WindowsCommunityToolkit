@@ -42,7 +42,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 typeof(WrapPanel),
                 new PropertyMetadata(0d, LayoutPropertyChanged));
 
-
         /// <summary>
         /// Gets or sets a uniform Vertical distance (in pixels) between items when <see cref="Orientation"/> is set to Vertical,
         /// or between rows of items when <see cref="Orientation"/> is set to Horizontal.
@@ -65,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         /// <summary>
         /// Gets or sets the orientation of the WrapPanel.
-        /// Horizontal means that child controls will be added horizontally until the width of the panel is reached, then a new row is added to add new child controls. 
+        /// Horizontal means that child controls will be added horizontally until the width of the panel is reached, then a new row is added to add new child controls.
         /// Vertical means that children will be added vertically until the height of the panel is reached, then a new column is added.
         /// </summary>
         public Orientation Orientation
