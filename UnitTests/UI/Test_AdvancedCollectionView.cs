@@ -70,6 +70,59 @@ namespace UnitTests.UI
 
         [TestCategory("AdvancedCollectionView")]
         [UITestMethod]
+        public void Test_AdvancedCollectionView_FilterOrder()
+        {
+            var l = new ObservableCollection<string>
+            {
+                "lorem",
+                "ipsum",
+                "dolor",
+                "sit",
+                "amet"
+            };
+
+            var a = new AdvancedCollectionView(l)
+            {
+                Filter = (x) => x.ToString().Length < 5
+            };
+
+            a.Insert(4, "how");
+
+            Assert.AreEqual(3, a.Count);
+            Assert.AreEqual(a[0], "sit");
+            Assert.AreEqual(a[1], "how");
+            Assert.AreEqual(a[2], "amet");
+
+        }
+
+        [TestCategory("AdvancedCollectionView")]
+        [UITestMethod]
+        public void Test_AdvancedCollectionView_FilterOrderShowBefore()
+        {
+            var l = new ObservableCollection<string>
+            {
+                "lorem",
+                "ipsum",
+                "dolor",
+                "sitter",
+                "amet"
+            };
+
+            var a = new AdvancedCollectionView(l)
+            {
+                Filter = (x) => x.ToString().Length < 5
+            };
+
+            a.Insert(0, "how");
+
+            Assert.AreEqual(2, a.Count);
+            Assert.AreEqual(a[0], "how");
+            Assert.AreEqual(a[1], "amet");
+
+        }
+
+        [TestCategory("AdvancedCollectionView")]
+        [UITestMethod]
         public void Test_AdvancedCollectionView_Updating()
         {
             var l = new ObservableCollection<string>
@@ -698,6 +751,73 @@ namespace UnitTests.UI
 
             Assert.AreEqual(42, ((Person)a.First()).Age);
             Assert.AreEqual(2, a.Count);
+        }
+
+        [TestCategory("AdvancedCollectionView")]
+        [UITestMethod]
+        public void Test_AdvancedCollectionView_Combined_Using_Shaping_Filter_Back_In()
+        {
+            var l = new ObservableCollection<Person>
+            {
+                new Person()
+                {
+                    Name = "lorem",
+                    Age = 4
+                },
+                new Person()
+                {
+                    Name = "imsum",
+                    Age = 8
+                },
+                new Person()
+                {
+                    Name = "dolor",
+                    Age = 15
+                },
+                new Person()
+                {
+                    Name = "sit",
+                    Age = 16
+                },
+                new Person()
+                {
+                    Name = "amet",
+                    Age = 23
+                },
+                new Person()
+                {
+                    Name = "consectetur",
+                    Age = 42
+                },
+            };
+
+            var a = new AdvancedCollectionView(l, true);
+
+            a.Filter = (x) => ((Person)x).Name.Length > 5;
+            a.RefreshFilter();
+
+            a.Filter = (x) => ((Person)x).Name.Length > 4;
+            a.RefreshFilter();
+
+            a.SortDescriptions.Add(new SortDescription(nameof(Person.Age), SortDirection.Descending));
+
+            Assert.AreEqual(42, ((Person)a.First()).Age);
+            Assert.AreEqual(4, a.Count);
+
+            l.Add(new Person
+            {
+                Name = "foo",
+                Age = 50
+            });
+
+            l.Add(new Person
+            {
+                Name = "Person McPersonface",
+                Age = 10
+            });
+
+            Assert.AreEqual(42, ((Person)a.First()).Age);
+            Assert.AreEqual(5, a.Count);
         }
 
         [TestCategory("AdvancedCollectionView")]
