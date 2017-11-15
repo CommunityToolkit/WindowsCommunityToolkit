@@ -679,18 +679,17 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
                 else
                 {
-                    var viewSet = new Dictionary<object, int>(_view.Count);
-                    for (int i = 0; i < _view.Count; i++)
+                    for (int i = 0, j = 0; i < _sourceList.Count; i++)
                     {
-                        viewSet.Add(_view[i], i);
-                    }
-
-                    for (var i = newStartingIndex; i < _sourceList.Count; i++)
-                    {
-                        if (viewSet.ContainsKey(_sourceList[i]))
+                        if (i == newStartingIndex)
                         {
-                            newViewIndex = viewSet[_sourceList[i]];
+                            newViewIndex = j;
                             break;
+                        }
+
+                        if (_view[j] == _sourceList[i])
+                        {
+                            j++;
                         }
                     }
                 }
