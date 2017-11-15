@@ -158,6 +158,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         public Thickness CodePadding { get; set; }
 
         /// <summary>
+        /// Gets or sets the font used to display emojis.  If this is <c>null</c>, then
+        /// Segoe UI Emoji font is used.
+        /// </summary>
+        public FontFamily EmojiFontFamily { get; set; }
+
+        /// <summary>
         /// Gets or sets the font weight to use for level 1 headers.
         /// </summary>
         public FontWeight Header1FontWeight { get; set; }
@@ -790,7 +796,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 case MarkdownInlineType.Image:
                     RenderImage(inlineCollection, (ImageInline)element, context);
                     break;
+                case MarkdownInlineType.Emoji:
+                    RenderEmoji(inlineCollection, (EmojiInline)element, context);
+                    break;
             }
+        }
+
+        /// <summary>
+        /// Renders emoji element.
+        /// </summary>
+        /// <param name="inlineCollection"> The list to add to. </param>
+        /// <param name="element"> The parsed inline element to render. </param>
+        /// <param name="context"> Persistent state. </param>
+        private void RenderEmoji(InlineCollection inlineCollection, EmojiInline element, RenderContext context)
+        {
+            var emoji = new Run
+            {
+                FontFamily = EmojiFontFamily ?? new FontFamily("Segoe UI Emoji"),
+                Text = element.Text
+            };
+
+            inlineCollection.Add(emoji);
         }
 
         /// <summary>
