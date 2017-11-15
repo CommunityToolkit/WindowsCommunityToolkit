@@ -15,6 +15,9 @@ using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 {
+    /// <summary>
+    /// Represents a span containing emoji symbol.
+    /// </summary>
     internal partial class EmojiInline : MarkdownInline, IInlineLeaf
     {
         /// <summary>

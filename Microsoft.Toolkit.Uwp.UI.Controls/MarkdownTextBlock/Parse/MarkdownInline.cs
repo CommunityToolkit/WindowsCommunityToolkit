@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         /// </summary>
         Image,
 
-        ///<summary>
+        /// <summary>
         /// Emoji
         /// </summary>
         Emoji

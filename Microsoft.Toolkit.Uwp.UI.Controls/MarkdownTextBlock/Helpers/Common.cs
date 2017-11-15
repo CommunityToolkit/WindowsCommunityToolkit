@@ -115,6 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
             CodeInline.AddTripChars(_triggerList);
             ImageInline.AddTripChars(_triggerList);
             EmojiInline.AddTripChars(_triggerList);
+
             // Create an array of characters to search against using IndexOfAny.
             _tripCharacters = _triggerList.Select(trigger => trigger.FirstChar).Distinct().ToArray();
         }
