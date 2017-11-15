@@ -48,11 +48,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         private readonly IImageResolver _imageResolver;
 
+        private readonly FontFamily _defaultEmojiFont;
+
         public XamlRenderer(MarkdownDocument document, ILinkRegister linkRegister, IImageResolver imageResolver)
         {
             _document = document;
             _linkRegister = linkRegister;
             _imageResolver = imageResolver;
+            _defaultEmojiFont = new FontFamily("Segoe UI Emoji");
         }
 
         /// <summary>
@@ -812,7 +815,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         {
             var emoji = new Run
             {
-                FontFamily = EmojiFontFamily ?? new FontFamily("Segoe UI Emoji"),
+                FontFamily = EmojiFontFamily ?? _defaultEmojiFont,
                 Text = element.Text
             };
 
