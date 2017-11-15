@@ -557,7 +557,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                     continue;
                 }
 
-                if (HandleItemAdded(index, item))
+                if (HandleItemAdded(index, item, viewIndex))
                 {
                     viewIndex++;
                 }
