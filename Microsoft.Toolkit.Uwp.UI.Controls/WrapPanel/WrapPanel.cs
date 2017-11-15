@@ -63,10 +63,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 typeof(WrapPanel),
                 new PropertyMetadata(0d, LayoutPropertyChanged));
 
-
-
         /// <summary>
-        /// Gets or sets the orientation of the WrapPanel, Horizontal or vertical means that child controls will be added horizontally until the width of the panel can't fit more control then a new row is added to fit new horizontal added child controls, vertical means that child will be added vertically until the height of the panel is recieved then a new column is added
+        /// Gets or sets the orientation of the WrapPanel.
+        /// Horizontal means that child controls will be added horizontally until the width of the panel is reached, then a new row is added to add new child controls. 
+        /// Vertical means that children will be added vertically until the height of the panel is reached, then a new column is added.
         /// </summary>
         public Orientation Orientation
         {
@@ -88,40 +88,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (d is WrapPanel wp)
             {
-                if (wp.Orientation == Orientation.Horizontal)
-                {
-                    wp._uSpacing = wp.HorizontalSpacing;
-                    wp._vSpacing = wp.VerticalSpacing;
-                }
-                else
-                {
-                    wp._uSpacing = wp.VerticalSpacing;
-                    wp._vSpacing = wp.HorizontalSpacing;
-                }
-
                 wp.InvalidateMeasure();
                 wp.InvalidateArrange();
             }
         }
-
-        private double _uSpacing = 0d;
-        private double _vSpacing = 0d;
 
         /// <inheritdoc />
         protected override Size MeasureOverride(Size availableSize)
         {
             var totalMeasure = UvMeasure.Zero;
             var parentMeasure = new UvMeasure(Orientation, availableSize.Width, availableSize.Height);
+            var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
             var lineMeasure = UvMeasure.Zero;
+
             foreach (var child in Children)
             {
                 child.Measure(availableSize);
 
                 var currentMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
 
-                if (parentMeasure.U > currentMeasure.U + lineMeasure.U)
+                if (parentMeasure.U > currentMeasure.U + lineMeasure.U + spacingMeasure.U)
                 {
-                    lineMeasure.U += currentMeasure.U + _uSpacing;
+                    lineMeasure.U += currentMeasure.U + spacingMeasure.U;
                     lineMeasure.V = Math.Max(lineMeasure.V, currentMeasure.V);
                 }
                 else
@@ -129,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // new line should be added
                     // to get the max U to provide it correctly to ui width ex: ---| or -----|
                     totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
-                    totalMeasure.V += lineMeasure.V + _vSpacing;
+                    totalMeasure.V += lineMeasure.V + spacingMeasure.V;
 
                     // if the next new row still can handle more controls
                     if (parentMeasure.U > currentMeasure.U)
@@ -168,6 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override Size ArrangeOverride(Size finalSize)
         {
             var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
+            var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
             var position = UvMeasure.Zero;
 
             double currentV = 0;
@@ -178,7 +167,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     // next row!
                     position.U = 0;
-                    position.V += currentV + _vSpacing;
+                    position.V += currentV + spacingMeasure.V;
                     currentV = 0;
                 }
 
@@ -193,7 +182,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // adjust the location for the next items
-                position.U += desiredMeasure.U + _uSpacing;
+                position.U += desiredMeasure.U + spacingMeasure.U;
                 currentV = Math.Max(desiredMeasure.V, currentV);
             }
 
