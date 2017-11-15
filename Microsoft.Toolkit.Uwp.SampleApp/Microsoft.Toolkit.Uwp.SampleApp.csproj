@@ -1150,11 +1150,7 @@
       </AppxPackagePayload>
     </ItemGroup>
   </Target>
-<<<<<<< HEAD
-  <!--https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app-->
-=======
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
->>>>>>> master
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
     <ItemGroup>
       <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />
