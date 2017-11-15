@@ -259,6 +259,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets the dependency property for <see cref="EmojiFontFamily"/>.
+        /// </summary>
+        public static readonly DependencyProperty EmojiFontFamilyProperty = DependencyProperty.Register(
+            nameof(EmojiFontFamily),
+            typeof(FontFamily),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets or sets the font used to display emojis.  If this is <c>null</c>, then
+        /// Segoe UI Emoji font is used.
+        /// </summary>
+        public FontFamily EmojiFontFamily
+        {
+            get { return (FontFamily)GetValue(EmojiFontFamilyProperty); }
+            set { SetValue(EmojiFontFamilyProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the font weight to use for level 1 headers.
         /// </summary>
         public FontWeight Header1FontWeight
@@ -1119,6 +1138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     CodeFontFamily = CodeFontFamily,
                     CodePadding = CodePadding,
                     CodeMargin = CodeMargin,
+                    EmojiFontFamily = EmojiFontFamily,
                     Header1FontSize = Header1FontSize,
                     Header1FontWeight = Header1FontWeight,
                     Header1Margin = Header1Margin,
