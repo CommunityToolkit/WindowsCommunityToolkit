@@ -89,9 +89,67 @@ namespace UnitTests.UI
             a.Insert(4, "how");
 
             Assert.AreEqual(3, a.Count);
-            Assert.AreEqual(a[0], "sit");
-            Assert.AreEqual(a[1], "how");
-            Assert.AreEqual(a[2], "amet");
+            Assert.AreEqual("sit", a[0]);
+            Assert.AreEqual("how", a[1]);
+            Assert.AreEqual("amet", a[2]);
+
+        }
+
+        [TestCategory("AdvancedCollectionView")]
+        [UITestMethod]
+        public void Test_AdvancedCollectionView_FilterInsertDuplicate()
+        {
+            var l = new ObservableCollection<string>
+            {
+                "lorem",
+                "ipsum",
+                "dolor",
+                "sit",
+                "amet"
+            };
+
+            var a = new AdvancedCollectionView(l)
+            {
+                Filter = (x) => x.ToString().Length >= 5
+            };
+
+            a.Insert(3, "ipsum");
+
+            Assert.AreEqual(4, a.Count);
+            Assert.AreEqual(4, a.Count);
+            Assert.AreEqual("lorem", a[0]);
+            Assert.AreEqual("ipsum", a[1]);
+            Assert.AreEqual("dolor", a[2]);
+            Assert.AreEqual("ipsum", a[3]);
+
+        }
+
+        [TestCategory("AdvancedCollectionView")]
+        [UITestMethod]
+        public void Test_AdvancedCollectionView_RefreshFilterWithDuplicate()
+        {
+            var l = new ObservableCollection<string>
+            {
+                "lorem",
+                "ipsum",
+                "dolor",
+                "sit",
+                "ipsum",
+                "amet"
+            };
+
+            var a = new AdvancedCollectionView(l)
+            {
+                Filter = (x) => x.ToString().Length < 5
+            };
+
+            a.Filter = (x) => x.ToString().Length >= 5;
+
+            Assert.AreEqual(4, a.Count);
+            Assert.AreEqual("lorem", a[0]);
+            Assert.AreEqual("ipsum", a[1]);
+            Assert.AreEqual("dolor", a[2]);
+            Assert.AreEqual("ipsum", a[3]);
 
         }
 
