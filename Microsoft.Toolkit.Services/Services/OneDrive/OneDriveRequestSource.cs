@@ -10,10 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-  using System.Collections.Generic;
-  using System.Threading;
-  using System.Threading.Tasks;
-  using Microsoft.Graph;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Graph;
 using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
 namespace Microsoft.Toolkit.Services.OneDrive
@@ -60,12 +60,12 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <param name="pageSize">Size of page.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Strong typed page of data.</returns>
-        public async Task<IEnumerable<T>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<IEnumerable<T>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await GetPageGraphSdkAsync(pageIndex, pageSize, cancellationToken);
+            return GetPageGraphSdkAsync(pageSize, cancellationToken);
         }
 
-        private async Task<IEnumerable<T>> GetPageGraphSdkAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<IEnumerable<T>> GetPageGraphSdkAsync(int pageSize, CancellationToken cancellationToken = default(CancellationToken))
         {
             // First Call
             if (_isFirstCall)

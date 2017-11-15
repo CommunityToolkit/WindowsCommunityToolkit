@@ -10,9 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;

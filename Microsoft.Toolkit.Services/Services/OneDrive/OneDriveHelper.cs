@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Text;
 using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
 namespace Microsoft.Toolkit.Services.OneDrive

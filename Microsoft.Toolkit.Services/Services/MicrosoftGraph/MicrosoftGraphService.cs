@@ -23,15 +23,8 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
     /// <summary>
     ///  Class for connecting to Office 365 Microsoft Graph
     /// </summary>
-    public partial class MicrosoftGraphService
+    public class MicrosoftGraphService
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MicrosoftGraphService"/> class.
-        /// </summary>
-        public MicrosoftGraphService()
-        {
-        }
-
         /// <summary>
         /// Gets or sets Authentication instance.
         /// </summary>
@@ -147,14 +140,14 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Logout the current user
         /// </summary>
         /// <returns>success or failure</returns>
-        public virtual async Task<bool> Logout()
+        public virtual Task<bool> Logout()
         {
             if (!IsInitialized)
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
-            return await Authentication.LogoutAsync();
+            return Task.Run(() => { return Authentication.Logout(); });
         }
 
         /// <summary>
@@ -216,7 +209,6 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                                             new AuthenticationHeaderValue(
                                                      "bearer",
                                                      await Authentication.GetUserTokenV2Async(appClientId).ConfigureAwait(false));
-                         return;
                      }));
         }
 

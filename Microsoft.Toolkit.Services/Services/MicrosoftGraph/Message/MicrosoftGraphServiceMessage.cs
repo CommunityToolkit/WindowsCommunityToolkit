@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             else
             {
                 string selectedProperties = MicrosoftGraphHelper.BuildString<MicrosoftGraphMessageFields>(selectFields);
-                messages = await _graphProvider.Me.Messages.Request().Top(top).OrderBy(OrderBy).Select(selectedProperties).GetAsync();
+                messages = await _graphProvider.Me.Messages.Request().Top(top).OrderBy(OrderBy).Select(selectedProperties).GetAsync(cancellationToken);
             }
 
             _nextPageRequest = messages.NextPageRequest;

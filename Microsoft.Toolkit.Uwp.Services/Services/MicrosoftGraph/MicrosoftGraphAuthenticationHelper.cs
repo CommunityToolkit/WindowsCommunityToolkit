@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 
             if (authenticationModel.Equals("V2"))
             {
-                return await LogoutAsync();
+                return Logout();
             }
 
             return true;

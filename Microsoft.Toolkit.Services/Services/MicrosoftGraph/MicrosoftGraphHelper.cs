@@ -27,6 +27,11 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <returns>a string with all fields separate by a comma.</returns>
         internal static string BuildString<T>(T[] t)
         {
+            if (t.Length == 0)
+            {
+                return string.Empty;
+            }
+
             StringBuilder sb = new StringBuilder();
 
             foreach (var field in t)

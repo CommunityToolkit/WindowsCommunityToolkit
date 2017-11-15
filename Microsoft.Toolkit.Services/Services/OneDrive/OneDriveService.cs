@@ -12,10 +12,10 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.Identity.Client;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Microsoft.Toolkit.Services.MicrosoftGraph.Platform;
 using Microsoft.Toolkit.Services.OneDrive.Platform;
-using Microsoft.Identity.Client;
 
 namespace Microsoft.Toolkit.Services.OneDrive
 {

@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -19,7 +18,6 @@ using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Services.OneDrive.Platform;
 using Newtonsoft.Json;
-using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
 namespace Microsoft.Toolkit.Services.OneDrive
 {
@@ -203,14 +201,14 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// </summary>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns> No object or value is returned by this method when it completes.</returns>
-        public async Task DeleteAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public Task DeleteAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             if (_name == "root")
             {
                 throw new Microsoft.Graph.ServiceException(new Error { Message = "Could not delete the root folder" });
             }
 
-            await ((IDriveItemRequestBuilder)RequestBuilder).Request().DeleteAsync(cancellationToken).ConfigureAwait(false);
+            return ((IDriveItemRequestBuilder)RequestBuilder).Request().DeleteAsync(cancellationToken);
         }
 
         /// <summary>
@@ -218,9 +216,9 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// </summary>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes, return a thumbnail set, or null if no thumbnail are available</returns>
-        public async Task<OneDriveThumbnailSet> GetThumbnailSetAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public Task<OneDriveThumbnailSet> GetThumbnailSetAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ((IDriveItemRequestBuilder)RequestBuilder).GetThumbnailSetAsync(cancellationToken);
+            return ((IDriveItemRequestBuilder)RequestBuilder).GetThumbnailSetAsync(cancellationToken);
         }
 
         /// <summary>
@@ -243,7 +241,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <param name="desiredNewName">The desired name of the item after it is moved.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>return success or failure</returns>
-        public async Task<bool> MoveAsync(OneDriveStorageFolder destinationFolder, string desiredNewName = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<bool> MoveAsync(OneDriveStorageFolder destinationFolder, string desiredNewName = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (destinationFolder == null)
             {
@@ -264,7 +262,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
                 desiredNewName = OneDriveItem.Name;
             }
 
-            return await ((IGraphServiceClient)Provider).MoveAsync(request, destinationFolder, desiredNewName, cancellationToken);
+            return ((IGraphServiceClient)Provider).MoveAsync(request, destinationFolder, desiredNewName, cancellationToken);
         }
 
         /// <summary>
@@ -320,7 +318,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <returns>Return true if it's a folder</returns>
         public bool IsFolder()
         {
-            return OneDriveItem.Folder != null ? true : false;
+            return OneDriveItem.Folder != null;
         }
 
         /// <summary>
@@ -329,7 +327,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <returns>Return true if it's a file</returns>
         public bool IsFile()
         {
-            return OneDriveItem.File != null ? true : false;
+            return OneDriveItem.File != null;
         }
 
         /// <summary>
@@ -338,7 +336,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <returns>Return true if it's a OneNote document</returns>
         public bool IsOneNote()
         {
-            return !IsFile() && !IsFolder() ? true : false;
+            return !IsFile() && !IsFolder();
         }
 
         /// <summary>

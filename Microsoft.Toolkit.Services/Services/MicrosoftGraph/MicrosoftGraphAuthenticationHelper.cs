@@ -108,9 +108,9 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Logout the user
         /// </summary>
         /// <returns>Success or failure</returns>
-        internal async Task<bool> LogoutAsync()
+        internal bool Logout()
         {
-            return await Task.Run(() => { return LogoutV2(); });
+            return LogoutV2();
         }
 
         internal bool LogoutV2()

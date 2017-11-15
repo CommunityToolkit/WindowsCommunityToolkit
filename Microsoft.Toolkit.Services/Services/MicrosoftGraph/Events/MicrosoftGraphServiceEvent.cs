@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             else
             {
                 string selectedProperties = MicrosoftGraphHelper.BuildString(selectFields);
-                events = await _graphProvider.Me.Events.Request().OrderBy(OrderBy).Top(top).Select(selectedProperties).GetAsync();
+                events = await _graphProvider.Me.Events.Request().OrderBy(OrderBy).Top(top).Select(selectedProperties).GetAsync(cancellationToken);
             }
 
             _nextPageRequest = events.NextPageRequest;

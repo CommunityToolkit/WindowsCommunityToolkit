@@ -40,9 +40,9 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <param name="path">The name (or path relative to the current folder) of the file or folder to get.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a DriveItem that represents the specified file or folder.</returns>
-        private async Task<DriveItem> RequestChildrenAsync(string path, CancellationToken cancellationToken)
+        private Task<DriveItem> RequestChildrenAsync(string path, CancellationToken cancellationToken)
         {
-            return await ((IDriveItemRequestBuilder)RequestBuilder).ItemWithPath(path).Request().GetAsync(cancellationToken).ConfigureAwait(false);
+            return ((IDriveItemRequestBuilder)RequestBuilder).ItemWithPath(path).Request().GetAsync(cancellationToken);
         }
 
         private ChunkedUploadProvider _uploadProvider;
@@ -122,10 +122,10 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <param name="filter">Filters the response based on a set of criteria.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a list of the files in the current folder.</returns>
-        public async Task<List<OneDriveStorageFile>> GetFilesAsync(int top = 20, OrderBy orderBy = OrderBy.None, string filter = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<List<OneDriveStorageFile>> GetFilesAsync(int top = 20, OrderBy orderBy = OrderBy.None, string filter = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             IDriveItemChildrenCollectionRequest oneDriveItemsRequest = CreateChildrenRequest(top, orderBy, filter);
-            return await RequestOneDriveFilesAsync(oneDriveItemsRequest, cancellationToken);
+            return RequestOneDriveFilesAsync(oneDriveItemsRequest, cancellationToken);
         }
 
         /// <summary>
@@ -148,10 +148,10 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <param name="filter">Filters the response based on a set of criteria.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request.</param>
         /// <returns>When this method completes successfully, it returns a list of the subfolders in the current folder.</returns>
-        public async Task<List<OneDriveStorageFolder>> GetFoldersAsync(int top = 100, OrderBy orderBy = OrderBy.None, string filter = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<List<OneDriveStorageFolder>> GetFoldersAsync(int top = 100, OrderBy orderBy = OrderBy.None, string filter = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             IDriveItemChildrenCollectionRequest oneDriveItemsRequest = CreateChildrenRequest(top, orderBy, filter);
-            return await RequestOneDriveFoldersAsync(oneDriveItemsRequest, cancellationToken);
+            return RequestOneDriveFoldersAsync(oneDriveItemsRequest, cancellationToken);
         }
 
         /// <summary>
@@ -273,10 +273,9 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// </summary>
         /// <remarks>Not available for OneDriveForBusiness</remarks>
         /// <returns>return next expected ranges, 0 if no more data</returns>
-        public async Task<long> GetUploadStatusAsync()
+        public Task<long> GetUploadStatusAsync()
         {
-            await Task.Delay(0);
-            return 0;
+            return Task.FromResult(0L);
         }
 
         /// <summary>
