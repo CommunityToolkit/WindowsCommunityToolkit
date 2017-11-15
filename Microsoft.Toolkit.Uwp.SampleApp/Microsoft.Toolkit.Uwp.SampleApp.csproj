@@ -324,6 +324,7 @@
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
     <Content Include="SamplePages\NetworkHelper\NetworkHelper.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
+    <Content Include="SamplePages\Mouse\MouseCursor.png" />
     <Content Include="SamplePages\OneDrive Service\OneDriveLogo.png" />
     <Content Include="SamplePages\ParallaxService\Parallax.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
@@ -463,6 +464,7 @@
     </Content>
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlXaml.bind" />
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControlXaml.bind" />
+    <Content Include="SamplePages\Mouse\MouseCursorPage.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -530,6 +532,9 @@
     <Compile Include="SamplePages\Menu\Commands\VsCommands.cs" />
     <Compile Include="SamplePages\Menu\MenuPage.xaml.cs">
       <DependentUpon>MenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Mouse\MouseCursorPage.xaml.cs">
+      <DependentUpon>MouseCursorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml.cs">
       <DependentUpon>NetworkHelperPage.xaml</DependentUpon>
@@ -820,6 +825,10 @@
     <Page Include="SamplePages\InAppNotification\InAppNotificationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Mouse\MouseCursorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\TextToolbar\TextToolbarPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1141,7 +1150,11 @@
       </AppxPackagePayload>
     </ItemGroup>
   </Target>
+<<<<<<< HEAD
   <!--https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app-->
+=======
+  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
+>>>>>>> master
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
     <ItemGroup>
       <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />
