@@ -70,7 +70,7 @@ namespace UnitTests.UI
 
         [TestCategory("AdvancedCollectionView")]
         [UITestMethod]
-        public void Test_AdvancedCollectionView_FilterOrder()
+        public void Test_AdvancedCollectionView_Filter_Preserves_Order()
         {
             var l = new ObservableCollection<string>
             {
@@ -86,6 +86,10 @@ namespace UnitTests.UI
                 Filter = (x) => x.ToString().Length < 5
             };
 
+            Assert.AreEqual(2, a.Count);
+            Assert.AreEqual("sit", a[0]);
+            Assert.AreEqual("amet", a[1]);
+
             a.Insert(4, "how");
 
             Assert.AreEqual(3, a.Count);
@@ -97,7 +101,7 @@ namespace UnitTests.UI
 
         [TestCategory("AdvancedCollectionView")]
         [UITestMethod]
-        public void Test_AdvancedCollectionView_FilterInsertDuplicate()
+        public void Test_AdvancedCollectionView_Filter_Preserves_Order_When_Inserting_Duplicate()
         {
             var l = new ObservableCollection<string>
             {
@@ -113,9 +117,13 @@ namespace UnitTests.UI
                 Filter = (x) => x.ToString().Length >= 5
             };
 
+            Assert.AreEqual(3, a.Count);
+            Assert.AreEqual("lorem", a[0]);
+            Assert.AreEqual("ipsum", a[1]);
+            Assert.AreEqual("dolor", a[2]);
+
             a.Insert(3, "ipsum");
 
-            Assert.AreEqual(4, a.Count);
             Assert.AreEqual(4, a.Count);
             Assert.AreEqual("lorem", a[0]);
             Assert.AreEqual("ipsum", a[1]);
@@ -126,7 +134,7 @@ namespace UnitTests.UI
 
         [TestCategory("AdvancedCollectionView")]
         [UITestMethod]
-        public void Test_AdvancedCollectionView_RefreshFilterWithDuplicate()
+        public void Test_AdvancedCollectionView_Updating_Filter_Preserves_Order_With_Duplicate()
         {
             var l = new ObservableCollection<string>
             {
@@ -143,6 +151,10 @@ namespace UnitTests.UI
                 Filter = (x) => x.ToString().Length < 5
             };
 
+            Assert.AreEqual(2, a.Count);
+            Assert.AreEqual("sit", a[0]);
+            Assert.AreEqual("amet", a[1]);
+
             a.Filter = (x) => x.ToString().Length >= 5;
 
             Assert.AreEqual(4, a.Count);
@@ -155,7 +167,7 @@ namespace UnitTests.UI
 
         [TestCategory("AdvancedCollectionView")]
         [UITestMethod]
-        public void Test_AdvancedCollectionView_FilterOrderShowBefore()
+        public void Test_AdvancedCollectionView_Filter_Preserves_Order_When_Inserting_After_Items_In_View()
         {
             var l = new ObservableCollection<string>
             {
@@ -170,6 +182,9 @@ namespace UnitTests.UI
             {
                 Filter = (x) => x.ToString().Length < 5
             };
+
+            Assert.AreEqual(1, a.Count);
+            Assert.AreEqual(a[0], "amet");
 
             a.Insert(0, "how");
 
