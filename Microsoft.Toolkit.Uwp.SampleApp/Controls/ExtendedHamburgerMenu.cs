@@ -82,6 +82,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             {
                 _samplePickerGrid.Visibility = Visibility.Collapsed;
             }
+
+            var noop = SetHamburgerMenuSelection();
         }
 
         public async void ShowSamplePicker(Sample[] samples = null)
@@ -106,6 +108,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             }
 
             if (samples == null)
+            {
+                return;
+            }
+
+            if (_samplePickerGrid.Visibility == Visibility.Visible &&
+                _samplePickerGridView.ItemsSource is Sample[] currentSamples &&
+                currentSamples.Count() == samples.Count() &&
+                currentSamples.Except(samples).Count() == 0)
             {
                 return;
             }
@@ -311,11 +321,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                return;
-            }
-
             UpdateSearchSuggestions();
         }
 
@@ -367,7 +372,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             {
                 if (_samplePickerGrid.Visibility != Visibility.Collapsed && SelectedItem == e.ClickedItem)
                 {
-                    HideSamplePicker();
+                    if (_hamburgerButton != null && _hamburgerButton.Visibility == Visibility.Visible)
+                    {
+                        HideItemsInNarrowView();
+                    }
+                    else
+                    {
+                        HideSamplePicker();
+                    }
                 }
                 else
                 {
@@ -407,7 +419,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         private void ContentShadow_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             HideSamplePicker();
-            var noop = SetHamburgerMenuSelection();
 
             if (_hamburgerButton != null && _hamburgerButton.Visibility == Visibility.Visible)
             {
