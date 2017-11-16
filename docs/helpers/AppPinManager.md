@@ -63,4 +63,4 @@ var result = await AppPinManager.PinSpecificAppToStartMenuAsync(appList);
 
 ## API
 
-* [AppPinManager source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/AppPinManager.cs)
+* [AppPinManager source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/AppPinManager/AppPinManager.cs)
