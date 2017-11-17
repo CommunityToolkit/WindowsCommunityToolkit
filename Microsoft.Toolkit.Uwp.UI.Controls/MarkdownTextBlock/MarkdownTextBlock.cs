@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.Foundation.Metadata;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
@@ -1271,13 +1272,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             try
             {
                 return eventArgs.Handled
-                                ? eventArgs.Image
-                                : new BitmapImage(new Uri(url));
+                    ? eventArgs.Image
+                    : GetImageSource(url);
             }
             catch (Exception)
             {
                 return null;
             }
+
+            ImageSource GetImageSource(string imageUrl)
+            {
+                // SvgImageSource was introduced in Creators Update (15063)
+                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4))
+                {
+                    if (imageUrl.EndsWith(".svg"))
+                    {
+                        return new SvgImageSource(new Uri(imageUrl));
+                    }
+                }
+
+                return new BitmapImage(new Uri(imageUrl));
+            }
+
         }
     }
 }
