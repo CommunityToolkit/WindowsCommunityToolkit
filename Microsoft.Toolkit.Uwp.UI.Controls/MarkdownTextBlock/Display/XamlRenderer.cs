@@ -964,6 +964,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             image.VerticalAlignment = VerticalAlignment.Top;
             image.Stretch = ImageStretch;
 
+            if (element.ImageWidth > 0)
+            {
+                image.Width = element.ImageWidth;
+                image.Stretch = Stretch.UniformToFill;
+            }
+
             ToolTipService.SetToolTip(image, element.Tooltip);
 
             // Try to add it to the current inlines

@@ -41,6 +41,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 
         public string Text { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Gets or sets image width
+        /// If value is greater than 0, ImageStretch is set to UniformToFill
+        /// </summary>
+        public int ImageWidth { get; set; }
+
         internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
         {
             tripCharHelpers.Add(new Common.InlineTripCharHelper() { FirstChar = '!', Method = Common.InlineParseMethod.Image });
@@ -116,14 +122,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                 pos++;
             }
 
-            string url = TextRunInline.ResolveEscapeSequences(markdown, urlStart, pos);
+            var imageWidthPos = markdown.IndexOf(" =", urlStart, pos - urlStart, StringComparison.Ordinal);
+
+            var url = imageWidthPos > 0
+                ? TextRunInline.ResolveEscapeSequences(markdown, urlStart, imageWidthPos)
+                : TextRunInline.ResolveEscapeSequences(markdown, urlStart, pos);
+
+            int imageWidth = 0;
+
+            // found image width
+            if (imageWidthPos > 0)
+            {
+                // trying to find image width value (skipping space and equals sign)
+                var imageWidthStr = markdown.Substring(imageWidthPos + 2, pos - imageWidthPos - 2);
+
+                int.TryParse(imageWidthStr, out imageWidth);
+            }
 
             // We found something!
             var result = new ImageInline
             {
                 Tooltip = tooltip,
                 Url = url,
-                Text = markdown.Substring(start, pos + 1 - start)
+                Text = markdown.Substring(start, pos + 1 - start),
+                ImageWidth = imageWidth
             };
             return new Common.InlineParseResult(result, start, pos + 1);
         }
