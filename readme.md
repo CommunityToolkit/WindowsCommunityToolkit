@@ -100,7 +100,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Hyperlink](http://docs.uwpcommunitytoolkit.com/en/master/extensions/Hyperlink/)
 * [ListViewBase](http://docs.uwpcommunitytoolkit.com/en/master/extensions/ListViewBase/)
 * [LogicalTree](http://docs.uwpcommunitytoolkit.com/en/master/extensions/LogicalTree/)
-* [SurfaceDialTextbox](http://docs.uwpcommunitytoolkit.com/en/master/extensions/SurfaceDialTextbox/)
+* [SurfaceDialTextbox](http://docs.uwpcommunitytoolkit.com/en/master/extensions/SurfaceDialTextboxHelper/)
 * [TextBoxMask](http://docs.uwpcommunitytoolkit.com/en/master/extensions/TextBoxMask/)
 * [TextBoxRegex](http://docs.uwpcommunitytoolkit.com/en/master/extensions/TextBoxRegex/)
 * [ViewExtensions](http://docs.uwpcommunitytoolkit.com/en/master/extensions/ViewExtensions/)
