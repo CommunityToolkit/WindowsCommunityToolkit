@@ -287,6 +287,20 @@ which renders in:
 
 ![Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
 
+You can also specify image width like this:
+
+>\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =32)
+
+>\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =64)
+
+>\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128)
+
+which renders in:
+
+![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =32)
+![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =64)
+![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128)
+
 *****
 
 # BLOCK QUOTES
