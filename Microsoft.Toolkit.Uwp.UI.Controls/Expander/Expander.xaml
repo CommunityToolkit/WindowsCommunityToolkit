@@ -39,18 +39,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
                                                                        Storyboard.TargetName="RootGrid">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
-                                                                       Storyboard.TargetName="Arrow">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
-                                                                       Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
+                                                                    Value="{ThemeResource ToggleButtonBackgroundPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
@@ -64,18 +53,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
                                                                        Storyboard.TargetName="RootGrid">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
-                                                                       Storyboard.TargetName="Arrow">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
-                                                                       Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
+                                                                    Value="{ThemeResource ToggleButtonBackgroundPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" To="0.0"
@@ -92,17 +70,6 @@
                                                                     Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
 
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
-                                                                       Storyboard.TargetName="Arrow">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
-                                                                       Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-
                                         <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" To="0.0"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
                                                          Storyboard.TargetName="Arrow" />
@@ -114,17 +81,6 @@
                                                                        Storyboard.TargetName="RootGrid">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlHighlightAccentBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
-                                                                       Storyboard.TargetName="Arrow">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
-                                                                       Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
@@ -139,17 +95,6 @@
                                                                        Storyboard.TargetName="RootGrid">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlHighlightAccentBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
-                                                                       Storyboard.TargetName="Arrow">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
-                                                                       Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
@@ -325,7 +270,7 @@
         <Setter Property="animations:Implicit.Animations">
             <Setter.Value>
                 <animations:AnimationCollection>
-                    <animations:OffsetAnimation Duration="0:0:0.4"></animations:OffsetAnimation>
+                    <animations:OffsetAnimation Duration="0:0:0.3"></animations:OffsetAnimation>
                 </animations:AnimationCollection>
             </Setter.Value>
         </Setter>
@@ -415,6 +360,9 @@
                                         <Setter Target="PART_ContentOverlay.(Grid.Column)" Value="0" />
                                         <Setter Target="PART_ContentOverlay.(Grid.ColumnSpan)" Value="2" />
 
+                                        <Setter Target="RowOne.Height" Value="*" />
+                                        <Setter Target="RowTwo.Height" Value="Auto" />
+
                                         <Setter Target="RotateLayoutTransform.Angle" Value="0" />
                                     </VisualState.Setters>
                                 </VisualState>
@@ -493,6 +441,9 @@
                                         <Setter Target="PART_ContentOverlay.(Grid.Column)" Value="0" />
                                         <Setter Target="PART_ContentOverlay.(Grid.ColumnSpan)" Value="2" />
 
+                                        <Setter Target="RowOne.Height" Value="*" />
+                                        <Setter Target="RowTwo.Height" Value="Auto" />
+
                                         <Setter Target="RotateLayoutTransform.Angle" Value="0" />
                                     </VisualState.Setters>
                                 </VisualState>
@@ -501,8 +452,8 @@
 
                         <Grid x:Name="PART_RootGrid">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition x:Name="RowOne" Height="Auto" />
+                                <RowDefinition x:Name="RowTwo" Height="*" />
                             </Grid.RowDefinitions>
 
                             <Grid.ColumnDefinitions>
@@ -536,20 +487,20 @@
                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                       VerticalContentAlignment="Stretch" >
                                     <animations:Implicit.ShowAnimations>
-                                        <animations:OpacityAnimation Duration="0:0:0.4" From="0" To="1" Delay="0:0:0.3" SetInitialValueBeforeDelay="True"></animations:OpacityAnimation>
-                                        <animations:TranslationAnimation Duration="0:0:0.4" From="0, 20, 0" To="0" Delay="0:0:0.3"></animations:TranslationAnimation>
+                                        <animations:OpacityAnimation Duration="0:0:0.3" From="0" To="1" Delay="0:0:0.25" SetInitialValueBeforeDelay="True"></animations:OpacityAnimation>
+                                        <animations:TranslationAnimation Duration="0:0:0.3" From="0, 20, 0" To="0" Delay="0:0:0.25"></animations:TranslationAnimation>
                                     </animations:Implicit.ShowAnimations>
 
                                     <animations:Implicit.HideAnimations>
-                                        <animations:OpacityAnimation Duration="0:0:0.4" To="0"></animations:OpacityAnimation>
+                                        <animations:OpacityAnimation Duration="0:0:0.2" To="0"></animations:OpacityAnimation>
                                     </animations:Implicit.HideAnimations>
                                 </ContentPresenter>
                                 <animations:Implicit.ShowAnimations>
-                                    <animations:ScaleAnimation x:Name="PART_MainContentShowScaleAnimation" Duration="0:0:0.4" From="1, 0, 0" To="1" ></animations:ScaleAnimation>
+                                    <animations:ScaleAnimation x:Name="PART_MainContentShowScaleAnimation" Duration="0:0:0.3" From="1, 0, 0" To="1" ></animations:ScaleAnimation>
                                 </animations:Implicit.ShowAnimations>
 
                                 <animations:Implicit.HideAnimations>
-                                    <animations:ScaleAnimation x:Name="PART_MainContentHideScaleAnimation" Duration="0:0:0.4" To="1, 0, 0" ></animations:ScaleAnimation>
+                                    <animations:ScaleAnimation x:Name="PART_MainContentHideScaleAnimation" Duration="0:0:0.2" To="1, 0, 0" ></animations:ScaleAnimation>
                                 </animations:Implicit.HideAnimations>
                             </Grid>
 
@@ -571,7 +522,7 @@
                                               ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}"
                                               IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
                                 <animations:Implicit.Animations>
-                                    <animations:OffsetAnimation Duration="0:0:0.4"></animations:OffsetAnimation>
+                                    <animations:OffsetAnimation Duration="0:0:0.3"></animations:OffsetAnimation>
                                 </animations:Implicit.Animations>
                             </controls:LayoutTransformControl>
 
