@@ -16,7 +16,7 @@
                           Background="@[BackgroundExpander1:Brush:Gray]"
                           IsExpanded="@[IsExpanded1:Bool:False]@"
                           ExpandDirection="@[ExpandDirection1:Enum:ExpandDirection.Down]">
-          <Grid Height="250">
+          <Grid>
             <TextBlock HorizontalAlignment="Center"
                       TextWrapping="Wrap"
                       Text="This is the content"
@@ -25,7 +25,7 @@
           </Grid>
 
           <controls:Expander.ContentOverlay>
-            <Grid Background="Red">
+            <Grid Background="Red" Height="250">
               <TextBlock Text="Hello world!"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center" />
