@@ -17,7 +17,6 @@ You can use these properties :
 * HeaderTemplate
 * IsExpanded (define if the content is visible or not)
 * ExpandDirection
-* DisplayMode
 
 You can also use these events :
 
@@ -52,13 +51,6 @@ The `ExpandDirection` property can take 4 values that will expand the content ba
 * `Up` - from bottom to top
 * `Right` - from left to right
 * `Left` - from right to left
-
-### DisplayMode
-
-The `DisplayMode` property can take 2 values that will modify the behavior of the Expander control:
-
-* `Expand` - the content is either visible or collapsed (default)
-* `Overlay` - when the content is collapsed, an overlay content is shown
 
 ## Example Image
 
