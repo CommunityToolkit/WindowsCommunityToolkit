@@ -25,7 +25,7 @@
           </Grid>
 
           <controls:Expander.ContentOverlay>
-            <Grid Background="Red" Height="250">
+            <Grid Background="Red" MinHeight="250">
               <TextBlock Text="Hello world!"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center" />
