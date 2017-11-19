@@ -32,6 +32,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public sealed class MarkdownTextBlock : Control, ILinkRegister, IImageResolver
     {
+        // SvgImageSource was introduced in Creators Update (15063)
+        private static readonly bool IsSvgImageSupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4);
+
         /// <summary>
         /// Holds a list of hyperlinks we are listening to.
         /// </summary>
@@ -1282,8 +1285,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             ImageSource GetImageSource(string imageUrl)
             {
-                // SvgImageSource was introduced in Creators Update (15063)
-                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4))
+                if (IsSvgImageSupported)
                 {
                     if (imageUrl.EndsWith(".svg"))
                     {

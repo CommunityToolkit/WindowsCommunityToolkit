@@ -42,10 +42,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         public string Text { get; set; } = string.Empty;
 
         /// <summary>
-        /// Gets or sets image width
+        /// Gets image width
         /// If value is greater than 0, ImageStretch is set to UniformToFill
         /// </summary>
-        public int ImageWidth { get; set; }
+        internal int ImageWidth { get; private set; }
 
         internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
         {
