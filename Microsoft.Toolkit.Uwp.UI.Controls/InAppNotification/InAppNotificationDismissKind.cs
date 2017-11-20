@@ -12,6 +12,9 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// Enumeration to describe how an InAppNotification was dismissed
+    /// </summary>
     public enum InAppNotificationDismissKind
     {
         /// <summary>

@@ -276,7 +276,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Notifications/Microsoft.Toolkit.Uwp.Notifications.Shared",
         "CodeFile": "LiveTileCode.bind",
         "JavaScriptCodeFile": "LiveTileCodeJavaScript.bind",
-        "Icon": "/SamplePages/LiveTile/icon.jpg",
+        "Icon": "/SamplePages/LiveTile/LiveTile.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/notifications/NotificationsOverview.md"
       },
       {
@@ -286,7 +286,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Notifications/Microsoft.Toolkit.Uwp.Notifications.Shared",
         "CodeFile": "ToastCode.bind",
         "JavaScriptCodeFile": "ToastCodeJavaScript.bind",
-        "Icon": "/SamplePages/Toast/icon.jpg",
+        "Icon": "/SamplePages/Toast/Toast.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/notifications/NotificationsOverview.md"
       },
       {
@@ -413,7 +413,7 @@
         "Type": "ImplicitAnimationsPage",
         "About": "Attached properties to enable Implicit animations (including Show and Hide animations) through XAML",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
-        "Icon": "/Assets/Helpers.png",
+        "Icon": "/SamplePages/Implicit Animations/ImplicitAnimations.png",
         "XamlCodeFile": "ImplicitAnimationsCode.bind",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/ImplicitAnimations.md"
@@ -425,7 +425,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/ConnectedAnimations",
         "XamlCodeFile": "ConnectedAnimationsCode.bind",
         "DisableXamlEditorRendering": true,
-        "Icon": "/Assets/Helpers.png",
+        "Icon": "/SamplePages/Connected Animations/ConnectedAnimations.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/ConnectedAnimations.md"
       }
@@ -511,7 +511,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Cache/ImageCache.cs",
         "CodeFile": "ImageCacheCode.bind",
         "XamlCodeFile": "ImageCacheXaml.bind",
-        "Icon": "/SamplePages/ImageCache/ImageEx.png",
+        "Icon": "/SamplePages/ImageCache/ImageCache.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/ImageCache.md"
       },
       {
@@ -542,12 +542,22 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/BackgroundTaskHelper.md"
       },
       {
+        "About": "The AppPinManager helps easily add app shortcuts to the Start Menu or the Taskbar",
+        "CodeFile": "AppPinManagerHelperCode.bind",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/AppPinManager/AppPinManager.cs",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/AppPinManager.md",
+        "Icon": "/Assets/Helpers.png",
+        "Name": "AppPinManager",
+        "Type": "AppPinManagerHelperPage",
+	"BadgeUpdateVersionRequired": "Creators Update required"
+      },
+      {
         "Name": "NetworkHelper",
         "Type": "NetworkHelperPage",
         "About": "The NetworkHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Connectivity/Network",
         "CodeFile": "NetworkHelperCode.bind",
-        "Icon": "/Assets/Helpers.png",
+        "Icon": "/SamplePages/NetworkHelper/NetworkHelper.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/NetworkHelper.md"
       },
       {
@@ -556,7 +566,7 @@
         "About": "The Bluetooth LE helper class is used to connect and interact with bluetooth LE devices.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Connectivity/BluetoothLEHelper",
         "CodeFile": "BluetoothLEHelperCode.bind",
-        "Icon": "/Assets/Helpers.png",
+        "Icon": "/SamplePages/BluetoothLEHelper/BluetoothLEHelper.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/BluetoothLEHelper.md",
         "BadgeUpdateVersionRequired": "Creators Update required"
       },
@@ -566,7 +576,7 @@
         "About": "The SystemInformation class provides easy access to some of system/app/device information",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs",
         "CodeFile": "SystemInformationCode.bind",
-        "Icon": "/Assets/Helpers.png",
+        "Icon": "/SamplePages/SystemInformation/SystemInformation.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/SystemInformation.md"
       },
       {
@@ -617,7 +627,7 @@
         "About": "View extensions to set StatusBar and TitleBar properties.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions",
         "XamlCodeFile": "ViewExtensionsCode.bind",
-        "Icon": "/Assets/Helpers.png",
+        "Icon": "/SamplePages/ViewExtensions/ViewExtensions.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/ViewExtensions.md"
       },
       {
@@ -628,6 +638,15 @@
         "XamlCodeFile": "TextBoxMask.bind",
         "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/TextBoxMask.md"
+      },
+      {
+        "Name": "Mouse",
+        "Type": "MouseCursorPage",
+        "About": "Mouse.Cursor attached property enables you to easily change the mouse cursor over specific Framework elements.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/Mouse",
+        "XamlCodeFile": "MouseCursorPage.bind",
+        "Icon": "/SamplePages/Mouse/MouseCursor.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/MouseCursor.md"
       },
       {
         "Name": "TextBoxRegex",
@@ -654,7 +673,7 @@
         "About": "Attached properties to modify object visual properties through XAML",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/Visual",
         "XamlCodeFile": "VisualExtensionsCode.bind",
-        "Icon": "/Assets/Helpers.png",
+        "Icon": "/SamplePages/Visual Extensions/VisualExtensions.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/VisualEx.md"
       }

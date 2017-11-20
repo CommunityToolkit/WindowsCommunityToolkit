@@ -317,6 +317,12 @@ And finally some unquoted text.
 
 *****
 
+# EMOJIS
+
+You can use nearly all emojis from this [list](https://gist.github.com/rxaviers/7360908). Text like `:smile:` will display :smile: emoji.
+
+*****
+
 # MISCELLANEOUS
 
 ### Tables
