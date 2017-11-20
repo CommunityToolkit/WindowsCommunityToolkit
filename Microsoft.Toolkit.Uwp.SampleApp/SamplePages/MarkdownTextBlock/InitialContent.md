@@ -273,6 +273,40 @@ results in:
 
 There are other methods of generating links that aren't appropriate for discussion-board style comments.  See the [Markdown Syntax](http://daringfireball.net/projects/markdown/syntax#link) if you're interested in more info.
 
+&nbsp;
+
+Relative links are also supported
+
+>\[Relative Link\]\(/Assets/Photos/Photos.json\)
+
+results in:
+
+>[Relative Link](/Assets/Photos/Photos.json)
+
+&nbsp;
+
+>\[Relative Link 2\]\(../Photos/Photos.json\)
+
+results in:
+
+>[Relative Link 2](../Photos/Photos.json)
+
+**Note:** Relative Links has to be Manually Handled in `LinkClicked` Event.
+
+*****
+
+# Email Links
+
+Emails can be used as Masked Links or Direct email links. 
+
+>[Email\]\(`email@email.com`) 
+
+will be rendered to [Email](email@email.com)
+
+>`email@email.com` 
+
+will be rendered to email@email.com
+
 *****
 
 # IMAGES
@@ -286,6 +320,14 @@ So inline image syntax looks like this:
 which renders in:
 
 ![Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
+
+Rendering Local Images is supported.
+
+>\!\[Local Image](/Assets/Helpers.png)
+
+renders in
+
+![Local Image](/Assets/Helpers.png)
 
 *****
 
@@ -314,6 +356,12 @@ Is displayed as:
 >Back to a single quote.
 
 And finally some unquoted text.
+
+*****
+
+# EMOJIS
+
+You can use nearly all emojis from this [list](https://gist.github.com/rxaviers/7360908). Text like `:smile:` will display :smile: emoji.
 
 *****
 

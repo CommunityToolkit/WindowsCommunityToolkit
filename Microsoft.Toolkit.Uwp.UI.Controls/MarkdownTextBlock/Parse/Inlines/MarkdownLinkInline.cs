@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
+using System.Text.RegularExpressions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 {
@@ -193,9 +194,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                 }
 
                 // Check the URL is okay.
-                if (!IsUrlValid(url))
+                if (!IsUrlEmail(url))
                 {
-                    return null;
+                    if (!IsUrlValid(url))
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    tooltip = url = string.Format("mailto:{0}",url);
                 }
 
                 // We found a regular stand-alone link.
@@ -265,6 +273,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         }
 
         /// <summary>
+        /// Checks if the given URL is an Email.
+        /// </summary>
+        /// <param name="url"> The URL to check. </param>
+        /// <returns> <c>true</c> if the URL is valid; <c>false</c> otherwise. </returns>
+        private static bool IsUrlEmail(string url)
+        {
+            if (Regex.IsMatch(url, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,})+)$"))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Checks if the given URL is allowed in a markdown link.
         /// </summary>
         /// <param name="url"> The URL to check. </param>
@@ -272,7 +295,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         private static bool IsUrlValid(string url)
         {
             // URLs can be relative.
-            if (url.StartsWith("/") || url.StartsWith("#"))
+            if (url.StartsWith("/") || url.StartsWith("#") || url.StartsWith("../"))
             {
                 return true;
             }
