@@ -19,14 +19,14 @@
           <Grid>
             <TextBlock HorizontalAlignment="Center"
                       TextWrapping="Wrap"
-                      Text="This is the content"
+                      Text="This is the expanded content"
                       VerticalAlignment="Center"
                       Style="{StaticResource HeaderTextBlockStyle}" />
           </Grid>
 
           <controls:Expander.ContentOverlay>
             <Grid Background="Red" MinHeight="250">
-              <TextBlock Text="Hello world!"
+              <TextBlock Text="This is the content overlay"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center" />
             </Grid>
@@ -43,7 +43,7 @@
           <Grid Height="250">
             <TextBlock HorizontalAlignment="Center"
                       TextWrapping="Wrap"
-                      Text="This is the content"
+                      Text="This is the expanded content without a content overlay"
                       VerticalAlignment="Center"
                       Style="{StaticResource HeaderTextBlockStyle}" />
           </Grid>
