@@ -117,6 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
             }
 
             string url = TextRunInline.ResolveEscapeSequences(markdown, urlStart, pos);
+            url = url.StartsWith("/") ? string.Format("ms-appx://{0}", url) : url;
 
             // We found something!
             var result = new ImageInline
