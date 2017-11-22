@@ -24,6 +24,136 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class UniformGrid
     {
         /// <summary>
+        /// Determines if this element in the grid participates in the auto-layout algorithm.
+        /// </summary>
+        public static readonly DependencyProperty AutoLayoutProperty =
+            DependencyProperty.RegisterAttached(
+              "AutoLayout",
+              typeof(bool?),
+              typeof(UniformGrid),
+              new PropertyMetadata(null));
+
+        /// <summary>
+        /// Sets the AutoLayout Attached Property Value.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="value"></param>
+        public static void SetAutoLayout(FrameworkElement element, bool? value)
+        {
+            element.SetValue(AutoLayoutProperty, value);
+        }
+
+        /// <summary>
+        /// Gets the AutoLayout Attached Property Value.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static bool? GetAutoLayout(FrameworkElement element)
+        {
+            return (bool?)element.GetValue(AutoLayoutProperty);
+        }
+
+        /// <summary>
+        /// Sets the AutoLayout Attached Property Value.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="value"></param>
+        public static void SetAutoLayout(ColumnDefinition element, bool? value)
+        {
+            element.SetValue(AutoLayoutProperty, value);
+        }
+
+        /// <summary>
+        /// Gets the AutoLayout Attached Property Value.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static bool? GetAutoLayout(ColumnDefinition element)
+        {
+            return (bool?)element.GetValue(AutoLayoutProperty);
+        }
+
+        /// <summary>
+        /// Sets the AutoLayout Attached Property Value.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="value"></param>
+        public static void SetAutoLayout(RowDefinition element, bool? value)
+        {
+            element.SetValue(AutoLayoutProperty, value);
+        }
+
+        /// <summary>
+        /// Gets the AutoLayout Attached Property Value.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static bool? GetAutoLayout(RowDefinition element)
+        {
+            return (bool?)element.GetValue(AutoLayoutProperty);
+        }
+
+        /// <summary>
+        /// Determines if this element in the grid participates in the auto-layout algorithm.
+        /// </summary>
+        public static readonly DependencyProperty ColumnDefinitionColumnProperty =
+            DependencyProperty.RegisterAttached(
+              "Column",
+              typeof(int),
+              typeof(UniformGrid),
+              new PropertyMetadata(null));
+
+        /// <summary>
+        /// Sets the AutoLayout Attached Property Value.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="value"></param>
+        public static void SetColumnDefinitionColumn(ColumnDefinition element, int value)
+        {
+            element.SetValue(ColumnDefinitionColumnProperty, value);
+        }
+
+        /// <summary>
+        /// Gets the AutoLayout Attached Property Value.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static int GetColumnDefinitionColumn(ColumnDefinition element)
+        {
+            return (int)element.GetValue(ColumnDefinitionColumnProperty);
+        }
+
+        /// <summary>
+        /// Determines if this element in the grid participates in the auto-layout algorithm.
+        /// </summary>
+        public static readonly DependencyProperty RowDefinitionRowProperty =
+            DependencyProperty.RegisterAttached(
+              "Row",
+              typeof(int),
+              typeof(UniformGrid),
+              new PropertyMetadata(null));
+
+        /// <summary>
+        /// Sets the AutoLayout Attached Property Value.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="value"></param>
+        public static void SetRowDefinitionRow(RowDefinition element, int value)
+        {
+            element.SetValue(RowDefinitionRowProperty, value);
+        }
+
+        /// <summary>
+        /// Gets the AutoLayout Attached Property Value.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static int GetRowDefinitionRow(RowDefinition element)
+        {
+            return (int)element.GetValue(RowDefinitionRowProperty);
+        }
+
+        /// <summary>
         /// Identifies the <see cref="Columns"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ColumnsProperty =
@@ -33,7 +163,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="FirstColumn"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty FirstColumnProperty =
-            DependencyProperty.Register("FirstColumn", typeof(int), typeof(UniformGrid), new PropertyMetadata(0, OnColumnsChanged));
+            DependencyProperty.Register("FirstColumn", typeof(int?), typeof(UniformGrid), new PropertyMetadata(null, OnColumnsChanged));
 
         /// <summary>
         /// Identifies the <see cref="Rows"/> dependency property.
@@ -65,9 +195,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the starting column offset for the first row of the UniformGrid.
         /// </summary>
-        public int FirstColumn
+        public int? FirstColumn
         {
-            get { return (int)GetValue(FirstColumnProperty); }
+            get { return (int?)GetValue(FirstColumnProperty); }
             set { SetValue(FirstColumnProperty, value); }
         }
 
