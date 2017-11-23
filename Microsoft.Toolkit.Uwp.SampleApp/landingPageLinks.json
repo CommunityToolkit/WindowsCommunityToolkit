@@ -1,6 +1,6 @@
 {
   "new-section-title": "What's New",
-  "new-samples": [ "InAppNotification", "TextToolbar", "Menu", "Expander", "BluetoothLEHelper" ],
+  "new-samples": [ "DockPanel", "HeaderedItemsControl", "HeaderedContentControl", "Connected Animations", "Implicit Animations" ],
   "resources": [
     {
       "title": "UWP Community Toolkit",

@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
@@ -187,9 +188,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 
             _previousVerticalScrollOffset = _scrollViewer.VerticalOffset;
 
-            var expressionAnimation = compositor.CreateExpressionAnimation($"max(animationProperties.OffsetY - ScrollingProperties.Translation.Y, 0)");
-            expressionAnimation.SetReferenceParameter("ScrollingProperties", _scrollProperties);
-            expressionAnimation.SetReferenceParameter("animationProperties", _animationProperties);
+            var propSetOffset = _animationProperties.GetReference().GetScalarProperty("OffsetY");
+            var scrollPropSet = _scrollProperties.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
+            var expressionAnimation = ExpressionFunctions.Max(propSetOffset - scrollPropSet.Translation.Y, 0);
 
             _headerVisual.StartAnimation("Offset.Y", expressionAnimation);
 

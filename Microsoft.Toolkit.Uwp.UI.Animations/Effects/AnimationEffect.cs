@@ -148,12 +148,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
             }
 
             // Saturation starts from 1 to 0, instead of 0 to 1 so this makes sure the
-            // the brush isn't removed from the UI element incorrectly.
-            if (EffectName == "Saturation" && value >= 1)
-            {
-                animationSet.Completed += AnimationSet_Completed;
-            }
-            else if (EffectName != "Saturation" && value == 0)
+            // the brush isn't removed from the UI element incorrectly. Completing on
+            // Saturation as it's reusing the same sprite visual. Removing the Sprite removes the effect.
+            if (EffectName != "Saturation" && value == 0)
             {
                 animationSet.Completed += AnimationSet_Completed;
             }

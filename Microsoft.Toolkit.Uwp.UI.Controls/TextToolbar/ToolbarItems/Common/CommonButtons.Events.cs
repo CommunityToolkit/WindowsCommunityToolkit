@@ -70,6 +70,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 PlaceholderText = Model.Labels.UrlLabel
             };
 
+            CheckBox relativeBox = null;
+
+            var contentPanel = new StackPanel
+            {
+                Children =
+                    {
+                        labelBox,
+                        linkBox
+                    }
+            };
+
+            if (Model.UseURIChecker)
+            {
+                relativeBox = new CheckBox
+                {
+                    Content = Model.Labels.RelativeLabel
+                };
+                contentPanel.Children.Add(relativeBox);
+            }
+
             labelBox.Document.SetDefaultCharacterFormat(selection.CharacterFormat);
             selection.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string Labeltext);
             labelBox.Document.SetText(Windows.UI.Text.TextSetOptions.FormatRtf, Labeltext);
@@ -77,14 +97,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             var result = await new ContentDialog
             {
                 Title = Model.Labels.CreateLinkLabel,
-                Content = new StackPanel
-                {
-                    Children =
-                    {
-                        labelBox,
-                        linkBox
-                    }
-                },
+                Content = contentPanel,
                 PrimaryButtonText = Model.Labels.OkLabel,
                 SecondaryButtonText = Model.Labels.CancelLabel
             }.ShowAsync();
@@ -92,10 +105,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             if (result == ContentDialogResult.Primary)
             {
                 labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string labelText);
-
                 labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string formattedlabelText);
 
-                Model.Formatter.ButtonActions.FormatLink(button, labelText.Trim(), formattedlabelText.Trim(), linkBox.Text.Trim());
+                string linkText = linkBox.Text.Trim();
+
+                if (Model.UseURIChecker && !string.IsNullOrWhiteSpace(linkText))
+                {
+                    var wellFormed = Uri.IsWellFormedUriString(linkText, relativeBox?.IsChecked == true ? UriKind.RelativeOrAbsolute : UriKind.Absolute);
+                    if (!wellFormed)
+                    {
+                        await new ContentDialog
+                        {
+                            Title = Model.Labels.WarningLabel,
+                            Content = Model.Labels.LinkInvalidLabel,
+                            PrimaryButtonText = Model.Labels.OkLabel
+                        }.ShowAsync();
+                        return;
+                    }
+                }
+
+                Model.Formatter.ButtonActions.FormatLink(button, labelText.Trim(), formattedlabelText.Trim(), linkText);
             }
         }
     }
