@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>Cursor type set on target element.</returns>
         public static CoreCursorType GetCursor(FrameworkElement element)
         {
-            return (CoreCursorType) element.GetValue(CursorProperty);
+            return (CoreCursorType)element.GetValue(CursorProperty);
         }
 
         private static void CursorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 throw new NullReferenceException(nameof(element));
             }
 
-            var value = (CoreCursorType) e.NewValue;
+            var value = (CoreCursorType)e.NewValue;
 
             // lock ensures CoreCursor creation and event handlers attachment/detachment is atomic
             lock (_cursorLock)
@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void Element_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            CoreCursorType cursor = GetCursor((FrameworkElement) sender);
+            CoreCursorType cursor = GetCursor((FrameworkElement)sender);
             Window.Current.CoreWindow.PointerCursor = _cursors[cursor];
         }
 

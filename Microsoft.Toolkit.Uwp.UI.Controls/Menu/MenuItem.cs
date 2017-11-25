@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Menu Item is the items main container for Class Menu control
     /// </summary>
-    public class MenuItem : ItemsControl
+    public class MenuItem : HeaderedItemsControl
     {
         private const string FlyoutButtonName = "FlyoutButton";
         private const char UnderlineCharacter = '^';
@@ -48,41 +48,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Rect _bounds;
 
-        /// <summary>
-        /// Identifies the <see cref="Header"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(object), typeof(MenuItem), new PropertyMetadata(null, HeaderPropertyChanged));
-
-        /// <summary>
-        /// Gets or sets the title to appear in the title bar
-        /// </summary>
-        public object Header
-        {
-            get { return GetValue(HeaderProperty); }
-            set { SetValue(HeaderProperty, value); }
-        }
-
         private object InternalHeader
         {
             set
             {
                 _isInternalHeaderUpdate = true;
                 Header = value;
+                _isInternalHeaderUpdate = false;
             }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="HeaderTemplate"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty HeaderTemplateProperty = DependencyProperty.Register(nameof(HeaderTemplate), typeof(DataTemplate), typeof(MenuItem), new PropertyMetadata(null));
-
-        /// <summary>
-        /// Gets or sets the data template that is used to display the content of the MenuItem
-        /// </summary>
-        public DataTemplate HeaderTemplate
-        {
-            get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
-            set { SetValue(HeaderTemplateProperty, value); }
         }
 
         /// <summary>
@@ -484,19 +457,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             InternalHeader = text;
         }
 
-        private static void HeaderPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        /// <inheritdoc />
+        protected override void OnHeaderChanged(object oldValue, object newValue)
         {
-            var menuItem = (MenuItem)sender;
+            base.OnHeaderChanged(oldValue, newValue);
 
-            if (menuItem._isInternalHeaderUpdate)
+            if (_isInternalHeaderUpdate)
             {
-                menuItem._isInternalHeaderUpdate = false;
                 return;
             }
 
-            menuItem._originalHeader = null;
+            _originalHeader = null;
 
-            var headerString = menuItem.Header as string;
+            var headerString = newValue as string;
 
             if (string.IsNullOrEmpty(headerString))
             {
@@ -512,12 +485,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (underlineCharacterIndex == headerString.Length - 1)
             {
-                menuItem.InternalHeader = headerString.Replace(UnderlineCharacter.ToString(), string.Empty);
+                InternalHeader = headerString.Replace(UnderlineCharacter.ToString(), string.Empty);
                 return;
             }
 
-            menuItem._originalHeader = headerString;
-            menuItem.InternalHeader = headerString.Replace(UnderlineCharacter.ToString(), string.Empty);
+            _originalHeader = headerString;
+            InternalHeader = headerString.Replace(UnderlineCharacter.ToString(), string.Empty);
         }
 
         internal void RemoveUnderline()
