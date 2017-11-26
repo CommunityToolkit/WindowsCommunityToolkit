@@ -13,7 +13,7 @@
 
     <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.3" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
-
+    <ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj" />
   </ItemGroup>
  
   <ItemGroup>

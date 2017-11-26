@@ -13,15 +13,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
+using Microsoft.Toolkit.Services.Markdown.Helpers;
+using Microsoft.Toolkit.Services.Markdown.Parse;
 using Windows.Foundation.Metadata;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display

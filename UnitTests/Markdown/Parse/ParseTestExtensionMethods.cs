@@ -12,7 +12,7 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
+using Microsoft.Toolkit.Services.Markdown.Parse;
 
 namespace UnitTests.Markdown.Parse
 {

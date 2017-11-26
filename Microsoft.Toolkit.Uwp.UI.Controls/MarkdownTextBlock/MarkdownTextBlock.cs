@@ -14,8 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
+using Microsoft.Toolkit.Services.Markdown.Helpers;
 using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -23,6 +22,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.Toolkit.Services.Markdown.Parse;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
