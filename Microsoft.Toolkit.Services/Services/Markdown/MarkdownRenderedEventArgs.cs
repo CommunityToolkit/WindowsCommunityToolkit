@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Services.Markdown
     /// </summary>
     public class MarkdownRenderedEventArgs : EventArgs
     {
-        internal MarkdownRenderedEventArgs(Exception ex)
+        public MarkdownRenderedEventArgs(Exception ex)
         {
             Exception = ex;
         }

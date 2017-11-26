@@ -137,4 +137,4 @@ private async void MarkdownText_OnImageResolving(object sender, ImageResolvingEv
 ## API
 
 * [MarkdownTextBlock source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock)
-
+* [Markdown Parser source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/Markdown)
