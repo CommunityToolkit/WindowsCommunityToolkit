@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Arguments for the OnMarkdownRendered event which indicates when the markdown has been
     /// rendered.
     /// </summary>
+    [Obsolete("Use Microsoft.Toolkit.Services.Markdown.MarkdownRenderedEventArgs instead.")]
     public class MarkdownRenderedEventArgs : EventArgs
     {
         internal MarkdownRenderedEventArgs(Exception ex)
