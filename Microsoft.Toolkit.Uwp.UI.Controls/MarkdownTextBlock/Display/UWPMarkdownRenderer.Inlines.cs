@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
     /// <summary>
     /// Inline UI Methods for UWP UI Creation.
     /// </summary>
-    internal partial class XamlRenderer
+    internal partial class UWPMarkdownRenderer
     {
         /// <summary>
         /// Renders emoji element.

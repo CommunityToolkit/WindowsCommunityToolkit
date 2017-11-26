@@ -23,9 +23,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
     /// <summary>
     /// Generates Framework Elements for the UWP Markdown Textblock.
     /// </summary>
-    internal partial class XamlRenderer : MarkdownRendererBase
+    internal partial class UWPMarkdownRenderer : MarkdownRendererBase
     {
-        public XamlRenderer(MarkdownDocument document, ILinkRegister linkRegister, IImageResolver imageResolver)
+        public UWPMarkdownRenderer(MarkdownDocument document, ILinkRegister linkRegister, IImageResolver imageResolver)
             : base(document)
         {
             _linkRegister = linkRegister;

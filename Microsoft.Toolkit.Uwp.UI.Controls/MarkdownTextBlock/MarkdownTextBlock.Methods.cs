@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 markdown.Parse(Text);
 
                 // Now try to display it
-                var renderer = new XamlRenderer(markdown, this, this)
+                var renderer = new UWPMarkdownRenderer(markdown, this, this)
                 {
                     Background = Background,
                     BorderBrush = BorderBrush,

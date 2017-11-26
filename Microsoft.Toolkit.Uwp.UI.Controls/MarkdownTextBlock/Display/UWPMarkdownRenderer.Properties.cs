@@ -18,9 +18,9 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 {
     /// <summary>
-    /// Properties for the Xaml Renderer
+    /// Properties for the UWP Markdown Renderer
     /// </summary>
-    internal partial class XamlRenderer
+    internal partial class UWPMarkdownRenderer
     {
         private static bool? _textDecorationsSupported = null;
 
