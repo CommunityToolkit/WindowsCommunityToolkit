@@ -34,10 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         {
             var blockUIElementCollection_ = blockUIElementCollection as UIElementCollection;
 
-            foreach (MarkdownBlock element in blockElements)
-            {
-                RenderBlock(element, blockUIElementCollection, context);
-            }
+            base.RenderBlocks(blockElements, blockUIElementCollection, context);
 
             // Remove the top margin from the first block element, the bottom margin from the last block element,
             // and collapse adjacent margins.

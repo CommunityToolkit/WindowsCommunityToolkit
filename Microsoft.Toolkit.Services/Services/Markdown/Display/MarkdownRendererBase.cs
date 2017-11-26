@@ -12,7 +12,6 @@
 
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Toolkit.Services.Markdown.Helpers;
 using Microsoft.Toolkit.Services.Markdown.Parse;
 
 namespace Microsoft.Toolkit.Services.Markdown.Display
@@ -44,7 +43,13 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
         /// <summary>
         /// Renders a list of block elements.
         /// </summary>
-        protected abstract void RenderBlocks(IEnumerable<MarkdownBlock> blockElements, object blockUIElementCollection, IRenderContext context);
+        protected virtual void RenderBlocks(IEnumerable<MarkdownBlock> blockElements, object blockUIElementCollection, IRenderContext context)
+        {
+            foreach (MarkdownBlock element in blockElements)
+            {
+                RenderBlock(element, blockUIElementCollection, context);
+            }
+        }
 
         /// <summary>
         /// Called to render a block element.
@@ -124,7 +129,7 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
                     break;
 
                 case MarkdownInlineType.MarkdownLink:
-                    RenderMarkdownLink(inlineCollection, (MarkdownLinkInline)element, parent, context);
+                    CheckRenderMarkdownLink(inlineCollection, (MarkdownLinkInline)element, parent, context);
                     break;
 
                 case MarkdownInlineType.RawHyperlink:
@@ -150,79 +155,6 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
                 case MarkdownInlineType.Emoji:
                     RenderEmoji(inlineCollection, (EmojiInline)element, context);
                     break;
-            }
-        }
-
-        /// <summary>
-        /// Checks if all text elements inside the given container are superscript.
-        /// </summary>
-        /// <returns> <c>true</c> if all text is superscript (level 1); <c>false</c> otherwise. </returns>
-        protected bool AllTextIsSuperscript(IInlineContainer container, int superscriptLevel = 0)
-        {
-            foreach (var inline in container.Inlines)
-            {
-                var textInline = inline as SuperscriptTextInline;
-                if (textInline != null)
-                {
-                    // Remove any nested superscripts.
-                    if (AllTextIsSuperscript(textInline, superscriptLevel + 1) == false)
-                    {
-                        return false;
-                    }
-                }
-                else if (inline is IInlineContainer)
-                {
-                    // Remove any superscripts.
-                    if (AllTextIsSuperscript((IInlineContainer)inline, superscriptLevel) == false)
-                    {
-                        return false;
-                    }
-                }
-                else if (inline is IInlineLeaf && !Common.IsBlankOrWhiteSpace(((IInlineLeaf)inline).Text))
-                {
-                    if (superscriptLevel != 1)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Removes all superscript elements from the given container.
-        /// </summary>
-        protected void RemoveSuperscriptRuns(IInlineContainer container, bool insertCaret)
-        {
-            for (int i = 0; i < container.Inlines.Count; i++)
-            {
-                var inline = container.Inlines[i];
-                var textInline = inline as SuperscriptTextInline;
-                if (textInline != null)
-                {
-                    // Remove any nested superscripts.
-                    RemoveSuperscriptRuns(textInline, insertCaret);
-
-                    // Remove the superscript element, insert all the children.
-                    container.Inlines.RemoveAt(i);
-                    if (insertCaret)
-                    {
-                        container.Inlines.Insert(i++, new TextRunInline { Text = "^" });
-                    }
-
-                    foreach (var superscriptInline in textInline.Inlines)
-                    {
-                        container.Inlines.Insert(i++, superscriptInline);
-                    }
-
-                    i--;
-                }
-                else if (inline is IInlineContainer)
-                {
-                    // Remove any superscripts.
-                    RemoveSuperscriptRuns((IInlineContainer)inline, insertCaret);
-                }
             }
         }
 
@@ -263,6 +195,34 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
 
             context.TrimLeadingWhitespace = false;
             return result == null ? text : result.ToString();
+        }
+
+        /// <summary>
+        /// Verifies if the link is valid, before processing into a link, or plain text.
+        /// </summary>
+        /// <param name="inlineCollection"> The list to add to. </param>
+        /// <param name="element"> The parsed inline element to render. </param>
+        /// <param name="parent"> The container element. </param>
+        /// <param name="context"> Persistent state. </param>
+        protected void CheckRenderMarkdownLink(object inlineCollection, MarkdownLinkInline element, object parent, IRenderContext context)
+        {
+            // Avoid processing when link text is empty.
+            if (element.Inlines.Count == 0)
+            {
+                return;
+            }
+
+            // Attempt to resolve references.
+            element.ResolveReference(Document);
+            if (element.Url == null)
+            {
+                // The element couldn't be resolved, just render it as text.
+                RenderInlineChildren(inlineCollection, element.Inlines, parent, context);
+            }
+            else
+            {
+                RenderMarkdownLink(inlineCollection, element, parent, context);
+            }
         }
 
         /// <summary>

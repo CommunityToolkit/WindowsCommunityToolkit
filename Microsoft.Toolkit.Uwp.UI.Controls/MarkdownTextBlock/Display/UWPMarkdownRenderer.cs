@@ -17,6 +17,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
+using Microsoft.Toolkit.Services.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 {
@@ -118,6 +119,79 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 else if (inlineElement is Run)
                 {
                     action(parentSpan, (Run)inlineElement);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks if all text elements inside the given container are superscript.
+        /// </summary>
+        /// <returns> <c>true</c> if all text is superscript (level 1); <c>false</c> otherwise. </returns>
+        private bool AllTextIsSuperscript(IInlineContainer container, int superscriptLevel = 0)
+        {
+            foreach (var inline in container.Inlines)
+            {
+                var textInline = inline as SuperscriptTextInline;
+                if (textInline != null)
+                {
+                    // Remove any nested superscripts.
+                    if (AllTextIsSuperscript(textInline, superscriptLevel + 1) == false)
+                    {
+                        return false;
+                    }
+                }
+                else if (inline is IInlineContainer)
+                {
+                    // Remove any superscripts.
+                    if (AllTextIsSuperscript((IInlineContainer)inline, superscriptLevel) == false)
+                    {
+                        return false;
+                    }
+                }
+                else if (inline is IInlineLeaf && !Common.IsBlankOrWhiteSpace(((IInlineLeaf)inline).Text))
+                {
+                    if (superscriptLevel != 1)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Removes all superscript elements from the given container.
+        /// </summary>
+        private void RemoveSuperscriptRuns(IInlineContainer container, bool insertCaret)
+        {
+            for (int i = 0; i < container.Inlines.Count; i++)
+            {
+                var inline = container.Inlines[i];
+                var textInline = inline as SuperscriptTextInline;
+                if (textInline != null)
+                {
+                    // Remove any nested superscripts.
+                    RemoveSuperscriptRuns(textInline, insertCaret);
+
+                    // Remove the superscript element, insert all the children.
+                    container.Inlines.RemoveAt(i);
+                    if (insertCaret)
+                    {
+                        container.Inlines.Insert(i++, new TextRunInline { Text = "^" });
+                    }
+
+                    foreach (var superscriptInline in textInline.Inlines)
+                    {
+                        container.Inlines.Insert(i++, superscriptInline);
+                    }
+
+                    i--;
+                }
+                else if (inline is IInlineContainer)
+                {
+                    // Remove any superscripts.
+                    RemoveSuperscriptRuns((IInlineContainer)inline, insertCaret);
                 }
             }
         }

@@ -107,21 +107,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         {
             var inlineCollection_ = inlineCollection as InlineCollection;
 
-            // Avoid crash when link text is empty.
-            if (element.Inlines.Count == 0)
-            {
-                return;
-            }
-
-            // Attempt to resolve references.
-            element.ResolveReference(Document);
-            if (element.Url == null)
-            {
-                // The element couldn't be resolved, just render it as text.
-                RenderInlineChildren(inlineCollection, element.Inlines, parent, context);
-                return;
-            }
-
             // HACK: Superscript is not allowed within a hyperlink.  But if we switch it around, so
             // that the superscript is outside the hyperlink, then it will render correctly.
             // This assumes that the entire hyperlink is to be rendered as superscript.
@@ -173,6 +158,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         }
 
         /// <summary>
+        /// Renders a raw link element.
+        /// </summary>
+        /// <param name="inlineCollection"> The list to add to. </param>
+        /// <param name="element"> The parsed inline element to render. </param>
+        /// <param name="context"> Persistent state. </param>
+        protected override void RenderHyperlink(object inlineCollection, HyperlinkInline element, IRenderContext context)
+        {
+            var inlineCollection_ = inlineCollection as InlineCollection;
+            var context_ = context as RenderContext;
+
+            var link = new Hyperlink();
+
+            // Register the link
+            _linkRegister.RegisterNewHyperLink(link, element.Url);
+
+            // Make a text block for the link
+            Run linkText = new Run
+            {
+                Text = CollapseWhitespace(context, element.Text),
+                Foreground = LinkForeground ?? context_.Foreground
+            };
+
+            link.Inlines.Add(linkText);
+
+            // Add it to the current inlines
+            inlineCollection_.Add(link);
+        }
+
+        /// <summary>
         /// Renders an image element.
         /// </summary>
         /// <param name="inlineCollection"> The list to add to. </param>
@@ -213,35 +227,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             {
                 // Ignore error
             }
-        }
-
-        /// <summary>
-        /// Renders a raw link element.
-        /// </summary>
-        /// <param name="inlineCollection"> The list to add to. </param>
-        /// <param name="element"> The parsed inline element to render. </param>
-        /// <param name="context"> Persistent state. </param>
-        protected override void RenderHyperlink(object inlineCollection, HyperlinkInline element, IRenderContext context)
-        {
-            var inlineCollection_ = inlineCollection as InlineCollection;
-            var context_ = context as RenderContext;
-
-            var link = new Hyperlink();
-
-            // Register the link
-            _linkRegister.RegisterNewHyperLink(link, element.Url);
-
-            // Make a text block for the link
-            Run linkText = new Run
-            {
-                Text = CollapseWhitespace(context, element.Text),
-                Foreground = LinkForeground ?? context_.Foreground
-            };
-
-            link.Inlines.Add(linkText);
-
-            // Add it to the current inlines
-            inlineCollection_.Add(link);
         }
 
         /// <summary>
