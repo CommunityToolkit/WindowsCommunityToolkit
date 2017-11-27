@@ -31,12 +31,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <summary>
         /// Renders emoji element.
         /// </summary>
-        /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        protected override void RenderEmoji(object inlineCollection, EmojiInline element, IRenderContext context)
+        protected override void RenderEmoji(EmojiInline element, IRenderContext context)
         {
-            var inlineCollection_ = inlineCollection as InlineCollection;
+            var context_ = context as InlineRenderContext;
+            var inlineCollection_ = context_.InlineCollection;
 
             var emoji = new Run
             {
@@ -50,17 +50,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <summary>
         /// Renders a text run element.
         /// </summary>
-        /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        protected override void RenderTextRun(object inlineCollection, TextRunInline element, IRenderContext context)
+        protected override void RenderTextRun(TextRunInline element, IRenderContext context)
         {
-            InternalRenderTextRun(inlineCollection, element, context);
+            InternalRenderTextRun(element, context);
         }
 
-        private Run InternalRenderTextRun(object inlineCollection, TextRunInline element, IRenderContext context)
+        private Run InternalRenderTextRun(TextRunInline element, IRenderContext context)
         {
-            var inlineCollection_ = inlineCollection as InlineCollection;
+            var context_ = context as InlineRenderContext;
+            var inlineCollection_ = context_.InlineCollection;
 
             // Create the text run
             Run textRun = new Run
@@ -76,12 +76,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <summary>
         /// Renders a bold run element.
         /// </summary>
-        /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        protected override void RenderBoldRun(object inlineCollection, BoldTextInline element, IRenderContext context)
+        protected override void RenderBoldRun(BoldTextInline element, IRenderContext context)
         {
-            var inlineCollection_ = inlineCollection as InlineCollection;
+            var context_ = context as InlineRenderContext;
 
             // Create the text run
             Span boldSpan = new Span
@@ -89,26 +88,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 FontWeight = FontWeights.Bold
             };
 
-            var childContext = (RenderContext)context.Clone();
-            childContext.Parent = boldSpan;
-            childContext.WithinBold = true;
+            var childContext = new InlineRenderContext(boldSpan.Inlines, context)
+            {
+                Parent = boldSpan,
+                WithinBold = true
+            };
 
             // Render the children into the bold inline.
-            RenderInlineChildren(boldSpan.Inlines, element.Inlines, childContext);
+            RenderInlineChildren(element.Inlines, childContext);
 
             // Add it to the current inlines
-            inlineCollection_.Add(boldSpan);
+            context_.InlineCollection.Add(boldSpan);
         }
 
         /// <summary>
         /// Renders a link element
         /// </summary>
-        /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        protected override void RenderMarkdownLink(object inlineCollection, MarkdownLinkInline element, IRenderContext context)
+        protected override void RenderMarkdownLink(MarkdownLinkInline element, IRenderContext context)
         {
-            var inlineCollection_ = inlineCollection as InlineCollection;
+            var context_ = context as InlineRenderContext;
 
             // HACK: Superscript is not allowed within a hyperlink.  But if we switch it around, so
             // that the superscript is outside the hyperlink, then it will render correctly.
@@ -125,20 +125,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 RemoveSuperscriptRuns(element, insertCaret: true);
 
                 // Render the children into the link inline.
-                var childContext = context.Clone();
-                childContext.WithinHyperlink = true;
-                childContext.Parent = link;
+                var childContext = new InlineRenderContext(link.Inlines, context)
+                {
+                    Parent = link,
+                    WithinHyperlink = true
+                };
 
                 if (LinkForeground != null)
                 {
                     link.Foreground = LinkForeground;
                 }
 
-                RenderInlineChildren(link.Inlines, element.Inlines, childContext);
+                RenderInlineChildren(element.Inlines, childContext);
                 context.TrimLeadingWhitespace = childContext.TrimLeadingWhitespace;
 
                 // Add it to the current inlines
-                inlineCollection_.Add(link);
+                context_.InlineCollection.Add(link);
             }
             else
             {
@@ -157,20 +159,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 RemoveSuperscriptRuns(element, insertCaret: false);
 
                 // Now render it.
-                RenderSuperscriptRun(inlineCollection, fakeSuperscript, context);
+                RenderSuperscriptRun(fakeSuperscript, context);
             }
         }
 
         /// <summary>
         /// Renders a raw link element.
         /// </summary>
-        /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        protected override void RenderHyperlink(object inlineCollection, HyperlinkInline element, IRenderContext context)
+        protected override void RenderHyperlink(HyperlinkInline element, IRenderContext context)
         {
-            var inlineCollection_ = inlineCollection as InlineCollection;
-            var context_ = context as RenderContext;
+            var context_ = context as InlineRenderContext;
 
             var link = new Hyperlink();
 
@@ -187,20 +187,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             link.Inlines.Add(linkText);
 
             // Add it to the current inlines
-            inlineCollection_.Add(link);
+            context_.InlineCollection.Add(link);
         }
 
         /// <summary>
         /// Renders an image element.
         /// </summary>
-        /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        protected override async void RenderImage(object inlineCollection, ImageInline element, IRenderContext context)
+        protected override async void RenderImage(ImageInline element, IRenderContext context)
         {
-            var inlineCollection_ = inlineCollection as InlineCollection;
+            var context_ = context as InlineRenderContext;
+            var inlineCollection_ = context_.InlineCollection;
 
-            var placeholder = InternalRenderTextRun(inlineCollection, new TextRunInline { Text = element.Text, Type = MarkdownInlineType.TextRun }, context);
+            var placeholder = InternalRenderTextRun(new TextRunInline { Text = element.Text, Type = MarkdownInlineType.TextRun }, context);
             var resolvedImage = await _imageResolver.ResolveImageAsync(element.Url, element.Tooltip);
 
             // if image can not be resolved we have to return
@@ -236,12 +236,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <summary>
         /// Renders a text run element.
         /// </summary>
-        /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        protected override void RenderItalicRun(object inlineCollection, ItalicTextInline element, IRenderContext context)
+        protected override void RenderItalicRun(ItalicTextInline element, IRenderContext context)
         {
-            var inlineCollection_ = inlineCollection as InlineCollection;
+            var context_ = context as InlineRenderContext;
 
             // Create the text run
             Span italicSpan = new Span
@@ -249,26 +248,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 FontStyle = FontStyle.Italic
             };
 
-            var childContext = (RenderContext)context.Clone();
-            childContext.Parent = italicSpan;
-            childContext.WithinItalics = true;
+            var childContext = new InlineRenderContext(italicSpan.Inlines, context)
+            {
+                Parent = italicSpan,
+                WithinItalics = true
+            };
 
             // Render the children into the italic inline.
-            RenderInlineChildren(italicSpan.Inlines, element.Inlines, childContext);
+            RenderInlineChildren(element.Inlines, childContext);
 
             // Add it to the current inlines
-            inlineCollection_.Add(italicSpan);
+            context_.InlineCollection.Add(italicSpan);
         }
 
         /// <summary>
         /// Renders a strikethrough element.
         /// </summary>
-        /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        protected override void RenderStrikethroughRun(object inlineCollection, StrikethroughTextInline element, IRenderContext context)
+        protected override void RenderStrikethroughRun(StrikethroughTextInline element, IRenderContext context)
         {
-            var inlineCollection_ = inlineCollection as InlineCollection;
+            var context_ = context as InlineRenderContext;
             Span span = new Span();
 
             if (TextDecorationsSupported)
@@ -280,11 +280,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 span.FontFamily = new FontFamily("Consolas");
             }
 
-            var childContext = context.Clone();
-            childContext.Parent = span;
+            var childContext = new InlineRenderContext(span.Inlines, context)
+            {
+                Parent = span
+            };
 
             // Render the children into the inline.
-            RenderInlineChildren(span.Inlines, element.Inlines, childContext);
+            RenderInlineChildren(element.Inlines, childContext);
 
             if (!TextDecorationsSupported)
             {
@@ -302,25 +304,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             }
 
             // Add it to the current inlines
-            inlineCollection_.Add(span);
+            context_.InlineCollection.Add(span);
         }
 
         /// <summary>
         /// Renders a superscript element.
         /// </summary>
-        /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        protected override void RenderSuperscriptRun(object inlineCollection, SuperscriptTextInline element, IRenderContext context)
+        protected override void RenderSuperscriptRun(SuperscriptTextInline element, IRenderContext context)
         {
-            var inlineCollection_ = inlineCollection as InlineCollection;
-            var context_ = context as RenderContext;
+            var context_ = context as InlineRenderContext;
             var parent_ = context_.Parent as TextElement;
 
             // Le <sigh>, InlineUIContainers are not allowed within hyperlinks.
-            if (context.WithinHyperlink)
+            if (context_.WithinHyperlink)
             {
-                RenderInlineChildren(inlineCollection, element.Inlines, context);
+                RenderInlineChildren(element.Inlines, context);
                 return;
             }
 
@@ -332,12 +332,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 FontWeight = parent_.FontWeight
             };
 
-            var childContext = context.Clone();
-            childContext.Parent = paragraph;
+            var childContext = new InlineRenderContext(paragraph.Inlines, context)
+            {
+                Parent = paragraph
+            };
 
-            RenderInlineChildren(paragraph.Inlines, element.Inlines, childContext);
+            RenderInlineChildren(element.Inlines, childContext);
 
-            var richTextBlock = CreateOrReuseRichTextBlock(null, context);
+            var richTextBlock = CreateOrReuseRichTextBlock(new UIElementCollectionRenderContext(null, context));
             richTextBlock.Blocks.Add(paragraph);
 
             var border = new Border
@@ -352,19 +354,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             };
 
             // Add it to the current inlines
-            inlineCollection_.Add(inlineUIContainer);
+            context_.InlineCollection.Add(inlineUIContainer);
         }
 
         /// <summary>
         /// Renders a code element
         /// </summary>
-        /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        protected override void RenderCodeRun(object inlineCollection, CodeInline element, IRenderContext context)
+        protected override void RenderCodeRun(CodeInline element, IRenderContext context)
         {
-            var inlineCollection_ = inlineCollection as InlineCollection;
-            var context_ = context as RenderContext;
+            var context_ = context as InlineRenderContext;
 
             var text = CreateTextBlock(context_);
             text.Text = CollapseWhitespace(context, element.Text);
@@ -408,7 +408,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             };
 
             // Add it to the current inlines
-            inlineCollection_.Add(inlineUIContainer);
+            context_.InlineCollection.Add(inlineUIContainer);
         }
     }
 }

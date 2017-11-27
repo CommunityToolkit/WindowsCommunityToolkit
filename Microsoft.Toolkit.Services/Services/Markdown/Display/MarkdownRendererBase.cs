@@ -33,58 +33,57 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
         /// <summary>
         /// Renders all Content to the Provided Parent UI.
         /// </summary>
-        /// <param name="parent">Parent UI Container.</param>
         /// <param name="context">UI Context</param>
-        public virtual void Render(object parent, IRenderContext context)
+        public virtual void Render(IRenderContext context)
         {
-            RenderBlocks(Document.Blocks, parent, context);
+            RenderBlocks(Document.Blocks, context);
         }
 
         /// <summary>
         /// Renders a list of block elements.
         /// </summary>
-        protected virtual void RenderBlocks(IEnumerable<MarkdownBlock> blockElements, object blockUIElementCollection, IRenderContext context)
+        protected virtual void RenderBlocks(IEnumerable<MarkdownBlock> blockElements, IRenderContext context)
         {
             foreach (MarkdownBlock element in blockElements)
             {
-                RenderBlock(element, blockUIElementCollection, context);
+                RenderBlock(element, context);
             }
         }
 
         /// <summary>
         /// Called to render a block element.
         /// </summary>
-        protected void RenderBlock(MarkdownBlock element, object blockUIElementCollection, IRenderContext context)
+        protected void RenderBlock(MarkdownBlock element, IRenderContext context)
         {
             {
                 switch (element.Type)
                 {
                     case MarkdownBlockType.Paragraph:
-                        RenderParagraph((ParagraphBlock)element, blockUIElementCollection, context);
+                        RenderParagraph((ParagraphBlock)element, context);
                         break;
 
                     case MarkdownBlockType.Quote:
-                        RenderQuote((QuoteBlock)element, blockUIElementCollection, context);
+                        RenderQuote((QuoteBlock)element, context);
                         break;
 
                     case MarkdownBlockType.Code:
-                        RenderCode((CodeBlock)element, blockUIElementCollection, context);
+                        RenderCode((CodeBlock)element, context);
                         break;
 
                     case MarkdownBlockType.Header:
-                        RenderHeader((HeaderBlock)element, blockUIElementCollection, context);
+                        RenderHeader((HeaderBlock)element, context);
                         break;
 
                     case MarkdownBlockType.List:
-                        RenderListElement((ListBlock)element, blockUIElementCollection, context);
+                        RenderListElement((ListBlock)element, context);
                         break;
 
                     case MarkdownBlockType.HorizontalRule:
-                        RenderHorizontalRule(blockUIElementCollection, context);
+                        RenderHorizontalRule(context);
                         break;
 
                     case MarkdownBlockType.Table:
-                        RenderTable((TableBlock)element, blockUIElementCollection, context);
+                        RenderTable((TableBlock)element, context);
                         break;
                 }
             }
@@ -93,65 +92,63 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
         /// <summary>
         /// Renders all of the children for the given element.
         /// </summary>
-        /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="inlineElements"> The parsed inline elements to render. </param>
         /// <param name="context"> Persistent state. </param>
-        protected void RenderInlineChildren(object inlineCollection, IList<MarkdownInline> inlineElements, IRenderContext context)
+        protected void RenderInlineChildren(IList<MarkdownInline> inlineElements, IRenderContext context)
         {
             foreach (MarkdownInline element in inlineElements)
             {
-                RenderInline(inlineCollection, element, context);
+                RenderInline(element, context);
             }
         }
 
         /// <summary>
         /// Called to render an inline element.
         /// </summary>
-        /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        protected void RenderInline(object inlineCollection, MarkdownInline element, IRenderContext context)
+        protected void RenderInline(MarkdownInline element, IRenderContext context)
         {
             switch (element.Type)
             {
                 case MarkdownInlineType.TextRun:
-                    RenderTextRun(inlineCollection, (TextRunInline)element, context);
+                    RenderTextRun((TextRunInline)element, context);
                     break;
 
                 case MarkdownInlineType.Italic:
-                    RenderItalicRun(inlineCollection, (ItalicTextInline)element, context);
+                    RenderItalicRun((ItalicTextInline)element, context);
                     break;
 
                 case MarkdownInlineType.Bold:
-                    RenderBoldRun(inlineCollection, (BoldTextInline)element, context);
+                    RenderBoldRun((BoldTextInline)element, context);
                     break;
 
                 case MarkdownInlineType.MarkdownLink:
-                    CheckRenderMarkdownLink(inlineCollection, (MarkdownLinkInline)element, context);
+                    CheckRenderMarkdownLink((MarkdownLinkInline)element, context);
                     break;
 
                 case MarkdownInlineType.RawHyperlink:
-                    RenderHyperlink(inlineCollection, (HyperlinkInline)element, context);
+                    RenderHyperlink((HyperlinkInline)element, context);
                     break;
 
                 case MarkdownInlineType.Strikethrough:
-                    RenderStrikethroughRun(inlineCollection, (StrikethroughTextInline)element, context);
+                    RenderStrikethroughRun((StrikethroughTextInline)element, context);
                     break;
 
                 case MarkdownInlineType.Superscript:
-                    RenderSuperscriptRun(inlineCollection, (SuperscriptTextInline)element, context);
+                    RenderSuperscriptRun((SuperscriptTextInline)element, context);
                     break;
 
                 case MarkdownInlineType.Code:
-                    RenderCodeRun(inlineCollection, (CodeInline)element, context);
+                    RenderCodeRun((CodeInline)element, context);
                     break;
 
                 case MarkdownInlineType.Image:
-                    RenderImage(inlineCollection, (ImageInline)element, context);
+                    RenderImage((ImageInline)element, context);
                     break;
 
                 case MarkdownInlineType.Emoji:
-                    RenderEmoji(inlineCollection, (EmojiInline)element, context);
+                    RenderEmoji((EmojiInline)element, context);
                     break;
             }
         }
@@ -198,10 +195,9 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
         /// <summary>
         /// Verifies if the link is valid, before processing into a link, or plain text.
         /// </summary>
-        /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        protected void CheckRenderMarkdownLink(object inlineCollection, MarkdownLinkInline element, IRenderContext context)
+        protected void CheckRenderMarkdownLink(MarkdownLinkInline element, IRenderContext context)
         {
             // Avoid processing when link text is empty.
             if (element.Inlines.Count == 0)
@@ -214,12 +210,12 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
             if (element.Url == null)
             {
                 // The element couldn't be resolved, just render it as text.
-                RenderInlineChildren(inlineCollection, element.Inlines, context);
+                RenderInlineChildren(element.Inlines, context);
             }
             else
             {
                 // Url is valid, create Link.
-                RenderMarkdownLink(inlineCollection, element, context);
+                RenderMarkdownLink(element, context);
             }
         }
 

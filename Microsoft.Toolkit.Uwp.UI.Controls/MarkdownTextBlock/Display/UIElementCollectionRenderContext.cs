@@ -11,21 +11,29 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Services.Markdown.Display;
-using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Documents;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 {
-    internal class RenderContext : IRenderContext
+    internal class UIElementCollectionRenderContext : RenderContext
     {
-        public Brush Foreground { get; set; }
-
-        public bool TrimLeadingWhitespace { get; set; }
-
-        public object Parent { get; set; }
-
-        public IRenderContext Clone()
+        internal UIElementCollectionRenderContext(UIElementCollection blockUIElementCollection)
         {
-            return (IRenderContext)MemberwiseClone();
+            BlockUIElementCollection = blockUIElementCollection;
         }
+
+        internal UIElementCollectionRenderContext(UIElementCollection blockUIElementCollection, IRenderContext context)
+            : this(blockUIElementCollection)
+        {
+            Foreground = ((RenderContext)context).Foreground;
+            TrimLeadingWhitespace = context.TrimLeadingWhitespace;
+            Parent = context.Parent;
+        }
+
+        /// <summary>
+        /// Gets or sets the list to add to.
+        /// </summary>
+        public UIElementCollection BlockUIElementCollection { get; set; }
     }
 }

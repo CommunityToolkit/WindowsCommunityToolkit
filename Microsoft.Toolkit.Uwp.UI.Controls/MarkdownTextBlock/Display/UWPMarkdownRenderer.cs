@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         public UIElement Render()
         {
             var stackPanel = new StackPanel();
-            Render(stackPanel.Children, new RenderContext { Foreground = Foreground });
+            Render(new UIElementCollectionRenderContext(stackPanel.Children) { Foreground = Foreground });
 
             // Set background and border properties.
             stackPanel.Background = Background;
@@ -57,9 +57,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// Creates a new RichTextBlock, if the last element of the provided collection isn't already a RichTextBlock.
         /// </summary>
         /// <returns>The rich text block</returns>
-        private RichTextBlock CreateOrReuseRichTextBlock(UIElementCollection blockUIElementCollection, IRenderContext context)
+        private RichTextBlock CreateOrReuseRichTextBlock(IRenderContext context)
         {
-            var context_ = context as RenderContext;
+            var context_ = context as UIElementCollectionRenderContext;
+            var blockUIElementCollection = context_.BlockUIElementCollection;
 
             // Reuse the last RichTextBlock, if possible.
             if (blockUIElementCollection != null && blockUIElementCollection.Count > 0 && blockUIElementCollection[blockUIElementCollection.Count - 1] is RichTextBlock)
@@ -79,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 IsTextSelectionEnabled = IsTextSelectionEnabled,
                 TextWrapping = TextWrapping
             };
-            blockUIElementCollection?.Add(result);
+            context_.BlockUIElementCollection?.Add(result);
 
             return result;
         }

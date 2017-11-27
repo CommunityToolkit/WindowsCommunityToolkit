@@ -23,11 +23,6 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
         bool TrimLeadingWhitespace { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the Current Element is being rendered inside a Link.
-        /// </summary>
-        bool WithinHyperlink { get; set; }
-
-        /// <summary>
         /// Gets or sets the parent Element for this Context.
         /// </summary>
         object Parent { get; set; }

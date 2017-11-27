@@ -30,11 +30,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <summary>
         /// Renders a list of block elements.
         /// </summary>
-        protected override void RenderBlocks(IEnumerable<MarkdownBlock> blockElements, object blockUIElementCollection, IRenderContext context)
+        protected override void RenderBlocks(IEnumerable<MarkdownBlock> blockElements, IRenderContext context)
         {
-            var blockUIElementCollection_ = blockUIElementCollection as UIElementCollection;
+            var context_ = context as UIElementCollectionRenderContext;
+            var blockUIElementCollection_ = context_.BlockUIElementCollection;
 
-            base.RenderBlocks(blockElements, blockUIElementCollection, context);
+            base.RenderBlocks(blockElements, context);
 
             // Remove the top margin from the first block element, the bottom margin from the last block element,
             // and collapse adjacent margins.
@@ -76,32 +77,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <summary>
         /// Renders a paragraph element.
         /// </summary>
-        protected override void RenderParagraph(ParagraphBlock element, object blockUIElementCollection, IRenderContext context)
+        protected override void RenderParagraph(ParagraphBlock element, IRenderContext context)
         {
-            var blockUIElementCollection_ = blockUIElementCollection as UIElementCollection;
-
             var paragraph = new Paragraph
             {
                 Margin = ParagraphMargin
             };
             context.TrimLeadingWhitespace = true;
 
-            var childContext = context.Clone();
+            var childContext = new InlineRenderContext(paragraph.Inlines, context);
             childContext.Parent = paragraph;
 
-            RenderInlineChildren(paragraph.Inlines, element.Inlines, childContext);
+            RenderInlineChildren(element.Inlines, childContext);
 
-            var textBlock = CreateOrReuseRichTextBlock(blockUIElementCollection_, context);
+            var textBlock = CreateOrReuseRichTextBlock(context);
             textBlock.Blocks.Add(paragraph);
         }
 
         /// <summary>
         /// Renders a header element.
         /// </summary>
-        protected override void RenderHeader(HeaderBlock element, object blockUIElementCollection, IRenderContext context)
+        protected override void RenderHeader(HeaderBlock element, IRenderContext context)
         {
-            var blockUIElementCollection_ = blockUIElementCollection as UIElementCollection;
-            var textBlock = CreateOrReuseRichTextBlock(blockUIElementCollection_, context);
+            var textBlock = CreateOrReuseRichTextBlock(context);
 
             var paragraph = new Paragraph();
             var childInlines = paragraph.Inlines;
@@ -157,10 +155,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             // Render the children into the para inline.
             context.TrimLeadingWhitespace = true;
 
-            var childContext = context.Clone();
-            childContext.Parent = paragraph;
+            var childContext = new InlineRenderContext(childInlines, context)
+            {
+                Parent = paragraph
+            };
 
-            RenderInlineChildren(childInlines, element.Inlines, childContext);
+            RenderInlineChildren(element.Inlines, childContext);
 
             // Add it to the blocks
             textBlock.Blocks.Add(paragraph);
@@ -169,10 +169,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <summary>
         /// Renders a list element.
         /// </summary>
-        protected override void RenderListElement(ListBlock element, object blockUIElementCollection, IRenderContext context)
+        protected override void RenderListElement(ListBlock element, IRenderContext context)
         {
-            var context_ = context as RenderContext;
-            var blockUIElementCollection_ = blockUIElementCollection as UIElementCollection;
+            var context_ = context as UIElementCollectionRenderContext;
+            var blockUIElementCollection_ = context_.BlockUIElementCollection;
 
             // Create a grid with two columns.
             Grid grid = new Grid
@@ -212,7 +212,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 
                 // Add the list item content.
                 var content = new StackPanel();
-                RenderBlocks(listItem.Blocks, content.Children, context);
+                var childContext = new UIElementCollectionRenderContext(content.Children, context_);
+                RenderBlocks(listItem.Blocks, childContext);
                 Grid.SetColumn(content, 1);
                 Grid.SetRow(content, rowIndex);
                 grid.Children.Add(content);
@@ -224,10 +225,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <summary>
         /// Renders a horizontal rule element.
         /// </summary>
-        protected override void RenderHorizontalRule(object blockUIElementCollection, IRenderContext context)
+        protected override void RenderHorizontalRule(IRenderContext context)
         {
-            var blockUIElementCollection_ = blockUIElementCollection as UIElementCollection;
-            var context_ = context as RenderContext;
+            var context_ = context as UIElementCollectionRenderContext;
+            var blockUIElementCollection_ = context_.BlockUIElementCollection;
 
             var rectangle = new Rectangle
             {
@@ -243,21 +244,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <summary>
         /// Renders a quote element.
         /// </summary>
-        protected override void RenderQuote(QuoteBlock element, object blockUIElementCollection, IRenderContext context)
+        protected override void RenderQuote(QuoteBlock element, IRenderContext context)
         {
-            var blockUIElementCollection_ = blockUIElementCollection as UIElementCollection;
+            var context_ = context as UIElementCollectionRenderContext;
+            var blockUIElementCollection_ = context_.BlockUIElementCollection;
 
-            var childContext = (RenderContext)context.Clone();
+            var stackPanel = new StackPanel();
+            var childContext = new UIElementCollectionRenderContext(stackPanel.Children, context)
+            {
+                Parent = stackPanel
+            };
 
             if (QuoteForeground != null)
             {
                 childContext.Foreground = QuoteForeground;
             }
 
-            var stackPanel = new StackPanel();
-            childContext.Parent = stackPanel;
-
-            RenderBlocks(element.Blocks, stackPanel.Children, childContext);
+            RenderBlocks(element.Blocks, childContext);
 
             var border = new Border
             {
@@ -275,10 +278,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <summary>
         /// Renders a code element.
         /// </summary>
-        protected override void RenderCode(CodeBlock element, object blockUIElementCollection, IRenderContext context)
+        protected override void RenderCode(CodeBlock element, IRenderContext context)
         {
-            var context_ = context as RenderContext;
-            var blockUIElementCollection_ = blockUIElementCollection as UIElementCollection;
+            var context_ = context as UIElementCollectionRenderContext;
+            var blockUIElementCollection_ = context_.BlockUIElementCollection;
 
             var textBlock = new RichTextBlock
             {
@@ -313,9 +316,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <summary>
         /// Renders a table element.
         /// </summary>
-        protected override void RenderTable(TableBlock element, object blockUIElementCollection, IRenderContext context)
+        protected override void RenderTable(TableBlock element, IRenderContext context)
         {
-            var blockUIElementCollection_ = blockUIElementCollection as UIElementCollection;
+            var context_ = context as UIElementCollectionRenderContext;
+            var blockUIElementCollection_ = context_.BlockUIElementCollection;
 
             var table = new MarkdownTable(element.ColumnDefinitions.Count, element.Rows.Count, TableBorderThickness, TableBorderBrush)
             {
@@ -334,7 +338,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                     var cell = row.Cells[cellIndex];
 
                     // Cell content.
-                    var cellContent = CreateOrReuseRichTextBlock(null, context);
+
+                    var cellContent = CreateOrReuseRichTextBlock(new UIElementCollectionRenderContext(null, context));
                     cellContent.Margin = TableCellPadding;
                     Grid.SetRow(cellContent, rowIndex);
                     Grid.SetColumn(cellContent, cellIndex);
@@ -357,10 +362,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                     var paragraph = new Paragraph();
                     context.TrimLeadingWhitespace = true;
 
-                    var childContext = context.Clone();
-                    childContext.Parent = paragraph;
+                    var childContext = new InlineRenderContext(paragraph.Inlines, context)
+                    {
+                        Parent = paragraph
+                    };
 
-                    RenderInlineChildren(paragraph.Inlines, cell.Inlines, childContext);
+                    RenderInlineChildren(cell.Inlines, childContext);
 
                     cellContent.Blocks.Add(paragraph);
                     table.Children.Add(cellContent);
