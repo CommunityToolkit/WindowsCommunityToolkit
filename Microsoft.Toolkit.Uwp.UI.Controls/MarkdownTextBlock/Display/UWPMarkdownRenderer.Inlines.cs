@@ -89,8 +89,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 FontWeight = FontWeights.Bold
             };
 
+            var childContext = (RenderContext)context.Clone();
+            childContext.Parent = boldSpan;
+            childContext.WithinBold = true;
+
             // Render the children into the bold inline.
-            RenderInlineChildren(boldSpan.Inlines, element.Inlines, boldSpan, context);
+            RenderInlineChildren(boldSpan.Inlines, element.Inlines, childContext);
 
             // Add it to the current inlines
             inlineCollection_.Add(boldSpan);
@@ -101,9 +105,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
-        /// <param name="parent"> The container element. </param>
         /// <param name="context"> Persistent state. </param>
-        protected override void RenderMarkdownLink(object inlineCollection, MarkdownLinkInline element, object parent, IRenderContext context)
+        protected override void RenderMarkdownLink(object inlineCollection, MarkdownLinkInline element, IRenderContext context)
         {
             var inlineCollection_ = inlineCollection as InlineCollection;
 
@@ -124,13 +127,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 // Render the children into the link inline.
                 var childContext = context.Clone();
                 childContext.WithinHyperlink = true;
+                childContext.Parent = link;
 
                 if (LinkForeground != null)
                 {
                     link.Foreground = LinkForeground;
                 }
 
-                RenderInlineChildren(link.Inlines, element.Inlines, link, childContext);
+                RenderInlineChildren(link.Inlines, element.Inlines, childContext);
                 context.TrimLeadingWhitespace = childContext.TrimLeadingWhitespace;
 
                 // Add it to the current inlines
@@ -153,7 +157,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 RemoveSuperscriptRuns(element, insertCaret: false);
 
                 // Now render it.
-                RenderSuperscriptRun(inlineCollection, fakeSuperscript, parent, context);
+                RenderSuperscriptRun(inlineCollection, fakeSuperscript, context);
             }
         }
 
@@ -245,8 +249,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 FontStyle = FontStyle.Italic
             };
 
+            var childContext = (RenderContext)context.Clone();
+            childContext.Parent = italicSpan;
+            childContext.WithinItalics = true;
+
             // Render the children into the italic inline.
-            RenderInlineChildren(italicSpan.Inlines, element.Inlines, italicSpan, context);
+            RenderInlineChildren(italicSpan.Inlines, element.Inlines, childContext);
 
             // Add it to the current inlines
             inlineCollection_.Add(italicSpan);
@@ -272,8 +280,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 span.FontFamily = new FontFamily("Consolas");
             }
 
+            var childContext = context.Clone();
+            childContext.Parent = span;
+
             // Render the children into the inline.
-            RenderInlineChildren(span.Inlines, element.Inlines, span, context);
+            RenderInlineChildren(span.Inlines, element.Inlines, childContext);
 
             if (!TextDecorationsSupported)
             {
@@ -299,17 +310,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
-        /// <param name="parent"> The container element. </param>
         /// <param name="context"> Persistent state. </param>
-        protected override void RenderSuperscriptRun(object inlineCollection, SuperscriptTextInline element, object parent, IRenderContext context)
+        protected override void RenderSuperscriptRun(object inlineCollection, SuperscriptTextInline element, IRenderContext context)
         {
             var inlineCollection_ = inlineCollection as InlineCollection;
-            var parent_ = parent as TextElement;
+            var context_ = context as RenderContext;
+            var parent_ = context_.Parent as TextElement;
 
             // Le <sigh>, InlineUIContainers are not allowed within hyperlinks.
             if (context.WithinHyperlink)
             {
-                RenderInlineChildren(inlineCollection, element.Inlines, parent, context);
+                RenderInlineChildren(inlineCollection, element.Inlines, context);
                 return;
             }
 
@@ -320,7 +331,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 FontStyle = parent_.FontStyle,
                 FontWeight = parent_.FontWeight
             };
-            RenderInlineChildren(paragraph.Inlines, element.Inlines, paragraph, context);
+
+            var childContext = context.Clone();
+            childContext.Parent = paragraph;
+
+            RenderInlineChildren(paragraph.Inlines, element.Inlines, childContext);
 
             var richTextBlock = CreateOrReuseRichTextBlock(null, context);
             richTextBlock.Blocks.Add(paragraph);
@@ -349,15 +364,51 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         protected override void RenderCodeRun(object inlineCollection, CodeInline element, IRenderContext context)
         {
             var inlineCollection_ = inlineCollection as InlineCollection;
+            var context_ = context as RenderContext;
 
-            var run = new Run
+            var text = CreateTextBlock(context_);
+            text.Text = CollapseWhitespace(context, element.Text);
+            text.FontFamily = InlineCodeFontFamily ?? FontFamily;
+
+            if (context_.WithinItalics)
             {
-                FontFamily = CodeFontFamily ?? FontFamily,
-                Text = CollapseWhitespace(context, element.Text)
+                text.FontStyle = FontStyle.Italic;
+            }
+
+            if (context_.WithinBold)
+            {
+                text.FontWeight = FontWeights.Bold;
+            }
+
+            var borderthickness = InlineCodeBorderThickness;
+            var padding = InlineCodePadding;
+            var spacingoffset = -(borderthickness.Bottom + padding.Bottom);
+
+            var margin = new Thickness(0, spacingoffset, 0, spacingoffset);
+
+            var border = new Border
+            {
+                BorderThickness = borderthickness,
+                BorderBrush = InlineCodeBorderBrush,
+                Background = InlineCodeBackground,
+                Child = text,
+                Padding = padding,
+                Margin = margin
+            };
+
+            // Aligns content in InlineUI, see https://social.msdn.microsoft.com/Forums/silverlight/en-US/48b5e91e-efc5-4768-8eaf-f897849fcf0b/richtextbox-inlineuicontainer-vertical-alignment-issue?forum=silverlightarchieve
+            border.RenderTransform = new TranslateTransform
+            {
+                Y = 4
+            };
+
+            var inlineUIContainer = new InlineUIContainer
+            {
+                Child = border,
             };
 
             // Add it to the current inlines
-            inlineCollection_.Add(run);
+            inlineCollection_.Add(inlineUIContainer);
         }
     }
 }

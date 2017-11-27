@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             InlineCollection = inlineCollection;
             Text = text;
-            CodeLanguage = CodeLanguage;
+            CodeLanguage = codeLanguage;
         }
 
         /// <summary>

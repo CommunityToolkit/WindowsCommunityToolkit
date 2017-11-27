@@ -85,7 +85,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 Margin = ParagraphMargin
             };
             context.TrimLeadingWhitespace = true;
-            RenderInlineChildren(paragraph.Inlines, element.Inlines, paragraph, context);
+
+            var childContext = context.Clone();
+            childContext.Parent = paragraph;
+
+            RenderInlineChildren(paragraph.Inlines, element.Inlines, childContext);
 
             var textBlock = CreateOrReuseRichTextBlock(blockUIElementCollection_, context);
             textBlock.Blocks.Add(paragraph);
@@ -152,7 +156,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 
             // Render the children into the para inline.
             context.TrimLeadingWhitespace = true;
-            RenderInlineChildren(childInlines, element.Inlines, paragraph, context);
+
+            var childContext = context.Clone();
+            childContext.Parent = paragraph;
+
+            RenderInlineChildren(childInlines, element.Inlines, childContext);
 
             // Add it to the blocks
             textBlock.Blocks.Add(paragraph);
@@ -237,23 +245,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         protected override void RenderQuote(QuoteBlock element, object blockUIElementCollection, IRenderContext context)
         {
-            var context_ = context as RenderContext;
             var blockUIElementCollection_ = blockUIElementCollection as UIElementCollection;
+
+            var childContext = (RenderContext)context.Clone();
 
             if (QuoteForeground != null)
             {
-                context_ = (RenderContext)context.Clone();
-                context_.Foreground = QuoteForeground;
+                childContext.Foreground = QuoteForeground;
             }
 
             var stackPanel = new StackPanel();
-            RenderBlocks(element.Blocks, stackPanel.Children, context);
+            childContext.Parent = stackPanel;
+
+            RenderBlocks(element.Blocks, stackPanel.Children, childContext);
 
             var border = new Border
             {
                 Margin = QuoteMargin,
                 Background = QuoteBackground,
-                BorderBrush = QuoteBorderBrush ?? context_.Foreground,
+                BorderBrush = QuoteBorderBrush ?? childContext.Foreground,
                 BorderThickness = QuoteBorderThickness,
                 Padding = QuotePadding,
                 Child = stackPanel
@@ -281,7 +291,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             textBlock.Blocks.Add(paragraph);
 
             // TODO: Add Code Block language discovery.
-            if (_codeBlockResolver?.ParseSyntax(paragraph.Inlines, element.Text, null) != true)
+            if (_codeBlockResolver?.ParseSyntax(paragraph.Inlines, element.Text, element.CodeLanguage) != true)
             {
                 paragraph.Inlines.Add(new Run { Text = element.Text });
             }
@@ -293,7 +303,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 BorderThickness = CodeBorderThickness,
                 Padding = CodePadding,
                 Margin = CodeMargin,
-                HorizontalAlignment = HorizontalAlignment.Left,
                 Child = textBlock
             };
 
@@ -347,7 +356,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 
                     var paragraph = new Paragraph();
                     context.TrimLeadingWhitespace = true;
-                    RenderInlineChildren(paragraph.Inlines, cell.Inlines, paragraph, context);
+
+                    var childContext = context.Clone();
+                    childContext.Parent = paragraph;
+
+                    RenderInlineChildren(paragraph.Inlines, cell.Inlines, childContext);
+
                     cellContent.Blocks.Add(paragraph);
                     table.Children.Add(cellContent);
                 }

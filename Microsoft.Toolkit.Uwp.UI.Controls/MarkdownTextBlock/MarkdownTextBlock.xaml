@@ -3,28 +3,37 @@
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <ResourceDictionary.ThemeDictionaries>
-        <ResourceDictionary x:Key="Default"/>
+        <ResourceDictionary x:Key="Default" />
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="MarkdownBorderBrush" Color="#FFBEBEBE" />
-            <SolidColorBrush x:Key="MarkdownBackgroundBrush" Color="#FFE0E0E0" />
+            <SolidColorBrush x:Key="MarkdownBackgroundBrush" Color="#FFF6F8FA" />
+            <SolidColorBrush x:Key="MarkdownInlineCodeBackgroundBrush" Color="#FFDDDFE1" />
+            <SolidColorBrush x:Key="MarkdownQuoteForeground" Color="#FF6E747C" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="MarkdownBorderBrush" Color="#FF424242" />
             <SolidColorBrush x:Key="MarkdownBackgroundBrush" Color="#FF202020" />
+            <SolidColorBrush x:Key="MarkdownInlineCodeBackgroundBrush" Color="#FF363636" />
+            <SolidColorBrush x:Key="MarkdownQuoteForeground" Color="#FFBEC1C5" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
-    
+
     <Style TargetType="controls:MarkdownTextBlock">
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="LinkForeground" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
-        <Setter Property="QuoteBackground" Value="{ThemeResource MarkdownBackgroundBrush}" />
+        <Setter Property="QuoteBackground" Value="Transparent" />
+        <Setter Property="QuoteForeground" Value="{ThemeResource MarkdownQuoteForeground}" />
         <Setter Property="QuoteBorderBrush" Value="{ThemeResource MarkdownBorderBrush}" />
         <Setter Property="QuoteBorderThickness" Value="2, 0, 0, 0" />
         <Setter Property="QuoteMargin" Value="7, 5, 0, 5" />
         <Setter Property="QuotePadding" Value="7, 2, 0, 4" />
         <Setter Property="CodeBackground" Value="{ThemeResource MarkdownBackgroundBrush}" />
         <Setter Property="CodeBorderBrush" Value="{ThemeResource MarkdownBorderBrush}" />
-        <Setter Property="CodeBorderThickness" Value="2" />
+        <Setter Property="CodeBorderThickness" Value="0" />
+        <Setter Property="InlineCodeBorderThickness" Value="0" />
+        <Setter Property="InlineCodePadding" Value="4, 2, 4, 2" />
+        <Setter Property="InlineCodeBackground" Value="{ThemeResource MarkdownInlineCodeBackgroundBrush}" />
+        <Setter Property="InlineCodeBorderBrush" Value="{ThemeResource MarkdownBorderBrush}" />
         <Setter Property="CodeFontFamily" Value="Consolas" />
         <Setter Property="CodeMargin" Value="0, 7, 0, 7" />
         <Setter Property="CodePadding" Value="10, 6, 10, 6" />

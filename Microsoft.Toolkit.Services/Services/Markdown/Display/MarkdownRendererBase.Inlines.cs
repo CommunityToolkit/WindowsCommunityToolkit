@@ -48,9 +48,8 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
         /// </summary>
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
-        /// <param name="parent"> The container element. </param>
         /// <param name="context"> Persistent state. </param>
-        protected abstract void RenderMarkdownLink(object inlineCollection, MarkdownLinkInline element, object parent, IRenderContext context);
+        protected abstract void RenderMarkdownLink(object inlineCollection, MarkdownLinkInline element, IRenderContext context);
 
         /// <summary>
         /// Renders an image element.
@@ -89,9 +88,8 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
         /// </summary>
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
-        /// <param name="parent"> The container element. </param>
         /// <param name="context"> Persistent state. </param>
-        protected abstract void RenderSuperscriptRun(object inlineCollection, SuperscriptTextInline element, object parent, IRenderContext context);
+        protected abstract void RenderSuperscriptRun(object inlineCollection, SuperscriptTextInline element, IRenderContext context);
 
         /// <summary>
         /// Renders a code element

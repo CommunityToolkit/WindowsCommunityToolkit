@@ -28,6 +28,11 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
         bool WithinHyperlink { get; set; }
 
         /// <summary>
+        /// Gets or sets the parent Element for this Context.
+        /// </summary>
+        object Parent { get; set; }
+
+        /// <summary>
         /// Clones the Context.
         /// </summary>
         /// <returns>Clone</returns>

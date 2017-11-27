@@ -95,13 +95,12 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
         /// </summary>
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="inlineElements"> The parsed inline elements to render. </param>
-        /// <param name="parent"> The container element. </param>
         /// <param name="context"> Persistent state. </param>
-        protected void RenderInlineChildren(object inlineCollection, IList<MarkdownInline> inlineElements, object parent, IRenderContext context)
+        protected void RenderInlineChildren(object inlineCollection, IList<MarkdownInline> inlineElements, IRenderContext context)
         {
             foreach (MarkdownInline element in inlineElements)
             {
-                RenderInline(inlineCollection, element, parent, context);
+                RenderInline(inlineCollection, element, context);
             }
         }
 
@@ -110,9 +109,8 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
         /// </summary>
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
-        /// <param name="parent"> The container element. </param>
         /// <param name="context"> Persistent state. </param>
-        protected void RenderInline(object inlineCollection, MarkdownInline element, object parent, IRenderContext context)
+        protected void RenderInline(object inlineCollection, MarkdownInline element, IRenderContext context)
         {
             switch (element.Type)
             {
@@ -129,7 +127,7 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
                     break;
 
                 case MarkdownInlineType.MarkdownLink:
-                    CheckRenderMarkdownLink(inlineCollection, (MarkdownLinkInline)element, parent, context);
+                    CheckRenderMarkdownLink(inlineCollection, (MarkdownLinkInline)element, context);
                     break;
 
                 case MarkdownInlineType.RawHyperlink:
@@ -141,7 +139,7 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
                     break;
 
                 case MarkdownInlineType.Superscript:
-                    RenderSuperscriptRun(inlineCollection, (SuperscriptTextInline)element, parent, context);
+                    RenderSuperscriptRun(inlineCollection, (SuperscriptTextInline)element, context);
                     break;
 
                 case MarkdownInlineType.Code:
@@ -202,9 +200,8 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
         /// </summary>
         /// <param name="inlineCollection"> The list to add to. </param>
         /// <param name="element"> The parsed inline element to render. </param>
-        /// <param name="parent"> The container element. </param>
         /// <param name="context"> Persistent state. </param>
-        protected void CheckRenderMarkdownLink(object inlineCollection, MarkdownLinkInline element, object parent, IRenderContext context)
+        protected void CheckRenderMarkdownLink(object inlineCollection, MarkdownLinkInline element, IRenderContext context)
         {
             // Avoid processing when link text is empty.
             if (element.Inlines.Count == 0)
@@ -217,12 +214,12 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
             if (element.Url == null)
             {
                 // The element couldn't be resolved, just render it as text.
-                RenderInlineChildren(inlineCollection, element.Inlines, parent, context);
+                RenderInlineChildren(inlineCollection, element.Inlines, context);
             }
             else
             {
                 // Url is valid, create Link.
-                RenderMarkdownLink(inlineCollection, element, parent, context);
+                RenderMarkdownLink(inlineCollection, element, context);
             }
         }
 

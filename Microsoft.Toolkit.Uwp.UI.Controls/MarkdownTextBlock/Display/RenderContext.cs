@@ -19,9 +19,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
     {
         public Brush Foreground { get; set; }
 
+        public bool WithinItalics { get; set; }
+
+        public bool WithinBold { get; set; }
+
         public bool TrimLeadingWhitespace { get; set; }
 
         public bool WithinHyperlink { get; set; }
+
+        public object Parent { get; set; }
 
         public IRenderContext Clone()
         {

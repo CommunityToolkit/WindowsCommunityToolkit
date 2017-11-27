@@ -35,6 +35,13 @@ namespace Microsoft.Toolkit.Services.Markdown.Parse
         public string Text { get; set; }
 
         /// <summary>
+        /// Gets or sets the Language specified in prefix, e.g. ```c# (Github Style Parsing).<para/>
+        /// This does not guarantee that the Code Block has a language, or no language, some valid code might not have been prefixed, and this will still return null. <para/>
+        /// To ensure all Code is Highlighted (If desired), you might have to determine the language from the provided string, such as looking for key words.
+        /// </summary>
+        public string CodeLanguage { get; set; }
+
+        /// <summary>
         /// Parses a code block.
         /// </summary>
         /// <param name="markdown"> The markdown text. </param>
@@ -48,6 +55,7 @@ namespace Microsoft.Toolkit.Services.Markdown.Parse
             StringBuilder code = null;
             actualEnd = start;
             bool insideCodeBlock = false;
+            string codeLanguage = string.Empty;
 
             /*
                 Two options here:
@@ -83,6 +91,15 @@ namespace Microsoft.Toolkit.Services.Markdown.Parse
                         {
                             actualEnd = lineInfo.StartOfNextLine;
                             break;
+                        }
+                        else
+                        {
+                            // Collects the Programming Language from the end of the starting ticks.
+                            while (pos < lineInfo.EndOfLine)
+                            {
+                                codeLanguage += markdown[pos];
+                                pos++;
+                            }
                         }
                     }
                 }
@@ -168,7 +185,11 @@ namespace Microsoft.Toolkit.Services.Markdown.Parse
             }
 
             // Blank lines should be trimmed from the start and end.
-            return new CodeBlock() { Text = code.ToString().Trim('\r', '\n') };
+            return new CodeBlock()
+            {
+                Text = code.ToString().Trim('\r', '\n'),
+                CodeLanguage = !string.IsNullOrWhiteSpace(codeLanguage) ? codeLanguage : null
+            };
         }
 
         /// <summary>
