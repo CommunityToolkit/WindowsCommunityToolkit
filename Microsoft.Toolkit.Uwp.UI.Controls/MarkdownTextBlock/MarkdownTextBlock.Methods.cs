@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Disconnect from OnClick handlers.
             UnhookListeners();
 
-            var markdownRenderedArgs = new Toolkit.Services.Markdown.MarkdownRenderedEventArgs(null);
+            var markdownRenderedArgs = new Services.Markdown.MarkdownRenderedEventArgs(null);
             try
             {
                 // Try to parse the markdown.
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 markdown.Parse(Text);
 
                 // Now try to display it
-                var renderer = new UWPMarkdownRenderer(markdown, this, this)
+                var renderer = new UWPMarkdownRenderer(markdown, this, this, this)
                 {
                     Background = Background,
                     BorderBrush = BorderBrush,
@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             catch (Exception ex)
             {
                 DebuggingReporter.ReportCriticalError("Error while parsing and rendering: " + ex.Message);
-                markdownRenderedArgs = new Toolkit.Services.Markdown.MarkdownRenderedEventArgs(ex);
+                markdownRenderedArgs = new Services.Markdown.MarkdownRenderedEventArgs(ex);
             }
 
             // Indicate that the parse is done.
@@ -180,6 +180,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// Called when a Code Block is being rendered.
+        /// </summary>
+        /// <returns>Parsing was handled Successfully</returns>
+        bool ICodeBlockResolver.ParseSyntax(InlineCollection inlineCollection, string text, string codeLanguage)
+        {
+            var eventArgs = new CodeBlockResolvingEventArgs(inlineCollection, text, codeLanguage);
+            CodeBlockResolving?.Invoke(this, eventArgs);
+
+            try
+            {
+                return eventArgs.Handled;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

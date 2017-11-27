@@ -221,6 +221,7 @@ namespace Microsoft.Toolkit.Services.Markdown.Display
             }
             else
             {
+                // Url is valid, create Link.
                 RenderMarkdownLink(inlineCollection, element, parent, context);
             }
         }

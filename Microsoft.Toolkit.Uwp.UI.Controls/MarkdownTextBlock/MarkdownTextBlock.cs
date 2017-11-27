@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// An efficient and extensible control that can parse and render markdown.
     /// </summary>
-    public sealed partial class MarkdownTextBlock : Control, ILinkRegister, IImageResolver
+    public sealed partial class MarkdownTextBlock : Control, ILinkRegister, IImageResolver, ICodeBlockResolver
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownTextBlock"/> class.

@@ -84,5 +84,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// The default implementation is basically <code>new BitmapImage(new Uri(e.Url));</code>.
         /// </summary>
         public event EventHandler<ImageResolvingEventArgs> ImageResolving;
+
+        /// <summary>
+        /// Fired when a Code Block is being Rendered.
+        /// The default implementation is to output the CodeBlock as Plain Text.
+        /// </summary>
+        public event EventHandler<CodeBlockResolvingEventArgs> CodeBlockResolving;
     }
 }

@@ -12,12 +12,12 @@
 
 using System;
 using Microsoft.Toolkit.Services.Markdown.Display;
+using Microsoft.Toolkit.Services.Markdown.Helpers;
 using Microsoft.Toolkit.Services.Markdown.Parse;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
-using Microsoft.Toolkit.Services.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 {
@@ -26,11 +26,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
     /// </summary>
     internal partial class UWPMarkdownRenderer : MarkdownRendererBase
     {
-        public UWPMarkdownRenderer(MarkdownDocument document, ILinkRegister linkRegister, IImageResolver imageResolver)
+        public UWPMarkdownRenderer(MarkdownDocument document, ILinkRegister linkRegister, IImageResolver imageResolver, ICodeBlockResolver codeBlockResolver)
             : base(document)
         {
             _linkRegister = linkRegister;
             _imageResolver = imageResolver;
+            _codeBlockResolver = codeBlockResolver;
             _defaultEmojiFont = new FontFamily("Segoe UI Emoji");
         }
 

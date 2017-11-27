@@ -37,6 +37,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         private readonly IImageResolver _imageResolver;
 
+        /// <summary>
+        /// A Parser to parse code strings into Syntax Highlighted text.
+        /// </summary>
+        private readonly ICodeBlockResolver _codeBlockResolver;
+
         private readonly FontFamily _defaultEmojiFont;
 
         /// <summary>

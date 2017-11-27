@@ -270,11 +270,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             var context_ = context as RenderContext;
             var blockUIElementCollection_ = blockUIElementCollection as UIElementCollection;
 
-            var textBlock = CreateTextBlock(context_);
-            textBlock.FontFamily = CodeFontFamily ?? FontFamily;
-            textBlock.Foreground = CodeForeground ?? context_.Foreground;
-            textBlock.LineHeight = FontSize * 1.4;
-            textBlock.Text = element.Text;
+            var textBlock = new RichTextBlock
+            {
+                FontFamily = CodeFontFamily ?? FontFamily,
+                Foreground = CodeForeground ?? context_.Foreground,
+                LineHeight = FontSize * 1.4
+            };
+
+            var paragraph = new Paragraph();
+            textBlock.Blocks.Add(paragraph);
+
+            // TODO: Add Code Block language discovery.
+            if (_codeBlockResolver?.ParseSyntax(paragraph.Inlines, element.Text, null) != true)
+            {
+                paragraph.Inlines.Add(new Run { Text = element.Text });
+            }
 
             var border = new Border
             {
