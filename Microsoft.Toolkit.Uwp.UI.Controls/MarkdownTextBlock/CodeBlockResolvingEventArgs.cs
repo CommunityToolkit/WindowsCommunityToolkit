@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Documents;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Arguments for the <see cref="MarkdownTextBlock.ImageResolving"/> event which is called when a url needs to be resolved to a <see cref="ImageSource"/>.
+    /// Arguments for the <see cref="MarkdownTextBlock.CodeBlockResolving"/> event when a Code Block is being rendered.
     /// </summary>
     public class CodeBlockResolvingEventArgs : EventArgs
     {

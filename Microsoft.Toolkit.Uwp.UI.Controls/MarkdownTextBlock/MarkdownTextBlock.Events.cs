@@ -82,12 +82,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Fired when an image from the markdown document needs to be resolved.
         /// The default implementation is basically <code>new BitmapImage(new Uri(e.Url));</code>.
+        /// <para/>You must set <see cref="ImageResolvingEventArgs.Handled"/> to true in order to process your changes.
         /// </summary>
         public event EventHandler<ImageResolvingEventArgs> ImageResolving;
 
         /// <summary>
         /// Fired when a Code Block is being Rendered.
         /// The default implementation is to output the CodeBlock as Plain Text.
+        /// <para/>You must set <see cref="CodeBlockResolvingEventArgs.Handled"/> to true in order to process your changes.
         /// </summary>
         public event EventHandler<CodeBlockResolvingEventArgs> CodeBlockResolving;
     }
