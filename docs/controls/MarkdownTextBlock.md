@@ -42,6 +42,7 @@ Note: scrolling is smooth, the gif below is not.
 The MarkdownTextBlock control is highly customizable to blend with any theme. Customizable properties include:
 
 * IsTextSelectionEnabled
+* UseSyntaxHighlighting
 * CodeBackground
 * CodeBorderBrush
 * CodeBorderThickness
@@ -49,6 +50,11 @@ The MarkdownTextBlock control is highly customizable to blend with any theme. Cu
 * CodeFontFamily
 * CodeMargin
 * CodePadding
+* InlineCodeBorderThickness
+* InlineCodeBackground
+* InlineCodeBorderBrush
+* InlineCodePadding
+* InlineCodeFontFamily
 * Header1FontWeight
 * Header1FontSize
 * Header1Margin
@@ -116,6 +122,23 @@ private async void MarkdownText_OnImageResolving(object sender, ImageResolvingEv
     e.Handled = true;
 
     deferral.Complete();
+}
+```
+
+### CodeBlockResolving
+
+Use this event to customise how Code Block text is rendered, this is useful for providing Cusom Syntax Highlighting. Built in Syntax Highlighting is already provided with `UseSyntaxHighlighting`.
+
+Manipulate the Inline Collection, and then set e.Handled to true, otherwise the changes won't be processed.
+
+```c#
+private void MarkdownText_CodeBlockResolving(object sender, CodeBlockResolvingEventArgs e)
+{
+    if (e.CodeLanguage == "CUSTOM")
+    {
+        e.Handled = true;
+        e.InlineCollection.Add(new Run { Foreground = new SolidColorBrush(Colors.Red), Text = e.Text, FontWeight = FontWeights.Bold });
+    }
 }
 ```
 

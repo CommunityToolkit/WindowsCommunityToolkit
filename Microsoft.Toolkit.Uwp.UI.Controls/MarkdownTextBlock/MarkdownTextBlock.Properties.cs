@@ -29,6 +29,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.RegisterAttached("HyperlinkUrl", typeof(string), typeof(MarkdownTextBlock), new PropertyMetadata(null));
 
         /// <summary>
+        /// Gets the dependency property for <see cref="UseSyntaxHighlighting"/>.
+        /// </summary>
+        public static readonly DependencyProperty UseSyntaxHighlightingProperty =
+            DependencyProperty.Register(
+                nameof(UseSyntaxHighlighting),
+                typeof(bool),
+                typeof(MarkdownTextBlock),
+                new PropertyMetadata(true, OnPropertyChangedStatic));
+
+        /// <summary>
         /// Gets the dependency property for <see cref="Text"/>.
         /// </summary>
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
@@ -289,6 +299,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use Syntax Highlighting on Code.
+        /// </summary>
+        public bool UseSyntaxHighlighting
+        {
+            get { return (bool)GetValue(UseSyntaxHighlightingProperty); }
+            set { SetValue(UseSyntaxHighlightingProperty, value); }
         }
 
         /// <summary>

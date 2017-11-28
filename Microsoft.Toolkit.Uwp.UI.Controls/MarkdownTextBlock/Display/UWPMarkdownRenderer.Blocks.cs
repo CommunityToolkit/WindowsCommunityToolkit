@@ -83,10 +83,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             {
                 Margin = ParagraphMargin
             };
-            context.TrimLeadingWhitespace = true;
 
-            var childContext = new InlineRenderContext(paragraph.Inlines, context);
-            childContext.Parent = paragraph;
+            var childContext = new InlineRenderContext(paragraph.Inlines, context)
+            {
+                TrimLeadingWhitespace = true,
+                Parent = paragraph
+            };
 
             RenderInlineChildren(element.Inlines, childContext);
 
@@ -153,11 +155,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             }
 
             // Render the children into the para inline.
-            context.TrimLeadingWhitespace = true;
-
             var childContext = new InlineRenderContext(childInlines, context)
             {
-                Parent = paragraph
+                Parent = paragraph,
+                TrimLeadingWhitespace = true
             };
 
             RenderInlineChildren(element.Inlines, childContext);
@@ -293,7 +294,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             var paragraph = new Paragraph();
             textBlock.Blocks.Add(paragraph);
 
-            // TODO: Add Code Block language discovery.
+            // Allows external Syntax Highlighting
             if (_codeBlockResolver?.ParseSyntax(paragraph.Inlines, element.Text, element.CodeLanguage) != true)
             {
                 paragraph.Inlines.Add(new Run { Text = element.Text });
@@ -360,11 +361,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                     }
 
                     var paragraph = new Paragraph();
-                    context.TrimLeadingWhitespace = true;
 
                     var childContext = new InlineRenderContext(paragraph.Inlines, context)
                     {
-                        Parent = paragraph
+                        Parent = paragraph,
+                        TrimLeadingWhitespace = true
                     };
 
                     RenderInlineChildren(cell.Inlines, childContext);

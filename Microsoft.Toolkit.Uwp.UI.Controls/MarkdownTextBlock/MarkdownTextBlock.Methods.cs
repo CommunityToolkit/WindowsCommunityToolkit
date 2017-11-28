@@ -18,6 +18,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using ColorCode;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -199,7 +200,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             try
             {
-                return eventArgs.Handled;
+                var result = eventArgs.Handled;
+                if (UseSyntaxHighlighting && !result && codeLanguage != null)
+                {
+                    var language = Languages.FindById(codeLanguage);
+                    if (language != null)
+                    {
+                        var formatter = new RichTextBlockFormatter();
+                        formatter.FormatInlines(text, language, inlineCollection);
+                        return true;
+                    }
+                }
+
+                return result;
             }
             catch
             {
