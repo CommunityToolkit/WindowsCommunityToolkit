@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Models
 
             set
             {
-                if (_value != value)
+                if (!_value.Equals(value))
                 {
                     _value = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Value"));
