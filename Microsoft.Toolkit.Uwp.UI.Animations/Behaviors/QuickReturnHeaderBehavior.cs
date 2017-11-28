@@ -133,6 +133,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 return false;
             }
 
+            if (AssociatedObject is Windows.UI.Xaml.Controls.ListViewBase listViewBase)
+            {
+                var panel = listViewBase.ItemsPanelRoot;
+                if (panel != null)
+                {
+                    Canvas.SetZIndex(panel, -1);
+                }
+            }
+
             if (_scrollProperties == null)
             {
                 _scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_scrollViewer);
