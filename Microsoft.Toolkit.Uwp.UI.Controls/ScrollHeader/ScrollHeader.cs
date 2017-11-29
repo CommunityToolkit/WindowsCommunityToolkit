@@ -67,18 +67,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            if (TargetListViewBase == null)
-            {
-                return;
-            }
-
-            // Place items below header
-            var panel = TargetListViewBase.ItemsPanelRoot;
-            if (panel != null)
-            {
-                Canvas.SetZIndex(panel, -1);
-            }
-
             UpdateScrollHeaderBehavior();
         }
 
