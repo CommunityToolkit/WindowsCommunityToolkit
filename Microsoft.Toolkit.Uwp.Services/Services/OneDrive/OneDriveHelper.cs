@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             if ((scopes & OneDriveScopes.ReadWrite) == OneDriveScopes.ReadWrite)
             {
-                sb.Append("onedrive.readwrite");
+                sb.Append("onedrive.readwrite,");
             }
 
             if ((scopes & OneDriveScopes.WlSignin) == OneDriveScopes.WlSignin)

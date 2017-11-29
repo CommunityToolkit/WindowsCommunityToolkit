@@ -193,9 +193,18 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             {
                 OneDriveAuthenticationHelper.ResourceUri = "https://api.onedrive.com/v1.0";
                 _accountProvider = OneDriveAuthenticationHelper.CreateMSAAuthenticationProvider(_appClientId, _scopes);
+                var msaProvider = (MsaAuthenticationProvider)OneDriveAuthenticationHelper.AuthenticationProvider;
+                try
+                {
 
-                await ((MsaAuthenticationProvider)OneDriveAuthenticationHelper.AuthenticationProvider).RestoreMostRecentFromCacheOrAuthenticateUserAsync();
-                resourceEndpointUri = OneDriveAuthenticationHelper.ResourceUri;
+                    await msaProvider.RestoreMostRecentFromCacheOrAuthenticateUserAsync();
+                    resourceEndpointUri = OneDriveAuthenticationHelper.ResourceUri;
+                }
+                catch(Exception e)
+                {
+                    msaProvider.CredentialCache.Clear();
+                    return _isConnected;
+                }
             }
             else if (_accountProviderType == AccountProviderType.OnlineId)
             {
