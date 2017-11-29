@@ -116,23 +116,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 return false;
             }
 
-            if (AssociatedObject is Windows.UI.Xaml.Controls.ListViewBase listViewBase)
+            var listView = AssociatedObject as Windows.UI.Xaml.Controls.ListViewBase ?? AssociatedObject.FindDescendant<Windows.UI.Xaml.Controls.ListViewBase>();
+
+            if (listView != null && listView.ItemsPanelRoot != null)
             {
-                var panel = listViewBase.ItemsPanelRoot;
-                if (panel != null)
-                {
-                    Canvas.SetZIndex(panel, -1);
-                }
+                Canvas.SetZIndex(listView.ItemsPanelRoot, -1);
             }
 
             // Implicit operation: Find the Header object of the control if it uses ListViewBase
-            if (HeaderElement == null)
+            if (HeaderElement == null && listView != null)
             {
-                var listElement = AssociatedObject as Windows.UI.Xaml.Controls.ListViewBase ?? AssociatedObject.FindDescendant<Windows.UI.Xaml.Controls.ListViewBase>();
-                if (listElement != null)
-                {
-                    HeaderElement = listElement.Header as UIElement;
-                }
+                HeaderElement = listView.Header as UIElement;
             }
 
             // If no header is set or detected, return.
