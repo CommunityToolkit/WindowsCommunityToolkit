@@ -6,22 +6,36 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// Arranges child elements into a staggered grid pattern.
+    /// </summary>
     public class StaggeredPanel : Panel
     {
         private double _columnWidth;
 
+        /// <summary>
+        /// Gets or sets the desired width for each column.
+        /// </summary>
+        /// <remarks>
+        /// The width of columns can exceed the DesiredColumnWidth if the HorizontalAlignment is set to Stretch.
+        /// </remarks>
         public double DesiredColumnWidth
         {
             get { return (double)GetValue(DesiredColumnWidthProperty); }
             set { SetValue(DesiredColumnWidthProperty, value); }
         }
 
+        /// <summary>
+        /// Identifies the <see cref="DesiredColumnWidth"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="DesiredColumnWidth"/> dependency property.</returns>
         public static readonly DependencyProperty DesiredColumnWidthProperty = DependencyProperty.Register(
             nameof(DesiredColumnWidth),
             typeof(double),
             typeof(StaggeredPanel),
             new PropertyMetadata(250d, OnDesiredColumnWidthChanged));
 
+        /// <inheritdoc/>
         protected override Size MeasureOverride(Size availableSize)
         {
             _columnWidth = DesiredColumnWidth;
@@ -43,6 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return new Size(availableSize.Width, desiredHeight);
         }
 
+        /// <inheritdoc/>
         protected override Size ArrangeOverride(Size finalSize)
         {
             double offset = 0;
