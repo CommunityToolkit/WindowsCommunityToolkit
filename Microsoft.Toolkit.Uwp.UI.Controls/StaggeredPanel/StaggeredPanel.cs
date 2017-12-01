@@ -40,6 +40,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _columnWidth = DesiredColumnWidth;
             int numColumns = (int)Math.Floor(availableSize.Width / _columnWidth);
+            if (HorizontalAlignment == HorizontalAlignment.Stretch)
+            {
+                _columnWidth = availableSize.Width / numColumns;
+            }
+
             var columnHeights = new double[numColumns];
 
             for (int i = 0; i < Children.Count; i++)
@@ -62,6 +67,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             double offset = 0;
             int numColumns = (int)Math.Floor(finalSize.Width / _columnWidth);
+            if (HorizontalAlignment == HorizontalAlignment.Right)
+            {
+                offset = finalSize.Width - (numColumns * _columnWidth);
+            }
+            else if (HorizontalAlignment == HorizontalAlignment.Center)
+            {
+                offset = (finalSize.Width - (numColumns * _columnWidth)) / 2;
+            }
+
             var columnHeights = new double[numColumns];
 
             for (int i = 0; i < Children.Count; i++)
