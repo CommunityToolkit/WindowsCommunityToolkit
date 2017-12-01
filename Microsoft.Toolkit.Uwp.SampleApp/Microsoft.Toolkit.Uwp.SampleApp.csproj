@@ -546,6 +546,9 @@
       <DependentUpon>FocusTrackerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
+    <Compile Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml.cs">
+      <DependentUpon>StaggeredPanelPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\TextToolbar\SampleFormatter.cs" />
     <Compile Include="SamplePages\TextToolbar\TextToolbarPage.xaml.cs">
       <DependentUpon>TextToolbarPage.xaml</DependentUpon>
@@ -836,6 +839,10 @@
     <Page Include="SamplePages\Mouse\MouseCursorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\TextToolbar\TextToolbarPage.xaml">
       <Generator>MSBuild:Compile</Generator>
