@@ -465,6 +465,7 @@
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControlXaml.bind" />
     <Content Include="SamplePages\AppPinManager\AppPinManagerHelperCode.bind" />
     <Content Include="SamplePages\Mouse\MouseCursorPage.bind" />
+    <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

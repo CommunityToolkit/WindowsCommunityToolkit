@@ -1,24 +1,26 @@
 ﻿using System.Linq;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class StaggeredPanelPage : Page
+    public sealed partial class StaggeredPanelPage : Page, IXamlRenderListener
     {
         public StaggeredPanelPage()
         {
             this.InitializeComponent();
         }
 
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        public async void OnXamlRendered(FrameworkElement control)
         {
-            base.OnNavigatedTo(e);
+            var gridView = control.FindChildByName("GridView") as ItemsControl;
+
             var items = await new Data.PhotosDataSource().GetItemsAsync();
-            GridView.ItemsSource = items
+            gridView.ItemsSource = items
                 .Select((p, i) => new
                 {
                     Item = p,
