@@ -14,6 +14,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double _columnWidth;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="StaggeredPanel"/> class.
+        /// </summary>
+        public StaggeredPanel()
+        {
+            RegisterPropertyChangedCallback(Panel.HorizontalAlignmentProperty, OnHorizontalAlignmentChanged);
+        }
+
+        /// <summary>
         /// Gets or sets the desired width for each column.
         /// </summary>
         /// <remarks>
@@ -109,6 +117,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 panel.InvalidateMeasure();
             }
+        }
+
+        private void OnHorizontalAlignmentChanged(DependencyObject sender, DependencyProperty dp)
+        {
+            InvalidateMeasure();
         }
 
         private int GetColumnIndex(double[] columnHeights)
