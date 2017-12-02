@@ -9,7 +9,7 @@
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <ListView Name="listView">
       <ListView.Header>
-        <controls:ScrollHeader Mode="@[Mode:Enum:ScrollHeaderMode.QuickReturn]">
+        <controls:ScrollHeader Mode="@[Mode:Enum:ScrollHeaderMode.QuickReturn]" AllowScrollbarOverlap="@[AllowScrollbarOverlap:Bool:true]">
           <Grid x:Name="MyHeaderGrid"
             MinHeight="250"
             Background="{StaticResource Brush-Blue-01}">
