@@ -9,7 +9,7 @@
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <ListView Name="listView">
       <ListView.Header>
-        <controls:ScrollHeader TargetListViewBase="{Binding ElementName=listView}" Mode="@[Mode:Enum:ScrollHeaderMode.QuickReturn]">
+        <controls:ScrollHeader Mode="@[Mode:Enum:ScrollHeaderMode.QuickReturn]">
           <Grid x:Name="MyHeaderGrid"
             MinHeight="250"
             Background="{StaticResource Brush-Blue-01}">

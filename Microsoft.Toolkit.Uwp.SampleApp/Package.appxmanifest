@@ -27,21 +27,22 @@
         <uap:SplashScreen Image="Assets\UWPCommunityToolkitSampleAppSplashScreen.png" BackgroundColor="#3750D1" />
       </uap:VisualElements>
       <Extensions>
-        <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="uwpct">
-            <uap:DisplayName>UWP Community Toolkit</uap:DisplayName>
-          </uap:Protocol>
-        </uap:Extension>
         <Extension Category="windows.backgroundTasks" EntryPoint="Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.TestBackgroundTask">
           <BackgroundTasks>
             <Task Type="timer" />
           </BackgroundTasks>
         </Extension>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="uwpct">
+            <uap:DisplayName>UWP Community Toolkit</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
+    <Capability Name="privateNetworkClientServer" />
     <DeviceCapability Name="location" />
     <DeviceCapability Name="bluetooth" />
   </Capabilities>
