@@ -11,33 +11,28 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Toolkit.Parsers;
 
-namespace Microsoft.Toolkit.Services.Bing
+namespace Microsoft.Toolkit.Parsers.Core
 {
     /// <summary>
-    /// Implementation of the Bing result class.
+    /// StringValue attribute.
     /// </summary>
-    public class BingResult : SchemaBase
+    [AttributeUsage(AttributeTargets.Field)]
+    public sealed class StringValueAttribute : Attribute
     {
         /// <summary>
-        /// Gets or sets title of the search result.
+        /// Initializes a new instance of the <see cref="StringValueAttribute"/> class.
+        /// Constructor accepting string value.
         /// </summary>
-        public string Title { get; set; }
+        /// <param name="value">String value</param>
+        public StringValueAttribute(string value)
+        {
+            Value = value;
+        }
 
         /// <summary>
-        /// Gets or sets summary of the search result.
+        /// Gets property for string value.
         /// </summary>
-        public string Summary { get; set; }
-
-        /// <summary>
-        /// Gets or sets link to the Search result.
-        /// </summary>
-        public string Link { get; set; }
-
-        /// <summary>
-        /// Gets or sets date of publication.
-        /// </summary>
-        public DateTime Published { get; set; }
+        public string Value { get; }
     }
 }

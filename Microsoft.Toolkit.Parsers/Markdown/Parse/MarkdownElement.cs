@@ -10,34 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using Microsoft.Toolkit.Parsers;
-
-namespace Microsoft.Toolkit.Services.Bing
+namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 {
     /// <summary>
-    /// Implementation of the Bing result class.
+    /// This is an internal class used as the base class of all markdown elements.
     /// </summary>
-    public class BingResult : SchemaBase
+    public abstract class MarkdownElement
     {
-        /// <summary>
-        /// Gets or sets title of the search result.
-        /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
-        /// Gets or sets summary of the search result.
-        /// </summary>
-        public string Summary { get; set; }
-
-        /// <summary>
-        /// Gets or sets link to the Search result.
-        /// </summary>
-        public string Link { get; set; }
-
-        /// <summary>
-        /// Gets or sets date of publication.
-        /// </summary>
-        public DateTime Published { get; set; }
     }
 }

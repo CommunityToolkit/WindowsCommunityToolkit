@@ -10,34 +10,16 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using Microsoft.Toolkit.Parsers;
-
-namespace Microsoft.Toolkit.Services.Bing
+namespace Microsoft.Toolkit.Parsers
 {
     /// <summary>
-    /// Implementation of the Bing result class.
+    /// Strong typed schema base class.
     /// </summary>
-    public class BingResult : SchemaBase
+    public abstract class SchemaBase
     {
         /// <summary>
-        /// Gets or sets title of the search result.
+        /// Gets or sets identifier for strong typed record.
         /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
-        /// Gets or sets summary of the search result.
-        /// </summary>
-        public string Summary { get; set; }
-
-        /// <summary>
-        /// Gets or sets link to the Search result.
-        /// </summary>
-        public string Link { get; set; }
-
-        /// <summary>
-        /// Gets or sets date of publication.
-        /// </summary>
-        public DateTime Published { get; set; }
+        public string InternalID { get; set; }
     }
 }

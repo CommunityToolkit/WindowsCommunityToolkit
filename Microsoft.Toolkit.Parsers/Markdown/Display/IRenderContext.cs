@@ -10,34 +10,27 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using Microsoft.Toolkit.Parsers;
-
-namespace Microsoft.Toolkit.Services.Bing
+namespace Microsoft.Toolkit.Parsers.Markdown.Display
 {
     /// <summary>
-    /// Implementation of the Bing result class.
+    /// Helper for holding persistent state of Renderer.
     /// </summary>
-    public class BingResult : SchemaBase
+    public interface IRenderContext
     {
         /// <summary>
-        /// Gets or sets title of the search result.
+        /// Gets or sets a value indicating whether to trim whitespace.
         /// </summary>
-        public string Title { get; set; }
+        bool TrimLeadingWhitespace { get; set; }
 
         /// <summary>
-        /// Gets or sets summary of the search result.
+        /// Gets or sets the parent Element for this Context.
         /// </summary>
-        public string Summary { get; set; }
+        object Parent { get; set; }
 
         /// <summary>
-        /// Gets or sets link to the Search result.
+        /// Clones the Context.
         /// </summary>
-        public string Link { get; set; }
-
-        /// <summary>
-        /// Gets or sets date of publication.
-        /// </summary>
-        public DateTime Published { get; set; }
+        /// <returns>Clone</returns>
+        IRenderContext Clone();
     }
 }

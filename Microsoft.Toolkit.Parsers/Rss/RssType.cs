@@ -10,34 +10,26 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using Microsoft.Toolkit.Parsers;
-
-namespace Microsoft.Toolkit.Services.Bing
+namespace Microsoft.Toolkit.Parsers.Rss
 {
     /// <summary>
-    /// Implementation of the Bing result class.
+    /// Type of Rss.
     /// </summary>
-    public class BingResult : SchemaBase
+    public enum RssType
     {
         /// <summary>
-        /// Gets or sets title of the search result.
+        /// Atom
         /// </summary>
-        public string Title { get; set; }
+        Atom,
 
         /// <summary>
-        /// Gets or sets summary of the search result.
+        /// RSS
         /// </summary>
-        public string Summary { get; set; }
+        Rss,
 
         /// <summary>
-        /// Gets or sets link to the Search result.
+        /// Unknown
         /// </summary>
-        public string Link { get; set; }
-
-        /// <summary>
-        /// Gets or sets date of publication.
-        /// </summary>
-        public DateTime Published { get; set; }
+        Unknown
     }
 }

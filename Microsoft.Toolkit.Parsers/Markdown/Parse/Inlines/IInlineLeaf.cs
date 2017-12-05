@@ -10,34 +10,16 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using Microsoft.Toolkit.Parsers;
-
-namespace Microsoft.Toolkit.Services.Bing
+namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 {
     /// <summary>
-    /// Implementation of the Bing result class.
+    /// Initializes a new instance of the <see cref="IInlineLeaf"/> class.
     /// </summary>
-    public class BingResult : SchemaBase
+    public interface IInlineLeaf
     {
         /// <summary>
-        /// Gets or sets title of the search result.
+        /// Gets or sets the text for this run.
         /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
-        /// Gets or sets summary of the search result.
-        /// </summary>
-        public string Summary { get; set; }
-
-        /// <summary>
-        /// Gets or sets link to the Search result.
-        /// </summary>
-        public string Link { get; set; }
-
-        /// <summary>
-        /// Gets or sets date of publication.
-        /// </summary>
-        public DateTime Published { get; set; }
+        string Text { get; set; }
     }
 }

@@ -16,6 +16,7 @@ using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Parsers;
 using Microsoft.Toolkit.Services.Core;
 using Microsoft.Toolkit.Services.Exceptions;
 
@@ -66,6 +67,7 @@ namespace Microsoft.Toolkit.Services.Bing
                 case BingQueryType.Search:
                     queryTypeParameter = string.Empty;
                     break;
+
                 case BingQueryType.News:
                     queryTypeParameter = "/news";
                     break;

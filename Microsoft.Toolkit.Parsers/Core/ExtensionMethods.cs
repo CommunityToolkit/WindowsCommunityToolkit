@@ -10,17 +10,21 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using Microsoft.Toolkit.Uwp.Services.Bing;
+using System.Net;
+using System.Text.RegularExpressions;
 
-namespace Microsoft.Toolkit.Uwp.Services.Core
+namespace Microsoft.Toolkit.Parsers.Core
 {
     /// <summary>
     /// This class offers general purpose methods.
     /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Parsers.")]
     public static class ExtensionMethods
     {
+        /// <summary>
+        /// Regular expression of HTML tags to remove.
+        /// </summary>
+        private static readonly Regex RemoveHtmlTagsRegex = new Regex(@"(?></?\w+)(?>(?:[^>'""]+|'[^']*'|""[^""]*"")*)>");
+
         /// <summary>
         /// Converts object into string.
         /// </summary>
@@ -28,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
         /// <returns>Returns string value.</returns>
         public static string ToSafeString(this object value)
         {
-            return Parsers.Core.ExtensionMethods.ToSafeString(value);
+            return value?.ToString();
         }
 
         /// <summary>
@@ -38,27 +42,17 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
         /// <returns>Returns decoded HTML string.</returns>
         public static string DecodeHtml(this string htmlText)
         {
-            return Parsers.Core.ExtensionMethods.DecodeHtml(htmlText);
-        }
+            if (htmlText == null)
+            {
+                return null;
+            }
 
-        /// <summary>
-        /// Converts between country code and country name.
-        /// </summary>
-        /// <param name="value">BingCountry enumeration.</param>
-        /// <returns>Returns country code.</returns>
-        public static string GetStringValue(this BingCountry value)
-        {
-            return Toolkit.Services.Core.ExtensionMethods.GetStringValue((Toolkit.Services.Bing.BingCountry)value);
-        }
+            var ret = htmlText.FixHtml();
 
-        /// <summary>
-        /// Converts between language code and language name.
-        /// </summary>
-        /// <param name="value">BingLanguage enumeration.</param>
-        /// <returns>Returns language code.</returns>
-        public static string GetStringValue(this BingLanguage value)
-        {
-            return Toolkit.Services.Core.ExtensionMethods.GetStringValue((Toolkit.Services.Bing.BingLanguage)value);
+            // Remove html tags
+            ret = RemoveHtmlTagsRegex.Replace(ret, string.Empty);
+
+            return WebUtility.HtmlDecode(ret);
         }
     }
 }

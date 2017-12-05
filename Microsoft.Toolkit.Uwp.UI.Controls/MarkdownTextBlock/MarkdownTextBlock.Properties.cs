@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using ColorCode.Styling;
 using System.Collections.Generic;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -27,6 +28,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Used to attach the URL to hyperlinks.
         private static readonly DependencyProperty HyperlinkUrlProperty =
             DependencyProperty.RegisterAttached("HyperlinkUrl", typeof(string), typeof(MarkdownTextBlock), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="CodeStyling"/>.
+        /// </summary>
+        public static readonly DependencyProperty CodeStylingProperty =
+            DependencyProperty.Register(
+                nameof(CodeStyling),
+                typeof(StyleDictionary),
+                typeof(MarkdownTextBlock),
+                new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets the dependency property for <see cref="UseSyntaxHighlighting"/>.
@@ -308,6 +319,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (bool)GetValue(UseSyntaxHighlightingProperty); }
             set { SetValue(UseSyntaxHighlightingProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the Default Code Styling for Code Blocks.
+        /// </summary>
+        public StyleDictionary CodeStyling
+        {
+            get { return (StyleDictionary)GetValue(CodeStylingProperty); }
+            set { SetValue(CodeStylingProperty, value); }
         }
 
         /// <summary>

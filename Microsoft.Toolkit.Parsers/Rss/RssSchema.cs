@@ -11,33 +11,57 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Toolkit.Parsers;
 
-namespace Microsoft.Toolkit.Services.Bing
+namespace Microsoft.Toolkit.Parsers.Rss
 {
     /// <summary>
-    /// Implementation of the Bing result class.
+    /// Implementation of the RssSchema class.
     /// </summary>
-    public class BingResult : SchemaBase
+    public class RssSchema : SchemaBase
     {
         /// <summary>
-        /// Gets or sets title of the search result.
+        /// Gets or sets title.
         /// </summary>
         public string Title { get; set; }
 
         /// <summary>
-        /// Gets or sets summary of the search result.
+        /// Gets or sets summary.
         /// </summary>
         public string Summary { get; set; }
 
         /// <summary>
-        /// Gets or sets link to the Search result.
+        /// Gets or sets content.
         /// </summary>
-        public string Link { get; set; }
+        public string Content { get; set; }
 
         /// <summary>
-        /// Gets or sets date of publication.
+        /// Gets or sets image Url.
         /// </summary>
-        public DateTime Published { get; set; }
+        public string ImageUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets extra Image Url.
+        /// </summary>
+        public string ExtraImageUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets media Url.
+        /// </summary>
+        public string MediaUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets feed Url.
+        /// </summary>
+        public string FeedUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets author.
+        /// </summary>
+        public string Author { get; set; }
+
+        /// <summary>
+        /// Gets or sets publish Date.
+        /// </summary>
+        public DateTime PublishDate { get; set; }
     }
 }

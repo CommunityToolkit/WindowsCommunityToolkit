@@ -10,34 +10,22 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using Microsoft.Toolkit.Parsers;
+using System.Collections.Generic;
 
-namespace Microsoft.Toolkit.Services.Bing
+namespace Microsoft.Toolkit.Parsers
 {
     /// <summary>
-    /// Implementation of the Bing result class.
+    /// Parser interface.
     /// </summary>
-    public class BingResult : SchemaBase
+    /// <typeparam name="T">Type to parse into.</typeparam>
+    public interface IParser<out T>
+        where T : SchemaBase
     {
         /// <summary>
-        /// Gets or sets title of the search result.
+        /// Parse method which all classes must implement.
         /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
-        /// Gets or sets summary of the search result.
-        /// </summary>
-        public string Summary { get; set; }
-
-        /// <summary>
-        /// Gets or sets link to the Search result.
-        /// </summary>
-        public string Link { get; set; }
-
-        /// <summary>
-        /// Gets or sets date of publication.
-        /// </summary>
-        public DateTime Published { get; set; }
+        /// <param name="data">Data to parse.</param>
+        /// <returns>Strong typed parsed data.</returns>
+        IEnumerable<T> Parse(string data);
     }
 }

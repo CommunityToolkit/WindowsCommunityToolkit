@@ -11,40 +11,41 @@
 // ******************************************************************
 
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Toolkit.Parsers;
-using Microsoft.Toolkit.Parsers.Rss;
+using System.Xml.Linq;
 
-namespace Microsoft.Toolkit.Services.Bing
+namespace Microsoft.Toolkit.Parsers.Rss
 {
     /// <summary>
-    /// Parse Bing results into strong type.
+    /// RssParser.
     /// </summary>
-    public class BingParser : IParser<BingResult>
+    public class RssParser : IParser<RssSchema>
     {
         /// <summary>
-        /// Take string data and parse into strong data type.
+        /// Parse string to strong type.
         /// </summary>
-        /// <param name="data">String data.</param>
-        /// <returns>Returns strong type.</returns>
-        public IEnumerable<BingResult> Parse(string data)
+        /// <param name="data">Input string.</param>
+        /// <returns>Strong type.</returns>
+        public IEnumerable<RssSchema> Parse(string data)
         {
             if (string.IsNullOrEmpty(data))
             {
                 return null;
             }
 
-            RssParser rssParser = new RssParser();
-            IEnumerable<RssSchema> syndicationItems = rssParser.Parse(data);
-            return from r in syndicationItems
-                   select new BingResult
-                   {
-                       InternalID = r.InternalID,
-                       Title = r.Title,
-                       Summary = r.Summary,
-                       Link = r.FeedUrl,
-                       Published = r.PublishDate
-                   };
+            var doc = XDocument.Parse(data);
+            var type = BaseRssParser.GetFeedType(doc);
+
+            BaseRssParser rssParser;
+            if (type == RssType.Rss)
+            {
+                rssParser = new Rss2Parser();
+            }
+            else
+            {
+                rssParser = new AtomParser();
+            }
+
+            return rssParser.LoadFeed(doc);
         }
     }
 }

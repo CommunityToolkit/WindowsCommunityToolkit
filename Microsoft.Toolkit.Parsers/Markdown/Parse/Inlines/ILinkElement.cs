@@ -10,34 +10,23 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using Microsoft.Toolkit.Parsers;
-
-namespace Microsoft.Toolkit.Services.Bing
+namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 {
     /// <summary>
-    /// Implementation of the Bing result class.
+    /// Implemented by all inline link elements.
     /// </summary>
-    public class BingResult : SchemaBase
+    internal interface ILinkElement
     {
         /// <summary>
-        /// Gets or sets title of the search result.
+        /// Gets the link URL.  This can be a relative URL, but note that subreddit links will always
+        /// have the leading slash (i.e. the Url will be "/r/baconit" even if the text is
+        /// "r/baconit").
         /// </summary>
-        public string Title { get; set; }
+        string Url { get; }
 
         /// <summary>
-        /// Gets or sets summary of the search result.
+        /// Gets a tooltip to display on hover.  Can be <c>null</c>.
         /// </summary>
-        public string Summary { get; set; }
-
-        /// <summary>
-        /// Gets or sets link to the Search result.
-        /// </summary>
-        public string Link { get; set; }
-
-        /// <summary>
-        /// Gets or sets date of publication.
-        /// </summary>
-        public DateTime Published { get; set; }
+        string Tooltip { get; }
     }
 }

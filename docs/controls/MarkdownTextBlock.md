@@ -43,6 +43,7 @@ The MarkdownTextBlock control is highly customizable to blend with any theme. Cu
 
 * IsTextSelectionEnabled
 * UseSyntaxHighlighting
+* CodeStyling
 * CodeBackground
 * CodeBorderBrush
 * CodeBorderThickness
