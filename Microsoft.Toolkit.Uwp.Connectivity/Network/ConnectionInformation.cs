@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <summary>
         /// Resets the current object to default values.
         /// </summary>
-        public void Reset()
+        internal void Reset()
         {
             networkNames.Clear();
 
