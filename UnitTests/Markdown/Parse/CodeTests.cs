@@ -11,7 +11,7 @@
 // ******************************************************************
 
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using Microsoft.Toolkit.Services.Markdown.Parse;
+using Microsoft.Toolkit.Parsers.Markdown.Parse;
 
 namespace UnitTests.Markdown.Parse
 {
@@ -186,7 +186,6 @@ namespace UnitTests.Markdown.Parse
             AssertEqual(CollapseWhitespace(@"
                 before
 
-                     
                     line 1
 
                 after"),
@@ -206,7 +205,6 @@ namespace UnitTests.Markdown.Parse
                 before
 
                     line 1
-                     
 
                 after"),
                 new ParagraphBlock().AddChildren(

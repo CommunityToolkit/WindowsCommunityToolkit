@@ -1091,6 +1091,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj">
+      <Project>{42CA4935-54BE-42EA-AC19-992378C08DE6}</Project>
+      <Name>Microsoft.Toolkit.Parsers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj">
       <Project>{34398053-fc70-4243-84f9-f355defff66d}</Project>
       <Name>Microsoft.Toolkit.Services</Name>

@@ -11,9 +11,9 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Toolkit.Services.Markdown.Display;
-using Microsoft.Toolkit.Services.Markdown.Helpers;
-using Microsoft.Toolkit.Services.Markdown.Parse;
+using Microsoft.Toolkit.Parsers.Markdown.Display;
+using Microsoft.Toolkit.Parsers.Markdown.Helpers;
+using Microsoft.Toolkit.Parsers.Markdown.Parse;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;

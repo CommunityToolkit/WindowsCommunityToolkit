@@ -12,7 +12,7 @@
 
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Services.Markdown.Parse;
+using Microsoft.Toolkit.Parsers.Markdown.Parse;
 
 namespace UnitTests.Markdown.Parse
 {
@@ -36,9 +36,8 @@ namespace UnitTests.Markdown.Parse
             AssertEqual(CollapseWhitespace(@"
                 > Single line
 
-                >Quote  
+                >Quote
                 with line break
-
 
                  > Spaces
                   > and line continuation
@@ -103,7 +102,7 @@ namespace UnitTests.Markdown.Parse
                 >Quoted
                 >>Nested quote
                 >Still nested
-                
+
                 >Not nested"),
                 new QuoteBlock().AddChildren(
                     new ParagraphBlock().AddChildren(
@@ -184,11 +183,11 @@ namespace UnitTests.Markdown.Parse
             AssertEqual(CollapseWhitespace(@"
                 >     code, line 1
                 >
-                
+
                 >     code, line 4"),
 
                 new QuoteBlock().AddChildren(
-                    new CodeBlock {  Text = "code, line 1\r\n\r\n\r\ncode, line 4" }));
+                    new CodeBlock { Text = "code, line 1\r\n\r\n\r\ncode, line 4" }));
         }
 
         [TestMethod]
@@ -198,7 +197,7 @@ namespace UnitTests.Markdown.Parse
             AssertEqual(CollapseWhitespace(@"
                 >     code, line 1
                 >
-                
+
                 >     code, line 4"),
 
                 new QuoteBlock().AddChildren(

@@ -11,7 +11,7 @@
 // ******************************************************************
 
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using Microsoft.Toolkit.Services.Markdown.Parse;
+using Microsoft.Toolkit.Parsers.Markdown.Parse;
 
 namespace UnitTests.Markdown.Parse
 {

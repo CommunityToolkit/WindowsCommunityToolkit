@@ -12,7 +12,7 @@
 
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Services.Markdown.Parse;
+using Microsoft.Toolkit.Parsers.Markdown.Parse;
 
 namespace UnitTests.Markdown.Parse
 {
@@ -388,7 +388,5 @@ namespace UnitTests.Markdown.Parse
                     new MarkdownLinkInline { Url = "https://www.reddit.com" }.AddChildren(
                         new TextRunInline { Text = "text" })));
         }
-
-        
     }
 }

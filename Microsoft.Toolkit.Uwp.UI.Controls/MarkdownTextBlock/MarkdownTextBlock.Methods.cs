@@ -12,13 +12,13 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Services.Markdown.Helpers;
-using Microsoft.Toolkit.Services.Markdown.Parse;
+using ColorCode;
+using Microsoft.Toolkit.Parsers.Markdown.Helpers;
+using Microsoft.Toolkit.Parsers.Markdown.Parse;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using ColorCode;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {

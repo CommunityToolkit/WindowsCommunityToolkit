@@ -12,7 +12,7 @@
 
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Services.Markdown.Parse;
+using Microsoft.Toolkit.Parsers.Markdown.Parse;
 
 namespace UnitTests.Markdown.Parse
 {
@@ -55,7 +55,7 @@ namespace UnitTests.Markdown.Parse
             AssertEqual(CollapseWhitespace(@"
                 | Column 1   | Column 2    | Column 3     |
                 |:-----------|------------:|:------------:|
-                | You        |          You|     You     
+                | You        |          You|     You
                   can align  |    can align|  can align   |
                 | left       |        right|   center     "),
                 new TableBlock
@@ -255,6 +255,5 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "Column A | Column B | Column C || A1 | B1 | C1" }));
         }
-
     }
 }

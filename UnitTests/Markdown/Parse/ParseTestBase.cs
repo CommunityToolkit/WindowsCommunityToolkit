@@ -12,7 +12,7 @@
 
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using System.Text;
-using Microsoft.Toolkit.Services.Markdown.Parse;
+using Microsoft.Toolkit.Parsers.Markdown.Parse;
 
 namespace UnitTests.Markdown.Parse
 {
