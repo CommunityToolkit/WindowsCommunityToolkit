@@ -39,6 +39,31 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             LogOutButton.Visibility = Visibility.Collapsed;
         }
 
+        private async Task InitializeRemoteAuthenticationAsync()
+        {
+            await MicrosoftGraphService.Instance.InitializeForDeviceCodeAsync();
+            var popup = new MessageDialog("Go to http://aka.ms/devicelogin and enter the following code :" + MicrosoftGraphService.Instance.UserCode);
+            await popup.ShowAsync();
+        }
+
+        private async void RemoteConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!await Tools.CheckInternetConnectionAsync())
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(ClientId.Text))
+            {
+                return;
+            }
+
+            // Initialize the service
+            MicrosoftGraphService.Instance.Initialize(ClientId.Text, ClientVersion1.IsChecked.HasValue && ClientVersion1.IsChecked.Value ? MicrosoftGraphEnums.AuthenticationModel.V1 : MicrosoftGraphEnums.AuthenticationModel.V2);
+
+            await InitializeRemoteAuthenticationAsync();
+        }
+
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
             if (!await Tools.CheckInternetConnectionAsync())

@@ -10,15 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Identity.Client;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Newtonsoft.Json;
 using Windows.Security.Authentication.Web;
 using Windows.Security.Credentials;
 using Windows.Storage;
@@ -43,6 +42,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         private const string AuthorizationTokenService = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
         private const string LogoutUrlV2Model = "https://login.microsoftonline.com/common/oauth2/v2.0/logout";
         private const string Scope = "openid+profile+https://graph.microsoft.com/Files.ReadWrite https://graph.microsoft.com/Mail.ReadWrite https://graph.microsoft.com/User.ReadWrite+offline_access";
+
+        private const string AuthorizationCodeService = "https://login.microsoftonline.com/common/oauth2/deviceauth";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftGraphAuthenticationHelper"/> class.
@@ -96,6 +97,51 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         private AuthenticationContext _azureAdContext = new AuthenticationContext(Authority);
 
         /// <summary>
+        /// Step 1 - Server - Get code to authenticate the standalone device
+        /// </summary>
+        /// <param name="appClientId">Client Id</param>
+        /// <returns>Code Result</returns>
+        internal Task<DeviceCodeResult> GetCode(string appClientId)
+        {
+            return _azureAdContext.AcquireDeviceCodeAsync(MicrosoftGraphResource, appClientId);
+        }
+
+        /// <summary>
+        /// Step 2 - Client - Display login page (to be called from a device which is keyboard capable
+        /// </summary>
+        /// <returns>Even if successfull, the result is useless</returns>
+        internal async Task<WebAuthenticationResult> AuthenticateForDeviceAsync()
+        {
+            return await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, new Uri(AuthorizationCodeService), new Uri(DefaultRedirectUri));
+        }
+
+        /// <summary>
+        /// Step 3 - Server - Get token from code
+        /// </summary>
+        /// <param name="appClientId">Client Id</param>
+        /// <param name="code">DeviceCodeResult previously acquired with GetCode() method</param>
+        /// <returns>User Token</returns>
+        internal async Task<string> GetUserTokenFromDeviceCodeAsync(string appClientId, DeviceCodeResult code)
+        {
+            // For the first use get an access token prompting the user, after one hour
+            // refresh silently the token
+            if (_tokenForUser == null)
+            {
+                AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenByDeviceCodeAsync(code);
+                _tokenForUser = userAuthnResult.AccessToken;
+                _expiration = userAuthnResult.ExpiresOn;
+            }
+            else if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
+            {
+                AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenSilentAsync(MicrosoftGraphResource, appClientId);
+                _tokenForUser = userAuthnResult.AccessToken;
+                _expiration = userAuthnResult.ExpiresOn;
+            }
+
+            return _tokenForUser;
+        }
+
+        /// <summary>
         /// Get a Microsoft Graph access token from Azure AD.
         /// </summary>
         /// <param name="appClientId">Azure AD application client ID</param>
@@ -119,6 +165,38 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             }
 
             return _tokenForUser;
+        }
+
+        private async Task<JwToken> RequestTokenFromDeviceCodeAsync(string appClientId, string code)
+        {
+            var requestBody = $"code={code}";
+            var requestBytes = Encoding.UTF8.GetBytes(requestBody);
+
+            // Build request.
+            var request = HttpWebRequest.CreateHttp(AuthorizationCodeService);
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            var requestStream = await request.GetRequestStreamAsync()
+                                                    .ConfigureAwait(continueOnCapturedContext: true);
+            await requestStream.WriteAsync(requestBytes, 0, requestBytes.Length);
+
+            // Get response.
+            var response = await request.GetResponseAsync()
+                                            .ConfigureAwait(continueOnCapturedContext: true)
+                                as HttpWebResponse;
+            var responseReader = new StreamReader(response.GetResponseStream());
+            var responseBody = await responseReader.ReadToEndAsync()
+                                                        .ConfigureAwait(continueOnCapturedContext: true);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                // Parse the JWT.
+                var jwt = JsonConvert.DeserializeObject<JwToken>(responseBody);
+                return jwt;
+            }
+
+            // Consent was not obtained.
+            return null;
         }
 
         /// <summary>
@@ -147,7 +225,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                     return response.IsSuccessStatusCode;
                 }
             }
-           else if (authenticationModel.Equals("V2"))
+            else if (authenticationModel.Equals("V2"))
             {
                 if (_user != null)
                 {
@@ -234,11 +312,11 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             return null;
         }
 
-       /// <summary>
-       /// Retrieve the authorisation code
-       /// </summary>
-       /// <param name="responseData">string contening the authorisation code</param>
-       /// <returns>The authorization code</returns>
+        /// <summary>
+        /// Retrieve the authorisation code
+        /// </summary>
+        /// <param name="responseData">string contening the authorisation code</param>
+        /// <returns>The authorization code</returns>
         private string ParseAuthorizationCode(string responseData)
         {
             string code = null;

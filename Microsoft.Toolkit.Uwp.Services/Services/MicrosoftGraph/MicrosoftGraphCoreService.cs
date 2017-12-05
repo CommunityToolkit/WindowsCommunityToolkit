@@ -15,6 +15,8 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using static Microsoft.Toolkit.Uwp.Services.MicrosoftGraph.MicrosoftGraphEnums;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Windows.Security.Authentication.Web;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
@@ -78,6 +80,11 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         private AuthenticationModel _authenticationModel = AuthenticationModel.V1;
 
         /// <summary>
+        /// Fields to store the device code for remote authentication
+        /// </summary>
+        private DeviceCodeResult _deviceCode;
+
+        /// <summary>
         /// Fields to store a MicrosoftGraphServiceMessages instance
         /// </summary>
         private MicrosoftGraphUserService _user;
@@ -88,6 +95,14 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         public MicrosoftGraphUserService User
         {
             get { return _user; }
+        }
+
+        /// <summary>
+        /// Gets the code to authenticate from a remote device
+        /// </summary>
+        public string UserCode
+        {
+            get { return _deviceCode.UserCode; }
         }
 
         /// <summary>
@@ -126,6 +141,27 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
+        /// Get code associated to the device.
+        /// This code is used to authenticate the device from another one.
+        /// </summary>
+        /// <returns>Code</returns>
+        public async Task InitializeForDeviceCodeAsync()
+        {
+            _authentication = new MicrosoftGraphAuthenticationHelper();
+            _deviceCode = await _authentication.GetCode(_appClientId);
+        }
+
+        /// <summary>
+        /// Prompt the user to enter the device code and credential.
+        /// </summary>
+        /// <returns>Useless result (always return UserCancel)</returns>
+        public Task<WebAuthenticationResult> AuthenticateForDeviceAsync()
+        {
+            _authentication = new MicrosoftGraphAuthenticationHelper();
+            return _authentication.AuthenticateForDeviceAsync();
+        }
+
+        /// <summary>
         /// Login the user from Azure AD and Get Microsoft Graph access token.
         /// </summary>
         /// <remarks>Need Sign in and read user profile scopes (User.Read)</remarks>
@@ -140,7 +176,11 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 
             _authentication = new MicrosoftGraphAuthenticationHelper();
             string accessToken = null;
-            if (_authenticationModel == AuthenticationModel.V1)
+            if (_deviceCode != null)
+            {
+                accessToken = await _authentication.GetUserTokenFromDeviceCodeAsync(_appClientId, _deviceCode);
+            }
+            else if (_authenticationModel == AuthenticationModel.V1)
             {
                 accessToken = await _authentication.GetUserTokenAsync(_appClientId);
             }
