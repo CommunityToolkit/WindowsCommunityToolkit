@@ -22,7 +22,7 @@
         <Setter Property="Margin" Value="20 0" />
         <Setter Property="Padding" Value="25 10" />
         <Setter Property="MaxWidth" Value="1200" />
-        <Setter Property="AnimationDuration" Value="100" />
+        <Setter Property="AnimationDuration" Value="0:0:0.100" />
         <Setter Property="VerticalOffset" Value="100" />
         <Setter Property="HorizontalOffset" Value="0" />
         <Setter Property="Template" Value="{StaticResource MSEdgeNotificationTemplate}" />
