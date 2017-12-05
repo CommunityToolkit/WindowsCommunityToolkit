@@ -42,8 +42,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private async Task InitializeRemoteAuthenticationAsync()
         {
             await MicrosoftGraphService.Instance.InitializeForDeviceCodeAsync();
-            var popup = new MessageDialog("Go to http://aka.ms/devicelogin and enter the following code :" + MicrosoftGraphService.Instance.UserCode);
-            await popup.ShowAsync();
+            var popup = new ContentDialog();
+            popup.Content = "Go to http://aka.ms/devicelogin and enter the following code :" + MicrosoftGraphService.Instance.UserCode;
+            popup.Title = "Authentication";
+            popup.PrimaryButtonText = "I've done authentication";
+            popup.CloseButtonText = "Cancel";
+
+            if (await popup.ShowAsync() == ContentDialogResult.Primary)
+            {
+                ConnectButton_Click(null, null);
+            }
         }
 
         private async void RemoteConnectButton_Click(object sender, RoutedEventArgs e)
@@ -59,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             // Initialize the service
-            MicrosoftGraphService.Instance.Initialize(ClientId.Text, ClientVersion1.IsChecked.HasValue && ClientVersion1.IsChecked.Value ? MicrosoftGraphEnums.AuthenticationModel.V1 : MicrosoftGraphEnums.AuthenticationModel.V2);
+            MicrosoftGraphService.Instance.Initialize(ClientId.Text);
 
             await InitializeRemoteAuthenticationAsync();
         }

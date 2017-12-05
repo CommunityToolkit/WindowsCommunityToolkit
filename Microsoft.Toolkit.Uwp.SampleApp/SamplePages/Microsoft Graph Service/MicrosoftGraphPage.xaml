@@ -92,7 +92,7 @@
                                     Click="ConnectButton_Click"
                                     Content="Sign in" />
                                 <Button x:Name="RemoteConnectButton"
-                                    Margin="0,10,0,0"
+                                    Margin="5,10,0,0"
                                     VerticalAlignment="Bottom"
                                     Click="RemoteConnectButton_Click"
                                     Content="Sign in using another device" />
