@@ -12,6 +12,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Connectivity;
 using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
@@ -20,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
     {
         internal static async Task<bool> CheckInternetConnectionAsync()
         {
-            if (!ConnectionHelper.IsInternetAvailable)
+            if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
             {
                 var dialog = new MessageDialog("Internet connection not detected. Please try again later.");
                 await dialog.ShowAsync();

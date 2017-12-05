@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// Type to handle paged requests to OneDrive.
     /// </summary>
     /// <typeparam name="T">Strong type to return.</typeparam>
-    public class OneDriveRequestSource<T> : IIncrementalSource<T>
+    public class OneDriveRequestSource<T> : Collections.IIncrementalSource<T>
     {
         private IOneDriveClient _provider;
         private IItemRequestBuilder _requestBuilder;

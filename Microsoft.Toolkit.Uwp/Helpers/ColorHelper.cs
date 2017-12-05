@@ -14,7 +14,7 @@ using System;
 using System.Reflection;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// This class provides static helper methods for colors.
@@ -171,7 +171,9 @@ namespace Microsoft.Toolkit.Uwp
             }
             else if (max == r)
             {
-                h1 = ((g - b) / chroma) % 6;
+                // The % operator doesn't do proper modulo on negative
+                // numbers, so we'll add 6 before using it
+                h1 = (((g - b) / chroma) + 6) % 6;
             }
             else if (max == g)
             {
@@ -182,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp
                 h1 = 4 + ((r - g) / chroma);
             }
 
-            double lightness = 0.5 * (max - min);
+            double lightness = 0.5 * (max + min);
             double saturation = chroma == 0 ? 0 : chroma / (1 - Math.Abs((2 * lightness) - 1));
             HslColor ret;
             ret.H = 60 * h1;
@@ -214,7 +216,9 @@ namespace Microsoft.Toolkit.Uwp
             }
             else if (max == r)
             {
-                h1 = ((g - b) / chroma) % 6;
+                // The % operator doesn't do proper modulo on negative
+                // numbers, so we'll add 6 before using it
+                h1 = (((g - b) / chroma) + 6) % 6;
             }
             else if (max == g)
             {
@@ -225,8 +229,7 @@ namespace Microsoft.Toolkit.Uwp
                 h1 = 4 + ((r - g) / chroma);
             }
 
-            double lightness = 0.5 * (max - min);
-            double saturation = chroma == 0 ? 0 : chroma / (1 - Math.Abs((2 * lightness) - 1));
+            double saturation = chroma == 0 ? 0 : chroma / max;
             HsvColor ret;
             ret.H = 60 * h1;
             ret.S = saturation;

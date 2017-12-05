@@ -10,29 +10,31 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// The HamburgerMenuImageItem provides an image based implementation for HamburgerMenu entries.
     /// </summary>
+    [Obsolete("The HamburgerMenuImageItem will be removed alongside the HamburgerMenu in a future major release. Please use the NavigationView control available in the Fall Creators Update")]
     public class HamburgerMenuImageItem : HamburgerMenuItem
     {
         /// <summary>
         /// Identifies the <see cref="Thumbnail"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty ThumbnailProperty = DependencyProperty.Register(nameof(Thumbnail), typeof(BitmapImage), typeof(HamburgerMenuItem), new PropertyMetadata(null));
+        public static readonly DependencyProperty ThumbnailProperty = DependencyProperty.Register(nameof(Thumbnail), typeof(ImageSource), typeof(HamburgerMenuItem), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets a value that specifies a bitmap to display with an Image control.
         /// </summary>
-        public BitmapImage Thumbnail
+        public ImageSource Thumbnail
         {
             get
             {
-                return (BitmapImage)GetValue(ThumbnailProperty);
+                return (ImageSource)GetValue(ThumbnailProperty);
             }
 
             set

@@ -5,11 +5,10 @@
       xmlns:core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.Light"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <TextBlock x:Name="WarningText"
                    Margin="0,20"
                    HorizontalAlignment="Center"
@@ -23,31 +22,24 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Top"
                    Foreground="{ThemeResource TextSelectionHighlightColorThemeBrush}"
-                   Text="Warning: This effect has issues on low end devices if you are not on Creator Update or upper"
+                   Text="Warning: This effect has issues on low end devices if you are not on Creator Update or higher"
                    TextWrapping="Wrap"
                    Visibility="Collapsed" />
 
-        <Image x:Name="ToolkitLogo"
-               Width="100"
-               Height="100"
-               Source="ms-appx:///Assets/ToolkitLogo.png">
+        <Grid x:Name="XamlRoot"/>
+        
+        <!-- Shallow Copy -->
+        <Image>
             <interactivity:Interaction.Behaviors>
-                <behaviors:Light x:Name="LightBehavior"
-                                 AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=OneWay}"
-                                 Delay="{Binding Delay.Value, Mode=OneWay}"
-                                 Distance="{Binding Distance.Value, Mode=OneWay}"
-                                 Duration="{Binding Duration.Value, Mode=OneWay}" />
+                <behaviors:Light />
             </interactivity:Interaction.Behaviors>
         </Image>
 
-        <StackPanel HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom">
-            <Button Margin="10"
-                    Content="Apply">
+        <StackPanel Visibility="Collapsed">
+            <Button>
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
-                        <core:CallMethodAction MethodName="StartAnimation"
-                                               TargetObject="{Binding ElementName=LightBehavior}" />
+                        <core:CallMethodAction />
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </Button>

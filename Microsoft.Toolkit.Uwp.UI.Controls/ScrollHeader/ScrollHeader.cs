@@ -11,7 +11,9 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Uwp.UI.Animations.Behaviors;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.Xaml.Interactivity;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -40,8 +42,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="TargetListViewBase"/> property.
         /// </summary>
+#pragma warning disable CS0618 // Type or member is obsolete
         public static readonly DependencyProperty TargetListViewBaseProperty =
-            DependencyProperty.Register(nameof(TargetListViewBase), typeof(ListViewBase), typeof(ScrollHeader), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TargetListViewBase), typeof(Windows.UI.Xaml.Controls.ListViewBase), typeof(ScrollHeader), new PropertyMetadata(null, OnTargetChanged));
+#pragma warning restore CS0618 // Type or member is obsolete
 
         /// <summary>
         /// Gets or sets a value indicating whether the current mode.
@@ -56,9 +60,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the container this header belongs to
         /// </summary>
-        public ListViewBase TargetListViewBase
+        [Obsolete("This property has been deprecated and isn't required.")]
+        public Windows.UI.Xaml.Controls.ListViewBase TargetListViewBase
         {
-            get { return (ListViewBase)GetValue(TargetListViewBaseProperty); }
+            get { return (Windows.UI.Xaml.Controls.ListViewBase)GetValue(TargetListViewBaseProperty); }
             set { SetValue(TargetListViewBaseProperty, value); }
         }
 
@@ -67,15 +72,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            if (TargetListViewBase == null)
-            {
-                return;
-            }
-
-            // Place items below header
-            var panel = TargetListViewBase.ItemsPanelRoot;
-            Canvas.SetZIndex(panel, -1);
-
             UpdateScrollHeaderBehavior();
         }
 
@@ -84,19 +80,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             (d as ScrollHeader)?.UpdateScrollHeaderBehavior();
         }
 
+        private static void OnTargetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as ScrollHeader)?.OnApplyTemplate();
+        }
+
         private void UpdateScrollHeaderBehavior()
         {
-            if (TargetListViewBase == null)
+            var targetListViewBase = TargetListViewBase ?? this.FindAscendant<Windows.UI.Xaml.Controls.ListViewBase>();
+
+            if (targetListViewBase == null)
             {
                 return;
             }
 
             // Remove previous behaviors
-            foreach (var behavior in Interaction.GetBehaviors(TargetListViewBase))
+            foreach (var behavior in Interaction.GetBehaviors(targetListViewBase))
             {
                 if (behavior is FadeHeaderBehavior || behavior is QuickReturnHeaderBehavior || behavior is StickyHeaderBehavior)
                 {
-                    Interaction.GetBehaviors(TargetListViewBase).Remove(behavior);
+                    Interaction.GetBehaviors(targetListViewBase).Remove(behavior);
                 }
             }
 
@@ -105,13 +108,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case ScrollHeaderMode.None:
                     break;
                 case ScrollHeaderMode.QuickReturn:
-                    Interaction.GetBehaviors(TargetListViewBase).Add(new QuickReturnHeaderBehavior());
+                    Interaction.GetBehaviors(targetListViewBase).Add(new QuickReturnHeaderBehavior());
                     break;
                 case ScrollHeaderMode.Sticky:
-                    Interaction.GetBehaviors(TargetListViewBase).Add(new StickyHeaderBehavior());
+                    Interaction.GetBehaviors(targetListViewBase).Add(new StickyHeaderBehavior());
                     break;
                 case ScrollHeaderMode.Fade:
-                    Interaction.GetBehaviors(TargetListViewBase).Add(new FadeHeaderBehavior());
+                    Interaction.GetBehaviors(targetListViewBase).Add(new FadeHeaderBehavior());
                     break;
             }
         }

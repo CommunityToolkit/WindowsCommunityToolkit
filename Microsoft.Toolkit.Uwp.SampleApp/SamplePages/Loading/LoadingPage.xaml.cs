@@ -10,51 +10,82 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class LoadingPage
+    public sealed partial class LoadingPage : IXamlRenderListener
     {
+        private AdaptiveGridView adaptiveGridViewControl;
+        private Loading loadingControl;
+        private ContentControl loadingContentControl;
+        private ResourceDictionary resources;
+
         public LoadingPage()
         {
             InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        public async void OnXamlRendered(FrameworkElement control)
         {
-            AdaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+            adaptiveGridViewControl = control.FindChildByName("AdaptiveGridViewControl") as AdaptiveGridView;
+            loadingControl = control.FindDescendantByName("LoadingControl") as Loading;
+            loadingContentControl = control.FindChildByName("LoadingContentControl") as ContentControl;
+            resources = control.Resources;
+
+            if (adaptiveGridViewControl != null)
+            {
+                adaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+            }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
 
             Shell.Current.RegisterNewCommand("Loading control with wait ring", async (sender, args) =>
             {
-                LoadingContentControl.ContentTemplate = Resources["WaitListTemplate"] as DataTemplate;
-                await ShowLoadingDialogAsync();
+                if (loadingContentControl != null)
+                {
+                    loadingContentControl.ContentTemplate = resources["WaitListTemplate"] as DataTemplate;
+                    await ShowLoadingDialogAsync();
+                }
             });
 
             Shell.Current.RegisterNewCommand("Loading control with progressbar", async (sender, args) =>
             {
-                LoadingContentControl.ContentTemplate = Resources["ProgressBarTemplate"] as DataTemplate;
-                await ShowLoadingDialogAsync();
+                if (loadingContentControl != null)
+                {
+                    loadingContentControl.ContentTemplate = resources["ProgressBarTemplate"] as DataTemplate;
+                    await ShowLoadingDialogAsync();
+                }
             });
 
             Shell.Current.RegisterNewCommand("Loading control with logo and bluring when requested", async (sender, args) =>
             {
-                LoadingContentControl.ContentTemplate = Resources["LogoTemplate"] as DataTemplate;
-                await LoadingContentControl.Blur(10, 100).StartAsync();
-                await ShowLoadingDialogAsync();
+                if (loadingContentControl != null)
+                {
+                    loadingContentControl.ContentTemplate = resources["LogoTemplate"] as DataTemplate;
+                    await loadingContentControl.Blur(2, 100).StartAsync();
+                    await ShowLoadingDialogAsync();
+                    await loadingContentControl.Blur(0, 0).StartAsync();
+                }
             });
-
-            base.OnNavigatedTo(e);
         }
 
         private async Task ShowLoadingDialogAsync()
         {
-            LoadingControl.IsLoading = true;
+            loadingControl.IsLoading = true;
             await Task.Delay(3000);
-            LoadingControl.IsLoading = false;
+            loadingControl.IsLoading = false;
         }
     }
 }

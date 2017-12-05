@@ -481,6 +481,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
+            PointerReleased += RadialGauge_PointerReleased;
             OnScaleChanged(this);
 
             base.OnApplyTemplate();
@@ -618,13 +619,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     scale.Data = pg;
                 }
 
-                OnFaceChanged(radialGauge);
+                if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode)
+                {
+                    OnFaceChanged(radialGauge);
+                }
             }
         }
 
         private static void OnFaceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            OnFaceChanged(d);
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode)
+            {
+                OnFaceChanged(d);
+            }
         }
 
         private static void OnFaceChanged(DependencyObject d)
@@ -632,7 +639,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RadialGauge radialGauge = (RadialGauge)d;
 
             var container = radialGauge.GetTemplateChild(ContainerPartName) as Grid;
-            if (container == null || DesignMode.DesignModeEnabled)
+            if (container == null || DesignTimeHelpers.IsRunningInLegacyDesignerMode)
             {
                 // Bad template.
                 return;
@@ -686,6 +693,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void RadialGauge_Tapped(object sender, TappedRoutedEventArgs e)
         {
             SetGaugeValueFromPoint(e.GetPosition(this));
+        }
+
+        private void RadialGauge_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            if (IsInteractive)
+            {
+                e.Handled = true;
+            }
         }
 
         private void UpdateNormalizedAngles()

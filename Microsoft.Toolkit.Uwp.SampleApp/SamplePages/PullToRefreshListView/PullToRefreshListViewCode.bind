@@ -1,31 +1,37 @@
-<Page
-     x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.PullToRefreshListViewPage"
-     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
-     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-     xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
-     mc:Ignorable="d">
+/** XAML **/
+<controls:PullToRefreshListView x:Name="ListView"
+	ItemsSource="{x:Bind _items}"
+	RefreshIntentCanceled="ListView_RefreshIntentCanceled"
+	RefreshIntentCanceledCommand="{x:Bind RefreshIntentCanceled}"
+	RefreshRequested="ListView_RefreshCommand">
 
-    <Grid>
-        <controls:PullToRefreshListView 
-                Name="listView"
-                ItemsSource="{x:Bind _items}"
-                OverscrollLimit="@[OverscrollLimit:DoubleSlider:0.4:0-1]"
-                PullThreshold="@[PullThreshold:Slider:100:50-300]"
-                IsPullToRefreshWithMouseEnabled="@[IsPullToRefreshWithMouseEnabled:Bool:True]"
-                RefreshRequested="ListView_RefreshCommand"
-                PullProgressChanged="ListView_PullProgressChanged">
-            <controls:PullToRefreshListView.ItemTemplate>
-                <DataTemplate  x:DataType="data:Item">
-                    <TextBlock Text="{x:Bind Title}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>
-                </DataTemplate>
-            </controls:PullToRefreshListView.ItemTemplate>
-            <controls:PullToRefreshListView.RefreshIndicatorContent>
-                <Border HorizontalAlignment="Center" x:Name="refreshindicator" CornerRadius="30" Height="20" Width="20" ></Border>
-            </controls:PullToRefreshListView.RefreshIndicatorContent>
-        </controls:PullToRefreshListView>
-    </Grid>
-</Page>
+/** CSharp Code **/
+private readonly ObservableCollection<Item> _items;
+private DelegateCommand _refreshIntentCanceledCommand;
+
+public PullToRefreshListViewPage()
+{
+	InitializeComponent();
+	_items = new ObservableCollection<Item>();
+	AddItems();
+}
+
+private void AddItems()
+{
+	for (int i = 0; i < 10; i++)
+	{
+		_items.Insert(0, new Item { Title = "Item " + _items.Count });
+	}
+}
+
+private void ListView_RefreshCommand(object sender, EventArgs e)
+{
+	AddItems();
+}
+
+private void ListView_RefreshIntentCanceled(object sender, EventArgs e)
+{
+}
+
+private DelegateCommand RefreshIntentCanceled => _refreshIntentCanceledCommand ?? (_refreshIntentCanceledCommand = new DelegateCommand(
+	() => { }));

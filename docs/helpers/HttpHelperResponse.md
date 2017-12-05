@@ -1,4 +1,15 @@
+---
+title: HttpHelperResponse
+author: nmetulev
+ms.date: 08/20/2017
+description: HttpHelperResponse is a UWP Community Toolkit helper class used with the HttpHelper class to read http responses.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelperResponse
+---
+
 # HttpHelperResponse
+
+(This API is obsolete and will be removed in the future. Please use [System.Net.Http.HttpResponseMessage](https://msdn.microsoft.com/en-us/library/system.net.http.httpresponsemessage(v=vs.110).aspx) 
+or [Windows.Web.Http.HttpResponseMessage](https://docs.microsoft.com/en-us/uwp/api/Windows.Web.Http.HttpResponseMessage) directly)
 
 Represents an HTTP response message including headers. 
 
@@ -59,10 +70,10 @@ An app receives an instance of **HttpHelperResponse** when it creates an instanc
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
 
 ## API
 
-* [HttpHelperRequest source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/Microsoft.Toolkit.Uwp/Helpers/HttpHelperResponse.cs)
+* [HttpHelperResponse source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/HttpHelper/HttpHelperResponse.cs)

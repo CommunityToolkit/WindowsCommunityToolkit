@@ -10,15 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using System.Collections.Generic;
-using System.Numerics;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel;
-using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -45,10 +42,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string NoSelectionNarrowState = "NoSelectionNarrow";
         private const string NoSelectionWideState = "NoSelectionWide";
 
+        private AppViewBackButtonVisibility _previousBackButtonVisibility;
         private ContentPresenter _detailsPresenter;
         private VisualStateGroup _stateGroup;
         private VisualState _narrowState;
         private Frame _frame;
+        private bool _loaded = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MasterDetailsView"/> class.
@@ -74,6 +73,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetDetailsContent();
 
             SetMasterHeaderVisibility();
+            OnDetailsCommandBarChanged();
+            OnMasterCommandBarChanged();
+
+            if (_loaded && _stateGroup == null)
+            {
+                _stateGroup = (VisualStateGroup)GetTemplateChild(WidthStates);
+                if (_stateGroup != null)
+                {
+                    _stateGroup.CurrentStateChanged += OnVisualStateChanged;
+                    _narrowState = GetTemplateChild(NarrowState) as VisualState;
+                    UpdateView(true);
+                }
+            }
         }
 
         /// <summary>
@@ -87,22 +99,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (MasterDetailsView)d;
-            if (view._stateGroup != null)
-            {
-                view.SetVisualState(view._stateGroup.CurrentState, true);
-            }
 
             view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
+
+            view.UpdateView(true);
 
             // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
             if (view.SelectedItem != null)
             {
                 view.SetDetailsContent();
-            }
-
-            if (view._stateGroup != null)
-            {
-                view.SetBackButtonVisibility(view._stateGroup.CurrentState);
             }
         }
 
@@ -115,6 +120,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var view = (MasterDetailsView)d;
             view.SetMasterHeaderVisibility();
+        }
+
+        /// <summary>
+        /// Fired when the DetailsCommandBar changes.
+        /// </summary>
+        /// <param name="d">The sender</param>
+        /// <param name="e">The event args</param>
+        private static void OnDetailsCommandBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var view = (MasterDetailsView)d;
+            view.OnDetailsCommandBarChanged();
+        }
+
+        /// <summary>
+        /// Fired when the MasterCommandBar changes.
+        /// </summary>
+        /// <param name="d">The sender</param>
+        /// <param name="e">The event args</param>
+        private static void OnMasterCommandBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var view = (MasterDetailsView)d;
+            view.OnMasterCommandBarChanged();
         }
 
         // Have to wait to get the VisualStateGroup until the control has Loaded
@@ -138,14 +165,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _stateGroup = (VisualStateGroup)GetTemplateChild(WidthStates);
-            _stateGroup.CurrentStateChanged += OnVisualStateChanged;
+            if (_stateGroup != null)
+            {
+                _stateGroup.CurrentStateChanged += OnVisualStateChanged;
+                _narrowState = GetTemplateChild(NarrowState) as VisualState;
+                UpdateView(true);
+            }
 
-            _narrowState = GetTemplateChild(NarrowState) as VisualState;
-
-            SetVisualState(_stateGroup.CurrentState, true);
-            SetBackButtonVisibility(_stateGroup.CurrentState);
-
-            UpdateViewState();
+            _loaded = true;
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -159,6 +186,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     frame.Navigating -= OnFrameNavigating;
                 }
             }
+
+            if (_stateGroup != null)
+            {
+                _stateGroup.CurrentStateChanged -= OnVisualStateChanged;
+                _stateGroup = null;
+            }
         }
 
         /// <summary>
@@ -171,10 +204,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </remarks>
         private void OnVisualStateChanged(object sender, VisualStateChangedEventArgs e)
         {
-            SetBackButtonVisibility(e.NewState);
-
-            // When adaptive trigger changes state, switch between NoSelectionWide and NoSelectionNarrow.
-            SetVisualState(e.NewState, false);
+            UpdateView(false);
         }
 
         /// <summary>
@@ -216,12 +246,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private void UpdateView(bool animate)
+        {
+            var currentState = ViewState;
+            UpdateViewState();
+            SetBackButtonVisibility(currentState);
+            if (_stateGroup != null)
+            {
+                SetVisualState(_stateGroup.CurrentState, animate);
+            }
+        }
+
         /// <summary>
         /// Sets the back button visibility based on the current visual state and selected item
         /// </summary>
-        private void SetBackButtonVisibility(VisualState currentState)
+        private void SetBackButtonVisibility(MasterDetailsViewState previousState)
         {
-            UpdateViewState();
             if (DesignMode.DesignModeEnabled)
             {
                 return;
@@ -229,27 +269,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (ViewState == MasterDetailsViewState.Details)
             {
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                    AppViewBackButtonVisibility.Visible;
+                var navigationManager = SystemNavigationManager.GetForCurrentView();
+                _previousBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
+
+                navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             }
-            else
+            else if (previousState == MasterDetailsViewState.Details)
             {
                 // Make sure we show the back button if the stack can navigate back
-                var frame = GetFrame();
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                    ((frame != null) && frame.CanGoBack)
-                        ? AppViewBackButtonVisibility.Visible
-                        : AppViewBackButtonVisibility.Collapsed;
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = _previousBackButtonVisibility;
             }
         }
 
         private Frame GetFrame()
         {
-            return _frame ?? (_frame = this.FindVisualAscendant<Frame>());
+            return _frame ?? (_frame = this.FindAscendant<Frame>());
         }
 
         private void UpdateViewState()
         {
+            if (_stateGroup == null)
+            {
+                return;
+            }
+
             var before = ViewState;
 
             if (_stateGroup.CurrentState == _narrowState || _stateGroup.CurrentState == null)
@@ -279,11 +322,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void SetDetailsContent()
         {
-            if ((SelectedItem != null) && (_detailsPresenter != null))
+            if (_detailsPresenter != null)
             {
                 _detailsPresenter.Content = MapDetails == null
                     ? SelectedItem
-                    : MapDetails(SelectedItem);
+                    : SelectedItem != null ? MapDetails(SelectedItem) : null;
+            }
+        }
+
+        private void OnMasterCommandBarChanged()
+        {
+            var panel = GetTemplateChild("DetailsCommandBarPanel") as Panel;
+            if (panel == null)
+            {
+                return;
+            }
+
+            panel.Children.Clear();
+            if (DetailsCommandBar != null)
+            {
+                panel.Children.Add(DetailsCommandBar);
+            }
+        }
+
+        private void OnDetailsCommandBarChanged()
+        {
+            var panel = GetTemplateChild("MasterCommandBarPanel") as Panel;
+            if (panel == null)
+            {
+                return;
+            }
+
+            panel.Children.Clear();
+            if (MasterCommandBar != null)
+            {
+                panel.Children.Add(MasterCommandBar);
             }
         }
     }

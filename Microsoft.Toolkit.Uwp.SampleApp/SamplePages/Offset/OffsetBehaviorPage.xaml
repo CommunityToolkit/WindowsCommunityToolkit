@@ -5,32 +5,21 @@
       xmlns:core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.OffsetBehavior"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Image x:Name="ToolkitLogo"
-               Width="100"
-               Height="100"
-               Source="ms-appx:///Assets/ToolkitLogo.png">
+    <!-- Shallow Copy -->
+    <Grid Visibility="Collapsed">
+        <Image>
             <interactivity:Interaction.Behaviors>
-                <behaviors:Offset x:Name="Offset"
-                                  AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=OneWay}"
-                                  Delay="{Binding Delay.Value, Mode=OneWay}"
-                                  OffsetX="{Binding OffsetX.Value, Mode=OneWay}"
-                                  OffsetY="{Binding OffsetY.Value, Mode=OneWay}"
-                                  Duration="{Binding Duration.Value, Mode=OneWay}" />
+                <behaviors:Offset />
             </interactivity:Interaction.Behaviors>
         </Image>
-        <StackPanel HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom">
-            <Button Margin="10"
-                    Content="Apply">
+        <StackPanel>
+            <Button>
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
-                        <core:CallMethodAction MethodName="StartAnimation"
-                                               TargetObject="{Binding ElementName=Offset}" />
+                        <core:CallMethodAction />
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </Button>

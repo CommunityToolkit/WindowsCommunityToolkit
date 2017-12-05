@@ -127,20 +127,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                 // Find the ')' character.
                 pos = linkOpen;
                 int linkClose = -1;
+                var openParenthesis = 0;
                 while (pos < maxEnd)
                 {
-                    linkClose = Common.IndexOf(markdown, ')', pos, maxEnd);
-                    if (linkClose == -1)
+                    if (markdown[pos] == ')')
                     {
-                        return null;
+                        if (openParenthesis == 0)
+                        {
+                            linkClose = pos;
+                            break;
+                        }
+                        else
+                        {
+                            openParenthesis--;
+                        }
                     }
 
-                    if (markdown[linkClose - 1] != '\\')
+                    if (markdown[pos] == '(')
                     {
-                        break;
+                        openParenthesis++;
                     }
 
-                    pos = linkClose + 1;
+                    pos++;
                 }
 
                 if (pos >= maxEnd)

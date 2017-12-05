@@ -15,7 +15,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -31,8 +33,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         private ProgressRing _progress;
         private WebView _webView;
         private Button _printButton;
+        private Button _copyButton;
         private PrintHelper _printHelper;
         private Grid _container;
+        private string _displayedText;
 
         private bool _isInitialized;
 
@@ -53,9 +57,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 _printButton.Click -= PrintButton_Click;
             }
 
+            if (_copyButton != null)
+            {
+                _copyButton.Click -= CopyButton_Click;
+            }
+
             _progress = GetTemplateChild("progress") as ProgressRing;
             _webView = GetTemplateChild("webView") as WebView;
             _printButton = GetTemplateChild("PrintButton") as Button;
+            _copyButton = GetTemplateChild("CopyButton") as Button;
             _container = GetTemplateChild("Container") as Grid;
 
             if (_webView != null)
@@ -66,6 +76,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             if (_printButton != null)
             {
                 _printButton.Click += PrintButton_Click;
+            }
+
+            if (_copyButton != null)
+            {
+                _copyButton.Click += CopyButton_Click;
             }
 
             _isInitialized = true;
@@ -109,12 +124,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             brush.Redraw();
 
             // Send to printer
-            var rect = new Rectangle();
-            rect.Fill = brush;
-            rect.Width = contentWidth;
-            rect.Height = contentHeight;
+            var rect = new Rectangle
+            {
+                Fill = brush,
+                Width = contentWidth,
+                Height = contentHeight
+            };
 
             return rect;
+        }
+
+        private void CopyButton_Click(object sender, RoutedEventArgs e)
+        {
+            TrackingManager.TrackEvent("Copy", _displayedText);
+
+            var content = new DataPackage();
+            content.SetText(_displayedText);
+            Clipboard.SetContent(content);
         }
 
         private async void PrintButton_Click(object sender, RoutedEventArgs e)
@@ -126,6 +152,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
             _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
+            _printHelper.OnPrintCanceled += PrinteHelper_OnPrintCanceled;
 
             await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App");
         }
@@ -134,6 +161,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         {
             _webView.Width = double.NaN;
             _webView.Height = double.NaN;
+
+            _printHelper.OnPrintFailed -= PrintHelper_OnPrintFailed;
+            _printHelper.OnPrintSucceeded -= PrintHelper_OnPrintSucceeded;
+            _printHelper.OnPrintCanceled -= PrinteHelper_OnPrintCanceled;
+
             _printHelper.Dispose();
 
             Shell.Current.DisplayWaitRing = false;
@@ -153,6 +185,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             await dialog.ShowAsync();
         }
 
+        private void PrinteHelper_OnPrintCanceled()
+        {
+            ReleasePrintHelper();
+        }
+
         private async Task ShowDocument(string docText, string pattern)
         {
             if (_webView != null)
@@ -162,6 +199,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 var patternFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/Html/{pattern}"));
                 var patternText = await FileIO.ReadTextAsync(patternFile);
 
+                _displayedText = docText;
                 docText = docText.Replace("<", "&lt;").Replace(">", "&gt;");
 
                 string html = patternText.Replace("[CODE]", docText);

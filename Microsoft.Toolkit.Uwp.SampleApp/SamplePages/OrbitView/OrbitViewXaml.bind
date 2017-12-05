@@ -1,0 +1,130 @@
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
+      <Pivot>
+        <PivotItem Header="People">
+
+          <controls:OrbitView x:Name="People"
+                              AnchorColor="@[AnchorColor:Brush:Gray]"
+                              AnchorsEnabled="@[AnchorsEnabled:Bool:false]"
+                              IsItemClickEnabled="@[IsItemClickEnabled:Bool:true]"
+                              MinItemSize="@[MinItemSize:Slider:20:10-50]"
+                              MaxItemSize="@[MaxItemSize:Slider:60:50-100]"
+                              OrbitColor="@[OrbitColor:Brush:Gray]"
+                              OrbitsEnabled="@[OrbitsEnabled:Bool:true]">
+            <controls:OrbitView.ItemTemplate>
+              <DataTemplate>
+                <controls:DropShadowPanel HorizontalContentAlignment="Stretch"
+                                          VerticalContentAlignment="Stretch"
+                                          BlurRadius="20"
+                                          Color="Black">
+                  <Ellipse >
+                    <Ellipse.Fill>
+                      <ImageBrush ImageSource="{Binding Image}" />
+                    </Ellipse.Fill>
+                  </Ellipse>
+                </controls:DropShadowPanel>
+              </DataTemplate>
+            </controls:OrbitView.ItemTemplate>
+            <controls:OrbitView.ItemsSource>
+              <controls:OrbitViewDataItemCollection>
+                <controls:OrbitViewDataItem Diameter="0.2"
+                                            Distance="0.1"
+                                            Image="ms-appx:///Assets/People/shen.png"
+                                            Label="Shen" />
+                <controls:OrbitViewDataItem Diameter="0.5"
+                                            Distance="0.2"
+                                            Image="ms-appx:///Assets/People/david.png"
+                                            Label="David" />
+                <controls:OrbitViewDataItem Diameter="0.6"
+                                            Distance="0.4"
+                                            Image="ms-appx:///Assets/People/petri.png"
+                                            Label="Petri" />
+                <controls:OrbitViewDataItem Diameter="0.8"
+                                            Distance="0.8"
+                                            Image="ms-appx:///Assets/People/vlad.png"
+                                            Label="Vlad" />
+              </controls:OrbitViewDataItemCollection>
+            </controls:OrbitView.ItemsSource>
+            <controls:OrbitView.CenterContent>
+              <Grid>
+                <controls:DropShadowPanel>
+                  <Ellipse Width="105"
+                           Height="105"
+                           Fill="White"
+                           Stroke="Black"
+                           StrokeThickness="2" />
+                </controls:DropShadowPanel>
+                <Ellipse Width="100"
+                         Height="100"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center">
+                  <Ellipse.Fill>
+                    <ImageBrush ImageSource="ms-appx:///Assets/People/nikola.png"/>
+                  </Ellipse.Fill>
+                </Ellipse>
+              </Grid>
+            </controls:OrbitView.CenterContent>
+          </controls:OrbitView>
+        </PivotItem>
+        <PivotItem Header="Devices">
+          <Grid>
+            <controls:OrbitView x:Name="Devices"
+                                OrbitsEnabled="@[OrbitsEnabled]"
+                                AnchorsEnabled="@[AnchorsEnabled]"
+                                IsItemClickEnabled="@[IsItemClickEnabled]"
+                                MinItemSize="@[MinItemSize]"
+                                MaxItemSize="@[MaxItemSize]"
+                                AnchorColor="@[AnchorColor]"
+                                OrbitColor="@[OrbitColor]">
+              <controls:OrbitView.ItemTemplate>
+                <DataTemplate>
+                  <Grid Width="60"
+                        Height="60"
+                        Background="White">
+                    <StackPanel>
+                      <SymbolIcon Height="30"
+                                  HorizontalAlignment="Center"
+                                  Foreground="Gray"
+                                  Symbol="{Binding Symbol}" />
+                      <TextBlock FontSize="10"
+                                 Foreground="Gray"
+                                 Text="{Binding Label}"
+                                 TextAlignment="Center" />
+                    </StackPanel>
+                  </Grid>
+                </DataTemplate>
+              </controls:OrbitView.ItemTemplate>
+              <controls:OrbitView.CenterContent>
+                <Grid>
+                  <controls:DropShadowPanel>
+                    <Ellipse Width="105"
+                             Height="105"
+                             Fill="White"
+                             Stroke="Black"
+                             StrokeThickness="2" />
+                  </controls:DropShadowPanel>
+                  <Ellipse Width="100"
+                           Height="100"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center">
+                    <Ellipse.Fill>
+                      <ImageBrush ImageSource="ms-appx:///Assets/People/nikola.png" />
+                    </Ellipse.Fill>
+                  </Ellipse>
+                </Grid>
+              </controls:OrbitView.CenterContent>
+            </controls:OrbitView>
+          </Grid>
+        </PivotItem>
+      </Pivot>
+    </Grid>
+  </Grid>
+</Page>
