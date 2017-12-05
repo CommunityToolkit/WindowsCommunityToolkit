@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Key of the VisualState when expander is collapsed and expander direction is set to Up
         /// </summary>
         private const string StateContentCollapsedUp = "CollapsedUp";
-        
+
         /// <summary>
         /// Key of the UI Element that toggle IsExpanded property
         /// </summary>

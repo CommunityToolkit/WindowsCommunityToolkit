@@ -135,6 +135,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 return false;
             }
 
+            var listView = AssociatedObject as Windows.UI.Xaml.Controls.ListViewBase ?? AssociatedObject.FindDescendant<Windows.UI.Xaml.Controls.ListViewBase>();
+
+            if (listView != null && listView.ItemsPanelRoot != null)
+            {
+                Canvas.SetZIndex(listView.ItemsPanelRoot, -1);
+            }
+
             if (_scrollProperties == null)
             {
                 _scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_scrollViewer);
@@ -146,14 +153,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             }
 
             // Implicit operation: Find the Header object of the control if it uses ListViewBase
-            if (HeaderElement == null)
+            if (HeaderElement == null && listView != null)
             {
-                var listElement = AssociatedObject as Windows.UI.Xaml.Controls.ListViewBase ?? AssociatedObject.FindDescendant<Windows.UI.Xaml.Controls.ListViewBase>();
-
-                if (listElement != null)
-                {
-                    HeaderElement = listElement.Header as UIElement;
-                }
+                HeaderElement = listView.Header as UIElement;
             }
 
             var headerElement = HeaderElement as FrameworkElement;
