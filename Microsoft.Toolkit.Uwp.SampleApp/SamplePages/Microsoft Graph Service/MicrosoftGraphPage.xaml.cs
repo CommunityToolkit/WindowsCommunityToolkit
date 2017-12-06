@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             MicrosoftGraphService.Instance.Initialize(ClientId.Text);
 
             // Initialize the device code
-            await MicrosoftGraphService.Instance.InitializeForDeviceCodeAsync();
+            await MicrosoftGraphService.Instance.InitializeDeviceCodeAsync();
 
             var popup = new ContentDialog
             {

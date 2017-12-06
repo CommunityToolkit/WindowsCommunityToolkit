@@ -110,18 +110,18 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// Step 2 - Client side - Display login page (to be called from a device which is keyboard capable
         /// </summary>
         /// <returns>Even if successfull, the result is useless</returns>
-        internal async Task<WebAuthenticationResult> AuthenticateForDeviceAsync()
+        internal async Task<WebAuthenticationResult> AuthenticateByDeviceCodeAsync()
         {
             return await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, new Uri(AuthorizationCodeService), new Uri(DefaultRedirectUri));
         }
 
         /// <summary>
-        /// Step 3 - Server side - Get token from code
+        /// Step 3 - Server side - Get token by code
         /// </summary>
         /// <param name="appClientId">Client Id</param>
         /// <param name="code">DeviceCodeResult previously acquired with GetCode() method</param>
         /// <returns>User Token</returns>
-        internal async Task<string> GetUserTokenFromDeviceCodeAsync(string appClientId, DeviceCodeResult code)
+        internal async Task<string> GetUserTokenByDeviceCodeAsync(string appClientId, DeviceCodeResult code)
         {
             // For the first use get an access token prompting the user, after one hour
             // refresh silently the token
@@ -165,38 +165,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             }
 
             return _tokenForUser;
-        }
-
-        private async Task<JwToken> RequestTokenFromDeviceCodeAsync(string appClientId, string code)
-        {
-            var requestBody = $"code={code}";
-            var requestBytes = Encoding.UTF8.GetBytes(requestBody);
-
-            // Build request.
-            var request = HttpWebRequest.CreateHttp(AuthorizationCodeService);
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
-            var requestStream = await request.GetRequestStreamAsync()
-                                                    .ConfigureAwait(continueOnCapturedContext: true);
-            await requestStream.WriteAsync(requestBytes, 0, requestBytes.Length);
-
-            // Get response.
-            var response = await request.GetResponseAsync()
-                                            .ConfigureAwait(continueOnCapturedContext: true)
-                                as HttpWebResponse;
-            var responseReader = new StreamReader(response.GetResponseStream());
-            var responseBody = await responseReader.ReadToEndAsync()
-                                                        .ConfigureAwait(continueOnCapturedContext: true);
-
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                // Parse the JWT.
-                var jwt = JsonConvert.DeserializeObject<JwToken>(responseBody);
-                return jwt;
-            }
-
-            // Consent was not obtained.
-            return null;
         }
 
         /// <summary>

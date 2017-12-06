@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         private AuthenticationModel _authenticationModel = AuthenticationModel.V1;
 
         /// <summary>
-        /// Fields to store the device code for remote authentication
+        /// Fields to store the device code for device authentication
         /// </summary>
         private DeviceCodeResult _deviceCode;
 
@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Gets the code to authenticate from a remote device
+        /// Gets the code to enter in http://aka.ms/deviceauth
         /// </summary>
         public string UserCode
         {
@@ -142,11 +142,11 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Get code associated to the device.
-        /// This code is used to authenticate the device from another one.
+        /// Set code associated to the device.
+        /// This code is used to authenticate the device from http://aka.ms/deviceauth
         /// </summary>
         /// <returns>Code</returns>
-        public async Task InitializeForDeviceCodeAsync()
+        public async Task InitializeDeviceCodeAsync()
         {
             _authentication = new MicrosoftGraphAuthenticationHelper();
             _deviceCode = await _authentication.GetCode(_appClientId);
@@ -156,10 +156,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// Prompt the user to enter the device code and credential.
         /// </summary>
         /// <returns>Useless result (always return UserCancel)</returns>
-        public Task<WebAuthenticationResult> AuthenticateForDeviceAsync()
+        public Task<WebAuthenticationResult> AuthenticateByDeviceCodeAsync()
         {
             _authentication = new MicrosoftGraphAuthenticationHelper();
-            return _authentication.AuthenticateForDeviceAsync();
+            return _authentication.AuthenticateByDeviceCodeAsync();
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             string accessToken = null;
             if (_deviceCode != null)
             {
-                accessToken = await _authentication.GetUserTokenFromDeviceCodeAsync(_appClientId, _deviceCode);
+                accessToken = await _authentication.GetUserTokenByDeviceCodeAsync(_appClientId, _deviceCode);
             }
             else if (_authenticationModel == AuthenticationModel.V1)
             {
