@@ -10,14 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Newtonsoft.Json;
 using Windows.Security.Authentication.Web;
 using Windows.Security.Credentials;
 using Windows.Storage;
@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         private AuthenticationContext _azureAdContext = new AuthenticationContext(Authority);
 
         /// <summary>
-        /// Step 1 - Server - Get code to authenticate the standalone device
+        /// Step 1 - Server side - Get code to authenticate the standalone device
         /// </summary>
         /// <param name="appClientId">Client Id</param>
         /// <returns>Code Result</returns>
@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Step 2 - Client - Display login page (to be called from a device which is keyboard capable
+        /// Step 2 - Client side - Display login page (to be called from a device which is keyboard capable
         /// </summary>
         /// <returns>Even if successfull, the result is useless</returns>
         internal async Task<WebAuthenticationResult> AuthenticateForDeviceAsync()
@@ -116,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Step 3 - Server - Get token from code
+        /// Step 3 - Server side - Get token from code
         /// </summary>
         /// <param name="appClientId">Client Id</param>
         /// <param name="code">DeviceCodeResult previously acquired with GetCode() method</param>
