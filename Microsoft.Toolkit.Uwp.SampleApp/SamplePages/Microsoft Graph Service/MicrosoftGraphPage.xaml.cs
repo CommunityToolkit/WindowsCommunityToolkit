@@ -39,29 +39,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             LogOutButton.Visibility = Visibility.Collapsed;
         }
 
-        private async Task InitializeRemoteAuthenticationAsync()
+        private async Task<bool> CanLoginAsync()
         {
-            await MicrosoftGraphService.Instance.InitializeForDeviceCodeAsync();
-            var popup = new ContentDialog();
-            popup.Content = "Go to http://aka.ms/devicelogin and enter the following code :" + MicrosoftGraphService.Instance.UserCode;
-            popup.Title = "Authentication";
-            popup.PrimaryButtonText = "I've done authentication";
-            popup.CloseButtonText = "Cancel";
-
-            if (await popup.ShowAsync() == ContentDialogResult.Primary)
+            if (!await Tools.CheckInternetConnectionAsync())
             {
-                ConnectButton_Click(null, null);
+                return false;
             }
+
+            if (string.IsNullOrEmpty(ClientId.Text))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private async void RemoteConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnectionAsync())
-            {
-                return;
-            }
-
-            if (string.IsNullOrEmpty(ClientId.Text))
+            if (!await CanLoginAsync())
             {
                 return;
             }
@@ -69,17 +64,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Initialize the service
             MicrosoftGraphService.Instance.Initialize(ClientId.Text);
 
-            await InitializeRemoteAuthenticationAsync();
+            // Initialize the device code
+            await MicrosoftGraphService.Instance.InitializeForDeviceCodeAsync();
+
+            var popup = new ContentDialog
+            {
+                Content = "Go to http://aka.ms/devicelogin and enter the following code :" + MicrosoftGraphService.Instance.UserCode,
+                Title = "Pending authentication...",
+                CloseButtonText = "Cancel"
+            };
+
+            popup.ShowAsync().GetResults();
+
+            if (await LoginAsync())
+            {
+                popup.Hide();
+                await LoadProfileAsync();
+            }
         }
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!await Tools.CheckInternetConnectionAsync())
-            {
-                return;
-            }
-
-            if (string.IsNullOrEmpty(ClientId.Text))
+            if (!await CanLoginAsync())
             {
                 return;
             }
@@ -87,14 +93,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Initialize the service
             MicrosoftGraphService.Instance.Initialize(ClientId.Text);
 
+            if (await LoginAsync())
+            {
+                await LoadProfileAsync();
+            }
+        }
+
+        private async Task<bool> LoginAsync()
+        {
             // Login via Azure Active Directory
             if (!await MicrosoftGraphService.Instance.LoginAsync())
             {
                 var error = new MessageDialog("Unable to sign in to Office 365");
                 await error.ShowAsync();
-                return;
+                return false;
             }
 
+            return true;
+        }
+
+        private async Task LoadProfileAsync()
+        {
             Shell.Current.DisplayWaitRing = true;
             try
             {

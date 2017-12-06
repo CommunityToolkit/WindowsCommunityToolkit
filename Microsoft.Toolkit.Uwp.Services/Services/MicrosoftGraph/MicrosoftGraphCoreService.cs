@@ -122,6 +122,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             _graphProvider = CreateGraphClientProvider(appClientId);
             _servicesToInitialize = servicesToInitialize;
             _isInitialized = true;
+            _deviceCode = null;
             return true;
         }
 
