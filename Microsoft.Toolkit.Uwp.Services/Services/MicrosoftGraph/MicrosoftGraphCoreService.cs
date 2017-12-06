@@ -14,9 +14,9 @@ using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using static Microsoft.Toolkit.Uwp.Services.MicrosoftGraph.MicrosoftGraphEnums;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Windows.Security.Authentication.Web;
+using static Microsoft.Toolkit.Uwp.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
