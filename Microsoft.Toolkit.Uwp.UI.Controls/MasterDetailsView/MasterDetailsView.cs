@@ -230,7 +230,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (ViewState == MasterDetailsViewState.Details)
             {
-                SelectedItem = null;
+                // let the OnFrameNavigating method handle it if it will be called
+                if (_frame == null || !_frame.CanGoBack)
+                {
+                    SelectedItem = null;
+                }
+
                 args.Handled = true;
             }
         }
