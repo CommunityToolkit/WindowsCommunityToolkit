@@ -262,9 +262,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateView(bool animate)
         {
-            var currentState = ViewState;
             UpdateViewState();
-            SetBackButtonVisibility(currentState);
+            SetBackButtonVisibility(ViewState);
             if (GetStateGroup() != null)
             {
                 SetVisualState(_stateGroup.CurrentState, animate);
