@@ -64,8 +64,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Initialize the service
             MicrosoftGraphService.Instance.Initialize(ClientId.Text);
 
-            // Initialize the device code
-            await MicrosoftGraphService.Instance.InitializeDeviceCodeAsync();
+            try
+            {
+                // Initialize the device code
+                await MicrosoftGraphService.Instance.InitializeDeviceCodeAsync();
+            }
+            catch (IdentityModel.Clients.ActiveDirectory.AdalException adalException)
+            {
+                var error = new MessageDialog($"The Client Id is invalid.\n{adalException.Message}");
+                await error.ShowAsync();
+                return;
+            }
 
             var popup = new ContentDialog
             {
@@ -101,11 +110,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async Task<bool> LoginAsync()
         {
-            // Login via Azure Active Directory
-            if (!await MicrosoftGraphService.Instance.LoginAsync())
+            try
             {
-                var error = new MessageDialog("Unable to sign in to Office 365");
-                await error.ShowAsync();
+                // Login via Azure Active Directory
+                if (!await MicrosoftGraphService.Instance.LoginAsync())
+                {
+                    var error = new MessageDialog("Unable to sign in to Office 365");
+                    await error.ShowAsync();
+                    return false;
+                }
+            }
+            catch (IdentityModel.Clients.ActiveDirectory.AdalServiceException)
+            {
+                // User canceled
                 return false;
             }
 
