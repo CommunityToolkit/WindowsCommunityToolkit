@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             OnDetailsCommandBarChanged();
             OnMasterCommandBarChanged();
 
-            if (_loaded && _stateGroup == null)
+            if (_loaded && GetStateGroup() == null)
             {
                 _stateGroup = (VisualStateGroup)GetTemplateChild(WidthStates);
                 if (_stateGroup != null)
@@ -86,6 +86,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     UpdateView(true);
                 }
             }
+        }
+
+        private VisualStateGroup GetStateGroup()
+        {
+            if (_stateGroup == null)
+            {
+                _stateGroup = (VisualStateGroup)GetTemplateChild(WidthStates);
+            }
+
+            return _stateGroup;
         }
 
         /// <summary>
@@ -164,8 +174,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _stateGroup.CurrentStateChanged -= OnVisualStateChanged;
             }
 
-            _stateGroup = (VisualStateGroup)GetTemplateChild(WidthStates);
-            if (_stateGroup != null)
+            if (GetStateGroup() != null)
             {
                 _stateGroup.CurrentStateChanged += OnVisualStateChanged;
                 _narrowState = GetTemplateChild(NarrowState) as VisualState;
@@ -230,7 +239,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (ViewState == MasterDetailsViewState.Details)
             {
-                // let the OnFrameNavigating method handle it if it will be called
+                // let the OnFrameNavigating method handle it if
                 if (_frame == null || !_frame.CanGoBack)
                 {
                     SelectedItem = null;
@@ -256,7 +265,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var currentState = ViewState;
             UpdateViewState();
             SetBackButtonVisibility(currentState);
-            if (_stateGroup != null)
+            if (GetStateGroup() != null)
             {
                 SetVisualState(_stateGroup.CurrentState, animate);
             }
@@ -293,7 +302,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateViewState()
         {
-            if (_stateGroup == null)
+            if (GetStateGroup() == null)
             {
                 return;
             }
