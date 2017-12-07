@@ -19,6 +19,7 @@ using Microsoft.OneDrive.Sdk;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.Web.Http;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -140,6 +141,17 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             return contentStream;
+        }
+
+        /// <summary>
+        /// update the contents of a file
+        /// </summary>
+        /// <param name="content">content to be written to the file</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task UpdateAsync(Stream content, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            await RequestBuilder.Content.Request().PutAsync<Item>(content, cancellationToken).ConfigureAwait(false);
         }
     }
 }

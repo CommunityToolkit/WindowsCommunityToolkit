@@ -463,11 +463,8 @@
     </Content>
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlXaml.bind" />
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControlXaml.bind" />
-<<<<<<< HEAD
-=======
     <Content Include="SamplePages\AppPinManager\AppPinManagerHelperCode.bind" />
     <Content Include="SamplePages\Mouse\MouseCursorPage.bind" />
->>>>>>> master
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

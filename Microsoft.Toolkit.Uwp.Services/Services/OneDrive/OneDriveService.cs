@@ -20,6 +20,7 @@ using Microsoft.OneDrive.Sdk.Authentication;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
+using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
@@ -156,6 +157,19 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         }
 
         /// <summary>
+        /// check for storage limit, if the limit is reached login will fail
+        /// </summary>
+        /// <returns>true if limit is not reached</returns>
+        private async Task<bool> IsStorageLimitIsNotReached()
+        {
+            var drive = await _oneDriveProvider.Drive.Request().GetAsync();
+            var quota = drive.Quota;
+            var quotaTotal = quota.Total;
+            var quotaUsed = quota.Used;
+            return quotaUsed < quotaTotal;
+        }
+
+        /// <summary>
         /// Signs in the user
         /// </summary>
         /// <returns>Returns success or failure of login attempt.</returns>
@@ -215,8 +229,12 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             _oneDriveProvider = new OneDriveClient(resourceEndpointUri, _accountProvider);
+            _isConnected = await IsStorageLimitIsNotReached();
+            if (_isConnected == false)
+            {
+                throw new Exception("Unable to sign in, possible cause: OneDrive quota exceeded");
+            }
 
-            _isConnected = true;
             return _isConnected;
         }
 
@@ -278,6 +296,27 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             var oneDriveRootItem = await _oneDriveProvider.Drive.Special.CameraRoll.Request().GetAsync();
             return new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Special.CameraRoll, oneDriveRootItem);
+        }
+
+        /// <summary>
+        /// Get shared folders from the OneDrive
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<OneDriveStorageFolder>> SharedFolders()
+        {
+            // log the user silently with a Microsoft Account associate to Windows
+            if (_isConnected == false)
+            {
+                OneDriveService.Instance.Initialize();
+                if (!await OneDriveService.Instance.LoginAsync())
+                {
+                    throw new Exception("Unable to sign in");
+                }
+            }
+
+            var records = await _oneDriveProvider.Drive.Root.Children.Request().GetAsync();
+            var sharedFolders = records.Where(x => x.RemoteItem != null);
+            return sharedFolders.Select(x => new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Root, x));
         }
 
         /// <summary>
