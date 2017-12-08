@@ -30,6 +30,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 return;
             }
 
+            // If it didn't work it means that we need to wait for the component to be loaded before getting its ScrollViewer
+            if (ChangeHorizontalScrollBarMarginProperty(sender as FrameworkElement))
+            {
+                return;
+            }
+
             // We need to wait for the component to be loaded before getting its ScrollViewer
             baseElement.Loaded -= ChangeHorizontalScrollBarMarginProperty;
 
@@ -39,6 +45,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
         }
 
+        private static bool ChangeHorizontalScrollBarMarginProperty(FrameworkElement sender)
+        {
+            if (sender == null)
+            {
+                return false;
+            }
+
+            var scrollViewer = sender as ScrollViewer ?? sender.FindDescendant<ScrollViewer>();
+
+            // Last scrollbar with "HorizontalScrollBar" as name is our target to set its margin and avoid it overlapping the header
+            var scrollBar = scrollViewer?.FindDescendants<ScrollBar>().LastOrDefault(bar => bar.Name == "HorizontalScrollBar");
+
+            if (scrollBar == null)
+            {
+                return false;
+            }
+
+            var newMargin = GetHorizontalScrollBarMargin(sender);
+
+            scrollBar.Margin = newMargin;
+
+            return true;
+        }
+
+        private static void ChangeHorizontalScrollBarMarginProperty(object sender, RoutedEventArgs routedEventArgs)
+        {
+            if (!(sender is FrameworkElement baseElement))
+            {
+                return;
+            }
+
+            ChangeHorizontalScrollBarMarginProperty(baseElement);
+
+            // Handling Loaded event is only required the first time the property is set, so we can stop handling it now
+            baseElement.Loaded -= ChangeHorizontalScrollBarMarginProperty;
+        }
+
         private static void OnVerticalScrollBarMarginPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             if (!(sender is FrameworkElement baseElement))
@@ -46,7 +89,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 return;
             }
 
-            // We need to wait for the component to be loaded before getting its ScrollViewer
+            // We try to update the value, if it works we may exit
+            if (ChangeVerticalScrollBarMarginProperty(sender as FrameworkElement))
+            {
+                return;
+            }
+
+            // If it didn't work it means that we need to wait for the component to be loaded before getting its ScrollViewer
             baseElement.Loaded -= ChangeVerticalScrollBarMarginProperty;
 
             if (VerticalScrollBarMarginProperty != null)
@@ -55,40 +104,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
         }
 
-        private static void ChangeHorizontalScrollBarMarginProperty(object sender, RoutedEventArgs routedEventArgs)
+        private static bool ChangeVerticalScrollBarMarginProperty(FrameworkElement sender)
         {
-            var baseElement = sender as FrameworkElement;
-            var scrollViewer = sender as ScrollViewer ?? baseElement.FindDescendant<ScrollViewer>();
-
-            // Last scrollbar with "HorizontalScrollBar" as name is our target to set its margin and avoid it overlapping the header
-            var scrollBar = scrollViewer?.FindDescendants<ScrollBar>().LastOrDefault(bar => bar.Name == "HorizontalScrollBar");
-
-            if (scrollBar == null)
+            if (sender == null)
             {
-                return;
+                return false;
             }
 
-            var newMargin = GetVerticalScrollBarMargin(baseElement);
+            var scrollViewer = sender as ScrollViewer ?? sender.FindDescendant<ScrollViewer>();
 
-            scrollBar.Margin = newMargin;
-        }
-
-        private static void ChangeVerticalScrollBarMarginProperty(object sender, RoutedEventArgs routedEventArgs)
-        {
-            var baseElement = sender as FrameworkElement;
-            var scrollViewer = sender as ScrollViewer ?? baseElement.FindDescendant<ScrollViewer>();
-
-            // Last scrollbar with "VerticalScrollBar" as name is our target to set its margin and avoid it overlapping the header
+            // Last scrollbar with "HorizontalScrollBar" as name is our target to set its margin and avoid it overlapping the header
             var scrollBar = scrollViewer?.FindDescendants<ScrollBar>().LastOrDefault(bar => bar.Name == "VerticalScrollBar");
 
             if (scrollBar == null)
             {
+                return false;
+            }
+
+            var newMargin = GetVerticalScrollBarMargin(sender);
+
+            scrollBar.Margin = newMargin;
+
+            return true;
+        }
+
+        private static void ChangeVerticalScrollBarMarginProperty(object sender, RoutedEventArgs routedEventArgs)
+        {
+            ChangeVerticalScrollBarMarginProperty(sender as FrameworkElement);
+
+            if (!(sender is FrameworkElement baseElement))
+            {
                 return;
             }
 
-            var newMargin = GetVerticalScrollBarMargin(baseElement);
+            ChangeVerticalScrollBarMarginProperty(baseElement);
 
-            scrollBar.Margin = newMargin;
+            // Handling Loaded event is only required the first time the property is set, so we can stop handling it now
+            baseElement.Loaded -= ChangeVerticalScrollBarMarginProperty;
         }
     }
 }
