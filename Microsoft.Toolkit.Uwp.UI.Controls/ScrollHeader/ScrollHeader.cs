@@ -48,6 +48,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 #pragma warning restore CS0618 // Type or member is obsolete
 
         /// <summary>
+        /// Identifies the <see cref="AllowScrollbarOverlap"/> property.
+        /// </summary>
+        public static readonly DependencyProperty AllowScrollbarOverlapProperty =
+            DependencyProperty.Register(nameof(AllowScrollbarOverlap), typeof(bool), typeof(ScrollHeader), new PropertyMetadata(true, OnModeChanged));
+
+        /// <summary>
         /// Gets or sets a value indicating whether the current mode.
         /// Default is none.
         /// </summary>
@@ -65,6 +71,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (Windows.UI.Xaml.Controls.ListViewBase)GetValue(TargetListViewBaseProperty); }
             set { SetValue(TargetListViewBaseProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether <see cref="TargetListViewBase"/>'s vertical scrollbar can overlap the header (only works for <see cref="StickyHeaderBehavior"/> mode).
+        /// Default is <c>true</c>.
+        /// </summary>
+        public bool AllowScrollbarOverlap
+        {
+            get { return (bool)GetValue(AllowScrollbarOverlapProperty); }
+            set { SetValue(AllowScrollbarOverlapProperty, value); }
         }
 
         /// <summary>
@@ -111,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     Interaction.GetBehaviors(targetListViewBase).Add(new QuickReturnHeaderBehavior());
                     break;
                 case ScrollHeaderMode.Sticky:
-                    Interaction.GetBehaviors(targetListViewBase).Add(new StickyHeaderBehavior());
+                    Interaction.GetBehaviors(targetListViewBase).Add(new StickyHeaderBehavior(AllowScrollbarOverlap));
                     break;
                 case ScrollHeaderMode.Fade:
                     Interaction.GetBehaviors(targetListViewBase).Add(new FadeHeaderBehavior());

@@ -16,7 +16,7 @@ The **ScrollHeader Control** provides a header for ListViews or GridViews that a
 
 <ListView Name="listView" ItemsSource="{x:Bind _items, Mode=OneWay}">
 	<ListView.Header>
-		<controls:ScrollHeader Mode="Sticky" TargetListViewBase="{x:Bind listView}">
+		<controls:ScrollHeader Mode="Sticky" AllowScrollbarOverlap="true" TargetListViewBase="{x:Bind listView}">
 			<TextBlock Text="Scroll Header" />
 		</controls:ScrollHeader>
 	</ListView.Header>
