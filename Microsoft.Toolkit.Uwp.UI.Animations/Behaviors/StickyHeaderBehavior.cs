@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
@@ -18,7 +17,6 @@ using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 
@@ -32,17 +30,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// </seealso>
     public class StickyHeaderBehavior : BehaviorBase<FrameworkElement>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StickyHeaderBehavior"/> class.
-        /// </summary>
-        /// <param name="allowScrollbarOverlap">
-        ///   <c>true</c> if list's vertical ScrollBar is allowed to overlap our <see cref="HeaderElement"/>; otherwise <c>false</c>.
-        /// </param>
-        public StickyHeaderBehavior(bool allowScrollbarOverlap)
-        {
-            _allowScrollbarOverlap = allowScrollbarOverlap;
-        }
-
         /// <summary>
         /// Attaches the behavior to the associated object.
         /// </summary>
@@ -73,10 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         public static readonly DependencyProperty HeaderElementProperty = DependencyProperty.Register(
             nameof(HeaderElement), typeof(UIElement), typeof(QuickReturnHeaderBehavior), new PropertyMetadata(null, PropertyChangedCallback));
 
-        private readonly bool _allowScrollbarOverlap;
         private ScrollViewer _scrollViewer;
-        private ScrollBar _scrollBar;
-        private double _previousScrollBarTopMargin;
         private double _previousVerticalScrollOffset;
         private CompositionPropertySet _scrollProperties;
         private CompositionPropertySet _animationProperties;
@@ -151,16 +135,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 return false;
             }
 
-            if (_scrollBar == null)
-            {
-                // Last scrollbar with "VerticalScrollBar" as name is our target to set its margin and avoid it overlapping the header
-                _scrollBar = _scrollViewer.FindDescendants<ScrollBar>().LastOrDefault(bar => bar.Name == "VerticalScrollBar");
-                if (_scrollBar != null && !_allowScrollbarOverlap)
-                {
-                    _previousScrollBarTopMargin = _scrollBar.Margin.Top;
-                }
-            }
-
             var listView = AssociatedObject as Windows.UI.Xaml.Controls.ListViewBase ?? AssociatedObject.FindDescendant<Windows.UI.Xaml.Controls.ListViewBase>();
 
             if (listView != null && listView.ItemsPanelRoot != null)
@@ -188,13 +162,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             if (headerElement == null || headerElement.RenderSize.Height == 0)
             {
                 return false;
-            }
-
-            if (_scrollBar != null)
-            {
-                // Since our header exists and has non-zero height we can set our scrollbar's margin
-                // If overlap is not allowed, we set the margin to header's height, otherwise set it to initial value to reset it
-                _scrollBar.Margin = new Thickness(0, !_allowScrollbarOverlap ? headerElement.RenderSize.Height : _previousScrollBarTopMargin, 0, 0);
             }
 
             if (_headerVisual == null)
