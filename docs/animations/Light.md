@@ -8,11 +8,11 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, light, light anim
 
 # Light
 
-The Light animation behavior performs a point light (A point source of light that emits light in all directions) in the middle of a given UIElement. You set the distance property of the light to determine how bright the light will be. The closer the light source, the darker the UI element will be. ***NOTE**:  Heavy usage of effects may have a negative impact on the performance of your application.* 
+The Light animation behavior performs a point light (A point source of light that emits light in all directions) in the middle of a given UIElement. You set the distance property of the light to determine how bright the light will be. The closer the light source, the darker the UI element will be. **_NOTE_**:  Heavy usage of effects may have a negative impact on the performance of your application.* 
 
 ## Syntax
 
-**XAML**
+### **XAML**
 
 ```xaml
 <Page ...
@@ -29,7 +29,7 @@ The Light animation behavior performs a point light (A point source of light tha
 
 ```
 
-**C#**
+### **C#**
 
 ```csharp
 MyUIElement.Light(distance: 5, duration: 2500, delay: 250).Start();
@@ -40,26 +40,25 @@ await MyUIElement.Light(distance: 5, duration: 2500, delay: 250).StartAsync(); /
 
 ![Light Behavior animation](../resources/images/Animations/Light/Sample-Output.gif)
 
-## Properties
-
-
-
 ## Examples
 
-- The light behavior is great at drawing the user's eye towards a particular pieces of user interface. Closer the light source, the more focused it will be, but, will make the overall UI element darker. The further away from the light source the more the light will spread over the UIElement.
-- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
+_The light behavior is great at drawing the user's eye towards a particular pieces of user interface. Closer the light source, the more focused it will be, but, will make the overall UI element darker. The further away from the light source the more the light will spread over the UIElement._
 
-    **Sample Code**
-    ```csharp
-    var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
-    anim.SetDurationForAll(2500);
-    anim.SetDelay(250);
-    anim.Completed += animation_completed;
-    anim.Start();
-    ```
-    **Sample Output**
+**Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.**
 
-    ![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
+_Sample Code_
+
+```csharp
+var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
+anim.SetDurationForAll(2500);
+anim.SetDelay(250);
+anim.Completed += animation_completed;
+anim.Start();
+```
+
+_Sample Output_
+
+![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
 
 ## Sample Project
 

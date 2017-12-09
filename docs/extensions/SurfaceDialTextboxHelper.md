@@ -32,7 +32,6 @@ Enables you to click the Surface Dial Control to move to the next focus item in 
 ## Syntax
 
 ```xaml
-
 <TextBox Width="106"
           HorizontalAlignment="Left"
           VerticalAlignment="Top"
@@ -45,7 +44,6 @@ Enables you to click the Surface Dial Control to move to the next focus item in 
           extensions:SurfaceDialTextboxHelper.MinValue="100"
           extensions:SurfaceDialTextboxHelper.StepValue="1"
           Text="0" />  
-
 ```
 
 ## Example Image

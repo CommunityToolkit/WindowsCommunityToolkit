@@ -19,30 +19,28 @@ Developers can use the control to resize fixed and star (*) width/height columns
 ## Syntax
 
 ```xaml
-
 <controls:GridSplitter 
-            Grid.Column="1"
-                Width="11"
-            ResizeBehavior="BasedOnAlignment"
-            ResizeDirection="Auto"
-                Background="Gray"
-                Foreground="White" 
-                FontSize="13">
-            <controls:GridSplitter.Element>
-                <Grid>
-                    <TextBlock HorizontalAlignment="Center" 
-                                   IsHitTestVisible="False"
-                                   VerticalAlignment="Center"  
-                                    Text="&#xE784;"
-                                   Foreground="Black" 
-                                   FontFamily="Segoe MDL2 Assets">
-                    </TextBlock>
-                </Grid>
-            </controls:GridSplitter.Element>
-        </controls:GridSplitter>
+    Grid.Column="1"
+    Width="11"
+    ResizeBehavior="BasedOnAlignment"
+    ResizeDirection="Auto"
+    Background="Gray"
+    Foreground="White" 
+    FontSize="13">
 
+    <controls:GridSplitter.Element>
+        <Grid>
+            <TextBlock HorizontalAlignment="Center" 
+                IsHitTestVisible="False"
+                VerticalAlignment="Center"  
+                Text="&#xE784;"
+                Foreground="Black" 
+                FontFamily="Segoe MDL2 Assets">
+            </TextBlock>
+        </Grid>
+    </controls:GridSplitter.Element>
+</controls:GridSplitter>
 ```
-
 
 ## Example Image
 
@@ -90,11 +88,11 @@ The following sample demonstrates how to add Grid Splitter Control.
             <controls:GridSplitter.Element>
                 <Grid>
                     <TextBlock HorizontalAlignment="Center" 
-                                   IsHitTestVisible="False"
-                                   VerticalAlignment="Center"  
-                                    Text="&#xE784;"
-                                   Foreground="Black" 
-                                   FontFamily="Segoe MDL2 Assets">
+                        IsHitTestVisible="False"
+                        VerticalAlignment="Center"  
+                        Text="&#xE784;"
+                        Foreground="Black" 
+                        FontFamily="Segoe MDL2 Assets">
                     </TextBlock>
                 </Grid>
             </controls:GridSplitter.Element>
@@ -112,11 +110,11 @@ The following sample demonstrates how to add Grid Splitter Control.
             <controls:GridSplitter.Element>
                 <Grid>
                     <TextBlock HorizontalAlignment="Center"     
-                                   IsHitTestVisible="False"
-                                   VerticalAlignment="Center"  
-                                    Text="&#xE76F;"
-                                   Foreground="Black" 
-                                   FontFamily="Segoe MDL2 Assets">
+                        IsHitTestVisible="False"
+                        VerticalAlignment="Center"  
+                        Text="&#xE76F;"
+                        Foreground="Black" 
+                        FontFamily="Segoe MDL2 Assets">
                     </TextBlock>
                 </Grid>
             </controls:GridSplitter.Element>

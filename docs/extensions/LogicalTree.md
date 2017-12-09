@@ -21,31 +21,29 @@ See also [VisualTree Extensions](VisualTree.md).
 ## Example
 
 ```csharp
+// Include namespace to access extensions.
+using Microsoft.Toolkit.Uwp.UI;
 
-	// Include namespace to access extensions.
-	using Microsoft.Toolkit.Uwp.UI;
+// Find logical child control using its name.
+var control = uiElement.FindChildByName("MyTextBox");
 
-	// Find logical child control using its name.
-	var control = uiElement.FindChildByName("MyTextBox");
+// Find first logical child control of a specified type.
+control = uiElement.FindChild<ListView>();
 
-	// Find first logical child control of a specified type.
-	control = uiElement.FindChild<ListView>();
+// Find all logical child controls of the specified type.
+foreach (var child in uiElement.FindChildren<ListViewItem>())
+{
+	// ...
+}
 
-	// Find all logical child controls of the specified type.
-	foreach (var child in uiElement.FindChildren<ListViewItem>())
-	{
-		// ...
-	}
+// Find first logical parent using its name.
+control = uiElement.FindParentByName("MyGrid");
 
-	// Find first logical parent using its name.
-	control = uiElement.FindParentByName("MyGrid");
+// Find first logical parent control of a specified type.
+control = uiElement.FindParent<Grid>();
 
-	// Find first logical parent control of a specified type.
-	control = uiElement.FindParent<Grid>();
-
-	// Retrieves the Content for the specified control from whatever its 'Content' Property may be.
-	var content = uiElement.GetContentControl();
-
+// Retrieves the Content for the specified control from whatever its 'Content' Property may be.
+var content = uiElement.GetContentControl();
 ```
 
 ## Requirements (Windows 10 Device Family)

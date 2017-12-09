@@ -9,7 +9,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HamburgerMenu, xa
 # HamburgerMenu XAML Control
 
 > [!NOTE]
-The HamburgerMenu is deprecated and will be removed in a future major release. Please use the [NavigationView](https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/navigationview) available in the Fall Creators Update. Read the [Moving to NavigationView](#navview) section for more info.
+The HamburgerMenu is deprecated and will be removed in a future major release. Please use the [NavigationView](https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/navigationview) available in the Fall Creators Update. Read the [Moving to NavigationView](#moving-to-navigationview) section for more info.
 
 The **Hamburger Menu Control** provides an easy-to-use, side-bar menu which users can show or hide by using a Hamburger button. By  tapping the icon, it opens up a side menu with a selection of options or additional pages.
 
@@ -80,12 +80,13 @@ The next sample demonstrates how to add custom menu items to the HamburgerMenu c
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <controls:HamburgerMenu x:Name="hamburgerMenuControl"
-                                PaneBackground="Black"
-                                Foreground="White"
-                                ItemTemplate="{StaticResource DefaultTemplate}"
-                                ItemClick="OnMenuItemClick"
-                                OptionsItemTemplate="{StaticResource DefaultTemplate}"
-                                OptionsItemClick="OnMenuItemClick">
+            PaneBackground="Black"
+            Foreground="White"
+            ItemTemplate="{StaticResource DefaultTemplate}"
+            ItemClick="OnMenuItemClick"
+            OptionsItemTemplate="{StaticResource DefaultTemplate}"
+            OptionsItemClick="OnMenuItemClick">
+
             <Frame x:Name="contentFrame" Foreground="Black"/>
         </controls:HamburgerMenu>
     </Grid>
@@ -96,7 +97,6 @@ The next sample demonstrates how to add custom menu items to the HamburgerMenu c
 As you can see below, we declared a Frame inside the HamburgerMenu control. Using this Frame object, you can navigate to your pages by using the following code.
 
 ```csharp
-
 using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
@@ -143,10 +143,9 @@ namespace HamburgerSample
         }
     }
 }
-
 ```
 
-## <a name="navview"></a> Moving to NavigationView
+## Moving to NavigationView
 The Windows 10 Fall Creators Update SDK now includes the [NavigationView](https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/navigationview) control among other new controls and APIs. This is great news for the UWP Community Toolkit as it means that one of its most popular controls, the HamburgerMenu, has a comparable counterpart in the Windows SDK and it is very easy to transition to the NavigationView if you are already using the HamburgerMenu. 
 
 The HamburgerMenu and NavigationView share the same concepts and provide the same functionality with one major exception being the NavigationView takes advantage of the new fluent design system. In fact, the NavigationView does everything the HamburgerMenu does and even more.
@@ -165,11 +164,11 @@ The HamburgerMenu and NavigationView share the same concepts and provide the sam
     The *OptionsItemsSource* and *OptionItemsTemplate* is not available in the NavigationView. Instead, the NavigationView has two additional new properties that provide a much more flexible way of handling settings and optional items:
     * An optional property for app settings. Simply set the property *IsSettingsVisible* to true and the NavigationView will display the settings button at the bottom. You can even customize the settings item 
 
-        ```csharp
-        var settingsItem = HamburgerMenu.SettingsItem as NavigationViewItem;
-        settingsItem.Content = "About";
-        settingsItem.Icon = new FontIcon() { Glyph = "?" };
-        ```
+```csharp
+var settingsItem = HamburgerMenu.SettingsItem as NavigationViewItem;
+settingsItem.Content = "About";
+settingsItem.Icon = new FontIcon() { Glyph = "?" };
+```
 
     * Free-form content in the pane’s footer, by adding any content in the new *PaneFooter* property 
 

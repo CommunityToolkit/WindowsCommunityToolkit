@@ -40,7 +40,6 @@
       <controls:MarkdownTextBlock x:Name="MarkdownText"
                                   Margin="6"
                                   Header1Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                                  Foreground="@[Foreground:Brush:Black]@"
                                   LinkForeground="@[Links:Brush:DodgerBlue]"
                                   Text="{Binding ElementName=UnformattedText, Path=Text}" />
     </ScrollViewer>

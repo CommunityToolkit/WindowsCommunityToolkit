@@ -18,27 +18,26 @@ See also [LogicalTree Extensions](LogicalTree.md).
 ## Example
 
 ```csharp
+// Include namespace to access extensions.
+using Microsoft.Toolkit.Uwp.UI;
 
-	// Include namespace to access extensions.
-	using Microsoft.Toolkit.Uwp.UI;
+// Find visual descendant control using its name.
+var control = uiElement.FindDescendantByName("MyTextBox");
 
-	// Find visual descendant control using its name.
-	var control = uiElement.FindDescendantByName("MyTextBox");
+// Find first visual descendant control of a specified type.
+control = uiElement.FindDescendant<ListView>();
 
-	// Find first visual descendant control of a specified type.
-	control = uiElement.FindDescendant<ListView>();
+// Find all visual descendant controls of the specified type.
+foreach (var child in uiElement.FindDescendant<ListViewItem>())
+{
+	// ...
+}
 
-	// Find all visual descendant controls of the specified type.
-	foreach (var child in uiElement.FindDescendant<ListViewItem>())
-	{
-		// ...
-	}
+// Find first visual ascendant control using its name.
+control = uiElement.FindAscendantByName("MyScrollViewer");
 
-	// Find first visual ascendant control using its name.
-	control = uiElement.FindAscendantByName("MyScrollViewer");
-
-	// Find first visual ascendant control of a specified type.
-	control = uiElement.FindAscendant<ScrollViewer>();
+// Find first visual ascendant control of a specified type.
+control = uiElement.FindAscendant<ScrollViewer>();
 ```
 
 ## Requirements (Windows 10 Device Family)

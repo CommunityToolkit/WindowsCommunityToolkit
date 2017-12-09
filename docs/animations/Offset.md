@@ -12,7 +12,7 @@ The Offset animation is used to move the control from one place to another. Offs
 
 ## Syntax
 
-**XAML**
+### **XAML**
 
 ```xaml
 <Page ...
@@ -29,7 +29,7 @@ The Offset animation is used to move the control from one place to another. Offs
 </interactivity:Interaction.Behaviors>
 ```
 
-**C#**
+### **C#**
 
 ```csharp
 MyUIElement.Offset(offsetX: 25, offsetY: 25, duration: 2500, delay: 250, easingType: EasingType.Default).Start();
@@ -41,7 +41,6 @@ await MyUIElement.Offset(offsetX: 25, offsetY: 25, duration: 2500, delay: 250, e
 ![Offset Behavior animation](../resources/images/Animations/Offset/Sample-Output.gif)
 
 ## Properties
-
 
 ### EasingType
 
@@ -65,40 +64,43 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ## Examples
 
-- You can just call `Offset()` set the control in the orginal position
+**You can just call `Offset()` set the control in the orginal position**
 
     **Sample Code**
     ```csharp
     await MyUIElement.Offset().Start();
     ```
-- Use await to create a continous movement
+**Use await to create a continous movement**
 
-    **Sample Code**
-    ```csharp
-    public async void OffsetAsync()
-    {
-        await MyUIElement.Offset(offsetX: 100, duration:1000).StartAsync();
-        await MyUIElement.Offset(offsetX: 100, offsetY: 100, duration: 1000).StartAsync();
-        await MyUIElement.Offset(offsetX: 0, offsetY:100, duration: 1000).StartAsync();
-        await MyUIElement.Offset(duration: 1000).StartAsync();
-    }
-    ```
-    **Sample Output**
+_Sample Code_
+
+```csharp
+public async void OffsetAsync()
+{
+    await MyUIElement.Offset(offsetX: 100, duration:1000).StartAsync();
+    await MyUIElement.Offset(offsetX: 100, offsetY: 100, duration: 1000).StartAsync();
+    await MyUIElement.Offset(offsetX: 0, offsetY:100, duration: 1000).StartAsync();
+    await MyUIElement.Offset(duration: 1000).StartAsync();
+}
+```
+_Sample Output_
 
     ![Use Case 2 Output](../resources/images/Animations/Offset/Use-Case-1.gif)
-- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
-    **Sample Code**
-    ```csharp
-    var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
-    anim.SetDurationForAll(2500);
-    anim.SetDelay(250);
-    anim.Completed += animation_completed;
-    anim.Start();
-    ```
-    **Sample Output**
+**Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.**
 
-    ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
+_Sample Code_
+
+```csharp
+var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
+anim.SetDurationForAll(2500);
+anim.SetDelay(250);
+anim.Completed += animation_completed;
+anim.Start();
+```
+_Sample Output_
+
+![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
 
 ## Sample Project
 

@@ -88,7 +88,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     _codeUrl = $"https://github.com/Microsoft/UWPCommunityToolkit/tree/master/{path}";
                 }
 #endif
-
             }
         }
 
@@ -236,25 +235,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 result = result.Remove(metadataMatch.Index, metadataMatch.Index + metadataMatch.Length);
             }
 
-            // Need to do some cleaning
-            // Rework code tags
-            var regex = new Regex("```(xaml|xml|csharp)(?<code>.+?)```", RegexOptions.Singleline);
-
-            foreach (Match match in regex.Matches(result))
-            {
-                var code = match.Groups["code"].Value;
-                var lines = code.Split('\n');
-                var newCode = new StringBuilder();
-                foreach (var line in lines)
-                {
-                    newCode.AppendLine("    " + line);
-                }
-
-                result = result.Replace(match.Value, newCode.ToString());
-            }
-
             // Images
-            regex = new Regex("## Example Image.+?##", RegexOptions.Singleline);
+            var regex = new Regex("## Example Image.+?##", RegexOptions.Singleline);
             result = regex.Replace(result, "##");
 
             return result;
@@ -409,6 +391,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.TimeSpan:
                                     try
                                     {
@@ -440,6 +423,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.Enum:
                                     try
                                     {
@@ -457,6 +441,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.Bool:
                                     try
                                     {
@@ -469,6 +454,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.Brush:
                                     try
                                     {
@@ -482,6 +468,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 default:
                                     options = new PropertyOptions { DefaultValue = value };
                                     break;

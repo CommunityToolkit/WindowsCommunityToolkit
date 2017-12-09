@@ -12,7 +12,7 @@ The Blur animation blurs a XAML element by increasing or decreasing pixel size. 
 
 ## Syntax
 
-**XAML**
+### **XAML**
 
 ```xaml
 <Page ...
@@ -28,7 +28,7 @@ The Blur animation blurs a XAML element by increasing or decreasing pixel size. 
 </interactivity:Interaction.Behaviors>
 ```
 
-**C#**
+### **C#**
 
 ```csharp
 MyUIElement.Blur(value: 5, duration: 2500, delay: 250).Start();
@@ -39,44 +39,43 @@ await MyUIElement.Blur(value: 5, duration: 2500, delay: 250).StartAsync();  //Bl
 
 ![Blur Behavior animation](../resources/images/Animations/Blur/Sample-Output.gif)
 
-## Properties
-
-
-
 ## Examples
 
-- Use this to shift the focus to foreground controls.
+**Use this to shift the focus to foreground controls.**
 
-    **Sample Code**
-    ```xaml
+_Sample Code_
+```xaml
+<Grid>
     <Grid>
-        <Grid>
-            <interactivity:Interaction.Behaviors>
-                <behaviors:Blur x:Name="BlurBehavior" Value="5" Duration="2500" Delay="0" AutomaticallyStart="True"/>
-            </interactivity:Interaction.Behaviors>
-            <!-- XAML Element to be Blurred -->
-            <!-- Background(even for Transparent background) of this Grid will also be Blurred -->
-        </Grid>
-        <!-- Foreground XAML Element -->
+        <interactivity:Interaction.Behaviors>
+            <behaviors:Blur x:Name="BlurBehavior" Value="5" Duration="2500" Delay="0" AutomaticallyStart="True"/>
+        </interactivity:Interaction.Behaviors>
+        <!-- XAML Element to be Blurred -->
+        <!-- Background(even for Transparent background) of this Grid will also be Blurred -->
     </Grid>
-    ```
-    **Sample Output**
+    <!-- Foreground XAML Element -->
+</Grid>
+```
 
-    ![Use Case 1 Output](../resources/images/Animations/Blur/Use-Case-1.gif)
+_Sample Output_
 
-- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
+![Use Case 1 Output](../resources/images/Animations/Blur/Use-Case-1.gif)
 
-    **Sample Code**
-    ```csharp
-    var anim = MyUIElement.Blur(5).Fade(0.5f).Rotate(30);
-    anim.SetDurationForAll(2500);
-    anim.SetDelay(250);
-    anim.Completed += animation_completed;
-    anim.Start();
-    ```
-    **Sample Output**
+**Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.**
 
-    ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
+_Sample Code_
+
+```csharp
+var anim = MyUIElement.Blur(5).Fade(0.5f).Rotate(30);
+anim.SetDurationForAll(2500);
+anim.SetDelay(250);
+anim.Completed += animation_completed;
+anim.Start();
+```
+
+_Sample Output_
+
+![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
 
 ## Sample Project
 

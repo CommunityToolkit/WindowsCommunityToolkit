@@ -31,7 +31,7 @@ The Connected Animations XAML Attached Properties enable connected animations to
         </DataTemplate>
     </GridView.ItemTemplate>
 </GridView>
- ```
+```
 
 ## Sample Output
 

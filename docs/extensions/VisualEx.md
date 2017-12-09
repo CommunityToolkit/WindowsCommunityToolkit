@@ -18,13 +18,13 @@ The Composition Visual Attached Properties allow developers to modify common pro
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions">
 
 <Border Height="100"
-		Width="100"
-		Background="Purple"
-		extensions:VisualEx.CenterPoint="50,50,0"
-		extensions:VisualEx.Opacity="0.5"
-		extensions:VisualEx.RotationAngleInDegrees="80"
-		extensions:VisualEx.Scale="2, 0.5, 1"
-		extensions:VisualEx.NormalizedCenterPoint="0.5, 0.5, 0" />
+	Width="100"
+	Background="Purple"
+	extensions:VisualEx.CenterPoint="50,50,0"
+	extensions:VisualEx.Opacity="0.5"
+	extensions:VisualEx.RotationAngleInDegrees="80"
+	extensions:VisualEx.Scale="2, 0.5, 1"
+	extensions:VisualEx.NormalizedCenterPoint="0.5, 0.5, 0" />
 ```
 
 ## Properties

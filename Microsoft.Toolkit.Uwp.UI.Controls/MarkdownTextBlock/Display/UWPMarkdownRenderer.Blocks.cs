@@ -295,23 +295,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             textBlock.Blocks.Add(paragraph);
 
             // Allows external Syntax Highlighting
-            if (_codeBlockResolver?.ParseSyntax(paragraph.Inlines, element.Text, element.CodeLanguage) != true)
+            var hasCustomSyntax = _codeBlockResolver.ParseSyntax(paragraph.Inlines, element.Text, element.CodeLanguage);
+            if (!hasCustomSyntax)
             {
                 paragraph.Inlines.Add(new Run { Text = element.Text });
             }
 
-            var border = new Border
+            // Ensures that Code has Horizontal Scroll and doesn't wrap.
+            var viewer = new ScrollViewer
             {
                 Background = CodeBackground,
                 BorderBrush = CodeBorderBrush,
                 BorderThickness = CodeBorderThickness,
                 Padding = CodePadding,
                 Margin = CodeMargin,
-                Child = textBlock
+                Content = textBlock,
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+                HorizontalScrollMode = ScrollMode.Auto,
+                VerticalScrollMode = ScrollMode.Disabled,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Disabled,
             };
 
             // Add it to the blocks
-            blockUIElementCollection_.Add(border);
+            blockUIElementCollection_.Add(viewer);
         }
 
         /// <summary>

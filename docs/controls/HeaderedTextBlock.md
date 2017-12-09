@@ -13,12 +13,10 @@ The **HeaderedTextBlock Control** provides a header for read-only text. This con
 ## Syntax
 
 ```xaml
-
 <controls:HeaderedTextBlock Header="HeaderedTextBlockControl" 
-           Text="UWP Community Toolkit" 
-           Orientation="Vertical"
-		   Margin="20,10,0,0" />  
-
+    Text="UWP Community Toolkit" 
+    Orientation="Vertical"
+    Margin="20,10,0,0" />  
 ```
 
 ## Example Image

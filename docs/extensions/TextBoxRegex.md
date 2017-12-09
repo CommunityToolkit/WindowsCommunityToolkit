@@ -26,18 +26,16 @@ Main Attached Properties:
 ## Syntax
 
 ```xaml
+<TextBox extensions:TextBoxRegex.Regex="^\s*\+?\s*([0-9][\s-]*){9,}$" />
 
-            <TextBox extensions:TextBoxRegex.Regex="^\s*\+?\s*([0-9][\s-]*){9,}$" />
+<TextBox extensions:TextBoxRegex.ValidationMode="Forced"
+    extensions:TextBoxRegex.ValidationType="PhoneNumber"
+    Text="+61616161611" />
 
-            <TextBox extensions:TextBoxRegex.ValidationMode="Forced"
-                      extensions:TextBoxRegex.ValidationType="PhoneNumber"
-                      Text="+61616161611" />
+<TextBox extensions:TextBoxRegex.ValidationType="Email" />
 
-           <TextBox extensions:TextBoxRegex.ValidationType="Email"   />
-
-            <TextBox extensions:TextBoxRegex.ValidationMode="Forced"
-                     extensions:TextBoxRegex.ValidationType="Decimal" />
-
+<TextBox extensions:TextBoxRegex.ValidationMode="Forced"
+    extensions:TextBoxRegex.ValidationType="Decimal" />
 ```
 
 
@@ -52,7 +50,6 @@ Main Attached Properties:
 The following sample demonstrates how to add TextBoxRegex property.
 
 ```xaml
-
 <Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextBoxRegexPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -144,9 +141,6 @@ The following sample demonstrates how to add TextBoxRegex property.
         </Grid>
     </Grid>
 </Page>
-
-
-
 ```
 
 ## Requirements (Windows 10 Device Family)

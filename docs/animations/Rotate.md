@@ -12,7 +12,7 @@ The Rotate animation allows users to modify and animate the control's rotation. 
 
 ## Syntax
 
-**XAML**
+### **XAML**
 
 ```xaml
 <Page ...
@@ -31,7 +31,7 @@ The Rotate animation allows users to modify and animate the control's rotation. 
 </interactivity:Interaction.Behaviors>
 ```
 
-**C#**
+### **C#**
 
 ```csharp
 MyUIElement.Rotate(value: 0.5f, centerX: 0.0f, centerY: 0.0f, duration: 2500, delay: 250, easingType: EasingType.Default).Start();
@@ -43,8 +43,6 @@ await MyUIElement.Rotate(value: 0.5f, centerX: 0.0f, centerY: 0.0f, duration: 25
 ![Rotate Behavior animation](../resources/images/Animations/Rotate/Sample-Output.gif)
 
 ## Properties
-
-
 
 ### EasingType
 
@@ -68,19 +66,21 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ## Examples
 
-- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
+**Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.**
 
-    **Sample Code**
-    ```csharp
-    var anim = MyUIElement.Rotate(30).Fade(0.5f).Blur(5);
-    anim.SetDurationForAll(2500);
-    anim.SetDelay(250);
-    anim.Completed += animation_completed;
-    anim.Start();
-    ```
-    **Sample Output**
+_Sample Code_
 
-    ![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
+```csharp
+var anim = MyUIElement.Rotate(30).Fade(0.5f).Blur(5);
+anim.SetDurationForAll(2500);
+anim.SetDelay(250);
+anim.Completed += animation_completed;
+anim.Start();
+```
+
+_Sample Output_
+
+![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
 
 ## Sample Project
 

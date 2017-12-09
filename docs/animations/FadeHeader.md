@@ -12,9 +12,10 @@ The FadeHeader fades a ListView or GridView Header UIElement when the user scrol
 
 ## Syntax
 
-**XAML**
+### **XAML**
 
-***Implicit usage***: Automatically detects the Header element by finding the ListViewBase (note: GridView uses ListViewBase)
+**_Implicit usage_**: Automatically detects the Header element by finding the ListViewBase (note: GridView uses ListViewBase)
+
 ```xaml
 <Page ...
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
@@ -30,7 +31,7 @@ The FadeHeader fades a ListView or GridView Header UIElement when the user scrol
 </ListView>
 ```
 
-***Explicit usage***: Set the ElementName property using the UIElement of the Header manually
+**_Explicit usage_**: Set the ElementName property using the UIElement of the Header manually
 ```xaml
 <Page ...
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
@@ -48,14 +49,16 @@ The FadeHeader fades a ListView or GridView Header UIElement when the user scrol
 </ListView>
 ```
 
-**C#**
+### **C#**
 
-***Implicit usage***:
+**_Implicit usage_**:
+
 ```csharp
 Microsoft.Xaml.Interactivity.Interaction.GetBehaviors(MyListView).Add(new FadeHeaderBehavior());
 ```
 
-***Explicit usage***:
+**_Explicit usage_**:
+
 ```csharp
 Microsoft.Xaml.Interactivity.Interaction.GetBehaviors(MyListView).Add(new FadeHeaderBehavior { HeaderElement = MyHeaderGrid });
 ```

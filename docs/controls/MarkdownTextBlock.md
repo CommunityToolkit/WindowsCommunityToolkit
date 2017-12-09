@@ -15,14 +15,12 @@ Under the hood, the control uses XAML sub elements to build the visual rendering
 ## Syntax
 
 ```xaml
-
  <controls:MarkdownTextBlock
     Text="**This is *Markdown*!"
     MarkdownRendered="MarkdownText_MarkdownRendered"
     LinkClicked="MarkdownText_LinkClicked"
     Margin="6">
 </controls:MarkdownTextBlock>
-
 ```
 
 ## Limitations

@@ -9,7 +9,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, SlidableListItem,
 # SlidableListItem XAML Control
 
 > [!NOTE]
-The SlidableListItem is deprecated and will be removed in a future major release. Please use the [SwipeControl](https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/swipe) available in the Fall Creators Update. Read the [Moving to SwipeControl](#swipe) section for more info.
+The SlidableListItem is deprecated and will be removed in a future major release. Please use the [SwipeControl](https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/swipe) available in the Fall Creators Update. Read the [Moving to SwipeControl](#moving-to-swipecontrol) section for more info.
 
 The **SlidableListItem Control** is a UI control that enables actions to be triggered by sliding the content left or right. This effect can be forced to ignore the mouse if only touch screen interaction is desired.
 
@@ -18,55 +18,50 @@ This control can be used as a ListView Data Template root to create effects simi
 The **LeftCommand** and the **LeftCommandRequested** event is executed when the control has been swiped to the right, and **RightCommand** and the **RightCommandRequested** event is executed when the control has been swiped to the left. If you need more detailed control you can subscribe to the **SwipeStatusChanged** event. This is triggered when swiping starts, stops, swiping below and above **ActivationWidth** and some other cases. The following code shows how to detect some important events:
 
 ```csharp
-
-    private void SlidableListItem_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)
+private void SlidableListItem_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)
+{
+    if (args.NewValue == SwipeStatus.Starting)
     {
-        if (args.NewValue == SwipeStatus.Starting)
+        // Swiping starting
+    }
+    else if (args.NewValue == SwipeStatus.Idle)
+    {
+        if (args.OldValue == SwipeStatus.SwipingPassedLeftThreshold)
         {
-            // Swiping starting
+            // Swiping to the left completed
         }
-        else if (args.NewValue == SwipeStatus.Idle)
+        else if (args.OldValue == SwipeStatus.SwipingPassedRightThreshold)
         {
-            if (args.OldValue == SwipeStatus.SwipingPassedLeftThreshold)
-            {
-                // Swiping to the left completed
-            }
-            else if (args.OldValue == SwipeStatus.SwipingPassedRightThreshold)
-            {
-                // Swiping to the right completed
-            }
-            else
-            {
-                // Swiping cancelled
-            }
+            // Swiping to the right completed
+        }
+        else
+        {
+            // Swiping cancelled
         }
     }
-
+}
 ```
 
 If you use **SlidableListItem** in a **ListView** with the **ItemClick** event, you need to be aware the **ItemClick** event is triggered by default when the control has been swiped. If you don’t want this behavior you can set **IsPointerReleasedOnSwipingHandled** to **true** to suppress the **ItemClick** event. If you need more control you can instead check the **SwipeStatus** property in the **ItemClick** event. The following code shows how to do that:
 
 ```csharp
+private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+{
+    var listView = sender as ListView;
+    var listViewItem = listView.ContainerFromItem(e.ClickedItem) as ListViewItem;
+    var slidableListItem = listViewItem.ContentTemplateRoot as SlidableListItem;
 
-    private void ListView_ItemClick(object sender, ItemClickEventArgs e)
-    {
-        var listView = sender as ListView;
-        var listViewItem = listView.ContainerFromItem(e.ClickedItem) as ListViewItem;
-        var slidableListItem = listViewItem.ContentTemplateRoot as SlidableListItem;
+    // Don't do anything unless the SwipeStatus is Idle.
+    if (slidableListItem.SwipeStatus != SwipeStatus.Idle)
+        return;
 
-        // Don't do anything unless the SwipeStatus is Idle.
-        if (slidableListItem.SwipeStatus != SwipeStatus.Idle)
-            return;
-
-        ...
-    }
-
+    ...
+}
 ```
 
 ## Syntax
 
 ```xaml
-
 <controls:SlidableListItem
 	LeftIcon="Favorite" 
 	RightIcon="Delete" 
@@ -86,10 +81,9 @@ If you use **SlidableListItem** in a **ListView** with the **ItemClick** event, 
 		<TextBlock Text="My Great Text" TextWrapping="NoWrap"/>            
 	</StackPanel>
 </controls:SlidableListItem> 
-
 ```
 
-## <a name="swipe"></a> Moving to SwipeControl
+## Moving to SwipeControl
 The Windows 10 Fall Creators Update SDK now includes the [SwipeControl](https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/swipe) control among other new controls and APIs. This is great news for the UWP Community Toolkit as it means that one of its most popular controls has a comparable counterpart in the Windows SDK and it is very easy to transition to the SwipeControl if you are already using the SlidableListItem.
 
 The SlidableListItem and SwipeControl share the same concepts and provide the same functionality. In fact, the SwipeControl adds even more functionality and can be used in even more scenarios.

@@ -15,10 +15,8 @@ The *InAppNotification* control offers the ability to show local notifications i
 The control should be placed where you want your notification to be displayed in the page, generally in the root grid.
 
 ```xaml
-
 <controls:InAppNotification
     x:Name="ExampleInAppNotification" />
-
 ```
 
 > [!NOTE]

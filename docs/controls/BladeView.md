@@ -13,29 +13,29 @@ The BladeView provides a container to host blades as extra detail pages in, for 
 ## Syntax
 
 ```xaml
-
 <controls:BladeView>
     <controls:BladeItem IsOpen="True"
-                        TitleBarVisibility="Collapsed">
+        TitleBarVisibility="Collapsed">
+
         <StackPanel Margin="8">
             <ToggleButton Width="180"
-                          Height="100"
-                          Margin="0, 20, 0, 0"
-                          IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=DefaultBlade}"
-                          Content="Default blade" />
+                Height="100"
+                Margin="0, 20, 0, 0"
+                IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=DefaultBlade}"
+                Content="Default blade" />
         </StackPanel>
     </controls:BladeItem>
 
     <controls:BladeItem x:Name="DefaultBlade" 
-	                    Header="A blade"
-                        IsOpen="False">
+        Header="A blade"
+        IsOpen="False">
+
         <TextBlock HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Style="{StaticResource SubtitleTextBlockStyle}"
-                   Text="This is a blade with all settings set to default." />
+            VerticalAlignment="Center"
+            Style="{StaticResource SubtitleTextBlockStyle}"
+            Text="This is a blade with all settings set to default." />
     </controls:BladeItem>
 </controls:BladeView>
-
 ```
 
 ## Blade modes
@@ -45,7 +45,6 @@ If you want blade items to stay unchanged (based on their respective width and h
 Otherwise, you can extend each blade items to fill the entire container (example: Grid, StackPanel, etc..). To do that, you'll have to choose the Fullscreen mode (BladeMode.Fullscreen).
 
 ```csharp
-
 public enum BladeMode
 {
     /// <summary>
@@ -58,20 +57,17 @@ public enum BladeMode
     /// </summary>
     Fullscreen
 }
-
 ```
 
 Here is an example of a BladeView where the `BladeMode` property is binded to a value in the code-behind.
 
 ```xaml
-
 <controls:BladeView x:Name="BladeView"
-                    Padding="0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    BladeMode="{Binding BladeMode}">
+    Padding="0"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    BladeMode="{Binding BladeMode}">
 </controls:BladeView>
-
 ```
 
 ## AutoCollapseCountThreshold

@@ -24,7 +24,6 @@ be raised and the *RefreshIntentCanceledCommand*, if any, will be executed.
 ## Syntax
 
 ```xaml
-
 <controls:PullToRefreshListView Name="PullToRefreshListViewControl"
     ItemsSource="{x:Bind _items}"	
     OverscrollLimit="0.4"
@@ -37,7 +36,6 @@ be raised and the *RefreshIntentCanceledCommand*, if any, will be executed.
         <Border HorizontalAlignment="Center" x:Name="refreshindicator" CornerRadius="30" Height="20" Width="20" ></Border>
     </controls:PullToRefreshListView.RefreshIndicatorContent>
 </controls:PullToRefreshListView>
-
 ```
 
 ## Example Image

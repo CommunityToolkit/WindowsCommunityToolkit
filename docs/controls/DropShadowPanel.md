@@ -16,15 +16,14 @@ You can control the following property of the drop shadow effect : Offset, Color
 ## Syntax
 
 ```xaml
-
 <controls:DropShadowPanel BlurRadius="4.0"
-                          ShadowOpacity="0.70"
-                          OffsetX="5.0"
-                          OffsetY="5.0"
-                          Color="Black">
+    ShadowOpacity="0.70"
+    OffsetX="5.0"
+    OffsetY="5.0"
+    Color="Black">
+    
 	<Image Width="200" Source="Unicorn.png" Stretch="Uniform"/>
 </controls:DropShadowPanel>       
-
 ```
 
 ## Example Image

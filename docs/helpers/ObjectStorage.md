@@ -17,45 +17,44 @@ The Object Storage Helper will help you handle storage of generic objects within
 If you need to handle local saves of any object (generic), you can use `LocalObjectStorageHelper`.
 
 ```csharp
+var helper = new LocalObjectStorageHelper();
 
-    var helper = new LocalObjectStorageHelper();
+// Read simple objects
+string keySimpleObject = "simple";
+if (helper.KeyExists(keySimpleObject))
+{
+    string result = helper.Read<string>(keySimpleObject);
+}
 
-    // Read simple objects
-    string keySimpleObject = "simple";
-    if (helper.KeyExists(keySimpleObject))
-    {
-        string result = helper.Read<string>(keySimpleObject);
-    }
-    
-    // Read simple objects in a composite
-    string keyCompositeObject = "composite";
-    if (helper.KeyExists(keyCompositeObject, keySimpleObject))
-    {
-        string result = helper.Read<string>(keyCompositeObject, keySimpleObject);
-    }
+// Read simple objects in a composite
+string keyCompositeObject = "composite";
+if (helper.KeyExists(keyCompositeObject, keySimpleObject))
+{
+    string result = helper.Read<string>(keyCompositeObject, keySimpleObject);
+}
 
-    // Save simple objects
-    helper.Save(keySimpleObject, 47);
+// Save simple objects
+helper.Save(keySimpleObject, 47);
 
-    // Save simple objects in a composite
-    Dictionary<string, object>() simpleObjects = new Dictionary<string, object>();
-    simpleObjects.add("simpleObjectValueOne", 47);
-    simpleObjects.add("simpleObjectValueTwo", "hello!");
-    helper.Save(keyCompositeObject, simpleObjects);
+// Save simple objects in a composite
+Dictionary<string, object>() simpleObjects = new Dictionary<string, object>();
+simpleObjects.add("simpleObjectValueOne", 47);
+simpleObjects.add("simpleObjectValueTwo", "hello!");
+helper.Save(keyCompositeObject, simpleObjects);
 
-    // Read complex/large objects 
-    string keyLargeObject = "large";
-    if (await helper.FileExistsAsync(keyLargeObject))
-    {
-        var result = await helper.ReadFileAsync<MyLargeObject>(keyLargeObject);
-    }
+// Read complex/large objects 
+string keyLargeObject = "large";
+if (await helper.FileExistsAsync(keyLargeObject))
+{
+    var result = await helper.ReadFileAsync<MyLargeObject>(keyLargeObject);
+}
 
-    // Save complex/large objects 
-    var o = new MyLargeObject
-    {
-        ...
-    };
-    await helper.SaveFileAsync(keySimpleObject, o);
+// Save complex/large objects 
+var o = new MyLargeObject
+{
+    ...
+};
+await helper.SaveFileAsync(keySimpleObject, o);
 ```
 
 ### Roaming Storage
@@ -64,45 +63,44 @@ In the same way, if you need to handle roaming saves across all of user devices,
 The implementation of the `RoamingObjectStorageHelper` is absolutely similar to `LocalObjectStorageHelper`.
 
 ```csharp
+var helper = new RoamingObjectStorageHelper();
 
-    var helper = new RoamingObjectStorageHelper();
+// Read simple objects
+string keySimpleObject = "simple";
+if (helper.KeyExists(keySimpleObject))
+{
+    string result = helper.Read<string>(keySimpleObject);
+}
 
-    // Read simple objects
-    string keySimpleObject = "simple";
-    if (helper.KeyExists(keySimpleObject))
-    {
-        string result = helper.Read<string>(keySimpleObject);
-    }
-    
-    // Read simple objects in a composite
-    string keyCompositeObject = "composite";
-    if (helper.KeyExists(keyCompositeObject, keySimpleObject))
-    {
-        string result = helper.Read<string>(keyCompositeObject, keySimpleObject);
-    }
+// Read simple objects in a composite
+string keyCompositeObject = "composite";
+if (helper.KeyExists(keyCompositeObject, keySimpleObject))
+{
+    string result = helper.Read<string>(keyCompositeObject, keySimpleObject);
+}
 
-    // Save simple objects
-    helper.Save(keySimpleObject, 47);
-    
-    // Save simple objects in a composite
-    Dictionary<string, object>() simpleObjects = new Dictionary<string, object>();
-    simpleObjects.add("simpleObjectValueOne", 47);
-    simpleObjects.add("simpleObjectValueTwo", "hello!");
-    helper.Save(keyCompositeObject, simpleObjects);
+// Save simple objects
+helper.Save(keySimpleObject, 47);
 
-    // Read complex/large objects 
-    string keyLargeObject = "large";
-    if (await helper.FileExistsAsync(keyLargeObject))
-    {
-        var result = await helper.ReadFileAsync<MyLargeObject>(keyLargeObject);
-    }
+// Save simple objects in a composite
+Dictionary<string, object>() simpleObjects = new Dictionary<string, object>();
+simpleObjects.add("simpleObjectValueOne", 47);
+simpleObjects.add("simpleObjectValueTwo", "hello!");
+helper.Save(keyCompositeObject, simpleObjects);
 
-    // Save complex/large objects 
-    var o = new MyLargeObject
-    {
-        ...
-    };
-    await helper.SaveFileAsync(keySimpleObject, o);
+// Read complex/large objects 
+string keyLargeObject = "large";
+if (await helper.FileExistsAsync(keyLargeObject))
+{
+    var result = await helper.ReadFileAsync<MyLargeObject>(keyLargeObject);
+}
+
+// Save complex/large objects 
+var o = new MyLargeObject
+{
+    ...
+};
+await helper.SaveFileAsync(keySimpleObject, o);
 ```
 
 ## Requirements (Windows 10 Device Family)

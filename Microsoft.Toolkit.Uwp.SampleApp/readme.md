@@ -20,7 +20,7 @@ This makes it easy for a developer to test out values for a control and then cop
 
 In order to provide a property UI and associated code, you have to define a the .bind XAML file associated with your page.
 Here is an example:
-```
+```xaml
 <Grid>
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="48"></ColumnDefinition>
@@ -47,7 +47,7 @@ The `Property Name` can also contain spaces, but these will be removed from the 
 
 The name and options will be translated **automatically** to the following syntax when your .bind template is being used on the property page:
 
-```
+```xaml
 <Grid Margin="10">
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="48"></ColumnDefinition>
@@ -61,7 +61,7 @@ The name and options will be translated **automatically** to the following synta
 
 When the developer switches to the XAML tab, they'll automatically see the selected values instead:
 
-```
+```xaml
 <Grid Margin="10">
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="48"></ColumnDefinition>
@@ -77,7 +77,7 @@ You can also reuse a `@[Property Name]` reference by itself again later to use t
 
 If you happen to need a two-way binding for the generated XAML, then add an extra '@' after the property definition in the template:
 
-```
+```xaml
 Value="@[Value:Slider:0:0-180]@"
 ```
 
@@ -90,7 +90,7 @@ Therefore, for any new control/extension, you should still have a simplified sni
 ## 4. For Events/Resource Templates: Have your sample page implement the **IXamlRendererListener** interface
 This gets called whenever the template gets parsed (due to loading or user modification).   Here you can use the [LogicalTree](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs) extensions to grab named controls in the template and register their events.  **Check for null first** as the developer may have removed the name from the element.
 
-```
+```csharp
 var markdownText = control.FindChildByName("MarkdownText") as MarkdownTextBlock;
 if (markdownText != null)
 {
@@ -106,7 +106,7 @@ Buttons can be added through this command and are accessible in the main panel s
 
 If your command adds content dynamically, try and use a style template in the .bind XAML that the user can modify.  Then grab `resources = control.Resources;` in the *OnXamlRendered* event and set the element style from it:
 
-```
+```csharp
 if (resources?.ContainsKey("ThingStyle") == true)
 {
     newThing.Style = resources["ThingStyle"] as Style;
@@ -121,7 +121,7 @@ Now, the sample page content in the app is ignored, but you can override that be
 After creating your page and the binding text, you just need to reference it in the /SamplePages/samples.json file.
 Select the category where you want your page to be listed and add the following information:
 
-```
+```json
 [
   {
     "Name": "Panel controls",

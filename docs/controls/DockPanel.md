@@ -17,14 +17,12 @@ You can set DockPanel LastChildFill property to true if you want the last item a
 
 ## Syntax
 
-```xml
-
+```xaml
 <controls:DockPanel 
-                Name="SampleDockPanel" 
-                Margin="2" 
-                Background="LightGray" 
-                LastChildFill="False" />
-
+  Name="SampleDockPanel" 
+  Margin="2" 
+  Background="LightGray" 
+  LastChildFill="False" />
 ```
 
 ## Example Image
@@ -37,16 +35,15 @@ You can set DockPanel LastChildFill property to true if you want the last item a
 
 The following sample demonstrates how to add DockPanel Control.
 
-```xml
-
+```xaml
 <Page
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d" >
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d" >
 
   <Grid>
       <controls:DockPanel Name="SampleDockPanel" Margin="2" Background="LightGray" LastChildFill="False" >
@@ -57,8 +54,6 @@ The following sample demonstrates how to add DockPanel Control.
       </controls:DockPanel>
   </Grid>
 </Page>
-
-
 ```
 
 ## Requirements (Windows 10 Device Family)

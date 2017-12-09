@@ -49,7 +49,7 @@ The Implicit Animations Attached Properties can be used in combination with the 
     </animations:Implicit.Animations>
 
 </Border>
- ```
+```
 
 ## Properties
 

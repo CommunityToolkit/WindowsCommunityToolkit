@@ -41,8 +41,6 @@ await MyUIElement.Fade(value: 0.5f, duration: 2500, delay: 250, easingType: Easi
 
 ## Properties
 
-
-
 ### EasingType
 
 You can change the way how the animation interpolates between keyframes by defining the EasingType.
@@ -61,23 +59,25 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
 
-***Note:** EasingType is used only when AnimationSet.UseComposition == false*
+_**Note:** EasingType is used only when AnimationSet.UseComposition == false_
 
 ## Examples
 
-- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
+**Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.**
 
-    **Sample Code**
-    ```csharp
-    var anim = MyUIElement.Fade(0.5f).Blur(5).Rotate(30);
-    anim.SetDurationForAll(2500);
-    anim.SetDelay(250);
-    anim.Completed += animation_completed;
-    anim.Start();
-    ```
-    **Sample Output**
+_Sample Code_
 
-    ![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
+```csharp
+var anim = MyUIElement.Fade(0.5f).Blur(5).Rotate(30);
+anim.SetDurationForAll(2500);
+anim.SetDelay(250);
+anim.Completed += animation_completed;
+anim.Start();
+```
+
+_Sample Output_
+
+![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
 
 ## Sample Project
 

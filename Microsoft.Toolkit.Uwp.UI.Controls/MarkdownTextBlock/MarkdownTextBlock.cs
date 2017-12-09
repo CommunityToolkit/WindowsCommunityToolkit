@@ -28,6 +28,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Set our style.
             DefaultStyleKey = typeof(MarkdownTextBlock);
 
+            // Listens for theme changes and updates the rendering.
+            var listener = new Helpers.ThemeListener();
+            listener.ThemeChanged += (s) =>
+            {
+                RenderMarkdown();
+            };
+
             // Register for property callbacks that are owned by our parent class.
             RegisterPropertyChangedCallback(FontSizeProperty, OnPropertyChanged);
             RegisterPropertyChangedCallback(BackgroundProperty, OnPropertyChanged);

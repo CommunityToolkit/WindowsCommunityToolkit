@@ -13,7 +13,6 @@ The **Tile Control** is a control that repeats an image many times. It enables y
 ## Syntax
 
 ```xaml
-
 <controls:TileControl x:Name="Tile1"
 	OffsetX="-10" 
 	OffsetY="10"
@@ -21,7 +20,6 @@ The **Tile Control** is a control that repeats an image many times. It enables y
 	ScrollViewerContainer="{x:Bind FlipView}"
 	ParallaxSpeedRatio="1.2"
 	/>
-
 ```
 
 ## Example Image

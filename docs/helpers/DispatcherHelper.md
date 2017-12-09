@@ -19,25 +19,22 @@ _What is included in the helper?_
 ## Example
 
 ```csharp
+// Executing from a non-UI thread with helper method
+int returnedFromUIThread = await DispatcherHelper.ExecuteOnUIThreadAsync<int>(() =>
+{
+    // Code to execute on main window's UI thread
+    NormalTextBlock.Text = "Updated from a random thread!";
+    return 1;
+});
 
-    // Executing from a non-UI thread with helper method
-     int returnedFromUIThread = await DispatcherHelper.ExecuteOnUIThreadAsync<int>(() =>
-     {
-         // Code to execute on main window's UI thread
-         NormalTextBlock.Text = "Updated from a random thread!";
-         return 1;
-     });
+// returnedFromUIThread now is 1, execution can go on from the non-UI thread
 
-     // returnedFromUIThread now is 1, execution can go on from the non-UI thread
-
-     // Or update it manually via the Extension method for CoreDispatcher
-     returnedFromUIThread = await CoreApplication.MainView.Dispatcher.AwaitableRunAsync<int>( () =>
-     {
-         NormalTextBlock.Text = "Updated from a random thread with extension method!";
-         return 1;
-     });
-
-
+// Or update it manually via the Extension method for CoreDispatcher
+returnedFromUIThread = await CoreApplication.MainView.Dispatcher.AwaitableRunAsync<int>( () =>
+{
+    NormalTextBlock.Text = "Updated from a random thread with extension method!";
+    return 1;
+});
 ```
 
 ## Requirements (Windows 10 Device Family)
