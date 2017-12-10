@@ -1,0 +1,100 @@
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.FrameworkElementExPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Grid x:Name="RootGrid"
+          Padding="48"
+          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="100"
+                           MaxHeight="500" />
+            <RowDefinition Height="11" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="100"
+                              MaxWidth="800" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Rectangle x:Name="TargetObject"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   extensions:FrameworkElementEx.EnableActualSizeBinding="true"
+                   Fill="{StaticResource Brush-White}"
+                   Stroke="{StaticResource Brush-Grey-04}"
+                   StrokeThickness="1" />
+
+        <TextBlock Grid.Column="0"
+                   Margin="12,12"
+                   TextWrapping="Wrap">
+            Drag the handles to see how values are updated in the row below.
+            If EnableActualSizeBinding is set to false, the binding will not be updated.
+        </TextBlock>
+        <TextBlock Grid.Row="2"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Margin="12,12"
+                   TextWrapping="Wrap">
+            ActualHeight:<Run Text="{Binding ElementName=TargetObject, Path=ActualHeight}" />
+            ActualWidth:<Run Text="{Binding ElementName=TargetObject, Path=ActualWidth}" />
+            <LineBreak />
+            BindableActualHeight:<Run Text="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementEx.ActualHeight)}" />
+            BindableActualWidth:<Run Text="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementEx.ActualWidth)}" />
+        </TextBlock>
+
+        <!--  Column Grid Splitter  -->
+        <controls:GridSplitter Grid.Column="1"
+                               Width="11"
+                               HorizontalAlignment="Left"
+                               Background="{StaticResource Brush-Grey-04}"
+                               CursorBehavior="ChangeOnGripperHover"
+                               GripperCursor="Default"
+                               GripperForeground="White"
+                               ResizeBehavior="BasedOnAlignment"
+                               ResizeDirection="Auto" />
+
+        <!--  Row Grid Splitter  -->
+        <controls:GridSplitter Grid.Row="1"
+                               Height="11"
+                               HorizontalAlignment="Stretch"
+                               Background="{StaticResource Brush-Grey-04}">
+            <controls:GridSplitter.Element>
+                <Grid>
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontFamily="Segoe MDL2 Assets"
+                               Foreground="White"
+                               IsHitTestVisible="False"
+                               Text="&#xE76F;" />
+                </Grid>
+            </controls:GridSplitter.Element>
+        </controls:GridSplitter>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Small">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="RootGrid.Padding" Value="12" />
+                        <Setter Target="RootGrid.FontSize" Value="12" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+
+</Page>
