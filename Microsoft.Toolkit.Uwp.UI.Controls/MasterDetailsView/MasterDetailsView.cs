@@ -275,7 +275,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (before != after)
             {
                 ViewStateChanged?.Invoke(this, after);
-                SetBackButtonVisibility(ViewState);
+                SetBackButtonVisibility(before);
             }
         }
 
