@@ -227,9 +227,7 @@ Sometimes you need to preserve indentation, too.  In those cases, you can create
         System.out.println("Hello world!");
     }
 
-Starting with UWP Community Toolkit v1.4, you can also use GitHub code notification by creating a block surrounded by 3x\` (3 backticks). So:
-
-*The Community Toolkit now supports Language Identifiers, as well as a `CodeBlockResolving` event, in order to provide Syntax Formatting in your Markdown.*
+Starting with UWP Community Toolkit v1.4, you can also use GitHub code notification by creating a block surrounded by 3x\` (3 backticks). This can also be used with Language Identifiers on the entering backticks, such as:
 
 \`\`\`java
 
@@ -248,6 +246,8 @@ public void main(Strings argv[]){
     System.out.println("Hello world!");
 }
 ```
+
+*You can implement your own Syntax Highlighting or override the built in Highlighting with the `CodeBlockResolving` event. The Syntax Highlighting Style can be changed by setting the `StyleDictionary` on the `CodeStyling` Property.*
 
 As an example of CodeBlockResolving, a Custom Identifier has been created, to make text Red and Bold:
 

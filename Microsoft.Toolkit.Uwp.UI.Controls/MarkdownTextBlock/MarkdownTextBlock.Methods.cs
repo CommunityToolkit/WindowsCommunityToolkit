@@ -206,15 +206,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var language = Languages.FindById(codeLanguage);
                     if (language != null)
                     {
-                        var theme = RequestedTheme;
-                        try
+                        RichTextBlockFormatter formatter = null;
+                        if (CodeStyling != null)
                         {
-                            // Tries to get the Actual Theme, if supported.
-                            theme = ActualTheme;
+                            formatter = new RichTextBlockFormatter(CodeStyling);
                         }
-                        catch { }
+                        else
+                        {
+                            var theme = RequestedTheme;
+                            try
+                            {
+                                // Tries to get the Actual Theme, if supported.
+                                theme = ActualTheme;
+                            }
+                            catch { }
 
-                        var formatter = new RichTextBlockFormatter(theme);
+                            formatter = new RichTextBlockFormatter(theme);
+                        }
+
                         formatter.FormatInlines(text, language, inlineCollection);
                         return true;
                     }
