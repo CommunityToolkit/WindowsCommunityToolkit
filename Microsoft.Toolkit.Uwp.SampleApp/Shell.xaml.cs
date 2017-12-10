@@ -242,7 +242,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop || HamburgerMenu.CurrentSample.DisableXamlEditorRendering)
                     {
                         // Only makes sense (and works) for now to show Live Xaml on Desktop, so fallback to old system here otherwise.
-                        XamlReadOnlyCodeRenderer.XamlSource = HamburgerMenu.CurrentSample.UpdatedXamlCode;
+                        XamlReadOnlyCodeRenderer.SetCode(HamburgerMenu.CurrentSample.UpdatedXamlCode, "xaml");
 
                         InfoAreaPivot.Items.Add(XamlReadOnlyPivotItem);
                     }
@@ -260,13 +260,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (HamburgerMenu.CurrentSample.HasCSharpCode)
                 {
-                    CSharpCodeRenderer.CSharpSource = await this.HamburgerMenu.CurrentSample.GetCSharpSourceAsync();
+                    var code = await HamburgerMenu.CurrentSample.GetCSharpSourceAsync();
+
+                    CSharpCodeRenderer.SetCode(code, "c#");
                     InfoAreaPivot.Items.Add(CSharpPivotItem);
                 }
 
                 if (HamburgerMenu.CurrentSample.HasJavaScriptCode)
                 {
-                    JavaScriptCodeRenderer.CSharpSource = await this.HamburgerMenu.CurrentSample.GetJavaScriptSourceAsync();
+                    var code = await HamburgerMenu.CurrentSample.GetJavaScriptSourceAsync();
+
+                    JavaScriptCodeRenderer.SetCode(code, "js");
                     InfoAreaPivot.Items.Add(JavaScriptPivotItem);
                 }
 
@@ -350,7 +354,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         // Update Read-Only XAML tab when switching back to show changes to TwoWay Bound Properties
                         if (HamburgerMenu.CurrentSample?.HasXAMLCode == true && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
                         {
-                            XamlReadOnlyCodeRenderer.XamlSource = HamburgerMenu.CurrentSample.UpdatedXamlCode;
+                            XamlReadOnlyCodeRenderer.SetCode(HamburgerMenu.CurrentSample.UpdatedXamlCode, "xaml");
                         }
                     }
 
@@ -390,7 +394,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-           if (NavigationFrame.CanGoBack)
+            if (NavigationFrame.CanGoBack)
             {
                 NavigationFrame.GoBack();
                 backRequestedEventArgs.Handled = true;
@@ -430,7 +434,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-           if (NavigationFrame.CurrentSourcePageType != option.PageType)
+            if (NavigationFrame.CurrentSourcePageType != option.PageType)
             {
                 NavigationFrame.Navigate(option.PageType);
             }
@@ -490,19 +494,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (HamburgerMenu.CurrentSample.HasXAMLCode && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
             {
                 // Update Read-Only XAML tab on non-desktop devices to show changes to Properties
-                XamlReadOnlyCodeRenderer.XamlSource = HamburgerMenu.CurrentSample.UpdatedXamlCode;
+                XamlReadOnlyCodeRenderer.SetCode(HamburgerMenu.CurrentSample.UpdatedXamlCode, "xaml");
             }
 
             if (HamburgerMenu.CurrentSample.HasCSharpCode && InfoAreaPivot.SelectedItem == CSharpPivotItem)
             {
-                CSharpCodeRenderer.CSharpSource = await HamburgerMenu.CurrentSample.GetCSharpSourceAsync();
+                var code = await HamburgerMenu.CurrentSample.GetCSharpSourceAsync();
+                CSharpCodeRenderer.SetCode(code, "c#");
 
                 return;
             }
 
             if (HamburgerMenu.CurrentSample.HasJavaScriptCode && InfoAreaPivot.SelectedItem == JavaScriptPivotItem)
             {
-                JavaScriptCodeRenderer.JavaScriptSource = await HamburgerMenu.CurrentSample.GetJavaScriptSourceAsync();
+                var code = await HamburgerMenu.CurrentSample.GetJavaScriptSourceAsync();
+                JavaScriptCodeRenderer.SetCode(code, "js");
 
                 return;
             }
@@ -671,9 +677,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             TrackingManager.TrackException(args);
 
             // If you hit an issue here, please report repro steps along with all the info from the Exception object.
-            #if DEBUG
+#if DEBUG
             Debugger.Break();
-            #endif
+#endif
         }
 
         private void ProcessSampleEditorTime()

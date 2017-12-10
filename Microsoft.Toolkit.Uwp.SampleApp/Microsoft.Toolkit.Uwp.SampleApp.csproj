@@ -371,13 +371,6 @@
     <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.bind" />
     <Content Include="Assets\Photos\Photos.json" />
     <Content Include="Assets\Photos\OnlinePhotos.json" />
-    <Content Include="Assets\Html\CSharp.html" />
-    <Content Include="Assets\Html\Json.html" />
-    <Content Include="Assets\Html\Xaml.html" />
-    <Content Include="Assets\Html\Xml.html" />
-    <Content Include="Assets\Prettify\prettify.css" />
-    <Content Include="Assets\Prettify\prettify.js" />
-    <Content Include="Assets\Prettify\run_prettify.js" />
     <Content Include="SamplePages\RangeSelector\RangeSelectorCode.bind" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridViewCode.bind" />
     <Content Include="SamplePages\samples.json">
@@ -572,8 +565,7 @@
       <DependentUpon>ExpanderPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Facebook Service\FacebookPhotoTemplateSelector.cs" />
-    <Compile Include="Controls\CodeRenderer\CodeRenderer.Properties.cs" />
-    <Compile Include="Controls\CodeRenderer\CodeRenderer.cs" />
+    <Compile Include="Controls\CodeRenderer.cs" />
     <Compile Include="Controls\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
