@@ -17,7 +17,6 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -46,10 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private AppViewBackButtonVisibility _previousBackButtonVisibility;
         private ContentPresenter _detailsPresenter;
-        //private VisualStateGroup _stateGroup;
-        //private VisualState _narrowState;
         private Frame _frame;
-        //private bool _loaded = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MasterDetailsView"/> class.
@@ -85,39 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
             UpdateView(true);
-
-            //var nop = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            //{
-            //    _frame = null;
-            //    _frame = await GetFrame();
-            //    _frame.Navigating += OnFrameNavigating;
-            //});
-
-            //if (_loaded && GetStateGroup() == null)
-            //{
-            //    _stateGroup = (VisualStateGroup)GetTemplateChild(WidthStates);
-            //    if (_stateGroup != null)
-            //    {
-            //        _stateGroup.CurrentStateChanged += OnVisualStateChanged;
-            //        _narrowState = GetTemplateChild(NarrowState) as VisualState;
-            //    }
-            //}
         }
-
-        private void MasterDetailsView_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            UpdateView(true);
-        }
-
-        //private VisualStateGroup GetStateGroup()
-        //{
-        //    if (_stateGroup == null)
-        //    {
-        //        _stateGroup = (VisualStateGroup)GetTemplateChild(WidthStates);
-        //    }
-
-        //    return _stateGroup;
-        //}
 
         /// <summary>
         /// Fired when the SelectedItem changes.
@@ -175,9 +139,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             view.OnMasterCommandBarChanged();
         }
 
-        // Have to wait to get the VisualStateGroup until the control has Loaded
-        // If we try to get the VisualStateGroup in the OnApplyTemplate the
-        // CurrentStateChanged event does not fire properly
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             if (DesignMode.DesignModeEnabled == false)
@@ -191,20 +152,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _frame = this.FindAscendant<Frame>();
                 _frame.Navigating += OnFrameNavigating;
             }
-
-            //    //if (_stateGroup != null)
-            //    //{
-            //    //    _stateGroup.CurrentStateChanged -= OnVisualStateChanged;
-            //    //}
-
-            //    //if (GetStateGroup() != null)
-            //    //{
-            //    //    _stateGroup.CurrentStateChanged += OnVisualStateChanged;
-            //    //    _narrowState = GetTemplateChild(NarrowState) as VisualState;
-            //    //    UpdateView(true);
-            //    //}
-
-            //    //_loaded = true;
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -217,12 +164,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _frame.Navigating -= OnFrameNavigating;
                 }
             }
+        }
 
-            //    if (_stateGroup != null)
-            //    {
-            //        _stateGroup.CurrentStateChanged -= OnVisualStateChanged;
-            //        _stateGroup = null;
-            //    }
+        private void MasterDetailsView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateView(true);
         }
 
         /// <summary>
@@ -273,8 +219,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void SetMasterHeaderVisibility()
         {
-            var headerPresenter = GetTemplateChild(PartHeaderContentPresenter) as FrameworkElement;
-            if (headerPresenter != null)
+            if (GetTemplateChild(PartHeaderContentPresenter) is FrameworkElement headerPresenter)
             {
                 headerPresenter.Visibility = MasterHeader != null
                     ? Visibility.Visible
@@ -285,7 +230,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void UpdateView(bool animate)
         {
             UpdateViewState();
-            SetBackButtonVisibility(ViewState);
             SetVisualState(animate);
         }
 
@@ -313,39 +257,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        //private async Task<Frame> GetFrame()
-        //{
-        //    if (_frame == null)
-        //    {
-        //        _frame = this.FindAscendant<Frame>();
-
-        //        if (_frame == null)
-        //        {
-        //            var taskSource = new TaskCompletionSource<object>();
-        //            RoutedEventHandler handler = null;
-        //            handler = (s, args) =>
-        //            {
-        //                Loaded -= handler;
-        //                _frame = this.FindAscendant<Frame>();
-        //                taskSource.SetResult(null);
-        //            };
-
-        //            Loaded += handler;
-
-        //            await taskSource.Task;
-        //        }
-        //    }
-
-        //    return _frame;
-        //}
-
         private void UpdateViewState()
         {
-            //if (GetStateGroup() == null)
-            //{
-            //    return;
-            //}
-
             var before = ViewState;
 
             if (ActualWidth < WideStateMinWidth)
@@ -362,6 +275,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (before != after)
             {
                 ViewStateChanged?.Invoke(this, after);
+                SetBackButtonVisibility(ViewState);
             }
         }
 
