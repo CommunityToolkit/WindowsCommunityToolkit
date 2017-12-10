@@ -13,8 +13,8 @@
 using System;
 using System.Threading.Tasks;
 using ColorCode;
+using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
-using Microsoft.Toolkit.Parsers.Markdown.Parse;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Disconnect from OnClick handlers.
             UnhookListeners();
 
-            var markdownRenderedArgs = new Services.Markdown.MarkdownRenderedEventArgs(null);
+            var markdownRenderedArgs = new MarkdownRenderedEventArgs(null);
             try
             {
                 // Try to parse the markdown.
@@ -132,7 +132,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             catch (Exception ex)
             {
                 DebuggingReporter.ReportCriticalError("Error while parsing and rendering: " + ex.Message);
-                markdownRenderedArgs = new Services.Markdown.MarkdownRenderedEventArgs(ex);
+                markdownRenderedArgs = new MarkdownRenderedEventArgs(ex);
             }
 
             // Indicate that the parse is done.

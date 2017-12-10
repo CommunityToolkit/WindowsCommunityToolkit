@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Fired when the text is done parsing and formatting. Fires each time the markdown is rendered.
         /// </summary>
-        public event EventHandler<Services.Markdown.MarkdownRenderedEventArgs> MarkdownRendered;
+        public event EventHandler<MarkdownRenderedEventArgs> MarkdownRendered;
 
         /// <summary>
         /// Fired when a link element in the markdown was tapped.
