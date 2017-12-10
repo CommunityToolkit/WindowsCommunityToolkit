@@ -77,9 +77,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SizeChanged -= MasterDetailsView_SizeChanged;
             SizeChanged += MasterDetailsView_SizeChanged;
 
-            SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
-            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-
             UpdateView(true);
         }
 
