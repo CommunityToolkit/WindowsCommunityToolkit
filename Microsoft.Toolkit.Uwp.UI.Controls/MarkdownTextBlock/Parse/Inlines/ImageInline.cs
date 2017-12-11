@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
             }
 
             string url = TextRunInline.ResolveEscapeSequences(markdown, urlStart, pos);
-            url = url.StartsWith("/") ? string.Format("ms-appx://{0}", url) : url;
+            url = string.Format("{0}{1}", Common.ImageLinkPrefix, url);
 
             // We found something!
             var result = new ImageInline
@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         /// <returns> The textual representation of this object. </returns>
         public override string ToString()
         {
-            return string.Format("[{0}]: {1}", Tooltip, Url);
+            return string.Format("![{0}]: {1}", Tooltip, Url);
         }
     }
 }

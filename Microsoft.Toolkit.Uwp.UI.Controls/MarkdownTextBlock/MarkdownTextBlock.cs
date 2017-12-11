@@ -185,6 +185,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets or sets the Prefix of Image Link.
+        /// </summary>
+        public string ImageLinkPrefix
+        {
+            get { return (string)GetValue(ImageLinkPrefixProperty); }
+            set { SetValue(ImageLinkPrefixProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="ImageLinkPrefix"/>.
+        /// </summary>
+        public static readonly DependencyProperty ImageLinkPrefixProperty = DependencyProperty.Register(
+            nameof(ImageLinkPrefix),
+            typeof(string),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(string.Empty, OnPropertyChangedStatic));
+
+        /// <summary>
         /// Gets or sets the brush used to render the text inside a code block.  If this is
         /// <c>null</c>, then Foreground is used.
         /// </summary>
@@ -1096,6 +1114,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Try to parse the markdown.
                 MarkdownDocument markdown = new MarkdownDocument();
                 markdown.Parse(Text);
+                Common.ImageLinkPrefix = ImageLinkPrefix;
 
                 // Now try to display it
                 var renderer = new XamlRenderer(markdown, this, this)

@@ -289,6 +289,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
         }
 
         /// <summary>
+        /// Gets or sets the Prefix of Local Link.
+        /// </summary>
+        public static string ImageLinkPrefix { get; set; }
+
+        /// <summary>
         /// Returns the next \n or \r\n in the markdown.
         /// </summary>
         /// <returns>the next single line</returns>

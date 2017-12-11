@@ -321,13 +321,19 @@ which renders in:
 
 ![Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
 
-Rendering Local Images is supported.
+Rendering Images is now supported through prefix. use property **ImageLinkPrefix**
 
->\!\[Local Image](/Assets/Helpers.png)
+&nbsp;
+
+Example: if you set **ImageLinkPrefix** to **ms-appx://** then
+
+>\!\[Local Image](/Assets/NotificationAssets/Sunny-Square.png)
+
+&nbsp;
 
 renders in
 
-![Local Image](/Assets/Helpers.png)
+![Local Image](/Assets/NotificationAssets/Sunny-Square.png)
 
 *****
 
