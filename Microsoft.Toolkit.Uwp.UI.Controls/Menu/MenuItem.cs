@@ -81,6 +81,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(MenuItem);
             IsFocusEngagementEnabled = true;
+
+            IsEnabledChanged += (s, e) =>
+            {
+                var menuItemControl = (MenuItem)s;
+
+                menuItemControl.UpdateEnabledVisualState();
+            };
         }
 
         internal bool ContainsPoint(Point point)
@@ -134,6 +141,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     AccessKey = string.Empty;
                 }
             }
+
+            UpdateEnabledVisualState();
 
             base.OnApplyTemplate();
         }
@@ -498,6 +507,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_originalHeader != null)
             {
                 InternalHeader = _originalHeader.Replace(UnderlineCharacter.ToString(), string.Empty);
+            }
+        }
+
+        internal void UpdateEnabledVisualState()
+        {
+            if (IsEnabled)
+            {
+                VisualStateManager.GoToState(this, "Normal", true);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, "Disabled", true);
             }
         }
     }
