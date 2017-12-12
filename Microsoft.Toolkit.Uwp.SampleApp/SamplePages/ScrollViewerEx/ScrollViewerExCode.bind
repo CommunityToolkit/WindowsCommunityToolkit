@@ -13,11 +13,11 @@
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <ListView Name="listView"
-              extensions:ScrollViewerEx.VerticalScrollBarMargin="{Binding MinHeight, ElementName=MyHeaderGrid, Converter={StaticResource DoubleTopThicknessConverter}}">
+              extensions:ScrollViewerEx.VerticalScrollBarMargin="@[Vertical ScrollBar Margin:Thickness:0,250,0,0]">
       <ListView.Header>
         <controls:ScrollHeader Mode="Sticky">
           <Grid x:Name="MyHeaderGrid"
-                MinHeight="@[Header MinHeight:DoubleSlider:250:150-500]"
+                MinHeight="250"
                 Background="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}">
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center">

@@ -12,15 +12,8 @@
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Models
 {
-    public enum PropertyKind
+    public class ThicknessPropertyOptions : PropertyOptions
     {
-        Slider,
-        DoubleSlider,
-        String,
-        Enum,
-        Bool,
-        Brush,
-        TimeSpan,
-        Thickness
+
     }
 }

@@ -172,6 +172,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             converter = new TimeSpanConverter();
 
                             break;
+                        case PropertyKind.Thickness:
+                            var thicknessTextBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
+
+                            controlToAdd = thicknessTextBox;
+                            dependencyProperty = TextBox.TextProperty;
+                            converter = new ThicknessConverter();
+                            break;
                         default:
                             var textBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
 
@@ -184,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     {
                         Source = propertyDesc.Expando,
                         Path = new PropertyPath(option.Name + ".Value"),
-                        Mode = BindingMode.TwoWay,
+                        Mode = option.IsTwoWayBinding ? BindingMode.TwoWay : BindingMode.OneWay,
                         Converter = converter
                     };
 
