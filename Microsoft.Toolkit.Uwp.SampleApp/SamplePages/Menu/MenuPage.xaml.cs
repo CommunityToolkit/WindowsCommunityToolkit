@@ -21,6 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class MenuPage : IXamlRenderListener
     {
         private MenuItem fileMenu;
+        private MenuItem buildMenu;
 
         public MenuPage()
         {
@@ -30,6 +31,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public void OnXamlRendered(FrameworkElement control)
         {
             fileMenu = control.FindChildByName("FileMenu") as MenuItem;
+            buildMenu = control.FindChildByName("BuildMenu") as MenuItem;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -69,6 +71,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     };
 
                     fileMenu.Items.Insert(0, flyoutItem);
+                }
+            });
+
+            Shell.Current.RegisterNewCommand("Enable/disable build menu", (sender, args) =>
+            {
+                if (buildMenu != null)
+                {
+                    buildMenu.IsEnabled = !buildMenu.IsEnabled;
                 }
             });
         }
