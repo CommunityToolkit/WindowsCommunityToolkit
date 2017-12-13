@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     {
                         Source = propertyDesc.Expando,
                         Path = new PropertyPath(option.Name + ".Value"),
-                        Mode = option.IsTwoWayBinding ? BindingMode.TwoWay : BindingMode.OneWay,
+                        Mode = BindingMode.TwoWay,
                         Converter = converter
                     };
 
