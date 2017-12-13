@@ -20,6 +20,7 @@ using Windows.UI.Composition;
 using Windows.UI.Composition.Effects;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -59,6 +60,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return lightingSupported;
             }
         }
+
+        /// <summary>
+        /// The color of the spotlight.
+        /// </summary>
+        public static Color Color { get; set; }
 
         /// <summary>
         /// Animates a point light and it's distance.
@@ -147,6 +153,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 else
                 {
                     pointLight = compositor.CreatePointLight();
+                    pointLight.Color = Color;
 
                     var normalBrush = compositor.CreateSurfaceBrush(normalMap);
                     normalBrush.Stretch = CompositionStretch.Fill;
