@@ -62,23 +62,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// The color of the spotlight.
-        /// </summary>
-        public static Color Color { get; set; }
-
-        /// <summary>
         /// Animates a point light and it's distance.
         /// </summary>
         /// <param name="associatedObject">The associated object.</param>
         /// <param name="distance">The value.</param>
         /// <param name="duration">The duration.</param>
         /// <param name="delay">The delay.</param>
+        /// <param name="color">The color of the spotlight.</param>
         /// <returns>An animation set.</returns>
         public static AnimationSet Light(
             this FrameworkElement associatedObject,
             double distance = 0d,
             double duration = 500d,
-            double delay = 0d)
+            double delay = 0d,
+            Color color = default(Color))
         {
             if (associatedObject == null)
             {
@@ -86,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Light(distance, duration, delay);
+            return animationSet.Light(distance, duration, delay, color);
         }
 
         /// <summary>
@@ -96,6 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="distance">The distance of the light.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay. (ignored if duration == 0)</param>
+        /// <param name="color">The color of the spotlight.</param>
         /// <seealso cref="IsLightingSupported" />
         /// <returns>
         /// An Animation Set.
@@ -104,7 +102,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             this AnimationSet animationSet,
             double distance = 0d,
             double duration = 500d,
-            double delay = 0d)
+            double delay = 0d,
+            Color color = default(Color))
         {
             if (!IsLightingSupported)
             {
@@ -153,7 +152,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 else
                 {
                     pointLight = compositor.CreatePointLight();
-                    pointLight.Color = Color;
 
                     var normalBrush = compositor.CreateSurfaceBrush(normalMap);
                     normalBrush.Stretch = CompositionStretch.Fill;
@@ -197,6 +195,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     }
                 }
 
+                pointLight.Color = color;
                 var delayTime = task.Delay != null ? task.Delay.Value : TimeSpan.FromMilliseconds(delay);
                 var durationTime = task.Duration != null ? task.Duration.Value : TimeSpan.FromMilliseconds(duration);
 
