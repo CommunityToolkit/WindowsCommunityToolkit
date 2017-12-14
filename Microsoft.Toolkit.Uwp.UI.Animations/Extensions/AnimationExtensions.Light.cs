@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             double distance = 0d,
             double duration = 500d,
             double delay = 0d,
-            Color color = default(Color))
+            Color? color = null)
         {
             if (associatedObject == null)
             {
@@ -103,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             double distance = 0d,
             double duration = 500d,
             double delay = 0d,
-            Color color = default(Color))
+            Color? color = null)
         {
             if (!IsLightingSupported)
             {
@@ -195,7 +195,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     }
                 }
 
-                pointLight.Color = color;
+                pointLight.Color = color ?? Colors.White;
                 var delayTime = task.Delay != null ? task.Delay.Value : TimeSpan.FromMilliseconds(delay);
                 var durationTime = task.Duration != null ? task.Duration.Value : TimeSpan.FromMilliseconds(duration);
 
