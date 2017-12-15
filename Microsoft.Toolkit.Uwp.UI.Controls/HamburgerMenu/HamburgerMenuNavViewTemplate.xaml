@@ -161,6 +161,11 @@
                             IsSettingsVisible="False"
                             IsPaneToggleButtonVisible="{Binding HamburgerVisibility, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource VisibilityToBoolConverter}}"
                             Header="{x:Null}">
+                <NavigationView.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid></Grid>
+                    </DataTemplate>
+                </NavigationView.HeaderTemplate>
                 <ContentPresenter x:Name="ContentPart"
                                   AutomationProperties.Name="Content"
                                   Content="{TemplateBinding Content}" />
