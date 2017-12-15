@@ -52,9 +52,9 @@ You can find more examples in our [unit tests](https://github.com/Microsoft/UWPC
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp |
+| Namespace | Microsoft.Toolkit.Uwp.Connectivity |
 
 ## API
 
-* [NetworkHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/Network/NetworkHelper.cs)
+* [NetworkHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.Connectivity/Network/NetworkHelper.cs)
 
