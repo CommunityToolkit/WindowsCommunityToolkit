@@ -187,7 +187,10 @@ Starting with v2.1 of the UWP Community Toolkit, the HamburgerMenu provides a ne
 Using this property will enable you to take advantage of the NavigationView on devices that supported the NavigationView, while providing an experience based on HamburgerMenu on devices that have not yet updated to the Fall Creators Update. Make sure to test the experience on multiple OS releases and plan to fully transition to the NavigationView as the HamburgerMenu will be removed from the UWP Community Toolkit in a future major release.
 
 > [!NOTE]
-The **ItemClick** and **OptionsItemClick** events will continue to work but the EventArgs will be null when this property is set to true. There is a new event called **ItemInvoked** that should be used instead. This new event will include information about the clicked item and whether it is an item or options item. This event also works if UseNavigationViewWhenPossible is set to false. 
+The **ItemClick** and **OptionsItemClick** events will continue to work but the EventArgs will be null when **UseNavigationViewWhenPossible** is set to true. There is a new event called **ItemInvoked** that should be used instead. This new event will include information about the clicked item and whether it is an item or options item. This event also works if UseNavigationViewWhenPossible is set to false. 
+
+> [!NOTE]
+The PaneBackground will not have any effect when **UseNavigationViewWhenPossible** is set to null. To change the pane background of the NavigationView, modify the two theme resources by overwriting them in your App.xaml. See the [NavigationVew documentation](https://docs.microsoft.com/en-us/windows/uwp/design/controls-and-patterns/navigationview#customizing-backgrounds) for more details.
 
 There are several HamburgerMenu properties that have no effect when the HamburgerMenu is using the NavigationView:
 * DisplayMode
