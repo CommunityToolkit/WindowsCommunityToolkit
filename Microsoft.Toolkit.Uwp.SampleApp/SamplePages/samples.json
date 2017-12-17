@@ -676,15 +676,6 @@
         "Icon": "/SamplePages/Visual Extensions/VisualExtensions.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/VisualEx.md"
-      },
-      {
-        "Name": "ScrollViewerEx",
-        "Type": "ScrollViewerExPage",
-        "About": "Extensions for all controls that contain a ScrollViewer like ListView.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ScrollViewer",
-        "XamlCodeFile": "ScrollViewerExCode.bind",
-        "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/ScrollViewerEx.md"
       }
     ]
   },

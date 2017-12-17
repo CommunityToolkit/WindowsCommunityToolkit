@@ -465,15 +465,11 @@
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControlXaml.bind" />
     <Content Include="SamplePages\AppPinManager\AppPinManagerHelperCode.bind" />
     <Content Include="SamplePages\Mouse\MouseCursorPage.bind" />
-    <Content Include="SamplePages\ScrollViewerEx\ScrollViewerExCode.bind">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\DoubleTopThicknessConverter.cs" />
     <Compile Include="Common\ThicknessConverter.cs" />
     <Compile Include="Common\XAMLHelper.cs" />
     <Compile Include="Common\AnalyticsVersionInfoExtensions.cs" />
@@ -552,7 +548,6 @@
       <DependentUpon>FocusTrackerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
-    <Compile Include="SamplePages\ScrollViewerEx\ScrollViewerExPage.xaml.cs" />
     <Compile Include="SamplePages\TextToolbar\SampleFormatter.cs" />
     <Compile Include="SamplePages\TextToolbar\TextToolbarPage.xaml.cs">
       <DependentUpon>TextToolbarPage.xaml</DependentUpon>
@@ -841,10 +836,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Mouse\MouseCursorPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\ScrollViewerEx\ScrollViewerExPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
