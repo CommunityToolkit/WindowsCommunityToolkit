@@ -139,6 +139,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 RenderInlineChildren(element.Inlines, childContext);
                 context.TrimLeadingWhitespace = childContext.TrimLeadingWhitespace;
 
+                ToolTipService.SetToolTip(link, element.Tooltip ?? element.Url);
+
                 // Add it to the current inlines
                 context_.InlineCollection.Add(link);
             }
