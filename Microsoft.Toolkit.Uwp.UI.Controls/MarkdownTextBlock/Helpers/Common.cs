@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
             Italic,
 
             /// <summary>
-            /// An bold & italic block
+            /// An bold and italic block
             /// </summary>
             BoldItalic,
 
