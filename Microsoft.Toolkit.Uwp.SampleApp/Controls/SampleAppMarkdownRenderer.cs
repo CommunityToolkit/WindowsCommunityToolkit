@@ -36,6 +36,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 return;
             }
 
+            var language = element.CodeLanguage.ToUpper();
+            switch (language)
+            {
+                case "CSHARP":
+                case "CS":
+                    language = "C#";
+                    break;
+            }
+
             var context_ = context as UIElementCollectionRenderContext;
             var collection = context_.BlockUIElementCollection;
 
@@ -51,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             var languageBlock = new TextBlock
             {
-                Text = element.CodeLanguage.ToUpper(),
+                Text = language,
                 VerticalAlignment = VerticalAlignment.Center,
                 Margin = new Thickness(10, 0, 0, 0)
             };
