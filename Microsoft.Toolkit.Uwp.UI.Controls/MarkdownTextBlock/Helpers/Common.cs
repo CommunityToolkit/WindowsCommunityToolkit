@@ -36,6 +36,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
             Italic,
 
             /// <summary>
+            /// An bold & italic block
+            /// </summary>
+            BoldItalic,
+
+            /// <summary>
             /// A link block
             /// </summary>
             MarkdownLink,
@@ -106,6 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
 
         static Common()
         {
+            BoldItalicTextInline.AddTripChars(_triggerList);
             BoldTextInline.AddTripChars(_triggerList);
             ItalicTextInline.AddTripChars(_triggerList);
             MarkdownLinkInline.AddTripChars(_triggerList);
@@ -219,6 +225,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
                         InlineParseResult parseResult = null;
                         switch (currentTripChar.Method)
                         {
+                            case InlineParseMethod.BoldItalic:
+                                parseResult = BoldItalicTextInline.Parse(markdown, pos, end);
+                                break;
                             case InlineParseMethod.Bold:
                                 parseResult = BoldTextInline.Parse(markdown, pos, end);
                                 break;
