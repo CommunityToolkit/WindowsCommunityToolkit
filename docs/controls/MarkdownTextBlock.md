@@ -90,6 +90,7 @@ The MarkdownTextBlock control is highly customizable to blend with any theme. Cu
 * TableCellPadding
 * TableMargin
 * TextWrapping
+* WrapCodeBlock
 
 ## Events
 
@@ -141,6 +142,19 @@ private void MarkdownText_CodeBlockResolving(object sender, CodeBlockResolvingEv
 }
 ```
 
+## Rendering
+
+You can customise the Renderer for the **MarkdownTextBlock**, by inheriting from `UWPMarkdownRenderer` and setting it as the Renderer, by using:
+
+```c#
+var block = new MarkdownTextBlock();
+block.SetRenderer<InheritedUWPMarkdownRenderer>();
+```
+
+This might require intimate knowledge of the implementation of the `UWPMarkdownRenderer`, take a look at the following:
+
+* [UWPMarkdownFormatter and Helpers](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/Display)
+* [Sample App custom Markdown formatter](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/Controls/SampleAppMarkdownRenderer)
 
 ## Example Code
 
