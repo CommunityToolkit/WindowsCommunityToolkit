@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
     /// <summary>
     /// Properties for the UWP Markdown Renderer
     /// </summary>
-    internal partial class UWPMarkdownRenderer
+    public partial class UWPMarkdownRenderer
     {
         private static bool? _textDecorationsSupported = null;
 
@@ -27,21 +27,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                         (_textDecorationsSupported = ApiInformation.IsTypePresent("Windows.UI.Text.TextDecorations")));
 
         /// <summary>
-        /// An interface that is used to register hyperlinks.
+        /// Gets the interface that is used to register hyperlinks.
         /// </summary>
-        private readonly ILinkRegister _linkRegister;
+        protected ILinkRegister LinkRegister { get; }
 
         /// <summary>
-        /// An interface that is used to resolve images.
+        /// Gets the interface that is used to resolve images.
         /// </summary>
-        private readonly IImageResolver _imageResolver;
+        protected IImageResolver ImageResolver { get; }
 
         /// <summary>
-        /// A Parser to parse code strings into Syntax Highlighted text.
+        /// Gets the Parser to parse code strings into Syntax Highlighted text.
         /// </summary>
-        private readonly ICodeBlockResolver _codeBlockResolver;
+        protected ICodeBlockResolver CodeBlockResolver { get; }
 
-        private readonly FontFamily _defaultEmojiFont;
+        /// <summary>
+        /// Gets the Default Emoji Font.
+        /// </summary>
+        protected FontFamily DefaultEmojiFont { get; }
 
         /// <summary>
         /// Gets or sets a brush that provides the background of the control.

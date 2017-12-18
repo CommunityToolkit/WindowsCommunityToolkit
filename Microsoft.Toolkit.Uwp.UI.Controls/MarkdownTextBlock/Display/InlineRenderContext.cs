@@ -15,7 +15,10 @@ using Windows.UI.Xaml.Documents;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 {
-    internal class InlineRenderContext : RenderContext
+    /// <summary>
+    /// The Context of the Current Document Rendering.
+    /// </summary>
+    public class InlineRenderContext : RenderContext
     {
         internal InlineRenderContext(InlineCollection inlineCollection, IRenderContext context)
         {

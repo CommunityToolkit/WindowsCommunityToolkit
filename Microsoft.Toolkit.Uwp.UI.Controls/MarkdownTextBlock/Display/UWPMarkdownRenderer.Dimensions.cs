@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
     /// <summary>
     /// Measurement Properties for elements in the Markdown.
     /// </summary>
-    internal partial class UWPMarkdownRenderer
+    public partial class UWPMarkdownRenderer
     {
         /// <summary>
         /// Gets or sets the distance between the border and its child object.
@@ -200,5 +200,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// Gets or sets the stretch used for images.
         /// </summary>
         public Stretch ImageStretch { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to wrap text in the Code Block, or use Horizontal Scroll.
+        /// </summary>
+        public bool WrapCodeBlock { get; set; }
     }
 }

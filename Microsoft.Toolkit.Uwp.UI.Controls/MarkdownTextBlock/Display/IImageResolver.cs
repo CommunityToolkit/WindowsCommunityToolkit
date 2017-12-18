@@ -16,10 +16,16 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 {
     /// <summary>
-    /// An internal interface used to resolve images in the markdown.
+    /// An interface used to resolve images in the markdown.
     /// </summary>
-    internal interface IImageResolver
+    public interface IImageResolver
     {
+        /// <summary>
+        /// Resolves an Image from a Url.
+        /// </summary>
+        /// <param name="url">Url to Resolve.</param>
+        /// <param name="tooltip">Tooltip for Image.</param>
+        /// <returns>Image</returns>
         Task<ImageSource> ResolveImageAsync(string url, string tooltip);
     }
 }

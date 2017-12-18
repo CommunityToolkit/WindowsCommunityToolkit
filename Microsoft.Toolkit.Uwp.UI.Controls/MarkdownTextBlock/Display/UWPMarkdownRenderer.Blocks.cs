@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
     /// <summary>
     /// Block UI Methods for UWP UI Creation.
     /// </summary>
-    internal partial class UWPMarkdownRenderer
+    public partial class UWPMarkdownRenderer
     {
         /// <summary>
         /// Renders a list of block elements.
@@ -295,7 +295,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             textBlock.Blocks.Add(paragraph);
 
             // Allows external Syntax Highlighting
-            var hasCustomSyntax = _codeBlockResolver.ParseSyntax(paragraph.Inlines, element.Text, element.CodeLanguage);
+            var hasCustomSyntax = CodeBlockResolver.ParseSyntax(paragraph.Inlines, element.Text, element.CodeLanguage);
             if (!hasCustomSyntax)
             {
                 paragraph.Inlines.Add(new Run { Text = element.Text });
@@ -309,12 +309,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 BorderThickness = CodeBorderThickness,
                 Padding = CodePadding,
                 Margin = CodeMargin,
-                Content = textBlock,
-                HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
-                HorizontalScrollMode = ScrollMode.Auto,
-                VerticalScrollMode = ScrollMode.Disabled,
-                VerticalScrollBarVisibility = ScrollBarVisibility.Disabled,
+                Content = textBlock
             };
+
+            if (!WrapCodeBlock)
+            {
+                viewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+                viewer.HorizontalScrollMode = ScrollMode.Auto;
+                viewer.VerticalScrollMode = ScrollMode.Disabled;
+                viewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+            }
 
             // Add it to the blocks
             blockUIElementCollection_.Add(viewer);
@@ -345,7 +349,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                     var cell = row.Cells[cellIndex];
 
                     // Cell content.
-
                     var cellContent = CreateOrReuseRichTextBlock(new UIElementCollectionRenderContext(null, context));
                     cellContent.Margin = TableCellPadding;
                     Grid.SetRow(cellContent, rowIndex);

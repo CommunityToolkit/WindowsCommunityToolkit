@@ -64,6 +64,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             InitializeComponent();
 
             Current = this;
+            DocumentationTextblock.SetRenderer<SampleAppMarkdownRenderer>();
         }
 
         public void ShowInfoArea()

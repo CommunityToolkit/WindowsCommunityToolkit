@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
     /// <summary>
     /// Inline UI Methods for UWP UI Creation.
     /// </summary>
-    internal partial class UWPMarkdownRenderer
+    public partial class UWPMarkdownRenderer
     {
         /// <summary>
         /// Renders emoji element.
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 
             var emoji = new Run
             {
-                FontFamily = EmojiFontFamily ?? _defaultEmojiFont,
+                FontFamily = EmojiFontFamily ?? DefaultEmojiFont,
                 Text = element.Text
             };
 
@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 var link = new Hyperlink();
 
                 // Register the link
-                _linkRegister.RegisterNewHyperLink(link, element.Url);
+                LinkRegister.RegisterNewHyperLink(link, element.Url);
 
                 // Remove superscripts.
                 RemoveSuperscriptRuns(element, insertCaret: true);
@@ -177,7 +177,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             var link = new Hyperlink();
 
             // Register the link
-            _linkRegister.RegisterNewHyperLink(link, element.Url);
+            LinkRegister.RegisterNewHyperLink(link, element.Url);
 
             // Make a text block for the link
             Run linkText = new Run
@@ -203,7 +203,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             var inlineCollection_ = context_.InlineCollection;
 
             var placeholder = InternalRenderTextRun(new TextRunInline { Text = element.Text, Type = MarkdownInlineType.TextRun }, context);
-            var resolvedImage = await _imageResolver.ResolveImageAsync(element.Url, element.Tooltip);
+            var resolvedImage = await ImageResolver.ResolveImageAsync(element.Url, element.Tooltip);
 
             // if image can not be resolved we have to return
             if (resolvedImage == null)

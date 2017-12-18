@@ -15,7 +15,10 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 {
-    internal class UIElementCollectionRenderContext : RenderContext
+    /// <summary>
+    /// The Context of the Current Document Rendering.
+    /// </summary>
+    public class UIElementCollectionRenderContext : RenderContext
     {
         internal UIElementCollectionRenderContext(UIElementCollection blockUIElementCollection)
         {

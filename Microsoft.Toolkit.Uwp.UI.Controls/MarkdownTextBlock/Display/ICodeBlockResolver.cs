@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
     /// <summary>
     /// A Parser to parse code strings into Syntax Highlighted text.
     /// </summary>
-    internal interface ICodeBlockResolver
+    public interface ICodeBlockResolver
     {
         /// <summary>
         /// Parses Code Block text into Rich text.

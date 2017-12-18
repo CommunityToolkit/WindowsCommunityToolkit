@@ -25,15 +25,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
     /// <summary>
     /// Generates Framework Elements for the UWP Markdown Textblock.
     /// </summary>
-    internal partial class UWPMarkdownRenderer : MarkdownRendererBase
+    public partial class UWPMarkdownRenderer : MarkdownRendererBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UWPMarkdownRenderer"/> class.
+        /// </summary>
+        /// <param name="document">The Document to Render.</param>
+        /// <param name="linkRegister">The LinkRegister, <see cref="MarkdownTextBlock"/> will use itself.</param>
+        /// <param name="imageResolver">The Image Resolver, <see cref="MarkdownTextBlock"/> will use itself.</param>
+        /// <param name="codeBlockResolver">The Code Block Resolver, <see cref="MarkdownTextBlock"/> will use itself.</param>
         public UWPMarkdownRenderer(MarkdownDocument document, ILinkRegister linkRegister, IImageResolver imageResolver, ICodeBlockResolver codeBlockResolver)
             : base(document)
         {
-            _linkRegister = linkRegister;
-            _imageResolver = imageResolver;
-            _codeBlockResolver = codeBlockResolver;
-            _defaultEmojiFont = new FontFamily("Segoe UI Emoji");
+            LinkRegister = linkRegister;
+            ImageResolver = imageResolver;
+            CodeBlockResolver = codeBlockResolver;
+            DefaultEmojiFont = new FontFamily("Segoe UI Emoji");
         }
 
         /// <summary>
@@ -58,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// Creates a new RichTextBlock, if the last element of the provided collection isn't already a RichTextBlock.
         /// </summary>
         /// <returns>The rich text block</returns>
-        private RichTextBlock CreateOrReuseRichTextBlock(IRenderContext context)
+        protected RichTextBlock CreateOrReuseRichTextBlock(IRenderContext context)
         {
             var context_ = context as UIElementCollectionRenderContext;
             var blockUIElementCollection = context_.BlockUIElementCollection;
@@ -90,7 +97,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// Creates a new TextBlock, with default settings.
         /// </summary>
         /// <returns>The created TextBlock</returns>
-        private TextBlock CreateTextBlock(RenderContext context)
+        protected TextBlock CreateTextBlock(RenderContext context)
         {
             var result = new TextBlock
             {
@@ -110,12 +117,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// <summary>
         /// Performs an action against any runs that occur within the given span.
         /// </summary>
-        private void AlterChildRuns(Span parentSpan, Action<Span, Run> action)
+        protected void AlterChildRuns(Span parentSpan, Action<Span, Run> action)
         {
             foreach (var inlineElement in parentSpan.Inlines)
             {
-                var span = inlineElement as Span;
-                if (span != null)
+                if (inlineElement is Span span)
                 {
                     AlterChildRuns(span, action);
                 }
@@ -134,8 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         {
             foreach (var inline in container.Inlines)
             {
-                var textInline = inline as SuperscriptTextInline;
-                if (textInline != null)
+                if (inline is SuperscriptTextInline textInline)
                 {
                     // Remove any nested superscripts.
                     if (AllTextIsSuperscript(textInline, superscriptLevel + 1) == false)
@@ -171,8 +176,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             for (int i = 0; i < container.Inlines.Count; i++)
             {
                 var inline = container.Inlines[i];
-                var textInline = inline as SuperscriptTextInline;
-                if (textInline != null)
+                if (inline is SuperscriptTextInline textInline)
                 {
                     // Remove any nested superscripts.
                     RemoveSuperscriptRuns(textInline, insertCaret);

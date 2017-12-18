@@ -15,10 +15,15 @@ using Windows.UI.Xaml.Documents;
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 {
     /// <summary>
-    /// An internal interface used to handle links in the markdown.
+    /// An interface used to handle links in the markdown.
     /// </summary>
-    internal interface ILinkRegister
+    public interface ILinkRegister
     {
+        /// <summary>
+        /// Registers a Hyperlink with a LinkUrl.
+        /// </summary>
+        /// <param name="newHyperlink">Hyperlink to Register.</param>
+        /// <param name="linkUrl">Url to Register.</param>
         void RegisterNewHyperLink(Hyperlink newHyperlink, string linkUrl);
     }
 }

@@ -10,8 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using ColorCode.Styling;
+using System;
 using System.Collections.Generic;
+using ColorCode.Styling;
+using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -48,6 +50,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 typeof(bool),
                 typeof(MarkdownTextBlock),
                 new PropertyMetadata(true, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="WrapCodeBlock"/>.
+        /// </summary>
+        public static readonly DependencyProperty WrapCodeBlockProperty =
+            DependencyProperty.Register(nameof(WrapCodeBlock), typeof(bool), typeof(MarkdownTextBlock), new PropertyMetadata(false));
 
         /// <summary>
         /// Gets the dependency property for <see cref="Text"/>.
@@ -322,6 +330,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to Wrap the Code Block or use a Horizontal Scroll.
+        /// </summary>
+        public bool WrapCodeBlock
+        {
+            get { return (bool)GetValue(WrapCodeBlockProperty); }
+            set { SetValue(WrapCodeBlockProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the Default Code Styling for Code Blocks.
         /// </summary>
         public StyleDictionary CodeStyling
@@ -593,5 +610,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Border _rootElement;
 
         private bool multiClickDetectionTriggered;
+
+        private Type renderertype = typeof(UWPMarkdownRenderer);
     }
 }

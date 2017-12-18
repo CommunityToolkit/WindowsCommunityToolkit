@@ -28,6 +28,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class MarkdownTextBlock
     {
         /// <summary>
+        /// Sets the Markdown Renderer for Rendering the UI.
+        /// </summary>
+        /// <typeparam name="T">The Inherited UWP Markdown Render</typeparam>
+        public void SetRenderer<T>()
+            where T : UWPMarkdownRenderer
+        {
+            renderertype = typeof(T);
+        }
+
+        /// <summary>
         /// Called to preform a render of the current Markdown.
         /// </summary>
         private void RenderMarkdown()
@@ -55,78 +65,78 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 markdown.Parse(Text);
 
                 // Now try to display it
-                var renderer = new UWPMarkdownRenderer(markdown, this, this, this)
-                {
-                    Background = Background,
-                    BorderBrush = BorderBrush,
-                    BorderThickness = BorderThickness,
-                    CharacterSpacing = CharacterSpacing,
-                    FontFamily = FontFamily,
-                    FontSize = FontSize,
-                    FontStretch = FontStretch,
-                    FontStyle = FontStyle,
-                    FontWeight = FontWeight,
-                    Foreground = Foreground,
-                    IsTextSelectionEnabled = IsTextSelectionEnabled,
-                    Padding = Padding,
-                    CodeBackground = CodeBackground,
-                    CodeBorderBrush = CodeBorderBrush,
-                    CodeBorderThickness = CodeBorderThickness,
-                    InlineCodeBorderThickness = InlineCodeBorderThickness,
-                    InlineCodeBackground = InlineCodeBackground,
-                    InlineCodeBorderBrush = InlineCodeBorderBrush,
-                    InlineCodePadding = InlineCodePadding,
-                    InlineCodeFontFamily = InlineCodeFontFamily,
-                    CodeForeground = CodeForeground,
-                    CodeFontFamily = CodeFontFamily,
-                    CodePadding = CodePadding,
-                    CodeMargin = CodeMargin,
-                    EmojiFontFamily = EmojiFontFamily,
-                    Header1FontSize = Header1FontSize,
-                    Header1FontWeight = Header1FontWeight,
-                    Header1Margin = Header1Margin,
-                    Header1Foreground = Header1Foreground,
-                    Header2FontSize = Header2FontSize,
-                    Header2FontWeight = Header2FontWeight,
-                    Header2Margin = Header2Margin,
-                    Header2Foreground = Header2Foreground,
-                    Header3FontSize = Header3FontSize,
-                    Header3FontWeight = Header3FontWeight,
-                    Header3Margin = Header3Margin,
-                    Header3Foreground = Header3Foreground,
-                    Header4FontSize = Header4FontSize,
-                    Header4FontWeight = Header4FontWeight,
-                    Header4Margin = Header4Margin,
-                    Header4Foreground = Header4Foreground,
-                    Header5FontSize = Header5FontSize,
-                    Header5FontWeight = Header5FontWeight,
-                    Header5Margin = Header5Margin,
-                    Header5Foreground = Header5Foreground,
-                    Header6FontSize = Header6FontSize,
-                    Header6FontWeight = Header6FontWeight,
-                    Header6Margin = Header6Margin,
-                    Header6Foreground = Header6Foreground,
-                    HorizontalRuleBrush = HorizontalRuleBrush,
-                    HorizontalRuleMargin = HorizontalRuleMargin,
-                    HorizontalRuleThickness = HorizontalRuleThickness,
-                    ListMargin = ListMargin,
-                    ListGutterWidth = ListGutterWidth,
-                    ListBulletSpacing = ListBulletSpacing,
-                    ParagraphMargin = ParagraphMargin,
-                    QuoteBackground = QuoteBackground,
-                    QuoteBorderBrush = QuoteBorderBrush,
-                    QuoteBorderThickness = QuoteBorderThickness,
-                    QuoteForeground = QuoteForeground,
-                    QuoteMargin = QuoteMargin,
-                    QuotePadding = QuotePadding,
-                    TableBorderBrush = TableBorderBrush,
-                    TableBorderThickness = TableBorderThickness,
-                    TableCellPadding = TableCellPadding,
-                    TableMargin = TableMargin,
-                    TextWrapping = TextWrapping,
-                    LinkForeground = LinkForeground,
-                    ImageStretch = ImageStretch
-                };
+                var renderer = Activator.CreateInstance(renderertype, markdown, this, this, this) as UWPMarkdownRenderer;
+                renderer.Background = Background;
+                renderer.BorderBrush = BorderBrush;
+                renderer.BorderThickness = BorderThickness;
+                renderer.CharacterSpacing = CharacterSpacing;
+                renderer.FontFamily = FontFamily;
+                renderer.FontSize = FontSize;
+                renderer.FontStretch = FontStretch;
+                renderer.FontStyle = FontStyle;
+                renderer.FontWeight = FontWeight;
+                renderer.Foreground = Foreground;
+                renderer.IsTextSelectionEnabled = IsTextSelectionEnabled;
+                renderer.Padding = Padding;
+                renderer.CodeBackground = CodeBackground;
+                renderer.CodeBorderBrush = CodeBorderBrush;
+                renderer.CodeBorderThickness = CodeBorderThickness;
+                renderer.InlineCodeBorderThickness = InlineCodeBorderThickness;
+                renderer.InlineCodeBackground = InlineCodeBackground;
+                renderer.InlineCodeBorderBrush = InlineCodeBorderBrush;
+                renderer.InlineCodePadding = InlineCodePadding;
+                renderer.InlineCodeFontFamily = InlineCodeFontFamily;
+                renderer.CodeForeground = CodeForeground;
+                renderer.CodeFontFamily = CodeFontFamily;
+                renderer.CodePadding = CodePadding;
+                renderer.CodeMargin = CodeMargin;
+                renderer.EmojiFontFamily = EmojiFontFamily;
+                renderer.Header1FontSize = Header1FontSize;
+                renderer.Header1FontWeight = Header1FontWeight;
+                renderer.Header1Margin = Header1Margin;
+                renderer.Header1Foreground = Header1Foreground;
+                renderer.Header2FontSize = Header2FontSize;
+                renderer.Header2FontWeight = Header2FontWeight;
+                renderer.Header2Margin = Header2Margin;
+                renderer.Header2Foreground = Header2Foreground;
+                renderer.Header3FontSize = Header3FontSize;
+                renderer.Header3FontWeight = Header3FontWeight;
+                renderer.Header3Margin = Header3Margin;
+                renderer.Header3Foreground = Header3Foreground;
+                renderer.Header4FontSize = Header4FontSize;
+                renderer.Header4FontWeight = Header4FontWeight;
+                renderer.Header4Margin = Header4Margin;
+                renderer.Header4Foreground = Header4Foreground;
+                renderer.Header5FontSize = Header5FontSize;
+                renderer.Header5FontWeight = Header5FontWeight;
+                renderer.Header5Margin = Header5Margin;
+                renderer.Header5Foreground = Header5Foreground;
+                renderer.Header6FontSize = Header6FontSize;
+                renderer.Header6FontWeight = Header6FontWeight;
+                renderer.Header6Margin = Header6Margin;
+                renderer.Header6Foreground = Header6Foreground;
+                renderer.HorizontalRuleBrush = HorizontalRuleBrush;
+                renderer.HorizontalRuleMargin = HorizontalRuleMargin;
+                renderer.HorizontalRuleThickness = HorizontalRuleThickness;
+                renderer.ListMargin = ListMargin;
+                renderer.ListGutterWidth = ListGutterWidth;
+                renderer.ListBulletSpacing = ListBulletSpacing;
+                renderer.ParagraphMargin = ParagraphMargin;
+                renderer.QuoteBackground = QuoteBackground;
+                renderer.QuoteBorderBrush = QuoteBorderBrush;
+                renderer.QuoteBorderThickness = QuoteBorderThickness;
+                renderer.QuoteForeground = QuoteForeground;
+                renderer.QuoteMargin = QuoteMargin;
+                renderer.QuotePadding = QuotePadding;
+                renderer.TableBorderBrush = TableBorderBrush;
+                renderer.TableBorderThickness = TableBorderThickness;
+                renderer.TableCellPadding = TableCellPadding;
+                renderer.TableMargin = TableMargin;
+                renderer.TextWrapping = TextWrapping;
+                renderer.LinkForeground = LinkForeground;
+                renderer.ImageStretch = ImageStretch;
+                renderer.WrapCodeBlock = WrapCodeBlock;
+
                 _rootElement.Child = renderer.Render();
             }
             catch (Exception ex)
@@ -219,7 +229,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                 // Tries to get the Actual Theme, if supported.
                                 theme = ActualTheme;
                             }
-                            catch { }
+                            catch
+                            {
+                            }
 
                             formatter = new RichTextBlockFormatter(theme);
                         }

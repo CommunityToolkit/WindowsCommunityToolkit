@@ -15,14 +15,23 @@ using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 {
-    internal class RenderContext : IRenderContext
+    /// <summary>
+    /// The Context of the Current Position
+    /// </summary>
+    public abstract class RenderContext : IRenderContext
     {
+        /// <summary>
+        /// Gets or sets the Foreground of the Current Context.
+        /// </summary>
         public Brush Foreground { get; set; }
 
+        /// <inheritdoc/>
         public bool TrimLeadingWhitespace { get; set; }
 
+        /// <inheritdoc/>
         public object Parent { get; set; }
 
+        /// <inheritdoc/>
         public IRenderContext Clone()
         {
             return (IRenderContext)MemberwiseClone();
