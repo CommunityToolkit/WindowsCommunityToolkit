@@ -235,6 +235,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 result = result.Remove(metadataMatch.Index, metadataMatch.Index + metadataMatch.Length);
             }
 
+            // Make Microsoft Note Notation a Regular quote.
+            result = result.Replace("> [!NOTE]", "> **Note**:");
+
             // Images
             var regex = new Regex("## Example Image.+?##", RegexOptions.Singleline);
             result = regex.Replace(result, "##");
