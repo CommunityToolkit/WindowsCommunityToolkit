@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         {
             ConnectionInformation = new ConnectionInformation();
 
-            OnNetworkStatusChanged(null);
+            UpdateConnectionInformation();
 
             NetworkInformation.NetworkStatusChanged += OnNetworkStatusChanged;
         }
@@ -60,20 +60,26 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
             NetworkInformation.NetworkStatusChanged -= OnNetworkStatusChanged;
         }
 
+        private void UpdateConnectionInformation()
+        {
+            lock (ConnectionInformation)
+            {
+                try
+                {
+                    ConnectionInformation.UpdateConnectionInformation(NetworkInformation.GetInternetConnectionProfile());
+
+                    NetworkChanged?.Invoke(this, EventArgs.Empty);
+                }
+                catch
+                {
+                    ConnectionInformation.Reset();
+                }
+            }
+        }
+
         private void OnNetworkStatusChanged(object sender)
         {
-            ConnectionProfile profile = null;
-            try
-            {
-                profile = NetworkInformation.GetInternetConnectionProfile();
-            }
-            catch
-            {
-            }
-
-            ConnectionInformation.UpdateConnectionInformation(profile);
-
-            NetworkChanged?.Invoke(this, EventArgs.Empty);
+            UpdateConnectionInformation();
         }
     }
 }
