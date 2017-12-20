@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Arranges child elements into a staggered grid pattern.
+    /// Arranges child elements into a staggered grid pattern where items are added to the column that has used least amount of space.
     /// </summary>
     public class StaggeredPanel : Panel
     {
