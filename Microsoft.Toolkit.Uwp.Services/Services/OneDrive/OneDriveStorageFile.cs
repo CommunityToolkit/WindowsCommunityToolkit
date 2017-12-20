@@ -124,8 +124,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             IRandomAccessStream contentStream = null;
             try
             {
-                System.IO.Stream content = null;
-                content = await RequestBuilder.Content.Request().GetAsync(cancellationToken).ConfigureAwait(false);
+                System.IO.Stream content = await RequestBuilder.Content.Request().GetAsync(cancellationToken).ConfigureAwait(false);
                 if (content != null)
                 {
                     contentStream = content.AsRandomAccessStream();

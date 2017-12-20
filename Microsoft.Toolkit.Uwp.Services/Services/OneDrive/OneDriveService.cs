@@ -301,7 +301,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Get shared folders from the OneDrive
         /// </summary>
-        /// <returns></returns>
+        /// <returns>When this method completes, it returns a list of OneDriveStorageFolder</returns>
         public async Task<IEnumerable<OneDriveStorageFolder>> SharedFolders()
         {
             // log the user silently with a Microsoft Account associate to Windows
@@ -315,8 +315,18 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
 
             var records = await _oneDriveProvider.Drive.Root.Children.Request().GetAsync();
-            var sharedFolders = records.Where(x => x.RemoteItem != null);
-            return sharedFolders.Select(x => new OneDriveStorageFolder(_oneDriveProvider, _oneDriveProvider.Drive.Root, x));
+            var sharedRecords = records.Where(x => x.RemoteItem != null);
+            var result = new List<OneDriveStorageFolder>();
+            foreach(var sharedRecord in sharedRecords)
+            {
+                var driveId = sharedRecord.RemoteItem.ParentReference.DriveId;
+                var itemId = sharedRecord.RemoteItem.Id;
+                var itemsBuilder = _oneDriveProvider.Drives[driveId].Items[itemId];
+                var item = await itemsBuilder.Request().GetAsync();
+                result.Add(new OneDriveStorageFolder(_oneDriveProvider, itemsBuilder, item));
+            }
+            
+            return result;
         }
 
         /// <summary>

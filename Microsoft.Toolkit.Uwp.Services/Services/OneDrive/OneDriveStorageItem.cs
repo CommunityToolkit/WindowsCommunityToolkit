@@ -404,7 +404,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>New instance of OneDriveStorageFolder</returns>
         protected OneDriveStorageFolder InitializeOneDriveStorageFolder(Item oneDriveItem)
         {
-            var requestBuilder = Provider.Drive.Items[oneDriveItem.Id];
+            var requestBuilder = GetRequestBuilderFromItem(oneDriveItem);
             return new OneDriveStorageFolder(Provider, requestBuilder, oneDriveItem);
         }
 
@@ -415,7 +415,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>New instance of OneDriveStorageItem</returns>
         protected OneDriveStorageItem InitializeOneDriveStorageItem(Item oneDriveItem)
         {
-            var requestBuilder = Provider.Drive.Items[oneDriveItem.Id];
+            var requestBuilder = GetRequestBuilderFromItem(oneDriveItem);
             return new OneDriveStorageItem(Provider, requestBuilder, oneDriveItem);
         }
 
@@ -426,8 +426,21 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>New instance of OneDriveStorageItem</returns>
         protected OneDriveStorageFile InitializeOneDriveStorageFile(Item oneDriveItem)
         {
-            var requestBuilder = Provider.Drive.Items[oneDriveItem.Id];
+            var requestBuilder = GetRequestBuilderFromItem(oneDriveItem);
             return new OneDriveStorageFile(Provider, requestBuilder, oneDriveItem);
+        }
+
+        /// <summary>
+        /// based on the item (shared or from own OneDrive) the Provider.Drives[driveId] call change
+        /// </summary>
+        private IItemRequestBuilder GetRequestBuilderFromItem(Item oneDriveItem)
+        {
+            if(oneDriveItem.ParentReference == null)
+            {
+                return Provider.Drive.Items[oneDriveItem.Id];
+            }
+            var driveId = oneDriveItem.ParentReference.DriveId;
+            return Provider.Drives[driveId].Items[oneDriveItem.Id];
         }
     }
 }
