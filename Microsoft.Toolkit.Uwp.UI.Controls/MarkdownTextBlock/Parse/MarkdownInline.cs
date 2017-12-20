@@ -15,6 +15,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
     internal enum MarkdownInlineType
     {
         /// <summary>
+        /// A comment
+        /// </summary>
+        Comment,
+
+        /// <summary>
         /// A text run
         /// </summary>
         TextRun,
