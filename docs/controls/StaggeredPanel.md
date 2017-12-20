@@ -15,12 +15,6 @@ Some note
 
 ## Syntax
 
-**C#**
-
-```csharp
-
-```
-
 **XAML**
 
 ```xaml
@@ -49,11 +43,6 @@ Some note
 | Property | Type | Description |
 | -- | -- | -- |
 | DesiredColumnWidth | double | The desired width of each column. The width of columns can exceed the DesiredColumnWidth if the HorizontalAlignment is set to Stretch. |
-
-## Examples
-
-<!-- All control/helper must at least have an example to show the use of Properties and Methods in your control/helper with the output -->
-<!-- Optional: Codes to achieve real-world use case with the output. For eg: Check https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/animationset#examples  -->
 
 ## Sample Code
 
