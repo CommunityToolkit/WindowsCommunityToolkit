@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     public class TwitterExtended
     {
         /// <summary>
-        /// Gets or sets user Id.
+        /// Gets or sets the text of the tweet (280 characters).
         /// </summary>
         [JsonProperty("full_text")]
         public string FullText { get; set; }
