@@ -62,9 +62,11 @@
         </ScrollViewer>
 
         <controls:Loading x:Name="LoadingControl" HorizontalContentAlignment="@[HorizontalContentAlignment:Enum:HorizontalAlignment.Center:Left.Right.Center.Stretch]" 
-                          VerticalContentAlignment="@[VerticalContentAlignment:Enum:VerticalAlignment.Center:Stretch.Center.Top.Bottom]"
-                          Background="@[Background:Brush:Black]" Opacity="@[Opacity:DoubleSlider:0.7:0-1]">
-          <ContentControl x:Name="LoadingContentControl"/>
+                          VerticalContentAlignment="@[VerticalContentAlignment:Enum:VerticalAlignment.Center:Stretch.Center.Top.Bottom]">
+            <controls:Loading.Background>
+                <SolidColorBrush Color="@[Background:Brush:Black]" Opacity="@[Background Opacity:DoubleSlider:0.7:0-1]"/>
+            </controls:Loading.Background>
+            <ContentControl x:Name="LoadingContentControl"/>
         </controls:Loading>
     </Grid>
 </Page>
