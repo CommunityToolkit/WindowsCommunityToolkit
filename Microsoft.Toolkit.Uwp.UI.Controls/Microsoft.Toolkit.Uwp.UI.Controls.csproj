@@ -20,12 +20,6 @@
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>
- 
-  <ItemGroup>
-    <PackageReference Update="MSBuild.Sdk.Extras" Version="1.1.0" />
-    <PackageReference Update="Nerdbank.GitVersioning" Version="2.0.41" />
-    <PackageReference Update="SourceLink.Create.CommandLine" Version="2.6.0" />
-  </ItemGroup>
   
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 

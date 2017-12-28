@@ -156,6 +156,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Test_WeakEventListener.cs" />
     <Compile Include="Services\Test_BingService.cs" />
+    <Compile Include="Services\Test_FaceBookservice.cs" />
+    <Compile Include="Services\Test_OneDriveService.cs" />
     <Compile Include="UI\Person.cs" />
     <Compile Include="UI\Test_AdvancedCollectionView.cs" />
     <Compile Include="Helpers\TestParsers.cs">

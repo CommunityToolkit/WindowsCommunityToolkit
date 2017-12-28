@@ -24,7 +24,8 @@ namespace UnitTests.Services
         [TestMethod]
         public async Task Test_Facebook_GetPages_Request()
         {
-            FacebookService.Instance.Initialize("687964081409306", FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts | FacebookPermissions.PublishActions | FacebookPermissions.UserPhotos | FacebookPermissions.ManagePages);
+            Assert.Inconclusive();
+            FacebookService.Instance.Initialize("xxxxxxxxxxxxx", FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts | FacebookPermissions.PublishActions | FacebookPermissions.UserPhotos | FacebookPermissions.ManagePages);
             if (!await FacebookService.Instance.LoginAsync())
             {
                 return;

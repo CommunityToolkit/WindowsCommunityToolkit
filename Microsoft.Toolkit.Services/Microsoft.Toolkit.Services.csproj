@@ -14,10 +14,4 @@
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="Nerdbank.GitVersioning" Version="2.0.41" />
-    <PackageReference Update="NETStandard.Library" Version="2.0.1" />
-    <PackageReference Update="SourceLink.Create.CommandLine" Version="2.6.0" />
-  </ItemGroup>
-
 </Project>

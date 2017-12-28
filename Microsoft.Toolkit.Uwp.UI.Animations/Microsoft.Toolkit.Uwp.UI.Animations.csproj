@@ -12,17 +12,10 @@
   <ItemGroup>
     
     <PackageReference Include="Win2D.uwp" Version="1.21.0" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="1.1.0" />
 
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
 
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <PackageReference Update="MSBuild.Sdk.Extras" Version="1.1.0" />
-    <PackageReference Update="Nerdbank.GitVersioning" Version="2.0.41" />
-    <PackageReference Update="SourceLink.Create.CommandLine" Version="2.6.0" />
   </ItemGroup>
 
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />

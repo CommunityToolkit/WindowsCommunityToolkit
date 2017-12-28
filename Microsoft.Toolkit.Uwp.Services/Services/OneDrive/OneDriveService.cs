@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,10 +21,10 @@ using Microsoft.OneDrive.Sdk.Authentication;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
-using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
+
     /// <summary>
     ///  Class using OneDrive API
     /// </summary>
@@ -35,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         private static OneDriveService _instance;
 
         /// <summary>
-        /// Field to store Azure AD Application clientid
+        /// Field to store Azure AD Application client id
         /// </summary>
         private string _appClientId;
 
