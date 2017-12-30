@@ -2,19 +2,18 @@ Issue: #
 <!-- Link to relevant issue. All PRs should be asociated with an issue -->
 
 ## PR Type
-What kind of change does this PR introduce?
 
+What kind of change does this PR introduce?
 <!-- Please check the one that applies to this PR using "x". -->
-```
-[ ] Bugfix
-[ ] Feature
-[ ] Code style update (formatting)
-[ ] Refactoring (no functional changes, no api changes)
-[ ] Build or CI related changes
-[ ] Documentation content changes
-[ ] Sample app changes
-[ ] Other... Please describe:
-```
+
+- [ ] Bugfix
+- [ ] Feature
+- [ ] Code style update (formatting)
+- [ ] Refactoring (no functional changes, no api changes)
+- [ ] Build or CI related changes
+- [ ] Documentation content changes
+- [ ] Sample app changes
+- [ ] Other... Please describe:
 
 
 ## What is the current behavior?
@@ -22,6 +21,7 @@ What kind of change does this PR introduce?
 
 
 ## PR Checklist
+
 Please check if your PR fulfills the following requirements:
 
 - [ ] Tested code with current [supported SDKs](../readme.md#supported)
@@ -34,10 +34,10 @@ Please check if your PR fulfills the following requirements:
 
 
 ## Does this PR introduce a breaking change?
-```
-[ ] Yes
-[ ] No
-```
+
+- [ ] Yes
+- [ ] No
+
 
 <!-- If this PR contains a breaking change, please describe the impact and migration path for existing applications below. 
      Please note that breaking changes are likely to be rejected -->
