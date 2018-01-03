@@ -83,6 +83,9 @@
         </Setter>
     </Style>
 
+    <!-- Obsolete: The HamburgetMenuItemStyle will be removed caused by a typo. Please use the HamburgerMenuItemStyle instead. -->
+    <Style x:Key="HamburgetMenuItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource HamburgerMenuItemStyle}" />
+
     <ControlTemplate x:Key="HamburgerMenuTemplate" TargetType="local:HamburgerMenu">
         <Grid>
             <SplitView x:Name="MainSplitView"
