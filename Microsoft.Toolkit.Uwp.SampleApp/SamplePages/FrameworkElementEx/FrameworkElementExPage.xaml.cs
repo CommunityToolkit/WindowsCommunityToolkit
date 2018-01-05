@@ -22,8 +22,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class FrameworkElementExPage : IXamlRenderListener
     {
-        private ObservableCollection<Item> _items;
-
         public FrameworkElementExPage()
         {
             InitializeComponent();
@@ -31,24 +29,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            var listView = control.FindChildByName("listView") as ListView;
-            if (listView != null)
-            {
-                listView.ItemsSource = _items;
-            }
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            // Reset items when revisiting sample.
-            _items = new ObservableCollection<Item>();
-
-            for (var i = 0; i < 1000; i++)
-            {
-                _items.Add(new Item() { Title = "Item " + i });
-            }
         }
     }
 }
