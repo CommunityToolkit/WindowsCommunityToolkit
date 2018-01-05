@@ -678,18 +678,9 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/VisualEx.md"
       },
       {
-        "Name": "ScrollViewerEx",
-        "Type": "ScrollViewerExPage",
-        "About": "Extensions for all controls that contain a ScrollViewer like ListView.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ScrollViewer",
-        "XamlCodeFile": "ScrollViewerExCode.bind",
-        "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/ScrollViewerEx.md"
-      },
-      {
         "Name": "FrameworkElementEx",
         "Type": "FrameworkElementExPage",
-        "About": "Extensions for all controls that contain a ScrollViewer like ListView.",
+        "About": "Extensions for all the FrameworkElement controls.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/FrameworkElement",
         "XamlCodeFile": "FrameworkElementExCode.bind",
         "Icon": "/Assets/Helpers.png",

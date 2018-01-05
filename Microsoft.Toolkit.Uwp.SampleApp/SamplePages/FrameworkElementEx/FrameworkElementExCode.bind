@@ -32,17 +32,48 @@
       Drag the handles to see how values are updated in the row below.
       If EnableActualSizeBinding is set to false, the binding will not be updated.
     </TextBlock>
-    <TextBlock Grid.Column="0"
-               Grid.Row="2"
-               Grid.ColumnSpan="2"
-               TextWrapping="Wrap"
-               Margin="12,12">
-      ActualHeight:<Run Text="{Binding ElementName=TargetObject, Path=ActualHeight}" />
-      ActualWidth:<Run Text="{Binding ElementName=TargetObject, Path=ActualWidth}" />
-      <LineBreak />
-      BindableActualHeight:<Run Text="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementEx.ActualHeight)}" />
-      BindableActualWidth:<Run Text="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementEx.ActualWidth)}" />
-    </TextBlock>
+    <Grid Grid.Row="2"
+          Grid.Column="0"
+          Grid.ColumnSpan="2"
+          Margin="12,12">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="4*"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock Text="ActualHeight:"
+                 Grid.Column="0"
+                 Grid.Row="0"/>
+      <TextBlock Text="{Binding ElementName=TargetObject, Path=ActualHeight}"
+                 Grid.Column="1"
+                 Grid.Row="0"/>
+
+      <TextBlock Text="ActualWidth:"
+                 Grid.Column="0"
+                 Grid.Row="1"/>
+      <TextBlock Text="{Binding ElementName=TargetObject, Path=ActualWidth}"
+                 Grid.Column="1"
+                 Grid.Row="1"/>
+
+      <TextBlock Text="BindableActualHeight:"
+                 Grid.Column="0"
+                 Grid.Row="2"/>
+      <TextBlock Text="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementEx.ActualHeight)}"
+                 Grid.Column="1"
+                 Grid.Row="2"/>
+
+      <TextBlock Text="BindableActualWidth:"
+                 Grid.Column="0"
+                 Grid.Row="3"/>
+      <TextBlock Text="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementEx.ActualWidth)}"
+                 Grid.Column="1"
+                 Grid.Row="3"/>
+    </Grid>
     
     <!--Column Grid Splitter-->
     <controls:GridSplitter
