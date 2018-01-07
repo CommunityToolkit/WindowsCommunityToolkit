@@ -81,13 +81,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(MenuItem);
             IsFocusEngagementEnabled = true;
-
-            IsEnabledChanged += (s, e) =>
-            {
-                var menuItemControl = (MenuItem)s;
-
-                menuItemControl.UpdateEnabledVisualState();
-            };
         }
 
         internal bool ContainsPoint(Point point)
@@ -111,6 +104,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             IsOpened = false;
 
             Items.VectorChanged -= Items_VectorChanged;
+            IsEnabledChanged -= MenuItem_IsEnabledChanged;
 
             if (MenuFlyout == null)
             {
@@ -135,6 +129,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 MenuFlyout.MenuFlyoutPresenterStyle = _parentMenu.MenuFlyoutStyle;
                 ReAddItemsToFlyout();
 
+                IsEnabledChanged += MenuItem_IsEnabledChanged;
+
                 if (_isAccessKeySupported)
                 {
                     FlyoutButton.AccessKey = AccessKey;
@@ -145,6 +141,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UpdateEnabledVisualState();
 
             base.OnApplyTemplate();
+        }
+
+        private void MenuItem_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var menuItemControl = (MenuItem)sender;
+            menuItemControl.UpdateEnabledVisualState();
         }
 
         internal void CalculateBounds()
