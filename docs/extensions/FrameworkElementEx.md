@@ -1,5 +1,5 @@
 ---
-title: FrameworkElement extentions
+title: FrameworkElement Extentions
 author: ST-Apps
 ms.date: 01/05/2018
 description: FrameworkElementEx provides a simple way to bind to actual size for any FrameworkElement
@@ -8,15 +8,15 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, FrameworkElement,
 
 # FrameworkElement extentions
 
-FrameworkElementEx provides a simple way to bind to actual size for any FrameworkElement
+FrameworkElementEx provides a simple way to bind to actual size for any FrameworkElement.
 
 ## EnableActualSizeBinding
 
-The EnableActualSizeBinding property allows to enable/disable the binding for ActualHeight and ActualWidth
+The EnableActualSizeBinding property allows you to enable/disable the binding for the ActualHeight and ActualWidth extensions.
 
 ## ActualHeight
 
-The ActualHeight property allows to bind to TargetObject's ActualHeight
+The ActualHeight property allows to bind to TargetObject's ActualHeight.
 
 ### Example
 
@@ -29,7 +29,7 @@ The ActualHeight property allows to bind to TargetObject's ActualHeight
 
 ## ActualWidth
 
-The ActualWidth works exactly as ActualHeight.
+The ActualWidth property allows to bind to TargetObject's ActualWidth.
 
 ## Requirements (Windows 10 Device Family)
 

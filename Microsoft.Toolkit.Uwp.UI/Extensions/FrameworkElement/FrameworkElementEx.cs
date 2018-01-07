@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
             else
             {
-                // Subscribe from event
+                // Unsubscribe from event
                 baseElement.SizeChanged -= UpdateActualSizeProperties;
             }
         }
