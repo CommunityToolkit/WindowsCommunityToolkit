@@ -23,8 +23,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 double.TryParse(value.ToString(), out double height);
 
+                var padding = gridView.Padding;
                 var margin = GetItemMargin(gridView);
-                height = height + margin.Top + margin.Bottom;
+                height = height + margin.Top + margin.Bottom + padding.Top + padding.Bottom;
 
                 return height;
             }
