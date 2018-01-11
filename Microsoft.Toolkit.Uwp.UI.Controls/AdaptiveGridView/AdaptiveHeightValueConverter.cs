@@ -23,12 +23,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 double.TryParse(value.ToString(), out double height);
 
-                var setter = gridView.ItemContainerStyle?.Setters.OfType<Setter>().FirstOrDefault(s => s.Property == FrameworkElement.MarginProperty);
-                if (setter != null)
-                {
-                    var margin = (Thickness)setter.Value;
-                    height = height + margin.Top + margin.Bottom;
-                }
+                var margin = GetItemMargin(gridView);
+                height = height + margin.Top + margin.Bottom;
 
                 return height;
             }
@@ -39,6 +35,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             throw new NotImplementedException();
+        }
+
+        private static Thickness GetItemMargin(GridView view)
+        {
+            var setter = view.ItemContainerStyle?.Setters.OfType<Setter>().FirstOrDefault(s => s.Property == FrameworkElement.MarginProperty);
+            if (setter != null)
+            {
+                return (Thickness)setter.Value;
+            }
+            else
+            {
+                if (view.Items.Count > 0)
+                {
+                    var container = (GridViewItem)view.ContainerFromIndex(0);
+                    if (container != null)
+                    {
+                        return container.Margin;
+                    }
+                }
+
+                // Use the default thickness for a GridViewItem
+                return new Thickness(0, 0, 4, 4);
+            }
         }
     }
 }
