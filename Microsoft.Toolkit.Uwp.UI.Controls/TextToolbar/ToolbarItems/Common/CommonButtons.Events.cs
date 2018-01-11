@@ -109,6 +109,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 
                 string linkText = linkBox.Text.Trim();
 
+                if (string.IsNullOrEmpty(labelText.Trim()))
+                {
+                    await new ContentDialog
+                    {
+                        Title = Model.Labels.WarningLabel,
+                        Content = Model.Labels.EmptyTextLabel,
+                        PrimaryButtonText = Model.Labels.OkLabel
+                    }.ShowAsync();
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(linkText))
+                {
+                    await new ContentDialog
+                    {
+                        Title = Model.Labels.WarningLabel,
+                        Content = Model.Labels.LinkInvalidLabel,
+                        PrimaryButtonText = Model.Labels.OkLabel
+                    }.ShowAsync();
+                    return;
+                }
+
                 if (Model.UseURIChecker && !string.IsNullOrWhiteSpace(linkText))
                 {
                     var wellFormed = Uri.IsWellFormedUriString(linkText, relativeBox?.IsChecked == true ? UriKind.RelativeOrAbsolute : UriKind.Absolute);
