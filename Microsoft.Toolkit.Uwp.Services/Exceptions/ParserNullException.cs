@@ -17,35 +17,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Exceptions
     /// <summary>
     /// Exception for null Parser.
     /// </summary>
-    public class ParserNullException : Exception
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
+    public class ParserNullException : Toolkit.Services.Exceptions.ParserNullException
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ParserNullException"/> class.
-        /// Default constructor.
-        /// </summary>
-        public ParserNullException()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ParserNullException"/> class.
-        /// Constructor with additional message.
-        /// </summary>
-        /// <param name="message">Additional message</param>
-        public ParserNullException(string message)
-            : base(message)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ParserNullException"/> class.
-        /// Constructor with additional message and inner exception.
-        /// </summary>
-        /// <param name="message">Additonal message.</param>
-        /// <param name="innerException">Reference to inner exception.</param>
-        public ParserNullException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
     }
 }

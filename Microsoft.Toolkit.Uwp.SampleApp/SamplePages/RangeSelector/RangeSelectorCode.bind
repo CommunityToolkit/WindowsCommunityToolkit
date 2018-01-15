@@ -1,8 +1,6 @@
 <Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.RangeSelectorPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -13,23 +11,27 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid VerticalAlignment="Center" 
+		      HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" 
-                       Text="{Binding RangeMin, ElementName=RangeSelector, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}"
-                       Foreground="Black"/>
-            <controls:RangeSelector x:Name="RangeSelector" 
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       Foreground="Black"
+                       Text="{Binding RangeMin, ElementName=RangeSelectorControl, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}" />
+            <controls:RangeSelector x:Name="RangeSelectorControl"
                                     Grid.Column="1"
-                                    Minimum="@[Minimum:Slider:0:0-100]" 
-                                    Maximum="@[Maximum:Slider:100:0-100]">
-            </controls:RangeSelector>
+                                    Minimum="@[Minimum:Slider:0:0-100]@" 
+                                    Maximum="@[Maximum:Slider:100:0-100]@" />
             <TextBlock Grid.Column="2" 
-                       Text="{Binding RangeMax, ElementName=RangeSelector, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}"
-                       Foreground="Black"/>
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       Foreground="Black"
+                       Text="{Binding RangeMax, ElementName=RangeSelectorControl, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}" />
         </Grid>
     </Grid>
 </Page>

@@ -1,8 +1,6 @@
 <Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.MarkdownTextBlockPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.MarkdownTextBlock"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -16,12 +14,34 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Regular Text" Margin="12,12,12,0" FontSize="18"/>        
-        <TextBox x:Name="ui_unformattedText" Grid.Row="1" Margin="12" AcceptsReturn="True" TextWrapping="Wrap" />
+        <TextBlock Grid.Row="0"
+                   Margin="12,12,12,0"
+                   FontSize="18"
+                   Text="Regular Text" />
+        <TextBox x:Name="UnformattedText"
+                 Grid.Row="1"
+                 Margin="12"
+                 AcceptsReturn="True"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 TextWrapping="Wrap" />
 
-        <TextBlock Grid.Row="2" Text="Markdown Text" Margin="12,12,12,0" FontSize="18"/>
-        <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Margin="12" BorderBrush="{ThemeResource AppBarBorderThemeBrush}" BorderThickness="2">
-            <controls:MarkdownTextBlock x:Name="ui_markdownText" Margin="6" Foreground="Black" OnLinkClicked="MarkdownText_OnLinkClicked"/>
+        <TextBlock Grid.Row="2"
+                   Margin="12,12,12,0"
+                   FontSize="18"
+                   Text="Markdown Text" />
+        <ScrollViewer Grid.Row="3"
+                      Margin="12"
+                      BorderBrush="{ThemeResource AppBarBorderThemeBrush}"
+                      BorderThickness="2"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Visible">
+            <controls:MarkdownTextBlock x:Name="MarkdownText"
+                                        Margin="6" 
+                                        Header1Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                        Foreground="Black" 
+                                        LinkForeground="BlueViolet"
+                                        Text="{Binding ElementName=UnformattedText, Path=Text}" />
         </ScrollViewer>        
     </Grid>
 </Page>

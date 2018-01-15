@@ -17,26 +17,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Bing
     /// <summary>
     /// Implementation of the Bing result class.
     /// </summary>
-    public class BingResult : SchemaBase
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
+    public class BingResult : Toolkit.Services.Bing.BingResult
     {
-        /// <summary>
-        /// Gets or sets title of the search result.
-        /// </summary>
-        public string Title { get; set; }
-
-        /// <summary>
-        /// Gets or sets summary of the search result.
-        /// </summary>
-        public string Summary { get; set; }
-
-        /// <summary>
-        /// Gets or sets link to the Search result.
-        /// </summary>
-        public string Link { get; set; }
-
-        /// <summary>
-        /// Gets or sets date of publication.
-        /// </summary>
-        public DateTime Published { get; set; }
     }
 }

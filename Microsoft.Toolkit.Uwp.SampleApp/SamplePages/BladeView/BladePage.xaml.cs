@@ -10,19 +10,51 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
     /// An page that shows how to use the Blade Control
     /// </summary>
-    public sealed partial class BladePage
+    public sealed partial class BladePage : IXamlRenderListener
     {
+        private BladeView bladeView;
+        private Button addBlade;
+        private ResourceDictionary resources;
+
         public BladePage()
         {
             InitializeComponent();
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            bladeView = control.FindChildByName("BladeView") as BladeView;
+            addBlade = control.FindChildByName("AddBlade") as Button;
+
+            if (addBlade != null)
+            {
+                addBlade.Click += OnAddBladeButtonClicked;
+            }
+
+            resources = control.Resources;
+        }
+
+        private void OnAddBladeButtonClicked(object sender, RoutedEventArgs e)
+        {
+            if (resources?.ContainsKey("BladeStyle") == true)
+            {
+                BladeItem bladeItem = new BladeItem()
+                {
+                    Style = resources["BladeStyle"] as Style
+                };
+
+                bladeView?.Items?.Add(bladeItem);
+            }
         }
     }
 }

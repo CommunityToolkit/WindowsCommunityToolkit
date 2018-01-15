@@ -6,32 +6,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
-        <Grid HorizontalAlignment="Center"
-              VerticalAlignment="Center">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50" />
-                <ColumnDefinition Width="250" />
-                <ColumnDefinition Width="50" />
-            </Grid.ColumnDefinitions>
-            <controls:RadialGauge x:Name="RadialGaugeControl"
-                                  Grid.Column="1"
-                                  IsInteractive="{Binding IsInteractive.Value, Mode=OneWay}"
-                                  MaxAngle="{Binding MaxAngle.Value, Mode=OneWay}"
-                                  Maximum="180"
-                                  MinAngle="{Binding MinAngle.Value, Mode=OneWay}"
-                                  Minimum="0"
-                                  NeedleWidth="{Binding NeedleWidth.Value, Mode=OneWay}"
-                                  ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                                  ScaleWidth="{Binding ScaleWidth.Value, Mode=OneWay}"
-                                  StepSize="1"
-                                  TickBrush="Gainsboro"
-                                  TickLength="{Binding TickLength.Value, Mode=OneWay}"
-                                  TickSpacing="{Binding TickSpacing.Value, Mode=OneWay}"
-                                  Unit="Units"
-                                  UnitBrush="Black"
-                                  ValueBrush="Black"
-                                  Value="{Binding Value.Value, Mode=TwoWay}" />
-        </Grid>
+	<!-- Shallow Copy -->
+    <Grid Visibility="Collapsed">
+        <controls:RadialGauge />
     </Grid>
 </Page>

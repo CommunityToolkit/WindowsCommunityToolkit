@@ -1,265 +1,30 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7189A42D-6F1A-4FA3-8E00-E2C14FDF167A}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Toolkit.Uwp.Services</RootNamespace>
-    <AssemblyName>Microsoft.Toolkit.Uwp.Services</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
-    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFramework>uap10.0</TargetFramework>
+    <Title>UWP Community Toolkit Services</Title>
+    <Description>This library enables access to different data sources like Bing, Facebook, LinkedIn, MicrosoftGraph, OneDrive and Twitter. It is part of the UWP Community Toolkit.</Description>
+    <PackageTags>UWP Toolkit Windows Twitter OAuth Facebook Bing MicrosoftGraph LinkedIn OneDrive</PackageTags>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Debug\Microsoft.Toolkit.Uwp.Services.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.Services.xml</DocumentationFile>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+
+
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="Microsoft.Toolkit.Uwp.Services.ruleset">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="project.json" />
+
+
+    <PackageReference Include="Microsoft.Graph" Version="1.2.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="3.13.7" />
+    <PackageReference Include="Microsoft.OneDriveSDK" Version="2.0.6" />
+    <PackageReference Include="Microsoft.OneDriveSDK.Authentication" Version="1.0.8" />
+    <PackageReference Include="winsdkfb" Version="0.12.20161020.4" />
+
+    <!-- This is here to prevent a conflict in certain circumstances -->
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" /> 
+    
+    <ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
+
+    
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Core\DataProviderBase{TConfig,TSchema}.cs" />
-    <Compile Include="Core\ExtensionMethods.cs" />
-    <Compile Include="Core\IDataService{T,U,V}.cs" />
-    <Compile Include="Services\Bing\BingLanguage.cs" />
-    <Compile Include="Services\Bing\BingCountry.cs" />
-    <Compile Include="Services\Bing\BingResult.cs" />
-    <Compile Include="Services\Bing\BingQueryType.cs" />
-    <Compile Include="Services\Bing\BingSearchConfig.cs" />
-    <Compile Include="Services\Bing\BingDataProvider.cs" />
-    <Compile Include="Services\Bing\BingParser.cs" />
-    <Compile Include="Services\Bing\BingService.cs" />
-    <Compile Include="Services\Facebook\FacebookAlbum.cs" />
-    <Compile Include="Services\Facebook\FacebookOAuthTokens.cs" />
-    <Compile Include="Services\Facebook\FacebookRequestSource.cs" />
-    <Compile Include="Services\LinkedIn\LinkedInConstants.cs" />
-    <Compile Include="Services\LinkedIn\LinkedInContent.cs" />
-    <Compile Include="Services\LinkedIn\LinkedInDataConfig.cs" />
-    <Compile Include="Services\LinkedIn\LinkedInDataProvider.cs" />
-    <Compile Include="Services\LinkedIn\LinkedInOAuthTokens.cs" />
-    <Compile Include="Services\LinkedIn\LinkedInParser.cs" />
-    <Compile Include="Services\LinkedIn\LinkedInPermissions.cs" />
-    <Compile Include="Services\LinkedIn\LinkedInProfile.cs" />
-    <Compile Include="Services\LinkedIn\LinkedInProfileRequest.cs" />
-    <Compile Include="Services\LinkedIn\LinkedInService.cs" />
-    <Compile Include="Services\LinkedIn\LinkedInShareResponse.cs" />
-    <Compile Include="Services\LinkedIn\LinkedInShareVisibility.cs" />
-    <Compile Include="Services\LinkedIn\LinkedInShareRequest.cs" />
-    <Compile Include="Services\LinkedIn\LinkedInVisibility.cs" />
-    <Compile Include="Services\MicrosoftGraph\JWToken.cs" />
-    <Compile Include="Services\MicrosoftGraph\MicrosoftGraphAuthenticationHelper.cs" />
-    <Compile Include="Services\MicrosoftGraph\MicrosoftGraphEnums.cs" />
-    <Compile Include="Services\MicrosoftGraph\MicrosoftGraphHelper.cs" />
-    <Compile Include="Services\MicrosoftGraph\MicrosoftGraphCoreService.cs" />
-    <Compile Include="Services\MicrosoftGraph\MicrosoftGraphExtensions.cs" />
-    <Compile Include="Services\MicrosoftGraph\Message\MicrosoftGraphMessageFields.cs" />
-    <Compile Include="Services\MicrosoftGraph\Message\MicrosoftGraphServiceMessage.cs" />
-    <Compile Include="Services\MicrosoftGraph\User\MicrosoftGraphUserFields.cs" />
-    <Compile Include="Services\MicrosoftGraph\User\MicrosoftGraphUserService.cs" />
-    <Compile Include="Services\Facebook\FacebookPhoto.cs" />
-    <Compile Include="Services\Facebook\FacebookPictureData.cs" />
-    <Compile Include="Services\Facebook\FacebookPlatformImageSource.cs" />
-    <Compile Include="Services\OneDrive\DiscoverySettings.cs" />
-    <Compile Include="Services\OneDrive\OneDriveAuthenticationHelper.cs" />
-    <Compile Include="Services\OneDrive\OneDriveConflictItem.cs" />
-    <Compile Include="Services\OneDrive\OneDriveConstants.cs" />
-    <Compile Include="Services\OneDrive\OneDriveHelper.cs" />
-    <Compile Include="Services\OneDrive\OneDriveItem.cs" />
-    <Compile Include="Services\OneDrive\OneDriveEnums.cs" />
-    <Compile Include="Services\OneDrive\OneDriveItemConflictBehavior.cs" />
-    <Compile Include="Services\OneDrive\OneDriveItemExtension.cs" />
-    <Compile Include="Services\OneDrive\OneDriveParent.cs" />
-    <Compile Include="Services\OneDrive\OneDriveParentReference.cs" />
-    <Compile Include="Services\OneDrive\OneDriveRequestSource.cs" />
-    <Compile Include="Services\OneDrive\OneDriveScopes.cs" />
-    <Compile Include="Services\OneDrive\OneDriveService.cs" />
-    <Compile Include="Services\OneDrive\OneDriveStorageFile.cs" />
-    <Compile Include="Services\OneDrive\OneDriveStorageFolder.cs" />
-    <Compile Include="Services\OneDrive\OneDriveStorageItem.cs" />
-    <Compile Include="Services\OneDrive\OneDriveStorageItemsCollection.cs" />
-    <Compile Include="Services\OneDrive\OneDriveStorageItemsEnumerator.cs" />
-    <Compile Include="Services\MicrosoftTranslator\AzureAuthToken.cs" />
-    <Compile Include="Services\MicrosoftTranslator\ITranslatorService.cs" />
-    <Compile Include="Services\MicrosoftTranslator\TranslatorService.cs" />
-    <Compile Include="Services\OneDrive\OneDriveThumbnailSet.cs" />
-    <Compile Include="Services\OneDrive\OneDriveUploadConstants.cs" />
-    <Compile Include="Services\OneDrive\UserInfoSettings.cs" />
-    <Compile Include="Services\Twitter\TwitterErrors.cs" />
-    <Compile Include="Services\Twitter\TwitterException.cs" />
-    <Compile Include="Services\Twitter\TwitterGeoData.cs" />
-    <Compile Include="Services\Twitter\TwitterOAuthTokenType.cs" />
-    <Compile Include="Services\Facebook\FacebookPermissions.cs" />
-    <Compile Include="Services\Facebook\FacebookDataHost.cs" />
-    <Compile Include="Services\Facebook\FacebookPicture.cs" />
-    <Compile Include="Services\Facebook\FacebookPost.cs" />
-    <Compile Include="Services\Facebook\FacebookService.cs" />
-    <Compile Include="Services\Twitter\TweetParser.cs" />
-    <Compile Include="Services\Twitter\TwitterService.cs" />
-    <Compile Include="Core\InternalExtensionMethods.cs" />
-    <Compile Include="Core\JsonParser.cs" />
-    <Compile Include="Core\StringValueAttribute.cs" />
-    <Compile Include="Core\DataProviderBase.cs" />
-    <Compile Include="Exceptions\ParserNullException.cs" />
-    <Compile Include="Exceptions\ConfigNullException.cs" />
-    <Compile Include="Exceptions\OAuthKeysRevokedException.cs" />
-    <Compile Include="Exceptions\RequestFailedException.cs" />
-    <Compile Include="Exceptions\TooManyRequestsException.cs" />
-    <Compile Include="Exceptions\UserNotFoundException.cs" />
-    <Compile Include="Services\Facebook\FacebookDataConfig.cs" />
-    <Compile Include="Core\IParser.cs" />
-    <Compile Include="Rss\AtomParser.cs" />
-    <Compile Include="Rss\BaseRssParser.cs" />
-    <Compile Include="Rss\Rss2Parser.cs" />
-    <Compile Include="Rss\RssHelper.cs" />
-    <Compile Include="Rss\RssParser.cs" />
-    <Compile Include="Rss\RssSchema.cs" />
-    <Compile Include="Rss\RssType.cs" />
-    <Compile Include="OAuth\OAuthEncoder.cs" />
-    <Compile Include="OAuth\OAuthParameter.cs" />
-    <Compile Include="Services\Twitter\TwitterOAuthRequest.cs" />
-    <Compile Include="Services\Twitter\TwitterOAuthRequestBuilder.cs" />
-    <Compile Include="OAuth\OAuthUriExtensions.cs" />
-    <Compile Include="Services\Twitter\TwitterOAuthTokens.cs" />
-    <Compile Include="Services\Twitter\TwitterDataConfig.cs" />
-    <Compile Include="Services\Twitter\TwitterDataProvider.cs" />
-    <Compile Include="Services\Twitter\TwitterQueryType.cs" />
-    <Compile Include="Exceptions\OAuthKeysNotPresentException.cs" />
-    <Compile Include="Exceptions\ConfigParameterNullException.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Core\SchemaBase.cs" />
-    <Compile Include="Services\Twitter\TwitterSearchParser.cs" />
-    <Compile Include="Services\Twitter\TwitterSearchResult.cs" />
-    <Compile Include="Services\Twitter\Tweet.cs" />
-    <Compile Include="Services\Twitter\TwitterError.cs" />
-    <Compile Include="Services\Twitter\TwitterStatus.cs" />
-    <Compile Include="Services\Twitter\TwitterUser.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Microsoft.Toolkit.Uwp.Services.rd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj">
-      <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>
-      <Name>Microsoft.Toolkit.Uwp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
-    <VisualStudioVersion>14.0</VisualStudioVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug %28Version 1511%29|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug %28Version 1511%29\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.Services.XML</DocumentationFile>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug %28Anniversary Update%29|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug %28Anniversary Update%29\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.Services.XML</DocumentationFile>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28Version 1511%29|AnyCPU'">
-    <OutputPath>bin\Release %28Version 1511%29\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.Services.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28Anniversary Update%29|AnyCPU'">
-    <OutputPath>bin\Release %28Anniversary Update%29\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.Services.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
-    <OutputPath>bin\Publish\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.Services.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.services.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <Target Name="Before_PrepareLibraryLayout" BeforeTargets="PrepareLibraryLayout">
-    <PropertyGroup>
-      <Saved_OutputPath>$(OutputPath)</Saved_OutputPath>
-      <Saved_TargetPath>$(TargetPath)</Saved_TargetPath>
-      <OutputPath>$(OutDir)</OutputPath>
-      <TargetPath>
-      </TargetPath>
-    </PropertyGroup>
-  </Target>
-  <Target Name="After_PrepareLibraryLayout" AfterTargets="PrepareLibraryLayout">
-    <PropertyGroup>
-      <OutputPath>$(Saved_OutputPath)</OutputPath>
-      <TargetPath>$(Saved_TargetPath)</TargetPath>
-    </PropertyGroup>
-  </Target>
+
+  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>

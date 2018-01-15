@@ -3,6 +3,7 @@
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Style TargetType="local:RadialGauge">
+        <Setter Property="UseSystemFocusVisuals" Value="True"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:RadialGauge">

@@ -18,27 +18,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Exceptions
     /// <summary>
     /// Exception for failed requests.
     /// </summary>
-    public class RequestFailedException : Exception
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
+    public class RequestFailedException : Toolkit.Services.Exceptions.RequestFailedException
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RequestFailedException"/> class.
-        /// Default constructor.
-        /// </summary>
-        public RequestFailedException()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RequestFailedException"/> class.
-        /// Constructor with additional message.
-        /// </summary>
-        /// <param name="message">Additional messsage.</param>
-        public RequestFailedException(string message)
-            : base(message)
-        {
-        }
-
-        /// <summary>
+         /// <summary>
         /// Initializes a new instance of the <see cref="RequestFailedException"/> class.
         /// Constructor with status code and reason for request failure.
         /// </summary>
@@ -46,17 +29,6 @@ namespace Microsoft.Toolkit.Uwp.Services.Exceptions
         /// <param name="reason">Failure reason.</param>
         public RequestFailedException(HttpStatusCode statusCode, string reason)
             : base(string.Format("Request failed with status code {0} and reason '{1}'", (int)statusCode, reason))
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RequestFailedException"/> class.
-        /// Constructor with additional message and inner exception.
-        /// </summary>
-        /// <param name="message">Additional message.</param>
-        /// <param name="innerException">Reference to inner exception.</param>
-        public RequestFailedException(string message, Exception innerException)
-            : base(message, innerException)
         {
         }
     }

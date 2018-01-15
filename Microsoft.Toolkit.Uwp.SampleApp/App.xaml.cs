@@ -11,13 +11,13 @@
 // ******************************************************************
 
 using System;
+using Microsoft.HockeyApp;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
+using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation.Metadata;
-using Windows.Graphics.Display;
 using Windows.System.Profile;
-using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -39,6 +39,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             InitializeComponent();
             Suspending += OnSuspending;
+            try
+            {
+                HockeyClient.Current.Configure(string.Empty);
+            }
+            catch
+            {
+            }
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)
@@ -71,6 +78,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// <param name="e">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Windows.Foundation.Size(500, 500));
+
             if (e.PrelaunchActivated)
             {
                 return;
@@ -81,14 +90,36 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 await RunAppInitialization(e?.Arguments);
             }
+
+            SystemInformation.TrackAppUse(e);
+        }
+
+        /// <summary>
+        /// Event fired when a Background Task is activated (in Single Process Model)
+        /// </summary>
+        /// <param name="args">Arguments that describe the BackgroundTask activated</param>
+        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            base.OnBackgroundActivated(args);
+
+            var deferral = args.TaskInstance.GetDeferral();
+
+            switch (args.TaskInstance.Task.Name)
+            {
+                case Constants.TestBackgroundTaskName:
+                    new TestBackgroundTask().Run(args.TaskInstance);
+                    break;
+            }
+
+            deferral.Complete();
         }
 
         private async System.Threading.Tasks.Task RunAppInitialization(string launchParameters)
         {
             // Go fullscreen on Xbox
-            if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Xbox")
+            if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() == DeviceFormFactor.Xbox)
             {
-                ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
+                Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
             }
 
             // Initialize the constant for the app display name, used for tile and toast previews
@@ -96,25 +127,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 Constants.ApplicationDisplayName = (await Package.Current.GetAppListEntriesAsync())[0].DisplayInfo.DisplayName;
             }
-
-            // Set title bar colors
-            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationView"))
-            {
-                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-                var lightGreyBrush = (Color)Resources["Grey-04"];
-                var greyBrush03 = (Color)Resources["Grey-03"];
-                var greyBrush01 = (Color)Resources["Grey-01"];
-
-                if (titleBar != null)
-                {
-                    titleBar.ButtonBackgroundColor = greyBrush03;
-                    titleBar.ButtonForegroundColor = lightGreyBrush;
-                    titleBar.BackgroundColor = greyBrush01;
-                    titleBar.ForegroundColor = lightGreyBrush;
-                }
-            }
-
-            DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.PortraitFlipped;
 
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -137,16 +149,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // configuring the new page by passing required information as a navigation
                 // parameter
                 rootFrame.Navigate(typeof(Shell), launchParameters);
-            }
-
-            // Status bar
-            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar") &&
-                ApiInformation.IsMethodPresent("Windows.UI.ViewManagement.StatusBar", nameof(StatusBar.HideAsync)))
-            {
-                StatusBar statusBar = StatusBar.GetForCurrentView();
-
-                // Hide the status bar
-                await statusBar.HideAsync();
             }
 
             // Ensure the current window is active

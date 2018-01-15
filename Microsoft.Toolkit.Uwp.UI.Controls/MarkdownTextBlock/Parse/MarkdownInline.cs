@@ -58,6 +58,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         /// A code run
         /// </summary>
         Code,
+
+        /// <summary>
+        /// An image
+        /// </summary>
+        Image,
+
+        /// <summary>
+        /// Emoji
+        /// </summary>
+        Emoji
     }
 
     /// <summary>

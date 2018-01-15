@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Net.Http;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.System;
 using Windows.UI.Xaml.Navigation;
@@ -22,36 +23,39 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class AnalyticsPage
     {
+        private readonly HttpClient client;
+
         public AnalyticsPage()
         {
             InitializeComponent();
+            client = new HttpClient();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            Shell.Current.DisplayWaitRing = true;
-            try
-            {
-                using (var request = new HttpHelperRequest(new Uri("https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/dev/githubresources/content/analytics.md")))
-                {
-                    using (var response = await HttpHelper.Instance.SendRequestAsync(request))
-                    {
-                        if (response.Success)
-                        {
-                            MarkdownTextBlockTextblock.Text = await response.Content.ReadAsStringAsync();
-                        }
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                MarkdownTextBlockTextblock.Text = "Unable to download content: " + exception.Message;
-                TrackingManager.TrackException(exception);
-            }
+            MarkdownTextBlockTextblock.Text = @"# Analytics
 
-            Shell.Current.DisplayWaitRing = false;
+
+## Google analytics
+*****
+
+* [Main page](https://analytics.google.com)
+* [NuGet](https://www.nuget.org/packages/UWP.SDKforGoogleAnalytics.Managed/)
+* [Documentation, code and samples](https://github.com/dotnet/windows-sdk-for-google-analytics)
+&nbsp;  
+&nbsp;  
+
+
+## HockeyApp
+*****
+
+* [Main page](http://hockeyapp.com/)
+* [NuGet](https://www.nuget.org/packages/HockeySDK.UWP/)
+&nbsp;  
+&nbsp;  
+";
         }
 
         private async void MarkdownTextBlockTextblock_OnLinkClicked(object sender, LinkClickedEventArgs e)

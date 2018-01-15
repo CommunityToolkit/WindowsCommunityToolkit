@@ -19,7 +19,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Printing;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// Helper class used to simplify document printing.
@@ -283,7 +283,10 @@ namespace Microsoft.Toolkit.Uwp
             else
             {
                 // Attach the canvas
-                _canvasContainer.Children.Add(_printCanvas);
+                if (!_canvasContainer.Children.Contains(_printCanvas))
+                {
+                    _canvasContainer.Children.Add(_printCanvas);
+                }
 
                 // Clear the cache of preview pages
                 ClearPageCache();

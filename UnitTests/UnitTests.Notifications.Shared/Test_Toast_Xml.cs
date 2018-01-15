@@ -941,6 +941,17 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
+        public void Test_Toast_Xml_ButtonSnooze_Image()
+        {
+            ToastButtonSnooze button = new ToastButtonSnooze()
+            {
+                ImageUri = "Assets/Snooze.png"
+            };
+
+            AssertButtonPayload("<action activationType='system' arguments='snooze' content='' imageUri='Assets/Snooze.png'/>", button);
+        }
+
+        [TestMethod]
         public void Test_Toast_Xml_ButtonSnooze_SelectionId()
         {
             ToastButtonSnooze button = new ToastButtonSnooze()
@@ -966,7 +977,18 @@ namespace UnitTests.Notifications
 
             AssertButtonPayload("<action activationType='system' arguments='dismiss' content='my dismiss'/>", button);
         }
-        
+
+        [TestMethod]
+        public void Test_Toast_Xml_ButtonDismiss_Image()
+        {
+            ToastButtonDismiss button = new ToastButtonDismiss()
+            {
+                ImageUri = "Assets/Dismiss.png"
+            };
+
+            AssertButtonPayload("<action activationType='system' arguments='dismiss' content='' imageUri='Assets/Dismiss.png'/>", button);
+        }
+
         [TestMethod]
         public void Test_Toast_Xml_ContextMenuItem_Defaults()
         {
@@ -1310,6 +1332,15 @@ namespace UnitTests.Notifications
             {
                 DisplayTimestamp = new DateTimeOffset(2016, 10, 19, 9, 0, 0, TimeSpan.FromHours(-8))
             });
+
+            // If devs use DateTime.Now, or directly use ticks (like this code), they can actually end up with a seconds decimal
+            // value that is more than 3 decimal places. The platform notification parser will fail if there are
+            // more than three decimal places. Hence this test normally would produce "2017-04-04T10:28:34.7047925Z"
+            // but we've added code to ensure it strips to only at most 3 decimal places.
+            AssertPayload("<toast displayTimestamp='2017-04-04T10:28:34.704Z' />", new ToastContent()
+            {
+                DisplayTimestamp = new DateTimeOffset(636268985147047925, TimeSpan.FromHours(0))
+            });
         }
 
         [TestMethod]
@@ -1525,41 +1556,46 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Toast_ProgressBar_Value()
         {
-            AssertProgressBar("<progressBar value='0'/>", new AdaptiveProgressBar());
+            AssertProgressBar("<progress value='0' status='Downloading...'/>", new AdaptiveProgressBar() { Status = "Downloading..." });
 
             // Only non-WinRT supports implicit converters
 #if !WINRT
-            AssertProgressBar("<progressBar value='0.3'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='0.3' status='Downloading...'/>", new AdaptiveProgressBar()
             {
-                Value = 0.3
+                Value = 0.3,
+                Status = "Downloading..."
             });
 #endif
 
-            AssertProgressBar("<progressBar value='0.3'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='0.3' status='Downloading...'/>", new AdaptiveProgressBar()
             {
-                Value = AdaptiveProgressBarValue.FromValue(0.3)
+                Value = AdaptiveProgressBarValue.FromValue(0.3),
+                Status = "Downloading..."
             });
-            AssertProgressBar("<progressBar value='indeterminate'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='indeterminate' status='Downloading...'/>", new AdaptiveProgressBar()
             {
-                Value = AdaptiveProgressBarValue.Indeterminate
+                Value = AdaptiveProgressBarValue.Indeterminate,
+                Status = "Downloading..."
             });
-            AssertProgressBar("<progressBar value='{progressValue}'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='{progressValue}' status='Downloading...'/>", new AdaptiveProgressBar()
             {
 #if WINRT
                 Bindings =
                 {
                     { AdaptiveProgressBarBindableProperty.Value, "progressValue" }
-                }
+                },
 #else
-                Value = new BindableProgressBarValue("progressValue")
+                Value = new BindableProgressBarValue("progressValue"),
 #endif
+                Status = "Downloading..."
             });
 
             try
             {
                 new AdaptiveProgressBar()
                 {
-                    Value = AdaptiveProgressBarValue.FromValue(-4)
+                    Value = AdaptiveProgressBarValue.FromValue(-4),
+                    Status = "Downloading..."
                 };
                 Assert.Fail("Exception should have been thrown, only values 0-1 allowed");
             }
@@ -1569,7 +1605,8 @@ namespace UnitTests.Notifications
             {
                 new AdaptiveProgressBar()
                 {
-                    Value = AdaptiveProgressBarValue.FromValue(1.3)
+                    Value = AdaptiveProgressBarValue.FromValue(1.3),
+                    Status = "Downloading..."
                 };
                 Assert.Fail("Exception should have been thrown, only values 0-1 allowed");
             }
@@ -1581,24 +1618,32 @@ namespace UnitTests.Notifications
         {
             // There is NOT an escape string. Guidance to developers is if you're using data binding,
             // use data binding for ALL your user-generated strings.
-            AssertProgressBar("<progressBar value='0' title='{I like tacos}'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='0' title='{I like tacos}' status='Downloading...'/>", new AdaptiveProgressBar()
             {
-                Title = "{I like tacos}"
+                Title = "{I like tacos}",
+                Status = "Downloading..."
             });
         }
 
         [TestMethod]
         public void Test_Toast_ProgressBar()
         {
-            AssertProgressBar("<progressBar value='0.3' title='Katy Perry' valueStringOverride='3/10 songs' status='Downloading...'/>", new AdaptiveProgressBar()
+            try
+            {
+                AssertProgressBar("Exception should be thrown", new AdaptiveProgressBar());
+                Assert.Fail("Exception should have been thrown, Status property is required");
+            }
+            catch (NullReferenceException) { }
+
+            AssertProgressBar("<progress value='0.3' title='Katy Perry' valueStringOverride='3/10 songs' status='Adding music...'/>", new AdaptiveProgressBar()
             {
                 Value = AdaptiveProgressBarValue.FromValue(0.3),
                 Title = "Katy Perry",
                 ValueStringOverride = "3/10 songs",
-                Status = "Downloading..."
+                Status = "Adding music..."
             });
 
-            AssertProgressBar("<progressBar value='{progressValue}' title='{progressTitle}' valueStringOverride='{progressValueOverride}' status='{progressStatus}'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='{progressValue}' title='{progressTitle}' valueStringOverride='{progressValueOverride}' status='{progressStatus}'/>", new AdaptiveProgressBar()
             {
 #if WINRT
                 Bindings =
@@ -1616,12 +1661,12 @@ namespace UnitTests.Notifications
 #endif
             });
 
-            AssertProgressBar("<progressBar value='0'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='0' status='Downloading...'/>", new AdaptiveProgressBar()
             {
                 Value = null,
                 Title = null,
                 ValueStringOverride = null,
-                Status = null
+                Status = "Downloading..."
             });
         }
 

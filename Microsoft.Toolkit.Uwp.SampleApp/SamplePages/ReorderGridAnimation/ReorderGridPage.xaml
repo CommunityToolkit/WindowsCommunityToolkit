@@ -6,17 +6,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
-        <GridView x:Name="ImagesView"
-                  animations:ReorderGridAnimation.Duration="{Binding Duration.Value}">
-            <GridView.ItemTemplate>
-                <DataTemplate>
-                    <Image Width="200"
-                           Height="200"
-                           Source="{Binding Thumbnail}"
-                           Stretch="UniformToFill" />
-                </DataTemplate>
-            </GridView.ItemTemplate>
+    <!-- Shallow Copy -->
+    <Grid>
+        <GridView animations:ReorderGridAnimation.Duration="{Binding Duration.Value}">
         </GridView>
     </Grid>
 </Page>

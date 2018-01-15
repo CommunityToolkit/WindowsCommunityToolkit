@@ -227,6 +227,26 @@ Sometimes you need to preserve indentation, too.  In those cases, you can create
         System.out.println("Hello world!");
     }
 
+Starting with UWP Community Toolkit v1.4, you can also use GitHub code notification by creating a block surrounded by 3x\` (3 backticks). So:
+
+\`\`\`
+
+public void main(Strings argv[]){
+
+  System.out.println("Hello world!");
+
+}
+
+\`\`\`
+
+will produce:
+
+```
+public void main(Strings argv[]){
+    System.out.println("Hello world!");
+}
+```
+
 *****
 
 # LINKS
@@ -255,6 +275,20 @@ There are other methods of generating links that aren't appropriate for discussi
 
 *****
 
+# IMAGES
+
+To add an image, it is almost like a link. You just need to add a \! before.
+
+So inline image syntax looks like this:
+
+>\!\[Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
+
+which renders in:
+
+![Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
+
+*****
+
 # BLOCK QUOTES
 
 You'll probably do a lot of quoting of other redditors.  In those cases, you'll want to use block quotes.  Simple begin each line you want quoted with a right angle bracket (>).  Multiple angle brackets can be used for nested quotes.  To cause a new paragraph to be quoted, begin that paragraph with another angle bracket.  So the following:
@@ -280,6 +314,12 @@ Is displayed as:
 >Back to a single quote.
 
 And finally some unquoted text.
+
+*****
+
+# EMOJIS
+
+You can use nearly all emojis from this [list](https://gist.github.com/rxaviers/7360908). Text like `:smile:` will display :smile: emoji.
 
 *****
 

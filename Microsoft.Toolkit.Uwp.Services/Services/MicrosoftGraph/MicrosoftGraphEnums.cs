@@ -75,7 +75,12 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             /// <summary>
             /// user Profile
             /// </summary>
-            UserProfile = 0x04
+            UserProfile = 0x04,
+
+            /// <summary>
+            /// Event
+            /// </summary>
+            Event = 0x08
         }
 
         /// <summary>

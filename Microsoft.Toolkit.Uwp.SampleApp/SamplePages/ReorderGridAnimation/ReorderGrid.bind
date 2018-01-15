@@ -1,5 +1,4 @@
 <Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ReorderGrid.ReorderGridPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ReorderGrid"
@@ -9,11 +8,14 @@
     mc:Ignorable="d">
 
     <Grid>
-        <GridView ItemsSource="{x:Bind Images}"
+        <GridView x:Name="ImageView"
                   animations:ReorderGridAnimation.Duration="@[Duration:Slider:300:100-1000]">
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding Thumbnail}"/>
+                  <Image Width="200"
+                         Height="200"
+                         Source="{Binding Thumbnail}"
+                         Stretch="UniformToFill" />
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>

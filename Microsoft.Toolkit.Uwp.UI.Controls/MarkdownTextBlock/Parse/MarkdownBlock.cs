@@ -10,6 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("UnitTests")]
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 {
     internal enum MarkdownBlockType

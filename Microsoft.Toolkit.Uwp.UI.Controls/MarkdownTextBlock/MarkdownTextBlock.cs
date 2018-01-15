@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
@@ -21,13 +22,14 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// An efficient and extensible control that can parse and render markdown.
     /// </summary>
-    public sealed class MarkdownTextBlock : Control, ILinkRegister
+    public sealed class MarkdownTextBlock : Control, ILinkRegister, IImageResolver
     {
         /// <summary>
         /// Holds a list of hyperlinks we are listening to.
@@ -48,6 +50,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Fired when a link element in the markdown was tapped.
         /// </summary>
         public event EventHandler<LinkClickedEventArgs> LinkClicked;
+
+        /// <summary>
+        /// Fired when an image from the markdown document needs to be resolved.
+        /// The default implementation is basically <code>new BitmapImage(new Uri(e.Url));</code>.
+        /// </summary>
+        public event EventHandler<ImageResolvingEventArgs> ImageResolving;
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="ImageStretch"/>.
+        /// </summary>
+        public static readonly DependencyProperty ImageStretchProperty = DependencyProperty.Register(
+            nameof(ImageStretch),
+            typeof(Stretch),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(Stretch.None, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets or sets the stretch used for images.
+        /// </summary>
+        public Stretch ImageStretch
+        {
+            get { return (Stretch)GetValue(ImageStretchProperty); }
+            set { SetValue(ImageStretchProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets the markdown text to display.
@@ -84,6 +110,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(bool),
             typeof(MarkdownTextBlock),
             new PropertyMetadata(true, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets or sets the brush used to render links.  If this is
+        /// <c>null</c>, then Foreground is used.
+        /// </summary>
+        public Brush LinkForeground
+        {
+            get { return (Brush)GetValue(LinkForegroundProperty); }
+            set { SetValue(LinkForegroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="LinkForeground"/>.
+        /// </summary>
+        public static readonly DependencyProperty LinkForegroundProperty = DependencyProperty.Register(
+            nameof(LinkForeground),
+            typeof(Brush),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
         /// Gets or sets the brush used to fill the background of a code block.
@@ -214,6 +259,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets the dependency property for <see cref="EmojiFontFamily"/>.
+        /// </summary>
+        public static readonly DependencyProperty EmojiFontFamilyProperty = DependencyProperty.Register(
+            nameof(EmojiFontFamily),
+            typeof(FontFamily),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets or sets the font used to display emojis.  If this is <c>null</c>, then
+        /// Segoe UI Emoji font is used.
+        /// </summary>
+        public FontFamily EmojiFontFamily
+        {
+            get { return (FontFamily)GetValue(EmojiFontFamilyProperty); }
+            set { SetValue(EmojiFontFamilyProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the font weight to use for level 1 headers.
         /// </summary>
         public FontWeight Header1FontWeight
@@ -264,6 +328,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty Header1MarginProperty = DependencyProperty.Register(
             nameof(Header1Margin),
             typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets or sets the foreground brush for level 1 headers.
+        /// </summary>
+        public Brush Header1Foreground
+        {
+            get { return (Brush)GetValue(Header1ForegroundProperty); }
+            set { SetValue(Header1ForegroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="Header1Foreground"/>.
+        /// </summary>
+        public static readonly DependencyProperty Header1ForegroundProperty = DependencyProperty.Register(
+            nameof(Header1Foreground),
+            typeof(Brush),
             typeof(MarkdownTextBlock),
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
@@ -322,6 +404,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets or sets the foreground brush for level 2 headers.
+        /// </summary>
+        public Brush Header2Foreground
+        {
+            get { return (Brush)GetValue(Header2ForegroundProperty); }
+            set { SetValue(Header2ForegroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="Header2Foreground"/>.
+        /// </summary>
+        public static readonly DependencyProperty Header2ForegroundProperty = DependencyProperty.Register(
+            nameof(Header2Foreground),
+            typeof(Brush),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
         /// Gets or sets the font weight to use for level 3 headers.
         /// </summary>
         public FontWeight Header3FontWeight
@@ -372,6 +472,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty Header3MarginProperty = DependencyProperty.Register(
             nameof(Header3Margin),
             typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets or sets the foreground brush for level 3 headers.
+        /// </summary>
+        public Brush Header3Foreground
+        {
+            get { return (Brush)GetValue(Header3ForegroundProperty); }
+            set { SetValue(Header3ForegroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="Header3Foreground"/>.
+        /// </summary>
+        public static readonly DependencyProperty Header3ForegroundProperty = DependencyProperty.Register(
+            nameof(Header3Foreground),
+            typeof(Brush),
             typeof(MarkdownTextBlock),
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
@@ -430,6 +548,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets or sets the foreground brush for level 4 headers.
+        /// </summary>
+        public Brush Header4Foreground
+        {
+            get { return (Brush)GetValue(Header4ForegroundProperty); }
+            set { SetValue(Header4ForegroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="Header4Foreground"/>.
+        /// </summary>
+        public static readonly DependencyProperty Header4ForegroundProperty = DependencyProperty.Register(
+            nameof(Header4Foreground),
+            typeof(Brush),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
         /// Gets or sets the font weight to use for level 5 headers.
         /// </summary>
         public FontWeight Header5FontWeight
@@ -484,6 +620,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets or sets the foreground brush for level 5 headers.
+        /// </summary>
+        public Brush Header5Foreground
+        {
+            get { return (Brush)GetValue(Header5ForegroundProperty); }
+            set { SetValue(Header5ForegroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="Header5Foreground"/>.
+        /// </summary>
+        public static readonly DependencyProperty Header5ForegroundProperty = DependencyProperty.Register(
+            nameof(Header5Foreground),
+            typeof(Brush),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
         /// Gets or sets the font weight to use for level 6 headers.
         /// </summary>
         public FontWeight Header6FontWeight
@@ -534,6 +688,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty Header6MarginProperty = DependencyProperty.Register(
             nameof(Header6Margin),
             typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets or sets the foreground brush for level 6 headers.
+        /// </summary>
+        public Brush Header6Foreground
+        {
+            get { return (Brush)GetValue(Header6ForegroundProperty); }
+            set { SetValue(Header6ForegroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="Header6Foreground"/>.
+        /// </summary>
+        public static readonly DependencyProperty Header6ForegroundProperty = DependencyProperty.Register(
+            nameof(Header6Foreground),
+            typeof(Brush),
             typeof(MarkdownTextBlock),
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
@@ -923,7 +1095,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void RenderMarkdown()
         {
             // Make sure we have something to parse.
-            if (Text == null)
+            if (string.IsNullOrWhiteSpace(Text))
             {
                 return;
             }
@@ -945,7 +1117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 markdown.Parse(Text);
 
                 // Now try to display it
-                var renderer = new XamlRenderer(markdown, this)
+                var renderer = new XamlRenderer(markdown, this, this)
                 {
                     Background = Background,
                     BorderBrush = BorderBrush,
@@ -966,24 +1138,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     CodeFontFamily = CodeFontFamily,
                     CodePadding = CodePadding,
                     CodeMargin = CodeMargin,
+                    EmojiFontFamily = EmojiFontFamily,
                     Header1FontSize = Header1FontSize,
                     Header1FontWeight = Header1FontWeight,
                     Header1Margin = Header1Margin,
+                    Header1Foreground = Header1Foreground,
                     Header2FontSize = Header2FontSize,
                     Header2FontWeight = Header2FontWeight,
                     Header2Margin = Header2Margin,
+                    Header2Foreground = Header2Foreground,
                     Header3FontSize = Header3FontSize,
                     Header3FontWeight = Header3FontWeight,
                     Header3Margin = Header3Margin,
+                    Header3Foreground = Header3Foreground,
                     Header4FontSize = Header4FontSize,
                     Header4FontWeight = Header4FontWeight,
                     Header4Margin = Header4Margin,
+                    Header4Foreground = Header4Foreground,
                     Header5FontSize = Header5FontSize,
                     Header5FontWeight = Header5FontWeight,
                     Header5Margin = Header5Margin,
+                    Header5Foreground = Header5Foreground,
                     Header6FontSize = Header6FontSize,
                     Header6FontWeight = Header6FontWeight,
                     Header6Margin = Header6Margin,
+                    Header6Foreground = Header6Foreground,
                     HorizontalRuleBrush = HorizontalRuleBrush,
                     HorizontalRuleMargin = HorizontalRuleMargin,
                     HorizontalRuleThickness = HorizontalRuleThickness,
@@ -1001,7 +1180,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     TableBorderThickness = TableBorderThickness,
                     TableCellPadding = TableCellPadding,
                     TableMargin = TableMargin,
-                    TextWrapping = TextWrapping
+                    TextWrapping = TextWrapping,
+                    LinkForeground = LinkForeground,
+                    ImageStretch = ImageStretch
                 };
                 _rootElement.Child = renderer.Render();
             }
@@ -1074,6 +1255,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Fire off the event.
             var eventArgs = new LinkClickedEventArgs(url);
             LinkClicked?.Invoke(this, eventArgs);
+        }
+
+        /// <summary>
+        /// Called when the renderer needs to display a image.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        async Task<ImageSource> IImageResolver.ResolveImageAsync(string url, string tooltip)
+        {
+            var eventArgs = new ImageResolvingEventArgs(url, tooltip);
+            ImageResolving?.Invoke(this, eventArgs);
+
+            await eventArgs.WaitForDeferrals();
+
+            try
+            {
+                return eventArgs.Handled
+                                ? eventArgs.Image
+                                : new BitmapImage(new Uri(url));
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }

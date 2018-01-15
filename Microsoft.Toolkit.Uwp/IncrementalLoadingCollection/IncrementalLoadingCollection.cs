@@ -15,13 +15,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp
@@ -39,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp
     /// <seealso cref="ISupportIncrementalLoading"/>
     public class IncrementalLoadingCollection<TSource, IType> : ObservableCollection<IType>,
          ISupportIncrementalLoading
-         where TSource : IIncrementalSource<IType>
+         where TSource : Collections.IIncrementalSource<IType>
     {
         /// <summary>
         /// Gets or sets an <see cref="Action"/> that is called when a retrieval operation begins.
@@ -74,6 +70,7 @@ namespace Microsoft.Toolkit.Uwp
         private bool _isLoading;
         private bool _hasMoreItems;
         private CancellationToken _cancellationToken;
+        private bool _refreshOnLoad;
 
         /// <summary>
         /// Gets a value indicating whether new items are being loaded.
@@ -196,7 +193,26 @@ namespace Microsoft.Toolkit.Uwp
         /// An object of the <see cref="LoadMoreItemsAsync(uint)"/> that specifies how many items have been actually retrieved.
         /// </returns>
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
-            => AsyncInfo.Run((c) => LoadMoreItemsAsync(count, c));
+            => LoadMoreItemsAsync(count, new CancellationToken(false)).AsAsyncOperation();
+
+        /// <summary>
+        /// Clears the collection and reloads data from the source
+        /// </summary>
+        /// <returns>This method does not return a result</returns>
+        public async Task RefreshAsync()
+        {
+            if (IsLoading)
+            {
+                _refreshOnLoad = true;
+            }
+            else
+            {
+                Clear();
+                CurrentPageIndex = 0;
+                HasMoreItems = true;
+                await LoadMoreItemsAsync(1);
+            }
+        }
 
         /// <summary>
         /// Actually performs the incremental loading.
@@ -239,18 +255,12 @@ namespace Microsoft.Toolkit.Uwp
 
                     if (data != null && data.Any() && !_cancellationToken.IsCancellationRequested)
                     {
-                        var dispatcher = Window.Current.Dispatcher;
                         resultCount = (uint)data.Count();
 
-                        await dispatcher.RunAsync(
-                            CoreDispatcherPriority.Normal,
-                            () =>
-                            {
-                                foreach (var item in data)
-                                {
-                                    Add(item);
-                                }
-                            });
+                        foreach (var item in data)
+                        {
+                            Add(item);
+                        }
                     }
                     else
                     {
@@ -261,6 +271,12 @@ namespace Microsoft.Toolkit.Uwp
             finally
             {
                 IsLoading = false;
+
+                if (_refreshOnLoad)
+                {
+                    _refreshOnLoad = false;
+                    await RefreshAsync();
+                }
             }
 
             return new LoadMoreItemsResult { Count = resultCount };

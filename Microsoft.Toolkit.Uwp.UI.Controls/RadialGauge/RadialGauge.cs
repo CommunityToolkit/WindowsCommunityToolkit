@@ -14,8 +14,10 @@ using System;
 using System.Numerics;
 using Windows.ApplicationModel;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Composition;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -208,6 +210,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public RadialGauge()
         {
             DefaultStyleKey = typeof(RadialGauge);
+
+            KeyDown += RadialGauge_KeyDown;
+        }
+
+        private void RadialGauge_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            var step = 1;
+            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+            if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
+            {
+                step = 5;
+            }
+
+            if (e.Key == VirtualKey.Left)
+            {
+                Value = Math.Max(Minimum, Value - step);
+                e.Handled = true;
+                return;
+            }
+
+            if (e.Key == VirtualKey.Right)
+            {
+                Value = Math.Min(Maximum, Value + step);
+                e.Handled = true;
+            }
         }
 
         /// <summary>
@@ -454,6 +481,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
+            PointerReleased += RadialGauge_PointerReleased;
             OnScaleChanged(this);
 
             base.OnApplyTemplate();
@@ -591,13 +619,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     scale.Data = pg;
                 }
 
-                OnFaceChanged(radialGauge);
+                if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode)
+                {
+                    OnFaceChanged(radialGauge);
+                }
             }
         }
 
         private static void OnFaceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            OnFaceChanged(d);
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode)
+            {
+                OnFaceChanged(d);
+            }
         }
 
         private static void OnFaceChanged(DependencyObject d)
@@ -605,7 +639,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RadialGauge radialGauge = (RadialGauge)d;
 
             var container = radialGauge.GetTemplateChild(ContainerPartName) as Grid;
-            if (container == null || DesignMode.DesignModeEnabled)
+            if (container == null || DesignTimeHelpers.IsRunningInLegacyDesignerMode)
             {
                 // Bad template.
                 return;
@@ -659,6 +693,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void RadialGauge_Tapped(object sender, TappedRoutedEventArgs e)
         {
             SetGaugeValueFromPoint(e.GetPosition(this));
+        }
+
+        private void RadialGauge_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            if (IsInteractive)
+            {
+                e.Handled = true;
+            }
         }
 
         private void UpdateNormalizedAngles()

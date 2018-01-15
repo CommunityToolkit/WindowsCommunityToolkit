@@ -1,5 +1,4 @@
 <Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ParallaxPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,9 +9,9 @@
     <Grid Background="{StaticResource Brush-Grey-05}">
         <ScrollViewer>
             <StackPanel>
-                <Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.png"
+                <Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg"
                        an:ParallaxService.VerticalMultiplier="@[VerticalMultiplier:Slider:-.3:-1-1-.1]"/>
-                <Border Background="{StaticResource Brush-Grey-05}">
+                <Border Background="{StaticResource Brush-Grey-05}" Margin="32" Opacity="0.8">
                     <TextBlock TextWrapping="WrapWholeWords" FontSize="20">
                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc fringilla ultrices est eu ornare. Suspendisse purus massa, iaculis in finibus dictum, gravida vel purus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec vitae dolor imperdiet, vehicula enim quis, mollis tellus. Donec placerat diam sed est porttitor, venenatis semper mauris tempus. Sed placerat ipsum enim, quis porta nibh accumsan sit amet. Etiam tempus dapibus dolor, eget sollicitudin risus cursus eget. Vestibulum non rhoncus velit. Vestibulum volutpat, lacus quis laoreet accumsan, erat diam dignissim ligula, sit amet molestie purus erat eget tortor. Vestibulum posuere consequat libero, at fermentum tellus tempus eget. Curabitur viverra nisl a augue porta luctus. 
 Duis sodales metus et purus finibus, at tincidunt felis porta. Fusce elementum ut diam ut sodales. Nunc eget varius lectus. Fusce nec rhoncus arcu. Nunc feugiat, nulla non luctus dapibus, justo odio tincidunt libero, mattis commodo sem nulla sed tellus. Aliquam ut condimentum est, id euismod turpis. Donec nec orci nulla. Suspendisse faucibus mollis sapien, ac congue nulla aliquet vel. In hac habitasse platea dictumst. Duis dapibus sem a ullamcorper vestibulum. 

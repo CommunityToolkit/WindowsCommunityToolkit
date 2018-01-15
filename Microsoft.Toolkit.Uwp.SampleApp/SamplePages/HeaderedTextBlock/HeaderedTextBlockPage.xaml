@@ -6,10 +6,4 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
-        <controls:HeaderedTextBlock Margin="20,10,0,0"
-                                    Header="{Binding Header.Value, Mode=OneWay}"
-                                    Orientation="{Binding Orientation.Value, Mode=OneWay}"
-                                    Text="{Binding Text.Value, Mode=OneWay}" />
-    </Grid>
 </Page>

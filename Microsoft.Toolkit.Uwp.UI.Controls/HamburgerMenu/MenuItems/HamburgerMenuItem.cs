@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The HamburgerMenuItem provides an abstract implementation for HamburgerMenu entries.
     /// </summary>
+    [Obsolete("The HamburgerMenuItem will be removed alongside the HamburgerMenu in a future major release. Please use the NavigationView control available in the Fall Creators Update")]
     public abstract class HamburgerMenuItem : DependencyObject
     {
         /// <summary>
@@ -31,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty TargetPageTypeProperty = DependencyProperty.Register(nameof(TargetPageType), typeof(Type), typeof(HamburgerMenuItem), new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="Tag"/> dependency property.
+         /// Identifies the <see cref="Tag"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty TagProperty = DependencyProperty.Register(nameof(Tag), typeof(object), typeof(HamburgerMenuItem), new PropertyMetadata(null));
 

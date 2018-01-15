@@ -1,3 +1,11 @@
+---
+title: GridSplitter XAML Control
+author: nmetulev
+ms.date: 08/20/2017
+description: The GridSplitter Control provides an easy-to-use Splitter that redistributes space between columns or rows of a Grid Control.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, GridSplitter, XAML Control, xaml
+---
+
 # GridSplitter XAML Control
 
 The **GridSplitter Control** provides an easy-to-use Splitter that redistributes space between columns or rows of a Grid Control. By dragging the control, the control will resize the targeted columns or rows.
@@ -10,7 +18,7 @@ Developers can use the control to resize fixed and star (*) width/height columns
 
 ## Syntax
 
-```xml
+```xaml
 
 <controls:GridSplitter 
             Grid.Column="1"
@@ -46,7 +54,7 @@ Developers can use the control to resize fixed and star (*) width/height columns
 
 The following sample demonstrates how to add Grid Splitter Control.
 
-```xml
+```xaml
 
 <Page
     x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.GridSplitterPage"
@@ -122,11 +130,11 @@ The following sample demonstrates how to add Grid Splitter Control.
 
 ## Default Template 
 
-[GridSplitter XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter/GridSplitterPage.xaml) is the XAML template used in the toolkit for the default styling.
+[GridSplitter XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter/GridSplitter.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 

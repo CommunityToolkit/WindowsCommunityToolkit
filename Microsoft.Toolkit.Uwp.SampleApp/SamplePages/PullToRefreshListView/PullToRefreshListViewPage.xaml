@@ -7,30 +7,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
-        <controls:PullToRefreshListView x:Name="ListView"
-                                        MinWidth="200"
-                                        Margin="24"
-                                        HorizontalAlignment="Center"
-                                        Background="White"
-                                        IsPullToRefreshWithMouseEnabled="{Binding IsPullToRefreshWithMouseEnabled.Value, Mode=OneWay}"
-                                        ItemsSource="{x:Bind _items}"
-                                        OverscrollLimit="{Binding OverscrollLimit.Value, Mode=OneWay}"
-                                        PullThreshold="{Binding PullThreshold.Value, Mode=OneWay}"
-                                        RefreshRequested="ListView_RefreshCommand">
-            <controls:PullToRefreshListView.ItemTemplate>
-                <DataTemplate x:DataType="data:Item">
-                    <TextBlock AutomationProperties.Name="{x:Bind Title}"
-                               Style="{StaticResource CaptionTextBlockStyle}"
-                               Text="{x:Bind Title}"
-                               TextWrapping="WrapWholeWords" />
-                </DataTemplate>
-            </controls:PullToRefreshListView.ItemTemplate>
-            <controls:PullToRefreshListView.PullToRefreshContent>
-                <TextBlock FontSize="16"
-                           Opacity="0.5"
-                           Text="Pull down to refresh data" />
-            </controls:PullToRefreshListView.PullToRefreshContent>
-        </controls:PullToRefreshListView>
+	<!-- Shallow Copy -->
+    <Grid Visibility="Collapsed">
+        <controls:PullToRefreshListView/>
     </Grid>
 </Page>

@@ -4,9 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
-      x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.FadeHeaderBehaviorPage"
       mc:Ignorable="d">
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
     <ListView x:Name="MyListView">
       <interactivity:Interaction.Behaviors>
         <behaviors:FadeHeaderBehavior />
@@ -16,17 +15,16 @@
               MinHeight="250"
               Background="{StaticResource Brush-Blue-01}">
           <StackPanel VerticalAlignment="Center"
-                      HorizontalAlignment="Center"
-                      Margin="20,0">
+                      HorizontalAlignment="Center">
             <TextBlock Text="This Is The Header"
                        TextAlignment="Center"
                        FontWeight="Bold"
-                       Style="{ThemeResource TitleTextBlockStyle}"
+                       FontSize="48"
                        Foreground="{StaticResource Brush-White}"
-                       Margin="0,5" />
+                       Margin="12" />
             <TextBlock Text="It starts with 100% opacity but will fade to 0% as you scroll up."
-                       Style="{ThemeResource SubtitleTextBlockStyle}"
                        Foreground="{StaticResource Brush-White}"
+					             Margin="12,0,12,12"
                        VerticalAlignment="Center"
                        TextAlignment="Center" />
           </StackPanel>
@@ -35,17 +33,18 @@
       <ListView.ItemTemplate>
         <DataTemplate>
           <Grid MinHeight="100"
-                Background="{StaticResource Brush-Grey-04}">
+                Background="{StaticResource Brush-Grey-04}"
+                Opacity="0.9">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Image x:Name="ToolkitLogo"
                    Source="ms-appx:///Assets/ToolkitLogo.png"
-                   Height="50"
-                   Width="50"
+                   Height="100"
+                   Width="100"
                    Grid.Column="0"
-                   Margin="10" />
+                   Margin="0,0,24,0" />
             <TextBlock Text="{Binding}"
                        Grid.Column="1"
                        TextTrimming="CharacterEllipsis"
@@ -58,7 +57,7 @@
           <Setter Property="HorizontalContentAlignment"
                   Value="Stretch" />
           <Setter Property="Padding"
-                  Value="10" />
+                  Value="12,12,24,12" />
         </Style>
       </ListView.ItemContainerStyle>
     </ListView>

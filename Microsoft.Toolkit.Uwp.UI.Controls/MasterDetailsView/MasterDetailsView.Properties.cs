@@ -12,6 +12,7 @@
 
 using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -113,6 +114,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(default(MasterDetailsViewState)));
 
         /// <summary>
+        /// Identifies the <see cref="MasterCommandBar"/> dependency property
+        /// </summary>
+        /// <returns>The identifier for the <see cref="MasterCommandBar"/> dependency property.</returns>
+        public static readonly DependencyProperty MasterCommandBarProperty = DependencyProperty.Register(
+            nameof(MasterCommandBar),
+            typeof(CommandBar),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null, OnMasterCommandBarChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="DetailsCommandBar"/> dependency property
+        /// </summary>
+        /// <returns>The identifier for the <see cref="DetailsCommandBar"/> dependency property.</returns>
+        public static readonly DependencyProperty DetailsCommandBarProperty = DependencyProperty.Register(
+            nameof(DetailsCommandBar),
+            typeof(CommandBar),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null, OnDetailsCommandBarChanged));
+
+        /// <summary>
         /// Gets or sets the selected item.
         /// </summary>
         /// <returns>The selected item. The default is null.</returns>
@@ -207,6 +228,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (MasterDetailsViewState)GetValue(ViewStateProperty); }
             private set { SetValue(ViewStateProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="CommandBar"/> for the master section.
+        /// </summary>
+        public CommandBar MasterCommandBar
+        {
+            get { return (CommandBar)GetValue(MasterCommandBarProperty); }
+            set { SetValue(MasterCommandBarProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="CommandBar"/> for the details section.
+        /// </summary>
+        public CommandBar DetailsCommandBar
+        {
+            get { return (CommandBar)GetValue(DetailsCommandBarProperty); }
+            set { SetValue(DetailsCommandBarProperty, value); }
         }
 
         /// <summary>

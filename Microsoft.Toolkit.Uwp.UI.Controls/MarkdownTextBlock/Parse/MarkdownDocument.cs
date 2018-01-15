@@ -231,7 +231,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                             newBlockElement = ListBlock.Parse(markdown, realStartOfLine, end, quoteDepth, out endOfBlock);
                         }
 
-                        if (newBlockElement == null && nonSpacePos > startOfLine)
+                        if (newBlockElement == null && (nonSpacePos > startOfLine || nonSpaceChar == '`'))
                         {
                             newBlockElement = CodeBlock.Parse(markdown, realStartOfLine, end, quoteDepth, out endOfBlock);
                         }

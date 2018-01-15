@@ -12,6 +12,7 @@
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -19,6 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Defines a control for providing a header for read-only text.
     /// </summary>
     [TemplatePart(Name = "HeaderContentPresenter", Type = typeof(ContentPresenter))]
+    [ContentProperty(Name = nameof(Inlines))]
     public partial class HeaderedTextBlock : Control
     {
         private ContentPresenter _headerContentPresenter;
@@ -43,6 +45,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _textContent = GetTemplateChild("TextContent") as TextBlock;
 
             UpdateVisibility();
+            Inlines.AddItemsToTextBlock(_textContent);
+            UpdateForOrientation(this.Orientation);
         }
 
         private void UpdateVisibility()

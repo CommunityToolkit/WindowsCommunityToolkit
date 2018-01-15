@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Rss
     /// <summary>
     /// Implementation of the RssSchema class.
     /// </summary>
-    internal class RssSchema : SchemaBase
+    internal class RssSchema : Toolkit.Services.SchemaBase
     {
         /// <summary>
         /// Gets or sets title.

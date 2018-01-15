@@ -25,3 +25,4 @@
 
 * [Json.Net](http://www.newtonsoft.com/json): Popular high-performance JSON framework
 * [Template 10](https://github.com/Windows-XAML/Template10): Visual Studio project templates to help you create an UWP application
+* [UI for UWP](https://github.com/telerik/ui-for-uwp): 20+ UI controls for developers building UWP applications

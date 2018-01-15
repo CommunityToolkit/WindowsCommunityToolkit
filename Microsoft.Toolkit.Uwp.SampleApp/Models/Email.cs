@@ -10,6 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+
 namespace Microsoft.Toolkit.Uwp.SampleApp.Models
 {
     public class Email
@@ -19,5 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Models
         public string Subject { get; set; }
 
         public string Body { get; set; }
+
+        public Uri Thumbnail { get; set; }
     }
 }

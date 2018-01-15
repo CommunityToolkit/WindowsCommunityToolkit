@@ -12,6 +12,7 @@
 
 using System;
 using System.Windows.Input;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -51,6 +52,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty RefreshCommandProperty =
             DependencyProperty.Register(nameof(RefreshCommand), typeof(ICommand), typeof(PullToRefreshListView), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="RefreshIntentCanceledCommand"/> property.
+        /// </summary>
+        public static readonly DependencyProperty RefreshIntentCanceledCommandProperty =
+            DependencyProperty.Register(nameof(RefreshIntentCanceledCommand), typeof(ICommand), typeof(PullToRefreshListView), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="RefreshIndicatorContent"/> property.
@@ -103,6 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ScrollViewer _scroller;
         private CompositeTransform _contentTransform;
         private CompositeTransform _headerTransform;
+        private CompositeTransform _footerTransform;
         private ItemsPresenter _scrollerContent;
         private TextBlock _defaultIndicatorContent;
         private ContentPresenter _pullAndReleaseIndicatorContent;
@@ -111,13 +119,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double _pullDistance = 0.0;
         private DateTime _lastRefreshActivation = default(DateTime);
         private bool _refreshActivated = false;
+        private bool _refreshIntentCanceled = false;
         private double _overscrollMultiplier;
         private bool _isManipulatingWithMouse;
+        private double _startingVerticalOffset;
 
         /// <summary>
         /// Occurs when the user has requested content to be refreshed
         /// </summary>
         public event EventHandler RefreshRequested;
+
+        /// <summary>
+        /// Occurs when the user has cancels an intent for the content to be refreshed
+        /// </summary>
+        public event EventHandler RefreshIntentCanceled;
 
         /// <summary>
         /// Occurs when listview overscroll distance is changed
@@ -187,12 +202,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _scroller.Loaded += Scroller_Loaded;
 
-                if (IsPullToRefreshWithMouseEnabled)
-                {
-                    _root.ManipulationMode = ManipulationModes.TranslateY;
-                    _root.ManipulationStarted += Scroller_ManipulationStarted;
-                    _root.ManipulationCompleted += Scroller_ManipulationCompleted;
-                }
+                SetupMouseMode();
 
                 _scroller.DirectManipulationCompleted += Scroller_DirectManipulationCompleted;
                 _scroller.DirectManipulationStarted += Scroller_DirectManipulationStarted;
@@ -219,14 +229,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // Other input are already managed by the scroll viewer
             if (e.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse
-                && IsPullToRefreshWithMouseEnabled
-                && _scroller.VerticalOffset < 1)
+                && IsPullToRefreshWithMouseEnabled)
             {
+                if (_scroller.VerticalOffset < 1)
+                {
+                    DisplayPullToRefreshContent();
+                    CompositionTarget.Rendering -= CompositionTarget_Rendering;
+                    CompositionTarget.Rendering += CompositionTarget_Rendering;
+                    _isManipulatingWithMouse = true;
+                }
+
+                _startingVerticalOffset = _scroller.VerticalOffset;
+                _root.ManipulationDelta -= Scroller_ManipulationDelta;
                 _root.ManipulationDelta += Scroller_ManipulationDelta;
-                DisplayPullToRefreshContent();
-                CompositionTarget.Rendering -= CompositionTarget_Rendering;
-                CompositionTarget.Rendering += CompositionTarget_Rendering;
-                _isManipulatingWithMouse = true;
             }
         }
 
@@ -254,7 +269,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (e.Cumulative.Translation.Y <= 0)
+            if (e.Cumulative.Translation.Y <= 0 || _scroller.VerticalOffset >= 1)
+            {
+                _scroller.ChangeView(_scroller.HorizontalOffset, _scroller.VerticalOffset - e.Delta.Translation.Y, 1);
+                return;
+            }
+
+            if (_startingVerticalOffset >= 1)
             {
                 return;
             }
@@ -280,6 +301,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_headerTransform != null)
             {
                 _headerTransform.TranslateY = _contentTransform.TranslateY;
+            }
+
+            if (_footerTransform != null)
+            {
+                _footerTransform.TranslateY = _contentTransform.TranslateY;
             }
         }
 
@@ -321,6 +347,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void Scroller_DirectManipulationCompleted(object sender, object e)
         {
             OnManipulationCompleted();
+            _root.ManipulationMode = ManipulationModes.System;
         }
 
         /// <summary>
@@ -338,20 +365,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _headerTransform.TranslateY = 0;
                 }
+
+                if (_footerTransform != null)
+                {
+                    _footerTransform.TranslateY = 0;
+                }
             }
 
             if (_refreshActivated)
             {
-                RefreshRequested?.Invoke(this, new EventArgs());
+                RefreshRequested?.Invoke(this, EventArgs.Empty);
                 if (RefreshCommand != null && RefreshCommand.CanExecute(null))
                 {
                     RefreshCommand.Execute(null);
+                }
+            }
+            else if (_refreshIntentCanceled)
+            {
+                RefreshIntentCanceled?.Invoke(this, EventArgs.Empty);
+                if (RefreshIntentCanceledCommand != null && RefreshIntentCanceledCommand.CanExecute(null))
+                {
+                    RefreshIntentCanceledCommand.Execute(null);
                 }
             }
 
             _lastOffset = 0;
             _pullDistance = 0;
             _refreshActivated = false;
+            _refreshIntentCanceled = false;
             _lastRefreshActivation = default(DateTime);
             _isManipulatingWithMouse = false;
 
@@ -374,6 +415,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         _headerTransform.TranslateY = 0;
                     }
+
+                    if (_footerTransform != null)
+                    {
+                        _footerTransform.TranslateY = 0;
+                    }
                 }
 
                 _refreshActivated = false;
@@ -387,9 +433,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_contentTransform == null)
             {
-                if (_headerTransform == null && Header != null)
+                var headerContent = VisualTreeHelper.GetChild(_scrollerContent, 0) as UIElement;
+                var itemsPanel = VisualTreeHelper.GetChild(_scrollerContent, 1) as UIElement;
+                var footerContent = VisualTreeHelper.GetChild(_scrollerContent, 2) as UIElement;
+
+                if (_headerTransform == null && VisualTreeHelper.GetChildrenCount(headerContent) > 0)
                 {
-                    var headerContent = _scrollerContent.FindDescendant<ContentControl>();
                     if (headerContent != null)
                     {
                         _headerTransform = new CompositeTransform();
@@ -397,14 +446,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
 
-                var itemScrollPanel = _scrollerContent.FindDescendant<ItemsStackPanel>();
-                if (itemScrollPanel == null)
+                if (_footerTransform == null && VisualTreeHelper.GetChildrenCount(footerContent) > 0)
+                {
+                    if (footerContent != null)
+                    {
+                        _footerTransform = new CompositeTransform();
+                        footerContent.RenderTransform = _footerTransform;
+                    }
+                }
+
+                if (itemsPanel == null)
                 {
                     return;
                 }
 
                 _contentTransform = new CompositeTransform();
-                itemScrollPanel.RenderTransform = _contentTransform;
+                itemsPanel.RenderTransform = _contentTransform;
             }
 
             Rect elementBounds = _scrollerContent.TransformToVisual(_root).TransformBounds(default(Rect));
@@ -437,10 +494,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         _headerTransform.TranslateY = _contentTransform.TranslateY;
                     }
+
+                    if (_footerTransform != null)
+                    {
+                        _footerTransform.TranslateY = _contentTransform.TranslateY;
+                    }
                 }
 
-                _refreshIndicatorTransform.TranslateY = _pullDistance - offset
+                if (_isManipulatingWithMouse)
+                {
+                    _refreshIndicatorTransform.TranslateY = _pullDistance - offset
                                                         - _refreshIndicatorBorder.ActualHeight;
+                }
+                else
+                {
+                    _refreshIndicatorTransform.TranslateY = _pullDistance
+                                                        - _refreshIndicatorBorder.ActualHeight;
+                }
             }
             else
             {
@@ -452,6 +522,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         _headerTransform.TranslateY = _contentTransform.TranslateY;
                     }
+
+                    if (_footerTransform != null)
+                    {
+                        _footerTransform.TranslateY = _contentTransform.TranslateY;
+                    }
                 }
 
                 _refreshIndicatorTransform.TranslateY = -_refreshIndicatorBorder.ActualHeight;
@@ -462,6 +537,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _lastRefreshActivation = DateTime.Now;
                 _refreshActivated = true;
+                _refreshIntentCanceled = false;
                 pullProgress = 1.0;
                 if (RefreshIndicatorContent == null)
                 {
@@ -483,6 +559,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // if more then a second since activation, deactivate
                 if (timeSinceActivated.TotalMilliseconds > 1000)
                 {
+                    _refreshIntentCanceled |= _refreshActivated;
                     _refreshActivated = false;
                     _lastRefreshActivation = default(DateTime);
                     pullProgress = _pullDistance / PullThreshold;
@@ -502,11 +579,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else
                 {
                     pullProgress = 1.0;
+                    _refreshIntentCanceled |= _refreshActivated;
                 }
             }
             else
             {
                 pullProgress = _pullDistance / PullThreshold;
+                _refreshIntentCanceled |= _refreshActivated;
             }
 
             PullProgressChanged?.Invoke(this, new RefreshProgressEventArgs { PullProgress = pullProgress });
@@ -519,9 +598,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _scrollerVerticalScrollBar.PointerExited += ScrollerVerticalScrollBar_PointerExited;
         }
 
-        private void ScrollerVerticalScrollBar_PointerExited(object sender, PointerRoutedEventArgs e)
+        private void Scroller_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            if (IsPullToRefreshWithMouseEnabled)
+            _root.ManipulationMode = ManipulationModes.System;
+        }
+
+        private void Scroller_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            if (IsPullToRefreshWithMouseEnabled && e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
                 _root.ManipulationMode = ManipulationModes.TranslateY;
             }
@@ -530,6 +614,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void ScrollerVerticalScrollBar_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             _root.ManipulationMode = ManipulationModes.System;
+            _root.ManipulationStarted -= Scroller_ManipulationStarted;
+            _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
+        }
+
+        private void ScrollerVerticalScrollBar_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (IsPullToRefreshWithMouseEnabled)
+            {
+                _root.ManipulationStarted -= Scroller_ManipulationStarted;
+                _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
+                _root.ManipulationStarted += Scroller_ManipulationStarted;
+                _root.ManipulationCompleted += Scroller_ManipulationCompleted;
+            }
         }
 
         /// <summary>
@@ -582,6 +679,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (ICommand)GetValue(RefreshCommandProperty); }
             set { SetValue(RefreshCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the Command that will be invoked when a refresh intent is cancled
+        /// </summary>
+        public ICommand RefreshIntentCanceledCommand
+        {
+            get { return (ICommand)GetValue(RefreshIntentCanceledCommandProperty); }
+            set { SetValue(RefreshIntentCanceledCommandProperty, value); }
         }
 
         /// <summary>
@@ -670,23 +776,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             set
             {
-                if (_root != null)
-                {
-                    if (value)
-                    {
-                        _root.ManipulationMode = ManipulationModes.TranslateY;
-                        _root.ManipulationStarted += Scroller_ManipulationStarted;
-                        _root.ManipulationCompleted += Scroller_ManipulationCompleted;
-                    }
-                    else
-                    {
-                        _root.ManipulationMode = ManipulationModes.System;
-                        _root.ManipulationStarted -= Scroller_ManipulationStarted;
-                        _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
-                    }
-                }
-
                 SetValue(IsPullToRefreshWithMouseEnabledProperty, value);
+                SetupMouseMode();
+            }
+        }
+
+        private void SetupMouseMode()
+        {
+            if (_root != null && _scroller != null)
+            {
+                if (IsPullToRefreshWithMouseEnabled)
+                {
+                    _root.ManipulationStarted -= Scroller_ManipulationStarted;
+                    _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
+                    _scroller.PointerMoved -= Scroller_PointerMoved;
+                    _scroller.PointerExited -= Scroller_PointerExited;
+
+                    _root.ManipulationStarted += Scroller_ManipulationStarted;
+                    _root.ManipulationCompleted += Scroller_ManipulationCompleted;
+                    _scroller.PointerMoved += Scroller_PointerMoved;
+                    _scroller.PointerExited += Scroller_PointerExited;
+                }
+                else
+                {
+                    _root.ManipulationMode = ManipulationModes.System;
+                    _root.ManipulationStarted -= Scroller_ManipulationStarted;
+                    _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
+                    _scroller.PointerMoved -= Scroller_PointerMoved;
+                    _scroller.PointerExited -= Scroller_PointerExited;
+                }
             }
         }
     }

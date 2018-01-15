@@ -34,6 +34,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty BladeModeProperty = DependencyProperty.RegisterAttached(nameof(BladeMode), typeof(BladeMode), typeof(BladeView), new PropertyMetadata(BladeMode.Normal, OnBladeModeChanged));
 
         /// <summary>
+        ///  Identifies the <see cref="AutoCollapseCountThreshold"/> attached property.
+        /// </summary>
+        public static readonly DependencyProperty AutoCollapseCountThresholdProperty = DependencyProperty.RegisterAttached(nameof(AutoCollapseCountThreshold), typeof(int), typeof(BladeView), new PropertyMetadata(int.MaxValue, OnOpenBladesChanged));
+
+        /// <summary>
         /// Gets or sets a collection of visible blades
         /// </summary>
         public IList<BladeItem> ActiveBlades
@@ -51,6 +56,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(BladeModeProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating what the overflow amount should be to start auto collapsing blade items
+        /// </summary>
+        /// <example>
+        /// For example we put AutoCollapseCountThreshold = 2
+        /// This means that each time a blade is added to the bladeview collection,
+        /// we will validate the amount of added blades that have a title bar visible.
+        /// If this number get's bigger than AutoCollapseCountThreshold, we will collapse all blades but the last one
+        /// </example>
+        /// <remarks>
+        /// We don't touch blade items that have no title bar
+        /// </remarks>
+        public int AutoCollapseCountThreshold
+        {
+            get { return (int)GetValue(AutoCollapseCountThresholdProperty); }
+            set { SetValue(AutoCollapseCountThresholdProperty, value); }
+        }
+
         private static void OnBladeModeChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
             var bladeView = (BladeView)dependencyObject;
@@ -60,9 +83,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 // Cache previous values of blade items properties (width & height)
                 bladeView._cachedBladeItemSizes.Clear();
-                foreach (BladeItem bladeItem in bladeView.Items)
+
+                if (bladeView.Items != null)
                 {
-                    bladeView._cachedBladeItemSizes.Add(bladeItem, new Size(bladeItem.Width, bladeItem.Height));
+                    foreach (BladeItem bladeItem in bladeView.Items)
+                    {
+                        bladeView._cachedBladeItemSizes.Add(bladeItem, new Size(bladeItem.Width, bladeItem.Height));
+                    }
                 }
 
                 VisualStateManager.GoToState(bladeView, "FullScreen", false);
@@ -84,6 +111,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Execute change of blade item size
             bladeView.AdjustBladeItemSize();
+        }
+
+        private static void OnOpenBladesChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            var bladeView = (BladeView)dependencyObject;
+            bladeView.CycleBlades();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// <seealso>
     ///   <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>
     /// </seealso>
-    public class Offset : CompositionBehaviorBase
+    public class Offset : CompositionBehaviorBase<UIElement>
     {
         /// <summary>
         /// The Offset on the x axis of the associated object

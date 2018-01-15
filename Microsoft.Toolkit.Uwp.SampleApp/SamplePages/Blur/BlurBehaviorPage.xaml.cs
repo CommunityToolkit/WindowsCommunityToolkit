@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
 
-            if (!AnimationExtensions.IsBlurSupported)
+            if (!AnimationExtensions.BlurEffect.IsSupported)
             {
                 WarningText.Visibility = Visibility.Visible;
             }

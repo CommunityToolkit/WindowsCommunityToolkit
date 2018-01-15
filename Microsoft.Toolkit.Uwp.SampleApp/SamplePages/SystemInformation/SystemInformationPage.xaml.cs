@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public string ApplicationName => SystemInformation.ApplicationName;
 
         // To get application's version:
-        public string ApplicationVersion => $"{SystemInformation.ApplicationVersion.Major}.{SystemInformation.ApplicationVersion.Minor}.{SystemInformation.ApplicationVersion.Build}.{SystemInformation.ApplicationVersion.Revision}";
+        public string ApplicationVersion => SystemInformation.ApplicationVersion.ToFormattedString();
 
         // To get the most preferred language by the user:
         public CultureInfo Culture => SystemInformation.Culture;
@@ -51,6 +51,30 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         // To get available memory in MB
         public float AvailableMemory => SystemInformation.AvailableMemory;
+
+        // To get if the app is being used for the first time since it was installed.
+        public string IsFirstUse => SystemInformation.IsFirstRun.ToString();
+
+        // To get if the app is being used for the first time since being upgraded from an older version.
+        public string IsAppUpdated => SystemInformation.IsAppUpdated.ToString();
+
+        // To get the first version installed
+        public string FirstVersionInstalled => SystemInformation.FirstVersionInstalled.ToFormattedString();
+
+        // To get the first time the app was launched
+        public string FirstUseTime => SystemInformation.FirstUseTime.ToString(Culture.DateTimeFormat);
+
+        // To get the time the app was launched
+        public string LaunchTime => SystemInformation.LaunchTime.ToString(Culture.DateTimeFormat);
+
+        // To get the time the app was previously launched, not including this instance
+        public string LastLaunchTime => SystemInformation.LastLaunchTime.ToString(Culture.DateTimeFormat);
+
+        // To get the number of times the app has been launched.
+        public long LaunchCount => SystemInformation.LaunchCount;
+
+        // To get how long the app has been running
+        public string AppUptime => SystemInformation.AppUptime.ToString();
 
         public SystemInformationPage()
         {

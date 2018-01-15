@@ -1,10 +1,18 @@
+---
+title: Twitter Service
+author: nmetulev
+ms.date: 08/20/2017
+description: The Twitter Service allows users to retrieve or publish data to Twitter. 
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Twitter 
+---
+
 # Twitter Service
 
 The **Twitter Service** allows users to retrieve or publish data to Twitter. 
 
 [Twitter Developer Site](https://dev.twitter.com) is the main content site for all twitter developers.  Visit the [Twitter Apps List](https://apps.twitter.com/) to manage existing apps.
 
-[Create new Twitter App](https://apps.twitter.com/app/new) can be used to create a new app within the Twitter portal.
+[Create new Twitter App](https://apps.twitter.com/app) can be used to create a new app within the Twitter portal.
 
 ## App Setup
 
@@ -75,6 +83,22 @@ await TwitterService.Instance.TweetStatusAsync(status, stream);
 // Search for a specific tag
 ListView.ItemsSource = await TwitterService.Instance.SearchAsync(TagText.Text, 50);
 
+// Open a connection with the stream service in order to receive live tweets and events
+ListView.ItemsSource = _tweets;
+await TwitterService.Instance.StartUserStreamAsync(async tweet =>
+{
+    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+    {
+        if (tweet != null)
+        {
+		_tweets.Insert(0, tweet);
+        }
+    });
+});
+
+// Stop receiving live tweets and events
+TwitterService.Instance.StopUserStream();
+
 ```
 
 ## Example
@@ -89,7 +113,7 @@ If you are posting from your app and never seeing them show up in the timeline c
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Services |
 

@@ -17,23 +17,16 @@ namespace Microsoft.Toolkit.Uwp.Services.Exceptions
     /// <summary>
     /// Exception for config parameter being null.
     /// </summary>
-    public class ConfigParameterNullException : Exception
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
+    public class ConfigParameterNullException : Toolkit.Services.Exceptions.ConfigParameterNullException
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConfigParameterNullException"/> class.
-        /// Default constructor.
-        /// </summary>
-        public ConfigParameterNullException()
-        {
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigParameterNullException"/> class.
         /// Accepts parameter name.
         /// </summary>
         /// <param name="parameter">Name of the parameter.</param>
         public ConfigParameterNullException(string parameter)
-            : base(string.Format("The parameter '{0}' in config is null.", parameter))
+            : base(parameter)
         {
         }
 

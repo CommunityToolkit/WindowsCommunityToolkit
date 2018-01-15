@@ -28,7 +28,7 @@
                             Margin="50,20"
                             Orientation="Vertical">
                     <Image Width="200"
-                           Source="/Assets/Photos/BigFourSummerHeat.png"
+                           Source="/Assets/Photos/BigFourSummerHeat.jpg"
                            Stretch="Fill" />
                     <TextBlock FontSize="20"
                                Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."

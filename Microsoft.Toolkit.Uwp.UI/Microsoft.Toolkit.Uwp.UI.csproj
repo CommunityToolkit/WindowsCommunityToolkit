@@ -1,188 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3DD8AA7C-3569-4E51-992F-0C2257E8878E}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Toolkit.Uwp.UI</RootNamespace>
-    <AssemblyName>Microsoft.Toolkit.Uwp.UI</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
-    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <AllowCrossPlatformRetargeting>false</AllowCrossPlatformRetargeting>
+    <TargetFramework>uap10.0</TargetFramework>
+    <Title>UWP Community Toolkit UI</Title>
+    <Description>This library provides UI services. It is part of the UWP Community Toolkit.</Description>
+    <PackageTags>UWP Toolkit Windows UI Converters</PackageTags>
+
+    <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
+    <UseWindowsMobileSdk>true</UseWindowsMobileSdk>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Microsoft.Toolkit.Uwp.UI.xml</DocumentationFile>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ui.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.UI.xml</DocumentationFile>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ui.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+
+
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="Microsoft.Toolkit.Uwp.UI.ruleset" />
-    <None Include="project.json" />
+
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
+
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AdvancedCollectionView\AdvancedCollectionView.cs" />
-    <Compile Include="AdvancedCollectionView\AdvancedCollectionView.Defer.cs" />
-    <Compile Include="AdvancedCollectionView\AdvancedCollectionView.Events.cs" />
-    <Compile Include="AdvancedCollectionView\IAdvancedCollectionView.cs" />
-    <Compile Include="AdvancedCollectionView\SortDescription.cs" />
-    <Compile Include="AdvancedCollectionView\SortDirection.cs" />
-    <Compile Include="AdvancedCollectionView\VectorChangedEventArgs.cs" />
-    <Compile Include="Cache\CacheBase.cs" />
-    <Compile Include="Cache\ImageCache.cs" />
-    <Compile Include="Cache\FileCache.cs" />
-    <Compile Include="Cache\InMemoryStorage.cs" />
-    <Compile Include="Cache\InMemoryStorageItem.cs" />
-    <Compile Include="Converters\BoolNegationConverter.cs" />
-    <Compile Include="Converters\BoolToObjectConverter.cs" />
-    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="Converters\CollectionVisibilityConverter.cs" />
-    <Compile Include="Converters\ConverterTools.cs" />
-    <Compile Include="Converters\EmptyCollectionToObjectConverter.cs" />
-    <Compile Include="Converters\EmptyObjectToObjectConverter.cs" />
-    <Compile Include="Converters\EmptyStringToObjectConverter.cs" />
-    <Compile Include="Converters\FormatStringConverter.cs" />
-    <Compile Include="Converters\ResourceNameToResourceStringConverter.cs" />
-    <Compile Include="Extensions\ListViewBaseExtensions.cs" />
-    <Compile Include="Extensions\HyperlinkExtensions.cs" />
-    <Compile Include="Converters\StringVisibilityConverter.cs" />
-    <Compile Include="Converters\StringFormatConverter.cs" />
-    <Compile Include="Extensions\VisualTreeExtensions.cs" />
-    <Compile Include="Extensions\WebViewExtensions.cs" />
-    <Compile Include="Helpers\BindableValueHolder.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj">
-      <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>
-      <Name>Microsoft.Toolkit.Uwp</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Microsoft.Windows.Toolkit.UI.rd.xml" />
-  </ItemGroup>
-  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
-    <VisualStudioVersion>14.0</VisualStudioVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug %28Version 1511%29|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug %28Version 1511%29\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.UI.XML</DocumentationFile>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ui.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug %28Anniversary Update%29|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug %28Anniversary Update%29\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Debug\Microsoft.Windows.Toolkit.UI.XML</DocumentationFile>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ui.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28Version 1511%29|AnyCPU'">
-    <OutputPath>bin\Release %28Version 1511%29\</OutputPath>
-    <DefineConstants>CODE_ANALYSIS;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.UI.XML</DocumentationFile>
-    <Optimize>true</Optimize>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ui.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28Anniversary Update%29|AnyCPU'">
-    <OutputPath>bin\Release %28Anniversary Update%29\</OutputPath>
-    <DefineConstants>CODE_ANALYSIS;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Release\Microsoft.Windows.Toolkit.UI.XML</DocumentationFile>
-    <Optimize>true</Optimize>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ui.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
-    <OutputPath>bin\Publish\</OutputPath>
-    <DefineConstants>CODE_ANALYSIS;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DocumentationFile>bin\Release\Microsoft.Toolkit.Uwp.UI.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.ui.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <Target Name="Before_PrepareLibraryLayout" BeforeTargets="PrepareLibraryLayout">
-    <PropertyGroup>
-      <Saved_OutputPath>$(OutputPath)</Saved_OutputPath>
-      <Saved_TargetPath>$(TargetPath)</Saved_TargetPath>
-      <OutputPath>$(OutDir)</OutputPath>
-      <TargetPath>
-      </TargetPath>
-    </PropertyGroup>
-  </Target>
-  <Target Name="After_PrepareLibraryLayout" AfterTargets="PrepareLibraryLayout">
-    <PropertyGroup>
-      <OutputPath>$(Saved_OutputPath)</OutputPath>
-      <TargetPath>$(Saved_TargetPath)</TargetPath>
-    </PropertyGroup>
-  </Target>
+
+  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>
