@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return height;
             }
 
-            return value;
+            return double.NaN;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
