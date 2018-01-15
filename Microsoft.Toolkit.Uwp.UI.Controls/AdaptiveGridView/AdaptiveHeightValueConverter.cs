@@ -20,6 +20,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal class AdaptiveHeightValueConverter : IValueConverter
     {
+        private Thickness thickness = new Thickness(0, 0, 4, 4);
+
+        public Thickness DefaultItemMargin
+        {
+            get { return thickness; }
+            set { thickness = value; }
+        }
+
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value != null)
@@ -47,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             throw new NotImplementedException();
         }
 
-        private static Thickness GetItemMargin(GridView view)
+        private Thickness GetItemMargin(GridView view)
         {
             var setter = view.ItemContainerStyle?.Setters.OfType<Setter>().FirstOrDefault(s => s.Property == FrameworkElement.MarginProperty);
             if (setter != null)
@@ -66,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // Use the default thickness for a GridViewItem
-                return new Thickness(0, 0, 4, 4);
+                return DefaultItemMargin;
             }
         }
     }
