@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (value != null)
             {
-                var gridView = parameter as AdaptiveGridView;
+                var gridView = (GridView)parameter;
                 if (gridView == null)
                 {
                     return value;
