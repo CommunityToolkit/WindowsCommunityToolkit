@@ -140,7 +140,7 @@ Select the category where you want your page to be listed and add the following 
 ]
 ```
 
-> NOTE: If creating a new icon, follow the [Thumbnail Style Guide and templates](https://1drv.ms/f/s!AjZLNGpIZBbgr8c8Cok_8xAnZBRN_Q)
+> NOTE: If creating a new icon, follow the [Thumbnail Style Guide and templates](https://github.com/Microsoft/UWPCommunityToolkit-design-assets)
 
 ### Adding documentation
 
