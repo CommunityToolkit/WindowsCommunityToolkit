@@ -140,6 +140,8 @@ Select the category where you want your page to be listed and add the following 
 ]
 ```
 
+> NOTE: If creating a new icon, follow the [Thumbnail Style Guide and templates](https://1drv.ms/f/s!AjZLNGpIZBbgr8c8Cok_8xAnZBRN_Q)
+
 ### Adding documentation
 
 Every API must be accompanied by Markdown documentation in the docs folder in the root of this repo.
