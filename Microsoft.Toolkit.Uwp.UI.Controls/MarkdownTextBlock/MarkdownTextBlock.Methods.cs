@@ -29,9 +29,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Sets the Markdown Renderer for Rendering the UI.
         /// </summary>
-        /// <typeparam name="T">The Inherited UWP Markdown Render</typeparam>
+        /// <typeparam name="T">The Inherited Markdown Render</typeparam>
         public void SetRenderer<T>()
-            where T : UWPMarkdownRenderer
+            where T : MarkdownRenderer
         {
             renderertype = typeof(T);
         }
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 markdown.Parse(Text);
 
                 // Now try to display it
-                var renderer = Activator.CreateInstance(renderertype, markdown, this, this, this) as UWPMarkdownRenderer;
+                var renderer = Activator.CreateInstance(renderertype, markdown, this, this, this) as MarkdownRenderer;
                 renderer.Background = Background;
                 renderer.BorderBrush = BorderBrush;
                 renderer.BorderThickness = BorderThickness;

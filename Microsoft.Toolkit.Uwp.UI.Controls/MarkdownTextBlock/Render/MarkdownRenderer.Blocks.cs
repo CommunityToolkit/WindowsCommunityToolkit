@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
     /// <summary>
     /// Block UI Methods for UWP UI Creation.
     /// </summary>
-    public partial class UWPMarkdownRenderer
+    public partial class MarkdownRenderer
     {
         /// <summary>
         /// Renders a list of block elements.

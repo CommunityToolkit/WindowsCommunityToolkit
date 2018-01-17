@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
     /// <summary>
     /// Measurement Properties for elements in the Markdown.
     /// </summary>
-    public partial class UWPMarkdownRenderer
+    public partial class MarkdownRenderer
     {
         /// <summary>
         /// Gets or sets the distance between the border and its child object.

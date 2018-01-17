@@ -25,16 +25,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
     /// <summary>
     /// Generates Framework Elements for the UWP Markdown Textblock.
     /// </summary>
-    public partial class UWPMarkdownRenderer : MarkdownRendererBase
+    public partial class MarkdownRenderer : MarkdownRendererBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UWPMarkdownRenderer"/> class.
+        /// Initializes a new instance of the <see cref="MarkdownRenderer"/> class.
         /// </summary>
         /// <param name="document">The Document to Render.</param>
         /// <param name="linkRegister">The LinkRegister, <see cref="MarkdownTextBlock"/> will use itself.</param>
         /// <param name="imageResolver">The Image Resolver, <see cref="MarkdownTextBlock"/> will use itself.</param>
         /// <param name="codeBlockResolver">The Code Block Resolver, <see cref="MarkdownTextBlock"/> will use itself.</param>
-        public UWPMarkdownRenderer(MarkdownDocument document, ILinkRegister linkRegister, IImageResolver imageResolver, ICodeBlockResolver codeBlockResolver)
+        public MarkdownRenderer(MarkdownDocument document, ILinkRegister linkRegister, IImageResolver imageResolver, ICodeBlockResolver codeBlockResolver)
             : base(document)
         {
             LinkRegister = linkRegister;

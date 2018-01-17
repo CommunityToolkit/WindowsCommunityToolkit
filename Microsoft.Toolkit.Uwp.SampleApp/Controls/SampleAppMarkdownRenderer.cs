@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
-    internal class SampleAppMarkdownRenderer : UWPMarkdownRenderer
+    internal class SampleAppMarkdownRenderer : MarkdownRenderer
     {
         public SampleAppMarkdownRenderer(MarkdownDocument document, ILinkRegister linkRegister, IImageResolver imageResolver, ICodeBlockResolver codeBlockResolver)
             : base(document, linkRegister, imageResolver, codeBlockResolver)

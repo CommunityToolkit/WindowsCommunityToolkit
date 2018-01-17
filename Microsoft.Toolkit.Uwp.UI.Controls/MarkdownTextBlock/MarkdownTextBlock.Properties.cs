@@ -611,6 +611,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private bool multiClickDetectionTriggered;
 
-        private Type renderertype = typeof(UWPMarkdownRenderer);
+        private Type renderertype = typeof(MarkdownRenderer);
     }
 }

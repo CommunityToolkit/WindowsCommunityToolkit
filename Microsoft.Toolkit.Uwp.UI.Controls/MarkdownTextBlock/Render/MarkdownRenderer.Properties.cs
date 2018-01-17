@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
     /// <summary>
     /// Properties for the UWP Markdown Renderer
     /// </summary>
-    public partial class UWPMarkdownRenderer
+    public partial class MarkdownRenderer
     {
         private static bool? _textDecorationsSupported = null;
 
