@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownLinkInline"/> class.
         /// </summary>
-        internal MarkdownLinkInline()
+        public MarkdownLinkInline()
             : base(MarkdownInlineType.MarkdownLink)
         {
         }

@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="EmojiInline"/> class.
         /// </summary>
-        internal EmojiInline()
+        public EmojiInline()
             : base(MarkdownInlineType.Emoji)
         {
         }

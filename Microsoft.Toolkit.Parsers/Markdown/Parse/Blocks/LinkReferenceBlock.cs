@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="LinkReferenceBlock"/> class.
         /// </summary>
-        internal LinkReferenceBlock()
+        public LinkReferenceBlock()
             : base(MarkdownBlockType.LinkReference)
         {
         }

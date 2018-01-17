@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="StrikethroughTextInline"/> class.
         /// </summary>
-        internal StrikethroughTextInline()
+        public StrikethroughTextInline()
             : base(MarkdownInlineType.Strikethrough)
         {
         }

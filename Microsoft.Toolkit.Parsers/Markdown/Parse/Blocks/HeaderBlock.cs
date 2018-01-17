@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="HeaderBlock"/> class.
         /// </summary>
-        internal HeaderBlock()
+        public HeaderBlock()
             : base(MarkdownBlockType.Header)
         {
         }

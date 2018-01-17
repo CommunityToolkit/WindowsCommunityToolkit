@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeInline"/> class.
         /// </summary>
-        internal CodeInline()
+        public CodeInline()
             : base(MarkdownInlineType.Code)
         {
         }

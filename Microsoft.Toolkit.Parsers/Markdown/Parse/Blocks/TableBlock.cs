@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="TableBlock"/> class.
         /// </summary>
-        internal TableBlock()
+        public TableBlock()
             : base(MarkdownBlockType.Table)
         {
         }

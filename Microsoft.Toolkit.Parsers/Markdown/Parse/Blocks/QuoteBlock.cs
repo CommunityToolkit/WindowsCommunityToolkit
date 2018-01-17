@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="QuoteBlock"/> class.
         /// </summary>
-        internal QuoteBlock()
+        public QuoteBlock()
             : base(MarkdownBlockType.Quote)
         {
         }

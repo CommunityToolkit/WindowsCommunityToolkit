@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="HyperlinkInline"/> class.
         /// </summary>
-        internal HyperlinkInline()
+        public HyperlinkInline()
             : base(MarkdownInlineType.RawHyperlink)
         {
         }

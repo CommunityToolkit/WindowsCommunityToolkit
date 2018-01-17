@@ -13,9 +13,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
+
+[assembly: InternalsVisibleTo("UnitTests")]
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 {
@@ -40,7 +43,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="ListBlock"/> class.
         /// </summary>
-        internal ListBlock()
+        public ListBlock()
             : base(MarkdownBlockType.List)
         {
         }
