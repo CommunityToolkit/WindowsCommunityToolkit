@@ -17,5 +17,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Markdown\Enums\" />
+  </ItemGroup>
 
 </Project>

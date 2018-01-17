@@ -13,7 +13,7 @@
 using System;
 using System.Collections.Generic;
 using ColorCode.Styling;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display;
+using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

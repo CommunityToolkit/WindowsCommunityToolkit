@@ -12,9 +12,9 @@
 
 using System.Linq;
 using Microsoft.Toolkit.Parsers.Markdown;
-using Microsoft.Toolkit.Parsers.Markdown.Display;
-using Microsoft.Toolkit.Parsers.Markdown.Parse;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display;
+using Microsoft.Toolkit.Parsers.Markdown.Blocks;
+using Microsoft.Toolkit.Parsers.Markdown.Render;
+using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

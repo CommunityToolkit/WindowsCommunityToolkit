@@ -18,7 +18,7 @@
   </ItemGroup>
  
   <ItemGroup>
-    <None Include="MarkdownTextBlock\Display\UWPMarkdownRenderer.Blocks.cs" />
+    <None Include="MarkdownTextBlock\Render\UWPMarkdownRenderer.Blocks.cs" />
     <None Include="MarkdownTextBlock\MarkdownTextBlock.Properties.cs" />
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />

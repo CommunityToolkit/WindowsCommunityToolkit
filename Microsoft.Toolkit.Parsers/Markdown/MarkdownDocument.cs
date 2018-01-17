@@ -13,8 +13,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Toolkit.Parsers.Markdown.Blocks;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
-using Microsoft.Toolkit.Parsers.Markdown.Parse;
 
 namespace Microsoft.Toolkit.Parsers.Markdown
 {
