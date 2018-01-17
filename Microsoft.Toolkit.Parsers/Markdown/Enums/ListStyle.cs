@@ -10,26 +10,21 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
-
-namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
+namespace Microsoft.Toolkit.Parsers.Markdown.Enums
 {
     /// <summary>
-    /// An internal class that is the base class for all inline elements.
+    /// This specifies the type of style the List will be.
     /// </summary>
-    public abstract class MarkdownInline : MarkdownElement
+    public enum ListStyle
     {
         /// <summary>
-        /// Gets or sets this element is.
+        /// A list with bullets
         /// </summary>
-        public MarkdownInlineType Type { get; set; }
+        Bulleted,
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MarkdownInline"/> class.
+        /// A numbered list
         /// </summary>
-        internal MarkdownInline(MarkdownInlineType type)
-        {
-            Type = type;
-        }
+        Numbered,
     }
 }

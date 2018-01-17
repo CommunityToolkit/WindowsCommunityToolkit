@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using Microsoft.Toolkit.Parsers.Core;
+using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
@@ -37,10 +38,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <summary>
         /// Returns the chars that if found means we might have a match.
         /// </summary>
-        internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
+        internal static void AddTripChars(List<InlineTripCharHelper> tripCharHelpers)
         {
-            tripCharHelpers.Add(new Common.InlineTripCharHelper() { FirstChar = '*', Method = Common.InlineParseMethod.Bold });
-            tripCharHelpers.Add(new Common.InlineTripCharHelper() { FirstChar = '_', Method = Common.InlineParseMethod.Bold });
+            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = '*', Method = InlineParseMethod.Bold });
+            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = '_', Method = InlineParseMethod.Bold });
         }
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <param name="start"> The location to start parsing. </param>
         /// <param name="maxEnd"> The location to stop parsing. </param>
         /// <returns> A parsed bold text span, or <c>null</c> if this is not a bold text span. </returns>
-        internal static Common.InlineParseResult Parse(string markdown, int start, int maxEnd)
+        internal static InlineParseResult Parse(string markdown, int start, int maxEnd)
         {
             if (start >= maxEnd - 1)
             {
@@ -94,7 +95,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             // We found something!
             var result = new BoldTextInline();
             result.Inlines = Common.ParseInlineChildren(markdown, innerStart, innerEnd);
-            return new Common.InlineParseResult(result, start, innerEnd + 2);
+            return new InlineParseResult(result, start, innerEnd + 2);
         }
 
         /// <summary>

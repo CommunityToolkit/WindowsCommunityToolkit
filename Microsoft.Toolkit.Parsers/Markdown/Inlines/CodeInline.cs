@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Collections.Generic;
+using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
@@ -37,9 +38,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <summary>
         /// Returns the chars that if found means we might have a match.
         /// </summary>
-        internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
+        internal static void AddTripChars(List<InlineTripCharHelper> tripCharHelpers)
         {
-            tripCharHelpers.Add(new Common.InlineTripCharHelper() { FirstChar = '`', Method = Common.InlineParseMethod.Code });
+            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = '`', Method = InlineParseMethod.Code });
         }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <param name="start"> The location to start parsing. </param>
         /// <param name="maxEnd"> The location to stop parsing. </param>
         /// <returns> A parsed inline code span, or <c>null</c> if this is not an inline code span. </returns>
-        internal static Common.InlineParseResult Parse(string markdown, int start, int maxEnd)
+        internal static InlineParseResult Parse(string markdown, int start, int maxEnd)
         {
             // Check the first char.
             if (start == maxEnd || markdown[start] != '`')
@@ -98,7 +99,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             // We found something!
             var result = new CodeInline();
             result.Text = markdown.Substring(innerStart, innerEnd - innerStart).Trim(' ', '\t', '\r', '\n');
-            return new Common.InlineParseResult(result, start, end);
+            return new InlineParseResult(result, start, end);
         }
 
         /// <summary>

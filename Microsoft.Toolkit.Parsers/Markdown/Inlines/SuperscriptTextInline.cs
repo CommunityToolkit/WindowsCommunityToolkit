@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Collections.Generic;
+using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
@@ -36,9 +37,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <summary>
         /// Returns the chars that if found means we might have a match.
         /// </summary>
-        internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
+        internal static void AddTripChars(List<InlineTripCharHelper> tripCharHelpers)
         {
-            tripCharHelpers.Add(new Common.InlineTripCharHelper() { FirstChar = '^', Method = Common.InlineParseMethod.Superscript });
+            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = '^', Method = InlineParseMethod.Superscript });
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <param name="start"> The location to start parsing. </param>
         /// <param name="maxEnd"> The location to stop parsing. </param>
         /// <returns> A parsed superscript text span, or <c>null</c> if this is not a superscript text span. </returns>
-        internal static Common.InlineParseResult Parse(string markdown, int start, int maxEnd)
+        internal static InlineParseResult Parse(string markdown, int start, int maxEnd)
         {
             // Check the first character.
             if (start == maxEnd || markdown[start] != '^')
@@ -87,7 +88,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             // We found something!
             var result = new SuperscriptTextInline();
             result.Inlines = Common.ParseInlineChildren(markdown, innerStart, innerEnd);
-            return new Common.InlineParseResult(result, start, end);
+            return new InlineParseResult(result, start, end);
         }
 
         /// <summary>

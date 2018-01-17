@@ -10,26 +10,35 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
+using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
+namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
 {
     /// <summary>
-    /// An internal class that is the base class for all inline elements.
+    /// Represents the result of parsing an inline element.
     /// </summary>
-    public abstract class MarkdownInline : MarkdownElement
+    internal class InlineParseResult
     {
-        /// <summary>
-        /// Gets or sets this element is.
-        /// </summary>
-        public MarkdownInlineType Type { get; set; }
+        public InlineParseResult(MarkdownInline parsedElement, int start, int end)
+        {
+            ParsedElement = parsedElement;
+            Start = start;
+            End = end;
+        }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MarkdownInline"/> class.
+        /// Gets the element that was parsed (can be <c>null</c>).
         /// </summary>
-        internal MarkdownInline(MarkdownInlineType type)
-        {
-            Type = type;
-        }
+        public MarkdownInline ParsedElement { get; }
+
+        /// <summary>
+        /// Gets the position of the first character in the parsed element.
+        /// </summary>
+        public int Start { get; }
+
+        /// <summary>
+        /// Gets the position of the character after the last character in the parsed element.
+        /// </summary>
+        public int End { get; }
     }
 }

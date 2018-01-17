@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using Microsoft.Toolkit.Parsers.Core;
+using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
@@ -32,12 +33,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <summary>
         /// Returns the chars that if found means we might have a match.
         /// </summary>
-        internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
+        internal static void AddTripChars(List<InlineTripCharHelper> tripCharHelpers)
         {
-            tripCharHelpers.Add(new Common.InlineTripCharHelper() { FirstChar = ':', Method = Common.InlineParseMethod.Emoji });
+            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = ':', Method = InlineParseMethod.Emoji });
         }
 
-        internal static Common.InlineParseResult Parse(string markdown, int start, int maxEnd)
+        internal static InlineParseResult Parse(string markdown, int start, int maxEnd)
         {
             if (start >= maxEnd - 1)
             {
@@ -82,7 +83,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             if (_emojiCodesDictionary.TryGetValue(emojiName, out var emojiCode))
             {
                 var result = new EmojiInline { Text = char.ConvertFromUtf32(emojiCode), Type = MarkdownInlineType.Emoji };
-                return new Common.InlineParseResult(result, start, innerEnd + 1);
+                return new InlineParseResult(result, start, innerEnd + 1);
             }
 
             return null;

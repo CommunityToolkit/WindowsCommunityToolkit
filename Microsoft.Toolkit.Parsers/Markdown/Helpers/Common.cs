@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
@@ -21,89 +22,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
     /// </summary>
     internal class Common
     {
-        internal enum InlineParseMethod
-        {
-            /// <summary>
-            /// A bold element
-            /// </summary>
-            Bold,
-
-            /// <summary>
-            /// A code element
-            /// </summary>
-            Code,
-
-            /// <summary>
-            /// An italic block
-            /// </summary>
-            Italic,
-
-            /// <summary>
-            /// A link block
-            /// </summary>
-            MarkdownLink,
-
-            /// <summary>
-            /// An angle bracket link.
-            /// </summary>
-            AngleBracketLink,
-
-            /// <summary>
-            /// A url block
-            /// </summary>
-            Url,
-
-            /// <summary>
-            /// A reddit style link
-            /// </summary>
-            RedditLink,
-
-            /// <summary>
-            /// An in line text link
-            /// </summary>
-            PartialLink,
-
-            /// <summary>
-            /// An email element
-            /// </summary>
-            Email,
-
-            /// <summary>
-            /// strike through element
-            /// </summary>
-            Strikethrough,
-
-            /// <summary>
-            /// Super script element.
-            /// </summary>
-            Superscript,
-
-            /// <summary>
-            /// Image element.
-            /// </summary>
-            Image,
-
-            /// <summary>
-            /// Emoji element.
-            /// </summary>
-            Emoji
-        }
-
-        /// <summary>
-        /// A helper class for the trip chars. This is an optimization. If we ask each class to go
-        /// through the rage and look for itself we end up looping through the range n times, once
-        /// for each inline. This class represent a character that an inline needs to have a
-        /// possible match. We will go through the range once and look for everyone's trip chars,
-        /// and if they can make a match from the trip char then we will commit to them.
-        /// </summary>
-        internal class InlineTripCharHelper
-        {
-            // Note! Everything in first char and suffix should be lower case!
-            public char FirstChar { get; set; }
-
-            public InlineParseMethod Method { get; set; }
-        }
-
         private static readonly List<InlineTripCharHelper> _triggerList = new List<InlineTripCharHelper>();
         private static readonly char[] _tripCharacters;
 
@@ -155,34 +73,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
             }
 
             return inlines;
-        }
-
-        /// <summary>
-        /// Represents the result of parsing an inline element.
-        /// </summary>
-        public class InlineParseResult
-        {
-            public InlineParseResult(MarkdownInline parsedElement, int start, int end)
-            {
-                ParsedElement = parsedElement;
-                Start = start;
-                End = end;
-            }
-
-            /// <summary>
-            /// Gets the element that was parsed (can be <c>null</c>).
-            /// </summary>
-            public MarkdownInline ParsedElement { get; }
-
-            /// <summary>
-            /// Gets the position of the first character in the parsed element.
-            /// </summary>
-            public int Start { get; }
-
-            /// <summary>
-            /// Gets the position of the character after the last character in the parsed element.
-            /// </summary>
-            public int End { get; }
         }
 
         /// <summary>
@@ -436,25 +326,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
             }
 
             return ifNotFoundReturnLength ? endingPos : -1;
-        }
-
-        public class LineInfo
-        {
-            public int StartOfLine { get; set; }
-
-            public int FirstNonWhitespaceChar { get; set; }
-
-            public int EndOfLine { get; set; }
-
-            public bool IsLineBlank
-            {
-                get
-                {
-                    return FirstNonWhitespaceChar == EndOfLine;
-                }
-            }
-
-            public int StartOfNextLine { get; set; }
         }
 
         /// <summary>

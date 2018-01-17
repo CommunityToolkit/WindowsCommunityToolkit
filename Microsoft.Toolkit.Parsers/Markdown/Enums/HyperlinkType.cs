@@ -10,26 +10,41 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
-
-namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
+namespace Microsoft.Toolkit.Parsers.Markdown.Enums
 {
     /// <summary>
-    /// An internal class that is the base class for all inline elements.
+    /// Specifies the type of Hyperlink that is used.
     /// </summary>
-    public abstract class MarkdownInline : MarkdownElement
+    public enum HyperlinkType
     {
         /// <summary>
-        /// Gets or sets this element is.
+        /// A hyperlink surrounded by angle brackets (e.g. "http://www.reddit.com").
         /// </summary>
-        public MarkdownInlineType Type { get; set; }
+        BracketedUrl,
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MarkdownInline"/> class.
+        /// A fully qualified hyperlink (e.g. "http://www.reddit.com").
         /// </summary>
-        internal MarkdownInline(MarkdownInlineType type)
-        {
-            Type = type;
-        }
+        FullUrl,
+
+        /// <summary>
+        /// A URL without a scheme (e.g. "www.reddit.com").
+        /// </summary>
+        PartialUrl,
+
+        /// <summary>
+        /// An email address (e.g. "test@reddit.com").
+        /// </summary>
+        Email,
+
+        /// <summary>
+        /// A subreddit link (e.g. "/r/news").
+        /// </summary>
+        Subreddit,
+
+        /// <summary>
+        /// A user link (e.g. "/u/quinbd").
+        /// </summary>
+        User,
     }
 }

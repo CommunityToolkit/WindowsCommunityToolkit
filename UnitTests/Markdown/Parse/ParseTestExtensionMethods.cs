@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
+using Microsoft.Toolkit.Parsers.Markdown.Blocks.List;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
 namespace UnitTests.Markdown.Parse
@@ -43,9 +44,9 @@ namespace UnitTests.Markdown.Parse
             else if (parent is HeaderBlock)
                 AddChild(() => ((HeaderBlock)(object)parent).Inlines, (value) => ((HeaderBlock)(object)parent).Inlines = value, (MarkdownInline)child);
             else if (parent is ListBlock)
-                AddChild(() => ((ListBlock)(object)parent).Items, (value) => ((ListBlock)(object)parent).Items = value, (ListBlock.ListItemBlock)child);
-            else if (parent is ListBlock.ListItemBlock)
-                AddChild(() => ((ListBlock.ListItemBlock)(object)parent).Blocks, (value) => ((ListBlock.ListItemBlock)(object)parent).Blocks = value, (MarkdownBlock)child);
+                AddChild(() => ((ListBlock)(object)parent).Items, (value) => ((ListBlock)(object)parent).Items = value, (ListItemBlock)child);
+            else if (parent is ListItemBlock)
+                AddChild(() => ((ListItemBlock)(object)parent).Blocks, (value) => ((ListItemBlock)(object)parent).Blocks = value, (MarkdownBlock)child);
             else if (parent is ParagraphBlock)
                 AddChild(() => ((ParagraphBlock)(object)parent).Inlines, (value) => ((ParagraphBlock)(object)parent).Inlines = value, (MarkdownInline)child);
             else if (parent is QuoteBlock)

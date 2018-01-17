@@ -12,6 +12,7 @@
 
 using System.Collections.Generic;
 using Microsoft.Toolkit.Parsers.Core;
+using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
@@ -42,9 +43,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <inheritdoc/>
         public string Text { get; set; } = string.Empty;
 
-        internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
+        internal static void AddTripChars(List<InlineTripCharHelper> tripCharHelpers)
         {
-            tripCharHelpers.Add(new Common.InlineTripCharHelper() { FirstChar = '!', Method = Common.InlineParseMethod.Image });
+            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = '!', Method = InlineParseMethod.Image });
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <param name="start"> The location to start parsing. </param>
         /// <param name="end"> The location to stop parsing. </param>
         /// <returns> A parsed markdown image, or <c>null</c> if this is not a markdown image. </returns>
-        internal static Common.InlineParseResult Parse(string markdown, int start, int end)
+        internal static InlineParseResult Parse(string markdown, int start, int end)
         {
             // Expect a '!' character.
             if (start >= end || markdown[start] != '!')
@@ -126,7 +127,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 Url = url,
                 Text = markdown.Substring(start, pos + 1 - start)
             };
-            return new Common.InlineParseResult(result, start, pos + 1);
+            return new InlineParseResult(result, start, pos + 1);
         }
 
         /// <summary>

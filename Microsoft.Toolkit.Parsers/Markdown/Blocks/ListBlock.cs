@@ -16,28 +16,14 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Toolkit.Parsers.Core;
+using Microsoft.Toolkit.Parsers.Markdown.Blocks.List;
+using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 [assembly: InternalsVisibleTo("UnitTests")]
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 {
-    /// <summary>
-    /// This specifies the type of style the List will be.
-    /// </summary>
-    public enum ListStyle
-    {
-        /// <summary>
-        /// A list with bullets
-        /// </summary>
-        Bulleted,
-
-        /// <summary>
-        /// A numbered list
-        /// </summary>
-        Numbered,
-    }
-
     /// <summary>
     /// Represents a list, with each list item proceeded by either a number or a bullet.
     /// </summary>
@@ -60,24 +46,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// Gets or sets the style of the list, either numbered or bulleted.
         /// </summary>
         public ListStyle Style { get; set; }
-
-        private class NestedListInfo
-        {
-            public ListBlock List { get; set; }
-
-            // The number of spaces at the start of the line the list first appeared.
-            public int SpaceCount { get; set; }
-        }
-
-        private class ListItemBuilder : MarkdownBlock
-        {
-            public StringBuilder Builder { get; } = new StringBuilder();
-
-            public ListItemBuilder()
-                : base(MarkdownBlockType.ListItemBuilder)
-            {
-            }
-        }
 
         /// <summary>
         /// Parses a list block.
@@ -217,13 +185,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             var result = russianDolls[0].List;
             ReplaceStringBuilders(result);
             return result;
-        }
-
-        private class ListItemPreamble
-        {
-            public ListStyle Style { get; set; }
-
-            public int ContentStartPos { get; set; }
         }
 
         /// <summary>
@@ -408,21 +369,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             return result.ToString();
-        }
-
-        /// <summary>
-        /// This specifies the Content of the List element.
-        /// </summary>
-        public class ListItemBlock
-        {
-            /// <summary>
-            /// Gets or sets the contents of the list item.
-            /// </summary>
-            public IList<MarkdownBlock> Blocks { get; set; }
-
-            internal ListItemBlock()
-            {
-            }
         }
     }
 }

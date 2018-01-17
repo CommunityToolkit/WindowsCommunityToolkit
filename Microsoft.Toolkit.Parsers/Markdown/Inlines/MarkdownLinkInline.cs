@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Parsers.Core;
+using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
@@ -53,9 +54,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <summary>
         /// Returns the chars that if found means we might have a match.
         /// </summary>
-        internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
+        internal static void AddTripChars(List<InlineTripCharHelper> tripCharHelpers)
         {
-            tripCharHelpers.Add(new Common.InlineTripCharHelper() { FirstChar = '[', Method = Common.InlineParseMethod.MarkdownLink });
+            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = '[', Method = InlineParseMethod.MarkdownLink });
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <param name="start"> The location to start parsing. </param>
         /// <param name="maxEnd"> The location to stop parsing. </param>
         /// <returns> A parsed markdown link, or <c>null</c> if this is not a markdown link. </returns>
-        internal static Common.InlineParseResult Parse(string markdown, int start, int maxEnd)
+        internal static InlineParseResult Parse(string markdown, int start, int maxEnd)
         {
             // Expect a '[' character.
             if (start == maxEnd || markdown[start] != '[')
@@ -204,7 +205,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 result.Inlines = Common.ParseInlineChildren(markdown, linkTextOpen, linkTextClose, ignoreLinks: true);
                 result.Url = url.Replace(" ", "%20");
                 result.Tooltip = tooltip;
-                return new Common.InlineParseResult(result, start, end);
+                return new InlineParseResult(result, start, end);
             }
             else if (markdown[pos] == '[')
             {
@@ -224,7 +225,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     result.ReferenceId = markdown.Substring(linkTextOpen, linkTextClose - linkTextOpen);
                 }
 
-                return new Common.InlineParseResult(result, start, linkClose + 1);
+                return new InlineParseResult(result, start, linkClose + 1);
             }
 
             return null;

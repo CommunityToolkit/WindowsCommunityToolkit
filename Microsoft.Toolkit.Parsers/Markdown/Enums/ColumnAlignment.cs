@@ -10,26 +10,31 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
-
-namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
+namespace Microsoft.Toolkit.Parsers.Markdown.Enums
 {
     /// <summary>
-    /// An internal class that is the base class for all inline elements.
+    /// The alignment of content in a table column.
     /// </summary>
-    public abstract class MarkdownInline : MarkdownElement
+    public enum ColumnAlignment
     {
         /// <summary>
-        /// Gets or sets this element is.
+        /// The alignment was not specified.
         /// </summary>
-        public MarkdownInlineType Type { get; set; }
+        Unspecified,
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MarkdownInline"/> class.
+        /// Content should be left aligned.
         /// </summary>
-        internal MarkdownInline(MarkdownInlineType type)
-        {
-            Type = type;
-        }
+        Left,
+
+        /// <summary>
+        /// Content should be right aligned.
+        /// </summary>
+        Right,
+
+        /// <summary>
+        /// Content should be centered.
+        /// </summary>
+        Center,
     }
 }

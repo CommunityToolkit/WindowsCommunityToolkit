@@ -10,26 +10,24 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
-
-namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
+namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
 {
-    /// <summary>
-    /// An internal class that is the base class for all inline elements.
-    /// </summary>
-    public abstract class MarkdownInline : MarkdownElement
+    internal class LineInfo
     {
-        /// <summary>
-        /// Gets or sets this element is.
-        /// </summary>
-        public MarkdownInlineType Type { get; set; }
+        public int StartOfLine { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MarkdownInline"/> class.
-        /// </summary>
-        internal MarkdownInline(MarkdownInlineType type)
+        public int FirstNonWhitespaceChar { get; set; }
+
+        public int EndOfLine { get; set; }
+
+        public bool IsLineBlank
         {
-            Type = type;
+            get
+            {
+                return FirstNonWhitespaceChar == EndOfLine;
+            }
         }
+
+        public int StartOfNextLine { get; set; }
     }
 }

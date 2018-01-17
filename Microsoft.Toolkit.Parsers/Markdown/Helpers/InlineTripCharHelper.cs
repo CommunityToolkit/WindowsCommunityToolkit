@@ -12,24 +12,20 @@
 
 using Microsoft.Toolkit.Parsers.Markdown.Enums;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
+namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
 {
     /// <summary>
-    /// An internal class that is the base class for all inline elements.
+    /// A helper class for the trip chars. This is an optimization. If we ask each class to go
+    /// through the rage and look for itself we end up looping through the range n times, once
+    /// for each inline. This class represent a character that an inline needs to have a
+    /// possible match. We will go through the range once and look for everyone's trip chars,
+    /// and if they can make a match from the trip char then we will commit to them.
     /// </summary>
-    public abstract class MarkdownInline : MarkdownElement
+    internal class InlineTripCharHelper
     {
-        /// <summary>
-        /// Gets or sets this element is.
-        /// </summary>
-        public MarkdownInlineType Type { get; set; }
+        // Note! Everything in first char and suffix should be lower case!
+        public char FirstChar { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MarkdownInline"/> class.
-        /// </summary>
-        internal MarkdownInline(MarkdownInlineType type)
-        {
-            Type = type;
-        }
+        public InlineParseMethod Method { get; set; }
     }
 }

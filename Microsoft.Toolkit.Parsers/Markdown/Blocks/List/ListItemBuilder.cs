@@ -10,26 +10,18 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Text;
 using Microsoft.Toolkit.Parsers.Markdown.Enums;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
+namespace Microsoft.Toolkit.Parsers.Markdown.Blocks.List
 {
-    /// <summary>
-    /// An internal class that is the base class for all inline elements.
-    /// </summary>
-    public abstract class MarkdownInline : MarkdownElement
+    internal class ListItemBuilder : MarkdownBlock
     {
-        /// <summary>
-        /// Gets or sets this element is.
-        /// </summary>
-        public MarkdownInlineType Type { get; set; }
+        public StringBuilder Builder { get; } = new StringBuilder();
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MarkdownInline"/> class.
-        /// </summary>
-        internal MarkdownInline(MarkdownInlineType type)
+        public ListItemBuilder()
+            : base(MarkdownBlockType.ListItemBuilder)
         {
-            Type = type;
         }
     }
 }
