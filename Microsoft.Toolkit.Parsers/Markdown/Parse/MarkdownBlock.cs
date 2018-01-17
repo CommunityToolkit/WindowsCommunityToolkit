@@ -12,6 +12,9 @@
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 {
+    /// <summary>
+    /// Determines the type of Block the Block element is.
+    /// </summary>
     public enum MarkdownBlockType
     {
         /// <summary>
@@ -65,6 +68,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         LinkReference
     }
 
+    /// <summary>
+    /// A Block Element is an element that is a container for other structures.
+    /// </summary>
     public abstract class MarkdownBlock : MarkdownElement
     {
         /// <summary>

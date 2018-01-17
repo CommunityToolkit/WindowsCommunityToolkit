@@ -88,6 +88,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
             return null;
         }
 
+        /// <inheritdoc/>
         public string Text { get; set; }
     }
 }

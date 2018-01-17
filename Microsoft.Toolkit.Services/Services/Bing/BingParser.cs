@@ -12,7 +12,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Toolkit.Parsers;
 using Microsoft.Toolkit.Parsers.Rss;
 
 namespace Microsoft.Toolkit.Services.Bing
@@ -20,7 +19,7 @@ namespace Microsoft.Toolkit.Services.Bing
     /// <summary>
     /// Parse Bing results into strong type.
     /// </summary>
-    public class BingParser : IParser<BingResult>
+    public class BingParser : Parsers.IParser<BingResult>
     {
         /// <summary>
         /// Take string data and parse into strong data type.

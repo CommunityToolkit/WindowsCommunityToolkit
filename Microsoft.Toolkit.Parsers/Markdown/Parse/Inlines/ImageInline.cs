@@ -39,6 +39,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// </summary>
         public string Tooltip { get; set; }
 
+        /// <inheritdoc/>
         public string Text { get; set; } = string.Empty;
 
         internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)

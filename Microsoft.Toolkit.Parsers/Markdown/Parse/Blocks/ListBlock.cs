@@ -22,6 +22,9 @@ using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 {
+    /// <summary>
+    /// This specifies the type of style the List will be.
+    /// </summary>
     public enum ListStyle
     {
         /// <summary>
@@ -407,6 +410,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
             return result.ToString();
         }
 
+        /// <summary>
+        /// This specifies the Content of the List element.
+        /// </summary>
         public class ListItemBlock
         {
             /// <summary>

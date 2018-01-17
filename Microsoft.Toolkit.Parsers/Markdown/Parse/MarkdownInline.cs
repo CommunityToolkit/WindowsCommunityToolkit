@@ -12,6 +12,9 @@
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 {
+    /// <summary>
+    /// Determines the type of Inline the Inline Element is.
+    /// </summary>
     public enum MarkdownInlineType
     {
         /// <summary>

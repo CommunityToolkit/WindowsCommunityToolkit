@@ -16,6 +16,9 @@ using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 {
+    /// <summary>
+    /// Specifies the type of Hyperlink that is used.
+    /// </summary>
     public enum HyperlinkType
     {
         /// <summary>
