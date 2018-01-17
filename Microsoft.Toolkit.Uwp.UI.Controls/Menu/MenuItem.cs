@@ -268,7 +268,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     ReAddItemsToFlyout();
                     break;
                 case CollectionChange.ItemInserted:
-                    AddItemToFlyout(sender.ElementAt(index));
+                    InsertItemToFlyout(sender.ElementAt(index), index);
                     break;
                 case CollectionChange.ItemRemoved:
                     MenuFlyout.Items.RemoveAt(index);

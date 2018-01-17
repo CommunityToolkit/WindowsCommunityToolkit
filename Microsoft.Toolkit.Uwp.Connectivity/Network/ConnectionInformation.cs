@@ -30,22 +30,20 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// Updates  the current object based on profile passed.
         /// </summary>
         /// <param name="profile">instance of <see cref="ConnectionProfile"/></param>
-        public virtual void UpdateConnectionInformation(ConnectionProfile profile)
+        public void UpdateConnectionInformation(ConnectionProfile profile)
         {
-            networkNames.Clear();
-
             if (profile == null)
             {
-                ConnectionType = ConnectionType.Unknown;
-                ConnectivityLevel = NetworkConnectivityLevel.None;
-                IsInternetAvailable = false;
-                ConnectionCost = null;
-                SignalStrength = null;
+                Reset();
 
                 return;
             }
 
-            switch (profile.NetworkAdapter.IanaInterfaceType)
+            networkNames.Clear();
+
+            uint ianaInterfaceType = profile.NetworkAdapter?.IanaInterfaceType ?? 0;
+
+            switch (ianaInterfaceType)
             {
                 case 6:
                     ConnectionType = ConnectionType.Ethernet;
@@ -65,15 +63,13 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
                     break;
             }
 
-            ConnectivityLevel = profile.GetNetworkConnectivityLevel();
-            ConnectionCost = profile.GetConnectionCost();
-            SignalStrength = profile.GetSignalBars();
-
             var names = profile.GetNetworkNames();
             if (names?.Count > 0)
             {
                 networkNames.AddRange(names);
             }
+
+            ConnectivityLevel = profile.GetNetworkConnectivityLevel();
 
             switch (ConnectivityLevel)
             {
@@ -86,6 +82,23 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
                     IsInternetAvailable = true;
                     break;
             }
+
+            ConnectionCost = profile.GetConnectionCost();
+            SignalStrength = profile.GetSignalBars();
+        }
+
+        /// <summary>
+        /// Resets the current object to default values.
+        /// </summary>
+        internal void Reset()
+        {
+            networkNames.Clear();
+
+            ConnectionType = ConnectionType.Unknown;
+            ConnectivityLevel = NetworkConnectivityLevel.None;
+            IsInternetAvailable = false;
+            ConnectionCost = null;
+            SignalStrength = null;
         }
 
         /// <summary>

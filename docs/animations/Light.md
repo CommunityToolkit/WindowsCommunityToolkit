@@ -24,7 +24,8 @@ The Light animation behavior performs a point light (A point source of light tha
            Distance="10" 
            Duration="500" 
            Delay="0" 
-           AutomaticallyStart="True"/>
+           AutomaticallyStart="True"
+           Color="Red"/>
 </interactivity:Interaction.Behaviors>
 
 ```
@@ -32,8 +33,8 @@ The Light animation behavior performs a point light (A point source of light tha
 ### **C#**
 
 ```csharp
-MyUIElement.Light(distance: 5, duration: 2500, delay: 250).Start();
-await MyUIElement.Light(distance: 5, duration: 2500, delay: 250).StartAsync(); //Light animation can be awaited
+MyUIElement.Light(distance: 5, duration: 2500, delay: 250, color: Colors.Red).Start();
+await MyUIElement.Light(distance: 5, duration: 2500, delay: 250, color: Colors.Red).StartAsync(); //Light animation can be awaited
 ```
 
 ## Sample Output
@@ -42,9 +43,11 @@ await MyUIElement.Light(distance: 5, duration: 2500, delay: 250).StartAsync(); /
 
 ## Examples
 
-_The light behavior is great at drawing the user's eye towards a particular pieces of user interface. Closer the light source, the more focused it will be, but, will make the overall UI element darker. The further away from the light source the more the light will spread over the UIElement._
+### Distance
+The distance of the spotlight. 0 being the furthest.
 
-**Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.**
+### Color
+The color of the spot light specified as a Brush
 
 _Sample Code_
 
