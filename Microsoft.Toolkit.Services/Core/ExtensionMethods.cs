@@ -12,7 +12,6 @@
 
 using System;
 using System.Reflection;
-using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Services.Bing;
 
 namespace Microsoft.Toolkit.Services.Core
@@ -53,7 +52,7 @@ namespace Microsoft.Toolkit.Services.Core
             Type type = value.GetType();
 
             FieldInfo fi = type.GetRuntimeField(value.ToString());
-            StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
+            Parsers.Core.StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(Parsers.Core.StringValueAttribute), false) as Parsers.Core.StringValueAttribute[];
             if (attrs != null && attrs.Length > 0)
             {
                 output = attrs[0].Value;
