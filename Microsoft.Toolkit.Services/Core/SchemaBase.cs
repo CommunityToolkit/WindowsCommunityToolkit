@@ -10,22 +10,15 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Diagnostics;
+using System;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
+namespace Microsoft.Toolkit.Services
 {
-    public class DebuggingReporter
+    /// <summary>
+    /// Strong typed schema base class.
+    /// </summary>
+    [Obsolete("This class is being deprecated. Please use the counterpart in Microsoft.Toolkit.Parsers.")]
+    public abstract class SchemaBase : Parsers.SchemaBase
     {
-        /// <summary>
-        /// Reports a critical error.
-        /// </summary>
-        public static void ReportCriticalError(string errorText)
-        {
-            Debug.WriteLine(errorText);
-            if (Debugger.IsAttached)
-            {
-                Debugger.Break();
-            }
-        }
     }
 }

@@ -11,41 +11,25 @@
 // ******************************************************************
 
 using System.Collections.Generic;
-using System.Xml.Linq;
+using Newtonsoft.Json;
 
-namespace Microsoft.Toolkit.Uwp.Services.Rss
+namespace Microsoft.Toolkit.Parsers
 {
     /// <summary>
-    /// RssParser.
+    /// JsonParser type.
     /// </summary>
-    internal class RssParser : IParser<RssSchema>
+    /// <typeparam name="T">Data type to parse</typeparam>
+    public class JsonParser<T> : IParser<T>
+        where T : SchemaBase
     {
         /// <summary>
-        /// Parse string to strong type.
+        /// Takes string data and parses to strong type.
         /// </summary>
-        /// <param name="data">Input string.</param>
-        /// <returns>Strong type.</returns>
-        public IEnumerable<RssSchema> Parse(string data)
+        /// <param name="data">String data.</param>
+        /// <returns>Strong type deserialized from string data.</returns>
+        public IEnumerable<T> Parse(string data)
         {
-            if (string.IsNullOrEmpty(data))
-            {
-                return null;
-            }
-
-            var doc = XDocument.Parse(data);
-            var type = BaseRssParser.GetFeedType(doc);
-
-            BaseRssParser rssParser;
-            if (type == RssType.Rss)
-            {
-                rssParser = new Rss2Parser();
-            }
-            else
-            {
-                rssParser = new AtomParser();
-            }
-
-            return rssParser.LoadFeed(doc);
+            return JsonConvert.DeserializeObject<IEnumerable<T>>(data);
         }
     }
 }

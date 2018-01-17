@@ -10,18 +10,25 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using System.Diagnostics;
 
-namespace Microsoft.Toolkit.Uwp.Services.Core
+namespace Microsoft.Toolkit
 {
     /// <summary>
-    /// Generic interface that all deployed service providers implement.
+    /// Reports an error during debugging.
     /// </summary>
-    /// <typeparam name="T">Reference to underlying data service provider.</typeparam>
-    /// <typeparam name="U">Strongly-typed schema for data returned in list query.</typeparam>
-    /// <typeparam name="V">Configuration type specifying query parameters.</typeparam>
-    [Obsolete("This interface is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public interface IDataService<T, U, V> : Toolkit.Services.Core.IDataService<T, U, V>
+    public class DebuggingReporter
     {
+        /// <summary>
+        /// Reports a critical error.
+        /// </summary>
+        public static void ReportCriticalError(string errorText)
+        {
+            Debug.WriteLine(errorText);
+            if (Debugger.IsAttached)
+            {
+                Debugger.Break();
+            }
+        }
     }
 }

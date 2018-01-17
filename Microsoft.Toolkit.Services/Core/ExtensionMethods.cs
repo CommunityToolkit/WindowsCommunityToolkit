@@ -61,5 +61,27 @@ namespace Microsoft.Toolkit.Services.Core
 
             return output;
         }
+
+        /// <summary>
+        /// Converts object into string.
+        /// </summary>
+        /// <param name="value">Object value.</param>
+        /// <returns>Returns string value.</returns>
+        [Obsolete("This method is being deprecated. Please use the counterpart in Microsoft.Toolkit.Parsers.Core.ExtensionMethods.")]
+        public static string ToSafeString(this object value)
+        {
+            return Parsers.Core.ExtensionMethods.ToSafeString(value);
+        }
+
+        /// <summary>
+        /// Decode HTML string.
+        /// </summary>
+        /// <param name="htmlText">HTML string.</param>
+        /// <returns>Returns decoded HTML string.</returns>
+        [Obsolete("This method is being deprecated. Please use the counterpart in Microsoft.Toolkit.Parsers.Core.ExtensionMethods.")]
+        public static string DecodeHtml(this string htmlText)
+        {
+            return Parsers.Core.ExtensionMethods.DecodeHtml(htmlText);
+        }
     }
 }

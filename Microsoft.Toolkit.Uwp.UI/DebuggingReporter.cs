@@ -12,16 +12,13 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.Services.Core
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
 {
     /// <summary>
-    /// Generic interface that all deployed service providers implement.
+    /// Reports an error during debugging.
     /// </summary>
-    /// <typeparam name="T">Reference to underlying data service provider.</typeparam>
-    /// <typeparam name="U">Strongly-typed schema for data returned in list query.</typeparam>
-    /// <typeparam name="V">Configuration type specifying query parameters.</typeparam>
-    [Obsolete("This interface is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public interface IDataService<T, U, V> : Toolkit.Services.Core.IDataService<T, U, V>
+    [Obsolete("This class is being deprecated. Please use the counterpart in Microsoft.Toolkit.")]
+    public class DebuggingReporter : Toolkit.DebuggingReporter
     {
     }
 }

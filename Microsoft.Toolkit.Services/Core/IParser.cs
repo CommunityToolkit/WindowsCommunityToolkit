@@ -12,16 +12,15 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.Services.Core
+namespace Microsoft.Toolkit.Services
 {
     /// <summary>
-    /// Generic interface that all deployed service providers implement.
+    /// Parser interface.
     /// </summary>
-    /// <typeparam name="T">Reference to underlying data service provider.</typeparam>
-    /// <typeparam name="U">Strongly-typed schema for data returned in list query.</typeparam>
-    /// <typeparam name="V">Configuration type specifying query parameters.</typeparam>
-    [Obsolete("This interface is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public interface IDataService<T, U, V> : Toolkit.Services.Core.IDataService<T, U, V>
+    /// <typeparam name="T">Type to parse into.</typeparam>
+    [Obsolete("This interface is being deprecated. Please use the counterpart found in Microsoft.Toolkit.Parsers")]
+    public interface IParser<out T> : Parsers.IParser<T>
+        where T : SchemaBase
     {
     }
 }

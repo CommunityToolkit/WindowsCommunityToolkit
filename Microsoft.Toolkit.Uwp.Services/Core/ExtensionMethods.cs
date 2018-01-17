@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
     /// <summary>
     /// This class offers general purpose methods.
     /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Parsers.")]
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Parsers and Microsoft.Toolkit.Services.")]
     public static class ExtensionMethods
     {
         /// <summary>
