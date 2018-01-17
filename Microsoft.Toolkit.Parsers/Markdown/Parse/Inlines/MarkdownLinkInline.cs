@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Parse
@@ -24,7 +25,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownLinkInline"/> class.
         /// </summary>
-        public MarkdownLinkInline()
+        internal MarkdownLinkInline()
             : base(MarkdownInlineType.MarkdownLink)
         {
         }
@@ -103,7 +104,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 
             // Skip whitespace.
             pos = linkTextClose + 1;
-            while (pos < maxEnd && Common.IsWhiteSpace(markdown[pos]))
+            while (pos < maxEnd && ParseHelpers.IsWhiteSpace(markdown[pos]))
             {
                 pos++;
             }
@@ -119,7 +120,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
             {
                 // Skip whitespace.
                 linkOpen++;
-                while (linkOpen < maxEnd && Common.IsWhiteSpace(markdown[linkOpen]))
+                while (linkOpen < maxEnd && ParseHelpers.IsWhiteSpace(markdown[linkOpen]))
                 {
                     linkOpen++;
                 }
@@ -159,7 +160,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
                 int end = linkClose + 1;
 
                 // Skip whitespace backwards.
-                while (linkClose > linkOpen && Common.IsWhiteSpace(markdown[linkClose - 1]))
+                while (linkClose > linkOpen && ParseHelpers.IsWhiteSpace(markdown[linkClose - 1]))
                 {
                     linkClose--;
                 }

@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownBlock"/> class.
         /// </summary>
-        public MarkdownBlock(MarkdownBlockType type)
+        internal MarkdownBlock(MarkdownBlockType type)
         {
             Type = type;
         }

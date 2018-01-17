@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Collections.Generic;
+using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Parse
@@ -23,7 +24,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="ItalicTextInline"/> class.
         /// </summary>
-        public ItalicTextInline()
+        internal ItalicTextInline()
             : base(MarkdownInlineType.Italic)
         {
         }
@@ -74,13 +75,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
             }
 
             // The first character inside the span must NOT be a space.
-            if (Common.IsWhiteSpace(markdown[innerStart]))
+            if (ParseHelpers.IsWhiteSpace(markdown[innerStart]))
             {
                 return null;
             }
 
             // The last character inside the span must NOT be a space.
-            if (Common.IsWhiteSpace(markdown[innerEnd - 1]))
+            if (ParseHelpers.IsWhiteSpace(markdown[innerEnd - 1]))
             {
                 return null;
             }

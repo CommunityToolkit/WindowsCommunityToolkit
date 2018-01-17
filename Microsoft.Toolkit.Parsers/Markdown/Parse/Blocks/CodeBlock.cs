@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeBlock"/> class.
         /// </summary>
-        public CodeBlock()
+        internal CodeBlock()
             : base(MarkdownBlockType.Code)
         {
         }

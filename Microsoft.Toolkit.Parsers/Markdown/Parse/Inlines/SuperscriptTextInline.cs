@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="SuperscriptTextInline"/> class.
         /// </summary>
-        public SuperscriptTextInline()
+        internal SuperscriptTextInline()
             : base(MarkdownInlineType.Superscript)
         {
         }

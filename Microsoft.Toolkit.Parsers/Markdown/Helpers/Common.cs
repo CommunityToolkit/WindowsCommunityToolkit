@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
     /// <summary>
     /// Helpers for Markdown.
     /// </summary>
-    public class Common
+    internal class Common
     {
         internal enum InlineParseMethod
         {
@@ -623,32 +623,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
             }
 
             return startOfLine;
-        }
-
-        /// <summary>
-        /// Determines if a character is a whitespace character.
-        /// </summary>
-        /// <returns>true if is white space</returns>
-        public static bool IsWhiteSpace(char c)
-        {
-            return c == ' ' || c == '\t' || c == '\r' || c == '\n';
-        }
-
-        /// <summary>
-        /// Determines if a string is blank or comprised entirely of whitespace characters.
-        /// </summary>
-        /// <returns>true if blank or white space</returns>
-        public static bool IsBlankOrWhiteSpace(string str)
-        {
-            for (int i = 0; i < str.Length; i++)
-            {
-                if (!IsWhiteSpace(str[i]))
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
     }
 }

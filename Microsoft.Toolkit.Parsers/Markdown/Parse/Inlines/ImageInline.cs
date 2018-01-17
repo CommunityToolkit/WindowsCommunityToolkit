@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Collections.Generic;
+using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Parse
@@ -23,7 +24,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageInline"/> class.
         /// </summary>
-        public ImageInline()
+        internal ImageInline()
             : base(MarkdownInlineType.Image)
         {
         }
@@ -98,7 +99,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 
             // Skip whitespace
             pos++;
-            while (pos < end && Common.IsWhiteSpace(markdown[pos]))
+            while (pos < end && ParseHelpers.IsWhiteSpace(markdown[pos]))
             {
                 pos++;
             }

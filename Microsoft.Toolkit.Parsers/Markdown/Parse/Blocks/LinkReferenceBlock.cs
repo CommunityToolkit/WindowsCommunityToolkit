@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Parsers.Markdown.Helpers;
+using Microsoft.Toolkit.Parsers.Core;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 {
@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="LinkReferenceBlock"/> class.
         /// </summary>
-        public LinkReferenceBlock()
+        internal LinkReferenceBlock()
             : base(MarkdownBlockType.LinkReference)
         {
         }
@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 
             // Skip whitespace
             pos++;
-            while (pos < end && Common.IsWhiteSpace(markdown[pos]))
+            while (pos < end && ParseHelpers.IsWhiteSpace(markdown[pos]))
             {
                 pos++;
             }
@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 
             // Extract the URL.
             int urlStart = pos;
-            while (pos < end && !Common.IsWhiteSpace(markdown[pos]))
+            while (pos < end && !ParseHelpers.IsWhiteSpace(markdown[pos]))
             {
                 pos++;
             }
@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 
             // Skip whitespace.
             pos++;
-            while (pos < end && Common.IsWhiteSpace(markdown[pos]))
+            while (pos < end && ParseHelpers.IsWhiteSpace(markdown[pos]))
             {
                 pos++;
             }
@@ -151,7 +151,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 
                 // Check there isn't any trailing text.
                 pos++;
-                while (pos < end && Common.IsWhiteSpace(markdown[pos]))
+                while (pos < end && ParseHelpers.IsWhiteSpace(markdown[pos]))
                 {
                     pos++;
                 }

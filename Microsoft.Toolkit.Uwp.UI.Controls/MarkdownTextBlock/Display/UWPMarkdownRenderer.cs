@@ -11,9 +11,9 @@
 // ******************************************************************
 
 using System;
+using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Display;
-using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 using Microsoft.Toolkit.Parsers.Markdown.Parse;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -156,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                         return false;
                     }
                 }
-                else if (inline is IInlineLeaf && !Common.IsBlankOrWhiteSpace(((IInlineLeaf)inline).Text))
+                else if (inline is IInlineLeaf && !ParseHelpers.IsBlankOrWhiteSpace(((IInlineLeaf)inline).Text))
                 {
                     if (superscriptLevel != 1)
                     {

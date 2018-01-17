@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Parse
@@ -39,7 +40,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="ListBlock"/> class.
         /// </summary>
-        public ListBlock()
+        internal ListBlock()
             : base(MarkdownBlockType.List)
         {
         }
@@ -296,8 +297,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 
             var builder = listItemBuilder.Builder;
             if (builder.Length >= 2 &&
-                Common.IsWhiteSpace(builder[builder.Length - 2]) &&
-                Common.IsWhiteSpace(builder[builder.Length - 1]))
+                ParseHelpers.IsWhiteSpace(builder[builder.Length - 2]) &&
+                ParseHelpers.IsWhiteSpace(builder[builder.Length - 1]))
             {
                 builder.Length -= 2;
                 builder.AppendLine();
@@ -410,7 +411,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
             /// </summary>
             public IList<MarkdownBlock> Blocks { get; set; }
 
-            public ListItemBlock()
+            internal ListItemBlock()
             {
             }
         }

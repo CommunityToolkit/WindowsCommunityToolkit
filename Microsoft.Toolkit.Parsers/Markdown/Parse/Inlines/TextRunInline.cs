@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="TextRunInline"/> class.
         /// </summary>
-        public TextRunInline()
+        internal TextRunInline()
             : base(MarkdownInlineType.TextRun)
         {
         }

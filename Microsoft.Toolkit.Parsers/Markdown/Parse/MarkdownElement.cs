@@ -13,7 +13,7 @@
 namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 {
     /// <summary>
-    /// This is an internal class used as the base class of all markdown elements.
+    /// This is a class used as the base class of all markdown elements.
     /// </summary>
     public abstract class MarkdownElement
     {

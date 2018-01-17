@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Parsers.Markdown.Helpers;
+using Microsoft.Toolkit.Parsers.Core;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Parse
 {
@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="HorizontalRuleBlock"/> class.
         /// </summary>
-        public HorizontalRuleBlock()
+        internal HorizontalRuleBlock()
             : base(MarkdownBlockType.HorizontalRule)
         {
         }
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
                 {
                     break;
                 }
-                else if (!Common.IsWhiteSpace(c))
+                else if (!ParseHelpers.IsWhiteSpace(c))
                 {
                     return null;
                 }

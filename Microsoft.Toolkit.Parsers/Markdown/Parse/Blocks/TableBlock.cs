@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Parse
@@ -24,7 +25,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
         /// <summary>
         /// Initializes a new instance of the <see cref="TableBlock"/> class.
         /// </summary>
-        public TableBlock()
+        internal TableBlock()
             : base(MarkdownBlockType.Table)
         {
         }
@@ -199,7 +200,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
                 while (pos < maxEndingPos)
                 {
                     // Ignore any whitespace at the start of the cell (except for a newline character).
-                    while (pos < maxEndingPos && Common.IsWhiteSpace(markdown[pos]) && markdown[pos] != '\n' && markdown[pos] != '\r')
+                    while (pos < maxEndingPos && ParseHelpers.IsWhiteSpace(markdown[pos]) && markdown[pos] != '\n' && markdown[pos] != '\r')
                     {
                         pos++;
                     }
@@ -247,7 +248,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Parse
                     // Ignore any whitespace at the end of the cell.
                     if (endOfCell > startOfCellContent)
                     {
-                        while (Common.IsWhiteSpace(markdown[pos - 1]))
+                        while (ParseHelpers.IsWhiteSpace(markdown[pos - 1]))
                         {
                             pos--;
                         }
