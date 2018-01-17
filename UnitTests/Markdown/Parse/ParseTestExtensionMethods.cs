@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Parse;
 
 namespace UnitTests.Markdown.Parse
