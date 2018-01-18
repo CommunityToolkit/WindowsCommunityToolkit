@@ -184,6 +184,37 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
+        public void Test_Toast_XML_Toast_AdditionalProperties()
+        {
+            AssertPayload("<toast hint-tacos='yummy://kind=beans,c=0' />", new ToastContent()
+            {
+                AdditionalProperties =
+                {
+                    { "hint-tacos", "yummy://kind=beans,c=0" }
+                }
+            });
+
+            // Multiple
+            AssertPayload("<toast avacado='definitely' burrito='true' />", new ToastContent()
+            {
+                AdditionalProperties =
+                {
+                    { "burrito", "true" },
+                    { "avacado", "definitely" }
+                }
+            });
+
+            // XML encoding
+            AssertPayload("<toast request='eggs &amp; beans' />", new ToastContent()
+            {
+                AdditionalProperties =
+                {
+                    { "request", "eggs & beans" }
+                }
+            });
+        }
+
+        [TestMethod]
         public void Test_ToastV2_Visual_Defaults()
         {
             AssertPayload("<toast></toast>", new ToastContent());

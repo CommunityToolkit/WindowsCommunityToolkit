@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
 #if WINDOWS_UWP
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
@@ -94,6 +95,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public ToastPeople HintPeople { get; set; }
 
         /// <summary>
+        /// Gets a dictionary where you can assign additional properties.
+        /// </summary>
+        public IDictionary<string, string> AdditionalProperties { get; } = new Dictionary<string, string>();
+
+        /// <summary>
         /// Retrieves the notification XML content as a string, so that it can be sent with a HTTP POST in a push notification.
         /// </summary>
         /// <returns>The notification XML content as a string.</returns>
@@ -145,7 +151,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 Launch = Launch,
                 Scenario = Scenario,
                 DisplayTimestamp = strippedDisplayTimestamp,
-                HintToastId = HintToastId
+                HintToastId = HintToastId,
+                AdditionalProperties = AdditionalProperties
             };
 
             ActivationOptions?.PopulateElement(toast);
