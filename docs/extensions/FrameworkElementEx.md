@@ -1,12 +1,12 @@
 ---
-title: FrameworkElement Extentions
+title: FrameworkElement Extensions
 author: ST-Apps
 ms.date: 01/05/2018
 description: FrameworkElementEx provides a simple way to bind to actual size for any FrameworkElement
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, FrameworkElement, extentions
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, FrameworkElement, extensions
 ---
 
-# FrameworkElement extentions
+# FrameworkElement Extensions
 
 FrameworkElementEx provides a simple way to bind to actual size for any FrameworkElement.
 
