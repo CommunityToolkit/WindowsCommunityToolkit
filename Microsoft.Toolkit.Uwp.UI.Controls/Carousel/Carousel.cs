@@ -216,7 +216,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
 
-                bool isNewSelectedItem = carouselControl.SelectedItem != newValue
+                bool isNewSelectedItem = carouselControl.SelectedItem != newValue;
 
                 if (newValue != null)
                 {
