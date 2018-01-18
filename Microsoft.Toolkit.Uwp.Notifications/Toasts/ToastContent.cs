@@ -89,6 +89,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public string HintToastId { get; set; }
 
         /// <summary>
+        /// Gets or sets the person that this toast is related to. For more info, see the My People documentation. New in Fall Creators Update.
+        /// </summary>
+        public ToastPeople HintPeople { get; set; }
+
+        /// <summary>
         /// Retrieves the notification XML content as a string, so that it can be sent with a HTTP POST in a push notification.
         /// </summary>
         /// <returns>The notification XML content as a string.</returns>
@@ -164,6 +169,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             {
                 toast.Header = Header.ConvertToElement();
             }
+
+            HintPeople?.PopulateToastElement(toast);
 
             return toast;
         }

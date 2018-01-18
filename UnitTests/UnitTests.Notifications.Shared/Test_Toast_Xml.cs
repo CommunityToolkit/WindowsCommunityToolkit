@@ -107,6 +107,83 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
+        public void Test_Toast_XML_Toast_HintPeople_RemoteId()
+        {
+            var toast = new ToastContent()
+            {
+                HintPeople = new ToastPeople()
+                {
+                    RemoteId = "1234"
+                }
+            };
+
+            AssertPayload("<toast hint-people='remoteid:1234' />", toast);
+        }
+
+        [TestMethod]
+        public void Test_Toast_XML_Toast_HintPeople_EmailAddress()
+        {
+            var toast = new ToastContent()
+            {
+                HintPeople = new ToastPeople()
+                {
+                    EmailAddress = "johndoe@mydomain.com"
+                }
+            };
+
+            AssertPayload("<toast hint-people='mailto:johndoe@mydomain.com' />", toast);
+        }
+
+        [TestMethod]
+        public void Test_Toast_XML_Toast_HintPeople_PhoneNumber()
+        {
+            var toast = new ToastContent()
+            {
+                HintPeople = new ToastPeople()
+                {
+                    PhoneNumber = "888-888-8888"
+                }
+            };
+
+            AssertPayload("<toast hint-people='tel:888-888-8888' />", toast);
+        }
+
+        [TestMethod]
+        public void Test_Toast_XML_Toast_HintPeople_Precedence()
+        {
+            // Email should take precedence over phone number
+            var toast = new ToastContent()
+            {
+                HintPeople = new ToastPeople()
+                {
+                    EmailAddress = "johndoe@mydomain.com",
+                    PhoneNumber = "888-888-8888"
+                }
+            };
+
+            AssertPayload("<toast hint-people='mailto:johndoe@mydomain.com' />", toast);
+
+            // RemoteId should take precedence over phone number
+            toast.HintPeople = new ToastPeople()
+            {
+                RemoteId = "1234",
+                PhoneNumber = "888-888-8888"
+            };
+
+            AssertPayload("<toast hint-people='remoteid:1234' />", toast);
+
+            // RemoteId should take precedence over all
+            toast.HintPeople = new ToastPeople()
+            {
+                RemoteId = "1234",
+                PhoneNumber = "888-888-8888",
+                EmailAddress = "johndoe@mydomain.com"
+            };
+
+            AssertPayload("<toast hint-people='remoteid:1234' />", toast);
+        }
+
+        [TestMethod]
         public void Test_ToastV2_Visual_Defaults()
         {
             AssertPayload("<toast></toast>", new ToastContent());
