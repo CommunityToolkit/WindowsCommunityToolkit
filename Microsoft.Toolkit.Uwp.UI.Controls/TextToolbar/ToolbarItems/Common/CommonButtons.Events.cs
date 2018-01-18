@@ -111,23 +111,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 
                 if (string.IsNullOrEmpty(labelText.Trim()))
                 {
-                    await new ContentDialog
-                    {
-                        Title = Model.Labels.WarningLabel,
-                        Content = Model.Labels.EmptyTextLabel,
-                        PrimaryButtonText = Model.Labels.OkLabel
-                    }.ShowAsync();
+                    ShowContentDialog(Model.Labels.WarningLabel, Model.Labels.EmptyTextLabel, Model.Labels.OkLabel);
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(linkText))
                 {
-                    await new ContentDialog
-                    {
-                        Title = Model.Labels.WarningLabel,
-                        Content = Model.Labels.LinkInvalidLabel,
-                        PrimaryButtonText = Model.Labels.OkLabel
-                    }.ShowAsync();
+                    ShowContentDialog(Model.Labels.WarningLabel, Model.Labels.LinkInvalidLabel, Model.Labels.OkLabel);
                     return;
                 }
 
@@ -136,18 +126,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                     var wellFormed = Uri.IsWellFormedUriString(linkText, relativeBox?.IsChecked == true ? UriKind.RelativeOrAbsolute : UriKind.Absolute);
                     if (!wellFormed)
                     {
-                        await new ContentDialog
-                        {
-                            Title = Model.Labels.WarningLabel,
-                            Content = Model.Labels.LinkInvalidLabel,
-                            PrimaryButtonText = Model.Labels.OkLabel
-                        }.ShowAsync();
+                        ShowContentDialog(Model.Labels.WarningLabel, Model.Labels.LinkInvalidLabel, Model.Labels.OkLabel);
                         return;
                     }
                 }
 
                 Model.Formatter.ButtonActions.FormatLink(button, labelText.Trim(), formattedlabelText.Trim(), linkText);
             }
+        }
+
+        /// <summary>
+        /// Opens a <see cref="ContentDialog"/> to notify the user about empty and whitespace inputs.
+        /// </summary>
+        /// <param name="title">The <see cref="string"/> </param>
+        /// <param name="content">The <see cref="string"/> </param>
+        /// <param name="primaryButtonText">The <see cref="string"/> </param>
+        private async void ShowContentDialog(string title, string content, string primaryButtonText)
+        {
+            await new ContentDialog
+            {
+                Title = title,
+                Content = content,
+                PrimaryButtonText = primaryButtonText
+            }.ShowAsync();
         }
     }
 }
