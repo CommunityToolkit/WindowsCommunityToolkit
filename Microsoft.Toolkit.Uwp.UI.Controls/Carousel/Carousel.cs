@@ -471,7 +471,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var contentControl = (ContentControl)element;
 
-            contentControl.Opacity = 1;
             contentControl.RenderTransformOrigin = new Point(0.5, 0.5);
             contentControl.Tag = "CarouselItem";
 
