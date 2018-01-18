@@ -24,7 +24,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class CarouselItem : SelectorItem
     {
         private const string PointerOverState = "PointerOver";
+        private const string PointerOverSelectedState = "PointerOverSelected";
         private const string PressedState = "Pressed";
+        private const string PressedSelectedState = "PressedSelected";
         private const string SelectedState = "Selected";
         private const string NormalState = "Normal";
 
@@ -44,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnPointerEntered(e);
 
-            VisualStateManager.GoToState(this, PointerOverState, true);
+            VisualStateManager.GoToState(this, IsSelected ? PointerOverSelectedState : PointerOverState, true);
         }
 
         /// <inheritdoc/>
@@ -60,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnPointerPressed(e);
 
-            VisualStateManager.GoToState(this, PressedState, true);
+            VisualStateManager.GoToState(this, IsSelected ? PressedSelectedState : PressedState, true);
         }
 
         private void OnIsSelectedChanged(DependencyObject sender, DependencyProperty dp)

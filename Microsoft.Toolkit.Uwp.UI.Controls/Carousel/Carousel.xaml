@@ -12,7 +12,9 @@
                                 <VisualState x:Name="Normal"/>
                                 <VisualState x:Name="Selected"/>
                                 <VisualState x:Name="PointerOver"/>
+                                <VisualState x:Name="PointerOverSelected"/>
                                 <VisualState x:Name="Pressed"/>
+                                <VisualState x:Name="PressedSelected"/>
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="DisabledStates">
                                 <VisualState x:Name="Enabled"/>
