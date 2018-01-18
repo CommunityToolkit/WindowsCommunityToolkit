@@ -260,7 +260,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 newElem.Focus(oldElem != null && oldElem.FocusState != FocusState.Unfocused ? oldElem.FocusState : FocusState.Programmatic);
             }
 
-            if (oldElem != null && (string)oldElem.Tag == "CarouselItem")
+            if (oldElem != null && oldElem is CarouselItem)
             {
                 oldElem.IsTabStop = false;
             }
@@ -472,7 +472,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var carouselItem = (CarouselItem)element;
 
             carouselItem.RenderTransformOrigin = new Point(0.5, 0.5);
-            carouselItem.Tag = "CarouselItem";
 
             carouselItem.IsTabStop = Items.IndexOf(item) == SelectedIndex;
             carouselItem.UseSystemFocusVisuals = true;
