@@ -2,6 +2,18 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
+    <Style TargetType="local:CarouselItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:CarouselItem">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                        <ContentPresenter Margin="{TemplateBinding Padding}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="local:Carousel">
         <Setter Property="ItemsPanel">
             <Setter.Value>

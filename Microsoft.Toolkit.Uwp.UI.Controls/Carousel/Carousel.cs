@@ -283,10 +283,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Returns the container used for each item
         /// </summary>
-        /// <returns>Returns always a ContentControl</returns>
+        /// <returns>Returns always a CarouselItem</returns>
         protected override DependencyObject GetContainerForItemOverride()
         {
-            return new ContentControl();
+            return new CarouselItem();
         }
 
         /// <summary>
@@ -461,7 +461,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override bool IsItemItsOwnContainerOverride(object item)
         {
-            return false;
+            return item is CarouselItem;
         }
 
         /// <inheritdoc/>
