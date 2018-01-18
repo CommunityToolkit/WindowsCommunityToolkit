@@ -469,21 +469,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.PrepareContainerForItemOverride(element, item);
 
-            FrameworkElement contentControl = element as ContentControl;
-
-            if (contentControl == null)
-            {
-                contentControl = element as FrameworkElement;
-            }
-            else if (ItemTemplate != null && (contentControl as ContentControl) != null)
-            {
-                ((ContentControl)contentControl).Content = ItemTemplate.LoadContent();
-            }
-
-            if (contentControl == null)
-            {
-                throw new InvalidCastException("Any element added to the Carousel should be at least a Control component");
-            }
+            var contentControl = (ContentControl)element;
 
             contentControl.DataContext = item;
             contentControl.Opacity = 1;
