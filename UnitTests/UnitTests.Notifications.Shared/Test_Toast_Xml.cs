@@ -96,6 +96,17 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
+        public void Test_Toast_XML_Toast_HintToastId()
+        {
+            var toast = new ToastContent()
+            {
+                HintToastId = "AppointmentReminder"
+            };
+
+            AssertPayload("<toast hint-toastId='AppointmentReminder' />", toast);
+        }
+
+        [TestMethod]
         public void Test_ToastV2_Visual_Defaults()
         {
             AssertPayload("<toast></toast>", new ToastContent());
@@ -925,6 +936,17 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
+        public void Test_Toast_Xml_Button_HintActionId_Value()
+        {
+            ToastButton button = new ToastButton("my content", "myArgs")
+            {
+                HintActionId = "MyAction1"
+            };
+
+            AssertButtonPayload("<action content='my content' arguments='myArgs' hint-actionId='MyAction1' />", button);
+        }
+
+        [TestMethod]
         public void Test_Toast_Xml_ButtonSnooze_Defaults()
         {
             ToastButtonSnooze button = new ToastButtonSnooze();
@@ -963,6 +985,17 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
+        public void Test_Toast_Xml_ButtonSnooze_HintActionId()
+        {
+            ToastButtonSnooze button = new ToastButtonSnooze()
+            {
+                HintActionId = "MySnoozeButton1"
+            };
+
+            AssertButtonPayload("<action activationType='system' arguments='snooze' content='' hint-actionId='MySnoozeButton1'/>", button);
+        }
+
+        [TestMethod]
         public void Test_Toast_Xml_ButtonDismiss_Defaults()
         {
             ToastButtonDismiss button = new ToastButtonDismiss();
@@ -987,6 +1020,17 @@ namespace UnitTests.Notifications
             };
 
             AssertButtonPayload("<action activationType='system' arguments='dismiss' content='' imageUri='Assets/Dismiss.png'/>", button);
+        }
+
+        [TestMethod]
+        public void Test_Toast_Xml_ButtonDismiss_HintActionId()
+        {
+            ToastButtonDismiss button = new ToastButtonDismiss()
+            {
+                HintActionId = "MyDismissButton1"
+            };
+
+            AssertButtonPayload("<action activationType='system' arguments='dismiss' content='' hint-actionId='MyDismissButton1'/>", button);
         }
 
         [TestMethod]
@@ -1054,6 +1098,17 @@ namespace UnitTests.Notifications
             };
 
             AssertContextMenuItemPayload("<action placement='contextMenu' content='content' arguments='args' activationType='protocol'/>", item);
+        }
+
+        [TestMethod]
+        public void Test_Toast_Xml_ContextMenuItem_HintActionId()
+        {
+            ToastContextMenuItem item = new ToastContextMenuItem("content", "args")
+            {
+                HintActionId = "MyContextMenu1"
+            };
+
+            AssertContextMenuItemPayload("<action placement='contextMenu' content='content' arguments='args' hint-actionId='MyContextMenu1'/>", item);
         }
 
         [TestMethod]

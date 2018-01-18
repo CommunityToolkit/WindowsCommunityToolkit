@@ -64,6 +64,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         public Element_ToastHeader Header { get; set; }
 
+        [NotificationXmlAttribute("hint-toastId")]
+        public string HintToastId { get; set; }
+
         public static Element_ToastActivationType ConvertActivationType(ToastActivationType publicType)
         {
             switch (publicType)

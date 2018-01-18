@@ -75,11 +75,18 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public ToastActivationOptions ActivationOptions { get; set; }
 
         /// <summary>
-        /// Gets or sets new an optional custom time to use for the notification's timestamp, visible within Action Center.
+        /// Gets or sets an optional custom time to use for the notification's timestamp, visible within Action Center.
         /// If provided, this date/time will be used on the notification instead of the date/time that the notification was received.
         /// Requires Creators Update
         /// </summary>
         public DateTimeOffset? DisplayTimestamp { get; set; }
+
+        /// <summary>
+        /// Gets or sets an identifier used in telemetry to identify your category of toast notification. This should be something
+        /// like "NewMessage", "AppointmentReminder", "Promo30Off", or "PleaseRate". In the upcoming toast telemetry dashboard
+        /// in Dev Center, you will be able to view activation info filtered by toast identifier.
+        /// </summary>
+        public string HintToastId { get; set; }
 
         /// <summary>
         /// Retrieves the notification XML content as a string, so that it can be sent with a HTTP POST in a push notification.
@@ -132,7 +139,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 Duration = Duration,
                 Launch = Launch,
                 Scenario = Scenario,
-                DisplayTimestamp = strippedDisplayTimestamp
+                DisplayTimestamp = strippedDisplayTimestamp,
+                HintToastId = HintToastId
             };
 
             ActivationOptions?.PopulateElement(toast);
