@@ -7,7 +7,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:CarouselItem">
                     <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
-                        <ContentPresenter Margin="{TemplateBinding Padding}"/>
+                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
