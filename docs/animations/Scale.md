@@ -43,7 +43,15 @@ MyUIElement.Scale(scaleX: 2, scaleY: 2, centerX: 0, centerY: 0, duration: 2500, 
 
 ## Properties
 
-
+| Property | Type | Description |
+| -- | -- | -- |
+| ScaleX | float | The scale on the x axis |
+| ScaleY | float | The scale on the y axis |
+| CenterX | float | The center x in pixels |
+| CenterY | float | The center y in pixels |
+| Duration | double | The duration in milliseconds |
+| Delay | double | The delay for the animation to begin |
+| EasingType | EasingType | Used to describe how the animation interpolates between keyframes |
 
 ### EasingType
 
@@ -63,7 +71,15 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
 
-***Note:** EasingType is used only when AnimationSet.UseComposition == false*
+> [!IMPORTANT]
+EasingType is used only when AnimationSet.UseComposition == false
+
+## Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| Scale(AnimationSet, Single, Single, Single, Single, Double, Double, EasingType) | AnimationSet | Animates the scale of the the specified UIElement |
+| Scale(UIElement, Single, Single, Single, Single, Double, Double, EasingType) | AnimationSet | Animates the scale of the the specified UIElement |
 
 ## Examples
 
@@ -115,3 +131,8 @@ You can change the way how the animation interpolates between keyframes by defin
 ## API
 
 * [Scale source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors/Scale.cs)
+
+## Related Topics
+
+- [AnimationSet Class](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/animationset)
+- [Storyboard Class](https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.Media.Animation.Storyboard)

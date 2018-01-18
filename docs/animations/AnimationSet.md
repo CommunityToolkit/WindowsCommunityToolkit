@@ -1,14 +1,13 @@
 ---
 title: AnimationSet class
 author: Vijay-Nirmal
-ms.date: 09/01/2017
 description: The AnimationSet class defines an object for storing and managing Storyboard and CompositionAnimations for an element
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, animationset, animationset class
 ---
 
 # AnimationSet
 
-The AnimationSet class defines an object for storing and managing Storyboard and CompositionAnimations for an element. AnimationSet includes [Blur](\Blur.md), [Fade](\Fade.md), [Light](\Light.md), [Offset](\Offset.md), [Rotate](\Rotate.md), [Saturation](\Saturation.md) and [Scale](\Scale.md) animations. AnimationSet animations is applied to all the XAML elements in its parent control/panel. AnimationSet animations doesn't affect the functionality of the control.
+The [AnimationSet](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationset) class defines an object for storing and managing [Storyboard](https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.Media.Animation.Storyboard) and [CompositionAnimations](https://docs.microsoft.com/en-us/windows/uwp/composition/composition-animation) for an element. AnimationSet includes [Blur](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/blur), [Fade](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/fade), [Light](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/light), [Offset](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/offset), [Rotate](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/rotate), [Saturation](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/saturation) and [Scale](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/scale) animations. AnimationSet animations is applied to all the XAML elements in its parent control/panel. AnimationSet animations doesn't affect the functionality of the control.
 
 ## Syntax
 
@@ -26,7 +25,7 @@ The AnimationSet class defines an object for storing and managing Storyboard and
         <!-- Others -->
     </interactivity:BehaviorCollection>
 </interactivity:Interaction.Behaviors> 
- ```
+```
 
 **C#**
 
@@ -43,7 +42,36 @@ anim.Start();
 
 ## Properties
 
+| Property | Type | Description |
+| -- | -- | -- |
+| Element | UIElement | Gets the UIElement |
+| State | [AnimationSetState](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationsetstate) | Gets the current state of the AnimationSet |
+| UseComposition | Boolean | Gets or sets a value indicating whether composition must be use even on SDK > 10586 |
+| Visual | Visual | Gets the Visual object that backs the XAML element |
 
+## Methods
+
+| Methods | Description |
+| -- | -- |
+| AddCompositionAnimation(String, CompositionAnimation) | Adds a composition animation to be run on StartAsync() |
+| AddCompositionDirectPropertyChange(String, Object) | Adds a composition property that will change instantaneously |
+| AddCompositionEffectAnimation(CompositionObject, CompositionAnimation, String) | Adds a composition effect animation to be run on backing Visual |
+| AddStoryboardAnimation(String, Timeline) | Adds a storyboard animation to be run |
+| Dispose() | Dispose resources |
+| RemoveCompositionAnimation(String) | Removes a composition animation from being run on Visual property |
+| RemoveCompositionDirectPropertyChange(String) | Removes a composition property change |
+| SetDelay(Double) | Ovewrites the delay time on all animations after last Then() to the specified value |
+| SetDelay(TimeSpan) | Ovewrites the delay time on all animations after last Then() to the specified value |
+| SetDelayForAll(Double)| Ovewrites the delay time on all animations to the specified value |
+| SetDelayForAll(TimeSpan) | Ovewrites the delay time on all animations to the specified value |
+| SetDuration(Double) | Ovewrites the duration on all animations after last Then() to the specified value |
+| SetDuration(TimeSpan) | Ovewrites the duration on all animations after last Then() to the specified value |
+| SetDurationForAll(Double) | Ovewrites the duration on all animations to the specified value |
+| SetDurationForAll(TimeSpan) | Ovewrites the duration on all animations to the specified value |
+| Start() | Stats all animations. This method is not awaitable. |
+| StartAsync() | Starts all animations and returns an awaitable task |
+| Stop() | Stops all animations |
+| Then() | Wait for existing animations to complete before running new animations |
 
 ### EasingType
 
@@ -63,8 +91,17 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
 
-***Note:** EasingType is used only when AnimationSet.UseComposition == false*  
-***Note:** Blur, Light and Saturation animation don't support easing*
+> [!IMPORTANT]
+EasingType is used only when AnimationSet.UseComposition == false
+
+> [!NOTE]
+Blur, Light and Saturation animation don't support easing
+
+## Events
+
+| Events | Description |
+| -- | -- |
+| Completed | Occurs when all animations have completed |
 
 ## Examples
 
@@ -119,3 +156,7 @@ You can change the way how the animation interpolates between keyframes by defin
 
 * [AnimationSet source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations)
 
+## Related Topics
+
+- [AnimationExtensions Class](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationextensions)
+- [AnimationSetCompletedEventArgs Class](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationsetcompletedeventargs)

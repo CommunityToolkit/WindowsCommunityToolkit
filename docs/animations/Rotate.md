@@ -1,14 +1,13 @@
 ---
 title: Rotate animation behavior
 author: nmetulev
-ms.date: 08/20/2017
 description: The Rotate animation behavior allows users to modify and animate the control's rotation. 
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, rotate, rotate animation
 ---
 
 # Rotate
 
-The Rotate animation allows users to modify and animate the control's rotation. Rotate animation is applied to all the XAML elements in its parent control/panel. Rotate animation doesn't affect the functionality of the control.
+The [Rotate animation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationextensions) allows users to modify and animate the control's rotation. Rotate animation is applied to all the XAML elements in its parent control/panel. Rotate animation doesn't affect the functionality of the control.
 
 ## Syntax
 
@@ -44,7 +43,14 @@ await MyUIElement.Rotate(value: 0.5f, centerX: 0.0f, centerY: 0.0f, duration: 25
 
 ## Properties
 
-
+| Property | Type | Description |
+| -- | -- | -- |
+| Value | float | The value in degrees to rotate |
+| CenterX | float | The center x in pixels |
+| CenterY | float | The center y in pixels |
+| Duration | double | The duration in milliseconds |
+| Delay | double | The delay for the animation to begin |
+| EasingType | EasingType | Used to describe how the animation interpolates between keyframes |
 
 ### EasingType
 
@@ -64,11 +70,19 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
 
-***Note:** EasingType is used only when AnimationSet.UseComposition == false*
+> [!IMPORTANT]
+EasingType is used only when AnimationSet.UseComposition == false
+
+## Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| Rotate(AnimationSet, Single, Single, Single, Double, Double, EasingType)  | AnimationSet | Animates the rotation in degrees of the UIElement |
+| Rotate(UIElement, Single, Single, Single, Double, Double, EasingType) | AnimationSet | Animates the rotation in degrees of the UIElement |
 
 ## Examples
 
-- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/animationset) documentation for more information.
 
     **Sample Code**
     ```csharp
@@ -96,3 +110,7 @@ You can change the way how the animation interpolates between keyframes by defin
 ## API
 
 * [Rotate source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors/Rotate.cs)
+
+## Related Topics
+
+- [AnimationSet Class](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/animationset)

@@ -1,17 +1,16 @@
 ---
 title: ParallaxService
 author: nmetulev
-ms.date: 08/20/2017
 description: The ParallaxService class allows to create a parallax effect for items contained within an element that scrolls like a ScrollViewer or ListView.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, parallaxservice
 ---
 
 # ParallaxService
 
-> [!NOTE]
+> [!WARNING]
 The ParallaxService is deprecated and will be removed in a future major release. Please use the [ParallaxView](https://docs.microsoft.com/en-us/windows/uwp/style/parallax) available in the Fall Creators Update. Read the [Moving to ParallaxView](#parallaxview) section for more info.
 
-The ParallaxService class allows to create a parallax effect for items contained within an element that scrolls like a ScrollViewer or ListView.
+The [ParallaxService class](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.animations.parallaxservice) allows to create a parallax effect for items contained within an element that scrolls like a ScrollViewer or ListView.
 
 ## Syntax
 
@@ -31,13 +30,29 @@ The ParallaxService class allows to create a parallax effect for items contained
 **C#**
 
 ```csharp
-MyUIElement.SetValue(ParallaxService.VerticalMultiplierProperty, 0.5);
-MyUIElement.SetValue(ParallaxService.HorizontalMultiplierProperty, 0.5);
+ParallaxService.SetHorizontalMultiplier(MyUIElement, 0.5)
+ParallaxService.SetVerticalMultiplier(MyUIElement, 0.5)
 ```
 
 ## Sample Output
 
 ![ParallaxService](../resources/images/Animations/ParallaxService/Sample-Output.gif)
+
+## Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| HorizontalMultiplier | double | Set HorizontalMultiplier |
+| VerticalMultiplier | double | Get VerticalMultiplier |
+
+## Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| GetHorizontalMultiplier(UIElement) | double | Gets how fast the parallax effect should scroll horizontally |
+| GetVerticalMultiplier(UIElement) | double | Gets how fast the parallax effect should scroll vertically |
+| SetHorizontalMultiplier(UIElement, Double) | void  | Sets how fast the parallax effect should scroll horizontally |
+| SetVerticalMultiplier(UIElement, Double) | void  | Sets how fast the parallax effect should scroll vertically |
 
 ## Sample Project
 

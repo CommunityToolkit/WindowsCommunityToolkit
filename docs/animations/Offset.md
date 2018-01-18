@@ -1,14 +1,13 @@
 ---
 title: Offset animation behavior
 author: nmetulev
-ms.date: 08/20/2017
 description: The Offset animation behavior gets the number of pixels, from the origin of the associated control, then offsets the control.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, offset animation
 ---
 
 # Offset
 
-The Offset animation is used to move the control from one place to another. Offset animation is applied to all the XAML elements in its parent control/panel. Offset animation doesn't affect the functionality of the control.
+The [Offset animation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationextensions) is used to move the control from one place to another. Offset animation is applied to all the XAML elements in its parent control/panel. Offset animation doesn't affect the functionality of the control.
 
 ## Syntax
 
@@ -42,6 +41,13 @@ await MyUIElement.Offset(offsetX: 25, offsetY: 25, duration: 2500, delay: 250, e
 
 ## Properties
 
+| Property | Type | Description |
+| -- | -- | -- |
+| OffsetX | float | The offset on the x axis |
+| OffsetY | float | The offset on the y axis |
+| Duration | double | The duration in milliseconds |
+| Delay | double | The delay for the animation to begin |
+| EasingType | EasingType | Used to describe how the animation interpolates between keyframes |
 
 ### EasingType
 
@@ -61,7 +67,15 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
 
-***Note:** EasingType is used only when AnimationSet.UseComposition == false*
+> [!IMPORTANT]
+EasingType is used only when AnimationSet.UseComposition == false
+
+## Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| Offset(AnimationSet, Single, Single, Double, Double, EasingType) | AnimationSet | Animates the offset of the the UIElement |
+| Offset(UIElement, Single, Single, Double, Double, EasingType) | AnimationSet | Animates the offset of the the UIElement |
 
 ## Examples
 
@@ -86,7 +100,7 @@ You can change the way how the animation interpolates between keyframes by defin
     **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/Offset/Use-Case-1.gif)
-- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/animationset) documentation for more information.
 
     **Sample Code**
     ```csharp
@@ -115,4 +129,7 @@ You can change the way how the animation interpolates between keyframes by defin
 
 * [Offset source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors/Offset.cs)
 
+## Related Topics
 
+- [AnimationSet Class](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/animationset)
+- [Storyboard Class](https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.Media.Animation.Storyboard)

@@ -1,14 +1,13 @@
 ---
 title: Saturation animation behavior
 author: nmetulev
-ms.date: 08/20/2017
 description: The Saturation animation behavior selectively saturates a XAML element.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, saturation animation, saturation
 ---
 
 # Saturation
 
-The Saturation animation selectively saturates a XAML element. Saturation animation is applied to all the XAML elements in its parent control/panel. Saturation animation doesn't affect the functionality of the control.
+The [Saturation animation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationextensions) selectively saturates a XAML element. Saturation animation is applied to all the XAML elements in its parent control/panel. Saturation animation doesn't affect the functionality of the control.
 
 ## Syntax
 
@@ -31,7 +30,8 @@ The Saturation animation selectively saturates a XAML element. Saturation animat
 **C#**
 
 ```csharp
-ToolkitLogo.Saturation(value: 0, duration: 500, delay: 250);       
+MyUIElement.Saturation(value: 0.5, duration: 500, delay: 250).Start();
+await MyUIElement.Saturation(value: 0.5, duration: 500, delay: 250).StartAsync();  //Saturation animation can be awaited
 ```
 
 ## Sample Output
@@ -40,7 +40,18 @@ ToolkitLogo.Saturation(value: 0, duration: 500, delay: 250);
 
 ## Properties
 
+| Property | Type | Description |
+| -- | -- | -- |
+| Value | float | The value of saturation. 0 is desaturated, 1 is saturated. |
+| Duration | double | The duration in milliseconds |
+| Delay | double | The delay for the animation to begin |
 
+## Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| Saturation(AnimationSet, Double, Double, Double) | AnimationSet | Saturates the FrameworkElement |
+| Saturation(FrameworkElement, Double, Double, Double) | AnimationSet | Saturates the FrameworkElement |
 
 ## Examples
 
@@ -91,3 +102,7 @@ ToolkitLogo.Saturation(value: 0, duration: 500, delay: 250);
 
 * [Saturation source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors/Saturation.cs)
 
+## Related Topics
+
+- [AnimationSet Class](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/animationset)
+- [SaturationEffect Class](http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_SaturationEffect.htm)

@@ -1,14 +1,13 @@
 ---
 title: Fade animation behavior
 author: nmetulev
-ms.date: 08/20/2017
 description: The Fade animation behavior fades objects, in and out, over time and delay. It can be used along side other animations directly through XAML or code
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, fade, fade animation
 ---
 
 # Fade
 
-The Fade animation fades objects, in and out, over time. Fade animation is applied to all the XAML elements in its parent control/panel. Fade animation doesn't affect the functionality of the control.
+The [Fade animation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationextensions) fades objects, in and out, over time. Fade animation is applied to all the XAML elements in its parent control/panel. Fade animation doesn't affect the functionality of the control.
 
 ## Syntax
 
@@ -41,7 +40,12 @@ await MyUIElement.Fade(value: 0.5f, duration: 2500, delay: 250, easingType: Easi
 
 ## Properties
 
-
+| Property | Type | Description |
+| -- | -- | -- |
+| Value | float | The fade value, between 0 and 1 |
+| Duration | double | The duration in milliseconds |
+| Delay | double | The delay for the animation to begin |
+| EasingType | EasingType | Used to describe how the animation interpolates between keyframes |
 
 ### EasingType
 
@@ -61,11 +65,19 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
 
-***Note:** EasingType is used only when AnimationSet.UseComposition == false*
+> [!IMPORTANT]
+EasingType is used only when AnimationSet.UseComposition == false
+
+## Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| Fade(AnimationSet, Single, Double, Double, EasingType) | AnimationSet | Animates the opacity of the the UIElement |
+| Fade(UIElement, Single, Double, Double, EasingType) | AnimationSet | Animates the opacity of the the UIElement |
 
 ## Examples
 
-- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/animationset) documentation for more information.
 
     **Sample Code**
     ```csharp
@@ -94,3 +106,8 @@ You can change the way how the animation interpolates between keyframes by defin
 ## API
 
 * [Fade source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors/Fade.cs)
+
+## Related Topics
+
+- [AnimationSet Class](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/animationset)
+- [Storyboard Class](https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.Media.Animation.Storyboard)
