@@ -367,6 +367,147 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
+        public void Test_ToastV2_BindingShoulderTap_BaseUri()
+        {
+            AssertBindingShoulderTapProperty("baseUri", "http://msn.com/images/", new ToastBindingShoulderTap()
+            {
+                BaseUri = new Uri("http://msn.com/images/", UriKind.Absolute)
+            });
+        }
+
+        [TestMethod]
+        public void Test_ToastV2_BindingShoulderTap_AddImageQuery()
+        {
+            AssertBindingShoulderTapProperty("addImageQuery", "false", new ToastBindingShoulderTap()
+            {
+                AddImageQuery = false
+            });
+
+            AssertBindingShoulderTapProperty("addImageQuery", "true", new ToastBindingShoulderTap()
+            {
+                AddImageQuery = true
+            });
+        }
+
+        [TestMethod]
+        public void Test_ToastV2_BindingShoulderTap_Language()
+        {
+            AssertBindingShoulderTapProperty("lang", "en-US", new ToastBindingShoulderTap()
+            {
+                Language = "en-US"
+            });
+        }
+
+        private static void AssertBindingShoulderTapProperty(string expectedPropertyName, string expectedPropertyValue, ToastBindingShoulderTap binding)
+        {
+            AssertBindingShoulderTapPayload($"<binding template='ToastGeneric' experienceType='shoulderTap' {expectedPropertyName}='{expectedPropertyValue}'/>", binding);
+        }
+
+        [TestMethod]
+        public void Test_ToastV2_ShoulderTapImage()
+        {
+            AssertShoulderTapImagePayload("<image src='img.png' addImageQuery='true' alt='alt text'/>", new ToastShoulderTapImage()
+            {
+                Source = "img.png",
+                AddImageQuery = true,
+                AlternateText = "alt text"
+            });
+
+            // Defaults shouldn't have anything assigned
+            AssertShoulderTapImagePayload("<image src='img.png'/>", new ToastShoulderTapImage()
+            {
+                Source = "img.png"
+            });
+        }
+
+        [TestMethod]
+        public void Test_ToastV2_ShoulderTapImage_SourceRequired()
+        {
+            Assert.ThrowsException<NullReferenceException>(delegate
+            {
+                AssertShoulderTapImagePayload("exception should be thrown", new ToastShoulderTapImage());
+            });
+
+            Assert.ThrowsException<ArgumentNullException>(delegate
+            {
+                new ToastShoulderTapImage()
+                {
+                    Source = null
+                };
+            });
+        }
+
+        private static void AssertShoulderTapImagePayload(string expectedImageXml, ToastShoulderTapImage image)
+        {
+            AssertBindingShoulderTapPayload($"<binding template='ToastGeneric' experienceType='shoulderTap'>{expectedImageXml}</binding>", new ToastBindingShoulderTap()
+            {
+                Image = image
+            });
+        }
+
+        [TestMethod]
+        public void Test_ToastV2_SpriteSheet()
+        {
+            AssertSpriteSheetProperties("spritesheet-src='sprite.png' spritesheet-height='80' spritesheet-fps='25' spritesheet-startingFrame='15'", new ToastSpriteSheet()
+            {
+                Source = "sprite.png",
+                FrameHeight = 80,
+                Fps = 25,
+                StartingFrame = 15
+            });
+
+            // Defaults shouldn't have anything assigned
+            AssertSpriteSheetProperties("spritesheet-src='sprite.png'", new ToastSpriteSheet()
+            {
+                Source = "sprite.png"
+            });
+
+            // Can assign invalid values
+            AssertSpriteSheetProperties("spritesheet-src='sprite.png' spritesheet-height='0' spritesheet-fps='150' spritesheet-startingFrame='15'", new ToastSpriteSheet()
+            {
+                Source = "sprite.png",
+                FrameHeight = 0,
+                Fps = 150,
+                StartingFrame = 15
+            });
+        }
+
+        [TestMethod]
+        public void Test_ToastV2_SpriteSheet_SourceRequired()
+        {
+            Assert.ThrowsException<NullReferenceException>(delegate
+            {
+                AssertSpriteSheetProperties("exception should be thrown", new ToastSpriteSheet());
+            });
+
+            Assert.ThrowsException<ArgumentNullException>(delegate
+            {
+                new ToastSpriteSheet()
+                {
+                    Source = null
+                };
+            });
+        }
+
+        private static void AssertSpriteSheetProperties(string expectedProperties, ToastSpriteSheet spriteSheet)
+        {
+            AssertShoulderTapImagePayload($"<image src='img.png' {expectedProperties} />", new ToastShoulderTapImage()
+            {
+                Source = "img.png",
+                SpriteSheet = spriteSheet
+            });
+        }
+
+        private static void AssertBindingShoulderTapPayload(string expectedBindingXml, ToastBindingShoulderTap binding)
+        {
+            AssertVisualPayload("<visual><binding template='ToastGeneric'/>" + expectedBindingXml + "</visual>", new ToastVisual()
+            {
+                BindingGeneric = new ToastBindingGeneric(),
+                BindingShoulderTap = binding
+            });
+        }
+
+        [TestMethod]
         public void Test_ToastV2_AppLogo_Crop_None()
         {
             var appLogo = new ToastGenericAppLogo()
@@ -1811,6 +1952,68 @@ namespace UnitTests.Notifications
                     progressBar
                 }
             });
+        }
+
+        [TestMethod]
+        public void Test_Toast_FullPayload_ShoulderTap()
+        {
+            var content = new ToastContent()
+            {
+                HintPeople = new ToastPeople()
+                {
+                    EmailAddress = "johndoe@mydomain.com"
+                },
+
+                Visual = new ToastVisual()
+                {
+                    BindingGeneric = new ToastBindingGeneric()
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = "Toast fallback"
+                            },
+
+                            new AdaptiveText()
+                            {
+                                Text = "Add your fallback toast content here"
+                            }
+                        }
+                    },
+
+                    BindingShoulderTap = new ToastBindingShoulderTap()
+                    {
+                        Image = new ToastShoulderTapImage()
+                        {
+                            Source = "img.png",
+                            SpriteSheet = new ToastSpriteSheet()
+                            {
+                                Source = "sprite.png",
+                                FrameHeight = 80,
+                                Fps = 25,
+                                StartingFrame = 15
+                            }
+                        }
+                    }
+                }
+            };
+
+            AssertPayload(@"<toast hint-people='mailto:johndoe@mydomain.com'>
+    <visual>
+        <binding template='ToastGeneric'>
+            <text>Toast fallback</text>
+            <text>Add your fallback toast content here</text>
+        </binding>
+        <binding template='ToastGeneric' experienceType='shoulderTap'>
+            <image src='img.png'
+                spritesheet-src='sprite.png'
+                spritesheet-height='80'
+                spritesheet-fps='25'
+                spritesheet-startingFrame='15'/>
+        </binding>
+    </visual>
+</toast>", content);
         }
 
         private static void AssertSelectionPayload(string expectedSelectionXml, ToastSelectionBoxItem selectionItem)
