@@ -73,7 +73,7 @@ await MyUIElement.Saturation(value: 0.5, duration: 500, delay: 250).StartAsync()
 
     ![Use Case 1 Output](../resources/images/Animations/Saturation/Use-Case-1.gif)
 
-- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/animationset) documentation for more information.
 
     **Sample Code**
     ```csharp
