@@ -207,8 +207,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var newValue = (int)e.NewValue == -1 ? null : carouselControl.Items[(int)e.NewValue];
                 var oldValue = e.OldValue == null ? null : carouselControl.Items.ElementAtOrDefault((int)e.OldValue);
+                if (oldValue != null)
+                {
+                    var item = (CarouselItem)carouselControl.ContainerFromIndex((int)e.OldValue);
+                    if (item != null)
+                    {
+                        item.IsSelected = false;
+                    }
+                }
+
                 if (newValue != null)
                 {
+                    var item = (CarouselItem)carouselControl.ContainerFromIndex((int)e.NewValue);
+                    if (item != null)
+                    {
+                        item.IsSelected = true;
+                    }
+
                     carouselControl.FocusContainerFromIndex((int)e.NewValue);
                 }
 
@@ -488,6 +503,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             carouselItem.Projection = planeProjection;
             carouselItem.RenderTransform = compositeTransform;
+
+            if (item == SelectedItem)
+            {
+                carouselItem.IsSelected = true;
+            }
         }
     }
 }

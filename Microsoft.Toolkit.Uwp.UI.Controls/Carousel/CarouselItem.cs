@@ -10,15 +10,24 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// Represents the container for an item in a Carousel control.
     /// </summary>
-    public class CarouselItem : ContentControl
+    public class CarouselItem : SelectorItem
     {
+        private const string PointerOverState = "PointerOver";
+        private const string PressedState = "Pressed";
+        private const string SelectedState = "Selected";
+        private const string NormalState = "Normal";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CarouselItem"/> class.
         /// </summary>
@@ -26,6 +35,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // Set style
             DefaultStyleKey = typeof(CarouselItem);
+
+            RegisterPropertyChangedCallback(SelectorItem.IsSelectedProperty, OnIsSelectedChanged);
+        }
+
+        /// <inheritdoc/>
+        protected override void OnPointerEntered(PointerRoutedEventArgs e)
+        {
+            base.OnPointerEntered(e);
+
+            VisualStateManager.GoToState(this, PointerOverState, true);
+        }
+
+        /// <inheritdoc/>
+        protected override void OnPointerExited(PointerRoutedEventArgs e)
+        {
+            base.OnPointerExited(e);
+
+            VisualStateManager.GoToState(this, IsSelected ? SelectedState : NormalState, true);
+        }
+
+        /// <inheritdoc/>
+        protected override void OnPointerPressed(PointerRoutedEventArgs e)
+        {
+            base.OnPointerPressed(e);
+
+            VisualStateManager.GoToState(this, PressedState, true);
+        }
+
+        private void OnIsSelectedChanged(DependencyObject sender, DependencyProperty dp)
+        {
+            var item = (CarouselItem)sender;
+
+            VisualStateManager.GoToState(item, item.IsSelected ? SelectedState : NormalState, true);
         }
     }
 }
