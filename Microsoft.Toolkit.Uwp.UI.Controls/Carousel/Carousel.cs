@@ -469,13 +469,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.PrepareContainerForItemOverride(element, item);
 
-            var contentControl = (ContentControl)element;
+            var carouselItem = (CarouselItem)element;
 
-            contentControl.RenderTransformOrigin = new Point(0.5, 0.5);
-            contentControl.Tag = "CarouselItem";
+            carouselItem.RenderTransformOrigin = new Point(0.5, 0.5);
+            carouselItem.Tag = "CarouselItem";
 
-            contentControl.IsTabStop = Items.IndexOf(item) == SelectedIndex;
-            contentControl.UseSystemFocusVisuals = true;
+            carouselItem.IsTabStop = Items.IndexOf(item) == SelectedIndex;
+            carouselItem.UseSystemFocusVisuals = true;
 
             PlaneProjection planeProjection = new PlaneProjection();
             planeProjection.CenterOfRotationX = 0.5;
@@ -487,8 +487,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             compositeTransform.CenterY = 0.5;
             compositeTransform.CenterY = 0.5;
 
-            contentControl.Projection = planeProjection;
-            contentControl.RenderTransform = compositeTransform;
+            carouselItem.Projection = planeProjection;
+            carouselItem.RenderTransform = compositeTransform;
         }
     }
 }
