@@ -216,6 +216,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
 
+                bool isNewSelectedItem = carouselControl.SelectedItem != newValue
+
                 if (newValue != null)
                 {
                     var item = (CarouselItem)carouselControl.ContainerFromIndex((int)e.NewValue);
@@ -228,7 +230,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // double check
-                if (carouselControl.SelectedItem != newValue)
+                if (isNewSelectedItem)
                 {
                     carouselControl.SetValue(SelectedItemProperty, newValue);
                     var newValues = new List<object>() { newValue };
@@ -480,11 +482,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <inheritdoc/>
+        protected override void ClearContainerForItemOverride(DependencyObject element, object item)
+        {
+            base.ClearContainerForItemOverride(element, item);
+            var carouselItem = (CarouselItem)element;
+            carouselItem.Selected -= OnCarouselItemSelected;
+        }
+
+        /// <inheritdoc/>
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             base.PrepareContainerForItemOverride(element, item);
 
             var carouselItem = (CarouselItem)element;
+            carouselItem.Selected += OnCarouselItemSelected;
 
             carouselItem.RenderTransformOrigin = new Point(0.5, 0.5);
 
@@ -508,6 +519,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 carouselItem.IsSelected = true;
             }
+        }
+
+        private void OnCarouselItemSelected(object sender, EventArgs e)
+        {
+            var item = (CarouselItem)sender;
+
+            SelectedItem = ItemFromContainer(item);
         }
     }
 }

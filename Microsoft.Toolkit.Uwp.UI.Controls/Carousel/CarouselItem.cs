@@ -65,11 +65,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             VisualStateManager.GoToState(this, IsSelected ? PressedSelectedState : PressedState, true);
         }
 
+        internal event EventHandler Selected;
+
         private void OnIsSelectedChanged(DependencyObject sender, DependencyProperty dp)
         {
             var item = (CarouselItem)sender;
 
-            VisualStateManager.GoToState(item, item.IsSelected ? SelectedState : NormalState, true);
+            if (item.IsSelected)
+            {
+                Selected?.Invoke(this, EventArgs.Empty);
+                VisualStateManager.GoToState(item, SelectedState, true);
+            }
+            else
+            {
+                VisualStateManager.GoToState(item, NormalState, true);
+            }
         }
     }
 }
