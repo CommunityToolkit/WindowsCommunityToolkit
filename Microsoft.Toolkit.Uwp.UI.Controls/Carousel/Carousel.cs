@@ -476,11 +476,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             contentControl.RenderTransformOrigin = new Point(0.5, 0.5);
             contentControl.Tag = "CarouselItem";
 
-            if (contentControl as Control != null)
-            {
-                ((Control)contentControl).IsTabStop = Items.IndexOf(item) == SelectedIndex;
-                ((Control)contentControl).UseSystemFocusVisuals = true;
-            }
+            contentControl.IsTabStop = Items.IndexOf(item) == SelectedIndex;
+            contentControl.UseSystemFocusVisuals = true;
 
             PlaneProjection planeProjection = new PlaneProjection();
             planeProjection.CenterOfRotationX = 0.5;
