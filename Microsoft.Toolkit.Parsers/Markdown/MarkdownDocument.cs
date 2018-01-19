@@ -20,7 +20,8 @@ using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 namespace Microsoft.Toolkit.Parsers.Markdown
 {
     /// <summary>
-    /// A class used to represent abstract markdown.
+    /// Represents a Markdown Document. <para/>
+    /// Initialize an instance and call <see cref="Parse(string)"/> to parse the Raw Markdown Text.
     /// </summary>
     public class MarkdownDocument : MarkdownBlock
     {

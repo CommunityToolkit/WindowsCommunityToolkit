@@ -74,7 +74,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void MarkdownText_LinkClicked(object sender, LinkClickedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri(e.Link));
+            if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri link))
+            {
+                await Launcher.LaunchUriAsync(link);
+            }
         }
 
         // Custom Code Block Renderer

@@ -19,7 +19,7 @@ using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 namespace Microsoft.Toolkit.Parsers.Markdown.Render
 {
     /// <summary>
-    /// A base structure for Rendering Markdown into Controls.
+    /// A base renderer for Rendering Markdown into Controls.
     /// </summary>
     public abstract partial class MarkdownRendererBase
     {

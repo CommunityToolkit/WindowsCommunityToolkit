@@ -94,6 +94,21 @@ The MarkdownTextBlock control is highly customizable to blend with any theme. Cu
 
 ## Events
 
+### LinkClicked
+
+Use this event to handle clicking on links for Markdown, by default the MarkdownTextBlock does not handle Clicking on Links.
+
+```c#
+private async void MarkdownText_LinkClicked(object sender, LinkClickedEventArgs e)
+{
+    if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri link))
+    {
+        await Launcher.LaunchUriAsync(link);
+    }
+}
+```
+
+
 ### ImageResolving
 
 Use this event to customize how images in the markdown document are resolved.  
@@ -153,7 +168,7 @@ block.SetRenderer<InheritedUWPMarkdownRenderer>();
 
 This might require intimate knowledge of the implementation of the `UWPMarkdownRenderer`, take a look at the following:
 
-* [UWPMarkdownFormatter and Helpers](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/Display)
+* [UWPMarkdownFormatter and Helpers](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/Render)
 * [Sample App custom Markdown formatter](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/Controls/SampleAppMarkdownRenderer)
 
 ## Example Code
