@@ -58,50 +58,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             obj.SetValue(EnableActualSizeBindingProperty, value);
         }
 
-        private static void OnEnableActualSizeBindingtPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
-        {
-            if (!(sender is FrameworkElement baseElement))
-            {
-                return;
-            }
-
-            if ((bool) args.NewValue)
-            {
-                // Size may have changed while this was disabled, so we force an updated once user enables it
-                UpdateActualSizeProperties(baseElement, null);
-
-                // Subscribe to event
-                baseElement.SizeChanged += UpdateActualSizeProperties;
-            }
-            else
-            {
-                // Unsubscribe from event
-                baseElement.SizeChanged -= UpdateActualSizeProperties;
-            }
-        }
-
-        private static void UpdateActualSizeProperties(object sender, RoutedEventArgs routedEventArgs)
-        {
-            if (!(sender is FrameworkElement baseElement))
-            {
-                return;
-            }
-
-            // Update only if needed
-            var currentHeight = GetActualHeight(baseElement);
-            if (currentHeight != baseElement.ActualHeight)
-            {
-                SetActualHeight(baseElement, baseElement.ActualHeight);
-            }
-
-            // Update only if needed
-            var currentWidth = GetActualWidth(baseElement);
-            if (currentWidth != baseElement.ActualWidth)
-            {
-                SetActualWidth(baseElement, baseElement.ActualWidth);
-            }
-        }
-
         /// <summary>
         /// Gets the <see cref="double"/> for the <see cref="FrameworkElement.ActualHeight"/>
         /// </summary>
@@ -140,6 +96,50 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static void SetActualWidth(FrameworkElement obj, double value)
         {
             obj.SetValue(ActualWidthProperty, value);
+        }
+
+        private static void OnEnableActualSizeBindingtPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            if (!(sender is FrameworkElement baseElement))
+            {
+                return;
+            }
+
+            if ((bool)args.NewValue)
+            {
+                // Size may have changed while this was disabled, so we force an updated once user enables it
+                UpdateActualSizeProperties(baseElement, null);
+
+                // Subscribe to event
+                baseElement.SizeChanged += UpdateActualSizeProperties;
+            }
+            else
+            {
+                // Unsubscribe from event
+                baseElement.SizeChanged -= UpdateActualSizeProperties;
+            }
+        }
+
+        private static void UpdateActualSizeProperties(object sender, RoutedEventArgs routedEventArgs)
+        {
+            if (!(sender is FrameworkElement baseElement))
+            {
+                return;
+            }
+
+            // Update only if needed
+            var currentHeight = GetActualHeight(baseElement);
+            if (currentHeight != baseElement.ActualHeight)
+            {
+                SetActualHeight(baseElement, baseElement.ActualHeight);
+            }
+
+            // Update only if needed
+            var currentWidth = GetActualWidth(baseElement);
+            if (currentWidth != baseElement.ActualWidth)
+            {
+                SetActualWidth(baseElement, baseElement.ActualWidth);
+            }
         }
     }
 }
