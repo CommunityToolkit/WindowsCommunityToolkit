@@ -73,13 +73,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             // The first character inside the span must NOT be a space.
-            if (char.IsWhiteSpace(markdown[innerStart]))
+            if (ParseHelpers.IsWhiteSpace(markdown[innerStart]))
             {
                 return null;
             }
 
             // The last character inside the span must NOT be a space.
-            if (char.IsWhiteSpace(markdown[innerEnd - 1]))
+            if (ParseHelpers.IsWhiteSpace(markdown[innerEnd - 1]))
             {
                 return null;
             }

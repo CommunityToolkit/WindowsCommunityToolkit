@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
             // Skip whitespace.
             pos = linkTextClose + 1;
-            while (pos < maxEnd && char.IsWhiteSpace(markdown[pos]))
+            while (pos < maxEnd && ParseHelpers.IsWhiteSpace(markdown[pos]))
             {
                 pos++;
             }
@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             {
                 // Skip whitespace.
                 linkOpen++;
-                while (linkOpen < maxEnd && char.IsWhiteSpace(markdown[linkOpen]))
+                while (linkOpen < maxEnd && ParseHelpers.IsWhiteSpace(markdown[linkOpen]))
                 {
                     linkOpen++;
                 }
@@ -161,7 +161,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 int end = linkClose + 1;
 
                 // Skip whitespace backwards.
-                while (linkClose > linkOpen && char.IsWhiteSpace(markdown[linkClose - 1]))
+                while (linkClose > linkOpen && ParseHelpers.IsWhiteSpace(markdown[linkClose - 1]))
                 {
                     linkClose--;
                 }

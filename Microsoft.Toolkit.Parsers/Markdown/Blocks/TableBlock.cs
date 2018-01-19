@@ -205,7 +205,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 while (pos < maxEndingPos)
                 {
                     // Ignore any whitespace at the start of the cell (except for a newline character).
-                    while (pos < maxEndingPos && char.IsWhiteSpace(markdown[pos]) && markdown[pos] != '\n' && markdown[pos] != '\r')
+                    while (pos < maxEndingPos && ParseHelpers.IsWhiteSpace(markdown[pos]) && markdown[pos] != '\n' && markdown[pos] != '\r')
                     {
                         pos++;
                     }
@@ -253,7 +253,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     // Ignore any whitespace at the end of the cell.
                     if (endOfCell > startOfCellContent)
                     {
-                        while (char.IsWhiteSpace(markdown[pos - 1]))
+                        while (ParseHelpers.IsWhiteSpace(markdown[pos - 1]))
                         {
                             pos--;
                         }
