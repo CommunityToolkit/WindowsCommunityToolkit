@@ -264,8 +264,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
             var builder = listItemBuilder.Builder;
             if (builder.Length >= 2 &&
-                ParseHelpers.IsWhiteSpace(builder[builder.Length - 2]) &&
-                ParseHelpers.IsWhiteSpace(builder[builder.Length - 1]))
+                ParseHelpers.IsMarkdownWhiteSpace(builder[builder.Length - 2]) &&
+                ParseHelpers.IsMarkdownWhiteSpace(builder[builder.Length - 1]))
             {
                 builder.Length -= 2;
                 builder.AppendLine();

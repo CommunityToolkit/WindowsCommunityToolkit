@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
             // Skip whitespace
             pos++;
-            while (pos < end && ParseHelpers.IsWhiteSpace(markdown[pos]))
+            while (pos < end && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
             {
                 pos++;
             }

@@ -18,14 +18,14 @@ namespace Microsoft.Toolkit.Parsers.Core
     public static class ParseHelpers
     {
         /// <summary>
-        /// Determines if a string is blank or comprised entirely of whitespace characters.
+        /// Determines if a Markdown string is blank or comprised entirely of whitespace characters.
         /// </summary>
         /// <returns>true if blank or white space</returns>
-        public static bool IsBlankOrWhiteSpace(string str)
+        public static bool IsMarkdownBlankOrWhiteSpace(string str)
         {
             for (int i = 0; i < str.Length; i++)
             {
-                if (!IsWhiteSpace(str[i]))
+                if (!IsMarkdownWhiteSpace(str[i]))
                 {
                     return false;
                 }
@@ -35,10 +35,10 @@ namespace Microsoft.Toolkit.Parsers.Core
         }
 
         /// <summary>
-        /// Determines if a character is a whitespace character.
+        /// Determines if a character is a Markdown whitespace character.
         /// </summary>
         /// <returns>true if is white space</returns>
-        public static bool IsWhiteSpace(char c)
+        public static bool IsMarkdownWhiteSpace(char c)
         {
             return c == ' ' || c == '\t' || c == '\r' || c == '\n';
         }
