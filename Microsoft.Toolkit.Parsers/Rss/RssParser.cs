@@ -16,7 +16,7 @@ using System.Xml.Linq;
 namespace Microsoft.Toolkit.Parsers.Rss
 {
     /// <summary>
-    /// RssParser.
+    /// The RSS Parser allows you to parse an RSS content String into RSS Schema.
     /// </summary>
     public class RssParser : IParser<RssSchema>
     {

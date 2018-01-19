@@ -8,7 +8,7 @@ keywords: uwp community toolkit, uwp toolkit, microsoft community toolkit, micro
 
 # Markdown Parser
 
-The **MarkdownDocument** class allows you to parse a Markdown String into a Markdown Document, and then Render it with a Markdown Renderer.
+The [MarkdownDocument](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.parsers.markdown.markdowndocument) class allows you to parse a Markdown String into a Markdown Document, and then Render it with a Markdown Renderer.
 
 | Class | Purpose |
 | --- | --- |

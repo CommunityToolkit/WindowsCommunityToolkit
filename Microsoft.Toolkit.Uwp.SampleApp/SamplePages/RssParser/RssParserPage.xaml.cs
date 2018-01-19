@@ -10,17 +10,18 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.Services.Core
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// JsonParser type.
+    /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    /// <typeparam name="T">Data type to parse</typeparam>
-    [Obsolete("This class is being deprecated. Please use the counterpart in Microsoft.Toolkit.Parsers")]
-    internal class JsonParser<T> : Parsers.Json.JsonParser<T>
-        where T : Toolkit.Parsers.SchemaBase
+    public sealed partial class RssParserPage : Page
     {
+        public RssParserPage()
+        {
+            this.InitializeComponent();
+        }
     }
 }

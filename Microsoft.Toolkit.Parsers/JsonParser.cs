@@ -13,10 +13,10 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Microsoft.Toolkit.Parsers
+namespace Microsoft.Toolkit.Parsers.Json
 {
     /// <summary>
-    /// JsonParser type.
+    /// The Json Parser allows you to parse an Json content String into Json Schema.
     /// </summary>
     /// <typeparam name="T">Data type to parse</typeparam>
     public class JsonParser<T> : IParser<T>
