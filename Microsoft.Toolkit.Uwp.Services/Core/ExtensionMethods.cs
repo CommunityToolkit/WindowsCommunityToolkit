@@ -26,6 +26,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
         /// </summary>
         /// <param name="value">Object value.</param>
         /// <returns>Returns string value.</returns>
+        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Parsers.")]
         public static string ToSafeString(this object value)
         {
             return Parsers.Core.ExtensionMethods.ToSafeString(value);
@@ -36,6 +37,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
         /// </summary>
         /// <param name="htmlText">HTML string.</param>
         /// <returns>Returns decoded HTML string.</returns>
+        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Parsers.")]
         public static string DecodeHtml(this string htmlText)
         {
             return Parsers.Core.ExtensionMethods.DecodeHtml(htmlText);
@@ -46,6 +48,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
         /// </summary>
         /// <param name="value">BingCountry enumeration.</param>
         /// <returns>Returns country code.</returns>
+        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
         public static string GetStringValue(this BingCountry value)
         {
             return Toolkit.Services.Core.ExtensionMethods.GetStringValue((Toolkit.Services.Bing.BingCountry)value);
@@ -56,6 +59,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
         /// </summary>
         /// <param name="value">BingLanguage enumeration.</param>
         /// <returns>Returns language code.</returns>
+        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
         public static string GetStringValue(this BingLanguage value)
         {
             return Toolkit.Services.Core.ExtensionMethods.GetStringValue((Toolkit.Services.Bing.BingLanguage)value);
