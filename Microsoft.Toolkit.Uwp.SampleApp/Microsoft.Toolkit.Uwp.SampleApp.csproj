@@ -550,6 +550,9 @@
     <Compile Include="SamplePages\OrbitView\OrbitViewPage.xaml.cs">
       <DependentUpon>OrbitViewPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\ThemeListener\ThemeListenerPage.xaml.cs">
+      <DependentUpon>ThemeListenerPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\ViewExtensions\ViewExtensionsPage.xaml.cs">
       <DependentUpon>ViewExtensionsPage.xaml</DependentUpon>
     </Compile>
@@ -850,6 +853,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\OrbitView\OrbitViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ThemeListener\ThemeListenerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
