@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 {
                     break;
                 }
-                else if (!ParseHelpers.IsWhiteSpace(c))
+                else if (!char.IsWhiteSpace(c))
                 {
                     return null;
                 }

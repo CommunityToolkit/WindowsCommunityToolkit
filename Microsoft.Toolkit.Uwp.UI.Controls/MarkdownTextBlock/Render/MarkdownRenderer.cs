@@ -156,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                         return false;
                     }
                 }
-                else if (inline is IInlineLeaf && !ParseHelpers.IsBlankOrWhiteSpace(((IInlineLeaf)inline).Text))
+                else if (inline is IInlineLeaf && !string.IsNullOrWhiteSpace(((IInlineLeaf)inline).Text))
                 {
                     if (superscriptLevel != 1)
                     {

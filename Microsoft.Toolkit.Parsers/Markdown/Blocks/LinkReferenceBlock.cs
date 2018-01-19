@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
             // Skip whitespace
             pos++;
-            while (pos < end && ParseHelpers.IsWhiteSpace(markdown[pos]))
+            while (pos < end && char.IsWhiteSpace(markdown[pos]))
             {
                 pos++;
             }
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
             // Extract the URL.
             int urlStart = pos;
-            while (pos < end && !ParseHelpers.IsWhiteSpace(markdown[pos]))
+            while (pos < end && !char.IsWhiteSpace(markdown[pos]))
             {
                 pos++;
             }
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
             // Skip whitespace.
             pos++;
-            while (pos < end && ParseHelpers.IsWhiteSpace(markdown[pos]))
+            while (pos < end && char.IsWhiteSpace(markdown[pos]))
             {
                 pos++;
             }
@@ -153,7 +153,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 // Check there isn't any trailing text.
                 pos++;
-                while (pos < end && ParseHelpers.IsWhiteSpace(markdown[pos]))
+                while (pos < end && char.IsWhiteSpace(markdown[pos]))
                 {
                     pos++;
                 }
