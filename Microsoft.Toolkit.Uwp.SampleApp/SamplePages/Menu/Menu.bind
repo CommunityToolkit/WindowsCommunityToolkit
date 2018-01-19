@@ -13,77 +13,6 @@
       <commands:NewFileCommand x:Key="NewFile" />
       <commands:GenericCommand x:Key="GenericCommand" />
       <converters:StringFormatConverter x:Key="StringFormatConverter" />
-
-      <Style TargetType="controls:MenuItem" x:Key="CustomDisabledStateMenuItemStyle">
-        <Setter Property="IsTabStop" Value="True" />
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
-        <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
-        <Setter Property="UseSystemFocusVisuals" Value="True" />
-        <Setter Property="Template">
-          <Setter.Value>
-            <ControlTemplate TargetType="controls:MenuItem">
-              <Button x:Name="FlyoutButton"
-                      Background="{TemplateBinding Background}"
-                      BorderBrush="{TemplateBinding BorderBrush}"
-                      BorderThickness="{TemplateBinding BorderThickness}"
-                      Content="{TemplateBinding Header}"
-                      ContentTemplate="{TemplateBinding HeaderTemplate}"
-                      FontFamily="{TemplateBinding FontFamily}"
-                      FontSize="{TemplateBinding FontSize}"
-                      FontStretch="{TemplateBinding FontStretch}"
-                      FontStyle="{TemplateBinding FontStyle}"
-                      FontWeight="{TemplateBinding FontWeight}"
-                      Foreground="{TemplateBinding Foreground}"
-                      IsTabStop="False">
-                <VisualStateManager.VisualStateGroups>
-                  <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal">
-                      <Storyboard>
-                        <PointerUpThemeAnimation Storyboard.TargetName="FlyoutButton" />
-                      </Storyboard>
-                    </VisualState>
-                    <VisualState x:Name="Opened">
-                      <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FlyoutButton"
-                                                       Storyboard.TargetProperty="BorderBrush">
-                          <DiscreteObjectKeyFrame KeyTime="0"
-                                                  Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FlyoutButton"
-                                                       Storyboard.TargetProperty="Foreground">
-                          <DiscreteObjectKeyFrame KeyTime="0"
-                                                  Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
-                        </ObjectAnimationUsingKeyFrames>
-                        <PointerUpThemeAnimation Storyboard.TargetName="FlyoutButton" />
-                      </Storyboard>
-                    </VisualState>
-                    <VisualState x:Name="Disabled">
-                      <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FlyoutButton"
-                                                       Storyboard.TargetProperty="BorderBrush">
-                          <DiscreteObjectKeyFrame KeyTime="0"
-                                                  Value="Transparent" />
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FlyoutButton"
-                                                       Storyboard.TargetProperty="Foreground">
-                          <DiscreteObjectKeyFrame KeyTime="0"
-                                                  Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FlyoutButton"
-                                                       Storyboard.TargetProperty="Background">
-                          <DiscreteObjectKeyFrame KeyTime="0"
-                                                  Value="Transparent" />
-                        </ObjectAnimationUsingKeyFrames>
-                      </Storyboard>
-                    </VisualState>
-                  </VisualStateGroup>
-                </VisualStateManager.VisualStateGroups>
-              </Button>
-            </ControlTemplate>
-          </Setter.Value>
-        </Setter>
-      </Style>
     </ResourceDictionary>
   </Page.Resources>
 
@@ -95,8 +24,7 @@
 
     <controls:Menu AllowTooltip="@[AllowTooltip:Bool:False]"
                    Orientation="@[Orientation:Enum:Orientation.Horizontal]"
-                   TooltipPlacement="@[TooltipPlacement:Enum:PlacementMode.Bottom]">
-      
+                   TooltipPlacement="@[TooltipPlacement:Enum:PlacementMode.Bottom]">      
       <controls:MenuItem Name="FileMenu"
                          controls:Menu.InputGestureText="Alt+F"
                          Header="^File">
@@ -175,11 +103,8 @@
         </MenuFlyoutSubItem>
       </controls:MenuItem>
 
-      <controls:MenuItem Name="BuildMenu"
-                         controls:Menu.InputGestureText="Alt+B"
-                         Header="^Build"
-                         IsEnabled="false"
-                         Style="{StaticResource CustomDisabledStateMenuItemStyle}">
+      <controls:MenuItem controls:Menu.InputGestureText="Alt+B"
+                         Header="^Build">
         <MenuFlyoutItem Text="Build Solution" />
         <MenuFlyoutItem Text="Rebuild Solution" />
       </controls:MenuItem>
