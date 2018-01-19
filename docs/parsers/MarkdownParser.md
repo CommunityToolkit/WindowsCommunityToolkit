@@ -15,8 +15,9 @@ The **MarkdownDocument** class allows you to parse a Markdown String into a Mark
 | `Microsoft.Toolkit.Parsers.Markdown.MarkdownDocument` | Represents a Markdown Document. |
 | `Microsoft.Toolkit.Parsers.Markdown.Render.MarkdownRendererBase` | A base renderer for Rendering Markdown into Controls. |
 
-## Example
-`MarkdownDocument` parsing a string:
+## Syntax
+
+**C#**
 
 ```csharp
 string md = "This is **Markdown**";
@@ -32,6 +33,16 @@ This requires an inherited `IRenderContext`, which allows you to keep track of t
 
 The best way to figure out how to create a Renderer, is to look at the [implementation](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/Render) for the UWP MarkdownTextBlock control.
 
+## Sample Code
+
+[Markdown Parser Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/MarkdownParser/MarkdownParserPage.xaml.cs).
+
+You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+
 ## Requirements
 
 .NET Standard 1.4.
+
+## API Source Code
+
+- [Markdown Parser source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Parsers/Markdown)
