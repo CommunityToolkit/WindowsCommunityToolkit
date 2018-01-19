@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
     /// <summary>
     /// Rss reader implementation to parse Rss content.
     /// </summary>
-    public class Rss2Parser : BaseRssParser
+    internal class Rss2Parser : BaseRssParser
     {
         /// <summary>
         /// RDF Namespace Uri.

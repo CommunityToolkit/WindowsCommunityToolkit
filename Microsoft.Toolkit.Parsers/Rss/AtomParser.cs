@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
     /// <summary>
     /// Parser for Atom endpoints.
     /// </summary>
-    public class AtomParser : BaseRssParser
+    internal class AtomParser : BaseRssParser
     {
         /// <summary>
         /// Atom reader implementation to parse Atom content.

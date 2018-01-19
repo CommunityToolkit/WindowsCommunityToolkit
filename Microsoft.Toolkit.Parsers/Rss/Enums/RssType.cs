@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
     /// <summary>
     /// Type of Rss.
     /// </summary>
-    public enum RssType
+    internal enum RssType
     {
         /// <summary>
         /// Atom

@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
     /// <summary>
     /// Base class for Rss Parser(s).
     /// </summary>
-    public abstract class BaseRssParser
+    internal abstract class BaseRssParser
     {
         /// <summary>
         /// Retrieve feed type from XDocument.

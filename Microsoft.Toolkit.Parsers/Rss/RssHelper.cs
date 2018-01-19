@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
     /// <summary>
     /// Class with utilities for Rss related works.
     /// </summary>
-    public static class RssHelper
+    internal static class RssHelper
     {
         /// <summary>
         /// String for regular expression for image pattern.
