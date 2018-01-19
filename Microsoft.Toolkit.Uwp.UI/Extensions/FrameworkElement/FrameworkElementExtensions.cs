@@ -21,12 +21,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.FrameworkElement"/>
     /// </summary>
-    public static partial class FrameworkElementEx
+    public static partial class FrameworkElementExtensions
     {
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for enabling actual size binding on any  <see cref="Windows.UI.Xaml.FrameworkElement"/>.
         /// </summary>
-        public static readonly DependencyProperty EnableActualSizeBindingProperty = DependencyProperty.RegisterAttached("EnableActualSizeBinding", typeof(bool), typeof(FrameworkElementEx), new PropertyMetadata(null, OnEnableActualSizeBindingtPropertyChanged));
+        public static readonly DependencyProperty EnableActualSizeBindingProperty = DependencyProperty.RegisterAttached("EnableActualSizeBinding", typeof(bool), typeof(FrameworkElementExtensions), new PropertyMetadata(false, OnEnableActualSizeBindingtPropertyChanged));
+
+        /// <summary>
+        /// Attached <see cref="DependencyProperty"/> for binding a <see cref="double"/> for the <see cref="FrameworkElement.ActualHeight"/>
+        /// </summary>
+        public static readonly DependencyProperty ActualHeightProperty = DependencyProperty.RegisterAttached("ActualHeight", typeof(double), typeof(FrameworkElementExtensions), new PropertyMetadata(double.NaN));
+
+        /// <summary>
+        /// Attached <see cref="DependencyProperty"/> for binding a <see cref="double"/> for the <see cref="FrameworkElement.ActualWidth"/>
+        /// </summary>
+        public static readonly DependencyProperty ActualWidthProperty = DependencyProperty.RegisterAttached("ActualWidth", typeof(double), typeof(FrameworkElementExtensions), new PropertyMetadata(double.NaN));
 
         /// <summary>
         /// Gets the <see cref="bool"/> that enables/disables actual size binding update.
@@ -93,11 +103,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Attached <see cref="DependencyProperty"/> for binding a <see cref="double"/> for the <see cref="FrameworkElement.ActualHeight"/>
-        /// </summary>
-        public static readonly DependencyProperty ActualHeightProperty = DependencyProperty.RegisterAttached("ActualHeight", typeof(double), typeof(FrameworkElementEx), new PropertyMetadata(null));
-
-        /// <summary>
         /// Gets the <see cref="double"/> for the <see cref="FrameworkElement.ActualHeight"/>
         /// </summary>
         /// <param name="obj">The <see cref="FrameworkElement"/> to get the associated <see cref="double"/> from</param>
@@ -116,11 +121,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             obj.SetValue(ActualHeightProperty, value);
         }
-
-        /// <summary>
-        /// Attached <see cref="DependencyProperty"/> for binding a <see cref="double"/> for the <see cref="FrameworkElement.ActualWidth"/>
-        /// </summary>
-        public static readonly DependencyProperty ActualWidthProperty = DependencyProperty.RegisterAttached("ActualWidth", typeof(double), typeof(FrameworkElementEx), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets the <see cref="double"/> for the <see cref="FrameworkElement.ActualWidth"/>

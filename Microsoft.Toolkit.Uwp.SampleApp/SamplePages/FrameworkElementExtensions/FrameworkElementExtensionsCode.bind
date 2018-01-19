@@ -21,7 +21,7 @@
 
       <Rectangle Grid.Column="0"
                  Grid.Row="0"
-                 extensions:FrameworkElementEx.EnableActualSizeBinding="True"
+                 extensions:FrameworkElementExtensions.EnableActualSizeBinding="True"
                  Fill="{StaticResource Brush-Brand-Color}"
                  Stroke="{StaticResource Brush-Grey-04}"
                  x:Name="TargetObject"
@@ -81,8 +81,8 @@
 
     <Rectangle Margin="12,12"
                HorizontalAlignment="Left"
-               Height="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementEx.ActualHeight)}"
-               Width="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementEx.ActualWidth)}"
+               Height="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementExtensions.ActualHeight)}"
+               Width="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementExtensions.ActualWidth)}"
                Fill="{StaticResource Brush-Blue-01}"
                Stroke="{StaticResource Brush-Grey-04}"
                StrokeThickness="1"/>

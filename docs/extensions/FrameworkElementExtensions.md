@@ -2,7 +2,7 @@
 title: FrameworkElement Extensions
 author: ST-Apps
 ms.date: 01/05/2018
-description: FrameworkElementEx provides a simple way to bind to actual size for any FrameworkElement
+description: FrameworkElementExtensions provides a simple way to bind to actual size for any FrameworkElement
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, FrameworkElement, extensions
 ---
 
@@ -22,9 +22,9 @@ The ActualHeight property allows to bind to TargetObject's ActualHeight.
 
 ```xaml
     <Rectangle x:Name="TargetObject"
-               extensions:FrameworkElementEx.EnableActualSizeBinding="true"/>
+               extensions:FrameworkElementExtensions.EnableActualSizeBinding="true"/>
 	...
-	<TextBlock Text="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementEx.ActualHeight)}" />
+	<TextBlock Text="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementExtensions.ActualHeight)}" />
 ```
 
 ## ActualWidth

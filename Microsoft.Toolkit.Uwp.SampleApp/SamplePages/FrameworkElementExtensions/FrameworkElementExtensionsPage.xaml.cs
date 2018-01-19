@@ -20,9 +20,9 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class FrameworkElementExPage : IXamlRenderListener
+    public sealed partial class FrameworkElementExtensionsPage : IXamlRenderListener
     {
-        public FrameworkElementExPage()
+        public FrameworkElementExtensionsPage()
         {
             InitializeComponent();
         }

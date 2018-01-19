@@ -678,13 +678,13 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/VisualEx.md"
       },
       {
-        "Name": "FrameworkElementEx",
-        "Type": "FrameworkElementExPage",
+        "Name": "FrameworkElementExtensions",
+        "Type": "FrameworkElementExtensionsPage",
         "About": "Extensions for all the FrameworkElement controls.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/FrameworkElement",
-        "XamlCodeFile": "FrameworkElementExCode.bind",
+        "XamlCodeFile": "FrameworkElementExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/FrameworkElementEx.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/FrameworkElementExtensions.md"
       }
     ]
   },
