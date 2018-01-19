@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override Size MeasureOverride(Size availableSize)
         {
-            _columnWidth = DesiredColumnWidth;
+            _columnWidth = Math.Min(DesiredColumnWidth, availableSize.Width);
             int numColumns = (int)Math.Floor(availableSize.Width / _columnWidth);
             if (HorizontalAlignment == HorizontalAlignment.Stretch)
             {
