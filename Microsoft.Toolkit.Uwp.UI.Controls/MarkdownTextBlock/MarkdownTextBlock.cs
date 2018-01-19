@@ -29,8 +29,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Set our style.
             DefaultStyleKey = typeof(MarkdownTextBlock);
 
-            RegisterPropertyChangedCallback(RequestedThemeProperty, RequestedThemeChanged);
-
             // Listens for theme changes and updates the rendering.
             themeListener = new Helpers.ThemeListener();
             themeListener.ThemeChanged += ThemeListener_ThemeChanged;
@@ -48,14 +46,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RegisterPropertyChangedCallback(FontWeightProperty, OnPropertyChanged);
             RegisterPropertyChangedCallback(ForegroundProperty, OnPropertyChanged);
             RegisterPropertyChangedCallback(PaddingProperty, OnPropertyChanged);
+            RegisterPropertyChangedCallback(RequestedThemeProperty, OnPropertyChanged);
         }
 
         private void ThemeListener_ThemeChanged(Helpers.ThemeListener sender)
-        {
-            RenderMarkdown();
-        }
-
-        private void RequestedThemeChanged(DependencyObject obj, DependencyProperty property)
         {
             RenderMarkdown();
         }
