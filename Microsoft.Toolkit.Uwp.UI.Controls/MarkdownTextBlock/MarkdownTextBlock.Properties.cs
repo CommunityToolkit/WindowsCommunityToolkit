@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using ColorCode.Styling;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render;
+using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -612,5 +613,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool multiClickDetectionTriggered;
 
         private Type renderertype = typeof(MarkdownRenderer);
+
+        private ThemeListener themeListener;
     }
 }

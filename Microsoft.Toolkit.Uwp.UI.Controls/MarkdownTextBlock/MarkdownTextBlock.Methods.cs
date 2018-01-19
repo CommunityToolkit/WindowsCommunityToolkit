@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using ColorCode;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -222,14 +223,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         }
                         else
                         {
-                            var theme = RequestedTheme;
-                            try
+                            var theme = themeListener.CurrentTheme == ApplicationTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
+                            if (RequestedTheme != ElementTheme.Default)
                             {
-                                // Tries to get the Actual Theme, if supported.
-                                theme = ActualTheme;
-                            }
-                            catch
-                            {
+                                theme = RequestedTheme;
                             }
 
                             formatter = new RichTextBlockFormatter(theme);

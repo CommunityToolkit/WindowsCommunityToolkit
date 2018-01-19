@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -28,12 +29,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Set our style.
             DefaultStyleKey = typeof(MarkdownTextBlock);
 
+            RegisterPropertyChangedCallback(RequestedThemeProperty, RequestedThemeChanged);
+
             // Listens for theme changes and updates the rendering.
-            var listener = new Helpers.ThemeListener();
-            listener.ThemeChanged += (s) =>
-            {
-                RenderMarkdown();
-            };
+            themeListener = new Helpers.ThemeListener();
+            themeListener.ThemeChanged += ThemeListener_ThemeChanged;
 
             // Register for property callbacks that are owned by our parent class.
             RegisterPropertyChangedCallback(FontSizeProperty, OnPropertyChanged);
@@ -48,6 +48,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RegisterPropertyChangedCallback(FontWeightProperty, OnPropertyChanged);
             RegisterPropertyChangedCallback(ForegroundProperty, OnPropertyChanged);
             RegisterPropertyChangedCallback(PaddingProperty, OnPropertyChanged);
+        }
+
+        private void ThemeListener_ThemeChanged(Helpers.ThemeListener sender)
+        {
+            RenderMarkdown();
+        }
+
+        private void RequestedThemeChanged(DependencyObject obj, DependencyProperty property)
+        {
+            RenderMarkdown();
         }
 
         /// <inheritdoc />
