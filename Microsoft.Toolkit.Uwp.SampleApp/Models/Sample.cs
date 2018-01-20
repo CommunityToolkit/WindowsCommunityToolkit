@@ -166,46 +166,44 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
 #if !DEBUG // use the docs repo in release mode
             string modifiedDocumentationUrl = $"{_docsOnlineRoot}master/docs/{filepath}";
-#else
-            string modifiedDocumentationUrl = DocumentationUrl;
-#endif
 
+            // Read from Cache if available.
             try
             {
-                using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(modifiedDocumentationUrl)))
-                {
-                    using (var response = await client.SendAsync(request).ConfigureAwait(false))
-                    {
-                        if (response.IsSuccessStatusCode)
-                        {
-                            var result = await response.Content.ReadAsStringAsync();
-                            _cachedDocumentation = ProcessDocs(result);
-
-                            if (!string.IsNullOrWhiteSpace(_cachedDocumentation))
-                            {
-                                await StorageFileHelper.WriteTextToLocalCacheFileAsync(_cachedDocumentation, filename);
-                            }
-                        }
-                    }
-                }
+                _cachedDocumentation = await StorageFileHelper.ReadTextFromLocalCacheFileAsync(filename);
             }
             catch (Exception)
             {
             }
 
-#if !DEBUG // don't cache for debugging perpuses so it always gets the latests
+            // Grab from docs repo if not.
             if (string.IsNullOrWhiteSpace(_cachedDocumentation))
             {
                 try
                 {
-                    _cachedDocumentation = await StorageFileHelper.ReadTextFromLocalCacheFileAsync(filename);
+                    using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(modifiedDocumentationUrl)))
+                    {
+                        using (var response = await client.SendAsync(request).ConfigureAwait(false))
+                        {
+                            if (response.IsSuccessStatusCode)
+                            {
+                                var result = await response.Content.ReadAsStringAsync();
+                                _cachedDocumentation = ProcessDocs(result);
+
+                                if (!string.IsNullOrWhiteSpace(_cachedDocumentation))
+                                {
+                                    await StorageFileHelper.WriteTextToLocalCacheFileAsync(_cachedDocumentation, filename);
+                                }
+                            }
+                        }
+                    }
                 }
                 catch (Exception)
                 {
                 }
             }
 #endif
-
+            // Grab the local copy in Debug mode, allowing you to preview changes made.
             if (string.IsNullOrWhiteSpace(_cachedDocumentation))
             {
                 try

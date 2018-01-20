@@ -92,7 +92,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             var childContext = new InlineRenderContext(paragraph.Inlines, context)
             {
-                TrimLeadingWhitespace = true,
                 Parent = paragraph
             };
 
