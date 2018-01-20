@@ -45,51 +45,61 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     break;
             }
 
-            var context_ = context as UIElementCollectionRenderContext;
-            var collection = context_.BlockUIElementCollection;
+            var localContext = context as UIElementCollectionRenderContext;
+            var collection = localContext?.BlockUIElementCollection;
 
-            var viewer = collection.Last() as ScrollViewer;
-            collection.Remove(viewer);
-
-            var headerGrid = new Grid
+            if (localContext == null || collection?.Any() != true)
             {
-                Background = ColorCode.UWP.Common.ExtensionMethods.GetSolidColorBrush("#11000000")
-            };
-            headerGrid.ColumnDefinitions.Add(new ColumnDefinition());
-            headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                return;
+            }
 
-            var languageBlock = new TextBlock
+            var lastIndex = collection.Count() - 1;
+
+            // Removes the current Code Block UI from the UI Collection, and wraps it in additional UI.
+            if (collection[lastIndex] is ScrollViewer viewer)
             {
-                Text = language,
-                VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(10, 0, 0, 0)
-            };
-            headerGrid.Children.Add(languageBlock);
+                collection.RemoveAt(lastIndex);
 
-            var copyButton = new Button
-            {
-                Content = "Copy",
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch
-            };
+                var headerGrid = new Grid
+                {
+                    Background = ColorCode.UWP.Common.ExtensionMethods.GetSolidColorBrush("#11000000")
+                };
+                headerGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
-            copyButton.Click += (s, e) =>
-            {
-                var content = new DataPackage();
-                content.SetText(element.Text);
-                Clipboard.SetContent(content);
-            };
+                var languageBlock = new TextBlock
+                {
+                    Text = language,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(10, 0, 0, 0)
+                };
+                headerGrid.Children.Add(languageBlock);
 
-            headerGrid.Children.Add(copyButton);
-            Grid.SetColumn(copyButton, 1);
+                var copyButton = new Button
+                {
+                    Content = "Copy",
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch
+                };
 
-            var panel = new StackPanel();
-            panel.Children.Add(headerGrid);
-            panel.Children.Add(viewer);
-            panel.Background = viewer.Background;
-            panel.Margin = viewer.Margin;
+                copyButton.Click += (s, e) =>
+                {
+                    var content = new DataPackage();
+                    content.SetText(element.Text);
+                    Clipboard.SetContent(content);
+                };
 
-            collection.Add(panel);
+                headerGrid.Children.Add(copyButton);
+                Grid.SetColumn(copyButton, 1);
+
+                var panel = new StackPanel();
+                panel.Children.Add(headerGrid);
+                panel.Children.Add(viewer);
+                panel.Background = viewer.Background;
+                panel.Margin = viewer.Margin;
+
+                collection.Add(panel);
+            }
         }
     }
 }

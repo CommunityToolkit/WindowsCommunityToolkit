@@ -33,17 +33,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         /// </summary>
         protected override void RenderBlocks(IEnumerable<MarkdownBlock> blockElements, IRenderContext context)
         {
-            var context_ = context as UIElementCollectionRenderContext;
-            var blockUIElementCollection_ = context_.BlockUIElementCollection;
+            var localContext = context as UIElementCollectionRenderContext;
+            if (localContext == null)
+            {
+                throw new RenderContextIncorrectException();
+            }
+
+            var blockUIElementCollection = localContext.BlockUIElementCollection;
 
             base.RenderBlocks(blockElements, context);
 
             // Remove the top margin from the first block element, the bottom margin from the last block element,
             // and collapse adjacent margins.
             FrameworkElement previousFrameworkElement = null;
-            for (int i = 0; i < blockUIElementCollection_.Count; i++)
+            for (int i = 0; i < blockUIElementCollection.Count; i++)
             {
-                var frameworkElement = blockUIElementCollection_[i] as FrameworkElement;
+                var frameworkElement = blockUIElementCollection[i] as FrameworkElement;
                 if (frameworkElement != null)
                 {
                     if (i == 0)
@@ -173,8 +178,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         /// </summary>
         protected override void RenderListElement(ListBlock element, IRenderContext context)
         {
-            var context_ = context as UIElementCollectionRenderContext;
-            var blockUIElementCollection_ = context_.BlockUIElementCollection;
+            var localContext = context as UIElementCollectionRenderContext;
+            if (localContext == null)
+            {
+                throw new RenderContextIncorrectException();
+            }
+
+            var blockUIElementCollection = localContext.BlockUIElementCollection;
 
             // Create a grid with two columns.
             Grid grid = new Grid
@@ -194,7 +204,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
                 // Add the bullet or number.
-                var bullet = CreateTextBlock(context_);
+                var bullet = CreateTextBlock(localContext);
                 bullet.Margin = ParagraphMargin;
                 switch (element.Style)
                 {
@@ -214,14 +224,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
                 // Add the list item content.
                 var content = new StackPanel();
-                var childContext = new UIElementCollectionRenderContext(content.Children, context_);
+                var childContext = new UIElementCollectionRenderContext(content.Children, localContext);
                 RenderBlocks(listItem.Blocks, childContext);
                 Grid.SetColumn(content, 1);
                 Grid.SetRow(content, rowIndex);
                 grid.Children.Add(content);
             }
 
-            blockUIElementCollection_.Add(grid);
+            blockUIElementCollection.Add(grid);
         }
 
         /// <summary>
@@ -229,18 +239,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         /// </summary>
         protected override void RenderHorizontalRule(IRenderContext context)
         {
-            var context_ = context as UIElementCollectionRenderContext;
-            var blockUIElementCollection_ = context_.BlockUIElementCollection;
+            var localContext = context as UIElementCollectionRenderContext;
+            if (localContext == null)
+            {
+                throw new RenderContextIncorrectException();
+            }
+
+            var blockUIElementCollection = localContext.BlockUIElementCollection;
 
             var rectangle = new Rectangle
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Height = HorizontalRuleThickness,
-                Fill = HorizontalRuleBrush ?? context_.Foreground,
+                Fill = HorizontalRuleBrush ?? localContext.Foreground,
                 Margin = HorizontalRuleMargin
             };
 
-            blockUIElementCollection_.Add(rectangle);
+            blockUIElementCollection.Add(rectangle);
         }
 
         /// <summary>
@@ -248,8 +263,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         /// </summary>
         protected override void RenderQuote(QuoteBlock element, IRenderContext context)
         {
-            var context_ = context as UIElementCollectionRenderContext;
-            var blockUIElementCollection_ = context_.BlockUIElementCollection;
+            var localContext = context as UIElementCollectionRenderContext;
+            if (localContext == null)
+            {
+                throw new RenderContextIncorrectException();
+            }
+
+            var blockUIElementCollection = localContext.BlockUIElementCollection;
 
             var stackPanel = new StackPanel();
             var childContext = new UIElementCollectionRenderContext(stackPanel.Children, context)
@@ -274,7 +294,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 Child = stackPanel
             };
 
-            blockUIElementCollection_.Add(border);
+            blockUIElementCollection.Add(border);
         }
 
         /// <summary>
@@ -282,13 +302,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         /// </summary>
         protected override void RenderCode(CodeBlock element, IRenderContext context)
         {
-            var context_ = context as UIElementCollectionRenderContext;
-            var blockUIElementCollection_ = context_.BlockUIElementCollection;
+            var localContext = context as UIElementCollectionRenderContext;
+            if (localContext == null)
+            {
+                throw new RenderContextIncorrectException();
+            }
+
+            var blockUIElementCollection = localContext.BlockUIElementCollection;
 
             var textBlock = new RichTextBlock
             {
                 FontFamily = CodeFontFamily ?? FontFamily,
-                Foreground = CodeForeground ?? context_.Foreground,
+                Foreground = CodeForeground ?? localContext.Foreground,
                 LineHeight = FontSize * 1.4
             };
 
@@ -322,7 +347,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             }
 
             // Add it to the blocks
-            blockUIElementCollection_.Add(viewer);
+            blockUIElementCollection.Add(viewer);
         }
 
         /// <summary>
@@ -330,8 +355,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         /// </summary>
         protected override void RenderTable(TableBlock element, IRenderContext context)
         {
-            var context_ = context as UIElementCollectionRenderContext;
-            var blockUIElementCollection_ = context_.BlockUIElementCollection;
+            var localContext = context as UIElementCollectionRenderContext;
+            if (localContext == null)
+            {
+                throw new RenderContextIncorrectException();
+            }
+
+            var blockUIElementCollection = localContext.BlockUIElementCollection;
 
             var table = new MarkdownTable(element.ColumnDefinitions.Count, element.Rows.Count, TableBorderThickness, TableBorderBrush)
             {
@@ -385,7 +415,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 }
             }
 
-            blockUIElementCollection_.Add(table);
+            blockUIElementCollection.Add(table);
         }
     }
 }

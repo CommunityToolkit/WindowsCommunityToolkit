@@ -11,12 +11,8 @@
 // ******************************************************************
 
 using System;
-using System.Text;
-using System.Xml;
-using System.Xml.Linq;
 using ColorCode;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Newtonsoft.Json;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;

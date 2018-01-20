@@ -216,7 +216,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var language = Languages.FindById(codeLanguage);
                     if (language != null)
                     {
-                        RichTextBlockFormatter formatter = null;
+                        RichTextBlockFormatter formatter;
                         if (CodeStyling != null)
                         {
                             formatter = new RichTextBlockFormatter(CodeStyling);

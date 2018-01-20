@@ -67,8 +67,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         /// <returns>The rich text block</returns>
         protected RichTextBlock CreateOrReuseRichTextBlock(IRenderContext context)
         {
-            var context_ = context as UIElementCollectionRenderContext;
-            var blockUIElementCollection = context_.BlockUIElementCollection;
+            var localContext = context as UIElementCollectionRenderContext;
+            if (localContext == null)
+            {
+                throw new RenderContextIncorrectException();
+            }
+
+            var blockUIElementCollection = localContext.BlockUIElementCollection;
 
             // Reuse the last RichTextBlock, if possible.
             if (blockUIElementCollection != null && blockUIElementCollection.Count > 0 && blockUIElementCollection[blockUIElementCollection.Count - 1] is RichTextBlock)
@@ -84,11 +89,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 FontStretch = FontStretch,
                 FontStyle = FontStyle,
                 FontWeight = FontWeight,
-                Foreground = context_.Foreground,
+                Foreground = localContext.Foreground,
                 IsTextSelectionEnabled = IsTextSelectionEnabled,
                 TextWrapping = TextWrapping
             };
-            context_.BlockUIElementCollection?.Add(result);
+            localContext.BlockUIElementCollection?.Add(result);
 
             return result;
         }
