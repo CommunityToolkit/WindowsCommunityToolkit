@@ -203,6 +203,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 #endif
+
             // Grab the local copy in Debug mode, allowing you to preview changes made.
             if (string.IsNullOrWhiteSpace(_cachedDocumentation))
             {

@@ -66,50 +66,50 @@ _**Note:** Blur, Light and Saturation animation don't support easing_
 
 ## Examples
 
-**AnimationSet has endless possibility. Here is an example of creating popup effect**
+- AnimationSet has endless possibility. Here is an example of creating popup effect
 
-_Sample Code_
+    _Sample Code_
 
-```csharp
-FrameworkElement preElement = null;
-private void MyUIElement_PointerEntered(object sender, PointerRoutedEventArgs e)
-{
-    preElement = sender as FrameworkElement;
-    preElement.Blur(value: 0).Fade(value: 1).Scale(centerX: 100, centerY: 100, easingType: EasingType.Sine);
-            .SetDurationForAll(500);
-            .Start();
-}
-
-private void MyUIElement_PointerExited(object sender, PointerRoutedEventArgs e)
-{
-    if (preElement != null)
+    ```csharp
+    FrameworkElement preElement = null;
+    private void MyUIElement_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
-        preElement.Blur(value: 0).Fade(value: 0.1f).Scale(scaleX: 0.5f, scaleY: 0.5f, centerX: 100, centerY: 100, easingType: EasingType.Sine)
+        preElement = sender as FrameworkElement;
+        preElement.Blur(value: 0).Fade(value: 1).Scale(centerX: 100, centerY: 100, easingType: EasingType.Sine);
                 .SetDurationForAll(500);
                 .Start();
     }
-}
-```
 
-_Sample Output_
+    private void MyUIElement_PointerExited(object sender, PointerRoutedEventArgs e)
+    {
+        if (preElement != null)
+        {
+            preElement.Blur(value: 0).Fade(value: 0.1f).Scale(scaleX: 0.5f, scaleY: 0.5f, centerX: 100, centerY: 100, easingType: EasingType.Sine)
+                    .SetDurationForAll(500);
+                    .Start();
+        }
+    }
+    ```
 
-![Use Case 1 Output](../resources/images/Animations/AnimationSet/Use-Case-1.gif)
+    _Sample Output_
 
-**Use `Then()` to create a successive animation**
+    ![Use Case 1 Output](../resources/images/Animations/AnimationSet/Use-Case-1.gif)
 
-_Sample Code_
+- Use `Then()` to create a successive animation
 
-```csharp
-MyUIElement.Blur(value: 10).Fade(value: 0.5f)
-        .Then()
-        .Fade(value: 1).Scale(scaleX: 2, scaleY: 2, centerX: 100, centerY: 100, easingType: EasingType.Sine)
-        .SetDurationForAll(2500)
-        .Start();
-```
+    _Sample Code_
 
-_Sample Output_
+    ```csharp
+    MyUIElement.Blur(value: 10).Fade(value: 0.5f)
+            .Then()
+            .Fade(value: 1).Scale(scaleX: 2, scaleY: 2, centerX: 100, centerY: 100, easingType: EasingType.Sine)
+            .SetDurationForAll(2500)
+            .Start();
+    ```
 
-![Use Case 2 Output](../resources/images/Animations/AnimationSet/Use-Case-2.gif)
+    _Sample Output_
+
+    ![Use Case 2 Output](../resources/images/Animations/AnimationSet/Use-Case-2.gif)
 
 ## Requirements
 

@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks.List;
 using Microsoft.Toolkit.Parsers.Markdown.Enums;
@@ -61,6 +62,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             var russianDolls = new List<NestedListInfo>();
             int russianDollIndex = -1;
             bool previousLineWasBlank = false;
+            bool inCodeBlock = false;
             ListItemBlock currentListItem = null;
             actualEnd = start;
 
@@ -164,8 +166,33 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                             russianDollIndex = Math.Min(russianDollIndex, (spaceCount - 1) / 4);
                             ListBlock listToAddTo = russianDolls[russianDollIndex].List;
                             currentListItem = listToAddTo.Items[listToAddTo.Items.Count - 1];
-                            currentListItem.Blocks.Add(new ListItemBuilder());
+
+                            ListItemBuilder builder;
+
+                            // Prevents new Block creation if still in a Code Block.
+                            if (!inCodeBlock)
+                            {
+                                builder = new ListItemBuilder();
+                                currentListItem.Blocks.Add(builder);
+                            }
+                            else
+                            {
+                                // This can only ever be a ListItemBuilder, so it is not a null reference.
+                                builder = currentListItem.Blocks.Last() as ListItemBuilder;
+
+                                // Make up for the escaped NewLines.
+                                builder.Builder.AppendLine();
+                                builder.Builder.AppendLine();
+                            }
+
                             AppendTextToListItem(currentListItem, markdown, Math.Min(lineInfo.FirstNonWhitespaceChar, lineInfo.StartOfLine + ((russianDollIndex + 1) * 4)), lineInfo.EndOfLine);
+
+                            // Check for Closing Code Blocks.
+                            var blockmatchcount = Regex.Matches(builder.Builder.ToString(), "```").Count;
+                            if (blockmatchcount > 0 && blockmatchcount % 2 != 0)
+                            {
+                                inCodeBlock = inCodeBlock != true;
+                            }
                         }
                         else
                         {
@@ -275,7 +302,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 builder.Append(' ');
             }
 
-            if (newLine) builder.Append("\n");
+            if (newLine)
+            {
+                builder.Append("\n");
+            }
+
             builder.Append(markdown.Substring(start, end - start));
         }
 

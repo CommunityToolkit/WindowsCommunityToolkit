@@ -65,43 +65,43 @@ _**Note:** EasingType is used only when AnimationSet.UseComposition == false_
 
 ## Examples
 
-**Use this to create popup effect**
+- Use this to create popup effect
 
-_Sample Code_
+    _Sample Code_
 
-```csharp
-UIElement lastTapped = null;
-private void MyUIElement_Tapped(object sender, TappedRoutedEventArgs e)
-{
-    if (lastTapped != null)
+    ```csharp
+    UIElement lastTapped = null;
+    private void MyUIElement_Tapped(object sender, TappedRoutedEventArgs e)
     {
-        lastTapped.Scale(centerX: 50, centerY: 50).Start();
-        Canvas.SetZIndex(lastTapped, 0);
+        if (lastTapped != null)
+        {
+            lastTapped.Scale(centerX: 50, centerY: 50).Start();
+            Canvas.SetZIndex(lastTapped, 0);
+        }
+        lastTapped = sender as UIElement;
+        Canvas.SetZIndex(lastTapped, 1);
+        lastTapped.Scale(scaleX: 2, scaleY: 2, centerX: 50, centerY: 50).Start();
     }
-    lastTapped = sender as UIElement;
-    Canvas.SetZIndex(lastTapped, 1);
-    lastTapped.Scale(scaleX: 2, scaleY: 2, centerX: 50, centerY: 50).Start();
-}
-```
-_Sample Output_
+    ```
+    _Sample Output_
 
-![Use Case 1 Output](../resources/images/Animations/Scale/Sample-Output.gif)
+    ![Use Case 1 Output](../resources/images/Animations/Scale/Sample-Output.gif)
 
-**Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.**
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
-_Sample Code_
+    _Sample Code_
 
-```csharp
-var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
-anim.SetDurationForAll(2500);
-anim.SetDelay(250);
-anim.Completed += animation_completed;
-anim.Start();
-```
+    ```csharp
+    var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
+    anim.SetDurationForAll(2500);
+    anim.SetDelay(250);
+    anim.Completed += animation_completed;
+    anim.Start();
+    ```
 
-_Sample Output_
+    _Sample Output_
 
-![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
+    ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
 
 ## Sample Project
 

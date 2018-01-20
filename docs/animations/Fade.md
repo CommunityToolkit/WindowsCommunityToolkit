@@ -63,21 +63,21 @@ _**Note:** EasingType is used only when AnimationSet.UseComposition == false_
 
 ## Examples
 
-**Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.**
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
-_Sample Code_
+    _Sample Code_
 
-```csharp
-var anim = MyUIElement.Fade(0.5f).Blur(5).Rotate(30);
-anim.SetDurationForAll(2500);
-anim.SetDelay(250);
-anim.Completed += animation_completed;
-anim.Start();
-```
+    ```csharp
+    var anim = MyUIElement.Fade(0.5f).Blur(5).Rotate(30);
+    anim.SetDurationForAll(2500);
+    anim.SetDelay(250);
+    anim.Completed += animation_completed;
+    anim.Start();
+    ```
 
-_Sample Output_
+    _Sample Output_
 
-![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
+    ![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
 
 ## Sample Project
 

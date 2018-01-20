@@ -41,42 +41,42 @@ await MyUIElement.Blur(value: 5, duration: 2500, delay: 250).StartAsync();  //Bl
 
 ## Examples
 
-**Use this to shift the focus to foreground controls.**
+- Use this to shift the focus to foreground controls.
 
-_Sample Code_
+    _Sample Code_
 
-```xaml
-<Grid>
+    ```xaml
     <Grid>
-        <interactivity:Interaction.Behaviors>
-            <behaviors:Blur x:Name="BlurBehavior" Value="5" Duration="2500" Delay="0" AutomaticallyStart="True"/>
-        </interactivity:Interaction.Behaviors>
-        <!-- XAML Element to be Blurred -->
-        <!-- Background(even for Transparent background) of this Grid will also be Blurred -->
+        <Grid>
+            <interactivity:Interaction.Behaviors>
+                <behaviors:Blur x:Name="BlurBehavior" Value="5" Duration="2500" Delay="0" AutomaticallyStart="True"/>
+            </interactivity:Interaction.Behaviors>
+            <!-- XAML Element to be Blurred -->
+            <!-- Background(even for Transparent background) of this Grid will also be Blurred -->
+        </Grid>
+        <!-- Foreground XAML Element -->
     </Grid>
-    <!-- Foreground XAML Element -->
-</Grid>
-```
+    ```
 
-_Sample Output_
+    _Sample Output_
 
-![Use Case 1 Output](../resources/images/Animations/Blur/Use-Case-1.gif)
+    ![Use Case 1 Output](../resources/images/Animations/Blur/Use-Case-1.gif)
 
-**Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.**
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
-_Sample Code_
+    _Sample Code_
 
-```csharp
-var anim = MyUIElement.Blur(5).Fade(0.5f).Rotate(30);
-anim.SetDurationForAll(2500);
-anim.SetDelay(250);
-anim.Completed += animation_completed;
-anim.Start();
-```
+    ```csharp
+    var anim = MyUIElement.Blur(5).Fade(0.5f).Rotate(30);
+    anim.SetDurationForAll(2500);
+    anim.SetDelay(250);
+    anim.Completed += animation_completed;
+    anim.Start();
+    ```
 
-_Sample Output_
+    _Sample Output_
 
-![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
+    ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
 
 ## Sample Project
 

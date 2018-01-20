@@ -66,21 +66,21 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ## Examples
 
-**Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.**
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
-_Sample Code_
+	_Sample Code_
 
-```csharp
-var anim = MyUIElement.Rotate(30).Fade(0.5f).Blur(5);
-anim.SetDurationForAll(2500);
-anim.SetDelay(250);
-anim.Completed += animation_completed;
-anim.Start();
-```
+	```csharp
+	var anim = MyUIElement.Rotate(30).Fade(0.5f).Blur(5);
+	anim.SetDurationForAll(2500);
+	anim.SetDelay(250);
+	anim.Completed += animation_completed;
+	anim.Start();
+	```
 
-_Sample Output_
+	_Sample Output_
 
-![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
+	![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
 
 ## Sample Project
 
