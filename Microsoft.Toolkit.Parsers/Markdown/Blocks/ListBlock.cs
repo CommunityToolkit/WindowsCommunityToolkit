@@ -169,8 +169,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         }
                         else
                         {
-                            // Inline text.
-                            AppendTextToListItem(currentListItem, markdown, lineInfo.FirstNonWhitespaceChar, lineInfo.EndOfLine, true);
+                            // Inline text. Ignores the 4 spaces that are used to continue the list.
+                            AppendTextToListItem(currentListItem, markdown, lineInfo.StartOfLine + 4, lineInfo.EndOfLine, true);
                         }
                     }
 
