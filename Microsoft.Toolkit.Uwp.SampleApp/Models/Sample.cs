@@ -235,11 +235,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 result = result.Remove(metadataMatch.Index, metadataMatch.Index + metadataMatch.Length);
             }
 
-            // Make Microsoft Notation a Regular quote.
-            result = result.Replace("> [!NOTE]", "> **Note**:");
-            result = result.Replace("> [!IMPORTANT]", "> **IMPORTANT**:");
-            result = result.Replace("> [!WARNING]", "> **Warning**:");
-
             // Images
             var regex = new Regex("## Example Image.+?##", RegexOptions.Singleline);
             result = regex.Replace(result, "##");

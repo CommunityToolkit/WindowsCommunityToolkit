@@ -247,11 +247,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             var blockUIElementCollection = localContext.BlockUIElementCollection;
 
+            var brush = localContext.Foreground;
+            if (HorizontalRuleBrush != null && !localContext.OverrideForeground)
+            {
+                brush = HorizontalRuleBrush;
+            }
+
             var rectangle = new Rectangle
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Height = HorizontalRuleThickness,
-                Fill = HorizontalRuleBrush ?? localContext.Foreground,
+                Fill = brush,
                 Margin = HorizontalRuleMargin
             };
 
@@ -277,7 +283,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 Parent = stackPanel
             };
 
-            if (QuoteForeground != null)
+            if (QuoteForeground != null && !localContext.OverrideForeground)
             {
                 childContext.Foreground = QuoteForeground;
             }
@@ -288,7 +294,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             {
                 Margin = QuoteMargin,
                 Background = QuoteBackground,
-                BorderBrush = QuoteBorderBrush ?? childContext.Foreground,
+                BorderBrush = childContext.OverrideForeground ? childContext.Foreground : QuoteBorderBrush ?? childContext.Foreground,
                 BorderThickness = QuoteBorderThickness,
                 Padding = QuotePadding,
                 Child = stackPanel
@@ -310,10 +316,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             var blockUIElementCollection = localContext.BlockUIElementCollection;
 
+            var brush = localContext.Foreground;
+            if (CodeForeground != null && !localContext.OverrideForeground)
+            {
+                brush = CodeForeground;
+            }
+
             var textBlock = new RichTextBlock
             {
                 FontFamily = CodeFontFamily ?? FontFamily,
-                Foreground = CodeForeground ?? localContext.Foreground,
+                Foreground = brush,
                 LineHeight = FontSize * 1.4
             };
 

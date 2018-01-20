@@ -150,7 +150,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                     WithinHyperlink = true
                 };
 
-                if (LinkForeground != null)
+                if (localContext.OverrideForeground)
+                {
+                    link.Foreground = localContext.Foreground;
+                }
+                else if (LinkForeground != null)
                 {
                     link.Foreground = LinkForeground;
                 }
@@ -202,11 +206,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             // Register the link
             LinkRegister.RegisterNewHyperLink(link, element.Url);
 
+            var brush = localContext.Foreground;
+            if (LinkForeground != null && !localContext.OverrideForeground)
+            {
+                brush = LinkForeground;
+            }
+
             // Make a text block for the link
             Run linkText = new Run
             {
                 Text = CollapseWhitespace(context, element.Text),
-                Foreground = LinkForeground ?? localContext.Foreground
+                Foreground = brush
             };
 
             link.Inlines.Add(linkText);

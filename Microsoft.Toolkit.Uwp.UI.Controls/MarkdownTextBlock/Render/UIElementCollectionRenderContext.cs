@@ -28,9 +28,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         internal UIElementCollectionRenderContext(UIElementCollection blockUIElementCollection, IRenderContext context)
             : this(blockUIElementCollection)
         {
-            Foreground = ((RenderContext)context).Foreground;
             TrimLeadingWhitespace = context.TrimLeadingWhitespace;
             Parent = context.Parent;
+
+            if (context is RenderContext localcontext)
+            {
+                Foreground = localcontext.Foreground;
+                OverrideForeground = localcontext.OverrideForeground;
+            }
         }
 
         /// <summary>

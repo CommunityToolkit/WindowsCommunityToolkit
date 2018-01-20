@@ -31,6 +31,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         /// <inheritdoc/>
         public object Parent { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to override the Foreground Property.
+        /// </summary>
+        public bool OverrideForeground { get; set; }
+
         /// <inheritdoc/>
         public IRenderContext Clone()
         {

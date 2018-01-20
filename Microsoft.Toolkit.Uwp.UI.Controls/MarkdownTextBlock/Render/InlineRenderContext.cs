@@ -23,9 +23,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         internal InlineRenderContext(InlineCollection inlineCollection, IRenderContext context)
         {
             InlineCollection = inlineCollection;
-            Foreground = ((RenderContext)context).Foreground;
             TrimLeadingWhitespace = context.TrimLeadingWhitespace;
             Parent = context.Parent;
+
+            if (context is RenderContext localcontext)
+            {
+                Foreground = localcontext.Foreground;
+                OverrideForeground = localcontext.OverrideForeground;
+            }
 
             if (context is InlineRenderContext inlinecontext)
             {
