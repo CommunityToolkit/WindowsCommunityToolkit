@@ -159,24 +159,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
                     if (format != QuoteFormat.None)
                     {
-                        localContext = localContext.Clone() as UIElementCollectionRenderContext;
-                        localContext.OverrideForeground = true;
-
-                        header = header ?? format.ToString();
-
-                        switch (format)
+                        if (localContext?.Clone() is UIElementCollectionRenderContext newcontext)
                         {
-                            case QuoteFormat.Note:
-                                localContext.Foreground = noteForeground;
-                                break;
+                            localContext = newcontext;
 
-                            case QuoteFormat.Warning:
-                                localContext.Foreground = warningForeground;
-                                break;
+                            localContext.OverrideForeground = true;
+                            header = header ?? format.ToString();
+                            switch (format)
+                            {
+                                case QuoteFormat.Note:
+                                    localContext.Foreground = noteForeground;
+                                    break;
 
-                            case QuoteFormat.Important:
-                                localContext.Foreground = importantForeground;
-                                break;
+                                case QuoteFormat.Warning:
+                                    localContext.Foreground = warningForeground;
+                                    break;
+
+                                case QuoteFormat.Important:
+                                    localContext.Foreground = importantForeground;
+                                    break;
+                            }
                         }
                     }
                 }
@@ -191,10 +193,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     return;
                 }
 
-                var lastIndex = collection.Count() - 1;
-
-                // Removes the current Quote Block UI from the UI Collection, and then styles it.
-                if (collection[lastIndex] is Border border)
+                // Gets the current Quote Block UI from the UI Collection, and then styles it.
+                if (collection.Last() is Border border)
                 {
                     border.BorderThickness = new Thickness(1);
                     border.Padding = new Thickness(10);
