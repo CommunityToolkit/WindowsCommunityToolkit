@@ -12,8 +12,8 @@
 
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
+using Microsoft.Toolkit.Parsers.Markdown.Enums;
 
 namespace UnitTests.Markdown.Parse
 {
@@ -70,6 +70,7 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(
                     new HyperlinkInline { Url = "https://reddit.com", Text = "https://reddit.com", LinkType = HyperlinkType.FullUrl }));
         }
+
 
         [TestMethod]
         [TestCategory("Parse - inline")]
@@ -351,6 +352,7 @@ namespace UnitTests.Markdown.Parse
                 http://reddit.com(
 
                 http://reddit.com{
+
                 http://reddit.com<
 
                 http://reddit.com<a
@@ -618,6 +620,7 @@ namespace UnitTests.Markdown.Parse
                 /r/news(
 
                 /r/news{
+
                 /r/news<
 
                 /r/news<a
@@ -739,6 +742,8 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(
                     new HyperlinkInline { Text = "/r/news/blah", Url = "/r/news/blah", LinkType = HyperlinkType.Subreddit }));
         }
+
+
 
         [TestMethod]
         [TestCategory("Parse - inline")]
