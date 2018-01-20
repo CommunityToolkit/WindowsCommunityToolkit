@@ -10,7 +10,8 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, SurfaceDialTextbo
 
 The **SurfaceDialTextboxHelper XAML Property** adds features from the Surface Dial control to a numeric TextBox. This enables you to modify the content of the TextBox when rotating the Surface Dial (increasing or decreasing the value) and optionally go to the next focus element by tapping the Surface Dial click button.
 
-You can set the following properties to control the behaviour:
+## Properties
+
 **StepValue**: Required
 This property enables the Textbox with the Surface Dial controller, and control the amount each rotation step of the Surface Dial modifies the TextBox.
 
@@ -26,8 +27,7 @@ This property enables the MinValue and MaxValue limits of the Textbox. These val
 **EnableTapToNextControl**: Optional
 Enables you to click the Surface Dial Control to move to the next focus item in your UI. Good for quickly navigating between Textbox elements on your UI.
 
-
-**NOTE:** Windows Anniversary Update (10.0.14393.0) is needed to support correctly this helper.
+> [!NOTE] Windows Anniversary Update (10.0.14393.0) is required for this helper to work correctly.
 
 ## Syntax
 

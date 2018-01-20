@@ -12,8 +12,8 @@ The [JsonParser](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.p
 
 | Class | Purpose |
 | --- | --- |
-| `Microsoft.Toolkit.Parsers.Json.JsonParser` | Parser for Parsing JSON Strings into JSON Schema. |
-| `Microsoft.Toolkit.Parsers.Core.SchemaBase` | Schema for Parsing Content into a desired format. |
+| **Microsoft.Toolkit.Parsers.Json.JsonParser** | Parser for Parsing JSON Strings into JSON Schema. |
+| **Microsoft.Toolkit.Parsers.Core.SchemaBase** | Schema for Parsing Content into a desired format. |
 
 ## Sample Code
 

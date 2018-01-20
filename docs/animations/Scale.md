@@ -43,8 +43,6 @@ MyUIElement.Scale(scaleX: 2, scaleY: 2, centerX: 0, centerY: 0, duration: 2500, 
 
 ## Properties
 
-
-
 ### EasingType
 
 You can change the way how the animation interpolates between keyframes by defining the EasingType.
@@ -63,43 +61,47 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
 
-***Note:** EasingType is used only when AnimationSet.UseComposition == false*
+_**Note:** EasingType is used only when AnimationSet.UseComposition == false_
 
 ## Examples
 
-- Use this to create popup effect
+**Use this to create popup effect**
 
-    **Sample Code**
-    ```csharp
-    UIElement lastTapped = null;
-    private void MyUIElement_Tapped(object sender, TappedRoutedEventArgs e)
+_Sample Code_
+
+```csharp
+UIElement lastTapped = null;
+private void MyUIElement_Tapped(object sender, TappedRoutedEventArgs e)
+{
+    if (lastTapped != null)
     {
-        if (lastTapped != null)
-        {
-            lastTapped.Scale(centerX: 50, centerY: 50).Start();
-            Canvas.SetZIndex(lastTapped, 0);
-        }
-        lastTapped = sender as UIElement;
-        Canvas.SetZIndex(lastTapped, 1);
-        lastTapped.Scale(scaleX: 2, scaleY: 2, centerX: 50, centerY: 50).Start();
+        lastTapped.Scale(centerX: 50, centerY: 50).Start();
+        Canvas.SetZIndex(lastTapped, 0);
     }
-    ```
-    **Sample Output**
+    lastTapped = sender as UIElement;
+    Canvas.SetZIndex(lastTapped, 1);
+    lastTapped.Scale(scaleX: 2, scaleY: 2, centerX: 50, centerY: 50).Start();
+}
+```
+_Sample Output_
 
-    ![Use Case 1 Output](../resources/images/Animations/Scale/Sample-Output.gif)
-- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
+![Use Case 1 Output](../resources/images/Animations/Scale/Sample-Output.gif)
 
-    **Sample Code**
-    ```csharp
-    var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
-    anim.SetDurationForAll(2500);
-    anim.SetDelay(250);
-    anim.Completed += animation_completed;
-    anim.Start();
-    ```
-    **Sample Output**
+**Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.**
 
-    ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
+_Sample Code_
+
+```csharp
+var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
+anim.SetDurationForAll(2500);
+anim.SetDelay(250);
+anim.Completed += animation_completed;
+anim.Start();
+```
+
+_Sample Output_
+
+![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
 
 ## Sample Project
 

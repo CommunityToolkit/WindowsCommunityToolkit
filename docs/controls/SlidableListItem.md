@@ -102,6 +102,7 @@ Starting with v2.1 of the UWP Community Toolkit, the SwipeControl provides a new
 Using this property will enable you to take advantage of the SwipeControl on devices that supported it, while providing an experience based on SlidableListItem on devices that have not yet updated to the Fall Creators Update. Make sure to test the experience on multiple OS releases and plan to fully transition to the SwipeControl as the SlidableListItem will be removed from the UWP Community Toolkit in a future major release.
 
 There are several SlidableListItem properties that have no effect when the SlidableListItem is using the SwipeControl:
+
 * ActivationWidth
 * IsOffsetLimited
 * IsPointerReleasedOnSwipingHandled

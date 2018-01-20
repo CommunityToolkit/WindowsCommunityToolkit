@@ -12,8 +12,8 @@ The [MarkdownDocument](https://docs.microsoft.com/en-us/dotnet/api/microsoft.too
 
 | Class | Purpose |
 | --- | --- |
-| `Microsoft.Toolkit.Parsers.Markdown.MarkdownDocument` | Represents a Markdown Document. |
-| `Microsoft.Toolkit.Parsers.Markdown.Render.MarkdownRendererBase` | A base renderer for Rendering Markdown into Controls. |
+| **Microsoft.Toolkit.Parsers.Markdown.MarkdownDocument** | Represents a Markdown Document. |
+| **Microsoft.Toolkit.Parsers.Markdown.Render.MarkdownRendererBase** | A base renderer for Rendering Markdown into Controls. |
 
 ## Syntax
 

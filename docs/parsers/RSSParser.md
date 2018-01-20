@@ -12,8 +12,8 @@ The [RssParser](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.pa
 
 | Class | Purpose |
 | --- | --- |
-| `Microsoft.Toolkit.Parsers.Rss.RssParser` | Parser for Parsing RSS Strings into RSS Schema. |
-| `Microsoft.Toolkit.Parsers.Rss.RssSchema` | Schema for Parsing RSS. |
+| **Microsoft.Toolkit.Parsers.Rss.RssParser** | Parser for Parsing RSS Strings into RSS Schema. |
+| **Microsoft.Toolkit.Parsers.Rss.RssSchema** | Schema for Parsing RSS. |
 
 ## Sample Code
 

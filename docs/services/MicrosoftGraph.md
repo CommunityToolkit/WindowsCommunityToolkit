@@ -16,7 +16,7 @@ The **MicrosoftGraph** Service aim to easily logon to Office 365 Service in orde
 
 ## Prerequisites
 
-NOTE: This API will not work on an XBOX UWP Application
+> [!NOTE] This API will not work on an XBOX UWP Application
 
 ### 1. Get and Office 365 Subscription
 

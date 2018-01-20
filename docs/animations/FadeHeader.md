@@ -32,6 +32,7 @@ The FadeHeader fades a ListView or GridView Header UIElement when the user scrol
 ```
 
 **_Explicit usage_**: Set the ElementName property using the UIElement of the Header manually
+
 ```xaml
 <Page ...
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  

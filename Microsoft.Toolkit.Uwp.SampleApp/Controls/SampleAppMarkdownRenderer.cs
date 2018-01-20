@@ -164,6 +164,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             localContext = newcontext;
 
                             localContext.OverrideForeground = true;
+                            localContext.TrimLeadingWhitespace = true;
                             header = header ?? format.ToString();
                             switch (format)
                             {
@@ -198,6 +199,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 {
                     border.BorderThickness = new Thickness(1);
                     border.Padding = new Thickness(10);
+                    border.Margin = new Thickness(5);
 
                     var localborderBrush = noteBorder;
                     var localbackground = noteBackground;
