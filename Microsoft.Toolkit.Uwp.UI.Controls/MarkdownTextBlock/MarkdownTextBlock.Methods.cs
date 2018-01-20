@@ -66,6 +66,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // Now try to display it
                 var renderer = Activator.CreateInstance(renderertype, markdown, this, this, this) as MarkdownRenderer;
+                if (renderer == null)
+                {
+                    throw new Exception("Markdown Renderer was not of the correct type.");
+                }
+
                 renderer.Background = Background;
                 renderer.BorderBrush = BorderBrush;
                 renderer.BorderThickness = BorderThickness;
