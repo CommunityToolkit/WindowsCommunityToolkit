@@ -122,6 +122,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             var collection = localContext?.BlockUIElementCollection;
             var format = QuoteFormat.None;
             string header = null;
+            var originalQuoteForeground = QuoteForeground;
+            var originalLinkForeground = LinkForeground;
+            SolidColorBrush localforeground = null;
+            SolidColorBrush localbackground = null;
+            string symbolglyph = string.Empty;
 
             if (element.Blocks.First() is ParagraphBlock para)
             {
@@ -133,28 +138,42 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     {
                         format = QuoteFormat.Note;
                         textinline.Text = text.Replace(NoteQuote, string.Empty);
+                        localforeground = lightNoteForeground;
+                        localbackground = lightNoteBackground;
+                        symbolglyph = NoteGlyph;
                     }
                     else if (text.StartsWith(TipQuote))
                     {
-                        format = QuoteFormat.Note;
+                        format = QuoteFormat.Tip;
                         textinline.Text = text.Replace(TipQuote, string.Empty);
-                        header = "Tip";
+                        localforeground = lightTipForeground;
+                        localbackground = lightTipBackground;
+                        symbolglyph = TipGlyph;
                     }
                     else if (text.StartsWith(WarningQuote))
                     {
                         format = QuoteFormat.Warning;
                         textinline.Text = text.Replace(WarningQuote, string.Empty);
+                        localforeground = lightWarningForeground;
+                        localbackground = lightWarningBackground;
+                        symbolglyph = WarningGlyph;
                     }
                     else if (text.StartsWith(ImportantQuote))
                     {
                         format = QuoteFormat.Important;
                         textinline.Text = text.Replace(ImportantQuote, string.Empty);
+                        localforeground = lightImportantForeground;
+                        localbackground = lightImportantBackground;
+                        symbolglyph = ImportantGlyph;
                     }
                     else if (text.StartsWith(CautionQuote))
                     {
-                        format = QuoteFormat.Important;
+                        format = QuoteFormat.Warning;
                         textinline.Text = text.Replace(CautionQuote, string.Empty);
                         header = "Caution";
+                        localforeground = lightWarningForeground;
+                        localbackground = lightWarningBackground;
+                        symbolglyph = WarningGlyph;
                     }
 
                     if (format != QuoteFormat.None)
@@ -163,23 +182,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                         {
                             localContext = newcontext;
 
-                            localContext.OverrideForeground = true;
                             localContext.TrimLeadingWhitespace = true;
                             header = header ?? format.ToString();
-                            switch (format)
-                            {
-                                case QuoteFormat.Note:
-                                    localContext.Foreground = noteForeground;
-                                    break;
-
-                                case QuoteFormat.Warning:
-                                    localContext.Foreground = warningForeground;
-                                    break;
-
-                                case QuoteFormat.Important:
-                                    localContext.Foreground = importantForeground;
-                                    break;
-                            }
+                            QuoteForeground = Foreground;
+                            LinkForeground = localforeground;
                         }
                     }
                 }
@@ -189,6 +195,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             if (format != QuoteFormat.None)
             {
+                // Restore Formatting.
+                QuoteForeground = originalQuoteForeground;
+                LinkForeground = originalLinkForeground;
+
                 if (localContext == null || collection?.Any() != true)
                 {
                     return;
@@ -197,30 +207,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 // Gets the current Quote Block UI from the UI Collection, and then styles it.
                 if (collection.Last() is Border border)
                 {
-                    border.BorderThickness = new Thickness(1);
+                    border.CornerRadius = new CornerRadius(6);
+                    border.BorderThickness = new Thickness(0);
                     border.Padding = new Thickness(10);
                     border.Margin = new Thickness(5);
-
-                    var localborderBrush = noteBorder;
-                    var localbackground = noteBackground;
-                    var symbolglyph = "";
-
-                    switch (format)
-                    {
-                        case QuoteFormat.Warning:
-                            localborderBrush = warningBorder;
-                            localbackground = warningBackground;
-                            symbolglyph = "";
-                            break;
-
-                        case QuoteFormat.Important:
-                            localborderBrush = importantBorder;
-                            localbackground = importantBackground;
-                            symbolglyph = "";
-                            break;
-                    }
-
-                    border.BorderBrush = localborderBrush;
                     border.Background = localbackground;
 
                     var headerPanel = new StackPanel
@@ -232,7 +222,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     headerPanel.Children.Add(new TextBlock
                     {
                         FontSize = 20,
-                        Foreground = localContext.Foreground,
+                        Foreground = localforeground,
                         Text = symbolglyph,
                         FontFamily = new FontFamily("Segoe MDL2 Assets")
                     });
@@ -240,7 +230,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     headerPanel.Children.Add(new TextBlock
                     {
                         FontSize = 16,
-                        Foreground = localContext.Foreground,
+                        Foreground = localforeground,
                         Margin = new Thickness(5, 0, 0, 0),
                         Text = header.ToUpper(),
                         VerticalAlignment = VerticalAlignment.Center,
@@ -258,7 +248,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private enum QuoteFormat
         {
-            None, Note, Warning, Important
+            None, Note, Warning, Tip, Important
         }
 
         private const string NoteQuote = "[!NOTE]";
@@ -267,16 +257,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         private const string ImportantQuote = "[!IMPORTANT]";
         private const string CautionQuote = "[!CAUTION]";
 
-        private SolidColorBrush noteBackground = new SolidColorBrush(Color.FromArgb(255, 217, 237, 247));
-        private SolidColorBrush noteBorder = new SolidColorBrush(Color.FromArgb(255, 188, 232, 241));
-        private SolidColorBrush noteForeground = new SolidColorBrush(Color.FromArgb(255, 49, 112, 143));
+        private const string NoteGlyph = "\uE946";
+        private const string WarningGlyph = "\uEA39";
+        private const string ImportantGlyph = NoteGlyph;
+        private const string TipGlyph = "\uEA80";
 
-        private SolidColorBrush warningBackground = new SolidColorBrush(Color.FromArgb(255, 252, 248, 227));
-        private SolidColorBrush warningBorder = new SolidColorBrush(Color.FromArgb(255, 250, 235, 204));
-        private SolidColorBrush warningForeground = new SolidColorBrush(Color.FromArgb(255, 138, 109, 59));
+        private SolidColorBrush lightNoteBackground = new SolidColorBrush(Color.FromArgb(255, 217, 237, 247));
+        private SolidColorBrush lightNoteForeground = new SolidColorBrush(Color.FromArgb(255, 49, 112, 143));
 
-        private SolidColorBrush importantBackground = new SolidColorBrush(Color.FromArgb(255, 242, 222, 222));
-        private SolidColorBrush importantBorder = new SolidColorBrush(Color.FromArgb(255, 235, 204, 209));
-        private SolidColorBrush importantForeground = new SolidColorBrush(Color.FromArgb(255, 169, 68, 66));
+        private SolidColorBrush lightWarningBackground = new SolidColorBrush(Color.FromArgb(255, 253, 237, 238));
+        private SolidColorBrush lightWarningForeground = new SolidColorBrush(Color.FromArgb(255, 126, 17, 22));
+
+        private SolidColorBrush lightImportantBackground = new SolidColorBrush(Color.FromArgb(255, 238, 233, 248));
+        private SolidColorBrush lightImportantForeground = new SolidColorBrush(Color.FromArgb(255, 53, 30, 94));
+
+        private SolidColorBrush lightTipBackground = new SolidColorBrush(Color.FromArgb(255, 233, 250, 245));
+        private SolidColorBrush lightTipForeground = new SolidColorBrush(Color.FromArgb(255, 0, 100, 73));
+
+        private SolidColorBrush darkNoteBackground = new SolidColorBrush(Color.FromArgb(255, 0, 69, 89));
+        private SolidColorBrush darkWarningBackground = new SolidColorBrush(Color.FromArgb(255, 67, 9, 12));
+        private SolidColorBrush darkImportantBackground = new SolidColorBrush(Color.FromArgb(255, 53, 30, 94));
+        private SolidColorBrush darkTipBackground = new SolidColorBrush(Color.FromArgb(255, 0, 49, 36));
     }
 }
