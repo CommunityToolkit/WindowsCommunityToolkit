@@ -189,7 +189,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             return new CodeBlock()
             {
                 Text = code.ToString().Trim('\r', '\n'),
-                CodeLanguage = !string.IsNullOrWhiteSpace(codeLanguage) ? codeLanguage : null
+                CodeLanguage = !string.IsNullOrWhiteSpace(codeLanguage) ? codeLanguage.Trim() : null
             };
         }
 

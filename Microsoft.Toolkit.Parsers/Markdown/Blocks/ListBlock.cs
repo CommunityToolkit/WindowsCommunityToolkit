@@ -170,7 +170,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         else
                         {
                             // Inline text.
-                            AppendTextToListItem(currentListItem, markdown, lineInfo.FirstNonWhitespaceChar, lineInfo.EndOfLine);
+                            AppendTextToListItem(currentListItem, markdown, lineInfo.FirstNonWhitespaceChar, lineInfo.EndOfLine, true);
                         }
                     }
 
@@ -247,7 +247,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// <summary>
         /// Parsing helper method.
         /// </summary>
-        private static void AppendTextToListItem(ListItemBlock listItem, string markdown, int start, int end)
+        private static void AppendTextToListItem(ListItemBlock listItem, string markdown, int start, int end, bool newLine = false)
         {
             ListItemBuilder listItemBuilder = null;
             if (listItem.Blocks.Count > 0)
@@ -275,6 +275,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 builder.Append(' ');
             }
 
+            if (newLine) builder.Append("\n");
             builder.Append(markdown.Substring(start, end - start));
         }
 

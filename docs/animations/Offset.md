@@ -64,43 +64,47 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ## Examples
 
-**You can just call `Offset()` set the control in the orginal position**
+- You can just call `Offset()` set the control in the orginal position
 
-    **Sample Code**
+    _Sample Code_
+
     ```csharp
     await MyUIElement.Offset().Start();
     ```
-**Use await to create a continous movement**
 
-_Sample Code_
+- Use await to create a continous movement
 
-```csharp
-public async void OffsetAsync()
-{
-    await MyUIElement.Offset(offsetX: 100, duration:1000).StartAsync();
-    await MyUIElement.Offset(offsetX: 100, offsetY: 100, duration: 1000).StartAsync();
-    await MyUIElement.Offset(offsetX: 0, offsetY:100, duration: 1000).StartAsync();
-    await MyUIElement.Offset(duration: 1000).StartAsync();
-}
-```
-_Sample Output_
+    _Sample Code_
+
+    ```csharp
+    public async void OffsetAsync()
+    {
+        await MyUIElement.Offset(offsetX: 100, duration:1000).StartAsync();
+        await MyUIElement.Offset(offsetX: 100, offsetY: 100, duration: 1000).StartAsync();
+        await MyUIElement.Offset(offsetX: 0, offsetY:100, duration: 1000).StartAsync();
+        await MyUIElement.Offset(duration: 1000).StartAsync();
+    }
+    ```
+
+    _Sample Output_
 
     ![Use Case 2 Output](../resources/images/Animations/Offset/Use-Case-1.gif)
 
-**Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.**
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
-_Sample Code_
+    _Sample Code_
 
-```csharp
-var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
-anim.SetDurationForAll(2500);
-anim.SetDelay(250);
-anim.Completed += animation_completed;
-anim.Start();
-```
-_Sample Output_
+    ```csharp
+    var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
+    anim.SetDurationForAll(2500);
+    anim.SetDelay(250);
+    anim.Completed += animation_completed;
+    anim.Start();
+    ```
 
-![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
+    _Sample Output_
+
+    ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
 
 ## Sample Project
 
@@ -116,5 +120,4 @@ _Sample Output_
 ## API
 
 * [Offset source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors/Offset.cs)
-
 
