@@ -11,6 +11,7 @@
     <Color x:Key="Grey-04">#FFDDDDDD</Color>
     <Color x:Key="Grey-05">#FFF0F0F0</Color>
     <Color x:Key="White">#FFFFFFFF</Color>
+    <Color x:Key="Black">#FF000000</Color>
     <Color x:Key="Blue-01">#FF0078D7</Color>
 
     <!--  Brushes  -->
@@ -45,17 +46,17 @@
                          Color="{StaticResource Brand-Color}" />
             <!-- UI Elements -->
             <SolidColorBrush x:Key="Brush-Grey-01"
-                         Color="{StaticResource Grey-01}" />
+                         Color="{StaticResource Grey-05}" />
             <SolidColorBrush x:Key="Brush-Grey-02"
-                         Color="{StaticResource Grey-02}" />
+                         Color="{StaticResource Grey-04}" />
             <SolidColorBrush x:Key="Brush-Grey-03"
                          Color="{StaticResource Grey-03}" />
             <SolidColorBrush x:Key="Brush-Grey-04"
-                         Color="{StaticResource Grey-04}" />
+                         Color="{StaticResource Grey-02}" />
             <SolidColorBrush x:Key="Brush-Grey-05"
-                         Color="{StaticResource Grey-05}" />
+                         Color="{StaticResource Grey-01}" />
             <SolidColorBrush x:Key="Brush-White"
-                         Color="{StaticResource White}" />
+                         Color="{StaticResource Black}" />
             <SolidColorBrush x:Key="Brush-Blue-01"
                          Color="{StaticResource Blue-01}" />
         </ResourceDictionary>
