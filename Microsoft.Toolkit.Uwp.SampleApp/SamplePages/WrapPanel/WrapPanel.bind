@@ -44,6 +44,7 @@
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <controls:WrapPanel Background="LightGray"
+                                        Padding="@[Padding:Thickness:0,0,0,0]@"
                                         VerticalSpacing="@[VerticalSpacing:Slider:5:0-200]@"
                                         HorizontalSpacing="@[HorizontalSpacing:Slider:5:0-200]@"/>
                 </ItemsPanelTemplate>
