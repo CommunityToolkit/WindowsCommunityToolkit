@@ -55,9 +55,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(StaggeredPanel),
             new PropertyMetadata(250d, OnDesiredColumnWidthChanged));
 
+        /// <summary>
+        /// Gets or sets the distance between the border and its child object.
+        /// </summary>
+        /// <returns>
+        /// The dimensions of the space between the border and its child as a Thickness value.
+        /// Thickness is a structure that stores dimension values using pixel measures.
+        /// </returns>
+        public Thickness Padding
+        {
+            get { return (Thickness)GetValue(PaddingProperty); }
+            set { SetValue(PaddingProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the Padding dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="Padding"/> dependency property.</returns>
+        public static readonly DependencyProperty PaddingProperty = DependencyProperty.Register(
+            nameof(Padding),
+            typeof(Thickness),
+            typeof(StaggeredPanel),
+            new PropertyMetadata(default(Thickness), OnPaddingChanged));
+
         /// <inheritdoc/>
         protected override Size MeasureOverride(Size availableSize)
         {
+            availableSize.Width = availableSize.Width - Padding.Left - Padding.Right;
+            availableSize.Height = availableSize.Height - Padding.Top - Padding.Bottom;
+
             _columnWidth = Math.Min(DesiredColumnWidth, availableSize.Width);
             int numColumns = (int)Math.Floor(availableSize.Width / _columnWidth);
             if (HorizontalAlignment == HorizontalAlignment.Stretch)
@@ -85,15 +111,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override Size ArrangeOverride(Size finalSize)
         {
-            double offset = 0;
+            double horizontalOffset = Padding.Left;
+            double verticalOffset = Padding.Top;
             int numColumns = (int)Math.Floor(finalSize.Width / _columnWidth);
             if (HorizontalAlignment == HorizontalAlignment.Right)
             {
-                offset = finalSize.Width - (numColumns * _columnWidth);
+                horizontalOffset += finalSize.Width - (numColumns * _columnWidth);
             }
             else if (HorizontalAlignment == HorizontalAlignment.Center)
             {
-                offset = (finalSize.Width - (numColumns * _columnWidth)) / 2;
+                horizontalOffset += (finalSize.Width - (numColumns * _columnWidth)) / 2;
             }
 
             var columnHeights = new double[numColumns];
@@ -114,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     elementWidth = _columnWidth;
                 }
 
-                Rect bounds = new Rect(offset + (_columnWidth * columnIndex), columnHeights[columnIndex], elementWidth, elementHeight);
+                Rect bounds = new Rect(horizontalOffset + (_columnWidth * columnIndex), columnHeights[columnIndex] + verticalOffset, elementWidth, elementHeight);
                 child.Arrange(bounds);
 
                 columnHeights[columnIndex] += elementSize.Height;
@@ -124,6 +151,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         private static void OnDesiredColumnWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var panel = (StaggeredPanel)d;
+            panel.InvalidateMeasure();
+        }
+
+        private static void OnPaddingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var panel = (StaggeredPanel)d;
             panel.InvalidateMeasure();
