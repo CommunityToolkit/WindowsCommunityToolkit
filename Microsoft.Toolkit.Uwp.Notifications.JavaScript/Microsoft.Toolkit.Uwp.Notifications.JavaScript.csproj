@@ -10,12 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    
     <None Include="Microsoft.Toolkit.Uwp.Notifications.JavaScript.targets" PackagePath="build\Windows" Pack="true" />
     <None Include="..\Microsoft.Toolkit.Uwp.Notifications\bin\$(Configuration)\native\*.*" PackagePath="lib\Windows" Pack="true" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.0" />
   </ItemGroup>
 
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
