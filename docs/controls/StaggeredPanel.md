@@ -43,6 +43,7 @@ Some note
 | Property | Type | Description |
 | -- | -- | -- |
 | DesiredColumnWidth | double | The desired width of each column. The width of columns can exceed the DesiredColumnWidth if the HorizontalAlignment is set to Stretch. |
+| Padding | Thickness | The dimensions of the space between the edge and its child as a Thickness value. Thickness is a structure that stores dimension values using pixel measures. |
 
 ## Sample Code
 
