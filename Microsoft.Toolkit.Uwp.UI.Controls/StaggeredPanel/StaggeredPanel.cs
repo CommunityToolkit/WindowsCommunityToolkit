@@ -125,10 +125,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnDesiredColumnWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is StaggeredPanel panel)
-            {
-                panel.InvalidateMeasure();
-            }
+            var panel = (StaggeredPanel)d;
+            panel.InvalidateMeasure();
         }
 
         private void OnHorizontalAlignmentChanged(DependencyObject sender, DependencyProperty dp)
