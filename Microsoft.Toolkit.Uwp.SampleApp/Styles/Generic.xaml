@@ -548,7 +548,7 @@
                                               Visibility="Collapsed">
                     <Border></Border>
                 </toolkitControls:DropShadowPanel>
-                <Border Background="#E6E6E6">
+                <Border Background="{ThemeResource SampleIconBacking}">
                     <Image x:Name="SampleIcon" Source="{Binding Icon}" />
                 </Border>
             </Grid>
@@ -561,7 +561,6 @@
                 <TextBlock FontSize="12"
                                FontWeight="Light"
                                VerticalAlignment="Center"
-                               Foreground="Black"
                                TextTrimming="CharacterEllipsis"
                                Text="{Binding Name}" />
                 <Button Opacity="0.6"
@@ -624,7 +623,7 @@
                         <Grid Grid.Row="1">
 
                             <Border x:Name="ContentShadow"
-                                        Background="#33000000"
+                                        Background="{ThemeResource BackingTint}"
                                         Visibility="{Binding Visibility, ElementName=SamplePickerGrid}">
                                 <interactivity:Interaction.Behaviors>
                                     <behaviors:Blur AutomaticallyStart="True"
@@ -647,7 +646,7 @@
                                 <toolkitControls:DropShadowPanel VerticalContentAlignment="Stretch"
                                                                      HorizontalContentAlignment="Stretch"
                                                                      ShadowOpacity="0.7"
-                                                                     Color="Black"
+                                                                     Color="{ThemeResource Color-Alt}"
                                                                      BlurRadius="10"
                                                                      VerticalAlignment="Bottom"
                                                                      Margin="0,0,0,-3">
@@ -655,7 +654,7 @@
                                 </toolkitControls:DropShadowPanel>
 
                                 <Border x:Name="SamplePickerGridBackground"
-                                            local:XAMLHelper.Background="#F3F3F3F3"></Border>
+                                             Background="{ThemeResource Menu-DropDown-Background}"></Border>
                                 <GridView x:Name="SamplePickerGridView"
                                               IsItemClickEnabled="True"
                                               animations:ReorderGridAnimation.Duration="200"
@@ -804,7 +803,7 @@
                                 <ContentControl Margin="{TemplateBinding HamburgerMargin}"
                                                     ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
                                                     Foreground="{TemplateBinding PaneForeground}"
-                                                    Background="White"
+                                                    Background="{ThemeResource Brush-Main}"
                                                     extensions:VisualEx.NormalizedCenterPoint="0.5"
                                                     IsTabStop="False">
                                     <animations:Implicit.ShowAnimations>
@@ -818,7 +817,7 @@
                                 </ContentControl>
                             </Button>
 
-                            <Border Background="#48000000" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="4"></Border>
+                            <Border Background="{ThemeResource Separator-03}" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="4"></Border>
                         </Grid>
 
                         <Canvas Background="Transparent"
@@ -835,10 +834,10 @@
                                     <toolkitControls:DropShadowPanel VerticalContentAlignment="Stretch"
                                                                          HorizontalContentAlignment="Stretch"
                                                                          ShadowOpacity="0.6"
-                                                                         Color="Black"
+                                                                         Color="{ThemeResource Color-Alt}"
                                                                          OffsetY="6"
                                                                          BlurRadius="60">
-                                        <Border Background="#F4F3F3F3"
+                                        <Border Background="{ThemeResource Menu-DropDown-Background}"
                                                     Opacity="0.96">
                                             <interactivity:Interaction.Behaviors>
                                                 <behaviors:Blur AutomaticallyStart="True"
@@ -865,12 +864,10 @@
                                             <TextBlock Margin="0, 10"
                                                            FontSize="14"
                                                            FontWeight="SemiBold"
-                                                           Foreground="Black"
                                                            Text="{Binding Name}"
                                                            TextTrimming="CharacterEllipsis" />
 
                                             <TextBlock FontSize="12"
-                                                           Foreground="Black"
                                                            Text="{Binding About}"
                                                            TextWrapping="Wrap" />
 
@@ -883,7 +880,7 @@
                                                                FontSize="10"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Bottom"
-                                                               Foreground="White"
+                                                               Foreground="{ThemeResource Brush-Main}"
                                                                Text="{Binding BadgeUpdateVersionRequired}" />
 
                                                 <animations:Implicit.HideAnimations>
@@ -1088,7 +1085,7 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <FontIcon Glyph="&#xEA39;" Foreground="DarkRed" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" />
+                                    <FontIcon Glyph="&#xEA39;" Foreground="{ThemeResource ExceptionNotification-IconForeground}" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" />
 
                                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                                           HorizontalContentAlignment="Stretch"

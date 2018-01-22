@@ -7,7 +7,7 @@
       mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="PersonDataTemplate">
-            <TextBlock Foreground="{StaticResource Brush-White}"
+            <TextBlock Foreground="{StaticResource Brush-Main}"
                        Text="{Binding Name}" />
         </DataTemplate>
     </Page.Resources>

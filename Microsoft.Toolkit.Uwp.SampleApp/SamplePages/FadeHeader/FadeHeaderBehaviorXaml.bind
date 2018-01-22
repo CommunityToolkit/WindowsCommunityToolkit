@@ -20,10 +20,10 @@
                        TextAlignment="Center"
                        FontWeight="Bold"
                        FontSize="48"
-                       Foreground="{StaticResource Brush-White}"
+                       Foreground="{StaticResource Brush-Main}"
                        Margin="12" />
             <TextBlock Text="It starts with 100% opacity but will fade to 0% as you scroll up."
-                       Foreground="{StaticResource Brush-White}"
+                       Foreground="{StaticResource Brush-Main}"
 					             Margin="12,0,12,12"
                        VerticalAlignment="Center"
                        TextAlignment="Center" />

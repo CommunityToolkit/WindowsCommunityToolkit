@@ -17,13 +17,13 @@
               <TextBlock Margin="12"
                      FontSize="48"
                      FontWeight="Bold"
-                     Foreground="{StaticResource Brush-White}"
+                     Foreground="{StaticResource Brush-Main}"
                      Text="Scroll Header"
                      TextAlignment="Center"
                      TextWrapping="WrapWholeWords" />
               <TextBlock Margin="12,0,12,12"
                      VerticalAlignment="Center"
-                     Foreground="{StaticResource Brush-White}"
+                     Foreground="{StaticResource Brush-Main}"
                      Text="The scroll header supports quick return, sticky and fade behavior. If fade is enabled the header fades out while scrolling down. If quick return is enabled the header hides when the ListView is scrolled down and reappears immediately as soon as the ListView is scrolled up again. If sticky is enabled the header is displayed regardless of scrolling."
                      TextAlignment="Center"
                      TextWrapping="WrapWholeWords" />

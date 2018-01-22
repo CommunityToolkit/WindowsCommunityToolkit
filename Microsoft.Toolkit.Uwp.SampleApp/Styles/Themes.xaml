@@ -5,11 +5,6 @@
     <Color x:Key="Brand-Color">#3750D1</Color>
 
     <!--  Colors  -->
-    <Color x:Key="Grey-01">#FF333333</Color>
-    <Color x:Key="Grey-02">#FF444444</Color>
-    <Color x:Key="Grey-03">#FF555555</Color>
-    <Color x:Key="Grey-04">#FFDDDDDD</Color>
-    <Color x:Key="Grey-05">#FFF0F0F0</Color>
     <Color x:Key="White">#FFFFFFFF</Color>
     <Color x:Key="Black">#FF000000</Color>
     <Color x:Key="Blue-01">#FF0078D7</Color>
@@ -17,6 +12,15 @@
     <!--  Brushes  -->
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
+            <!-- Colors -->
+            <Color x:Key="Color-Main">White</Color>
+            <Color x:Key="Color-Alt">Black</Color>
+            <Color x:Key="Grey-01">#FF333333</Color>
+            <Color x:Key="Grey-02">#FF444444</Color>
+            <Color x:Key="Grey-03">#FF555555</Color>
+            <Color x:Key="Grey-04">#FFDDDDDD</Color>
+            <Color x:Key="Grey-05">#FFF0F0F0</Color>
+
             <!-- Branding Colors -->
             <SolidColorBrush x:Key="SystemControlHighlightAccentBrush"
                          Color="{StaticResource Brand-Color}" />
@@ -24,21 +28,60 @@
                          Color="{StaticResource Brand-Color}" />
             <!-- UI Elements -->
             <SolidColorBrush x:Key="Brush-Grey-01"
-                         Color="{StaticResource Grey-01}" />
+                         Color="{ThemeResource Grey-01}" />
             <SolidColorBrush x:Key="Brush-Grey-02"
-                         Color="{StaticResource Grey-02}" />
+                         Color="{ThemeResource Grey-02}" />
             <SolidColorBrush x:Key="Brush-Grey-03"
-                         Color="{StaticResource Grey-03}" />
+                         Color="{ThemeResource Grey-03}" />
             <SolidColorBrush x:Key="Brush-Grey-04"
-                         Color="{StaticResource Grey-04}" />
+                         Color="{ThemeResource Grey-04}" />
             <SolidColorBrush x:Key="Brush-Grey-05"
-                         Color="{StaticResource Grey-05}" />
-            <SolidColorBrush x:Key="Brush-White"
+                         Color="{ThemeResource Grey-05}" />
+            <SolidColorBrush x:Key="Brush-Main"
                          Color="{StaticResource White}" />
+            <SolidColorBrush x:Key="Brush-Alt"
+                          Color="Black" />
             <SolidColorBrush x:Key="Brush-Blue-01"
                          Color="{StaticResource Blue-01}" />
+            <SolidColorBrush x:Key="Separator-01"
+                             Color="#33000000" />
+            <SolidColorBrush x:Key="Separator-02"
+                             Color="#19000000" />
+            <SolidColorBrush x:Key="Separator-03"
+                             Color="#48000000" />
+            <SolidColorBrush x:Key="Background-01"
+                             Color="#F4FFFFFF" />
+            <SolidColorBrush x:Key="Background-02"
+                             Color="#D4F3F3F3" />
+            <SolidColorBrush x:Key="Menu-Background"
+                             Color="White" />
+            <SolidColorBrush x:Key="Menu-DropDown-Background"
+                             Color="#F3F3F3F3" />
+            <SolidColorBrush x:Key="Commands-Background"
+                             Color="White" />
+            <SolidColorBrush x:Key="InfoArea-Titlebar"
+                             Color="#FFCCCCCC" />
+            <SolidColorBrush x:Key="DocumentationBackground"
+                             Color="White" />
+            <SolidColorBrush x:Key="DocumentationForeground"
+                             Color="Black" />
+            <SolidColorBrush x:Key="BackingTint"
+                             Color="#33000000" />
+            <SolidColorBrush x:Key="SampleIconBacking"
+                             Color="#E6E6E6" />
+            <SolidColorBrush x:Key="ExceptionNotification-IconForeground"
+                             Color="DarkRed" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
+            <!-- Colors -->
+            <Color x:Key="Color-Main">Black</Color>
+            <Color x:Key="Color-Alt">White</Color>
+            <Color x:Key="Grey-01">#FFF0F0F0</Color>
+            <Color x:Key="Grey-02">#FFDDDDDD</Color>
+            <Color x:Key="Grey-03">#FF555555</Color>
+            <Color x:Key="Grey-04">#FF444444</Color>
+            <Color x:Key="Grey-05">#FF333333</Color>
+
             <!-- Branding Colors -->
             <SolidColorBrush x:Key="SystemControlHighlightAccentBrush"
                          Color="{StaticResource Brand-Color}" />
@@ -46,19 +89,49 @@
                          Color="{StaticResource Brand-Color}" />
             <!-- UI Elements -->
             <SolidColorBrush x:Key="Brush-Grey-01"
-                         Color="{StaticResource Grey-05}" />
+                         Color="{ThemeResource Grey-01}" />
             <SolidColorBrush x:Key="Brush-Grey-02"
-                         Color="{StaticResource Grey-04}" />
+                         Color="{ThemeResource Grey-02}" />
             <SolidColorBrush x:Key="Brush-Grey-03"
-                         Color="{StaticResource Grey-03}" />
+                         Color="{ThemeResource Grey-03}" />
             <SolidColorBrush x:Key="Brush-Grey-04"
-                         Color="{StaticResource Grey-02}" />
+                         Color="{ThemeResource Grey-04}" />
             <SolidColorBrush x:Key="Brush-Grey-05"
-                         Color="{StaticResource Grey-01}" />
-            <SolidColorBrush x:Key="Brush-White"
+                         Color="{ThemeResource Grey-05}" />
+            <SolidColorBrush x:Key="Brush-Main"
                          Color="{StaticResource Black}" />
+            <SolidColorBrush x:Key="Brush-Alt"
+                          Color="White" />
             <SolidColorBrush x:Key="Brush-Blue-01"
                          Color="{StaticResource Blue-01}" />
+            <SolidColorBrush x:Key="Separator-01"
+                             Color="#33FFFFFF" />
+            <SolidColorBrush x:Key="Separator-02"
+                             Color="#19FFFFFF" />
+            <SolidColorBrush x:Key="Separator-03"
+                             Color="#48FFFFFF" />
+            <SolidColorBrush x:Key="Background-01"
+                             Color="Black" />
+            <SolidColorBrush x:Key="Background-02"
+                             Color="#D4000000" />
+            <SolidColorBrush x:Key="Menu-Background"
+                             Color="Black" />
+            <SolidColorBrush x:Key="Menu-DropDown-Background"
+                             Color="#FF282828" />
+            <SolidColorBrush x:Key="Commands-Background"
+                             Color="Black" />
+            <SolidColorBrush x:Key="InfoArea-Titlebar"
+                             Color="#33000000" />
+            <SolidColorBrush x:Key="DocumentationBackground"
+                             Color="Black" />
+            <SolidColorBrush x:Key="DocumentationForeground"
+                             Color="White" />
+            <SolidColorBrush x:Key="BackingTint"
+                             Color="#33FFFFFF" />
+            <SolidColorBrush x:Key="SampleIconBacking"
+                             Color="#E6E6E6" />
+            <SolidColorBrush x:Key="ExceptionNotification-IconForeground"
+                             Color="{ThemeResource Grey-04}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

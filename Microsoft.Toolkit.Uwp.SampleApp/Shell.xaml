@@ -21,7 +21,6 @@
       extensions:TitleBar.ForegroundColor="{StaticResource Grey-04}"
       mc:Ignorable="d">
     <Page.Resources>
-        
 
         <DataTemplate x:Key="HorizontalItemTemplate"
                       x:DataType="local:SampleCategory">
@@ -31,7 +30,6 @@
                            FontFamily="Segoe UI"
                            FontSize="15px"
                            FontWeight="Normal"
-                           Foreground="Black"
                            Text="{x:Bind Name}" />
             </Grid>
         </DataTemplate>
@@ -42,11 +40,9 @@
                 <FontIcon Grid.Column="0"
                           FontFamily="Segoe MDL2 Assets"
                           FontSize="16"
-                          Foreground="Black"
                           Glyph="{x:Bind Glyph}" />
             </Grid>
         </DataTemplate>
-
     </Page.Resources>
 
     <controlsLocal:ExtendedHamburgerMenu x:Name="HamburgerMenu"
@@ -54,14 +50,14 @@
                                          SamplePickerItemClick="HamburgerMenu_SamplePickerItemClick"
                                          OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
                                          OptionsItemTemplate="{StaticResource HorizontalOptionTemplate}"
-                                         PaneBackground="White"
-                                         PaneForeground="Black"
+                                         PaneBackground="{ThemeResource Menu-Background}"
+                                         PaneForeground="{ThemeResource SystemBaseHighColor}"
                                          Style="{StaticResource HorizontalHamburgerMenu}">
 
         <Grid x:Name="RootGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" />
-                <ColumnDefinition  Width="Auto"/>
+                <ColumnDefinition  Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -70,10 +66,10 @@
             <Grid x:Name="DemoAreaGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Frame x:Name="NavigationFrame" ></Frame>
-                <controls:DropShadowPanel Grid.Row="1" Color="Black" ShadowOpacity="0.2" BlurRadius="40"
+                <controls:DropShadowPanel Grid.Row="1" Color="{ThemeResource Color-Alt}" ShadowOpacity="0.2" BlurRadius="40"
                                             HorizontalContentAlignment="Stretch" Margin="8,0,8,8"
                                             Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}">
                     <animations:Implicit.ShowAnimations>
@@ -84,14 +80,14 @@
                         <animations:TranslationAnimation To="0, 100, 0" From="0" Duration="0:0:0.3"></animations:TranslationAnimation>
                         <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.3"></animations:OpacityAnimation>
                     </animations:Implicit.HideAnimations>
-                    <Border Background="#FFFFFF">
+                    <Border Background="{ThemeResource Commands-Background}">
                         <ItemsControl ItemsSource="{x:Bind Commands}"
                                     VerticalAlignment="Top"
                                     HorizontalAlignment="Stretch"
                                     Margin="10,10,0,0">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <controls:WrapPanel/>
+                                    <controls:WrapPanel />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
@@ -100,7 +96,7 @@
                                         Margin="0, 0, 10, 10"
                                         MinWidth="150"
                                         FontSize="12"
-                                        Foreground="{StaticResource Brush-Grey-01}">
+                                        Foreground="{ThemeResource Brush-Grey-01}">
                                         <interactivity:Interaction.Behaviors>
                                             <core:EventTriggerBehavior EventName="Click">
                                                 <core:InvokeCommandAction Command="{x:Bind}" />
@@ -112,10 +108,9 @@
                         </ItemsControl>
                     </Border>
                 </controls:DropShadowPanel>
-                    
             </Grid>
             <Grid x:Name="InfoAreaGrid"
-                  Background="{StaticResource Brush-Grey-04}"
+                  Background="{ThemeResource Brush-Grey-04}"
                   Visibility="Collapsed">
 
                 <animations:Implicit.ShowAnimations>
@@ -126,12 +121,12 @@
                     <animations:TranslationAnimation To="200, 0, 0" Duration="0:0:0.2"></animations:TranslationAnimation>
                     <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.2"></animations:OpacityAnimation>
                 </animations:Implicit.HideAnimations>
-                
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Grid Background="#FFCCCCCC">
+                <Grid Background="{ThemeResource InfoArea-Titlebar}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
@@ -147,14 +142,14 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Tapped="PivotTitle_Tapped"
-                                Foreground="{StaticResource Brush-Grey-01}"
+                                Foreground="{ThemeResource Brush-Grey-01}"
                                 Text="" />
                     <HyperlinkButton x:Name="GitHub"
                                         Grid.Column="2"
                                         Margin="0,0,10,0"
                                         Click="GitHub_OnClick"
                                         Content="Github"
-                                        Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}" />
+                                        Foreground="{ThemeResource Brush-Grey-01}" />
                 </Grid>
                 <Pivot x:Name="InfoAreaPivot"
                         Grid.Row="1"
@@ -162,55 +157,56 @@
                         SelectionChanged="InfoAreaPivot_OnSelectionChanged">
                     <PivotItem x:Name="PropertiesPivotItem"
                                 Header="PROPERTIES">
-                            <ScrollViewer>
-                                <controlsLocal:PropertyControl x:Name="Properties" />
-                            </ScrollViewer>
-                        </PivotItem>
+                        <ScrollViewer>
+                            <controlsLocal:PropertyControl x:Name="Properties" />
+                        </ScrollViewer>
+                    </PivotItem>
 
-                <PivotItem x:Name="XamlPivotItem"
+                    <PivotItem x:Name="XamlPivotItem"
                             Header="XAML">
-                    <monaco:CodeEditor x:Name="XamlCodeRenderer"
+                        <monaco:CodeEditor x:Name="XamlCodeRenderer"
                                        CodeLanguage="xml"
                                        KeyDown="XamlCodeRenderer_KeyDown"
                                        Loading="XamlCodeRenderer_Loading"
-                                       InternalException="XamlCodeRenderer_InternalException"/>
-                </PivotItem>
+                                       InternalException="XamlCodeRenderer_InternalException" />
+                    </PivotItem>
 
-                <PivotItem x:Name="XamlReadOnlyPivotItem"
+                    <PivotItem x:Name="XamlReadOnlyPivotItem"
                             Header="XAML">
-                    <controlsLocal:CodeRenderer x:Name="XamlReadOnlyCodeRenderer" />
-                </PivotItem>    
-                        
-                <PivotItem x:Name="CSharpPivotItem"
+                        <controlsLocal:CodeRenderer x:Name="XamlReadOnlyCodeRenderer" />
+                    </PivotItem>
+
+                    <PivotItem x:Name="CSharpPivotItem"
                             Header="CODE">
-                    <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer"
+                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer"
                                                 IsFocusEngagementEnabled="False" />
-                </PivotItem>
+                    </PivotItem>
 
-                <PivotItem x:Name="JavaScriptPivotItem"
+                    <PivotItem x:Name="JavaScriptPivotItem"
                             Header="JAVASCRIPT">
-                    <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
-                </PivotItem>
+                        <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
+                    </PivotItem>
 
-                <PivotItem x:Name="DocumentationPivotItem"
+                    <PivotItem x:Name="DocumentationPivotItem"
                             Header="DOCUMENTATION">
-                    <ScrollViewer x:Name="DocumentationScrollViewer"
+                        <ScrollViewer x:Name="DocumentationScrollViewer"
                                     Padding="10,5"
-                                    Background="{StaticResource Brush-White}">
-                        <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
-                                                    Foreground="{StaticResource Brush-Grey-01}"
+                                    Background="{ThemeResource DocumentationBackground}">
+                            <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
+                                                    Foreground="{ThemeResource DocumentationForeground}"
+                                                    Background="{ThemeResource DocumentationBackground}"
                                                     ImageResolving="DocumentationTextblock_ImageResolving"
-                                                    LinkClicked="DocumentationTextblock_OnLinkClicked" 
+                                                    LinkClicked="DocumentationTextblock_OnLinkClicked"
                                                     IsFocusEngagementEnabled="False" />
-                    </ScrollViewer>
-                </PivotItem>
-            </Pivot>
+                        </ScrollViewer>
+                    </PivotItem>
+                </Pivot>
 
-            <controls:GridSplitter x:Name="Splitter"
+                <controls:GridSplitter x:Name="Splitter"
                                     Grid.Row="1"
                                     Width="11"
                                     HorizontalAlignment="Left"
-                                    Background="{StaticResource Brush-Grey-04}"
+                                    Background="{ThemeResource Brush-Grey-04}"
                                     GripperForeground="White"
                                     ParentLevel="1" />
             </Grid>
@@ -225,17 +221,15 @@
                     Grid.RowSpan="2"
                     Grid.ColumnSpan="2"
                     Visibility="Collapsed">
-                <Rectangle Fill="Black"
-                            Opacity="0.2" />
+                <Grid Background="{ThemeResource BackingTint}" />
                 <ProgressRing Width="100"
                                 Height="100"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Foreground="{StaticResource ApplicationForegroundThemeBrush}"
+                                Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
                                 IsActive="True" />
             </Grid>
         </Grid>
-
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">
@@ -278,7 +272,6 @@
 
                         <Setter Target="Splitter.Visibility" Value="Visible" />
                     </VisualState.Setters>
-
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
