@@ -646,7 +646,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
+            rangeSelector.ValidateStepFrequency();
             rangeSelector.ResetStepFrequency();
+        }
+
+        private void ValidateStepFrequency()
+        {
+            if (StepFrequency > Maximum)
+            {
+                StepFrequency = DefaultStepFrequency;
+            }
         }
 
         private void ResetStepFrequency()
