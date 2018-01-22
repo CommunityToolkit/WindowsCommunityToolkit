@@ -17,8 +17,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// EventArgs used for the <see cref="HamburgerMenu"/> ItemInvoked event
     /// </summary>
-    [Obsolete("The HamburgetMenuItemInvokedEventArgs will be removed alongside the HamburgerMenu in a future major release. Please use the NavigationView control available in the Fall Creators Update")]
-    public class HamburgetMenuItemInvokedEventArgs : EventArgs
+    [Obsolete("The HamburgerMenuItemInvokedEventArgs will be removed alongside the HamburgerMenu in a future major release. Please use the NavigationView control available in the Fall Creators Update")]
+    public class HamburgerMenuItemInvokedEventArgs : EventArgs
     {
         /// <summary>
         /// Gets the invoked item
@@ -29,5 +29,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets a value indicating whether the invoked item is an options item
         /// </summary>
         public bool IsItemOptions { get; internal set; }
+    }
+
+    /// <summary>
+    /// EventArgs used for the <see cref="HamburgerMenu"/> ItemInvoked event
+    /// </summary>
+    [Obsolete("The HamburgetMenuItemInvokedEventArgs will be removed caused by a typo. Please use the HamburgerMenuItemInvokedEventArgs instead.")]
+    public class HamburgetMenuItemInvokedEventArgs : HamburgerMenuItemInvokedEventArgs
+    {
     }
 }
