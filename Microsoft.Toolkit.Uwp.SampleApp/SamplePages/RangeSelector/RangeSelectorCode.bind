@@ -27,7 +27,7 @@
                               Grid.Column="1"                              
                               Minimum="@[Minimum:Slider:0:0-100]@"
                               Maximum="@[Maximum:Slider:100:0-100]@"
-                              StepFrequency="@[StepFrequency:String:1]@"/>
+                              StepFrequency="@[StepFrequency:DoubleSlider:1.0:0.25-10.0]@"/>
       <TextBlock Grid.Column="2"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Center"
