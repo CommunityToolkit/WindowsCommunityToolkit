@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class RangeSelector : Control
     {
         private const double Epsilon = 0.01;
-        private const double DefaultStepFrequency = 0.0;
+        private const double DefaultStepFrequency = 1.0;
 
         /// <summary>
         /// Identifies the Minimum dependency property.
@@ -656,29 +656,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RangeMinToStepFrequency()
         {
-            if (StepFrequency != DefaultStepFrequency)
-            {
-                RangeMin = MoveToStepFrequency(RangeMin);
-            }
+            RangeMin = MoveToStepFrequency(RangeMin);
         }
 
         private void RangeMaxToStepFrequency()
         {
-            if (StepFrequency != DefaultStepFrequency)
-            {
-                RangeMax = MoveToStepFrequency(RangeMax);
-            }
+            RangeMax = MoveToStepFrequency(RangeMax);
         }
 
         private double MoveToStepFrequency(double rangeValue)
         {
-            if (rangeValue != Maximum && rangeValue != Minimum)
+            double newValue = Minimum + (((int)((rangeValue - Minimum) / StepFrequency)) * StepFrequency);
+
+            if (newValue < Minimum)
             {
-                return Minimum + (((int)((rangeValue - Minimum) / StepFrequency)) * StepFrequency);
+                return Minimum;
+            }
+            else if (newValue > Maximum || Maximum - newValue < StepFrequency)
+            {
+                return Maximum;
             }
             else
             {
-                return rangeValue;
+                return newValue;
             }
         }
 
