@@ -37,6 +37,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "ControlGrid", Type = typeof(Grid))]
     public class RangeSelector : Control
     {
+        private const double Epsilon = 0.01;
+        private const double DefaultStepFrequency = 0.0;
+
         /// <summary>
         /// Identifies the Minimum dependency property.
         /// </summary>
@@ -66,10 +69,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the StepFrequency dependency property.
         /// </summary>
         public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultStepFrequency, StepFrequencyChangedCallback));
-
-        private const double Epsilon = 0.01;
-
-        private const double DefaultStepFrequency = 0.0;
 
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
