@@ -1,7 +1,6 @@
 ---
 title: Composition Visual Attached Properties
 author: nmetulev
-ms.date: 08/20/2017
 description: The Composition Visual Attached Properties allow Composition Visual Properties to be modified directly in XAML
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Visual, composition, xaml, attached property
 ---
@@ -20,11 +19,11 @@ The Composition Visual Attached Properties allow developers to modify common pro
 <Border Height="100"
 		Width="100"
 		Background="Purple"
-		extensions:VisualEx.CenterPoint="50,50,0"
-		extensions:VisualEx.Opacity="0.5"
-		extensions:VisualEx.RotationAngleInDegrees="80"
-		extensions:VisualEx.Scale="2, 0.5, 1"
-		extensions:VisualEx.NormalizedCenterPoint="0.5, 0.5, 0" />
+		extensions:VisualExtensions.CenterPoint="50,50,0"
+		extensions:VisualExtensions.Opacity="0.5"
+		extensions:VisualExtensions.RotationAngleInDegrees="80"
+		extensions:VisualExtensions.Scale="2, 0.5, 1"
+		extensions:VisualExtensions.NormalizedCenterPoint="0.5, 0.5, 0" />
 ```
 
 ## Properties
@@ -73,5 +72,5 @@ The point about which rotation or scaling occurs, normalized between the values 
 
 ## API
 
-* [Visual extensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Visual/VisualEx.cs)
+* [Visual extensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Visual/VisualExtensions.cs)
 

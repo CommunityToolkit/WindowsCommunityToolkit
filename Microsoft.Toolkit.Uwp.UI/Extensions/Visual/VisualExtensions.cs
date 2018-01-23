@@ -22,9 +22,143 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Extension methods and attached properties for <see cref="Visual"/> objects
     /// </summary>
-    [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.VisualExtensions instead")]
-    public static class VisualEx
+    public static class VisualExtensions
     {
+        /// <summary>
+        /// Converts a <see cref="string"/> to <see cref="Vector2"/>
+        /// </summary>
+        /// <param name="str">A string in the format of "float, float"</param>
+        /// <returns><see cref="Vector2"/></returns>
+        public static Vector2 ToVector2(this string str)
+        {
+            try
+            {
+                var strLength = str.Count();
+                if (strLength < 1)
+                {
+                    throw new Exception();
+                }
+                else if (str[0] == '<' && str[strLength - 1] == '>')
+                {
+                    str = str.Substring(1, strLength - 2);
+                }
+
+                string[] values = str.Split(',');
+
+                var count = values.Count();
+                Vector2 vector;
+
+                if (count == 1)
+                {
+                    vector = new Vector2(float.Parse(values[0]));
+                }
+                else if (count == 2)
+                {
+                    vector = new Vector2(float.Parse(values[0]), float.Parse(values[1]));
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+                return vector;
+            }
+            catch (Exception)
+            {
+                throw new FormatException($"Cannot convert {str} to Vector2. Use format \"float, float\"");
+            }
+        }
+
+        /// <summary>
+        /// Converts a <see cref="string"/> to <see cref="Vector3"/>
+        /// </summary>
+        /// <param name="str">A string in the format of "float, float, float"</param>
+        /// <returns><see cref="Vector3"/></returns>
+        public static Vector3 ToVector3(this string str)
+        {
+            try
+            {
+                var strLength = str.Count();
+                if (strLength < 1)
+                {
+                    throw new Exception();
+                }
+                else if (str[0] == '<' && str[strLength - 1] == '>')
+                {
+                    str = str.Substring(1, strLength - 2);
+                }
+
+                string[] values = str.Split(',');
+
+                var count = values.Count();
+                Vector3 vector;
+
+                if (count == 1)
+                {
+                    vector = new Vector3(float.Parse(values[0]));
+                }
+                else if (count == 3)
+                {
+                    vector = new Vector3(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]));
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+                return vector;
+            }
+            catch (Exception)
+            {
+                throw new FormatException($"Cannot convert {str} to Vector3. Use format \"float, float, float\"");
+            }
+        }
+
+        /// <summary>
+        /// Converts a <see cref="string"/> to <see cref="Vector4"/>
+        /// </summary>
+        /// <param name="str">A string in the format of "float, float, float, float"</param>
+        /// <returns><see cref="Vector4"/></returns>
+        public static Vector4 ToVector4(this string str)
+        {
+            try
+            {
+                var strLength = str.Count();
+                if (strLength < 1)
+                {
+                    throw new Exception();
+                }
+                else if (str[0] == '<' && str[strLength - 1] == '>')
+                {
+                    str = str.Substring(1, strLength - 2);
+                }
+
+                string[] values = str.Split(',');
+
+                var count = values.Count();
+                Vector4 vector;
+
+                if (count == 1)
+                {
+                    vector = new Vector4(float.Parse(values[0]));
+                }
+                else if (count == 4)
+                {
+                    vector = new Vector4(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]), float.Parse(values[3]));
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+                return vector;
+            }
+            catch (Exception)
+            {
+                throw new FormatException($"Cannot convert {str} to Vector4. Use format \"float, float, float, float\"");
+            }
+        }
+
         /// <summary>
         /// Retrieves the <see cref="Visual"/> object of a <see cref="UIElement"/>
         /// </summary>

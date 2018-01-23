@@ -296,7 +296,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
 
                 HamburgerMenu.Title = $"{category.Name} > {HamburgerMenu.CurrentSample?.Name}";
-                ApplicationView.SetTitle(this, $"{category.Name} > {HamburgerMenu.CurrentSample?.Name}");
+                ApplicationViewExtensions.SetTitle(this, $"{category.Name} > {HamburgerMenu.CurrentSample?.Name}");
             }
         }
 
@@ -309,7 +309,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             Commands.Clear();
             Splitter.Visibility = Visibility.Collapsed;
             HamburgerMenu.Title = string.Empty;
-            ApplicationView.SetTitle(this, string.Empty);
+            ApplicationViewExtensions.SetTitle(this, string.Empty);
         }
 
         private void ExpandButton_Click(object sender, RoutedEventArgs e)

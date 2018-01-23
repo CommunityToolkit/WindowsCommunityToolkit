@@ -684,7 +684,7 @@
         "XamlCodeFile": "VisualExtensionsCode.bind",
         "Icon": "/SamplePages/Visual Extensions/VisualExtensions.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/VisualEx.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/VisualExtensions.md"
       },
       {
         "Name": "FrameworkElementExtensions",
