@@ -67,7 +67,7 @@
 ## [ViewExtensions](extensions/ViewExtensions.md)
 ## [Visual Layer Extensions](extensions/VisualEx.md)
 ## [Visual Tree](extensions/VisualTree.md)
-## [WebView](extensions/WebView.md)
+## [WebViewExtensions](extensions/WebViewExtensions.md)
 
 # Helpers
 ## [AdvancedCollectionView](helpers/AdvancedCollectionView.md)
