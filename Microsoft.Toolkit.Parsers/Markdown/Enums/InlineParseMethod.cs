@@ -20,6 +20,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Enums
         Comment,
 
         /// <summary>
+        /// A Link Reference
+        /// </summary>
+        LinkReference,
+
+        /// <summary>
         /// A bold element
         /// </summary>
         Bold,

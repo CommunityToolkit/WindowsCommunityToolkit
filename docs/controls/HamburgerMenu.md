@@ -145,7 +145,7 @@ namespace HamburgerSample
 }
 ```
 
-## Moving to NavigationView
+## <a name="navview"></a> Moving to NavigationView
 The Windows 10 Fall Creators Update SDK now includes the [NavigationView](https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/navigationview) control among other new controls and APIs. This is great news for the UWP Community Toolkit as it means that one of its most popular controls, the HamburgerMenu, has a comparable counterpart in the Windows SDK and it is very easy to transition to the NavigationView if you are already using the HamburgerMenu. 
 
 The HamburgerMenu and NavigationView share the same concepts and provide the same functionality with one major exception being the NavigationView takes advantage of the new fluent design system. In fact, the NavigationView does everything the HamburgerMenu does and even more.
@@ -162,7 +162,13 @@ The HamburgerMenu and NavigationView share the same concepts and provide the sam
     | ItemClick | ItemInvoked |
 
     The *OptionsItemsSource* and *OptionItemsTemplate* is not available in the NavigationView. Instead, the NavigationView has two additional new properties that provide a much more flexible way of handling settings and optional items:
-    * An optional property for app settings. Simply set the property *IsSettingsVisible* to true and the NavigationView will display the settings button at the bottom. You can even customize the settings item, such as like the example below...
+    * An optional property for app settings. Simply set the property *IsSettingsVisible* to true and the NavigationView will display the settings button at the bottom. You can even customize the settings item:
+    
+        ```csharp
+        var settingsItem = HamburgerMenu.SettingsItem as NavigationViewItem;
+        settingsItem.Content = "About";
+        settingsItem.Icon = new FontIcon() { Glyph = "?" };
+        ```
 
     * Free-form content in the pane’s footer, by adding any content in the new *PaneFooter* property 
 
@@ -172,13 +178,6 @@ The HamburgerMenu and NavigationView share the same concepts and provide the sam
 
     * There is a new optional header area that is vertically aligned with the navigation button and has a fixed height. Its purpose is to hold the page title of the selected nav category. The header is docked to the top of the page and acts as a scroll clipping point for the content area.
     * AutoSuggestBox property allows you to add a search box that integrates directly with the NavigationView. Some developers accomplished the same with the HamburgerMenu by re-templating it and writing a lot of custom code. That is not needed with the NavigationView
-
-
-```csharp
-var settingsItem = HamburgerMenu.SettingsItem as NavigationViewItem;
-settingsItem.Content = "About";
-settingsItem.Icon = new FontIcon() { Glyph = "?" };
-```
 
 ### Making the transition even easier
 Starting with v2.1 of the UWP Community Toolkit, the HamburgerMenu provides a new property called **UseNavigationViewWhenPossible**. Setting the value to true will force the HamburgerMenu to use a template based on the NavigationView when running on the Fall Creators Update and above, and the regular template otherwise.

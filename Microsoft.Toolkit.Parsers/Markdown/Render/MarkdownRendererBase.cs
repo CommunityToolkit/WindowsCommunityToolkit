@@ -100,9 +100,15 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
         {
             foreach (MarkdownInline element in inlineElements)
             {
-                if (element.Type != MarkdownInlineType.Comment) 
+                switch (element.Type)
                 {
-                    RenderInline(element, context);
+                    case MarkdownInlineType.Comment:
+                    case MarkdownInlineType.LinkReference:
+                        break;
+
+                    default:
+                        RenderInline(element, context);
+                        break;
                 }
             }
         }

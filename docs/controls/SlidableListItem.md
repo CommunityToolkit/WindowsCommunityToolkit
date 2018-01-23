@@ -83,7 +83,7 @@ private void ListView_ItemClick(object sender, ItemClickEventArgs e)
 </controls:SlidableListItem> 
 ```
 
-## Moving to SwipeControl
+## <a name="swipe"></a> Moving to SwipeControl
 The Windows 10 Fall Creators Update SDK now includes the [SwipeControl](https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/swipe) control among other new controls and APIs. This is great news for the UWP Community Toolkit as it means that one of its most popular controls has a comparable counterpart in the Windows SDK and it is very easy to transition to the SwipeControl if you are already using the SlidableListItem.
 
 The SlidableListItem and SwipeControl share the same concepts and provide the same functionality. In fact, the SwipeControl adds even more functionality and can be used in even more scenarios.

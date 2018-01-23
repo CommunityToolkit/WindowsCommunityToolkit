@@ -151,19 +151,21 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                             return null;
                         }
 
+                        // This is the start of a new paragraph.
+                        int spaceCount = lineInfo.FirstNonWhitespaceChar - lineInfo.StartOfLine;
+                        if (spaceCount == 0)
+                        {
+                            break;
+                        }
+
+                        russianDollIndex = Math.Min(russianDollIndex, (spaceCount - 1) / 4);
+                        int linestart = Math.Min(lineInfo.FirstNonWhitespaceChar, lineInfo.StartOfLine + ((russianDollIndex + 1) * 4));
+
                         // 0 spaces = end of the list.
                         // 1-4 spaces = first level.
                         // 5-8 spaces = second level, etc.
                         if (previousLineWasBlank)
                         {
-                            // This is the start of a new paragraph.
-                            int spaceCount = lineInfo.FirstNonWhitespaceChar - lineInfo.StartOfLine;
-                            if (spaceCount == 0)
-                            {
-                                break;
-                            }
-
-                            russianDollIndex = Math.Min(russianDollIndex, (spaceCount - 1) / 4);
                             ListBlock listToAddTo = russianDolls[russianDollIndex].List;
                             currentListItem = listToAddTo.Items[listToAddTo.Items.Count - 1];
 
@@ -185,19 +187,22 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                                 builder.Builder.AppendLine();
                             }
 
-                            AppendTextToListItem(currentListItem, markdown, Math.Min(lineInfo.FirstNonWhitespaceChar, lineInfo.StartOfLine + ((russianDollIndex + 1) * 4)), lineInfo.EndOfLine);
-
-                            // Check for Closing Code Blocks.
-                            var blockmatchcount = Regex.Matches(builder.Builder.ToString(), "```").Count;
-                            if (blockmatchcount > 0 && blockmatchcount % 2 != 0)
-                            {
-                                inCodeBlock = inCodeBlock != true;
-                            }
+                            AppendTextToListItem(currentListItem, markdown, linestart, lineInfo.EndOfLine);
                         }
                         else
                         {
                             // Inline text. Ignores the 4 spaces that are used to continue the list.
-                            AppendTextToListItem(currentListItem, markdown, lineInfo.StartOfLine + 4, lineInfo.EndOfLine, true);
+                            AppendTextToListItem(currentListItem, markdown, linestart, lineInfo.EndOfLine, true);
+                        }
+                    }
+
+                    // Check for Closing Code Blocks.
+                    if (currentListItem.Blocks.Last() is ListItemBuilder currentBlock)
+                    {
+                        var blockmatchcount = Regex.Matches(currentBlock.Builder.ToString(), "```").Count;
+                        if (blockmatchcount > 0 && blockmatchcount % 2 != 0)
+                        {
+                            inCodeBlock = inCodeBlock != true;
                         }
                     }
 

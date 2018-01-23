@@ -37,6 +37,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
             CodeInline.AddTripChars(_triggerList);
             ImageInline.AddTripChars(_triggerList);
             EmojiInline.AddTripChars(_triggerList);
+            LinkReferenceInline.AddTripChars(_triggerList);
 
             // Create an array of characters to search against using IndexOfAny.
             _tripCharacters = _triggerList.Select(trigger => trigger.FirstChar).Distinct().ToArray();
@@ -116,6 +117,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
                             case InlineParseMethod.Comment:
                                 parseResult = CommentInline.Parse(markdown, pos, end);
                                 break;
+
+                            case InlineParseMethod.LinkReference:
+                                parseResult = LinkReferenceInline.Parse(markdown, pos, end);
+                                break;
+
                             case InlineParseMethod.Bold:
                                 parseResult = BoldTextInline.Parse(markdown, pos, end);
                                 break;

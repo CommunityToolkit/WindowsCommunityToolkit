@@ -11,35 +11,38 @@
 // ******************************************************************
 
 using System.Collections.Generic;
+using System.Xml;
 using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 {
     /// <summary>
-    /// Represents a span that contains comment.
+    /// Represents a span that contains a reference for links to point to.
     /// </summary>
-    internal class CommentInline : MarkdownInline, IInlineLeaf
+    public class LinkReferenceInline : MarkdownInline
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CommentInline"/> class.
-        /// </summary>
-        public CommentInline()
-            : base(MarkdownInlineType.Comment)
+        internal LinkReferenceInline()
+            : base(MarkdownInlineType.LinkReference)
         {
         }
 
         /// <summary>
-        /// Gets or sets the Content of the Comment.
+        /// Gets or sets the Name of this Link Reference.
         /// </summary>
-        public string Text { get; set; }
+        public string Link { get; set; }
+
+        /// <summary>
+        /// Gets or sets the raw Link Reference.
+        /// </summary>
+        public string Raw { get; set; }
 
         /// <summary>
         /// Returns the chars that if found means we might have a match.
         /// </summary>
         internal static void AddTripChars(List<InlineTripCharHelper> tripCharHelpers)
         {
-            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = '<', Method = InlineParseMethod.Comment });
+            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = '<', Method = InlineParseMethod.LinkReference });
         }
 
         /// <summary>
@@ -57,29 +60,63 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             // Check the start sequence.
-            string startSequence = markdown.Substring(start, 4);
-            if (startSequence != "<!--")
+            string startSequence = markdown.Substring(start, 2);
+            if (startSequence != "<a")
             {
                 return null;
             }
 
             // Find the end of the span.  The end sequence ('-->')
-            var innerStart = start + 4;
-            int innerEnd = Common.IndexOf(markdown, "-->", innerStart, maxEnd);
+            var innerStart = start + 2;
+            int innerEnd = Common.IndexOf(markdown, "</a>", innerStart, maxEnd);
+            int trueEnd = innerEnd + 4;
             if (innerEnd == -1)
+            {
+                innerEnd = Common.IndexOf(markdown, "/>", innerStart, maxEnd);
+                trueEnd = innerEnd + 2;
+                if (innerEnd == -1)
+                {
+                    return null;
+                }
+            }
+
+            // This link Reference wasn't closed properly if the next link starts before a close.
+            var nextLink = Common.IndexOf(markdown, "<a", innerStart, maxEnd);
+            if (nextLink > -1 && nextLink < innerEnd)
             {
                 return null;
             }
 
-            var length = innerEnd - innerStart;
-            var contents = markdown.Substring(innerStart, length);
+            var length = trueEnd - start;
+            var contents = markdown.Substring(start, length);
 
-            var result = new CommentInline
+            string link = null;
+
+            try
             {
-                Text = contents
-            };
+                var xml = new XmlDocument();
+                xml.LoadXml(contents);
+                var attr = xml.DocumentElement.Attributes.GetNamedItem("name");
+                link = attr.Value;
+            }
+            catch
+            {
+                // Attempting to fetch link failed, ignore and continue.
+            }
 
-            return new InlineParseResult(result, start, innerEnd + 3);
+            // Remove whitespace if it exists.
+            if (trueEnd + 1 <= maxEnd && markdown[trueEnd] == ' ')
+            {
+                trueEnd += 1;
+            }
+
+            // We found something!
+            var result = new LinkReferenceInline
+            {
+                Raw = contents,
+                Link = link
+            };
+            return new InlineParseResult(result, start, trueEnd);
         }
 
         /// <summary>
@@ -88,7 +125,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <returns> The textual representation of this object. </returns>
         public override string ToString()
         {
-            return "<!--" + Text + "-->";
+            return Raw;
         }
     }
 }

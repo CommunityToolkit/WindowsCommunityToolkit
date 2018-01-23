@@ -75,6 +75,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Enums
         /// <summary>
         /// Emoji
         /// </summary>
-        Emoji
+        Emoji,
+
+        /// <summary>
+        /// Link Reference
+        /// </summary>
+        LinkReference
     }
 }
