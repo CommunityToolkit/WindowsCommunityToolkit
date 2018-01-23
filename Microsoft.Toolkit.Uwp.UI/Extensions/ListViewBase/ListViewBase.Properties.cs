@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -19,6 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
     /// </summary>
+    [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.ListViewExtensions")]
     public partial class ListViewBase
     {
         /// <summary>
@@ -26,6 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// This ICommand is executed when ListViewBase Item receives interaction by means of ItemClick. This requires IsItemClickEnabled to set to true.
         /// The ICommand is passed the Item that received interaction as a parameter
         /// </summary>
+        [Obsolete("Attached property will be removed in the next major version. Please use x:Bind command binding on the ItemClick event")]
         public static readonly DependencyProperty CommandProperty = DependencyProperty.RegisterAttached("Command", typeof(ICommand), typeof(ListViewBase), new PropertyMetadata(null, OnCommandPropertyChanged));
 
         /// <summary>
@@ -48,6 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> from which to get the associated <see cref="ICommand"/> instance</param>
         /// <returns>The <see cref="ICommand"/> instance associated with the the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> or null</returns>
+        [Obsolete("Attached property will be removed in the next major version. Please use x:Bind command binding on the ItemClick event")]
         public static ICommand GetCommand(DependencyObject obj)
         {
             return (ICommand)obj.GetValue(CommandProperty);
@@ -58,6 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> to associated the <see cref="ICommand"/> instance to</param>
         /// <param name="value">The <see cref="ICommand"/> instance to bind to the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/></param>
+        [Obsolete("Attached property will be removed in the next major version. Please use x:Bind command binding on the ItemClick event")]
         public static void SetCommand(DependencyObject obj, ICommand value)
         {
             obj.SetValue(CommandProperty, value);
