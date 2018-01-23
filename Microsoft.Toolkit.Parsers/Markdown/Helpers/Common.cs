@@ -31,6 +31,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
             ItalicTextInline.AddTripChars(_triggerList);
             MarkdownLinkInline.AddTripChars(_triggerList);
             HyperlinkInline.AddTripChars(_triggerList);
+            CommentInline.AddTripChars(_triggerList);
             StrikethroughTextInline.AddTripChars(_triggerList);
             SuperscriptTextInline.AddTripChars(_triggerList);
             CodeInline.AddTripChars(_triggerList);
@@ -112,6 +113,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
                         InlineParseResult parseResult = null;
                         switch (currentTripChar.Method)
                         {
+                            case InlineParseMethod.Comment:
+                                parseResult = CommentInline.Parse(markdown, pos, end);
+                                break;
                             case InlineParseMethod.Bold:
                                 parseResult = BoldTextInline.Parse(markdown, pos, end);
                                 break;

@@ -15,6 +15,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Enums
     internal enum InlineParseMethod
     {
         /// <summary>
+        /// A Comment text
+        /// </summary>
+        Comment,
+
+        /// <summary>
         /// A bold element
         /// </summary>
         Bold,

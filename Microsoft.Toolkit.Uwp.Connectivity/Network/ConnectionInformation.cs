@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         {
             get
             {
-                return ConnectionCost?.NetworkCostType != NetworkCostType.Unrestricted;
+                return ConnectionCost != null && ConnectionCost.NetworkCostType != NetworkCostType.Unrestricted;
             }
         }
 

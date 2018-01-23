@@ -100,7 +100,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
         {
             foreach (MarkdownInline element in inlineElements)
             {
-                RenderInline(element, context);
+                if (element.Type != MarkdownInlineType.Comment) 
+                {
+                    RenderInline(element, context);
+                }
             }
         }
 

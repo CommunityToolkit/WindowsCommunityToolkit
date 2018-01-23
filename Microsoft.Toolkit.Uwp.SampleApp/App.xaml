@@ -184,7 +184,7 @@
             </Grid>
         </DataTemplate>
 
-        <Style x:Key="HambugerMenuItemStyle"
+        <Style x:Key="HamburgerMenuItemStyle"
                TargetType="ListViewItem">
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
             <Setter Property="Background" Value="Transparent" />
@@ -273,7 +273,7 @@
             </Setter>
         </Style>
 
-        <Style x:Key="SecondaryHambugerMenuItemStyle"
+        <Style x:Key="SecondaryHamburgerMenuItemStyle"
                TargetType="GridViewItem">
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
             <Setter Property="Background" Value="Transparent" />
@@ -702,7 +702,7 @@
                                     <GridView x:Name="SamplePickerGridView"
                                               IsItemClickEnabled="True"
                                               animations:ReorderGridAnimation.Duration="200"
-                                              ItemContainerStyle="{StaticResource SecondaryHambugerMenuItemStyle}"
+                                              ItemContainerStyle="{StaticResource SecondaryHamburgerMenuItemStyle}"
                                               ItemTemplate="{StaticResource SampleTemplate}"
                                               SelectionMode="Single"
                                               ItemContainerTransitions="{x:Null}"
@@ -734,7 +734,7 @@
                                 <ListView x:Name="ButtonsListView"
                                           AutomationProperties.Name="Menu items"
                                           IsItemClickEnabled="True"
-                                          ItemContainerStyle="{StaticResource HambugerMenuItemStyle}"
+                                          ItemContainerStyle="{StaticResource HamburgerMenuItemStyle}"
                                           ItemTemplate="{TemplateBinding ItemTemplate}"
                                           ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                           ItemsSource="{TemplateBinding ItemsSource}"
@@ -814,7 +814,7 @@
                                           Grid.Column="3"
                                           AutomationProperties.Name="Option items"
                                           IsItemClickEnabled="True"
-                                          ItemContainerStyle="{StaticResource HambugerMenuItemStyle}"
+                                          ItemContainerStyle="{StaticResource HamburgerMenuItemStyle}"
                                           ItemTemplate="{TemplateBinding OptionsItemTemplate}"
                                           ItemTemplateSelector="{TemplateBinding OptionsItemTemplateSelector}"
                                           ItemsSource="{TemplateBinding OptionsItemsSource}"

@@ -18,6 +18,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Enums
     public enum MarkdownInlineType
     {
         /// <summary>
+        /// A comment
+        /// </summary>
+        Comment,
+
+        /// <summary>
         /// A text run
         /// </summary>
         TextRun,

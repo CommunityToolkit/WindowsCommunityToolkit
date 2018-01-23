@@ -333,6 +333,7 @@
     <Content Include="SamplePages\Saturation\SaturationBehavior.png" />
     <Content Include="SamplePages\OrbitView\OrbitView.png" />
     <Content Include="SamplePages\Scale\ScaleBehavior.png" />
+    <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.png" />
     <Content Include="SamplePages\SystemInformation\SystemInformation.png" />
     <Content Include="SamplePages\TextBoxMask\TextBoxMask.png" />
     <Content Include="SamplePages\TextToolbar\TextToolbar.png" />
@@ -458,11 +459,13 @@
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControlXaml.bind" />
     <Content Include="SamplePages\AppPinManager\AppPinManagerHelperCode.bind" />
     <Content Include="SamplePages\Mouse\MouseCursorPage.bind" />
+    <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\ThicknessConverter.cs" />
     <Compile Include="Common\XAMLHelper.cs" />
     <Compile Include="Common\AnalyticsVersionInfoExtensions.cs" />
     <Compile Include="Common\BoolStringConverter.cs" />
@@ -486,6 +489,7 @@
     <Compile Include="Models\LandingPageLinks.cs" />
     <Compile Include="Models\LandingPageResource.cs" />
     <Compile Include="Models\LandingPageLink.cs" />
+    <Compile Include="Models\PropertyDescriptor\ThicknessPropertyOptions.cs" />
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
@@ -548,6 +552,9 @@
     <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
     <Compile Include="SamplePages\RssParser\RssParserPage.xaml.cs">
       <DependentUpon>RssParserPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml.cs">
+      <DependentUpon>StaggeredPanelPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\TextToolbar\SampleFormatter.cs" />
     <Compile Include="SamplePages\TextToolbar\TextToolbarPage.xaml.cs">
@@ -851,6 +858,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\RssParser\RssParserPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

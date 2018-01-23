@@ -172,6 +172,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             converter = new TimeSpanConverter();
 
                             break;
+                        case PropertyKind.Thickness:
+                            var thicknessTextBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
+
+                            controlToAdd = thicknessTextBox;
+                            dependencyProperty = TextBox.TextProperty;
+                            converter = new ThicknessConverter();
+                            break;
                         default:
                             var textBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
 
