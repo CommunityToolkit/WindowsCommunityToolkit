@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private async void HamburgerMenuControl_ItemInvoked(object sender, HamburgetMenuItemInvokedEventArgs e)
+        private async void HamburgerMenuControl_ItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
         {
             if (e.IsItemOptions)
             {

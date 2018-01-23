@@ -20,6 +20,10 @@ Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is pa
   <ItemGroup>
     <None Include="Microsoft.Toolkit.Uwp.Notifications.targets" Pack="true" PackagePath="build\native" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.0" />
+  </ItemGroup>
   
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'native'">

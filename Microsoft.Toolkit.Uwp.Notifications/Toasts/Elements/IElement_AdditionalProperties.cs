@@ -10,17 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Models
+using System.Collections.Generic;
+
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    public enum PropertyKind
+    internal interface IElement_AdditionalProperties
     {
-        Slider,
-        DoubleSlider,
-        String,
-        Enum,
-        Bool,
-        Brush,
-        TimeSpan,
-        Thickness
+        IDictionary<string, string> AdditionalProperties { get; set; }
     }
 }

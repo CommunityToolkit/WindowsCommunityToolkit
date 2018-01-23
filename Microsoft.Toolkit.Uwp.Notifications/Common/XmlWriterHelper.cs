@@ -50,8 +50,20 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
                 object propertyValue = GetPropertyValue(p, element);
 
+                // If it's the additional properties item
+                if (p.Name == nameof(IElement_AdditionalProperties.AdditionalProperties) && element is IElement_AdditionalProperties && p.PropertyType == typeof(IDictionary<string, string>))
+                {
+                    if (propertyValue != null)
+                    {
+                        foreach (var additionalProp in propertyValue as IDictionary<string, string>)
+                        {
+                            writer.WriteAttributeString(additionalProp.Key, additionalProp.Value);
+                        }
+                    }
+                }
+
                 // If it's an attribute
-                if (attr != null)
+                else if (attr != null)
                 {
                     object defaultValue = attr.DefaultValue;
 
