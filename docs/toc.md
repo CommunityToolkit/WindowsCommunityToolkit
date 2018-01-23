@@ -57,8 +57,8 @@
 ## [FocusTracker](developer-tools/FocusTracker.md)
 
 # Extensions
-## [Hyperlink](extensions/Hyperlink.md)
-## [ListViewBase](extensions/ListViewBase.md)
+## [HyperlinkExtensions](extensions/HyperlinkExtensions.md)
+## [ListViewExtensions](extensions/ListViewExtensions.md)
 ## [Logical Tree](extensions/LogicalTree.md)
 ## [Mouse Cursor](extensions/MouseCursor.md)
 ## [SurfaceDialTextboxHelper](extensions/SurfaceDialTextboxHelper.md)
