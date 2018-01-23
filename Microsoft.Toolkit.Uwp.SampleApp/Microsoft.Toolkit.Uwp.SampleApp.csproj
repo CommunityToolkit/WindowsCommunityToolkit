@@ -466,6 +466,9 @@
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControlXaml.bind" />
     <Content Include="SamplePages\AppPinManager\AppPinManagerHelperCode.bind" />
     <Content Include="SamplePages\Mouse\MouseCursorPage.bind" />
+    <Content Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsCode.bind">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.bind" />
   </ItemGroup>
   <ItemGroup>
@@ -518,6 +521,7 @@
     <Compile Include="SamplePages\Connected Animations\Pages\ThirdPage.xaml.cs">
       <DependentUpon>ThirdPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsPage.xaml.cs" />
     <Compile Include="SamplePages\Implicit Animations\ImplicitAnimationsPage.xaml.cs">
       <DependentUpon>ImplicitAnimationsPage.xaml</DependentUpon>
     </Compile>
@@ -821,6 +825,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\FocusTracker\FocusTrackerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
