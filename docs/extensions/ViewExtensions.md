@@ -41,7 +41,7 @@ The **ApplicationViewExtensions, StatusBarExtensions & TitleBarExtensions** prov
 
 ## API
 
-* [ApplicationViewExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/ApplicationView/ApplicationView.cs)
-* [StatusBarExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/StatusBar/StatusBar.cs)
-* [TitleBarExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/TitleBar/TitleBar.cs)
+* [ApplicationViewExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/ApplicationView/ApplicationViewExtensions.cs)
+* [StatusBarExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/StatusBar/StatusBarExtensions.cs)
+* [TitleBarExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/TitleBar/TitleBarExtensions.cs)
 

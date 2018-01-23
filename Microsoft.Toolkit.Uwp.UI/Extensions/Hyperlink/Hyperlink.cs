@@ -20,7 +20,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.Documents.Hyperlink"/> content element that allows
     /// it to invoke a <see cref="ICommand"/> when clicked
     /// </summary>
-    [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.HyperLinkExtensions")]
     public partial class Hyperlink
     {
         private static void OnCommandPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
