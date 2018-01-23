@@ -39,6 +39,7 @@ For every contribution, you must:
     * Before starting coding, **you should open an uservoice entry** under "UWP Community Toolkit" on [Uservoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit) and start discussing with the community to see if your idea/feature is interesting enough. 
     * Add or update a documentation page in the [documentation folder](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/docs) which should follow the [documentation template](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/tree/master/docs/.template.md). Once validated your documentation will be visible [here](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/)
     * Add or update a sample for the [Sample app](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp)
+        * If creating a new sample, create a new icon by following the [Thumbnail Style Guide and templates](https://github.com/Microsoft/UWPCommunityToolkit-design-assets)
     * Add or update unit tests (if applicable)
 
 
