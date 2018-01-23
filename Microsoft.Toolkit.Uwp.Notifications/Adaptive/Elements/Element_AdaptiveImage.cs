@@ -63,5 +63,17 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
                 _overlay = value;
             }
         }
+
+        [NotificationXmlAttribute("spritesheet-src")]
+        public string SpriteSheetSrc { get; set; }
+
+        [NotificationXmlAttribute("spritesheet-height")]
+        public uint? SpriteSheetHeight { get; set; }
+
+        [NotificationXmlAttribute("spritesheet-fps")]
+        public uint? SpriteSheetFps { get; set; }
+
+        [NotificationXmlAttribute("spritesheet-startingFrame")]
+        public uint? SpriteSheetStartingFrame { get; set; }
     }
 }
