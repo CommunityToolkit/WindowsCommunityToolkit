@@ -1,7 +1,6 @@
 ---
 title: JSON Parser
 author: williamabradley
-ms.date: 01/19/2018
 description: The JSON Parser allows you to parse a JSON content String into JSON Schema.
 keywords: uwp community toolkit, uwp toolkit, microsoft community toolkit, microsoft toolkit, json, json parsing, parser
 ---
@@ -9,6 +8,8 @@ keywords: uwp community toolkit, uwp toolkit, microsoft community toolkit, micro
 # JSON Parser
 
 The [JsonParser](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.parsers.json.jsonparser) class allows you to parse a JSON content String into a JSON Schema.
+
+## Classes
 
 | Class | Purpose |
 | --- | --- |
@@ -23,7 +24,10 @@ You can see this in action in [UWP Community Toolkit Sample App](https://www.mic
 
 ## Requirements
 
-.NET Standard 1.4.
+| Implementation | .NET Standard 1.4. |
+| -- | -- |
+| Namespace | Microsoft.Toolkit.Parsers |
+| NuGet package | [Microsoft.Toolkit.Parsers](https://www.nuget.org/packages/Microsoft.Toolkit.Parsers/)  |
 
 ## API Source Code
 

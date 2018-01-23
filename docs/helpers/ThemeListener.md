@@ -1,7 +1,6 @@
 ---
 title: Theme Listener
 author: williamabradley
-ms.date: 01/19/2018
 description: The Theme Listener allows you to determine the current Application Theme, and when it is changed via System Theme changes.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, theme listener, themeing, themes, system theme, helpers
 ---
@@ -50,6 +49,7 @@ You can see this in action in [UWP Community Toolkit Sample App](https://www.mic
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/)  |
 
 ## API Source Code
 

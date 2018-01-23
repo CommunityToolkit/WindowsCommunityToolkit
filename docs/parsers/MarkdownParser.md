@@ -1,7 +1,6 @@
 ---
 title: Markdown Parser
 author: williamabradley
-ms.date: 01/19/2018
 description: The Markdown Parser allows you to parse a Markdown String into a Markdown Document, and then Render it with a Markdown Renderer.
 keywords: uwp community toolkit, uwp toolkit, microsoft community toolkit, microsoft toolkit, markdown, markdown parsing, parser, markdown rendering
 ---
@@ -9,6 +8,8 @@ keywords: uwp community toolkit, uwp toolkit, microsoft community toolkit, micro
 # Markdown Parser
 
 The [MarkdownDocument](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.parsers.markdown.markdowndocument) class allows you to parse a Markdown String into a Markdown Document, and then Render it with a Markdown Renderer.
+
+## Classes
 
 | Class | Purpose |
 | --- | --- |
@@ -41,7 +42,10 @@ You can see this in action in [UWP Community Toolkit Sample App](https://www.mic
 
 ## Requirements
 
-.NET Standard 1.4.
+| Implementation | .NET Standard 1.4. |
+| -- | -- |
+| Namespace | Microsoft.Toolkit.Parsers |
+| NuGet package | [Microsoft.Toolkit.Parsers](https://www.nuget.org/packages/Microsoft.Toolkit.Parsers/)  |
 
 ## API Source Code
 
