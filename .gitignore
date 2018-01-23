@@ -222,4 +222,5 @@ AppPackages
 project.lock.json
 msbuild.binlog
 *.project.lock.json
+/Microsoft.Toolkit.Uwp.DeveloperTools
 /build/tools
