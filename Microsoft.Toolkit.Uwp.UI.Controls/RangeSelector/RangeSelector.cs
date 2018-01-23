@@ -619,10 +619,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the step frequency, which is the interval between the values on the RangeSelector
+        /// Gets or sets the value part of a value range that steps should be created for.
         /// </summary>
         /// <value>
-        /// The value for step.
+        /// The value part of a value range that steps should be created for.
         /// </value>
         public double StepFrequency
         {
