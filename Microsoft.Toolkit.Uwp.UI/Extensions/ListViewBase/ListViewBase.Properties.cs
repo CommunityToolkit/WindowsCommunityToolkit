@@ -34,16 +34,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for binding a <see cref="Brush"/> as an alternate background color to a <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
+        [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.ListViewExtensions.AlternateColor")]
         public static readonly DependencyProperty AlternateColorProperty = DependencyProperty.RegisterAttached("AlternateColor", typeof(Brush), typeof(ListViewBase), new PropertyMetadata(null, OnAlternateColorPropertyChanged));
 
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for binding a <see cref="DataTemplate"/> as an alternate template to a <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
+        [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.ListViewExtensions.AlternateItemTemplate")]
         public static readonly DependencyProperty AlternateItemTemplateProperty = DependencyProperty.RegisterAttached("AlternateItemTemplate", typeof(DataTemplate), typeof(ListViewBase), new PropertyMetadata(null, OnAlternateItemTemplatePropertyChanged));
 
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for setting the container content stretch direction on the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
+        [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.ListViewExtensions.StretchItemContainerDirection")]
         public static readonly DependencyProperty StretchItemContainerDirectionProperty = DependencyProperty.RegisterAttached("StretchItemContainerDirection", typeof(StretchDirection), typeof(ListViewBase), new PropertyMetadata(null, OnStretchItemContainerDirectionPropertyChanged));
 
         /// <summary>

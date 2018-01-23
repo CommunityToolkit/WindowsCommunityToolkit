@@ -16,9 +16,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class ListViewBasePage : Page, IXamlRenderListener
+    public sealed partial class ListViewExtensionsPage : Page, IXamlRenderListener
     {
-        public ListViewBasePage()
+        public ListViewExtensionsPage()
         {
             this.InitializeComponent();
         }

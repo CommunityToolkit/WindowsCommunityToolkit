@@ -22,9 +22,9 @@
         x:Name="SampleListView"
         Margin="12"
         ItemTemplate="{StaticResource NormalTemplate}"
-        extensions:ListViewBase.AlternateColor="LightGray"
-        extensions:ListViewBase.AlternateItemTemplate="{StaticResource AlternateTemplate}"
-        extensions:ListViewBase.StretchItemContainerDirection="Both">
+        extensions:ListViewExtensions.AlternateColor="LightGray"
+        extensions:ListViewExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
+        extensions:ListViewExtensions.StretchItemContainerDirection="Both">
     </ListView>
 
   </Grid>
