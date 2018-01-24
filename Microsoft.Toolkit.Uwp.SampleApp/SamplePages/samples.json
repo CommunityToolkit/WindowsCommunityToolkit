@@ -712,13 +712,6 @@
         "About": "The RSS Parser allows you to parse an RSS content String into RSS Schema.",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/parsers/RssParser.md"
-      },
-      {
-        "Name": "Json Parser",
-        "Type": "JsonParserPage",
-        "About": "The Json Parser allows you to parse an Json content String into Json Schema.",
-        "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/parsers/JsonParser.md"
       }
     ]
   },

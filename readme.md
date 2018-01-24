@@ -150,7 +150,6 @@ Once you search you should see a list similar to the one below (versions may be 
 
 ### Parsers
 
-* [JSON Parser](http://docs.uwpcommunitytoolkit.com/en/master/parsers/JsonParser/)
 * [Markdown Parser](http://docs.uwpcommunitytoolkit.com/en/master/parsers/MarkdownParser/)
 * [RSS Parser](http://docs.uwpcommunitytoolkit.com/en/master/parsers/RSSParser/)
 

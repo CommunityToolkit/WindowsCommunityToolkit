@@ -10,7 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.Core
 {
@@ -18,9 +19,17 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
     /// JsonParser type.
     /// </summary>
     /// <typeparam name="T">Data type to parse</typeparam>
-    [Obsolete("This class is being deprecated. Please use the counterpart in Microsoft.Toolkit.Parsers")]
-    internal class JsonParser<T> : Parsers.Json.JsonParser<T>
-        where T : Toolkit.Parsers.SchemaBase
+    internal class JsonParser<T>
+        where T : Parsers.SchemaBase
     {
+        /// <summary>
+        /// Takes string data and parses to strong type.
+        /// </summary>
+        /// <param name="data">String data.</param>
+        /// <returns>Strong type deserialized from string data.</returns>
+        public IEnumerable<T> Parse(string data)
+        {
+            return JsonConvert.DeserializeObject<IEnumerable<T>>(data);
+        }
     }
 }
