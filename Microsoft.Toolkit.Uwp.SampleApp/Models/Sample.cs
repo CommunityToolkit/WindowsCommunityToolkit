@@ -482,6 +482,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+                                case PropertyKind.Thickness:
+                                    try
+                                    {
+                                        var thicknessOptions = new ThicknessPropertyOptions { DefaultValue = value };
+                                        options = thicknessOptions;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Debug.WriteLine($"Unable to extract slider info from {value}({ex.Message})");
+                                        TrackingManager.TrackException(ex);
+                                        continue;
+                                    }
+
+                                    break;
                                 default:
                                     options = new PropertyOptions { DefaultValue = value };
                                     break;

@@ -21,6 +21,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
         internal enum InlineParseMethod
         {
             /// <summary>
+            /// A Comment text
+            /// </summary>
+            Comment,
+
+            /// <summary>
             /// A bold element
             /// </summary>
             Bold,
@@ -110,6 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
             ItalicTextInline.AddTripChars(_triggerList);
             MarkdownLinkInline.AddTripChars(_triggerList);
             HyperlinkInline.AddTripChars(_triggerList);
+            CommentInline.AddTripChars(_triggerList);
             StrikethroughTextInline.AddTripChars(_triggerList);
             SuperscriptTextInline.AddTripChars(_triggerList);
             CodeInline.AddTripChars(_triggerList);
@@ -219,6 +225,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers
                         InlineParseResult parseResult = null;
                         switch (currentTripChar.Method)
                         {
+                            case InlineParseMethod.Comment:
+                                parseResult = CommentInline.Parse(markdown, pos, end);
+                                break;
                             case InlineParseMethod.Bold:
                                 parseResult = BoldTextInline.Parse(markdown, pos, end);
                                 break;

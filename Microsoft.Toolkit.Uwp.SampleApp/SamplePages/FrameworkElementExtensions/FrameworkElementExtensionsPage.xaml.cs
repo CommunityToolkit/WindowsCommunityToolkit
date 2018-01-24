@@ -10,17 +10,25 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Models
+using System.Collections.ObjectModel;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public enum PropertyKind
+    public sealed partial class FrameworkElementExtensionsPage : IXamlRenderListener
     {
-        Slider,
-        DoubleSlider,
-        String,
-        Enum,
-        Bool,
-        Brush,
-        TimeSpan,
-        Thickness
+        public FrameworkElementExtensionsPage()
+        {
+            InitializeComponent();
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+        }
     }
 }
