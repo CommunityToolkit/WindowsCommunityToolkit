@@ -29,8 +29,6 @@ The Radial Gauge supports animated transitions between configuration states. The
 	Unit="Units"
 	TickBrush="Gainsboro"
 	ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-	UnitBrush="Black"
-	ValueBrush="Black" 
 	NeedleWidth="5" 
 	TickLength="18">
 </controls:RadialGauge>
