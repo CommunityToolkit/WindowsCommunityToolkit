@@ -8,11 +8,6 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, StaggeredPanel
 # StaggeredPanel
 The [StaggeredPanel](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.controls.staggeredpanel) allows for layout of items in a column approach where an item will be added to whichever column has used the least amount of space.
 
-<!-- Use below format to display note
-> [!NOTE]
-Some note
--->
-
 ## Syntax
 
 **XAML**
@@ -38,8 +33,6 @@ Some note
 
 ## Properties
 
-<!-- Explain all properties in a table format -->
-
 | Property | Type | Description |
 | -- | -- | -- |
 | DesiredColumnWidth | double | The desired width of each column. The width of columns can exceed the DesiredColumnWidth if the HorizontalAlignment is set to Stretch. |
@@ -47,7 +40,6 @@ Some note
 
 ## Sample Code
 
-<!-- Link to the sample page in the UWP Community Toolkit Sample App -->
 [StaggeredPanel Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/StaggeredPanel). You can see this in action in UWP Community Toolkit Sample App.
 
 ## Default Template
