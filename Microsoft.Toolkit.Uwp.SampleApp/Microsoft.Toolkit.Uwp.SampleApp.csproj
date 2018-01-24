@@ -527,9 +527,6 @@
     <Compile Include="SamplePages\InAppNotification\InAppNotificationPage.xaml.cs">
       <DependentUpon>InAppNotificationPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\JsonParser\JsonParserPage.xaml.cs">
-      <DependentUpon>JsonParserPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\ListViewBase\ListViewBasePage.xaml.cs">
       <DependentUpon>ListViewBasePage.xaml</DependentUpon>
     </Compile>
@@ -842,10 +839,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\InAppNotification\InAppNotificationPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\JsonParser\JsonParserPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

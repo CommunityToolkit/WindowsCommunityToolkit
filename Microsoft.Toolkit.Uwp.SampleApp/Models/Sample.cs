@@ -134,7 +134,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{CodeFile}"))
             {
-                return await codeStream.ReadTextAsync();
+                using (var streamreader = new StreamReader(codeStream.AsStream()))
+                {
+                    return await streamreader.ReadToEndAsync();
+                }
             }
         }
 
@@ -142,7 +145,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{JavaScriptCodeFile}"))
             {
-                return await codeStream.ReadTextAsync();
+                using (var streamreader = new StreamReader(codeStream.AsStream()))
+                {
+                    return await streamreader.ReadToEndAsync();
+                }
             }
         }
 
@@ -467,6 +473,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.Thickness:
                                     try
                                     {
@@ -481,6 +488,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 default:
                                     options = new PropertyOptions { DefaultValue = value };
                                     break;

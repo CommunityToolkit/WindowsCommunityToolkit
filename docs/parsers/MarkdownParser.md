@@ -9,22 +9,29 @@ keywords: uwp community toolkit, uwp toolkit, microsoft community toolkit, micro
 
 The [MarkdownDocument](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.parsers.markdown.markdowndocument) class allows you to parse a Markdown String into a Markdown Document, and then Render it with a Markdown Renderer.
 
+## Example
+
+```csharp
+string md = "This is **Markdown**";
+MarkdownDocument Document = new MarkdownDocument();
+Document.Parse(md);
+
+// Takes note of all of the Top Level Headers.
+foreach (var element in document.Blocks)
+{
+    if (element is HeaderBlock header)
+    {
+        Console.WriteLine($"Header: {header.ToString()}");
+    }
+}
+```
+
 ## Classes
 
 | Class | Purpose |
 | --- | --- |
 | **Microsoft.Toolkit.Parsers.Markdown.MarkdownDocument** | Represents a Markdown Document. |
 | **Microsoft.Toolkit.Parsers.Markdown.Render.MarkdownRendererBase** | A base renderer for Rendering Markdown into Controls. |
-
-## Syntax
-
-**C#**
-
-```csharp
-string md = "This is **Markdown**";
-MarkdownDocument Document = new MarkdownDocument();
-Document.Parse(md);
-``` 
 
 ## Create a Markdown Renderer
 

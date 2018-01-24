@@ -9,6 +9,37 @@ keywords: uwp community toolkit, uwp toolkit, microsoft community toolkit, micro
 
 The [RssParser](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.parsers.rss.rssparser) class allows you to parse a RSS content String into a RSS Schema.
 
+## Example
+
+```csharp
+public async void ParseRSS()
+{
+    string feed = null;
+    RSSFeed.Clear();
+
+    using (var client = new HttpClient())
+    {
+        try
+        {
+            feed = await client.GetStringAsync("https://visualstudiomagazine.com/rss-feeds/news.aspx");
+        }
+        catch { }
+    }
+
+    if (feed != null)
+    {
+        var parser = new RssParser();
+        var rss = parser.Parse(feed);
+
+        foreach (var element in rss)
+        {
+            Console.WriteLine($"Title: {element.Title}");
+			Console.WriteLine($"Summary: {element.Summary}");
+        }
+    }
+}
+```
+
 ## Classes
 
 | Class | Purpose |
