@@ -6,7 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource Brush-Grey-05}">
+    <Grid>
         <RelativePanel x:Name="MainContent"
                        Visibility="Collapsed">
             <Button x:Name="BtEnumeration"
@@ -17,7 +17,6 @@
                       Height="200"
                       Margin="10"
                       VerticalAlignment="Top"
-                      Background="White"
                       ItemsSource="{x:Bind bluetoothLEHelper.BluetoothLeDevices}"
                       RelativePanel.AlignLeftWithPanel="True"
                       RelativePanel.AlignRightWithPanel="True"
@@ -80,7 +79,6 @@
             <TextBlock x:Name="TBCharValue"
                        Margin="10"
                        RelativePanel.Below="BtReadCharValue" />
-
         </RelativePanel>
         <TextBlock x:Name="NotAvailableMessage"
                    Margin="40"

@@ -5,13 +5,13 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <Grid Background="{ThemeResource Brush-Grey-05}">
+    <Grid>
         <ScrollViewer Padding="10,5">
-            <controls:MarkdownTextBlock x:Name="MarkdownTextBlockTextblock" 
-                                        Header1FontSize="32"
+            <controls:MarkdownTextBlock x:Name="MarkdownTextBlockTextblock"
+                                        Header1FontSize="25"
+                                        Header1FontWeight="Bold"
                                         Header2Margin="0,40,0,40"
-                                        Foreground="{ThemeResource Brush-Grey-01}" 
-                                        LinkClicked="MarkdownTextBlockTextblock_OnLinkClicked"/>
+                                        LinkClicked="MarkdownTextBlockTextblock_OnLinkClicked" />
         </ScrollViewer>
     </Grid>
 </Page>

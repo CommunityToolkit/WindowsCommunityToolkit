@@ -11,7 +11,7 @@
         <converters:StringFormatConverter x:Key="StringFormatConverter" />
     </Page.Resources>
 
-    <Grid Background="{ThemeResource Brush-Grey-05}">
+    <Grid>
         <Grid x:Name="RootGrid"
               HorizontalAlignment="Center"
               VerticalAlignment="Center">
@@ -58,7 +58,10 @@
                         Click="DirectPrint_Click"
                         Content="Direct Print Me!" />
             </StackPanel>
-            <TextBlock Grid.Row="2" HorizontalAlignment="Center">Direct Print will print the content without removing it from the visual tree (in place).</TextBlock>
+            <StackPanel Grid.Row="2">
+                <TextBlock  HorizontalAlignment="Center">Direct Print will print the content without removing it from the visual tree (in place).</TextBlock>
+                <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap">Warning: Printing in Dark Theme will print white text, which isn't visible. Take this into account when printing.</TextBlock>
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>

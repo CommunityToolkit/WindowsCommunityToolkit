@@ -19,11 +19,16 @@ Please check the sample app code to see how to disconnect/reconnect a control th
 https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PrintHelper/PrintHelperPage.xaml.cs 
 
 Several events are available to control the printing process:
+
 * OnPrintFailed will be triggered if the user cancels the print or if something goes wrong
 * OnPrintSucceeded will be triggered after a successful print
 * OnPreviewPagesCreated will be triggered after print preview pages are generated. This allows you to control the look and feel of your page before they are sent to the spooler.
 
-**Please note that page breaks are not supported. Every control will be printed on a single page**
+> [!NOTE] Page breaks are not supported. Every control will be printed on a single page.
+
+*****
+
+> [!IMPORTANT] Printing in Dark Theme will likely print white text, which won't be visible. To fix this, ensure the text is a visible color before printing, then restore the original color.
 
 Since version 1.3, you can also call `ShowPrintUIAsync` with a second parameter to determine that the list of controls to print should directly be taken from the content of the container passed to the PrintHelper constructor. 
 In this mode you are responsible for the sizing and the layout.
@@ -31,7 +36,6 @@ In this mode you are responsible for the sizing and the layout.
 ## Example
 
 ```csharp
-
 // Create a new PrintHelper instance
 // "container" is a XAML panel that will be used to host printable control. 
 // It needs to be in your visual tree but can be hidden with Opacity = 0
@@ -62,20 +66,17 @@ private async void PrintHelper_OnPrintFailed()
   var dialog = new MessageDialog("Printing failed.");
   await dialog.ShowAsync();
 }
-
 ```
 
 Direct print example:
 
 ```csharp
-
 // Create a new PrintHelper instance
 // "container" is a XAML panel that will be used to get the list of printable controls. 
 var printHelper = new PrintHelper(container);
 
 // Start printing process
 await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", true);
-
 ```
 
 ## Requirements (Windows 10 Device Family)
