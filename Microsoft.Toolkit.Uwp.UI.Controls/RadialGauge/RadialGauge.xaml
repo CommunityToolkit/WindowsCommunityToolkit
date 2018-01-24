@@ -2,8 +2,21 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Default"/>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="RadialGaugeForegroundBrush" Color="Black" />
+            <SolidColorBrush x:Key="RadialGaugeAccentBrush" Color="Black" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="RadialGaugeForegroundBrush" Color="White" />
+            <SolidColorBrush x:Key="RadialGaugeAccentBrush" Color="White" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+    
     <Style TargetType="local:RadialGauge">
         <Setter Property="UseSystemFocusVisuals" Value="True"></Setter>
+        <Setter Property="Foreground" Value="{ThemeResource RadialGaugeForegroundBrush}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:RadialGauge">
@@ -30,12 +43,12 @@
                                            Margin="0,0,0,2"
                                            FontSize="20"
                                            FontWeight="SemiBold"
-                                           Foreground="{TemplateBinding ValueBrush}"
+                                           Foreground="{TemplateBinding Foreground}"
                                            Text="{TemplateBinding Value}"
                                            TextAlignment="Center" />
                                 <TextBlock Margin="0"
                                            FontSize="16"
-                                           Foreground="{TemplateBinding UnitBrush}"
+                                           Foreground="{ThemeResource RadialGaugeAccentBrush}"
                                            Text="{TemplateBinding Unit}"
                                            TextAlignment="Center" />
                             </StackPanel>
