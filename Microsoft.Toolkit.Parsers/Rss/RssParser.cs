@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
     public class RssParser : IParser<RssSchema>
     {
         /// <summary>
-        /// Parse string to strong type.
+        /// Parse an RSS content string into RSS Schema.
         /// </summary>
         /// <param name="data">Input string.</param>
         /// <returns>Strong type.</returns>

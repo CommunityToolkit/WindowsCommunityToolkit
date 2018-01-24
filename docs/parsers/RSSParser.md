@@ -47,6 +47,14 @@ public async void ParseRSS()
 | **Microsoft.Toolkit.Parsers.Rss.RssParser** | Parser for Parsing RSS Strings into RSS Schema. |
 | **Microsoft.Toolkit.Parsers.Rss.RssSchema** | Schema for Parsing RSS. |
 
+### RssParser
+
+#### Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| Parse(string) | IEnumerable\<RssSchema\> | Parse an RSS content string into RSS Schema. |
+
 ## Sample Code
 
 [RSS Parser Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/RssParser/RssParserPage.xaml.cs).

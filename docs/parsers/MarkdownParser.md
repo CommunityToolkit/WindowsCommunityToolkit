@@ -33,6 +33,21 @@ foreach (var element in document.Blocks)
 | **Microsoft.Toolkit.Parsers.Markdown.MarkdownDocument** | Represents a Markdown Document. |
 | **Microsoft.Toolkit.Parsers.Markdown.Render.MarkdownRendererBase** | A base renderer for Rendering Markdown into Controls. |
 
+### MarkdownDocument
+
+#### Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| Blocks | IList\<MarkdownBlock\> | Gets or sets the list of block elements. |
+
+#### Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| Parse(string) | void | Parses markdown document text. |
+| LookUpReference(string) | LinkReferenceBlock | Looks up a reference using the ID. |
+
 ## Create a Markdown Renderer
 
 In order to create a Markdown Renderer, you can either implement your own, or inherit from `MarkdownRenderBase`, this class already has all the required methods, and some assistive code to make implementing a Renderer easy, all you have to do is implement the Block and Inline Rendering, and the output.
