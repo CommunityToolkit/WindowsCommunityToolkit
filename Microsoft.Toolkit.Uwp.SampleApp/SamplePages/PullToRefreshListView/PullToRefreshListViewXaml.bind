@@ -13,7 +13,6 @@
             MinWidth="200"
             Margin="24"
             HorizontalAlignment="Center"
-            Background="White"
             OverscrollLimit="@[OverscrollLimit:DoubleSlider:0.4:0-1]"
             PullThreshold="@[PullThreshold:Slider:100:50-300]"
             IsPullToRefreshWithMouseEnabled="@[IsPullToRefreshWithMouseEnabled:Bool:True]">

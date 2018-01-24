@@ -13,11 +13,11 @@
     <ResourceDictionary>
       <local:RemoveItemCommand x:Key="RemoveItemCommand" />
     </ResourceDictionary>
-    
+
     <converters:BoolToObjectConverter x:Key="BoolToVisibilityConverter"
                                       FalseValue="Collapsed"
                                       TrueValue="Visible" />
-    
+
     <DataTemplate x:Key="EmailsItemTemplate">
       <controls:SlidableListItem
               MinWidth="300"
@@ -42,7 +42,7 @@
               RightIcon="@[Right Icon:Enum:Symbol.Delete]"
               RightLabel="@[Right Label:String:Delete]"
               UseSwipeControlWhenPossible="@[UseSwipeControlWhenPossible:Bool:True]">
-        <Grid Height="110" Background="#FFDDDDDD">
+        <Grid Height="110" Background="{ThemeResource Brush-Grey-04}">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="48" />
             <ColumnDefinition />
