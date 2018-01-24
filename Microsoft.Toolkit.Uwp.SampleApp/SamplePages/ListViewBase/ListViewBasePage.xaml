@@ -13,20 +13,19 @@
         </DataTemplate>
 
         <DataTemplate x:Name="AlternateTemplate">
-            <TextBlock Text="{Binding Title}" Foreground="Orange"></TextBlock>
+            <TextBlock Text="{Binding Title}" Foreground="Red"></TextBlock>
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
 
-        <ListView 
-            x:Name="SampleListView"
-            Margin="12"
-            ItemTemplate="{StaticResource NormalTemplate}"
-            extensions:ListViewBase.AlternateColor="LightGray"
-            extensions:ListViewBase.AlternateItemTemplate="{StaticResource AlternateTemplate}"
-            extensions:ListViewBase.StretchItemContainerDirection="Both">
+        <ListView
+        x:Name="SampleListView"
+        Margin="12"
+        ItemTemplate="{StaticResource NormalTemplate}"
+        extensions:ListViewBase.AlternateColor="#33AAAAAA"
+        extensions:ListViewBase.AlternateItemTemplate="{StaticResource AlternateTemplate}"
+        extensions:ListViewBase.StretchItemContainerDirection="Both">
         </ListView>
-
     </Grid>
 </Page>

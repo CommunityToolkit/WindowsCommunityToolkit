@@ -9,9 +9,7 @@
 
     <Rectangle x:Name="TargetObject"
                extensions:FrameworkElementExtensions.EnableActualSizeBinding="true"
-               Fill="{StaticResource Brush-White}"
+               Fill="{StaticResource Brush-Main}"
                Stroke="{StaticResource Brush-Grey-04}"
                StrokeThickness="1" />
-
 </Page>
-
