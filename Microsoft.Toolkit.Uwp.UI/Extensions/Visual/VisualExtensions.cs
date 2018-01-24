@@ -465,61 +465,61 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// Identifies the AnchorPointProperty attached property.
         /// </summary>
         public static readonly DependencyProperty AnchorPointProperty =
-            DependencyProperty.RegisterAttached("AnchorPoint", typeof(string), typeof(VisualEx), new PropertyMetadata(null, OnAnchorPointChanged));
+            DependencyProperty.RegisterAttached("AnchorPoint", typeof(string), typeof(VisualExtensions), new PropertyMetadata(null, OnAnchorPointChanged));
 
         /// <summary>
         /// Identifies the CenterPoint attached property.
         /// </summary>
         public static readonly DependencyProperty CenterPointProperty =
-            DependencyProperty.RegisterAttached("CenterPoint", typeof(string), typeof(VisualEx), new PropertyMetadata(null, OnCenterPointChanged));
+            DependencyProperty.RegisterAttached("CenterPoint", typeof(string), typeof(VisualExtensions), new PropertyMetadata(null, OnCenterPointChanged));
 
         /// <summary>
         /// Identifies the Offset attached property.
         /// </summary>
         public static readonly DependencyProperty OffsetProperty =
-            DependencyProperty.RegisterAttached("Offset", typeof(string), typeof(VisualEx), new PropertyMetadata(null, OnOffsetChanged));
+            DependencyProperty.RegisterAttached("Offset", typeof(string), typeof(VisualExtensions), new PropertyMetadata(null, OnOffsetChanged));
 
         /// <summary>
         /// Identifies the Opacity attached property.
         /// </summary>
         public static readonly DependencyProperty OpacityProperty =
-            DependencyProperty.RegisterAttached("Opacity", typeof(double), typeof(VisualEx), new PropertyMetadata(double.NaN, OnOpacityChanged));
+            DependencyProperty.RegisterAttached("Opacity", typeof(double), typeof(VisualExtensions), new PropertyMetadata(double.NaN, OnOpacityChanged));
 
         /// <summary>
         /// Identifies the RotationAngle attached property.
         /// </summary>
         public static readonly DependencyProperty RotationAngleProperty =
-            DependencyProperty.RegisterAttached("RotationAngle", typeof(double), typeof(VisualEx), new PropertyMetadata(double.NaN, OnRotationAngleChanged));
+            DependencyProperty.RegisterAttached("RotationAngle", typeof(double), typeof(VisualExtensions), new PropertyMetadata(double.NaN, OnRotationAngleChanged));
 
         /// <summary>
         /// Identifies the RotationAngleInDegrees attached property.
         /// </summary>
         public static readonly DependencyProperty RotationAngleInDegreesProperty =
-            DependencyProperty.RegisterAttached("RotationAngleInDegrees", typeof(double), typeof(VisualEx), new PropertyMetadata(double.NaN, OnRotationAngleInDegreesChanged));
+            DependencyProperty.RegisterAttached("RotationAngleInDegrees", typeof(double), typeof(VisualExtensions), new PropertyMetadata(double.NaN, OnRotationAngleInDegreesChanged));
 
         /// <summary>
         /// Identifies the RotationAxis attached property.
         /// </summary>
         public static readonly DependencyProperty RotationAxisProperty =
-            DependencyProperty.RegisterAttached("RotationAxis", typeof(string), typeof(VisualEx), new PropertyMetadata(null, OnRotationAxisChanged));
+            DependencyProperty.RegisterAttached("RotationAxis", typeof(string), typeof(VisualExtensions), new PropertyMetadata(null, OnRotationAxisChanged));
 
         /// <summary>
         /// Identifies the Scale attached property.
         /// </summary>
         public static readonly DependencyProperty ScaleProperty =
-            DependencyProperty.RegisterAttached("Scale", typeof(string), typeof(VisualEx), new PropertyMetadata(null, OnScaleChanged));
+            DependencyProperty.RegisterAttached("Scale", typeof(string), typeof(VisualExtensions), new PropertyMetadata(null, OnScaleChanged));
 
         /// <summary>
         /// Identifies the Size attached property.
         /// </summary>
         public static readonly DependencyProperty SizeProperty =
-            DependencyProperty.RegisterAttached("Size", typeof(string), typeof(VisualEx), new PropertyMetadata(null, OnSizeChanged));
+            DependencyProperty.RegisterAttached("Size", typeof(string), typeof(VisualExtensions), new PropertyMetadata(null, OnSizeChanged));
 
         /// <summary>
         /// Identifies the NormalizedCenterPoint attached property.
         /// </summary>
         public static readonly DependencyProperty NormalizedCenterPointProperty =
-            DependencyProperty.RegisterAttached("NormalizedCenterPoint", typeof(string), typeof(VisualEx), new PropertyMetadata(false, OnNormalizedCenterPointChanged));
+            DependencyProperty.RegisterAttached("NormalizedCenterPoint", typeof(string), typeof(VisualExtensions), new PropertyMetadata(false, OnNormalizedCenterPointChanged));
 
         private static void OnAnchorPointChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
