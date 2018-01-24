@@ -117,7 +117,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
             }
 
             string url = TextRunInline.ResolveEscapeSequences(markdown, urlStart, pos);
-            url = string.Format("{0}{1}", Common.ImageLinkPrefix, url);
 
             // We found something!
             var result = new ImageInline

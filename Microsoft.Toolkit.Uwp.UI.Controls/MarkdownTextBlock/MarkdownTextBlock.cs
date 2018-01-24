@@ -1114,7 +1114,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Try to parse the markdown.
                 MarkdownDocument markdown = new MarkdownDocument();
                 markdown.Parse(Text);
-                Common.ImageLinkPrefix = ImageLinkPrefix;
 
                 // Now try to display it
                 var renderer = new XamlRenderer(markdown, this, this)
@@ -1262,6 +1261,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         async Task<ImageSource> IImageResolver.ResolveImageAsync(string url, string tooltip)
         {
+            if (!string.IsNullOrEmpty(ImageLinkPrefix))
+            {
+                url = string.Format("{0}{1}", ImageLinkPrefix, url);
+            }
+
             var eventArgs = new ImageResolvingEventArgs(url, tooltip);
             ImageResolving?.Invoke(this, eventArgs);
 
