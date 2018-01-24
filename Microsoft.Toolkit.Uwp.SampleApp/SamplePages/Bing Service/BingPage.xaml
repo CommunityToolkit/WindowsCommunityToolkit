@@ -41,7 +41,7 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -79,4 +79,3 @@
         </ListView>
     </Grid>
 </Page>
-

@@ -14,8 +14,7 @@
                     Click="ButtonPopToast_Click"
                     Content="Pop Toast" />
 
-            <RichTextBlock Margin="0,10,0,0"
-                           Foreground="{StaticResource Brush-Grey-03}">
+            <RichTextBlock Margin="0,10,0,0">
                 <Paragraph>The button will pop a Toast notification reminder about your calendar appointment. A preview is seen below.</Paragraph>
                 <Paragraph />
                 <Paragraph FontSize="12">

@@ -23,7 +23,7 @@
     </Page.Resources>
 
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
+    <Grid Background="{ThemeResource Brush-Grey-05}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

@@ -15,8 +15,7 @@
                     Click="ButtonPinTile_Click"
                     Content="Pin Tile" />
 
-            <RichTextBlock Margin="20,10,20,0"
-                           Foreground="{StaticResource Brush-Grey-03}">
+            <RichTextBlock Margin="20,10,20,0">
                 <Paragraph>Click the button to pin a secondary tile and send a notification to the tile, displaying rich visual content. The previews below show you what the tile will look like when you pin it.</Paragraph>
                 <Paragraph />
                 <Paragraph FontSize="12">
@@ -44,7 +43,6 @@
                 <visualizer:PreviewTile x:Name="LargePreviewTile"
                                         IsAnimationEnabled="False"
                                         TileSize="Large" />
-
             </StackPanel>
         </StackPanel>
     </ScrollViewer>

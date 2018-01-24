@@ -11,7 +11,7 @@
         <converters:StringFormatConverter x:Key="StringFormatConverter" />
     </Page.Resources>
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
+    <Grid Background="{ThemeResource Brush-Grey-05}">
         <Grid x:Name="RootGrid"
               HorizontalAlignment="Center"
               VerticalAlignment="Center">

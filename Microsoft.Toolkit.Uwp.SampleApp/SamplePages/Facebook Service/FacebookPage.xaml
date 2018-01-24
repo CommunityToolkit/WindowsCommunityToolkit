@@ -11,7 +11,7 @@
                       x:DataType="facebook:FacebookPost">
             <Border Margin="24,0,24,12"
                     Background="White"
-                    BorderBrush="#FFCCCCCC"
+                    BorderBrush="{ThemeResource InfoArea-Titlebar}"
                     BorderThickness="1">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -40,7 +40,7 @@
                       x:DataType="facebook:FacebookAlbum">
             <Border Margin="24,0,24,12"
                     Background="White"
-                    BorderBrush="#FFCCCCCC"
+                    BorderBrush="{ThemeResource InfoArea-Titlebar}"
                     BorderThickness="1">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -71,7 +71,7 @@
                       x:DataType="facebook:FacebookPhoto">
             <Border Margin="24,0,24,12"
                     Background="White"
-                    BorderBrush="#FFCCCCCC"
+                    BorderBrush="{ThemeResource InfoArea-Titlebar}"
                     BorderThickness="1">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -98,10 +98,10 @@
     </Page.Resources>
 
     <Grid MaxWidth="800"
-          Background="{StaticResource Brush-Grey-05}">
+          Background="{ThemeResource Brush-Grey-05}">
         <Grid Margin="24"
-              Background="{StaticResource Brush-Grey-04}"
-              BorderBrush="#FFCCCCCC"
+              Background="{ThemeResource Brush-Grey-04}"
+              BorderBrush="{ThemeResource InfoArea-Titlebar}"
               BorderThickness="1"
               CornerRadius="4">
             <Grid.RowDefinitions>
@@ -142,7 +142,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Grid Background="#FFCCCCCC">
+                        <Grid Background="{ThemeResource InfoArea-Titlebar}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
@@ -156,7 +156,7 @@
                                        Margin="12,6"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Foreground="{ThemeResource Brush-Grey-01}"
                                        Text="Credentials" />
                         </Grid>
 
@@ -190,7 +190,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Grid Background="#FFCCCCCC">
+                        <Grid Background="{ThemeResource InfoArea-Titlebar}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
@@ -204,7 +204,7 @@
                                        Margin="12,6"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Foreground="{ThemeResource Brush-Grey-01}"
                                        Text="Post" />
                         </Grid>
 
@@ -221,7 +221,7 @@
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            
+
                             <TextBox x:Name="UrlText"
                                     Header="Url"
                                     Text="https://github.com/Microsoft/UWPCommunityToolkit" />
@@ -272,7 +272,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Grid Background="#FFCCCCCC">
+                        <Grid Background="{ThemeResource InfoArea-Titlebar}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
@@ -286,7 +286,7 @@
                                        Margin="12,6"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Foreground="{ThemeResource Brush-Grey-01}"
                                        Text="Photos" />
                         </Grid>
 
@@ -296,11 +296,9 @@
                                       ItemTemplateSelector="{StaticResource facebookPhotoTemplateSelector}"
                                       SelectionChanged="PhotoGridView_SelectionChanged" />
                         </ScrollViewer>
-
                     </Grid>
                 </Grid>
             </ScrollViewer>
         </Grid>
     </Grid>
 </Page>
-

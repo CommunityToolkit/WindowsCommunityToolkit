@@ -9,7 +9,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid Background="{StaticResource Brush-Grey-05}">
+        <Grid Background="{ThemeResource Brush-Grey-05}">
 
             <StackPanel VerticalAlignment="Top">
                 <StackPanel Margin="0 5 0 0">

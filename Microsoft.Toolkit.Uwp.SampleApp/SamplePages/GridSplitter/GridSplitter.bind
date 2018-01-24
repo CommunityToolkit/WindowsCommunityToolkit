@@ -22,33 +22,33 @@
 
     <Rectangle Grid.Column="0"
                Grid.Row="0"
-               Fill="{StaticResource Brush-Main}"
-               Stroke="{StaticResource Brush-Grey-04}"
+               Fill="{ThemeResource Brush-Main}"
+               Stroke="{ThemeResource Brush-Grey-04}"
                StrokeThickness="1"/>
     <Rectangle Grid.Column="1"
                Grid.Row="0"
-               Fill="{StaticResource Brush-Main}"
-               Stroke="{StaticResource Brush-Grey-04}"
+               Fill="{ThemeResource Brush-Main}"
+               Stroke="{ThemeResource Brush-Grey-04}"
                StrokeThickness="1"/>
     <Rectangle Grid.Column="2"
                Grid.Row="0"
-               Fill="{StaticResource Brush-Main}"
-               Stroke="{StaticResource Brush-Grey-04}"
+               Fill="{ThemeResource Brush-Main}"
+               Stroke="{ThemeResource Brush-Grey-04}"
                StrokeThickness="1"/>
     <Rectangle Grid.Column="0"
                Grid.Row="2"
-               Fill="{StaticResource Brush-Main}"
-               Stroke="{StaticResource Brush-Grey-04}"
+               Fill="{ThemeResource Brush-Main}"
+               Stroke="{ThemeResource Brush-Grey-04}"
                StrokeThickness="1"/>
     <Rectangle Grid.Column="1"
                Grid.Row="2"
-               Fill="{StaticResource Brush-Main}"
-               Stroke="{StaticResource Brush-Grey-04}"
+               Fill="{ThemeResource Brush-Main}"
+               Stroke="{ThemeResource Brush-Grey-04}"
                StrokeThickness="1"/>
     <Rectangle Grid.Column="2"
                Grid.Row="2"
-               Fill="{StaticResource Brush-Main}"
-               Stroke="{StaticResource Brush-Grey-04}"
+               Fill="{ThemeResource Brush-Main}"
+               Stroke="{ThemeResource Brush-Grey-04}"
                StrokeThickness="1"/>
 
     <TextBlock Grid.Column="0"
@@ -91,7 +91,7 @@
     <!--Column Grid Splitter-->
     <controls:GridSplitter
             Width="11"
-            Background="{StaticResource Brush-Grey-04}"
+            Background="{ThemeResource Brush-Grey-04}"
             GripperCursor="@[GripperCursor:Enum:GripperCursorType.Default]"
             HorizontalAlignment="@[HorizontalAlignment:Enum:HorizontalAlignment.Left]"
             Grid.Column="@[Column:Slider:1:0-2]"
@@ -104,7 +104,7 @@
     <!--Row Grid Splitter-->
     <controls:GridSplitter
         Grid.Row="1"
-        Background="{StaticResource Brush-Grey-04}" Height="11"
+        Background="{ThemeResource Brush-Grey-04}" Height="11"
         HorizontalAlignment="Stretch">
       <controls:GridSplitter.Element>
         <Grid>

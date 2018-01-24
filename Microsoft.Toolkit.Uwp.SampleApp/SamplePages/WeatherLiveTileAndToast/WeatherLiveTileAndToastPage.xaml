@@ -19,8 +19,7 @@
                     Click="ButtonPinTile_Click"
                     Content="Pin Tile" />
 
-            <RichTextBlock Margin="0,10,0,0"
-                           Foreground="{StaticResource Brush-Grey-03}">
+            <RichTextBlock Margin="0,10,0,0">
                 <Paragraph>The first button will pop a Toast notification displaying the weather forecast.</Paragraph>
                 <Paragraph />
                 <Paragraph>The second button will pin a secondary Tile and send a notification to the Tile, displaying the weather forecast.</Paragraph>
@@ -62,7 +61,6 @@
                 <visualizer:PreviewTile x:Name="PreviewTileLarge"
                                         IsAnimationEnabled="False"
                                         TileSize="Large" />
-
             </StackPanel>
         </StackPanel>
     </ScrollViewer>

@@ -11,7 +11,7 @@
 
     <Grid MaxWidth="800"
           Padding="24"
-          Background="{StaticResource Brush-Grey-05}">
+          Background="{ThemeResource Brush-Grey-05}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -33,7 +33,7 @@
         </Grid>
         <Grid Grid.Row="2"
               Margin="0,24,0,0"
-              Background="{StaticResource Brush-Grey-01}"
+              Background="{ThemeResource Brush-Grey-01}"
               BorderBrush="#FFCCCCCC"
               BorderThickness="1"
               CornerRadius="4">
@@ -53,7 +53,7 @@
                             <TextBlock Grid.Column="1"
                                        Margin="10"
                                        VerticalAlignment="Center"
-                                       Foreground="{StaticResource Brush-Grey-05}"
+                                       Foreground="{ThemeResource Brush-Grey-05}"
                                        Text="{Binding Name}" />
                         </Grid>
                     </DataTemplate>
