@@ -35,11 +35,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         MarkdownLink,
 
         /// <summary>
-        /// An bold and italic block
-        /// </summary>
-        BoldItalic,
-
-        /// <summary>
         /// A raw hyper link
         /// </summary>
         RawHyperlink,

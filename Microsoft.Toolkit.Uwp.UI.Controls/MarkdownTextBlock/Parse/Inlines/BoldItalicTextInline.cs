@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         /// Initializes a new instance of the <see cref="BoldItalicTextInline"/> class.
         /// </summary>
         public BoldItalicTextInline()
-            : base(MarkdownInlineType.BoldItalic)
+            : base(MarkdownInlineType.Bold)
         {
         }
 
@@ -91,9 +91,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
             }
 
             // We found something!
-            var result = new BoldItalicTextInline();
-            result.Inlines = Common.ParseInlineChildren(markdown, innerStart, innerEnd);
-            return new Common.InlineParseResult(result, start, innerEnd + 3);
+            var bold = new BoldTextInline
+            {
+                Inlines = new List<MarkdownInline>
+                {
+                    new ItalicTextInline
+                    {
+                        Inlines = Common.ParseInlineChildren(markdown, innerStart, innerEnd)
+                    }
+                }
+            };
+            return new Common.InlineParseResult(bold, start, innerEnd + 3);
         }
 
         /// <summary>

@@ -781,9 +781,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 case MarkdownInlineType.Bold:
                     RenderBoldRun(inlineCollection, (BoldTextInline)element, context);
                     break;
-                case MarkdownInlineType.BoldItalic:
-                    RenderBoldItalicRun(inlineCollection, (BoldItalicTextInline)element, context);
-                    break;
                 case MarkdownInlineType.MarkdownLink:
                     RenderMarkdownLink(inlineCollection, (MarkdownLinkInline)element, parent, context);
                     break;
@@ -1028,28 +1025,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
 
             // Add it to the current inlines
             inlineCollection.Add(italicSpan);
-        }
-
-        /// <summary>
-        /// Renders a text run element.
-        /// </summary>
-        /// <param name="inlineCollection"> The list to add to. </param>
-        /// <param name="element"> The parsed inline element to render. </param>
-        /// <param name="context"> Persistent state. </param>
-        private void RenderBoldItalicRun(InlineCollection inlineCollection, BoldItalicTextInline element, RenderContext context)
-        {
-            // Create the text run
-            Span bolditalicSpan = new Span
-            {
-                FontWeight = FontWeights.Bold,
-                FontStyle = FontStyle.Italic
-            };
-
-            // Render the children into the italic inline.
-            RenderInlineChildren(bolditalicSpan.Inlines, element.Inlines, bolditalicSpan, context);
-
-            // Add it to the current inlines
-            inlineCollection.Add(bolditalicSpan);
         }
 
         /// <summary>
