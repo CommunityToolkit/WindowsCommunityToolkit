@@ -768,6 +768,7 @@
       <DependentUpon>AdaptiveGridViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Styles\ThemeInjector.cs" />
     <Compile Include="TrackingManager.cs" />
   </ItemGroup>
   <ItemGroup>

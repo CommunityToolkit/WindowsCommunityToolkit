@@ -15,6 +15,7 @@ using Microsoft.HockeyApp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
+using Microsoft.Toolkit.Uwp.SampleApp.Styles;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.System.Profile;
@@ -116,6 +117,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private async System.Threading.Tasks.Task RunAppInitialization(string launchParameters)
         {
+            ThemeInjector.InjectThemeResources(Application.Current.Resources);
+
             // Go fullscreen on Xbox
             if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() == DeviceFormFactor.Xbox)
             {
