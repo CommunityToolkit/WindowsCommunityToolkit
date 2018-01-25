@@ -56,6 +56,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                 return null;
             }
 
+            if (markdown == null || markdown.Length < 6)
+            {
+                return null;
+            }
+
             // Check the start sequence.
             string startSequence = markdown.Substring(start, 3);
             if (startSequence != "***" && startSequence != "___")
