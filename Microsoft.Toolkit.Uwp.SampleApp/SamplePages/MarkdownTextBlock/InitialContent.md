@@ -49,6 +49,18 @@ is displayed as:
 
 >This sentence includes **bold text**.
 
+### Bold & Italics
+
+Text can be displayed in a bold font by surrounding a word or words with either triple asterisks (\*) or triple underscores (\_).
+
+For example: 
+
+>This sentence includes \*\*\*bold & italic text\*\*\*.
+
+is displayed as:
+
+>This sentence includes ***bold & italic text***.
+
 ### Strikethrough
 
 Text can be displayed in a strikethrough font by surrounding a word or words with double tildes (~~).  For example:
