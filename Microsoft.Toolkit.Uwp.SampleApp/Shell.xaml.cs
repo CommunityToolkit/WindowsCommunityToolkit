@@ -586,8 +586,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     }
                 }
 
-                image = new BitmapImage();
-                await image.SetSourceAsync(imageStream);
+                if (imageStream != null)
+                {
+                    image = new BitmapImage();
+                    await image.SetSourceAsync(imageStream);
+                }
             }
 
             // Handle only if no exceptions occur.
