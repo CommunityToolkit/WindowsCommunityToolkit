@@ -292,11 +292,11 @@ To add an image, it is almost like a link. You just need to add a \! before.
 
 So inline image syntax looks like this:
 
->\!\[Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
+>\!\[Placeholder](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Photos/ImageExPlaceholder.jpg)
 
 which renders in:
 
-![Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
+![Placeholder](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Photos/ImageExPlaceholder.jpg)
 
 *****
 

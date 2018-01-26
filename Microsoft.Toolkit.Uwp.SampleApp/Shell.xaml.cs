@@ -13,7 +13,9 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
@@ -24,6 +26,8 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Monaco;
 using Monaco.Editor;
 using Monaco.Helpers;
+using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.System;
 using Windows.System.Profile;
 using Windows.System.Threading;
@@ -51,6 +55,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private DateTime _timeSampleEditedFirst = DateTime.MinValue;
         private DateTime _timeSampleEditedLast = DateTime.MinValue;
         private bool _xamlCodeRendererSupported = false;
+        private string documentationPath;
 
         public bool DisplayWaitRing
         {
@@ -283,9 +288,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (HamburgerMenu.CurrentSample.HasDocumentation)
                 {
                     var docs = await this.HamburgerMenu.CurrentSample.GetDocumentationAsync();
-                    if (!string.IsNullOrWhiteSpace(docs))
+                    documentationPath = docs.Path;
+                    if (!string.IsNullOrWhiteSpace(docs.contents))
                     {
-                        DocumentationTextblock.Text = docs;
+                        DocumentationTextblock.Text = docs.contents;
                         InfoAreaPivot.Items.Add(DocumentationPivotItem);
                     }
                 }
@@ -390,7 +396,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-           if (NavigationFrame.CanGoBack)
+            if (NavigationFrame.CanGoBack)
             {
                 NavigationFrame.GoBack();
                 backRequestedEventArgs.Handled = true;
@@ -430,7 +436,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-           if (NavigationFrame.CurrentSourcePageType != option.PageType)
+            if (NavigationFrame.CurrentSourcePageType != option.PageType)
             {
                 NavigationFrame.Navigate(option.PageType);
             }
@@ -514,10 +520,102 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             await Launcher.LaunchUriAsync(new Uri(e.Link));
         }
 
-        private void DocumentationTextblock_ImageResolving(object sender, ImageResolvingEventArgs e)
+        private async void DocumentationTextblock_ImageResolving(object sender, ImageResolvingEventArgs e)
         {
-            e.Image = new BitmapImage(new Uri("ms-appx:///Assets/pixel.png"));
-            e.Handled = true;
+            async Task<Stream> CopyStream(HttpContent source)
+            {
+                var stream = new MemoryStream();
+                await source.CopyToAsync(stream);
+                stream.Seek(0, SeekOrigin.Begin);
+                return stream;
+            }
+
+            var deferral = e.GetDeferral();
+            BitmapImage image = null;
+
+            var absolute = Uri.TryCreate(e.Url, UriKind.Absolute, out Uri Url);
+            if (!absolute)
+            {
+                Url = new Uri(documentationPath + e.Url);
+            }
+
+            if (Url.Scheme == "ms-appx")
+            {
+                image = new BitmapImage(Url);
+            }
+            else
+            {
+                IRandomAccessStream imageStream = null;
+                var localpath = $"{Url.Host}/{Url.LocalPath}";
+
+                // Cache only in Release
+#if !DEBUG
+                try
+                {
+                    imageStream = await StreamHelper.GetLocalCacheFileStreamAsync(localpath, Windows.Storage.FileAccessMode.Read);
+                }
+                catch
+                {
+                }
+#endif
+
+                if (imageStream == null)
+                {
+                    try
+                    {
+                        using (var client = new HttpClient())
+                        {
+                            using (var response = await client.GetAsync(Url))
+                            {
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    var imageCopy = await CopyStream(response.Content);
+                                    imageStream = imageCopy.AsRandomAccessStream();
+
+                                    // Cache only in Release
+#if !DEBUG
+                                    // Saves to the Cache.
+                                    SaveImageToCache(localpath, await CopyStream(response.Content));
+#endif
+                                }
+                            }
+                        }
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                image = new BitmapImage();
+                await image.SetSourceAsync(imageStream);
+            }
+
+            // Handle only if no exceptions occur.
+            if (image != null)
+            {
+                e.Image = image;
+                e.Handled = true;
+            }
+
+            deferral.Complete();
+        }
+
+        private async void SaveImageToCache(string localpath, Stream imageStream)
+        {
+            // Close stream when finished.
+            using (imageStream)
+            {
+                var folder = ApplicationData.Current.LocalCacheFolder;
+                localpath = Path.Combine(folder.Path, localpath);
+
+                // Resort to creating using traditional methods to avoid iteration for folder creation.
+                Directory.CreateDirectory(Path.GetDirectoryName(localpath));
+
+                using (var filestream = File.Create(localpath))
+                {
+                    await imageStream.CopyToAsync(filestream);
+                }
+            }
         }
 
         private void GitHub_OnClick(object sender, RoutedEventArgs e)
@@ -671,9 +769,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             TrackingManager.TrackException(args);
 
             // If you hit an issue here, please report repro steps along with all the info from the Exception object.
-            #if DEBUG
+#if DEBUG
             Debugger.Break();
-            #endif
+#endif
         }
 
         private void ProcessSampleEditorTime()

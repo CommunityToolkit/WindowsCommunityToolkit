@@ -36,6 +36,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private static HttpClient client = new HttpClient();
         private string _cachedDocumentation = string.Empty;
+        private string _cachedPath = string.Empty;
 
         internal static async Task<Sample> FindAsync(string category, string name)
         {
@@ -88,7 +89,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     _codeUrl = $"https://github.com/Microsoft/UWPCommunityToolkit/tree/master/{path}";
                 }
 #endif
-
             }
         }
 
@@ -147,15 +147,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        public async Task<string> GetDocumentationAsync()
+        public async Task<(string contents, string Path)> GetDocumentationAsync()
         {
             if (!string.IsNullOrWhiteSpace(_cachedDocumentation))
             {
-                return _cachedDocumentation;
+                return (_cachedDocumentation, _cachedPath);
             }
 
             var filepath = string.Empty;
             var filename = string.Empty;
+            var localPath = string.Empty;
 
             var docRegex = new Regex("^" + _repoOnlineRoot + "(?<branch>.+?)/docs/(?<file>.+)");
             var docMatch = docRegex.Match(DocumentationUrl);
@@ -163,6 +164,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 filepath = docMatch.Groups["file"].Value;
                 filename = Path.GetFileName(filepath);
+                localPath = $"ms-appx:///docs/{Path.GetDirectoryName(filepath)}";
             }
 
 #if !DEBUG // use the docs repo in release mode
@@ -170,6 +172,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 #else
             string modifiedDocumentationUrl = DocumentationUrl;
 #endif
+
+            _cachedPath = modifiedDocumentationUrl.Replace(filename, string.Empty);
 
             try
             {
@@ -194,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
             }
 
-#if !DEBUG // don't cache for debugging perpuses so it always gets the latests
+#if !DEBUG // don't cache for debugging purposes so it always gets the latests
             if (string.IsNullOrWhiteSpace(_cachedDocumentation))
             {
                 try
@@ -215,6 +219,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     {
                         var result = await localDocsStream.ReadTextAsync();
                         _cachedDocumentation = ProcessDocs(result);
+                        _cachedPath = localPath;
                     }
                 }
                 catch (Exception)
@@ -222,7 +227,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
-            return _cachedDocumentation;
+            return (_cachedDocumentation, _cachedPath);
         }
 
         private string ProcessDocs(string docs)
@@ -409,6 +414,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.TimeSpan:
                                     try
                                     {
@@ -440,6 +446,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.Enum:
                                     try
                                     {
@@ -457,6 +464,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.Bool:
                                     try
                                     {
@@ -469,6 +477,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.Brush:
                                     try
                                     {
@@ -482,6 +491,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.Thickness:
                                     try
                                     {
@@ -496,6 +506,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 default:
                                     options = new PropertyOptions { DefaultValue = value };
                                     break;
