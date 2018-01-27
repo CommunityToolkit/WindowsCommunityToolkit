@@ -19,7 +19,7 @@
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
-            <ColumnDefinition  Width="Auto" />
+            <ColumnDefinition  />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -27,10 +27,24 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid x:Name="SampleTitleBar"
-              Background="Red">
-            <TextBlock Text="{x:Bind CurrentSample.Name}" />
-        </Grid>
+        <StackPanel x:Name="SampleTitleBar"
+              MinWidth="300"
+              Orientation="Horizontal"
+              Padding="10,0"
+              Background="{ThemeResource Brush-Sample-HeaderBacking}">
+            <TextBlock Text="{x:Bind CurrentSample.Name}" 
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       TextLineBounds="Tight"/>
+
+            <AppBarButton
+                Margin="5,0,0,0"
+                Width="50"
+                Icon="Favorite"/>
+
+            <AppBarSeparator Margin="-10, 3, -10, 0"/>
+        </StackPanel>
 
         <Grid
             Background="{ThemeResource Brush-SampleInfo-Background}"

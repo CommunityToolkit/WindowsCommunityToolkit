@@ -140,6 +140,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     _xamlRenderer.DataContext = propertyDesc.Expando;
                 }
 
+                if (CurrentSample.HasDocumentation)
+                {
+                    var docs = await CurrentSample.GetDocumentationAsync();
+                    if (!string.IsNullOrWhiteSpace(docs))
+                    {
+                        DocumentationTextblock.Text = docs;
+                        InfoAreaPivot.Items.Add(DocumentationPivotItem);
+                    }
+                }
+
                 if (propertyDesc != null && propertyDesc.Options.Count > 0)
                 {
                     InfoAreaPivot.Items.Add(PropertiesPivotItem);
@@ -186,16 +196,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 else
                 {
                     //GitHub.Visibility = Visibility.Collapsed;
-                }
-
-                if (CurrentSample.HasDocumentation)
-                {
-                    var docs = await CurrentSample.GetDocumentationAsync();
-                    if (!string.IsNullOrWhiteSpace(docs))
-                    {
-                        DocumentationTextblock.Text = docs;
-                        InfoAreaPivot.Items.Add(DocumentationPivotItem);
-                    }
                 }
 
                 if (InfoAreaPivot.Items.Count == 0)
