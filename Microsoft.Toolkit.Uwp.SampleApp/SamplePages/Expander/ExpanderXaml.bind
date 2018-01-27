@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
     <ScrollViewer>
       <StackPanel Margin="20">
         <controls:Expander x:Name="Expander1" VerticalAlignment="Top" Margin="0,0,0,10"

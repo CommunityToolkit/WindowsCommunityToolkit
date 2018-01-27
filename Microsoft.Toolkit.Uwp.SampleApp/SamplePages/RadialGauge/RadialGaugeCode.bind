@@ -5,7 +5,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
     <Grid VerticalAlignment="Center"
           HorizontalAlignment="Center">
       <Grid.ColumnDefinitions>
@@ -27,7 +27,7 @@
           MaxAngle="@[MaxAngle:Slider:150:0-360]"
           Unit="Units"
           TickBrush="Gainsboro"
-          ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+          ScaleTickBrush="{ThemeResource Brush-Alt}"
           UnitBrush="{ThemeResource Brush-Alt}"
           ValueBrush="{ThemeResource Brush-Alt}"
           NeedleWidth="@[NeedleWidth:Slider:5:1-10]"

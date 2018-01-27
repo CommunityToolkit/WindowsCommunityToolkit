@@ -10,7 +10,7 @@
     <converters:StringFormatConverter x:Key="StringFormatConverter" />
   </Page.Resources>
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
     <Grid VerticalAlignment="Center"
       HorizontalAlignment="Center">
       <Grid.ColumnDefinitions>

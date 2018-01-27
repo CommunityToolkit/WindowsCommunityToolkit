@@ -22,7 +22,7 @@
         </Style>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -36,6 +36,6 @@
                    TextWrapping="Wrap"
                    Visibility="Collapsed" />
 
-        <Grid x:Name="XamlRoot" Grid.Row="1"/>
+        <Grid x:Name="XamlRoot" Grid.Row="1" />
     </Grid>
 </Page>

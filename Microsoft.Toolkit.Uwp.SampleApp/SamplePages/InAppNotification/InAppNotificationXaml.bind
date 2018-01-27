@@ -267,7 +267,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <StackPanel Padding="20">
             <StackPanel Margin="5">
                 <TextBox x:Name="NotificationDurationTextBox"

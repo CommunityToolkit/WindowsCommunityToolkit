@@ -9,7 +9,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
     <Image x:Name="MyImage"
            Source="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg">
       <interactivity:Interaction.Behaviors>

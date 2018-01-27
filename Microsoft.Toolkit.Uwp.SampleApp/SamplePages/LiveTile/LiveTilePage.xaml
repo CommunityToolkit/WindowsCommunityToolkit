@@ -6,7 +6,7 @@
       xmlns:visualizer="using:NotificationsVisualizerLibrary"
       mc:Ignorable="d">
 
-    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollViewer>
         <StackPanel>
 
             <Button x:Name="ButtonPinTile"

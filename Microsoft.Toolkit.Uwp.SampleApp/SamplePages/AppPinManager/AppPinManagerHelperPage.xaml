@@ -9,7 +9,6 @@
     mc:Ignorable="d">
 
     <StackPanel
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
         Padding="12">
 
         <TextBlock Text="AppPinManager" FontWeight="Bold" FontSize="25" />

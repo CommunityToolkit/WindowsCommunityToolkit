@@ -7,7 +7,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
-  <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="48">
+  <Grid x:Name="RootGrid" Padding="48">
     <Grid.RowDefinitions>
       <RowDefinition MinHeight="100" MaxHeight="300" />
       <RowDefinition Height="11" />

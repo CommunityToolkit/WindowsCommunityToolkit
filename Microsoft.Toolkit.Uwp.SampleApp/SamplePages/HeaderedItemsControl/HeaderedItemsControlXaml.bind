@@ -7,7 +7,7 @@
     x:Name="Page"
     mc:Ignorable="d">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
     <Grid.RowDefinitions>
       <RowDefinition />
       <RowDefinition />

@@ -7,7 +7,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <StackPanel x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="48">
+  <StackPanel x:Name="RootGrid" Padding="48">
     <Grid Height="300">
       <Grid.RowDefinitions>
         <RowDefinition MinHeight="100" MaxHeight="300" />

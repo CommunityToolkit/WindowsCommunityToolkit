@@ -40,7 +40,7 @@
     </DataTemplate>
   </Page.Resources>
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="50" BorderThickness="1">
+  <Grid Margin="50" BorderThickness="1">
     <controls:HamburgerMenu x:Name="HamburgerMenu"
                             PaneBackground="@[PaneBackground:Brush:FireBrick]"
                             PaneForeground="{ThemeResource Brush-Alt}"

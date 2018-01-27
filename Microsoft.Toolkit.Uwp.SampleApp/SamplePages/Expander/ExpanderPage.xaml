@@ -7,10 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <ScrollViewer>
             <StackPanel Margin="20">
-                <controls:Expander x:Name="Expander1" VerticalAlignment="Top" Margin="0,0,0,10" 
+                <controls:Expander x:Name="Expander1" VerticalAlignment="Top" Margin="0,0,0,10"
                                 Header="This is the header - expander 1"
                                 HorizontalContentAlignment="Stretch"
                                 Foreground="White"
@@ -18,8 +18,8 @@
                                 IsExpanded="{Binding Path=IsExpanded1.Value, Mode=TwoWay}"
                                 ExpandDirection="{Binding Path=ExpandDirection1.Value, Mode=TwoWay}">
                     <Grid>
-                        <TextBlock HorizontalAlignment="Center" 
-                                TextWrapping="Wrap" 
+                        <TextBlock HorizontalAlignment="Center"
+                                TextWrapping="Wrap"
                                 Text="This is the content"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource HeaderTextBlockStyle}" />
@@ -34,7 +34,7 @@
                     </controls:Expander.ContentOverlay>
                 </controls:Expander>
 
-                <controls:Expander x:Name="Expander2" VerticalAlignment="Top" Margin="0" 
+                <controls:Expander x:Name="Expander2" VerticalAlignment="Top" Margin="0"
                                 Header="This is the header - expander 2"
                                 HorizontalContentAlignment="Stretch"
                                 Foreground="White"
@@ -42,10 +42,10 @@
                                 IsExpanded="{Binding Path=IsExpanded2.Value, Mode=TwoWay}"
                                 ExpandDirection="{Binding Path=ExpandDirection2.Value, Mode=TwoWay}">
                     <Grid Height="250">
-                        <TextBlock HorizontalAlignment="Center" 
-                                TextWrapping="Wrap" 
-                                Text="This is the content" 
-                                VerticalAlignment="Center" 
+                        <TextBlock HorizontalAlignment="Center"
+                                TextWrapping="Wrap"
+                                Text="This is the content"
+                                VerticalAlignment="Center"
                                 Style="{StaticResource HeaderTextBlockStyle}" />
                     </Grid>
                 </controls:Expander>

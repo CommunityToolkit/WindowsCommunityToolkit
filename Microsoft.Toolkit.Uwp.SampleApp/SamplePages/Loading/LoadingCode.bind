@@ -35,7 +35,7 @@
     </ResourceDictionary>
   </Page.Resources>
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
 
     <ScrollViewer>
       <StackPanel Margin="20">

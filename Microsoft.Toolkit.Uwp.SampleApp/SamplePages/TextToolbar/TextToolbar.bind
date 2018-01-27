@@ -12,9 +12,7 @@
                     Format="MarkDown" />
   </Page.Resources>
 
-  <Grid x:Name="MainGrid"
-              RequestedTheme="@[Theme:Enum:ElementTheme.Default]"
-              Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid x:Name="MainGrid">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition />

@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollViewer>
         <StackPanel Margin="20">
             <ToggleSwitch x:Name="StorageModeToggle" HorizontalAlignment="Center" 
                           OnContent="Roaming storage (save across all your devices)"

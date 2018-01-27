@@ -5,7 +5,7 @@
       xmlns:developerTools="using:Microsoft.Toolkit.Uwp.DeveloperTools"
       mc:Ignorable="d">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
     <developerTools:AlignmentGrid
             Opacity="@[Opacity:DoubleSlider:0.2:0.1-1.0]"
             LineBrush="@[LineBrush:Brush:Firebrick]"
