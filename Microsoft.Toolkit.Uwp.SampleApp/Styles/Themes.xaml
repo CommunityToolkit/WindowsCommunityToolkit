@@ -26,6 +26,7 @@
             <Color x:Key="Grey-03">#FF555555</Color>
             <Color x:Key="Grey-04">#FFDDDDDD</Color>
             <Color x:Key="Grey-05">#FFF0F0F0</Color>
+            <Color x:Key="SampleInfo-Background">#DDDDDDDD</Color>
 
             <!-- Branding Colors -->
             <SolidColorBrush x:Key="SystemControlHighlightAccentBrush"
@@ -64,11 +65,11 @@
             <SolidColorBrush x:Key="Menu-DropDown-Background"
                              Color="#F3F3F3F3" />
             <SolidColorBrush x:Key="Commands-Background"
-                             Color="White" />
+                             Color="{ThemeResource SampleInfo-Background}" />
             <SolidColorBrush x:Key="InfoArea-Titlebar"
                              Color="#FFCCCCCC" />
             <SolidColorBrush x:Key="DocumentationBackground"
-                             Color="White" />
+                             Color="{ThemeResource SampleInfo-Background}" />
             <SolidColorBrush x:Key="DocumentationForeground"
                              Color="Black" />
             <SolidColorBrush x:Key="BackingTint"
@@ -77,6 +78,10 @@
                              Color="#E6E6E6" />
             <SolidColorBrush x:Key="ExceptionNotification-IconForeground"
                              Color="DarkRed" />
+            <SolidColorBrush x:Key="Brush-SampleInfo-Background"
+                             Color="{ThemeResource SampleInfo-Background}" />
+            <SolidColorBrush x:Key="Brush-SampleInfo-HeaderBacking"
+                             Color="#11000000" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <!-- Colors -->
@@ -87,6 +92,7 @@
             <Color x:Key="Grey-03">#FF555555</Color>
             <Color x:Key="Grey-04">#FF444444</Color>
             <Color x:Key="Grey-05">#FF333333</Color>
+            <Color x:Key="SampleInfo-Background">#DD222222</Color>
 
             <!-- Branding Colors -->
             <SolidColorBrush x:Key="SystemControlHighlightAccentBrush"
@@ -125,11 +131,11 @@
             <SolidColorBrush x:Key="Menu-DropDown-Background"
                              Color="#FF282828" />
             <SolidColorBrush x:Key="Commands-Background"
-                             Color="Black" />
+                             Color="{ThemeResource SampleInfo-Background}" />
             <SolidColorBrush x:Key="InfoArea-Titlebar"
                              Color="#33000000" />
             <SolidColorBrush x:Key="DocumentationBackground"
-                             Color="Black" />
+                             Color="{ThemeResource SampleInfo-Background}" />
             <SolidColorBrush x:Key="DocumentationForeground"
                              Color="White" />
             <SolidColorBrush x:Key="BackingTint"
@@ -137,7 +143,11 @@
             <SolidColorBrush x:Key="SampleIconBacking"
                              Color="#E6E6E6" />
             <SolidColorBrush x:Key="ExceptionNotification-IconForeground"
-                             Color="{ThemeResource Grey-04}" />
+                             Color="DarkRed" />
+            <SolidColorBrush x:Key="Brush-SampleInfo-Background"
+                             Color="{ThemeResource SampleInfo-Background}" />
+            <SolidColorBrush x:Key="Brush-SampleInfo-HeaderBacking"
+                             Color="#4C000000" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

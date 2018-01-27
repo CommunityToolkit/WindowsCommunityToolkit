@@ -66,6 +66,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Styles
                         BackgroundSource = AcrylicBackgroundSource.Backdrop,
                     }
                 });
+
+                AddAcrylic(new ThemeAcrylic
+                {
+                    Names = new[] { "Brush-SampleInfo-Background", "Commands-Background" },
+                    DarkAcrylic = new AcrylicBrush
+                    {
+                        TintColor = backingGrey,
+                        TintOpacity = 0.7,
+                        BackgroundSource = AcrylicBackgroundSource.Backdrop
+                    },
+                    LightAcrylic = new AcrylicBrush
+                    {
+                        TintColor = Colors.White,
+                        TintOpacity = 0.6,
+                        BackgroundSource = AcrylicBackgroundSource.Backdrop,
+                    }
+                });
             }
         }
 
@@ -74,30 +91,41 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Styles
             var light = resource?.LightAcrylic;
             var dark = resource?.DarkAcrylic;
 
-            if (light != null)
+            var names = resource.Names;
+            if (names == null)
             {
-                if (light.FallbackColor == null && lightTheme[resource.Name] is SolidColorBrush brush)
-                {
-                    light.FallbackColor = brush.Color;
-                }
-
-                lightTheme[resource.Name] = light;
+                names = new string[] { resource.Name };
             }
 
-            if (dark != null)
+            foreach (var res in names)
             {
-                if (dark.FallbackColor == null && darkTheme[resource.Name] is SolidColorBrush brush)
+                if (light != null)
                 {
-                    dark.FallbackColor = brush.Color;
+                    if (light.FallbackColor == null && lightTheme[res] is SolidColorBrush brush)
+                    {
+                        light.FallbackColor = brush.Color;
+                    }
+
+                    lightTheme[res] = light;
                 }
 
-                darkTheme[resource.Name] = dark;
+                if (dark != null)
+                {
+                    if (dark.FallbackColor == null && darkTheme[res] is SolidColorBrush brush)
+                    {
+                        dark.FallbackColor = brush.Color;
+                    }
+
+                    darkTheme[res] = dark;
+                }
             }
         }
 
         private class ThemeAcrylic
         {
             public string Name { get; set; }
+
+            public string[] Names { get; set; }
 
             public AcrylicBrush LightAcrylic { get; set; }
 

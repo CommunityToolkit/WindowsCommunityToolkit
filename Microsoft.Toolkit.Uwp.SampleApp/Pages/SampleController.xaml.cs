@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             InfoAreaGrid.Visibility = Visibility.Visible;
             RootGrid.ColumnDefinitions[0].Width = new GridLength(2, GridUnitType.Star);
             RootGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
-            RootGrid.RowDefinitions[1].Height = new GridLength(32);
+            //RootGrid.RowDefinitions[2].Height = new GridLength(32);
             Splitter.Visibility = Visibility.Visible;
         }
 
@@ -140,8 +140,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     _xamlRenderer.DataContext = propertyDesc.Expando;
                 }
 
-                Title.Text = CurrentSample.Name;
-
                 if (propertyDesc != null && propertyDesc.Options.Count > 0)
                 {
                     InfoAreaPivot.Items.Add(PropertiesPivotItem);
@@ -182,12 +180,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (!string.IsNullOrEmpty(CurrentSample.CodeUrl))
                 {
-                    GitHub.NavigateUri = new Uri(CurrentSample.CodeUrl);
-                    GitHub.Visibility = Visibility.Visible;
+                    //GitHub.NavigateUri = new Uri(CurrentSample.CodeUrl);
+                    //GitHub.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    GitHub.Visibility = Visibility.Collapsed;
+                    //GitHub.Visibility = Visibility.Collapsed;
                 }
 
                 if (CurrentSample.HasDocumentation)
@@ -242,13 +240,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             InfoAreaGrid.Visibility = Visibility.Collapsed;
             RootGrid.ColumnDefinitions[1].Width = GridLength.Auto;
-            RootGrid.RowDefinitions[1].Height = GridLength.Auto;
+            RootGrid.RowDefinitions[2].Height = GridLength.Auto;
             Splitter.Visibility = Visibility.Collapsed;
         }
 
         private void ExpandOrCloseProperties()
         {
             var states = VisualStateManager.GetVisualStateGroups(RootGrid).FirstOrDefault();
+            if (states.CurrentState == null)
+            {
+                ExceptionNotification.Show("A Visual State Exception occurred");
+                return;
+            }
+
             string currentState = states.CurrentState.Name;
 
             switch (currentState)
@@ -261,7 +265,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         Grid.SetRowSpan(InfoAreaGrid, 1);
                         Grid.SetRow(InfoAreaGrid, 1);
                         _isPaneOpen = false;
-                        ExpandButton.Content = "";
+                        //ExpandButton.Content = "";
                     }
                     else
                     {
@@ -269,7 +273,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         Grid.SetRowSpan(InfoAreaGrid, 2);
                         Grid.SetRow(InfoAreaGrid, 0);
                         _isPaneOpen = true;
-                        ExpandButton.Content = "";
+                        //ExpandButton.Content = "";
 
                         // Update Read-Only XAML tab when switching back to show changes to TwoWay Bound Properties
                         if (CurrentSample?.HasXAMLCode == true && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
@@ -287,7 +291,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         Grid.SetColumnSpan(InfoAreaGrid, 1);
                         Grid.SetColumn(InfoAreaGrid, 1);
                         _isPaneOpen = false;
-                        ExpandButton.Content = "";
+                        //ExpandButton.Content = "";
                     }
                     else
                     {
@@ -295,7 +299,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         Grid.SetColumnSpan(InfoAreaGrid, 2);
                         Grid.SetColumn(InfoAreaGrid, 0);
                         _isPaneOpen = true;
-                        ExpandButton.Content = "";
+                        //ExpandButton.Content = "";
                     }
 
                     break;
@@ -380,7 +384,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void GitHub_OnClick(object sender, RoutedEventArgs e)
         {
-            TrackingManager.TrackEvent("Link", GitHub.NavigateUri.ToString());
+            //TrackingManager.TrackEvent("Link", GitHub.NavigateUri.ToString());
         }
 
         public async Task RefreshXamlRenderAsync()

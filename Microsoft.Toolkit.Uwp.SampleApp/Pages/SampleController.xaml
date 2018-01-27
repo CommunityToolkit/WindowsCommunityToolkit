@@ -14,15 +14,41 @@
     mc:Ignorable="d">
 
     <Grid x:Name="RootGrid">
+        <Grid.Background>
+            <ImageBrush ImageSource="ms-appx:///Assets/Photos/ales-krivec-43430.jpg" Stretch="UniformToFill" />
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
             <ColumnDefinition  Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid x:Name="DemoAreaGrid">
+
+        <Grid x:Name="SampleTitleBar"
+              Background="Red">
+            <TextBlock Text="{x:Bind CurrentSample.Name}" />
+        </Grid>
+
+        <Grid
+            Background="{ThemeResource Brush-SampleInfo-Background}"
+            Grid.Column="1">
+            <Grid x:Name="InfoAreaControls"
+                        Background="{ThemeResource Brush-SampleInfo-HeaderBacking}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <AppBarButton x:Name="ExpandPane"
+                    Icon="ClosePane"
+                    Width="50"
+                    Click="{x:Bind ExpandOrCloseProperties}" />
+            </Grid>
+        </Grid>
+
+        <Grid x:Name="DemoAreaGrid" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -69,8 +95,10 @@
             </controls:DropShadowPanel>
         </Grid>
         <Grid x:Name="InfoAreaGrid"
-                  Background="{ThemeResource Brush-Grey-04}"
-                  Visibility="Collapsed">
+                  Background="{ThemeResource Brush-SampleInfo-Background}"
+                  Grid.Row="1"
+                  Grid.Column="1"
+                  Grid.RowSpan="3">
 
             <animations:Implicit.ShowAnimations>
                 <animations:TranslationAnimation From="200, 0, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
@@ -81,11 +109,11 @@
                 <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.2"></animations:OpacityAnimation>
             </animations:Implicit.HideAnimations>
 
-            <Grid.RowDefinitions>
+            <!--<Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid Background="{ThemeResource InfoArea-Titlebar}">
+            </Grid.RowDefinitions>-->
+            <!--<Grid Background="{ThemeResource InfoArea-Titlebar}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
@@ -109,11 +137,26 @@
                                         Click="GitHub_OnClick"
                                         Content="Github"
                                         Foreground="{ThemeResource Brush-Grey-01}" />
-            </Grid>
+            </Grid>-->
+
             <Pivot x:Name="InfoAreaPivot"
                         Grid.Row="1"
                         HeaderTemplate="{StaticResource PivotHeaderTemplate}"
                         SelectionChanged="InfoAreaPivot_OnSelectionChanged">
+
+                <PivotItem x:Name="DocumentationPivotItem"
+                            Header="DOCUMENTATION">
+                    <ScrollViewer x:Name="DocumentationScrollViewer">
+                        <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
+                                                    Foreground="{ThemeResource DocumentationForeground}"
+                                                    Background="Transparent"
+                                                    LinkForeground="{ThemeResource Brush-Brand-Color}"
+                                                    ImageResolving="DocumentationTextblock_ImageResolving"
+                                                    LinkClicked="DocumentationTextblock_OnLinkClicked"
+                                                    IsFocusEngagementEnabled="False" />
+                    </ScrollViewer>
+                </PivotItem>
+
                 <PivotItem x:Name="PropertiesPivotItem"
                                 Header="PROPERTIES">
                     <ScrollViewer>
@@ -145,27 +188,12 @@
                             Header="JAVASCRIPT">
                     <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
                 </PivotItem>
-
-                <PivotItem x:Name="DocumentationPivotItem"
-                            Header="DOCUMENTATION">
-                    <ScrollViewer x:Name="DocumentationScrollViewer"
-                                    Padding="10,5"
-                                    Background="{ThemeResource DocumentationBackground}">
-                        <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
-                                                    Foreground="{ThemeResource DocumentationForeground}"
-                                                    Background="{ThemeResource DocumentationBackground}"
-                                                    ImageResolving="DocumentationTextblock_ImageResolving"
-                                                    LinkClicked="DocumentationTextblock_OnLinkClicked"
-                                                    IsFocusEngagementEnabled="False" />
-                    </ScrollViewer>
-                </PivotItem>
             </Pivot>
 
             <controls:GridSplitter x:Name="Splitter"
                                     Grid.Row="1"
                                     Width="11"
                                     HorizontalAlignment="Left"
-                                    Background="{ThemeResource Brush-Grey-04}"
                                     GripperForeground="White"
                                     ParentLevel="1" />
         </Grid>
@@ -216,12 +244,12 @@
                         <AdaptiveTrigger MinWindowWidth="700" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="InfoAreaGrid.(Grid.Row)" Value="0" />
+                        <Setter Target="InfoAreaGrid.(Grid.Row)" Value="1" />
                         <Setter Target="InfoAreaGrid.(Grid.Column)" Value="1" />
                         <Setter Target="InfoAreaGrid.(Grid.RowSpan)" Value="2" />
                         <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="1" />
 
-                        <Setter Target="DemoAreaGrid.(Grid.Row)" Value="0" />
+                        <Setter Target="DemoAreaGrid.(Grid.Row)" Value="1" />
                         <Setter Target="DemoAreaGrid.(Grid.Column)" Value="0" />
                         <Setter Target="DemoAreaGrid.(Grid.RowSpan)" Value="2" />
                         <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="1" />
