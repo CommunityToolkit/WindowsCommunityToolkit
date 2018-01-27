@@ -23,7 +23,6 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -35,6 +34,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public TextToolbarPage()
         {
             InitializeComponent();
+            Load();
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -58,11 +58,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Load()
         {
-            base.OnNavigatedTo(e);
-
-            Shell.Current.RegisterNewCommand("Add/Remove Bold Button", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Add/Remove Bold Button", (sender, args) =>
             {
                 var button = _toolbar?.GetDefaultButton(ButtonType.Bold);
                 if (button != null)
@@ -71,17 +69,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             });
 
-            Shell.Current.RegisterNewCommand("Add Custom Button", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Add Custom Button", (sender, args) =>
             {
                 AddCustomButton();
             });
 
-            Shell.Current.RegisterNewCommand("Use Custom Formatter", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Use Custom Formatter", (sender, args) =>
             {
                 UseCustomFormatter();
             });
 
-            Shell.Current.RegisterNewCommand("Reset Layout", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Reset Layout", (sender, args) =>
             {
                 ResetLayout();
             });

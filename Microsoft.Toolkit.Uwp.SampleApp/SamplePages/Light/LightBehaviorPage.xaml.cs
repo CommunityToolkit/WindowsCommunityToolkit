@@ -10,11 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -29,16 +27,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public LightBehaviorPage()
         {
             this.InitializeComponent();
+            Load();
         }
 
-        /// <summary>
-        /// Invoked when the Page is loaded and becomes the current source of a parent Frame.
-        /// </summary>
-        /// <param name="e">Event data that can be examined by overriding code. The event data is representative of the pending navigation that will load the current Page. Usually the most relevant property to examine is Parameter.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Load()
         {
-            base.OnNavigatedTo(e);
-
             if (!AnimationExtensions.IsLightingSupported)
             {
                 WarningText.Visibility = Visibility.Visible;

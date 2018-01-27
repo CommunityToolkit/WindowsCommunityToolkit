@@ -14,7 +14,6 @@ using System;
 using System.Net.Http;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.System;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -29,11 +28,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             InitializeComponent();
             client = new HttpClient();
+            Load();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Load()
         {
-            base.OnNavigatedTo(e);
 
             MarkdownTextBlockTextblock.Text = @"# Analytics
 

@@ -15,7 +15,6 @@ using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -26,6 +25,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public RotatorTilePage()
         {
             InitializeComponent();
+            Load();
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -59,10 +59,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        private async void Load()
         {
-            base.OnNavigatedTo(e);
-
             _pictures = await new Data.PhotosDataSource().GetItemsAsync(true);
         }
     }

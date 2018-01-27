@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
         {
             base.OnNavigatedTo(e);
 
-            Shell.Current.ShowOnlyHeader("About");
+            Shell.Current.SetTitles("About");
 
             var packageVersion = Package.Current.Id.Version;
             Version.Text = $"Version {packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";

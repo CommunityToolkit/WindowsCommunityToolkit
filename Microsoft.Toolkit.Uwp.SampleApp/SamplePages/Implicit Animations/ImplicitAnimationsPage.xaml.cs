@@ -16,7 +16,6 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -38,11 +37,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _element = control.FindChildByName("Element");
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Load()
         {
-            base.OnNavigatedTo(e);
-
-            Shell.Current.RegisterNewCommand("Toggle Visibility", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Toggle Visibility", (sender, args) =>
             {
                 if (_element != null)
                 {
@@ -50,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             });
 
-            Shell.Current.RegisterNewCommand("Move Element", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Move Element", (sender, args) =>
             {
                 if (_element != null)
                 {
@@ -59,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             });
 
-            Shell.Current.RegisterNewCommand("Scale Element", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Scale Element", (sender, args) =>
             {
                 if (_element != null)
                 {

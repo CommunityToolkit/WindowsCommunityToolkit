@@ -12,14 +12,12 @@
 
 using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -34,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public ImageCachePage()
         {
             InitializeComponent();
+            Load();
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -41,17 +40,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             photoList = control.FindChildByName("PhotoList") as ListView;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        private async void Load()
         {
-            base.OnNavigatedTo(e);
+            SampleController.Current.RegisterNewCommand("PreCache photos", PreCache_Tapped);
 
-            Shell.Current.RegisterNewCommand("PreCache photos", PreCache_Tapped);
+            SampleController.Current.RegisterNewCommand("PreCache photos in memory", PreCacheInMemory_Tapped);
 
-            Shell.Current.RegisterNewCommand("PreCache photos in memory", PreCacheInMemory_Tapped);
+            SampleController.Current.RegisterNewCommand("Load photos", LoadImages_Tapped);
 
-            Shell.Current.RegisterNewCommand("Load photos", LoadImages_Tapped);
-
-            Shell.Current.RegisterNewCommand("Clear cache", ClearCache_Tapped);
+            SampleController.Current.RegisterNewCommand("Clear cache", ClearCache_Tapped);
 
             await LoadDataAsync();
         }

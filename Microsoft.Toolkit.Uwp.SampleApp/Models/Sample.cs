@@ -88,7 +88,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     _codeUrl = $"https://github.com/Microsoft/UWPCommunityToolkit/tree/master/{path}";
                 }
 #endif
-
             }
         }
 
@@ -409,6 +408,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.TimeSpan:
                                     try
                                     {
@@ -440,6 +440,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.Enum:
                                     try
                                     {
@@ -457,6 +458,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.Bool:
                                     try
                                     {
@@ -469,6 +471,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.Brush:
                                     try
                                     {
@@ -482,6 +485,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.Thickness:
                                     try
                                     {
@@ -496,6 +500,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 default:
                                     options = new PropertyOptions { DefaultValue = value };
                                     break;
@@ -551,5 +556,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             return null;
         }
+
+        /// <summary>
+        /// Gets the Page Type.
+        /// </summary>
+        public Type PageType => System.Type.GetType("Microsoft.Toolkit.Uwp.SampleApp.SamplePages." + Type);
+
+        /// <summary>
+        /// Gets or sets the Category Name.
+        /// </summary>
+        public string CategoryName { get; set; }
     }
 }

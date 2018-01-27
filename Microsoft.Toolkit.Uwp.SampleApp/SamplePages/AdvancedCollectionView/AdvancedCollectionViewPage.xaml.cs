@@ -10,15 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Uwp.UI;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    using Microsoft.Toolkit.Uwp.SampleApp.Models;
-    using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Navigation;
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -28,12 +25,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public AdvancedCollectionViewPage()
         {
             this.InitializeComponent();
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
             Setup();
         }
 

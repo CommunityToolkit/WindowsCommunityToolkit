@@ -16,7 +16,6 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -52,11 +51,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Load()
         {
-            base.OnNavigatedTo(e);
-
-            Shell.Current.RegisterNewCommand("Show notification with random text", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Show notification with random text", (sender, args) =>
             {
                 _exampleVSCodeInAppNotification?.Dismiss();
                 SetDefaultControlTemplate();
@@ -80,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             });
 
-            Shell.Current.RegisterNewCommand("Show notification with buttons (without DataTemplate)", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Show notification with buttons (without DataTemplate)", (sender, args) =>
             {
                 _exampleVSCodeInAppNotification?.Dismiss();
                 SetDefaultControlTemplate();
@@ -130,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _exampleInAppNotification?.Show(grid, NotificationDuration);
             });
 
-            Shell.Current.RegisterNewCommand("Show notification with buttons (with DataTemplate)", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Show notification with buttons (with DataTemplate)", (sender, args) =>
             {
                 _exampleVSCodeInAppNotification?.Dismiss();
                 SetDefaultControlTemplate();
@@ -144,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             });
 
-            Shell.Current.RegisterNewCommand("Show notification with Drop Shadow (based on default template)", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Show notification with Drop Shadow (based on default template)", (sender, args) =>
             {
                 _exampleVSCodeInAppNotification.Dismiss();
 
@@ -160,13 +157,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _exampleInAppNotification.Show(NotificationDuration);
             });
 
-            Shell.Current.RegisterNewCommand("Show notification with Visual Studio Code template (info notification)", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Show notification with Visual Studio Code template (info notification)", (sender, args) =>
             {
                 _exampleInAppNotification.Dismiss();
                 _exampleVSCodeInAppNotification.Show(NotificationDuration);
             });
 
-            Shell.Current.RegisterNewCommand("Dismiss", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Dismiss", (sender, args) =>
             {
                 // Dismiss all notifications (should not be replicated in production)
                 _exampleInAppNotification.Dismiss();

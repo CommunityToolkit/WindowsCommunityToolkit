@@ -12,7 +12,6 @@
 
 using Microsoft.Toolkit.Uwp.Connectivity;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -24,12 +23,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public NetworkHelperPage()
         {
             InitializeComponent();
+            Load();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Load()
         {
-            base.OnNavigatedTo(e);
-
             IsInternetAvailableText.Text = NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable ? "Yes" : "No";
             IsInternetOnMeteredConnectionText.Text = NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection ? "Yes" : "No";
             ConnectionTypeText.Text = NetworkHelper.Instance.ConnectionInformation.ConnectionType.ToString();

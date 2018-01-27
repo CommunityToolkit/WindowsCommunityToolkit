@@ -46,12 +46,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
             FacebookService.Instance.Initialize(AppIDText.Text, FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts | FacebookPermissions.PublishActions | FacebookPermissions.UserPhotos);
             if (!await FacebookService.Instance.LoginAsync())
             {
                 ShareBox.Visibility = Visibility.Collapsed;
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
                 var error = new MessageDialog("Unable to log to Facebook");
                 await error.ShowAsync();
                 return;
@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             ProfileImage.DataContext = await FacebookService.Instance.GetUserPictureInfoAsync();
             ProfileImage.Visibility = Visibility.Visible;
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
@@ -209,7 +209,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void PhotoGridView_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
         {
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             var addedItem = e.AddedItems.Count > 0 ? e.AddedItems[0] as FacebookAlbum : null;
 
@@ -218,7 +218,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 PhotoGridView.ItemsSource = await FacebookService.Instance.GetUserPhotosByAlbumIdAsync(addedItem.Id);
             }
 
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
     }
 }

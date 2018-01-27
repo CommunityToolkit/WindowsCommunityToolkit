@@ -53,14 +53,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
             TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text);
 
             if (!await TwitterService.Instance.LoginAsync())
             {
                 ShareBox.Visibility = Visibility.Collapsed;
                 SearchBox.Visibility = Visibility.Collapsed;
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
                 var error = new MessageDialog("Unable to log to Twitter");
                 await error.ShowAsync();
                 return;
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _tweets = new ObservableCollection<ITwitterResult>(await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50));
             ListView.ItemsSource = _tweets;
 
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
 
         private async void GetLocation_OnClick(object sender, RoutedEventArgs e)
@@ -138,9 +138,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Longitude = string.IsNullOrEmpty(Longitude.Text) ? (double?)null : Convert.ToDouble(Longitude.Text)
             };
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
             await TwitterService.Instance.TweetStatusAsync(status);
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
 
         private async void SearchButton_OnClick(object sender, RoutedEventArgs e)
@@ -150,9 +150,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
             ListView.ItemsSource = await TwitterService.Instance.SearchAsync(TagText.Text, 50);
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
 
         private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
@@ -183,9 +183,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (LiveFeedToggle.IsOn)
             {
-                Shell.Current.DisplayWaitRing = true;
+                SampleController.Current.DisplayWaitRing = true;
                 GetUserStreams();
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
             }
             else
             {

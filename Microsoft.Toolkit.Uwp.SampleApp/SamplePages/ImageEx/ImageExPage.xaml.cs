@@ -20,7 +20,6 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -43,41 +42,39 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             resources = control.Resources;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        private async void Load()
         {
-            base.OnNavigatedTo(e);
-
-            Shell.Current.RegisterNewCommand("Image with placeholder", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Image with placeholder", (sender, args) =>
             {
                 AddImage(false, true);
             });
 
-            Shell.Current.RegisterNewCommand("Image with placeholder (invalid link or offline)", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Image with placeholder (invalid link or offline)", (sender, args) =>
             {
                 AddImage(true, true);
             });
 
-            Shell.Current.RegisterNewCommand("Image without placeholder", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Image without placeholder", (sender, args) =>
             {
                 AddImage(false, false);
             });
 
-            Shell.Current.RegisterNewCommand("Round Image with placeholder", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Round Image with placeholder", (sender, args) =>
             {
                 AddImage(false, true, true);
             });
 
-            Shell.Current.RegisterNewCommand("Round Image with placeholder (invalid link or offline)", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Round Image with placeholder (invalid link or offline)", (sender, args) =>
             {
                 AddImage(true, true, true);
             });
 
-            Shell.Current.RegisterNewCommand("Round Image without placeholder", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Round Image without placeholder", (sender, args) =>
             {
                 AddImage(false, false, true);
             });
 
-            Shell.Current.RegisterNewCommand("Clear image cache", async (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Clear image cache", async (sender, args) =>
             {
                 container?.Children?.Clear();
                 GC.Collect(); // Force GC to free file locks

@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private async void PrintButton_Click(object sender, RoutedEventArgs e)
         {
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             _printHelper = new PrintHelper(_container);
             _printHelper.AddFrameworkElementToPrint(await PrepareWebViewForPrintingAsync());
@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             _printHelper.Dispose();
 
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
 
         private async void PrintHelper_OnPrintSucceeded()

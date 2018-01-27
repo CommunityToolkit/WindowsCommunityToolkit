@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void Print_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             DirectPrintContainer.Children.Remove(PrintableContent);
 
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void DirectPrint_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             _printHelper = new PrintHelper(DirectPrintContainer);
 
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 DirectPrintContainer.Children.Add(PrintableContent);
             }
 
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
 
         private async void PrintHelper_OnPrintSucceeded()
