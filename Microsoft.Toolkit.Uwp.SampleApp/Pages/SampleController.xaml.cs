@@ -12,11 +12,14 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Controls;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Monaco;
@@ -29,7 +32,6 @@ using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
@@ -39,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
     /// <summary>
     /// A wrapper for the Sample Page.
     /// </summary>
-    public sealed partial class SampleController : Page
+    public sealed partial class SampleController : Page, INotifyPropertyChanged
     {
         public static SampleController Current { get; private set; }
 
@@ -52,6 +54,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             set { waitRing.Visibility = value ? Visibility.Visible : Visibility.Collapsed; }
         }
 
+        public PaneState SidePaneState
+        {
+            get => _paneState;
+            set
+            {
+                _paneState = value;
+                UpdateProperty();
+            }
+        }
+
         private Page SamplePage => SampleContent.Content as Page;
 
         private XamlRenderService _xamlRenderer = new XamlRenderService();
@@ -62,7 +74,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private DateTime _timeSampleEditedLast = DateTime.MinValue;
         private bool _xamlCodeRendererSupported = false;
 
-        private bool _isPaneOpen;
+        private PaneState _paneState;
+        private bool _hasDocumentation = true;
+        private bool _onlyDocumentation;
+
+        private bool CanChangePaneState => _hasDocumentation && !_onlyDocumentation;
 
         public SampleController()
         {
@@ -72,13 +88,34 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             ProcessSampleEditorTime();
         }
 
-        public void ShowInfoArea()
+        public void OpenClosePane()
         {
-            InfoAreaGrid.Visibility = Visibility.Visible;
-            RootGrid.ColumnDefinitions[0].Width = new GridLength(2, GridUnitType.Star);
-            RootGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
-            //RootGrid.RowDefinitions[2].Height = new GridLength(32);
-            Splitter.Visibility = Visibility.Visible;
+            if (CanChangePaneState)
+            {
+                if (SidePaneState == PaneState.Closed)
+                {
+                    SidePaneState = PaneState.Normal;
+                }
+                else
+                {
+                    SidePaneState = PaneState.Closed;
+                }
+            }
+        }
+
+        public void ExpandCollapsePane()
+        {
+            if (CanChangePaneState)
+            {
+                if (SidePaneState == PaneState.Full)
+                {
+                    SidePaneState = PaneState.Normal;
+                }
+                else
+                {
+                    SidePaneState = PaneState.Full;
+                }
+            }
         }
 
         public void RegisterNewCommand(string name, RoutedEventHandler action)
@@ -106,12 +143,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (CurrentSample != null)
             {
-                var pagetype = CurrentSample.PageType;
-                if (pagetype != null)
+                if (!string.IsNullOrWhiteSpace(CurrentSample.Type))
                 {
                     try
                     {
-                        var pageInstance = Activator.CreateInstance(pagetype);
+                        var pageInstance = Activator.CreateInstance(CurrentSample.PageType);
                         SampleContent.Content = pageInstance;
                     }
                     catch
@@ -124,8 +160,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         SamplePage.Loaded += SamplePage_Loaded;
                     }
                 }
-
-                ShowInfoArea();
+                else
+                {
+                    _onlyDocumentation = true;
+                }
 
                 DataContext = CurrentSample;
 
@@ -200,7 +238,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (InfoAreaPivot.Items.Count == 0)
                 {
-                    HideInfoArea();
+                    SidePaneState = PaneState.None;
+                    _hasDocumentation = false;
+                }
+                else
+                {
+                    SidePaneState = _onlyDocumentation ? PaneState.Full : PaneState.Normal;
                 }
 
                 Shell.Current.SetTitles($"{CurrentSample.CategoryName} > {CurrentSample.Name}");
@@ -208,6 +251,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             else
             {
                 ExceptionNotification.Show("Sample does not exist");
+            }
+
+            if (!CanChangePaneState)
+            {
+                SampleTitleBar.Children.Remove(NarrowInfoButton);
+                WindowStates.States.Clear();
             }
         }
 
@@ -233,76 +282,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 // Called to load the sample initially as we don't get an Item Pivot Selection Changed with Sample Loaded yet.
                 var t = UpdateXamlRenderAsync(CurrentSample.BindedXamlCode);
-            }
-        }
-
-        private void HideInfoArea()
-        {
-            InfoAreaGrid.Visibility = Visibility.Collapsed;
-            RootGrid.ColumnDefinitions[1].Width = GridLength.Auto;
-            RootGrid.RowDefinitions[2].Height = GridLength.Auto;
-            Splitter.Visibility = Visibility.Collapsed;
-        }
-
-        private void ExpandOrCloseProperties()
-        {
-            var states = VisualStateManager.GetVisualStateGroups(RootGrid).FirstOrDefault();
-            if (states.CurrentState == null)
-            {
-                ExceptionNotification.Show("A Visual State Exception occurred");
-                return;
-            }
-
-            string currentState = states.CurrentState.Name;
-
-            switch (currentState)
-            {
-                case "NarrowState":
-                case "MediumState":
-                    // If pane is open, close it
-                    if (_isPaneOpen)
-                    {
-                        Grid.SetRowSpan(InfoAreaGrid, 1);
-                        Grid.SetRow(InfoAreaGrid, 1);
-                        _isPaneOpen = false;
-                        //ExpandButton.Content = "";
-                    }
-                    else
-                    {
-                        // pane is closed, so let's open it
-                        Grid.SetRowSpan(InfoAreaGrid, 2);
-                        Grid.SetRow(InfoAreaGrid, 0);
-                        _isPaneOpen = true;
-                        //ExpandButton.Content = "";
-
-                        // Update Read-Only XAML tab when switching back to show changes to TwoWay Bound Properties
-                        if (CurrentSample?.HasXAMLCode == true && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
-                        {
-                            XamlReadOnlyCodeRenderer.XamlSource = CurrentSample.UpdatedXamlCode;
-                        }
-                    }
-
-                    break;
-
-                case "WideState":
-                    // If pane is open, close it
-                    if (_isPaneOpen)
-                    {
-                        Grid.SetColumnSpan(InfoAreaGrid, 1);
-                        Grid.SetColumn(InfoAreaGrid, 1);
-                        _isPaneOpen = false;
-                        //ExpandButton.Content = "";
-                    }
-                    else
-                    {
-                        // Pane is closed, so let's open it
-                        Grid.SetColumnSpan(InfoAreaGrid, 2);
-                        Grid.SetColumn(InfoAreaGrid, 0);
-                        _isPaneOpen = true;
-                        //ExpandButton.Content = "";
-                    }
-
-                    break;
             }
         }
 
@@ -408,16 +387,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        private void ExpandButton_Click(object sender, RoutedEventArgs e)
-        {
-            ExpandOrCloseProperties();
-        }
-
-        private void PivotTitle_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            ExpandOrCloseProperties();
-        }
-
         private async Task UpdateXamlRenderAsync(string text)
         {
             // Hide any Previous Errors
@@ -488,6 +457,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             return value > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        private void UpdateProperty([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         private CssLineStyle _errorStyle = new CssLineStyle()
         {
             BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0xFF, 0xD6, 0xD6))
@@ -512,6 +486,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // Function Keys
             112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123
         };
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private void XamlCodeRenderer_KeyDown(Monaco.CodeEditor sender, Monaco.Helpers.WebKeyEventArgs args)
         {
@@ -587,6 +563,43 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             _timeSampleEditedFirst = _timeSampleEditedLast = DateTime.MinValue;
+        }
+
+        private void WindowStates_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
+        {
+            switch (e.NewState.Name)
+            {
+                case nameof(NarrowState):
+                    if (CanChangePaneState)
+                    {
+                        SidePaneState = PaneState.Closed;
+                    }
+
+                    // Update Read-Only XAML tab when switching back to show changes to TwoWay Bound Properties
+                    if (CurrentSample?.HasXAMLCode == true && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
+                    {
+                        XamlReadOnlyCodeRenderer.XamlSource = CurrentSample.UpdatedXamlCode;
+                    }
+
+                    break;
+
+                case nameof(WideState):
+                    if (CanChangePaneState)
+                    {
+                        SidePaneState = PaneState.Normal;
+                    }
+
+                    break;
+            }
+        }
+
+        private void PaneStates_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
+        {
+            if (e.OldState?.Name == nameof(Full) && WindowStates.CurrentState?.Name == nameof(NarrowState))
+            {
+                // Restart the State, full state changed things.
+                VisualStateManager.GoToState(this, NarrowState.Name, false);
+            }
         }
     }
 }

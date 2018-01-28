@@ -558,7 +558,7 @@
         "Icon": "/Assets/Helpers.png",
         "Name": "AppPinManager",
         "Type": "AppPinManagerHelperPage",
-	"BadgeUpdateVersionRequired": "Creators Update required"
+        "BadgeUpdateVersionRequired": "Creators Update required"
       },
       {
         "Name": "NetworkHelper",
@@ -721,7 +721,7 @@
       },
       {
         "Name": "Analytics",
-        "Type": "AnalyticsPage",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/developer-tools/Analytics.md",
         "About": "List of frameworks to help you track activity in your apps.",
         "CodeFile": "AnalyticsCode.bind",
         "Icon": "/SamplePages/Analytics/Analytics.png"

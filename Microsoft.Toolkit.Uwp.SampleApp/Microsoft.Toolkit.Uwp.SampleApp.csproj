@@ -499,6 +499,7 @@
     <Compile Include="Models\LandingPageLinks.cs" />
     <Compile Include="Models\LandingPageResource.cs" />
     <Compile Include="Models\LandingPageLink.cs" />
+    <Compile Include="Models\PaneState.cs" />
     <Compile Include="Models\PropertyDescriptor\ThicknessPropertyOptions.cs" />
     <Compile Include="Pages\SampleController.xaml.cs">
       <DependentUpon>SampleController.xaml</DependentUpon>
@@ -627,9 +628,6 @@
       <DependentUpon>OneDrivePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\OneDrive Service\OneDriveSampleHelpers.cs" />
-    <Compile Include="SamplePages\Analytics\AnalyticsPage.xaml.cs">
-      <DependentUpon>AnalyticsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\Saturation\SaturationBehaviorPage.xaml.cs">
       <DependentUpon>SaturationBehaviorPage.xaml</DependentUpon>
     </Compile>
@@ -930,10 +928,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\OneDrive Service\OneDrivePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Analytics\AnalyticsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
