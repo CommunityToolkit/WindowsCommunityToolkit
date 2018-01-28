@@ -54,7 +54,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static void Textbox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var textbox = (TextBox)sender;
-            ValidateTextBox(textbox, false);
+            var validationMode = (ValidationMode)textbox.GetValue(ValidationModeProperty);
+            if (validationMode == ValidationMode.Instantly || validationMode == ValidationMode.InstantlyNumber)
+            {
+                ValidateTextBox(textbox);
+            }
+            else
+            {
+                ValidateTextBox(textbox, false);
+            }
         }
 
         private static void Textbox_Loaded(object sender, RoutedEventArgs e)
@@ -109,10 +117,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             {
                 if (force)
                 {
-                    var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
-                    if (validationModel == ValidationMode.Forced)
+                    if (textbox.Text != string.Empty)
                     {
-                        textbox.Text = string.Empty;
+                        var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
+                        if (validationModel == ValidationMode.Forced || validationModel == ValidationMode.Instantly)
+                        {
+                            textbox.Text = string.Empty;
+                        }
+                        else if (validationModel == ValidationMode.InstantlyNumber)
+                        {
+                            textbox.Text = textbox.Text.Remove(textbox.Text.Length - 1);
+                            if (textbox.Text.Length != 0)
+                            {
+                                textbox.SelectionStart = textbox.Text.Length;
+                            }
+                        }
                     }
                 }
 

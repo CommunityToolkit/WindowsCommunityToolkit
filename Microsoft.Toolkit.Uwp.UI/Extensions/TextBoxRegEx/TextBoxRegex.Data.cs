@@ -34,7 +34,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             /// <summary>
             /// Update IsValid property with validation result and in case the textbox is not valid clear its value
             /// </summary>
-            Forced
+            Forced,
+
+            /// <summary>
+            /// Update IsValid property instantly with validation result at input and in case the textbox is not valid clear its value
+            /// </summary>
+            Instantly,
+
+            /// <summary>
+            /// Update IsValid property instantly with validation result and clear the newest character at input which is not valid
+            /// </summary>
+            InstantlyNumber
         }
 
         /// <summary>
