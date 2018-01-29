@@ -109,12 +109,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 
                 string linkText = linkBox.Text.Trim();
 
-                if (string.IsNullOrEmpty(labelText.Trim()))
-                {
-                    ShowContentDialog(Model.Labels.WarningLabel, Model.Labels.EmptyTextLabel, Model.Labels.OkLabel);
-                    return;
-                }
-
                 if (string.IsNullOrWhiteSpace(linkText))
                 {
                     ShowContentDialog(Model.Labels.WarningLabel, Model.Labels.LinkInvalidLabel, Model.Labels.OkLabel);
