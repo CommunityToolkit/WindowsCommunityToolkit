@@ -10,32 +10,45 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using Microsoft.Toolkit.Uwp.UI.Animations.Behaviors;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Xaml.Interactivity;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
     /// A page that shows how to use the blur behavior.
     /// </summary>
-    public sealed partial class BlurBehaviorPage
+    public sealed partial class BlurBehaviorPage : IXamlRenderListener
     {
+        private Blur _blurBehavior;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BlurBehaviorPage"/> class.
         /// </summary>
         public BlurBehaviorPage()
         {
             InitializeComponent();
-            Load();
-        }
-
-        private void Load()
-        {
             if (!AnimationExtensions.BlurEffect.IsSupported)
             {
                 WarningText.Visibility = Visibility.Visible;
+            }
+
+            SampleController.Current.RegisterNewCommand("Apply", (s, e) =>
+            {
+                _blurBehavior?.StartAnimation();
+            });
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            if (control.FindChildByName("EffectElement") is FrameworkElement element)
+            {
+                var behaviors = Interaction.GetBehaviors(element);
+                _blurBehavior = behaviors.FirstOrDefault(item => item is Blur) as Blur;
             }
         }
     }

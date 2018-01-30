@@ -76,12 +76,12 @@
                 </Grid.ColumnDefinitions>
 
                 <animations:Implicit.ShowAnimations>
-                    <animations:TranslationAnimation From="200, 0, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
-                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                    <animations:TranslationAnimation From="200, 0, 0" To="0" Duration="0:0:0.3" />
+                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" />
                 </animations:Implicit.ShowAnimations>
                 <animations:Implicit.HideAnimations>
-                    <animations:TranslationAnimation To="200, 0, 0" Duration="0:0:0.2"></animations:TranslationAnimation>
-                    <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.2"></animations:OpacityAnimation>
+                    <animations:TranslationAnimation To="200, 0, 0" Duration="0:0:0.2" />
+                    <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.2" />
                 </animations:Implicit.HideAnimations>
 
                 <AppBarButton x:Name="ExpandPane"
@@ -98,18 +98,27 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <ContentPresenter x:Name="SampleContent" />
-            <controls:DropShadowPanel Grid.Row="1" Color="{ThemeResource Color-Alt}" ShadowOpacity="0.2" BlurRadius="40"
-                                            HorizontalContentAlignment="Stretch" Margin="8,0,8,8"
-                                            Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}">
+            <controls:DropShadowPanel
+                Grid.Row="1"
+                Color="{ThemeResource Color-Alt}"
+                ShadowOpacity="0.2"
+                BlurRadius="40"
+                HorizontalContentAlignment="Stretch"
+                Margin="8,0,8,8"
+                Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}">
+
                 <animations:Implicit.ShowAnimations>
-                    <animations:TranslationAnimation From="0, 100, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
-                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                    <animations:TranslationAnimation From="0, 100, 0" To="0" Duration="0:0:0.3" />
+                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" />
                 </animations:Implicit.ShowAnimations>
                 <animations:Implicit.HideAnimations>
-                    <animations:TranslationAnimation To="0, 100, 0" From="0" Duration="0:0:0.3"></animations:TranslationAnimation>
-                    <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                    <animations:TranslationAnimation To="0, 100, 0" From="0" Duration="0:0:0.3" />
+                    <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.3" />
                 </animations:Implicit.HideAnimations>
-                <Border Background="{ThemeResource Commands-Background}">
+
+                <Border
+                    Background="{ThemeResource Commands-Background}"
+                    CornerRadius="6">
                     <ItemsControl ItemsSource="{x:Bind Commands}"
                                     VerticalAlignment="Top"
                                     HorizontalAlignment="Stretch"
@@ -138,6 +147,7 @@
                 </Border>
             </controls:DropShadowPanel>
         </Grid>
+
         <Grid x:Name="InfoAreaGrid"
                   Background="{ThemeResource Brush-SampleInfo-Background}"
                   Grid.Column="1"
@@ -149,12 +159,12 @@
             </Grid.RowDefinitions>
 
             <animations:Implicit.ShowAnimations>
-                <animations:TranslationAnimation From="200, 0, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
-                <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                <animations:TranslationAnimation From="200, 0, 0" To="0" Duration="0:0:0.3" />
+                <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" />
             </animations:Implicit.ShowAnimations>
             <animations:Implicit.HideAnimations>
-                <animations:TranslationAnimation To="200, 0, 0" Duration="0:0:0.2"></animations:TranslationAnimation>
-                <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.2"></animations:OpacityAnimation>
+                <animations:TranslationAnimation To="200, 0, 0" Duration="0:0:0.2" />
+                <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.2" />
             </animations:Implicit.HideAnimations>
 
             <!--<Grid.RowDefinitions>
@@ -241,6 +251,7 @@
             <controls:GridSplitter x:Name="Splitter"
                                     Grid.Row="1"
                                     Width="11"
+                                    Background="Transparent"
                                     HorizontalAlignment="Left"
                                     GripperForeground="White"
                                     ParentLevel="1" />

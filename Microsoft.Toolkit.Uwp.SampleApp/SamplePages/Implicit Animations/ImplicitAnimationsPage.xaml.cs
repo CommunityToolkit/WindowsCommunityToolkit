@@ -30,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public ImplicitAnimationsPage()
         {
             this.InitializeComponent();
+            Load();
         }
 
         public void OnXamlRendered(FrameworkElement control)
