@@ -147,7 +147,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
+#pragma warning disable SA1009 // Doesn't like ValueTuples.
         public async Task<(string contents, string Path)> GetDocumentationAsync()
+#pragma warning restore SA1009 // Doesn't like ValueTuples.
         {
             if (!string.IsNullOrWhiteSpace(_cachedDocumentation))
             {
