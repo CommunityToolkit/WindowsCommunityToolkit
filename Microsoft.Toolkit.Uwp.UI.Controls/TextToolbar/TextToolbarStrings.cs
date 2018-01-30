@@ -110,6 +110,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(HeaderLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Header"));
 
         /// <summary>
+        /// Identifies the <see cref="EmptyTextLabel"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty EmptyTextLabelProperty =
+            DependencyProperty.Register(nameof(EmptyTextLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Label cannot be Empty"));
+
+        /// <summary>
         /// Identifies the <see cref="LinkInvalidLabel"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty LinkInvalidLabelProperty =
@@ -260,6 +266,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (string)GetValue(HeaderLabelProperty); }
             set { SetValue(HeaderLabelProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the label for EmptyTextLabel
+        /// </summary>
+        public string EmptyTextLabel
+        {
+            get { return (string)GetValue(EmptyTextLabelProperty); }
+            set { SetValue(EmptyTextLabelProperty, value); }
         }
 
         /// <summary>
