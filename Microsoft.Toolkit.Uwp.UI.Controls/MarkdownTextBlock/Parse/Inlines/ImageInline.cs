@@ -46,14 +46,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         /// If value is greater than 0, ImageStretch is set to UniformToFill
         /// If both ImageWidth and ImageHeight are greater than 0, ImageStretch is set to Fill
         /// </summary>
-        internal int ImageWidth { get; private set; }
+        public int ImageWidth { get; private set; }
 
         /// <summary>
         /// Gets image height
         /// If value is greater than 0, ImageStretch is set to UniformToFill
         /// If both ImageWidth and ImageHeight are greater than 0, ImageStretch is set to Fill
         /// </summary>
-        internal int ImageHeight { get; private set; }
+        public int ImageHeight { get; private set; }
 
         internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
         {
