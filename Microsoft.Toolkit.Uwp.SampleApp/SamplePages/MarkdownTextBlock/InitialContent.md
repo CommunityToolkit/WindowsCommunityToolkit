@@ -291,15 +291,15 @@ You can also specify image width like this:
 
 >\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =32)
 
->\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =64)
+>\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =x64)
 
->\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128)
+>\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128x64)
 
 which renders in:
 
 ![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =32)
-![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =64)
-![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128)
+![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =x64)
+![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128x64)
 
 *****
 
