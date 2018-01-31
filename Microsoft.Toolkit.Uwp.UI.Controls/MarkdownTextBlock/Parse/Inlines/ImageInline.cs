@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
             if (imageDimensionsPos > 0)
             {
                 // trying to find 'x' which separates image width and height
-                var dimensionsSepatorPos = markdown.IndexOf("x", imageDimensionsPos, pos - imageDimensionsPos - 2, StringComparison.Ordinal);
+                var dimensionsSepatorPos = markdown.IndexOf("x", imageDimensionsPos + 2, pos - imageDimensionsPos, StringComparison.Ordinal);
 
                 // didn't find separator, trying to parse value as imageWidth
                 if (dimensionsSepatorPos == -1)
