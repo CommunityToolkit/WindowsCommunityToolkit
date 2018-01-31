@@ -12,11 +12,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
-using Windows.Foundation.Metadata;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
+using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -33,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public sealed class MarkdownTextBlock : Control, ILinkRegister, IImageResolver
     {
         // SvgImageSource was introduced in Creators Update (15063)
-        private static readonly bool IsSvgImageSupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4);
+        private static readonly bool _isSvgImageSupported = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4);
 
         /// <summary>
         /// Holds a list of hyperlinks we are listening to.
@@ -1285,9 +1286,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             ImageSource GetImageSource(string imageUrl)
             {
-                if (IsSvgImageSupported)
+                if (_isSvgImageSupported)
                 {
-                    if (imageUrl.EndsWith(".svg"))
+                    if (Path.GetExtension(imageUrl)?.ToLowerInvariant() == ".svg")
                     {
                         return new SvgImageSource(new Uri(imageUrl));
                     }
@@ -1295,7 +1296,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 return new BitmapImage(new Uri(imageUrl));
             }
-
         }
     }
 }
