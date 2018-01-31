@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 return null;
             }
 
-            if (markdown == null || markdown.Length < 6)
+            if (markdown == null || markdown.Length < 6 || start + 6 >= maxEnd)
             {
                 return null;
             }

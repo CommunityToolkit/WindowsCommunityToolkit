@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using ColorCode;
 using Microsoft.Toolkit.Parsers.Markdown;
@@ -146,7 +147,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             catch (Exception ex)
             {
-                DebuggingReporter.ReportCriticalError("Error while parsing and rendering: " + ex.Message);
+                Debug.WriteLine("Error while parsing and rendering: " + ex.Message);
+                if (Debugger.IsAttached)
+                {
+                    Debugger.Break();
+                }
+
                 markdownRenderedArgs = new MarkdownRenderedEventArgs(ex);
             }
 

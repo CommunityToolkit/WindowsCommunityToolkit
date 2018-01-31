@@ -12,12 +12,12 @@
 
 using System.Diagnostics;
 
-namespace Microsoft.Toolkit
+namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
 {
     /// <summary>
     /// Reports an error during debugging.
     /// </summary>
-    public class DebuggingReporter
+    internal class DebuggingReporter
     {
         /// <summary>
         /// Reports a critical error.
