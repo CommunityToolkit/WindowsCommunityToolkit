@@ -1277,24 +1277,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 return eventArgs.Handled
                     ? eventArgs.Image
-                    : GetImageSource(url);
+                    : GetImageSource(new Uri(url));
             }
             catch (Exception)
             {
                 return null;
             }
 
-            ImageSource GetImageSource(string imageUrl)
+            ImageSource GetImageSource(Uri imageUrl)
             {
                 if (_isSvgImageSupported)
                 {
-                    if (Path.GetExtension(imageUrl)?.ToLowerInvariant() == ".svg")
+                    if (Path.GetExtension(imageUrl.AbsolutePath)?.ToLowerInvariant() == ".svg")
                     {
-                        return new SvgImageSource(new Uri(imageUrl));
+                        return new SvgImageSource(imageUrl);
                     }
                 }
 
-                return new BitmapImage(new Uri(imageUrl));
+                return new BitmapImage(imageUrl);
             }
         }
     }
