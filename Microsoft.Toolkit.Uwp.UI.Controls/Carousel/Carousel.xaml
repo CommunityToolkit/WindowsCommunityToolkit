@@ -10,6 +10,11 @@
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="EasingFunction">
+            <Setter.Value>
+                <ExponentialEase EasingMode="EaseOut" />
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:Carousel">
