@@ -124,6 +124,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _navigationView = navView;
 
                 OnItemsSourceChanged(this, null);
+
+                if (SelectedItem != null)
+                {
+                    NavViewSetSelectedItem(SelectedItem);
+                }
+                else if (SelectedOptionsItem != null)
+                {
+                    NavViewSetSelectedItem(SelectedOptionsItem);
+                }
             }
         }
 
