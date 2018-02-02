@@ -14,6 +14,13 @@
     mc:Ignorable="d">
 
     <Grid>
+        <Border x:Name="PlainBackground"
+                Background="{ThemeResource Brush-Grey-05}"
+                Visibility="{x:Bind Not(UseBackground), Mode=OneWay}" />
+
+        <Border x:Name="HostAcrylic"
+                    Background="{ThemeResource Brush-Sample-HostAcrylic}"
+                    Visibility="{x:Bind UseHostAcrylic, Mode=OneWay}" />
 
         <Grid x:Name="RootGrid">
             <Grid.ColumnDefinitions>
@@ -44,11 +51,21 @@
                        TextLineBounds="Tight" />
 
                     <AppBarButton
-                Margin="5,0,0,0"
-                Width="50"
-                Icon="Favorite" />
+                        Margin="5,0,0,0"
+                        Width="50"
+                        Icon="Favorite" />
 
                     <AppBarSeparator Margin="-10, 3, -10, 0" />
+
+                    <ToggleSwitch x:Name="BGSwitch"
+                        OffContent="BG Image"
+                        OnContent="BG Image"
+                        IsOn="{x:Bind UseBackground, Mode=TwoWay}" />
+
+                    <ToggleSwitch x:Name="AcrylicSwitch"
+                        OffContent="Acrylic"
+                        OnContent="Acrylic"
+                        IsOn="{x:Bind UseAcrylic, Mode=TwoWay}" />
                 </StackPanel>
 
                 <AppBarButton x:Name="NarrowInfoButton"
@@ -95,7 +112,14 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
+
+                <Border x:Name="AppAcrylic"
+                    Background="{ThemeResource Brush-Sample-AppAcrylic}"
+                    Visibility="{x:Bind UseAppAcrylic, Mode=OneWay}"
+                    Grid.RowSpan="2" />
+
                 <ContentPresenter x:Name="SampleContent" />
+
                 <controls:DropShadowPanel
                 Grid.Row="1"
                 Color="{ThemeResource Color-Alt}"

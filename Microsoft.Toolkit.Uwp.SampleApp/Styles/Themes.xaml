@@ -84,6 +84,10 @@
                              Color="#11000000" />
             <SolidColorBrush x:Key="Brush-Sample-HeaderBacking"
                              Color="#44FFFFFF" />
+            <SolidColorBrush x:Key="Brush-Sample-HostAcrylic"
+                             Color="Transparent" />
+            <SolidColorBrush x:Key="Brush-Sample-AppAcrylic"
+                             Color="Transparent" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <!-- Colors -->
@@ -152,6 +156,10 @@
                              Color="#4C000000" />
             <SolidColorBrush x:Key="Brush-Sample-HeaderBacking"
                              Color="#88000000" />
+            <SolidColorBrush x:Key="Brush-Sample-HostAcrylic"
+                             Color="Transparent" />
+            <SolidColorBrush x:Key="Brush-Sample-AppAcrylic"
+                             Color="Transparent" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

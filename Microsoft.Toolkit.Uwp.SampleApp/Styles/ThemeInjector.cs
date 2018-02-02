@@ -83,6 +83,40 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Styles
                         BackgroundSource = AcrylicBackgroundSource.Backdrop,
                     }
                 });
+
+                AddAcrylic(new ThemeAcrylic
+                {
+                    Name = "Brush-Sample-HostAcrylic",
+                    DarkAcrylic = new AcrylicBrush
+                    {
+                        TintColor = Colors.Black,
+                        TintOpacity = 0.5,
+                        BackgroundSource = AcrylicBackgroundSource.HostBackdrop
+                    },
+                    LightAcrylic = new AcrylicBrush
+                    {
+                        TintColor = Colors.White,
+                        TintOpacity = 0.3,
+                        BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
+                    }
+                });
+
+                AddAcrylic(new ThemeAcrylic
+                {
+                    Name = "Brush-Sample-AppAcrylic",
+                    DarkAcrylic = new AcrylicBrush
+                    {
+                        TintColor = Colors.Black,
+                        TintOpacity = 0.6,
+                        BackgroundSource = AcrylicBackgroundSource.Backdrop
+                    },
+                    LightAcrylic = new AcrylicBrush
+                    {
+                        TintColor = Colors.White,
+                        TintOpacity = 0.4,
+                        BackgroundSource = AcrylicBackgroundSource.Backdrop,
+                    }
+                });
             }
         }
 

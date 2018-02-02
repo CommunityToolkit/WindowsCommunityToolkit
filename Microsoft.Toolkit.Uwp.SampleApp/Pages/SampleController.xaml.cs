@@ -21,6 +21,7 @@ using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.System;
 using Windows.System.Profile;
 using Windows.UI.Core;
@@ -57,12 +58,54 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
+        public bool UseAcrylic
+        {
+            get
+            {
+                return _useAcrylic;
+            }
+
+            set
+            {
+                _useAcrylic = value;
+                UpdateAcrylics();
+            }
+        }
+
+        public bool UseBackground
+        {
+            get
+            {
+                return _useBackground;
+            }
+
+            set
+            {
+                _useBackground = value;
+                UpdateAcrylics();
+            }
+        }
+
+        private void UpdateAcrylics()
+        {
+            UpdateProperty(nameof(UseAcrylic));
+            UpdateProperty(nameof(UseBackground));
+            UpdateProperty(nameof(UseAppAcrylic));
+            UpdateProperty(nameof(UseHostAcrylic));
+        }
+
+        public bool UseAppAcrylic => UseAcrylic && _useBackground;
+
+        public bool UseHostAcrylic => UseAcrylic && !_useBackground;
+
         private Page SamplePage => SampleContent.Content as Page;
 
         private XamlRenderService _xamlRenderer = new XamlRenderService();
         private bool _lastRenderedProperties = true;
-
         private bool _xamlCodeRendererSupported = false;
+
+        private bool _useAcrylic;
+        private bool _useBackground = true;
 
         private PaneState _paneState;
         private bool _hasDocumentation = true;
@@ -74,6 +117,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             this.InitializeComponent();
             Current = this;
+
+            if (!VisualHelpers.SupportsFluentAcrylic)
+            {
+                // Disable Acrylic Toggle.
+                AcrylicSwitch.Visibility = Visibility.Collapsed;
+            }
 
             ProcessSampleEditorTime();
             XamlCodeEditor.UpdateRequested += XamlCodeEditor_UpdateRequested;
@@ -441,6 +490,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private Visibility GreaterThanZero(int value)
         {
             return value > 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private Visibility Not(bool value)
+        {
+            return value ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void UpdateProperty([CallerMemberName] string propertyName = "")
