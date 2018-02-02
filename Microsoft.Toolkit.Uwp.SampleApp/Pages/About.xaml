@@ -66,9 +66,6 @@
     </Page.Resources>
 
     <Grid x:Name="Root" Visibility="Collapsed" extensions:VisualEx.NormalizedCenterPoint="0.5">
-
-        <Border x:Name="BackgroundBorder"></Border>
-
         <controls:DropShadowPanel x:Name="DropShadow"
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Stretch"

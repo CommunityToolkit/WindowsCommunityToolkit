@@ -17,8 +17,11 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.Foundation.Metadata;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
@@ -30,8 +33,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public Shell()
         {
             InitializeComponent();
-
             Current = this;
+
+            var background = new Image()
+            {
+                Source = new BitmapImage(new Uri("ms-appx:///Assets/Photos/Backgrounds/ales-krivec-43430.jpg")),
+                Stretch = Windows.UI.Xaml.Media.Stretch.UniformToFill
+            };
+
+            if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Controls.ParallaxView"))
+            {
+                _parallaxView = new ParallaxView()
+                {
+                    VerticalShift = 50,
+                    Child = background
+                };
+
+                BackgroundBorder.Child = _parallaxView;
+            }
+            else
+            {
+                BackgroundBorder.Child = background;
+            }
         }
 
         /// <summary>
@@ -63,6 +86,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             HamburgerMenu.Title = title;
             ApplicationView.SetTitle(this, title);
+        }
+
+        public void AttachScroll(ScrollViewer viewer)
+        {
+            if (_parallaxView is ParallaxView parallax)
+            {
+                parallax.Source = viewer;
+            }
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -165,5 +196,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             NavigateToSample(e.ClickedItem as Sample);
         }
+
+        private UIElement _parallaxView;
     }
 }

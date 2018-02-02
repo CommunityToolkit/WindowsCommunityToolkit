@@ -17,17 +17,13 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Newtonsoft.Json;
 using Windows.ApplicationModel;
-using Windows.Foundation.Metadata;
-using Windows.System.Profile;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
@@ -293,27 +289,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            var background = new Image()
-            {
-                Source = new BitmapImage(new Uri("ms-appx:///Assets/Photos/ales-krivec-43430.jpg")),
-                Stretch = Windows.UI.Xaml.Media.Stretch.UniformToFill
-            };
-
-            if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Controls.ParallaxView"))
-            {
-                var parallaxView = new ParallaxView()
-                {
-                    Source = Scroller,
-                    VerticalShift = 50,
-                    Child = background
-                };
-
-                BackgroundBorder.Child = parallaxView;
-            }
-            else
-            {
-                BackgroundBorder.Child = background;
-            }
+            Shell.Current.AttachScroll(Scroller);
         }
     }
 }

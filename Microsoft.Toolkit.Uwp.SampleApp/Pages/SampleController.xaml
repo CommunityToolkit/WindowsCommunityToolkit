@@ -14,7 +14,6 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Image Source="ms-appx:///Assets/Photos/ales-krivec-43430.jpg" Stretch="UniformToFill" />
 
         <Grid x:Name="RootGrid">
             <Grid.ColumnDefinitions>
