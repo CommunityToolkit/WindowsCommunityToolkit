@@ -490,6 +490,9 @@
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
     <Compile Include="Controls\ExtendedHamburgerMenu.cs" />
+    <Compile Include="Controls\XamlCodeEditor.xaml.cs">
+      <DependentUpon>XamlCodeEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Data\GitHub.cs" />
     <Compile Include="Controls\XamlExceptionRange.cs" />
     <Compile Include="Controls\XamlRenderService.cs" />
@@ -788,6 +791,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\PropertyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\XamlCodeEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

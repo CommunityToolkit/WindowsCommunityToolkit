@@ -13,7 +13,6 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -22,17 +21,11 @@ using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Monaco;
-using Monaco.Editor;
-using Monaco.Helpers;
 using Windows.System;
 using Windows.System.Profile;
-using Windows.System.Threading;
-using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
@@ -68,10 +61,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private XamlRenderService _xamlRenderer = new XamlRenderService();
         private bool _lastRenderedProperties = true;
-        private ThreadPoolTimer _autocompileTimer;
 
-        private DateTime _timeSampleEditedFirst = DateTime.MinValue;
-        private DateTime _timeSampleEditedLast = DateTime.MinValue;
         private bool _xamlCodeRendererSupported = false;
 
         private PaneState _paneState;
@@ -86,6 +76,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             Current = this;
 
             ProcessSampleEditorTime();
+            XamlCodeEditor.UpdateRequested += XamlCodeEditor_UpdateRequested;
         }
 
         public void OpenClosePane()
@@ -204,7 +195,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     }
                     else
                     {
-                        XamlCodeRenderer.Text = CurrentSample.UpdatedXamlCode;
+                        XamlCodeEditor.Text = CurrentSample.UpdatedXamlCode;
 
                         InfoAreaPivot.Items.Add(XamlPivotItem);
 
@@ -268,7 +259,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 nav.NavigatingAway();
             }
 
-            XamlCodeRenderer = null;
+            XamlCodeEditor = null;
 
             // Not great, but need to collect up after WebView. (Does this work?)
             GC.Collect();
@@ -319,12 +310,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 _lastRenderedProperties = false;
 
                 // If we switch to the Live Preview, then we want to use the Value based Text
-                XamlCodeRenderer.Text = CurrentSample.UpdatedXamlCode;
+                XamlCodeEditor.Text = CurrentSample.UpdatedXamlCode;
 
                 var t = UpdateXamlRenderAsync(CurrentSample.UpdatedXamlCode);
-                await XamlCodeRenderer.RevealPositionAsync(new Position(1, 1));
+                await XamlCodeEditor.ResetPosition();
 
-                XamlCodeRenderer.Focus(FocusState.Programmatic);
+                XamlCodeEditor.Focus(FocusState.Programmatic);
                 return;
             }
 
@@ -347,6 +338,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 return;
             }
+        }
+
+        private async void XamlCodeEditor_UpdateRequested(object sender, EventArgs e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+            {
+                var t = UpdateXamlRenderAsync(XamlCodeEditor.Text);
+            });
         }
 
         private async void DocumentationTextblock_OnLinkClicked(object sender, LinkClickedEventArgs e)
@@ -390,8 +389,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private async Task UpdateXamlRenderAsync(string text)
         {
             // Hide any Previous Errors
-            XamlCodeRenderer.Decorations.Clear();
-            XamlCodeRenderer.Options.GlyphMargin = false;
+            XamlCodeEditor.ClearErrors();
 
             // Try and Render Xaml to a UIElement
             UIElement element = null;
@@ -436,19 +434,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 var error = _xamlRenderer.Errors.First();
 
-                XamlCodeRenderer.Options.GlyphMargin = true;
-
-                var range = new Range(error.StartLine, 1, error.EndLine, await XamlCodeRenderer.GetModel().GetLineMaxColumnAsync(error.EndLine));
-
-                // Highlight Error Line
-                XamlCodeRenderer.Decorations.Add(new IModelDeltaDecoration(
-                    range,
-                    new IModelDecorationOptions() { IsWholeLine = true, ClassName = _errorStyle, HoverMessage = new string[] { error.Message } }));
-
-                // Show Glyph Icon
-                XamlCodeRenderer.Decorations.Add(new IModelDeltaDecoration(
-                    range,
-                    new IModelDecorationOptions() { IsWholeLine = true, GlyphMarginClassName = _errorIconStyle, GlyphMarginHoverMessage = new string[] { error.Message } }));
+                XamlCodeEditor.ReportError(error);
             }
         }
 
@@ -462,87 +448,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private CssLineStyle _errorStyle = new CssLineStyle()
-        {
-            BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0xFF, 0xD6, 0xD6))
-        };
-
-        private CssGlyphStyle _errorIconStyle = new CssGlyphStyle()
-        {
-            GlyphImage = new Uri("ms-appx-web:///Icons/Error.png")
-        };
-
-        private static readonly int[] NonCharacterCodes = new int[]
-        {
-            // Modifier Keys
-            16, 17, 18, 20, 91,
-
-            // Esc / Page Keys / Home / End / Insert
-            27, 33, 34, 35, 36, 45,
-
-            // Arrow Keys
-            37, 38, 39, 40,
-
-            // Function Keys
-            112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123
-        };
-
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private void XamlCodeRenderer_KeyDown(Monaco.CodeEditor sender, Monaco.Helpers.WebKeyEventArgs args)
-        {
-            // Handle Shortcuts.
-            // Ctrl+Enter or F5 Update // TODO: Do we need this in the app handler too? (Thinking no)
-            if ((args.KeyCode == 13 && args.CtrlKey) ||
-                 args.KeyCode == 116)
-            {
-                var t = UpdateXamlRenderAsync(XamlCodeRenderer.Text);
-
-                // Eat key stroke
-                args.Handled = true;
-            }
-
-            // Ignore as a change to the document if we handle it as a shortcut above or it's a special char.
-            if (!args.Handled && Array.IndexOf(NonCharacterCodes, args.KeyCode) == -1)
-            {
-                // TODO: Mark Dirty here if we want to prevent overwrites.
-
-                // Setup Time for Auto-Compile
-                this._autocompileTimer?.Cancel(); // Stop Old Timer
-
-                // Create Compile Timer
-                this._autocompileTimer = ThreadPoolTimer.CreateTimer(
-                    async (e) =>
-                    {
-                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
-                        {
-                            var t = UpdateXamlRenderAsync(XamlCodeRenderer.Text);
-
-                            if (_timeSampleEditedFirst == DateTime.MinValue)
-                            {
-                                _timeSampleEditedFirst = DateTime.Now;
-                            }
-
-                            _timeSampleEditedLast = DateTime.Now;
-                        });
-                    }, TimeSpan.FromSeconds(0.5));
-            }
-        }
-
-        private void XamlCodeRenderer_Loading(object sender, RoutedEventArgs e)
-        {
-            XamlCodeRenderer.Options.Folding = true;
-        }
-
-        private void XamlCodeRenderer_InternalException(CodeEditor sender, Exception args)
-        {
-            TrackingManager.TrackException(args);
-
-            // If you hit an issue here, please report repro steps along with all the info from the Exception object.
-#if DEBUG
-            Debugger.Break();
-#endif
-        }
 
         private void ProcessSampleEditorTime()
         {
@@ -550,10 +456,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 CurrentSample.HasXAMLCode &&
                 _xamlCodeRendererSupported)
             {
-                if (_timeSampleEditedFirst != DateTime.MinValue &&
-                    _timeSampleEditedLast != DateTime.MinValue)
+                if (XamlCodeEditor.TimeSampleEditedFirst != DateTime.MinValue &&
+                    XamlCodeEditor.TimeSampleEditedLast != DateTime.MinValue)
                 {
-                    int secondsEdditingSample = (int)Math.Floor((_timeSampleEditedLast - _timeSampleEditedFirst).TotalSeconds);
+                    int secondsEdditingSample = (int)Math.Floor((XamlCodeEditor.TimeSampleEditedLast - XamlCodeEditor.TimeSampleEditedFirst).TotalSeconds);
                     TrackingManager.TrackEvent("xamleditor", "edited", CurrentSample.Name, secondsEdditingSample);
                 }
                 else
@@ -562,7 +468,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
-            _timeSampleEditedFirst = _timeSampleEditedLast = DateTime.MinValue;
+            XamlCodeEditor.ResetTimer();
         }
 
         private void WindowStates_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)

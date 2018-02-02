@@ -8,72 +8,154 @@
       xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:monaco="using:Monaco"
       xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
       xmlns:core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:models="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
     mc:Ignorable="d">
 
-    <Grid x:Name="RootGrid">
-        <Grid.Background>
-            <ImageBrush ImageSource="ms-appx:///Assets/Photos/ales-krivec-43430.jpg" Stretch="UniformToFill" />
-        </Grid.Background>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition x:Name="SideColumn" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <Grid>
+        <Image Source="ms-appx:///Assets/Photos/ales-krivec-43430.jpg" Stretch="UniformToFill" />
 
-        <Grid x:Name="SampleTitleBar"
+        <Grid x:Name="RootGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition x:Name="SideColumn" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="SampleTitleBar"
               Canvas.ZIndex="999"
               Background="{ThemeResource Brush-Sample-HeaderBacking}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-            <StackPanel
+                <StackPanel
                 Orientation="Horizontal"
                 Padding="10,0">
-                <TextBlock Text="{x:Bind CurrentSample.Name}"
+                    <TextBlock Text="{x:Bind CurrentSample.Name}"
                        VerticalAlignment="Center"
                        FontSize="20"
                        FontWeight="Bold"
                        TextLineBounds="Tight" />
 
-                <AppBarButton
+                    <AppBarButton
                 Margin="5,0,0,0"
                 Width="50"
                 Icon="Favorite" />
 
-                <AppBarSeparator Margin="-10, 3, -10, 0" />
-            </StackPanel>
+                    <AppBarSeparator Margin="-10, 3, -10, 0" />
+                </StackPanel>
 
-            <AppBarButton x:Name="NarrowInfoButton"
+                <AppBarButton x:Name="NarrowInfoButton"
                 Grid.Column="1"
                 Width="50"
                 Visibility="Collapsed"
                 Click="{x:Bind OpenClosePane}">
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE946;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-        </Grid>
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE946;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </Grid>
 
-        <Grid x:Name="InfoAreaControlsWrapper"
+            <Grid x:Name="InfoAreaControlsWrapper"
             Background="{ThemeResource Brush-Sample-HeaderBacking}"
             Grid.Column="1"
             Canvas.ZIndex="888">
 
-            <Grid x:Name="InfoAreaControls">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+                <Grid x:Name="InfoAreaControls">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <animations:Implicit.ShowAnimations>
+                        <animations:TranslationAnimation From="200, 0, 0" To="0" Duration="0:0:0.3" />
+                        <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" />
+                    </animations:Implicit.ShowAnimations>
+                    <animations:Implicit.HideAnimations>
+                        <animations:TranslationAnimation To="200, 0, 0" Duration="0:0:0.2" />
+                        <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.2" />
+                    </animations:Implicit.HideAnimations>
+
+                    <AppBarButton x:Name="ExpandPane"
+                    Visibility="{x:Bind CanChangePaneState}"
+                    Icon="ClosePane"
+                    Width="50"
+                    Click="{x:Bind ExpandCollapsePane}" />
+                </Grid>
+            </Grid>
+
+            <Grid x:Name="DemoAreaGrid" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ContentPresenter x:Name="SampleContent" />
+                <controls:DropShadowPanel
+                Grid.Row="1"
+                Color="{ThemeResource Color-Alt}"
+                ShadowOpacity="0.2"
+                BlurRadius="40"
+                HorizontalContentAlignment="Stretch"
+                Margin="8,0,8,8"
+                Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}">
+
+                    <animations:Implicit.ShowAnimations>
+                        <animations:TranslationAnimation From="0, 100, 0" To="0" Duration="0:0:0.3" />
+                        <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" />
+                    </animations:Implicit.ShowAnimations>
+                    <animations:Implicit.HideAnimations>
+                        <animations:TranslationAnimation To="0, 100, 0" From="0" Duration="0:0:0.3" />
+                        <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.3" />
+                    </animations:Implicit.HideAnimations>
+
+                    <Border
+                    Background="{ThemeResource Commands-Background}"
+                    CornerRadius="6">
+                        <ItemsControl ItemsSource="{x:Bind Commands}"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Stretch"
+                                    Margin="10,10,0,0">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <controls:WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="common:SampleCommand">
+                                    <Button Content="{x:Bind Label}"
+                                        Margin="0, 0, 10, 10"
+                                        MinWidth="150"
+                                        FontSize="12"
+                                        Foreground="{ThemeResource Brush-Grey-01}">
+                                        <interactivity:Interaction.Behaviors>
+                                            <core:EventTriggerBehavior EventName="Click">
+                                                <core:InvokeCommandAction Command="{x:Bind}" />
+                                            </core:EventTriggerBehavior>
+                                        </interactivity:Interaction.Behaviors>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                </controls:DropShadowPanel>
+            </Grid>
+
+            <Grid x:Name="InfoAreaGrid"
+                  Background="{ThemeResource Brush-SampleInfo-Background}"
+                  Grid.Column="1"
+                  Grid.RowSpan="3">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
 
                 <animations:Implicit.ShowAnimations>
                     <animations:TranslationAnimation From="200, 0, 0" To="0" Duration="0:0:0.3" />
@@ -84,94 +166,11 @@
                     <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.2" />
                 </animations:Implicit.HideAnimations>
 
-                <AppBarButton x:Name="ExpandPane"
-                    Visibility="{x:Bind CanChangePaneState}"
-                    Icon="ClosePane"
-                    Width="50"
-                    Click="{x:Bind ExpandCollapsePane}" />
-            </Grid>
-        </Grid>
-
-        <Grid x:Name="DemoAreaGrid" Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <ContentPresenter x:Name="SampleContent" />
-            <controls:DropShadowPanel
-                Grid.Row="1"
-                Color="{ThemeResource Color-Alt}"
-                ShadowOpacity="0.2"
-                BlurRadius="40"
-                HorizontalContentAlignment="Stretch"
-                Margin="8,0,8,8"
-                Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}">
-
-                <animations:Implicit.ShowAnimations>
-                    <animations:TranslationAnimation From="0, 100, 0" To="0" Duration="0:0:0.3" />
-                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" />
-                </animations:Implicit.ShowAnimations>
-                <animations:Implicit.HideAnimations>
-                    <animations:TranslationAnimation To="0, 100, 0" From="0" Duration="0:0:0.3" />
-                    <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.3" />
-                </animations:Implicit.HideAnimations>
-
-                <Border
-                    Background="{ThemeResource Commands-Background}"
-                    CornerRadius="6">
-                    <ItemsControl ItemsSource="{x:Bind Commands}"
-                                    VerticalAlignment="Top"
-                                    HorizontalAlignment="Stretch"
-                                    Margin="10,10,0,0">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <controls:WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="common:SampleCommand">
-                                <Button Content="{x:Bind Label}"
-                                        Margin="0, 0, 10, 10"
-                                        MinWidth="150"
-                                        FontSize="12"
-                                        Foreground="{ThemeResource Brush-Grey-01}">
-                                    <interactivity:Interaction.Behaviors>
-                                        <core:EventTriggerBehavior EventName="Click">
-                                            <core:InvokeCommandAction Command="{x:Bind}" />
-                                        </core:EventTriggerBehavior>
-                                    </interactivity:Interaction.Behaviors>
-                                </Button>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-            </controls:DropShadowPanel>
-        </Grid>
-
-        <Grid x:Name="InfoAreaGrid"
-                  Background="{ThemeResource Brush-SampleInfo-Background}"
-                  Grid.Column="1"
-                  Grid.RowSpan="3">
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-
-            <animations:Implicit.ShowAnimations>
-                <animations:TranslationAnimation From="200, 0, 0" To="0" Duration="0:0:0.3" />
-                <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" />
-            </animations:Implicit.ShowAnimations>
-            <animations:Implicit.HideAnimations>
-                <animations:TranslationAnimation To="200, 0, 0" Duration="0:0:0.2" />
-                <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.2" />
-            </animations:Implicit.HideAnimations>
-
-            <!--<Grid.RowDefinitions>
+                <!--<Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>-->
-            <!--<Grid Background="{ThemeResource InfoArea-Titlebar}">
+                <!--<Grid Background="{ThemeResource InfoArea-Titlebar}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
@@ -197,158 +196,155 @@
                                         Foreground="{ThemeResource Brush-Grey-01}" />
             </Grid>-->
 
-            <Pivot x:Name="InfoAreaPivot"
+                <Pivot x:Name="InfoAreaPivot"
                         Grid.Row="1"
                         HeaderTemplate="{StaticResource PivotHeaderTemplate}"
                         SelectionChanged="InfoAreaPivot_OnSelectionChanged">
 
-                <PivotItem x:Name="DocumentationPivotItem"
+                    <PivotItem x:Name="DocumentationPivotItem"
                             Header="DOCUMENTATION">
-                    <ScrollViewer x:Name="DocumentationScrollViewer">
-                        <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
+                        <ScrollViewer x:Name="DocumentationScrollViewer">
+                            <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
                                                     Foreground="{ThemeResource DocumentationForeground}"
                                                     Background="Transparent"
                                                     LinkForeground="{ThemeResource Brush-Brand-Color}"
                                                     ImageResolving="DocumentationTextblock_ImageResolving"
                                                     LinkClicked="DocumentationTextblock_OnLinkClicked"
                                                     IsFocusEngagementEnabled="False" />
-                    </ScrollViewer>
-                </PivotItem>
+                        </ScrollViewer>
+                    </PivotItem>
 
-                <PivotItem x:Name="PropertiesPivotItem"
+                    <PivotItem x:Name="PropertiesPivotItem"
                                 Header="PROPERTIES">
-                    <ScrollViewer>
-                        <controlsLocal:PropertyControl x:Name="Properties" />
-                    </ScrollViewer>
-                </PivotItem>
+                        <ScrollViewer>
+                            <controlsLocal:PropertyControl x:Name="Properties" />
+                        </ScrollViewer>
+                    </PivotItem>
 
-                <PivotItem x:Name="XamlPivotItem"
+                    <PivotItem x:Name="XamlPivotItem"
                             Header="XAML">
-                    <monaco:CodeEditor x:Name="XamlCodeRenderer"
-                                       CodeLanguage="xml"
-                                       KeyDown="XamlCodeRenderer_KeyDown"
-                                       Loading="XamlCodeRenderer_Loading"
-                                       InternalException="XamlCodeRenderer_InternalException" />
-                </PivotItem>
+                        <controlsLocal:XamlCodeEditor x:Name="XamlCodeEditor" />
+                    </PivotItem>
 
-                <PivotItem x:Name="XamlReadOnlyPivotItem"
+                    <PivotItem x:Name="XamlReadOnlyPivotItem"
                             Header="XAML">
-                    <controlsLocal:CodeRenderer x:Name="XamlReadOnlyCodeRenderer" />
-                </PivotItem>
+                        <controlsLocal:CodeRenderer x:Name="XamlReadOnlyCodeRenderer" />
+                    </PivotItem>
 
-                <PivotItem x:Name="CSharpPivotItem"
+                    <PivotItem x:Name="CSharpPivotItem"
                             Header="CODE">
-                    <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer"
+                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer"
                                                 IsFocusEngagementEnabled="False" />
-                </PivotItem>
+                    </PivotItem>
 
-                <PivotItem x:Name="JavaScriptPivotItem"
+                    <PivotItem x:Name="JavaScriptPivotItem"
                             Header="JAVASCRIPT">
-                    <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
-                </PivotItem>
-            </Pivot>
+                        <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
+                    </PivotItem>
+                </Pivot>
 
-            <controls:GridSplitter x:Name="Splitter"
+                <controls:GridSplitter x:Name="Splitter"
                                     Grid.Row="1"
                                     Width="11"
                                     Background="Transparent"
                                     HorizontalAlignment="Left"
                                     GripperForeground="White"
                                     ParentLevel="1" />
-        </Grid>
-        <controls:InAppNotification x:Name="ExceptionNotification"
+            </Grid>
+            <controls:InAppNotification x:Name="ExceptionNotification"
                                         Grid.RowSpan="2"
                                         Style="{StaticResource ExceptionNotification}"
                                         Grid.ColumnSpan="2"
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Center"
                                         Margin="15"></controls:InAppNotification>
-        <Grid x:Name="waitRing"
+            <Grid x:Name="waitRing"
                     Grid.RowSpan="2"
                     Grid.ColumnSpan="2"
                     Visibility="Collapsed">
-            <Grid Background="{ThemeResource BackingTint}" />
-            <ProgressRing Width="100"
+                <Grid Background="{ThemeResource BackingTint}" />
+                <ProgressRing Width="100"
                                 Height="100"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
                                 IsActive="True" />
-        </Grid>
+            </Grid>
 
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="WindowStates"
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="WindowStates"
                               CurrentStateChanged="WindowStates_CurrentStateChanged">
-                <VisualState x:Name="NarrowState">
-                    <VisualState.Setters>
-                        <Setter Target="NarrowInfoButton.Visibility" Value="Visible" />
-                        <Setter Target="SampleTitleBar.(Grid.ColumnSpan)" Value="2" />
+                    <VisualState x:Name="NarrowState">
+                        <VisualState.Setters>
+                            <Setter Target="NarrowInfoButton.Visibility" Value="Visible" />
+                            <Setter Target="SampleTitleBar.(Grid.ColumnSpan)" Value="2" />
 
-                        <Setter Target="InfoAreaGrid.(Grid.Column)" Value="0" />
-                        <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="2" />
+                            <Setter Target="InfoAreaGrid.(Grid.Column)" Value="0" />
+                            <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="2" />
 
-                        <Setter Target="Splitter.Visibility" Value="Collapsed" />
-                        <Setter Target="InfoAreaControls.Visibility" Value="Collapsed" />
-                        <Setter Target="InfoAreaControlsWrapper.Visibility" Value="Collapsed" />
-                        <Setter Target="InfoAreaControlsWrapper.Opacity" Value="0" />
+                            <Setter Target="Splitter.Visibility" Value="Collapsed" />
+                            <Setter Target="InfoAreaControls.Visibility" Value="Collapsed" />
+                            <Setter Target="InfoAreaControlsWrapper.Visibility" Value="Collapsed" />
+                            <Setter Target="InfoAreaControlsWrapper.Opacity" Value="0" />
 
-                        <Setter Target="SideColumn.Width" Value="0" />
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="WideState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="700" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-            </VisualStateGroup>
-            <VisualStateGroup x:Name="PaneStates"
+                            <Setter Target="SideColumn.Width" Value="0" />
+                        </VisualState.Setters>
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0" />
+                        </VisualState.StateTriggers>
+                    </VisualState>
+                    <VisualState x:Name="WideState">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="700" />
+                        </VisualState.StateTriggers>
+                    </VisualState>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="PaneStates"
                               CurrentStateChanged="PaneStates_CurrentStateChanged">
-                <VisualState x:Name="Full">
-                    <VisualState.StateTriggers>
-                        <StateTrigger IsActive="{x:Bind SidePaneState.Equals(models:PaneState.Full), Mode=OneWay}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="InfoAreaGrid.Visibility" Value="Visible" />
-                        <Setter Target="ExpandPane.Icon" Value="OpenPane" />
+                    <VisualState x:Name="Full">
+                        <VisualState.StateTriggers>
+                            <StateTrigger IsActive="{x:Bind SidePaneState.Equals(models:PaneState.Full), Mode=OneWay}" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="InfoAreaGrid.Visibility" Value="Visible" />
+                            <Setter Target="ExpandPane.Icon" Value="OpenPane" />
 
-                        <Setter Target="InfoAreaGrid.(Grid.Column)" Value="0" />
-                        <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="2" />
-                        <Setter Target="SideColumn.Width" Value="Auto" />
+                            <Setter Target="InfoAreaGrid.(Grid.Column)" Value="0" />
+                            <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="2" />
+                            <Setter Target="SideColumn.Width" Value="Auto" />
 
-                        <Setter Target="Splitter.Visibility" Value="Collapsed" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="Show">
-                    <VisualState.StateTriggers>
-                        <StateTrigger IsActive="{x:Bind SidePaneState.Equals(models:PaneState.Normal), Mode=OneWay}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="InfoAreaGrid.Visibility" Value="Visible" />
-                        <Setter Target="NarrowInfoButton.Icon" Value="Cancel" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="Hide">
-                    <VisualState.StateTriggers>
-                        <StateTrigger IsActive="{x:Bind SidePaneState.Equals(models:PaneState.Closed), Mode=OneWay}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="InfoAreaGrid.Visibility" Value="Collapsed" />
-                        <Setter Target="SideColumn.Width" Value="0" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="None">
-                    <VisualState.StateTriggers>
-                        <StateTrigger IsActive="{x:Bind SidePaneState.Equals(models:PaneState.None), Mode=OneWay}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="InfoAreaGrid.Visibility" Value="Collapsed" />
-                        <Setter Target="SideColumn.Width" Value="0" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+                            <Setter Target="Splitter.Visibility" Value="Collapsed" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Show">
+                        <VisualState.StateTriggers>
+                            <StateTrigger IsActive="{x:Bind SidePaneState.Equals(models:PaneState.Normal), Mode=OneWay}" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="InfoAreaGrid.Visibility" Value="Visible" />
+                            <Setter Target="NarrowInfoButton.Icon" Value="Cancel" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Hide">
+                        <VisualState.StateTriggers>
+                            <StateTrigger IsActive="{x:Bind SidePaneState.Equals(models:PaneState.Closed), Mode=OneWay}" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="InfoAreaGrid.Visibility" Value="Collapsed" />
+                            <Setter Target="SideColumn.Width" Value="0" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="None">
+                        <VisualState.StateTriggers>
+                            <StateTrigger IsActive="{x:Bind SidePaneState.Equals(models:PaneState.None), Mode=OneWay}" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="InfoAreaGrid.Visibility" Value="Collapsed" />
+                            <Setter Target="SideColumn.Width" Value="0" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Grid>
     </Grid>
 </Page>
