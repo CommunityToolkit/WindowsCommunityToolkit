@@ -202,7 +202,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         var blockmatchcount = Regex.Matches(currentBlock.Builder.ToString(), "```").Count;
                         if (blockmatchcount > 0 && blockmatchcount % 2 != 0)
                         {
-                            inCodeBlock = inCodeBlock != true;
+                            inCodeBlock = true;
+                        }
+                        else
+                        {
+                            inCodeBlock = false;
                         }
                     }
 
