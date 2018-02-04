@@ -9,7 +9,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, SlidableListItem,
 # SlidableListItem XAML Control
 
 > [!NOTE]
-The SlidableListItem is deprecated and will be removed in a future major release. Please use the [SwipeControl](https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/swipe) available in the Fall Creators Update. Read the [Moving to SwipeControl](#moving-to-swipecontrol) section for more info.
+The SlidableListItem is deprecated and will be removed in a future major release. Please use the [SwipeControl](https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/swipe) available in the Fall Creators Update. Read the [Moving to SwipeControl](#swipe) section for more info.
 
 The **SlidableListItem Control** is a UI control that enables actions to be triggered by sliding the content left or right. This effect can be forced to ignore the mouse if only touch screen interaction is desired.
 
