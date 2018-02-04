@@ -12,7 +12,7 @@ The ReorderGridAnimation class allows your GridView controls to animate items in
 
 ## Syntax
 
-### **XAML**
+**XAML**
 
 ```xaml
 <Page ...
@@ -21,12 +21,11 @@ The ReorderGridAnimation class allows your GridView controls to animate items in
           animations:ReorderGridAnimation.Duration="250"/>
 ```
 
-### **C#**
+**C#**
 
 ```csharp
 MyGridView.SetValue(ReorderGridAnimation.DurationProperty, 250);
 ```
-
 ## Sample Output
 
 ![ReorderGridAnimation](../resources/images/Animations/ReorderGridAnimation/Sample-Output.gif)

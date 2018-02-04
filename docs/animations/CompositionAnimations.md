@@ -13,7 +13,7 @@ These XAML elements enable developer to specify composition animations directly 
 
 ## Syntax
 
-### **XAML**
+**XAML**
 
 ```xaml
 <Page ...
@@ -23,7 +23,7 @@ These XAML elements enable developer to specify composition animations directly 
     <animations:ScalarKeyFrame Key="0.1" Value="30"></animations:ScalarKeyFrame>
     <animations:ScalarKeyFrame Key="0.5" Value="0.0"></animations:ScalarKeyFrame>
 </animations:ScalarAnimation>
- ```
+```
 
 ## Animations
 
@@ -57,27 +57,27 @@ To specify the Vector2, Vector3, or Vector4 value in XAML, the From and To prope
 
 ### OpacityAnimation (Scalar)
 
-ScalarAnimation where `Target = "Opacity"` animates the `Visual.Opacity` property
+ScalarAnimation where `Target = "Opacity". Animates the Visual.Opacity property
 
 ### RotationAnimation (Scalar)
 
-ScalarAnimation where `Target = "RotationAngle"` animates the `Visual.RotationAngle` property
+ScalarAnimation where `Target = "RotationAngle". Animates the Visual.RotationAngle property
 
 ### RotationInDegreesAnimation (Scalar)
 
-ScalarAnimation where `Target = "RotationAngleInDegrees"` animates the `Visual.RotationAngleInDegrees` property
+ScalarAnimation where `Target = "RotationAngleInDegrees". Animates the Visual.RotationAngleInDegrees property
 
 ### ScaleAnimation (Vector3)
 
-Vector3Animation where `Target = "Scale"` animates the `Visual.Scale` property
+Vector3Animation where `Target = "Scale". Animates the Visual.Scale property
 
 ### TranslationAnimation (Vector3)
 
-Vector3Animation where `Target = "Translation"` animates the `Visual.Translation` property
+Vector3Animation where `Target = "Translation". Animates the Visual.Translation property
 
 ### OffsetAnimations (Vector3)
 
-Vector3Animation where `Target = "Offset"` animates the `Visual.Offset` property
+Vector3Animation where `Target = "Offset". Animates the Visual.Offset property
 
 
 ## KeyFrames
@@ -110,10 +110,10 @@ To specify the Vector2, Vector3, or Vector4 value, use the following format:
 A collection of animations. 
 
 The AnimationCollection exposes the properties:
-* **ContainsTranslationAnimation**: True if any of the animations in the collection target the `Visual.Translation` property.
+* **ContainsTranslationAnimation**: True if any of the animations in the collection target the **Visual.Translation** property.
 
 The AnimationCollection exposes the events:
-* **AnimationCollectionChanged**: Raised when an animation has been added, removed, or a value of an animation has changed.
+* **AnimationCollectionChanged**: Raised when an animation has been added, removed, or a value of an animation has changed
 
 ## Requirements
 

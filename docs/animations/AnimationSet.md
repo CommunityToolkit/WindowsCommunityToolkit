@@ -61,14 +61,14 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
 
-_**Note:** EasingType is used only when AnimationSet.UseComposition == false_
-_**Note:** Blur, Light and Saturation animation don't support easing_
+***Note:** EasingType is used only when AnimationSet.UseComposition == false*  
+***Note:** Blur, Light and Saturation animation don't support easing*
 
 ## Examples
 
 - AnimationSet has endless possibility. Here is an example of creating popup effect
 
-    _Sample Code_
+    **Sample Code**
 
     ```csharp
     FrameworkElement preElement = null;
@@ -90,14 +90,12 @@ _**Note:** Blur, Light and Saturation animation don't support easing_
         }
     }
     ```
-
-    _Sample Output_
+    **Sample Output**
 
     ![Use Case 1 Output](../resources/images/Animations/AnimationSet/Use-Case-1.gif)
-
 - Use `Then()` to create a successive animation
 
-    _Sample Code_
+    **Sample Code**
 
     ```csharp
     MyUIElement.Blur(value: 10).Fade(value: 0.5f)
@@ -107,7 +105,7 @@ _**Note:** Blur, Light and Saturation animation don't support easing_
             .Start();
     ```
 
-    _Sample Output_
+    **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/AnimationSet/Use-Case-2.gif)
 

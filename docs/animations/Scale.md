@@ -61,13 +61,13 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
 
-_**Note:** EasingType is used only when AnimationSet.UseComposition == false_
+***Note:** EasingType is used only when AnimationSet.UseComposition == false*
 
 ## Examples
 
 - Use this to create popup effect
 
-    _Sample Code_
+    **Sample Code**
 
     ```csharp
     UIElement lastTapped = null;
@@ -83,13 +83,13 @@ _**Note:** EasingType is used only when AnimationSet.UseComposition == false_
         lastTapped.Scale(scaleX: 2, scaleY: 2, centerX: 50, centerY: 50).Start();
     }
     ```
-    _Sample Output_
+    **Sample Output**
 
     ![Use Case 1 Output](../resources/images/Animations/Scale/Sample-Output.gif)
 
 - Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
-    _Sample Code_
+    **Sample Code**
 
     ```csharp
     var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
@@ -99,7 +99,7 @@ _**Note:** EasingType is used only when AnimationSet.UseComposition == false_
     anim.Start();
     ```
 
-    _Sample Output_
+    **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
 

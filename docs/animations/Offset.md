@@ -12,7 +12,7 @@ The Offset animation is used to move the control from one place to another. Offs
 
 ## Syntax
 
-### **XAML**
+**XAML**
 
 ```xaml
 <Page ...
@@ -29,7 +29,7 @@ The Offset animation is used to move the control from one place to another. Offs
 </interactivity:Interaction.Behaviors>
 ```
 
-### **C#**
+**C#**
 
 ```csharp
 MyUIElement.Offset(offsetX: 25, offsetY: 25, duration: 2500, delay: 250, easingType: EasingType.Default).Start();
@@ -66,15 +66,14 @@ You can change the way how the animation interpolates between keyframes by defin
 
 - You can just call `Offset()` set the control in the orginal position
 
-    _Sample Code_
+    **Sample Code**
 
     ```csharp
     await MyUIElement.Offset().Start();
     ```
-
 - Use await to create a continous movement
 
-    _Sample Code_
+    **Sample Code**
 
     ```csharp
     public async void OffsetAsync()
@@ -86,13 +85,13 @@ You can change the way how the animation interpolates between keyframes by defin
     }
     ```
 
-    _Sample Output_
+    **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/Offset/Use-Case-1.gif)
 
 - Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
-    _Sample Code_
+    **Sample Code**
 
     ```csharp
     var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
@@ -102,7 +101,7 @@ You can change the way how the animation interpolates between keyframes by defin
     anim.Start();
     ```
 
-    _Sample Output_
+    **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
 
@@ -120,4 +119,3 @@ You can change the way how the animation interpolates between keyframes by defin
 ## API
 
 * [Offset source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors/Offset.cs)
-

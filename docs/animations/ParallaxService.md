@@ -15,7 +15,7 @@ The ParallaxService class allows to create a parallax effect for items contained
 
 ## Syntax
 
-### **XAML**
+**XAML**
 
 ```xaml
 <Page ...
@@ -28,7 +28,7 @@ The ParallaxService class allows to create a parallax effect for items contained
 </ScrollViewer>
 ```
 
-### **C#**
+**C#**
 
 ```csharp
 MyUIElement.SetValue(ParallaxService.VerticalMultiplierProperty, 0.5);
@@ -48,7 +48,7 @@ The Windows 10 Fall Creators Update SDK now includes the [ParallaxView](https://
 
 However, the way the two are used is different. Unlike the ParallaxService, the ParallaxView is a control hosting the background element. This control ties the scroll position of a foreground element, such as a list, to a background element, such as an image. As you scroll through the foreground element, it animates the background element to create a parallax effect. To use the ParallaxView control, you provide a Source element, a background element, and set the VerticalShift (for vertical scrolling) and/or HorizontalShift (for horizontal scrolling) properties to a value greater than zero. To create a parallax effect, the ParallaxView must be behind the foreground element.
 
-Here is an example of using the ParallaxView:
+Here is an example of using the ParallaxView
 
 ```xaml
 <Grid>

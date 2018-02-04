@@ -12,7 +12,7 @@ The Blur animation blurs a XAML element by increasing or decreasing pixel size. 
 
 ## Syntax
 
-### **XAML**
+**XAML**
 
 ```xaml
 <Page ...
@@ -28,7 +28,7 @@ The Blur animation blurs a XAML element by increasing or decreasing pixel size. 
 </interactivity:Interaction.Behaviors>
 ```
 
-### **C#**
+**C#**
 
 ```csharp
 MyUIElement.Blur(value: 5, duration: 2500, delay: 250).Start();
@@ -43,7 +43,7 @@ await MyUIElement.Blur(value: 5, duration: 2500, delay: 250).StartAsync();  //Bl
 
 - Use this to shift the focus to foreground controls.
 
-    _Sample Code_
+    **Sample Code**
 
     ```xaml
     <Grid>
@@ -58,13 +58,13 @@ await MyUIElement.Blur(value: 5, duration: 2500, delay: 250).StartAsync();  //Bl
     </Grid>
     ```
 
-    _Sample Output_
+    **Sample Output**
 
     ![Use Case 1 Output](../resources/images/Animations/Blur/Use-Case-1.gif)
 
 - Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
-    _Sample Code_
+    **Sample Code**
 
     ```csharp
     var anim = MyUIElement.Blur(5).Fade(0.5f).Rotate(30);
@@ -73,8 +73,8 @@ await MyUIElement.Blur(value: 5, duration: 2500, delay: 250).StartAsync();  //Bl
     anim.Completed += animation_completed;
     anim.Start();
     ```
-
-    _Sample Output_
+    
+    **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
 

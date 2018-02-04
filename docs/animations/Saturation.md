@@ -12,7 +12,7 @@ The Saturation animation selectively saturates a XAML element. Saturation animat
 
 ## Syntax
 
-### **XAML**
+**XAML**
 
 ```xaml
 <Page ...
@@ -28,7 +28,7 @@ The Saturation animation selectively saturates a XAML element. Saturation animat
 </interactivity:Interaction.Behaviors>
 ```
 
-### **C#**
+**C#**
 
 ```csharp
 ToolkitLogo.Saturation(value: 0, duration: 500, delay: 250);       
@@ -42,7 +42,7 @@ ToolkitLogo.Saturation(value: 0, duration: 500, delay: 250);
 
 - Sometimes you want an element to desaturate, a common example of this could be when you mouse over a UI Element, now you can apply a SaturationBehavior to the original element at run time.
 
-    _Sample Code_
+    **Sample Code**
 
     ```csharp
     private void MyUIElement_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -56,13 +56,13 @@ ToolkitLogo.Saturation(value: 0, duration: 500, delay: 250);
     }
     ```
 
-    _Sample Output_
+    **Sample Output**
 
     ![Use Case 1 Output](../resources/images/Animations/Saturation/Use-Case-1.gif)
 
 - Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
-    _Sample Code_
+    **Sample Code**
 
     ```csharp
     var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
@@ -72,7 +72,7 @@ ToolkitLogo.Saturation(value: 0, duration: 500, delay: 250);
     anim.Start();
     ```
 
-    _Sample Output_
+    **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
 
