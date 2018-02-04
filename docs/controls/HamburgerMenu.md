@@ -9,7 +9,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HamburgerMenu, xa
 # HamburgerMenu XAML Control
 
 > [!NOTE]
-The HamburgerMenu is deprecated and will be removed in a future major release. Please use the [NavigationView](https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/navigationview) available in the Fall Creators Update. Read the [Moving to NavigationView](#moving-to-navigationview) section for more info.
+The HamburgerMenu is deprecated and will be removed in a future major release. Please use the [NavigationView](https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/navigationview) available in the Fall Creators Update. Read the [Moving to NavigationView](#navview) section for more info.
 
 The **Hamburger Menu Control** provides an easy-to-use, side-bar menu which users can show or hide by using a Hamburger button. By  tapping the icon, it opens up a side menu with a selection of options or additional pages.
 
