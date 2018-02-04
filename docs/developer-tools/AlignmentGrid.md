@@ -27,8 +27,8 @@ You can control grid's steps with `HorizontalStep` and `VerticalStep` properties
 | Property | Type | Description |
 | -- | -- | -- |
 | HorizontalStep | double | Gets or sets the step to use horizontally |
-| LineBrush | Brush | Gets or sets the step to use horizontally |
-| VerticalStep | double | Gets or sets the step to use horizontally |
+| LineBrush | Brush | Gets or sets line Brush |
+| VerticalStep | double | Gets or sets the step to use vertically |
 
 ## Sample Code
 
