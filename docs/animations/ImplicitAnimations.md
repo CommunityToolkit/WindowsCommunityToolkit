@@ -9,11 +9,11 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, composition anima
 
 Implicit Animations are Composition Animations that are used to describe how and when animations occur as a response to direct property changes, such as Opacity or Offset. Show and Hide animations describe the animation to be applied to an element when the Visibility is changed, or the element is added/removed to the visual tree.
 
-**Prerequisites** - [Composition Animation in XAML](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/compositionanimations)
+**Prerequisites** - [Composition Animation in XAML](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/compositionanimations)
 
-The Implicit Animations Attached Properties enable implicit animations to be defined in your XAML code by using the [Composition Animation](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/compositionanimations) XAML objects. This allows animations to be defined directly on the element, or defined as XAML resources and applied to any XAML element. 
+The Implicit Animations Attached Properties enable implicit animations to be defined in your XAML code by using the [Composition Animation](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/compositionanimations) XAML objects. This allows animations to be defined directly on the element, or defined as XAML resources and applied to any XAML element. 
 
-The Implicit Animations Attached Properties can be used in combination with the [VisualExtensions](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/extensions/viewextensions). This works well when used in Storyboards.
+The Implicit Animations Attached Properties can be used in combination with the [VisualExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/visualex). This works well when used in Storyboards.
 
 ## Syntax
 
@@ -56,10 +56,10 @@ The Implicit Animations Attached Properties can be used in combination with the 
 ## Properties
 
 ### Implicit.Animations
-Specifies an [Composition Animation](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/compositionanimations) with animations to run when properties are modified.
+Specifies an [Composition Animation](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/compositionanimations) with animations to run when properties are modified.
 
 ### Implicit.ShowAnimations and Implicit.HideAnimations
-Specifies an [Composition Animation](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/compositionanimations) with animations to run when an element is added or removed from the visual tree respectively (including when Visibility on an element is changed).
+Specifies an [Composition Animation](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/compositionanimations) with animations to run when an element is added or removed from the visual tree respectively (including when Visibility on an element is changed).
 
 ## Examples
 
@@ -101,7 +101,7 @@ Specifies an [Composition Animation](https://docs.microsoft.com/en-us/windows/uw
 
     ![Example Output 2](../resources/images/Animations/ImplicitAnimations/Example-Output-2.gif)
 
-- Now, we can create a rotating animation whenever offset changes. This time we can use [Resources](https://docs.microsoft.com/en-us/windows/uwp/design/controls-and-patterns/resourcedictionary-and-xaml-resource-references) to set Implicit Animations.
+- Now, we can create a rotating animation whenever offset changes. This time we can use [Resources](https://docs.microsoft.com/windows/uwp/design/controls-and-patterns/resourcedictionary-and-xaml-resource-references) to set Implicit Animations.
 
     ```xaml
     <Page ...
@@ -125,7 +125,7 @@ Specifies an [Composition Animation](https://docs.microsoft.com/en-us/windows/uw
 
 ## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.15063.0 or higher   |
+| Device family | Universal, 10.0.15063.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
@@ -136,6 +136,6 @@ Specifies an [Composition Animation](https://docs.microsoft.com/en-us/windows/uw
 
 ## Related Topics
 
-- [Visual layer](https://docs.microsoft.com/en-us/windows/uwp/composition/visual-layern)
-- [Composition animations](https://docs.microsoft.com/en-us/windows/uwp/composition/composition-animation)
-- [ExpressionAnimation](https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Composition.ExpressionAnimation)
+- [Visual layer](https://docs.microsoft.com/windows/uwp/composition/visual-layern)
+- [Composition animations](https://docs.microsoft.com/windows/uwp/composition/composition-animation)
+- [ExpressionAnimation](https://docs.microsoft.com/uwp/api/Windows.UI.Composition.ExpressionAnimation)

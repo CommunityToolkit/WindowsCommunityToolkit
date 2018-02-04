@@ -7,7 +7,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, animationset, ani
 
 # AnimationSet
 
-The [AnimationSet](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationset) class defines an object for storing and managing [Storyboard](https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.Media.Animation.Storyboard) and [CompositionAnimations](https://docs.microsoft.com/en-us/windows/uwp/composition/composition-animation) for an element. AnimationSet includes [Blur](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/blur), [Fade](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/fade), [Light](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/light), [Offset](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/offset), [Rotate](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/rotate), [Saturation](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/saturation) and [Scale](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/scale) animations. AnimationSet animations is applied to all the XAML elements in its parent control/panel. AnimationSet animations doesn't affect the functionality of the control.
+The [AnimationSet](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationset) class defines an object for storing and managing [Storyboard](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Media.Animation.Storyboard) and [CompositionAnimations](https://docs.microsoft.com/windows/uwp/composition/composition-animation) for an element. AnimationSet includes [Blur](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/blur), [Fade](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/fade), [Light](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/light), [Offset](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/offset), [Rotate](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/rotate), [Saturation](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/saturation) and [Scale](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/scale) animations. AnimationSet animations is applied to all the XAML elements in its parent control/panel. AnimationSet animations doesn't affect the functionality of the control.
 
 ## Syntax
 
@@ -45,9 +45,33 @@ anim.Start();
 | Property | Type | Description |
 | -- | -- | -- |
 | Element | UIElement | Gets the UIElement |
-| State | [AnimationSetState](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationsetstate) | Gets the current state of the AnimationSet |
+| State | [AnimationSetState](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationsetstate) | Gets the current state of the AnimationSet |
 | UseComposition | Boolean | Gets or sets a value indicating whether composition must be use even on SDK > 10586 |
 | Visual | Visual | Gets the Visual object that backs the XAML element |
+
+### EasingType
+
+You can change the way how the animation interpolates between keyframes by defining the EasingType.
+
+| EasingType | Explanation                                                                                                | Graphical Explanation                      |
+| ---------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| Default    | Creates an animation that accelerates with the default EasingType which is specified in AnimationExtensions.DefaultEasingType which is by default Cubic |                                                                                                                           |
+| Linear     | Creates an animation that accelerates or decelerates linear                                                                                             |                                                                                                                           |
+| Back       | Retracts the motion of an animation slightly before it begins to animate in the path indicated                                                          | ![BackEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/backease-graph.png)           |
+| Bounce     | Creates a bouncing effect                                                                                                                               | ![BounceEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/bounceease-graph.png)       |
+| Circle     | Creates an animation that accelerates or decelerates using a circular function                                                                          | ![CircleEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/circleease-graph.png)       |
+| Cubic      | Creates an animation that accelerates or decelerates using the formula f(t) = t3                                                                        | ![CubicEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/cubicease-graph.png)         |
+| Elastic    | Creates an animation that resembles a spring oscillating back and forth until it comes to rest                                                          | ![ElasticEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/elasticease-graph.png)     |
+| Quadratic  | Creates an animation that accelerates or decelerates using the formula f(t) = t2                                                                        | ![QuadraticEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/quadraticease-graph.png) |
+| Quartic    | Creates an animation that accelerates or decelerates using the formula f(t) = t4                                                                        | ![QuarticEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/quarticease-graph.png)     |
+| Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
+| Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
+
+> [!IMPORTANT]
+EasingType is used only when AnimationSet.UseComposition == false
+
+> [!NOTE]
+Blur, Light and Saturation animation don't support easing
 
 ## Methods
 
@@ -72,30 +96,6 @@ anim.Start();
 | StartAsync() | Starts all animations and returns an awaitable task |
 | Stop() | Stops all animations |
 | Then() | Wait for existing animations to complete before running new animations |
-
-### EasingType
-
-You can change the way how the animation interpolates between keyframes by defining the EasingType.
-
-| EasingType | Explanation                                                                                                | Graphical Explanation                      |
-| ---------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
-| Default    | Creates an animation that accelerates with the default EasingType which is specified in AnimationExtensions.DefaultEasingType which is by default Cubic |                                                                                                                           |
-| Linear     | Creates an animation that accelerates or decelerates linear                                                                                             |                                                                                                                           |
-| Back       | Retracts the motion of an animation slightly before it begins to animate in the path indicated                                                          | ![BackEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/backease-graph.png)           |
-| Bounce     | Creates a bouncing effect                                                                                                                               | ![BounceEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/bounceease-graph.png)       |
-| Circle     | Creates an animation that accelerates or decelerates using a circular function                                                                          | ![CircleEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/circleease-graph.png)       |
-| Cubic      | Creates an animation that accelerates or decelerates using the formula f(t) = t3                                                                        | ![CubicEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/cubicease-graph.png)         |
-| Elastic    | Creates an animation that resembles a spring oscillating back and forth until it comes to rest                                                          | ![ElasticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/elasticease-graph.png)     |
-| Quadratic  | Creates an animation that accelerates or decelerates using the formula f(t) = t2                                                                        | ![QuadraticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quadraticease-graph.png) |
-| Quartic    | Creates an animation that accelerates or decelerates using the formula f(t) = t4                                                                        | ![QuarticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quarticease-graph.png)     |
-| Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
-| Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
-
-> [!IMPORTANT]
-EasingType is used only when AnimationSet.UseComposition == false
-
-> [!NOTE]
-Blur, Light and Saturation animation don't support easing
 
 ## Events
 
@@ -147,7 +147,7 @@ Blur, Light and Saturation animation don't support easing
 
 ## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
+| Device family | Universal, 10.0.14393.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
@@ -158,5 +158,5 @@ Blur, Light and Saturation animation don't support easing
 
 ## Related Topics
 
-- [AnimationExtensions Class](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationextensions)
-- [AnimationSetCompletedEventArgs Class](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationsetcompletedeventargs)
+- [AnimationExtensions Class](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationextensions)
+- [AnimationSetCompletedEventArgs Class](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationsetcompletedeventargs)

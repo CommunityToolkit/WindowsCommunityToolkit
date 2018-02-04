@@ -94,7 +94,7 @@ A brief recap of ExpressionAnimations:
 
 - Like other CompositionAnimations, ExpressionAnimations are templates, meaning you can create an Expression and use it to animate multiple objects. You can also change aspects of the animation and have those changes take effect the next time you animate an object (without affecting any previously connected animations). 
 
-- For more information on ExpressionAnimations, [please check our documentation](https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Composition.ExpressionAnimation).
+- For more information on ExpressionAnimations, [please check our documentation](https://docs.microsoft.com/uwp/api/Windows.UI.Composition.ExpressionAnimation).
 
 ExpressionAnimations can create some very powerful and unique experiences, but can be a bit combersome to author. One of the big pain points with ExpressionAnimations is that the equation or mathematical relationship that defines the animation is written as a string, e.g.:
 
@@ -232,7 +232,7 @@ The documentation below assumes you are familiar with the Composition and Compos
 
 - [Windows UI Dev Labs Github](https://github.com/Microsoft/WindowsUIDevLabs)
 
-- [ExpressionAnimation MSDN Documentation](https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.composition.expressionanimation.aspx)
+- [ExpressionAnimation MSDN Documentation](https://msdn.microsoft.com/library/windows/apps/windows.ui.composition.expressionanimation.aspx)
 
 ## <a name="why-expressionbuilder">Why ExpressionBuilder?
 
@@ -1126,7 +1126,7 @@ _tracker.ConfigurePositionYInertiaModifiers(
 
 ## <a name="requirements"></a>Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
+| Device family | Universal, 10.0.14393.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |

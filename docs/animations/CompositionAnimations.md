@@ -7,7 +7,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, composition anima
 
 # Composition Animations in XAML
 
-[Composition animations](https://docs.microsoft.com/en-us/windows/uwp/composition/composition-animation) in the universal windows platform provide a powerful and efficient way to run animations in your application UI and have been designed to ensure that your animations run at 60 FPS independent of the UI thread.
+[Composition animations](https://docs.microsoft.com/windows/uwp/composition/composition-animation) in the universal windows platform provide a powerful and efficient way to run animations in your application UI and have been designed to ensure that your animations run at 60 FPS independent of the UI thread.
 
 These XAML elements enable developer to specify composition animations directly in their XAML code to enable scenarios such as Implicit animations
 
@@ -32,9 +32,9 @@ These XAML elements enable developer to specify composition animations directly 
 | Animation Type | Accepted KeyFrame type | Description |
 | -- | -- | -- |
 | ScalarAnimation | ScalarKeyFrame and ExpressionKeyFrame | Animation that animates a scalar (double) value |
-| Vector2Animation | Vector2KeyFrame and ExpressionKeyFrame | Animation that animates a value of type [Vector2](https://docs.microsoft.com/en-us/uwp/api/Windows.Foundation.Numerics.Vector2) ("0" or "0, 0") |
-| Vector3Animation | Vector3KeyFrame and ExpressionKeyFrame | Animation that animates a value of type [Vector3](https://docs.microsoft.com/en-us/uwp/api/Windows.Foundation.Numerics.Vector3) ("0" or "0, 0, 0") |
-| Vector4Animation | Vector4KeyFrame and ExpressionKeyFrame | Animation that animates a value of type [Vector4](https://docs.microsoft.com/en-us/uwp/api/Windows.Foundation.Numerics.Vector4) ("0" or "0, 0, 0, 0") |
+| Vector2Animation | Vector2KeyFrame and ExpressionKeyFrame | Animation that animates a value of type [Vector2](https://docs.microsoft.com/uwp/api/Windows.Foundation.Numerics.Vector2) ("0" or "0, 0") |
+| Vector3Animation | Vector3KeyFrame and ExpressionKeyFrame | Animation that animates a value of type [Vector3](https://docs.microsoft.com/uwp/api/Windows.Foundation.Numerics.Vector3) ("0" or "0, 0, 0") |
+| Vector4Animation | Vector4KeyFrame and ExpressionKeyFrame | Animation that animates a value of type [Vector4](https://docs.microsoft.com/uwp/api/Windows.Foundation.Numerics.Vector4) ("0" or "0, 0, 0, 0") |
 | OpacityAnimation | ScalarKeyFrame and ExpressionKeyFrame | ScalarAnimation where `Target = "Opacity". Animates the Visual.Opacity property |
 | RotationAnimation | ScalarKeyFrame and ExpressionKeyFrame | ScalarAnimation where `Target = "RotationAngle". Animates the Visual.RotationAngle property |
 | RotationInDegreesAnimation | ScalarKeyFrame and ExpressionKeyFrame | ScalarAnimation where `Target = "RotationAngleInDegrees". Animates the Visual.RotationAngleInDegrees property |
@@ -94,7 +94,7 @@ A collection of animations.
 ## Examples
 
 > [!NOTE]
-Use [Implicit Composition Animations in XAML](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/implicitanimations) to run these animations.
+Use [Implicit Composition Animations in XAML](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/implicitanimations) to run these animations.
 
 Let's create some plain animation first. Theses animation will run when the `Target` property is changed.
 
@@ -136,7 +136,7 @@ Now we can add KeyFrames
     ```
     **Sample Output**
     ![Example Output](../resources/images/Animations/CompositionAnimations/Example-Output-1.gif)
-- You can use ExpressionKeyFrame to specify expression to create [ExpressionAnimation](https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Composition.ExpressionAnimation).
+- You can use ExpressionKeyFrame to specify expression to create [ExpressionAnimation](https://docs.microsoft.com/uwp/api/Windows.UI.Composition.ExpressionAnimation).
     ```xaml
     <animations:OffsetAnimation Duration="0:0:1">
         <animations:ExpressionKeyFrame Key="0.2" Value="This.FinalValue / 2"/>
@@ -149,7 +149,7 @@ Now we can add KeyFrames
 
 ## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.15063.0 or higher   |
+| Device family | Universal, 10.0.15063.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
@@ -160,6 +160,6 @@ Now we can add KeyFrames
 
 ## Related Topics
 
-- [Visual layer](https://docs.microsoft.com/en-us/windows/uwp/composition/visual-layern)
-- [Composition animations](https://docs.microsoft.com/en-us/windows/uwp/composition/composition-animation)
-- [ExpressionAnimation](https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Composition.ExpressionAnimation)
+- [Visual layer](https://docs.microsoft.com/windows/uwp/composition/visual-layer)
+- [Composition animations](https://docs.microsoft.com/windows/uwp/composition/composition-animation)
+- [ExpressionAnimation](https://docs.microsoft.com/uwp/api/Windows.UI.Composition.ExpressionAnimation)
