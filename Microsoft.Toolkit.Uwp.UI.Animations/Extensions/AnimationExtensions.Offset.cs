@@ -30,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="offsetY">The offset on the y axis.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
+        /// <param name="easingType">Used to describe how the animation interpolates between keyframes.</param>
         /// <returns>
         /// An AnimationSet.
         /// </returns>
@@ -38,7 +39,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             float offsetX = 0f,
             float offsetY = 0f,
             double duration = 500d,
-            double delay = 0d)
+            double delay = 0d,
+            EasingType easingType = EasingType.Default)
         {
             if (associatedObject == null)
             {
@@ -46,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Offset(offsetX, offsetY, duration, delay);
+            return animationSet.Offset(offsetX, offsetY, duration, delay, easingType);
         }
 
         /// <summary>
@@ -57,6 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="offsetY">The offset on the y axis.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
+        /// <param name="easingType">Used to describe how the animation interpolates between keyframes.</param>
         /// <returns>
         /// An AnimationSet.
         /// </returns>
@@ -65,7 +68,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             float offsetX = 0f,
             float offsetY = 0f,
             double duration = 500d,
-            double delay = 0d)
+            double delay = 0d,
+            EasingType easingType = EasingType.Default)
         {
             if (animationSet == null)
             {
@@ -85,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 animationX.Duration = animationY.Duration = TimeSpan.FromMilliseconds(duration);
                 animationX.BeginTime = animationY.BeginTime = TimeSpan.FromMilliseconds(delay);
-                animationX.EasingFunction = animationY.EasingFunction = _defaultStoryboardEasingFunction;
+                animationX.EasingFunction = animationY.EasingFunction = GetEasingFunction(easingType);
 
                 animationSet.AddStoryboardAnimation(GetAnimationPath(transform, element, "TranslateX"), animationX);
                 animationSet.AddStoryboardAnimation(GetAnimationPath(transform, element, "TranslateY"), animationY);

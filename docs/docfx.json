@@ -1,0 +1,51 @@
+{
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.md",
+          "**/*.yml"
+        ],
+        "exclude": [
+          "**/obj/**",
+          "**/includes/**",
+          "README.md",
+          "LICENSE",
+          "license.md",
+          "LICENSE-CODE",
+          "ThirdPartyNotices"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "**/*.png",
+          "**/*.jpg",
+          "**/*.gif"
+        ],
+        "exclude": [
+          "**/obj/**",
+          "**/includes/**"
+        ]
+      }
+    ],
+    "overwrite": [],
+    "externalReference": [],
+    "globalMetadata": {
+      "titleSuffix": "UWP Community Toolkit",
+      "searchScope": ["UWPtoolkit"],
+      "ms.topic": "article",
+      "ms.prod": "windows",
+      "ms.technology": "uwp toolkit",
+      "keywords": "uwp community toolkit",
+      "ms.author": "nikolame",
+      "ms.date": "08/30/2017",
+      "breadcrumb_path": "/windows/uwpcommunitytoolkit/breadcrumb/toc.json",
+      "extendBreadcrumb": true
+    },
+    "fileMetadata": {},
+    "template": [],
+    "dest": "UWPCommunityToolkitDocs"
+  }
+}

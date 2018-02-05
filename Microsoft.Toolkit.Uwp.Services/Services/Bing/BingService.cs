@@ -10,59 +10,39 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Core;
+using Microsoft.Toolkit.Collections;
 
 namespace Microsoft.Toolkit.Uwp.Services.Bing
 {
     /// <summary>
     /// Class for connecting to Bing.
     /// </summary>
-    public class BingService : IDataService<BingDataProvider, BingResult, BingSearchConfig>
+    public class BingService : Toolkit.Services.Bing.BingService
     {
-        private BingDataProvider bingDataProvider;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="BingService"/> class.
         /// </summary>
-        public BingService()
+        /// <param name="config">BingSearchConfig instance.</param>
+        protected BingService(Toolkit.Services.Bing.BingSearchConfig config)
+            : base(config)
         {
         }
 
         /// <summary>
-        /// Private singleton field.
-        /// </summary>
-        private static BingService instance;
-
-        /// <summary>
-        /// Gets public singleton property.
-        /// </summary>
-        public static BingService Instance => instance ?? (instance = new BingService());
-
-        /// <summary>
-        /// Gets a reference to an instance of the underlying data provider.
-        /// </summary>
-        public BingDataProvider Provider => bingDataProvider ?? (bingDataProvider = new BingDataProvider());
-
-        /// <summary>
-        /// Request list data from service provider based upon a given config / query.
+        /// Gets an instance of <see cref="IncrementalLoadingCollection{TSource, IType}"/> class that is able to load search data incrementally.
         /// </summary>
         /// <param name="config">BingSearchConfig instance.</param>
         /// <param name="maxRecords">Upper limit of records to return.</param>
-        /// <returns>Strongly typed list of data returned from the service.</returns>
-        public async Task<List<BingResult>> RequestAsync(BingSearchConfig config, int maxRecords = 20)
+        /// <returns>An instance of <see cref="IncrementalLoadingCollection{TSource, IType}"/> class that is able to load search data incrementally.</returns>
+        public static IncrementalLoadingCollection<BingService, Toolkit.Services.Bing.BingResult> GetAsIncrementalLoading(Toolkit.Services.Bing.BingSearchConfig config, int maxRecords = 20)
         {
-            List<BingResult> queryResults = new List<BingResult>();
-
-            var results = await Provider.LoadDataAsync(config, maxRecords);
-
-            foreach (var result in results)
-            {
-                queryResults.Add(result);
-            }
-
-            return queryResults;
+            var service = new BingService(config);
+            return new IncrementalLoadingCollection<BingService, Toolkit.Services.Bing.BingResult>(service, maxRecords);
         }
     }
 }

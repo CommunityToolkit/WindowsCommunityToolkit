@@ -33,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public MicrosoftGraphPage()
         {
             InitializeComponent();
+            EventsBox.Visibility = Visibility.Collapsed;
             MessagesBox.Visibility = Visibility.Collapsed;
             UserBox.Visibility = Visibility.Collapsed;
             LogOutButton.Visibility = Visibility.Collapsed;
@@ -92,11 +93,49 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Shell.Current.DisplayWaitRing = false;
             }
 
+            EventsBox.Visibility = Visibility.Visible;
             MessagesBox.Visibility = Visibility.Visible;
             UserBox.Visibility = Visibility.Visible;
             ClientIdBox.Visibility = Visibility.Collapsed;
             LogOutButton.Visibility = Visibility.Visible;
             ConnectButton.Visibility = Visibility.Collapsed;
+        }
+
+        private async void GetEventsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!await Tools.CheckInternetConnectionAsync())
+            {
+                return;
+            }
+
+            int top = 10;
+
+            var collection = new IncrementalLoadingCollection<MicrosoftGraphSource<Event>, Event>(
+                top,
+                async () =>
+                {
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = true; });
+                },
+                async () =>
+                {
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = false; });
+                },
+                async ex =>
+                {
+                    if (!Dispatcher.HasThreadAccess)
+                    {
+                        if (ex is ServiceException)
+                        {
+                            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => { await DisplayAuthorizationErrorMessageAsync(ex as ServiceException, "Read user event"); });
+                        }
+                        else
+                        {
+                            throw ex;
+                        }
+                    }
+                });
+
+            EventsList.ItemsSource = collection;
         }
 
         private async void GetMessagesButton_Click(object sender, RoutedEventArgs e)
@@ -117,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 top = Convert.ToInt32(txtTop);
             }
 
-            var collection = new IncrementalLoadingCollection<MicrosoftGraphSource, Message>(
+            var collection = new IncrementalLoadingCollection<MicrosoftGraphSource<Message>, Message>(
                 top,
                 async () =>
                 {
@@ -183,6 +222,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             SetVisibilityStatusPanel(MessagesList, (Button)sender);
         }
 
+        private void EventBoxExpandButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetVisibilityStatusPanel(EventsPanel, (Button)sender);
+            SetVisibilityStatusPanel(EventsList, (Button)sender);
+        }
+
         private void SetVisibilityStatusPanel(FrameworkElement box, Button switchButton)
         {
             if (box.Visibility == Visibility.Visible)
@@ -201,6 +246,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             MessagesList.LoadMoreItemsAsync().Cancel();
             MicrosoftGraphService.Instance.Logout();
+            EventsList.Visibility = Visibility.Collapsed;
+            EventsBox.Visibility = Visibility.Collapsed;
             MessagesList.Visibility = Visibility.Collapsed;
             MessagesBox.Visibility = Visibility.Collapsed;
             LogOutButton.Visibility = Visibility.Collapsed;

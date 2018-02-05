@@ -13,9 +13,9 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Windows.Storage;
+using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace UnitTests.Helpers
 {
@@ -200,6 +200,50 @@ namespace UnitTests.Helpers
 
             await storageFile.DeleteAsync(StorageDeleteOption.Default);
             await subfolder.DeleteAsync(StorageDeleteOption.Default);
+        }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public void Test_StorageFileHelper_IsFileNameValid_WithCorrectFileName()
+        {
+            string filename = "my_file.txt";
+
+            bool result = StorageFileHelper.IsFileNameValid(filename);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public void Test_StorageFileHelper_IsFileNameValid_WithIllegalCharacters()
+        {
+            string filename = "my|file.txt";
+
+            bool result = StorageFileHelper.IsFileNameValid(filename);
+
+            Assert.IsFalse(result);
+        }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public void Test_StorageFileHelper_IsFilePathValid_WithCorrectFilePath()
+        {
+            string filepath = "my_folder/my_file.txt";
+
+            bool result = StorageFileHelper.IsFilePathValid(filepath);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public void Test_StorageFileHelper_IsFilePathValid_WithIllegalCharacters()
+        {
+            string filepath = "my>folder|my<file\t.txt";
+
+            bool result = StorageFileHelper.IsFilePathValid(filepath);
+
+            Assert.IsFalse(result);
         }
     }
 }

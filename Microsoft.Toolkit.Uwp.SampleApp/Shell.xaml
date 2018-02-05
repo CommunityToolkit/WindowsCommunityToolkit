@@ -1,243 +1,564 @@
 ﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.Shell"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:controlsLocal="using:Microsoft.Toolkit.Uwp.SampleApp.Controls"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:developerTools="using:Microsoft.Toolkit.Uwp.DeveloperTools"
+      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:monaco="using:Monaco"
+      xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+      extensions:StatusBar.IsVisible="False"
+      extensions:TitleBar.BackgroundColor="{StaticResource Brand-Color}"
+      extensions:TitleBar.ButtonBackgroundColor="{StaticResource Brand-Color}"
+      extensions:TitleBar.ButtonForegroundColor="{StaticResource Grey-04}"
+      extensions:TitleBar.ForegroundColor="{StaticResource Grey-04}"
+      Loaded="Shell_OnLoaded"
+      SizeChanged="Page_SizeChanged"
       mc:Ignorable="d">
-  <Page.Resources>
-    <DataTemplate x:Key="ButtonTemplate"
-                  x:DataType="local:SampleCategory">
-      <Grid Width="240"
-            Height="48">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="48" />
-          <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Image Margin="12"
-               Source="{x:Bind Icon}"
-               Stretch="Uniform" />
-        <TextBlock Grid.Column="1"
-                   VerticalAlignment="Center"
-                   FontSize="16"
-                   Foreground="White"
-                   Text="{x:Bind Name}" />
-      </Grid>
-    </DataTemplate>
+    <Page.Resources>
+        <converters:EmptyStringToObjectConverter x:Key="EmptyStringToObject"
+                                                 EmptyValue="Collapsed"
+                                                 NotEmptyValue="Visible" />
 
-    <DataTemplate x:Key="OptionTemplate"
-                  x:DataType="local:Option">
-      <Grid Width="240"
-            Height="48">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="48" />
-          <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <FontIcon Grid.Column="0"
-                  Margin="12"
-                  FontFamily="Segoe MDL2 Assets"
-                  Foreground="White"
-                  Glyph="{x:Bind Glyph}" />
-        <TextBlock Grid.Column="1"
-                   VerticalAlignment="Center"
-                   FontSize="16"
-                   Foreground="White"
-                   Text="{x:Bind Name}" />
-      </Grid>
-    </DataTemplate>
+        <DataTemplate x:Key="HorizontalItemTemplate"
+                      x:DataType="local:SampleCategory">
+            <Grid>
+                <TextBlock Grid.Column="1"
+                           VerticalAlignment="Center"
+                           FontFamily="Segoe UI"
+                           FontSize="15px"
+                           FontWeight="Normal"
+                           Foreground="Black"
+                           Text="{x:Bind Name}" />
+            </Grid>
+        </DataTemplate>
 
-  </Page.Resources>
+        <DataTemplate x:Key="VerticalItemTemplate"
+                      x:DataType="local:SampleCategory">
+            <controls:Expander Background="Transparent"
+                               Expanded="Expander_Expanded"
+                               Foreground="White"
+                               Header="{x:Bind Name}"
+                               Style="{StaticResource HamburgerExpanderItem}">
+                <ListView Margin="0,-4,0,0"
+                          IsItemClickEnabled="True"
+                          local:ListViewHoverScroll.IsEnabled="True"
+                          ItemClick="VerticalSamplePickerListView_ItemClick"
+                          ItemTemplate="{StaticResource VerticalSampleTemplate}"
+                          ItemsSource="{x:Bind Samples}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                          ScrollViewer.HorizontalScrollMode="Auto"
+                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                          ScrollViewer.VerticalScrollMode="Disabled"
+                          SelectionMode="None">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Margin="32,0"
+                                             Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Margin" Value="0,0,10,0" />
+                            <Setter Property="Padding" Value="5,6" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </controls:Expander>
+        </DataTemplate>
 
-  <controls:HamburgerMenu x:Name="HamburgerMenu"
-                          Foreground="{StaticResource Brush-Grey-04}"
-                          ItemClick="HamburgerMenu_OnItemClick"
-                          ItemTemplate="{StaticResource ButtonTemplate}"
-                          OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
-                          OptionsItemTemplate="{StaticResource OptionTemplate}"
-                          PaneBackground="{StaticResource Brush-Grey-02}">
-    <Grid x:Name="RootGrid"
-          Background="{StaticResource Brush-Grey-05}">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="2*" />
-        <ColumnDefinition />
-      </Grid.ColumnDefinitions>
-      <Grid.RowDefinitions>
-        <RowDefinition />
-        <RowDefinition Height="32" />
-      </Grid.RowDefinitions>
-      <Grid x:Name="DemoAreaGrid">
-        <StackPanel HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-          <TextBlock Margin="0,24,0,0"
-                     HorizontalAlignment="Center"
-                     VerticalAlignment="Center"
-                     FontSize="32"
-                     FontWeight="Light"
-                     Foreground="{StaticResource Brush-Grey-03}"
-                     Text="UWP Community Toolkit"
-                     TextWrapping="Wrap" />
-          <TextBlock Margin="0"
-                     HorizontalAlignment="Center"
-                     VerticalAlignment="Center"
-                     FontSize="18.667"
-                     FontWeight="Light"
-                     Foreground="{StaticResource Brush-Grey-03}"
-                     Text="Sample App" />
-        </StackPanel>
-        <Frame x:Name="NavigationFrame" />
-      </Grid>
-      <Grid x:Name="InfoAreaGrid"
-            Background="{StaticResource Brush-Grey-04}">
-        <Grid.RowDefinitions>
-          <RowDefinition Height="Auto" />
-          <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid Background="#FFCCCCCC">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-          </Grid.ColumnDefinitions>
-          <Button x:Name="ExpandButton"
-                  VerticalAlignment="Stretch"
-                  Click="ExpandButton_Click"
-                  FontFamily="Segoe MDL2 Assets" />
-          <TextBlock x:Name="Title"
-                     Grid.Column="1"
-                     Margin="12,6"
-                     HorizontalAlignment="Left"
-                     VerticalAlignment="Center"
-                     Foreground="{StaticResource Brush-Grey-01}"
-                     Text="" />
-        </Grid>
-        <Pivot x:Name="InfoAreaPivot"
-               Grid.Row="1"
-               HeaderTemplate="{StaticResource PivotHeaderTemplate}"
-               SelectionChanged="InfoAreaPivot_OnSelectionChanged">
-          <PivotItem x:Name="PropertiesPivotItem"
-                     Header="PROPERTIES">
-            <ScrollViewer>
-              <Grid>
+        <DataTemplate x:Key="VerticalOptionTemplate"
+                      x:DataType="local:Option">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="32" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="1"
+                           Margin="0,14"
+                           VerticalAlignment="Center"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           Foreground="White"
+                           Opacity="0.8"
+                           Text="{x:Bind Name}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="HorizontalOptionTemplate"
+                      x:DataType="local:Option">
+            <Grid>
+                <FontIcon Grid.Column="0"
+                          FontFamily="Segoe MDL2 Assets"
+                          FontSize="16"
+                          Foreground="Black"
+                          Glyph="{x:Bind Glyph}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="VerticalSampleTemplate"
+                      x:DataType="local:Sample">
+            <StackPanel Background="Transparent">
+                <Border Background="Black">
+                    <Image Width="120"
+                           Height="80"
+                           Source="{Binding Icon}" />
+                </Border>
+
+                <TextBlock Margin="0,10,0,12"
+                           FontSize="12"
+                           FontWeight="Light"
+                           Foreground="White"
+                           Text="{x:Bind Name}" />
+
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="HorizontalSampleTemplate"
+                      x:DataType="local:Sample">
+            <StackPanel Padding="16,24"
+                        Background="Transparent"
+                        PointerEntered="StackPanel_PointerEntered"
+                        PointerExited="StackPanel_PointerExited">
+                <Grid Width="120"
+                      Height="80">
+                    <controls:DropShadowPanel HorizontalContentAlignment="Stretch"
+                                          VerticalContentAlignment="Stretch"
+                                          BlurRadius="20"
+                                          ShadowOpacity="1"
+                                          Visibility="Collapsed">
+                        <Border></Border>
+                    </controls:DropShadowPanel>
+                    <Border Background="Black">
+                        <Image Source="{Binding Icon}" />
+                    </Border>
+                </Grid>
+
+                <TextBlock Margin="0,8,0,0"
+                           FontSize="12"
+                           FontWeight="Light"
+                           Foreground="Black"
+                           Text="{x:Bind Name}" />
+            </StackPanel>
+        </DataTemplate>
+
+    </Page.Resources>
+
+    <controls:HamburgerMenu x:Name="HamburgerMenu"
+                            ItemClick="HamburgerMenu_OnItemClick"
+                            ItemTemplate="{StaticResource HorizontalItemTemplate}"
+                            OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
+                            OptionsItemTemplate="{StaticResource VerticalOptionTemplate}"
+                            PaneBackground="{StaticResource Brush-Grey-02}"
+                            PaneForeground="White"
+                            Style="{StaticResource VerticalHamburgerMenu}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="0" /> <!-- TODO -->
+                <RowDefinition Height="152" />
+                <RowDefinition Height="304" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid x:Name="RootGrid"
+                  Grid.Row="2"
+                  Grid.RowSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition  Width="Auto"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="*" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controlsLocal:PropertyControl x:Name="Properties" />
-                <StackPanel x:Name="CommandArea"
-                            Grid.Row="1"
-                            HorizontalAlignment="Stretch"
-                            Orientation="Vertical" />
-              </Grid>
-            </ScrollViewer>
-          </PivotItem>
+                <Grid x:Name="DemoAreaGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Frame x:Name="NavigationFrame" >
+                        <Frame.ContentTransitions>
+                            <TransitionCollection>
+                                <NavigationThemeTransition>
+                                    <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                                        <DrillInNavigationTransitionInfo/>
+                                    </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                                </NavigationThemeTransition>
+                            </TransitionCollection>
+                        </Frame.ContentTransitions>
+                    </Frame>
+                    <controls:DropShadowPanel Grid.Row="1" Color="Black" ShadowOpacity="0.2" BlurRadius="40"
+                                              HorizontalContentAlignment="Stretch" Margin="8,0,8,8"
+                                              Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}">
+                        <Border Background="#FFFFFF">
+                        <ItemsControl ItemsSource="{x:Bind Commands}"
+                                      VerticalAlignment="Top"
+                                      HorizontalAlignment="Stretch"
+                                      Margin="10,10,0,0">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <controls:WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="common:SampleCommand">
+                                    <Button Content="{x:Bind Label}"
+                                            Margin="0, 0, 10, 10"
+                                            MinWidth="150"
+                                            FontSize="12"
+                                            Foreground="{StaticResource Brush-Grey-01}">
+                                        <interactivity:Interaction.Behaviors>
+                                            <core:EventTriggerBehavior EventName="Click">
+                                                <core:InvokeCommandAction Command="{x:Bind}" />
+                                            </core:EventTriggerBehavior>
+                                        </interactivity:Interaction.Behaviors>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                    </controls:DropShadowPanel>
 
-          <PivotItem x:Name="XamlPivotItem"
-                     Header="XAML">
-            <controlsLocal:CodeRenderer x:Name="XamlCodeRenderer"
-                                        Grid.Row="0" />
-          </PivotItem>
+                    
+                        <!--
+                        Uncomment this control to help you determine where the focus is.
+                        This could be useful when validating accessibility of your control
+                    -->
+                        <!--<developerTools:FocusTracker VerticalAlignment="Bottom"
+                                             HorizontalAlignment="Center"
+                                             IsRunning="True"/>-->
+                    </Grid>
+                <Grid x:Name="InfoAreaGrid"
+                      Background="{StaticResource Brush-Grey-04}"
+                      Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid Background="#FFCCCCCC">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="ExpandButton"
+                                VerticalAlignment="Stretch"
+                                Click="ExpandButton_Click"
+                                FontFamily="Segoe MDL2 Assets" />
+                        <TextBlock x:Name="Title"
+                                   Grid.Column="1"
+                                   Margin="12,6"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Tapped="PivotTitle_Tapped"
+                                   Foreground="{StaticResource Brush-Grey-01}"
+                                   Text="" />
+                        <HyperlinkButton x:Name="GitHub"
+                                         Grid.Column="2"
+                                         Margin="0,0,10,0"
+                                         Click="GitHub_OnClick"
+                                         Content="Github"
+                                         Foreground="{ThemeResource TextBoxPlaceholderTextThemeBrush}" />
+                    </Grid>
+                    <Pivot x:Name="InfoAreaPivot"
+                           Grid.Row="1"
+                           HeaderTemplate="{StaticResource PivotHeaderTemplate}"
+                           SelectionChanged="InfoAreaPivot_OnSelectionChanged">
+                        <PivotItem x:Name="PropertiesPivotItem"
+                                   Header="PROPERTIES">
+                                <ScrollViewer>
+                                    <controlsLocal:PropertyControl x:Name="Properties" />
+                                </ScrollViewer>
+                            </PivotItem>
 
-          <PivotItem x:Name="CSharpPivotItem"
-                     Header="CODE">
-            <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer"
-                                        Grid.Row="0" />
-          </PivotItem>
+                    <PivotItem x:Name="XamlPivotItem"
+                               Header="XAML">
+                        <monaco:CodeEditor x:Name="XamlCodeRenderer"
+                                           KeyDown="XamlCodeRenderer_KeyDown"
+                                           Loading="XamlCodeRenderer_Loading"/>
+                    </PivotItem>
 
-          <PivotItem x:Name="JavaScriptPivotItem"
-                     Header="JAVASCRIPT">
-            <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer"
-                                        Grid.Row="0" />
-          </PivotItem>
-        </Pivot>
+                    <PivotItem x:Name="XamlReadOnlyPivotItem"
+                               Header="XAML">
+                        <controlsLocal:CodeRenderer x:Name="XamlReadOnlyCodeRenderer" />
+                    </PivotItem>    
+                        
+                    <PivotItem x:Name="CSharpPivotItem"
+                               Header="CODE">
+                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer"
+                                                    IsFocusEngagementEnabled="False" />
+                    </PivotItem>
 
-        <controls:GridSplitter x:Name="Splitter"
-                               Grid.Row="1"
-                               Width="11"
-                               HorizontalAlignment="Left"
-                               Background="{StaticResource Brush-Grey-04}"
-                               GripperForeground="White"
-                               ParentLevel="1" />
-      </Grid>
-      <Grid x:Name="waitRing"
-            Grid.RowSpan="2"
-            Grid.ColumnSpan="2"
-            Visibility="Collapsed">
-        <Rectangle Fill="Black"
-                   Opacity="0.2" />
-        <ProgressRing Width="100"
-                      Height="100"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"
-                      Foreground="{StaticResource ApplicationForegroundThemeBrush}"
-                      IsActive="True" />
-      </Grid>
-    </Grid>
+                    <PivotItem x:Name="JavaScriptPivotItem"
+                               Header="JAVASCRIPT">
+                        <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
+                    </PivotItem>
 
-    <VisualStateManager.VisualStateGroups>
-      <VisualStateGroup x:Name="WindowStates">
-        <VisualState x:Name="NarrowState">
-          <VisualState.StateTriggers>
-            <AdaptiveTrigger MinWindowWidth="0" />
-          </VisualState.StateTriggers>
-          <VisualState.Setters>
-            <Setter Target="InfoAreaGrid.(Grid.Row)" Value="1" />
-            <Setter Target="InfoAreaGrid.(Grid.Column)" Value="0" />
-            <Setter Target="InfoAreaGrid.(Grid.RowSpan)" Value="1" />
-            <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="2" />
+                    <PivotItem x:Name="DocumentationPivotItem"
+                               Header="DOCUMENTATION">
+                        <ScrollViewer x:Name="DocumentationScrollViewer"
+                                      Padding="10,5"
+                                      Background="{StaticResource Brush-White}">
+                            <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
+                                                        Foreground="{StaticResource Brush-Grey-01}"
+                                                        ImageResolving="DocumentationTextblock_ImageResolving"
+                                                        LinkClicked="DocumentationTextblock_OnLinkClicked" 
+                                                        IsFocusEngagementEnabled="False" />
+                        </ScrollViewer>
+                    </PivotItem>
+                </Pivot>
 
-            <Setter Target="DemoAreaGrid.(Grid.Row)" Value="0" />
-            <Setter Target="DemoAreaGrid.(Grid.Column)" Value="0" />
-            <Setter Target="DemoAreaGrid.(Grid.RowSpan)" Value="1" />
-            <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="2" />
+                <controls:GridSplitter x:Name="Splitter"
+                                       Grid.Row="1"
+                                       Width="11"
+                                       HorizontalAlignment="Left"
+                                       Background="{StaticResource Brush-Grey-04}"
+                                       GripperForeground="White"
+                                       ParentLevel="1" />
+                </Grid>
+                <controls:InAppNotification x:Name="ExceptionNotification"
+                                            Grid.RowSpan="2"
+                                            Style="{StaticResource ExceptionNotification}"
+                                            Grid.ColumnSpan="2"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Center"
+                                            Margin="15"></controls:InAppNotification>
+                <Grid x:Name="waitRing"
+                      Grid.RowSpan="2"
+                      Grid.ColumnSpan="2"
+                      Visibility="Collapsed">
+                    <Rectangle Fill="Black"
+                               Opacity="0.2" />
+                    <ProgressRing Width="100"
+                                  Height="100"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Foreground="{StaticResource ApplicationForegroundThemeBrush}"
+                                  IsActive="True" />
+                </Grid>
+            </Grid>
 
-            <Setter Target="ExpandButton.Content" Value="" />
+            <Border x:Name="ContentShadow"
+                    Grid.RowSpan="5"
+                    Tapped="ContentShadow_Tapped"
+                    Background="Black"
+                    Opacity="0.2"
+                    Visibility="{Binding Visibility, ElementName=SamplePickerGrid}">
+            </Border>
 
-            <Setter Target="Splitter.Visibility" Value="Collapsed" />
-          </VisualState.Setters>
-        </VisualState>
-        <VisualState x:Name="MediumState">
-          <VisualState.StateTriggers>
-            <AdaptiveTrigger MinWindowWidth="600" />
-          </VisualState.StateTriggers>
-          <VisualState.Setters>
-            <Setter Target="InfoAreaGrid.(Grid.Row)" Value="1" />
-            <Setter Target="InfoAreaGrid.(Grid.Column)" Value="0" />
-            <Setter Target="InfoAreaGrid.(Grid.RowSpan)" Value="1" />
-            <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="2" />
+            <Grid Grid.Row="3"
+                  IsHitTestVisible="False">
+                <Grid x:Name="SamplePickerDetailsGrid"
+                      Height="304"
+                      Visibility="Collapsed">
+                    <Border Background="#F3F3F3"
+                        Opacity="0.96">
+                        <interactivity:Interaction.Behaviors>
+                            <behaviors:Blur AutomaticallyStart="True"
+                                        Delay="0"
+                                        Value="3"
+                                        Duration="0" />
+                        </interactivity:Interaction.Behaviors>
+                    </Border>
+                    <Border x:Name="SamplePickerDetailsGridContent"
+                            BorderThickness="0,0,0,1"
+                            BorderBrush="#48000000">
+                        <Grid Width="700"
+                      Height="192"
+                      VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="72" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0"
+                            Margin="0,0,12,0"
+                            VerticalAlignment="Stretch"
+                            Background="Black">
+                                <Image Width="120"
+                               Height="120"
+                               Source="{Binding Icon}" />
+                            </Border>
+                            <Grid Grid.Column="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="16" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock VerticalAlignment="Top"
+                                   FontSize="48"
+                                   FontWeight="Normal"
+                                   Foreground="Black"
+                                   Text="{Binding Name}"
+                                   TextTrimming="CharacterEllipsis" />
+                                <TextBlock Grid.Row="2"
+                                   VerticalAlignment="Top"
+                                   CharacterSpacing="30"
+                                   FontSize="15"
+                                   Foreground="Black"
+                                   LineHeight="22"
+                                   Text="{Binding About}"
+                                   TextWrapping="Wrap" />
+                                <Grid Grid.Row="3"
+                              Margin="0,16,0,0"
+                              Background="{StaticResource Brush-Blue-01}"
+                              Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
+                                    <TextBlock Margin="0,2,0,2"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Bottom"
+                                       Foreground="White"
+                                       Text="{Binding BadgeUpdateVersionRequired}" />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
 
-            <Setter Target="DemoAreaGrid.(Grid.Row)" Value="0" />
-            <Setter Target="DemoAreaGrid.(Grid.Column)" Value="0" />
-            <Setter Target="DemoAreaGrid.(Grid.RowSpan)" Value="1" />
-            <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="2" />
+            <Grid x:Name="SamplePickerGrid"
+                  Grid.Row="2"
+                  Height="152"
+                  Visibility="Collapsed">
+                <Border Background="#F3F3F3"
+                        Opacity="0.96">
+                    <interactivity:Interaction.Behaviors>
+                        <behaviors:Blur AutomaticallyStart="True"
+                                        Delay="0"
+                                        Value="3"
+                                        Duration="0" />
+                    </interactivity:Interaction.Behaviors>
+                </Border>
+                <ListView x:Name="SamplePickerListView"
+                          IsItemClickEnabled="True"
+                          local:ListViewHoverScroll.IsEnabled="True"
+                          ItemClick="SamplePickerListView_ItemClick"
+                          ContainerContentChanging="SamplePickerListView_ContainerContentChanging"
+                          ChoosingItemContainer="SamplePickerListView_ChoosingItemContainer"
+                          ItemContainerStyle="{StaticResource SecondaryHambugerMenuItemStyle}"
+                          ItemTemplate="{StaticResource HorizontalSampleTemplate}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                          ScrollViewer.HorizontalScrollMode="Auto"
+                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                          ScrollViewer.VerticalScrollMode="Disabled"
+                          SelectionMode="Single">
+                    <ListView.ItemContainerTransitions>
+                        <TransitionCollection />
+                    </ListView.ItemContainerTransitions>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
+            </Grid>
 
-            <Setter Target="ExpandButton.Content" Value="" />
+            <controls:DropShadowPanel x:Name="TitleGrid"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      BlurRadius="10"
+                                      OffsetY="3"
+                                      ShadowOpacity="0.4"
+                                      Visibility="Collapsed">
+                <Grid Height="48"
+                      Background="White">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="HamburgerButton"
+                        Width="48"
+                        Height="48"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="Main button"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="HamburgerButtonClicked"
+                        TabIndex="0">
+                        <FontIcon Margin="16"
+                              FontFamily="Segoe MDL2 Assets"
+                              FontSize="16"
+                              Foreground="Black"
+                              Glyph="&#xE700;" />
+                    </Button>
+                    <TextBlock x:Name="TitleTextBlock"
+                           Grid.Column="1"
+                           VerticalAlignment="Center"
+                           FontFamily="Segoe UI"
+                           FontSize="15px"
+                           FontWeight="SemiBold" />
+                </Grid>
+            </controls:DropShadowPanel>
+        </Grid>
 
-            <Setter Target="Splitter.Visibility" Value="Collapsed" />
-          </VisualState.Setters>
-        </VisualState>
-        <VisualState x:Name="WideState">
-          <VisualState.StateTriggers>
-            <AdaptiveTrigger MinWindowWidth="1200" />
-          </VisualState.StateTriggers>
-          <VisualState.Setters>
-            <Setter Target="InfoAreaGrid.(Grid.Row)" Value="0" />
-            <Setter Target="InfoAreaGrid.(Grid.Column)" Value="1" />
-            <Setter Target="InfoAreaGrid.(Grid.RowSpan)" Value="2" />
-            <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="1" />
 
-            <Setter Target="DemoAreaGrid.(Grid.Row)" Value="0" />
-            <Setter Target="DemoAreaGrid.(Grid.Column)" Value="0" />
-            <Setter Target="DemoAreaGrid.(Grid.RowSpan)" Value="2" />
-            <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="1" />
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="InfoAreaGrid.(Grid.Row)" Value="1" />
+                        <Setter Target="InfoAreaGrid.(Grid.Column)" Value="0" />
+                        <Setter Target="InfoAreaGrid.(Grid.RowSpan)" Value="1" />
+                        <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="2" />
 
-            <Setter Target="ExpandButton.Content" Value="" />
+                        <Setter Target="DemoAreaGrid.(Grid.Row)" Value="0" />
+                        <Setter Target="DemoAreaGrid.(Grid.Column)" Value="0" />
+                        <Setter Target="DemoAreaGrid.(Grid.RowSpan)" Value="1" />
+                        <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="2" />
 
-            <Setter Target="Splitter.Visibility" Value="Visible" />
-          </VisualState.Setters>
+                        <Setter Target="ExpandButton.Content" Value="" />
 
-        </VisualState>
-      </VisualStateGroup>
-    </VisualStateManager.VisualStateGroups>
-  </controls:HamburgerMenu>
+                        <Setter Target="Splitter.Visibility" Value="Collapsed" />
+
+                        <Setter Target="HamburgerMenu.Style" Value="{StaticResource VerticalHamburgerMenu}" />
+                        <Setter Target="HamburgerMenu.ItemTemplate" Value="{StaticResource VerticalItemTemplate}" />
+                        <Setter Target="HamburgerMenu.OptionsItemTemplate" Value="{StaticResource VerticalOptionTemplate}" />
+                        <Setter Target="HamburgerMenu.IsPaneOpen" Value="False" />
+
+                        <Setter Target="TitleGrid.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="700" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="InfoAreaGrid.(Grid.Row)" Value="0" />
+                        <Setter Target="InfoAreaGrid.(Grid.Column)" Value="1" />
+                        <Setter Target="InfoAreaGrid.(Grid.RowSpan)" Value="2" />
+                        <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="1" />
+
+                        <Setter Target="DemoAreaGrid.(Grid.Row)" Value="0" />
+                        <Setter Target="DemoAreaGrid.(Grid.Column)" Value="0" />
+                        <Setter Target="DemoAreaGrid.(Grid.RowSpan)" Value="2" />
+                        <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="1" />
+
+                        <Setter Target="ExpandButton.Content" Value="" />
+
+                        <Setter Target="Splitter.Visibility" Value="Visible" />
+
+                        <Setter Target="HamburgerMenu.Style" Value="{StaticResource HorizontalHamburgerMenu}" />
+                        <Setter Target="HamburgerMenu.ItemTemplate" Value="{StaticResource HorizontalItemTemplate}" />
+                        <Setter Target="HamburgerMenu.OptionsItemTemplate" Value="{StaticResource HorizontalOptionTemplate}" />
+                        <Setter Target="HamburgerMenu.PaneBackground" Value="White" />
+                        <Setter Target="HamburgerMenu.PaneForeground" Value="Black" />
+
+                        <Setter Target="TitleGrid.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </controls:HamburgerMenu>
 </Page>

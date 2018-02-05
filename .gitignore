@@ -214,3 +214,12 @@ BundleArtifacts
 !/build
 /build/tools/GitVersion.CommandLine
 AppPackages
+
+# NuGet V3 artifacts
+*-packages.config
+*.nuget.props
+*.nuget.targets
+project.lock.json
+msbuild.binlog
+*.project.lock.json
+/build/tools

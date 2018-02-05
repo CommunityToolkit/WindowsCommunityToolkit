@@ -1,0 +1,12 @@
+// How to download .md content from the web and display it
+
+using (var request = new HttpHelperRequest(new Uri("https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/githubresources/content/links.md")))
+{
+  using (var response = await HttpHelper.Instance.SendRequestAsync(request))
+  {
+    if (response.Success)
+    {
+      MarkdownTextBlockTextblock.Text = await response.Content.ReadAsStringAsync();
+    }
+  }
+}

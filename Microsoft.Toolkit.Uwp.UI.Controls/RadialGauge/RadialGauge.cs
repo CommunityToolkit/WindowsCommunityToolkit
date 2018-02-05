@@ -14,8 +14,10 @@ using System;
 using System.Numerics;
 using Windows.ApplicationModel;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Composition;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -53,7 +55,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty StepSizeProperty =
             DependencyProperty.Register(nameof(StepSize), typeof(double), typeof(RadialGauge), new PropertyMetadata(0.0));
 
-        // Identifies the IsInteractive dependency property.
+        /// <summary>
+        /// Identifies the <see cref="IsInteractive"/> property.
+        /// </summary>
         public static readonly DependencyProperty IsInteractiveProperty =
             DependencyProperty.Register(nameof(IsInteractive), typeof(bool), typeof(RadialGauge), new PropertyMetadata(false, OnInteractivityChanged));
 
@@ -192,6 +196,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // For convenience.
         private const double Degrees2Radians = Math.PI / 180;
 
+        private double _normalizedMinAngle;
+        private double _normalizedMaxAngle;
+
         private Compositor _compositor;
         private ContainerVisual _root;
         private SpriteVisual _needle;
@@ -203,6 +210,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public RadialGauge()
         {
             DefaultStyleKey = typeof(RadialGauge);
+
+            KeyDown += RadialGauge_KeyDown;
+        }
+
+        private void RadialGauge_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            var step = 1;
+            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+            if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
+            {
+                step = 5;
+            }
+
+            if (e.Key == VirtualKey.Left)
+            {
+                Value = Math.Max(Minimum, Value - step);
+                e.Handled = true;
+                return;
+            }
+
+            if (e.Key == VirtualKey.Right)
+            {
+                Value = Math.Min(Maximum, Value + step);
+                e.Handled = true;
+            }
         }
 
         /// <summary>
@@ -404,7 +436,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the start angle of the scale, which corresponds with the Minimum value, in degrees. It's typically on the left hand side of the control. The proposed value range is from -180 (bottom) to 0° (top).
+        /// Gets or sets the start angle of the scale, which corresponds with the Minimum value, in degrees.
         /// </summary>
         /// <remarks>Changing MinAngle may require retemplating the control.</remarks>
         public int MinAngle
@@ -414,7 +446,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the end angle of the scale, which corresponds with the Maximum value, in degrees. It 's typically on the right hand side of the control. The proposed value range is from 0° (top) to 180° (bottom).
+        /// Gets or sets the end angle of the scale, which corresponds with the Maximum value, in degrees.
         /// </summary>
         /// <remarks>Changing MaxAngle may require retemplating the control.</remarks>
         public int MaxAngle
@@ -433,10 +465,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets the normalized minimum angle.
+        /// </summary>
+        /// <value>The minimum angle in the range from -180 to 180.</value>
+        protected double NormalizedMinAngle => _normalizedMinAngle;
+
+        /// <summary>
+        /// Gets the normalized maximum angle.
+        /// </summary>
+        /// <value>The maximum angle, in the range from -180 to 540.</value>
+        protected double NormalizedMaxAngle => _normalizedMaxAngle;
+
+        /// <summary>
         /// Update the visual state of the control when its template is changed.
         /// </summary>
         protected override void OnApplyTemplate()
         {
+            PointerReleased += RadialGauge_PointerReleased;
             OnScaleChanged(this);
 
             base.OnApplyTemplate();
@@ -471,11 +516,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var trail = radialGauge.GetTemplateChild(TrailPartName) as Path;
                 if (trail != null)
                 {
-                    if (radialGauge.ValueAngle > radialGauge.MinAngle)
+                    if (radialGauge.ValueAngle > radialGauge.NormalizedMinAngle)
                     {
                         trail.Visibility = Visibility.Visible;
 
-                        if (radialGauge.ValueAngle - radialGauge.MinAngle == 360)
+                        if (radialGauge.ValueAngle - radialGauge.NormalizedMinAngle == 360)
                         {
                             // Draw full circle.
                             var eg = new EllipseGeometry();
@@ -490,12 +535,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             var pg = new PathGeometry();
                             var pf = new PathFigure();
                             pf.IsClosed = false;
-                            pf.StartPoint = radialGauge.ScalePoint(radialGauge.MinAngle, middleOfScale);
+                            pf.StartPoint = radialGauge.ScalePoint(radialGauge.NormalizedMinAngle, middleOfScale);
                             var seg = new ArcSegment();
                             seg.SweepDirection = SweepDirection.Clockwise;
-                            seg.IsLargeArc = radialGauge.ValueAngle > (180 + radialGauge.MinAngle);
+                            seg.IsLargeArc = radialGauge.ValueAngle > (180 + radialGauge.NormalizedMinAngle);
                             seg.Size = new Size(middleOfScale, middleOfScale);
-                            seg.Point = radialGauge.ScalePoint(Math.Min(radialGauge.ValueAngle, radialGauge.MaxAngle), middleOfScale);  // On overflow, stop trail at MaxAngle.
+                            seg.Point = radialGauge.ScalePoint(Math.Min(radialGauge.ValueAngle, radialGauge.NormalizedMaxAngle), middleOfScale);  // On overflow, stop trail at MaxAngle.
                             pf.Segments.Add(seg);
                             pg.Figures.Add(pf);
                             trail.Data = pg;
@@ -542,10 +587,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             RadialGauge radialGauge = (RadialGauge)d;
 
+            radialGauge.UpdateNormalizedAngles();
+
             var scale = radialGauge.GetTemplateChild(ScalePartName) as Path;
             if (scale != null)
             {
-                if (radialGauge.MaxAngle - radialGauge.MinAngle == 360)
+                if (radialGauge.NormalizedMaxAngle - radialGauge.NormalizedMinAngle == 360)
                 {
                     // Draw full circle.
                     var eg = new EllipseGeometry();
@@ -561,24 +608,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var pf = new PathFigure();
                     pf.IsClosed = false;
                     var middleOfScale = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
-                    pf.StartPoint = radialGauge.ScalePoint(radialGauge.MinAngle, middleOfScale);
+                    pf.StartPoint = radialGauge.ScalePoint(radialGauge.NormalizedMinAngle, middleOfScale);
                     var seg = new ArcSegment();
                     seg.SweepDirection = SweepDirection.Clockwise;
-                    seg.IsLargeArc = radialGauge.MaxAngle > (radialGauge.MinAngle + 180);
+                    seg.IsLargeArc = radialGauge.NormalizedMaxAngle > (radialGauge.NormalizedMinAngle + 180);
                     seg.Size = new Size(middleOfScale, middleOfScale);
-                    seg.Point = radialGauge.ScalePoint(radialGauge.MaxAngle, middleOfScale);
+                    seg.Point = radialGauge.ScalePoint(radialGauge.NormalizedMaxAngle, middleOfScale);
                     pf.Segments.Add(seg);
                     pg.Figures.Add(pf);
                     scale.Data = pg;
                 }
 
-                OnFaceChanged(radialGauge);
+                if (!ControlHelpers.IsRunningInLegacyDesignerMode)
+                {
+                    OnFaceChanged(radialGauge);
+                }
             }
         }
 
         private static void OnFaceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            OnFaceChanged(d);
+            if (!ControlHelpers.IsRunningInLegacyDesignerMode)
+            {
+                OnFaceChanged(d);
+            }
         }
 
         private static void OnFaceChanged(DependencyObject d)
@@ -586,7 +639,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RadialGauge radialGauge = (RadialGauge)d;
 
             var container = radialGauge.GetTemplateChild(ContainerPartName) as Grid;
-            if (container == null || DesignMode.DesignModeEnabled)
+            if (container == null || ControlHelpers.IsRunningInLegacyDesignerMode)
             {
                 // Bad template.
                 return;
@@ -642,12 +695,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetGaugeValueFromPoint(e.GetPosition(this));
         }
 
+        private void RadialGauge_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            if (IsInteractive)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void UpdateNormalizedAngles()
+        {
+            var result = Mod(MinAngle, 360);
+
+            if (result >= 180)
+            {
+                result = result - 360;
+            }
+
+            _normalizedMinAngle = result;
+
+            result = Mod(MaxAngle, 360);
+
+            if (result < 180)
+            {
+                result = result + 360;
+            }
+
+            if (result > NormalizedMinAngle + 360)
+            {
+                result = result - 360;
+            }
+
+            _normalizedMaxAngle = result;
+        }
+
         private void SetGaugeValueFromPoint(Point p)
         {
             var pt = new Point(p.X - (ActualWidth / 2), -p.Y + (ActualHeight / 2));
 
-            var angle = Math.Atan2(pt.X, pt.Y) * 180 / Math.PI;
-            var value = Minimum + ((Maximum - Minimum) * (angle - MinAngle) / (MaxAngle - MinAngle));
+            var angle = Math.Atan2(pt.X, pt.Y) / Degrees2Radians;
+            var divider = Mod(NormalizedMaxAngle - NormalizedMinAngle, 360);
+            if (divider == 0)
+            {
+                divider = 360;
+            }
+
+            var value = Minimum + ((Maximum - Minimum) * Mod(angle - NormalizedMinAngle, 360) / divider);
             if (value < Minimum || value > Maximum)
             {
                 // Ignore positions outside the scale angle.
@@ -667,16 +760,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Off-scale on the left.
             if (value < Minimum)
             {
-                return MinAngle - 7.5;
+                return MinAngle;
             }
 
             // Off-scale on the right.
             if (value > Maximum)
             {
-                return MaxAngle + 7.5;
+                return MaxAngle;
             }
 
-            return ((value - Minimum) / (Maximum - Minimum) * (MaxAngle - MinAngle)) + MinAngle;
+            return ((value - Minimum) / (Maximum - Minimum) * (NormalizedMaxAngle - NormalizedMinAngle)) + NormalizedMinAngle;
+        }
+
+        private double Mod(double number, double divider)
+        {
+            var result = number % divider;
+            result = result < 0 ? result + divider : result;
+            return result;
         }
 
         private double RoundToMultiple(double number, double multiple)

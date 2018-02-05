@@ -10,8 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.UI;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -22,9 +24,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class DropShadowPanel
     {
-        public static bool IsShadowSupported =>
-            ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
-
         /// <summary>
         /// Identifies the <see cref="BlurRadius"/> dependency property.
         /// </summary>
@@ -60,6 +59,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty ShadowOpacityProperty =
             DependencyProperty.Register(nameof(ShadowOpacity), typeof(double), typeof(DropShadowPanel), new PropertyMetadata(1.0, OnShadowOpacityChanged));
+
+        /// <summary>
+        /// Gets a value indicating whether the platform supports drop shadows.
+        /// </summary>
+        /// <remarks>
+        /// On platforms not supporting drop shadows, this control has no effect.
+        /// </remarks>
+        public static bool IsSupported =>
+            (!ControlHelpers.IsRunningInLegacyDesignerMode) && ApiInformation.IsTypePresent("Windows.UI.Composition.DropShadow"); // SDK >= 14393
+
+        /// <summary>
+         /// Gets DropShadow. Exposes the underlying composition object to allow custom Windows.UI.Composition animations.
+         /// </summary>
+        public DropShadow DropShadow => _dropShadow;
+
+        /// <summary>
+        /// Gets or sets the mask of the underlying <see cref="Windows.UI.Composition.DropShadow"/>.
+        /// Allows for a custom <see cref="Windows.UI.Composition.CompositionBrush"/> to be set.
+        /// </summary>
+        public CompositionBrush Mask
+        {
+            get
+            {
+                return _dropShadow?.Mask;
+            }
+
+            set
+            {
+                if (_dropShadow != null)
+                {
+                    _dropShadow.Mask = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the blur radius of the drop shadow.
@@ -159,49 +192,55 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnBlurRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsShadowSupported)
+            if (IsSupported)
             {
-                ((DropShadowPanel)d).OnBlurRadiusChanged((double)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnBlurRadiusChanged((double)e.NewValue);
             }
         }
 
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsShadowSupported)
+            if (IsSupported)
             {
-                ((DropShadowPanel)d).OnColorChanged((Color)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnColorChanged((Color)e.NewValue);
             }
         }
 
         private static void OnOffsetXChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsShadowSupported)
+            if (IsSupported)
             {
-                ((DropShadowPanel)d).OnOffsetXChanged((double)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnOffsetXChanged((double)e.NewValue);
             }
         }
 
         private static void OnOffsetYChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsShadowSupported)
+            if (IsSupported)
             {
-                ((DropShadowPanel)d).OnOffsetYChanged((double)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnOffsetYChanged((double)e.NewValue);
             }
         }
 
         private static void OnOffsetZChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsShadowSupported)
+            if (IsSupported)
             {
-                ((DropShadowPanel)d).OnOffsetZChanged((double)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnOffsetZChanged((double)e.NewValue);
             }
         }
 
         private static void OnShadowOpacityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (IsShadowSupported)
+            if (IsSupported)
             {
-                ((DropShadowPanel)d).OnShadowOpacityChanged((double)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnShadowOpacityChanged((double)e.NewValue);
             }
         }
     }

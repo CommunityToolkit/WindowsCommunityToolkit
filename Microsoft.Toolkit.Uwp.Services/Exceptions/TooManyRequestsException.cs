@@ -17,35 +17,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Exceptions
     /// <summary>
     /// Exception for too many requests.
     /// </summary>
-    public class TooManyRequestsException : Exception
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
+    public class TooManyRequestsException : Toolkit.Services.Exceptions.TooManyRequestsException
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TooManyRequestsException"/> class.
-        /// Default constructor.
-        /// </summary>
-        public TooManyRequestsException()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TooManyRequestsException"/> class.
-        /// Constructor with additional message.
-        /// </summary>
-        /// <param name="message">Additional message.</param>
-        public TooManyRequestsException(string message)
-            : base(message)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TooManyRequestsException"/> class.
-        /// Constructor with additional message and reference to inner exception.
-        /// </summary>
-        /// <param name="message">Additional message.</param>
-        /// <param name="innerException">Reference to inner exception.</param>
-        public TooManyRequestsException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
     }
 }

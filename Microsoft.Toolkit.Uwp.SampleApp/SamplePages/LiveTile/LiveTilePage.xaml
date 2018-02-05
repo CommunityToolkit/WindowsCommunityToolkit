@@ -2,51 +2,50 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="using:Microsoft.Toolkit.UwpSampleApp.SamplePages.Notifications.WeatherLiveTile"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:visualizer="using:NotificationsVisualizerLibrary"
       mc:Ignorable="d">
 
-  <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <StackPanel>
+    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel>
 
-      <Button x:Name="ButtonPinTile"
-              Margin="20,20,20,0"
-              HorizontalAlignment="Stretch"
-              Click="ButtonPinTile_Click"
-              Content="Pin Tile" />
+            <Button x:Name="ButtonPinTile"
+                    Margin="20,20,20,0"
+                    HorizontalAlignment="Stretch"
+                    Click="ButtonPinTile_Click"
+                    Content="Pin Tile" />
 
-      <RichTextBlock Margin="20,10,20,0"
-                     Foreground="{StaticResource Brush-Grey-03}">
-        <Paragraph>Click the button to pin a secondary tile and send a notification to the tile, displaying rich visual content. The previews below show you what the tile will look like when you pin it.</Paragraph>
-        <Paragraph />
-        <Paragraph FontSize="12">
-          Check out
-          <Hyperlink NavigateUri="http://www.microsoft.com/en-us/store/apps/notifications-visualizer/9nblggh5xsl1">Notifications Visualizer</Hyperlink>
-          to learn more about Tile notifications.
-        </Paragraph>
-      </RichTextBlock>
+            <RichTextBlock Margin="20,10,20,0"
+                           Foreground="{StaticResource Brush-Grey-03}">
+                <Paragraph>Click the button to pin a secondary tile and send a notification to the tile, displaying rich visual content. The previews below show you what the tile will look like when you pin it.</Paragraph>
+                <Paragraph />
+                <Paragraph FontSize="12">
+                    Check out
+                    <Hyperlink NavigateUri="http://www.microsoft.com/en-us/store/apps/notifications-visualizer/9nblggh5xsl1">Notifications Visualizer</Hyperlink>
+                    to learn more about Tile notifications.
+                </Paragraph>
+            </RichTextBlock>
 
-      <StackPanel Margin="18">
-        <StackPanel.Resources>
-          <Style TargetType="visualizer:PreviewTile">
-            <Setter Property="Margin" Value="2" />
-          </Style>
-        </StackPanel.Resources>
+            <StackPanel Margin="18">
+                <StackPanel.Resources>
+                    <Style TargetType="visualizer:PreviewTile">
+                        <Setter Property="Margin" Value="2" />
+                    </Style>
+                </StackPanel.Resources>
 
-        <visualizer:PreviewTile x:Name="MediumPreviewTile"
-                                IsAnimationEnabled="False"
-                                TileSize="Medium" />
+                <visualizer:PreviewTile x:Name="MediumPreviewTile"
+                                        IsAnimationEnabled="False"
+                                        TileSize="Medium" />
 
-        <visualizer:PreviewTile x:Name="WidePreviewTile"
-                                IsAnimationEnabled="False"
-                                TileSize="Wide" />
+                <visualizer:PreviewTile x:Name="WidePreviewTile"
+                                        IsAnimationEnabled="False"
+                                        TileSize="Wide" />
 
-        <visualizer:PreviewTile x:Name="LargePreviewTile"
-                                IsAnimationEnabled="False"
-                                TileSize="Large" />
+                <visualizer:PreviewTile x:Name="LargePreviewTile"
+                                        IsAnimationEnabled="False"
+                                        TileSize="Large" />
 
-      </StackPanel>
-    </StackPanel>
-  </ScrollViewer>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
 </Page>

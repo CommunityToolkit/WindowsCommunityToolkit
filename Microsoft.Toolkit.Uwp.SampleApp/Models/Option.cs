@@ -21,5 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public string Name { get; set; }
 
         public Type PageType { get; set; }
+
+        public SampleCategory Tag { get; set; }
     }
 }

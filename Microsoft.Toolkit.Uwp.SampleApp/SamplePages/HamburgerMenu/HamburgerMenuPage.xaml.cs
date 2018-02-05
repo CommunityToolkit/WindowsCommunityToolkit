@@ -11,36 +11,42 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class HamburgerMenuPage
+    public sealed partial class HamburgerMenuPage : IXamlRenderListener
     {
+        private HamburgerMenu hamburgerMenuControl;
+        private Grid contentGrid;
+
         public HamburgerMenuPage()
         {
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        public void OnXamlRendered(FrameworkElement control)
         {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
+            contentGrid = control.FindChildByName("ContentGrid") as Grid;
+            hamburgerMenuControl = control.FindDescendantByName("HamburgerMenu") as HamburgerMenu;
+            if (hamburgerMenuControl != null)
             {
-                DataContext = propertyDesc.Expando;
+                hamburgerMenuControl.ItemClick += HamburgerMenu_OnItemClick;
+                hamburgerMenuControl.OptionsItemClick += HamburgerMenu_OnOptionsItemClick;
             }
         }
 
         private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            ContentGrid.DataContext = e.ClickedItem;
+            if (contentGrid != null)
+            {
+                contentGrid.DataContext = e.ClickedItem;
+            }
         }
 
         private async void HamburgerMenu_OnOptionsItemClick(object sender, ItemClickEventArgs e)

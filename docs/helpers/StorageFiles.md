@@ -1,3 +1,11 @@
+---
+title: StorageFileHelper
+author: nmetulev
+ms.date: 08/20/2017
+description: The StorageFileHelper is a static utility class that provides functions to help with reading and writing of text and bytes to the disk.  These functions are all wrapped into Async tasks.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, StorageFileHelper
+---
+
 # StorageFileHelper
 
 The StorageFileHelper is a static utility class that provides functions to help with reading and writing of text and bytes to the disk.  These functions are all wrapped into Async tasks.
@@ -29,13 +37,19 @@ The StorageFileHelper is a static utility class that provides functions to help 
 	// Check if a file exists in a specific folder or in one of its subfolders
 	bool exists = await localFolder.FileExistsAsync("appFilename.txt", true);
 
+	// Check if a file name is valid or not
+	bool isFileNameValid = StorageFileHelper.IsFileNameValid("appFilename.txt");
+
+	// Check if a file path is valid or not
+	bool isFilePathValid = StorageFileHelper.IsFilePathValid("folder/appFilename.txt");
+
 ```
 
 You can find more examples in our [unit tests](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/UnitTests/Helpers/Test_StorageFileHelper.cs)
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
 

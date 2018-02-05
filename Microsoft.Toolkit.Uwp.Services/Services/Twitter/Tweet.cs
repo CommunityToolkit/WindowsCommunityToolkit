@@ -19,13 +19,19 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// <summary>
     /// Twitter Timeline item.
     /// </summary>
-    public class Tweet : SchemaBase
+    public class Tweet : Toolkit.Services.SchemaBase, ITwitterResult
     {
         /// <summary>
         /// Gets or sets time item was created.
         /// </summary>
         [JsonProperty("created_at")]
         public string CreatedAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the geographic data (latitude and longitude)
+        /// </summary>
+        [JsonProperty("geo")]
+        public TwitterGeoData GeoData { get; set; }
 
         /// <summary>
         /// Gets or sets item Id.
@@ -44,6 +50,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         [JsonProperty("user")]
         public TwitterUser User { get; set; }
+
+        /// <summary>
+        /// Gets or sets attached content of the tweet
+        /// </summary>
+        [JsonProperty("entities")]
+        public TwitterEntities Entities { get; set; }
 
         /// <summary>
         /// Gets the creation date

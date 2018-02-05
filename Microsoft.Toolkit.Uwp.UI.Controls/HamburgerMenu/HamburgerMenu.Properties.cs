@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="OpenPaneLength"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty OpenPaneLengthProperty = DependencyProperty.Register(nameof(OpenPaneLength), typeof(double), typeof(HamburgerMenu), new PropertyMetadata(240.0));
+        public static readonly DependencyProperty OpenPaneLengthProperty = DependencyProperty.Register(nameof(OpenPaneLength), typeof(double), typeof(HamburgerMenu), new PropertyMetadata(320.0));
 
         /// <summary>
         /// Identifies the <see cref="PanePlacement"/> dependency property.
@@ -41,6 +41,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="CompactPaneLength"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty CompactPaneLengthProperty = DependencyProperty.Register(nameof(CompactPaneLength), typeof(double), typeof(HamburgerMenu), new PropertyMetadata(48.0));
+
+        /// <summary>
+        /// Identifies the <see cref="PaneForeground"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty PaneForegroundProperty = DependencyProperty.Register(nameof(PaneForeground), typeof(Brush), typeof(HamburgerMenu), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="PaneBackground"/> dependency property.
@@ -61,6 +66,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="ItemTemplate"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(HamburgerMenu), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="ItemTemplateSelector"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ItemTemplateSelectorProperty = DependencyProperty.Register(nameof(ItemTemplateSelector), typeof(DataTemplateSelector), typeof(HamburgerMenu), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="SelectedItem"/> dependency property.
@@ -91,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets gets of sets a value that specifies how the pane and content areas are shown.
+        /// Gets or sets a value that specifies how the pane and content areas are shown.
         /// </summary>
         public SplitViewDisplayMode DisplayMode
         {
@@ -106,6 +116,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (double)GetValue(CompactPaneLengthProperty); }
             set { SetValue(CompactPaneLengthProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the Brush to apply to the foreground of the Pane area of the control
+        /// (specifically, the hamburger button foreground).
+        /// </summary>
+        public Brush PaneForeground
+        {
+            get { return (Brush)GetValue(PaneForegroundProperty); }
+            set { SetValue(PaneForegroundProperty, value); }
         }
 
         /// <summary>
@@ -142,6 +162,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (DataTemplate)GetValue(ItemTemplateProperty); }
             set { SetValue(ItemTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the DataTemplateSelector used to display each item.
+        /// </summary>
+        public DataTemplateSelector ItemTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(ItemTemplateSelectorProperty); }
+            set { SetValue(ItemTemplateSelectorProperty, value); }
         }
 
         /// <summary>

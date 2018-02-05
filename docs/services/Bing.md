@@ -1,3 +1,11 @@
+---
+title: Bing Service
+author: nmetulev
+ms.date: 08/20/2017
+description: The Bing Service allows you to retrieve Bing results. Bing can return web and news results in your language, images, and videos for many countries around the world.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, bing
+---
+
 # Bing Service
 
 The **Bing Service** allows you to retrieve Bing results. Bing can return web and news results in your language, images, and videos for many countries around the world.
@@ -34,7 +42,7 @@ ListView.ItemsSource = await BingService.Instance.RequestAsync(searchConfig, 50)
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Services |
 

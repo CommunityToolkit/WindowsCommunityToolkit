@@ -1,3 +1,11 @@
+---
+title: Object Storage
+author: nmetulev
+ms.date: 08/20/2017
+description: The Object Storage Helper will help you handle storage of generic objects within UWP applications, both locally and across all devices (roaming).
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Object Storage, local storage, roaming storage
+---
+
 # Object Storage
 
 The Object Storage Helper will help you handle storage of generic objects within UWP applications, both locally and across all devices (roaming).
@@ -18,9 +26,22 @@ If you need to handle local saves of any object (generic), you can use `LocalObj
     {
         string result = helper.Read<string>(keySimpleObject);
     }
+    
+    // Read simple objects in a composite
+    string keyCompositeObject = "composite";
+    if (helper.KeyExists(keyCompositeObject, keySimpleObject))
+    {
+        string result = helper.Read<string>(keyCompositeObject, keySimpleObject);
+    }
 
     // Save simple objects
     helper.Save(keySimpleObject, 47);
+
+    // Save simple objects in a composite
+    Dictionary<string, object>() simpleObjects = new Dictionary<string, object>();
+    simpleObjects.add("simpleObjectValueOne", 47);
+    simpleObjects.add("simpleObjectValueTwo", "hello!");
+    helper.Save(keyCompositeObject, simpleObjects);
 
     // Read complex/large objects 
     string keyLargeObject = "large";
@@ -52,9 +73,22 @@ The implementation of the `RoamingObjectStorageHelper` is absolutely similar to 
     {
         string result = helper.Read<string>(keySimpleObject);
     }
+    
+    // Read simple objects in a composite
+    string keyCompositeObject = "composite";
+    if (helper.KeyExists(keyCompositeObject, keySimpleObject))
+    {
+        string result = helper.Read<string>(keyCompositeObject, keySimpleObject);
+    }
 
     // Save simple objects
     helper.Save(keySimpleObject, 47);
+    
+    // Save simple objects in a composite
+    Dictionary<string, object>() simpleObjects = new Dictionary<string, object>();
+    simpleObjects.add("simpleObjectValueOne", 47);
+    simpleObjects.add("simpleObjectValueTwo", "hello!");
+    helper.Save(keyCompositeObject, simpleObjects);
 
     // Read complex/large objects 
     string keyLargeObject = "large";
@@ -73,7 +107,7 @@ The implementation of the `RoamingObjectStorageHelper` is absolutely similar to 
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
 

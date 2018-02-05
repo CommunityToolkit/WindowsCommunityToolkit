@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -24,6 +25,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Occurs when the currently selected item changes.
         /// </summary>
         public event SelectionChangedEventHandler SelectionChanged;
+
+        /// <summary>
+        /// Occurs when the view state changes
+        /// </summary>
+        public event EventHandler<MasterDetailsViewState> ViewStateChanged;
 
         private void OnSelectionChanged(SelectionChangedEventArgs e)
         {

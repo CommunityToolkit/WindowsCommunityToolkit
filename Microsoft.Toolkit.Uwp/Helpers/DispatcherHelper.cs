@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// This class provides static methods helper for executing code in UI thread of the main window.

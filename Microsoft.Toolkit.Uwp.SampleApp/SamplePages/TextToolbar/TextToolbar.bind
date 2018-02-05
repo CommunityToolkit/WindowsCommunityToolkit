@@ -1,0 +1,60 @@
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+  <Page.Resources>
+    <converters:ToolbarFormatActiveConverter x:Key="IsFormatMarkdown"
+                    Format="MarkDown" />
+  </Page.Resources>
+
+  <Grid x:Name="MainGrid"
+              RequestedTheme="@[Theme:Enum:ElementTheme.Default]"
+              Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <controls:TextToolbar x:Name="Toolbar"
+                          Editor="{Binding ElementName=EditZone}"
+                          IsEnabled="@[IsEnabled:Bool:True]"
+                          Format="@[Format:Enum:Format.RichText]"
+                          Background="#4C4F4F4F" />
+
+    <ScrollViewer Grid.Row="1">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <RichEditBox x:Name="EditZone"
+                     PlaceholderText="Enter Text Here"
+                     TextWrapping="Wrap"
+                     TextChanged="EditZone_TextChanged"
+                     VerticalContentAlignment="Stretch"
+                     MinHeight="300" />
+        <Grid x:Name="MD"
+                      Grid.Row="1"
+                      Padding="10"
+                      Visibility="{Binding Format, ElementName=Toolbar, Mode=OneWay, Converter={StaticResource IsFormatMarkdown}}">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+          </Grid.RowDefinitions>
+          <TextBlock Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
+                     Style="{StaticResource SubtitleTextBlockStyle}"
+                     Text="MarkDown Preview" />
+          <controls:MarkdownTextBlock x:Name="Previewer"
+                                      Grid.Row="1"
+                                      Canvas.ZIndex="99"
+                                      Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
+                                      ScrollViewer.IsVerticalRailEnabled="False" />
+        </Grid>
+      </Grid>
+    </ScrollViewer>
+  </Grid>
+</Page>

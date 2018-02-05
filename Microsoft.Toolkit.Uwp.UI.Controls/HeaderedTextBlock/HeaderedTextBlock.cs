@@ -43,6 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _textContent = GetTemplateChild("TextContent") as TextBlock;
 
             UpdateVisibility();
+            UpdateForOrientation(this.Orientation);
         }
 
         private void UpdateVisibility()

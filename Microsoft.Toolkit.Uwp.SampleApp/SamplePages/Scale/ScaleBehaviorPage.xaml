@@ -8,36 +8,24 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Image x:Name="ToolkitLogo"
-           Width="100"
-           Height="100"
-           Source="ms-appx:///Assets/ToolkitLogo.png">
-      <interactivity:Interaction.Behaviors>
-        <behaviors:Scale x:Name="Scale"
-                         AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=OneWay}"
-                         CenterX="{Binding CenterX.Value, Mode=OneWay}"
-                         CenterY="{Binding CenterY.Value, Mode=OneWay}"
-                         Delay="{Binding Delay.Value, Mode=OneWay}"
-                         ScaleX="{Binding ScaleX.Value, Mode=OneWay}"
-                         ScaleY="{Binding ScaleY.Value, Mode=OneWay}"
-                         Duration="{Binding Duration.Value, Mode=OneWay}" />
-      </interactivity:Interaction.Behaviors>
-      <Image.RenderTransform>
-        <TranslateTransform X="50" Y="-50" />
-      </Image.RenderTransform>
-    </Image>
-    <StackPanel HorizontalAlignment="Right"
-                VerticalAlignment="Bottom">
-      <Button Margin="10"
-              Content="Apply">
-        <interactivity:Interaction.Behaviors>
-          <core:EventTriggerBehavior EventName="Click">
-            <core:CallMethodAction MethodName="StartAnimation"
-                                   TargetObject="{Binding ElementName=Scale}" />
-          </core:EventTriggerBehavior>
-        </interactivity:Interaction.Behaviors>
-      </Button>
-    </StackPanel>
-  </Grid>
+    <!-- Shallow Copy -->
+    <Grid Visibility="Collapsed">
+        <Image>
+            <interactivity:Interaction.Behaviors>
+                <behaviors:Scale />
+            </interactivity:Interaction.Behaviors>
+            <Image.RenderTransform>
+                <TranslateTransform />
+            </Image.RenderTransform>
+        </Image>
+        <StackPanel>
+            <Button>
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Click">
+                        <core:CallMethodAction />
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </Button>
+        </StackPanel>
+    </Grid>
 </Page>

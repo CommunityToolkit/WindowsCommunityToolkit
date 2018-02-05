@@ -7,44 +7,37 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <Page.Resources>
-    <DataTemplate x:Key="PhotosTemplate">
-      <Grid Background="White"
-            BorderBrush="Black"
-            BorderThickness="1">
-        <Image HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Source="{Binding Thumbnail}"
-               Stretch="UniformToFill" />
-      </Grid>
-    </DataTemplate>
+    <Page.Resources>
+        <DataTemplate x:Key="PhotosTemplate">
+            <Grid Background="White"
+                  BorderBrush="Black"
+                  BorderThickness="1">
+                <Image HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Source="{Binding Thumbnail}"
+                       Stretch="UniformToFill" />
+            </Grid>
+        </DataTemplate>
 
-    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-  </Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Page.Resources>
 
 
-  <Grid Background="{StaticResource Brush-Grey-05}">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
+    <Grid Background="{StaticResource Brush-Grey-05}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-    <TextBlock x:Name="SelectedItemCountTextBlock"
-               Margin="0,12"
-               HorizontalAlignment="Center"
-               FontFamily="Segoe UI Light"
-               FontSize="21"
-               Text="You haven't selected any items"
-               Visibility="{Binding IsItemClickEnabled.Value, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <TextBlock x:Name="SelectedItemCountTextBlock"
+                   Margin="0,12"
+                   HorizontalAlignment="Center"
+                   FontFamily="Segoe UI Light"
+                   FontSize="21"
+                   Text="You haven't selected any items"
+                   Visibility="{Binding IsItemClickEnabled.Value, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-    <controls:AdaptiveGridView x:Name="AdaptiveGridViewControl"
-                               Grid.Row="1"
-                               OneRowModeEnabled="{Binding OneRowModeEnabled.Value}"
-                               DesiredWidth="{Binding DesiredWidth.Value}"
-                               IsItemClickEnabled="{Binding IsItemClickEnabled.Value, Mode=TwoWay}"
-                               ItemHeight="{Binding ItemHeight.Value}"
-                               ItemTemplate="{StaticResource PhotosTemplate}"
-                               SelectionMode="{Binding SelectionMode.Value, Mode=TwoWay}" />
-  </Grid>
+        <Grid x:Name="XamlRoot" Grid.Row="1"/>
+    </Grid>
 </Page>
 

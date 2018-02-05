@@ -14,7 +14,7 @@ using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// Internal class used to provide helpers for controls

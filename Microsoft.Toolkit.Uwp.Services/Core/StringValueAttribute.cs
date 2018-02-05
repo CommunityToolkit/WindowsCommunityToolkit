@@ -17,6 +17,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
     /// <summary>
     /// StringValue attribute.
     /// </summary>
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
     [AttributeUsage(AttributeTargets.Field)]
     public sealed class StringValueAttribute : Attribute
     {

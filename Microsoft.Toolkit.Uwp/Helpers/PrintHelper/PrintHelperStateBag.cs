@@ -12,7 +12,7 @@
 
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// Internal class used to store values updated by the PrintHelper

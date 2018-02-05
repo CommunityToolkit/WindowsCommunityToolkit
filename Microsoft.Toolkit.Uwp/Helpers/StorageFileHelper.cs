@@ -11,13 +11,15 @@
 // ******************************************************************
 
 using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.Storage.Streams;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// This class provides static helper methods for <see cref="StorageFile" />.
@@ -556,7 +558,7 @@ namespace Microsoft.Toolkit.Uwp
                 throw new ArgumentNullException(nameof(fileName));
             }
 
-            var file = await fileLocation.GetFileAsync(fileName).AsTask().ConfigureAwait(false);
+            var file = await fileLocation.GetFileAsync(fileName);
             return await file.ReadBytesAsync();
         }
 
@@ -609,6 +611,28 @@ namespace Microsoft.Toolkit.Uwp
                 : FileExistsInFolderAsync(folder, fileName);
 
         /// <summary>
+        /// Gets a value indicating whether a filename is correct or not using the Storage feature.
+        /// </summary>
+        /// <param name="fileName">The filename to test. Must include the file extension and is not case-sensitive.</param>
+        /// <returns>Returns true if the filename is valid.</returns>
+        public static bool IsFileNameValid(string fileName)
+        {
+            var illegalChars = Path.GetInvalidFileNameChars();
+            return fileName.All(c => !illegalChars.Contains(c));
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether a file path is correct or not using the Storage feature.
+        /// </summary>
+        /// <param name="filePath">The file path to test. Must include the file extension and is not case-sensitive.</param>
+        /// <returns>Returns true if the file path is valid.</returns>
+        public static bool IsFilePathValid(string filePath)
+        {
+            var illegalChars = Path.GetInvalidPathChars();
+            return filePath.All(c => !illegalChars.Contains(c));
+        }
+
+        /// <summary>
         /// Gets a value indicating whether a file exists in the current folder.
         /// </summary>
         /// <param name="folder">
@@ -622,7 +646,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </returns>
         internal static async Task<bool> FileExistsInFolderAsync(StorageFolder folder, string fileName)
         {
-            var item = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false);
+            var item = await folder.TryGetItemAsync(fileName);
             return (item != null) && item.IsOfType(StorageItemTypes.File);
         }
 
@@ -654,7 +678,7 @@ namespace Microsoft.Toolkit.Uwp
                 UserSearchFilter = $"filename:=\"{fileName}\"" // “:=” is the exact-match operator
             };
 
-            var files = await rootFolder.CreateFileQueryWithOptions(options).GetFilesAsync().AsTask().ConfigureAwait(false);
+            var files = await rootFolder.CreateFileQueryWithOptions(options).GetFilesAsync();
             return files.Count > 0;
         }
 

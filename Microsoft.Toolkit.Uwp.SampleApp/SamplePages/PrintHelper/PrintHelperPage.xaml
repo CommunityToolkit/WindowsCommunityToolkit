@@ -7,49 +7,58 @@
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-  <Page.Resources>
-    <converters:StringFormatConverter x:Key="StringFormatConverter" />
-  </Page.Resources>
+    <Page.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+    </Page.Resources>
 
-  <Grid Background="{StaticResource Brush-Grey-05}">
-    <Grid x:Name="RootGrid"
-          HorizontalAlignment="Center"
-          VerticalAlignment="Center">
-      <Grid.RowDefinitions>
-        <RowDefinition />
-        <RowDefinition Height="Auto" />
-      </Grid.RowDefinitions>
-      <Grid x:Name="Container"
-            Grid.RowSpan="2"
-            Opacity="0" />
-      <StackPanel x:Name="PrintableContent"
-                  Margin="50,20"
-                  Orientation="Vertical">
-        <Image Width="200"
-               Source="/Assets/Photos/BigFourSummerHeat.png"
-               Stretch="Fill" />
-        <TextBlock FontSize="20"
-                   Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-                   TextWrapping="Wrap" />
-        <TextBlock FontSize="18"
-                   Text="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-                   TextWrapping="Wrap" />
-        <TextBlock FontSize="18"
-                   Text="It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
-                   TextWrapping="Wrap" />
-        <TextBlock FontSize="18"
-                   Text="It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-                   TextWrapping="Wrap" />
-        <TextBlock FontSize="14"
-                   FontStyle="Italic"
-                   Text="From http://www.lipsum.com/"
-                   TextWrapping="Wrap" />
-      </StackPanel>
-      <Button Grid.Row="1"
-              Margin="20"
+    <Grid Background="{StaticResource Brush-Grey-05}">
+        <Grid x:Name="RootGrid"
               HorizontalAlignment="Center"
-              Click="Button_Click"
-              Content="Print Me!" />
+              VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid x:Name="Container"
+                  Grid.RowSpan="2"
+                  Opacity="0" />
+            <Grid x:Name="DirectPrintContainer">
+                <StackPanel x:Name="PrintableContent"
+                            Margin="50,20"
+                            Orientation="Vertical">
+                    <Image Width="200"
+                           Source="/Assets/Photos/BigFourSummerHeat.jpg"
+                           Stretch="Fill" />
+                    <TextBlock FontSize="20"
+                               Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                               TextWrapping="Wrap" />
+                    <TextBlock FontSize="18"
+                               Text="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                               TextWrapping="Wrap" />
+                    <TextBlock FontSize="18"
+                               Text="It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+                               TextWrapping="Wrap" />
+                    <TextBlock FontSize="18"
+                               Text="It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                               TextWrapping="Wrap" />
+                    <TextBlock FontSize="14"
+                               FontStyle="Italic"
+                               Text="From http://www.lipsum.com/"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+            </Grid>
+            <StackPanel Grid.Row="1"
+                        Margin="20"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <Button Click="Print_Click"
+                        Content="Print Me!" />
+                <Button Margin="10,0,0,0"
+                        Click="DirectPrint_Click"
+                        Content="Direct Print Me!" />
+            </StackPanel>
+            <TextBlock Grid.Row="2" HorizontalAlignment="Center">Direct Print will print the content without removing it from the visual tree (in place).</TextBlock>
+        </Grid>
     </Grid>
-  </Grid>
 </Page>

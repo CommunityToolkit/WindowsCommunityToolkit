@@ -10,14 +10,13 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using System.Collections.Generic;
-using System.Numerics;
-using Windows.UI.Composition;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.ApplicationModel;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -39,16 +38,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string WideState = "WideState";
         private const string WidthStates = "WidthStates";
         private const string SelectionStates = "SelectionStates";
+        private const string HasSelectionState = "HasSelection";
         private const string NoSelectionNarrowState = "NoSelectionNarrow";
         private const string NoSelectionWideState = "NoSelectionWide";
 
+        private AppViewBackButtonVisibility _previousBackButtonVisibility;
         private ContentPresenter _detailsPresenter;
         private VisualStateGroup _stateGroup;
         private VisualState _narrowState;
         private Frame _frame;
-        private Visual _root;
-        private Compositor _compositor;
-        private Visual _detailsVisual;
+        private bool _loaded = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MasterDetailsView"/> class.
@@ -70,16 +69,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            var detailsPanel = (FrameworkElement)GetTemplateChild(PartDetailsPanel);
-            _root = ElementCompositionPreview.GetElementVisual(detailsPanel);
-            _compositor = _root.Compositor;
-
             _detailsPresenter = (ContentPresenter)GetTemplateChild(PartDetailsPresenter);
-            _detailsPresenter.SizeChanged += OnSizeChanged;
-            _detailsVisual = ElementCompositionPreview.GetElementVisual(_detailsPresenter);
-            SetDetailsOffset();
+            SetDetailsContent();
 
             SetMasterHeaderVisibility();
+            OnDetailsCommandBarChanged();
+            OnMasterCommandBarChanged();
+
+            if (_loaded && _stateGroup == null)
+            {
+                _stateGroup = (VisualStateGroup)GetTemplateChild(WidthStates);
+                if (_stateGroup != null)
+                {
+                    _stateGroup.CurrentStateChanged += OnVisualStateChanged;
+                    _narrowState = GetTemplateChild(NarrowState) as VisualState;
+                    UpdateView(true);
+                }
+            }
         }
 
         /// <summary>
@@ -93,31 +99,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var view = (MasterDetailsView)d;
-            string noSelectionState = view._stateGroup.CurrentState == view._narrowState
-                ? NoSelectionNarrowState
-                : NoSelectionWideState;
-            VisualStateManager.GoToState(view, view.SelectedItem == null ? noSelectionState : "HasSelection", true);
 
             view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
 
+            view.UpdateView(true);
+
+            // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
             if (view.SelectedItem != null)
             {
-                // Move the visual to the side so it can animate back in
-                view._detailsVisual.Offset = new Vector3((float)view._detailsPresenter.ActualWidth, 0, 0);
+                view.SetDetailsContent();
             }
-
-            view._detailsPresenter.Content = view.MapDetails == null
-                ? view.SelectedItem
-                : view.MapDetails(view.SelectedItem);
-
-            // determine the animate to create. If the SelectedItem is null we
-            // want to animate the content out. If the SelectedItem is not null
-            // we want to animate the content in
-            Vector3 offset = view.SelectedItem == null
-                ? new Vector3((float)view._detailsPresenter.ActualWidth, 0, 0)
-                : new Vector3(-(float)view._detailsPresenter.ActualWidth, 0, 0);
-            view.AnimateFromCurrentByValue(view._detailsVisual, offset);
-            view.SetBackButtonVisibility(view._stateGroup.CurrentState);
         }
 
         /// <summary>
@@ -131,12 +122,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             view.SetMasterHeaderVisibility();
         }
 
+        /// <summary>
+        /// Fired when the DetailsCommandBar changes.
+        /// </summary>
+        /// <param name="d">The sender</param>
+        /// <param name="e">The event args</param>
+        private static void OnDetailsCommandBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var view = (MasterDetailsView)d;
+            view.OnDetailsCommandBarChanged();
+        }
+
+        /// <summary>
+        /// Fired when the MasterCommandBar changes.
+        /// </summary>
+        /// <param name="d">The sender</param>
+        /// <param name="e">The event args</param>
+        private static void OnMasterCommandBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var view = (MasterDetailsView)d;
+            view.OnMasterCommandBarChanged();
+        }
+
         // Have to wait to get the VisualStateGroup until the control has Loaded
         // If we try to get the VisualStateGroup in the OnApplyTemplate the
         // CurrentStateChanged event does not fire properly
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+            if (DesignMode.DesignModeEnabled == false)
+            {
+                SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+                var frame = GetFrame();
+                if (frame != null)
+                {
+                    frame.Navigating += OnFrameNavigating;
+                }
+            }
 
             if (_stateGroup != null)
             {
@@ -144,14 +165,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _stateGroup = (VisualStateGroup)GetTemplateChild(WidthStates);
-            _stateGroup.CurrentStateChanged += OnVisualStateChanged;
+            if (_stateGroup != null)
+            {
+                _stateGroup.CurrentStateChanged += OnVisualStateChanged;
+                _narrowState = GetTemplateChild(NarrowState) as VisualState;
+                UpdateView(true);
+            }
 
-            _narrowState = GetTemplateChild(NarrowState) as VisualState;
+            _loaded = true;
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+            if (DesignMode.DesignModeEnabled == false)
+            {
+                SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+                var frame = GetFrame();
+                if (frame != null)
+                {
+                    frame.Navigating -= OnFrameNavigating;
+                }
+            }
+
+            if (_stateGroup != null)
+            {
+                _stateGroup.CurrentStateChanged -= OnVisualStateChanged;
+                _stateGroup = null;
+            }
         }
 
         /// <summary>
@@ -164,20 +204,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </remarks>
         private void OnVisualStateChanged(object sender, VisualStateChangedEventArgs e)
         {
-            SetBackButtonVisibility(e.NewState);
+            UpdateView(false);
         }
 
         /// <summary>
-        /// Fires when the size of the control changes
+        /// Closes the details pane if we are in narrow state
         /// </summary>
         /// <param name="sender">The sender</param>
-        /// <param name="e">The event args</param>
-        /// <remarks>
-        /// Handles setting the Offset of the DetailsPresenter if there is no SelectedItem
-        /// </remarks>
-        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+        /// <param name="args">The event args</param>
+        private void OnFrameNavigating(object sender, NavigatingCancelEventArgs args)
         {
-            SetDetailsOffset();
+            if ((args.NavigationMode == NavigationMode.Back) && (ViewState == MasterDetailsViewState.Details))
+            {
+                SelectedItem = null;
+                args.Cancel = true;
+            }
         }
 
         /// <summary>
@@ -187,7 +228,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="args">The event args</param>
         private void OnBackRequested(object sender, BackRequestedEventArgs args)
         {
-            if (((_stateGroup.CurrentState == _narrowState) || (_stateGroup.CurrentState == null)) && (SelectedItem != null))
+            if (ViewState == MasterDetailsViewState.Details)
             {
                 SelectedItem = null;
                 args.Handled = true;
@@ -205,53 +246,118 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void SetDetailsOffset()
+        private void UpdateView(bool animate)
         {
-            if (SelectedItem == null)
+            var currentState = ViewState;
+            UpdateViewState();
+            SetBackButtonVisibility(currentState);
+            if (_stateGroup != null)
             {
-                _detailsVisual.Offset = new Vector3((float)_detailsPresenter.ActualWidth, 0, 0);
+                SetVisualState(_stateGroup.CurrentState, animate);
             }
         }
 
         /// <summary>
         /// Sets the back button visibility based on the current visual state and selected item
         /// </summary>
-        private void SetBackButtonVisibility(VisualState currentState)
+        private void SetBackButtonVisibility(MasterDetailsViewState previousState)
         {
-            if ((currentState == _narrowState) && (SelectedItem != null))
+            if (DesignMode.DesignModeEnabled)
             {
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                    AppViewBackButtonVisibility.Visible;
+                return;
             }
-            else
+
+            if (ViewState == MasterDetailsViewState.Details)
+            {
+                var navigationManager = SystemNavigationManager.GetForCurrentView();
+                _previousBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
+
+                navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            }
+            else if (previousState == MasterDetailsViewState.Details)
             {
                 // Make sure we show the back button if the stack can navigate back
-                var frame = GetFrame();
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                    ((frame != null) && frame.CanGoBack)
-                        ? AppViewBackButtonVisibility.Visible
-                        : AppViewBackButtonVisibility.Collapsed;
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = _previousBackButtonVisibility;
             }
         }
 
         private Frame GetFrame()
         {
-            return _frame ?? (_frame = this.FindVisualAscendant<Frame>());
+            return _frame ?? (_frame = this.FindAscendant<Frame>());
         }
 
-        // Creates and defines the Keyframe animation using a current value of target Visual and animating by a value
-        private void AnimateFromCurrentByValue(Visual targetVisual, Vector3 delta)
+        private void UpdateViewState()
         {
-            var animation = _compositor.CreateVector3KeyFrameAnimation();
+            if (_stateGroup == null)
+            {
+                return;
+            }
 
-            // Utilize a current value of the target visual in Expression KeyFrame and modify by a value
-            animation.InsertExpressionKeyFrame(1.00f, "this.StartingValue + delta");
+            var before = ViewState;
 
-            // Define the value variable
-            animation.SetVector3Parameter("delta", delta);
-            animation.Duration = TimeSpan.FromMilliseconds(250);
+            if (_stateGroup.CurrentState == _narrowState || _stateGroup.CurrentState == null)
+            {
+                ViewState = SelectedItem == null ? MasterDetailsViewState.Master : MasterDetailsViewState.Details;
+            }
+            else
+            {
+                ViewState = MasterDetailsViewState.Both;
+            }
 
-            targetVisual.StartAnimation("Offset", animation);
+            var after = ViewState;
+
+            if (before != after)
+            {
+                ViewStateChanged?.Invoke(this, after);
+            }
+        }
+
+        private void SetVisualState(VisualState state, bool animate)
+        {
+            string noSelectionState = state == _narrowState
+                ? NoSelectionNarrowState
+                : NoSelectionWideState;
+            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : HasSelectionState, animate);
+        }
+
+        private void SetDetailsContent()
+        {
+            if (_detailsPresenter != null)
+            {
+                _detailsPresenter.Content = MapDetails == null
+                    ? SelectedItem
+                    : SelectedItem != null ? MapDetails(SelectedItem) : null;
+            }
+        }
+
+        private void OnMasterCommandBarChanged()
+        {
+            var panel = GetTemplateChild("DetailsCommandBarPanel") as Panel;
+            if (panel == null)
+            {
+                return;
+            }
+
+            panel.Children.Clear();
+            if (DetailsCommandBar != null)
+            {
+                panel.Children.Add(DetailsCommandBar);
+            }
+        }
+
+        private void OnDetailsCommandBarChanged()
+        {
+            var panel = GetTemplateChild("MasterCommandBarPanel") as Panel;
+            if (panel == null)
+            {
+                return;
+            }
+
+            panel.Children.Clear();
+            if (MasterCommandBar != null)
+            {
+                panel.Children.Add(MasterCommandBar);
+            }
         }
     }
 }

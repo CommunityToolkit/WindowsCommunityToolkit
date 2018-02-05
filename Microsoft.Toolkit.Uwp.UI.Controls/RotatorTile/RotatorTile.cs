@@ -13,6 +13,7 @@
 using System;
 using System.Collections;
 using System.Collections.Specialized;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -241,13 +242,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _translate.X = _translate.Y = 0;
                 }
 
-                if (_currentElement != null)
+                if (_currentElement != null && _nextElement != null)
                 {
                     _currentElement.DataContext = _nextElement.DataContext;
-                }
-
-                if (_nextElement != null)
-                {
                     _nextElement.DataContext = GetNext(); // Preload the next tile
                 }
             };
@@ -567,6 +564,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         /// <summary>
         /// Gets or sets the extra randomized duration to be added to the <see cref="RotationDelay"/> property.
+        /// A value between zero and this value *in seconds* will be added to the <see cref="RotationDelay"/>.
         /// </summary>
         public TimeSpan ExtraRandomDuration
         {

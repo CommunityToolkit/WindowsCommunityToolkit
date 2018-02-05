@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>uap10.0</TargetFramework>
+    <Title>UWP Community Toolkit Devices</Title>
+    <Description>This library enables easier consumption of Devices / Peripherals connected to Windows device. It is part of the UWP Community Toolkit.</Description>
+    <PackageTags>UWP Toolkit Windows Devices Bluetooth BTLE Networking</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
+
+  </ItemGroup>
+
+  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
+</Project>

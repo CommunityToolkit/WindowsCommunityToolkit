@@ -1,0 +1,37 @@
+<FileList>
+  <File Reference="Microsoft.Toolkit.Uwp.UI.Controls.dll">
+    <ToolboxItems VSCategory="UWP Community Toolkit" BlendCategory="UWP Community Toolkit">
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.AdaptiveGridView" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.BladeItem" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.BladeView" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Carousel" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.CarouselPanel" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DropShadowPanel" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Expander" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.GridSplitter" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.HamburgerMenu" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.HeaderedTextBlock" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ImageEx" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ImageExBase" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.MarkdownTextBlock" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.MasterDetailsView" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Menu" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.MenuItem" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.OrbitView" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.OrbitViewItem" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.OrbitViewPanel" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.PullToRefreshListView" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RadialGauge" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RadialProgressBar" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RangeSelector" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RotatorTile" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RoundImageEx" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ScrollHeader" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.SlidableListItem" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.SurfaceDialTextboxHelper" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TextToolbar" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TileControl" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel" />
+    </ToolboxItems>
+  </File>
+</FileList>

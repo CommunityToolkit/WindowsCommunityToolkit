@@ -12,12 +12,15 @@
 
 using System;
 using System.Collections.ObjectModel;
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class PullToRefreshListViewPage
+    public sealed partial class PullToRefreshListViewPage : IXamlRenderListener
     {
         private readonly ObservableCollection<Item> _items;
 
@@ -28,16 +31,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             AddItems();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        public void OnXamlRendered(FrameworkElement control)
         {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
+            var listView = control.FindChildByName("ListView") as PullToRefreshListView;
+            listView.ItemsSource = _items;
+            listView.RefreshRequested += ListView_RefreshCommand;
         }
 
         private void AddItems()

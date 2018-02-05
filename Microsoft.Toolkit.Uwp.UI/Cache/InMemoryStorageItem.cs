@@ -26,6 +26,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         public string Id { get; private set; }
 
         /// <summary>
+        /// Gets the item created timestamp.
+        /// </summary>
+        public DateTime Created { get; private set; }
+
+        /// <summary>
         /// Gets the item last updated timestamp.
         /// </summary>
         public DateTime LastUpdated { get; private set; }
@@ -47,6 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             Id = id;
             LastUpdated = lastUpdated;
             Item = item;
+            Created = DateTime.Now;
         }
     }
 }

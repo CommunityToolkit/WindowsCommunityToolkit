@@ -1,5 +1,4 @@
 <Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ImageExPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,14 +6,45 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <Style x:Key="BaseStyle" TargetType="controls:ImageExBase">
+            <Setter Property="IsCacheEnabled" Value="True" />
+            <Setter Property="Stretch" Value="UniformToFill" />
+            <Setter Property="PlaceholderStretch" Value="UniformToFill" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <!--Create a Style based on BaseStyle-->
+        <Style x:Key="RectangleStyle" TargetType="controls:ImageEx" BasedOn="{StaticResource BaseStyle}">
+            <Setter Property="Width" Value="400" />
+            <Setter Property="Height" Value="300" />
+        </Style>
+        <Style x:Key="RoundStyle" TargetType="controls:RoundImageEx" BasedOn="{StaticResource BaseStyle}">
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Height" Value="200" />
+            <Setter Property="CornerRadius" Value="999" />
+        </Style>
+    </Page.Resources>
+
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-      <controls:ImageEx x:Name="ImageExControl1"
-          IsCacheEnabled="@[Enable Cache:Bool:True]"
-          Source="{Binding Thumbnail}"
-          Stretch="UniformToFill"
-          PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
-          PlaceholderStretch="UniformToFill"
-          HorizontalAlignment="Center"
-          VerticalAlignment="Center"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      VerticalScrollMode="Auto">
+            <StackPanel x:Name="Container"
+                        Orientation="Vertical">
+                <controls:ImageEx x:Name="ImageExControl1"
+                                  IsCacheEnabled="@[Enable Cache:Bool:True]"
+                                  Source="/Assets/Photos/LunchBreak.jpg"
+                                  PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
+                                  Style="{StaticResource RectangleStyle}"/>
+
+                <controls:RoundImageEx x:Name="RoundImageExControl1"
+                                       IsCacheEnabled="@[Enable Cache]"
+                                       Source="/Assets/Photos/Owl.jpg"
+                                       PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
+                                       Style="{StaticResource RoundStyle}"/>
+           </StackPanel>    
+        </ScrollViewer>
     </Grid>
 </Page>

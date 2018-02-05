@@ -1,0 +1,88 @@
+<Project>
+
+  <PropertyGroup>
+    <Authors>Microsoft</Authors>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <PackageIconUrl>https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/Microsoft/UWPCommunityToolkit</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</PackageLicenseUrl>
+    <PackageReleaseNotes>v2.0: https://github.com/Microsoft/UWPCommunityToolkit/releases/tag/v2.0.0 </PackageReleaseNotes>
+    <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+
+
+    
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)Toolkit.ruleset</CodeAnalysisRuleSet>
+    
+    <DefaultLanguage>en-US</DefaultLanguage>
+
+    <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
+    <IsUwpProject>$(MSBuildProjectName.Contains('Uwp'))</IsUwpProject>
+    <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
+
+    
+    
+    <UwpMetaPackageVersion>5.3.4</UwpMetaPackageVersion>
+    <DefaultTargetPlatformVersion>15063</DefaultTargetPlatformVersion>
+    <DefaultTargetPlatformMinVersion>14393</DefaultTargetPlatformMinVersion>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true'">
+      <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>    
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+  <Choose>
+    <When Condition="'$(IsUwpProject)' == 'true' and '$(IsSampleProject)' != 'true'">
+      <PropertyGroup>
+        <GenerateLibraryLayout>true</GenerateLibraryLayout>
+      </PropertyGroup>
+      
+      <ItemGroup>
+        <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.9" PrivateAssets="all" />
+      </ItemGroup>
+    </When>
+  </Choose>
+
+  <Choose>
+    <When Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false' and '$(IsSampleProject)' != 'true'">
+      <ItemGroup>
+        <PackageReference Include="SourceLink.Create.CommandLine" Version="2.2.0" PrivateAssets="All" />
+      </ItemGroup>
+    </When>
+  </Choose>
+
+  <Choose>
+    <When Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true'">
+      <ItemGroup>
+        <!--<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="15.3.83" PrivateAssets="all" />-->
+        <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="all" />
+
+        <EmbeddedResource Include="**\*.rd.xml" />
+        <Page Include="**\*.xaml" Exclude="**\bin\**\*.xaml;**\obj\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
+        <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />
+      </ItemGroup>
+    </When>
+  </Choose>
+  
+  <PropertyGroup>
+    <NerdbankGitVersioningVersion>2.0.37-beta</NerdbankGitVersioningVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.0.37-beta" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- https://github.com/NuGet/Home/issues/4337 -->
+  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' == 'true' ">
+    <Import Project="$(UserProfile)\.nuget\packages\nerdbank.gitversioning\$(NerdbankGitVersioningVersion)\buildCrossTargeting\Nerdbank.GitVersioning.targets"
+            Condition="Exists('$(UserProfile)\.nuget\packages\nerdbank.gitversioning\$(NerdbankGitVersioningVersion)\buildCrossTargeting\Nerdbank.GitVersioning.targets')" />
+  </ImportGroup>
+  <Target Name="FixUpVersion"
+          BeforeTargets="_GenerateRestoreProjectSpec"
+          DependsOnTargets="GetBuildVersion"
+          Condition=" '$(NerdbankGitVersioningTasksPath)' != '' " />
+</Project>

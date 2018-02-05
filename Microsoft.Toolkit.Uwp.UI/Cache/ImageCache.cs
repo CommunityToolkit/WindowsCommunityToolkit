@@ -11,6 +11,9 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -23,40 +26,116 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// </summary>
     public class ImageCache : CacheBase<BitmapImage>
     {
+        private const string DateAccessedProperty = "System.DateAccessed";
+
         /// <summary>
         /// Private singleton field.
         /// </summary>
+        [ThreadStatic]
         private static ImageCache _instance;
+
+        private List<string> _extendedPropertyNames = new List<string>();
 
         /// <summary>
         /// Gets public singleton property.
         /// </summary>
-        public static ImageCache Instance => _instance ?? (_instance = new ImageCache() { MaintainContext = true });
+        public static ImageCache Instance => _instance ?? (_instance = new ImageCache());
 
         /// <summary>
-        /// Cache specific hooks to proccess items from http response
+        /// Initializes a new instance of the <see cref="ImageCache"/> class.
         /// </summary>
-        /// <param name="stream">inpupt stream</param>
-        /// <returns>awaitable task</returns>
-        protected override async Task<BitmapImage> InitializeTypeAsync(IRandomAccessStream stream)
+        public ImageCache()
         {
+            _extendedPropertyNames.Add(DateAccessedProperty);
+            MaintainContext = true;
+        }
+
+        /// <summary>
+        /// Cache specific hooks to process items from HTTP response
+        /// </summary>
+        /// <param name="stream">input stream</param>
+        /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
+        /// <returns>awaitable task</returns>
+        protected override async Task<BitmapImage> InitializeTypeAsync(Stream stream, List<KeyValuePair<string, object>> initializerKeyValues = null)
+        {
+            if (stream.Length == 0)
+            {
+                throw new FileNotFoundException();
+            }
+
             BitmapImage image = new BitmapImage();
-            await image.SetSourceAsync(stream).AsTask().ConfigureAwait(false);
+
+            if (initializerKeyValues != null && initializerKeyValues.Count > 0)
+            {
+                foreach (var kvp in initializerKeyValues)
+                {
+                    if (string.IsNullOrWhiteSpace(kvp.Key))
+                    {
+                        continue;
+                    }
+
+                    var propInfo = image.GetType().GetProperty(kvp.Key, BindingFlags.Public | BindingFlags.Instance);
+
+                    if (propInfo != null && propInfo.CanWrite)
+                    {
+                        propInfo.SetValue(image, kvp.Value);
+                    }
+                }
+            }
+
+            await image.SetSourceAsync(stream.AsRandomAccessStream());
 
             return image;
         }
 
         /// <summary>
-        /// Cache specific hooks to proccess items from http response
+        /// Cache specific hooks to process items from HTTP response
         /// </summary>
         /// <param name="baseFile">storage file</param>
+        /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
         /// <returns>awaitable task</returns>
-        protected override async Task<BitmapImage> InitializeTypeAsync(StorageFile baseFile)
+        protected override async Task<BitmapImage> InitializeTypeAsync(StorageFile baseFile, List<KeyValuePair<string, object>> initializerKeyValues = null)
         {
-            using (var stream = await baseFile.OpenReadAsync().AsTask().ConfigureAwait(MaintainContext))
+            using (var stream = await baseFile.OpenStreamForReadAsync())
             {
-                return await InitializeTypeAsync(stream).ConfigureAwait(false);
+                return await InitializeTypeAsync(stream, initializerKeyValues).ConfigureAwait(MaintainContext);
             }
+        }
+
+        /// <summary>
+        /// Override-able method that checks whether file is valid or not.
+        /// </summary>
+        /// <param name="file">storage file</param>
+        /// <param name="duration">cache duration</param>
+        /// <param name="treatNullFileAsOutOfDate">option to mark uninitialized file as expired</param>
+        /// <returns>bool indicate whether file has expired or not</returns>
+        protected override async Task<bool> IsFileOutOfDateAsync(StorageFile file, TimeSpan duration, bool treatNullFileAsOutOfDate = true)
+        {
+            if (file == null)
+            {
+                return treatNullFileAsOutOfDate;
+            }
+
+            // Get extended properties.
+            IDictionary<string, object> extraProperties =
+                await file.Properties.RetrievePropertiesAsync(_extendedPropertyNames);
+
+            // Get date-accessed property.
+            var propValue = extraProperties[DateAccessedProperty];
+
+            if (propValue != null)
+            {
+                var lastAccess = propValue as DateTimeOffset?;
+
+                if (lastAccess.HasValue)
+                {
+                    return DateTime.Now.Subtract(lastAccess.Value.DateTime) > duration;
+                }
+            }
+
+            var properties = await file.GetBasicPropertiesAsync();
+
+            return properties.Size == 0 || DateTime.Now.Subtract(properties.DateModified.DateTime) > duration;
         }
     }
 }

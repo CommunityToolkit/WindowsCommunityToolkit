@@ -20,12 +20,11 @@ using Windows.System.Profile;
 using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class WeatherLiveTileAndToastPage : Page
+    public sealed partial class WeatherLiveTileAndToastPage
     {
         private TileContent _tileContent;
         private ToastContent _toastContent;

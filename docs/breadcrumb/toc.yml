@@ -1,0 +1,11 @@
+- name: Docs
+  tocHref: /
+  topicHref: /
+  items:
+  - name: Windows
+    tocHref: /windows/
+    topicHref: /windows/
+    items:
+    - name: UWP Community Toolkit documentation 
+      tocHref: /windows/uwpcommunitytoolkit/
+      topicHref: /windows/uwpcommunitytoolkit

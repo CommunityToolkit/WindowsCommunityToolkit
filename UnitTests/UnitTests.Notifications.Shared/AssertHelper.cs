@@ -250,7 +250,7 @@ namespace UnitTests.Notifications
 
         public static void AssertToast(string expected, ToastContent toast)
         {
-            AssertHelper.AssertXml(expected, toast.GetContent());
+            AssertHelper.AssertXml(expected.ToLower(), toast.GetContent().ToLower());
 
 #if WINDOWS_UWP
             // For WinRT, we'll test the XmlDocument method too, make sure it works.
@@ -260,7 +260,7 @@ namespace UnitTests.Notifications
 
         public static void AssertTile(string expected, TileContent tile)
         {
-            AssertHelper.AssertXml(expected, tile.GetContent());
+            AssertHelper.AssertXml(expected.ToLower(), tile.GetContent().ToLower());
 
 #if WINDOWS_UWP
             // For WinRT, we'll test the XmlDocument method too, make sure it works.
@@ -296,7 +296,7 @@ namespace UnitTests.Notifications
 
 
             // If name doesn't match
-            Assert.AreEqual(expected.Name, actual.Name, "Element names did not match.");
+            Assert.AreEqual(expected.Name.ToLower(), actual.Name.ToLower(), "Element names did not match.");
 
 
             // If attribute count doesn't match
@@ -313,7 +313,7 @@ namespace UnitTests.Notifications
                     Assert.Fail("Expected element to have attribute " + expectedAttr.Name + " but it didn't.");
 
                 // Make sure value matches
-                Assert.AreEqual(expectedAttr.Value, actualAttr.Value, $@"Attribute values for ""{expectedAttr.Name}"" didn't match.");
+                Assert.AreEqual(expectedAttr.Value.ToLower(), actualAttr.Value.ToLower(), $@"Attribute values for ""{expectedAttr.Name}"" didn't match.");
             }
 
 

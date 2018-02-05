@@ -6,290 +6,301 @@
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-  <Page.Resources>
-    <DataTemplate x:Key="FacebookPostSchemaTemplate"
-                  x:DataType="facebook:FacebookPost">
-      <Border Margin="24,0,24,12"
-              Background="White"
+    <Page.Resources>
+        <DataTemplate x:Key="FacebookPostSchemaTemplate"
+                      x:DataType="facebook:FacebookPost">
+            <Border Margin="24,0,24,12"
+                    Background="White"
+                    BorderBrush="#FFCCCCCC"
+                    BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Image MaxHeight="320"
+                           VerticalAlignment="Center"
+                           Source="{Binding Full_Picture}"
+                           Stretch="UniformToFill" />
+                    <TextBlock Grid.Row="1"
+                               Margin="12"
+                               Text="{x:Bind Message}"
+                               TextTrimming="CharacterEllipsis"
+                               TextWrapping="WrapWholeWords" />
+                    <TextBlock Grid.Row="2"
+                               Margin="12,0,12,12"
+                               FontWeight="ExtraLight"
+                               Text="{x:Bind Created_Time}" />
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="FacebookAlbumSchemaTemplate"
+                      x:DataType="facebook:FacebookAlbum">
+            <Border Margin="24,0,24,12"
+                    Background="White"
+                    BorderBrush="#FFCCCCCC"
+                    BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Image MaxHeight="160"
+                           VerticalAlignment="Center"
+                           Source="{Binding Picture.Data.Url}"
+                           Stretch="Uniform" />
+                    <TextBlock Grid.Row="1"
+                               Margin="12"
+                               Text="{x:Bind Name}"
+                               TextTrimming="CharacterEllipsis"
+                               TextWrapping="WrapWholeWords" />
+                    <TextBlock Grid.Row="2"
+                               Margin="12,0,12,12"
+                               FontWeight="ExtraLight"
+                               Text="{x:Bind Description}"
+                               TextTrimming="CharacterEllipsis"
+                               TextWrapping="WrapWholeWords" />
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="FacebookPhotoSchemaTemplate"
+                      x:DataType="facebook:FacebookPhoto">
+            <Border Margin="24,0,24,12"
+                    Background="White"
+                    BorderBrush="#FFCCCCCC"
+                    BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Image MaxHeight="160"
+                           VerticalAlignment="Center"
+                           Source="{Binding Picture}"
+                           Stretch="Uniform" />
+                    <TextBlock Grid.Row="1"
+                               Margin="12,0,12,12"
+                               FontWeight="ExtraLight"
+                               Text="{x:Bind Name}"
+                               TextTrimming="CharacterEllipsis"
+                               TextWrapping="WrapWholeWords" />
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <local:FacebookPhotoTemplateSelector x:Key="facebookPhotoTemplateSelector"
+                                             FacebookAlbumTemplate="{StaticResource FacebookAlbumSchemaTemplate}"
+                                             FacebookPhotoTemplate="{StaticResource FacebookPhotoSchemaTemplate}" />
+    </Page.Resources>
+
+    <Grid MaxWidth="800"
+          Background="{StaticResource Brush-Grey-05}">
+        <Grid Margin="24"
+              Background="{StaticResource Brush-Grey-04}"
               BorderBrush="#FFCCCCCC"
-              BorderThickness="1">
-        <Grid>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
-          <Image MaxHeight="320"
-                 VerticalAlignment="Center"
-                 Source="{Binding Full_Picture}"
-                 Stretch="UniformToFill" />
-          <TextBlock Grid.Row="1"
-                     Margin="12"
-                     Text="{x:Bind Message}"
-                     TextTrimming="CharacterEllipsis"
-                     TextWrapping="WrapWholeWords" />
-          <TextBlock Grid.Row="2"
-                     Margin="12,0,12,12"
-                     FontWeight="ExtraLight"
-                     Text="{x:Bind Created_Time}" />
-        </Grid>
-      </Border>
-    </DataTemplate>
-
-    <DataTemplate x:Key="FacebookAlbumSchemaTemplate"
-                  x:DataType="facebook:FacebookAlbum">
-      <Border Margin="24,0,24,12"
-              Background="White"
-              BorderBrush="#FFCCCCCC"
-              BorderThickness="1">
-        <Grid>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
-          <Image MaxHeight="160"
-                 VerticalAlignment="Center"
-                 Source="{Binding Picture.Data.Url}"
-                 Stretch="Uniform" />
-          <TextBlock Grid.Row="1"
-                     Margin="12"
-                     Text="{x:Bind Name}"
-                     TextTrimming="CharacterEllipsis"
-                     TextWrapping="WrapWholeWords" />
-          <TextBlock Grid.Row="2"
-                     Margin="12,0,12,12"
-                     FontWeight="ExtraLight"
-                     Text="{x:Bind Description}"
-                     TextTrimming="CharacterEllipsis"
-                     TextWrapping="WrapWholeWords" />
-        </Grid>
-      </Border>
-    </DataTemplate>
-
-    <DataTemplate x:Key="FacebookPhotoSchemaTemplate"
-                  x:DataType="facebook:FacebookPhoto">
-      <Border Margin="24,0,24,12"
-              Background="White"
-              BorderBrush="#FFCCCCCC"
-              BorderThickness="1">
-        <Grid>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
-          <Image MaxHeight="160"
-                 VerticalAlignment="Center"
-                 Source="{Binding Picture}"
-                 Stretch="Uniform" />
-          <TextBlock Grid.Row="1"
-                     Margin="12,0,12,12"
-                     FontWeight="ExtraLight"
-                     Text="{x:Bind Name}"
-                     TextTrimming="CharacterEllipsis"
-                     TextWrapping="WrapWholeWords" />
-        </Grid>
-      </Border>
-    </DataTemplate>
-
-    <local:FacebookPhotoTemplateSelector x:Key="facebookPhotoTemplateSelector"
-                                         FacebookAlbumTemplate="{StaticResource FacebookAlbumSchemaTemplate}"
-                                         FacebookPhotoTemplate="{StaticResource FacebookPhotoSchemaTemplate}" />
-  </Page.Resources>
-
-  <Grid MaxWidth="800"
-        Background="{StaticResource Brush-Grey-05}">
-    <Grid Margin="24"
-          Background="{StaticResource Brush-Grey-04}"
-          BorderBrush="#FFCCCCCC"
-          BorderThickness="1"
-          CornerRadius="4">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition />
-      </Grid.RowDefinitions>
-      <StackPanel HorizontalAlignment="Center"
-                  Orientation="Horizontal">
-        <Image Width="100"
-               Height="100"
-               Margin="24"
-               Source="/SamplePages/Facebook Service/FacebookLogo.png"
-               Stretch="Uniform" />
-        <Border x:Name="ProfileImage"
-                Width="100"
-                Height="100"
-                CornerRadius="50"
-                Visibility="Collapsed">
-          <Border.Background>
-            <ImageBrush ImageSource="{Binding Url}"
-                        Stretch="Uniform" />
-          </Border.Background>
-        </Border>
-      </StackPanel>
-
-      <ScrollViewer Grid.Row="1">
-        <Grid>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-          </Grid.RowDefinitions>
-
-          <!--  Credentials area  -->
-          <Grid>
+              BorderThickness="1"
+              CornerRadius="4">
             <Grid.RowDefinitions>
-              <RowDefinition Height="Auto" />
-              <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
             </Grid.RowDefinitions>
-
-            <Grid Background="#FFCCCCCC">
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-              </Grid.ColumnDefinitions>
-              <Button x:Name="CredentialsBoxExpandButton"
-                      VerticalAlignment="Stretch"
-                      Click="CredentialsBoxExpandButton_OnClick"
-                      Content=""
-                      FontFamily="Segoe MDL2 Assets" />
-              <TextBlock Grid.Column="1"
-                         Margin="12,6"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Center"
-                         Foreground="{StaticResource Brush-Grey-01}"
-                         Text="Credentials" />
-            </Grid>
-
-            <StackPanel x:Name="CredentialsBox"
-                        Grid.Row="1"
-                        Margin="24"
-                        Orientation="Vertical">
-              <TextBox x:Name="AppIDText"
-                       Margin="0,0,0,12"
-                       Header="App ID" />
-              <HyperlinkButton Margin="0,0,0,15"
-                               Content="Show me how to get this ID"
-                               NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/services/Facebook/" />
-              <StackPanel Orientation="Horizontal">
-                <ComboBox x:Name="QueryType"
-                          Header="Type:" />
-                <Button x:Name="ConnectButton"
-                        Margin="10,0,0,0"
-                        VerticalAlignment="Bottom"
-                        Click="ConnectButton_OnClick"
-                        Content="Connect" />
-              </StackPanel>
+            <StackPanel HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <Image Width="100"
+                       Height="100"
+                       Margin="24"
+                       Source="/SamplePages/Facebook Service/FacebookLogo.png"
+                       Stretch="Uniform" />
+                <Border x:Name="ProfileImage"
+                        Width="100"
+                        Height="100"
+                        CornerRadius="50"
+                        Visibility="Collapsed">
+                    <Border.Background>
+                        <ImageBrush ImageSource="{Binding Url}"
+                                    Stretch="Uniform" />
+                    </Border.Background>
+                </Border>
             </StackPanel>
-          </Grid>
 
-          <!--  Share to Facebook  -->
-          <Grid x:Name="ShareBox"
-                Grid.Row="1">
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto" />
-              <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+            <ScrollViewer Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
 
-            <Grid Background="#FFCCCCCC">
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-              </Grid.ColumnDefinitions>
-              <Button x:Name="PostBoxExpandButton"
-                      VerticalAlignment="Stretch"
-                      Click="PostBoxExpandButton_OnClick"
-                      Content=""
-                      FontFamily="Segoe MDL2 Assets" />
-              <TextBlock Grid.Column="1"
-                         Margin="12,6"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Center"
-                         Foreground="{StaticResource Brush-Grey-01}"
-                         Text="Post" />
-            </Grid>
+                    <!--  Credentials area  -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-            <StackPanel x:Name="PostPanel"
-                        Grid.Row="1"
-                        Margin="24">
-              <TextBox x:Name="TitleText"
-                       Margin="0,0,0,12"
-                       Header="Title" />
-              <TextBox x:Name="DescriptionText"
-                       Margin="0,0,0,12"
-                       Header="Description" />
-              <TextBox x:Name="UrlText"
-                       Margin="0,0,0,12"
-                       Header="Url"
-                       Text="https://github.com/Microsoft/UWPCommunityToolkit" />
-              <StackPanel Margin="0,12"
-                          Orientation="Horizontal">
-                <Button x:Name="ShareButton"
-                        Margin="0,0,12,0"
-                        Click="ShareButton_OnClick"
-                        Content="Share with dialog" />
-                <Button x:Name="SharePictureButton"
-                        Click="SharePictureButton_OnClick"
-                        Content="Share directly with picture" />
-              </StackPanel>
-            </StackPanel>
-          </Grid>
+                        <Grid Background="#FFCCCCCC">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="CredentialsBoxExpandButton"
+                                    VerticalAlignment="Stretch"
+                                    Click="CredentialsBoxExpandButton_OnClick"
+                                    Content=""
+                                    FontFamily="Segoe MDL2 Assets" />
+                            <TextBlock Grid.Column="1"
+                                       Margin="12,6"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Text="Credentials" />
+                        </Grid>
 
-          <!--  Posts  -->
-          <ListView x:Name="PostListView"
-                    Grid.Row="2"
-                    ItemTemplate="{StaticResource FacebookPostSchemaTemplate}">
-            <ListView.ItemContainerStyle>
-              <Style TargetType="ListViewItem">
-                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                <Setter Property="Template">
-                  <Setter.Value>
-                    <ControlTemplate TargetType="ListViewItem">
-                      <ListViewItemPresenter PointerOverBackground="{x:Null}" />
-                    </ControlTemplate>
-                  </Setter.Value>
-                </Setter>
-              </Style>
-            </ListView.ItemContainerStyle>
-          </ListView>
+                        <StackPanel x:Name="CredentialsBox"
+                                    Grid.Row="1"
+                                    Margin="24"
+                                    Orientation="Vertical">
+                            <TextBox x:Name="AppIDText"
+                                     Margin="0,0,0,12"
+                                     Header="App ID" />
+                            <HyperlinkButton Margin="0,0,0,15"
+                                             Content="Show me how to get this ID"
+                                             NavigateUri="http://uwpcommunitytoolkit.com/en/master/services/Facebook/" />
+                            <StackPanel Orientation="Horizontal">
+                                <ComboBox x:Name="QueryType"
+                                          Header="Type:" />
+                                <Button x:Name="ConnectButton"
+                                        Margin="10,0,0,0"
+                                        VerticalAlignment="Bottom"
+                                        Click="ConnectButton_OnClick"
+                                        Content="Connect" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
 
-          <!--  Photos  -->
-          <Grid x:Name="PhotoBox"
-                Grid.Row="2"
-                VerticalAlignment="Top">
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto" />
-              <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <Grid Background="#FFCCCCCC">
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-              </Grid.ColumnDefinitions>
-              <Button x:Name="PhotoBoxExpandButton"
-                      VerticalAlignment="Stretch"
-                      Click="PhotoBoxExpandButton_Click"
-                      Content=""
-                      FontFamily="Segoe MDL2 Assets" />
-              <TextBlock Grid.Column="1"
-                         Margin="12,6"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Center"
-                         Foreground="{StaticResource Brush-Grey-01}"
-                         Text="Photos" />
-            </Grid>
-
-            <ScrollViewer x:Name="PhotoScroller"
+                    <!--  Share to Facebook  -->
+                    <Grid x:Name="ShareBox"
                           Grid.Row="1">
-              <GridView x:Name="PhotoGridView"
-                        ItemTemplateSelector="{StaticResource facebookPhotoTemplateSelector}"
-                        SelectionChanged="PhotoGridView_SelectionChanged" />
-            </ScrollViewer>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-          </Grid>
+                        <Grid Background="#FFCCCCCC">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="PostBoxExpandButton"
+                                    VerticalAlignment="Stretch"
+                                    Click="PostBoxExpandButton_OnClick"
+                                    Content=""
+                                    FontFamily="Segoe MDL2 Assets" />
+                            <TextBlock Grid.Column="1"
+                                       Margin="12,6"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Text="Post" />
+                        </Grid>
+
+                        <Grid x:Name="PostPanel"
+                                    Grid.Row="1"
+                                    Margin="24">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            
+                            <TextBox x:Name="UrlText"
+                                    Header="Url"
+                                    Text="https://github.com/Microsoft/UWPCommunityToolkit" />
+                            <Button x:Name="ShareButton"
+                                    Grid.Column="1"
+                                    Margin="12,0,0,0"
+                                    Click="ShareButton_OnClick"
+                                    VerticalAlignment="Bottom"
+                                    Content="Share with dialog" />
+                            <TextBox x:Name="TitleText"
+                                    Grid.Row="1"
+                                    Margin="0,12,0,0"
+                                    Header="Title" />
+                            <Button x:Name="SharePictureButton"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="12,0,0,0"
+                                    VerticalAlignment="Bottom"
+                                    Click="SharePictureButton_OnClick"
+                                    Content="Share directly with picture" />
+                        </Grid>
+                    </Grid>
+
+                    <!--  Posts  -->
+                    <ListView x:Name="PostListView"
+                              Grid.Row="2"
+                              ItemTemplate="{StaticResource FacebookPostSchemaTemplate}">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListViewItem">
+                                            <ListViewItemPresenter PointerOverBackground="{x:Null}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+
+                    <!--  Photos  -->
+                    <Grid x:Name="PhotoBox"
+                          Grid.Row="2"
+                          VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Background="#FFCCCCCC">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="PhotoBoxExpandButton"
+                                    VerticalAlignment="Stretch"
+                                    Click="PhotoBoxExpandButton_Click"
+                                    Content=""
+                                    FontFamily="Segoe MDL2 Assets" />
+                            <TextBlock Grid.Column="1"
+                                       Margin="12,6"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Text="Photos" />
+                        </Grid>
+
+                        <ScrollViewer x:Name="PhotoScroller"
+                                      Grid.Row="1">
+                            <GridView x:Name="PhotoGridView"
+                                      ItemTemplateSelector="{StaticResource facebookPhotoTemplateSelector}"
+                                      SelectionChanged="PhotoGridView_SelectionChanged" />
+                        </ScrollViewer>
+
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
         </Grid>
-      </ScrollViewer>
     </Grid>
-  </Grid>
 </Page>
 

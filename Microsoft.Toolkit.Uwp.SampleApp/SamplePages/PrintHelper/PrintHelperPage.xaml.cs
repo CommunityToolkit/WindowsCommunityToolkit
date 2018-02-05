@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -24,25 +25,43 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
-        private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void Print_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             Shell.Current.DisplayWaitRing = true;
 
-            RootGrid.Children.Remove(PrintableContent);
+            DirectPrintContainer.Children.Remove(PrintableContent);
 
             _printHelper = new PrintHelper(Container);
             _printHelper.AddFrameworkElementToPrint(PrintableContent);
 
+            _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
             _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
             _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
 
             await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App");
         }
 
+        private async void DirectPrint_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Shell.Current.DisplayWaitRing = true;
+
+            _printHelper = new PrintHelper(DirectPrintContainer);
+
+            _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
+            _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
+            _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
+
+            await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", true);
+        }
+
         private void ReleasePrintHelper()
         {
             _printHelper.Dispose();
-            RootGrid.Children.Add(PrintableContent);
+
+            if (!DirectPrintContainer.Children.Contains(PrintableContent))
+            {
+                DirectPrintContainer.Children.Add(PrintableContent);
+            }
 
             Shell.Current.DisplayWaitRing = false;
         }
@@ -59,6 +78,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ReleasePrintHelper();
             var dialog = new MessageDialog("Printing failed.");
             await dialog.ShowAsync();
+        }
+
+        private void PrintHelper_OnPrintCanceled()
+        {
+            ReleasePrintHelper();
         }
     }
 }

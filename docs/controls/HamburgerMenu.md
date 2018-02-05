@@ -1,3 +1,11 @@
+---
+title: HamburgerMenu XAML Control
+author: nmetulev
+ms.date: 08/20/2017
+description: The Hamburger Menu Control provides an easy-to-use, side-bar menu which users can show or hide by using a Hamburger button
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HamburgerMenu, xaml control, xaml
+---
+
 # HamburgerMenu XAML Control
 
 The **Hamburger Menu Control** provides an easy-to-use, side-bar menu which users can show or hide by using a Hamburger button. By  tapping the icon, it opens up a side menu with a selection of options or additional pages.
@@ -10,7 +18,7 @@ Developers can place menu specific content, navigation, images, text or custom c
 
 ## Syntax
 
-```xaml
+```xml
 
 <controls:HamburgerMenu PaneBackground="@[PaneBackground:Brush:Black]" x:Name="HamburgerMenuControl"
 	Foreground="White"
@@ -22,7 +30,7 @@ Developers can place menu specific content, navigation, images, text or custom c
 	DisplayMode="CompactInline"
 	CompactPaneLength="48"
 	HamburgerHeight="48"
-	IsPaneOpen="False"/>
+	IsPaneOpen="False">
 </controls:HamburgerMenu>
 
 ```
@@ -42,7 +50,7 @@ You can also create HamburgerMenuGlyphItem (or HamburgerMenuImageItem) directly 
 
 The next sample demonstrates how to add custom menu items to the HamburgerMenu control.
 
-```xaml
+```xml
 
 <Page
     x:Class="HamburgerSample.MainPage"
@@ -75,7 +83,7 @@ The next sample demonstrates how to add custom menu items to the HamburgerMenu c
                                 ItemClick="OnMenuItemClick"
                                 OptionsItemTemplate="{StaticResource DefaultTemplate}"
                                 OptionsItemClick="OnMenuItemClick">
-            <Frame x:Name="contentFrame"/>
+            <Frame x:Name="contentFrame" Foreground="Black"/>
         </controls:HamburgerMenu>
     </Grid>
 </Page>
@@ -141,7 +149,7 @@ namespace HamburgerSample
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 

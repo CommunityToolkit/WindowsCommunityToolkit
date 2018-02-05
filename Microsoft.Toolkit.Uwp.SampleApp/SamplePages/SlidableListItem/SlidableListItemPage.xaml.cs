@@ -10,54 +10,72 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Collections.ObjectModel;
-using Microsoft.Toolkit.Uwp.SampleApp.Common;
+using System.Windows.Input;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class SlidableListItemPage
+    public sealed partial class SlidableListItemPage : IXamlRenderListener
     {
-        private ObservableCollection<Item> _items;
-
-        private DelegateCommand<Item> _deleteItem = default(DelegateCommand<Item>);
-
-        public DelegateCommand<Item> DeleteItem => _deleteItem ?? (_deleteItem = new DelegateCommand<Item>(ExecuteDeleteItemCommand, CanExecuteDeleteItemCommand));
+        public static ObservableCollection<Item> Items { get; set; }
 
         public SlidableListItemPage()
         {
             InitializeComponent();
-            ObservableCollection<Item> items = new ObservableCollection<Item>();
+        }
 
-            for (var i = 0; i < 1000; i++)
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            var listView = control.FindChildByName("listView") as ListView;
+            if (listView != null)
             {
-                items.Add(new Item() { Title = "Item " + i });
+                listView.ItemsSource = Items;
             }
-
-            _items = items;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            var propertyDesc = e.Parameter as PropertyDescriptor;
+            // Reset items when revisiting sample.
+            Items = new ObservableCollection<Item>();
 
-            if (propertyDesc != null)
+            for (var i = 0; i < 1000; i++)
             {
-                DataContext = propertyDesc.Expando;
+                Items.Add(new Item() { Title = "Item " + i });
+            }
+        }
+    }
+
+#pragma warning disable SA1402 // File may only contain a single class
+    internal class RemoveItemCommand : ICommand
+#pragma warning restore SA1402 // File may only contain a single class
+    {
+        event EventHandler ICommand.CanExecuteChanged
+        {
+            add
+            {
+            }
+
+            remove
+            {
             }
         }
 
-        private bool CanExecuteDeleteItemCommand(Item item)
+        public bool CanExecute(object parameter)
         {
             return true;
         }
 
-        private void ExecuteDeleteItemCommand(Item item)
+        public void Execute(object parameter)
         {
-            _items.Remove(item);
+            SlidableListItemPage.Items?.Remove(parameter as Item);
         }
     }
 }

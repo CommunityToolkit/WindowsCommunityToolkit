@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// <summary>
     /// Performs a scale animation using composition.
     /// </summary>
-    public class Scale : CompositionBehaviorBase
+    public class Scale : CompositionBehaviorBase<UIElement>
     {
         /// <summary>
         /// The scale (x axis) of the associated object

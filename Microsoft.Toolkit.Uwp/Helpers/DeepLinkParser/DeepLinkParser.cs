@@ -14,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using Windows.ApplicationModel.Activation;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// Provides assistance with parsing <see cref="ILaunchActivatedEventArgs"/> and its .Arguments property in to a key-value set and target path
@@ -89,8 +89,6 @@ namespace Microsoft.Toolkit.Uwp
             return validatedUri;
         }
 
-        private readonly ILaunchActivatedEventArgs inputArgs;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DeepLinkParser"/> class.
         /// </summary>
@@ -101,18 +99,27 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Initializes a new instance of the <see cref="DeepLinkParser" /> class.
         /// </summary>
-        /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
-        /// <exception cref="System.ArgumentException">'args' is not a LaunchActivatedEventArgs instance</exception>
+        /// <param name="args">The <see cref="IActivatedEventArgs" /> instance containing the event data.</param>
+        /// <exception cref="System.ArgumentException">'args' is not an instance of ILaunchActivatedEventArgs or IProtocolActivatedEventArgs - args</exception>
         protected DeepLinkParser(IActivatedEventArgs args)
         {
-            inputArgs = args as ILaunchActivatedEventArgs;
-
-            if (inputArgs == null)
+            var launchArgs = args as ILaunchActivatedEventArgs;
+            if (launchArgs == null)
             {
-                throw new ArgumentException("'args' is not a LaunchActivatedEventArgs instance", nameof(args));
+                var protcolArgs = args as IProtocolActivatedEventArgs;
+                if (protcolArgs != null)
+                {
+                    ParseUriString(protcolArgs.Uri.OriginalString);
+                }
+                else
+                {
+                    throw new ArgumentException("'args' is not an instance of ILaunchActivatedEventArgs or IProtocolActivatedEventArgs", nameof(args));
+                }
             }
-
-            ParseUriString(inputArgs.Arguments);
+            else
+            {
+                ParseUriString(launchArgs.Arguments);
+            }
         }
 
         /// <summary>
@@ -170,7 +177,7 @@ namespace Microsoft.Toolkit.Uwp
         protected virtual void SetRoot(Uri validatedUri)
         {
             var origString = validatedUri.OriginalString;
-            var startIndex = origString.IndexOf("://");
+            var startIndex = origString.IndexOf("://", StringComparison.OrdinalIgnoreCase);
             if (startIndex != -1)
             {
                 origString = origString.Substring(startIndex + 3);
@@ -178,12 +185,13 @@ namespace Microsoft.Toolkit.Uwp
 
             int queryStartPosition = origString.IndexOf('?');
             if (queryStartPosition == -1)
-            { // No querystring on the URI
-                this.Root = origString;
+            {
+                // No querystring on the URI
+                Root = origString;
             }
             else
             {
-                this.Root = origString.Substring(0, queryStartPosition);
+                Root = origString.Substring(0, queryStartPosition).TrimEnd('/', '\\');
             }
         }
 

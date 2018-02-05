@@ -12,8 +12,13 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.IO;
+using System.Net.Http.Headers;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Storage.Streams;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 
@@ -22,24 +27,27 @@ namespace Microsoft.Toolkit.Uwp
     /// <summary>
     /// This class exposes functionality of HttpClient through a singleton to take advantage of built-in connection pooling.
     /// </summary>
+    [Obsolete]
     public class HttpHelper
     {
         /// <summary>
         /// Maximum number of Http Clients that can be pooled.
         /// </summary>
-        private const int MaxPoolSize = 10;
+        private const int DefaultPoolSize = 10;
 
         /// <summary>
         /// Private singleton field.
         /// </summary>
         private static HttpHelper _instance;
 
-        private SemaphoreSlim _semaphore = new SemaphoreSlim(MaxPoolSize);
+        private SemaphoreSlim _semaphore = null;
 
         /// <summary>
         /// Private instance field.
         /// </summary>
         private ConcurrentQueue<HttpClient> _httpClientQueue = null;
+
+        private IHttpFilter _httpFilter = null;
 
         /// <summary>
         /// Gets public singleton property.
@@ -49,8 +57,20 @@ namespace Microsoft.Toolkit.Uwp
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpHelper"/> class.
         /// </summary>
-        protected HttpHelper()
+        public HttpHelper()
+            : this(DefaultPoolSize, GetDefaultFilter())
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpHelper"/> class.
+        /// </summary>
+        /// <param name="poolSize">number of HttpClient instances allowed</param>
+        /// <param name="httpFilter">HttpFilter to use when instances of HttpClient are created</param>
+        public HttpHelper(int poolSize, IHttpFilter httpFilter)
+        {
+            _httpFilter = httpFilter;
+            _semaphore = new SemaphoreSlim(poolSize);
             _httpClientQueue = new ConcurrentQueue<HttpClient>();
         }
 
@@ -58,8 +78,9 @@ namespace Microsoft.Toolkit.Uwp
         /// Process Http Request using instance of HttpClient.
         /// </summary>
         /// <param name="request">instance of <see cref="HttpHelperRequest"/></param>
+        /// <param name="cancellationToken">instance of <see cref="CancellationToken"/></param>
         /// <returns>Instane of <see cref="HttpHelperResponse"/></returns>
-        public async Task<HttpHelperResponse> SendRequestAsync(HttpHelperRequest request)
+        public async Task<HttpHelperResponse> SendRequestAsync(HttpHelperRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
             await _semaphore.WaitAsync().ConfigureAwait(false);
 
@@ -71,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp
 
                 client = GetHttpClientInstance();
 
-                var response = await client.SendRequestAsync(httpRequestMessage).AsTask().ConfigureAwait(false);
+                var response = await client.SendRequestAsync(httpRequestMessage).AsTask(cancellationToken).ConfigureAwait(false);
 
                 FixInvalidCharset(response);
 
@@ -89,6 +110,55 @@ namespace Microsoft.Toolkit.Uwp
             }
         }
 
+        /// <summary>
+        /// Process Http Request using instance of HttpClient.
+        /// </summary>
+        /// <param name="request">instance of <see cref="HttpHelperRequest"/></param>
+        /// <param name="cancellationToken">instance of <see cref="CancellationToken"/></param>
+        /// <returns>Instane of <see cref="HttpHelperResponse"/></returns>
+        public async Task<HttpHelperResponse> GetInputStreamAsync(HttpHelperRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            await _semaphore.WaitAsync().ConfigureAwait(false);
+
+            HttpClient client = null;
+
+            try
+            {
+                var httpRequestMessage = request.ToHttpRequestMessage();
+
+                client = GetHttpClientInstance();
+                foreach (var header in request.Headers)
+                {
+                    client.DefaultRequestHeaders[header.Key] = header.Value;
+                }
+
+                var response = await client.GetInputStreamAsync(httpRequestMessage.RequestUri).AsTask(cancellationToken).ConfigureAwait(false);
+
+                return new HttpHelperResponse(new HttpResponseMessage { Content = new HttpStreamContent(response) });
+            }
+            finally
+            {
+                // Add the HttpClient instance back to the queue.
+                if (client != null)
+                {
+                    // Clean up default request headers
+                    client.DefaultRequestHeaders.Clear();
+
+                    _httpClientQueue.Enqueue(client);
+                }
+
+                _semaphore.Release();
+            }
+        }
+
+        private static IHttpFilter GetDefaultFilter()
+        {
+            var filter = new HttpBaseProtocolFilter();
+            filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
+
+            return filter;
+        }
+
         private HttpClient GetHttpClientInstance()
         {
             HttpClient client = null;
@@ -96,10 +166,7 @@ namespace Microsoft.Toolkit.Uwp
             // Try and get HttpClient from the queue
             if (!_httpClientQueue.TryDequeue(out client))
             {
-                var filter = new HttpBaseProtocolFilter();
-                filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.MostRecent;
-
-                client = new HttpClient(filter);
+                client = new HttpClient(_httpFilter);
             }
 
             return client;

@@ -17,35 +17,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Exceptions
     /// <summary>
     /// Exception for null Config.
     /// </summary>
-    public class ConfigNullException : Exception
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
+    public class ConfigNullException : Toolkit.Services.Exceptions.ConfigNullException
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConfigNullException"/> class.
-        /// Default constructor.
-        /// </summary>
-        public ConfigNullException()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConfigNullException"/> class.
-        /// Constructor accepting additional message string.
-        /// </summary>
-        /// <param name="message">Additional error information.</param>
-        public ConfigNullException(string message)
-            : base(message)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConfigNullException"/> class.
-        /// Constructor accepting additonal message string and inner exception
-        /// </summary>
-        /// <param name="message">Additional error information.</param>
-        /// <param name="innerException">Reference to inner exception.</param>
-        public ConfigNullException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
     }
 }

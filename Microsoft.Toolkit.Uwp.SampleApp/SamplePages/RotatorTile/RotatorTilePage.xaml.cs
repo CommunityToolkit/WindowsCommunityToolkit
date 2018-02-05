@@ -10,33 +10,46 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using System.Collections.ObjectModel;
+using Microsoft.Toolkit.Uwp.SampleApp.Data;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class RotatorTilePage
+    public sealed partial class RotatorTilePage : IXamlRenderListener
     {
+        private ObservableCollection<PhotoDataItem> _pictures;
+
         public RotatorTilePage()
         {
             InitializeComponent();
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            var tile1 = control.FindChildByName("Tile1") as RotatorTile;
+
+            if (tile1 != null)
+            {
+                tile1.ItemsSource = _pictures;
+            }
+
+            var tile2 = control.FindChildByName("Tile2") as RotatorTile;
+
+            if (tile2 != null)
+            {
+                tile2.ItemsSource = _pictures;
+            }
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-
-            var pictures = await new Data.PhotosDataSource().GetItemsAsync(true);
-
-            Tile1.ItemsSource = pictures;
-            Tile2.ItemsSource = pictures;
+            _pictures = await new Data.PhotosDataSource().GetItemsAsync(true);
         }
     }
 }

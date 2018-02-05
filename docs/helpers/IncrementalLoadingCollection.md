@@ -1,3 +1,11 @@
+---
+title: Incremental Loading Collection Helpers
+author: nmetulev
+ms.date: 08/20/2017
+description: The IncrementalLoadingCollection helpers greatly simplify the definition and usage of collections whose items can be loaded incrementally only when needed by the view
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, IncrementalLoadingCollection
+---
+
 # Incremental Loading Collection Helpers
 
 The **IncrementalLoadingCollection** helpers greatly simplify the definition and usage of collections whose items can be loaded incrementally only when needed by the view, i.e., when user scrolls a [ListView](https://msdn.microsoft.com/library/windows/apps/windows.ui.xaml.controls.listview.aspx) or a [GridView](https://msdn.microsoft.com/library/windows/apps/windows.ui.xaml.controls.gridview.aspx).
@@ -70,7 +78,7 @@ The **IncrementalLoadingCollection** constructor accepts the following arguments
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
 

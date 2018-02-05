@@ -17,5 +17,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Models
         public double MinValue { get; set; }
 
         public double MaxValue { get; set; }
+
+        public double Step { get; set; } = 1;
     }
 }

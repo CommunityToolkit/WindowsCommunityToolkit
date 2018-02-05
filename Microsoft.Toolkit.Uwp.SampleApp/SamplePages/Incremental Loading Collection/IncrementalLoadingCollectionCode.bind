@@ -8,17 +8,17 @@ public class Person
 
 public class PeopleSource : IIncrementalSource<Person>
 {
-    private readonly List<Person> people;
+    private readonly List<Person> _people;
 
     public PeopleSource()
     {
         // Creates an example collection.
-        people = new List<Person>();
+        _people = new List<Person>();
 
         for (int i = 1; i <= 200; i++)
         {
             var p = new Person { Name = "Person " + i };
-            people.Add(p);
+            _people.Add(p);
         }
     }
 

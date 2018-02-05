@@ -10,13 +10,15 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.Services.Core;
-
 namespace Microsoft.Toolkit.Uwp.Services.Bing
 {
+    using System;
+    using Microsoft.Toolkit.Uwp.Services.Core;
+
     /// <summary>
     /// Country filter for search query.
     /// </summary>
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
     public enum BingCountry
     {
         /// <summary>

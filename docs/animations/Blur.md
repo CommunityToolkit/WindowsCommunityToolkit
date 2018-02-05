@@ -1,3 +1,11 @@
+---
+title: Blur animation behavior
+author: nmetulev
+ms.date: 08/20/2017
+description: The UWP Community Toolkit Blur animation behavior selectively blurs a XAML element by increasing or decreasing pixel size
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, blur, blur animation
+---
+
 # Blur
 
 The **Blur animation behavior** selectively blurs a XAML element by increasing or decreasing pixel size.
@@ -9,7 +17,7 @@ Sometimes you want an element to appear slightly out of focus, but to be familia
 
 You can either use the blur behavior from your XAML code:
 
-```xaml
+```xml
 
     <interactivity:Interaction.Behaviors>
     <behaviors:Blur x:Name="BlurBehavior" 

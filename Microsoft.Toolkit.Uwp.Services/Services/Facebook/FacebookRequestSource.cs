@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Facebook
     /// Type to handle paged requests to Facebook Graph.
     /// </summary>
     /// <typeparam name="T">Strong type to return.</typeparam>
-    public class FacebookRequestSource<T> : IIncrementalSource<T>
+    public class FacebookRequestSource<T> : Collections.IIncrementalSource<T>
     {
         private bool _isFirstCall = true;
 

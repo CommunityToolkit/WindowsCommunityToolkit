@@ -11,7 +11,7 @@
 // ******************************************************************
 
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Bing;
+using Microsoft.Toolkit.Services.Bing;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
 namespace UnitTests.Services
@@ -26,7 +26,7 @@ namespace UnitTests.Services
         public async Task Test_BingServiceSearch_Request()
         {
             BingSearchConfig config = new BingSearchConfig();
-            config.Country = BingCountry.France;
+            config.Country = BingCountry.UnitedStates;
             config.QueryType = BingQueryType.Search;
             config.Query = Query;
 
@@ -40,13 +40,13 @@ namespace UnitTests.Services
         public async Task Test_BingServiceNews_Request()
         {
             BingSearchConfig config = new BingSearchConfig();
-            config.Country = BingCountry.France;
+            config.Country = BingCountry.UnitedStates;
             config.QueryType = BingQueryType.News;
             config.Query = Query;
 
             var results = await BingService.Instance.RequestAsync(config, 50);
 
-            Assert.AreEqual(results.Count, 10);
+            Assert.IsTrue(results.Count > 5);
         }
     }
 }

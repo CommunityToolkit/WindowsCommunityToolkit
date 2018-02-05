@@ -28,25 +28,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>
     /// </seealso>
     /// <seealso cref="AnimationExtensions.IsBlurSupported"/>
-    public class Blur : CompositionBehaviorBase
+    public class Blur : CompositionBehaviorBase<FrameworkElement>
     {
-        /// <summary>
-        /// The _framework element
-        /// </summary>
-        private FrameworkElement _frameworkElement;
-
-        /// <summary>
-        /// Called after the behavior is attached to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />.
-        /// </summary>
-        /// <remarks>
-        /// Override this to hook up functionality to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />
-        /// </remarks>
-        protected override void OnAttached()
-        {
-            base.OnAttached();
-            _frameworkElement = AssociatedObject as FrameworkElement;
-        }
-
         /// <summary>
         /// The Blur value of the associated object
         /// </summary>
@@ -69,9 +52,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// </summary>
         public override void StartAnimation()
         {
-            if (AnimationExtensions.IsBlurSupported)
+            if (AnimationExtensions.BlurEffect.IsSupported)
             {
-                _frameworkElement?.Blur(duration: Duration, delay: Delay, value: (float)Value)?.StartAsync();
+                AssociatedObject?.Blur(duration: Duration, delay: Delay, value: (float)Value)?.Start();
             }
         }
     }
