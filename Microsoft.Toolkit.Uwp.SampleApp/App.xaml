@@ -5,8 +5,11 @@
              xmlns:toolkitControls="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
              xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+             xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+             xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
              xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
              xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
+             xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
              RequiresPointerMode="Auto"
              RequestedTheme="Light">
     
@@ -20,6 +23,7 @@
         <Color x:Key="Grey-05">#FFF0F0F0</Color>
         <Color x:Key="White">#FFFFFFFF</Color>
         <Color x:Key="Blue-01">#FF0078D7</Color>
+        <Color x:Key="Red">#FFFF0000</Color>
         <Color x:Key="Brand-Color">#3750D1</Color>
 
         <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="{StaticResource Brand-Color}" />
@@ -39,11 +43,19 @@
                          Color="{StaticResource White}" />
         <SolidColorBrush x:Key="Brush-Blue-01"
                          Color="{StaticResource Blue-01}" />
+		<SolidColorBrush x:Key="Brush-Red"
+						 Color="{StaticResource Red}" />
         <SolidColorBrush x:Key="Brush-Brand-Color"
                        Color="{StaticResource Brand-Color}" />
 
         <!-- Converters -->
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        
+        <converters:EmptyStringToObjectConverter x:Key="EmptyStringToObject"
+                                                 EmptyValue="Collapsed"
+                                                 NotEmptyValue="Visible" />
+
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
         <!--  Styles  -->
         <Style TargetType="controls:CodeRenderer">
@@ -177,9 +189,7 @@
             </Grid>
         </DataTemplate>
 
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-
-        <Style x:Key="HambugerMenuItemStyle"
+        <Style x:Key="HamburgerMenuItemStyle"
                TargetType="ListViewItem">
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
             <Setter Property="Background" Value="Transparent" />
@@ -268,8 +278,8 @@
             </Setter>
         </Style>
 
-        <Style x:Key="SecondaryHambugerMenuItemStyle"
-               TargetType="ListViewItem">
+        <Style x:Key="SecondaryHamburgerMenuItemStyle"
+               TargetType="GridViewItem">
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Padding" Value="0" />
@@ -279,9 +289,21 @@
             <Setter Property="UseSystemFocusVisuals" Value="True" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="Transitions" Value="{x:Null}"></Setter>
+            <Setter Property="animations:Implicit.ShowAnimations">
+                <Setter.Value>
+                    <animations:AnimationCollection>
+                        <animations:OpacityAnimation Duration="0:0:0.2" 
+                                                     Delay="0:0:0.2" 
+                                                     SetInitialValueBeforeDelay="True" 
+                                                     From="0" 
+                                                     To="1"></animations:OpacityAnimation>
+                    </animations:AnimationCollection>
+                </Setter.Value>
+            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="ListViewItem">
+                    <ControlTemplate TargetType="GridViewItem">
                         <Grid x:Name="LayoutRoot"
                               Background="{TemplateBinding Background}"
                               Control.IsTemplateFocusTarget="True">
@@ -332,84 +354,6 @@
                                     <VisualState x:Name="Enabled" />
                                     <VisualState x:Name="Disabled">
                                         <VisualState.Setters>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="VerticalHambugerMenuItemStyle"
-               TargetType="ListViewItem">
-            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Padding" Value="0,0,0,0" />
-            <Setter Property="MinHeight" Value="0" />
-            <Setter Property="UseSystemFocusVisuals" Value="True" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListViewItem">
-                        <Grid x:Name="LayoutRoot"
-                              Background="{TemplateBinding Background}"
-                              Control.IsTemplateFocusTarget="True">
-                            <!--  Wrap SelectionIndicator in a grid so that its offset is 0,0 - this enables the offset animation.  -->
-                            <Grid HorizontalAlignment="Left"
-                                  VerticalAlignment="Center">
-                                <Rectangle x:Name="SelectionIndicator"
-                                           Width="6"
-                                           Height="24"
-                                           Fill="{ThemeResource SystemControlForegroundAccentBrush}"
-                                           Opacity="0.0" />
-                            </Grid>
-                            <ContentPresenter x:Name="ContentPresenter"
-                                              Grid.Column="1"
-                                              Margin="{TemplateBinding Padding}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              Content="{TemplateBinding Content}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              ContentTransitions="{TemplateBinding ContentTransitions}" />
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="PointerStates">
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="PointerOver">
-                                        <VisualState.Setters>
-                                            <Setter Target="LayoutRoot.Background" Value="{ThemeResource SystemControlHighlightListLowBrush}" />
-                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <VisualState.Setters>
-                                            <Setter Target="LayoutRoot.Background" Value="{ThemeResource SystemControlHighlightListMediumBrush}" />
-                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Selected">
-                                        <VisualState.Setters />
-                                    </VisualState>
-                                    <VisualState x:Name="PointerOverSelected">
-                                        <VisualState.Setters>
-                                            <Setter Target="LayoutRoot.Background" Value="{ThemeResource SystemControlHighlightListLowBrush}" />
-                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="PressedSelected">
-                                        <VisualState.Setters>
-                                            <Setter Target="LayoutRoot.Background" Value="{ThemeResource SystemControlHighlightListMediumBrush}" />
-                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="DisabledStates">
-                                    <VisualState x:Name="Enabled" />
-                                    <VisualState x:Name="Disabled">
-                                        <VisualState.Setters>
-                                            <Setter Target="LayoutRoot.Opacity" Value="{ThemeResource ListViewItemDisabledThemeOpacity}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -637,63 +581,59 @@
             </Setter>
         </Style>
 
-        <Style x:Name="HamburgerExpanderItem"
-               TargetType="toolkitControls:Expander">
-            <Setter Property="Header" Value="Header" />
-            <Setter Property="IsTabStop" Value="False" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="toolkitControls:Expander">
-                        <Grid>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+        <DataTemplate x:Key="SampleTemplate">
+            <StackPanel Padding="16,28, 16, 10"
+                        Background="Transparent">
+                <Grid Width="120"
+                      Height="80"
+                      extensions:VisualEx.CenterPoint="40,60,0">
+                    <toolkitControls:DropShadowPanel HorizontalContentAlignment="Stretch"
+                                              VerticalContentAlignment="Stretch"
+                                              BlurRadius="30"
+                                              ShadowOpacity="0.6"
+                                                     OffsetY="3"
+                                              extensions:VisualEx.Opacity="0"
+                                              Visibility="Collapsed">
+                        <Border></Border>
+                    </toolkitControls:DropShadowPanel>
+                    <Border Background="#E6E6E6">
+                        <Image x:Name="SampleIcon" Source="{Binding Icon}" />
+                    </Border>
+                </Grid>
 
-                                <ToggleButton x:Name="PART_ExpanderToggleButton"
-                                              Padding="30,14"
-                                              HorizontalAlignment="Stretch"
-                                              VerticalAlignment="Top"
-                                              AutomationProperties.Name="Expand"
-                                              Background="Transparent"
-                                              Content="{TemplateBinding Header}"
-                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                              FontFamily="Segoe UI"
-                                              FontSize="20px"
-                                              FontWeight="SemiBold"
-                                              Foreground="{TemplateBinding Foreground}"
-                                              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                              Opacity="0.8"
-                                              Style="{StaticResource SampleAppHeaderToggleButtonStyle}"
-                                              TabIndex="0" />
-
-                                <ContentPresenter x:Name="PART_MainContent"
-                                                  Grid.Row="1"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  HorizontalContentAlignment="Stretch"
-                                                  Background="{TemplateBinding Background}"
-                                                  Visibility="Collapsed" />
-                            </Grid>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="ExpandedStates">
-                                    <VisualState x:Name="Expanded">
-                                        <VisualState.Setters>
-                                            <Setter Target="PART_MainContent.Visibility" Value="Visible" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Collapsed" />
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+                <Grid Margin="0,8,0,0" Width="120">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock FontSize="12"
+                               FontWeight="Light"
+                               VerticalAlignment="Center"
+                               Foreground="Black"
+                               TextTrimming="CharacterEllipsis"
+                               Text="{Binding Name}" />
+                    <Button Opacity="0.6"
+                            Grid.Column="1"
+                            Padding="0"
+                            HorizontalAlignment="Right"
+                            AutomationProperties.Name="Main button"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            TabIndex="0">
+                        <FontIcon VerticalAlignment="Center" 
+                                  HorizontalAlignment="Right"
+                                  Margin="10"
+                                  FontFamily="Segoe MDL2 Assets"
+                                  FontSize="10"
+                                  Glyph="&#xE946;" />
+                    </Button>
+                </Grid>
+                
+            </StackPanel>
+        </DataTemplate>
 
         <Style x:Key="HorizontalHamburgerMenu"
-               TargetType="toolkitControls:HamburgerMenu">
+               TargetType="controls:ExtendedHamburgerMenu">
             <Setter Property="HamburgerMenuTemplate">
                 <Setter.Value>
                     <DataTemplate>
@@ -707,40 +647,104 @@
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="toolkitControls:HamburgerMenu">
+                    <ControlTemplate TargetType="controls:ExtendedHamburgerMenu">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="48" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
+                            <Grid.Resources>
+                                <animations:AnimationCollection x:Key="FromRightShowAnimation">
+                                    <animations:TranslationAnimation From="100, 0, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
+                                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                                </animations:AnimationCollection>
+                                <animations:AnimationCollection x:Key="FromRightHideAnimation">
+                                    <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.2"></animations:OpacityAnimation>
+                                    <animations:TranslationAnimation To="100, 0, 0" From="0" Duration="0:0:0.2"></animations:TranslationAnimation>
+                                </animations:AnimationCollection>
+                            </Grid.Resources>
+
                             <ContentPresenter x:Name="ContentPart"
                                               Grid.Row="1"
                                               AutomationProperties.Name="Content"
                                               Content="{TemplateBinding Content}" />
 
-                            <toolkitControls:DropShadowPanel HorizontalContentAlignment="Stretch"
-                                                       VerticalContentAlignment="Stretch"
-                                                       BlurRadius="30"
-                                                       OffsetY="3"
-                                                       ShadowOpacity="0.2">
-                                <Grid Background="{TemplateBinding PaneBackground}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
+                            <Grid Grid.Row="1">
 
-                                    <Border Background="#48000000" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="3"></Border>
+                                <Border x:Name="ContentShadow"
+                                        Background="#33000000"
+                                        Visibility="{Binding Visibility, ElementName=SamplePickerGrid}">
+                                    <interactivity:Interaction.Behaviors>
+                                        <behaviors:Blur AutomaticallyStart="True"
+                                                        Delay="0"
+                                                        Value="2"
+                                                        Duration="0" />
+                                    </interactivity:Interaction.Behaviors>
+                                    <animations:Implicit.ShowAnimations>
+                                        <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                                    </animations:Implicit.ShowAnimations>
+                                    <animations:Implicit.HideAnimations>
+                                        <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.2"></animations:OpacityAnimation>
+                                    </animations:Implicit.HideAnimations>
+                                </Border>
 
-                                    <ListView x:Name="ButtonsListView"
+                                <Grid x:Name="SamplePickerGrid"
+                                      x:DeferLoadStrategy="Lazy"
+                                      Visibility="Collapsed"
+                                      VerticalAlignment="Top">
+                                    <toolkitControls:DropShadowPanel VerticalContentAlignment="Stretch"
+                                                                     HorizontalContentAlignment="Stretch"
+                                                                     ShadowOpacity="0.7"
+                                                                     Color="Black"
+                                                                     BlurRadius="10"
+                                                                     VerticalAlignment="Bottom"
+                                                                     Margin="0,0,0,-3">
+                                        <Border Height="1"></Border>
+                                    </toolkitControls:DropShadowPanel>
+
+                                    <Border x:Name="SamplePickerGridBackground" 
+                                            local:XAMLHelper.Background="#F3F3F3F3"></Border>
+                                    <GridView x:Name="SamplePickerGridView"
+                                              IsItemClickEnabled="True"
+                                              animations:ReorderGridAnimation.Duration="200"
+                                              ItemContainerStyle="{StaticResource SecondaryHamburgerMenuItemStyle}"
+                                              ItemTemplate="{StaticResource SampleTemplate}"
+                                              SelectionMode="Single"
+                                              ItemContainerTransitions="{x:Null}"
+                                              Transitions="{x:Null}">
+                                        <animations:Implicit.ShowAnimations>
+                                            <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" Delay="0:0:0.2" SetInitialValueBeforeDelay="True"></animations:OpacityAnimation>
+                                        </animations:Implicit.ShowAnimations>
+                                    </GridView>
+
+                                    <animations:Implicit.ShowAnimations>
+                                        <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                                        <animations:TranslationAnimation From="0, -1000, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
+                                    </animations:Implicit.ShowAnimations>
+                                    <animations:Implicit.HideAnimations>
+                                        <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.5"></animations:OpacityAnimation>
+                                        <animations:TranslationAnimation To="0, -1000, 0" From="0" Duration="0:0:0.5"></animations:TranslationAnimation>
+                                    </animations:Implicit.HideAnimations>
+                                </Grid>
+
+                            </Grid>
+                            
+                            <Grid Background="{TemplateBinding PaneBackground}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <ListView x:Name="ButtonsListView"
                                           AutomationProperties.Name="Menu items"
                                           IsItemClickEnabled="True"
-                                          ItemContainerStyle="{StaticResource HambugerMenuItemStyle}"
+                                          ItemContainerStyle="{StaticResource HamburgerMenuItemStyle}"
                                           ItemTemplate="{TemplateBinding ItemTemplate}"
                                           ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                           ItemsSource="{TemplateBinding ItemsSource}"
-                                          local:ListViewHoverScroll.IsEnabled="True"
                                           ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                                           ScrollViewer.HorizontalScrollMode="Auto"
                                           ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -748,44 +752,77 @@
                                           SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           SelectionMode="Single"
-                                          TabIndex="1">
-                                        <ListView.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <ItemsStackPanel Orientation="Horizontal" />
-                                            </ItemsPanelTemplate>
-                                        </ListView.ItemsPanel>
-                                    </ListView>
+                                          TabIndex="1"
+                                          Grid.Column="1">
+                                    <animations:Implicit.ShowAnimations>
+                                        <animations:TranslationAnimation From="-500, 0, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
+                                        <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                                    </animations:Implicit.ShowAnimations>
+                                    <animations:Implicit.HideAnimations>
+                                        <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.2"></animations:OpacityAnimation>
+                                        <animations:TranslationAnimation To="-500, 0, 0" From="0" Duration="0:0:0.2"></animations:TranslationAnimation>
+                                    </animations:Implicit.HideAnimations>
+                                    <animations:Implicit.Animations>
+                                        <animations:OffsetAnimation Duration="0:0:0.2"></animations:OffsetAnimation>
+                                    </animations:Implicit.Animations>
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <ItemsStackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
+                                </ListView>
 
-                                    <Grid Grid.Column="1">
-                                        <Button Name="SearchButton"
+                                <TextBlock x:Name="TitleTextBlock"
+                                           Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Segoe UI"
+                                           FontSize="15px"
+                                           FontWeight="Normal"
+                                           Margin="2,0,0,0"
+                                           Text="{TemplateBinding Title}"
+                                           animations:Implicit.ShowAnimations="{StaticResource FromRightShowAnimation}"
+                                           animations:Implicit.HideAnimations="{StaticResource FromRightHideAnimation}"
+                                           />
+
+                                <Grid Grid.Column="2" x:Name="SearchGrid"
+                                      animations:Implicit.ShowAnimations="{StaticResource FromRightShowAnimation}"
+                                      animations:Implicit.HideAnimations="{StaticResource FromRightHideAnimation}">
+                                    <Button Name="SearchButton"
                                             Padding="0"
                                             VerticalAlignment="Stretch"
                                             AutomationProperties.Name="Search button"
                                             Background="Transparent"
+                                            HorizontalAlignment="Right"
                                             BorderThickness="0"
-                                            TabIndex="1">
-                                            <FontIcon Margin="16,12"
+                                            Opacity="0.6">
+                                        <FontIcon Margin="16,12"
                                                   FontFamily="Segoe MDL2 Assets"
                                                   FontSize="16"
-                                                  Opacity="0.6"
                                                   Foreground="{TemplateBinding PaneForeground}"
                                                   Glyph="&#xE721;" />
-                                        </Button>
-                                        <AutoSuggestBox x:Name="SearchBox"
+                                        <animations:Implicit.ShowAnimations>
+                                            <animations:OpacityAnimation From="0" To="0.6" Duration="0:0:0.3"></animations:OpacityAnimation>
+                                        </animations:Implicit.ShowAnimations>
+                                    </Button>
+                                    <AutoSuggestBox x:Name="SearchBox"
                                                     MinWidth="300"
                                                     Margin="5,0"
                                                     VerticalAlignment="Center"
-                                                    IsTabStop="True"
+                                                    IsTabStop="False"
                                                     QueryIcon="Find"
-                                                    TabIndex="1"
-                                                    Visibility="Collapsed" />
-                                    </Grid>
+                                                    extensions:VisualEx.NormalizedCenterPoint="0.95, 0.5, 0"
+                                                    Visibility="Collapsed" >
+                                        <animations:Implicit.ShowAnimations>
+                                            <animations:ScaleAnimation From="0,1,1" To="1" Duration="0:0:0.3"></animations:ScaleAnimation>
+                                        </animations:Implicit.ShowAnimations>
+                                    </AutoSuggestBox>
+                                </Grid>
 
-                                    <ListView x:Name="OptionsListView"
-                                          Grid.Column="2"
+                                <ListView x:Name="OptionsListView"
+                                          Grid.Column="3"
                                           AutomationProperties.Name="Option items"
                                           IsItemClickEnabled="True"
-                                          ItemContainerStyle="{StaticResource HambugerMenuItemStyle}"
+                                          ItemContainerStyle="{StaticResource HamburgerMenuItemStyle}"
                                           ItemTemplate="{TemplateBinding OptionsItemTemplate}"
                                           ItemTemplateSelector="{TemplateBinding OptionsItemTemplateSelector}"
                                           ItemsSource="{TemplateBinding OptionsItemsSource}"
@@ -794,161 +831,174 @@
                                           SelectedIndex="{Binding SelectedOptionsIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           SelectedItem="{Binding SelectedOptionsItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           SelectionMode="Single"
-                                          TabIndex="2">
-                                        <ListView.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <ItemsStackPanel Orientation="Horizontal" />
-                                            </ItemsPanelTemplate>
-                                        </ListView.ItemsPanel>
-                                    </ListView>
-                                </Grid>
-                            </toolkitControls:DropShadowPanel>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+                                          TabIndex="2"
+                                          animations:Implicit.ShowAnimations="{StaticResource FromRightShowAnimation}"
+                                          animations:Implicit.HideAnimations="{StaticResource FromRightHideAnimation}">
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <ItemsStackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
+                                </ListView>
 
-        <Style x:Key="VerticalHamburgerMenu"
-               TargetType="toolkitControls:HamburgerMenu">
-            <Setter Property="HamburgerMenuTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <FontIcon Margin="16"
-                                  FontFamily="Segoe MDL2 Assets"
-                                  FontSize="16"
-                                  Glyph="&#xE700;" />
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="IsTabStop" Value="False" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="toolkitControls:HamburgerMenu">
-                        <Grid>
-                            <SplitView x:Name="MainSplitView"
-                                       DisplayMode="Overlay"
-                                       IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                       IsTabStop="False"
-                                       PaneBackground="Transparent"
-                                       OpenPaneLength="{TemplateBinding OpenPaneLength}">
-                                <SplitView.Pane>
-                                    <Grid x:Name="PaneGrid"
-                                          FlowDirection="LeftToRight">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="48" />
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
+                                <Button x:Name="HamburgerButton"
+                                        Width="{TemplateBinding HamburgerWidth}"
+                                        Height="{TemplateBinding HamburgerHeight}"
+                                        Opacity="0.6"
+                                        Padding="0"
+                                        VerticalAlignment="Top"
+                                        AutomationProperties.Name="Main button"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        TabIndex="0"
+                                        Visibility="Collapsed">
+                                    <ContentControl Margin="{TemplateBinding HamburgerMargin}"
+                                                    ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
+                                                    Foreground="{TemplateBinding PaneForeground}"
+                                                    Background="White"
+                                                    extensions:VisualEx.NormalizedCenterPoint="0.5"
+                                                    IsTabStop="False" >
+                                        <animations:Implicit.ShowAnimations>
+                                            <animations:OpacityAnimation Duration="0:0:0.3" To="0.6"></animations:OpacityAnimation>
+                                            <animations:RotationInDegreesAnimation Duration="0:0:0.4" From="-180" To="0"></animations:RotationInDegreesAnimation>
+                                        </animations:Implicit.ShowAnimations>
+                                        <animations:Implicit.HideAnimations>
+                                            <animations:OpacityAnimation Duration="0:0:0.2" To="0"></animations:OpacityAnimation>
+                                            <animations:RotationInDegreesAnimation Duration="0:0:0.2" To="-180" From="0"></animations:RotationInDegreesAnimation>
+                                        </animations:Implicit.HideAnimations>
+                                    </ContentControl>
+                                </Button>
 
-                                        <Border Background="{TemplateBinding PaneBackground}"
-                                                Opacity="0.96"
-                                                Grid.RowSpan="2">
-                                            <interactivity:Interaction.Behaviors>
-                                                <behaviors:Blur AutomaticallyStart="True"
+                                <Border Background="#48000000" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="4"></Border>
+
+                            </Grid>
+
+                            <Canvas Background="Transparent"
+                                    x:Name="MoreInfoCanvas"
+                                    Visibility="Collapsed"
+                                    Grid.RowSpan="2">
+
+                                <Grid x:Name="MoreInfoContent"
+                                      Width="260"
+                                      Height="320"
+                                      extensions:VisualEx.NormalizedCenterPoint="0.5">
+                                    <Grid VerticalAlignment="Top">
+
+                                        <toolkitControls:DropShadowPanel VerticalContentAlignment="Stretch"
+                                                                         HorizontalContentAlignment="Stretch"
+                                                                         ShadowOpacity="0.6"
+                                                                         Color="Black"
+                                                                         OffsetY="6"
+                                                                         BlurRadius="60">
+                                            <Border Background="#F4F3F3F3"
+                                                    Opacity="0.96">
+                                                <interactivity:Interaction.Behaviors>
+                                                    <behaviors:Blur AutomaticallyStart="True"
                                                                     Delay="0"
                                                                     Value="3"
                                                                     Duration="0" />
-                                            </interactivity:Interaction.Behaviors>
-                                        </Border>
+                                                </interactivity:Interaction.Behaviors>
+                                            </Border>
+                                        </toolkitControls:DropShadowPanel>
 
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="48" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Button x:Name="HamburgerButton"
-                                                    Width="{TemplateBinding HamburgerWidth}"
-                                                    Height="{TemplateBinding HamburgerHeight}"
-                                                    Padding="0"
-                                                    VerticalAlignment="Top"
-                                                    AutomationProperties.Name="Main button"
-                                                    Background="Transparent"
-                                                    BorderThickness="0"
-                                                    TabIndex="0"
-                                                    Visibility="{TemplateBinding HamburgerVisibility}">
-                                                <ContentControl Margin="{TemplateBinding HamburgerMargin}"
-                                                                ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
-                                                                Foreground="{TemplateBinding PaneForeground}"
-                                                                IsTabStop="False" />
-                                            </Button>
-                                            <Grid Grid.Column="1"
-                                                  Height="40">
-                                                <Button Name="SearchButton"
-                                                        Padding="0"
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Stretch"
-                                                        AutomationProperties.Name="Search button"
-                                                        Background="Transparent"
-                                                        BorderThickness="0"
-                                                        TabIndex="1"
-                                                        Visibility="Visible">
-                                                    <FontIcon Margin="16,12"
-                                                              FontFamily="Segoe MDL2 Assets"
-                                                              FontSize="16"
-                                                              Foreground="{TemplateBinding PaneForeground}"
-                                                              Glyph="&#xE721;" />
-                                                </Button>
-                                                <AutoSuggestBox x:Name="SearchBox"
-                                                                Margin="5,0"
-                                                                VerticalAlignment="Center"
-                                                                IsTabStop="True"
-                                                                QueryIcon="Find"
-                                                                RequestedTheme="Dark"
-                                                                TabIndex="1"
-                                                                Tag="Vertical"
-                                                                Visibility="Collapsed" />
-                                            </Grid>
-                                        </Grid>
+                                        <Grid Padding="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="160" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
 
-                                        <ScrollViewer x:Name="RootScrollViewer"
-                                                      Grid.Row="1"
-                                                      Padding="0,0"
-                                                      VerticalScrollBarVisibility="Auto"
-                                                      VerticalScrollMode="Auto"
-                                                      ZoomMode="Disabled">
-                                            <StackPanel>
-                                                <ListView x:Name="ButtonsListView"
-                                                          AutomationProperties.Name="Menu items"
-                                                          ItemContainerStyle="{StaticResource VerticalHambugerMenuItemStyle}"
-                                                          ItemTemplate="{TemplateBinding ItemTemplate}"
-                                                          ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                                          ItemsSource="{TemplateBinding ItemsSource}"
-                                                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                                          ScrollViewer.VerticalScrollMode="Disabled"
-                                                          SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                          SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                          SelectionMode="None"
-                                                          TabIndex="1" />
+                                            <Image Width="240"
+                                                   x:Name="MoreInfoImage"
+                                                       Height="160"
+                                                       Grid.Row="0"
+                                                       Source="{Binding Icon}" />
+                                        
+                                            <StackPanel Grid.Row="1">
+                                                <TextBlock Margin="0, 10"
+                                                           FontSize="14"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="Black"
+                                                           Text="{Binding Name}"
+                                                           TextTrimming="CharacterEllipsis" />
+                                                
+                                                <TextBlock FontSize="12"
+                                                           Foreground="Black"
+                                                           Text="{Binding About}"
+                                                           TextWrapping="Wrap" />
 
-                                                <Border Height="1"
-                                                        Margin="32,15,32,14"
-                                                        BorderBrush="White"
-                                                        BorderThickness="0,1,0,0"
-                                                        Opacity="0.4" />
+                                                <Border Margin="0,10,0,0"
+                                                      Opacity="1"
+                                                      HorizontalAlignment="Left"
+                                                      Background="{StaticResource Brush-Blue-01}"
+                                                      Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
+                                                    <TextBlock Margin="2"
+                                                               FontSize="10"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Bottom"
+                                                               Foreground="White"
+                                                               Text="{Binding BadgeUpdateVersionRequired}" />
 
-                                                <ListView x:Name="OptionsListView"
-                                                          Grid.Row="3"
-                                                          VerticalAlignment="Bottom"
-                                                          AutomationProperties.Name="Option items"
-                                                          IsItemClickEnabled="True"
-                                                          ItemContainerStyle="{StaticResource VerticalHambugerMenuItemStyle}"
-                                                          ItemTemplate="{TemplateBinding OptionsItemTemplate}"
-                                                          ItemTemplateSelector="{TemplateBinding OptionsItemTemplateSelector}"
-                                                          ItemsSource="{TemplateBinding OptionsItemsSource}"
-                                                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                                          ScrollViewer.VerticalScrollMode="Disabled"
-                                                          SelectedIndex="{Binding SelectedOptionsIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                          SelectedItem="{Binding SelectedOptionsItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                          SelectionMode="Single"
-                                                          TabIndex="2" />
+                                                    <animations:Implicit.HideAnimations>
+                                                        <animations:OpacityAnimation To="0"  Duration="0:0:0.01"></animations:OpacityAnimation>
+                                                    </animations:Implicit.HideAnimations>
+                                                    <animations:Implicit.ShowAnimations>
+                                                        <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.4" Delay="0:0:0.2" SetInitialValueBeforeDelay="True"></animations:OpacityAnimation>
+                                                        <animations:TranslationAnimation From="0, 20, 0" To="0" Duration="0:0:0.3" Delay="0:0:0.2"></animations:TranslationAnimation>
+                                                    </animations:Implicit.ShowAnimations>
+                                                </Border>
+
+                                                <animations:Implicit.ShowAnimations>
+                                                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.4" Delay="0:0:0.2" SetInitialValueBeforeDelay="True"></animations:OpacityAnimation>
+                                                    <animations:TranslationAnimation From="0, 20, 0" To="0" Duration="0:0:0.3" Delay="0:0:0.2"></animations:TranslationAnimation>
+                                                </animations:Implicit.ShowAnimations>
                                             </StackPanel>
-                                        </ScrollViewer>
+                                        
+                                        
+                                        </Grid>
                                     </Grid>
-                                </SplitView.Pane>
-                                <ContentPresenter x:Name="ContentPart"
-                                                  AutomationProperties.Name="Content"
-                                                  Content="{TemplateBinding Content}" />
-                            </SplitView>
+
+
+                                    <animations:Implicit.ShowAnimations>
+                                        <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
+                                        <animations:ScaleAnimation From="0.5" To="1" Duration="0:0:0.3"></animations:ScaleAnimation>
+                                    </animations:Implicit.ShowAnimations>
+                                    <animations:Implicit.HideAnimations>
+                                        <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.2"></animations:OpacityAnimation>
+                                        <animations:ScaleAnimation To="0.5" From="1" Duration="0:0:0.2"></animations:ScaleAnimation>
+                                    </animations:Implicit.HideAnimations>
+                                </Grid>
+
+                            </Canvas>
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="WindowStates">
+                                    <VisualState x:Name="NarrowState">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="0" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Target="HamburgerButton.Visibility" Value="Visible" />
+                                            <Setter Target="ButtonsListView.Visibility" Value="Collapsed" />
+                                            <Setter Target="OptionsListView.Visibility" Value="Visible" />
+                                            <Setter Target="SearchGrid.Visibility" Value="Visible" />
+                                            <Setter Target="TitleTextBlock.Visibility" Value="Visible" />
+                                            <Setter Target="SamplePickerGrid.Visibility" Value="Collapsed"></Setter>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="WideState">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="700" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Target="HamburgerButton.Visibility" Value="Collapsed" />
+                                            <Setter Target="ButtonsListView.Visibility" Value="Visible" />
+                                            <Setter Target="OptionsListView.Visibility" Value="Visible" />
+                                            <Setter Target="SearchGrid.Visibility" Value="Visible" />
+                                            <Setter Target="TitleTextBlock.Visibility" Value="Collapsed" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>

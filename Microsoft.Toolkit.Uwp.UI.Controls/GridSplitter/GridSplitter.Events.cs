@@ -41,17 +41,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Element = _gripperDisplay;
             }
 
-            var hoverWrapper = new GripperHoverWrapper(
-                CursorBehavior == SplitterCursorBehavior.ChangeOnSplitterHover
-                ? this
-                : Element,
-                _resizeDirection,
-                GripperCursor,
-                GripperCustomCursorResource);
-            ManipulationStarted += hoverWrapper.SplitterManipulationStarted;
-            ManipulationCompleted += hoverWrapper.SplitterManipulationCompleted;
+            if (_hoverWrapper == null)
+            {
+                var hoverWrapper = new GripperHoverWrapper(
+                    CursorBehavior == SplitterCursorBehavior.ChangeOnSplitterHover
+                    ? this
+                    : Element,
+                    _resizeDirection,
+                    GripperCursor,
+                    GripperCustomCursorResource);
+                ManipulationStarted += hoverWrapper.SplitterManipulationStarted;
+                ManipulationCompleted += hoverWrapper.SplitterManipulationCompleted;
 
-            _hoverWrapper = hoverWrapper;
+                _hoverWrapper = hoverWrapper;
+            }
         }
 
         private void CreateGripperDisplay()

@@ -21,22 +21,22 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class TileBindingContentAdaptive : ITileBindingContent
     {
         /// <summary>
-        /// <see cref="AdaptiveText"/>, <see cref="AdaptiveImage"/>, and <see cref="AdaptiveGroup"/> objects can be added as children. The children are displayed in a vertical StackPanel fashion.
+        /// Gets <see cref="AdaptiveText"/>, <see cref="AdaptiveImage"/>, and <see cref="AdaptiveGroup"/> objects that can be added as children. The children are displayed in a vertical StackPanel fashion.
         /// </summary>
         public IList<ITileBindingContentAdaptiveChild> Children { get; private set; } = new List<ITileBindingContentAdaptiveChild>();
 
         /// <summary>
-        /// An optional background image that gets displayed behind all the Tile content, full bleed.
+        /// Gets or sets an optional background image that gets displayed behind all the Tile content, full bleed.
         /// </summary>
         public TileBackgroundImage BackgroundImage { get; set; }
 
         /// <summary>
-        /// An optional peek image that animates in from the top of the Tile.
+        /// Gets or sets an optional peek image that animates in from the top of the Tile.
         /// </summary>
         public TilePeekImage PeekImage { get; set; }
 
         /// <summary>
-        /// Controls the text stacking (vertical alignment) of the entire binding element.
+        /// Gets or sets the text stacking (vertical alignment) of the entire binding element.
         /// </summary>
         public TileTextStacking TextStacking { get; set; } = Element_TileBinding.DEFAULT_TEXT_STACKING;
 

@@ -12,6 +12,9 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 {
+    /// <summary>
+    /// Identifies the Format to be used by <see cref="TextToolbar"/>
+    /// </summary>
     public enum Format
     {
         /// <summary>

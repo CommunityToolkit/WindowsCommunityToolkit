@@ -10,7 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Windows.Storage;
@@ -73,13 +75,27 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>The T object</returns>
         public T Read<T>(string key, T @default = default(T))
         {
-            string value = (string)Settings.Values[key];
-            if (value != null)
+            object value = null;
+
+            if (!Settings.Values.TryGetValue(key, out value))
             {
-                return JsonConvert.DeserializeObject<T>(value);
+                return @default;
             }
 
-            return @default;
+            if (value == null)
+            {
+                return @default;
+            }
+
+            var type = typeof(T);
+            var typeInfo = type.GetTypeInfo();
+
+            if (typeInfo.IsPrimitive || type == typeof(string))
+            {
+                return (T)Convert.ChangeType(value, type);
+            }
+
+            return JsonConvert.DeserializeObject<T>((string)value);
         }
 
         /// <summary>
@@ -115,7 +131,17 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="value">Object to save</param>
         public void Save<T>(string key, T value)
         {
-            Settings.Values[key] = JsonConvert.SerializeObject(value);
+            var type = typeof(T);
+            var typeInfo = type.GetTypeInfo();
+
+            if (typeInfo.IsPrimitive || type == typeof(string))
+            {
+                Settings.Values[key] = value;
+            }
+            else
+            {
+                Settings.Values[key] = JsonConvert.SerializeObject(value);
+            }
         }
 
         /// <summary>

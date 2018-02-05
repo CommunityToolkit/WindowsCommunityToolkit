@@ -12,7 +12,7 @@ The **HeaderedTextBlock Control** provides a header for read-only text. This con
 
 ## Syntax
 
-```xml
+```xaml
 
 <controls:HeaderedTextBlock Header="HeaderedTextBlockControl" 
            Text="UWP Community Toolkit" 

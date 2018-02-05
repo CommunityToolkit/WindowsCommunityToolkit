@@ -19,7 +19,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
     /// </summary>
     public class DefaultButton : DependencyObject
     {
-        // Using a DependencyProperty as the backing store for IsVisible.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="IsVisible"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty IsVisibleProperty =
             DependencyProperty.Register(nameof(IsVisible), typeof(bool), typeof(DefaultButton), new PropertyMetadata(true));
 
@@ -33,17 +35,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
             return new DefaultButton { Type = type };
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             var other = obj as DefaultButton;
             return other != null && other.Type == Type;
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             return Type.GetHashCode();
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return Type.ToString();
@@ -51,8 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 
         private static void IsVisibleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            var button = obj as DefaultButton;
-            if (button != null && button.Button != null)
+            if (obj is DefaultButton button && button.Button != null)
             {
                 var model = button.Button as FrameworkElement;
                 model.Visibility = button.IsVisible ? Visibility.Visible : Visibility.Collapsed;

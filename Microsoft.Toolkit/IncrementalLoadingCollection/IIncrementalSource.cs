@@ -21,7 +21,6 @@ namespace Microsoft.Toolkit.Collections
     /// This interface represents a data source whose items can be loaded incrementally.
     /// </summary>
     /// <typeparam name="TSource">Type of collection element.</typeparam>
-    /// <seealso cref="IncrementalLoadingCollection{TSource, IType}"/>
     public interface IIncrementalSource<TSource>
     {
         /// <summary>

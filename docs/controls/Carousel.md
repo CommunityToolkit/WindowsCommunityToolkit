@@ -16,7 +16,7 @@ The `Carousel` control works fine with mouse, touch, mouse and keyboard as well.
 
 ## Syntax
 
-```xml
+```xaml
 
 <controls:Carousel x:Name="CarouselControl"
                     InvertPositive="{Binding InvertPositive.Value, Mode=OneWay}"

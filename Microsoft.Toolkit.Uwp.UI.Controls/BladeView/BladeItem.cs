@@ -66,6 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _enlargeButton.Click += EnlargeButton_Click;
         }
 
+        /// <inheritdoc/>
         protected override void OnExpanded(EventArgs args)
         {
             base.OnExpanded(args);
@@ -75,6 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <inheritdoc/>
         protected override void OnCollapsed(EventArgs args)
         {
             base.OnCollapsed(args);

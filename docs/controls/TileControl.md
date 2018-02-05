@@ -12,7 +12,7 @@ The **Tile Control** is a control that repeats an image many times. It enables y
 
 ## Syntax
 
-```xml
+```xaml
 
 <controls:TileControl x:Name="Tile1"
 	OffsetX="-10" 

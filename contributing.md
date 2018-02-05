@@ -10,21 +10,47 @@ You can always add to an API, you cannot ever remove anything from one. If the d
 
 That's why many of the guidelines of this document are obvious and serve only one purpose: Simplicity.
 
-## A good pull request
-Every contribution has to come with:
+ - [Questions](#question)
+ - [Issues or Bugs](#issue)
+ - [Submitting a pull request](#pr)
+ - [Quality assurance for pull requests for XAML controls](#xaml)
+ - [General rules](#rules)
+ - [Naming conventions](#naming)
+ - [Documentation](#documentation)
+ - [Files and folders](#files)
 
-* Before starting coding, **you should open an uservoice entry** under "UWP Community Toolkit" on [Uservoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit) and start discussing with the community to see if your idea/feature is interesting enough. 
-* A documentation page in the [documentation folder](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/docs). Once validated your documentation will be visible [here](http://docs.uwpcommunitytoolkit.com/en/master/)
-* A sample for the [Sample app](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp) (If applicable)
-* Unit tests (If applicable)
-* You tested your code with SDK 14393 and SDK 15063
-* PR has to target master branch
+
+## <a name="question"></a> Questions
+Please do not open issues for general support questions and keep our GitHub issues for bug reports and feature requests. There is a much better chance of getting your question answered on [StackOverflow](https://stackoverflow.com/search?q=uwp+community+toolkit) where questions should be tagged with the tag `uwp-community-toolkit`
+
+## <a name="issue"></a> Found a Bug?
+If you find a bug, you can help us by
+[submitting an issue](https://github.com/Microsoft/UWPCommunityToolkit/issues). Even better, you can
+[submit a Pull Request](#pr) with a fix.
+
+## <a name="pr"></a> Submitting a pull request
+For every contribution, you must:
+
+* test your code with the [supported SDKs](readme.md#supported)
+* follow the [quality guidance](#xaml), [general rules](#rules) and [naming convention](#naming)
+* target master branch (or an appropriate release branch if appropriate for a bug fix)
+
+* If adding a new feature
+    * Before starting coding, **you should open an uservoice entry** under "UWP Community Toolkit" on [Uservoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit) and start discussing with the community to see if your idea/feature is interesting enough. 
+    * Add or update a documentation page in the [documentation folder](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/docs) which should follow the [documentation template](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/tree/master/docs/.template.md). Once validated your documentation will be visible [here](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/)
+    * Add or update a sample for the [Sample app](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp)
+        * If creating a new sample, create a new icon by following the [Thumbnail Style Guide and templates](https://github.com/Microsoft/UWPCommunityToolkit-design-assets)
+    * Add or update unit tests (if applicable)
+
 
 PR has to be validated by at least two core members before being merged.
 
 Once merged, you can get a pre-release package of the toolkit by adding this ([Nuget repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your Visual Studio.
 
-## Quality insurance for pull requests for XAML controls
+### What about the t-shirt?
+Did your contribute but didn't get the t-shirt? Then make sure to fill out [this form](https://1drv.ms/xs/s!AjZLNGpIZBbgr7ZvtqjV-LcgdRcc7A).
+
+## <a name="xaml"></a> Quality assurance for pull requests for XAML controls
 We encourage developers to follow the following guidances when submitting pull requests for controls:
  * Your control must be usable and efficient with keyboard only
   * Tab order must be logical
@@ -40,7 +66,7 @@ You can find more information about these topics [here](https://blogs.msdn.micro
 
 This is to help as part of our effort to build an accessible toolkit (starting with 1.2)
 
-## General rules
+## <a name="rules"></a> General rules
 
 * DO NOT require that users perform any extensive initialization before they can start programming basic scenarios.
 * DO provide good defaults for all values associated with parameters, options, etc.
@@ -55,10 +81,10 @@ This is to help as part of our effort to build an accessible toolkit (starting w
 * DO use verbs like GET.
 * DO NOT use verbs that are not already used like fetch.
 
-## Naming conventions
+## <a name="naming"></a> Naming conventions
 * We are following the coding guidelines of [.NET Core Foundational libraries](https://github.com/dotnet/corefx/blob/master/Documentation/coding-guidelines/coding-style.md). 
 
-## Documentation
+## <a name="documentation"></a> Documentation
 * DO NOT expect that your API is so well designed that it needs no documentation. No API is that intuitive.
 * DO provide great documentation with all APIs. 
 * DO use readable and self-documenting identifier names. 
@@ -66,6 +92,6 @@ This is to help as part of our effort to build an accessible toolkit (starting w
 * DO provide strongly typed APIs.
 * DO use verbose identifier names.
 
-## Files and folders
+## <a name="files"></a> Files and folders
 * DO associate no more than one class per file.
 * DO use folders to group classes based on features.

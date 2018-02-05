@@ -14,10 +14,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
 using Microsoft.Toolkit.Services.Exceptions;
-using System.Net.Http;
 
 namespace Microsoft.Toolkit.Services.Bing
 {

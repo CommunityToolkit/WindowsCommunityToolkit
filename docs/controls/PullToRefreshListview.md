@@ -23,7 +23,7 @@ be raised and the *RefreshIntentCanceledCommand*, if any, will be executed.
 
 ## Syntax
 
-```xml
+```xaml
 
 <controls:PullToRefreshListView Name="PullToRefreshListViewControl"
     ItemsSource="{x:Bind _items}"	

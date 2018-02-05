@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class ToastButton : IToastButton
     {
         /// <summary>
-        /// Initializes a Toast button with the required properties.
+        /// Initializes a new instance of the <see cref="ToastButton"/> class.
         /// </summary>
         /// <param name="content">The text to display on the button.</param>
         /// <param name="arguments">App-defined string of arguments that the app can later retrieve once it is activated when the user clicks the button.</param>
@@ -41,34 +41,43 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// Required. The text to display on the button.
+        /// Gets the text to display on the button. Required
         /// </summary>
         public string Content { get; private set; }
 
         /// <summary>
-        /// Required. App-defined string of arguments that the app can later retrieve once it is activated when the user clicks the button.
+        /// Gets app-defined string of arguments that the app can later retrieve once it is
+        /// activated when the user clicks the button. Required
         /// </summary>
         public string Arguments { get; private set; }
 
         /// <summary>
-        /// Controls what type of activation this button will use when clicked. Defaults to Foreground.
+        /// Gets or sets what type of activation this button will use when clicked. Defaults to Foreground.
         /// </summary>
         public ToastActivationType ActivationType { get; set; } = ToastActivationType.Foreground;
 
         /// <summary>
-        /// New in Creators Update: Additional options relating to activation of the toast button.
+        /// Gets or sets additional options relating to activation of the toast button. New in Creators Update
         /// </summary>
         public ToastActivationOptions ActivationOptions { get; set; }
 
         /// <summary>
-        /// An optional image icon for the button to display (required for buttons adjacent to inputs like quick reply).
+        /// Gets or sets an optional image icon for the button to display (required for buttons adjacent to inputs like quick reply).
         /// </summary>
         public string ImageUri { get; set; }
 
         /// <summary>
-        /// Specify the ID of an existing <see cref="ToastTextBox"/> in order to have this button display to the right of the input, achieving a quick reply scenario.
+        /// Gets or sets the ID of an existing <see cref="ToastTextBox"/> in order to have this button display
+        /// to the right of the input, achieving a quick reply scenario.
         /// </summary>
         public string TextBoxId { get; set; }
+
+        /// <summary>
+        /// Gets or sets an identifier used in telemetry to identify your category of action. This should be something
+        /// like "Delete", "Reply", or "Archive". In the upcoming toast telemetry dashboard in Dev Center, you will
+        /// be able to view how frequently your actions are being clicked.
+        /// </summary>
+        public string HintActionId { get; set; }
 
         internal Element_ToastAction ConvertToElement()
         {
@@ -78,7 +87,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 Arguments = Arguments,
                 ActivationType = Element_Toast.ConvertActivationType(ActivationType),
                 ImageUri = ImageUri,
-                InputId = TextBoxId
+                InputId = TextBoxId,
+                HintActionId = HintActionId
             };
 
             ActivationOptions?.PopulateElement(el);

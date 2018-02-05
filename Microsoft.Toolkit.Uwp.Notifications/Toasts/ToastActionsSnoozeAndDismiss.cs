@@ -21,7 +21,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class ToastActionsSnoozeAndDismiss : IToastActions
     {
         /// <summary>
-        /// New in Anniversary Update: Custom context menu items, providing additional actions when the user right clicks the Toast notification. You can only have up to 5 items.
+        /// Gets custom context menu items, providing additional actions when the user right clicks the Toast notification.
+        /// You can only have up to 5 items. New in Anniversary Update
         /// </summary>
         public IList<ToastContextMenuItem> ContextMenuItems { get; private set; } = new List<ToastContextMenuItem>();
 

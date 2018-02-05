@@ -19,6 +19,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Models
         String,
         Enum,
         Bool,
-        Brush
+        Brush,
+        TimeSpan,
+        Thickness
     }
 }

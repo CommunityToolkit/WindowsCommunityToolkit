@@ -20,12 +20,14 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class ToastActivationOptions
     {
         /// <summary>
-        /// If you are using <see cref="ToastActivationType.Protocol"/>, you can optionally specify the target PFN, so that regardless of whether multiple apps are registered to handle the same protocol uri, your desired app will always be launched.
+        /// Gets or sets the target PFN if you are using <see cref="ToastActivationType.Protocol"/>. You can optionally specify, so that regardless of whether multiple apps are registered to handle the same protocol uri, your desired app will always be launched.
         /// </summary>
         public string ProtocolActivationTargetApplicationPfn { get; set; }
 
         /// <summary>
-        /// New in Fall Creators Update: Specifies the behavior that the toast should use when the user invokes this action. Note that this option only works on <see cref="ToastButton"/> and <see cref="ToastContextMenuItem"/>. Desktop-only, supported in builds 16251 or higher.
+        /// Gets or sets the behavior that the toast should use when the user invokes this action.
+        /// Note that this option only works on <see cref="ToastButton"/> and <see cref="ToastContextMenuItem"/>.
+        /// Desktop-only, supported in builds 16251 or higher. New in Fall Creators Update
         /// </summary>
         public ToastAfterActivationBehavior AfterActivationBehavior { get; set; } = ToastAfterActivationBehavior.Default;
 

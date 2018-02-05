@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -17,13 +18,16 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Newtonsoft.Json;
 using Windows.ApplicationModel;
+using Windows.Foundation.Metadata;
 using Windows.System.Profile;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
@@ -130,13 +134,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
         private void CoreWindow_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
         {
-            if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() == DeviceFormFactor.Xbox)
+            var keyChar = (char)args.VirtualKey;
+            if (char.IsLetterOrDigit(keyChar))
             {
-                var keyChar = (char)args.VirtualKey;
-                if (char.IsLetterOrDigit(keyChar))
-                {
-                    var t = Shell.Current.StartSearch(keyChar.ToString());
-                }
+                var t = Shell.Current.StartSearch(keyChar.ToString());
             }
         }
 
@@ -151,24 +152,35 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
             RecentSamples = recentSamplesTask.Result;
             GitHubReleases = gitHubTask.Result;
 
-            if (AnimationHelper.IsImplicitHideShowSupported)
-            {
-                var counter = 1;
-                ElementCompositionPreview.SetImplicitShowAnimation(Root, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 500));
+            var counter = 1;
+            var delay = 70;
 
-                foreach (var child in InnerGrid.Children)
+            foreach (var child in InnerGrid.Children)
+            {
+                if (child is ItemsControl itemsControl)
                 {
-                    if (child is ItemsControl itemsControl)
+                    foreach (var childOfChild in itemsControl.Items)
                     {
-                        foreach (var childOfChild in itemsControl.Items)
+                        Implicit.GetShowAnimations((UIElement)childOfChild).Add(new OpacityAnimation()
                         {
-                            ElementCompositionPreview.SetImplicitShowAnimation(childOfChild as FrameworkElement, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 300, counter++ * 70));
-                        }
+                            From = 0,
+                            To = 1,
+                            Duration = TimeSpan.FromMilliseconds(300),
+                            Delay = TimeSpan.FromMilliseconds(counter++ * delay),
+                            SetInitialValueBeforeDelay = true
+                        });
                     }
-                    else
+                }
+                else
+                {
+                    Implicit.GetShowAnimations(child).Add(new OpacityAnimation()
                     {
-                        ElementCompositionPreview.SetImplicitShowAnimation(child, AnimationHelper.GetOpacityAnimation(_compositor, 1, 0, 300, counter++ * 70));
-                    }
+                        From = 0,
+                        To = 1,
+                        Duration = TimeSpan.FromMilliseconds(300),
+                        Delay = TimeSpan.FromMilliseconds(counter++ * delay),
+                        SetInitialValueBeforeDelay = true
+                    });
                 }
             }
 
@@ -277,6 +289,31 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            var background = new Image()
+            {
+                Source = new BitmapImage(new Uri("ms-appx:///Assets/Photos/ales-krivec-43430.jpg")),
+                Stretch = Windows.UI.Xaml.Media.Stretch.UniformToFill
+            };
+
+            if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Controls.ParallaxView"))
+            {
+                var parallaxView = new ParallaxView()
+                {
+                    Source = Scroller,
+                    VerticalShift = 50,
+                    Child = background
+                };
+
+                BackgroundBorder.Child = parallaxView;
+            }
+            else
+            {
+                BackgroundBorder.Child = background;
+            }
         }
     }
 }

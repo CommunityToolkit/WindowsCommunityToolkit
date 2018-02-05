@@ -25,7 +25,7 @@ You can also use these events :
 
 ## Syntax
 
-```xml
+```xaml
 
 <controls:Expander Header="Header of the expander"
                    Foreground="White"
@@ -51,6 +51,24 @@ The `ExpandDirection` property can take 4 values that will expand the content ba
 * `Up` - from bottom to top
 * `Right` - from left to right
 * `Left` - from right to left
+
+### ContentOverlay
+
+The `ContentOverlay` property can be used to define the content to be shown when the Expander is collapsed
+
+```xaml
+<controls:Expander Header="Header">
+  <Grid>
+    <TextBlock Text="Expanded content" />
+  </Grid>
+
+  <controls:Expander.ContentOverlay>
+    <Grid MinHeight="250">
+      <TextBlock Text="Collapsed content" />
+    </Grid>
+  </controls:Expander.ContentOverlay>
+</controls:Expander>
+```
 
 ## Example Image
 

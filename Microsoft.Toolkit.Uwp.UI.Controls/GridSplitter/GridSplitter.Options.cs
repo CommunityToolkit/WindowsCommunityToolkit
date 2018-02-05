@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(Element),
                 typeof(UIElement),
                 typeof(GridSplitter),
-                new PropertyMetadata(default(UIElement)));
+                new PropertyMetadata(default(UIElement), OnElementPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="ResizeDirection"/> dependency property.
@@ -215,6 +215,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         private static void CursorBehaviorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var gridSplitter = (GridSplitter)d;
+
+            gridSplitter._hoverWrapper?.UpdateHoverElement(gridSplitter.CursorBehavior ==
+                                                           SplitterCursorBehavior.ChangeOnSplitterHover
+                ? gridSplitter
+                : gridSplitter.Element);
+        }
+
+        private static void OnElementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var gridSplitter = (GridSplitter)d;
 

@@ -19,7 +19,7 @@ The control uses the same dependency properties as the standard Progress Bar, wi
 
 ## Syntax
 
-```xml
+```xaml
 
 <controls:RadialProgressBar x:Name="RadialProgressBarControl"
 	Value="70"

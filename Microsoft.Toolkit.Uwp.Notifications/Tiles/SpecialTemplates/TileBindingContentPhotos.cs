@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class TileBindingContentPhotos : ITileBindingContent
     {
         /// <summary>
-        /// Up to 12 images can be provided (Mobile will only display up to 9), which will be used for the slideshow. Adding more than 12 will throw an exception.
+        /// Gets the collection of slideshow images. Up to 12 images can be provided (Mobile will only display up to 9), which will be used for the slideshow. Adding more than 12 will throw an exception.
         /// </summary>
         public IList<TileBasicImage> Images { get; private set; } = new LimitedList<TileBasicImage>(12);
 

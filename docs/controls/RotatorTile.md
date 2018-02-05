@@ -12,7 +12,7 @@ The **Rotator Tile Control** is an ItemsControl that rotates through a set of it
 
 ## Syntax
 
-```xml
+```xaml
 
 <controls:RotatorTile x:Name="Tile1"
 	Background="LightGray"
@@ -22,6 +22,9 @@ The **Rotator Tile Control** is an ItemsControl that rotates through a set of it
 	Margin="20"/>
 
 ```
+
+## Setting Rotation Duration
+There are two properties to set the duration of the item rotation: **RotationDelay** and **ExtraRandomDuration**. The duration is derived from the formula `RotationDelay + Random.Next(0, ExtraRandomDuration)`. Minimum supported RotationDelay is 500ms.
 
 ## Example Image
 

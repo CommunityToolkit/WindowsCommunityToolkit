@@ -202,11 +202,24 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <returns>Strongly typed list of data returned from the service.</returns>
         public async Task<List<Tweet>> RequestAsync(TwitterDataConfig config, int maxRecords = 20)
         {
+            return await RequestAsync<Tweet>(config, maxRecords);
+        }
+
+        /// <summary>
+        /// Request list data from service provider based upon a given config / query.
+        /// </summary>
+        /// <typeparam name="T">Model type expected back - e.g. Tweet.</typeparam>
+        /// <param name="config">TwitterDataConfig instance.</param>
+        /// <param name="maxRecords">Upper limit of records to return. Up to a maximum of 200 per distinct request.</param>
+        /// <returns>Strongly typed list of data returned from the service.</returns>
+        public async Task<List<T>> RequestAsync<T>(TwitterDataConfig config, int maxRecords = 20)
+            where T : Toolkit.Services.SchemaBase
+        {
             if (Provider.LoggedIn)
             {
-                List<Tweet> queryResults = new List<Tweet>();
+                List<T> queryResults = new List<T>();
 
-                var results = await Provider.LoadDataAsync(config, maxRecords);
+                var results = await Provider.LoadDataAsync<T>(config, maxRecords, 0, new TwitterParser<T>());
 
                 foreach (var result in results)
                 {
@@ -219,7 +232,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             var isLoggedIn = await LoginAsync();
             if (isLoggedIn)
             {
-                return await RequestAsync(config, maxRecords);
+                return await RequestAsync<T>(config, maxRecords);
             }
 
             return null;

@@ -48,11 +48,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// </summary>
         private readonly IImageResolver _imageResolver;
 
+        private readonly FontFamily _defaultEmojiFont;
+
         public XamlRenderer(MarkdownDocument document, ILinkRegister linkRegister, IImageResolver imageResolver)
         {
             _document = document;
             _linkRegister = linkRegister;
             _imageResolver = imageResolver;
+            _defaultEmojiFont = new FontFamily("Segoe UI Emoji");
         }
 
         /// <summary>
@@ -156,6 +159,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         /// Gets or sets the space between the code border and the text.
         /// </summary>
         public Thickness CodePadding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the font used to display emojis.  If this is <c>null</c>, then
+        /// Segoe UI Emoji font is used.
+        /// </summary>
+        public FontFamily EmojiFontFamily { get; set; }
 
         /// <summary>
         /// Gets or sets the font weight to use for level 1 headers.
@@ -748,7 +757,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         {
             foreach (MarkdownInline element in inlineElements)
             {
-                RenderInline(inlineCollection, element, parent, context);
+                if (element.Type != MarkdownInlineType.Comment)
+                {
+                    RenderInline(inlineCollection, element, parent, context);
+                }
             }
         }
 
@@ -790,7 +802,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
                 case MarkdownInlineType.Image:
                     RenderImage(inlineCollection, (ImageInline)element, context);
                     break;
+                case MarkdownInlineType.Emoji:
+                    RenderEmoji(inlineCollection, (EmojiInline)element, context);
+                    break;
             }
+        }
+
+        /// <summary>
+        /// Renders emoji element.
+        /// </summary>
+        /// <param name="inlineCollection"> The list to add to. </param>
+        /// <param name="element"> The parsed inline element to render. </param>
+        /// <param name="context"> Persistent state. </param>
+        private void RenderEmoji(InlineCollection inlineCollection, EmojiInline element, RenderContext context)
+        {
+            var emoji = new Run
+            {
+                FontFamily = EmojiFontFamily ?? _defaultEmojiFont,
+                Text = element.Text
+            };
+
+            inlineCollection.Add(emoji);
         }
 
         /// <summary>

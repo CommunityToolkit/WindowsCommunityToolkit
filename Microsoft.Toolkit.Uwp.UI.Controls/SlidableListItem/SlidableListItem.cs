@@ -15,6 +15,7 @@ using System.Windows.Input;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.Devices.Input;
 using Windows.Foundation;
+using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -31,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = PartCommandContainer, Type = typeof(Grid))]
     [TemplatePart(Name = PartLeftCommandPanel, Type = typeof(StackPanel))]
     [TemplatePart(Name = PartRightCommandPanel, Type = typeof(StackPanel))]
+    [Obsolete("The SlidableListItem will be removed in a future major release. Please use the SwipeControl available in the Fall Creators Update")]
     public class SlidableListItem : ContentControl
     {
         /// <summary>
@@ -49,13 +51,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="IsRightCommandEnabled"/> property
         /// </summary>
         public static readonly DependencyProperty IsRightCommandEnabledProperty =
-            DependencyProperty.Register(nameof(IsRightCommandEnabled), typeof(bool), typeof(SlidableListItem), new PropertyMetadata(true));
+            DependencyProperty.Register(nameof(IsRightCommandEnabled), typeof(bool), typeof(SlidableListItem), new PropertyMetadata(true, OnSwipeControlValueChanged));
 
         /// <summary>
         /// Identifies the <see cref="IsLeftCommandEnabled"/> property
         /// </summary>
         public static readonly DependencyProperty IsLeftCommandEnabledProperty =
-            DependencyProperty.Register(nameof(IsLeftCommandEnabled), typeof(bool), typeof(SlidableListItem), new PropertyMetadata(true));
+            DependencyProperty.Register(nameof(IsLeftCommandEnabled), typeof(bool), typeof(SlidableListItem), new PropertyMetadata(true, OnSwipeControlValueChanged));
 
         /// <summary>
         /// Identifies the <see cref="ActivationWidth"/> property
@@ -64,52 +66,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ActivationWidth), typeof(double), typeof(SlidableListItem), new PropertyMetadata(80));
 
         /// <summary>
-        /// Indeifies the <see cref="LeftIcon"/> property
+        /// Identifies the <see cref="LeftIcon"/> property
         /// </summary>
         public static readonly DependencyProperty LeftIconProperty =
-            DependencyProperty.Register(nameof(LeftIcon), typeof(Symbol), typeof(SlidableListItem), new PropertyMetadata(Symbol.Favorite));
+            DependencyProperty.Register(nameof(LeftIcon), typeof(Symbol), typeof(SlidableListItem), new PropertyMetadata(Symbol.Favorite, OnSwipeControlValueChanged));
 
         /// <summary>
         /// Identifies the <see cref="RightIcon"/> property
         /// </summary>
         public static readonly DependencyProperty RightIconProperty =
-            DependencyProperty.Register(nameof(RightIcon), typeof(Symbol), typeof(SlidableListItem), new PropertyMetadata(Symbol.Delete));
+            DependencyProperty.Register(nameof(RightIcon), typeof(Symbol), typeof(SlidableListItem), new PropertyMetadata(Symbol.Delete, OnSwipeControlValueChanged));
 
         /// <summary>
         /// Identifies the <see cref="LeftLabel"/> property
         /// </summary>
         public static readonly DependencyProperty LeftLabelProperty =
-            DependencyProperty.Register(nameof(LeftLabel), typeof(string), typeof(SlidableListItem), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register(nameof(LeftLabel), typeof(string), typeof(SlidableListItem), new PropertyMetadata(string.Empty, OnSwipeControlValueChanged));
 
         /// <summary>
         /// Identifies the <see cref="RightLabel"/> property
         /// </summary>
         public static readonly DependencyProperty RightLabelProperty =
-            DependencyProperty.Register(nameof(RightLabel), typeof(string), typeof(SlidableListItem), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register(nameof(RightLabel), typeof(string), typeof(SlidableListItem), new PropertyMetadata(string.Empty, OnSwipeControlValueChanged));
 
         /// <summary>
         /// Identifies the <see cref="LeftForeground"/> property
         /// </summary>
         public static readonly DependencyProperty LeftForegroundProperty =
-            DependencyProperty.Register(nameof(LeftForeground), typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+            DependencyProperty.Register(nameof(LeftForeground), typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.White), OnSwipeControlValueChanged));
 
         /// <summary>
         /// Identifies the <see cref="RightForeground"/> property
         /// </summary>
         public static readonly DependencyProperty RightForegroundProperty =
-            DependencyProperty.Register(nameof(RightForeground), typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+            DependencyProperty.Register(nameof(RightForeground), typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.White), OnSwipeControlValueChanged));
 
         /// <summary>
         /// Identifies the <see cref="LeftBackground"/> property
         /// </summary>
         public static readonly DependencyProperty LeftBackgroundProperty =
-            DependencyProperty.Register(nameof(LeftBackground), typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.LightGray)));
+            DependencyProperty.Register(nameof(LeftBackground), typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.LightGray), OnSwipeControlValueChanged));
 
         /// <summary>
         /// Identifies the <see cref="RightBackground"/> property
         /// </summary>
         public static readonly DependencyProperty RightBackgroundProperty =
-            DependencyProperty.Register(nameof(RightBackground), typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.DarkGray)));
+            DependencyProperty.Register(nameof(RightBackground), typeof(Brush), typeof(SlidableListItem), new PropertyMetadata(new SolidColorBrush(Colors.DarkGray), OnSwipeControlValueChanged));
 
         /// <summary>
         /// Identifies the <see cref="MouseSlidingEnabled"/> property
@@ -121,25 +123,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="LeftCommand"/> property
         /// </summary>
         public static readonly DependencyProperty LeftCommandProperty =
-            DependencyProperty.Register(nameof(LeftCommand), typeof(ICommand), typeof(SlidableListItem), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(LeftCommand), typeof(ICommand), typeof(SlidableListItem), new PropertyMetadata(null, OnSwipeControlValueChanged));
 
         /// <summary>
         /// Identifies the <see cref="RightCommand"/> property
         /// </summary>
         public static readonly DependencyProperty RightCommandProperty =
-            DependencyProperty.Register(nameof(RightCommand), typeof(ICommand), typeof(SlidableListItem), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(RightCommand), typeof(ICommand), typeof(SlidableListItem), new PropertyMetadata(null, OnSwipeControlValueChanged));
 
         /// <summary>
         /// Identifies the <see cref="LeftCommandParameter"/> property
         /// </summary>
         public static readonly DependencyProperty LeftCommandParameterProperty =
-            DependencyProperty.Register(nameof(LeftCommandParameter), typeof(object), typeof(SlidableListItem), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(LeftCommandParameter), typeof(object), typeof(SlidableListItem), new PropertyMetadata(null, OnSwipeControlValueChanged));
 
         /// <summary>
         /// Identifies the <see cref="RightCommandParameter"/> property
         /// </summary>
         public static readonly DependencyProperty RightCommandParameterProperty =
-            DependencyProperty.Register(nameof(RightCommandParameter), typeof(object), typeof(SlidableListItem), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(RightCommandParameter), typeof(object), typeof(SlidableListItem), new PropertyMetadata(null, OnSwipeControlValueChanged));
 
         /// <summary>
         /// Identifies the <see cref="SwipeStatus"/> property
@@ -148,10 +150,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(SwipeStatus), typeof(object), typeof(SlidableListItem), new PropertyMetadata(SwipeStatus.Idle));
 
         /// <summary>
-        /// Identifues the <see cref="IsPointerReleasedOnSwipingHandled"/> property
+        /// Identifies the <see cref="IsPointerReleasedOnSwipingHandled"/> property
         /// </summary>
         public static readonly DependencyProperty IsPointerReleasedOnSwipingHandledProperty =
             DependencyProperty.Register("IsPointerReleasedOnSwipingHandled", typeof(bool), typeof(SlidableListItem), new PropertyMetadata(false));
+
+        /// <summary>
+        /// Identifies the <see cref="UseSwipeControlWhenPossible"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty UseSwipeControlWhenPossibleProperty =
+            DependencyProperty.Register("UseSwipeControlWhenPossible", typeof(bool), typeof(SlidableListItem), new PropertyMetadata(false, OnUseSwipeControlWhenPossibleChanged));
 
         /// <summary>
         /// Occurs when SwipeStatus has changed
@@ -165,6 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const int FinishAnimationDuration = 150;
         private const int SnappedCommandMargin = 20;
         private const int AnimationSetDuration = 200;
+
         private Grid _contentGrid;
         private CompositeTransform _transform;
         private Grid _commandContainer;
@@ -178,6 +187,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Storyboard _contentStoryboard;
         private AnimationSet _leftCommandAnimationSet;
         private AnimationSet _rightCommandAnimationSet;
+
+        private ControlTemplate _previousTemplateUsed;
+        private object _swipeControl;
+        private object _leftSwipeItems;
+        private object _leftSwipeItem;
+        private object _rightSwipeItems;
+        private object _rightSwipeItem;
+
+        private bool UsingSwipeControl => UseSwipeControlWhenPossible && IsSwipeControlSupported;
+
+        /// <summary>
+        /// Gets a value indicating whether <see cref="SwipeControl"/> is supported
+        /// </summary>
+        public static bool IsSwipeControlSupported { get; } = ApiInformation.IsTypePresent("Windows.UI.Xaml.Controls.SwipeControl");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlidableListItem"/> class.
@@ -226,10 +249,157 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _contentGrid.ManipulationCompleted += ContentGrid_ManipulationCompleted;
             }
 
+            if (UsingSwipeControl)
+            {
+                OnApplyTemplateSwipeControl();
+            }
+
             Loaded += SlidableListItem_Loaded;
             Unloaded += SlidableListItem_Unloaded;
 
             base.OnApplyTemplate();
+        }
+
+        private static void OnUseSwipeControlWhenPossibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var slider = d as SlidableListItem;
+            if (slider == null)
+            {
+                return;
+            }
+
+            if (slider.UseSwipeControlWhenPossible && SlidableListItem.IsSwipeControlSupported)
+            {
+                ResourceDictionary dict = new ResourceDictionary();
+                dict.Source = new System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem/SlidableListItemSwipeControlTemplate.xaml");
+                slider._previousTemplateUsed = slider.Template;
+                slider.Template = dict["SlidableListItemSwipeControlStyle"] as ControlTemplate;
+            }
+            else if (!slider.UseSwipeControlWhenPossible &&
+                     e.OldValue is bool oldValue &&
+                     oldValue)
+            {
+                if (slider._previousTemplateUsed != null)
+                {
+                    slider.Template = slider._previousTemplateUsed;
+                }
+                else
+                {
+                    ResourceDictionary dict = new ResourceDictionary();
+                    dict.Source = new System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem/SlidableListItem.xaml");
+                    slider.Template = dict["SlidableListItemDefaultTemplate"] as ControlTemplate;
+                }
+            }
+        }
+
+        private static void OnSwipeControlValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is SlidableListItem control && control.UsingSwipeControl)
+            {
+                control.UpdateSwipeControlItems();
+            }
+        }
+
+        private void OnApplyTemplateSwipeControl()
+        {
+            if (GetTemplateChild("SwipeControl") is SwipeControl swipeControl)
+            {
+                _swipeControl = swipeControl;
+                UpdateSwipeControlItems();
+            }
+        }
+
+        private void UpdateSwipeControlItems()
+        {
+            var swipeControl = _swipeControl as SwipeControl;
+            if (swipeControl == null)
+            {
+                return;
+            }
+
+            if (IsLeftCommandEnabled)
+            {
+                var leftItem = _leftSwipeItem as SwipeItem;
+                var leftItems = _leftSwipeItems as SwipeItems;
+
+                if (leftItem == null)
+                {
+                    leftItem = new SwipeItem();
+                    leftItem.IconSource = new SymbolIconSource();
+                    leftItem.Invoked += LeftControl_Invoked;
+
+                    leftItems = new SwipeItems()
+                    {
+                        leftItem
+                    };
+                    leftItems.Mode = SwipeMode.Execute;
+
+                    _leftSwipeItems = leftItems;
+                    _leftSwipeItem = leftItem;
+                }
+
+                leftItem.BehaviorOnInvoked = SwipeBehaviorOnInvoked.Close;
+                leftItem.Background = LeftBackground;
+                leftItem.Text = LeftLabel;
+                leftItem.Foreground = LeftForeground;
+                leftItem.Command = LeftCommand;
+                leftItem.CommandParameter = LeftCommandParameter;
+                leftItem.IconSource.Foreground = LeftForeground;
+                ((SymbolIconSource)leftItem.IconSource).Symbol = LeftIcon;
+
+                swipeControl.LeftItems = leftItems;
+            }
+            else
+            {
+                swipeControl.LeftItems = null;
+            }
+
+            if (IsRightCommandEnabled)
+            {
+                var rightItem = _rightSwipeItem as SwipeItem;
+                var rightItems = _rightSwipeItems as SwipeItems;
+
+                if (rightItem == null)
+                {
+                    rightItem = new SwipeItem();
+                    rightItem.IconSource = new SymbolIconSource();
+                    rightItem.Invoked += RightControl_Invoked;
+
+                    rightItems = new SwipeItems()
+                    {
+                        rightItem
+                    };
+                    rightItems.Mode = SwipeMode.Execute;
+
+                    _rightSwipeItems = rightItems;
+                    _rightSwipeItem = rightItem;
+                }
+
+                rightItem.BehaviorOnInvoked = SwipeBehaviorOnInvoked.Close;
+                rightItem.Background = RightBackground;
+                rightItem.Text = RightLabel;
+                rightItem.Foreground = RightForeground;
+                rightItem.Command = RightCommand;
+                rightItem.CommandParameter = RightCommandParameter;
+                rightItem.IconSource.Foreground = RightForeground;
+                ((SymbolIconSource)rightItem.IconSource).Symbol = RightIcon;
+
+                swipeControl.RightItems = rightItems;
+            }
+            else
+            {
+                swipeControl.RightItems = null;
+            }
+        }
+
+        private void LeftControl_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)
+        {
+            LeftCommandRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void RightControl_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)
+        {
+            RightCommandRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void SlidableListItem_Loaded(object sender, RoutedEventArgs e)
@@ -487,7 +657,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     else if (SwipeStatus != SwipeStatus.SwipingPassedRightThreshold)
                     {
-                        // This will cover extrem cases when previous state wasn't
+                        // This will cover extreme cases when previous state wasn't
                         // below threshold.
                         _leftCommandAnimationSet?.Stop();
                         _leftCommandPanel.RenderTransform = _leftCommandTransform;
@@ -528,7 +698,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     else if (SwipeStatus != SwipeStatus.SwipingPassedLeftThreshold)
                     {
-                        // This will cover extrem cases when previous state wasn't
+                        // This will cover extreme cases when previous state wasn't
                         // below threshold.
                         _rightCommandAnimationSet?.Stop();
                         _rightCommandPanel.RenderTransform = _rightCommandTransform;
@@ -776,6 +946,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (bool)GetValue(IsPointerReleasedOnSwipingHandledProperty); }
             set { SetValue(IsPointerReleasedOnSwipingHandledProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the SlidableListItem should use the SwipeControl when possible (Fall Creators Update and above)
+        /// When set to true and the device supports SwipeControl, the SlidableListItem will use a template based on SwipeControl
+        /// </summary>
+        public bool UseSwipeControlWhenPossible
+        {
+            get { return (bool)GetValue(UseSwipeControlWhenPossibleProperty); }
+            set { SetValue(UseSwipeControlWhenPossibleProperty, value); }
         }
     }
 }

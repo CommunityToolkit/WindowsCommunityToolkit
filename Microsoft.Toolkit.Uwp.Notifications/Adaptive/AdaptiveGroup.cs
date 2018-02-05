@@ -22,7 +22,10 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class AdaptiveGroup : ITileBindingContentAdaptiveChild, IAdaptiveChild, IToastBindingGenericChild
     {
         /// <summary>
-        /// The only valid children of groups are <see cref="AdaptiveSubgroup"/>. Each subgroup is displayed as a separate vertical column. Note that you must include at least one subgroup in your group, otherwise an <see cref="InvalidOperationException"/> will be thrown when you try to retrieve the XML for the notification.
+        /// Gets the only valid children of groups are <see cref="AdaptiveSubgroup"/>.
+        /// Each subgroup is displayed as a separate vertical column. Note that you must
+        /// include at least one subgroup in your group, otherwise an <see cref="InvalidOperationException"/>
+        /// will be thrown when you try to retrieve the XML for the notification.
         /// </summary>
         public IList<AdaptiveSubgroup> Children { get; private set; } = new List<AdaptiveSubgroup>();
 

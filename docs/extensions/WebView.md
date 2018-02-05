@@ -12,7 +12,7 @@ The **WebView** allows attaching HTML content to WebView.
 
 ## Example
 
-```xml
+```xaml
 	// Attach HTML content directly to WebView.
 	<WebView extensions:WebView.Content="{Binding HtmlContent}" />
 

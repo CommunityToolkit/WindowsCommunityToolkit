@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public TileTemplateNameV3 Template { get; private set; }
 
         /// <summary>
-        /// Set to true to allow Windows to append a query string to the image URI supplied in the Tile notification. Use this attribute if your server hosts images and can handle query strings, either by retrieving an image variant based on the query strings or by ignoring the query string and returning the image as specified without the query string. This query string specifies scale, contrast setting, and language; for instance, a value of
+        /// Gets or sets a value whether Windows should append a query string to the image URI supplied in the Tile notification. Use this attribute if your server hosts images and can handle query strings, either by retrieving an image variant based on the query strings or by ignoring the query string and returning the image as specified without the query string. This query string specifies scale, contrast setting, and language; for instance, a value of
         ///
         /// "www.website.com/images/hello.png"
         ///
@@ -43,19 +43,19 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public bool? AddImageQuery { get; set; }
 
         /// <summary>
-        /// A default base URI that is combined with relative URIs in image source attributes.
+        /// Gets or sets a default base URI that is combined with relative URIs in image source attributes.
         /// </summary>
         [NotificationXmlAttribute("baseUri")]
         public Uri BaseUri { get; set; }
 
         /// <summary>
-        /// The form that the Tile should use to display the app's brand.
+        /// Gets or sets the form that the Tile should use to display the app's brand.
         /// </summary>
         [NotificationXmlAttribute("branding", DEFAULT_BRANDING)]
         public TileBranding Branding { get; set; } = DEFAULT_BRANDING;
 
         /// <summary>
-        /// Set to a sender-defined string that uniquely identifies the content of the notification. This prevents duplicates in the situation where a large Tile template is displaying the last three wide Tile notifications.
+        /// Gets or sets a sender-defined string that uniquely identifies the content of the notification. This prevents duplicates in the situation where a large Tile template is displaying the last three wide Tile notifications.
         ///
         /// Required: NO
         /// </summary>
@@ -63,13 +63,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public string ContentId { get; set; }
 
         /// <summary>
-        /// An optional string to override the Tile's display name while showing this notification.
+        /// Gets or sets an optional string to override the Tile's display name while showing this notification.
         /// </summary>
         [NotificationXmlAttribute("displayName")]
         public string DisplayName { get; set; }
 
         /// <summary>
-        /// The target locale of the XML payload, specified as a BCP-47 language tags such as "en-US" or "fr-FR". The locale specified here overrides that in visual, but can be overriden by that in text. If this value is a literal string, this attribute defaults to the user's UI language. If this value is a string reference, this attribute defaults to the locale chosen by Windows Runtime in resolving the string. See Remarks for when this value isn't specified.
+        /// Gets or sets the target locale of the XML payload, specified as a BCP-47 language tags such as "en-US" or "fr-FR". The locale specified here overrides that in visual, but can be overriden by that in text. If this value is a literal string, this attribute defaults to the user's UI language. If this value is a string reference, this attribute defaults to the locale chosen by Windows Runtime in resolving the string. See Remarks for when this value isn't specified.
         /// </summary>
         [NotificationXmlAttribute("lang")]
         public string Language { get; set; }

@@ -20,13 +20,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         internal const Element_ToastActionPlacement DEFAULT_PLACEMENT = Element_ToastActionPlacement.Inline;
 
         /// <summary>
-        /// The text to be displayed on the button.
+        /// Gets or sets the text to be displayed on the button.
         /// </summary>
         [NotificationXmlAttribute("content")]
         public string Content { get; set; }
 
         /// <summary>
-        /// The arguments attribute describes the app-defined data that the app can later retrieve once it is activated from user taking this action.
+        /// Gets or sets the arguments attribute describing the app-defined data that the app can later retrieve once it is activated from user taking this action.
         /// </summary>
         [NotificationXmlAttribute("arguments")]
         public string Arguments { get; set; }
@@ -41,19 +41,22 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public ToastAfterActivationBehavior AfterActivationBehavior { get; set; } = DEFAULT_AFTER_ACTIVATION_BEHAVIOR;
 
         /// <summary>
-        /// imageUri is optional and is used to provide an image icon for this action to display inside the button alone with the text content.
+        /// Gets or sets optional value to provide an image icon for this action to display inside the button alone with the text content.
         /// </summary>
         [NotificationXmlAttribute("imageUri")]
         public string ImageUri { get; set; }
 
         /// <summary>
-        /// This is specifically used for the quick reply scenario.
+        /// Gets or sets value used for the quick reply scenario.
         /// </summary>
         [NotificationXmlAttribute("hint-inputId")]
         public string InputId { get; set; }
 
         [NotificationXmlAttribute("placement", DEFAULT_PLACEMENT)]
         public Element_ToastActionPlacement Placement { get; set; } = DEFAULT_PLACEMENT;
+
+        [NotificationXmlAttribute("hint-actionId")]
+        public string HintActionId { get; set; }
     }
 
     internal enum Element_ToastActionPlacement
