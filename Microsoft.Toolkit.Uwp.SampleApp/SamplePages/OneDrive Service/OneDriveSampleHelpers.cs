@@ -14,8 +14,6 @@ using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Services.OneDrive;
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
@@ -27,6 +25,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public static class OneDriveSampleHelpers
     {
+        #pragma warning disable CS0618 // Type or member is obsolete
         public static async Task<string> InputTextDialogAsync(string title)
         {
             TextBox inputTextBox = new TextBox { AcceptsReturn = false, Height = 32 };
@@ -622,5 +621,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             return await picker.PickSingleFileAsync();
         }
+        #pragma warning restore CS0618 // Type or member is obsolete
     }
 }

@@ -26,11 +26,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class OneDrivePage : Page
     {
-        private Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveStorageFolder _rootFolder = null;
-        private Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveStorageFolder _currentFolder = null;
+    #pragma warning disable CS0618 // Type or member is obsolete
+        private OneDriveStorageFolder _rootFolder = null;
+        private OneDriveStorageFolder _currentFolder = null;
 
-        private Microsoft.Toolkit.Services.OneDrive.OneDriveStorageFolder _graphRootFolder = null;
-        private Microsoft.Toolkit.Services.OneDrive.OneDriveStorageFolder _graphCurrentFolder = null;
+        private Toolkit.Services.OneDrive.OneDriveStorageFolder _graphRootFolder = null;
+        private Toolkit.Services.OneDrive.OneDriveStorageFolder _graphCurrentFolder = null;
 
         public OneDrivePage()
         {
@@ -580,5 +581,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Shell.Current.DisplayWaitRing = false;
             }
         }
+        #pragma warning restore CS0618 // Type or member is obsolete
     }
 }

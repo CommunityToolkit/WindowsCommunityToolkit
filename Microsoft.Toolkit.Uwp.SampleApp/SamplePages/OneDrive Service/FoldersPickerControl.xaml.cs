@@ -22,11 +22,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class FoldersPickerControl : UserControl
     {
-        private Services.OneDrive.OneDriveStorageFolder _rootFolder = null;
-        private List<Services.OneDrive.OneDriveStorageFolder> _folders = null;
+#pragma warning disable CS0618 // Type or member is obsolete
+        private OneDriveStorageFolder _rootFolder = null;
+        private List<OneDriveStorageFolder> _folders = null;
 
-        private Services.OneDrive.OneDriveStorageFolder _destinationFolder = null;
-        private Services.OneDrive.OneDriveStorageFolder _currentFolder = null;
+        private OneDriveStorageFolder _destinationFolder = null;
+        private OneDriveStorageFolder _currentFolder = null;
 
         private Toolkit.Services.OneDrive.OneDriveStorageFolder _graphRootFolder = null;
         private List<Toolkit.Services.OneDrive.OneDriveStorageFolder> _graphFolders = null;
@@ -223,5 +224,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 await NavigateToFolderAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
             }
         }
+        #pragma warning restore CS0618 // Type or member is obsolete
     }
 }
