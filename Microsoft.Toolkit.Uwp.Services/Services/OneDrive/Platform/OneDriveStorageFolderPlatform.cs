@@ -30,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive.Platform
     /// <summary>
     /// Platform implementation of file operations.
     /// </summary>
+    #pragma warning disable CS0618
     public class OneDriveStorageFolderPlatform : IOneDriveStorageFolderPlatform
     {
         private Toolkit.Services.OneDrive.OneDriveService _service;
@@ -220,4 +221,5 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive.Platform
             return new IncrementalLoadingCollection<Toolkit.Services.OneDrive.OneDriveRequestSource<Toolkit.Services.OneDrive.OneDriveStorageItem>, Toolkit.Services.OneDrive.OneDriveStorageItem>(requestSource);
         }
     }
+    #pragma warning restore CS0618
 }
