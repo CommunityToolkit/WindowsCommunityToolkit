@@ -52,6 +52,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             var select = Formatter.Selected;
             int originalStart = Formatter.Selected.StartPosition;
 
+            // Replaces Selection of first Line only.
+            if (select.Text.Contains("\r"))
+            {
+                select.EndPosition = select.Text.IndexOf("\r");
+            }
+
             if (string.IsNullOrWhiteSpace(label))
             {
                 if (!string.IsNullOrWhiteSpace(link))
@@ -71,13 +77,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             }
             else if (string.IsNullOrWhiteSpace(link))
             {
-                Formatter.SetSelection("[", $"]({Formatter.Model.Labels.UrlLabel})", false, label);
+                Formatter.SetSelection($"[{label}](", ")", false, Formatter.Model.Labels.UrlLabel);
             }
             else
             {
                 select.Text = $"[{label}]({link})";
                 select.StartPosition = select.EndPosition;
-                select.EndPosition = select.StartPosition;
             }
         }
 

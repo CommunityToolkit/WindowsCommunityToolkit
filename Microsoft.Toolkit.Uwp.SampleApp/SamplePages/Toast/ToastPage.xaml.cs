@@ -93,18 +93,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             };
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-        }
-
         private void ButtonPopToast_Click(object sender, RoutedEventArgs e)
         {
             PopToast();

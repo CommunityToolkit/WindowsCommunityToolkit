@@ -31,8 +31,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public class Sample
     {
+        private const string _repoOnlineRoot = "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/";
+        private const string _docsOnlineRoot = "https://raw.githubusercontent.com/MicrosoftDocs/UWPCommunityToolkitDocs/";
+
         private static HttpClient client = new HttpClient();
-        private static string _docsOnlineRoot = "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/";
         private string _cachedDocumentation = string.Empty;
 
         internal static async Task<Sample> FindAsync(string category, string name)
@@ -96,6 +98,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string XamlCodeFile { get; set; }
 
+        public bool DisableXamlEditorRendering { get; set; }
+
         public string XamlCode { get; private set; }
 
         public string DocumentationUrl { get; set; }
@@ -152,21 +156,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             var filepath = string.Empty;
             var filename = string.Empty;
-            var branch = "master";
 
-            var docRegex = new Regex("^" + _docsOnlineRoot + "(?<branch>.+?)/docs/(?<file>.+)");
+            var docRegex = new Regex("^" + _repoOnlineRoot + "(?<branch>.+?)/docs/(?<file>.+)");
             var docMatch = docRegex.Match(DocumentationUrl);
             if (docMatch.Success)
             {
-                branch = docMatch.Groups["branch"].Value;
                 filepath = docMatch.Groups["file"].Value;
                 filename = Path.GetFileName(filepath);
             }
 
+#if !DEBUG // use the docs repo in release mode
+            string modifiedDocumentationUrl = $"{_docsOnlineRoot}master/docs/{filepath}";
+#else
             string modifiedDocumentationUrl = DocumentationUrl;
-
-#if !DEBUG // only use the master branch for release mode
-                modifiedDocumentationUrl = $"{_docsOnlineRoot}master/docs/{filepath}";
 #endif
 
             try
@@ -337,7 +339,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // Get Xaml code
                 using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{XamlCodeFile}"))
                 {
-                    XamlCode = await codeStream.ReadTextAsync();
+                    XamlCode = await codeStream.ReadTextAsync(Encoding.UTF8);
 
                     // Look for @[] values and generate associated properties
                     var regularExpression = new Regex(@"@\[(?<name>.+?)(:(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*)?\]@?");
@@ -407,6 +409,37 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+                                case PropertyKind.TimeSpan:
+                                    try
+                                    {
+                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = TimeSpan.FromMilliseconds(double.Parse(value)) };
+                                        var parameters = match.Groups["parameters"].Value;
+                                        var split = parameters.Split('-');
+                                        int minIndex = 0;
+                                        int minMultiplier = 1;
+                                        if (string.IsNullOrEmpty(split[0]))
+                                        {
+                                            minIndex = 1;
+                                            minMultiplier = -1;
+                                        }
+
+                                        sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex]);
+                                        sliderOptions.MaxValue = double.Parse(split[minIndex + 1]);
+                                        if (split.Length > 2 + minIndex)
+                                        {
+                                            sliderOptions.Step = double.Parse(split[split.Length - 1]);
+                                        }
+
+                                        options = sliderOptions;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Debug.WriteLine($"Unable to extract slider info from {value}({ex.Message})");
+                                        TrackingManager.TrackException(ex);
+                                        continue;
+                                    }
+
+                                    break;
                                 case PropertyKind.Enum:
                                     try
                                     {
@@ -444,6 +477,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     catch (Exception ex)
                                     {
                                         Debug.WriteLine($"Unable to parse bool from {value}({ex.Message})");
+                                        TrackingManager.TrackException(ex);
+                                        continue;
+                                    }
+
+                                    break;
+                                case PropertyKind.Thickness:
+                                    try
+                                    {
+                                        var thicknessOptions = new ThicknessPropertyOptions { DefaultValue = value };
+                                        options = thicknessOptions;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Debug.WriteLine($"Unable to extract slider info from {value}({ex.Message})");
                                         TrackingManager.TrackException(ex);
                                         continue;
                                     }

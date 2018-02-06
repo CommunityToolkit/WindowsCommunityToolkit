@@ -42,11 +42,13 @@ Package Version(s):
 Windows 10 Build Number:
 - [ ] Anniversary Update (14393) 
 - [ ] Creators Update (15063)
+- [ ] Fall Creators Update (16299)
 - [ ] Insider Build (xxxxx)
 
 App min and target version:
 - [ ] Anniversary Update (14393) 
 - [ ] Creators Update (15063)
+- [ ] Fall Creators Update (16299)
 - [ ] Insider Build (xxxxx)
 
 Device form factor:

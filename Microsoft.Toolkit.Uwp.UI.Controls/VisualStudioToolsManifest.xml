@@ -7,6 +7,7 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Carousel" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.CarouselPanel" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DropShadowPanel" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DockPanel" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Expander" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.GridSplitter" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.HamburgerMenu" />

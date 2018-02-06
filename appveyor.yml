@@ -6,11 +6,14 @@ branches:
   - rel/2.0.0
   - rel/2.0.1
   - rel/2.1.0
+  - rel/2.1.1
   - rel/3.0.0
 
 environment:
   SignClientSecret:
-    secure: erZhzDCn/vhjD2zlGbG9BITzFL4/sIThwMXrmUnFDY2LxUXSZG5Q/tr0pTEPbcm8
+    secure: 5Kl9ANR27CzPrrsGm8ZuJ/Cekxv9QH1xL8AhQaT6nlo=
+  SignClientUser:
+    secure: hVgiMEgTra+fsHTHm20UnsefKzy9peTQenuwITEwEsUXJg8NymUVMcAbOtV1RMkf
 
 skip_branch_with_pr: true
 nuget:

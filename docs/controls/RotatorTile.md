@@ -23,6 +23,9 @@ The **Rotator Tile Control** is an ItemsControl that rotates through a set of it
 
 ```
 
+## Setting Rotation Duration
+There are two properties to set the duration of the item rotation: **RotationDelay** and **ExtraRandomDuration**. The duration is derived from the formula `RotationDelay + Random.Next(0, ExtraRandomDuration)`. Minimum supported RotationDelay is 500ms.
+
 ## Example Image
 
 ![RotatorTile animation](../resources/images/Controls-RotatorTile.gif "RotatorTile")

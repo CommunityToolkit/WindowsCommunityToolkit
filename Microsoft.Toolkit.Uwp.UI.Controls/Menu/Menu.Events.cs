@@ -100,9 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var element = FocusManager.GetFocusedElement();
-
-            if (NavigateUsingKeyboard(element, args, this, Orientation))
+            if (NavigateUsingKeyboard(args, this, Orientation))
             {
                 return;
             }
@@ -148,6 +146,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
         {
+            if (Items.Count == 0)
+            {
+                return;
+            }
+
             _lastFocusElement = FocusManager.GetFocusedElement() as Control;
 
             if (args.VirtualKey == VirtualKey.Menu)
@@ -156,7 +159,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (_isLostFocus)
                     {
-                        Focus(FocusState.Programmatic);
+                        ((MenuItem)Items[0]).Focus(FocusState.Programmatic);
 
                         if (!(_lastFocusElement is MenuItem))
                         {

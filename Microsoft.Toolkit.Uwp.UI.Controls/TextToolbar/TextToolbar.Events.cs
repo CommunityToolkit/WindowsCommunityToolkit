@@ -205,6 +205,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         }
 
                         break;
+
+                    case NotifyCollectionChangedAction.Reset:
+                        BuildBar();
+                        break;
                 }
             }
         }

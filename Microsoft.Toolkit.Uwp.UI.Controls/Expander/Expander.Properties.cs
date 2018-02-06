@@ -44,6 +44,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ExpandDirection), typeof(ExpandDirection), typeof(Expander), new PropertyMetadata(ExpandDirection.Down, OnExpandDirectionChanged));
 
         /// <summary>
+        /// Identifies the <see cref="ContentOverlay"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ContentOverlayProperty =
+            DependencyProperty.Register(nameof(ContentOverlay), typeof(UIElement), typeof(Expander), new PropertyMetadata(default(UIElement)));
+
+        /// <summary>
         /// Gets or sets a value indicating whether the Header of the control.
         /// </summary>
         public string Header
@@ -77,6 +83,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (ExpandDirection)GetValue(ExpandDirectionProperty); }
             set { SetValue(ExpandDirectionProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the ContentOverlay of the control.
+        /// </summary>
+        public UIElement ContentOverlay
+        {
+            get { return (UIElement)GetValue(ContentOverlayProperty); }
+            set { SetValue(ContentOverlayProperty, value); }
         }
 
         private static void OnIsExpandedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

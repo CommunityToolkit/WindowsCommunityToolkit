@@ -28,6 +28,7 @@
         <Setter Property="CodeFontFamily" Value="Consolas" />
         <Setter Property="CodeMargin" Value="0, 7, 0, 7" />
         <Setter Property="CodePadding" Value="10, 6, 10, 6" />
+        <Setter Property="EmojiFontFamily" Value="Segoe UI Emoji" />
         <Setter Property="Header1FontWeight" Value="Bold" />
         <Setter Property="Header1FontSize" Value="20" />
         <Setter Property="Header1Margin" Value="0, 15, 0, 15" />

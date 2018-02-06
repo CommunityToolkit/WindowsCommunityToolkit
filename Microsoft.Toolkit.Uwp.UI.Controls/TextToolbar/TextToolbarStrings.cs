@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="OkLabel"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OkLabelProperty =
-            DependencyProperty.Register(nameof(OkLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Ok"));
+            DependencyProperty.Register(nameof(OkLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("OK"));
 
         /// <summary>
         /// Identifies the <see cref="CancelLabel"/> dependency property.
@@ -108,6 +108,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty HeaderLabelProperty =
             DependencyProperty.Register(nameof(HeaderLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Header"));
+
+        /// <summary>
+        /// Identifies the <see cref="EmptyTextLabel"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty EmptyTextLabelProperty =
+            DependencyProperty.Register(nameof(EmptyTextLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Label cannot be Empty"));
+
+        /// <summary>
+        /// Identifies the <see cref="LinkInvalidLabel"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty LinkInvalidLabelProperty =
+            DependencyProperty.Register(nameof(LinkInvalidLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Link Format is Invaild"));
+
+        /// <summary>
+        /// Identifies the <see cref="WarningLabel"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty WarningLabelProperty =
+            DependencyProperty.Register(nameof(WarningLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Warning"));
+
+        /// <summary>
+        /// Identifies the <see cref="RelativeLabel"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty RelativeLabelProperty =
+            DependencyProperty.Register(nameof(RelativeLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Relative"));
 
         /// <summary>
         /// Gets or sets the label for Bold
@@ -242,6 +266,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (string)GetValue(HeaderLabelProperty); }
             set { SetValue(HeaderLabelProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the label for EmptyTextLabel
+        /// </summary>
+        public string EmptyTextLabel
+        {
+            get { return (string)GetValue(EmptyTextLabelProperty); }
+            set { SetValue(EmptyTextLabelProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the label for LinkInvalid
+        /// </summary>
+        public string LinkInvalidLabel
+        {
+            get { return (string)GetValue(LinkInvalidLabelProperty); }
+            set { SetValue(LinkInvalidLabelProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the label for Warning
+        /// </summary>
+        public string WarningLabel
+        {
+            get { return (string)GetValue(WarningLabelProperty); }
+            set { SetValue(WarningLabelProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the label for Relative
+        /// </summary>
+        public string RelativeLabel
+        {
+            get { return (string)GetValue(RelativeLabelProperty); }
+            set { SetValue(RelativeLabelProperty, value); }
         }
     }
 }

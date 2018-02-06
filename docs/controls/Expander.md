@@ -52,6 +52,24 @@ The `ExpandDirection` property can take 4 values that will expand the content ba
 * `Right` - from left to right
 * `Left` - from right to left
 
+### ContentOverlay
+
+The `ContentOverlay` property can be used to define the content to be shown when the Expander is collapsed
+
+```xaml
+<controls:Expander Header="Header">
+  <Grid>
+    <TextBlock Text="Expanded content" />
+  </Grid>
+
+  <controls:Expander.ContentOverlay>
+    <Grid MinHeight="250">
+      <TextBlock Text="Collapsed content" />
+    </Grid>
+  </controls:Expander.ContentOverlay>
+</controls:Expander>
+```
+
 ## Example Image
 
 ![Expander animation](../resources/images/Controls-Expander.gif "Expander")

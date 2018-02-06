@@ -27,7 +27,7 @@ The BladeView provides a container to host blades as extra detail pages in, for 
     </controls:BladeItem>
 
     <controls:BladeItem x:Name="DefaultBlade" 
-	                    Title="A blade"
+	                    Header="A blade"
                         IsOpen="False">
         <TextBlock HorizontalAlignment="Center"
                    VerticalAlignment="Center"

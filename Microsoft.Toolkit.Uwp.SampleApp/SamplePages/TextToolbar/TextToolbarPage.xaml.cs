@@ -11,10 +11,13 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.System;
@@ -38,16 +41,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             _toolbar = control.FindChildByName("Toolbar") as TextToolbar;
 
-            var editZone = control.FindChildByName("EditZone") as RichEditBox;
-            if (editZone != null)
+            if (control.FindChildByName("EditZone") is RichEditBox editZone)
             {
                 editZone.TextChanged += EditZone_TextChanged;
             }
 
-            _previewer = control.FindChildByName("Previewer") as MarkdownTextBlock;
-            if (_previewer != null)
+            if (control.FindChildByName("Previewer") is MarkdownTextBlock previewer)
             {
+                _previewer = previewer;
                 _previewer.LinkClicked += Previewer_LinkClicked;
+            }
+
+            if (ToolbarFormat != null && (Format)ToolbarFormat.Value == Format.Custom)
+            {
+                UseCustomFormatter();
             }
         }
 
@@ -60,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 var button = _toolbar?.GetDefaultButton(ButtonType.Bold);
                 if (button != null)
                 {
-                    button.Visibility = button.Visibility == Windows.UI.Xaml.Visibility.Visible ? Windows.UI.Xaml.Visibility.Collapsed : Windows.UI.Xaml.Visibility.Visible;
+                    button.Visibility = button.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
                 }
             });
 
@@ -73,21 +80,44 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 UseCustomFormatter();
             });
+
+            Shell.Current.RegisterNewCommand("Reset Layout", (sender, args) =>
+            {
+                ResetLayout();
+            });
         }
 
-        private void UseCustomFormatter()
+        private void ResetLayout()
         {
             if (_toolbar == null)
             {
                 return;
             }
 
-            var formatter = new SampleFormatter(_toolbar);
-            _toolbar.Format = UI.Controls.TextToolbarFormats.Format.Custom;
-            _toolbar.Formatter = formatter;
+            _toolbar.CustomButtons.Clear();
+            if (_toolbar.DefaultButtons != null)
+            {
+                foreach (var item in _toolbar.DefaultButtons)
+                {
+                    if (item is ToolbarButton button)
+                    {
+                        button.Visibility = Visibility.Visible;
+                    }
+                }
+            }
         }
 
-        private int DemoCounter { get; set; } = 0;
+        private void UseCustomFormatter()
+        {
+            if (_toolbar == null || ToolbarFormat == null)
+            {
+                return;
+            }
+
+            var formatter = new SampleFormatter(_toolbar);
+            ToolbarFormat.Value = Format.Custom;
+            _toolbar.Formatter = formatter;
+        }
 
         private void AddCustomButton()
         {
@@ -116,8 +146,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 ShortcutKey = shortcut,
                 Activation = (b) =>
                 {
-                    var md = _toolbar.Formatter as MarkDownFormatter;
-                    if (md != null)
+                    if (_toolbar.Formatter is MarkDownFormatter md)
                     {
                         md.SetSelection($"[{demoText}]", $"[/{demoText}]");
                     }
@@ -143,18 +172,35 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void EditZone_TextChanged(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void EditZone_TextChanged(object sender, RoutedEventArgs e)
         {
             if (_toolbar == null || _previewer == null)
             {
                 return;
             }
 
-            var md = _toolbar.Formatter as MarkDownFormatter;
-            if (md != null)
+            if (_toolbar.Formatter is MarkDownFormatter md)
             {
                 string text = md.Text;
                 _previewer.Text = string.IsNullOrWhiteSpace(text) ? "Nothing to Preview" : text;
+            }
+        }
+
+        private int DemoCounter { get; set; } = 0;
+
+        private ValueHolder ToolbarFormat
+        {
+            get
+            {
+                if (DataContext is Sample sample)
+                {
+                    if (sample.PropertyDescriptor.Expando is IDictionary<string, object> properties && properties.TryGetValue("Format", out var format))
+                    {
+                        return format as ValueHolder;
+                    }
+                }
+
+                return null;
             }
         }
     }

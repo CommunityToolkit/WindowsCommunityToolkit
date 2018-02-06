@@ -171,10 +171,10 @@ if (BluetoothLEHelper.IsBluetoothLESupported)
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.15063.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp |
+| Namespace | Microsoft.Toolkit.Uwp.Connectivity |
 
 ## API
 
-* [BluetoothLEHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/BluetoothLEHelper/)
+* [BluetoothLEHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Connectivity/BluetoothLEHelper)
 
 

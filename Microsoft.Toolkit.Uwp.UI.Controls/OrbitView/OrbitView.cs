@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -626,48 +627,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var anchorVisual = ElementCompositionPreview.GetElementVisual(anchor);
             var elementVisual = ElementCompositionPreview.GetElementVisual(element);
             var centerVisual = ElementCompositionPreview.GetElementVisual(_centerContent);
+            var elementNode = elementVisual.GetReference();
+            var centerNode = centerVisual.GetReference();
 
-            string expression = string.Empty;
-            var elementY = "(elementVisual.Offset.Y + elementVisual.Size.Y / 2)";
-            var centerY = "(centerVisual.Offset.Y + centerVisual.Size.Y / 2)";
-            var elementX = "(elementVisual.Offset.X + elementVisual.Size.X / 2)";
-            var centerX = "(centerVisual.Offset.X + centerVisual.Size.X / 2)";
+            ScalarNode expression = null;
+            var elementY = elementNode.Offset.Y + (elementNode.Size.Y / 2);
+            var centerY = centerNode.Offset.Y + (centerNode.Size.Y / 2);
+            var elementX = elementNode.Offset.X + (elementNode.Size.X / 2);
+            var centerX = centerNode.Offset.X + (centerNode.Size.X / 2);
 
             var startingAngle = Math.Atan2(y, x);
 
             if (startingAngle > Math.PI / 4 && startingAngle < 3 * Math.PI / 4)
             {
-                expression = $"Atan((-1 * ({elementX} - {centerX})) / ( {elementY} - {centerY})) - PI / 2";
+                expression = ExpressionFunctions.ATan((-1 * (elementX - centerX)) / (elementY - centerY)) - ((float)Math.PI / 2.0f);
             }
             else if (startingAngle >= 3 * Math.PI / 4 || startingAngle < -3 * Math.PI / 4)
             {
-                expression = $"Atan(({elementY} - {centerY}) / ({elementX} - {centerX})) + PI";
+                expression = ExpressionFunctions.ATan((elementY - centerY) / (elementX - centerX)) + (float)Math.PI;
             }
             else if (startingAngle >= -3 * Math.PI / 4 && startingAngle < Math.PI / -4)
             {
-                expression = $"Atan(({elementX} - {centerX}) / (-1 * ({elementY} - {centerY}))) + PI  / 2";
+                expression = ExpressionFunctions.ATan((elementX - centerX) / (-1 * (elementY - centerY))) + ((float)Math.PI / 2.0f);
             }
             else
             {
-                expression = $"Atan(({elementY} - {centerY}) / ({elementX} - {centerX}))";
+                expression = ExpressionFunctions.ATan((elementY - centerY) / (elementX - centerX));
             }
 
             anchorVisual.CenterPoint = new Vector3(0);
-            var rotationExpression = _compositor.CreateExpressionAnimation();
-            rotationExpression.Expression = expression;
-            rotationExpression.SetReferenceParameter("centerVisual", centerVisual);
-            rotationExpression.SetReferenceParameter("elementVisual", elementVisual);
-            anchorVisual.StartAnimation(nameof(anchorVisual.RotationAngle), rotationExpression);
+            anchorVisual.StartAnimation(nameof(anchorVisual.RotationAngle), expression);
 
-            var offsetExpression = _compositor.CreateExpressionAnimation();
-            offsetExpression.Expression = "Vector3(centerVisual.Offset.X + centerVisual.Size.X / 2, centerVisual.Offset.Y + centerVisual.Size.Y / 2, 0)";
-            offsetExpression.SetReferenceParameter("centerVisual", centerVisual);
+            var offsetExpression = ExpressionFunctions.Vector3(centerNode.Offset.X + (centerNode.Size.X / 2), centerNode.Offset.Y + (centerNode.Size.Y / 2), 0);
             anchorVisual.StartAnimation(nameof(anchorVisual.Offset), offsetExpression);
 
-            var scaleExpression = _compositor.CreateExpressionAnimation();
-            scaleExpression.Expression = $"Vector3(Pow(Pow({elementX} - {centerX}, 2) + Pow({elementY} - {centerY}, 2), 0.5)/100, 1, 1)";
-            scaleExpression.SetReferenceParameter("centerVisual", centerVisual);
-            scaleExpression.SetReferenceParameter("elementVisual", elementVisual);
+            var scaleExpression = ExpressionFunctions.Vector3(ExpressionFunctions.Pow(ExpressionFunctions.Pow(elementX - centerX, 2) + ExpressionFunctions.Pow(elementY - centerY, 2), 0.5f) / 100, 1, 1);
             anchorVisual.StartAnimation(nameof(anchorVisual.Scale), scaleExpression);
 
             return anchor;
