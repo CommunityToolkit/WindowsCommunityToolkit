@@ -288,7 +288,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (HamburgerMenu.CurrentSample.HasDocumentation)
                 {
                     var docs = await this.HamburgerMenu.CurrentSample.GetDocumentationAsync();
-                    documentationPath = docs.Path;
+                    documentationPath = docs.path;
                     if (!string.IsNullOrWhiteSpace(docs.contents))
                     {
                         DocumentationTextblock.Text = docs.contents;
@@ -522,14 +522,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private async void DocumentationTextblock_ImageResolving(object sender, ImageResolvingEventArgs e)
         {
-            async Task<Stream> CopyStream(HttpContent source)
-            {
-                var stream = new MemoryStream();
-                await source.CopyToAsync(stream);
-                stream.Seek(0, SeekOrigin.Begin);
-                return stream;
-            }
-
             var deferral = e.GetDeferral();
             BitmapImage image = null;
 
@@ -545,46 +537,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
             else
             {
-                IRandomAccessStream imageStream = null;
-                var localpath = $"{Url.Host}/{Url.LocalPath}";
-
-                // Cache only in Release
-#if !DEBUG
-                try
-                {
-                    imageStream = await StreamHelper.GetLocalCacheFileStreamAsync(localpath, Windows.Storage.FileAccessMode.Read);
-                }
-                catch
-                {
-                }
-#endif
-
-                if (imageStream == null)
-                {
-                    try
-                    {
-                        using (var client = new HttpClient())
-                        {
-                            using (var response = await client.GetAsync(Url))
-                            {
-                                if (response.IsSuccessStatusCode)
-                                {
-                                    var imageCopy = await CopyStream(response.Content);
-                                    imageStream = imageCopy.AsRandomAccessStream();
-
-                                    // Cache only in Release
-#if !DEBUG
-                                    // Saves to the Cache.
-                                    SaveImageToCache(localpath, await CopyStream(response.Content));
-#endif
-                                }
-                            }
-                        }
-                    }
-                    catch
-                    {
-                    }
-                }
+                var imageStream = await this.HamburgerMenu.CurrentSample.GetImageStream(Url);
 
                 if (imageStream != null)
                 {
@@ -601,24 +554,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             deferral.Complete();
-        }
-
-        private async void SaveImageToCache(string localpath, Stream imageStream)
-        {
-            // Close stream when finished.
-            using (imageStream)
-            {
-                var folder = ApplicationData.Current.LocalCacheFolder;
-                localpath = Path.Combine(folder.Path, localpath);
-
-                // Resort to creating using traditional methods to avoid iteration for folder creation.
-                Directory.CreateDirectory(Path.GetDirectoryName(localpath));
-
-                using (var filestream = File.Create(localpath))
-                {
-                    await imageStream.CopyToAsync(filestream);
-                }
-            }
         }
 
         private void GitHub_OnClick(object sender, RoutedEventArgs e)
