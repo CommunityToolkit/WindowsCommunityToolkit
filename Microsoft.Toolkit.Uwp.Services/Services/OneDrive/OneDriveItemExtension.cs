@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -25,6 +26,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// <summary>
     /// Type OneDriveItemExtension
     /// </summary>
+    [Obsolete("This class is being deprecated.")]
     public static class OneDriveItemExtension
     {
         /// <summary>
@@ -124,7 +126,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>a OneDrive item or null if the request fail</returns>
         public static async Task<bool> MoveAsync(this IOneDriveClient provider, HttpRequestMessage request, OneDriveStorageFolder destinationFolder, string desiredNewName, CancellationToken cancellationToken)
         {
-            OneDriveParentReference rootParentReference = new OneDriveParentReference();
+            Toolkit.Services.OneDrive.OneDriveParentReference rootParentReference = new Toolkit.Services.OneDrive.OneDriveParentReference();
             if (destinationFolder.OneDriveItem.Name == "root")
             {
                 rootParentReference.Parent.Path = "/drive/root:/";

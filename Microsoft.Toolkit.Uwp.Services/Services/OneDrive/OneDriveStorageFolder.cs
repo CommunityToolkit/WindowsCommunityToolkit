@@ -33,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// <summary>
     /// OneDriveStorageFolder Type
     /// </summary>
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
     public class OneDriveStorageFolder : OneDriveStorageItem
     {
         private IItemChildrenCollectionRequest _nextPageItemsRequest;
@@ -122,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             }
             else
             {
-                if (content.Size > OneDriveUploadConstants.SimpleUploadMaxSize)
+                if (content.Size > Toolkit.Services.OneDrive.OneDriveUploadConstants.SimpleUploadMaxSize)
                 {
                     throw new ServiceException(new Error { Message = "The file size cannot exceed 4MB, use UploadFileAsync instead ", Code = "MaxSizeExceeded", ThrowSite = "UWP Community Toolkit" });
                 }
@@ -381,9 +382,9 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <returns>When this method completes, it returns a MicrosoftGraphOneDriveFile that represents the new file.</returns>
         public async Task<OneDriveStorageFile> UploadFileAsync(string desiredName, IRandomAccessStream content, CreationCollisionOption options = CreationCollisionOption.FailIfExists,   int maxChunkSize = -1)
         {
-            int currentChunkSize = maxChunkSize < 0 ? OneDriveUploadConstants.DefaultMaxChunkSizeForUploadSession : maxChunkSize;
+            int currentChunkSize = maxChunkSize < 0 ? Toolkit.Services.OneDrive.OneDriveUploadConstants.DefaultMaxChunkSizeForUploadSession : maxChunkSize;
 
-            if (currentChunkSize % OneDriveUploadConstants.RequiredChunkSizeIncrementForUploadSession != 0)
+            if (currentChunkSize % Toolkit.Services.OneDrive.OneDriveUploadConstants.RequiredChunkSizeIncrementForUploadSession != 0)
             {
                 throw new ArgumentException("Max chunk size must be a multiple of 320 KiB", nameof(maxChunkSize));
             }
@@ -400,7 +401,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 
             var uploadSessionUri = $"{Provider.BaseUrl}/drive/items/{OneDriveItem.Id}:/{desiredName}:/oneDrive.createSession";
 
-            var conflictBehavior = new OneDriveItemConflictBehavior { Item = new OneDriveConflictItem { ConflictBehavior = OneDriveHelper.TransformCollisionOptionToConflictBehavior(options.ToString()) } };
+            var conflictBehavior = new Toolkit.Services.OneDrive.OneDriveItemConflictBehavior { Item = new Toolkit.Services.OneDrive.OneDriveConflictItem { ConflictBehavior = OneDriveHelper.TransformCollisionOptionToConflictBehavior(options.ToString()) } };
 
             var jsonConflictBehavior = JsonConvert.SerializeObject(conflictBehavior);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, uploadSessionUri);
