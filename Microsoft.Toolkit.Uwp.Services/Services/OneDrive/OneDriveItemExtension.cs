@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -25,6 +26,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// <summary>
     /// Type OneDriveItemExtension
     /// </summary>
+    [Obsolete("This class is being deprecated.")]
     public static class OneDriveItemExtension
     {
         /// <summary>

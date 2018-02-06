@@ -14,7 +14,6 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Microsoft.Toolkit.Uwp.Services.Core;
 using Windows.Security.Credentials;
 using Windows.Storage;
 

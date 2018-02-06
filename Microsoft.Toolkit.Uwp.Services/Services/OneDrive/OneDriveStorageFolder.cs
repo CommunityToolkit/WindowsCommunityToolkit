@@ -33,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// <summary>
     /// OneDriveStorageFolder Type
     /// </summary>
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
     public class OneDriveStorageFolder : OneDriveStorageItem
     {
         private IItemChildrenCollectionRequest _nextPageItemsRequest;

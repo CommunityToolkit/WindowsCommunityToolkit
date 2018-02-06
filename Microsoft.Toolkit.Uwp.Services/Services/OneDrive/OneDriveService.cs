@@ -27,6 +27,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// <summary>
     ///  Class using OneDrive API
     /// </summary>
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
     public class OneDriveService : Toolkit.Services.OneDrive.OneDriveService
     {
         /// <summary>

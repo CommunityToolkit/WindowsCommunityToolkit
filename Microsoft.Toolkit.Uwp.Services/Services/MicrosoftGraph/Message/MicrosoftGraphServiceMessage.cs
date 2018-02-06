@@ -21,6 +21,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
     /// <summary>
     ///  Class using Office 365 Microsoft Graph Messages API
     /// </summary>
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
     public class MicrosoftGraphServiceMessage : Toolkit.Services.MicrosoftGraph.MicrosoftGraphServiceMessage
     {
         /// <summary>
@@ -28,8 +29,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// </summary>
         /// <param name="graphClientProvider">Instance of GraphClientService class</param>
         /// <param name="currentConnectedUser">Instance of Graph.User class</param>
-        [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-
         public MicrosoftGraphServiceMessage(GraphServiceClient graphClientProvider, User currentConnectedUser)
             : base(graphClientProvider, currentConnectedUser)
         {

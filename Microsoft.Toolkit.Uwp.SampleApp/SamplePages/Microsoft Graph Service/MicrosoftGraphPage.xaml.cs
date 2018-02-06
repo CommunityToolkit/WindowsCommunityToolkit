@@ -15,6 +15,8 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
@@ -72,9 +74,36 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             // Login via Azure Active Directory
-            if (!await MicrosoftGraphService.Instance.LoginAsync())
+            try
             {
-                var error = new MessageDialog("Unable to sign in to Office 365");
+                if (!await MicrosoftGraphService.Instance.LoginAsync())
+                {
+                    var error = new MessageDialog("Unable to sign in to Office 365");
+                    await error.ShowAsync();
+                    return;
+                }
+            }
+            catch (AdalServiceException ase)
+            {
+                var error = new MessageDialog(ase.Message);
+                await error.ShowAsync();
+                return;
+            }
+            catch (AdalException ae)
+            {
+                var error = new MessageDialog(ae.Message);
+                await error.ShowAsync();
+                return;
+            }
+            catch (MsalServiceException mse)
+            {
+                var error = new MessageDialog(mse.Message);
+                await error.ShowAsync();
+                return;
+            }
+            catch (MsalException me)
+            {
+                var error = new MessageDialog(me.Message);
                 await error.ShowAsync();
                 return;
             }

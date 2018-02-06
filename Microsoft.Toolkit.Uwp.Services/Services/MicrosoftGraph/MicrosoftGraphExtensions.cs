@@ -20,8 +20,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
     /// <summary>
     /// GraphServiceClient Extensions
     /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.MicrosoftGraph")]
     public static class MicrosoftGraphExtensions
     {
         /// <summary>
@@ -29,6 +28,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// </summary>
         /// <param name="source">A collection of messages</param>
         /// <param name="dest">The destination collection</param>
+        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.MicrosoftGraph")]
         public static void AddTo(this IUserMessagesCollectionPage source, ObservableCollection<Graph.Message> dest)
         {
             Toolkit.Services.MicrosoftGraph.MicrosoftGraphExtensions.AddTo(source, dest);
@@ -39,6 +39,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// </summary>
         /// <param name="source">A collection of email addresses</param>
         /// <param name="dest">A collection of Microsoft Graph recipients</param>
+        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.MicrosoftGraph")]
         public static void CopyTo(this string[] source, List<Recipient> dest)
         {
             Toolkit.Services.MicrosoftGraph.MicrosoftGraphExtensions.CopyTo(source, dest);
