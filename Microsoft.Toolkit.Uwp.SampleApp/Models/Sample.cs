@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -381,7 +382,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                 case PropertyKind.DoubleSlider:
                                     try
                                     {
-                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = double.Parse(value) };
+                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = double.Parse(value, CultureInfo.InvariantCulture) };
                                         var parameters = match.Groups["parameters"].Value;
                                         var split = parameters.Split('-');
                                         int minIndex = 0;
@@ -392,11 +393,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                             minMultiplier = -1;
                                         }
 
-                                        sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex]);
-                                        sliderOptions.MaxValue = double.Parse(split[minIndex + 1]);
+                                        sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex], CultureInfo.InvariantCulture);
+                                        sliderOptions.MaxValue = double.Parse(split[minIndex + 1], CultureInfo.InvariantCulture);
                                         if (split.Length > 2 + minIndex)
                                         {
-                                            sliderOptions.Step = double.Parse(split[split.Length - 1]);
+                                            sliderOptions.Step = double.Parse(split[split.Length - 1], CultureInfo.InvariantCulture);
                                         }
 
                                         options = sliderOptions;
@@ -412,7 +413,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                 case PropertyKind.TimeSpan:
                                     try
                                     {
-                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = TimeSpan.FromMilliseconds(double.Parse(value)) };
+                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = TimeSpan.FromMilliseconds(double.Parse(value, CultureInfo.InvariantCulture)) };
                                         var parameters = match.Groups["parameters"].Value;
                                         var split = parameters.Split('-');
                                         int minIndex = 0;
@@ -423,11 +424,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                             minMultiplier = -1;
                                         }
 
-                                        sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex]);
-                                        sliderOptions.MaxValue = double.Parse(split[minIndex + 1]);
+                                        sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex], CultureInfo.InvariantCulture);
+                                        sliderOptions.MaxValue = double.Parse(split[minIndex + 1], CultureInfo.InvariantCulture);
                                         if (split.Length > 2 + minIndex)
                                         {
-                                            sliderOptions.Step = double.Parse(split[split.Length - 1]);
+                                            sliderOptions.Step = double.Parse(split[split.Length - 1], CultureInfo.InvariantCulture);
                                         }
 
                                         options = sliderOptions;
