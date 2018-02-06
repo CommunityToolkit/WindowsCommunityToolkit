@@ -158,17 +158,17 @@ private void MarkdownText_CodeBlockResolving(object sender, CodeBlockResolvingEv
 
 ## Rendering
 
-You can customise the Renderer for the **MarkdownTextBlock**, by inheriting from `UWPMarkdownRenderer` and setting it as the Renderer, by using:
+You can customise the rendering of the **MarkdownTextBlock**, by inheriting from `MarkdownRenderer` and setting it as the renderer:
 
 ```c#
 var block = new MarkdownTextBlock();
-block.SetRenderer<InheritedUWPMarkdownRenderer>();
+block.SetRenderer<InheritedMarkdownRenderer>();
 ```
 
-This might require intimate knowledge of the implementation of the `UWPMarkdownRenderer`, take a look at the following:
+This will likely require intimate knowledge of the implementation of the `MarkdownRenderer`, take a look at the following:
 
-* [UWPMarkdownFormatter and Helpers](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/Render)
-* [Sample App custom Markdown formatter](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/Controls/SampleAppMarkdownRenderer)
+* [MarkdownRenderer and Helpers](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/Render)
+* [Sample App custom markdown renderer](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/Controls/SampleAppMarkdownRenderer)
 
 ## Example Code
 
@@ -187,4 +187,4 @@ This might require intimate knowledge of the implementation of the `UWPMarkdownR
 ## API
 
 * [MarkdownTextBlock source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock)
-* [Markdown Parser source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/Markdown)
+* [Markdown Parser source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Parsers/Markdown)
