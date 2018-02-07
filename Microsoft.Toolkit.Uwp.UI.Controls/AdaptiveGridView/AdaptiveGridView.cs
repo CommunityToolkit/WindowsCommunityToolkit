@@ -175,7 +175,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var b = new Binding()
                     {
                         Source = this,
-                        Path = new PropertyPath("ItemHeight")
+                        Path = new PropertyPath("ItemHeight"),
+                        Converter = new AdaptiveHeightValueConverter(),
+                        ConverterParameter = this
                     };
 
                     if (itemsWrapGridPanel != null)
