@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Enums
         /// A bold element
         /// </summary>
         Bold,
-        
+
         /// <summary>
         /// An bold and italic block
         /// </summary>

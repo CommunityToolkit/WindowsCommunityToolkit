@@ -35,7 +35,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         /// <summary>
         /// Gets the Name of the Current Theme.
         /// </summary>
-        public string CurrentThemeName { get { return this.CurrentTheme.ToString(); } } // For Web Retrieval
+        public string CurrentThemeName
+        {
+            get { return this.CurrentTheme.ToString(); }
+        }
 
         /// <summary>
         /// Gets or sets the Current Theme.
