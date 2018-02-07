@@ -254,13 +254,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             // Cache only in Release
 #if !DEBUG
-                try
-                {
-                    imageStream = await StreamHelper.GetLocalCacheFileStreamAsync(localpath, Windows.Storage.FileAccessMode.Read);
-                }
-                catch
-                {
-                }
+            try
+            {
+                imageStream = await StreamHelper.GetLocalCacheFileStreamAsync(localpath, Windows.Storage.FileAccessMode.Read);
+            }
+            catch
+            {
+            }
 #endif
 
             if (imageStream == null)
@@ -276,8 +276,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                             // Cache only in Release
 #if !DEBUG
-                                // Takes a second copy of the image stream, so that is can save the image data to cache.
-                                SaveImageToCache(localpath, await CopyStream(response.Content));
+                            // Takes a second copy of the image stream, so that is can save the image data to cache.
+                            using (var saveStream = await CopyStream(response.Content))
+                            {
+                                await SaveImageToCache(localpath, saveStream);
+                            }
 #endif
                         }
                     }
@@ -290,7 +293,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             return imageStream;
         }
 
-        private async void SaveImageToCache(string localpath, Stream imageStream)
+        private async Task SaveImageToCache(string localpath, Stream imageStream)
         {
             var folder = ApplicationData.Current.LocalCacheFolder;
             localpath = Path.Combine(folder.Path, localpath);
@@ -302,9 +305,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 await imageStream.CopyToAsync(filestream);
             }
-
-            // Close copied stream when finished.
-            imageStream.Dispose();
         }
 
         private string ProcessDocs(string docs)

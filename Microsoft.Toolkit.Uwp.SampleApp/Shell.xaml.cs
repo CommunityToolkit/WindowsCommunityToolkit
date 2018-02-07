@@ -13,9 +13,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
@@ -26,8 +24,6 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Monaco;
 using Monaco.Editor;
 using Monaco.Helpers;
-using Windows.Storage;
-using Windows.Storage.Streams;
 using Windows.System;
 using Windows.System.Profile;
 using Windows.System.Threading;
@@ -525,19 +521,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var deferral = e.GetDeferral();
             BitmapImage image = null;
 
-            var absolute = Uri.TryCreate(e.Url, UriKind.Absolute, out Uri Url);
-            if (!absolute)
+            // Determine if the link is not absolute, meaning it is relative.
+            if (!Uri.TryCreate(e.Url, UriKind.Absolute, out Uri url))
             {
-                Url = new Uri(documentationPath + e.Url);
+                url = new Uri(documentationPath + e.Url);
             }
 
-            if (Url.Scheme == "ms-appx")
+            if (url.Scheme == "ms-appx")
             {
-                image = new BitmapImage(Url);
+                image = new BitmapImage(url);
             }
             else
             {
-                var imageStream = await this.HamburgerMenu.CurrentSample.GetImageStream(Url);
+                var imageStream = await this.HamburgerMenu.CurrentSample.GetImageStream(url);
 
                 if (imageStream != null)
                 {
