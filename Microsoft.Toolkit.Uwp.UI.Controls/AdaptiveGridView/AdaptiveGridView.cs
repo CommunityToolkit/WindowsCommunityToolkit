@@ -235,7 +235,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (containerWidth > 0)
             {
                 var newWidth = CalculateItemWidth(containerWidth);
-                ItemWidth = Math.Floor(newWidth - 1);
+                ItemWidth = Math.Floor(newWidth);
             }
         }
     }
