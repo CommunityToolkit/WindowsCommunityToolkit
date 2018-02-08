@@ -607,8 +607,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             if (e.NewValue is string normalizedValue)
             {
-                element.SizeChanged -= KeepCenteredElementSizeChanged;
-
                 var vectorValue = normalizedValue.ToVector3();
                 var visual = GetVisual(element);
                 visual.CenterPoint = new Vector3((float)element.ActualWidth * vectorValue.X, (float)element.ActualHeight * vectorValue.Y, 0);
