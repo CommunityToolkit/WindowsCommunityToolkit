@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using Windows.UI.Composition;

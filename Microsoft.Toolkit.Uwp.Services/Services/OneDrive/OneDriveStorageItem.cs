@@ -27,6 +27,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// <summary>
     /// OneDrive Helper class.
     /// </summary>
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
     public class OneDriveStorageItem
     {
         private IRandomAccessStream _thumbNail;
@@ -347,7 +348,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
                 desiredNewName = this.OneDriveItem.Name;
             }
 
-            OneDriveParentReference parentReference = new OneDriveParentReference();
+            Toolkit.Services.OneDrive.OneDriveParentReference parentReference = new Toolkit.Services.OneDrive.OneDriveParentReference();
             if (destinationFolder.OneDriveItem.Name == "root")
             {
                 parentReference.Parent.Path = "/drive/root:/";

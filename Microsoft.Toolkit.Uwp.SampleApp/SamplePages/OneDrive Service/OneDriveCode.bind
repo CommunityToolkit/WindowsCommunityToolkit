@@ -3,9 +3,20 @@
 // Authentication 
 // In order to use the OneDriveService you need to authenticate the user and get an access token
 
-// OneDrive consumer you have two options:
+// Converged app authentication is now supported.  This means you can now use either an MSA account (e.g. name@outlook.com, name@hotmail.com) or
+// an Azure Active Directory account linked with your OneDrive or OneDrive for Business account (through Office 365)
+
+// To register your application:
+// 1) Go to the https://apps.dev.microsoft.com portal
+// 2) In the section Converged Applications, click on the "Add an app" button 
+// 3) Register your application 
+// 4) In the Platform section, click "Add platform" then choose "Native Application" 
+// 5) Copy the "Application Id" and use it in the sample app with the "Work Or School Accounts Or Microsoft Account" authentication provider option
+
+// For OneDrive (consumer) you now have two further options:
 // 1) If the user is connected to a Windows session with a Microsoft Account, the service is able to silently get an access token.
 //    For that you need to associate your application to the Store (Project->Store->Associate App With Store...)
+//    In the sample app choose "OnlineId" as the authentication provider.
 // 2) Or you have to register your app
 //  - go to https://dev.onedrive.com/app-registration.htm
 //  - When prompted, sign in with your Microsoft Account credentials.
@@ -14,28 +25,46 @@
 //  - Copy the Application ID
 //  - Add a platform and select mobile application
 //  - Save
+//  In the sample app choose "Microsoft Account" as the authentication provider.
 
-// OneDrive For Business you need to register your app from the Azure Management Portal
-// For more information to manualy register your app see go to the following article
-// https://docs.microsoft.com/en-US/azure/active-directory/develop/active-directory-authentication-scenarios#basics-of-registering-an-application-in-azure-ad
-// When registering your application don't forget to add the Office 365 Sharepoint Online application with the "Read and Write user Files" permissions. You should set your Redirect URI to "urn:ietf:wg:oauth:2.0:oob". You may also need to add the following capabilities to your Package.appxmanifest: privateNetworkClientServer; enterpriseAuthentication
+// To use the new converaged application functionality, you must use the OneDriveService.GraphInstance instance.  This new endpoint uses 
+// the Microsoft Authentication Library (MSAL) to call v2 of the Azure AD services, and has no requirement on the OneDrive SDK.
+// The previous authentication models using Active Directory Authentication Library (ADAL) which called v1 of the Azure AD services and had
+// a OneDrive SDK dependency continues to reside under OneDriveService.Instance.  The API surface under OneDriveService.GraphInstance and
+// OneDriveService.Instance remain the same wherever possible, but you will need to switch to the new Microsoft.Toolkit.Services.OneDrive
+// namespace to access the new types (vs the older Microsoft.Toolkit.Uwp.Services.OneDrive types).
 
 // First get the root of your OneDrive
-// By default the service silently connects the current Windows user if Windows is associated with a Microsoft Account
+// By default the service silently connects the current Windows user if Windows is associated with a Microsoft Account and if you choose 
+// the OnlineId authentication provider 
+
 var folder = await OneDriveService.Instance.RootFolderAsync();
 
-// if Windows is not associated with a Microsoft Account, you need
+// or, if you are calling the new endpoint something like this:
+
+var folder = await OneDriveService.GraphInstance.RootFolderAsync();
+
+// if Windows is not associated with a Microsoft Account, you need to
 // 1) Initialize the service using an authentication provider AccountProviderType.Msa or AccountProviderType.Adal
+
 OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msa, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
+
+// or, if you are calling the new endpoint something like this:
+
+Services.OneDrive.OneDriveService.GraphInstance.Initialize(appClientId, new string[] {"Files.ReadWrite.All"});
+
 // 2) Sign in
 if (!await OneDriveService.Instance.LoginAsync())
 {
     throw new Exception("Unable to sign in");
 }
 
-// Once you have a reference to the Root Folder you can get a list of all items
-// List the Items from the current folder
-var OneDriveItems = await folder.GetItemsAsync();
+// or, if you are calling the new endpoint simply replace "Instance" with "GraphInstance".
+
+// Once you have a reference to the Root Folder you can get a list of items by page
+// Example list the first 20 items from the current folder
+
+var OneDriveItems = await folder.GetItemsAsync(20);
 do
 {
 	//Get the next page of items

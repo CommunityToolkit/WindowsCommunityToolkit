@@ -207,13 +207,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var newValue = (int)e.NewValue == -1 ? null : carouselControl.Items[(int)e.NewValue];
                 var oldValue = e.OldValue == null ? null : carouselControl.Items.ElementAtOrDefault((int)e.OldValue);
+                if (oldValue != null)
+                {
+                    var item = (CarouselItem)carouselControl.ContainerFromIndex((int)e.OldValue);
+                    if (item != null)
+                    {
+                        item.IsSelected = false;
+                    }
+                }
+
+                bool isNewSelectedItem = carouselControl.SelectedItem != newValue;
+
                 if (newValue != null)
                 {
+                    var item = (CarouselItem)carouselControl.ContainerFromIndex((int)e.NewValue);
+                    if (item != null)
+                    {
+                        item.IsSelected = true;
+                    }
+
                     carouselControl.FocusContainerFromIndex((int)e.NewValue);
                 }
 
                 // double check
-                if (carouselControl.SelectedItem != newValue)
+                if (isNewSelectedItem)
                 {
                     carouselControl.SetValue(SelectedItemProperty, newValue);
                     var newValues = new List<object>() { newValue };
@@ -260,7 +277,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 newElem.Focus(oldElem != null && oldElem.FocusState != FocusState.Unfocused ? oldElem.FocusState : FocusState.Programmatic);
             }
 
-            if (oldElem != null && (string)oldElem.Tag == "CarouselItem")
+            if (oldElem != null && oldElem is CarouselItem)
             {
                 oldElem.IsTabStop = false;
             }
@@ -283,10 +300,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Returns the container used for each item
         /// </summary>
-        /// <returns>Returns always a ContentControl</returns>
+        /// <returns>Returns always a CarouselItem</returns>
         protected override DependencyObject GetContainerForItemOverride()
         {
-            return new ContentControl();
+            return new CarouselItem();
         }
 
         /// <summary>
@@ -461,7 +478,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override bool IsItemItsOwnContainerOverride(object item)
         {
-            return false;
+            return item is CarouselItem;
+        }
+
+        /// <inheritdoc/>
+        protected override void ClearContainerForItemOverride(DependencyObject element, object item)
+        {
+            base.ClearContainerForItemOverride(element, item);
+            var carouselItem = (CarouselItem)element;
+            carouselItem.Selected -= OnCarouselItemSelected;
         }
 
         /// <inheritdoc/>
@@ -469,32 +494,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.PrepareContainerForItemOverride(element, item);
 
-            FrameworkElement contentControl = element as ContentControl;
+            var carouselItem = (CarouselItem)element;
+            carouselItem.Selected += OnCarouselItemSelected;
 
-            if (contentControl == null)
-            {
-                contentControl = element as FrameworkElement;
-            }
-            else if (ItemTemplate != null && (contentControl as ContentControl) != null)
-            {
-                ((ContentControl)contentControl).Content = ItemTemplate.LoadContent();
-            }
+            carouselItem.RenderTransformOrigin = new Point(0.5, 0.5);
 
-            if (contentControl == null)
-            {
-                throw new InvalidCastException("Any element added to the Carousel should be at least a Control component");
-            }
-
-            contentControl.DataContext = item;
-            contentControl.Opacity = 1;
-            contentControl.RenderTransformOrigin = new Point(0.5, 0.5);
-            contentControl.Tag = "CarouselItem";
-
-            if (contentControl as Control != null)
-            {
-                ((Control)contentControl).IsTabStop = Items.IndexOf(item) == SelectedIndex;
-                ((Control)contentControl).UseSystemFocusVisuals = true;
-            }
+            carouselItem.IsTabStop = Items.IndexOf(item) == SelectedIndex;
+            carouselItem.UseSystemFocusVisuals = true;
 
             PlaneProjection planeProjection = new PlaneProjection();
             planeProjection.CenterOfRotationX = 0.5;
@@ -506,8 +512,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             compositeTransform.CenterY = 0.5;
             compositeTransform.CenterY = 0.5;
 
-            contentControl.Projection = planeProjection;
-            contentControl.RenderTransform = compositeTransform;
+            carouselItem.Projection = planeProjection;
+            carouselItem.RenderTransform = compositeTransform;
+
+            if (item == SelectedItem)
+            {
+                carouselItem.IsSelected = true;
+            }
+        }
+
+        private void OnCarouselItemSelected(object sender, EventArgs e)
+        {
+            var item = (CarouselItem)sender;
+
+            SelectedItem = ItemFromContainer(item);
         }
     }
 }

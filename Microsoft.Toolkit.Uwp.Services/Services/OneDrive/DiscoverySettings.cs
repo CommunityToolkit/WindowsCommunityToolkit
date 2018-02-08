@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.Storage;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
@@ -17,6 +18,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// <summary>
     ///  DiscoverySettings type
     /// </summary>
+    [Obsolete("This class is being deprecated.")]
     public class DiscoverySettings
     {
         private static readonly string DISCOVERYSETTINGS = "DiscoverySettings";
