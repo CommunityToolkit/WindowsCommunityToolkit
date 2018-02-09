@@ -558,7 +558,7 @@
         "Icon": "/Assets/Helpers.png",
         "Name": "AppPinManager",
         "Type": "AppPinManagerHelperPage",
-	"BadgeUpdateVersionRequired": "Creators Update required"
+        "BadgeUpdateVersionRequired": "Creators Update required"
       },
       {
         "Name": "NetworkHelper",
@@ -614,6 +614,15 @@
         "CodeFile": "AdvancedCollectionView.bind",
         "Icon": "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/AdvancedCollectionView.md"
+      },
+      {
+        "Name": "BackdropBlurBrush",
+        "Type": "BackdropBlurBrushPage",
+        "About": "Brush which fills the contents with a blurred version of whatever's behind it.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Brushes/BackdropBlurBrush.cs",
+        "XamlCodeFile": "BackdropBlurBrushXaml.bind",
+        "Icon": "/SamplePages/BackdropBlurBrush/BackdropBlurBrush.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/BackdropBlurBrush.md"
       }
     ]
   },

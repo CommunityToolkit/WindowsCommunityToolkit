@@ -282,6 +282,7 @@
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelper.png" />
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelper.png" />
+    <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrush.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
     <Content Include="SamplePages\Connected Animations\ConnectedAnimations.png" />
     <Content Include="SamplePages\DispatcherHelper\DispatchHelper.png" />
@@ -470,6 +471,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.bind" />
+    <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -520,6 +522,9 @@
     </Compile>
     <Compile Include="SamplePages\Connected Animations\Pages\ThirdPage.xaml.cs">
       <DependentUpon>ThirdPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushPage.xaml.cs">
+      <DependentUpon>BackdropBlurBrushPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsPage.xaml.cs" />
     <Compile Include="SamplePages\Implicit Animations\ImplicitAnimationsPage.xaml.cs">
@@ -823,6 +828,10 @@
     <Page Include="SamplePages\DockPanel\DockPanelPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\FocusTracker\FocusTrackerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
