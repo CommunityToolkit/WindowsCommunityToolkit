@@ -185,19 +185,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
-        /// Gets or sets the Prefix of Image Link.
+        /// Gets or sets the Prefix of Uri.
         /// </summary>
-        public string ImageLinkPrefix
+        public string UriPrefix
         {
-            get { return (string)GetValue(ImageLinkPrefixProperty); }
-            set { SetValue(ImageLinkPrefixProperty, value); }
+            get { return (string)GetValue(UriPrefixProperty); }
+            set { SetValue(UriPrefixProperty, value); }
         }
 
         /// <summary>
-        /// Gets the dependency property for <see cref="ImageLinkPrefix"/>.
+        /// Gets the dependency property for <see cref="UriPrefix"/>.
         /// </summary>
-        public static readonly DependencyProperty ImageLinkPrefixProperty = DependencyProperty.Register(
-            nameof(ImageLinkPrefix),
+        public static readonly DependencyProperty UriPrefixProperty = DependencyProperty.Register(
+            nameof(UriPrefix),
             typeof(string),
             typeof(MarkdownTextBlock),
             new PropertyMetadata(string.Empty, OnPropertyChangedStatic));
@@ -1263,9 +1263,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (!Uri.TryCreate(url, UriKind.Absolute, out Uri uri))
             {
-                if (!string.IsNullOrEmpty(ImageLinkPrefix))
+                if (!string.IsNullOrEmpty(UriPrefix))
                 {
-                    url = string.Format("{0}{1}", ImageLinkPrefix, url);
+                    url = string.Format("{0}{1}", UriPrefix, url);
                 }
             }
 
