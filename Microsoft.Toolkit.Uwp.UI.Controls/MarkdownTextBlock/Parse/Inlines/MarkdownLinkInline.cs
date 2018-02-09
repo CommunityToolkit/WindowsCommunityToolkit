@@ -10,13 +10,13 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Collections.Generic;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Extensions.Common;
-
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Toolkit.Uwp.Helpers;
+    using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
+
     /// <summary>
     /// Represents a type of hyperlink where the text can be different from the target URL.
     /// </summary>
