@@ -13,7 +13,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
-using System.Text.RegularExpressions;
+using Microsoft.Toolkit.Uwp.UI.Extensions.Common;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 {
@@ -194,7 +194,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                 }
 
                 // Check the URL is okay.
-                if (!IsUrlEmail(url))
+                if (!url.IsEmail())
                 {
                     if (!IsUrlValid(url))
                     {
@@ -203,7 +203,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                 }
                 else
                 {
-                    tooltip = url = string.Format("mailto:{0}",url);
+                    tooltip = url = string.Format("mailto:{0}", url);
                 }
 
                 // We found a regular stand-alone link.
@@ -273,16 +273,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         }
 
         /// <summary>
-        /// Checks if the given URL is an Email.
-        /// </summary>
-        /// <param name="url"> The URL to check. </param>
-        /// <returns> <c>true</c> if the URL is valid; <c>false</c> otherwise. </returns>
-        private static bool IsUrlEmail(string url)
-        {
-            return Regex.IsMatch(url, "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
-        }
-
-        /// <summary>
         /// Checks if the given URL is allowed in a markdown link.
         /// </summary>
         /// <param name="url"> The URL to check. </param>
@@ -290,7 +280,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         private static bool IsUrlValid(string url)
         {
             // URLs can be relative.
-            if (url.StartsWith("/") || url.StartsWith("#") || url.StartsWith("../"))
+            if (!Uri.TryCreate(url, UriKind.Absolute, out Uri result))
             {
                 return true;
             }
