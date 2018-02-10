@@ -49,14 +49,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Items.VectorChanged += ItemsOnVectorChanged;
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
-
-            // Define ItemContainerStyle in code rather than using the DefaultStyle
-            // to avoid having to define the entire style of a GridView. This can still
-            // be set by the enduser to values of their chosing
-            var style = new Style(typeof(GridViewItem));
-            style.Setters.Add(new Setter(HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
-            style.Setters.Add(new Setter(VerticalContentAlignmentProperty, VerticalAlignment.Stretch));
-            ItemContainerStyle = style;
         }
 
         /// <summary>
@@ -85,6 +77,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 element.SetBinding(HeightProperty, heightBinding);
                 element.SetBinding(WidthProperty, widthBinding);
+            }
+
+            if (obj is ContentControl contentControl)
+            {
+                contentControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+                contentControl.VerticalContentAlignment = VerticalAlignment.Stretch;
             }
         }
 
