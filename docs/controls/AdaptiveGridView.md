@@ -27,7 +27,7 @@ There are 3 ways to use this Control.
 </controls:AdaptiveGridView>
 ```
 
-## Use cases
+## Examples
 
 - Using `DesiredWidth` in combination with `ItemHeight`:
 
