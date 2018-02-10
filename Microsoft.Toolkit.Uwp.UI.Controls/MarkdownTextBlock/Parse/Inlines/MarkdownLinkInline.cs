@@ -12,7 +12,7 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse

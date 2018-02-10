@@ -12,7 +12,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace Microsoft.Toolkit.Extensions
 {
     /// <summary>
     /// All common string extensions should go here
