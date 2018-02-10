@@ -12,6 +12,9 @@
 
 # Reference: https://foxdeploy.com/2015/04/16/part-ii-deploying-powershell-guis-in-minutes-using-visual-studio/
 
+# Load Required Reference
+[void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
+
 # Get Current Sample List
 $samples = Get-ChildItem -Directory | Get-ItemPropertyValue -Name Name
 
@@ -73,10 +76,11 @@ $reader=(New-Object System.Xml.XmlNodeReader $xml)
 # Load XAML Objects In PowerShell
 #===========================================================================
   
-$xml.SelectNodes("//*[@Name]") | %{"trying item $($_.Name)";
-    try {Set-Variable -Name "Xaml$($_.Name)" -Value $Window.FindName($_.Name) -ErrorAction Stop}
-        catch{throw}
-    }
+$xml.SelectNodes("//*[@Name]") | %{ 
+    Write-Debug "found item $($_.Name)";
+    try {Set-Variable -Name "Xaml$($_.Name)" -Value $Window.FindName($_.Name) -ErrorAction Stop} 
+    catch{throw}
+}
  
 Function Get-FormVariables{
     if ($global:ReadmeDisplay -ne $true) {
@@ -86,7 +90,7 @@ Function Get-FormVariables{
     get-variable Xaml*
 }
  
-Get-FormVariables
+####Get-FormVariables
  
 #===========================================================================
 # Setup WPF Window Logic
@@ -151,7 +155,7 @@ IF ($Perform) {
         }
         ELSEIF ($_.Extension -eq ".png")
         {
-            $script:image = $_.Name
+            $script:image = $newname
         }
     }
 
@@ -174,7 +178,7 @@ IF ($Perform) {
               "CodeUrl" = "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/ !TODO";
               "XamlCodeFile" = "!TODO";
               "CodeFile" = "!TODO";
-              "Icon" = "SamplePages/" + $Destination + "/" + $image;
+              "Icon" = "/SamplePages/" + $Destination + "/" + $image;
               "DocumentationUrl" = "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/ !TODO";
             }
 
