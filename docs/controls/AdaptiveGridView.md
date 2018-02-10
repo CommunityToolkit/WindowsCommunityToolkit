@@ -84,7 +84,7 @@ There are 3 ways to use this Control.
 
         ```xaml
         <DataTemplate x:Key="PhotosTemplate">
-            <controls:AspectContentControl 
+            <local:AspectContentControl 
                 HorizontalContentAlignment="Stretch" 
                 VerticalContentAlignment="Stretch">
                 <Grid Background="White"
@@ -94,7 +94,7 @@ There are 3 ways to use this Control.
                         Source="{Binding Thumbnail}"
                         Stretch="UniformToFill" />
                 </Grid>
-            </controls:AspectContentControl>
+            </local:AspectContentControl>
         </DataTemplate>
         ```
 
