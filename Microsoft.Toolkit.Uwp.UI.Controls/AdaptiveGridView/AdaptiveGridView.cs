@@ -116,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (itemMargin == fallbackThickness)
             {
                 // No style explicitly defined, or no items or no container for the items
-                // We need to get an actual for proper layout
+                // We need to get an actual margin for proper layout
                 _needContainerMarginForLayout = true;
             }
 
