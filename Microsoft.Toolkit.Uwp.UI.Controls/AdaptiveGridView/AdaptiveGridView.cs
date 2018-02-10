@@ -37,6 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ScrollBarVisibility _savedHorizontalScrollBarVisibility;
         private Orientation _savedOrientation;
         private bool _needToRestoreScrollStates;
+        private bool _needContainerMarginForLayout;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdaptiveGridView"/> class.
@@ -84,6 +85,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 contentControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
                 contentControl.VerticalContentAlignment = VerticalAlignment.Stretch;
             }
+
+            if (_needContainerMarginForLayout)
+            {
+                _needContainerMarginForLayout = false;
+                RecalculateLayout(ActualWidth);
+            }
         }
 
         /// <summary>
@@ -104,7 +111,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // subtract the margin from the width so we place the correct width for placement
-            var itemMargin = AdaptiveHeightValueConverter.GetItemMargin(this, new Thickness(0, 0, 4, 4));
+            var fallbackThickness = default(Thickness);
+            var itemMargin = AdaptiveHeightValueConverter.GetItemMargin(this, fallbackThickness);
+            if (itemMargin == fallbackThickness)
+            {
+                // No style explicitly defined, or no items or no container for the items
+                // We need to get an actual for proper layout
+                _needContainerMarginForLayout = true;
+            }
+
             return (containerWidth / columns) - itemMargin.Left - itemMargin.Right;
         }
 
