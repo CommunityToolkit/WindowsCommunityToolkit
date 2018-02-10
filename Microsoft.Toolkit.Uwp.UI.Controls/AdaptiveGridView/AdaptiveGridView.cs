@@ -107,7 +107,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 columns = Items.Count;
             }
 
-            return containerWidth / columns;
+            // subtract the margin from the width so we place the correct width for placement
+            var itemMargin = AdaptiveHeightValueConverter.GetItemMargin(this, new Thickness(0, 0, 4, 4));
+            return (containerWidth / columns) - itemMargin.Left - itemMargin.Right;
         }
 
         /// <summary>
