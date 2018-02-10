@@ -20,9 +20,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
     /// <summary>
     /// Represents a span that contains a reference for links to point to.
     /// </summary>
-    public class LinkReferenceInline : MarkdownInline
+    public class LinkAnchorInline : MarkdownInline
     {
-        internal LinkReferenceInline()
+        internal LinkAnchorInline()
             : base(MarkdownInlineType.LinkReference)
         {
         }
@@ -111,7 +111,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             // We found something!
-            var result = new LinkReferenceInline
+            var result = new LinkAnchorInline
             {
                 Raw = contents,
                 Link = link
