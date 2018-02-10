@@ -592,6 +592,33 @@ namespace UnitTests.UI
 
         [TestCategory("AdvancedCollectionView")]
         [UITestMethod]
+        public void Test_AdvancedCollectionView_Using_Shaping()
+        {
+            var myPerson = new Person()
+            {
+                Name = "lorem",
+                Age = 4
+            };
+            var l = new ObservableCollection<Person>
+            {
+                myPerson,
+                new Person()
+                {
+                    Name = "imsum",
+                    Age = 8
+                },
+            };
+
+            var a = new AdvancedCollectionView(l, true);
+
+            myPerson.Name = "myName";
+
+            Assert.AreEqual("myName", ((Person)a.First()).Name);
+            Assert.AreEqual(2, a.Count);
+        }
+
+        [TestCategory("AdvancedCollectionView")]
+        [UITestMethod]
         public void Test_AdvancedCollectionView_Sorting_Using_Shaping()
         {
             var l = new ObservableCollection<Person>

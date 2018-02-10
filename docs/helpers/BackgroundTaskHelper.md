@@ -53,7 +53,7 @@ Once it is done, you can register your Background Tasks.
 
 ### Using Single-Process Model
 
-Using MPM (Single-Process Model) is the new and simple way of using Background Task.
+Using SPM (Single-Process Model) is the new and simple way of using Background Task.
 It is required to target Anniversary Update (SDK 14393) or later.
 
 Using SPM, you can declare your Background Tasks inside your own project, no need to create a Windows Runtime Component.

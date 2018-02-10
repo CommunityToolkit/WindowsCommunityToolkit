@@ -72,12 +72,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public static float AvailableMemory => (float)MemoryManager.AppMemoryUsageLimit / 1024 / 1024;
 
         /// <summary>
-        /// Gets device model
+        /// Gets device model.
+        /// Will be empty if the device model couldn't be determined (ex: when running in a virtual machine).
         /// </summary>
         public static string DeviceModel { get; }
 
         /// <summary>
-        /// Gets device's manufacturer
+        /// Gets device's manufacturer.
+        /// Will be empty if the device manufacturer couldn't be determined (ex: when running in a virtual machine).
         /// </summary>
         public static string DeviceManufacturer { get; }
 

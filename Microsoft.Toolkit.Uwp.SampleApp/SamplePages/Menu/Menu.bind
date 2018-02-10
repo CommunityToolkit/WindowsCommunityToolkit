@@ -24,8 +24,7 @@
 
     <controls:Menu AllowTooltip="@[AllowTooltip:Bool:False]"
                    Orientation="@[Orientation:Enum:Orientation.Horizontal]"
-                   TooltipPlacement="@[TooltipPlacement:Enum:PlacementMode.Bottom]">
-
+                   TooltipPlacement="@[TooltipPlacement:Enum:PlacementMode.Bottom]">      
       <controls:MenuItem Name="FileMenu"
                          controls:Menu.InputGestureText="Alt+F"
                          Header="^File">
