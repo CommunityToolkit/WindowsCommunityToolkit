@@ -124,6 +124,7 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\Test_AdaptiveHeightValueConverter.cs" />
     <Compile Include="Converters\Test_BoolToObjectConverter.cs" />
     <Compile Include="Converters\Test_EmptyCollectionToObjectConverter.cs" />
     <Compile Include="Converters\Test_EmptyStringToObjectConverter.cs" />

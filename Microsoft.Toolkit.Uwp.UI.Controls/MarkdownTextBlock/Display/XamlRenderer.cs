@@ -757,7 +757,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         {
             foreach (MarkdownInline element in inlineElements)
             {
-                RenderInline(inlineCollection, element, parent, context);
+                if (element.Type != MarkdownInlineType.Comment)
+                {
+                    RenderInline(inlineCollection, element, parent, context);
+                }
             }
         }
 

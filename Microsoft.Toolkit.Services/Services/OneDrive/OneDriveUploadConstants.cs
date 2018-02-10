@@ -1,4 +1,4 @@
-// ******************************************************************
+﻿// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -10,24 +10,26 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace Microsoft.Toolkit.Services.OneDrive
 {
     /// <summary>
-    /// EventArgs used for the <see cref="HamburgerMenu"/> ItemInvoked event
+    ///  Class of the OneDrive Constants
     /// </summary>
-    [Obsolete("The HamburgetMenuItemInvokedEventArgs will be removed alongside the HamburgerMenu in a future major release. Please use the NavigationView control available in the Fall Creators Update")]
-    public class HamburgetMenuItemInvokedEventArgs : EventArgs
+    public class OneDriveUploadConstants
     {
         /// <summary>
-        /// Gets the invoked item
+        /// Maximum file size for a simple upload
         /// </summary>
-        public object InvokedItem { get; internal set; }
+        public const int SimpleUploadMaxSize = 4 * 1024 * 1024;
 
         /// <summary>
-        /// Gets a value indicating whether the invoked item is an options item
+        /// Default chunk when uploading a karge file
         /// </summary>
-        public bool IsItemOptions { get; internal set; }
+        public const int DefaultMaxChunkSizeForUploadSession = 5 * 1024 * 1024;
+
+        /// <summary>
+        /// Chunk size increment
+        /// </summary>
+        public const int RequiredChunkSizeIncrementForUploadSession = 320 * 1024;
     }
 }

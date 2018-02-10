@@ -42,6 +42,7 @@ You can define "interactive" values in this file. The value types can be:
 * Enum: You want the user to provide a enum value. The string is built like this @[Name:**Enum**:EnumType.DefaultValue]
 * Brush: You want the user to select a color from a list. The string is built like this @[Name:**Brush**:Black]
 * Bool: You want the user to enable or disable a property. The string is built like this @[Name:**Bool**:True]
+* Thickness: You want the user to provide a Thicknes. The string is built like this @[Name:**Thickness**:0,20,10,0]
 
 The `Property Name` can also contain spaces, but these will be removed from the property name used for accessing the value in the property bag for any binding/access, see below.
 
@@ -139,6 +140,8 @@ Select the category where you want your page to be listed and add the following 
   }
 ]
 ```
+
+> NOTE: If creating a new icon, follow the [Thumbnail Style Guide and templates](https://github.com/Microsoft/UWPCommunityToolkit-design-assets)
 
 ### Adding documentation
 
