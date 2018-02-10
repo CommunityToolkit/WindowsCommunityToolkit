@@ -25,6 +25,7 @@ var signClientVersion = "0.9.0";
 var baseDir = MakeAbsolute(Directory("../")).ToString();
 var buildDir = baseDir + "/build";
 var Solution = baseDir + "/UWP Community Toolkit.sln";
+var DesignSolution = baseDir + "/Microsoft.Toolkit.Uwp.UI.Controls.Design/UWP Community Toolkit - Design.sln";
 var toolsDir = buildDir + "/tools";
 
 var binDir = baseDir + "/bin";
@@ -157,6 +158,7 @@ Task("Build")
     // Force a restore again to get proper version numbers https://github.com/NuGet/Home/issues/4337
     MSBuild(Solution, buildSettings);
     MSBuild(Solution, buildSettings);
+    MSBuild(DesignSolution, buildSettings);
 
     EnsureDirectoryExists(nupkgDir);
 
@@ -170,6 +172,7 @@ Task("Build")
     .WithProperty("GenerateLibraryLayout", "true");
 	
 	MSBuild(Solution, buildSettings);
+	MSBuild(DesignSolution, buildSettings);
 	
 	// Invoke the pack target in the end	
     buildSettings = new MSBuildSettings
