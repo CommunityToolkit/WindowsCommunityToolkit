@@ -32,7 +32,7 @@ $samples | ForEach-Object {
 $wpfxaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Copy Sample"
-        Width="300" Height="272"
+        Width="300" Height="282"
         ResizeMode="NoResize"
         WindowStyle="ToolWindow"
         WindowStartupLocation="CenterScreen"
