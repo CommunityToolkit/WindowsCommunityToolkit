@@ -56,8 +56,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var style = new Style(typeof(GridViewItem));
             style.Setters.Add(new Setter(HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
             style.Setters.Add(new Setter(VerticalContentAlignmentProperty, VerticalAlignment.Stretch));
-            style.Setters.Add(new Setter(MarginProperty, new Thickness(0, 0, 0, 4)));
-            style.Setters.Add(new Setter(PaddingProperty, new Thickness(2, 0, 2, 0)));
             ItemContainerStyle = style;
         }
 
