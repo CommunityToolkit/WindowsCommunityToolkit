@@ -312,7 +312,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(MarkdownTextBlock),
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
-            
         /// <summary>
         /// Gets the dependency property for <see cref="UriPrefix"/>.
         /// </summary>
