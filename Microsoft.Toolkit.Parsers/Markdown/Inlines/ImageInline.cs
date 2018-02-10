@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <returns> The textual representation of this object. </returns>
         public override string ToString()
         {
-            return string.Format("[{0}]: {1}", Tooltip, Url);
+            return string.Format("![{0}]: {1}", Tooltip, Url);
         }
     }
 }

@@ -312,6 +312,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(MarkdownTextBlock),
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
+            
+        /// <summary>
+        /// Gets the dependency property for <see cref="UriPrefix"/>.
+        /// </summary>
+        public static readonly DependencyProperty UriPrefixProperty = DependencyProperty.Register(
+            nameof(UriPrefix),
+            typeof(string),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(string.Empty, OnPropertyChangedStatic));
+
         /// <summary>
         /// Gets or sets the markdown text to display.
         /// </summary>
@@ -598,6 +608,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (Brush)GetValue(TableBorderBrushProperty); }
             set { SetValue(TableBorderBrushProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the Prefix of Uri.
+        /// </summary>
+        public string UriPrefix
+        {
+            get { return (string)GetValue(UriPrefixProperty); }
+            set { SetValue(UriPrefixProperty, value); }
         }
 
         /// <summary>

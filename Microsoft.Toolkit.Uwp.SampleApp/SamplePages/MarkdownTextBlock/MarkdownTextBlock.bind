@@ -42,6 +42,7 @@
                                   Header1Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                   LinkForeground="@[Links:Brush:DodgerBlue]"
                                   Text="{Binding ElementName=UnformattedText, Path=Text}"
+                                  UriPrefix="ms-appx://"
                                   RequestedTheme="@[Theme:Enum:ElementTheme.Default]" />
     </ScrollViewer>
   </Grid>

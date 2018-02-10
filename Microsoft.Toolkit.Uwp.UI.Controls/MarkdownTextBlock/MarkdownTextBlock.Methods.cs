@@ -193,6 +193,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         async Task<ImageSource> IImageResolver.ResolveImageAsync(string url, string tooltip)
         {
+            if (!Uri.TryCreate(url, UriKind.Absolute, out Uri uri))
+            {
+                if (!string.IsNullOrEmpty(UriPrefix))
+                {
+                    url = string.Format("{0}{1}", UriPrefix, url);
+                }
+            }
+
             var eventArgs = new ImageResolvingEventArgs(url, tooltip);
             ImageResolving?.Invoke(this, eventArgs);
 

@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Toolkit.Extensions;
 using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
@@ -195,9 +196,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 }
 
                 // Check the URL is okay.
-                if (!IsUrlValid(url))
+                if (!url.IsEmail())
                 {
-                    return null;
+                    if (!IsUrlValid(url))
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    tooltip = url = string.Format("mailto:{0}", url);
                 }
 
                 // We found a regular stand-alone link.
@@ -274,7 +282,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         private static bool IsUrlValid(string url)
         {
             // URLs can be relative.
-            if (url.StartsWith("/") || url.StartsWith("#"))
+            if (!Uri.TryCreate(url, UriKind.Absolute, out Uri result))
             {
                 return true;
             }
