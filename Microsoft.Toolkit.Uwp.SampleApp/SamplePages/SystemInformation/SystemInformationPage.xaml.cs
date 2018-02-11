@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public string LastLaunchTime => SystemInformation.LastLaunchTime.ToString(Culture.DateTimeFormat);
 
         // To get the number of times the app has been launched.
-        public long LaunchCount => SystemInformation.LaunchCount;
+        public long TotalLaunchCount => SystemInformation.TotalLaunchCount;
 
         // To get how long the app has been running
         public string AppUptime => SystemInformation.AppUptime.ToString();

@@ -232,6 +232,18 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
+        /// Reset launch count
+        /// </summary>
+        public static void ResetLaunchCount()
+        {
+            LastResetTime = DateTime.UtcNow;
+            LaunchCount = 0;
+
+            _localObjectStorageHelper.Save(nameof(LastResetTime), LastResetTime.ToFileTimeUtc());
+            _localObjectStorageHelper.Save(nameof(LaunchCount), LaunchCount);
+        }
+
+        /// <summary>
         /// Initializes static members of the <see cref="SystemInformation"/> class.
         /// </summary>
         static SystemInformation()
@@ -344,15 +356,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             TotalLaunchCount = 0;
             LastLaunchTime = DateTime.MinValue;
             LastResetTime = DateTime.MinValue;
-        }
-
-        private static void ResetLaunchCount()
-        {
-            LastResetTime = DateTime.UtcNow;
-            LaunchCount = 0;
-
-            _localObjectStorageHelper.Save(nameof(LastResetTime), LastResetTime.ToFileTimeUtc());
-            _localObjectStorageHelper.Save(nameof(LaunchCount), LaunchCount);
         }
     }
 }
