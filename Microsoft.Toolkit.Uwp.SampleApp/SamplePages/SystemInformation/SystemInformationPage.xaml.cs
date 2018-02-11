@@ -10,17 +10,20 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.ComponentModel;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SystemInformationPage : Page
+    public sealed partial class SystemInformationPage : Page, INotifyPropertyChanged
     {
         // To get application's name:
         public string ApplicationName => SystemInformation.ApplicationName;
@@ -70,6 +73,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         // To get the time the app was previously launched, not including this instance
         public string LastLaunchTime => SystemInformation.LastLaunchTime.ToString(Culture.DateTimeFormat);
 
+        // To get the time the launch count was reset, not including this instance
+        public string LastResetTime => SystemInformation.LastResetTime.ToString(Culture.DateTimeFormat);
+
+        // To get the number of times the app has been launched sicne the last reset.
+        public long LaunchCount => SystemInformation.LaunchCount;
+
         // To get the number of times the app has been launched.
         public long TotalLaunchCount => SystemInformation.TotalLaunchCount;
 
@@ -79,6 +88,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public SystemInformationPage()
         {
             InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            Shell.Current.RegisterNewCommand("Reset launch count", (sender, args) =>
+            {
+                SystemInformation.ResetLaunchCount();
+                RaisePropertyChanged(nameof(LaunchCount));
+                RaisePropertyChanged(nameof(LastResetTime));
+            });
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void RaisePropertyChanged([CallerMemberName]string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
