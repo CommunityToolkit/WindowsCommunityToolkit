@@ -189,6 +189,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
                 _localObjectStorageHelper.Save(nameof(LastLaunchTime), LaunchTime.ToFileTimeUtc());
                 _localObjectStorageHelper.Save(nameof(AppUptime), 0L);
+
+                var lastResetTime = _localObjectStorageHelper.Read<long>(nameof(LastResetTime));
+                LastResetTime = lastResetTime != default(long)
+                    ? DateTime.FromFileTimeUtc(lastResetTime)
+                    : DateTime.MinValue;
             }
 
             void App_VisibilityChanged(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.VisibilityChangedEventArgs e)

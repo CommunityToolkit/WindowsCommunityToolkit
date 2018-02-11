@@ -208,11 +208,11 @@
                             Orientation="Horizontal">
                     <TextBlock FontSize="18"
                                FontWeight="Bold"
-                               Text="Last launch time:"
+                               Text="Last reset time:"
                                TextWrapping="Wrap" />
                     <TextBlock Margin="20,0"
                                FontSize="18"
-                               Text="{x:Bind LastResetTime}"
+                               Text="{x:Bind LastResetTimeProp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                TextWrapping="Wrap" />
                 </StackPanel>
                 <StackPanel x:Name="Stack17"
@@ -224,7 +224,7 @@
                                TextWrapping="Wrap" />
                     <TextBlock Margin="20,0"
                                FontSize="18"
-                               Text="{x:Bind LaunchCount}"
+                               Text="{x:Bind LaunchCountProp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                TextWrapping="Wrap" />
                 </StackPanel>
                 <StackPanel x:Name="Stack18"

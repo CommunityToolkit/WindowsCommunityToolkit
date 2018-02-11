@@ -76,8 +76,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         // To get the time the launch count was reset, not including this instance
         public string LastResetTime => SystemInformation.LastResetTime.ToString(Culture.DateTimeFormat);
 
+        public string LastResetTimeProp { get; set; }
+
         // To get the number of times the app has been launched sicne the last reset.
         public long LaunchCount => SystemInformation.LaunchCount;
+
+        public long LaunchCountProp { get; set; }
 
         // To get the number of times the app has been launched.
         public long TotalLaunchCount => SystemInformation.TotalLaunchCount;
@@ -88,6 +92,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public SystemInformationPage()
         {
             InitializeComponent();
+
+            LaunchCountProp = LaunchCount;
+            LastResetTimeProp = LastResetTime;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -97,8 +104,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Shell.Current.RegisterNewCommand("Reset launch count", (sender, args) =>
             {
                 SystemInformation.ResetLaunchCount();
-                RaisePropertyChanged(nameof(LaunchCount));
-                RaisePropertyChanged(nameof(LastResetTime));
+
+                LaunchCountProp = LaunchCount;
+                RaisePropertyChanged(nameof(LaunchCountProp));
+
+                LastResetTimeProp = LastResetTime;
+                RaisePropertyChanged(nameof(LastResetTimeProp));
             });
         }
 
