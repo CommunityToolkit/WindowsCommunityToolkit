@@ -22,6 +22,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// Specifies what type of access the app is granted
     /// </summary>
     [Flags]
+    [Obsolete("This enum is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
     public enum OneDriveScopes
     {
         /// <summary>

@@ -16,6 +16,7 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -69,7 +70,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void MarkdownText_LinkClicked(object sender, UI.Controls.LinkClickedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri(e.Link));
+            if (!Uri.TryCreate(e.Link, UriKind.Absolute, out Uri result))
+            {
+                await new MessageDialog("Masked relative links needs to be manually handled.").ShowAsync();
+            }
+            else
+            {
+                await Launcher.LaunchUriAsync(new Uri(e.Link));
+            }
         }
     }
 }
