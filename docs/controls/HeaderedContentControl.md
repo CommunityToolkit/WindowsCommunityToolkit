@@ -45,7 +45,8 @@ Used to control the look of the header. The default value for the `HeaderTemplat
 </<controls:HeaderedContentControl>
 ```
 
-> [!NOTE] Setting the `Background`, `BorderBrush` and `BorderThickness` properties will not have any effect on the HeaderedContentControl. This is to maintain the same functionality as the ContentControl.
+> [!NOTE]
+Setting the `Background`, `BorderBrush` and `BorderThickness` properties will not have any effect on the HeaderedContentControl. This is to maintain the same functionality as the ContentControl.
 
 ## Example Image
 

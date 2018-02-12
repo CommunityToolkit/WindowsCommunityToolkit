@@ -7,7 +7,7 @@ The UWP Community Toolkit is a collection of helper functions, custom controls, 
 
 | Target | Branch | Status | Recommended Nuget packages version |
 | ------ | ------ | ------ | ------ |
-| Production | rel/2.0.0 | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/rel/2.0.0?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/rel/2.0.0) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
+| Production | rel/2.1.1 | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/rel/2.1.1?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/rel/2.1.1) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
 | Pre-release beta testing | master | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/master?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/master) | [![MyGet](https://img.shields.io/dotnet.myget/uwpcommunitytoolkit/vpre/Microsoft.Toolkit.Uwp.svg)](https://dotnet.myget.org/gallery/uwpcommunitytoolkit) |
 
 ## Getting started
@@ -53,9 +53,12 @@ Once you search you should see a list similar to the one below (versions may be 
 ### Animations
 
 * [Blur](http://docs.uwpcommunitytoolkit.com/en/master/animations/Blur/)
+* [Composition Animations](http://docs.uwpcommunitytoolkit.com/en/master/animations/CompositionAnimations/)
+* [Connected Animations](http://docs.uwpcommunitytoolkit.com/en/master/animations/ConnectedAnimations/)
 * [ExpressionBuilder](http://docs.uwpcommunitytoolkit.com/en/master/animations/Expressions/)
 * [Fade](http://docs.uwpcommunitytoolkit.com/en/master/animations/Fade/)
 * [FadeHeader](http://docs.uwpcommunitytoolkit.com/en/master/animations/FadeHeader/)
+* [Implicit Animations](http://docs.uwpcommunitytoolkit.com/en/master/animations/ImplicitAnimations/)
 * [Light](http://docs.uwpcommunitytoolkit.com/en/master/animations/Light/)
 * [Offset](http://docs.uwpcommunitytoolkit.com/en/master/animations/Offset/)
 * [ParallaxService](http://docs.uwpcommunitytoolkit.com/en/master/animations/ParallaxService/)
@@ -69,10 +72,13 @@ Once you search you should see a list similar to the one below (versions may be 
 * [AdaptiveGridView](http://docs.uwpcommunitytoolkit.com/en/master/controls/AdaptiveGridView/)
 * [BladeView](http://docs.uwpcommunitytoolkit.com/en/master/controls/BladeView/)
 * [Carousel](http://docs.uwpcommunitytoolkit.com/en/master/controls/Carousel/)
+* [DockPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/DockPanel/)
 * [DropShadowPanel](http://docs.uwpcommunitytoolkit.com/en/master/controls/DropShadowPanel/)
 * [Expander](http://docs.uwpcommunitytoolkit.com/en/master/controls/Expander/)
 * [GridSplitter](http://docs.uwpcommunitytoolkit.com/en/master/controls/GridSplitter/)
 * [HamburgerMenu](http://docs.uwpcommunitytoolkit.com/en/master/controls/HamburgerMenu/)
+* [HeaderedContentControl](http://docs.uwpcommunitytoolkit.com/en/master/controls/HeaderedContentControl/)
+* [HeaderedItemsControl](http://docs.uwpcommunitytoolkit.com/en/master/controls/HeaderedItemsControl/)
 * [HeaderedTextBlock](http://docs.uwpcommunitytoolkit.com/en/master/controls/HeaderedTextBlock/)
 * [ImageEx](http://docs.uwpcommunitytoolkit.com/en/master/controls/ImageEx/)
 * [InAppNotification](http://docs.uwpcommunitytoolkit.com/en/master/controls/InAppNotification/)
@@ -100,15 +106,18 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Hyperlink](http://docs.uwpcommunitytoolkit.com/en/master/extensions/Hyperlink/)
 * [ListViewBase](http://docs.uwpcommunitytoolkit.com/en/master/extensions/ListViewBase/)
 * [LogicalTree](http://docs.uwpcommunitytoolkit.com/en/master/extensions/LogicalTree/)
-* [SurfaceDialTextbox](http://docs.uwpcommunitytoolkit.com/en/master/extensions/SurfaceDialTextbox/)
+* [MouseCursor](http://docs.uwpcommunitytoolkit.com/en/master/extensions/MouseCursor/)
+* [SurfaceDialTextbox](http://docs.uwpcommunitytoolkit.com/en/master/extensions/SurfaceDialTextboxHelper/)
 * [TextBoxMask](http://docs.uwpcommunitytoolkit.com/en/master/extensions/TextBoxMask/)
 * [TextBoxRegex](http://docs.uwpcommunitytoolkit.com/en/master/extensions/TextBoxRegex/)
 * [ViewExtensions](http://docs.uwpcommunitytoolkit.com/en/master/extensions/ViewExtensions/)
+* [VisualEx](http://docs.uwpcommunitytoolkit.com/en/master/extensions/VisualEx/)
 * [VisualTree](http://docs.uwpcommunitytoolkit.com/en/master/extensions/VisualTree/)
 * [WebView](http://docs.uwpcommunitytoolkit.com/en/master/extensions/WebView/)
 
 ### Code Helpers
 * [AdvancedCollectionView](http://docs.uwpcommunitytoolkit.com/en/master/helpers/AdvancedCollectionView/)
+* [AppPinManager](http://docs.uwpcommunitytoolkit.com/en/master/helpers/AppPinManager/)
 * [BackgroundTaskHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BackgroundTaskHelper/)
 * [BindableValueHolder](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BindableValueHolder/)
 * [BluetoothLEHelper](http://docs.uwpcommunitytoolkit.com/en/master/helpers/BluetoothLEHelper/)

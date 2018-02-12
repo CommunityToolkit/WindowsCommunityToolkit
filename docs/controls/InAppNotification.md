@@ -161,8 +161,8 @@ The default style applied is the Microsoft Edge-like notification.
 Other styles have been added to the Toolkit so you can easily switch to another of your favorite In App Notification styles.
 
 Here is the list of existing styles : 
-* [Microsoft Edge notification style](../..//Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml)
-* [Visual Studio Code notification style](../..//Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml)
+* [Microsoft Edge notification style](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml)
+* [Visual Studio Code notification style](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml)
 
 If you want to use another style than the default one, please follow the example below :
 

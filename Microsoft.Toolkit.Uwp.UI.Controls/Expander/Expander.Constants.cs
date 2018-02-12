@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class Expander
     {
         /// <summary>
-        /// Key of the VisualStateGroup that trigger display mode (visible/collapsed/overlay) and direction content
+        /// Key of the VisualStateGroup that trigger display mode (visible/collapsed) and direction content
         /// </summary>
         private const string DisplayModeAndDirectionStatesGroupStateContent = "DisplayModeAndDirectionStates";
 
@@ -61,26 +61,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Key of the VisualState when expander is collapsed and expander direction is set to Up
         /// </summary>
         private const string StateContentCollapsedUp = "CollapsedUp";
-
-        /// <summary>
-        /// Key of the VisualState when expander is overlay and expander direction is set to Left
-        /// </summary>
-        private const string StateContentOverlayLeft = "OverlayLeft";
-
-        /// <summary>
-        /// Key of the VisualState when expander is overlay and expander direction is set to Down
-        /// </summary>
-        private const string StateContentOverlayDown = "OverlayDown";
-
-        /// <summary>
-        /// Key of the VisualState when expander is overlay and expander direction is set to Right
-        /// </summary>
-        private const string StateContentOverlayRight = "OverlayRight";
-
-        /// <summary>
-        /// Key of the VisualState when expander is overlay and expander direction is set to Up
-        /// </summary>
-        private const string StateContentOverlayUp = "OverlayUp";
 
         /// <summary>
         /// Key of the UI Element that toggle IsExpanded property

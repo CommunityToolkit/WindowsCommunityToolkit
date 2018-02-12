@@ -35,10 +35,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(Name = StateContentCollapsedDown, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
     [TemplateVisualState(Name = StateContentCollapsedRight, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
     [TemplateVisualState(Name = StateContentCollapsedUp, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
-    [TemplateVisualState(Name = StateContentOverlayLeft, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
-    [TemplateVisualState(Name = StateContentOverlayDown, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
-    [TemplateVisualState(Name = StateContentOverlayRight, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
-    [TemplateVisualState(Name = StateContentOverlayUp, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
     [TemplatePart(Name = RootGridPart, Type = typeof(Grid))]
     [TemplatePart(Name = ExpanderToggleButtonPart, Type = typeof(ToggleButton))]
     [TemplatePart(Name = LayoutTransformerPart, Type = typeof(LayoutTransformControl))]
@@ -170,16 +166,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             switch (ExpandDirection)
             {
                 case ExpandDirection.Left:
-                    visualState = GetDisplayModeVisualState(StateContentOverlayLeft, StateContentCollapsedLeft, StateContentVisibleLeft);
+                    visualState = GetDisplayModeVisualState(StateContentCollapsedLeft, StateContentVisibleLeft);
                     break;
                 case ExpandDirection.Down:
-                    visualState = GetDisplayModeVisualState(StateContentOverlayDown, StateContentCollapsedDown, StateContentVisibleDown);
+                    visualState = GetDisplayModeVisualState(StateContentCollapsedDown, StateContentVisibleDown);
                     break;
                 case ExpandDirection.Right:
-                    visualState = GetDisplayModeVisualState(StateContentOverlayRight, StateContentCollapsedRight, StateContentVisibleRight);
+                    visualState = GetDisplayModeVisualState(StateContentCollapsedRight, StateContentVisibleRight);
                     break;
                 case ExpandDirection.Up:
-                    visualState = GetDisplayModeVisualState(StateContentOverlayUp, StateContentCollapsedUp, StateContentVisibleUp);
+                    visualState = GetDisplayModeVisualState(StateContentCollapsedUp, StateContentVisibleUp);
                     break;
             }
 
@@ -189,22 +185,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private string GetDisplayModeVisualState(string overlayState, string collapsedState, string visibleState)
+        private string GetDisplayModeVisualState(string collapsedState, string visibleState)
         {
-            if (!IsExpanded && DisplayMode == ExpanderDisplayMode.Overlay)
-            {
-                // Overlay
-                return overlayState;
-            }
-
-            if (!IsExpanded && DisplayMode == ExpanderDisplayMode.Expand)
-            {
-                // Collapsed
-                return collapsedState;
-            }
-
-            // Visible
-            return visibleState;
+            return IsExpanded ? visibleState : collapsedState;
         }
     }
 }

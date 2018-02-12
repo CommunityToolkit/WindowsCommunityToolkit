@@ -50,6 +50,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         [NotificationXmlAttribute("lang")]
         public string Language { get; set; }
 
+        [NotificationXmlAttribute("experienceType")]
+        public string ExperienceType { get; set; }
+
         public IList<IElement_ToastBindingChild> Children { get; private set; } = new List<IElement_ToastBindingChild>();
     }
 

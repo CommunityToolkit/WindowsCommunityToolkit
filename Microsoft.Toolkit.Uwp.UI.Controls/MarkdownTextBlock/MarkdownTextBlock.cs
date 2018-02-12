@@ -190,6 +190,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets or sets the Prefix of Uri.
+        /// </summary>
+        public string UriPrefix
+        {
+            get { return (string)GetValue(UriPrefixProperty); }
+            set { SetValue(UriPrefixProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="UriPrefix"/>.
+        /// </summary>
+        public static readonly DependencyProperty UriPrefixProperty = DependencyProperty.Register(
+            nameof(UriPrefix),
+            typeof(string),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(string.Empty, OnPropertyChangedStatic));
+
+        /// <summary>
         /// Gets or sets the brush used to render the text inside a code block.  If this is
         /// <c>null</c>, then Foreground is used.
         /// </summary>
@@ -1268,6 +1286,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         async Task<ImageSource> IImageResolver.ResolveImageAsync(string url, string tooltip)
         {
+            if (!Uri.TryCreate(url, UriKind.Absolute, out Uri uri))
+            {
+                if (!string.IsNullOrEmpty(UriPrefix))
+                {
+                    url = string.Format("{0}{1}", UriPrefix, url);
+                }
+            }
+
             var eventArgs = new ImageResolvingEventArgs(url, tooltip);
             ImageResolving?.Invoke(this, eventArgs);
 

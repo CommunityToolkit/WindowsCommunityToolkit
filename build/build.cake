@@ -32,6 +32,7 @@ var nupkgDir = binDir + "/nupkg";
 
 var signClientSettings = MakeAbsolute(File("SignClientSettings.json")).ToString();
 var signClientSecret = EnvironmentVariable("SignClientSecret");
+var signClientUser = EnvironmentVariable("SignClientUser");
 var signClientAppPath = toolsDir + "/SignClient/Tools/netcoreapp2.0/SignClient.dll";
 
 var styler = toolsDir + "/XamlStyler.Console/tools/xstyler.exe";
@@ -207,6 +208,7 @@ Task("SignNuGet")
                 .AppendQuoted(signClientAppPath)
                 .Append("sign")
                 .AppendSwitchQuotedSecret("-s", signClientSecret)
+                .AppendSwitchQuotedSecret("-r", signClientUser)
                 .AppendSwitchQuoted("-c", signClientSettings)
                 .AppendSwitchQuoted("-i", MakeAbsolute(package).FullPath)
                 .AppendSwitchQuoted("-n", name)

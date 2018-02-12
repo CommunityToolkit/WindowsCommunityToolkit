@@ -10,21 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
-{
-    /// <summary>
-    /// Display mode of the Expander that will update the behavior of the content visibility
-    /// </summary>
-    public enum ExpanderDisplayMode
-    {
-        /// <summary>
-        /// Default mode (the content is totally collapsed)
-        /// </summary>
-        Expand,
+using System.Collections.Generic;
 
-        /// <summary>
-        /// Overlay mode (only the overlay content is visible)
-        /// </summary>
-        Overlay
+namespace Microsoft.Toolkit.Uwp.Notifications
+{
+    internal interface IElement_AdditionalProperties
+    {
+        IDictionary<string, string> AdditionalProperties { get; set; }
     }
 }
