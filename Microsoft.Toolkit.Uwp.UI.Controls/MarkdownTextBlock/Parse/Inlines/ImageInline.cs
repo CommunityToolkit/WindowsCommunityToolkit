@@ -182,6 +182,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         /// <returns> The textual representation of this object. </returns>
         public override string ToString()
         {
+            if (ImageWidth > 0 && ImageHeight > 0)
+            {
+                return string.Format("[{0}]: {1} (Width: {2}, Height: {3})", Tooltip, Url, ImageWidth, ImageHeight);
+            }
+
+            if (ImageWidth > 0)
+            {
+                return string.Format("[{0}]: {1} (Width: {2})", Tooltip, Url, ImageWidth);
+            }
+
+            if (ImageHeight > 0)
+            {
+                return string.Format("[{0}]: {1} (Height: {2})", Tooltip, Url, ImageHeight);
+            }
+
             return string.Format("[{0}]: {1}", Tooltip, Url);
         }
     }
