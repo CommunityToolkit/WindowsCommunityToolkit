@@ -623,6 +623,15 @@
         "XamlCodeFile": "BackdropBlurBrushXaml.bind",
         "Icon": "/SamplePages/BackdropBlurBrush/BackdropBlurBrush.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/BackdropBlurBrush.md"
+      },
+      {
+        "Name": "BackdropInvertBrush",
+        "Type": "BackdropInvertBrushPage",
+        "About": "Brush which fills the contents with an inverted version of whatever's behind it.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp/Brushes/BackdropInvertBrush.cs",
+        "XamlCodeFile": "BackdropInvertBrushXaml.bind",
+        "Icon": "/SamplePages/BackdropInvertBrush/BackdropInvertBrush.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/BackdropInvertBrush.md"
       }
     ]
   },

@@ -16,9 +16,9 @@ It is based on the example provided on [MSDN](https://docs.microsoft.com/en-us/u
 
 ```xaml
     <Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="400">
-      <Border.Fill>
+      <Border.Background>
         <brushes:BackdropBlurBrush Amount="@[Value:DoubleSlider:3.0:0.0-10.0]" />
-      </Border.Fill>
+      </Border.Background>
     </Border>
 ```
 

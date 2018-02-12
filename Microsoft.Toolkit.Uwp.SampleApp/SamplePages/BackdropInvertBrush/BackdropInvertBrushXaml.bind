@@ -11,7 +11,7 @@
     <ProgressRing IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red" Width="200" Height="200"/>
     <Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="400">
       <Border.Background>
-        <brushes:BackdropBlurBrush Amount="@[Value:DoubleSlider:3.0:0.0-10.0]" />
+        <brushes:BackdropInvertBrush />
       </Border.Background>
     </Border>
   </Grid>

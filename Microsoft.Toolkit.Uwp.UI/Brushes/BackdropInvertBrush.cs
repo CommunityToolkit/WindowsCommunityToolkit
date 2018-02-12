@@ -19,40 +19,14 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Brushes
 {
     /// <summary>
-    /// Example brush from https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.xamlcompositionbrushbase
+    /// Example brush from https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#z70vPv1QMAvZsceo.97
     /// </summary>
-    public class BackdropBlurBrush : XamlCompositionBrushBase
+    public class BackdropInvertBrush : XamlCompositionBrushBase
     {
         /// <summary>
-        /// Identifies the <see cref="Amount"/> dependency property.
+        /// Initializes a new instance of the <see cref="BackdropInvertBrush"/> class.
         /// </summary>
-        public static readonly DependencyProperty AmountProperty = DependencyProperty.Register(
-            "Amount",
-            typeof(double),
-            typeof(BackdropBlurBrush),
-            new PropertyMetadata(0.0, new PropertyChangedCallback(OnAmountChanged)));
-
-        /// <summary>
-        /// Gets or sets the amount of gaussian blur to apply to the background.
-        /// </summary>
-        public double Amount
-        {
-            get { return (double)GetValue(AmountProperty); }
-            set { SetValue(AmountProperty, value); }
-        }
-
-        private static void OnAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var brush = (BackdropBlurBrush)d;
-
-            // Unbox and set a new blur amount if the CompositionBrush exists.
-            brush.CompositionBrush?.Properties.InsertScalar("Blur.BlurAmount", (float)(double)e.NewValue);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BackdropBlurBrush"/> class.
-        /// </summary>
-        public BackdropBlurBrush()
+        public BackdropInvertBrush()
         {
             this.FallbackColor = Colors.Transparent;
         }
@@ -73,15 +47,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
 
                 var backdrop = Window.Current.Compositor.CreateBackdropBrush();
 
-                // Use a Win2D blur affect applied to a CompositionBackdropBrush.
-                var graphicsEffect = new GaussianBlurEffect
+                // Use a Win2D invert affect applied to a CompositionBackdropBrush.
+                var graphicsEffect = new InvertEffect
                 {
-                    Name = "Blur",
-                    BlurAmount = (float)this.Amount,
+                    Name = "Invert",
                     Source = new CompositionEffectSourceParameter("backdrop")
                 };
 
-                var effectFactory = Window.Current.Compositor.CreateEffectFactory(graphicsEffect, new[] { "Blur.BlurAmount" });
+                var effectFactory = Window.Current.Compositor.CreateEffectFactory(graphicsEffect);
                 var effectBrush = effectFactory.CreateBrush();
 
                 effectBrush.SetSourceParameter("backdrop", backdrop);
