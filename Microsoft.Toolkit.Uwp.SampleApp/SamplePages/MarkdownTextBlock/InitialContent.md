@@ -289,11 +289,11 @@ which renders in:
 
 You can also specify image width like this:
 
->\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =32)
+>\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =32) (width is set to 32)
 
->\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =x64)
+>\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =x64) (height is set to 64)
 
->\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128x64)
+>\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128x64) (width=128, height=64)
 
 which renders in:
 
