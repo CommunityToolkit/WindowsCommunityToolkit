@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -25,6 +26,8 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.Foundation.Metadata;
+using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
@@ -36,6 +39,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private static HttpClient client = new HttpClient();
         private string _cachedDocumentation = string.Empty;
+        private string _cachedPath = string.Empty;
 
         internal static async Task<Sample> FindAsync(string category, string name)
         {
@@ -146,15 +150,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        public async Task<string> GetDocumentationAsync()
+#pragma warning disable SA1009 // Doesn't like ValueTuples.
+        public async Task<(string contents, string path)> GetDocumentationAsync()
+#pragma warning restore SA1009 // Doesn't like ValueTuples.
         {
             if (!string.IsNullOrWhiteSpace(_cachedDocumentation))
             {
-                return _cachedDocumentation;
+                return (_cachedDocumentation, _cachedPath);
             }
 
             var filepath = string.Empty;
             var filename = string.Empty;
+            var localPath = string.Empty;
 
             var docRegex = new Regex("^" + _repoOnlineRoot + "(?<branch>.+?)/docs/(?<file>.+)");
             var docMatch = docRegex.Match(DocumentationUrl);
@@ -162,6 +169,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 filepath = docMatch.Groups["file"].Value;
                 filename = Path.GetFileName(filepath);
+                localPath = $"ms-appx:///docs/{Path.GetDirectoryName(filepath)}";
             }
 
 #if !DEBUG // use the docs repo in release mode
@@ -169,6 +177,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 #else
             string modifiedDocumentationUrl = DocumentationUrl;
 #endif
+
+            _cachedPath = modifiedDocumentationUrl.Replace(filename, string.Empty);
 
             try
             {
@@ -193,7 +203,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
             }
 
-#if !DEBUG // don't cache for debugging perpuses so it always gets the latests
+#if !DEBUG // don't cache for debugging purposes so it always gets the latests
             if (string.IsNullOrWhiteSpace(_cachedDocumentation))
             {
                 try
@@ -214,6 +224,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     {
                         var result = await localDocsStream.ReadTextAsync();
                         _cachedDocumentation = ProcessDocs(result);
+                        _cachedPath = localPath;
                     }
                 }
                 catch (Exception)
@@ -221,7 +232,80 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
-            return _cachedDocumentation;
+            return (_cachedDocumentation, _cachedPath);
+        }
+
+        /// <summary>
+        /// Gets the image data from a Uri, with Caching.
+        /// </summary>
+        /// <param name="uri">Image Uri</param>
+        /// <returns>Image Stream</returns>
+        public async Task<IRandomAccessStream> GetImageStream(Uri uri)
+        {
+            async Task<Stream> CopyStream(HttpContent source)
+            {
+                var stream = new MemoryStream();
+                await source.CopyToAsync(stream);
+                stream.Seek(0, SeekOrigin.Begin);
+                return stream;
+            }
+
+            IRandomAccessStream imageStream = null;
+            var localpath = $"{uri.Host}/{uri.LocalPath}";
+
+            // Cache only in Release
+#if !DEBUG
+            try
+            {
+                imageStream = await StreamHelper.GetLocalCacheFileStreamAsync(localpath, Windows.Storage.FileAccessMode.Read);
+            }
+            catch
+            {
+            }
+#endif
+
+            if (imageStream == null)
+            {
+                try
+                {
+                    using (var response = await client.GetAsync(uri))
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var imageCopy = await CopyStream(response.Content);
+                            imageStream = imageCopy.AsRandomAccessStream();
+
+                            // Cache only in Release
+#if !DEBUG
+                            // Takes a second copy of the image stream, so that is can save the image data to cache.
+                            using (var saveStream = await CopyStream(response.Content))
+                            {
+                                await SaveImageToCache(localpath, saveStream);
+                            }
+#endif
+                        }
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            return imageStream;
+        }
+
+        private async Task SaveImageToCache(string localpath, Stream imageStream)
+        {
+            var folder = ApplicationData.Current.LocalCacheFolder;
+            localpath = Path.Combine(folder.Path, localpath);
+
+            // Resort to creating using traditional methods to avoid iteration for folder creation.
+            Directory.CreateDirectory(Path.GetDirectoryName(localpath));
+
+            using (var filestream = File.Create(localpath))
+            {
+                await imageStream.CopyToAsync(filestream);
+            }
         }
 
         private string ProcessDocs(string docs)
@@ -380,7 +464,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                 case PropertyKind.DoubleSlider:
                                     try
                                     {
-                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = double.Parse(value) };
+                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = double.Parse(value, CultureInfo.InvariantCulture) };
                                         var parameters = match.Groups["parameters"].Value;
                                         var split = parameters.Split('-');
                                         int minIndex = 0;
@@ -391,11 +475,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                             minMultiplier = -1;
                                         }
 
-                                        sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex]);
-                                        sliderOptions.MaxValue = double.Parse(split[minIndex + 1]);
+                                        sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex], CultureInfo.InvariantCulture);
+                                        sliderOptions.MaxValue = double.Parse(split[minIndex + 1], CultureInfo.InvariantCulture);
                                         if (split.Length > 2 + minIndex)
                                         {
-                                            sliderOptions.Step = double.Parse(split[split.Length - 1]);
+                                            sliderOptions.Step = double.Parse(split[split.Length - 1], CultureInfo.InvariantCulture);
                                         }
 
                                         options = sliderOptions;
@@ -412,7 +496,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                 case PropertyKind.TimeSpan:
                                     try
                                     {
-                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = TimeSpan.FromMilliseconds(double.Parse(value)) };
+                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = TimeSpan.FromMilliseconds(double.Parse(value, CultureInfo.InvariantCulture)) };
                                         var parameters = match.Groups["parameters"].Value;
                                         var split = parameters.Split('-');
                                         int minIndex = 0;
@@ -423,11 +507,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                             minMultiplier = -1;
                                         }
 
-                                        sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex]);
-                                        sliderOptions.MaxValue = double.Parse(split[minIndex + 1]);
+                                        sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex], CultureInfo.InvariantCulture);
+                                        sliderOptions.MaxValue = double.Parse(split[minIndex + 1], CultureInfo.InvariantCulture);
                                         if (split.Length > 2 + minIndex)
                                         {
-                                            sliderOptions.Step = double.Parse(split[split.Length - 1]);
+                                            sliderOptions.Step = double.Parse(split[split.Length - 1], CultureInfo.InvariantCulture);
                                         }
 
                                         options = sliderOptions;

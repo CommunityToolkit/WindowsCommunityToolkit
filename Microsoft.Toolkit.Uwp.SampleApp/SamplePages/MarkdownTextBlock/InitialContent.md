@@ -60,6 +60,18 @@ is displayed as:
 
 >This sentence includes **bold text**.
 
+### Bold & Italics
+
+Text can be displayed in a bold font by surrounding a word or words with either triple asterisks (\*) or triple underscores (\_).
+
+For example: 
+
+>This sentence includes \*\*\*bold & italic text\*\*\*.
+
+is displayed as:
+
+>This sentence includes ***bold & italic text***.
+
 ### Strikethrough
 
 Text can be displayed in a strikethrough font by surrounding a word or words with double tildes (~~).  For example:
@@ -268,7 +280,7 @@ There are a couple of ways to get HTML links.  The easiest is to just paste a va
 
 However, usually you'll want to have text that functions as a link.  In that case, include the text inside of square brackets followed by the URL in parentheses. So:
 
->\[Wikipedia\]\(http://en.wikipedia.org).
+>\[Wikipedia\]\(http\://en.wikipedia.org).
 
 results in:
 
@@ -276,13 +288,47 @@ results in:
 
 You can also provide tooltip text for links like so:
 
->\[Wikipedia\]\(http://en.wikipedia.org "tooltip text"\).
+>\[Wikipedia\]\(http\://en.wikipedia.org "tooltip text"\).
 
 results in:
 
 >[Wikipedia](http://en.wikipedia.org "tooltip text").
 
 There are other methods of generating links that aren't appropriate for discussion-board style comments.  See the [Markdown Syntax](http://daringfireball.net/projects/markdown/syntax#link) if you're interested in more info.
+
+&nbsp;
+
+Relative links are also supported
+
+>\[Relative Link\]\(/Assets/Photos/Photos.json\)
+
+results in:
+
+>[Relative Link](/Assets/Photos/Photos.json)
+
+&nbsp;
+
+>\[Relative Link 2\]\(../Photos/Photos.json\)
+
+results in:
+
+>[Relative Link 2](../Photos/Photos.json)
+
+**Note:** Relative Links has to be Manually Handled in `LinkClicked` Event.
+
+*****
+
+# Email Links
+
+Emails can be used as Masked Links or Direct email links. 
+
+>[Email\]\(`email@email.com`) 
+
+will be rendered to [Email](email@email.com)
+
+>`email@email.com` 
+
+will be rendered to email@email.com
 
 *****
 
@@ -292,11 +338,25 @@ To add an image, it is almost like a link. You just need to add a \! before.
 
 So inline image syntax looks like this:
 
->\!\[Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
+>\!\[Helpers Image](https:\//raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
 
 which renders in:
 
-![Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
+![Helpers Image](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
+
+Rendering Images is now supported through prefix. use property **UriPrefix**
+
+&nbsp;
+
+Example: if you set **UriPrefix** to **ms-appx://** then
+
+>\!\[Local Image](/Assets/NotificationAssets/Sunny-Square.png)
+
+&nbsp;
+
+renders in
+
+![Local Image](/Assets/NotificationAssets/Sunny-Square.png)
 
 *****
 

@@ -110,6 +110,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private PaneState _paneState;
         private bool _hasDocumentation = true;
         private bool _onlyDocumentation;
+        private string documentationPath;
 
         private bool CanChangePaneState => _hasDocumentation && !_onlyDocumentation;
 
@@ -221,9 +222,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (CurrentSample.HasDocumentation)
                 {
                     var docs = await CurrentSample.GetDocumentationAsync();
-                    if (!string.IsNullOrWhiteSpace(docs))
+                    documentationPath = docs.path;
+                    if (!string.IsNullOrWhiteSpace(docs.contents))
                     {
-                        DocumentationTextblock.Text = docs;
+                        DocumentationTextblock.Text = docs.contents;
                         InfoAreaPivot.Items.Add(DocumentationPivotItem);
                     }
                 }
@@ -403,10 +405,40 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             await Launcher.LaunchUriAsync(new Uri(e.Link));
         }
 
-        private void DocumentationTextblock_ImageResolving(object sender, ImageResolvingEventArgs e)
+        private async void DocumentationTextblock_ImageResolving(object sender, ImageResolvingEventArgs e)
         {
-            e.Image = new BitmapImage(new Uri("ms-appx:///Assets/pixel.png"));
-            e.Handled = true;
+            var deferral = e.GetDeferral();
+            BitmapImage image = null;
+
+            // Determine if the link is not absolute, meaning it is relative.
+            if (!Uri.TryCreate(e.Url, UriKind.Absolute, out Uri url))
+            {
+                url = new Uri(documentationPath + e.Url);
+            }
+
+            if (url.Scheme == "ms-appx")
+            {
+                image = new BitmapImage(url);
+            }
+            else
+            {
+                var imageStream = await CurrentSample.GetImageStream(url);
+
+                if (imageStream != null)
+                {
+                    image = new BitmapImage();
+                    await image.SetSourceAsync(imageStream);
+                }
+            }
+
+            // Handle only if no exceptions occur.
+            if (image != null)
+            {
+                e.Image = image;
+                e.Handled = true;
+            }
+
+            deferral.Complete();
         }
 
         private void GitHub_OnClick(object sender, RoutedEventArgs e)
