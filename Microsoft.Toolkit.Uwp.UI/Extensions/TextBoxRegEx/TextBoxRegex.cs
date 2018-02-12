@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Extensions;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Windows.UI.Xaml;
@@ -73,6 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             var validationType = (ValidationType)textbox.GetValue(ValidationTypeProperty);
             string regex;
+            bool regexMatch = false;
             switch (validationType)
             {
                 default:
@@ -83,27 +85,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                         return;
                     }
 
+                    regexMatch = Regex.IsMatch(textbox.Text.ToString(), regex);
                     break;
                 case ValidationType.Decimal:
-                    regex = DecimalRegex;
+                    regexMatch = textbox.Text.IsDecimal();
                     break;
                 case ValidationType.Email:
-                    regex = EmailRegex;
+                    regexMatch = textbox.Text.IsEmail();
                     break;
                 case ValidationType.Number:
-                    regex = NumberRegex;
+                    regexMatch = textbox.Text.IsNumeric();
                     break;
                 case ValidationType.PhoneNumber:
-                    regex = PhoneNumberRegex;
+                    regexMatch = textbox.Text.IsPhoneNumber();
                     break;
                 case ValidationType.Characters:
-                    regex = CharactersRegex;
+                    regexMatch = textbox.Text.IsCharacterString();
                     break;
             }
 
-            if (Regex.IsMatch(textbox.Text, regex))
+            if (regexMatch)
             {
-                textbox.SetValue(IsValidProperty, true);
+                textbox.SetValue(IsValidProperty, regexMatch);
             }
             else
             {
@@ -116,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     }
                 }
 
-                textbox.SetValue(IsValidProperty, false);
+                textbox.SetValue(IsValidProperty, regexMatch);
             }
         }
     }
