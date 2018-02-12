@@ -12,6 +12,7 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using ColorCode;
 using Microsoft.Toolkit.Parsers.Markdown;
@@ -209,12 +210,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             try
             {
                 return eventArgs.Handled
-                                ? eventArgs.Image
-                                : new BitmapImage(new Uri(url));
+                    ? eventArgs.Image
+                    : GetImageSource(new Uri(url));
             }
             catch (Exception)
             {
                 return null;
+            }
+
+            ImageSource GetImageSource(Uri imageUrl)
+            {
+                if (_isSvgImageSupported)
+                {
+                    if (Path.GetExtension(imageUrl.AbsolutePath)?.ToLowerInvariant() == ".svg")
+                    {
+                        return new SvgImageSource(imageUrl);
+                    }
+                }
+
+                return new BitmapImage(imageUrl);
             }
         }
 

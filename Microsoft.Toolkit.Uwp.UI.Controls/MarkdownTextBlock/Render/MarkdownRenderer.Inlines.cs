@@ -257,6 +257,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             image.VerticalAlignment = VerticalAlignment.Top;
             image.Stretch = ImageStretch;
 
+            if (element.ImageWidth > 0)
+            {
+                image.Width = element.ImageWidth;
+                image.Stretch = Stretch.UniformToFill;
+            }
+
+            if (element.ImageHeight > 0)
+            {
+                if (element.ImageWidth == 0)
+                {
+                    image.Width = element.ImageHeight;
+                }
+
+                image.Height = element.ImageHeight;
+                image.Stretch = Stretch.UniformToFill;
+            }
+
+            if (element.ImageHeight > 0 && element.ImageWidth > 0)
+            {
+                image.Stretch = Stretch.Fill;
+            }
+
             ToolTipService.SetToolTip(image, element.Tooltip);
 
             // Try to add it to the current inlines
