@@ -139,6 +139,9 @@
     <PackageReference Include="NotificationsVisualizerLibrary">
       <Version>1.0.5</Version>
     </PackageReference>
+    <PackageReference Include="System.ValueTuple">
+      <Version>4.4.0</Version>
+    </PackageReference>
     <PackageReference Include="UWP.SDKforGoogleAnalytics.Managed">
       <Version>1.5.2</Version>
     </PackageReference>
@@ -1160,13 +1163,33 @@
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <_GenerateAppxManifestDependsOn>
-      ModifyAppXPackage;
+      ModifyAppXPackageDebug;
       $(_GenerateAppxManifestDependsOn)
     </_GenerateAppxManifestDependsOn>
   </PropertyGroup>
-  <Target Name="ModifyAppXPackage" Condition="'$(BuildingProject)' == 'true'">
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <_GenerateAppxManifestDependsOn>
+      ModifyAppXPackageRelease;
+      $(_GenerateAppxManifestDependsOn)
+    </_GenerateAppxManifestDependsOn>
+  </PropertyGroup>
+  
+  <Target Name="ModifyAppXPackageDebug" Condition="'$(BuildingProject)' == 'true'">
+    <ItemGroup>
+      <toolkit_docs Include="$(SolutionDir)docs\**\*" />
+    </ItemGroup>
+    <ItemGroup>
+      <AppxPackagePayload Include="@(toolkit_docs)">
+        <TargetPath>docs/%(RecursiveDir)%(FileName)%(Extension)</TargetPath>
+      </AppxPackagePayload>
+    </ItemGroup>
+  </Target>
+  
+    <Target Name="ModifyAppXPackageRelease" Condition="'$(BuildingProject)' == 'true'">
     <ItemGroup>
       <toolkit_docs Include="$(SolutionDir)docs\**\*.md" />
     </ItemGroup>
@@ -1176,6 +1199,7 @@
       </AppxPackagePayload>
     </ItemGroup>
   </Target>
+    
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
     <ItemGroup>
