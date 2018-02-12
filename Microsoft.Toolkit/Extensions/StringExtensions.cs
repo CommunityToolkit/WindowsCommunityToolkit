@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Returns whether said string is a valid phonenumber or not.
+        /// Returns whether said string is a valid integer or not.
         /// </summary>
         /// <returns><c>true</c> for valid phonenumber.<c>false</c> otherwise</returns>
         public static bool IsPhoneNumber(this string str)
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Returns whether said string is a valid Character or not.
+        /// Returns whether said string contails only letters or not.
         /// </summary>
         /// <returns><c>true</c> for valid Character.<c>false</c> otherwise</returns>
         public static bool IsCharacterString(this string str)

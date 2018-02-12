@@ -10,9 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Extensions;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Microsoft.Toolkit.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -27,12 +27,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// </remarks>
     public partial class TextBoxRegex
     {
-        private const string DecimalRegex = "^-?[0-9]{1,28}([.,][0-9]{1,28})?$";
-        private const string EmailRegex = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,})+)$";
-        private const string NumberRegex = "^-?[0-9]{1,9}$";
-        private const string PhoneNumberRegex = @"^\s*\+?\s*([0-9][\s-]*){9,}$";
-        private const string CharactersRegex = "^[A-Za-z]+$";
-
         private static void TextBoxRegexPropertyOnChange(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var textbox = sender as TextBox;
@@ -85,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                         return;
                     }
 
-                    regexMatch = Regex.IsMatch(textbox.Text.ToString(), regex);
+                    regexMatch = Regex.IsMatch(textbox.Text, regex);
                     break;
                 case ValidationType.Decimal:
                     regexMatch = textbox.Text.IsDecimal();
@@ -104,23 +98,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     break;
             }
 
-            if (regexMatch)
+            if (!regexMatch && force)
             {
-                textbox.SetValue(IsValidProperty, regexMatch);
-            }
-            else
-            {
-                if (force)
+                var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
+                if (validationModel == ValidationMode.Forced)
                 {
-                    var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
-                    if (validationModel == ValidationMode.Forced)
-                    {
-                        textbox.Text = string.Empty;
-                    }
+                    textbox.Text = string.Empty;
                 }
-
-                textbox.SetValue(IsValidProperty, regexMatch);
             }
+
+            textbox.SetValue(IsValidProperty, regexMatch);
         }
     }
 }
