@@ -279,6 +279,7 @@
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
+    <Content Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrush.png" />
     <Content Include="SamplePages\BackdropInvertBrush\BackdropInvertBrush.png" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelper.png" />
     <Content Include="SamplePages\Bing Service\icon.png" />
@@ -474,6 +475,7 @@
     <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.bind" />
     <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushXaml.bind" />
     <Content Include="SamplePages\BackdropInvertBrush\BackdropInvertBrushXaml.bind" />
+    <Content Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -508,6 +510,9 @@
     </Compile>
     <Compile Include="SamplePages\AppPinManager\AppPinManagerHelperPage.xaml.cs">
       <DependentUpon>AppPinManagerHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushPage.xaml.cs">
+      <DependentUpon>BackdropGammaTransferBrushPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\BackdropInvertBrush\BackdropInvertBrushPage.xaml.cs">
       <DependentUpon>BackdropInvertBrushPage.xaml</DependentUpon>
@@ -801,6 +806,10 @@
     <Page Include="SamplePages\AppPinManager\AppPinManagerHelperPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\BackdropInvertBrush\BackdropInvertBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
