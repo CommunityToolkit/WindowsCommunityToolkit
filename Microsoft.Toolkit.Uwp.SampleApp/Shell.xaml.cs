@@ -51,6 +51,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private DateTime _timeSampleEditedFirst = DateTime.MinValue;
         private DateTime _timeSampleEditedLast = DateTime.MinValue;
         private bool _xamlCodeRendererSupported = false;
+        private string documentationPath;
 
         public bool DisplayWaitRing
         {
@@ -288,9 +289,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (HamburgerMenu.CurrentSample.HasDocumentation)
                 {
                     var docs = await this.HamburgerMenu.CurrentSample.GetDocumentationAsync();
-                    if (!string.IsNullOrWhiteSpace(docs))
+                    documentationPath = docs.path;
+                    if (!string.IsNullOrWhiteSpace(docs.contents))
                     {
-                        DocumentationTextblock.Text = docs;
+                        DocumentationTextblock.Text = docs.contents;
                         InfoAreaPivot.Items.Add(DocumentationPivotItem);
                     }
                 }
@@ -521,10 +523,40 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             await Launcher.LaunchUriAsync(new Uri(e.Link));
         }
 
-        private void DocumentationTextblock_ImageResolving(object sender, ImageResolvingEventArgs e)
+        private async void DocumentationTextblock_ImageResolving(object sender, ImageResolvingEventArgs e)
         {
-            e.Image = new BitmapImage(new Uri("ms-appx:///Assets/pixel.png"));
-            e.Handled = true;
+            var deferral = e.GetDeferral();
+            BitmapImage image = null;
+
+            // Determine if the link is not absolute, meaning it is relative.
+            if (!Uri.TryCreate(e.Url, UriKind.Absolute, out Uri url))
+            {
+                url = new Uri(documentationPath + e.Url);
+            }
+
+            if (url.Scheme == "ms-appx")
+            {
+                image = new BitmapImage(url);
+            }
+            else
+            {
+                var imageStream = await this.HamburgerMenu.CurrentSample.GetImageStream(url);
+
+                if (imageStream != null)
+                {
+                    image = new BitmapImage();
+                    await image.SetSourceAsync(imageStream);
+                }
+            }
+
+            // Handle only if no exceptions occur.
+            if (image != null)
+            {
+                e.Image = image;
+                e.Handled = true;
+            }
+
+            deferral.Complete();
         }
 
         private void GitHub_OnClick(object sender, RoutedEventArgs e)
