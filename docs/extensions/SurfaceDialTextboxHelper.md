@@ -8,30 +8,13 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, SurfaceDialTextbo
 
 # SurfaceDialTextboxHelper XAML Property
 
-The **SurfaceDialTextboxHelper XAML Property** adds features from the Surface Dial control to a numeric TextBox. This enables you to modify the content of the TextBox when rotating the Surface Dial (increasing or decreasing the value) and optionally go to the next focus element by tapping the Surface Dial click button.
-
-You can set the following properties to control the behaviour:
-**StepValue**: Required
-This property enables the Textbox with the Surface Dial controller, and control the amount each rotation step of the Surface Dial modifies the TextBox.
-
-**ForceMenuItem**: Required
-The Surface Dial requires the app to add a menu item to the Surface Dial context menu for it to function in the app. If you don't have a Surface Dial controller elsewhere in the app, set this field to True. This will add a menu item to the Contect Menu when you modify a Surface Dial enabled Textbox. If you already have a Surface Dial controller elsewhere in the app, you can set the Controller property to the same one to reuse it. Use the Icon property to modify the icon you wish to use. Typically, a user will not see this item unless you open the Context Menu while a Textbox is in focus.
-
-**EnableHapticFeedback**: Optional
-This property makes it possible to turn on or off the haptic feedback on the Surface Dial hardware while rotating.
-
-**EnableMinMaxValue**: Optional
-This property enables the MinValue and MaxValue limits of the Textbox. These values are used to limit the value in the TextBox while rotating the Surface Dial.
-
-**EnableTapToNextControl**: Optional
-Enables you to click the Surface Dial Control to move to the next focus item in your UI. Good for quickly navigating between Textbox elements on your UI.
-
-
-**NOTE:** Windows Anniversary Update (10.0.14393.0) is needed to support correctly this helper.
+The [SurfaceDialTextboxHelper XAML Property](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/surfacedialtextboxhelper) adds features from the Surface Dial control to a numeric TextBox. This enables you to modify the content of the TextBox when rotating the Surface Dial (increasing or decreasing the value) and optionally go to the next focus element by tapping the Surface Dial click button.
 
 ## Syntax
 
 ```xaml
+<Page ...
+     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions">
 
 <TextBox Width="106"
           HorizontalAlignment="Left"
@@ -45,23 +28,46 @@ Enables you to click the Surface Dial Control to move to the next focus item in 
           extensions:SurfaceDialTextboxHelper.MinValue="100"
           extensions:SurfaceDialTextboxHelper.StepValue="1"
           Text="0" />  
-
 ```
 
 ## Example Image
 
-![SurfaceDialTextboxHelper animation](../resources/images/SurfaceDialTextboxAnim.gif "SurfaceDialTextboxHelper")
+![SurfaceDialTextboxHelper animation](../resources/images/Extensions/SurfaceDialTextbox.gif)
 
-## Example Code
+## Attached Properties
 
-[SurfaceDialTextboxHelper Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/SurfaceDialTextboxHelper)
+| Property | Type | Description |
+| -- | -- | -- |
+| EnableHapticFeedback | bool | A flag to enable or disable haptic feedback when rotating the dial for the give TextBox. This is enabled by default |
+| EnableMinMaxValue | bool | EnableMinMax limits the value in the textbox to your spesificed Min and Max values, see the other properties |
+| EnableTapToNextControl | bool | TapToNext is a feature you can set to automatically try to focus the next focusable element from the Surface Dial enabled TextBox. This is on dy default |
+| ForceMenuItem | bool | If you provide the Controller yourself, set this to true so you won't add new menu items  |
+| Icon | [RadialControllerMenuKnownIcon](https://docs.microsoft.com/uwp/api/windows.ui.input.radialcontrollermenuknownicon) | Set the default icon of the menu item that gets added. A user will most likely not see this. Defaults to the Ruler icon |
+| MaxValue | double | Sets the maxium value the TextBox can have when modifying it using a Surface Dial. Default is 100.0 |
+| MinValue | double | Sets the minimum value the TextBox can have when modifying it using a Surface Dial. Default is -100.0 |
+| StepValue | double | The amount the TextBox will be modified for each rotation step on the Surface Dial |
 
-## Requirements (Windows 10 Device Family)
+> [!IMPORTANT]
+`StepValue` and `ForceMenuItem` are mandatory fields
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+## Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| static Controller | [RadialController](https://docs.microsoft.com/uwp/api/Windows.UI.Input.RadialController) | Gets or sets the controller for the Surface Dial. The RadialController can be set from your app logic in case you use Surface Dial in other custom cases than on a TextBox. This helper class will do everything for you, but if you want to control the Menu Items and/or wish to use the same Surface Dial insta This is the property for the static controller so you can access it if needed. |
+| static IsSupported | bool | Gets a value indicating whether this attached proeprty is supported |
+
+## Sample Code
+
+[SurfaceDialTextboxHelper Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/SurfaceDialTextboxHelper). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+
+## Requirements
+
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
 
 ## API
 
-* [SurfaceDialTextboxHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/SurfaceDialTextboxHelper)
+* [SurfaceDialTextboxHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/SurfaceDialTextbox)

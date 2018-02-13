@@ -1,30 +1,37 @@
 ---
 title: WebViewExtensions
 author: nmetulev
-ms.date: 08/20/2017
 description: The UWP Community Toolkit WebView extensions allow attaching HTML content to WebView through XAML directly or through Binding
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, WebViewExtensions, webview, extensions
 ---
 
 # WebViewExtensions
 
-The **WebView** allows attaching HTML content to WebView.
+The [WebView Extensions](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.extensions.webview) allows attaching HTML content to WebView.
 
-## Example
+## Syntax
 
 ```xaml
-	// Attach HTML content directly to WebView.
-	<WebView extensions:WebView.Content="{Binding HtmlContent}" />
+// Attach HTML content directly to WebView.
+<WebView extensions:WebView.Content="{Binding HtmlContent}" />
 
-    // Attach Uri directly to WebView
-    <WebView extensions:WebView.ContentUri="{Binding ContentUri}" />
+// Attach Uri directly to WebView
+<WebView extensions:WebView.ContentUri="{Binding ContentUri}" />
 ```
 
-## Requirements (Windows 10 Device Family)
+## Attached Properties
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+| Property | Type | Description |
+| -- | -- | -- |
+| Content | string | Get or set HTML from the WebView through string |
+| ContentUri | Uri | Get or set HTML from the WebView through Uri |
+
+## Requirements
+
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
 
 ## API
 
