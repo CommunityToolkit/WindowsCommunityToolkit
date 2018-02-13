@@ -12,10 +12,31 @@
 
 # Reference: https://foxdeploy.com/2015/04/16/part-ii-deploying-powershell-guis-in-minutes-using-visual-studio/
 
+#===========================================================================
+# Script Initialization
+#===========================================================================
+
+# Make sure we're in the right path - https://blogs.msdn.microsoft.com/powershell/2007/06/19/get-scriptdirectory-to-the-rescue/
+function Get-ScriptDirectory
+{
+    $Invocation = (Get-Variable MyInvocation -Scope 1).Value
+    Split-Path $Invocation.MyCommand.Path
+}
+
+$curpath = Get-Location # save user's path
+
+# Set our path to be in the SamplePages folder
+$scriptroot = (Join-Path (Get-ScriptDirectory) "SamplePages")
+
+Set-Location -Path $scriptroot
+
 # Load Required Reference
 [void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
 
+#===========================================================================
 # Get Current Sample List
+#===========================================================================
+
 $samples = Get-ChildItem -Directory | Get-ItemPropertyValue -Name Name
 
 $sampletxt = ""
@@ -131,15 +152,17 @@ IF ($Perform) {
     $Destination = $XamlNewSample.Text
 
     # Copy Folder
+    #-----------------------------------------------------------------------
     Write-Host "Copying" $Source "to" $Destination
     
     Copy-Item $Source -Destination $Destination -Recurse
 
-    Set-Location -Path $Destination
+    Set-Location -Path (Join-Path $scriptroot $Destination)
 
     $image = ""
 
-    # Setup New Files
+    # Setup New Files (Rename, Inject New Name)
+    #-----------------------------------------------------------------------
     Get-ChildItem -File | ForEach-Object {
         # Rename File to New Name
         $newname = $_.Name -replace $Source, $Destination
@@ -147,11 +170,11 @@ IF ($Perform) {
 
         # Replace occurances of original sample name with new sample name
         IF ($_.Extension -ne ".bind" -and $_.Extension -ne ".png") {
-            $text = [System.IO.File]::ReadAllText($Destination + "\" + $newname)
+            $text = [System.IO.File]::ReadAllText((Join-Path $scriptroot $Destination) + "\" + $newname)
 
             $text = $text -replace $Source, $Destination
 
-            [System.IO.File]::WriteAllText($Destination + "\" + $newname, $text)
+            [System.IO.File]::WriteAllText((Join-Path $scriptroot $Destination) + "\" + $newname, $text)
         }
         ELSEIF ($_.Extension -eq ".png")
         {
@@ -159,10 +182,11 @@ IF ($Perform) {
         }
     }
 
-    Set-Location -Path ..
+    Set-Location -Path $scriptroot
 
     # Append samples.json
-    $samples = [System.IO.File]::ReadAllText("samples.json") | ConvertFrom-Json
+    #-----------------------------------------------------------------------
+    $samples = [System.IO.File]::ReadAllText((Join-Path $scriptroot "samples.json")) | ConvertFrom-Json
 
     $samples | ForEach-Object {
         IF ($_.Name -eq $XamlNewCategory.Text) {
@@ -190,7 +214,10 @@ IF ($Perform) {
 
     $text = $samples | ConvertTo-Json -Depth 4
 
-    [System.IO.File]::WriteAllText("samples.json", $text)
+    [System.IO.File]::WriteAllText((Join-Path $scriptroot "samples.json"), $text)
 
     Write-Host "Done"
 }
+
+# restore user's path
+Set-Location $curpath

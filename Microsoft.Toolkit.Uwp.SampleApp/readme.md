@@ -4,6 +4,7 @@ This document describes how to add a new sample page for a new control you want 
 
 *DropShadowPanel*, *ImageEx*, and *ImageCache* are good examples of most of the features mentioned below.
 
+**Quick Start:** Run the `CopySample.ps1` in this directory by right-clicking on it from File Explorer and selecting `Run with PowerShell`.  This will pop open a dialog and allow you to select an existing sample to copy as a template for a new sample.  Once the script is finished, be sure to fill out the `!TODO` items in the `samples.json` file (see below).
 
 ## 1. Add Sample page and .bind template
 First you need to create a Xaml page in the folder /SamplePages/YourControl.  This will be the logical page used to by the app to navigate to the sample and containe code.
