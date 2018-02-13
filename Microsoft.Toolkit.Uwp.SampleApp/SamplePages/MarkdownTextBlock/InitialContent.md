@@ -358,6 +358,14 @@ renders in
 
 ![Local Image](/Assets/NotificationAssets/Sunny-Square.png)
 
+Rendering Local Images is supported.
+
+>\!\[Local Image](/Assets/Helpers.png)
+
+renders in
+
+![Local Image](/Assets/Helpers.png)
+
 *****
 
 # BLOCK QUOTES
