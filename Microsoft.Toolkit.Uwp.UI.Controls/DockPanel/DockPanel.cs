@@ -39,7 +39,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnPaddingChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-
+            var dockPanel = (DockPanel)sender;
+            dockPanel.InvalidateMeasure();
         }
 
         /// <inheritdoc />
