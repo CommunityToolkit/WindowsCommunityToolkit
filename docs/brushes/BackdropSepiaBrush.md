@@ -10,8 +10,6 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Colors Helper
 
 The **BackdropSepiaBrush** is a [Brush](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.brush) that blurs whatever is behind it in the application.
 
-It is based on the example provided on [MSDN](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.xamlcompositionbrushbase) for the XamlCompositionBrushBase.
-
 ## Example
 
 ```xaml
@@ -28,7 +26,7 @@ It is based on the example provided on [MSDN](https://docs.microsoft.com/en-us/u
 
 | Property | Type | Description |
 | -- | -- | -- |
-| Intensity | doulbe | The `Intensity` property specifies a double value for the amount of Sepia to apply from 0.0 - 1.0.  Zero being none, and one being full.  The default is 0.5. |
+| Intensity | double | The `Intensity` property specifies a double value for the amount of Sepia to apply from 0.0 - 1.0.  Zero being none, and one being full Sepia effect.  The default is 0.5. |
 
 ## Requirements (Windows 10 Device Family)
 

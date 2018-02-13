@@ -26,7 +26,7 @@ It is based on the example provided on [MSDN](https://docs.microsoft.com/en-us/u
 
 | Property | Type | Description |
 | -- | -- | -- |
-| Amount | doulbe | The `Amount` property specifies a double value for the amount of Gaussian blur to apply. |
+| Amount | double | The `Amount` property specifies a double value for the amount of Gaussian blur to apply. |
 
 ## Requirements (Windows 10 Device Family)
 

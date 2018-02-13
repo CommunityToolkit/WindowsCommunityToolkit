@@ -652,6 +652,16 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropGammaTransferBrush.md"
       },
       {
+        "Name": "BackdropSaturationBrush",
+        "Type": "BackdropSaturationBrushPage",
+        "About": "Brush which applies a Saturation effect to whatever's behind it.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Brushes/BackdropSaturationBrush.cs",
+        "XamlCodeFile": "BackdropSaturationBrushXaml.bind",
+        "Icon": "/SamplePages/BackdropSaturationBrush/BackdropSaturationBrush.png",
+        "BadgeUpdateVersionRequired": "Creators Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropSaturationBrush.md"
+      },
+      {
         "Name": "BackdropSepiaBrush",
         "Type": "BackdropSepiaBrushPage",
         "About": "Brush which applies a Sepia effect to whatever's behind it.",

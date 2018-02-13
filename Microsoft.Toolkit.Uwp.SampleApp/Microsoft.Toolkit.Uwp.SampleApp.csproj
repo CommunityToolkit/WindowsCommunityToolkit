@@ -282,6 +282,7 @@
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
     <Content Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrush.png" />
     <Content Include="SamplePages\BackdropInvertBrush\BackdropInvertBrush.png" />
+    <Content Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrush.png" />
     <Content Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrush.png" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelper.png" />
     <Content Include="SamplePages\Bing Service\icon.png" />
@@ -483,6 +484,7 @@
     <Content Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrushXaml.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrushXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -523,6 +525,9 @@
     </Compile>
     <Compile Include="SamplePages\BackdropInvertBrush\BackdropInvertBrushPage.xaml.cs">
       <DependentUpon>BackdropInvertBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrushPage.xaml.cs">
+      <DependentUpon>BackdropSaturationBrushPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrushPage.xaml.cs">
       <DependentUpon>BackdropSepiaBrushPage.xaml</DependentUpon>
@@ -822,6 +827,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\BackdropInvertBrush\BackdropInvertBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
