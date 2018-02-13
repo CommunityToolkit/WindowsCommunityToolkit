@@ -1,6 +1,6 @@
 ---
 title: BackdropGammaTransferBrush
-author: mhawker
+author: michael-hawker
 ms.date: 02/12/2018
 description: The BackdropBlurBrush is a Brush that blurs whatever is behind it in the application.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Colors Helper
@@ -30,13 +30,15 @@ All Amplitude, Disable, Exponent, and Offset properties are available for the Al
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.15063.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp |
+| Namespace | Microsoft.Toolkit.Uwp.UI.Brushes |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
 
-## API
+## API Source Code
 
-* [Win2D GammaTransferEffect reference](http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_GammaTransferEffect.htm)
-* [BackdropGammaTransferBrush source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Brushes/BackdropGammaTransferBrush.cs)
+- [BackdropGammaTransferBrush source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Brushes/BackdropGammaTransferBrush.cs)
 
+## Related Topics
 
+- [Win2D GammaTransferEffect reference](http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_GammaTransferEffect.htm)

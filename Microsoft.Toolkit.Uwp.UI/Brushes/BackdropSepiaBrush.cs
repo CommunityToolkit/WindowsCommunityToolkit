@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using Windows.UI;
 using Windows.UI.Composition;
@@ -19,40 +20,51 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Brushes
 {
     /// <summary>
-    /// Example brush from https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.xamlcompositionbrushbase
+    /// Brush which applies a SepiaEffect to the Backdrop. http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_SepiaEffect.htm
     /// </summary>
-    public class BackdropBlurBrush : XamlCompositionBrushBase
+    public class BackdropSepiaBrush : XamlCompositionBrushBase
     {
         /// <summary>
-        /// Identifies the <see cref="Amount"/> dependency property.
+        /// Identifies the <see cref="Intensity"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty AmountProperty = DependencyProperty.Register(
-            nameof(Amount),
+        public static readonly DependencyProperty IntensityProperty = DependencyProperty.Register(
+            nameof(Intensity),
             typeof(double),
-            typeof(BackdropBlurBrush),
-            new PropertyMetadata(0.0, new PropertyChangedCallback(OnAmountChanged)));
+            typeof(BackdropSepiaBrush),
+            new PropertyMetadata(0.5, new PropertyChangedCallback(OnIntensityChanged)));
 
         /// <summary>
         /// Gets or sets the amount of gaussian blur to apply to the background.
         /// </summary>
-        public double Amount
+        public double Intensity
         {
-            get { return (double)GetValue(AmountProperty); }
-            set { SetValue(AmountProperty, value); }
+            get { return (double)GetValue(IntensityProperty); }
+            set { SetValue(IntensityProperty, value); }
         }
 
-        private static void OnAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnIntensityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var brush = (BackdropBlurBrush)d;
+            var brush = (BackdropSepiaBrush)d;
+
+            // Clamp Value as per docs http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_SepiaEffect.htm
+            var value = (float)(double)e.NewValue;
+            if (value > 1.0)
+            {
+                brush.Intensity = 1.0;
+            }
+            else if (value < 0.0)
+            {
+                brush.Intensity = 0.0;
+            }
 
             // Unbox and set a new blur amount if the CompositionBrush exists.
-            brush.CompositionBrush?.Properties.InsertScalar("Blur.BlurAmount", (float)(double)e.NewValue);
+            brush.CompositionBrush?.Properties.InsertScalar("Sepia.Intensity", (float)brush.Intensity);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BackdropBlurBrush"/> class.
+        /// Initializes a new instance of the <see cref="BackdropSepiaBrush"/> class.
         /// </summary>
-        public BackdropBlurBrush()
+        public BackdropSepiaBrush()
         {
             this.FallbackColor = Colors.Transparent;
         }
@@ -74,14 +86,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
                 var backdrop = Window.Current.Compositor.CreateBackdropBrush();
 
                 // Use a Win2D blur affect applied to a CompositionBackdropBrush.
-                var graphicsEffect = new GaussianBlurEffect
+                var graphicsEffect = new SepiaEffect
                 {
-                    Name = "Blur",
-                    BlurAmount = (float)this.Amount,
+                    Name = "Sepia",
+                    Intensity = (float)this.Intensity,
                     Source = new CompositionEffectSourceParameter("backdrop")
                 };
 
-                var effectFactory = Window.Current.Compositor.CreateEffectFactory(graphicsEffect, new[] { "Blur.BlurAmount" });
+                var effectFactory = Window.Current.Compositor.CreateEffectFactory(graphicsEffect, new[] { "Sepia.Intensity" });
                 var effectBrush = effectFactory.CreateBrush();
 
                 effectBrush.SetSourceParameter("backdrop", backdrop);

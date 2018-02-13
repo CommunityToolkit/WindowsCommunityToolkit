@@ -1,6 +1,6 @@
 ---
 title: BackdropBlurBrush
-author: mhawker
+author: michael-hawker
 ms.date: 02/08/2018
 description: The BackdropBlurBrush is a Brush that blurs whatever is behind it in the application.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Colors Helper
@@ -24,19 +24,21 @@ It is based on the example provided on [MSDN](https://docs.microsoft.com/en-us/u
 
 ## Properties
 
-### Amount
-
-The `Amount` property specifies a double value for the amount of Gaussian blur to apply.
+| Property | Type | Description |
+| -- | -- | -- |
+| Amount | doulbe | The `Amount` property specifies a double value for the amount of Gaussian blur to apply. |
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.15063.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp |
+| Namespace | Microsoft.Toolkit.Uwp.UI.Brushes |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
 
-## API
+## API Source Code
 
-* [Win2D GaussianBlurEffect reference](http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_GaussianBlurEffect.htm)
-* [BackdropBorderBrush source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Brushes/BackdropBorderBrush.cs)
+- [BackdropBlurBrush source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Brushes/BackdropBlurBrush.cs)
 
+## Related Topics
 
+- [Win2D GaussianBlurEffect reference](http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_GaussianBlurEffect.htm)

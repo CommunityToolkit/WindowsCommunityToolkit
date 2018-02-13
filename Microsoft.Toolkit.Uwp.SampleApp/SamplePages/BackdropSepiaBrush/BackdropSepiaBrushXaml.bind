@@ -19,7 +19,7 @@
               Grid.Column="2"
               Height="400">
         <Border.Background>
-          <brushes:BackdropInvertBrush />
+          <brushes:BackdropSepiaBrush Intensity="@[Intensity:DoubleSlider:0.5:0.0-1.0]"/>
         </Border.Background>
       </Border>
     </Grid>

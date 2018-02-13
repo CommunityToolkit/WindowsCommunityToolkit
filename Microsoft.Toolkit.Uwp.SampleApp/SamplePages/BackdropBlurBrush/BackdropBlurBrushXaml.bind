@@ -8,11 +8,20 @@
 
   <Grid>
     <Image Source="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg"/>
-    <ProgressRing IsActive="True" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red" Width="200" Height="200"/>
-    <Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="400">
-      <Border.Background>
-        <brushes:BackdropBlurBrush Amount="@[Amount:DoubleSlider:3.0:0.0-10.0]" />
-      </Border.Background>
-    </Border>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <ProgressRing IsActive="True" Grid.ColumnSpan="2"
+                    VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red" Width="200" Height="200"/>
+      <Border BorderBrush="Black" BorderThickness="1"
+              Grid.Column="2"
+              Height="400">
+        <Border.Background>
+          <brushes:BackdropBlurBrush Amount="@[Amount:DoubleSlider:3.0:0.0-10.0]" />
+        </Border.Background>
+      </Border>
+    </Grid>
   </Grid>
 </Page>

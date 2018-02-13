@@ -614,33 +614,52 @@
         "CodeFile": "AdvancedCollectionView.bind",
         "Icon": "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/AdvancedCollectionView.md"
-      },
+      }
+    ]
+  },
+  {
+    "Name": "Brushes",
+    "Icon": "Icons/Brushes.png",
+    "Samples": [
       {
         "Name": "BackdropBlurBrush",
         "Type": "BackdropBlurBrushPage",
         "About": "Brush which fills the contents with a blurred version of whatever's behind it.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Brushes/BackdropBlurBrush.cs",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Brushes/BackdropBlurBrush.cs",
         "XamlCodeFile": "BackdropBlurBrushXaml.bind",
         "Icon": "/SamplePages/BackdropBlurBrush/BackdropBlurBrush.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/BackdropBlurBrush.md"
+        "BadgeUpdateVersionRequired": "Creators Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropBlurBrush.md"
       },
       {
         "Name": "BackdropInvertBrush",
         "Type": "BackdropInvertBrushPage",
         "About": "Brush which fills the contents with an inverted version of whatever's behind it.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp/Brushes/BackdropInvertBrush.cs",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Brushes/BackdropInvertBrush.cs",
         "XamlCodeFile": "BackdropInvertBrushXaml.bind",
         "Icon": "/SamplePages/BackdropInvertBrush/BackdropInvertBrush.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/BackdropInvertBrush.md"
+        "BadgeUpdateVersionRequired": "Creators Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropInvertBrush.md"
       },
       {
         "Name": "BackdropGammaTransferBrush",
         "Type": "BackdropGammaTransferBrushPage",
         "About": "Brush which fills the contents with a gamma modified version of whatever's behind it.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp/Brushes/BackdropGammaTransferBrush.cs",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Brushes/BackdropGammaTransferBrush.cs",
         "XamlCodeFile": "BackdropGammaTransferBrushXaml.bind",
         "Icon": "/SamplePages/BackdropGammaTransferBrush/BackdropGammaTransferBrush.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/BackdropGammaTransferBrush.md"
+        "BadgeUpdateVersionRequired": "Creators Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropGammaTransferBrush.md"
+      },
+      {
+        "Name": "BackdropSepiaBrush",
+        "Type": "BackdropSepiaBrushPage",
+        "About": "Brush which applies a Sepia effect to whatever's behind it.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Brushes/BackdropSepiaBrush.cs",
+        "XamlCodeFile": "BackdropSepiaBrushXaml.bind",
+        "Icon": "/SamplePages/BackdropSepiaBrush/BackdropSepiaBrush.png",
+        "BadgeUpdateVersionRequired": "Creators Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropSepiaBrush.md"
       }
     ]
   },
