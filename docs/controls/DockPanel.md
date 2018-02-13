@@ -31,6 +31,14 @@ You can set DockPanel LastChildFill property to true if you want the last item a
 
 ![DockPanel animation](../resources/images/Controls-DockPanel.gif "DockPanel")
 
+## Properties
+
+<!-- Explain all properties in a table format -->
+
+| Property | Type | Description |
+| -- | -- | -- |
+| Padding | Thickness | The dimensions of the space between the edge and its child as a Thickness value. Thickness is a structure that stores dimension values using pixel measures. |
+
 ## Example Code
 
 [DockPanel Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DockPanel)
