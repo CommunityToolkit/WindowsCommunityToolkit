@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return finalSize;
             }
 
-            var currentBounds = new Rect(0, 0, finalSize.Width, finalSize.Height);
+            var currentBounds = new Rect(Padding.Left, Padding.Top, finalSize.Width - Padding.Right, finalSize.Height - Padding.Bottom);
             var childrenCount = LastChildFill ? Children.Count - 1 : Children.Count;
 
             for (var index = 0; index < childrenCount; index++)
