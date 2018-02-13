@@ -7,16 +7,16 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, WebViewExtensions
 
 # WebViewExtensions
 
-The [WebView Extensions](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.extensions.webview) allows attaching HTML content to WebView.
+The [WebViewExtensions](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.extensions.webview) allows attaching HTML content to WebView.
 
 ## Syntax
 
 ```xaml
-// Attach HTML content directly to WebView.
-<WebView extensions:WebView.Content="{Binding HtmlContent}" />
+// Attach HTML content directly to WebView
+<WebView extensions:WebViewExtensions.Content="{Binding HtmlContent}" />
 
 // Attach Uri directly to WebView
-<WebView extensions:WebView.ContentUri="{Binding ContentUri}" />
+<WebView extensions:WebViewExtensions.ContentUri="{Binding ContentUri}" />
 ```
 
 ## Attached Properties

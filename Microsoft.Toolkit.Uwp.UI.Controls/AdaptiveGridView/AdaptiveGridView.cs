@@ -175,7 +175,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var b = new Binding()
                     {
                         Source = this,
-                        Path = new PropertyPath("ItemHeight")
+                        Path = new PropertyPath("ItemHeight"),
+                        Converter = new AdaptiveHeightValueConverter(),
+                        ConverterParameter = this
                     };
 
                     if (itemsWrapGridPanel != null)
@@ -233,7 +235,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (containerWidth > 0)
             {
                 var newWidth = CalculateItemWidth(containerWidth);
-                ItemWidth = Math.Floor(newWidth - 1);
+                ItemWidth = Math.Floor(newWidth);
             }
         }
     }

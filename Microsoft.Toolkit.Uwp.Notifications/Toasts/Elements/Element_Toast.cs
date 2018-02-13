@@ -11,11 +11,12 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
     [NotificationXmlElement("toast")]
-    internal sealed class Element_Toast : BaseElement, IElement_ToastActivatable
+    internal sealed class Element_Toast : BaseElement, IElement_ToastActivatable, IElement_AdditionalProperties
     {
         internal const ToastScenario DEFAULT_SCENARIO = ToastScenario.Default;
         internal const Element_ToastActivationType DEFAULT_ACTIVATION_TYPE = Element_ToastActivationType.Foreground;
@@ -63,6 +64,14 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public Element_ToastActions Actions { get; set; }
 
         public Element_ToastHeader Header { get; set; }
+
+        [NotificationXmlAttribute("hint-toastId")]
+        public string HintToastId { get; set; }
+
+        [NotificationXmlAttribute("hint-people")]
+        public string HintPeople { get; set; }
+
+        public IDictionary<string, string> AdditionalProperties { get; set; }
 
         public static Element_ToastActivationType ConvertActivationType(ToastActivationType publicType)
         {

@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Helpers;
+using System.Linq;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 {
@@ -375,6 +376,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
             // Note: it is intended that this code match the reddit.com markdown parser; there are
             // many characters which are legal in email addresses but which aren't picked up by
             // reddit (for example: '$' and '!').
+
+            // Special characters as per https://en.wikipedia.org/wiki/Email_address#Local-part allowed
+            char[] allowedchars = new char[] { '!', '#', '$', '%', '&', '\'', '*', '+', '-', '/', '=', '?', '^', '_', '`', '{', '|', '}', '~' };
+
             int start = tripPos;
             while (start > minStart)
             {
@@ -382,7 +387,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                 if ((c < 'a' || c > 'z') &&
                     (c < 'A' || c > 'Z') &&
                     (c < '0' || c > '9') &&
-                    c != '+' && c != '-' && c != '_' && c != '.')
+                    !allowedchars.Contains(c))
                 {
                     break;
                 }

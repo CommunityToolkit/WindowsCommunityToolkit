@@ -757,7 +757,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
         {
             foreach (MarkdownInline element in inlineElements)
             {
-                RenderInline(inlineCollection, element, parent, context);
+                if (element.Type != MarkdownInlineType.Comment)
+                {
+                    RenderInline(inlineCollection, element, parent, context);
+                }
             }
         }
 
@@ -963,6 +966,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;
             image.Stretch = ImageStretch;
+
+            if (element.ImageWidth > 0)
+            {
+                image.Width = element.ImageWidth;
+                image.Stretch = Stretch.UniformToFill;
+            }
+
+            if (element.ImageHeight > 0)
+            {
+                if (element.ImageWidth == 0)
+                {
+                    image.Width = element.ImageHeight;
+                }
+
+                image.Height = element.ImageHeight;
+                image.Stretch = Stretch.UniformToFill;
+            }
+
+            if (element.ImageHeight > 0 && element.ImageWidth > 0)
+            {
+                image.Stretch = Stretch.Fill;
+            }
 
             ToolTipService.SetToolTip(image, element.Tooltip);
 

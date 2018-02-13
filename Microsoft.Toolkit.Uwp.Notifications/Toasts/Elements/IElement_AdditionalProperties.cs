@@ -10,27 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using System.Collections.Generic;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    public sealed partial class ListViewBasePage : Page, IXamlRenderListener
+    internal interface IElement_AdditionalProperties
     {
-        public ListViewBasePage()
-        {
-            this.InitializeComponent();
-        }
-
-        public async void OnXamlRendered(FrameworkElement control)
-        {
-            var sampleListView = control.FindChildByName("SampleListView") as ListView;
-
-            if (sampleListView != null)
-            {
-                sampleListView.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
-            }
-        }
+        IDictionary<string, string> AdditionalProperties { get; set; }
     }
 }

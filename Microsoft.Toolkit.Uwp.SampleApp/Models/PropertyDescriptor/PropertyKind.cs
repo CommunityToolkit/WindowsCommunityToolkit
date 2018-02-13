@@ -20,6 +20,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Models
         Enum,
         Bool,
         Brush,
-        TimeSpan
+        TimeSpan,
+        Thickness
     }
 }

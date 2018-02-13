@@ -22,6 +22,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// <summary>
     ///  Class OneDriveStorageItemsEnumerator
     /// </summary>
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
     public class OneDriveStorageItemsEnumerator : IEnumerator<OneDriveStorageItem>
     {
         private List<OneDriveStorageItem> _items;

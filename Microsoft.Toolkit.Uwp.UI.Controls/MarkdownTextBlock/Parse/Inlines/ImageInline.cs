@@ -41,6 +41,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
 
         public string Text { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Gets image width
+        /// If value is greater than 0, ImageStretch is set to UniformToFill
+        /// If both ImageWidth and ImageHeight are greater than 0, ImageStretch is set to Fill
+        /// </summary>
+        public int ImageWidth { get; internal set; }
+
+        /// <summary>
+        /// Gets image height
+        /// If value is greater than 0, ImageStretch is set to UniformToFill
+        /// If both ImageWidth and ImageHeight are greater than 0, ImageStretch is set to Fill
+        /// </summary>
+        public int ImageHeight { get; internal set; }
+
         internal static void AddTripChars(List<Common.InlineTripCharHelper> tripCharHelpers)
         {
             tripCharHelpers.Add(new Common.InlineTripCharHelper() { FirstChar = '!', Method = Common.InlineParseMethod.Image });
@@ -116,14 +130,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
                 pos++;
             }
 
-            string url = TextRunInline.ResolveEscapeSequences(markdown, urlStart, pos);
+            var imageDimensionsPos = markdown.IndexOf(" =", urlStart, pos - urlStart, StringComparison.Ordinal);
+
+            var url = imageDimensionsPos > 0
+                ? TextRunInline.ResolveEscapeSequences(markdown, urlStart, imageDimensionsPos)
+                : TextRunInline.ResolveEscapeSequences(markdown, urlStart, pos);
+
+            int imageWidth = 0;
+            int imageHeight = 0;
+
+            if (imageDimensionsPos > 0)
+            {
+                // trying to find 'x' which separates image width and height
+                var dimensionsSepatorPos = markdown.IndexOf("x", imageDimensionsPos + 2, pos - imageDimensionsPos - 1, StringComparison.Ordinal);
+
+                // didn't find separator, trying to parse value as imageWidth
+                if (dimensionsSepatorPos == -1)
+                {
+                    var imageWidthStr = markdown.Substring(imageDimensionsPos + 2, pos - imageDimensionsPos - 2);
+
+                    int.TryParse(imageWidthStr, out imageWidth);
+                }
+                else
+                {
+                    var dimensions = markdown.Substring(imageDimensionsPos + 2, pos - imageDimensionsPos - 2).Split('x');
+
+                    // got width and height
+                    if (dimensions.Length == 2)
+                    {
+                        int.TryParse(dimensions[0], out imageWidth);
+                        int.TryParse(dimensions[1], out imageHeight);
+                    }
+                }
+            }
 
             // We found something!
             var result = new ImageInline
             {
                 Tooltip = tooltip,
                 Url = url,
-                Text = markdown.Substring(start, pos + 1 - start)
+                Text = markdown.Substring(start, pos + 1 - start),
+                ImageWidth = imageWidth,
+                ImageHeight = imageHeight
             };
             return new Common.InlineParseResult(result, start, pos + 1);
         }
@@ -134,7 +182,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse
         /// <returns> The textual representation of this object. </returns>
         public override string ToString()
         {
-            return string.Format("[{0}]: {1}", Tooltip, Url);
+            if (ImageWidth > 0 && ImageHeight > 0)
+            {
+                return string.Format("![{0}]: {1} (Width: {2}, Height: {3})", Tooltip, Url, ImageWidth, ImageHeight);
+            }
+
+            if (ImageWidth > 0)
+            {
+                return string.Format("![{0}]: {1} (Width: {2})", Tooltip, Url, ImageWidth);
+            }
+
+            if (ImageHeight > 0)
+            {
+                return string.Format("![{0}]: {1} (Height: {2})", Tooltip, Url, ImageHeight);
+            }
+
+            return string.Format("![{0}]: {1}", Tooltip, Url);
         }
     }
 }

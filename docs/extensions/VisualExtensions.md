@@ -18,11 +18,11 @@ The [Composition Visual](https://docs.microsoft.com/dotnet/api/microsoft.toolkit
 <Border Height="100"
 		Width="100"
 		Background="Purple"
-		extensions:VisualEx.CenterPoint="50,50,0"
-		extensions:VisualEx.Opacity="0.5"
-		extensions:VisualEx.RotationAngleInDegrees="80"
-		extensions:VisualEx.Scale="2, 0.5, 1"
-		extensions:VisualEx.NormalizedCenterPoint="0.5, 0.5, 0" />
+		extensions:VisualExtensions.CenterPoint="50,50,0"
+		extensions:VisualExtensions.Opacity="0.5"
+		extensions:VisualExtensions.RotationAngleInDegrees="80"
+		extensions:VisualExtensions.Scale="2, 0.5, 1"
+		extensions:VisualExtensions.NormalizedCenterPoint="0.5, 0.5, 0" />
 ```
 
 ## Properties
@@ -49,5 +49,5 @@ The [Composition Visual](https://docs.microsoft.com/dotnet/api/microsoft.toolkit
 
 ## API
 
-* [Visual extensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Visual/VisualEx.cs)
+* [Visual extensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Visual/VisualExtensions.cs)
 
