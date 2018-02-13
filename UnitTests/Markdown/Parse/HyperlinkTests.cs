@@ -12,8 +12,8 @@
 
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
-using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 using Microsoft.Toolkit.Parsers.Markdown.Enums;
+using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
 namespace UnitTests.Markdown.Parse
 {
@@ -743,7 +743,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Text = "/r/news/blah", Url = "/r/news/blah", LinkType = HyperlinkType.Subreddit }));
         }
 
-
+        
 
         [TestMethod]
         [TestCategory("Parse - inline")]
