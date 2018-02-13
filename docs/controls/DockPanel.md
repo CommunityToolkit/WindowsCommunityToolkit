@@ -37,6 +37,7 @@ You can set DockPanel LastChildFill property to true if you want the last item a
 
 | Property | Type | Description |
 | -- | -- | -- |
+| LastChildFill | boolean | Gets or sets a value that indicates whether the last child element within a DockPanel stretches to fill the remaining available space. |
 | Padding | Thickness | The dimensions of the space between the edge and its child as a Thickness value. Thickness is a structure that stores dimension values using pixel measures. |
 
 ## Example Code
