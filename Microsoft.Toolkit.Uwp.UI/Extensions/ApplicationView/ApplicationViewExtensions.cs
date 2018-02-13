@@ -10,9 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
@@ -20,18 +20,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Provides attached properties for interacting with the <see cref="Windows.UI.ViewManagement.ApplicationView"/> on a window (app view).
     /// </summary>
-    [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.ApplicationViewExtensions")]
-    public static class ApplicationView
+    public static class ApplicationViewExtensions
     {
         /// <summary>
         /// Gets <see cref="string"/> for <see cref="Windows.UI.ViewManagement.ApplicationView.Title"/>
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="string"/></returns>
-        [Obsolete("Use methods in Microsoft.Toolkit.Uwp.UI.Extensions.ApplicationViewExtensions")]
         public static string GetTitle(Page page)
         {
-            return ApplicationViewExtensions.GetTitle(page);
+            var applicationView = GetApplicationView();
+
+            return applicationView?.Title ?? string.Empty;
         }
 
         /// <summary>
@@ -39,10 +39,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="string"/></param>
-        [Obsolete("Use methods in Microsoft.Toolkit.Uwp.UI.Extensions.ApplicationViewExtensions")]
         public static void SetTitle(Page page, string value)
         {
-            ApplicationViewExtensions.SetTitle(page, value);
+            var applicationView = GetApplicationView();
+            if (applicationView != null)
+            {
+                applicationView.Title = value;
+            }
         }
 
         /// <summary>
@@ -50,10 +53,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="string"/></returns>
-        [Obsolete("Use methods in Microsoft.Toolkit.Uwp.UI.Extensions.ApplicationViewExtensions")]
         public static bool GetExtendViewIntoTitleBar(Page page)
         {
-            return ApplicationViewExtensions.GetExtendViewIntoTitleBar(page);
+            var applicationView = GetCoreApplicationView();
+
+            return applicationView?.TitleBar?.ExtendViewIntoTitleBar ?? false;
         }
 
         /// <summary>
@@ -61,10 +65,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="bool"/></param>
-        [Obsolete("Use methods in Microsoft.Toolkit.Uwp.UI.Extensions.ApplicationViewExtensions")]
         public static void SetExtendViewIntoTitleBar(Page page, bool value)
         {
-            ApplicationViewExtensions.SetExtendViewIntoTitleBar(page, value);
+            var applicationView = GetCoreApplicationView();
+            if (applicationView != null && applicationView.TitleBar != null)
+            {
+                applicationView.TitleBar.ExtendViewIntoTitleBar = value;
+            }
         }
 
         /// <summary>
@@ -72,10 +79,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
         /// <returns><see cref="string"/></returns>
-        [Obsolete("Use methods in Microsoft.Toolkit.Uwp.UI.Extensions.ApplicationViewExtensions")]
         public static AppViewBackButtonVisibility GetBackButtonVisibility(Page page)
         {
-            return ApplicationViewExtensions.GetBackButtonVisibility(page);
+            var systemNavigationManager = GetSystemNavigationManager();
+
+            return systemNavigationManager?.AppViewBackButtonVisibility ?? AppViewBackButtonVisibility.Collapsed;
         }
 
         /// <summary>
@@ -83,10 +91,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="page">The <see cref="Page"/></param>
         /// <param name="value"><see cref="AppViewBackButtonVisibility"/></param>
-        [Obsolete("Use methods in Microsoft.Toolkit.Uwp.UI.Extensions.ApplicationViewExtensions")]
         public static void SetBackButtonVisibility(Page page, AppViewBackButtonVisibility value)
         {
-            ApplicationViewExtensions.SetBackButtonVisibility(page, value);
+            var systemNavigationManager = GetSystemNavigationManager();
+
+            if (systemNavigationManager != null)
+            {
+                systemNavigationManager.AppViewBackButtonVisibility = value;
+            }
+        }
+
+        private static SystemNavigationManager GetSystemNavigationManager()
+        {
+            return SystemNavigationManager.GetForCurrentView();
+        }
+
+        private static CoreApplicationView GetCoreApplicationView()
+        {
+            return CoreApplication.GetCurrentView();
+        }
+
+        private static Windows.UI.ViewManagement.ApplicationView GetApplicationView()
+        {
+            return Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
         }
     }
 }

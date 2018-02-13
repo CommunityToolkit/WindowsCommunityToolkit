@@ -1,4 +1,4 @@
-﻿// ******************************************************************
+// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -10,9 +10,26 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Models
+namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
-    public class ThicknessPropertyOptions : PropertyOptions
+    /// <summary>
+    /// Stretch direction
+    /// </summary>
+    public enum StretchDirection
     {
+        /// <summary>
+        /// Horizontal stretch
+        /// </summary>
+        Horizontal,
+
+        /// <summary>
+        /// Vertical stretch
+        /// </summary>
+        Vertical,
+
+        /// <summary>
+        /// Horizontal and Vertical stretch
+        /// </summary>
+        Both
     }
 }

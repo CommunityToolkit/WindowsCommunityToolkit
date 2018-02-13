@@ -20,13 +20,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Provides attached dependency properties for interacting with the <see cref="StatusBar"/> on a window (app view).
     /// </summary>
-    [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.StatusBarExtensions")]
-    public static class StatusBar
+    public static class StatusBarExtensions
     {
         /// <summary>
         /// Gets a value indicating whether StatusBar is supported or not.
         /// </summary>
-        public static bool IsStatusBarSupported => StatusBarExtensions.IsStatusBarSupported;
+        public static bool IsStatusBarSupported => Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar");
 
         /// <summary>
         /// Gets Color for StatusBar.BackgroundColor
@@ -35,7 +34,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>Color</returns>
         public static Color GetBackgroundColor(Page page)
         {
-            return StatusBarExtensions.GetBackgroundColor(page);
+            Color color;
+
+            var statusBar = GetStatusBar();
+            if (statusBar != null)
+            {
+                color = statusBar.BackgroundColor.GetValueOrDefault();
+            }
+
+            return color;
         }
 
         /// <summary>
@@ -45,7 +52,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="value">Color</param>
         public static void SetBackgroundColor(Page page, Color value)
         {
-            StatusBarExtensions.SetBackgroundColor(page, value);
+            var statusBar = GetStatusBar();
+            if (statusBar != null)
+            {
+                statusBar.BackgroundColor = value;
+            }
         }
 
         /// <summary>
@@ -55,7 +66,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>Color</returns>
         public static Color GetForegroundColor(Page page)
         {
-            return StatusBarExtensions.GetForegroundColor(page);
+            Color color;
+
+            var statusBar = GetStatusBar();
+            if (statusBar != null)
+            {
+                color = statusBar.ForegroundColor.GetValueOrDefault();
+            }
+
+            return color;
         }
 
         /// <summary>
@@ -65,7 +84,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="value"> Color</param>
         public static void SetForegroundColor(Page page, Color value)
         {
-            StatusBarExtensions.SetForegroundColor(page, value);
+            var statusBar = GetStatusBar();
+            if (statusBar != null)
+            {
+                statusBar.ForegroundColor = value;
+            }
         }
 
         /// <summary>
@@ -75,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns><see cref="double"/></returns>
         public static double GetBackgroundOpacity(Page page)
         {
-            return StatusBarExtensions.GetBackgroundOpacity(page);
+            return GetStatusBar()?.BackgroundOpacity ?? 0;
         }
 
         /// <summary>
@@ -85,7 +108,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="value"><see cref="double"/></param>
         public static void SetBackgroundOpacity(Page page, double value)
         {
-            StatusBarExtensions.SetBackgroundOpacity(page, value);
+            var statusBar = GetStatusBar();
+            if (statusBar != null)
+            {
+                statusBar.BackgroundOpacity = value;
+            }
         }
 
         /// <summary>
@@ -95,7 +122,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns><see cref="bool"/></returns>
         public static bool GetIsVisible(Page page)
         {
-            return StatusBarExtensions.GetIsVisible(page);
+            var statusBar = GetStatusBar();
+
+            return statusBar?.OccludedRect.Height > 0;
         }
 
         /// <summary>
@@ -105,7 +134,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="value"><see cref="bool"/></param>
         public static void SetIsVisible(Page page, bool value)
         {
-            StatusBarExtensions.SetIsVisible(page, value);
+            page.SetValue(IsVisibleProperty, value);
         }
 
         /// <summary>
