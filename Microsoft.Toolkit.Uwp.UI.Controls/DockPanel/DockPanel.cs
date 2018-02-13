@@ -37,6 +37,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             dockPanel.InvalidateArrange();
         }
 
+        private static void OnPaddingChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
         /// <inheritdoc />
         protected override Size ArrangeOverride(Size finalSize)
         {
