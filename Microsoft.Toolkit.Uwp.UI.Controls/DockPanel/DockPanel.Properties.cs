@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(
                 nameof(Padding),
                 typeof(Thickness),
-                typeof(WrapPanel),
+                typeof(DockPanel),
                 new PropertyMetadata(default(Thickness), OnPaddingChanged));
 
         /// <summary>
