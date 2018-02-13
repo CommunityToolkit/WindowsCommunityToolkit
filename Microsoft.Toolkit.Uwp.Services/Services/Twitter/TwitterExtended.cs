@@ -1,4 +1,4 @@
-﻿// ******************************************************************
+// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -10,9 +10,20 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Models
+using Newtonsoft.Json;
+
+namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
-    public class ThicknessPropertyOptions : PropertyOptions
+    /// <summary>
+    /// Twitter User type.
+    /// </summary>
+    public class TwitterExtended
     {
+        /// <summary>
+        /// Gets or sets the text of the tweet (280 characters).
+        /// </summary>
+        [JsonProperty("full_text")]
+        public string FullText { get; set; }
     }
 }
+

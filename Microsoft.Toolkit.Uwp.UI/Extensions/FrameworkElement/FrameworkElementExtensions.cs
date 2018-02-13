@@ -100,7 +100,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void OnEnableActualSizeBindingtPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            if (!(sender is FrameworkElement baseElement))
+            var baseElement = sender as FrameworkElement;
+            if (baseElement == null)
             {
                 return;
             }
@@ -122,7 +123,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void UpdateActualSizeProperties(object sender, RoutedEventArgs routedEventArgs)
         {
-            if (!(sender is FrameworkElement baseElement))
+            var baseElement = sender as FrameworkElement;
+            if (baseElement == null)
             {
                 return;
             }

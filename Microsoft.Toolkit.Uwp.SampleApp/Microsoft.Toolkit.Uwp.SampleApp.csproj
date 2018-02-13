@@ -450,7 +450,7 @@
     <Content Include="SamplePages\Menu\Menu.bind" />
     <Content Include="SamplePages\InAppNotification\InAppNotificationCode.bind" />
     <Content Include="SamplePages\InAppNotification\InAppNotificationXaml.bind" />
-    <Content Include="SamplePages\ListViewBase\ListViewBaseCode.bind" />
+    <Content Include="SamplePages\ListViewExtensions\ListViewExtensionsCode.bind" />
     <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewXaml.bind" />
     <Content Include="SamplePages\Implicit Animations\ImplicitAnimationsCode.bind" />
     <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
@@ -534,8 +534,8 @@
     <Compile Include="SamplePages\InAppNotification\InAppNotificationPage.xaml.cs">
       <DependentUpon>InAppNotificationPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ListViewBase\ListViewBasePage.xaml.cs">
-      <DependentUpon>ListViewBasePage.xaml</DependentUpon>
+    <Compile Include="SamplePages\ListViewExtensions\ListViewExtensionsPage.xaml.cs">
+      <DependentUpon>ListViewExtensionsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\MarkdownParser\MarkdownParserPage.xaml.cs">
       <DependentUpon>MarkdownParserPage.xaml</DependentUpon>
@@ -873,7 +873,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\ListViewBase\ListViewBasePage.xaml">
+    <Page Include="SamplePages\ListViewExtensions\ListViewExtensionsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

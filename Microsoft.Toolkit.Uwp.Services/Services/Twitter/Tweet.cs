@@ -40,10 +40,16 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or sets text of the status.
+        /// Gets or sets text of the tweet (140 characters).
         /// </summary>
         [JsonProperty("text")]
         public string Text { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the extended mode.
+        /// </summary>
+        [JsonProperty("extended_tweet")]
+        public TwitterExtended Extended { get; set; }
 
         /// <summary>
         /// Gets or sets user who posted the status.

@@ -480,7 +480,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     new ScaleAnimation() { From = "0.9", To = "1", Duration = TimeSpan.FromMilliseconds(400), Delay = staggerDelay }
                 };
 
-                VisualEx.SetNormalizedCenterPoint(itemContainer, "0.5");
+                VisualExtensions.SetNormalizedCenterPoint(itemContainer, "0.5");
 
                 animationCollection.StartAnimation(itemContainer);
             }
@@ -519,7 +519,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             var centerX = (point.X + (container.ActualWidth / 2)) - x;
             var centerY = (point.Y + (container.ActualHeight / 2)) - y;
 
-            VisualEx.SetCenterPoint(_moreInfoContent, new Vector3((float)centerX, (float)centerY, 0).ToString());
+            VisualExtensions.SetCenterPoint(_moreInfoContent, new Vector3((float)centerX, (float)centerY, 0).ToString());
 
             // _samplePickerGridView.PrepareConnectedAnimation("sample_icon", sample, "SampleIcon");
             _moreInfoContent.DataContext = sample;

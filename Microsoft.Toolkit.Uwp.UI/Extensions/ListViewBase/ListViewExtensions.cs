@@ -1,4 +1,4 @@
-﻿// ******************************************************************
+// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -10,9 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Windows.Input;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
@@ -20,56 +20,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
     /// </summary>
-    [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.ListViewExtensions")]
-    public partial class ListViewBase
+    public static class ListViewExtensions
     {
-        /// <summary>
-        /// Attached <see cref="DependencyProperty"/> for binding an <see cref="ICommand"/> instance to a <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
-        /// This ICommand is executed when ListViewBase Item receives interaction by means of ItemClick. This requires IsItemClickEnabled to set to true.
-        /// The ICommand is passed the Item that received interaction as a parameter
-        /// </summary>
-        [Obsolete("Attached property will be removed in the next major version. Please use x:Bind command binding on the ItemClick event")]
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.RegisterAttached("Command", typeof(ICommand), typeof(ListViewBase), new PropertyMetadata(null, OnCommandPropertyChanged));
-
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for binding a <see cref="Brush"/> as an alternate background color to a <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
-        [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.ListViewExtensions.AlternateColor")]
-        public static readonly DependencyProperty AlternateColorProperty = DependencyProperty.RegisterAttached("AlternateColor", typeof(Brush), typeof(ListViewBase), new PropertyMetadata(null, OnAlternateColorPropertyChanged));
+        public static readonly DependencyProperty AlternateColorProperty = DependencyProperty.RegisterAttached("AlternateColor", typeof(Brush), typeof(ListViewExtensions), new PropertyMetadata(null, OnAlternateColorPropertyChanged));
 
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for binding a <see cref="DataTemplate"/> as an alternate template to a <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
-        [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.ListViewExtensions.AlternateItemTemplate")]
-        public static readonly DependencyProperty AlternateItemTemplateProperty = DependencyProperty.RegisterAttached("AlternateItemTemplate", typeof(DataTemplate), typeof(ListViewBase), new PropertyMetadata(null, OnAlternateItemTemplatePropertyChanged));
+        public static readonly DependencyProperty AlternateItemTemplateProperty = DependencyProperty.RegisterAttached("AlternateItemTemplate", typeof(DataTemplate), typeof(ListViewExtensions), new PropertyMetadata(null, OnAlternateItemTemplatePropertyChanged));
 
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for setting the container content stretch direction on the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
-        [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.ListViewExtensions.StretchItemContainerDirection")]
-        public static readonly DependencyProperty StretchItemContainerDirectionProperty = DependencyProperty.RegisterAttached("StretchItemContainerDirection", typeof(StretchDirection), typeof(ListViewBase), new PropertyMetadata(null, OnStretchItemContainerDirectionPropertyChanged));
-
-        /// <summary>
-        /// Gets the <see cref="ICommand"/> instance assocaited with the specified <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
-        /// </summary>
-        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> from which to get the associated <see cref="ICommand"/> instance</param>
-        /// <returns>The <see cref="ICommand"/> instance associated with the the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> or null</returns>
-        [Obsolete("Attached property will be removed in the next major version. Please use x:Bind command binding on the ItemClick event")]
-        public static ICommand GetCommand(DependencyObject obj)
-        {
-            return (ICommand)obj.GetValue(CommandProperty);
-        }
-
-        /// <summary>
-        /// Sets the <see cref="ICommand"/> instance assocaited with the specified <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
-        /// </summary>
-        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> to associated the <see cref="ICommand"/> instance to</param>
-        /// <param name="value">The <see cref="ICommand"/> instance to bind to the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/></param>
-        [Obsolete("Attached property will be removed in the next major version. Please use x:Bind command binding on the ItemClick event")]
-        public static void SetCommand(DependencyObject obj, ICommand value)
-        {
-            obj.SetValue(CommandProperty, value);
-        }
+        public static readonly DependencyProperty StretchItemContainerDirectionProperty = DependencyProperty.RegisterAttached("StretchItemContainerDirection", typeof(StretchDirection), typeof(ListViewExtensions), new PropertyMetadata(null, OnStretchItemContainerDirectionPropertyChanged));
 
         /// <summary>
         /// Gets the alternate <see cref="Brush"/> associated with the specified <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
@@ -129,6 +95,103 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static void SetStretchItemContainerDirection(Windows.UI.Xaml.Controls.ListViewBase obj, StretchDirection value)
         {
             obj.SetValue(StretchItemContainerDirectionProperty, value);
+        }
+
+        private static void OnAlternateColorPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            Windows.UI.Xaml.Controls.ListViewBase listViewBase = sender as Windows.UI.Xaml.Controls.ListViewBase;
+
+            if (listViewBase == null)
+            {
+                return;
+            }
+
+            listViewBase.ContainerContentChanging -= ColorContainerContentChanging;
+
+            if (AlternateColorProperty != null)
+            {
+                listViewBase.ContainerContentChanging += ColorContainerContentChanging;
+            }
+        }
+
+        private static void ColorContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var itemContainer = args.ItemContainer as SelectorItem;
+            var itemIndex = sender.IndexFromContainer(itemContainer);
+
+            if (itemIndex % 2 == 0)
+            {
+                itemContainer.Background = GetAlternateColor(sender);
+            }
+            else
+            {
+                itemContainer.Background = null;
+            }
+        }
+
+        private static void OnAlternateItemTemplatePropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            Windows.UI.Xaml.Controls.ListViewBase listViewBase = sender as Windows.UI.Xaml.Controls.ListViewBase;
+
+            if (listViewBase == null)
+            {
+                return;
+            }
+
+            listViewBase.ContainerContentChanging -= ItemTemplateContainerContentChanging;
+
+            if (AlternateItemTemplateProperty != null)
+            {
+                listViewBase.ContainerContentChanging += ItemTemplateContainerContentChanging;
+            }
+        }
+
+        private static void ItemTemplateContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var itemContainer = args.ItemContainer as SelectorItem;
+            var itemIndex = sender.IndexFromContainer(itemContainer);
+
+            if (itemIndex % 2 == 0)
+            {
+                itemContainer.ContentTemplate = GetAlternateItemTemplate(sender);
+            }
+            else
+            {
+                itemContainer.ContentTemplate = sender.ItemTemplate;
+            }
+        }
+
+        private static void OnStretchItemContainerDirectionPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            Windows.UI.Xaml.Controls.ListViewBase listViewBase = sender as Windows.UI.Xaml.Controls.ListViewBase;
+
+            if (listViewBase == null)
+            {
+                return;
+            }
+
+            listViewBase.ContainerContentChanging -= StretchItemContainerDirectionChanging;
+
+            if (StretchItemContainerDirectionProperty != null)
+            {
+                listViewBase.ContainerContentChanging += StretchItemContainerDirectionChanging;
+            }
+        }
+
+        private static void StretchItemContainerDirectionChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var itemContainer = args.ItemContainer as SelectorItem;
+            var stretchDirection = GetStretchItemContainerDirection(sender);
+
+            if (stretchDirection == StretchDirection.Vertical || stretchDirection == StretchDirection.Both)
+            {
+                itemContainer.VerticalContentAlignment = VerticalAlignment.Stretch;
+            }
+
+            if (stretchDirection == StretchDirection.Horizontal || stretchDirection == StretchDirection.Both)
+            {
+                itemContainer.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+            }
         }
     }
 }
