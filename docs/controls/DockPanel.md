@@ -27,7 +27,7 @@ You can set DockPanel LastChildFill property to true if you want the last item a
 
 ```
 
-## Example Image
+## Sample Output
 
 ![DockPanel animation](../resources/images/Controls-DockPanel.gif "DockPanel")
 
@@ -40,7 +40,7 @@ You can set DockPanel LastChildFill property to true if you want the last item a
 | LastChildFill | boolean | Gets or sets a value that indicates whether the last child element within a DockPanel stretches to fill the remaining available space. |
 | Padding | Thickness | The dimensions of the space between the edge and its child as a Thickness value. Thickness is a structure that stores dimension values using pixel measures. |
 
-## Example Code
+## Examples
 
 [DockPanel Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DockPanel)
 
@@ -76,6 +76,6 @@ The following sample demonstrates how to add DockPanel Control.
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 
-## API
+## API Source Code
 
 * [DockPanel source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DockPanel)
