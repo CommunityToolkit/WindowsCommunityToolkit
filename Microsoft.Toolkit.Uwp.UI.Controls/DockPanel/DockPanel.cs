@@ -109,8 +109,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var parentWidth = 0.0;
             var parentHeight = 0.0;
-            var accumulatedWidth = 0.0;
-            var accumulatedHeight = 0.0;
+            var accumulatedWidth = Padding.Left + Padding.Right;
+            var accumulatedHeight = Padding.Top + Padding.Bottom;
 
             foreach (var child in Children)
             {
