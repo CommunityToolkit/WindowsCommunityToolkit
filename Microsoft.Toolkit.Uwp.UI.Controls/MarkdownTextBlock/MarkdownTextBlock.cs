@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Holds a list of hyperlinks we are listening to.
         /// </summary>
-        private readonly List<Hyperlink> _listeningHyperlinks = new List<Hyperlink>();
+        private readonly List<object> _listeningHyperlinks = new List<object>();
 
         /// <summary>
         /// The root element for our rendering.
@@ -1245,12 +1245,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _listeningHyperlinks.Add(newHyperlink);
         }
 
-        private bool multiClickDetectionTriggered;
+        /// <summary>
+        /// Called when the render has a link we need to listen to.
+        /// </summary>
+        public void RegisterNewHyperLink(Image newImage, string linkUrl)
+        {
+            // Setup a listener for clicks.
+            newImage.Tapped += NewImage_Tapped;
+
+            // Associate the URL with the hyperlink.
+            newImage.SetValue(HyperlinkUrlProperty, linkUrl);
+
+            // Add it to our list
+            _listeningHyperlinks.Add(newImage);
+        }
+
+        /// <summary>
+        /// Fired when a user taps one of the Image elements
+        /// </summary>
+        private void NewImage_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            LinkHandled((string)(sender as Image).GetValue(HyperlinkUrlProperty));
+        }
 
         /// <summary>
         /// Fired when a user taps one of the link elements
         /// </summary>
-        private async void Hyperlink_Click(Hyperlink sender, HyperlinkClickEventArgs args)
+        private void Hyperlink_Click(Hyperlink sender, HyperlinkClickEventArgs args)
+        {
+            LinkHandled((string)sender.GetValue(HyperlinkUrlProperty));
+        }
+
+        private bool multiClickDetectionTriggered;
+
+        /// <summary>
+        /// Called with url parameter for ClickEvents
+        /// </summary>
+        internal async void LinkHandled(string url)
         {
             // Links that are nested within superscript elements cause the Click event to fire multiple times.
             // e.g. this markdown "[^bot](http://www.reddit.com/r/youtubefactsbot/wiki/index)"
@@ -1264,7 +1295,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             await Dispatcher.RunAsync(CoreDispatcherPriority.High, () => multiClickDetectionTriggered = false);
 
             // Get the hyperlink URL.
-            var url = (string)sender.GetValue(HyperlinkUrlProperty);
             if (url == null)
             {
                 return;

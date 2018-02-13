@@ -21,7 +21,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
@@ -966,6 +965,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Display
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;
             image.Stretch = ImageStretch;
+
+            _linkRegister.RegisterNewHyperLink(image, element.Url);
 
             ToolTipService.SetToolTip(image, element.Tooltip);
 
