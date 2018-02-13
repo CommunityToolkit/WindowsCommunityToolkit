@@ -15,6 +15,7 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -23,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SystemInformationPage : Page, INotifyPropertyChanged
+    public sealed partial class SystemInformationPage : Page
     {
         // To get application's name:
         public string ApplicationName => SystemInformation.ApplicationName;
@@ -74,14 +75,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public string LastLaunchTime => SystemInformation.LastLaunchTime.ToString(Culture.DateTimeFormat);
 
         // To get the time the launch count was reset, not including this instance
-        public string LastResetTime => SystemInformation.LastResetTime.ToString(Culture.DateTimeFormat);
+        public string LastResetTime
+        {
+            get { return (string)GetValue(LastResetTimeProperty); }
+            set { SetValue(LastResetTimeProperty, value); }
+        }
 
-        public string LastResetTimeProp { get; set; }
+        public static readonly DependencyProperty LastResetTimeProperty =
+            DependencyProperty.Register(nameof(LastResetTime), typeof(string), typeof(SystemInformationPage), new PropertyMetadata(string.Empty));
 
         // To get the number of times the app has been launched sicne the last reset.
-        public long LaunchCount => SystemInformation.LaunchCount;
+        public long LaunchCount
+        {
+            get { return (long)GetValue(LaunchCountProperty); }
+            set { SetValue(LaunchCountProperty, value); }
+        }
 
-        public long LaunchCountProp { get; set; }
+        public static readonly DependencyProperty LaunchCountProperty =
+            DependencyProperty.Register(nameof(LaunchCount), typeof(long), typeof(SystemInformationPage), new PropertyMetadata(0));
 
         // To get the number of times the app has been launched.
         public long TotalLaunchCount => SystemInformation.TotalLaunchCount;
@@ -93,8 +104,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             InitializeComponent();
 
-            LaunchCountProp = LaunchCount;
-            LastResetTimeProp = LastResetTime;
+            RefreshProperties();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -104,20 +114,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Shell.Current.RegisterNewCommand("Reset launch count", (sender, args) =>
             {
                 SystemInformation.ResetLaunchCount();
-
-                LaunchCountProp = LaunchCount;
-                RaisePropertyChanged(nameof(LaunchCountProp));
-
-                LastResetTimeProp = LastResetTime;
-                RaisePropertyChanged(nameof(LastResetTimeProp));
+                RefreshProperties();
             });
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void RaisePropertyChanged([CallerMemberName]string propertyName = null)
+        private void RefreshProperties()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            LaunchCount = SystemInformation.LaunchCount;
+            LastResetTime = SystemInformation.LastResetTime.ToString(Culture.DateTimeFormat);
         }
     }
 }
