@@ -15,7 +15,7 @@ using System;
 namespace Microsoft.Toolkit.Parsers.Core
 {
     /// <summary>
-    /// StringValue attribute.
+    /// The StringValue attribute is used as a helper to decorate enum values with string representations.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
     public sealed class StringValueAttribute : Attribute

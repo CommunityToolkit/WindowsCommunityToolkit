@@ -12,7 +12,7 @@
 
 using System.Collections.Generic;
 using System.Xml.Linq;
-using Microsoft.Toolkit.Parsers.Core;
+using Microsoft.Toolkit.Extensions;
 
 namespace Microsoft.Toolkit.Parsers.Rss
 {

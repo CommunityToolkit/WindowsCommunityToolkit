@@ -313,7 +313,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
             if (newLine)
             {
-                builder.Append("\n");
+                builder.Append(Environment.NewLine);
             }
 
             builder.Append(markdown.Substring(start, end - start));

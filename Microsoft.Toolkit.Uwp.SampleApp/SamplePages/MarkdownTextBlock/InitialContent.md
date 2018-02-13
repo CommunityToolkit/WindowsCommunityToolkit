@@ -252,21 +252,21 @@ Sometimes you need to preserve indentation, too.  In those cases, you can create
 
 Starting with UWP Community Toolkit v1.4, you can also use GitHub code notification by creating a block surrounded by 3x\` (3 backticks). This can also be used with Language Identifiers on the entering backticks, such as:
 
-\`\`\`java
+\`\`\`csharp
 
-public void main(Strings argv[]){
-
-  System.out.println("Hello world!");
-
+public static void Main(string[] args)
+{
+  Console.WriteLine("Hello world!");
 }
 
 \`\`\`
 
 will produce:
 
-```java
-public void main(Strings argv[]){
-    System.out.println("Hello world!");
+```csharp
+public static void Main(string[] args)
+{
+  Console.WriteLine("Hello world!");
 }
 ```
 

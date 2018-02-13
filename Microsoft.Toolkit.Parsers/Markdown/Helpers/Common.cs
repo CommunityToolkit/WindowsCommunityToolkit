@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Toolkit.Parsers.Markdown.Enums;
@@ -118,6 +119,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
                             case InlineParseMethod.BoldItalic:
                                 parseResult = BoldItalicTextInline.Parse(markdown, pos, end);
                                 break;
+
                             case InlineParseMethod.Comment:
                                 parseResult = CommentInline.Parse(markdown, pos, end);
                                 break;
@@ -281,7 +283,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
                 endingPos -= 1;
             }
 
-            return reverseSearch ? markdown.LastIndexOf(search, endingPos, count) : markdown.IndexOf(search, startingPos, count);
+            return reverseSearch ? markdown.LastIndexOf(search, endingPos, count, StringComparison.OrdinalIgnoreCase) : markdown.IndexOf(search, startingPos, count, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>

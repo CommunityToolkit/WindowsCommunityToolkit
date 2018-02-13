@@ -26,6 +26,9 @@ using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
+    /// <summary>
+    /// A Rendering Superclass for the Markdown Renderer, allowing custom styling of Elements in Markdown.
+    /// </summary>
     internal class SampleAppMarkdownRenderer : MarkdownRenderer
     {
         public SampleAppMarkdownRenderer(MarkdownDocument document, ILinkRegister linkRegister, IImageResolver imageResolver, ICodeBlockResolver codeBlockResolver)

@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using Microsoft.Toolkit.Extensions;
 using Microsoft.Toolkit.Uwp.Services.Bing;
 
 namespace Microsoft.Toolkit.Uwp.Services.Core
@@ -18,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
     /// <summary>
     /// This class offers general purpose methods.
     /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Parsers and Microsoft.Toolkit.Services.")]
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Extensions.StringExtensions and Microsoft.Toolkit.Services.")]
     public static class ExtensionMethods
     {
         /// <summary>
@@ -26,10 +27,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
         /// </summary>
         /// <param name="value">Object value.</param>
         /// <returns>Returns string value.</returns>
-        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Parsers.")]
+        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Extensions.StringExtensions.")]
         public static string ToSafeString(this object value)
         {
-            return Parsers.Core.ExtensionMethods.ToSafeString(value);
+            return StringExtensions.ToSafeString(value);
         }
 
         /// <summary>
@@ -37,10 +38,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
         /// </summary>
         /// <param name="htmlText">HTML string.</param>
         /// <returns>Returns decoded HTML string.</returns>
-        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Parsers.")]
+        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Extensions.StringExtensions.")]
         public static string DecodeHtml(this string htmlText)
         {
-            return Parsers.Core.ExtensionMethods.DecodeHtml(htmlText);
+            return StringExtensions.DecodeHtml(htmlText);
         }
 
         /// <summary>
