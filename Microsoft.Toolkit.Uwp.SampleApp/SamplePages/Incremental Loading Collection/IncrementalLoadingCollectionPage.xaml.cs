@@ -47,5 +47,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Binds the collection to the page DataContext in order to use its IsLoading and HasMoreItems properties.
             DataContext = collection;
         }
+
+        private void RefreshIncrementalCollectionBtn_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var collection = (IncrementalLoadingCollection<PeopleSource, Person>)PeopleListView.ItemsSource;
+            collection.Refresh();
+        }
     }
 }

@@ -196,10 +196,10 @@ namespace Microsoft.Toolkit.Uwp
             => LoadMoreItemsAsync(count, new CancellationToken(false)).AsAsyncOperation();
 
         /// <summary>
-        /// Clears the collection and reloads data from the source
+        /// Clears the collection and resets the page index
+        /// which triggers an automatic reload of the first page
         /// </summary>
-        /// <returns>This method does not return a result</returns>
-        public async Task RefreshAsync()
+        public void Refresh()
         {
             if (IsLoading)
             {
@@ -210,7 +210,6 @@ namespace Microsoft.Toolkit.Uwp
                 Clear();
                 CurrentPageIndex = 0;
                 HasMoreItems = true;
-                await LoadMoreItemsAsync(1);
             }
         }
 
@@ -275,7 +274,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (_refreshOnLoad)
                 {
                     _refreshOnLoad = false;
-                    await RefreshAsync();
+                    Refresh();
                 }
             }
 
