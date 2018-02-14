@@ -22,8 +22,6 @@ The **BackdropSepiaBrush** is a [Brush](https://docs.microsoft.com/en-us/uwp/api
 
 ## Properties
 
-## Properties
-
 | Property | Type | Description |
 | -- | -- | -- |
 | Intensity | double | The `Intensity` property specifies a double value for the amount of Sepia to apply from 0.0 - 1.0.  Zero being none, and one being full Sepia effect.  The default is 0.5. |

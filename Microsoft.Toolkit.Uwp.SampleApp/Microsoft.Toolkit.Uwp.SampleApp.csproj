@@ -310,6 +310,7 @@
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControl.png" />
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControl.png" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
+    <Content Include="SamplePages\ImageBlendBrush\ImageBlendBrush.png" />
     <Content Include="SamplePages\ImageCache\ImageCache.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
     <Content Include="SamplePages\Implicit Animations\ImplicitAnimations.png" />
@@ -485,6 +486,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrushXaml.bind" />
+    <Content Include="SamplePages\ImageBlendBrush\ImageBlendBrushXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -552,6 +554,9 @@
       <DependentUpon>BackdropBlurBrushPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsPage.xaml.cs" />
+    <Compile Include="SamplePages\ImageBlendBrush\ImageBlendBrushPage.xaml.cs">
+      <DependentUpon>ImageBlendBrushPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Implicit Animations\ImplicitAnimationsPage.xaml.cs">
       <DependentUpon>ImplicitAnimationsPage.xaml</DependentUpon>
     </Compile>
@@ -889,6 +894,10 @@
     <Page Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ImageBlendBrush\ImageBlendBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Implicit Animations\ImplicitAnimationsPage.xaml">
       <SubType>Designer</SubType>
