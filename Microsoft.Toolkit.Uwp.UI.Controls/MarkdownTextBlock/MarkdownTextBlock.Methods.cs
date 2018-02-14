@@ -17,7 +17,9 @@ using System.Threading.Tasks;
 using ColorCode;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -189,6 +191,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Called when the render has a link we need to listen to.
+        /// </summary>
+        public void RegisterNewHyperLink(Image newImagelink, string linkUrl)
+        {
+            // Setup a listener for clicks.
+            newImagelink.Tapped += NewImagelink_Tapped;
+
+            // Associate the URL with the hyperlink.
+            newImagelink.SetValue(HyperlinkUrlProperty, linkUrl);
+
+            // Add it to our list
+            _listeningHyperlinks.Add(newImagelink);
+        }
+
+        /// <summary>
         /// Called when the renderer needs to display a image.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
@@ -276,6 +293,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Called when a link needs to be handled
+        /// </summary>
+        internal async void LinkHandled(string url, string type)
+        {
+            // Links that are nested within superscript elements cause the Click event to fire multiple times.
+            // e.g. this markdown "[^bot](http://www.reddit.com/r/youtubefactsbot/wiki/index)"
+            // Therefore we detect and ignore multiple clicks.
+            if (multiClickDetectionTriggered)
+            {
+                return;
+            }
+
+            multiClickDetectionTriggered = true;
+            await Dispatcher.RunAsync(CoreDispatcherPriority.High, () => multiClickDetectionTriggered = false);
+
+            // Get the hyperlink URL.
+            if (url == null)
+            {
+                return;
+            }
+
+            // Fire off the event.
+            var eventArgs = new LinkClickedEventArgs(url, type);
+            LinkClicked?.Invoke(this, eventArgs);
         }
     }
 }
