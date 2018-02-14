@@ -41,8 +41,6 @@ await MyUIElement.Fade(value: 0.5f, duration: 2500, delay: 250, easingType: Easi
 
 ## Properties
 
-
-
 ### EasingType
 
 You can change the way how the animation interpolates between keyframes by defining the EasingType.
@@ -68,6 +66,7 @@ You can change the way how the animation interpolates between keyframes by defin
 - Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
     **Sample Code**
+
     ```csharp
     var anim = MyUIElement.Fade(0.5f).Blur(5).Rotate(30);
     anim.SetDurationForAll(2500);
@@ -75,6 +74,7 @@ You can change the way how the animation interpolates between keyframes by defin
     anim.Completed += animation_completed;
     anim.Start();
     ```
+
     **Sample Output**
 
     ![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)

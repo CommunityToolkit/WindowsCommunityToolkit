@@ -138,7 +138,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{CodeFile}"))
             {
-                return await codeStream.ReadTextAsync();
+                using (var streamreader = new StreamReader(codeStream.AsStream()))
+                {
+                    return await streamreader.ReadToEndAsync();
+                }
             }
         }
 
@@ -146,7 +149,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{JavaScriptCodeFile}"))
             {
-                return await codeStream.ReadTextAsync();
+                using (var streamreader = new StreamReader(codeStream.AsStream()))
+                {
+                    return await streamreader.ReadToEndAsync();
+                }
             }
         }
 
@@ -169,46 +175,44 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 filepath = docMatch.Groups["file"].Value;
                 filename = Path.GetFileName(filepath);
-                localPath = $"ms-appx:///docs/{Path.GetDirectoryName(filepath)}";
+                localPath = $"ms-appx:///docs/{Path.GetDirectoryName(filepath)}/";
             }
 
 #if !DEBUG // use the docs repo in release mode
             string modifiedDocumentationUrl = $"{_docsOnlineRoot}master/docs/{filepath}";
-#else
-            string modifiedDocumentationUrl = DocumentationUrl;
-#endif
 
             _cachedPath = modifiedDocumentationUrl.Replace(filename, string.Empty);
 
+            // Read from Cache if available.
             try
             {
-                using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(modifiedDocumentationUrl)))
-                {
-                    using (var response = await client.SendAsync(request).ConfigureAwait(false))
-                    {
-                        if (response.IsSuccessStatusCode)
-                        {
-                            var result = await response.Content.ReadAsStringAsync();
-                            _cachedDocumentation = ProcessDocs(result);
-
-                            if (!string.IsNullOrWhiteSpace(_cachedDocumentation))
-                            {
-                                await StorageFileHelper.WriteTextToLocalCacheFileAsync(_cachedDocumentation, filename);
-                            }
-                        }
-                    }
-                }
+                _cachedDocumentation = await StorageFileHelper.ReadTextFromLocalCacheFileAsync(filename);
             }
             catch (Exception)
             {
             }
 
-#if !DEBUG // don't cache for debugging purposes so it always gets the latests
+            // Grab from docs repo if not.
             if (string.IsNullOrWhiteSpace(_cachedDocumentation))
             {
                 try
                 {
-                    _cachedDocumentation = await StorageFileHelper.ReadTextFromLocalCacheFileAsync(filename);
+                    using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(modifiedDocumentationUrl)))
+                    {
+                        using (var response = await client.SendAsync(request).ConfigureAwait(false))
+                        {
+                            if (response.IsSuccessStatusCode)
+                            {
+                                var result = await response.Content.ReadAsStringAsync();
+                                _cachedDocumentation = ProcessDocs(result);
+
+                                if (!string.IsNullOrWhiteSpace(_cachedDocumentation))
+                                {
+                                    await StorageFileHelper.WriteTextToLocalCacheFileAsync(_cachedDocumentation, filename);
+                                }
+                            }
+                        }
+                    }
                 }
                 catch (Exception)
                 {
@@ -216,6 +220,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 #endif
 
+            // Grab the local copy in Debug mode, allowing you to preview changes made.
             if (string.IsNullOrWhiteSpace(_cachedDocumentation))
             {
                 try
@@ -319,25 +324,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 result = result.Remove(metadataMatch.Index, metadataMatch.Index + metadataMatch.Length);
             }
 
-            // Need to do some cleaning
-            // Rework code tags
-            var regex = new Regex("```(xaml|xml|csharp)(?<code>.+?)```", RegexOptions.Singleline);
-
-            foreach (Match match in regex.Matches(result))
-            {
-                var code = match.Groups["code"].Value;
-                var lines = code.Split('\n');
-                var newCode = new StringBuilder();
-                foreach (var line in lines)
-                {
-                    newCode.AppendLine("    " + line);
-                }
-
-                result = result.Replace(match.Value, newCode.ToString());
-            }
-
             // Images
-            regex = new Regex("## Example Image.+?##", RegexOptions.Singleline);
+            var regex = new Regex("## Example Image.+?##", RegexOptions.Singleline);
             result = regex.Replace(result, "##");
 
             return result;

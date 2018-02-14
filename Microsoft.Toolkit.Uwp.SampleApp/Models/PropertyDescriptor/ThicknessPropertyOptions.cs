@@ -14,6 +14,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Models
 {
     public class ThicknessPropertyOptions : PropertyOptions
     {
-
     }
 }

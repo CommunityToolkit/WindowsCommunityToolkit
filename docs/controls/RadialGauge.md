@@ -18,7 +18,6 @@ The Radial Gauge supports animated transitions between configuration states. The
 ## Syntax
 
 ```xaml
-
 <controls:RadialGauge x:Name="RadialGaugeControl"
 	Column="1"
 	Value="70"
@@ -34,7 +33,6 @@ The Radial Gauge supports animated transitions between configuration states. The
 	NeedleWidth="5" 
 	TickLength="18">
 </controls:RadialGauge>
-
 ```
 
 ## Example Image

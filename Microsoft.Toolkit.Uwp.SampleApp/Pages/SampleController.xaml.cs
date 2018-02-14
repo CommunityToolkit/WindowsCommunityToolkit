@@ -119,6 +119,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             this.InitializeComponent();
             Current = this;
 
+            DocumentationTextblock.SetRenderer<SampleAppMarkdownRenderer>();
+
             if (!VisualHelpers.SupportsFluentAcrylic)
             {
                 // Disable Acrylic Toggle.
@@ -240,7 +242,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop || CurrentSample.DisableXamlEditorRendering)
                     {
                         // Only makes sense (and works) for now to show Live Xaml on Desktop, so fallback to old system here otherwise.
-                        XamlReadOnlyCodeRenderer.XamlSource = CurrentSample.UpdatedXamlCode;
+                        XamlReadOnlyCodeRenderer.SetCode(CurrentSample.UpdatedXamlCode, "xaml");
 
                         InfoAreaPivot.Items.Add(XamlReadOnlyPivotItem);
                     }
@@ -258,13 +260,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (CurrentSample.HasCSharpCode)
                 {
-                    CSharpCodeRenderer.CSharpSource = await CurrentSample.GetCSharpSourceAsync();
+                    var code = await CurrentSample.GetCSharpSourceAsync();
+
+                    CSharpCodeRenderer.SetCode(code, "c#");
                     InfoAreaPivot.Items.Add(CSharpPivotItem);
                 }
 
                 if (CurrentSample.HasJavaScriptCode)
                 {
-                    JavaScriptCodeRenderer.CSharpSource = await CurrentSample.GetJavaScriptSourceAsync();
+                    var code = await CurrentSample.GetJavaScriptSourceAsync();
+
+                    JavaScriptCodeRenderer.SetCode(code, "js");
                     InfoAreaPivot.Items.Add(JavaScriptPivotItem);
                 }
 
@@ -373,19 +379,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (CurrentSample.HasXAMLCode && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
             {
                 // Update Read-Only XAML tab on non-desktop devices to show changes to Properties
-                XamlReadOnlyCodeRenderer.XamlSource = CurrentSample.UpdatedXamlCode;
+                XamlReadOnlyCodeRenderer.SetCode(CurrentSample.UpdatedXamlCode, "xaml");
             }
 
             if (CurrentSample.HasCSharpCode && InfoAreaPivot.SelectedItem == CSharpPivotItem)
             {
-                CSharpCodeRenderer.CSharpSource = await CurrentSample.GetCSharpSourceAsync();
+                var code = await CurrentSample.GetCSharpSourceAsync();
+                CSharpCodeRenderer.SetCode(code, "c#");
 
                 return;
             }
 
             if (CurrentSample.HasJavaScriptCode && InfoAreaPivot.SelectedItem == JavaScriptPivotItem)
             {
-                JavaScriptCodeRenderer.JavaScriptSource = await CurrentSample.GetJavaScriptSourceAsync();
+                var code = await CurrentSample.GetJavaScriptSourceAsync();
+                JavaScriptCodeRenderer.SetCode(code, "js");
 
                 return;
             }
@@ -570,7 +578,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     // Update Read-Only XAML tab when switching back to show changes to TwoWay Bound Properties
                     if (CurrentSample?.HasXAMLCode == true && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
                     {
-                        XamlReadOnlyCodeRenderer.XamlSource = CurrentSample.UpdatedXamlCode;
+                        XamlReadOnlyCodeRenderer.SetCode(CurrentSample.UpdatedXamlCode, "xaml");
                     }
 
                     break;
