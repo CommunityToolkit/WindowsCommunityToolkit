@@ -12,7 +12,7 @@ The NetworkHelper class provides functionality to monitor changes in network con
 
 It exposes network information though a property called ConnectionInformation. The ConnectionInformation holds information about ConnectionType, ConnectivityLevel, ConnectionCost, SignalStrength, Internet Connectivity and more.
 
-***_What is a metered connection?_***
+**_What is a metered connection?_**
 A metered connection is an Internet connection that has a data limit or cost associated with it. Cellular data connections are set as metered by default. Wi-Fi network connections can be set to metered, but aren't by default. Application developers should take metered nature of connection into account and reduce data usage.
 
 ## Example

@@ -19,15 +19,15 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// Twitter Parser.
     /// </summary>
     /// <typeparam name="T">Type to parse in to.</typeparam>
-    public class TwitterParser<T> : Toolkit.Services.IParser<T>
-        where T : Toolkit.Services.SchemaBase
+    public class TwitterParser<T> : Toolkit.Parsers.IParser<T>
+        where T : Toolkit.Parsers.SchemaBase
     {
         /// <summary>
         /// Parse string data into strongly typed list.
         /// </summary>
         /// <param name="data">Input string.</param>
         /// <returns>List of strongly typed objects.</returns>
-        IEnumerable<T> Toolkit.Services.IParser<T>.Parse(string data)
+        IEnumerable<T> Toolkit.Parsers.IParser<T>.Parse(string data)
         {
             if (string.IsNullOrEmpty(data))
             {

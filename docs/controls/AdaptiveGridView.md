@@ -15,13 +15,11 @@ If there are not enough items to fill one row, the control will stretch the item
 ## Syntax
 
 ```xaml
-
 <controls:AdaptiveGridView  Name="AdaptiveGridViewControl"
-          ItemHeight="200"
-          DesiredWidth="300"
-          ItemTemplate="{StaticResource PhotosTemplate}">
+    ItemHeight="200"
+    DesiredWidth="300"
+    ItemTemplate="{StaticResource PhotosTemplate}">
 </controls:AdaptiveGridView>
-
 ```
 
 ## Example Image

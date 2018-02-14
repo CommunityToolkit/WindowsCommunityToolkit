@@ -375,13 +375,6 @@
     <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.bind" />
     <Content Include="Assets\Photos\Photos.json" />
     <Content Include="Assets\Photos\OnlinePhotos.json" />
-    <Content Include="Assets\Html\CSharp.html" />
-    <Content Include="Assets\Html\Json.html" />
-    <Content Include="Assets\Html\Xaml.html" />
-    <Content Include="Assets\Html\Xml.html" />
-    <Content Include="Assets\Prettify\prettify.css" />
-    <Content Include="Assets\Prettify\prettify.js" />
-    <Content Include="Assets\Prettify\run_prettify.js" />
     <Content Include="SamplePages\RangeSelector\RangeSelectorCode.bind" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridViewCode.bind" />
     <Content Include="SamplePages\samples.json">
@@ -492,6 +485,7 @@
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
     <Compile Include="Controls\ExtendedHamburgerMenu.cs" />
+    <Compile Include="Controls\SampleAppMarkdownRenderer.cs" />
     <Compile Include="Data\GitHub.cs" />
     <Compile Include="Controls\XamlExceptionRange.cs" />
     <Compile Include="Controls\XamlRenderService.cs" />
@@ -543,6 +537,9 @@
     <Compile Include="SamplePages\ListViewExtensions\ListViewExtensionsPage.xaml.cs">
       <DependentUpon>ListViewExtensionsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\MarkdownParser\MarkdownParserPage.xaml.cs">
+      <DependentUpon>MarkdownParserPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Menu\Commands\VsCommands.cs" />
     <Compile Include="SamplePages\Menu\MenuPage.xaml.cs">
       <DependentUpon>MenuPage.xaml</DependentUpon>
@@ -557,6 +554,9 @@
       <DependentUpon>FocusTrackerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
+    <Compile Include="SamplePages\RssParser\RssParserPage.xaml.cs">
+      <DependentUpon>RssParserPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml.cs">
       <DependentUpon>StaggeredPanelPage.xaml</DependentUpon>
     </Compile>
@@ -566,6 +566,9 @@
     </Compile>
     <Compile Include="SamplePages\OrbitView\OrbitViewPage.xaml.cs">
       <DependentUpon>OrbitViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ThemeListener\ThemeListenerPage.xaml.cs">
+      <DependentUpon>ThemeListenerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ViewExtensions\ViewExtensionsPage.xaml.cs">
       <DependentUpon>ViewExtensionsPage.xaml</DependentUpon>
@@ -586,8 +589,7 @@
       <DependentUpon>ExpanderPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Facebook Service\FacebookPhotoTemplateSelector.cs" />
-    <Compile Include="Controls\CodeRenderer\CodeRenderer.Properties.cs" />
-    <Compile Include="Controls\CodeRenderer\CodeRenderer.cs" />
+    <Compile Include="Controls\CodeRenderer.cs" />
     <Compile Include="Controls\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
@@ -851,9 +853,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\MarkdownParser\MarkdownParserPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\Mouse\MouseCursorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\RssParser\RssParserPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml">
       <SubType>Designer</SubType>
@@ -872,6 +882,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\OrbitView\OrbitViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ThemeListener\ThemeListenerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1113,6 +1127,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj">
+      <Project>{42CA4935-54BE-42EA-AC19-992378C08DE6}</Project>
+      <Name>Microsoft.Toolkit.Parsers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj">
       <Project>{34398053-fc70-4243-84f9-f355defff66d}</Project>
       <Name>Microsoft.Toolkit.Services</Name>

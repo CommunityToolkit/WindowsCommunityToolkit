@@ -13,14 +13,12 @@ The **Rotator Tile Control** is an ItemsControl that rotates through a set of it
 ## Syntax
 
 ```xaml
-
 <controls:RotatorTile x:Name="Tile1"
 	Background="LightGray"
 	Direction="Up" 
 	Width="400"
 	Height="200"
 	Margin="20"/>
-
 ```
 
 ## Setting Rotation Duration

@@ -17,18 +17,18 @@ The Composition Visual Attached Properties allow developers to modify common pro
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions">
 
 <Border Height="100"
-		Width="100"
-		Background="Purple"
-		extensions:VisualExtensions.CenterPoint="50,50,0"
-		extensions:VisualExtensions.Opacity="0.5"
-		extensions:VisualExtensions.RotationAngleInDegrees="80"
-		extensions:VisualExtensions.Scale="2, 0.5, 1"
-		extensions:VisualExtensions.NormalizedCenterPoint="0.5, 0.5, 0" />
+	Width="100"
+	Background="Purple"
+	extensions:VisualExtensions.CenterPoint="50,50,0"
+	extensions:VisualExtensions.Opacity="0.5"
+	extensions:VisualExtensions.RotationAngleInDegrees="80"
+	extensions:VisualExtensions.Scale="2, 0.5, 1"
+	extensions:VisualExtensions.NormalizedCenterPoint="0.5, 0.5, 0" />
 ```
 
 ## Properties
 
-> Note. Properties of type Vector2, Vector3 or Vector4 on the Visual are represented as strings here. To specify the Vector2, Vector3, or Vector4 value, use the following string format:
+> [!NOTE] Properties of type Vector2, Vector3 or Vector4 on the Visual are represented as strings here. To specify the Vector2, Vector3, or Vector4 value, use the following string format:
 > * Vector2 - "0" or "0, 0"
 > * Vector3 - "0" or "0, 0, 0"
 > * Vector4 - "0" or "0, 0, 0, 0"
