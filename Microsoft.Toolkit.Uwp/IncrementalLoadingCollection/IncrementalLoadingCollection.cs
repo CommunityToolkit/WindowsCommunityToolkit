@@ -196,6 +196,16 @@ namespace Microsoft.Toolkit.Uwp
             => LoadMoreItemsAsync(count, new CancellationToken(false)).AsAsyncOperation();
 
         /// <summary>
+        /// Clears the collection and reloads data from the source
+        /// </summary>
+        /// <returns>This method does not return a result</returns>
+        [Obsolete("RefreshAsync is deprecated, please use Refresh instead.")]
+        public async Task RefreshAsync()
+        {
+            await Task.Run(() => Refresh());
+        }
+
+        /// <summary>
         /// Clears the collection and resets the page index
         /// which triggers an automatic reload of the first page
         /// </summary>
