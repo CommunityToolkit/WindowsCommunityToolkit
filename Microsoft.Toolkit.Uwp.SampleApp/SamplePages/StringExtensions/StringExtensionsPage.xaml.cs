@@ -10,9 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Microsoft.Toolkit.Extensions;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -26,29 +29,32 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             this.InitializeComponent();
         }
 
-        private void Button_Tapped(object sender, TappedRoutedEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            string returnText = string.Empty;
-            switch (int.Parse((sender as Button).Tag.ToSafeString()))
+            Shell.Current.RegisterNewCommand("Is Valid Email?", (s, a) =>
             {
-                case 0:
-                    returnText = string.Format("IsValid: {0}", InputTextBox.Text.IsEmail());
-                    break;
-                case 1:
-                    returnText = string.Format("IsValid: {0}", InputTextBox.Text.IsNumeric());
-                    break;
-                case 2:
-                    returnText = string.Format("IsValid: {0}", InputTextBox.Text.IsDecimal());
-                    break;
-                case 3:
-                    returnText = string.Format("IsValid: {0}", InputTextBox.Text.IsCharacterString());
-                    break;
-                case 4:
-                    returnText = string.Format("IsValid: {0}", InputTextBox.Text.IsPhoneNumber());
-                    break;
-            }
+                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsEmail());
+            });
 
-            IsValid.Text = returnText;
+            Shell.Current.RegisterNewCommand("Is Valid Number?", (s, a) =>
+            {
+                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsNumeric());
+            });
+
+            Shell.Current.RegisterNewCommand("Is Valid Decimal?", (s, a) =>
+            {
+                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsDecimal());
+            });
+
+            Shell.Current.RegisterNewCommand("Is Valid String?", (s, a) =>
+            {
+                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsCharacterString());
+            });
+
+            Shell.Current.RegisterNewCommand("Is Valid PhoneNumber?", (s, a) =>
+            {
+                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsPhoneNumber());
+            });
         }
     }
 }
