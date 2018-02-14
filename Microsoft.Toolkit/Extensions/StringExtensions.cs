@@ -49,6 +49,7 @@ namespace Microsoft.Toolkit.Extensions
         /// Returns whether said string is a valid email or not.
         /// Uses general Email Regex (RFC 5322 Official Standard) from emailregex.com
         /// </summary>
+        /// <param name="str">string value.</param>
         /// <returns><c>true</c> for valid email.<c>false</c> otherwise</returns>
         public static bool IsEmail(this string str)
         {
@@ -67,6 +68,7 @@ namespace Microsoft.Toolkit.Extensions
         /// <summary>
         /// Returns whether said string is a valid integer or not.
         /// </summary>
+        /// <param name="str">string value.</param>
         /// <returns><c>true</c> for valid integer.<c>false</c> otherwise</returns>
         public static bool IsNumeric(this string str)
         {
@@ -76,6 +78,7 @@ namespace Microsoft.Toolkit.Extensions
         /// <summary>
         /// Returns whether said string is a valid phonenumber or not.
         /// </summary>
+        /// <param name="str">string value.</param>
         /// <returns><c>true</c> for valid phonenumber.<c>false</c> otherwise</returns>
         public static bool IsPhoneNumber(this string str)
         {
@@ -85,12 +88,14 @@ namespace Microsoft.Toolkit.Extensions
         /// <summary>
         /// Returns whether said string contains only letters or not.
         /// </summary>
+        /// <param name="str">string value.</param>
         /// <returns><c>true</c> for valid Character.<c>false</c> otherwise</returns>
         public static bool IsCharacterString(this string str)
         {
             return Regex.IsMatch(str, CharactersRegex);
         }
-      
+
+        /// <summary>
         /// Converts object into string.
         /// </summary>
         /// <param name="value">Object value.</param>
