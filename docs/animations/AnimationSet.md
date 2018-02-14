@@ -43,8 +43,6 @@ anim.Start();
 
 ## Properties
 
-
-
 ### EasingType
 
 You can change the way how the animation interpolates between keyframes by defining the EasingType.
@@ -71,6 +69,7 @@ You can change the way how the animation interpolates between keyframes by defin
 - AnimationSet has endless possibility. Here is an example of creating popup effect
 
     **Sample Code**
+
     ```csharp
     FrameworkElement preElement = null;
     private void MyUIElement_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -97,6 +96,7 @@ You can change the way how the animation interpolates between keyframes by defin
 - Use `Then()` to create a successive animation
 
     **Sample Code**
+
     ```csharp
     MyUIElement.Blur(value: 10).Fade(value: 0.5f)
             .Then()
@@ -104,6 +104,7 @@ You can change the way how the animation interpolates between keyframes by defin
             .SetDurationForAll(2500)
             .Start();
     ```
+
     **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/AnimationSet/Use-Case-2.gif)

@@ -50,7 +50,7 @@ However, the way the two are used is different. Unlike the ParallaxService, the 
 
 Here is an example of using the ParallaxView
 
-```csharp
+```xaml
 <Grid>
     <ParallaxView Source="{x:Bind ForegroundElement}" VerticalShift="50"> 
 
