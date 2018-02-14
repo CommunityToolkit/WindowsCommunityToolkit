@@ -158,6 +158,52 @@ namespace UnitTests.Markdown.Parse
         }
 
         [TestMethod]
+        [TestCategory("Parse - block - backticks")]
+        public void Code_Block_With_Ticks()
+        {
+            // Multi-line code block.  Should have a border and scroll, not wrap!
+            AssertEqual(
+                CollapseWhitespace(@"
+                before
+
+                ```
+                Code
+                More code with **stars** and   spacing
+                Even more code
+                ```
+
+                after"),
+                new ParagraphBlock().AddChildren(
+                    new TextRunInline { Text = "before" }),
+                new CodeBlock { Text = "Code\r\nMore code with **stars** and   spacing\r\nEven more code" },
+                new ParagraphBlock().AddChildren(
+                    new TextRunInline { Text = "after" }));
+        }
+
+        [TestMethod]
+        [TestCategory("Parse - block - backticks - language")]
+        public void Code_Block_With_Language()
+        {
+            // Multi-line code block.  Should have a border and scroll, not wrap!
+            AssertEqual(
+                CollapseWhitespace(@"
+                before
+
+                ```csharp
+                Code
+                More code with **stars** and   spacing
+                Even more code
+                ```
+
+                after"),
+                new ParagraphBlock().AddChildren(
+                    new TextRunInline { Text = "before" }),
+                new CodeBlock { Text = "Code\r\nMore code with **stars** and   spacing\r\nEven more code", CodeLanguage = "csharp" },
+                new ParagraphBlock().AddChildren(
+                    new TextRunInline { Text = "after" }));
+        }
+
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Code_Block_WithTabs()
         {

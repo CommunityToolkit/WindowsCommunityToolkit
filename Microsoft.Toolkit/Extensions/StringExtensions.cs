@@ -30,17 +30,17 @@ namespace Microsoft.Toolkit.Extensions
         /// <summary>
         /// Regular expression for removing comments.
         /// </summary>
-        private static readonly Regex RemoveCommentsRegex = new Regex("<!--.*?-->", RegexOptions.Singleline);
+        private static readonly Regex RemoveHtmlCommentsRegex = new Regex("<!--.*?-->", RegexOptions.Singleline);
 
         /// <summary>
         /// Regular expression for removing scripts.
         /// </summary>
-        private static readonly Regex RemoveScriptsRegex = new Regex(@"(?s)<script.*?(/>|</script>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        private static readonly Regex RemoveHtmlScriptsRegex = new Regex(@"(?s)<script.*?(/>|</script>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Regular expression for removing styles.
         /// </summary>
-        private static readonly Regex RemoveStylesRegex = new Regex(@"(?s)<style.*?(/>|</style>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        private static readonly Regex RemoveHtmlStylesRegex = new Regex(@"(?s)<style.*?(/>|</style>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Returns whether said string is a valid email or not.
@@ -90,19 +90,19 @@ namespace Microsoft.Toolkit.Extensions
         public static string FixHtml(this string html)
         {
             // Remove comments
-            var withoutComments = RemoveCommentsRegex.Replace(html, string.Empty);
+            var withoutComments = RemoveHtmlCommentsRegex.Replace(html, string.Empty);
 
             // Remove scripts
-            var withoutScripts = RemoveScriptsRegex.Replace(withoutComments, string.Empty);
+            var withoutScripts = RemoveHtmlScriptsRegex.Replace(withoutComments, string.Empty);
 
             // Remove styles
-            var withoutStyles = RemoveStylesRegex.Replace(withoutScripts, string.Empty);
+            var withoutStyles = RemoveHtmlStylesRegex.Replace(withoutScripts, string.Empty);
 
             return withoutStyles;
         }
 
         /// <summary>
-        /// Truncates the specified string to the specified length.
+        /// Trims and Truncates the specified string to the specified length.
         /// </summary>
         /// <param name="value">The string to be truncated.</param>
         /// <param name="length">The maximum length.</param>
@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Truncates the specified string to the specified length.
+        /// Trims and Truncates the specified string to the specified length.
         /// </summary>
         /// <param name="value">The string to be truncated.</param>
         /// <param name="length">The maximum length.</param>
