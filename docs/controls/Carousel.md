@@ -24,6 +24,7 @@ The `Carousel` control works fine with mouse, touch, mouse and keyboard as well.
     <controls:Carousel.EasingFunction>
         <CubicEase EasingMode="EaseOut" />
     </controls:Carousel.EasingFunction>
+
     <controls:Carousel.ItemTemplate>
         <DataTemplate>
             <!-- Carousel content -->

@@ -11,8 +11,6 @@
 // ******************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Uwp.Services
 {
@@ -23,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.Services
     /// <typeparam name="TSchema">Strong typed object to parse the response items into.</typeparam>
     [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
     public abstract class DataProviderBase<TConfig, TSchema> : Toolkit.Services.DataProviderBase<TConfig, TSchema>
-        where TSchema : SchemaBase
+        where TSchema : Toolkit.Parsers.SchemaBase
     {
     }
 }

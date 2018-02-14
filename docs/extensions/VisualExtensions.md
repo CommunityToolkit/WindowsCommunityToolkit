@@ -16,13 +16,13 @@ The [Composition Visual](https://docs.microsoft.com/dotnet/api/microsoft.toolkit
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions">
 
 <Border Height="100"
-		Width="100"
-		Background="Purple"
-		extensions:VisualExtensions.CenterPoint="50,50,0"
-		extensions:VisualExtensions.Opacity="0.5"
-		extensions:VisualExtensions.RotationAngleInDegrees="80"
-		extensions:VisualExtensions.Scale="2, 0.5, 1"
-		extensions:VisualExtensions.NormalizedCenterPoint="0.5, 0.5, 0" />
+	Width="100"
+	Background="Purple"
+	extensions:VisualExtensions.CenterPoint="50,50,0"
+	extensions:VisualExtensions.Opacity="0.5"
+	extensions:VisualExtensions.RotationAngleInDegrees="80"
+	extensions:VisualExtensions.Scale="2, 0.5, 1"
+	extensions:VisualExtensions.NormalizedCenterPoint="0.5, 0.5, 0" />
 ```
 
 ## Properties

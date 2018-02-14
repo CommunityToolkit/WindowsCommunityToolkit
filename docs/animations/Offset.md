@@ -82,12 +82,14 @@ EasingType is used only when AnimationSet.UseComposition == false
 - You can just call `Offset()` set the control in the orginal position
 
     **Sample Code**
+
     ```csharp
     await MyUIElement.Offset().Start();
     ```
 - Use await to create a continous movement
 
     **Sample Code**
+
     ```csharp
     public async void OffsetAsync()
     {
@@ -97,12 +99,14 @@ EasingType is used only when AnimationSet.UseComposition == false
         await MyUIElement.Offset(duration: 1000).StartAsync();
     }
     ```
+
     **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/Offset/Use-Case-1.gif)
 - Use this to create chaining animations with other animations. Visit the [AnimationSet](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/animationset) documentation for more information.
 
     **Sample Code**
+
     ```csharp
     var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
     anim.SetDurationForAll(2500);
@@ -110,6 +114,7 @@ EasingType is used only when AnimationSet.UseComposition == false
     anim.Completed += animation_completed;
     anim.Start();
     ```
+
     **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)

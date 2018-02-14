@@ -19,8 +19,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
     /// JsonParser type.
     /// </summary>
     /// <typeparam name="T">Data type to parse</typeparam>
-    internal class JsonParser<T> : IParser<T>
-        where T : Toolkit.Services.SchemaBase
+    internal class JsonParser<T>
+        where T : Parsers.SchemaBase
     {
         /// <summary>
         /// Takes string data and parses to strong type.

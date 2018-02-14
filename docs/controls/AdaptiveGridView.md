@@ -16,9 +16,9 @@ The [AdaptiveGridView Control](https://docs.microsoft.com/dotnet/api/microsoft.t
      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"/>
 
 <controls:AdaptiveGridView  Name="AdaptiveGridViewControl"
-          ItemHeight="200"
-          DesiredWidth="300"
-          ItemTemplate="{StaticResource PhotosTemplate}">
+    ItemHeight="200"
+    DesiredWidth="300"
+    ItemTemplate="{StaticResource PhotosTemplate}">
 </controls:AdaptiveGridView>
 ```
 

@@ -11,11 +11,11 @@
 // ******************************************************************
 
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
-using UITestMethodAttribute = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppContainer.UITestMethodAttribute;
+using Microsoft.Toolkit.Parsers.Markdown.Blocks;
+using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
 namespace UnitTests.Markdown.Parse
-{ 
+{
     [TestClass]
     public class HorizontalRuleTests : ParseTestBase
     {

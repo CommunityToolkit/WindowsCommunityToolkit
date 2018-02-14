@@ -80,6 +80,7 @@ EasingType is used only when AnimationSet.UseComposition == false
 - Use this to create popup effect
 
     **Sample Code**
+
     ```csharp
     UIElement lastTapped = null;
     private void MyUIElement_Tapped(object sender, TappedRoutedEventArgs e)
@@ -100,6 +101,7 @@ EasingType is used only when AnimationSet.UseComposition == false
 - Use this to create chaining animations with other animations. Visit the [AnimationSet](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/animationset) documentation for more information.
 
     **Sample Code**
+
     ```csharp
     var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
     anim.SetDurationForAll(2500);
@@ -107,6 +109,7 @@ EasingType is used only when AnimationSet.UseComposition == false
     anim.Completed += animation_completed;
     anim.Start();
     ```
+
     **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)

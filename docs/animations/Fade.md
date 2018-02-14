@@ -80,6 +80,7 @@ EasingType is used only when AnimationSet.UseComposition == false
 - Use this to create chaining animations with other animations. Visit the [AnimationSet](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/animationset) documentation for more information.
 
     **Sample Code**
+
     ```csharp
     var anim = MyUIElement.Fade(0.5f).Blur(5).Rotate(30);
     anim.SetDurationForAll(2500);
@@ -87,6 +88,7 @@ EasingType is used only when AnimationSet.UseComposition == false
     anim.Completed += animation_completed;
     anim.Start();
     ```
+
     **Sample Output**
 
     ![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)

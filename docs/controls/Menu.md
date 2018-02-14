@@ -22,18 +22,20 @@ If the tooltip is allowed on the Menu control when clicking Alt a tooltip with t
 ```xaml
 
 <controls:Menu>
-            <controls:MenuItem Name="FileMenu"
-                               controls:Menu.InputGestureText="Alt+F"
-                               Header="File">
-                <MenuFlyoutSubItem Text="New">
-                    <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
-                                    Command="{StaticResource NewProject}"
-                                    Text="Project" />
-                    <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+N"
-                                    Command="{StaticResource NewFile}"
-                                    Text="File" />
-                </MenuFlyoutSubItem>
-            </controls:MenuItem>
+    <controls:MenuItem Name="FileMenu"
+        controls:Menu.InputGestureText="Alt+F"
+        Header="File">
+
+        <MenuFlyoutSubItem Text="New">
+            <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
+                Command="{StaticResource NewProject}"
+                Text="Project" />
+
+            <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+N"
+                Command="{StaticResource NewFile}"
+                Text="File" />
+        </MenuFlyoutSubItem>
+    </controls:MenuItem>
 </controls:Menu>
 
 ```

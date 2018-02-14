@@ -21,10 +21,10 @@ The ActualHeight property allows to bind to TargetObject's ActualHeight.
 ### Example
 
 ```xaml
-    <Rectangle x:Name="TargetObject"
-               extensions:FrameworkElementExtensions.EnableActualSizeBinding="true"/>
-	...
-	<TextBlock Text="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementExtensions.ActualHeight)}" />
+<Rectangle x:Name="TargetObject"
+            extensions:FrameworkElementExtensions.EnableActualSizeBinding="true"/>
+...
+<TextBlock Text="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementExtensions.ActualHeight)}" />
 ```
 
 ## ActualWidth

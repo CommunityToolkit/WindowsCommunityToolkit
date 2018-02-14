@@ -73,6 +73,7 @@ await MyUIElement.Light(distance: 5, duration: 2500, delay: 250, color: Colors.R
     anim.Completed += animation_completed;
     anim.Start();
     ```
+
     **Sample Output**
 
     ![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)

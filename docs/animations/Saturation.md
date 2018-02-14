@@ -58,6 +58,7 @@ await MyUIElement.Saturation(value: 0.5, duration: 500, delay: 250).StartAsync()
 - Sometimes you want an element to desaturate, a common example of this could be when you mouse over a UI Element, now you can apply a SaturationBehavior to the original element at run time.
 
     **Sample Code**
+
     ```csharp
     private void MyUIElement_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
@@ -69,6 +70,7 @@ await MyUIElement.Saturation(value: 0.5, duration: 500, delay: 250).StartAsync()
         MyUIElement.Saturation(value: 0).Start();
     }
     ```
+
     **Sample Output**
 
     ![Use Case 1 Output](../resources/images/Animations/Saturation/Use-Case-1.gif)
@@ -76,6 +78,7 @@ await MyUIElement.Saturation(value: 0.5, duration: 500, delay: 250).StartAsync()
 - Use this to create chaining animations with other animations. Visit the [AnimationSet](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/animationset) documentation for more information.
 
     **Sample Code**
+
     ```csharp
     var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
     anim.SetDurationForAll(2500);
@@ -83,6 +86,7 @@ await MyUIElement.Saturation(value: 0.5, duration: 500, delay: 250).StartAsync()
     anim.Completed += animation_completed;
     anim.Start();
     ```
+
     **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)

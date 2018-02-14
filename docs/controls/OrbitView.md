@@ -112,6 +112,7 @@ The following sample demonstrates how to add OrbitView Control.
       <controls:OrbitViewDataItem Image="ms-appx:///Assets/People/vlad.png" Distance="0.8" Label="Vlad" Diameter="0.8"></controls:OrbitViewDataItem>
     </controls:OrbitViewDataItemCollection>
   </controls:OrbitView.ItemsSource>
+  
   <controls:OrbitView.CenterContent>
     <Grid>
       <controls:DropShadowPanel>

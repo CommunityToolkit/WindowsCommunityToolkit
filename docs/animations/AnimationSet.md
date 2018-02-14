@@ -108,6 +108,7 @@ Blur, Light and Saturation animation don't support easing
 - AnimationSet has endless possibility. Here is an example of creating popup effect
 
     **Sample Code**
+
     ```csharp
     FrameworkElement preElement = null;
     private void MyUIElement_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -134,6 +135,7 @@ Blur, Light and Saturation animation don't support easing
 - Use `Then()` to create a successive animation
 
     **Sample Code**
+
     ```csharp
     MyUIElement.Blur(value: 10).Fade(value: 0.5f)
             .Then()
@@ -141,6 +143,7 @@ Blur, Light and Saturation animation don't support easing
             .SetDurationForAll(2500)
             .Start();
     ```
+
     **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/AnimationSet/Use-Case-2.gif)
