@@ -38,7 +38,7 @@ bool isvalid = str.IsDecimal();		//Returns false
 | DecodeHtml(string) | string | Decode HTML string. |
 | FixHtml(string) | string | Applies regular expressions to string of HTML to remove comments, scripts, styles. |
 | Truncate(string, int) | string | Trims and Truncates the specified string to the specified length. |
-| Truncate(string, int, bool) | string | Trims and Truncates the specified string to the specified length. |
+| Truncate(string, int, bool) | string | Trims and Truncates the specified string to the specified length and adds an ellipsis (...) at the end of the string when set to true. |
 
 &nbsp;
 
