@@ -30,9 +30,9 @@ The image loading code is based on an example provided on [Windows Blogs](https:
 
 | Property | Type | Description |
 | -- | -- | -- |
-| Source | ImageSource | The `ImageSource` property specifies which image to use for the effect. |
+| Source | Windows.UI.Xaml.Media.ImageSource | The `ImageSource` property specifies which image to use for the effect.  It is assumed it will resolve to a [BitmapImage](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.imaging.bitmapimage). |
 | Stretch | Windows.UI.Xaml.Media.Stretch | The `Stretch` property specifies how the image should stretch to its container. |
-| Mode | ImageBlendMode | The `ImageBlendMode` property specifies how the image should be blended with the backdrop. |
+| Mode | ImageBlendMode | The `ImageBlendMode` property specifies how the image should be blended with the backdrop.  See the [BlendEffectMode](http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffectMode.htm) reference. |
 
 
 http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffectMode.htm
@@ -50,4 +50,6 @@ http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendE
 
 ## Related Topics
 
+- [BitmapImage](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.imaging.bitmapimage)
 - [Win2D BlendEffect reference](http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffect.htm)
+- [BlendEffectMode reference](http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffectMode.htm)

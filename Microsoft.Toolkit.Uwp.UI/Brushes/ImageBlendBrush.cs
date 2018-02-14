@@ -10,17 +10,18 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Graphics.Canvas.Effects;
 using System;
+using Microsoft.Graphics.Canvas.Effects;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Brushes
 {
     /// <summary>
-    /// Brush which blends an image to the Backdrop in a given mode. http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffect.htm
+    /// Brush which blends a <see cref="BitmapImage"/> to the Backdrop in a given mode. http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffect.htm
     /// Image loading reference from https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#MA0k4EYWzqGKV501.97
     /// </summary>
     public class ImageBlendBrush : XamlCompositionBrushBase
@@ -33,16 +34,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// </summary>
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
             nameof(Source),
-            typeof(string),
+            typeof(ImageSource), // We use ImageSource type so XAML engine will automatically construct proper object from String.
             typeof(ImageBlendBrush),
             new PropertyMetadata(null, new PropertyChangedCallback(OnImageSourceChanged)));
 
         /// <summary>
-        /// Gets or sets the source of the image to composite.
+        /// Gets or sets the <see cref="BitmapImage"/> source of the image to composite.
         /// </summary>
-        public string Source
+        public ImageSource Source
         {
-            get { return (string)GetValue(SourceProperty); }
+            get { return (ImageSource)GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
 
@@ -89,10 +90,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
             // Unbox and update surface if CompositionBrush exists
             if (brush._surfaceBrush != null)
             {
-                // TODO: Error Handling
-                var newSurface = LoadedImageSurface.StartLoadFromUri(new Uri((string)e.NewValue));
+                // If UriSource is invalid, StartLoadFromUri will return a blank texture.
+                var uri = (e.NewValue as BitmapImage)?.UriSource ?? new Uri("ms-appx:///");
+                var newSurface = LoadedImageSurface.StartLoadFromUri(uri);
+
                 brush._surface = newSurface;
                 brush._surfaceBrush.Surface = newSurface;
+            }
+            else
+            {
+                // If we didn't initially have a valid surface, we need to recreate our effect now.
+                brush.OnDisconnected();
+                brush.OnConnected();
             }
         }
 
@@ -131,11 +140,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         protected override void OnConnected()
         {
             // Delay creating composition resources until they're required.
-            if (CompositionBrush == null)
+            if (CompositionBrush == null && Source != null && Source is BitmapImage bitmap)
             {
-                // TODO: Error Handle
                 // Use LoadedImageSurface API to get ICompositionSurface from image uri provided
-                _surface = LoadedImageSurface.StartLoadFromUri(new Uri(Source));
+                // If UriSource is invalid, StartLoadFromUri will return a blank texture.
+                _surface = LoadedImageSurface.StartLoadFromUri(bitmap.UriSource);
 
                 // Load Surface onto SurfaceBrush
                 _surfaceBrush = Window.Current.Compositor.CreateSurfaceBrush(_surface);
