@@ -13,6 +13,7 @@
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -40,6 +41,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
 
+            Shell.Current.RegisterNewCommand("Refresh Collection", RefreshCollection);
+
             // IncrementalLoadingCollection can be bound to a GridView or a ListView. In this case it is a ListView called PeopleListView.
             var collection = new IncrementalLoadingCollection<PeopleSource, Person>();
             PeopleListView.ItemsSource = collection;
@@ -48,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             DataContext = collection;
         }
 
-        private void RefreshIncrementalCollectionBtn_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void RefreshCollection(object sender, RoutedEventArgs e)
         {
             var collection = (IncrementalLoadingCollection<PeopleSource, Person>)PeopleListView.ItemsSource;
             collection.Refresh();

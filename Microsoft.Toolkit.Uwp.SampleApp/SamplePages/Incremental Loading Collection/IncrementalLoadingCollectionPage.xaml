@@ -24,17 +24,12 @@
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition />
             </Grid.RowDefinitions>
             <TextBlock HorizontalAlignment="Center"
                        Text="{Binding IsLoading, Converter={StaticResource StringFormatConverter}, ConverterParameter='Is Loading: {0}'}" />
             <TextBlock Grid.Row="1"
                        HorizontalAlignment="Center"
                        Text="{Binding HasMoreItems, Converter={StaticResource StringFormatConverter}, ConverterParameter='Has More Items: {0}'}" />
-            <Button x:Name="RefreshIncrementalCollectionBtn" 
-                    Grid.Row="2"
-                    HorizontalAlignment="Center"
-                    Content="Refresh" Click="RefreshIncrementalCollectionBtn_Click"/>
         </Grid>
         <Grid Grid.Row="2"
               Margin="0,24,0,0"
