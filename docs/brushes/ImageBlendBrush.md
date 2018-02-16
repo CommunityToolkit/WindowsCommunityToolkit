@@ -31,11 +31,12 @@ The image loading code is based on an example provided on [Windows Blogs](https:
 | Property | Type | Description |
 | -- | -- | -- |
 | Source | Windows.UI.Xaml.Media.ImageSource | The `ImageSource` property specifies which image to use for the effect.  It is assumed it will resolve to a [BitmapImage](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.imaging.bitmapimage). |
-| Stretch | Windows.UI.Xaml.Media.Stretch | The `Stretch` property specifies how the image should stretch to its container. |
-| Mode | ImageBlendMode | The `ImageBlendMode` property specifies how the image should be blended with the backdrop.  See the [BlendEffectMode](http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffectMode.htm) reference. |
+| Stretch | Windows.UI.Xaml.Media.Stretch | The `Stretch` property specifies how the image should stretch to its container.  Requires 10.0.16299 or higher for modes other than None (default). |
+| Mode | ImageBlendMode | The `ImageBlendMode` property specifies how the image should be blended with the backdrop.  See the [BlendEffectMode](http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffectMode.htm) reference.  The `Hue`, `Saturation`, `Color`, and `Luminosity` modes require a Windows version 10.0.16299 or higher. |
 
-
-http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffectMode.htm
+> [!NOTE]
+The `Stretch` property for values other than `None` requires a Windows version 10.0.16299 or higher.
+In addition the `Hue`, `Saturation`, `Color`, and `Luminosity` modes require a Windows version 10.0.16299 or higher.
 
 ## Requirements (Windows 10 Device Family)
 

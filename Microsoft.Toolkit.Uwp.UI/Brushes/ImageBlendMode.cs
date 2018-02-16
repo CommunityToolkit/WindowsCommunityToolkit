@@ -46,10 +46,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         HardMix = 17,
         Difference = 18,
         Exclusion = 19,
-        Hue = 20, // Says Not Supported, but works
-        Saturation = 21, // Says Not Supported, but works
-        Color = 22, // Says Not Supported, but works
-        Luminosity = 23, // Says Not Supported, but works
+        Hue = 20, // Requires 16299 or higher
+        Saturation = 21, // Requires 16299 or higher
+        Color = 22, // Requires 16299 or higher
+        Luminosity = 23, // Requires 16299 or higher
         Subtract = 24,
         Division = 25,
         #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

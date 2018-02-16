@@ -629,6 +629,7 @@
         "XamlCodeFile": "BackdropBlurBrushXaml.bind",
         "Icon": "/SamplePages/BackdropBlurBrush/BackdropBlurBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropBlurBrush.md"
       },
       {
@@ -639,6 +640,7 @@
         "XamlCodeFile": "BackdropInvertBrushXaml.bind",
         "Icon": "/SamplePages/BackdropInvertBrush/BackdropInvertBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropInvertBrush.md"
       },
       {
@@ -649,6 +651,7 @@
         "XamlCodeFile": "BackdropGammaTransferBrushXaml.bind",
         "Icon": "/SamplePages/BackdropGammaTransferBrush/BackdropGammaTransferBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropGammaTransferBrush.md"
       },
       {
@@ -659,6 +662,7 @@
         "XamlCodeFile": "BackdropSaturationBrushXaml.bind",
         "Icon": "/SamplePages/BackdropSaturationBrush/BackdropSaturationBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropSaturationBrush.md"
       },
       {
@@ -669,6 +673,7 @@
         "XamlCodeFile": "BackdropSepiaBrushXaml.bind",
         "Icon": "/SamplePages/BackdropSepiaBrush/BackdropSepiaBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropSepiaBrush.md"
       },
       {
@@ -679,6 +684,7 @@
         "XamlCodeFile": "ImageBlendBrushXaml.bind",
         "Icon": "/SamplePages/ImageBlendBrush/ImageBlendBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/ImageBlendBrush.md"
       }
     ]

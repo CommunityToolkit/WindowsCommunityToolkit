@@ -50,12 +50,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
 
         /// <summary>
         /// Identifies the <see cref="Stretch"/> dependency property.
+        /// Requires 16299 or higher for modes other than None.
         /// </summary>
         public static readonly DependencyProperty StretchProperty = DependencyProperty.Register(
             nameof(Stretch),
             typeof(Stretch),
             typeof(ImageBlendBrush),
-            new PropertyMetadata(Stretch.Uniform, new PropertyChangedCallback(OnStretchChanged)));
+            new PropertyMetadata(Stretch.None, new PropertyChangedCallback(OnStretchChanged)));
 
         /// <summary>
         /// Gets or sets how to stretch the image within the brush.
