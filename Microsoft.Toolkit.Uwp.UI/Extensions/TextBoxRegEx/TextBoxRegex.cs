@@ -49,7 +49,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static void Textbox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var textbox = (TextBox)sender;
-            ValidateTextBox(textbox, false);
+            var validationMode = (ValidationMode)textbox.GetValue(ValidationModeProperty);
+            ValidateTextBox(textbox, validationMode == ValidationMode.Instantly || validationMode == ValidationMode.Dynamic);
         }
 
         private static void Textbox_Loaded(object sender, RoutedEventArgs e)
@@ -103,7 +104,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
                 if (validationModel == ValidationMode.Forced)
                 {
+<<<<<<< HEAD
                     textbox.Text = string.Empty;
+=======
+                    if (!string.IsNullOrEmpty(textbox.Text))
+                    {
+                        var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
+                        if (validationModel == ValidationMode.Forced || validationModel == ValidationMode.Instantly)
+                        {
+                            textbox.Text = string.Empty;
+                        }
+                        else if (validationModel == ValidationMode.Dynamic)
+                        {
+                            textbox.Text = textbox.Text.Remove(textbox.Text.Length - 1);
+                            if (textbox.Text.Length != 0)
+                            {
+                                textbox.SelectionStart = textbox.Text.Length;
+                            }
+                        }
+                    }
+>>>>>>> refs/remotes/origin/master
                 }
             }
 
