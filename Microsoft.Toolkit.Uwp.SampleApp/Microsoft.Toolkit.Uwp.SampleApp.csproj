@@ -334,6 +334,7 @@
     <Content Include="SamplePages\OneDrive Service\OneDriveLogo.png" />
     <Content Include="SamplePages\ParallaxService\Parallax.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
+    <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrush.png" />
     <Content Include="SamplePages\RadialProgressBar\RadialProgressBar.png" />
     <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.png" />
     <Content Include="SamplePages\Rotate\RotateBehavior.png" />
@@ -487,6 +488,9 @@
     </Content>
     <Content Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrushXaml.bind" />
     <Content Include="SamplePages\ImageBlendBrush\ImageBlendBrushXaml.bind" />
+    <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrushXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -589,6 +593,9 @@
       <DependentUpon>FocusTrackerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
+    <Compile Include="SamplePages\RadialGradientBrush\RadialGradientBrushPage.xaml.cs">
+      <DependentUpon>RadialGradientBrushPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml.cs">
       <DependentUpon>StaggeredPanelPage.xaml</DependentUpon>
     </Compile>
@@ -908,6 +915,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Mouse\MouseCursorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\RadialGradientBrush\RadialGradientBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
