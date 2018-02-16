@@ -16,49 +16,66 @@
     
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" MinWidth="48"/>
       <ColumnDefinition Width="Auto" />
       <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
-    <NavigationView Style="{StaticResource VSCodeActivityBarStyle}" 
-                    Header="Header Text">
+    <NavigationView x:Name="NavMenu"
+                    Style="{StaticResource VSCodeActivityBarStyle}"
+                    MenuItemContainerStyle="{StaticResource LargeIconNavigationViewItemStyle}">
         <NavigationView.MenuItems>
-            <NavigationViewItem Content="Explorer" Tag="SamplePage1">
+            <NavigationViewItem Content="Explorer" Tag="Some Text">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xE8C8;"/>
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="Source Control" Tag="SamplePage1">
+            <NavigationViewItem Content="Source Control" Tag="Some Other Text">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xF22C;"/>
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="Debug" Tag="SamplePage1">
+            <NavigationViewItem Content="Debug" Tag="More Text">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xEBE8;"/>
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="Extensions" Tag="SamplePage1">
+            <NavigationViewItem Content="Extensions" Tag="Additional Text">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xE74C;"/>
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="Search" Tag="SamplePage1">
+            <NavigationViewItem Content="Search" Tag="Final Text">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xE094;"/>
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
         </NavigationView.MenuItems>
 
-        <Frame x:Name="contentFrame">
-        </Frame>
+        <Grid x:Name="ContentGrid" MinWidth="250">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="48" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0"
+                    Background="LightGray">
+                <TextBlock x:Name="Header"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Margin="16,0,0,0"
+                            Foreground="Black"
+                            Text="{Binding ElementName=NavMenu, Path=SelectedItem.Content}" />
+            </Border>
+            <TextBlock Grid.Row="1"
+                       Margin="8"
+                       Text="{Binding ElementName=NavMenu, Path=SelectedItem.Tag}"/>
+        </Grid>
     </NavigationView>
     <controls:GridSplitter 
             Grid.Column="1"
             Width="11"
             ResizeBehavior="BasedOnAlignment"
             ResizeDirection="Auto"
-            Background="Gray"
+            Background="LightGray"
             Foreground="White" 
             FontSize="13">
         <controls:GridSplitter.Element>
