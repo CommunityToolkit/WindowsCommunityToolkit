@@ -18,55 +18,50 @@ This control can be used as a ListView Data Template root to create effects simi
 The **LeftCommand** and the **LeftCommandRequested** event is executed when the control has been swiped to the right, and **RightCommand** and the **RightCommandRequested** event is executed when the control has been swiped to the left. If you need more detailed control you can subscribe to the **SwipeStatusChanged** event. This is triggered when swiping starts, stops, swiping below and above **ActivationWidth** and some other cases. The following code shows how to detect some important events:
 
 ```csharp
-
-    private void SlidableListItem_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)
+private void SlidableListItem_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)
+{
+    if (args.NewValue == SwipeStatus.Starting)
     {
-        if (args.NewValue == SwipeStatus.Starting)
+        // Swiping starting
+    }
+    else if (args.NewValue == SwipeStatus.Idle)
+    {
+        if (args.OldValue == SwipeStatus.SwipingPassedLeftThreshold)
         {
-            // Swiping starting
+            // Swiping to the left completed
         }
-        else if (args.NewValue == SwipeStatus.Idle)
+        else if (args.OldValue == SwipeStatus.SwipingPassedRightThreshold)
         {
-            if (args.OldValue == SwipeStatus.SwipingPassedLeftThreshold)
-            {
-                // Swiping to the left completed
-            }
-            else if (args.OldValue == SwipeStatus.SwipingPassedRightThreshold)
-            {
-                // Swiping to the right completed
-            }
-            else
-            {
-                // Swiping cancelled
-            }
+            // Swiping to the right completed
+        }
+        else
+        {
+            // Swiping cancelled
         }
     }
-
+}
 ```
 
 If you use **SlidableListItem** in a **ListView** with the **ItemClick** event, you need to be aware the **ItemClick** event is triggered by default when the control has been swiped. If you don’t want this behavior you can set **IsPointerReleasedOnSwipingHandled** to **true** to suppress the **ItemClick** event. If you need more control you can instead check the **SwipeStatus** property in the **ItemClick** event. The following code shows how to do that:
 
 ```csharp
+private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+{
+    var listView = sender as ListView;
+    var listViewItem = listView.ContainerFromItem(e.ClickedItem) as ListViewItem;
+    var slidableListItem = listViewItem.ContentTemplateRoot as SlidableListItem;
 
-    private void ListView_ItemClick(object sender, ItemClickEventArgs e)
-    {
-        var listView = sender as ListView;
-        var listViewItem = listView.ContainerFromItem(e.ClickedItem) as ListViewItem;
-        var slidableListItem = listViewItem.ContentTemplateRoot as SlidableListItem;
+    // Don't do anything unless the SwipeStatus is Idle.
+    if (slidableListItem.SwipeStatus != SwipeStatus.Idle)
+        return;
 
-        // Don't do anything unless the SwipeStatus is Idle.
-        if (slidableListItem.SwipeStatus != SwipeStatus.Idle)
-            return;
-
-        ...
-    }
-
+    ...
+}
 ```
 
 ## Syntax
 
 ```xaml
-
 <controls:SlidableListItem
 	LeftIcon="Favorite" 
 	RightIcon="Delete" 
@@ -86,7 +81,6 @@ If you use **SlidableListItem** in a **ListView** with the **ItemClick** event, 
 		<TextBlock Text="My Great Text" TextWrapping="NoWrap"/>            
 	</StackPanel>
 </controls:SlidableListItem> 
-
 ```
 
 ## <a name="swipe"></a> Moving to SwipeControl
@@ -108,6 +102,7 @@ Starting with v2.1 of the UWP Community Toolkit, the SwipeControl provides a new
 Using this property will enable you to take advantage of the SwipeControl on devices that supported it, while providing an experience based on SlidableListItem on devices that have not yet updated to the Fall Creators Update. Make sure to test the experience on multiple OS releases and plan to fully transition to the SwipeControl as the SlidableListItem will be removed from the UWP Community Toolkit in a future major release.
 
 There are several SlidableListItem properties that have no effect when the SlidableListItem is using the SwipeControl:
+
 * ActivationWidth
 * IsOffsetLimited
 * IsPointerReleasedOnSwipingHandled

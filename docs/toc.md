@@ -65,17 +65,17 @@
 ## [FocusTracker](developer-tools/FocusTracker.md)
 
 # Extensions
-## [Hyperlink](extensions/Hyperlink.md)
-## [ListViewBase](extensions/ListViewBase.md)
+## [HyperlinkExtensions](extensions/HyperlinkExtensions.md)
+## [ListViewExtensions](extensions/ListViewExtensions.md)
 ## [Logical Tree](extensions/LogicalTree.md)
 ## [Mouse Cursor](extensions/MouseCursor.md)
 ## [SurfaceDialTextboxHelper](extensions/SurfaceDialTextboxHelper.md)
 ## [TextBoxMask](extensions/TextBoxMask.md)
 ## [TextBoxRegex](extensions/TextBoxRegex.md)
 ## [ViewExtensions](extensions/ViewExtensions.md)
-## [Visual Layer Extensions](extensions/VisualEx.md)
+## [Visual Layer Extensions](extensions/VisualExtensions.md)
 ## [Visual Tree](extensions/VisualTree.md)
-## [WebView](extensions/WebView.md)
+## [WebViewExtensions](extensions/WebViewExtensions.md)
 
 # Helpers
 ## [AdvancedCollectionView](helpers/AdvancedCollectionView.md)

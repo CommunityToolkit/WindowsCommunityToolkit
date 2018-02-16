@@ -28,15 +28,16 @@ You can also use these events :
 ```xaml
 
 <controls:Expander Header="Header of the expander"
-                   Foreground="White"
-                   Background="Gray"
-                   IsExpanded="True">
+  Foreground="White"
+  Background="Gray"
+  IsExpanded="True">
+
 	<Grid Height="250">
-        <TextBlock HorizontalAlignment="Center"
-                   TextWrapping="Wrap"
-                   Text="This is the content"
-                   VerticalAlignment="Center" />
-    </Grid>
+    <TextBlock HorizontalAlignment="Center"
+      TextWrapping="Wrap"
+      Text="This is the content"
+      VerticalAlignment="Center" />
+  </Grid>
 </controls:Expander>       
 
 ```

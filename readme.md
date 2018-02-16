@@ -33,6 +33,7 @@ Once you search you should see a list similar to the one below (versions may be 
 | --- | --- |
 | Microsoft.Toolkit | .NET Standard NuGet package containing common code |
 | Microsoft.Toolkit.Services | .NET Standard NuGet package containing cross-platform services |
+| Microsoft.Toolkit.Parsers | .NET Standard NuGet package containing cross-platform parsers, such as Markdown, RSS and JSON |
 | Microsoft.Toolkit.Uwp | Main NuGet package includes code only helpers such as Colors conversion tool, Storage file handling, a Stream helper class, etc. |
 | Microsoft.Toolkit.Uwp.Notifications | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes intellisense support to avoid having to use the XML syntax. |
 | Microsoft.Toolkit.Uwp.Notifications.Javascript | Notification Packages for JavaScript |
@@ -143,6 +144,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [StorageFiles](http://docs.uwpcommunitytoolkit.com/en/master/helpers/StorageFiles/)
 * [Streams](http://docs.uwpcommunitytoolkit.com/en/master/helpers/Streams/)
 * [SystemInformation](http://docs.uwpcommunitytoolkit.com/en/master/helpers/SystemInformation/)
+* [ThemeListener](http://docs.uwpcommunitytoolkit.com/en/master/helpers/ThemeListener/)
 * [WeakEventListener](http://docs.uwpcommunitytoolkit.com/en/master/helpers/WeakEventListener/)
 
 ### Services
@@ -154,6 +156,11 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Microsoft Translator Service](http://docs.uwpcommunitytoolkit.com/en/master/services/MicrosoftTranslator/)
 * [OneDrive](http://docs.uwpcommunitytoolkit.com/en/master/services/OneDrive/)
 * [Twitter](http://docs.uwpcommunitytoolkit.com/en/master/services/Twitter/)
+
+### Parsers
+
+* [Markdown Parser](http://docs.uwpcommunitytoolkit.com/en/master/parsers/MarkdownParser/)
+* [RSS Parser](http://docs.uwpcommunitytoolkit.com/en/master/parsers/RSSParser/)
 
 ### Notifications
 - [Tiles](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/06/30/adaptive-tile-templates-schema-and-documentation/)

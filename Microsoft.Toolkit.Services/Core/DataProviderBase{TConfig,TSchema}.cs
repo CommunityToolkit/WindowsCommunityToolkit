@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Services
     /// <typeparam name="TConfig">Strong typed query configuration object.</typeparam>
     /// <typeparam name="TSchema">Strong typed object to parse the response items into.</typeparam>
     public abstract class DataProviderBase<TConfig, TSchema> : DataProviderBase<TConfig>
-        where TSchema : SchemaBase
+        where TSchema : Parsers.SchemaBase
     {
         /// <summary>
         /// Load data from provider endpoint.
@@ -40,6 +40,6 @@ namespace Microsoft.Toolkit.Services
         /// </summary>
         /// <param name="config">Query configuration object.</param>
         /// <returns>Strong typed default parser.</returns>
-        protected abstract IParser<TSchema> GetDefaultParser(TConfig config);
+        protected abstract Parsers.IParser<TSchema> GetDefaultParser(TConfig config);
     }
 }
