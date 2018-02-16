@@ -4,6 +4,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       mc:Ignorable="d">
   
     <Page.Resources>
@@ -22,7 +23,8 @@
     </Grid.ColumnDefinitions>
     <NavigationView x:Name="NavMenu"
                     Style="{StaticResource VSCodeActivityBarStyle}"
-                    MenuItemContainerStyle="{StaticResource LargeIconNavigationViewItemStyle}">
+                    MenuItemContainerStyle="{StaticResource LargeIconNavigationViewItemStyle}"
+                    ex:NavigationViewExtensions.SelectedIndex="0">
         <NavigationView.MenuItems>
             <NavigationViewItem Content="Explorer" Tag="Some Text">
                 <NavigationViewItem.Icon>
