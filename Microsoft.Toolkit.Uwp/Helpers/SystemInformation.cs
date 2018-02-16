@@ -113,16 +113,28 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public static DateTime LastLaunchTime { get; private set; }
 
         /// <summary>
-        /// Gets the number of times the app has been launched.
+        /// Gets the number of times the app has been launched since the last reset.
         /// Will be zero if `TrackAppUse` has not been called.
         /// </summary>
         public static long LaunchCount { get; private set; }
+
+        /// <summary>
+        /// Gets the number of times the app has been launched.
+        /// Will be zero if `TrackAppUse` has not been called.
+        /// </summary>
+        public static long TotalLaunchCount { get; private set; }
 
         /// <summary>
         /// Gets the DateTime (in UTC) that this instance of the app was launched.
         /// Will be DateTime.MinValue if `TrackAppUse` has not been called.
         /// </summary>
         public static DateTime LaunchTime { get; private set; }
+
+        /// <summary>
+        /// Gets the DateTime (in UTC) when the launch count was previously reset, not including this instance.
+        /// Will be DateTime.MinValue if `TrackAppUse` has not been called.
+        /// </summary>
+        public static DateTime LastResetTime { get; private set; }
 
         /// <summary>
         /// Gets the length of time this instance of the app has been running.
@@ -157,8 +169,16 @@ namespace Microsoft.Toolkit.Uwp.Helpers
              || args.PreviousExecutionState == ApplicationExecutionState.NotRunning)
             {
                 LaunchCount = _localObjectStorageHelper.Read<long>(nameof(LaunchCount)) + 1;
+                TotalLaunchCount = _localObjectStorageHelper.Read<long>(nameof(TotalLaunchCount)) + 1;
+
+                // In case we upgraded the properties, make TotalLaunchCount is correct
+                if (TotalLaunchCount < LaunchCount)
+                {
+                    TotalLaunchCount = LaunchCount;
+                }
 
                 _localObjectStorageHelper.Save(nameof(LaunchCount), LaunchCount);
+                _localObjectStorageHelper.Save(nameof(TotalLaunchCount), TotalLaunchCount);
 
                 LaunchTime = DateTime.UtcNow;
 
@@ -169,6 +189,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
                 _localObjectStorageHelper.Save(nameof(LastLaunchTime), LaunchTime.ToFileTimeUtc());
                 _localObjectStorageHelper.Save(nameof(AppUptime), 0L);
+
+                var lastResetTime = _localObjectStorageHelper.Read<long>(nameof(LastResetTime));
+                LastResetTime = lastResetTime != default(long)
+                    ? DateTime.FromFileTimeUtc(lastResetTime)
+                    : DateTime.MinValue;
             }
 
             void App_VisibilityChanged(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.VisibilityChangedEventArgs e)
@@ -209,6 +234,18 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             var uptimeSoFar = _localObjectStorageHelper.Read<long>(nameof(AppUptime));
             _localObjectStorageHelper.Save(nameof(AppUptime), uptimeSoFar + duration.Ticks);
+        }
+
+        /// <summary>
+        /// Reset launch count
+        /// </summary>
+        public static void ResetLaunchCount()
+        {
+            LastResetTime = DateTime.UtcNow;
+            LaunchCount = 0;
+
+            _localObjectStorageHelper.Save(nameof(LastResetTime), LastResetTime.ToFileTimeUtc());
+            _localObjectStorageHelper.Save(nameof(LaunchCount), LaunchCount);
         }
 
         /// <summary>
@@ -321,7 +358,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             LaunchTime = DateTime.MinValue;
             LaunchCount = 0;
+            TotalLaunchCount = 0;
             LastLaunchTime = DateTime.MinValue;
+            LastResetTime = DateTime.MinValue;
         }
     }
 }

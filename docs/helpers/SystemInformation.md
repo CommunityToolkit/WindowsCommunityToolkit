@@ -28,7 +28,9 @@ The SystemInformation is a static utility class that provides properties with so
 |IsAppUpdated | Gets a value indicating whether the app is being used for the first time since being upgraded from an older version. |
 |LaunchTime | Gets the DateTime (in UTC) that this instance of the app was launched. |
 |LastLaunchTime | Gets the DateTime (in UTC) that this was previously launched. |
-|LaunchCount | Gets the number of times the app has been launched. |
+|LastResetTime | Gets the DateTime (in UTC) when the launch count was previously reset. |
+|LaunchCount | Gets the number of times the app has been launched since the last reset. |
+|TotalLaunchCount | Gets the number of times the app has been launched. |
 |AppUptime | Gets the length of time this instance of the app has been running. |
 |FirstVersionInstalled | Gets the first version of the app that was installed. |
 |FirstUseTime | Gets the DateTime (in UTC) that the app as first used. |
@@ -39,6 +41,7 @@ The SystemInformation is a static utility class that provides properties with so
 | ------ | ----------- |
 | LaunchStoreForReviewAsync() | Launch the store app so the user can leave a review. |
 | TrackAppUse() | Track app launch time and count. |
+| ResetLaunchCount() | Reset launch count so you can get launch count from a new perspective. |
 
 ## Requirements (Windows 10 Device Family)
 
