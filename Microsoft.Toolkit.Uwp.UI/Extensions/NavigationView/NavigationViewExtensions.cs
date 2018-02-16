@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.NavigationView"/>.</param>
         /// <returns>The selected index.</returns>
-        public static int GetSelectedIndex(Windows.UI.Xaml.Controls.NavigationView obj)
+        public static int GetSelectedIndex(NavigationView obj)
         {
             return (int)obj.GetValue(SelectedIndexProperty);
         }
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.NavigationView"/>.</param>
         /// <param name="value">The index to select.</param>
-        public static void SetSelectedIndex(Windows.UI.Xaml.Controls.NavigationView obj, int value)
+        public static void SetSelectedIndex(NavigationView obj, int value)
         {
             obj.SetValue(SelectedIndexProperty, value);
         }
@@ -46,6 +46,87 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// Attached <see cref="DependencyProperty"/> for binding the selected index of a <see cref="NavigationView"/>.
         /// </summary>
         public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.RegisterAttached("SelectedIndex", typeof(int), typeof(NavigationViewExtensions), new PropertyMetadata(-1, OnSelectedIndexChanged));
+
+        /// <summary>
+        /// Gets the behavior to collapse the content when clicking the already selected <see cref="NavigationViewItem"/>.
+        /// </summary>
+        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.NavigationView"/>.</param>
+        /// <returns>True if the feature is on.</returns>
+        public static bool GetCollapseOnClick(NavigationView obj)
+        {
+            return (bool)obj.GetValue(CollapseOnClickProperty);
+        }
+
+        /// <summary>
+        /// Sets the behavior to collapse the content when clicking the already selected <see cref="NavigationViewItem"/>.
+        /// </summary>
+        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.NavigationView"/>.</param>
+        /// <param name="value">True to turn on this feature.</param>
+        public static void SetCollapseOnClick(NavigationView obj, bool value)
+        {
+            obj.SetValue(CollapseOnClickProperty, value);
+        }
+
+        /// <summary>
+        /// Attached <see cref="DependencyProperty"/> for enabling the behavior to collapse the <see cref="NavigationView"/> content when the same selected item is invoked again (click or tap).
+        /// </summary>
+        public static readonly DependencyProperty CollapseOnClickProperty =
+            DependencyProperty.RegisterAttached("CollapseOnClick", typeof(bool), typeof(NavigationViewExtensions), new PropertyMetadata(false, OnCollapseOnClickChanged));
+
+        private static void OnCollapseOnClickChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var navview = d as Windows.UI.Xaml.Controls.NavigationView;
+
+            if (navview == null)
+            {
+                return;
+            }
+
+            navview.ItemInvoked -= Navview_ItemInvoked;
+
+            if (e.NewValue as bool? == true)
+            {
+                // Listen for clicks on navigation items
+                navview.ItemInvoked += Navview_ItemInvoked;
+            }
+            else
+            {
+                // Make sure we're visible if we toggle this off.
+                var content = navview.FindDescendantByName("ContentGrid");
+
+                if (content != null)
+                {
+                    content.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
+        private static void Navview_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        {
+            var content = sender.FindDescendantByName("ContentGrid");
+
+            if (content != null)
+            {
+                // If we click the item we already have selected, we want to collapse our content
+                if (sender.SelectedItem != null && args.InvokedItem.Equals((sender.SelectedItem as NavigationViewItem).Content))
+                {
+                    // We need to dispatch this so the underlying selection event from our invoke processes.
+                    // Otherwise, we just end up back where we started.  We don't care about waiting for this to finish.
+                    #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                    sender.Dispatcher.RunIdleAsync((e) =>
+                    {
+                         sender.SelectedItem = null;
+                    });
+                    #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+
+                    content.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    content.Visibility = Visibility.Visible;
+                }
+            }
+        }
 
         private static void OnSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

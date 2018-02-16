@@ -24,7 +24,8 @@
     <NavigationView x:Name="NavMenu"
                     Style="{StaticResource VSCodeActivityBarStyle}"
                     MenuItemContainerStyle="{StaticResource LargeIconNavigationViewItemStyle}"
-                    ex:NavigationViewExtensions.SelectedIndex="0">
+                    ex:NavigationViewExtensions.SelectedIndex="0"
+                    ex:NavigationViewExtensions.CollapseOnClick="True">
         <NavigationView.MenuItems>
             <NavigationViewItem Content="Explorer" Tag="Some Text">
                 <NavigationViewItem.Icon>
