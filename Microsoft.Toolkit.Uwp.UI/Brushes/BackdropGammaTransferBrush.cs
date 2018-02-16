@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Brushes
 {
     /// <summary>
-    /// A brush which applies the Win2D GammaTransferEffect to whatever is behind it in the application.
+    /// A brush which alters the colors of whatever is behind it in the application by applying a per-channel gamma transfer function.  See https://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_GammaTransferEffect.htm.
     /// </summary>
     public class BackdropGammaTransferBrush : XamlCompositionBrushBase
     {

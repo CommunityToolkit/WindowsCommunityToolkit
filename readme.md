@@ -37,7 +37,7 @@ Once you search you should see a list similar to the one below (versions may be 
 | Microsoft.Toolkit.Uwp.Notifications | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes intellisense support to avoid having to use the XML syntax. |
 | Microsoft.Toolkit.Uwp.Notifications.Javascript | Notification Packages for JavaScript |
 | Microsoft.Toolkit.Uwp.Services | Services Package - This NuGet package includes the service helpers for Facebook, LinkedIn, Microsoft Graph, Twitter and more |
-| Microsoft.Toolkit.Uwp.UI | UI Packages - XAML converters, Visual tree extensions and helpers for your XAML UI. |
+| Microsoft.Toolkit.Uwp.UI | UI Packages - Brushes, XAML converters, Visual tree extensions, and other extensions and helpers for your XAML UI. |
 | Microsoft.Toolkit.Uwp.UI.Animations | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
 | Microsoft.Toolkit.Uwp.UI.Controls | XAML Controls such as RadialGauge, RangeSelector, etc. | 
 | Microsoft.Toolkit.Uwp.Connectivity | API helpers such as BluetoothLEHelper and Networking | 
@@ -66,6 +66,15 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Rotate](http://docs.uwpcommunitytoolkit.com/en/master/animations/Rotate/)
 * [Saturation](http://docs.uwpcommunitytoolkit.com/en/master/animations/Saturation/)
 * [Scale](http://docs.uwpcommunitytoolkit.com/en/master/animations/Scale/)
+
+### Brushes
+
+* [BackdropBlurBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropBlurBrush/)
+* [BackdropGammaTransferBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropGammaTransferBrush/)
+* [BackdropInvertBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropInvertBrush/)
+* [BackdropSaturationBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropSaturationBrush/)
+* [BackdropSepiaBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropSepiaBrush/)
+* [ImageBlendBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/ImageBlendBrush/)
 
 ### Controls
 

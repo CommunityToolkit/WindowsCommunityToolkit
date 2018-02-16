@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+// Image loading reference from https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#MA0k4EYWzqGKV501.97
 
 using System;
 using Microsoft.Graphics.Canvas.Effects;
@@ -21,8 +22,7 @@ using Windows.UI.Xaml.Media.Imaging;
 namespace Microsoft.Toolkit.Uwp.UI.Brushes
 {
     /// <summary>
-    /// Brush which blends a <see cref="BitmapImage"/> to the Backdrop in a given mode. http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffect.htm
-    /// Image loading reference from https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#MA0k4EYWzqGKV501.97
+    /// Brush which blends a <see cref="BitmapImage"/> to the Backdrop in a given mode. See http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffect.htm.
     /// </summary>
     public class ImageBlendBrush : XamlCompositionBrushBase
     {
