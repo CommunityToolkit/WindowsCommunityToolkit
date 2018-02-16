@@ -1,0 +1,80 @@
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+  
+    <Page.Resources>
+      <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+          <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI/Extensions/NavigationView/Styles/VSCodeActivityBarStyle.xaml" />
+        </ResourceDictionary.MergedDictionaries>
+      </ResourceDictionary>
+    </Page.Resources>
+    
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <NavigationView Style="{StaticResource VSCodeActivityBarStyle}" 
+                    Header="Header Text">
+        <NavigationView.MenuItems>
+            <NavigationViewItem Content="Explorer" Tag="SamplePage1">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xE8C8;"/>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="Source Control" Tag="SamplePage1">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xF22C;"/>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="Debug" Tag="SamplePage1">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xEBE8;"/>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="Extensions" Tag="SamplePage1">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xE74C;"/>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="Search" Tag="SamplePage1">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xE094;"/>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+        </NavigationView.MenuItems>
+
+        <Frame x:Name="contentFrame">
+        </Frame>
+    </NavigationView>
+    <controls:GridSplitter 
+            Grid.Column="1"
+            Width="11"
+            ResizeBehavior="BasedOnAlignment"
+            ResizeDirection="Auto"
+            Background="Gray"
+            Foreground="White" 
+            FontSize="13">
+        <controls:GridSplitter.Element>
+            <Grid>
+                <TextBlock HorizontalAlignment="Center" 
+                            IsHitTestVisible="False"
+                            VerticalAlignment="Center"  
+                            Text="&#xE784;"
+                            Foreground="Black" 
+                            FontFamily="Segoe MDL2 Assets">
+                </TextBlock>
+            </Grid>
+        </controls:GridSplitter.Element>
+    </controls:GridSplitter>
+    <Grid Grid.Column="2">
+      <TextBlock>Main App Content Area</TextBlock>
+    </Grid>
+  </Grid>
+</Page>

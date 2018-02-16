@@ -694,6 +694,15 @@
         "XamlCodeFile": "FrameworkElementExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/FrameworkElementExtensions.md"
+      },
+      {
+        "Name": "NavigationViewStyles",
+        "Type": "NavigationViewStylesPage",
+        "XamlCodeFile": "NavigationViewStylesXaml.bind",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/NavigationView.md",
+        "Icon": "/SamplePages/NavigationViewStyles/NavigationViewStyles.png",
+        "About": "Style extensions for the NavigationView to appear like the one used by Visual Studio Code.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/NavigationView"
       }
     ]
   },

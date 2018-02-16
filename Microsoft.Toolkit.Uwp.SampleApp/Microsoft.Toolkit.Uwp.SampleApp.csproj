@@ -324,6 +324,7 @@
     <Content Include="SamplePages\Microsoft Graph Service\OfficeLogo.png" />
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
+    <Content Include="SamplePages\NavigationViewStyles\NavigationViewStyles.png" />
     <Content Include="SamplePages\NetworkHelper\NetworkHelper.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
     <Content Include="SamplePages\Mouse\MouseCursor.png" />
@@ -466,6 +467,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.bind" />
+    <Content Include="SamplePages\NavigationViewStyles\NavigationViewStylesXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -546,6 +550,9 @@
     </Compile>
     <Compile Include="SamplePages\Mouse\MouseCursorPage.xaml.cs">
       <DependentUpon>MouseCursorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\NavigationViewStyles\NavigationViewStylesPage.xaml.cs">
+      <DependentUpon>NavigationViewStylesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml.cs">
       <DependentUpon>NetworkHelperPage.xaml</DependentUpon>
@@ -858,6 +865,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Mouse\MouseCursorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\NavigationViewStyles\NavigationViewStylesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1181,21 +1192,18 @@
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <_GenerateAppxManifestDependsOn>
       ModifyAppXPackageDebug;
       $(_GenerateAppxManifestDependsOn)
     </_GenerateAppxManifestDependsOn>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <_GenerateAppxManifestDependsOn>
       ModifyAppXPackageRelease;
       $(_GenerateAppxManifestDependsOn)
     </_GenerateAppxManifestDependsOn>
   </PropertyGroup>
-  
   <Target Name="ModifyAppXPackageDebug" Condition="'$(BuildingProject)' == 'true'">
     <ItemGroup>
       <toolkit_docs Include="$(SolutionDir)docs\**\*" />
@@ -1206,8 +1214,7 @@
       </AppxPackagePayload>
     </ItemGroup>
   </Target>
-  
-    <Target Name="ModifyAppXPackageRelease" Condition="'$(BuildingProject)' == 'true'">
+  <Target Name="ModifyAppXPackageRelease" Condition="'$(BuildingProject)' == 'true'">
     <ItemGroup>
       <toolkit_docs Include="$(SolutionDir)docs\**\*.md" />
     </ItemGroup>
@@ -1217,7 +1224,6 @@
       </AppxPackagePayload>
     </ItemGroup>
   </Target>
-    
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
     <ItemGroup>

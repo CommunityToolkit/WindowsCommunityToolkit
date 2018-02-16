@@ -7,28 +7,6 @@
                      TargetType="NavigationView">
         <Grid x:Name="RootGrid">
             <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="DisplayModeGroup">
-                    <VisualState x:Name="Compact"/>
-                    <VisualState x:Name="Expanded">
-                        <VisualState.Setters>
-                            <Setter Target="RootSplitView.PaneBackground" Value="{ThemeResource NavigationViewExpandedPaneBackground}"/>
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="Minimal">
-                        <VisualState.Setters>
-                            <Setter Target="HeaderContent.Margin" Value="48,0,0,0"/>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-                <VisualStateGroup x:Name="TogglePaneGroup">
-                    <VisualState x:Name="TogglePaneButtonVisible"/>
-                    <VisualState x:Name="TogglePaneButtonCollapsed">
-                        <VisualState.Setters>
-                            <Setter Target="TogglePaneButton.Visibility" Value="Collapsed"/>
-                            <Setter Target="PaneContentGridToggleButtonRow.Height" Value="4"/>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
                 <VisualStateGroup x:Name="HeaderGroup">
                     <VisualState x:Name="HeaderVisible"/>
                     <VisualState x:Name="HeaderCollapsed">
@@ -62,27 +40,16 @@
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
-                <VisualStateGroup x:Name="TitleBarVisibilityGroup">
-                    <VisualState x:Name="TitleBarVisible"/>
-                    <VisualState x:Name="TitleBarCollapsed">
-                        <VisualState.Setters>
-                            <Setter Target="PaneButtonGrid.Margin" Value="0,32,0,0"/>
-                            <Setter Target="PaneContentGrid.Margin" Value="0,32,0,0"/>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            <Grid HorizontalAlignment="Left" Margin="0,0,0,8" VerticalAlignment="Top" Width="{StaticResource PaneToggleButtonSize}" Canvas.ZIndex="100">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid x:Name="TogglePaneTopPadding"/>
-                <Button x:Name="TogglePaneButton" AutomationProperties.LandmarkType="Navigation" Grid.Row="1" Style="{TemplateBinding PaneToggleButtonStyle}"/>
-            </Grid>
-            <SplitView x:Name="RootSplitView" Background="{TemplateBinding Background}" CompactPaneLength="{TemplateBinding CompactPaneLength}" DisplayMode="Inline" IsTabStop="False" IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" OpenPaneLength="{TemplateBinding OpenPaneLength}" PaneBackground="{ThemeResource NavigationViewDefaultPaneBackground}">
+            <SplitView x:Name="RootSplitView" 
+                       Background="{TemplateBinding Background}" 
+                       DisplayMode="Inline" 
+                       IsTabStop="False" 
+                       IsPaneOpen="False"  
+                       OpenPaneLength="48"
+                       PaneBackground="{ThemeResource NavigationViewDefaultPaneBackground}">
                 <SplitView.Pane>
-                    <Grid x:Name="PaneContentGrid">
+                    <Grid x:Name="PaneContentGrid" Margin="0,-48,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition x:Name="PaneContentGridToggleButtonRow" Height="56"/>
@@ -99,11 +66,7 @@
                         </Grid>
                         <NavigationViewList x:Name="MenuItemsHost" ItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}" ItemContainerStyle="{TemplateBinding MenuItemContainerStyle}" ItemTemplate="{TemplateBinding MenuItemTemplate}" IsItemClickEnabled="True" ItemsSource="{TemplateBinding MenuItemsSource}" ItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}" Margin="0,0,0,20" Grid.Row="3" SelectionMode="Single" SelectedItem="{TemplateBinding SelectedItem}"/>
                         <Border x:Name="FooterContentBorder" Child="{TemplateBinding PaneFooter}" Grid.Row="4"/>
-                        <NavigationViewItem x:Name="SettingsNavPaneItem" Grid.Row="5">
-                            <NavigationViewItem.Icon>
-                                <SymbolIcon Symbol="Setting"/>
-                            </NavigationViewItem.Icon>
-                        </NavigationViewItem>
+                        <NavigationViewItem x:Name="SettingsNavPaneItem" Grid.Row="5" Icon="Setting" Style="{TemplateBinding MenuItemContainerStyle}"/>
                     </Grid>
                 </SplitView.Pane>
                 <Grid x:Name="ContentGrid">
@@ -117,7 +80,7 @@
             </SplitView>
         </Grid>    
     </ControlTemplate>
-    
+
     <Style x:Key="VSCodeActivityBarStyle" TargetType="NavigationView">
         <Setter Property="PaneToggleButtonStyle" Value="{StaticResource PaneToggleButtonStyle}"/>
         <Setter Property="IsTabStop" Value="False"/>
@@ -130,8 +93,8 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="{StaticResource VSCodeActivityBarTemplate}" />
+        <Setter Property="CompactModeThresholdWidth" Value="0"/>
+        <Setter Property="ExpandedModeThresholdWidth" Value="0"/>
+        <Setter Property="Template" Value="{StaticResource VSCodeActivityBarTemplate}"/>
     </Style>
-
-
 </ResourceDictionary>
