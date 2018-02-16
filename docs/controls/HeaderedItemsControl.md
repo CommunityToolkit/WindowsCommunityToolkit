@@ -15,6 +15,7 @@ The **HeaderedItemsControl** is a UI control that allows content to be displayed
 Gets or sets the data used for the header of each control.
 
 The `Header` property can be set to a string, or any xaml elements. If binding the `Header` to an object that is not a string, use the `HeaderTemplate` to control how the content is rendered.
+
 ```xaml
 <controls:HeaderedItemsControl Header="This is the header!"/>
 

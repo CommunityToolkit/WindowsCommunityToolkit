@@ -12,6 +12,7 @@
 
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Microsoft.Toolkit.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -22,16 +23,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// </summary>
     /// <remarks>
     /// If <see cref="ValidationMode"> is set to Normal then IsValid will be set according to whether the regex is valid.</see>
-    /// If <see cref="ValidationMode"> is set to Forced and the input is not valid the TextBox text will be cleared.</see>
+    /// If <see cref="ValidationMode"> is set to Forced, the input will be validated if the TextBox loses focus, if it is invalid, the TextBox text will be deleted.</see>
+    /// If <see cref="ValidationMode"> is set to Instantly, the input will be validated immediately, if it is invalid, the text of the TextBox will be deleted.</see>
+    /// If <see cref="ValidationMode"> is set to Dynamic, the input will be validated immediately, if it is invalid, the newest character at input of the Textbox will be deleted.</see>
     /// </remarks>
     public partial class TextBoxRegex
     {
-        private const string DecimalRegex = "^-?[0-9]{1,28}([.,][0-9]{1,28})?$";
-        private const string EmailRegex = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,})+)$";
-        private const string NumberRegex = "^-?[0-9]{1,9}$";
-        private const string PhoneNumberRegex = @"^\s*\+?\s*([0-9][\s-]*){9,}$";
-        private const string CharactersRegex = "^[A-Za-z]+$";
-
         private static void TextBoxRegexPropertyOnChange(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var textbox = sender as TextBox;
@@ -74,6 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             var validationType = (ValidationType)textbox.GetValue(ValidationTypeProperty);
             string regex;
+            bool regexMatch = false;
             switch (validationType)
             {
                 default:
@@ -84,52 +82,46 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                         return;
                     }
 
+                    regexMatch = Regex.IsMatch(textbox.Text, regex);
                     break;
                 case ValidationType.Decimal:
-                    regex = DecimalRegex;
+                    regexMatch = textbox.Text.IsDecimal();
                     break;
                 case ValidationType.Email:
-                    regex = EmailRegex;
+                    regexMatch = textbox.Text.IsEmail();
                     break;
                 case ValidationType.Number:
-                    regex = NumberRegex;
+                    regexMatch = textbox.Text.IsNumeric();
                     break;
                 case ValidationType.PhoneNumber:
-                    regex = PhoneNumberRegex;
+                    regexMatch = textbox.Text.IsPhoneNumber();
                     break;
                 case ValidationType.Characters:
-                    regex = CharactersRegex;
+                    regexMatch = textbox.Text.IsCharacterString();
                     break;
             }
 
-            if (Regex.IsMatch(textbox.Text, regex))
+            if (!regexMatch && force)
             {
-                textbox.SetValue(IsValidProperty, true);
-            }
-            else
-            {
-                if (force)
+                var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
+                if (validationModel == ValidationMode.Forced || validationModel == ValidationMode.Instantly)
                 {
-                    if (!string.IsNullOrEmpty(textbox.Text))
+                    textbox.Text = string.Empty;
+                }
+                if (!string.IsNullOrEmpty(textbox.Text))
+                {
+                    if (validationModel == ValidationMode.Dynamic)
                     {
-                        var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
-                        if (validationModel == ValidationMode.Forced || validationModel == ValidationMode.Instantly)
+                        textbox.Text = textbox.Text.Remove(textbox.Text.Length - 1);
+                        if (textbox.Text.Length != 0)
                         {
-                            textbox.Text = string.Empty;
-                        }
-                        else if (validationModel == ValidationMode.Dynamic)
-                        {
-                            textbox.Text = textbox.Text.Remove(textbox.Text.Length - 1);
-                            if (textbox.Text.Length != 0)
-                            {
-                                textbox.SelectionStart = textbox.Text.Length;
-                            }
+                            textbox.SelectionStart = textbox.Text.Length;
                         }
                     }
                 }
-
-                textbox.SetValue(IsValidProperty, false);
             }
+
+            textbox.SetValue(IsValidProperty, regexMatch);
         }
     }
 }

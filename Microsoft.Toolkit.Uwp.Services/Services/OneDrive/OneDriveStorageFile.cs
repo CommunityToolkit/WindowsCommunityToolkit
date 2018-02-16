@@ -25,6 +25,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// <summary>
     ///  Class representing a OneDrive file
     /// </summary>
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
     public class OneDriveStorageFile : OneDriveStorageItem
     {
         private string _fileType;

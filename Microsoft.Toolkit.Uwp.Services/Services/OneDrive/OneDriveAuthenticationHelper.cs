@@ -26,6 +26,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// Authentication Helper Using Azure Active Directory V1.0 app Model
     /// and Azure Active Directory library for .NET
     /// </summary>
+    [Obsolete("This class is being deprecated.")]
     public class OneDriveAuthenticationHelper
     {
         private const string DefaultRedirectUri = "urn:ietf:wg:oauth:2.0:oob";

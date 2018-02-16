@@ -14,7 +14,6 @@ You can also use a placeholder image that will be displayed will loading the mai
 ## Syntax
 
 ```xaml
-
 <controls:ImageEx Name="ImageExControl"
 	IsCacheEnabled="True"
 	PlaceholderSource="/assets/thumbnails/thumbnails.png"
@@ -27,7 +26,6 @@ You can also use a placeholder image that will be displayed will loading the mai
 	Source="/assets/bigPicture.png"
 	CornerRadius="999"
 /> 
-
 ```
 
 ## Example Image

@@ -60,6 +60,18 @@ is displayed as:
 
 >This sentence includes **bold text**.
 
+### Bold & Italics
+
+Text can be displayed in a bold font by surrounding a word or words with either triple asterisks (\*) or triple underscores (\_).
+
+For example: 
+
+>This sentence includes \*\*\*bold & italic text\*\*\*.
+
+is displayed as:
+
+>This sentence includes ***bold & italic text***.
+
 ### Strikethrough
 
 Text can be displayed in a strikethrough font by surrounding a word or words with double tildes (~~).  For example:
@@ -238,25 +250,43 @@ Sometimes you need to preserve indentation, too.  In those cases, you can create
         System.out.println("Hello world!");
     }
 
-Starting with UWP Community Toolkit v1.4, you can also use GitHub code notification by creating a block surrounded by 3x\` (3 backticks). So:
+Starting with UWP Community Toolkit v1.4, you can also use GitHub code notification by creating a block surrounded by 3x\` (3 backticks). This can also be used with Language Identifiers on the entering backticks, such as:
 
-\`\`\`
+\`\`\`csharp
 
-public void main(Strings argv[]){
-
-  System.out.println("Hello world!");
-
+public static void Main(string[] args)
+{
+  Console.WriteLine("Hello world!");
 }
 
 \`\`\`
 
 will produce:
 
-```
-public void main(Strings argv[]){
-    System.out.println("Hello world!");
+```csharp
+public static void Main(string[] args)
+{
+  Console.WriteLine("Hello world!");
 }
 ```
+
+*You can implement your own Syntax Highlighting or override the built in Highlighting with the `CodeBlockResolving` event. The Syntax Highlighting Style can be changed by setting the `StyleDictionary` on the `CodeStyling` Property.*
+
+As an example of CodeBlockResolving, a Custom Identifier has been created, to make text Red and Bold:
+
+\`\`\`CUSTOM
+
+This is very angry.
+
+\`\`\`
+
+makes
+
+```CUSTOM
+This is very angry.
+```
+
+See the Code Page for an implementation example.
 
 *****
 
@@ -268,7 +298,7 @@ There are a couple of ways to get HTML links.  The easiest is to just paste a va
 
 However, usually you'll want to have text that functions as a link.  In that case, include the text inside of square brackets followed by the URL in parentheses. So:
 
->\[Wikipedia\]\(http://en.wikipedia.org).
+>\[Wikipedia\]\(http\://en.wikipedia.org).
 
 results in:
 
@@ -276,13 +306,47 @@ results in:
 
 You can also provide tooltip text for links like so:
 
->\[Wikipedia\]\(http://en.wikipedia.org "tooltip text"\).
+>\[Wikipedia\]\(http\://en.wikipedia.org "tooltip text"\).
 
 results in:
 
 >[Wikipedia](http://en.wikipedia.org "tooltip text").
 
 There are other methods of generating links that aren't appropriate for discussion-board style comments.  See the [Markdown Syntax](http://daringfireball.net/projects/markdown/syntax#link) if you're interested in more info.
+
+&nbsp;
+
+Relative links are also supported
+
+>\[Relative Link\]\(/Assets/Photos/Photos.json\)
+
+results in:
+
+>[Relative Link](/Assets/Photos/Photos.json)
+
+&nbsp;
+
+>\[Relative Link 2\]\(../Photos/Photos.json\)
+
+results in:
+
+>[Relative Link 2](../Photos/Photos.json)
+
+**Note:** Relative Links has to be Manually Handled in `LinkClicked` Event.
+
+*****
+
+# Email Links
+
+Emails can be used as Masked Links or Direct email links. 
+
+>[Email\]\(`email@email.com`) 
+
+will be rendered to [Email](email@email.com)
+
+>`email@email.com` 
+
+will be rendered to email@email.com
 
 *****
 
@@ -292,11 +356,39 @@ To add an image, it is almost like a link. You just need to add a \! before.
 
 So inline image syntax looks like this:
 
->\!\[Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
+>\!\[Helpers Image](https:\//raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
 
 which renders in:
 
-![Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
+![Helpers Image](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
+
+Rendering Images is now supported through prefix. use property **UriPrefix**
+
+&nbsp;
+
+Example: if you set **UriPrefix** to **ms-appx://** then
+
+>\!\[Local Image](/Assets/NotificationAssets/Sunny-Square.png)
+
+&nbsp;
+
+renders in
+
+![Local Image](/Assets/NotificationAssets/Sunny-Square.png)
+
+You can also specify image width like this:
+
+>\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =32) (width is set to 32)
+
+>\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =x64) (height is set to 64)
+
+>\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128x64) (width=128, height=64)
+
+which renders in:
+
+![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =32)
+![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =x64)
+![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128x64)
 
 *****
 

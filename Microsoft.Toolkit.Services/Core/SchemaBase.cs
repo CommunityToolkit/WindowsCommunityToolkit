@@ -10,16 +10,15 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+
 namespace Microsoft.Toolkit.Services
 {
     /// <summary>
     /// Strong typed schema base class.
     /// </summary>
-    public abstract class SchemaBase
+    [Obsolete("This class is being deprecated. Please use the counterpart in Microsoft.Toolkit.Parsers.")]
+    public abstract class SchemaBase : Parsers.SchemaBase
     {
-        /// <summary>
-        /// Gets or sets identifier for strong typed record.
-        /// </summary>
-        public string InternalID { get; set; }
     }
 }

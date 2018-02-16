@@ -16,8 +16,13 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI;
+using Windows.UI.Popups;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Documents;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -39,6 +44,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (markdownText != null)
             {
                 markdownText.LinkClicked += MarkdownText_LinkClicked;
+                markdownText.CodeBlockResolving += MarkdownText_CodeBlockResolving;
             }
 
             SetInitalText("Loading text...");
@@ -67,9 +73,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private async void MarkdownText_LinkClicked(object sender, UI.Controls.LinkClickedEventArgs e)
+        private async void MarkdownText_LinkClicked(object sender, LinkClickedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri(e.Link));
+            if (!Uri.TryCreate(e.Link, UriKind.Absolute, out Uri result))
+            {
+                await new MessageDialog("Masked relative links needs to be manually handled.").ShowAsync();
+            }
+            else
+            {
+                await Launcher.LaunchUriAsync(new Uri(e.Link));
+            }
+        }
+
+        // Custom Code Block Renderer
+        private void MarkdownText_CodeBlockResolving(object sender, CodeBlockResolvingEventArgs e)
+        {
+            if (e.CodeLanguage == "CUSTOM")
+            {
+                e.Handled = true;
+                e.InlineCollection.Add(new Run { Foreground = new SolidColorBrush(Colors.Red), Text = e.Text, FontWeight = FontWeights.Bold });
+            }
         }
     }
 }

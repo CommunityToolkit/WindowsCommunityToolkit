@@ -17,36 +17,42 @@ You can set DockPanel LastChildFill property to true if you want the last item a
 
 ## Syntax
 
-```xml
-
+```xaml
 <controls:DockPanel 
-                Name="SampleDockPanel" 
-                Margin="2" 
-                Background="LightGray" 
-                LastChildFill="False" />
-
+  Name="SampleDockPanel" 
+  Margin="2" 
+  Background="LightGray" 
+  LastChildFill="False" />
 ```
 
-## Example Image
+## Sample Output
 
 ![DockPanel animation](../resources/images/Controls-DockPanel.gif "DockPanel")
 
-## Example Code
+## Properties
+
+<!-- Explain all properties in a table format -->
+
+| Property | Type | Description |
+| -- | -- | -- |
+| LastChildFill | boolean | Gets or sets a value that indicates whether the last child element within a DockPanel stretches to fill the remaining available space. |
+| Padding | Thickness | The dimensions of the space between the edge and its child as a Thickness value. Thickness is a structure that stores dimension values using pixel measures. |
+
+## Examples
 
 [DockPanel Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DockPanel)
 
 The following sample demonstrates how to add DockPanel Control.
 
-```xml
-
+```xaml
 <Page
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d" >
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d" >
 
   <Grid>
       <controls:DockPanel Name="SampleDockPanel" Margin="2" Background="LightGray" LastChildFill="False" >
@@ -57,8 +63,6 @@ The following sample demonstrates how to add DockPanel Control.
       </controls:DockPanel>
   </Grid>
 </Page>
-
-
 ```
 
 ## Requirements (Windows 10 Device Family)
@@ -67,6 +71,6 @@ The following sample demonstrates how to add DockPanel Control.
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 
-## API
+## API Source Code
 
 * [DockPanel source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DockPanel)

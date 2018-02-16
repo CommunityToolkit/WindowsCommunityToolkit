@@ -17,8 +17,8 @@ namespace Microsoft.Toolkit.Uwp.Services
     /// <summary>
     /// Strong typed schema base class.
     /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public abstract class SchemaBase : Toolkit.Services.SchemaBase
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Parsers.")]
+    public abstract class SchemaBase : Toolkit.Parsers.SchemaBase
     {
     }
 }
