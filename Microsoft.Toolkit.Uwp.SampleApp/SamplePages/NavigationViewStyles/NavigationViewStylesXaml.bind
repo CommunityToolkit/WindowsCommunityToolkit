@@ -18,7 +18,6 @@
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" MinWidth="48"/>
-      <ColumnDefinition Width="Auto" />
       <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
     <NavigationView x:Name="NavMenu"
@@ -54,7 +53,9 @@
             </NavigationViewItem>
         </NavigationView.MenuItems>
 
-        <Grid x:Name="ContentGrid" MinWidth="250">
+        <Grid x:Name="ContentGrid" MinWidth="250"
+              BorderBrush="DarkGray"
+              BorderThickness="0,0,1,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="48" />
                 <RowDefinition />
@@ -73,27 +74,7 @@
                        Text="{Binding ElementName=NavMenu, Path=SelectedItem.Tag}"/>
         </Grid>
     </NavigationView>
-    <controls:GridSplitter 
-            Grid.Column="1"
-            Width="11"
-            ResizeBehavior="BasedOnAlignment"
-            ResizeDirection="Auto"
-            Background="LightGray"
-            Foreground="White" 
-            FontSize="13">
-        <controls:GridSplitter.Element>
-            <Grid>
-                <TextBlock HorizontalAlignment="Center" 
-                            IsHitTestVisible="False"
-                            VerticalAlignment="Center"  
-                            Text="&#xE784;"
-                            Foreground="Black" 
-                            FontFamily="Segoe MDL2 Assets">
-                </TextBlock>
-            </Grid>
-        </controls:GridSplitter.Element>
-    </controls:GridSplitter>
-    <Grid Grid.Column="2">
+    <Grid Grid.Column="1" Margin="16">
       <TextBlock>Main App Content Area</TextBlock>
     </Grid>
   </Grid>
