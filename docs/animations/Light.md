@@ -55,6 +55,7 @@ The color of the spot light specified as a Brush
 - Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
     **Sample Code**
+
     ```csharp
     var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
     anim.SetDurationForAll(2500);
@@ -62,6 +63,7 @@ The color of the spot light specified as a Brush
     anim.Completed += animation_completed;
     anim.Start();
     ```
+
     **Sample Output**
 
     ![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)

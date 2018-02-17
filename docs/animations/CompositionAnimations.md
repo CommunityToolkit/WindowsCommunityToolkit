@@ -23,7 +23,7 @@ These XAML elements enable developer to specify composition animations directly 
     <animations:ScalarKeyFrame Key="0.1" Value="30"></animations:ScalarKeyFrame>
     <animations:ScalarKeyFrame Key="0.5" Value="0.0"></animations:ScalarKeyFrame>
 </animations:ScalarAnimation>
- ```
+```
 
 ## Animations
 

@@ -37,6 +37,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             dockPanel.InvalidateArrange();
         }
 
+        private static void OnPaddingChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            var dockPanel = (DockPanel)sender;
+            dockPanel.InvalidateMeasure();
+        }
+
         /// <inheritdoc />
         protected override Size ArrangeOverride(Size finalSize)
         {
@@ -45,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return finalSize;
             }
 
-            var currentBounds = new Rect(0, 0, finalSize.Width, finalSize.Height);
+            var currentBounds = new Rect(Padding.Left, Padding.Top, finalSize.Width - Padding.Right, finalSize.Height - Padding.Bottom);
             var childrenCount = LastChildFill ? Children.Count - 1 : Children.Count;
 
             for (var index = 0; index < childrenCount; index++)
@@ -103,8 +109,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var parentWidth = 0.0;
             var parentHeight = 0.0;
-            var accumulatedWidth = 0.0;
-            var accumulatedHeight = 0.0;
+            var accumulatedWidth = Padding.Left + Padding.Right;
+            var accumulatedHeight = Padding.Top + Padding.Bottom;
 
             foreach (var child in Children)
             {

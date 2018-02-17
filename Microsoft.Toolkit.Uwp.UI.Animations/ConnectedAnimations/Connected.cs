@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -133,6 +134,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             frame.SetValue(ConnectedAnimationHelperProperty, value);
         }
 
+        internal static Dictionary<string, ConnectedAnimationProperties> GetPageConnectedAnimationProperties(Page page)
+        {
+            var props = (Dictionary<string, ConnectedAnimationProperties>)page.GetValue(PageConnectedAnimationPropertiesProperty);
+
+            if (props == null)
+            {
+                props = new Dictionary<string, ConnectedAnimationProperties>();
+                page.SetValue(PageConnectedAnimationPropertiesProperty, props);
+            }
+
+            return props;
+        }
+
+        internal static void SetPageConnectedAnimationProperties(Page page, Dictionary<string, ConnectedAnimationProperties> value)
+        {
+            page.SetValue(PageConnectedAnimationPropertiesProperty, value);
+        }
+
+        internal static Dictionary<UIElement, List<UIElement>> GetPageCoordinatedAnimationElements(Page page)
+        {
+            var elements = (Dictionary<UIElement, List<UIElement>>)page.GetValue(PageCoordinatedAnimationElementsProperty);
+
+            if (elements == null)
+            {
+                elements = new Dictionary<UIElement, List<UIElement>>();
+                page.SetValue(PageCoordinatedAnimationElementsProperty, elements);
+            }
+
+            return elements;
+        }
+
+        internal static void SetPageCoordinatedAnimationElements(Page page, Dictionary<UIElement, List<UIElement>> value)
+        {
+            page.SetValue(PageCoordinatedAnimationElementsProperty, value);
+        }
+
         /// <summary>
         /// Identifies the Connected.Key XAML attached property
         /// </summary>
@@ -163,6 +200,99 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private static readonly DependencyProperty ConnectedAnimationHelperProperty =
             DependencyProperty.RegisterAttached("ConnectedAnimationHelper", typeof(ConnectedAnimationHelper), typeof(Connected), new PropertyMetadata(null));
 
+        /// <summary>
+        /// Identifies the Connected.PageConnectedAnimationProperties XAML attached property
+        /// </summary>
+        private static readonly DependencyProperty PageConnectedAnimationPropertiesProperty =
+            DependencyProperty.RegisterAttached("PageConnectedAnimationProperties", typeof(Dictionary<string, ConnectedAnimationProperties>), typeof(Connected), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the Connected.PageCoordinatedAnimationElements XAML attached property
+        /// </summary>
+        private static readonly DependencyProperty PageCoordinatedAnimationElementsProperty =
+            DependencyProperty.RegisterAttached("PageCoordinatedAnimationElements", typeof(Dictionary<UIElement, List<UIElement>>), typeof(Connected), new PropertyMetadata(null));
+
+        private static void RegisterKey(this Page page, string key, UIElement element)
+        {
+            if (key != null)
+            {
+                var animation = new ConnectedAnimationProperties()
+                {
+                    Key = key,
+                    Element = element,
+                };
+
+                var props = GetPageConnectedAnimationProperties(page);
+                props[key] = animation;
+            }
+        }
+
+        private static void RemoveKey(this Page page, string key)
+        {
+            if (key != null)
+            {
+                var props = GetPageConnectedAnimationProperties(page);
+                props.Remove(key);
+            }
+        }
+
+        private static void AttachElementToAnimatingElement(this Page page, UIElement element, UIElement anchor)
+        {
+            if (anchor != null)
+            {
+                var coordinatedElements = GetPageCoordinatedAnimationElements(page);
+                if (!coordinatedElements.TryGetValue(anchor, out var list))
+                {
+                    list = new List<UIElement>();
+                    coordinatedElements[anchor] = list;
+                }
+
+                list.Add(element);
+            }
+        }
+
+        private static void RemoveAnchoredElement(this Page page, UIElement element, UIElement anchor)
+        {
+            if (anchor != null)
+            {
+                var coordinatedElements = GetPageCoordinatedAnimationElements(page);
+                if (coordinatedElements.TryGetValue(anchor, out var oldElementList))
+                {
+                    oldElementList.Remove(element);
+                }
+            }
+        }
+
+        private static void RegisterListItem(this Page page, Windows.UI.Xaml.Controls.ListViewBase listViewBase, string key, string elementName)
+        {
+            if (listViewBase == null || string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(elementName))
+            {
+                return;
+            }
+
+            var prop = new ConnectedAnimationProperties()
+            {
+                Key = key,
+                IsListAnimation = true,
+                ElementName = elementName,
+                ListViewBase = listViewBase
+            };
+
+            var props = GetPageConnectedAnimationProperties(page);
+            props[key] = prop;
+        }
+
+        private static void RemoveListItem(this Page page, Windows.UI.Xaml.Controls.ListViewBase listViewBase, string key)
+        {
+            if (listViewBase == null || string.IsNullOrWhiteSpace(key))
+            {
+                return;
+            }
+
+            var props = GetPageConnectedAnimationProperties(page);
+            props.Remove(key);
+        }
+
         private static void OnKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
@@ -178,14 +308,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             GetParentFrameAndExecuteAction(element, (frame) =>
             {
-                var helper = GetConnectedAnimationHelper(frame);
+                GetConnectedAnimationHelper(frame);
                 if (e.OldValue is string oldKey)
                 {
-                    helper?.RemoveKey(oldKey);
+                    (frame.Content as Page).RemoveKey(oldKey);
                 }
                 if (e.NewValue is string newKey)
                 {
-                    helper?.RegisterKey(newKey, element);
+                    (frame.Content as Page).RegisterKey(newKey, element);
                 }
             });
         }
@@ -205,15 +335,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             GetParentFrameAndExecuteAction(element, (frame) =>
             {
-                var helper = GetConnectedAnimationHelper(frame);
+                GetConnectedAnimationHelper(frame);
                 if (e.OldValue is UIElement oldAnchor)
                 {
-                    helper?.RemoveAnchoredElement(element, oldAnchor);
+                    (frame.Content as Page).RemoveAnchoredElement(element, oldAnchor);
                 }
 
                 if (e.NewValue is UIElement newAnchor)
                 {
-                    helper?.AttachElementToAnimatingElement(element, newAnchor);
+                    (frame.Content as Page).AttachElementToAnimatingElement(element, newAnchor);
                 }
             });
         }
@@ -233,14 +363,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             GetParentFrameAndExecuteAction(element, (frame) =>
             {
-                var helper = GetConnectedAnimationHelper(frame);
+                GetConnectedAnimationHelper(frame);
 
                 if (e.OldValue is string oldKey)
                 {
-                    helper?.RemoveListItem(element, oldKey);
+                    (frame.Content as Page).RemoveListItem(element, oldKey);
                 }
 
-                AddListViewBaseItemAnimationDetails(helper, element);
+                AddListViewBaseItemAnimationDetails(frame.Content as Page, element);
             });
         }
 
@@ -259,18 +389,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             GetParentFrameAndExecuteAction(element, (frame) =>
             {
-                var helper = GetConnectedAnimationHelper(frame);
+                GetConnectedAnimationHelper(frame);
 
                 if (e.OldValue is string oldElementName)
                 {
                     var elementKey = GetListItemKey(element);
                     if (elementKey != null)
                     {
-                        helper?.RemoveListItem(element, elementKey);
+                        (frame.Content as Page).RemoveListItem(element, elementKey);
                     }
                 }
 
-                AddListViewBaseItemAnimationDetails(helper, element);
+                AddListViewBaseItemAnimationDetails(frame.Content as Page, element);
             });
         }
 
@@ -300,9 +430,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private static void AddListViewBaseItemAnimationDetails(ConnectedAnimationHelper helper, Windows.UI.Xaml.Controls.ListViewBase listViewBase)
+        private static void AddListViewBaseItemAnimationDetails(Page page, Windows.UI.Xaml.Controls.ListViewBase listViewBase)
         {
-            if (ApiInformationHelper.IsCreatorsUpdateOrAbove && listViewBase != null && helper != null)
+            if (ApiInformationHelper.IsCreatorsUpdateOrAbove && listViewBase != null)
             {
                 var elementName = GetListItemElementName(listViewBase);
                 var key = GetListItemKey(listViewBase);
@@ -313,7 +443,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     return;
                 }
 
-                helper.RegisterListItem(listViewBase, key, elementName);
+                page.RegisterListItem(listViewBase, key, elementName);
             }
         }
     }

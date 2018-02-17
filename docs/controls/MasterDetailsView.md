@@ -15,9 +15,9 @@ The **MasterDetailsView Control** presents items in a master/details pattern. It
 ```xaml
 
 <controls:MasterDetailsView
-          ItemsSource="{Binding Items}"
-          ItemTemplate="{StaticResource ListTemplate}"
-		  DetailsTemplate="{StaticResource DetailsTemplate}">
+    ItemsSource="{Binding Items}"
+    ItemTemplate="{StaticResource ListTemplate}"
+    DetailsTemplate="{StaticResource DetailsTemplate}">
 </controls:MasterDetailsView>
 
 ```

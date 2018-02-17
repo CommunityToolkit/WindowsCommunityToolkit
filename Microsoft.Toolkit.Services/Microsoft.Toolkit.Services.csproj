@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
   </ItemGroup>
 

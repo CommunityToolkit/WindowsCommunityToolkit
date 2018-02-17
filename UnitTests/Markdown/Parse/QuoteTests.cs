@@ -12,8 +12,10 @@
 
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
-using UITestMethodAttribute = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppContainer.UITestMethodAttribute;
+using Microsoft.Toolkit.Parsers.Markdown.Blocks;
+using Microsoft.Toolkit.Parsers.Markdown.Inlines;
+using Microsoft.Toolkit.Parsers.Markdown.Blocks.List;
+using Microsoft.Toolkit.Parsers.Markdown.Enums;
 
 namespace UnitTests.Markdown.Parse
 {
@@ -189,7 +191,7 @@ namespace UnitTests.Markdown.Parse
                 >     code, line 4"),
 
                 new QuoteBlock().AddChildren(
-                    new CodeBlock {  Text = "code, line 1\r\n\r\n\r\ncode, line 4" }));
+                    new CodeBlock { Text = "code, line 1\r\n\r\n\r\ncode, line 4" }));
         }
 
         [TestMethod]
@@ -211,9 +213,9 @@ namespace UnitTests.Markdown.Parse
                 > + List item 3"),
             new QuoteBlock().AddChildren(
                 new ListBlock { Style = ListStyle.Bulleted }.AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" })),
-                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })),
-                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" })))));
+                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" })),
+                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })),
+                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" })))));
         }
     }
 }

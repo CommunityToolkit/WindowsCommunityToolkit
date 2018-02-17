@@ -698,13 +698,13 @@
     "Icon": "Icons/Extensions.png",
     "Samples": [
       {
-        "Name": "ListViewBase",
-        "Type": "ListViewBasePage",
+        "Name": "ListViewExtensions",
+        "Type": "ListViewExtensionsPage",
         "About": "Extensions for all controls that inherit from ListViewBase like ListView.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ListViewBase",
-        "XamlCodeFile": "ListViewBaseCode.bind",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ListViewExtensions",
+        "XamlCodeFile": "ListViewExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/ListViewBase.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/ListViewExtensions.md"
       },
       {
         "Name": "ViewExtensions",
@@ -760,7 +760,7 @@
         "XamlCodeFile": "VisualExtensionsCode.bind",
         "Icon": "/SamplePages/Visual Extensions/VisualExtensions.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/VisualEx.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/VisualExtensions.md"
       },
       {
         "Name": "FrameworkElementExtensions",
@@ -770,6 +770,34 @@
         "XamlCodeFile": "FrameworkElementExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/FrameworkElementExtensions.md"
+      },
+      {
+        "Name": "StringExtensions",
+        "Type": "StringExtensionsPage",
+        "About": "String Extensions to validate strings",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit/Extensions",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/StringExtensions.md"
+      }
+    ]
+  },
+  {
+    "Name": "Parsers",
+    "Icon": "Icons/Helpers.png",
+    "Samples": [
+      {
+        "Name": "Markdown Parser",
+        "Type": "MarkdownParserPage",
+        "About": "The Markdown Parser allows you to parse a Markdown String into a Markdown Document, and then Render it with a Markdown Renderer.",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/parsers/MarkdownParser.md"
+      },
+      {
+        "Name": "RSS Parser",
+        "Type": "RssParserPage",
+        "About": "The RSS Parser allows you to parse an RSS content String into RSS Schema.",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/parsers/RssParser.md"
       }
     ]
   },
