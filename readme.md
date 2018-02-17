@@ -108,6 +108,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [ListViewBase](http://docs.uwpcommunitytoolkit.com/en/master/extensions/ListViewBase/)
 * [LogicalTree](http://docs.uwpcommunitytoolkit.com/en/master/extensions/LogicalTree/)
 * [MouseCursor](http://docs.uwpcommunitytoolkit.com/en/master/extensions/MouseCursor/)
+* [NavigationView Styles](http://docs.uwpcommunitytoolkit.com/en/master/extensions/NavigationView/)
 * [SurfaceDialTextbox](http://docs.uwpcommunitytoolkit.com/en/master/extensions/SurfaceDialTextboxHelper/)
 * [TextBoxMask](http://docs.uwpcommunitytoolkit.com/en/master/extensions/TextBoxMask/)
 * [TextBoxRegex](http://docs.uwpcommunitytoolkit.com/en/master/extensions/TextBoxRegex/)

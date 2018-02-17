@@ -23,17 +23,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class NavigationViewStylesPage : Page
     {
-
         public NavigationViewStylesPage()
         {
             this.InitializeComponent();
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            // TODO: Need to check for API Contract 5 and abort?
         }
     }
 }
