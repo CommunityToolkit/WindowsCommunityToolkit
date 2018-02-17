@@ -31,11 +31,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// <summary>
         /// The gradient is repeated in the reverse direction until the space is filled.
         /// </summary>
-        Reflect = 2, // Win2D Mirror Note: We change the numerical value from WPF so that we can directly interop via int conversion to Win2D.
+        Reflect = 1, // Win2D Mirror
 
         /// <summary>
         /// The gradient is repeated in the original direction until the space is filled.
         /// </summary>
-        Repeat = 1, // Win2D Wrap
+        Repeat = 2, // Win2D Wrap
     }
 }

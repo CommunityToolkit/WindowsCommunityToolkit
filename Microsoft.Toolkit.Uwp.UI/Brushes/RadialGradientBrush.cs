@@ -164,19 +164,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
             _gradientBrush = new CanvasRadialGradientBrush(
                                     device,
                                     this.GradientStops.ToWin2DGradientStops(),
-                                    (CanvasEdgeBehavior)(int)SpreadMethod,
-                                    CanvasAlphaMode.Premultiplied);
+                                    SpreadMethod.ToEdgeBehavior(),
+                                    CanvasAlphaMode.Premultiplied)
+            {
+                // Calculate Surface coordinates from 0.0-1.0 range given in WPF brush
+                RadiusX = size.X * (float)RadiusX,
+                RadiusY = size.Y * (float)RadiusY,
+                Center = size * Center.ToVector2(),
 
-            // Calculate Surface coordinates from 0.0-1.0 range given in WPF brush
-            _gradientBrush.RadiusX = size.X * (float)RadiusX;
-            _gradientBrush.RadiusY = size.Y * (float)RadiusY;
-            _gradientBrush.Center = size * Center.ToVector2();
+                // Calculate Win2D Offset from origin/center used in WPF brush
+                OriginOffset = size * (GradientOrigin.ToVector2() - Center.ToVector2()),
 
-            // Calculate Win2D Offset from origin/center used in WPF brush
-            _gradientBrush.OriginOffset = size * (GradientOrigin.ToVector2() - Center.ToVector2());
-
-            // TODO: Need to adjust the opacity to better match output from WPF - maybe have to play with AlphaMode?
-            _gradientBrush.Opacity = (float)Opacity;
+                // TODO: Need to adjust the opacity to better match output from WPF - maybe have to play with AlphaMode?
+                Opacity = (float)Opacity
+            };
 
             // Use brush to draw on our canvas
             session.FillRectangle(size.ToRect(), _gradientBrush);
@@ -194,30 +195,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
                 // Our GradientStops don't seem to reset between initializations...?
                 GradientStops = null;
             }
-        }
-    }
-
-    /// <summary>
-    /// Helper extensions for <see cref="RadialGradientBrush"/>.
-    /// </summary>
-    public static class RadialGradientBrushHelpers
-    {
-        /// <summary>
-        /// Converts a <see cref="GradientStopCollection"/> to an array of <see cref="CanvasGradientStop"/>.
-        /// </summary>
-        /// <param name="stops"><see cref="GradientStopCollection"/> collection of gradient stops.</param>
-        /// <returns>New array of <see cref="CanvasGradientStop"/> stops.</returns>
-        public static CanvasGradientStop[] ToWin2DGradientStops(this GradientStopCollection stops)
-        {
-            var canvasStops = new CanvasGradientStop[stops.Count];
-
-            int x = 0;
-            foreach (var stop in stops)
-            {
-                canvasStops[x++] = new CanvasGradientStop() { Color = stop.Color, Position = (float)stop.Offset };
-            }
-
-            return canvasStops;
         }
     }
 }

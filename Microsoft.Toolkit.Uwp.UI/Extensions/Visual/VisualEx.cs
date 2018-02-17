@@ -14,7 +14,6 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
-using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
@@ -71,26 +70,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             {
                 throw new FormatException($"Cannot convert {str} to Vector2. Use format \"float, float\"");
             }
-        }
-
-        /// <summary>
-        /// Returns a new <see cref="Vector2"/> representing the <see cref="Size(double,double)"/>.
-        /// </summary>
-        /// <param name="size"><see cref="Size(double,double)"/> value.</param>
-        /// <returns><see cref="Vector2"/> value.</returns>
-        public static Vector2 ToVector2(this Size size)
-        {
-            return new Vector2((float)size.Width, (float)size.Height);
-        }
-
-        /// <summary>
-        /// Returns a new <see cref="Windows.Foundation.Rect(double, double, double, double)"/> representing the size of the <see cref="Vector2"/>.
-        /// </summary>
-        /// <param name="vector"><see cref="Vector2"/> vector representing object size for Rectangle.</param>
-        /// <returns><see cref="Windows.Foundation.Rect(double, double, double, double)"/> value.</returns>
-        public static Rect ToRect(this Vector2 vector)
-        {
-            return new Rect(0, 0, vector.X, vector.Y);
         }
 
         /// <summary>
