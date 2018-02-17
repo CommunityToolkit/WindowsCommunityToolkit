@@ -103,20 +103,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             if (!regexMatch && force)
             {
-                var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
-                if (validationModel == ValidationMode.Forced || validationModel == ValidationMode.Instantly)
-                {
-                    textbox.Text = string.Empty;
-                }
                 if (!string.IsNullOrEmpty(textbox.Text))
                 {
-                    if (validationModel == ValidationMode.Dynamic)
+                    var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
+                    if (validationModel == ValidationMode.Forced || validationModel == ValidationMode.Instantly)
                     {
-                        textbox.Text = textbox.Text.Remove(textbox.Text.Length - 1);
-                        if (textbox.Text.Length != 0)
-                        {
-                            textbox.SelectionStart = textbox.Text.Length;
-                        }
+                        textbox.Text = string.Empty;
+                    }
+                    else if (validationModel == ValidationMode.Dynamic)
+                    {
+                        int selectionStart = textbox.SelectionStart - 1;
+                        textbox.Text = textbox.Text.Remove(textbox.SelectionStart - 1, 1);
+                        textbox.SelectionStart = selectionStart;
                     }
                 }
             }
