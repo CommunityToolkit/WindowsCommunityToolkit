@@ -35,13 +35,7 @@ You can set DockPanel LastChildFill property to true if you want the last item a
 | Property | Type | Description |
 | -- | -- | -- |
 | LastChildFill | bool | Gets or sets a value indicating whether the last child element within a DockPanel stretches to fill the remaining available space |
-
-## Methods
-
-| Methods | Return Type | Description |
-| -- | -- | -- |
-| GetDock(FrameworkElement) | Dock | Gets DockProperty attached property |
-| SetDock(FrameworkElement, Dock) | void | Sets DockProperty attached property |
+| Padding | Thickness | The dimensions of the space between the edge and its child as a Thickness value. Thickness is a structure that stores dimension values using pixel measures. |
 
 ## Sample Code
 
@@ -54,6 +48,6 @@ You can set DockPanel LastChildFill property to true if you want the last item a
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Controls/) |
 
-## API
+## API Source Code
 
 * [DockPanel source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DockPanel)

@@ -560,6 +560,9 @@
     <Compile Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml.cs">
       <DependentUpon>StaggeredPanelPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\StringExtensions\StringExtensionsPage.xaml.cs">
+      <DependentUpon>StringExtensionsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\TextToolbar\SampleFormatter.cs" />
     <Compile Include="SamplePages\TextToolbar\TextToolbarPage.xaml.cs">
       <DependentUpon>TextToolbarPage.xaml</DependentUpon>
@@ -866,6 +869,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\StringExtensions\StringExtensionsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1181,21 +1188,18 @@
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <_GenerateAppxManifestDependsOn>
       ModifyAppXPackageDebug;
       $(_GenerateAppxManifestDependsOn)
     </_GenerateAppxManifestDependsOn>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <_GenerateAppxManifestDependsOn>
       ModifyAppXPackageRelease;
       $(_GenerateAppxManifestDependsOn)
     </_GenerateAppxManifestDependsOn>
   </PropertyGroup>
-  
   <Target Name="ModifyAppXPackageDebug" Condition="'$(BuildingProject)' == 'true'">
     <ItemGroup>
       <toolkit_docs Include="$(SolutionDir)docs\**\*" />
@@ -1206,8 +1210,7 @@
       </AppxPackagePayload>
     </ItemGroup>
   </Target>
-  
-    <Target Name="ModifyAppXPackageRelease" Condition="'$(BuildingProject)' == 'true'">
+  <Target Name="ModifyAppXPackageRelease" Condition="'$(BuildingProject)' == 'true'">
     <ItemGroup>
       <toolkit_docs Include="$(SolutionDir)docs\**\*.md" />
     </ItemGroup>
@@ -1217,7 +1220,6 @@
       </AppxPackagePayload>
     </ItemGroup>
   </Target>
-    
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
     <ItemGroup>
