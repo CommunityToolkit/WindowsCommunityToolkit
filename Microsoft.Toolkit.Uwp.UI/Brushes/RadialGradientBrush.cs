@@ -105,6 +105,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         public static readonly DependencyProperty RadiusYProperty =
             DependencyProperty.Register(nameof(RadiusY), typeof(double), typeof(RadialGradientBrush), new PropertyMetadata(0.5));
 
+        /// <summary>
+        /// Gets or sets the type of spread method that specifies how to draw a gradient that starts or ends inside the bounds of the object to be painted. 
+        /// </summary>
+        public GradientSpreadMethod SpreadMethod
+        {
+            get { return (GradientSpreadMethod)GetValue(SpreadMethodProperty); }
+            set { SetValue(SpreadMethodProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="SpreadMethod"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SpreadMethodProperty =
+            DependencyProperty.Register(nameof(SpreadMethod), typeof(GradientSpreadMethod), typeof(RadialGradientBrush), new PropertyMetadata(GradientSpreadMethod.Pad));
+
         private static void OnGradientStopsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
         }
@@ -137,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
             GradientStops = gradientStopCollection;
         }
 
-        public override void OnDraw(CanvasDevice device, CanvasDrawingSession session, Vector2 size)
+        protected override void OnDraw(CanvasDevice device, CanvasDrawingSession session, Vector2 size)
         {
             if (_gradientBrush != null)
             {
@@ -146,11 +161,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
             }
 
             // Create our Brush
-            _gradientBrush = new CanvasRadialGradientBrush(device, this.GradientStops.ToWin2DGradientStops());
+            _gradientBrush = new CanvasRadialGradientBrush(
+                                    device,
+                                    this.GradientStops.ToWin2DGradientStops(),
+                                    (CanvasEdgeBehavior)(int)SpreadMethod,
+                                    CanvasAlphaMode.Premultiplied);
+
+            // Calculate Surface coordinates from 0.0-1.0 range given in WPF brush
             _gradientBrush.RadiusX = size.X * (float)RadiusX;
             _gradientBrush.RadiusY = size.Y * (float)RadiusY;
             _gradientBrush.Center = size * Center.ToVector2();
+
+            // Calculate Win2D Offset from origin/center used in WPF brush
             _gradientBrush.OriginOffset = size * (GradientOrigin.ToVector2() - Center.ToVector2());
+
+            // TODO: Need to adjust the opacity to better match output from WPF - maybe have to play with AlphaMode?
             _gradientBrush.Opacity = (float)Opacity;
 
             // Use brush to draw on our canvas
