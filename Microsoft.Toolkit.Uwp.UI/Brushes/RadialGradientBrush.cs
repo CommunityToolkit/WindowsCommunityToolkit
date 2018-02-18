@@ -102,9 +102,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
 
                 // Calculate Win2D Offset from origin/center used in WPF brush
                 OriginOffset = size * (GradientOrigin.ToVector2() - Center.ToVector2()),
-
-                // TODO: Need to adjust the opacity to better match output from WPF - maybe have to play with AlphaMode?
-                Opacity = (float)Opacity
             };
 
             // Use brush to draw on our canvas
