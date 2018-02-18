@@ -17,6 +17,7 @@ using Windows.Graphics.DirectX;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Hosting;
 
 namespace Microsoft.Toolkit.Uwp.UI.Brushes
 {
@@ -50,6 +51,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// </summary>
         protected override void OnConnected()
         {
+            base.OnConnected();
+
             // Delay creating composition resources until they're required.
             if (CompositionBrush == null)
             {
@@ -63,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
                 visual.Size = new Vector2(SURFACE_RESOLUTION_X, SURFACE_RESOLUTION_Y);
 
                 // TODO: Investigate if these can be shared across brushes?
-                var device = new CanvasDevice();
+                var device = CanvasDevice.GetSharedDevice();
                 var graphics = CanvasComposition.CreateCompositionGraphicsDevice(Window.Current.Compositor, device);
 
                 var surface = graphics.CreateDrawingSurface(visual.Size.ToSize(), DirectXPixelFormat.B8G8R8A8UIntNormalized, DirectXAlphaMode.Premultiplied);
@@ -86,6 +89,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// </summary>
         protected override void OnDisconnected()
         {
+            base.OnDisconnected();
+
             // Dispose of composition resources when no longer in use.
             if (CompositionBrush != null)
             {
