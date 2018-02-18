@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Gets device's family
         /// <para></para>
-        /// Can be one of the following value:
+        /// Common values include:
         /// <list type="bullet">
         /// <item>
         /// <term>"Windows.Desktop"</term>
@@ -70,6 +70,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <term>"Windows.IoT"</term>
         /// </item>
         /// </list>
+        /// <para></para>
+        /// Prepare your code for other values.
         /// </summary>
         public static string DeviceFamily { get; }
 
