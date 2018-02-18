@@ -29,6 +29,8 @@
         <RowDefinition />
         <RowDefinition />
         <RowDefinition />
+        <RowDefinition />
+        <RowDefinition />
       </Grid.RowDefinitions>
 
                 <StackPanel Margin="10,10,10,0">
@@ -83,6 +85,34 @@
         <StackPanel Orientation="Horizontal">
           <TextBlock Text="Is Valid: " />
           <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=DecimalValidatorForce, Converter={StaticResource StringFormatConverter}}" />
+        </StackPanel>
+      </StackPanel>
+
+      <StackPanel Grid.Row="4"
+                        Margin="10,10,10,0">
+        <TextBox Name="NumberValidatorInstantly"
+                 extensions:TextBoxRegex.ValidationMode="Instantly"
+                 extensions:TextBoxRegex.ValidationType="Number"
+                 Header="Text box with ValidationType=Number, validation occurs at input with ValidationMode=Instantly (clear text box value)"
+                 HeaderTemplate="{StaticResource HeaderTemplate}"
+                 Style="{StaticResource TextBoxRegexStyle}" />
+        <StackPanel Orientation="Horizontal">
+          <TextBlock Text="Is Valid: " />
+          <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=NumberValidatorInstantly, Converter={StaticResource StringFormatConverter}}" />
+        </StackPanel>
+      </StackPanel>
+
+      <StackPanel Grid.Row="5"
+                        Margin="10,10,10,0">
+        <TextBox Name="NumberValidatorDynamic"
+                 extensions:TextBoxRegex.ValidationMode="Dynamic"
+                 extensions:TextBoxRegex.ValidationType="Number"
+                 Header="Text box with ValidationType=Number, validation occurs at input with ValidationMode=Dynamic (clear only single character)"
+                 HeaderTemplate="{StaticResource HeaderTemplate}"
+                 Style="{StaticResource TextBoxRegexStyle}" />
+        <StackPanel Orientation="Horizontal">
+          <TextBlock Text="Is Valid: " />
+          <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=NumberValidatorDynamic, Converter={StaticResource StringFormatConverter}}" />
         </StackPanel>
       </StackPanel>
 
