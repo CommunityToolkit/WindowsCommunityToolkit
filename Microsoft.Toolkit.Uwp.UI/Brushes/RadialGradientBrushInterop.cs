@@ -24,6 +24,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
     internal static class RadialGradientBrushInterop
     {
         /// <summary>
+        /// Converts a WPF <see cref="ColorInterpolationMode"/> to a Win2D <see cref="CanvasColorSpace"/>.
+        /// https://msdn.microsoft.com/en-us/library/system.windows.media.colorinterpolationmode(v=vs.110).aspx
+        /// http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_CanvasColorSpace.htm
+        /// </summary>
+        /// <param name="colorspace"><see cref="ColorInterpolationMode"/> mode.</param>
+        /// <returns><see cref="CanvasColorSpace"/> space.</returns>
+        public static CanvasColorSpace ToCanvasColorSpace(this ColorInterpolationMode colorspace)
+        {
+            switch (colorspace)
+            {
+                case ColorInterpolationMode.ScRgbLinearInterpolation:
+                    return CanvasColorSpace.ScRgb;
+                case ColorInterpolationMode.SRgbLinearInterpolation:
+                    return CanvasColorSpace.Srgb;
+            }
+
+            return CanvasColorSpace.Custom;
+        }
+
+        /// <summary>
         /// Converts a WPF <see cref="GradientSpreadMethod"/> to a Win2D <see cref="CanvasEdgeBehavior"/>.
         /// https://msdn.microsoft.com/en-us/library/system.windows.media.gradientspreadmethod(v=vs.110).aspx
         /// http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_CanvasEdgeBehavior.htm

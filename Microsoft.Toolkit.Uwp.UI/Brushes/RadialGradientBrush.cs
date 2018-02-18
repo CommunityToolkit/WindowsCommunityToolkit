@@ -90,7 +90,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
                                     device,
                                     this.GradientStops.ToWin2DGradientStops(),
                                     SpreadMethod.ToEdgeBehavior(),
-                                    CanvasAlphaMode.Premultiplied)
+                                    (CanvasAlphaMode)(int)AlphaMode,
+                                    ColorInterpolationMode.ToCanvasColorSpace(),
+                                    CanvasColorSpace.Srgb,
+                                    CanvasBufferPrecision.Precision8UIntNormalized)
             {
                 // Calculate Surface coordinates from 0.0-1.0 range given in WPF brush
                 RadiusX = size.X * (float)RadiusX,

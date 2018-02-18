@@ -7,14 +7,14 @@
     mc:Ignorable="d">
 
   <Grid Background="Purple">
-    <Rectangle Width="500" Height="300" Stroke="Black" StrokeThickness="2">
+    <Image Source="/Assets/Photos/NovemberHikeWaterfall.jpg"/>
+    <Rectangle Width="300" Height="300" Stroke="Black" StrokeThickness="2">
       <Rectangle.Fill>
-        <brushes:RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.6,0.5" RadiusX="0.5" RadiusY="0.5">
+        <brushes:RadialGradientBrush AlphaMode="Premultiplied">
             <GradientStop Color="Red" Offset="0" />
-            <GradientStop Color="Black" Offset="0.20" />
-            <GradientStop Color="Yellow" Offset="0.40" />
-            <GradientStop Color="Pink" Offset="0.60" />
-            <GradientStop Color="Blue" Offset="0.80" />
+            <GradientStop Color="Transparent" Offset="0.25" />
+            <GradientStop Color="Yellow" Offset="0.50" />
+            <GradientStop Color="Transparent" Offset="0.75" />
             <GradientStop Color="Green" Offset="1.0" />
         </brushes:RadialGradientBrush>
       </Rectangle.Fill>

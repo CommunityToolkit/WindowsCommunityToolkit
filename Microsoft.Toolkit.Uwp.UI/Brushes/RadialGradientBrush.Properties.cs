@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Graphics.Canvas;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -21,6 +22,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
     /// </summary>
     public partial class RadialGradientBrush
     {
+        /// <summary>
+        /// Gets or sets a <see cref="AlphaMode"/> enumeration that specifies the way in which an alpha channel affects color channels.  The default is <see cref="AlphaMode.Straight"/> for compatibility with WPF.
+        /// </summary>
+        public AlphaMode AlphaMode
+        {
+            get { return (AlphaMode)GetValue(AlphaModeProperty); }
+            set { SetValue(AlphaModeProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="AlphaMode"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty AlphaModeProperty =
+            DependencyProperty.Register(nameof(AlphaMode), typeof(AlphaMode), typeof(RadialGradientBrush), new PropertyMetadata(AlphaMode.Straight));
+
+        /// <summary>
+        /// Gets or sets a <see cref="ColorInterpolationMode"/> enumeration that specifies how the gradient's colors are interpolated.  The default is <see cref="ColorInterpolationMode.SRgbLinearInterpolation"/>.
+        /// </summary>
+        public ColorInterpolationMode ColorInterpolationMode
+        {
+            get { return (ColorInterpolationMode)GetValue(ColorInterpolationModeProperty); }
+            set { SetValue(ColorInterpolationModeProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ColorInterpolationMode"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ColorInterpolationModeProperty =
+            DependencyProperty.Register(nameof(ColorInterpolationMode), typeof(ColorInterpolationMode), typeof(RadialGradientBrush), new PropertyMetadata(ColorInterpolationMode.SRgbLinearInterpolation));
+
         /// <summary>
         /// Gets or sets the brush's gradient stops.
         /// </summary>
