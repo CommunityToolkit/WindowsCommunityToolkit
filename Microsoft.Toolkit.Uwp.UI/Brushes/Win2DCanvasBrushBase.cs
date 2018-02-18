@@ -17,7 +17,6 @@ using Windows.Graphics.DirectX;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Hosting;
 
 namespace Microsoft.Toolkit.Uwp.UI.Brushes
 {
@@ -65,7 +64,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
                 var visual = Window.Current.Compositor.CreateSpriteVisual();
                 visual.Size = new Vector2(SURFACE_RESOLUTION_X, SURFACE_RESOLUTION_Y);
 
-                // TODO: Investigate if these can be shared across brushes?
                 var device = CanvasDevice.GetSharedDevice();
                 var graphics = CanvasComposition.CreateCompositionGraphicsDevice(Window.Current.Compositor, device);
 
