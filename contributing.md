@@ -21,7 +21,7 @@ That's why many of the guidelines of this document are obvious and serve only on
 
 
 ## <a name="question"></a> Questions
-Please do not open issues for general support questions and keep our GitHub issues for bug reports and feature requests. There is a much better chance of getting your question answered on [StackOverflow](https://stackoverflow.com/search?q=uwp+community+toolkit) where questions should be tagged with the tag `uwp-community-toolkit`
+Please do not open issues for general support questions and keep our GitHub issues for bug reports and feature requests. There is a much better chance of getting your question answered on [StackOverflow](https://stackoverflow.com/questions/tagged/uwp-community-toolkit) where questions should be tagged with the tag `uwp-community-toolkit`
 
 ## <a name="issue"></a> Found a Bug?
 If you find a bug, you can help us by
