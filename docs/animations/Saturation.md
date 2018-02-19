@@ -24,6 +24,7 @@ The Saturation animation selectively saturates a XAML element. Saturation animat
            Value="0" 
            Duration="2500" 
            Delay="250" 
+           EasingType="Bounce"
            AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```

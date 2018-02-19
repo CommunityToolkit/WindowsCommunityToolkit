@@ -51,6 +51,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         public static readonly DependencyProperty AutomaticallyStartProperty = DependencyProperty.Register(nameof(AutomaticallyStart), typeof(bool), typeof(CompositionBehaviorBase<T>), new PropertyMetadata(true, PropertyChangedCallback));
 
         /// <summary>
+        /// The easing function of the animation.
+        /// </summary>
+        public static readonly DependencyProperty EasingTypeProperty = DependencyProperty.Register(nameof(EasingType), typeof(EasingType), typeof(CompositionBehaviorBase<T>), new PropertyMetadata(EasingType.Default, PropertyChangedCallback));
+
+        /// <summary>
         /// Gets or sets a value indicating whether [automatically start] on the animation is set.
         /// </summary>
         /// <value>
@@ -84,6 +89,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             get { return (double)GetValue(DurationProperty); }
             set { SetValue(DurationProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the Easing function
+        /// </summary>
+        /// <value>
+        /// The easing function
+        /// </value>
+        public EasingType EasingType
+        {
+            get { return (EasingType)GetValue(EasingTypeProperty); }
+            set { SetValue(EasingTypeProperty, value); }
         }
 
         /// <summary>

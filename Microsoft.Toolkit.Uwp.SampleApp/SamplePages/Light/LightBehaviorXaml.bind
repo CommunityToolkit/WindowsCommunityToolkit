@@ -16,6 +16,7 @@
                         Duration="@[Duration:DoubleSlider:500.0:0.0-10000.0]"
                         Delay="@[Delay:DoubleSlider:0.0:0.0-5000.0]"
                         AutomaticallyStart="@[AutomaticallyStart:Bool:True]"
+                        EasingType="@[EasingType:Enum:EasingType.Bounce]"
                         Color="@[Color:Brush:Red]" />
       </interactivity:Interaction.Behaviors>
     </Image>
