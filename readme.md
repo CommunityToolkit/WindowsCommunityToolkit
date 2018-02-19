@@ -4,25 +4,21 @@ UWP Community Toolkit
 The UWP Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10.
 
 ## Build status
-
 | Target | Branch | Status | Recommended Nuget packages version |
 | ------ | ------ | ------ | ------ |
 | Production | rel/2.1.1 | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/rel/2.1.1?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/rel/2.1.1) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
 | Pre-release beta testing | master | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/master?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/master) | [![MyGet](https://img.shields.io/dotnet.myget/uwpcommunitytoolkit/vpre/Microsoft.Toolkit.Uwp.svg)](https://dotnet.myget.org/gallery/uwpcommunitytoolkit) |
 
 ## Getting started
-
 Please read the [getting Started with the UWP Toolkit](https://docs.microsoft.com/windows/uwpcommunitytoolkit/getting-started) page for more detailed information about using the toolkit.
 
 ## Documentation
 All documentation for the toolkit is hosted on [Microsoft Docs](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/). All API documentation can be found at the [.NET API Browser.](https://docs.microsoft.com/en-us/dotnet/api/?term=microsoft.toolkit)
 
 ## UWP Community Toolkit Sample App
-
 Want to see the toolkit in action before jumping into the code?  Download and play with the [UWP Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
 
 ## Nuget Packages
-
 NuGet is a standard package manager for .NET applications that is built into Visual Studio. From your open solution choose the *Tools* menu, *NuGet Package Manager*, *Manage NuGet packages for solution...* to open the UI.  Enter one of the package names below to search for it online.
 
 Once you search you should see a list similar to the one below (versions may be different, but names should be the same).
@@ -52,7 +48,6 @@ Once you search you should see a list similar to the one below (versions may be 
 ## Features
 
 ### Animations
-
 * [Blur](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Blur/)
 * [Composition Animations](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/CompositionAnimations/)
 * [Connected Animations](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/ConnectedAnimations/)
@@ -69,7 +64,6 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Scale](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Scale/)
 
 ### Controls
-
 * [AdaptiveGridView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/AdaptiveGridView/)
 * [BladeView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/BladeView/)
 * [Carousel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Carousel/)
@@ -116,7 +110,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [VisualTree](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/VisualTree/)
 * [WebView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/WebView/)
 
-### Code Helpers
+### Helpers
 * [AdvancedCollectionView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/AdvancedCollectionView/)
 * [AppPinManager](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/AppPinManager/)
 * [BackgroundTaskHelper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/BackgroundTaskHelper/)
@@ -139,7 +133,6 @@ Once you search you should see a list similar to the one below (versions may be 
 * [WeakEventListener](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/WeakEventListener/)
 
 ### Services
-
 * [Bing](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Bing/)
 * [Facebook](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Facebook/)
 * [LinkedIn](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Linkedin/)
@@ -149,7 +142,6 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Twitter](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Twitter/)
 
 ### Parsers
-
 * [Markdown Parser](https://docs.microsoft.com/windows/uwpcommunitytoolkit/parsers/MarkdownParser/)
 * [RSS Parser](https://docs.microsoft.com/windows/uwpcommunitytoolkit/parsers/RSSParser/)
 
@@ -158,16 +150,14 @@ Once you search you should see a list similar to the one below (versions may be 
 - [Toasts](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/02/adaptive-and-interactive-toast-notifications-for-windows-10/)
 
 ## Feedback and Requests
-
 Please use [GitHub issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for bug reports and feature requests.
 For feature requests, please also create en entry in our [Uservoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit).
-For general questions and support, please use [Stack Overflow](https://stackoverflow.com/search?q=uwp+community+toolkit) where questions should be tagged with the tag `uwp-community-toolkit`
+For general questions and support, please use [Stack Overflow](https://stackoverflow.com/questions/tagged/uwp-community-toolkit) where questions should be tagged with the tag `uwp-community-toolkit`
 
 ## Contributing
 Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md).
 
 ## Principles
-
  - Principle #1: The toolkit will be kept simple.
  - Principle #2: As soon as a comparable feature is available in the Windows SDK for Windows 10, it will be marked as deprecated.
  - Principle #3: All features will be supported for two Windows SDK for Windows 10 release cycles or until another principle supersedes it.
@@ -177,11 +167,9 @@ to clarify expected behavior in our community.
 For more information see the [.NET Foundation Code of Conduct](http://www.dotnetfoundation.org/code-of-conduct). 
 
 ## Roadmap
-
 Read what we [plan for next iterations](https://github.com/Microsoft/UWPCommunityToolkit/milestones), and feel free to ask questions.
 
 By adding this ([Nuget repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your Visual Studio, you can also get pre-release packages of upcoming version.
 
 ## .NET Foundation
-
 This project is supported by the [.NET Foundation](http://www.dotnetfoundation.org).
