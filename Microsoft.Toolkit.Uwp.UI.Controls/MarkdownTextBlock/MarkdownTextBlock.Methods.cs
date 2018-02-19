@@ -168,13 +168,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Clear any hyper link events if we have any
             foreach (object link in _listeningHyperlinks)
             {
-                if (link is Hyperlink)
+                if (link is Hyperlink hyperlink)
                 {
-                    (link as Hyperlink).Click -= Hyperlink_Click;
+                    hyperlink.Click -= Hyperlink_Click;
                 }
-                else if (link is Image)
+                else if (link is Image image)
                 {
-                    (link as Image).Tapped -= NewImagelink_Tapped;
+                    image.Tapped -= NewImagelink_Tapped;
                 }
             }
 
