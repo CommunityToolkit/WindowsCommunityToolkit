@@ -460,7 +460,6 @@
     </Content>
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlXaml.bind" />
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControlXaml.bind" />
-    <Content Include="SamplePages\AppPinManager\AppPinManagerHelperCode.bind" />
     <Content Include="SamplePages\Mouse\MouseCursorPage.bind" />
     <Content Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsCode.bind">
       <SubType>Designer</SubType>
@@ -498,9 +497,6 @@
     <Compile Include="Models\PropertyDescriptor\ThicknessPropertyOptions.cs" />
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\AppPinManager\AppPinManagerHelperPage.xaml.cs">
-      <DependentUpon>AppPinManagerHelperPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperPage.xaml.cs">
       <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
@@ -793,10 +789,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\PropertyControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\AppPinManager\AppPinManagerHelperPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
