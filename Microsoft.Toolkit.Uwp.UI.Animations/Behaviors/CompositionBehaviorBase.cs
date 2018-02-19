@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         public static readonly DependencyProperty AutomaticallyStartProperty = DependencyProperty.Register(nameof(AutomaticallyStart), typeof(bool), typeof(CompositionBehaviorBase<T>), new PropertyMetadata(true, PropertyChangedCallback));
 
         /// <summary>
-        /// The easing function of the animation.
+        /// The <see cref="EasingType"/> used to generate the easing function of the animation.
         /// </summary>
         public static readonly DependencyProperty EasingTypeProperty = DependencyProperty.Register(nameof(EasingType), typeof(EasingType), typeof(CompositionBehaviorBase<T>), new PropertyMetadata(EasingType.Default, PropertyChangedCallback));
 
@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         }
 
         /// <summary>
-        /// Gets or sets the Easing function
+        /// Gets or sets the <see cref="EasingType"/> used to generate the easing function of the animation.
         /// </summary>
         /// <value>
         /// The easing function
