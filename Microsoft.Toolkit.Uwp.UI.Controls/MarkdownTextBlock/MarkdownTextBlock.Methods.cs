@@ -166,9 +166,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void UnhookListeners()
         {
             // Clear any hyper link events if we have any
-            foreach (Hyperlink link in _listeningHyperlinks)
+            foreach (object link in _listeningHyperlinks)
             {
-                link.Click -= Hyperlink_Click;
+                if (link is Hyperlink)
+                {
+                    (link as Hyperlink).Click -= Hyperlink_Click;
+                }
+                else if (link is Image)
+                {
+                    (link as Image).Tapped -= NewImagelink_Tapped;
+                }
             }
 
             // Clear everything that exists.
