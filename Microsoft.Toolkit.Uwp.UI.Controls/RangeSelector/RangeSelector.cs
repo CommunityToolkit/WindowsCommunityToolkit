@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the StepFrequency dependency property.
         /// </summary>
-        public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultStepFrequency, StepFrequencyChangedCallback));
+        public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultStepFrequency));
 
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
@@ -185,8 +185,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 ArrangeForTouch();
             }
-
-            ResetStepFrequency();
 
             base.OnApplyTemplate();
         }
@@ -639,23 +637,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 SetValue(StepFrequencyProperty, value);
             }
-        }
-
-        private static void StepFrequencyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var rangeSelector = d as RangeSelector;
-            if (rangeSelector == null)
-            {
-                return;
-            }
-
-            rangeSelector.ResetStepFrequency();
-        }
-
-        private void ResetStepFrequency()
-        {
-            RangeMinToStepFrequency();
-            RangeMaxToStepFrequency();
         }
 
         private void RangeMinToStepFrequency()
