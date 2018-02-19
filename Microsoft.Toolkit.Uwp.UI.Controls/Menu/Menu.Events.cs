@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Diagnostics;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
@@ -149,9 +148,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
         {
-            Debug.WriteLine("start " + args.VirtualKey + " " + args.KeyStatus.IsMenuKeyDown + " " + args.KeyStatus.ScanCode + " " + args.KeyStatus.IsKeyReleased + " " + args.EventType);
-
-            if (Items.Count == 0 || args.EventType == CoreAcceleratorKeyEventType.KeyUp || (!args.KeyStatus.IsMenuKeyDown && args.KeyStatus.ScanCode != AltScanCode && args.VirtualKey != VirtualKey.Menu))
+            if (Items.Count == 0)
             {
                 return;
             }
@@ -172,11 +169,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if (_onlyAltCharacterPressed && args.KeyStatus.IsKeyReleased)
                         {
                             ((MenuItem)Items[0]).Focus(FocusState.Programmatic);
-                        }
 
-                        if (!(_lastFocusElement is MenuItem))
-                        {
-                            _lastFocusElementBeforeMenu = _lastFocusElement;
+                            if (!(_lastFocusElement is MenuItem))
+                            {
+                                _lastFocusElementBeforeMenu = _lastFocusElement;
+                            }
                         }
 
                         if (AllowTooltip)
@@ -193,17 +190,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             _isLostFocus = false;
                         }
                     }
-                    else if (!_isLostFocus && args.KeyStatus.IsKeyReleased)
+                    else if (args.KeyStatus.IsKeyReleased)
                     {
-                        if (AllowTooltip)
-                        {
-                            HideMenuItemsTooltips();
-                        }
-                        else
-                        {
-                            RemoveUnderlineMenuItems();
-                        }
-
+                        HideToolTip();
                         _lastFocusElementBeforeMenu?.Focus(FocusState.Keyboard);
                     }
                 }
@@ -228,9 +217,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            if (args.KeyStatus.IsKeyReleased)
+            if (args.KeyStatus.IsKeyReleased && args.EventType == CoreAcceleratorKeyEventType.KeyUp)
             {
                 _onlyAltCharacterPressed = true;
+                _isLostFocus = true;
+                HideToolTip();
+            }
+        }
+
+        private void HideToolTip()
+        {
+            if (AllowTooltip)
+            {
+                HideMenuItemsTooltips();
+            }
+            else
+            {
+                RemoveUnderlineMenuItems();
             }
         }
     }
