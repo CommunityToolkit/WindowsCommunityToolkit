@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void Hyperlink_Click(Hyperlink sender, HyperlinkClickEventArgs args)
         {
-            LinkHandled((string)sender.GetValue(HyperlinkUrlProperty), "Hyperlink");
+            LinkHandled((string)sender.GetValue(HyperlinkUrlProperty), LinkReturnType.Hyperlink);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void NewImagelink_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            LinkHandled((string)(sender as Image).GetValue(HyperlinkUrlProperty), "Image");
+            LinkHandled((string)(sender as Image).GetValue(HyperlinkUrlProperty), LinkReturnType.Image);
         }
 
         /// <summary>
