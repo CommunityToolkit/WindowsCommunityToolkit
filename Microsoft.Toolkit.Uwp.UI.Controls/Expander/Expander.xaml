@@ -305,12 +305,48 @@
                                         <Setter Target="ColumnOne.Width" Value="*" />
                                         <Setter Target="ColumnTwo.Width" Value="Auto" />
 
+                                        <Setter Target="PART_MainContent.RenderTransformOrigin" Value="1, 0.5" />
+
                                     </VisualState.Setters>
+
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentPresenter"
+                                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                         BeginTime="0:0:0.25" Duration="0:0:0.3" From="0" To="1" />
+
+                                        <DoubleAnimation Storyboard.TargetName="ContentPresenter"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                                         BeginTime="0:0:0.25" Duration="0:0:0.3" From="20" To="0" />
+
+                                        <DoubleAnimation Storyboard.TargetName="PART_MainContent"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                         Duration="0:0:0.3" From="0" To="1" />
+                                        <DoubleAnimation Storyboard.TargetName="PART_MainContent"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                         Duration="0:0:0.3" From="1" To="1" />
+                                    </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="VisibleDown">
                                     <VisualState.Setters>
                                         <Setter Target="PART_MainContent.Visibility" Value="Visible" />
                                     </VisualState.Setters>
+
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentPresenter"
+                                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                         BeginTime="0:0:0.25" Duration="0:0:0.3" From="0" To="1" />
+
+                                        <DoubleAnimation Storyboard.TargetName="ContentPresenter"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                                         BeginTime="0:0:0.25" Duration="0:0:0.3" From="20" To="0" />
+
+                                        <DoubleAnimation Storyboard.TargetName="PART_MainContent"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                         Duration="0:0:0.3" From="1" To="1" />
+                                        <DoubleAnimation Storyboard.TargetName="PART_MainContent"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                         Duration="0:0:0.3" From="0" To="1" />
+                                    </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="VisibleRight">
                                     <VisualState.Setters>
@@ -335,6 +371,22 @@
 
                                     </VisualState.Setters>
 
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentPresenter"
+                                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                         BeginTime="0:0:0.25" Duration="0:0:0.3" From="0" To="1" />
+
+                                        <DoubleAnimation Storyboard.TargetName="ContentPresenter"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                                         BeginTime="0:0:0.25" Duration="0:0:0.3" From="20" To="0" />
+                                        
+                                        <DoubleAnimation Storyboard.TargetName="PART_MainContent"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                         Duration="0:0:0.3" From="0" To="1" />
+                                        <DoubleAnimation Storyboard.TargetName="PART_MainContent"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                         Duration="0:0:0.3" From="1" To="1" />
+                                    </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="VisibleUp">
                                     <VisualState.Setters>
@@ -360,6 +412,23 @@
 
                                         <Setter Target="RotateLayoutTransform.Angle" Value="0" />
                                     </VisualState.Setters>
+
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentPresenter"
+                                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                         BeginTime="0:0:0.25" Duration="0:0:0.3" From="0" To="1" />
+
+                                        <DoubleAnimation Storyboard.TargetName="ContentPresenter"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                                         BeginTime="0:0:0.25" Duration="0:0:0.3" From="20" To="0" />
+
+                                        <DoubleAnimation Storyboard.TargetName="PART_MainContent"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                         Duration="0:0:0.3" From="1" To="1" />
+                                        <DoubleAnimation Storyboard.TargetName="PART_MainContent"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                         Duration="0:0:0.3" From="0" To="1" />
+                                    </Storyboard>
                                 </VisualState>
 
                                 <VisualState x:Name="CollapsedLeft">
@@ -386,10 +455,36 @@
                                         <Setter Target="ColumnTwo.Width" Value="Auto" />
 
                                     </VisualState.Setters>
+
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentPresenter"
+                                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                         Duration="0:0:0.2" From="1" To="0" />
+
+                                        <DoubleAnimation Storyboard.TargetName="PART_MainContent"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                         Duration="0:0:0.2" To="0" />
+                                        <DoubleAnimation Storyboard.TargetName="PART_MainContent"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                         Duration="0:0:0.2" To="1" />
+                                    </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CollapsedDown">
                                     <VisualState.Setters>
                                     </VisualState.Setters>
+
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentPresenter"
+                                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                         Duration="0:0:0.2" From="1" To="0" />
+
+                                        <DoubleAnimation Storyboard.TargetName="PART_MainContent"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                         Duration="0:0:0.2" From="1" To="1" />
+                                        <DoubleAnimation Storyboard.TargetName="PART_MainContent"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                         Duration="0:0:0.2" From="1" To="0" />
+                                    </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CollapsedRight">
                                     <VisualState.Setters>
@@ -413,6 +508,19 @@
                                         <Setter Target="RotateLayoutTransform.Angle" Value="-90" />
 
                                     </VisualState.Setters>
+
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentPresenter"
+                                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                         Duration="0:0:0.2" From="1" To="0" />
+
+                                        <DoubleAnimation Storyboard.TargetName="PART_MainContent"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                         Duration="0:0:0.2" To="0" />
+                                        <DoubleAnimation Storyboard.TargetName="PART_MainContent"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                         Duration="0:0:0.2" To="1" />
+                                    </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CollapsedUp">
                                     <VisualState.Setters>
@@ -436,6 +544,19 @@
 
                                         <Setter Target="RotateLayoutTransform.Angle" Value="0" />
                                     </VisualState.Setters>
+
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentPresenter"
+                                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                         Duration="0:0:0.2" From="1" To="0" />
+
+                                        <DoubleAnimation Storyboard.TargetName="PART_MainContent"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                         Duration="0:0:0.2" From="1" To="1" />
+                                        <DoubleAnimation Storyboard.TargetName="PART_MainContent"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                         Duration="0:0:0.2" From="1" To="0" />
+                                    </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
@@ -464,19 +585,27 @@
                             </ContentControl>
 
                             <Grid Grid.Row="1" 
-                                      Grid.RowSpan="1" 
-                                      Grid.Column="0" 
-                                      Grid.ColumnSpan="2"
-                                      x:Name="PART_MainContent"
-                                      Visibility="Collapsed"
-                                      extensions:VisualEx.NormalizedCenterPoint="0"
-                                      Background="{TemplateBinding Background}">
+                                  Grid.RowSpan="1" 
+                                  Grid.Column="0" 
+                                  Grid.ColumnSpan="2"
+                                  x:Name="PART_MainContent"
+                                  Visibility="Collapsed"
+                                  extensions:VisualEx.NormalizedCenterPoint="0"
+                                  Background="{TemplateBinding Background}">
 
-                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                <ContentPresenter x:Name="ContentPresenter"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  VerticalContentAlignment="Stretch" />
+                                                  VerticalContentAlignment="Stretch">
+                                    <ContentPresenter.RenderTransform>
+                                        <TranslateTransform />
+                                    </ContentPresenter.RenderTransform>
+                                </ContentPresenter>
 
+                                <Grid.RenderTransform>
+                                    <ScaleTransform />
+                                </Grid.RenderTransform>
                             </Grid>
 
                             <controls:LayoutTransformControl Grid.Row="0" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="2"
