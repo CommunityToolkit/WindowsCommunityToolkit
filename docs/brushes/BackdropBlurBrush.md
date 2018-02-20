@@ -1,9 +1,8 @@
 ---
 title: BackdropBlurBrush
 author: michael-hawker
-ms.date: 02/08/2018
 description: The BackdropBlurBrush is a Brush that blurs whatever is behind it in the application.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Colors Helper
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, brush, backdrop, blur
 ---
 
 # BackdropBlurBrush
@@ -21,6 +20,10 @@ It is based on the example provided on [MSDN](https://docs.microsoft.com/en-us/u
       </Border.Background>
     </Border>
 ```
+
+## Example Image
+
+![Backdrop Blur](../resources/images/Brushes-BackdropBlur.jpg "Backdrop Blur")
 
 ## Properties
 

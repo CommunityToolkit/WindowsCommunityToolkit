@@ -10,6 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+//// Image loading reference from https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#MA0k4EYWzqGKV501.97
+
 using System;
 using Microsoft.Graphics.Canvas.Effects;
 using Windows.UI;
@@ -21,8 +23,7 @@ using Windows.UI.Xaml.Media.Imaging;
 namespace Microsoft.Toolkit.Uwp.UI.Brushes
 {
     /// <summary>
-    /// Brush which blends a <see cref="BitmapImage"/> to the Backdrop in a given mode. http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffect.htm
-    /// Image loading reference from https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#MA0k4EYWzqGKV501.97
+    /// Brush which blends a <see cref="BitmapImage"/> to the Backdrop in a given mode. See http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffect.htm.
     /// </summary>
     public class ImageBlendBrush : XamlCompositionBrushBase
     {
@@ -49,12 +50,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
 
         /// <summary>
         /// Identifies the <see cref="Stretch"/> dependency property.
+        /// Requires 16299 or higher for modes other than None.
         /// </summary>
         public static readonly DependencyProperty StretchProperty = DependencyProperty.Register(
             nameof(Stretch),
             typeof(Stretch),
             typeof(ImageBlendBrush),
-            new PropertyMetadata(Stretch.Uniform, new PropertyChangedCallback(OnStretchChanged)));
+            new PropertyMetadata(Stretch.None, new PropertyChangedCallback(OnStretchChanged)));
 
         /// <summary>
         /// Gets or sets how to stretch the image within the brush.
@@ -131,7 +133,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// </summary>
         public ImageBlendBrush()
         {
-            this.FallbackColor = Colors.Transparent;
         }
 
         /// <summary>
@@ -164,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
                 var graphicsEffect = new BlendEffect
                 {
                     Name = "Invert",
-                    Mode = (BlendEffectMode)(int)this.Mode,
+                    Mode = (BlendEffectMode)(int)Mode,
                     Background = new CompositionEffectSourceParameter("backdrop"),
                     Foreground = new CompositionEffectSourceParameter("image")
                 };
@@ -193,13 +194,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
 
             if (_surfaceBrush != null)
             {
-                _surfaceBrush?.Dispose();
+                _surfaceBrush.Dispose();
                 _surfaceBrush = null;
             }
 
             if (_surface != null)
             {
-                _surface?.Dispose();
+                _surface.Dispose();
                 _surface = null;
             }
         }

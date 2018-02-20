@@ -10,9 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
-using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -66,7 +64,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// </summary>
         public BackdropSaturationBrush()
         {
-            this.FallbackColor = Colors.Transparent;
         }
 
         /// <summary>
@@ -89,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
                 var graphicsEffect = new SaturationEffect
                 {
                     Name = "Saturation",
-                    Saturation = (float)this.Saturation,
+                    Saturation = (float)Saturation,
                     Source = new CompositionEffectSourceParameter("backdrop")
                 };
 

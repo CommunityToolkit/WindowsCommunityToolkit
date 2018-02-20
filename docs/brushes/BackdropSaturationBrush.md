@@ -1,9 +1,8 @@
 ---
 title: BackdropSaturationBrush
 author: michael-hawker
-ms.date: 02/13/2018
 description: The BackdropSaturationBrush is a Brush that applies a Saturation effect to whatever is behind it in the application.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Colors Helper
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, brush, backdrop, saturation
 ---
 
 # BackdropSaturationBrush
@@ -15,12 +14,14 @@ The **BackdropSaturationBrush** is a [Brush](https://docs.microsoft.com/en-us/uw
 ```xaml
     <Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="400">
       <Border.Background>
-        <brushes:BackdropSepiaBrush Intensity="0.75" />
+        <brushes:BackdropSepiaBrush Intensity="0.25" />
       </Border.Background>
     </Border>
 ```
 
-## Properties
+## Example Image
+
+![Backdrop Saturation](../resources/images/Brushes-BackdropSaturation.jpg "Backdrop Saturation")
 
 ## Properties
 
