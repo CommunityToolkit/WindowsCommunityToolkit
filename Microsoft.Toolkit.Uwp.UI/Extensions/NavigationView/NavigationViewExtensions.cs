@@ -22,6 +22,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     [Bindable]
     public class NavigationViewExtensions
     {
+        // Name of Content area in NavigationView Template.
+        private const string CONTENT_GRID = "ContentGrid";
+
         /// <summary>
         /// Gets the index of the selected <see cref="NavigationViewItem"/>.
         /// </summary>
@@ -75,16 +78,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void OnCollapseOnClickChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var navview = d as Windows.UI.Xaml.Controls.NavigationView;
-
-            if (navview == null)
-            {
-                return;
-            }
+            // This should always be a NavigationView.
+            var navview = (NavigationView)d;
 
             navview.ItemInvoked -= Navview_ItemInvoked;
 
-            if (e.NewValue as bool? == true)
+            if ((bool?)e.NewValue == true)
             {
                 // Listen for clicks on navigation items
                 navview.ItemInvoked += Navview_ItemInvoked;
@@ -92,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             else
             {
                 // Make sure we're visible if we toggle this off.
-                var content = navview.FindDescendantByName("ContentGrid");
+                var content = navview.FindDescendantByName(CONTENT_GRID);
 
                 if (content != null)
                 {
@@ -103,12 +102,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void Navview_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            var content = sender.FindDescendantByName("ContentGrid");
+            var content = sender.FindDescendantByName(CONTENT_GRID);
 
             if (content != null)
             {
                 // If we click the item we already have selected, we want to collapse our content
-                if (sender.SelectedItem != null && args.InvokedItem.Equals((sender.SelectedItem as NavigationViewItem).Content))
+                if (sender.SelectedItem != null && args.InvokedItem.Equals(((NavigationViewItem)sender.SelectedItem).Content))
                 {
                     // We need to dispatch this so the underlying selection event from our invoke processes.
                     // Otherwise, we just end up back where we started.  We don't care about waiting for this to finish.
@@ -130,12 +129,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void OnSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var navview = d as Windows.UI.Xaml.Controls.NavigationView;
-
-            if (navview == null)
-            {
-                return;
-            }
+            var navview = (NavigationView)d;
 
             navview.Loaded -= Navview_Loaded;
             Navview_Loaded(d, null); // For changes
@@ -147,18 +141,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void Navview_Loaded(object sender, RoutedEventArgs e)
         {
-            if (sender != null && sender is NavigationView navview)
-            {
-                int value = GetSelectedIndex(navview);
+            var navview = (NavigationView)sender;
 
-                if (value >= 0 && value < navview.MenuItems.Count && navview.SelectedItem != navview.MenuItems[value])
-                {
-                    navview.SelectedItem = navview.MenuItems[value];
-                }
-                else
-                {
-                    navview.SelectedItem = null;
-                }
+            int value = GetSelectedIndex(navview);
+
+            if (value >= 0 && value < navview.MenuItems.Count && navview.SelectedItem != navview.MenuItems[value])
+            {
+                navview.SelectedItem = navview.MenuItems[value];
+            }
+            else
+            {
+                navview.SelectedItem = null;
             }
         }
 
