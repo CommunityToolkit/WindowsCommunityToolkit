@@ -100,9 +100,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The calculated item width.</returns>
         protected virtual double CalculateItemWidth(double containerWidth)
         {
-            double desiredWidth = double.IsNaN(DesiredWidth) ? containerWidth : DesiredWidth;
+            if (double.IsNaN(DesiredWidth))
+            {
+                return DesiredWidth;
+            }
 
-            var columns = CalculateColumns(containerWidth, desiredWidth);
+            var columns = CalculateColumns(containerWidth, DesiredWidth);
 
             // If there's less items than there's columns, reduce the column count (if requested);
             if (Items != null && Items.Count > 0 && Items.Count < columns && StretchContentForSingleRow)

@@ -22,6 +22,14 @@
 ## [Saturation](animations/Saturation.md)
 ## [Scale](animations/Scale.md)
 
+# Brushes
+## [BackdropBlurBrush](brushes/BackdropBlurBrush.md)
+## [BackdropGammaTransferBrush](brushes/BackdropGammaTransferBrush.md)
+## [BackdropInvertBrush](brushes/BackdropInvertBrush.md)
+## [BackdropSaturationBrush](brushes/BackdropSaturationBrush.md)
+## [BackdropSepiaBrush](brushes/BackdropSepiaBrush.md)
+## [ImageBlendBrush](brushes/ImageBlendBrush.md)
+
 # Controls
 ## [AdaptiveGridView](controls/AdaptiveGridView.md)
 ## [Blade](controls/BladeView.md)
