@@ -10,10 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-// Example brush from https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.xamlcompositionbrushbase
- 
+//// Example brush from https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.xamlcompositionbrushbase
+
 using Microsoft.Graphics.Canvas.Effects;
-using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -56,7 +55,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// </summary>
         public BackdropBlurBrush()
         {
-            this.FallbackColor = Colors.Transparent;
         }
 
         /// <summary>
@@ -79,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
                 var graphicsEffect = new GaussianBlurEffect
                 {
                     Name = "Blur",
-                    BlurAmount = (float)this.Amount,
+                    BlurAmount = (float)Amount,
                     Source = new CompositionEffectSourceParameter("backdrop")
                 };
 

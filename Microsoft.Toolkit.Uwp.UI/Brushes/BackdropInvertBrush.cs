@@ -10,10 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-// Example brush from https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#z70vPv1QMAvZsceo.97
+//// Example brush from https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#z70vPv1QMAvZsceo.97
 
 using Microsoft.Graphics.Canvas.Effects;
-using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -30,7 +29,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// </summary>
         public BackdropInvertBrush()
         {
-            this.FallbackColor = Colors.Transparent;
         }
 
         /// <summary>

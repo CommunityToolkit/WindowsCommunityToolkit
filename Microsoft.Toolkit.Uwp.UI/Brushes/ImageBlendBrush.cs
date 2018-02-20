@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-// Image loading reference from https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#MA0k4EYWzqGKV501.97
+//// Image loading reference from https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#MA0k4EYWzqGKV501.97
 
 using System;
 using Microsoft.Graphics.Canvas.Effects;
@@ -133,7 +133,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// </summary>
         public ImageBlendBrush()
         {
-            this.FallbackColor = Colors.Transparent;
         }
 
         /// <summary>
@@ -166,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
                 var graphicsEffect = new BlendEffect
                 {
                     Name = "Invert",
-                    Mode = (BlendEffectMode)(int)this.Mode,
+                    Mode = (BlendEffectMode)(int)Mode,
                     Background = new CompositionEffectSourceParameter("backdrop"),
                     Foreground = new CompositionEffectSourceParameter("image")
                 };
@@ -195,13 +194,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
 
             if (_surfaceBrush != null)
             {
-                _surfaceBrush?.Dispose();
+                _surfaceBrush.Dispose();
                 _surfaceBrush = null;
             }
 
             if (_surface != null)
             {
-                _surface?.Dispose();
+                _surface.Dispose();
                 _surface = null;
             }
         }

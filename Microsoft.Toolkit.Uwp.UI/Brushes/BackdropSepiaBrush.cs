@@ -10,9 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
-using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -66,7 +64,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// </summary>
         public BackdropSepiaBrush()
         {
-            this.FallbackColor = Colors.Transparent;
         }
 
         /// <summary>
@@ -89,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
                 var graphicsEffect = new SepiaEffect
                 {
                     Name = "Sepia",
-                    Intensity = (float)this.Intensity,
+                    Intensity = (float)Intensity,
                     Source = new CompositionEffectSourceParameter("backdrop")
                 };
 

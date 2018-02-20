@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using Microsoft.Graphics.Canvas.Effects;
-using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -291,7 +290,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// </summary>
         public BackdropGammaTransferBrush()
         {
-            this.FallbackColor = Colors.Transparent;
         }
 
         /// <summary>
