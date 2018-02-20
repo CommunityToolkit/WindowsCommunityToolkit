@@ -618,6 +618,78 @@
     ]
   },
   {
+    "Name": "Brushes",
+    "Icon": "Icons/Brushes.png",
+    "Samples": [
+      {
+        "Name": "BackdropBlurBrush",
+        "Type": "BackdropBlurBrushPage",
+        "About": "Brush which fills the contents with a blurred version of whatever's behind it.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Brushes/BackdropBlurBrush.cs",
+        "XamlCodeFile": "BackdropBlurBrushXaml.bind",
+        "Icon": "/SamplePages/BackdropBlurBrush/BackdropBlurBrush.png",
+        "BadgeUpdateVersionRequired": "Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropBlurBrush.md"
+      },
+      {
+        "Name": "BackdropInvertBrush",
+        "Type": "BackdropInvertBrushPage",
+        "About": "Brush which fills the contents with an inverted version of whatever's behind it.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Brushes/BackdropInvertBrush.cs",
+        "XamlCodeFile": "BackdropInvertBrushXaml.bind",
+        "Icon": "/SamplePages/BackdropInvertBrush/BackdropInvertBrush.png",
+        "BadgeUpdateVersionRequired": "Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropInvertBrush.md"
+      },
+      {
+        "Name": "BackdropGammaTransferBrush",
+        "Type": "BackdropGammaTransferBrushPage",
+        "About": "Brush which fills the contents with a gamma modified version of whatever's behind it.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Brushes/BackdropGammaTransferBrush.cs",
+        "XamlCodeFile": "BackdropGammaTransferBrushXaml.bind",
+        "Icon": "/SamplePages/BackdropGammaTransferBrush/BackdropGammaTransferBrush.png",
+        "BadgeUpdateVersionRequired": "Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropGammaTransferBrush.md"
+      },
+      {
+        "Name": "BackdropSaturationBrush",
+        "Type": "BackdropSaturationBrushPage",
+        "About": "Brush which applies a Saturation effect to whatever's behind it.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Brushes/BackdropSaturationBrush.cs",
+        "XamlCodeFile": "BackdropSaturationBrushXaml.bind",
+        "Icon": "/SamplePages/BackdropSaturationBrush/BackdropSaturationBrush.png",
+        "BadgeUpdateVersionRequired": "Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropSaturationBrush.md"
+      },
+      {
+        "Name": "BackdropSepiaBrush",
+        "Type": "BackdropSepiaBrushPage",
+        "About": "Brush which applies a Sepia effect to whatever's behind it.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Brushes/BackdropSepiaBrush.cs",
+        "XamlCodeFile": "BackdropSepiaBrushXaml.bind",
+        "Icon": "/SamplePages/BackdropSepiaBrush/BackdropSepiaBrush.png",
+        "BadgeUpdateVersionRequired": "Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropSepiaBrush.md"
+      },
+      {
+        "Name": "ImageBlendBrush",
+        "Type": "ImageBlendBrushPage",
+        "About": "Brush which applies a blending effect a given image from whatever's behind it.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Brushes/ImageBlendBrush.cs",
+        "XamlCodeFile": "ImageBlendBrushXaml.bind",
+        "Icon": "/SamplePages/ImageBlendBrush/ImageBlendBrush.png",
+        "BadgeUpdateVersionRequired": "Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/ImageBlendBrush.md"
+      }
+    ]
+  },
+  {
     "Name": "Extensions",
     "Icon": "Icons/Extensions.png",
     "Samples": [
@@ -701,7 +773,18 @@
         "About": "String Extensions to validate strings",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit/Extensions",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/StringExtensions.md"
+		"DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/StringExtensions.md"
+      },
+      {
+        "Name": "NavigationViewStyles",
+        "Type": "NavigationViewStylesPage",
+        "XamlCodeFile": "NavigationViewStylesXaml.bind",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/NavigationView.md",
+        "Icon": "/SamplePages/NavigationViewStyles/NavigationViewStyles.png",
+        "About": "Style extensions for the NavigationView to appear like the one used by Visual Studio Code.",
+        "BadgeUpdateVersionRequired": "Fall Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Controls.NavigationView",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/NavigationView"
       }
     ]
   },

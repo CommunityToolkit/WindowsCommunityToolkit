@@ -34,7 +34,7 @@ Once you search you should see a list similar to the one below (versions may be 
 | Microsoft.Toolkit.Uwp.Notifications | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes intellisense support to avoid having to use the XML syntax. |
 | Microsoft.Toolkit.Uwp.Notifications.Javascript | Notification Packages for JavaScript |
 | Microsoft.Toolkit.Uwp.Services | Services Package - This NuGet package includes the service helpers for Facebook, LinkedIn, Microsoft Graph, Twitter and more |
-| Microsoft.Toolkit.Uwp.UI | UI Packages - XAML converters, Visual tree extensions and helpers for your XAML UI. |
+| Microsoft.Toolkit.Uwp.UI | UI Packages - Brushes, XAML converters, Visual tree extensions, and other extensions and helpers for your XAML UI. |
 | Microsoft.Toolkit.Uwp.UI.Animations | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
 | Microsoft.Toolkit.Uwp.UI.Controls | XAML Controls such as RadialGauge, RangeSelector, etc. | 
 | Microsoft.Toolkit.Uwp.Connectivity | API helpers such as BluetoothLEHelper and Networking | 
@@ -62,6 +62,15 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Rotate](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Rotate/)
 * [Saturation](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Saturation/)
 * [Scale](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Scale/)
+
+### Brushes
+
+* [BackdropBlurBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropBlurBrush/)
+* [BackdropGammaTransferBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropGammaTransferBrush/)
+* [BackdropInvertBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropInvertBrush/)
+* [BackdropSaturationBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropSaturationBrush/)
+* [BackdropSepiaBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropSepiaBrush/)
+* [ImageBlendBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/ImageBlendBrush/)
 
 ### Controls
 * [AdaptiveGridView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/AdaptiveGridView/)
@@ -102,6 +111,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [ListViewBase](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ListViewBase/)
 * [LogicalTree](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/LogicalTree/)
 * [MouseCursor](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/MouseCursor/)
+* [NavigationView Styles](https://docs.uwpcommunitytoolkit.com/windows/uwpcommunitytoolkit/extensions/NavigationView/)
 * [SurfaceDialTextbox](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/SurfaceDialTextboxHelper/)
 * [TextBoxMask](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/TextBoxMask/)
 * [TextBoxRegex](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/TextBoxRegex/)
