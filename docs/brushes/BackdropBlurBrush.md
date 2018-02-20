@@ -21,6 +21,10 @@ It is based on the example provided on [MSDN](https://docs.microsoft.com/en-us/u
     </Border>
 ```
 
+## Example Image
+
+![Backdrop Blur](../resources/images/Brushes-BackdropBlur.jpg "Backdrop Blur")
+
 ## Properties
 
 | Property | Type | Description |

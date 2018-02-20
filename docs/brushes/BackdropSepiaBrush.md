@@ -19,6 +19,10 @@ The **BackdropSepiaBrush** is a [Brush](https://docs.microsoft.com/en-us/uwp/api
     </Border>
 ```
 
+## Example Image
+
+![Backdrop Sepia](../resources/images/Brushes-BackdropSepia.jpg "Backdrop Sepia")
+
 ## Properties
 
 | Property | Type | Description |

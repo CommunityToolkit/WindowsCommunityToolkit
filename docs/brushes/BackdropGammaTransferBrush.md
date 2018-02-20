@@ -21,6 +21,10 @@ To apply a red hue:
     </Border>
 ```
 
+## Example Image
+
+![Backdrop Gamma](../resources/images/Brushes-BackdropGamma.jpg "Backdrop Gamma")
+
 ## Properties
 
 See the property reference for the [GammaTransferEffect](http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_GammaTransferEffect.htm).  

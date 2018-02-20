@@ -25,6 +25,10 @@ The image loading code is based on an example provided on [Windows Blogs](https:
   </Border>
 ```
 
+## Example Image
+
+![Image Blend](../resources/images/Brushes-ImageBlend.jpg "Image Blend")
+
 ## Properties
 
 | Property | Type | Description |

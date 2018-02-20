@@ -14,10 +14,14 @@ The **BackdropSaturationBrush** is a [Brush](https://docs.microsoft.com/en-us/uw
 ```xaml
     <Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="400">
       <Border.Background>
-        <brushes:BackdropSepiaBrush Intensity="0.75" />
+        <brushes:BackdropSepiaBrush Intensity="0.25" />
       </Border.Background>
     </Border>
 ```
+
+## Example Image
+
+![Backdrop Saturation](../resources/images/Brushes-BackdropSaturation.jpg "Backdrop Saturation")
 
 ## Properties
 

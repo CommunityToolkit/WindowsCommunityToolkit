@@ -21,6 +21,10 @@ It is based on the example provided on [Windows Blogs](https://blogs.windows.com
     </Border>
 ```
 
+## Example Image
+
+![Backdrop Invert](../resources/images/Brushes-BackdropInvert.jpg "Backdrop Invert")
+
 ## Requirements (Windows 10 Device Family)
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.15063.0 or higher |
