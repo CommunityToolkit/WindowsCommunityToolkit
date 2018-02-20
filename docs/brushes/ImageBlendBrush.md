@@ -1,9 +1,8 @@
 ---
 title: ImageBlendBrush
 author: michael-hawker
-ms.date: 02/13/2018
 description: The ImageBlendBrush is a Brush that inverts whatever is behind it in the application.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Colors Helper
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, brush, backdrop, image, blend
 ---
 
 # ImageBlendBrush
@@ -36,7 +35,7 @@ The image loading code is based on an example provided on [Windows Blogs](https:
 
 > [!NOTE]
 The `Stretch` property for values other than `None` requires a Windows version 10.0.16299 or higher.
-In addition the `Hue`, `Saturation`, `Color`, and `Luminosity` modes require a Windows version 10.0.16299 or higher.
+In addition, the `Hue`, `Saturation`, `Color`, and `Luminosity` modes require a Windows version 10.0.16299 or higher.
 
 ## Requirements (Windows 10 Device Family)
 
