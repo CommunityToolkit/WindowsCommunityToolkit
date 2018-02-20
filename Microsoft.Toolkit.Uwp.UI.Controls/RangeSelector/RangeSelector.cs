@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class RangeSelector : Control
     {
         private const double Epsilon = 0.01;
-        private const double DefaultStepFrequency = 1.0;
+        private const double DefaultStepFrequency = 0.01;
 
         /// <summary>
         /// Identifies the Minimum dependency property.
