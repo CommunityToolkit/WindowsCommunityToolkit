@@ -5,7 +5,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     mc:Ignorable="d">
 
     <Style x:Key="HeaderToggleButtonStyle" TargetType="ToggleButton">
@@ -293,7 +292,6 @@
                                         <Setter Target="PART_MainContent.(Grid.RowSpan)" Value="2" />
                                         <Setter Target="PART_MainContent.(Grid.Column)" Value="0" />
                                         <Setter Target="PART_MainContent.(Grid.ColumnSpan)" Value="1" />
-                                        <Setter Target="PART_MainContent.(extensions:VisualEx.NormalizedCenterPoint)" Value="1,0,0" />
 
                                         <Setter Target="PART_ContentOverlay.(Grid.Row)" Value="0" />
                                         <Setter Target="PART_ContentOverlay.(Grid.RowSpan)" Value="2" />
@@ -442,7 +440,6 @@
                                         <Setter Target="PART_MainContent.(Grid.RowSpan)" Value="2" />
                                         <Setter Target="PART_MainContent.(Grid.Column)" Value="0" />
                                         <Setter Target="PART_MainContent.(Grid.ColumnSpan)" Value="1" />
-                                        <Setter Target="PART_MainContent.(extensions:VisualEx.NormalizedCenterPoint)" Value="1,0,0" />
 
                                         <Setter Target="PART_ContentOverlay.(Grid.Row)" Value="0" />
                                         <Setter Target="PART_ContentOverlay.(Grid.RowSpan)" Value="2" />
@@ -488,8 +485,6 @@
                                 </VisualState>
                                 <VisualState x:Name="CollapsedRight">
                                     <VisualState.Setters>
-                                        <Setter Target="PART_MainContent.Visibility" Value="Collapsed"></Setter>
-
                                         <Setter Target="PART_LayoutTransformer.(Grid.Row)" Value="0" />
                                         <Setter Target="PART_LayoutTransformer.(Grid.RowSpan)" Value="2" />
                                         <Setter Target="PART_LayoutTransformer.(Grid.Column)" Value="0" />
@@ -589,8 +584,6 @@
                                   Grid.Column="0" 
                                   Grid.ColumnSpan="2"
                                   x:Name="PART_MainContent"
-                                  Visibility="Collapsed"
-                                  extensions:VisualEx.NormalizedCenterPoint="0"
                                   Background="{TemplateBinding Background}">
 
                                 <ContentPresenter x:Name="ContentPresenter"
