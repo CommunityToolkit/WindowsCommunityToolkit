@@ -24,7 +24,7 @@ The Light animation behavior performs a point light (A point source of light tha
            Distance="10" 
            Duration="500" 
            Delay="0"
-           EasingType="Bounce"
+           EasingType="Linear"
            AutomaticallyStart="True"
            Color="Red"/>
 </interactivity:Interaction.Behaviors>

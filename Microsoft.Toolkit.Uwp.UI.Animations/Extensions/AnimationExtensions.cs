@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 case EasingType.Sine:
                     return new SineEase();
                 default:
-                    throw new NotSupportedException($"{nameof(easingType)} not supported");
+                    throw new NotSupportedException($"{easingType.ToString()} EasingType is not currently supported");
             }
         }
 
@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 case EasingType.Sine:
                     return compositor.CreateCubicBezierEasingFunction(new Vector2(0.39f, 0.575f), new Vector2(0.565f, 1f));
                 default:
-                    throw new NotSupportedException($"{nameof(easingType)} not supported");
+                    throw new NotSupportedException($"{easingType.ToString()} EasingType is not currently supported");
             }
         }
 

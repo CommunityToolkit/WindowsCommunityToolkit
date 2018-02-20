@@ -24,7 +24,7 @@ The Fade animation fades objects, in and out, over time. Fade animation is appli
             Value="0.5" 
             Duration="2500" 
             Delay="250"
-            EasingType="Bounce"
+            EasingType="Linear"
             AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```

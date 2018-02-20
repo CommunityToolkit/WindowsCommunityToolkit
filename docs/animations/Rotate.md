@@ -26,7 +26,7 @@ The Rotate animation allows users to modify and animate the control's rotation. 
 				CenterY="0.0" 
 				Duration="500" 
 				Delay="250" 
-                EasingType="Bounce"
+                EasingType="Linear"
 				AutomaticallyStart="True"/>
   </behaviors:Rotate>
 </interactivity:Interaction.Behaviors>

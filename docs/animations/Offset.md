@@ -25,7 +25,7 @@ The Offset animation is used to move the control from one place to another. Offs
             OffsetY="25.0"
             Duration="2500" 
             Delay="250" 
-            EasingType="Bounce"
+            EasingType="Linear"
             AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```

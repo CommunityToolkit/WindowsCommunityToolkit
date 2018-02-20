@@ -27,7 +27,7 @@ The Scale animation  allows you to change a control's scale by increasing or dec
                      CenterY="0.0" 
                      Duration="1000" 
                      Delay="500" 
-                     EasingType="Bounce"
+                     EasingType="Linear"
                      AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```
