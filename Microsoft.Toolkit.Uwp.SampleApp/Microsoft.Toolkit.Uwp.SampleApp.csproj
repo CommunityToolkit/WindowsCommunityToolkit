@@ -274,6 +274,7 @@
     <Content Include="Icons\DeveloperTools.png" />
     <Content Include="Icons\Error.png" />
     <Content Include="Icons\Extensions.png" />
+    <Content Include="Icons\Brushes.png" />
     <Content Include="Icons\Helpers.png" />
     <Content Include="Icons\Foundation.png" />
     <Content Include="Icons\Layouts.png" />
@@ -282,9 +283,14 @@
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
+    <Content Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrush.png" />
+    <Content Include="SamplePages\BackdropInvertBrush\BackdropInvertBrush.png" />
+    <Content Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrush.png" />
+    <Content Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrush.png" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelper.png" />
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelper.png" />
+    <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrush.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
     <Content Include="SamplePages\Connected Animations\ConnectedAnimations.png" />
     <Content Include="SamplePages\DispatcherHelper\DispatchHelper.png" />
@@ -307,6 +313,7 @@
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControl.png" />
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControl.png" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
+    <Content Include="SamplePages\ImageBlendBrush\ImageBlendBrush.png" />
     <Content Include="SamplePages\ImageCache\ImageCache.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
     <Content Include="SamplePages\Implicit Animations\ImplicitAnimations.png" />
@@ -466,6 +473,16 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.bind" />
+    <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushXaml.bind" />
+    <Content Include="SamplePages\BackdropInvertBrush\BackdropInvertBrushXaml.bind" />
+    <Content Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrushXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrushXaml.bind" />
+    <Content Include="SamplePages\ImageBlendBrush\ImageBlendBrushXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -502,6 +519,18 @@
     <Compile Include="SamplePages\AppPinManager\AppPinManagerHelperPage.xaml.cs">
       <DependentUpon>AppPinManagerHelperPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushPage.xaml.cs">
+      <DependentUpon>BackdropGammaTransferBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackdropInvertBrush\BackdropInvertBrushPage.xaml.cs">
+      <DependentUpon>BackdropInvertBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrushPage.xaml.cs">
+      <DependentUpon>BackdropSaturationBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrushPage.xaml.cs">
+      <DependentUpon>BackdropSepiaBrushPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperPage.xaml.cs">
       <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
     </Compile>
@@ -518,7 +547,13 @@
     <Compile Include="SamplePages\Connected Animations\Pages\ThirdPage.xaml.cs">
       <DependentUpon>ThirdPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushPage.xaml.cs">
+      <DependentUpon>BackdropBlurBrushPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsPage.xaml.cs" />
+    <Compile Include="SamplePages\ImageBlendBrush\ImageBlendBrushPage.xaml.cs">
+      <DependentUpon>ImageBlendBrushPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Implicit Animations\ImplicitAnimationsPage.xaml.cs">
       <DependentUpon>ImplicitAnimationsPage.xaml</DependentUpon>
     </Compile>
@@ -800,6 +835,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\BackdropInvertBrush\BackdropInvertBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\Carousel\CarouselPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -832,6 +883,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\FocusTracker\FocusTrackerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -847,6 +902,10 @@
     <Page Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ImageBlendBrush\ImageBlendBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Implicit Animations\ImplicitAnimationsPage.xaml">
       <SubType>Designer</SubType>
