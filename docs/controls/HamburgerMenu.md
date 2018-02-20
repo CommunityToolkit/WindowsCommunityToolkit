@@ -23,7 +23,7 @@ Developers can place menu specific content, navigation, images, text or custom c
 
 ```xaml
 
-<controls:HamburgerMenu PaneBackground="@[PaneBackground:Brush:Black]" x:Name="HamburgerMenuControl"
+<controls:HamburgerMenu PaneBackground="Black" x:Name="HamburgerMenuControl"
 	Foreground="White"
 	ItemTemplate="{StaticResource ButtonTemplate}"
 	OptionsItemTemplate="{StaticResource OptionTemplate}"
@@ -45,7 +45,7 @@ Developers can place menu specific content, navigation, images, text or custom c
 
 ## Example Code
 
-The following example shows you how to simply setup a HamburgerMemu using HamburgerMenuGlyphItem directly in your XAML code:
+The following example shows you how to simply setup a HamburgerMenu using HamburgerMenuGlyphItem directly in your XAML code:
 
 [HamburgerMenu Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/HamburgerMenu)
 

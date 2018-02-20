@@ -331,6 +331,7 @@
     <Content Include="SamplePages\Microsoft Graph Service\OfficeLogo.png" />
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
+    <Content Include="SamplePages\NavigationViewStyles\NavigationViewStyles.png" />
     <Content Include="SamplePages\NetworkHelper\NetworkHelper.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
     <Content Include="SamplePages\Mouse\MouseCursor.png" />
@@ -473,6 +474,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.bind" />
+    <Content Include="SamplePages\NavigationViewStyles\NavigationViewStylesXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushXaml.bind" />
     <Content Include="SamplePages\BackdropInvertBrush\BackdropInvertBrushXaml.bind" />
     <Content Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushXaml.bind">
@@ -581,6 +585,9 @@
     </Compile>
     <Compile Include="SamplePages\Mouse\MouseCursorPage.xaml.cs">
       <DependentUpon>MouseCursorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\NavigationViewStyles\NavigationViewStylesPage.xaml.cs">
+      <DependentUpon>NavigationViewStylesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml.cs">
       <DependentUpon>NetworkHelperPage.xaml</DependentUpon>
@@ -920,6 +927,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Mouse\MouseCursorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\NavigationViewStyles\NavigationViewStylesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
