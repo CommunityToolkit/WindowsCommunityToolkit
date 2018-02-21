@@ -40,7 +40,7 @@ An example of how we can build the loading control.
 `LoadingControl.IsLoading = true;`
 
 
-## Example Image
+## Sample Output
 
 ![Loading animation](../resources/images/LoadingXamlControl.gif "Loading Xaml Control")
 
