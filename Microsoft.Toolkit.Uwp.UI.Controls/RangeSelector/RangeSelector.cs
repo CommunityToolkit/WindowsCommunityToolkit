@@ -651,7 +651,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private double MoveToStepFrequency(double rangeValue)
         {
-            double newValue = Minimum + (((int)((rangeValue - Minimum) / StepFrequency)) * StepFrequency);
+            double newValue = Minimum + (((int)Math.Round((rangeValue - Minimum) / StepFrequency)) * StepFrequency);
 
             if (newValue < Minimum)
             {
