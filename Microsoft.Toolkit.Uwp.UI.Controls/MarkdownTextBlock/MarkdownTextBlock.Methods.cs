@@ -44,15 +44,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void RenderMarkdown()
         {
-            // Make sure we have something to parse.
-            if (string.IsNullOrWhiteSpace(Text))
+            // Leave if we don't have our root yet.
+            if (_rootElement == null)
             {
                 return;
             }
 
-            // Leave if we don't have our root yet.
-            if (_rootElement == null)
+            // Make sure we have something to parse.
+            if (string.IsNullOrWhiteSpace(Text))
             {
+                _rootElement.Child = null;
                 return;
             }
 
