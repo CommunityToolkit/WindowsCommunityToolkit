@@ -50,15 +50,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
+            // Disconnect from OnClick handlers.
+            UnhookListeners();
+
             // Make sure we have something to parse.
             if (string.IsNullOrWhiteSpace(Text))
             {
                 _rootElement.Child = null;
                 return;
             }
-
-            // Disconnect from OnClick handlers.
-            UnhookListeners();
 
             var markdownRenderedArgs = new MarkdownRenderedEventArgs(null);
             try
