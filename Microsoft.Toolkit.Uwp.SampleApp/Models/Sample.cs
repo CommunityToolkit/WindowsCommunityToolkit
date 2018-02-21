@@ -24,6 +24,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Brushes;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.Foundation.Metadata;
@@ -627,10 +628,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
+            // Search in Microsoft.Toolkit.Uwp.UI.Animations
+            var animationsProxyType = EasingType.Default;
+            assembly = animationsProxyType.GetType().GetTypeInfo().Assembly;
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
             // Search in Microsoft.Toolkit.Uwp.UI
             var uiProxyType = ImageBlendMode.Multiply;
             assembly = uiProxyType.GetType().GetTypeInfo().Assembly;
-
             foreach (var typeInfo in assembly.ExportedTypes)
             {
                 if (typeInfo.Name == typeName)

@@ -71,12 +71,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
         /// <param name="value">The value.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds.</param>
+        /// <param name="easingType">The easing function to use</param>
         /// <returns>An animation set with the effect added to it.</returns>
         public AnimationSet EffectAnimation(
             AnimationSet animationSet,
             double value = 0d,
             double duration = 500d,
-            double delay = 0d)
+            double delay = 0d,
+            EasingType easingType = EasingType.Default)
         {
             if (animationSet == null)
             {
@@ -139,7 +141,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
                 foreach (var effectProperty in _effectProperties)
                 {
                     var animation = Compositor.CreateScalarKeyFrameAnimation();
-                    animation.InsertKeyFrame(1f, (float)value);
+                    if (easingType == EasingType.Default)
+                    {
+                        animation.InsertKeyFrame(1f, (float)value);
+                    }
+                    else
+                    {
+                        animation.InsertKeyFrame(1f, (float)value, AnimationExtensions.GetCompositionEasingFunction(easingType, Compositor));
+                    }
+
                     animation.Duration = TimeSpan.FromMilliseconds(duration);
                     animation.DelayTime = TimeSpan.FromMilliseconds(delay);
 

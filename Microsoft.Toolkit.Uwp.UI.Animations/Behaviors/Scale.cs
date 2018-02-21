@@ -95,6 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             AssociatedObject.Scale(
                 duration: Duration,
                 delay: Delay,
+                easingType: EasingType,
                 centerX: (float)CenterX,
                 centerY: (float)CenterY,
                 scaleX: (float)ScaleX,

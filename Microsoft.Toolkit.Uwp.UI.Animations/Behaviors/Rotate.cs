@@ -78,6 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             AssociatedObject.Rotate(
                 duration: Duration,
                 delay: Delay,
+                easingType: EasingType,
                 value: (float)Value,
                 centerX: (float)CenterX,
                 centerY: (float)CenterY)?
