@@ -44,6 +44,12 @@ An example of how we can build the loading control.
 
 ![Loading animation](../resources/images/LoadingXamlControl.gif "Loading Xaml Control")
 
+## Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| IsLoaded | boolean | Gets or sets a value indicating whether the control is in the loading state. Set this to true to show the Loading control, false to hide the control. |
+
 ## Example Code
 
 [Loading Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Loading)
