@@ -519,9 +519,6 @@
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\AppPinManager\AppPinManagerHelperPage.xaml.cs">
-      <DependentUpon>AppPinManagerHelperPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushPage.xaml.cs">
       <DependentUpon>BackdropGammaTransferBrushPage.xaml</DependentUpon>
     </Compile>
@@ -834,10 +831,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\PropertyControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\AppPinManager\AppPinManagerHelperPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
