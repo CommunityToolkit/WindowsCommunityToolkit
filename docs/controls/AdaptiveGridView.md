@@ -13,7 +13,7 @@ There are 3 ways to use this Control.
 
 * You can set `DesiredWidth` and `ItemHeight`, which will scale the **width** of each item, and adjust the number of columns on demand, using all horizontal space.
 
-* To maintain aspect ratio, You can set `DesiredWidth` only. This will allow the **height** and **width** of each item, and adjust the number of columns on demand, using all horizontal space.
+* You can set `DesiredWidth` only. This will mean that rows will take up as much space as required, using all horizontal space.
 
 * Using `OneRowModeEnabled`, you can set `DesiredWidth` and `ItemHeight`, and the **width** of each item, and the number of visible columns will be adjusted on demand, using all horizontal space.
 
@@ -27,11 +27,13 @@ There are 3 ways to use this Control.
 </controls:AdaptiveGridView>
 ```
 
+## Example Image
+
+Using `DesiredWidth` in combination with `ItemHeight`
+
+![AdaptiveGridView DesiredHeight and ItemHeight](../resources/images/Controls/AdaptiveGridView/AdaptiveGridView-DesiredWidth&ItemHeight.gif "AdaptiveGridView DesiredHeight and ItemHeight")
+
 ## Examples
-
-- Using `DesiredWidth` in combination with `ItemHeight`:
-
-    ![AdaptiveGridView DesiredHeight and ItemHeight](../resources/images/Controls/AdaptiveGridView/AdaptiveGridView-DesiredWidth&ItemHeight.gif "AdaptiveGridView DesiredHeight and ItemHeight")
 
 - Maintain aspect ratio by setting `DesiredWidth` with no `ItemHeight` set:
 
@@ -117,4 +119,3 @@ There are 3 ways to use this Control.
 ## API
 
 * [AdaptiveGridView source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/AdaptiveGridView)
-
