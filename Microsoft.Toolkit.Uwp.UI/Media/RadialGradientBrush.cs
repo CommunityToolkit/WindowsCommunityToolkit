@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// within an Ellipse.
     /// </summary>
     [ContentProperty(Name = nameof(GradientStops))]
-    public partial class RadialGradientBrush : Win2DCanvasBrushBase
+    public partial class RadialGradientBrush : CanvasBrushBase
     {
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -47,8 +47,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             // Rendering surface size, if this is too small the gradient will be pixelated.
             // Larger targets aren't effected as one would expect unless the gradient is very complex.
             // This seems like a good compromise.
-            SURFACE_RESOLUTION_X = 512;
-            SURFACE_RESOLUTION_Y = 512;
+            SurfaceWidth = 512;
+            SurfaceHeight = 512;
 
             GradientStops = new GradientStopCollection();
         }

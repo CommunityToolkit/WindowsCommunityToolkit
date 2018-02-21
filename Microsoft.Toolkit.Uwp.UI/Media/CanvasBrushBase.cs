@@ -23,19 +23,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// <summary>
     /// Helper Brush class to interop with Win2D Canvas calls.
     /// </summary>
-    public abstract class Win2DCanvasBrushBase : XamlCompositionBrushBase
+    public abstract class CanvasBrushBase : XamlCompositionBrushBase
     {
+        private CompositionSurfaceBrush _surfaceBrush;
+
         /// <summary>
         /// Gets or sets the internal surface render width.  Modify during construction.
         /// </summary>
-        protected float SURFACE_RESOLUTION_X { get; set; }
+        protected float SurfaceWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the internal surface render height.  Modify during construction.
         /// </summary>
-        protected float SURFACE_RESOLUTION_Y { get; set; }
-
-        private CompositionSurfaceBrush _surfaceBrush;
+        protected float SurfaceHeight { get; set; }
 
         /// <summary>
         /// Implemented by parent class and called when canvas is being constructed for brush.
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 }
 
                 var visual = Window.Current.Compositor.CreateSpriteVisual();
-                visual.Size = new Vector2(SURFACE_RESOLUTION_X, SURFACE_RESOLUTION_Y);
+                visual.Size = new Vector2(SurfaceWidth, SurfaceHeight);
 
                 var device = CanvasDevice.GetSharedDevice();
                 var graphics = CanvasComposition.CreateCompositionGraphicsDevice(Window.Current.Compositor, device);
