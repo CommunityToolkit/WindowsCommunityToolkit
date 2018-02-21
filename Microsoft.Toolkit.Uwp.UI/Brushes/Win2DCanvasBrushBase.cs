@@ -43,6 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// <param name="device">Canvas device.</param>
         /// <param name="session">Canvas drawing session.</param>
         /// <param name="size">Size of surface to draw on.</param>
+        /// <returns>True if drawing was completed and the brush is ready, otherwise return False to not create brush yet.</returns>
         protected abstract bool OnDraw(CanvasDevice device, CanvasDrawingSession session, Vector2 size);
 
         /// <summary>

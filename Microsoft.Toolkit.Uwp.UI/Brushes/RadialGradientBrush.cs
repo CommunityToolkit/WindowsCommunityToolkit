@@ -12,10 +12,10 @@
 
 //// UWP Replacement for WPF RadialGradientBrush: https://msdn.microsoft.com/en-us/library/system.windows.media.radialgradientbrush(v=vs.110).aspx.
 
+using System.Numerics;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using System.Numerics;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
@@ -45,9 +45,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         public RadialGradientBrush()
         {
             // Rendering surface size, if this is too small the gradient will be pixelated.
+            // Larger targets aren't effected as one would expect unless the gradient is very complex.
             // This seems like a good compromise.
-            this.SURFACE_RESOLUTION_X = 512;
-            this.SURFACE_RESOLUTION_Y = 512;
+            SURFACE_RESOLUTION_X = 512;
+            SURFACE_RESOLUTION_Y = 512;
 
             GradientStops = new GradientStopCollection();
         }
@@ -62,7 +63,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         public RadialGradientBrush(Color startColor, Color endColor)
             : this()
         {
-            GradientStops = new GradientStopCollection();
             GradientStops.Add(new GradientStop() { Color = startColor, Offset = 0.0 });
             GradientStops.Add(new GradientStop() { Color = endColor, Offset = 1.0 });
         }
