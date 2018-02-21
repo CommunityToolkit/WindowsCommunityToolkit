@@ -23,7 +23,8 @@ The Light animation behavior performs a point light (A point source of light tha
     <behaviors:Light x:Name="LightBehavior" 
            Distance="10" 
            Duration="500" 
-           Delay="0" 
+           Delay="0"
+           EasingType="Linear"
            AutomaticallyStart="True"
            Color="Red"/>
 </interactivity:Interaction.Behaviors>
