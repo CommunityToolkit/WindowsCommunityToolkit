@@ -281,8 +281,6 @@
                             <VisualStateGroup x:Name="DisplayModeAndDirectionStates">
                                 <VisualState x:Name="VisibleLeft">
                                     <VisualState.Setters>
-                                        <Setter Target="PART_MainContent.Visibility" Value="Visible" />
-
                                         <Setter Target="PART_LayoutTransformer.(Grid.Row)" Value="0" />
                                         <Setter Target="PART_LayoutTransformer.(Grid.RowSpan)" Value="2" />
                                         <Setter Target="PART_LayoutTransformer.(Grid.Column)" Value="1" />
@@ -326,7 +324,6 @@
                                 </VisualState>
                                 <VisualState x:Name="VisibleDown">
                                     <VisualState.Setters>
-                                        <Setter Target="PART_MainContent.Visibility" Value="Visible" />
                                     </VisualState.Setters>
 
                                     <Storyboard>
@@ -348,8 +345,6 @@
                                 </VisualState>
                                 <VisualState x:Name="VisibleRight">
                                     <VisualState.Setters>
-                                        <Setter Target="PART_MainContent.Visibility" Value="Visible" />
-
                                         <Setter Target="PART_LayoutTransformer.(Grid.Row)" Value="0" />
                                         <Setter Target="PART_LayoutTransformer.(Grid.RowSpan)" Value="2" />
                                         <Setter Target="PART_LayoutTransformer.(Grid.Column)" Value="0" />
@@ -388,8 +383,6 @@
                                 </VisualState>
                                 <VisualState x:Name="VisibleUp">
                                     <VisualState.Setters>
-                                        <Setter Target="PART_MainContent.Visibility" Value="Visible" />
-
                                         <Setter Target="PART_LayoutTransformer.(Grid.Row)" Value="1" />
                                         <Setter Target="PART_LayoutTransformer.(Grid.RowSpan)" Value="1" />
                                         <Setter Target="PART_LayoutTransformer.(Grid.Column)" Value="0" />
@@ -409,6 +402,8 @@
                                         <Setter Target="RowTwo.Height" Value="Auto" />
 
                                         <Setter Target="RotateLayoutTransform.Angle" Value="0" />
+
+                                        <Setter Target="PART_MainContent.RenderTransformOrigin" Value="0.5, 1" />
                                     </VisualState.Setters>
 
                                     <Storyboard>
@@ -450,6 +445,8 @@
 
                                         <Setter Target="ColumnOne.Width" Value="*" />
                                         <Setter Target="ColumnTwo.Width" Value="Auto" />
+
+                                        <Setter Target="PART_MainContent.RenderTransformOrigin" Value="1, 0.5" />
 
                                     </VisualState.Setters>
 
@@ -538,6 +535,8 @@
                                         <Setter Target="RowTwo.Height" Value="Auto" />
 
                                         <Setter Target="RotateLayoutTransform.Angle" Value="0" />
+
+                                        <Setter Target="PART_MainContent.RenderTransformOrigin" Value="0.5, 1" />
                                     </VisualState.Setters>
 
                                     <Storyboard>
