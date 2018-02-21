@@ -23,7 +23,8 @@ The Blur animation blurs a XAML element by increasing or decreasing pixel size. 
     <behaviors:Blur x:Name="BlurBehavior" 
             Value="10" 
             Duration="2500" 
-            Delay="250" 
+            Delay="250"
+            EasingType="Linear"
             AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```

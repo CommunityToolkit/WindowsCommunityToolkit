@@ -551,16 +551,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/BackgroundTaskHelper.md"
       },
       {
-        "About": "The AppPinManager helps easily add app shortcuts to the Start Menu or the Taskbar",
-        "CodeFile": "AppPinManagerHelperCode.bind",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/AppPinManager/AppPinManager.cs",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/AppPinManager.md",
-        "Icon": "/Assets/Helpers.png",
-        "Name": "AppPinManager",
-        "Type": "AppPinManagerHelperPage",
-        "BadgeUpdateVersionRequired": "Creators Update required"
-      },
-      {
         "Name": "NetworkHelper",
         "Type": "NetworkHelperPage",
         "About": "The NetworkHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
@@ -783,7 +773,18 @@
         "About": "String Extensions to validate strings",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit/Extensions",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/StringExtensions.md"
+		"DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/StringExtensions.md"
+      },
+      {
+        "Name": "NavigationViewStyles",
+        "Type": "NavigationViewStylesPage",
+        "XamlCodeFile": "NavigationViewStylesXaml.bind",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/NavigationView.md",
+        "Icon": "/SamplePages/NavigationViewStyles/NavigationViewStyles.png",
+        "About": "Style extensions for the NavigationView to appear like the one used by Visual Studio Code.",
+        "BadgeUpdateVersionRequired": "Fall Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Controls.NavigationView",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/NavigationView"
       }
     ]
   },
