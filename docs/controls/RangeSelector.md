@@ -42,6 +42,10 @@ This is because by default, the ScrollViewer will block the thumbs of the RangeS
 </controls:RangeSelector>       
 ```
 
+## StepFrequency
+
+If you want to use the RangeSelector using a step frequency, there is a `StepFrequency` property to set the interval between the values on the RangeSelector. For example; if you set `StepFrequency` to 2, using Minimum at 0 and Maximum at 10, the range values you can set will be 0,2,4,6,8,10.
+
 ## Example Image
 
 ![RangeSelector animation](../resources/images/Controls-RangeSelector.gif "RangeSelector")
