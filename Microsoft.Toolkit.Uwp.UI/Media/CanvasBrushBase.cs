@@ -62,18 +62,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                     return;
                 }
 
-                var visual = Window.Current.Compositor.CreateSpriteVisual();
-                visual.Size = new Vector2(SurfaceWidth, SurfaceHeight);
+                var size = new Vector2(SurfaceWidth, SurfaceHeight);
 
                 var device = CanvasDevice.GetSharedDevice();
                 var graphics = CanvasComposition.CreateCompositionGraphicsDevice(Window.Current.Compositor, device);
 
-                var surface = graphics.CreateDrawingSurface(visual.Size.ToSize(), DirectXPixelFormat.B8G8R8A8UIntNormalized, DirectXAlphaMode.Premultiplied);
+                var surface = graphics.CreateDrawingSurface(size.ToSize(), DirectXPixelFormat.B8G8R8A8UIntNormalized, DirectXAlphaMode.Premultiplied);
 
                 using (var session = CanvasComposition.CreateDrawingSession(surface))
                 {
                     // Call Implementor to draw on session.
-                    if (!OnDraw(device, session, visual.Size))
+                    if (!OnDraw(device, session, size))
                     {
                         return;
                     }
