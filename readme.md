@@ -122,7 +122,6 @@ Once you search you should see a list similar to the one below (versions may be 
 
 ### Helpers
 * [AdvancedCollectionView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/AdvancedCollectionView/)
-* [AppPinManager](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/AppPinManager/)
 * [BackgroundTaskHelper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/BackgroundTaskHelper/)
 * [BindableValueHolder](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/BindableValueHolder/)
 * [BluetoothLEHelper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/BluetoothLEHelper/)

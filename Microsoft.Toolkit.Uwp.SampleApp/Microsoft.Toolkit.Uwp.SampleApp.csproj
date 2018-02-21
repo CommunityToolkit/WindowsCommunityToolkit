@@ -468,7 +468,6 @@
     </Content>
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlXaml.bind" />
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControlXaml.bind" />
-    <Content Include="SamplePages\AppPinManager\AppPinManagerHelperCode.bind" />
     <Content Include="SamplePages\Mouse\MouseCursorPage.bind" />
     <Content Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsCode.bind">
       <SubType>Designer</SubType>

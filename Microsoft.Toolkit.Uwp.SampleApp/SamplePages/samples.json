@@ -551,16 +551,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/BackgroundTaskHelper.md"
       },
       {
-        "About": "The AppPinManager helps easily add app shortcuts to the Start Menu or the Taskbar",
-        "CodeFile": "AppPinManagerHelperCode.bind",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/AppPinManager/AppPinManager.cs",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/AppPinManager.md",
-        "Icon": "/Assets/Helpers.png",
-        "Name": "AppPinManager",
-        "Type": "AppPinManagerHelperPage",
-        "BadgeUpdateVersionRequired": "Creators Update required"
-      },
-      {
         "Name": "NetworkHelper",
         "Type": "NetworkHelperPage",
         "About": "The NetworkHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
