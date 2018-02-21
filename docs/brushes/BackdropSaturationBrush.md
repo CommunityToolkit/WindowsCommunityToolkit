@@ -14,7 +14,7 @@ The **BackdropSaturationBrush** is a [Brush](https://docs.microsoft.com/en-us/uw
 ```xaml
     <Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="400">
       <Border.Background>
-        <brushes:BackdropSepiaBrush Intensity="0.25" />
+        <media:BackdropSepiaBrush Intensity="0.25" />
       </Border.Background>
     </Border>
 ```
@@ -33,12 +33,12 @@ The **BackdropSaturationBrush** is a [Brush](https://docs.microsoft.com/en-us/uw
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.15063.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI.Brushes |
+| Namespace | Microsoft.Toolkit.Uwp.UI.Media |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
 
 ## API Source Code
 
-- [BackdropSaturationBrush source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Brushes/BackdropSaturationBrush.cs)
+- [BackdropSaturationBrush source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Media/BackdropSaturationBrush.cs)
 
 ## Related Topics
 

@@ -21,7 +21,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Brushes
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// RadialGradientBrush - This GradientBrush defines its Gradient as an interpolation

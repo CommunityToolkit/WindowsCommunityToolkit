@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.Toolkit.Uwp.UI.Brushes
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// Specifies the way in which an alpha channel affects color channels.

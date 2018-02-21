@@ -18,7 +18,7 @@ using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Brushes
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// Helper Brush class to interop with Win2D Canvas calls.

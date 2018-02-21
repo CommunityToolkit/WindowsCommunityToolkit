@@ -11,7 +11,7 @@ The **RadialGradientBrush** is a [Brush](https://docs.microsoft.com/en-us/uwp/ap
 
 ## WPF Conversion Notes
 
-When porting your brush XAML from WPF, just add the `brushes:` namespace prefix to your `RadialGradientBrush`.
+When porting your brush XAML from WPF, just add the `media:` namespace prefix to your `RadialGradientBrush` and add the `xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"` to your XAML namespace list.
 
 If you used the `Absolute` *MappingMode* you'll need to convert to the `RelativeToBoundingBox` mode first and recalculate your `RadiusX`, `RadiusY`, `Center`, and `GradientOrigin` property values.
 
@@ -22,7 +22,7 @@ The Animation or Binding of *GradientStop* `Offset` and `Color` properties is no
 ```xaml
   <Rectangle Width="300" Height="300" Stroke="Black" StrokeThickness="2">
     <Rectangle.Fill>
-      <brushes:RadialGradientBrush 
+      <media:RadialGradientBrush 
               AlphaMode="Premultiplied"
               RadiusX="0.2" RadiusY="0.2"
               SpreadMethod="Reflect">
@@ -31,7 +31,7 @@ The Animation or Binding of *GradientStop* `Offset` and `Color` properties is no
           <GradientStop Color="Yellow" Offset="0.50" />
           <GradientStop Color="Transparent" Offset="0.75" />
           <GradientStop Color="Green" Offset="1.0" />
-      </brushes:RadialGradientBrush>
+      </media:RadialGradientBrush>
     </Rectangle.Fill>
   </Rectangle>
 ```
@@ -63,12 +63,12 @@ The Animation or Binding of *GradientStop* `Offset` and `Color` properties is no
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.15063.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI.Brushes |
+| Namespace | Microsoft.Toolkit.Uwp.UI.Media |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
 
 ## API Source Code
 
-- [RadialGradientBrush source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Brushes/RadialGradientBrush.cs)
+- [RadialGradientBrush source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Media/RadialGradientBrush.cs)
 
 ## Related Topics
 

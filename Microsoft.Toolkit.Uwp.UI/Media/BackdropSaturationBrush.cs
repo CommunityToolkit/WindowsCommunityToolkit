@@ -10,24 +10,59 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-//// Example brush from https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#z70vPv1QMAvZsceo.97
-
 using Microsoft.Graphics.Canvas.Effects;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Brushes
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// The <see cref="BackdropInvertBrush"/> is a <see cref="Brush"/> which inverts whatever is behind it in the application.
+    /// Brush which applies a SaturationEffect to the Backdrop. http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_SaturationEffect.htm
     /// </summary>
-    public class BackdropInvertBrush : XamlCompositionBrushBase
+    public class BackdropSaturationBrush : XamlCompositionBrushBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BackdropInvertBrush"/> class.
+        /// Identifies the <see cref="Saturation"/> dependency property.
         /// </summary>
-        public BackdropInvertBrush()
+        public static readonly DependencyProperty SaturationProperty = DependencyProperty.Register(
+            nameof(Saturation),
+            typeof(double),
+            typeof(BackdropSaturationBrush),
+            new PropertyMetadata(0.5, new PropertyChangedCallback(OnSaturationChanged)));
+
+        /// <summary>
+        /// Gets or sets the amount of gaussian blur to apply to the background.
+        /// </summary>
+        public double Saturation
+        {
+            get { return (double)GetValue(SaturationProperty); }
+            set { SetValue(SaturationProperty, value); }
+        }
+
+        private static void OnSaturationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var brush = (BackdropSaturationBrush)d;
+
+            // Clamp Value as per docs http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_SaturationEffect.htm
+            var value = (float)(double)e.NewValue;
+            if (value > 1.0)
+            {
+                brush.Saturation = 1.0;
+            }
+            else if (value < 0.0)
+            {
+                brush.Saturation = 0.0;
+            }
+
+            // Unbox and set a new blur amount if the CompositionBrush exists.
+            brush.CompositionBrush?.Properties.InsertScalar("Saturation.Saturation", (float)brush.Saturation);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BackdropSaturationBrush"/> class.
+        /// </summary>
+        public BackdropSaturationBrush()
         {
         }
 
@@ -47,14 +82,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
 
                 var backdrop = Window.Current.Compositor.CreateBackdropBrush();
 
-                // Use a Win2D invert affect applied to a CompositionBackdropBrush.
-                var graphicsEffect = new InvertEffect
+                // Use a Win2D blur affect applied to a CompositionBackdropBrush.
+                var graphicsEffect = new SaturationEffect
                 {
-                    Name = "Invert",
+                    Name = "Saturation",
+                    Saturation = (float)Saturation,
                     Source = new CompositionEffectSourceParameter("backdrop")
                 };
 
-                var effectFactory = Window.Current.Compositor.CreateEffectFactory(graphicsEffect);
+                var effectFactory = Window.Current.Compositor.CreateEffectFactory(graphicsEffect, new[] { "Saturation.Saturation" });
                 var effectBrush = effectFactory.CreateBrush();
 
                 effectBrush.SetSourceParameter("backdrop", backdrop);

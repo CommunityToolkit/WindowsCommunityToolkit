@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Animations;
-using Microsoft.Toolkit.Uwp.UI.Brushes;
+using Microsoft.Toolkit.Uwp.UI.Media;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
