@@ -108,6 +108,9 @@ private async void MarkdownText_LinkClicked(object sender, LinkClickedEventArgs 
 }
 ```
 
+> [!NOTE]
+The **LinkClicked** event will be raised when either a Hyperlink or an Image is Tapped and will return element Type in **e.LinkType** on **LinkClickedEventArgs**.
+
 
 ### ImageResolving
 
