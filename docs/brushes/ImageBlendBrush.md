@@ -16,7 +16,7 @@ The image loading code is based on an example provided on [Windows Blogs](https:
 ```xaml
   <Border Grid.Column="0">
     <Border.Background>
-      <brushes:ImageBlendBrush 
+      <media:ImageBlendBrush 
         Source="/SamplePages/DropShadowPanel/Unicorn.png"
         Stretch="None"
         Mode="ColorBurn"
