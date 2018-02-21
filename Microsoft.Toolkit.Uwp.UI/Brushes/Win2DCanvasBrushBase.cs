@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// <param name="device">Canvas device.</param>
         /// <param name="session">Canvas drawing session.</param>
         /// <param name="size">Size of surface to draw on.</param>
-        protected abstract void OnDraw(CanvasDevice device, CanvasDrawingSession session, Vector2 size);
+        protected abstract bool OnDraw(CanvasDevice device, CanvasDrawingSession session, Vector2 size);
 
         /// <summary>
         /// Initializes the Composition Brush.
@@ -72,7 +72,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
                 using (var session = CanvasComposition.CreateDrawingSession(surface))
                 {
                     // Call Implementor to draw on session.
-                    this.OnDraw(device, session, visual.Size);
+                    if (!OnDraw(device, session, visual.Size))
+                    {
+                        return;
+                    }
                 }
 
                 _surfaceBrush = Window.Current.Compositor.CreateSurfaceBrush(surface);

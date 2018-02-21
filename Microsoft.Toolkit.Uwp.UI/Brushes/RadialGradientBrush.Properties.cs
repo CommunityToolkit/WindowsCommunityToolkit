@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// Identifies the <see cref="AlphaMode"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AlphaModeProperty =
-            DependencyProperty.Register(nameof(AlphaMode), typeof(AlphaMode), typeof(RadialGradientBrush), new PropertyMetadata(AlphaMode.Straight));
+            DependencyProperty.Register(nameof(AlphaMode), typeof(AlphaMode), typeof(RadialGradientBrush), new PropertyMetadata(AlphaMode.Straight, new PropertyChangedCallback(OnPropertyChanged)));
 
         /// <summary>
         /// Gets or sets a <see cref="ColorInterpolationMode"/> enumeration that specifies how the gradient's colors are interpolated.  The default is <see cref="ColorInterpolationMode.SRgbLinearInterpolation"/>.
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// Identifies the <see cref="ColorInterpolationMode"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ColorInterpolationModeProperty =
-            DependencyProperty.Register(nameof(ColorInterpolationMode), typeof(ColorInterpolationMode), typeof(RadialGradientBrush), new PropertyMetadata(ColorInterpolationMode.SRgbLinearInterpolation));
+            DependencyProperty.Register(nameof(ColorInterpolationMode), typeof(ColorInterpolationMode), typeof(RadialGradientBrush), new PropertyMetadata(ColorInterpolationMode.SRgbLinearInterpolation, new PropertyChangedCallback(OnPropertyChanged)));
 
         /// <summary>
         /// Gets or sets the brush's gradient stops.
@@ -65,10 +65,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// Identifies the <see cref="GradientStops"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty GradientStopsProperty =
-            DependencyProperty.Register(nameof(GradientStops), typeof(GradientStopCollection), typeof(RadialGradientBrush), new PropertyMetadata(null, new PropertyChangedCallback(OnGradientStopsChanged)));
+            DependencyProperty.Register(nameof(GradientStops), typeof(GradientStopCollection), typeof(RadialGradientBrush), new PropertyMetadata(null, new PropertyChangedCallback(OnPropertyChanged)));
 
         /// <summary>
-        /// Gets or sets the center of the outermost circle of the radial gradient.  The defaults is 0.5,0.5.
+        /// Gets or sets the center of the outermost circle of the radial gradient.  The default is 0.5,0.5.
         /// </summary>
         public Point Center
         {
@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// Identifies the <see cref="Center"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty CenterProperty =
-            DependencyProperty.Register(nameof(Center), typeof(Point), typeof(RadialGradientBrush), new PropertyMetadata(new Point(0.5, 0.5)));
+            DependencyProperty.Register(nameof(Center), typeof(Point), typeof(RadialGradientBrush), new PropertyMetadata(new Point(0.5, 0.5), new PropertyChangedCallback(OnPropertyChanged)));
 
         /// <summary>
         /// Gets or sets the location of the two-dimensional focal point that defines the beginning of the gradient.  The default is 0.5,0.5.
@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// Identifies the <see cref="GradientOrigin"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty GradientOriginProperty =
-            DependencyProperty.Register(nameof(GradientOrigin), typeof(Point), typeof(RadialGradientBrush), new PropertyMetadata(new Point(0.5, 0.5)));
+            DependencyProperty.Register(nameof(GradientOrigin), typeof(Point), typeof(RadialGradientBrush), new PropertyMetadata(new Point(0.5, 0.5), new PropertyChangedCallback(OnPropertyChanged)));
 
         /// <summary>
         /// Gets or sets the horizontal radius of the outermost circle of the radial gradient.  The default is 0.5.
@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// Identifies the <see cref="RadiusX"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty RadiusXProperty =
-            DependencyProperty.Register(nameof(RadiusX), typeof(double), typeof(RadialGradientBrush), new PropertyMetadata(0.5));
+            DependencyProperty.Register(nameof(RadiusX), typeof(double), typeof(RadialGradientBrush), new PropertyMetadata(0.5, new PropertyChangedCallback(OnPropertyChanged)));
 
         /// <summary>
         /// Gets or sets the vertical radius of the outermost circle of the radial gradient.  The default is 0.5.
@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// Identifies the <see cref="RadiusX"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty RadiusYProperty =
-            DependencyProperty.Register(nameof(RadiusY), typeof(double), typeof(RadialGradientBrush), new PropertyMetadata(0.5));
+            DependencyProperty.Register(nameof(RadiusY), typeof(double), typeof(RadialGradientBrush), new PropertyMetadata(0.5, new PropertyChangedCallback(OnPropertyChanged)));
 
         /// <summary>
         /// Gets or sets the type of spread method that specifies how to draw a gradient that starts or ends inside the bounds of the object to be painted.
@@ -140,6 +140,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// Identifies the <see cref="SpreadMethod"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SpreadMethodProperty =
-            DependencyProperty.Register(nameof(SpreadMethod), typeof(GradientSpreadMethod), typeof(RadialGradientBrush), new PropertyMetadata(GradientSpreadMethod.Pad));
+            DependencyProperty.Register(nameof(SpreadMethod), typeof(GradientSpreadMethod), typeof(RadialGradientBrush), new PropertyMetadata(GradientSpreadMethod.Pad, new PropertyChangedCallback(OnPropertyChanged)));
     }
 }

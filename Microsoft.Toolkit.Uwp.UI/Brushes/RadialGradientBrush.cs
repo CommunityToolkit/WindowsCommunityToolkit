@@ -12,11 +12,10 @@
 
 //// UWP Replacement for WPF RadialGradientBrush: https://msdn.microsoft.com/en-us/library/system.windows.media.radialgradientbrush(v=vs.110).aspx.
 
-using System.Numerics;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.Foundation;
+using System.Numerics;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
@@ -31,10 +30,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
     [ContentProperty(Name = nameof(GradientStops))]
     public partial class RadialGradientBrush : Win2DCanvasBrushBase
     {
-        private CanvasRadialGradientBrush _gradientBrush;
-
-        private static void OnGradientStopsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            var brush = (RadialGradientBrush)d;
+
+            // We need to recreate the brush on any property change.
+            brush.OnDisconnected();
+            brush.OnConnected();
         }
 
         /// <summary>
@@ -42,8 +44,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
         /// </summary>
         public RadialGradientBrush()
         {
-            this.FallbackColor = Colors.Transparent;
-
             // Rendering surface size, if this is too small the gradient will be pixelated.
             // This seems like a good compromise.
             this.SURFACE_RESOLUTION_X = 512;
@@ -77,49 +77,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Brushes
             GradientStops = gradientStopCollection;
         }
 
-        protected override void OnDraw(CanvasDevice device, CanvasDrawingSession session, Vector2 size)
+        /// <inheritdoc/>
+        protected override bool OnDraw(CanvasDevice device, CanvasDrawingSession session, Vector2 size)
         {
-            if (_gradientBrush != null)
-            {
-                _gradientBrush.Dispose();
-                _gradientBrush = null;
-            }
-
             // Create our Brush
-            _gradientBrush = new CanvasRadialGradientBrush(
-                                    device,
-                                    this.GradientStops.ToWin2DGradientStops(),
-                                    SpreadMethod.ToEdgeBehavior(),
-                                    (CanvasAlphaMode)(int)AlphaMode,
-                                    ColorInterpolationMode.ToCanvasColorSpace(),
-                                    CanvasColorSpace.Srgb,
-                                    CanvasBufferPrecision.Precision8UIntNormalized)
+            if (GradientStops != null && GradientStops.Count > 0)
             {
-                // Calculate Surface coordinates from 0.0-1.0 range given in WPF brush
-                RadiusX = size.X * (float)RadiusX,
-                RadiusY = size.Y * (float)RadiusY,
-                Center = size * Center.ToVector2(),
+                var gradientBrush = new CanvasRadialGradientBrush(
+                                        device,
+                                        GradientStops.ToWin2DGradientStops(),
+                                        SpreadMethod.ToEdgeBehavior(),
+                                        (CanvasAlphaMode)(int)AlphaMode,
+                                        ColorInterpolationMode.ToCanvasColorSpace(),
+                                        CanvasColorSpace.Srgb,
+                                        CanvasBufferPrecision.Precision8UIntNormalized)
+                {
+                    // Calculate Surface coordinates from 0.0-1.0 range given in WPF brush
+                    RadiusX = size.X * (float)RadiusX,
+                    RadiusY = size.Y * (float)RadiusY,
+                    Center = size * Center.ToVector2(),
 
-                // Calculate Win2D Offset from origin/center used in WPF brush
-                OriginOffset = size * (GradientOrigin.ToVector2() - Center.ToVector2()),
-            };
+                    // Calculate Win2D Offset from origin/center used in WPF brush
+                    OriginOffset = size * (GradientOrigin.ToVector2() - Center.ToVector2()),
+                };
 
-            // Use brush to draw on our canvas
-            session.FillRectangle(size.ToRect(), _gradientBrush);
-        }
+                // Use brush to draw on our canvas
+                session.FillRectangle(size.ToRect(), gradientBrush);
 
-        protected override void OnDisconnected()
-        {
-            base.OnDisconnected();
+                gradientBrush.Dispose();
 
-            if (_gradientBrush != null)
-            {
-                _gradientBrush.Dispose();
-                _gradientBrush = null;
-
-                // Our GradientStops don't seem to reset between initializations...?
-                GradientStops = null;
+                return true;
             }
+
+            return false;
         }
     }
 }
