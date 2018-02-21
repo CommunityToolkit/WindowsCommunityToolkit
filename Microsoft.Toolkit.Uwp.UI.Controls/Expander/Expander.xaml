@@ -454,13 +454,16 @@
                                         <DoubleAnimation Storyboard.TargetName="ContentPresenter"
                                                          Storyboard.TargetProperty="(UIElement.Opacity)"
                                                          Duration="0:0:0.2" From="1" To="0" />
-
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
                                                          Duration="0:0:0.2" To="0" />
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                                                          Duration="0:0:0.2" To="1" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent"
+                                                                       Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CollapsedDown">
@@ -478,6 +481,10 @@
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                                                          Duration="0:0:0.2" From="1" To="0" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent"
+                                                                       Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CollapsedRight">
@@ -512,6 +519,10 @@
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                                                          Duration="0:0:0.2" To="1" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent"
+                                                                       Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CollapsedUp">
@@ -550,6 +561,10 @@
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                                                          Duration="0:0:0.2" From="1" To="0" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent"
+                                                                       Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
