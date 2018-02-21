@@ -113,6 +113,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string BadgeUpdateVersionRequired { get; set; }
 
+        public string DeprecatedWarning { get; set; }
+
         public string ApiCheck { get; set; }
 
         public bool HasXAMLCode => !string.IsNullOrEmpty(XamlCodeFile);
