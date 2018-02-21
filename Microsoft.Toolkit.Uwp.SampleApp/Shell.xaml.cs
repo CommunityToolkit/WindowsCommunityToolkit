@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             InfoAreaGrid.Visibility = Visibility.Visible;
             RootGrid.ColumnDefinitions[0].Width = new GridLength(2, GridUnitType.Star);
             RootGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
-            RootGrid.RowDefinitions[1].Height = new GridLength(32);
+            RootGrid.RowDefinitions[2].Height = new GridLength(32);
             Splitter.Visibility = Visibility.Visible;
         }
 
@@ -311,7 +311,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             InfoAreaGrid.Visibility = Visibility.Collapsed;
             RootGrid.ColumnDefinitions[1].Width = GridLength.Auto;
-            RootGrid.RowDefinitions[1].Height = GridLength.Auto;
+            RootGrid.RowDefinitions[2].Height = GridLength.Auto;
             HamburgerMenu.CurrentSample = null;
             Commands.Clear();
             Splitter.Visibility = Visibility.Collapsed;
@@ -342,7 +342,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     if (_isPaneOpen)
                     {
                         Grid.SetRowSpan(InfoAreaGrid, 1);
-                        Grid.SetRow(InfoAreaGrid, 1);
+                        Grid.SetRow(InfoAreaGrid, 2);
                         _isPaneOpen = false;
                         ExpandButton.Content = "";
                     }
@@ -350,7 +350,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     {
                         // pane is closed, so let's open it
                         Grid.SetRowSpan(InfoAreaGrid, 2);
-                        Grid.SetRow(InfoAreaGrid, 0);
+                        Grid.SetRow(InfoAreaGrid, 1);
                         _isPaneOpen = true;
                         ExpandButton.Content = "";
 

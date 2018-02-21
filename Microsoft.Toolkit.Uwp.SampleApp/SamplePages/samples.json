@@ -39,6 +39,7 @@
         "XamlCodeFile": "HamburgerMenuCode.bind",
         "Icon": "/SamplePages/HamburgerMenu/HamburgerMenu.png",
         "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The HamburgerMenu is deprecated and will be removed in a future major release. Please use the NavigationView available in the Fall Creators Update.",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/HamburgerMenu.md"
       },
       {
@@ -114,6 +115,7 @@
         "XamlCodeFile": "SlidableListItemCode.bind",
         "Icon": "/SamplePages/SlidableListItem/SlidableListItem.png",
         "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The SlidableListItem is deprecated and will be removed in a future major release. Please use the SwipeControl available in the Fall Creators Update.",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/SlidableListItem.md"
       },
       {
@@ -405,6 +407,7 @@
         "XamlCodeFile": "ParallaxPage.bind",
         "Icon": "/SamplePages/ParallaxService/Parallax.png",
         "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The ParallaxService is deprecated and will be removed in a future major release. Please use the ParallaxView available in the Fall Creators Update.",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/ParallaxService.md"
       },
       {
