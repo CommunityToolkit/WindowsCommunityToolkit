@@ -20,7 +20,6 @@ An example of how we can build the loading control.
 </controls:Loading>
 ```
 
-- **Background** and **Opacity** are for the panel who appears and disappears behind our custom control.
 - Use the **LoadingControl** to show specialized content.
 - You can also use **BorderBrush** and **BorderThickness** to change the **LoadingControl**.
 
