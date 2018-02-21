@@ -16,7 +16,7 @@ To apply a red hue:
 ```xaml
     <Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="400">
       <Border.Background>
-        <brushes:BackdropGammaTransferBrush RedAmplitude="1.25" />
+        <media:BackdropGammaTransferBrush RedAmplitude="1.25" />
       </Border.Background>
     </Border>
 ```
@@ -35,12 +35,12 @@ All Amplitude, Disable, Exponent, and Offset properties are available for the Al
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.15063.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI.Brushes |
+| Namespace | Microsoft.Toolkit.Uwp.UI.Media |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
 
 ## API Source Code
 
-- [BackdropGammaTransferBrush source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Brushes/BackdropGammaTransferBrush.cs)
+- [BackdropGammaTransferBrush source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Media/BackdropGammaTransferBrush.cs)
 
 ## Related Topics
 

@@ -29,6 +29,7 @@
 ## [BackdropSaturationBrush](brushes/BackdropSaturationBrush.md)
 ## [BackdropSepiaBrush](brushes/BackdropSepiaBrush.md)
 ## [ImageBlendBrush](brushes/ImageBlendBrush.md)
+## [RadialGradientBrush](brushes/RadialGradientBrush.md)
 
 # Controls
 ## [AdaptiveGridView](controls/AdaptiveGridView.md)

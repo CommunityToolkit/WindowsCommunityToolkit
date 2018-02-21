@@ -1,4 +1,4 @@
-<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.BackdropGammaTransferBrushPage"
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.RadialGradientBrushPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,7 +10,7 @@
     <Grid>
         <Rectangle>
             <Rectangle.Fill>
-                <media:BackdropGammaTransferBrush />
+                <media:RadialGradientBrush />
             </Rectangle.Fill>
         </Rectangle>
     </Grid>

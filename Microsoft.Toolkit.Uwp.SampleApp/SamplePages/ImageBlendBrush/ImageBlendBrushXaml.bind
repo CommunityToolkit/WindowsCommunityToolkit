@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:brushes="using:Microsoft.Toolkit.Uwp.UI.Brushes"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     mc:Ignorable="d">
 
   <Grid>
@@ -17,7 +17,7 @@
                     VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red" Width="200" Height="200"/>
       <Border Grid.Column="0">
         <Border.Background>
-          <brushes:ImageBlendBrush 
+          <media:ImageBlendBrush
             Source="/SamplePages/DropShadowPanel/Unicorn.png"
             Stretch="@[Unicorn Stretch:Enum:Stretch.None]"
             Mode="@[Unicorn Blend Mode:Enum:ImageBlendMode.ColorBurn]"
@@ -26,7 +26,7 @@
       </Border>
       <Border Grid.Column="1">
         <Border.Background>
-          <brushes:ImageBlendBrush
+          <media:ImageBlendBrush
             Source="/SamplePages/DropShadowPanel/Trex.png" 
             Stretch="@[Trex Stretch:Enum:Stretch.None]"
             Mode="@[Trex Blend Mode:Enum:ImageBlendMode.Subtract]"
