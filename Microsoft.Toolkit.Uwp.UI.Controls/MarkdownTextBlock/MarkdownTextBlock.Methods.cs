@@ -308,7 +308,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Called when a link needs to be handled
         /// </summary>
-        internal async void LinkHandled(string url, LinkReturnType type)
+        internal async void LinkHandled(string url, bool isHyperlink)
         {
             // Links that are nested within superscript elements cause the Click event to fire multiple times.
             // e.g. this markdown "[^bot](http://www.reddit.com/r/youtubefactsbot/wiki/index)"
@@ -328,8 +328,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Fire off the event.
-            var eventArgs = new LinkClickedEventArgs(url, type);
-            LinkClicked?.Invoke(this, eventArgs);
+            var eventArgs = new LinkClickedEventArgs(url);
+            if (isHyperlink)
+            {
+                LinkClicked?.Invoke(this, eventArgs);
+            }
+            else
+            {
+                ImageClicked?.Invoke(this, eventArgs);
+            }
         }
     }
 }
