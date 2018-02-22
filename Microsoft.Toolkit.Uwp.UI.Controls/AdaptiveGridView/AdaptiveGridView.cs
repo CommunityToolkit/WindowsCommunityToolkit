@@ -123,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _needContainerMarginForLayout = true;
             }
 
-            return (containerWidth / columns) - itemMargin.Left - itemMargin.Right;
+            return (containerWidth / columns) - itemMargin.Left - itemMargin.Right - 1;
         }
 
         /// <summary>
