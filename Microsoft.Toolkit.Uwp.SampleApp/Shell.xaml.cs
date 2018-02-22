@@ -520,7 +520,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private async void DocumentationTextblock_OnLinkClicked(object sender, LinkClickedEventArgs e)
         {
             TrackingManager.TrackEvent("Link", e.Link);
-            await Launcher.LaunchUriAsync(new Uri(e.Link));
+            if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri result))
+            {
+                await Launcher.LaunchUriAsync(new Uri(e.Link));
+            }
         }
 
         private async void DocumentationTextblock_ImageResolving(object sender, ImageResolvingEventArgs e)

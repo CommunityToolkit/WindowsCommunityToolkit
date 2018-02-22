@@ -252,6 +252,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             var image = new Image();
             var imageContainer = new InlineUIContainer() { Child = image };
 
+            LinkRegister.RegisterNewHyperLink(image, element.Url);
+
             image.Source = resolvedImage;
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;

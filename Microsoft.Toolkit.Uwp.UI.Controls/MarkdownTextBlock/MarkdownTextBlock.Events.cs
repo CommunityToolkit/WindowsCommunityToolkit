@@ -15,6 +15,7 @@ using System.Linq;
 using System.Reflection;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -46,29 +47,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Fired when a user taps one of the link elements
         /// </summary>
-        private async void Hyperlink_Click(Hyperlink sender, HyperlinkClickEventArgs args)
+        private void Hyperlink_Click(Hyperlink sender, HyperlinkClickEventArgs args)
         {
-            // Links that are nested within superscript elements cause the Click event to fire multiple times.
-            // e.g. this markdown "[^bot](http://www.reddit.com/r/youtubefactsbot/wiki/index)"
-            // Therefore we detect and ignore multiple clicks.
-            if (multiClickDetectionTriggered)
-            {
-                return;
-            }
+            LinkHandled((string)sender.GetValue(HyperlinkUrlProperty), LinkReturnType.Hyperlink);
+        }
 
-            multiClickDetectionTriggered = true;
-            await Dispatcher.RunAsync(CoreDispatcherPriority.High, () => multiClickDetectionTriggered = false);
-
-            // Get the hyperlink URL.
-            var url = (string)sender.GetValue(HyperlinkUrlProperty);
-            if (url == null)
-            {
-                return;
-            }
-
-            // Fire off the event.
-            var eventArgs = new LinkClickedEventArgs(url);
-            LinkClicked?.Invoke(this, eventArgs);
+        /// <summary>
+        /// Fired when a user taps one of the image elements
+        /// </summary>
+        private void NewImagelink_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            LinkHandled((string)(sender as Image).GetValue(HyperlinkUrlProperty), LinkReturnType.Image);
         }
 
         /// <summary>
