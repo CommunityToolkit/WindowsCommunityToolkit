@@ -26,6 +26,7 @@ The Rotate animation allows users to modify and animate the control's rotation. 
 				CenterY="0.0" 
 				Duration="500" 
 				Delay="250" 
+                EasingType="Linear"
 				AutomaticallyStart="True"/>
   </behaviors:Rotate>
 </interactivity:Interaction.Behaviors>
@@ -43,8 +44,6 @@ await MyUIElement.Rotate(value: 0.5f, centerX: 0.0f, centerY: 0.0f, duration: 25
 ![Rotate Behavior animation](../resources/images/Animations/Rotate/Sample-Output.gif)
 
 ## Properties
-
-
 
 ### EasingType
 
@@ -64,13 +63,12 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
 
-***Note:** EasingType is used only when AnimationSet.UseComposition == false*
-
 ## Examples
 
 - Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
 
     **Sample Code**
+
     ```csharp
     var anim = MyUIElement.Rotate(30).Fade(0.5f).Blur(5);
     anim.SetDurationForAll(2500);
@@ -78,6 +76,7 @@ You can change the way how the animation interpolates between keyframes by defin
     anim.Completed += animation_completed;
     anim.Start();
     ```
+
     **Sample Output**
 
     ![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)

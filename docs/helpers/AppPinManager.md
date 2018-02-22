@@ -8,6 +8,9 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, StartMenu, TaskBa
 
 # AppPinManager 
 
+> [!NOTE]
+The AppPinManager is deprecated and will be removed in the next major release. Please use the platform APIs ([TaskbarManager](https://docs.microsoft.com/en-us/uwp/api/windows.ui.shell.taskbarmanager) and [StartScreenManager](https://docs.microsoft.com/en-us/uwp/api/windows.ui.startscreen.startscreenmanager)) directly.
+
 The **AppPinManager** is a class used to add the application shortcut in StartMenu or TaskBar.
 
 ## Syntax

@@ -23,12 +23,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// <summary>
     /// This class provides static helper methods help to add the app in startmenu or TaskBar.
     /// </summary>
+    [Obsolete("This helper will be removed in future releases. Please use the platform APIs directly")]
     public static class AppPinManager
     {
         /// <summary>
         /// Pin the current app in Windows TaskBar
         /// </summary>
         /// <returns>PinResult</returns>
+        [Obsolete("This helper will be removed in future releases. Please use the Windows.UI.Shel.TaskbarManager APIs directly")]
         public static async Task<PinResult> PinCurrentAppToTaskBarAsync()
         {
             var resultPinResult = PinResult.UnsupportedOs;
@@ -70,6 +72,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="appListEntry">AppListEntry</param>
         /// <returns>PinResult</returns>
+        [Obsolete("This helper will be removed in future releases. Please use the Windows.UI.Shel.TaskbarManager APIs directly")]
         public static async Task<PinResult> PinSpecificAppToTaskBarAsync(AppListEntry appListEntry)
         {
             var resultPinResult = PinResult.UnsupportedOs;
@@ -111,6 +114,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="entry">AppListEntry</param>
         /// <returns>PinResult</returns>
+        [Obsolete("This helper will be removed in future releases. Please use the Windows.UI.StartScreen.StartScreenManager APIs directly")]
         public static async Task<PinResult> PinSpecificAppToStartMenuAsync(AppListEntry entry)
         {
             var resultPinResult = PinResult.UnsupportedOs;
@@ -146,6 +150,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="user">User</param>
         /// <param name="entry">AppListEntry</param>
         /// <returns>PinResult</returns>
+        [Obsolete("This helper will be removed in future releases. Please use the Windows.UI.StartScreen.StartScreenManager APIs directly")]
         public static async Task<PinResult> PinUserSpecificAppToStartMenuAsync(User user, AppListEntry entry)
         {
             var resultPinResult = PinResult.UnsupportedOs;

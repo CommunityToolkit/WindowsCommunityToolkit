@@ -19,7 +19,7 @@ An example of how we can build the loading control.
     <ContentControl x:Name="LoadingContentControl"/>
 </controls:Loading>
 ```
-- **Background** and **Opacity** are for the panel who appears and disappears behind our custom control.
+
 - Use the **LoadingControl** to show specialized content.
 - You can also use **BorderBrush** and **BorderThickness** to change the **LoadingControl**.
 
@@ -40,9 +40,15 @@ An example of how we can build the loading control.
 `LoadingControl.IsLoading = true;`
 
 
-## Example Image
+## Sample Output
 
 ![Loading animation](../resources/images/LoadingXamlControl.gif "Loading Xaml Control")
+
+## Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| IsLoaded | boolean | Gets or sets a value indicating whether the control is in the loading state. Set this to true to show the Loading control, false to hide the control. |
 
 ## Example Code
 

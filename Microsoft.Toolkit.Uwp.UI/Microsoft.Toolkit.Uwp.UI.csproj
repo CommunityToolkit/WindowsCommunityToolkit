@@ -10,6 +10,10 @@
     <UseWindowsMobileSdk>true</UseWindowsMobileSdk>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Win2D.uwp" Version="1.21.0" />
+  </ItemGroup>
+
 
   <ItemGroup>
 

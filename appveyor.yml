@@ -7,6 +7,7 @@ branches:
   - rel/2.0.1
   - rel/2.1.0
   - rel/2.1.1
+  - rel/2.2.0
   - rel/3.0.0
 
 environment:

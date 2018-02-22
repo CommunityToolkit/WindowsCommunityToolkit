@@ -11,9 +11,8 @@
 // ******************************************************************
 
 using System;
-using System.Net;
 using System.Reflection;
-using System.Text.RegularExpressions;
+using Microsoft.Toolkit.Extensions;
 using Microsoft.Toolkit.Services.Bing;
 
 namespace Microsoft.Toolkit.Services.Core
@@ -23,41 +22,6 @@ namespace Microsoft.Toolkit.Services.Core
     /// </summary>
     public static class ExtensionMethods
     {
-        /// <summary>
-        /// Regular expression of HTML tags to remove.
-        /// </summary>
-        private static readonly Regex RemoveHtmlTagsRegex = new Regex(@"(?></?\w+)(?>(?:[^>'""]+|'[^']*'|""[^""]*"")*)>");
-
-        /// <summary>
-        /// Converts object into string.
-        /// </summary>
-        /// <param name="value">Object value.</param>
-        /// <returns>Returns string value.</returns>
-        public static string ToSafeString(this object value)
-        {
-            return value?.ToString();
-        }
-
-        /// <summary>
-        /// Decode HTML string.
-        /// </summary>
-        /// <param name="htmlText">HTML string.</param>
-        /// <returns>Returns decoded HTML string.</returns>
-        public static string DecodeHtml(this string htmlText)
-        {
-            if (htmlText == null)
-            {
-                return null;
-            }
-
-            var ret = htmlText.FixHtml();
-
-            // Remove html tags
-            ret = RemoveHtmlTagsRegex.Replace(ret, string.Empty);
-
-            return WebUtility.HtmlDecode(ret);
-        }
-
         /// <summary>
         /// Converts between country code and country name.
         /// </summary>
@@ -89,13 +53,35 @@ namespace Microsoft.Toolkit.Services.Core
             Type type = value.GetType();
 
             FieldInfo fi = type.GetRuntimeField(value.ToString());
-            StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
+            Parsers.Core.StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(Parsers.Core.StringValueAttribute), false) as Parsers.Core.StringValueAttribute[];
             if (attrs != null && attrs.Length > 0)
             {
                 output = attrs[0].Value;
             }
 
             return output;
+        }
+
+        /// <summary>
+        /// Converts object into string.
+        /// </summary>
+        /// <param name="value">Object value.</param>
+        /// <returns>Returns string value.</returns>
+        [Obsolete("This method is being deprecated. Please use the counterpart in Microsoft.Toolkit.Extensions.StringExtensions.")]
+        public static string ToSafeString(this object value)
+        {
+            return StringExtensions.ToSafeString(value);
+        }
+
+        /// <summary>
+        /// Decode HTML string.
+        /// </summary>
+        /// <param name="htmlText">HTML string.</param>
+        /// <returns>Returns decoded HTML string.</returns>
+        [Obsolete("This method is being deprecated. Please use the counterpart in Microsoft.Toolkit.Extensions.StringExtensions.")]
+        public static string DecodeHtml(this string htmlText)
+        {
+            return StringExtensions.DecodeHtml(htmlText);
         }
     }
 }

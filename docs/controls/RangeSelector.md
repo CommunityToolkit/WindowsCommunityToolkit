@@ -13,13 +13,10 @@ The **RangeSelector Control** is a *Double Slider* control that allows the user 
 Please note that if you are using a RangeSelector within a ScrollViewer you'll need to add the following code:
 
 ```xaml
-
 <controls:RangeSelector x:Name="Selector" ThumbDragStarted="Selector_OnDragStarted" ThumbDragCompleted="Selector_OnDragCompleted"></controls:RangeSelector>
-
 ```
 
 ```csharp
-
 private void Selector_OnDragStarted(object sender, DragStartedEventArgs e)
 {
 	ScrollViewer.HorizontalScrollMode = ScrollMode.Disabled;
@@ -31,7 +28,6 @@ private void Selector_OnDragCompleted(object sender, DragCompletedEventArgs e)
 	ScrollViewer.HorizontalScrollMode = ScrollMode.Auto;
 	ScrollViewer.VerticalScrollMode = ScrollMode.Auto;
 }
-
 ```
 
 
@@ -40,13 +36,15 @@ This is because by default, the ScrollViewer will block the thumbs of the RangeS
 ## Syntax
 
 ```xaml
-
 <controls:RangeSelector x:Name="RangeSelectorControl" 
 	Minimum="10" 
 	Maximum="100">
 </controls:RangeSelector>       
-
 ```
+
+## StepFrequency
+
+If you want to use the RangeSelector using a step frequency, there is a `StepFrequency` property to set the interval between the values on the RangeSelector. For example; if you set `StepFrequency` to 2, using Minimum at 0 and Maximum at 10, the range values you can set will be 0,2,4,6,8,10.
 
 ## Example Image
 

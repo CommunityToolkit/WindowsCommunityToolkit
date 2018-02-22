@@ -70,7 +70,7 @@ void VerifyHeaders(bool Replace)
 		{
 		   continue;
 		}
-        var rgx = new Regex("^(//.*\r?\n|\r?\n)*");
+        var rgx = new Regex("^(//.*\r?\n)*\r?\n");
         var newContent = header + rgx.Replace(oldContent, "");
 
         if(!newContent.Equals(oldContent, StringComparison.Ordinal))

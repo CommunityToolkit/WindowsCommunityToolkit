@@ -22,6 +22,15 @@
 ## [Saturation](animations/Saturation.md)
 ## [Scale](animations/Scale.md)
 
+# Brushes
+## [BackdropBlurBrush](brushes/BackdropBlurBrush.md)
+## [BackdropGammaTransferBrush](brushes/BackdropGammaTransferBrush.md)
+## [BackdropInvertBrush](brushes/BackdropInvertBrush.md)
+## [BackdropSaturationBrush](brushes/BackdropSaturationBrush.md)
+## [BackdropSepiaBrush](brushes/BackdropSepiaBrush.md)
+## [ImageBlendBrush](brushes/ImageBlendBrush.md)
+## [RadialGradientBrush](brushes/RadialGradientBrush.md)
+
 # Controls
 ## [AdaptiveGridView](controls/AdaptiveGridView.md)
 ## [Blade](controls/BladeView.md)
@@ -57,17 +66,19 @@
 ## [FocusTracker](developer-tools/FocusTracker.md)
 
 # Extensions
-## [Hyperlink](extensions/Hyperlink.md)
-## [ListViewBase](extensions/ListViewBase.md)
+## [HyperlinkExtensions](extensions/HyperlinkExtensions.md)
+## [ListViewExtensions](extensions/ListViewExtensions.md)
 ## [Logical Tree](extensions/LogicalTree.md)
 ## [Mouse Cursor](extensions/MouseCursor.md)
+## [NavigationView Styles](extensions/NavigationView.md)
+## [ScrollViewerExtensions](extenions/ScrollViewerExtensions.md)
 ## [SurfaceDialTextboxHelper](extensions/SurfaceDialTextboxHelper.md)
 ## [TextBoxMask](extensions/TextBoxMask.md)
 ## [TextBoxRegex](extensions/TextBoxRegex.md)
 ## [ViewExtensions](extensions/ViewExtensions.md)
-## [Visual Layer Extensions](extensions/VisualEx.md)
+## [Visual Layer Extensions](extensions/VisualExtensions.md)
 ## [Visual Tree](extensions/VisualTree.md)
-## [WebView](extensions/WebView.md)
+## [WebViewExtensions](extensions/WebViewExtensions.md)
 
 # Helpers
 ## [AdvancedCollectionView](helpers/AdvancedCollectionView.md)
