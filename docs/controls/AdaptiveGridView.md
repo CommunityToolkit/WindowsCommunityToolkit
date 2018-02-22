@@ -9,13 +9,13 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, AdaptiveGridView,
 
 The **AdaptiveGridView Control** presents items in a evenly-spaced set of columns to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.
 
-There are 3 ways to use this Control. 
+There are 3 ways to use this Control:
 
-* You can set `DesiredWidth` and `ItemHeight`, which will scale the **width** of each item, and adjust the number of columns on demand, using all horizontal space.
+* You can set `DesiredWidth` and `ItemHeight`, which will scale the **width** of each item and adjust the number of columns on demand using all horizontal space.
 
 * You can set `DesiredWidth` only. This will mean that rows will take up as much space as required, using all horizontal space.
 
-* Using `OneRowModeEnabled`, you can set `DesiredWidth` and `ItemHeight`, and the **width** of each item, and the number of visible columns will be adjusted on demand, using all horizontal space.
+* Using `OneRowModeEnabled`, you can set `DesiredWidth` and `ItemHeight` which will adjust the **width** of each item and the number of visible columns on demand, using all horizontal space.
 
 ## Syntax
 
@@ -43,7 +43,7 @@ Using `DesiredWidth` in combination with `ItemHeight`
 
     - Using a `Viewbox`:
 
-        Using the `Height` and `Width` properties of content inside of a `Viewbox` means that the content inside will scale when **Width** and **Height** changes. This might not be a desired effect, and it will also likely incur a slight performance penalty.
+        Using the `Height` and `Width` properties of content inside of a `Viewbox` means that the content inside will scale linearly when **Width** and **Height** changes, which causes a zoom-like effect. This might not be a desired effect, and it will also likely incur a slight performance penalty.
 
         _ItemTemplate implementation_
 
@@ -68,7 +68,7 @@ Using `DesiredWidth` in combination with `ItemHeight`
 
     - To use custom view logic:
 
-        Using `MeasureOverride` on a ContentControl allows you to specify the **Width** and **Height** of the content, which might reap better performance compared to a `Viewbox`. The content inside will not scale when **Width** and **Height** changes.
+        Using `MeasureOverride` on a ContentControl allows you to specify the **Width** and **Height** of the content, which might reap better performance compared to a `Viewbox`. The dimensions of the content space will change uniformly, but the content will not zoom.
 
         _Custom logic implementation_
 
