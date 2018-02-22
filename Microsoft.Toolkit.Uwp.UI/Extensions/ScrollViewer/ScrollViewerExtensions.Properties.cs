@@ -19,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// </summary>
     public partial class ScrollViewerEx
     {
+#pragma warning disable CS0419 // Ambiguous reference in cref attribute
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for binding a <see cref="Windows.UI.Xaml.Thickness"/> for the horizontal <see cref="Windows.UI.Xaml.Controls.Primitives.ScrollBar"/> of a <see cref="Windows.UI.Xaml.Controls.ScrollViewer"/>
         /// </summary>
@@ -68,5 +69,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             obj.SetValue(HorizontalScrollBarMarginProperty, value);
         }
+#pragma warning restore CS0419 // Ambiguous reference in cref attribute
     }
 }
