@@ -11,11 +11,11 @@ The **AdaptiveGridView Control** presents items in a evenly-spaced set of column
 
 There are 3 ways to use this Control:
 
-* You can set `DesiredWidth` and `ItemHeight`, which will scale the **width** of each item and adjust the number of columns on demand using all horizontal space.
+1. You can set `DesiredWidth` and `ItemHeight`, which will scale the **width** of each item and adjust the number of columns on demand using all horizontal space.
 
-* You can set `DesiredWidth` only. This will mean that rows will take up as much space as required, using all horizontal space.
+2. You can set `DesiredWidth` only. This will mean that rows will take up as much space as required, using all horizontal space.
 
-* Using `OneRowModeEnabled`, you can set `DesiredWidth` and `ItemHeight` which will adjust the **width** of each item and the number of visible columns on demand, using all horizontal space.
+3. Using `OneRowModeEnabled`, you can set `DesiredWidth` and `ItemHeight` which will adjust the **width** of each item and the number of visible columns on demand, using all horizontal space.
 
 ## Syntax
 
@@ -27,15 +27,13 @@ There are 3 ways to use this Control:
 </controls:AdaptiveGridView>
 ```
 
-## Example Image
-
-Using `DesiredWidth` in combination with `ItemHeight`
-
-![AdaptiveGridView DesiredHeight and ItemHeight](../resources/images/Controls/AdaptiveGridView/AdaptiveGridView-DesiredWidth&ItemHeight.gif "AdaptiveGridView DesiredHeight and ItemHeight")
-
 ## Examples
 
-- Maintain aspect ratio by setting `DesiredWidth` with no `ItemHeight` set:
+1. Using `DesiredWidth` in combination with `ItemHeight`
+
+    ![AdaptiveGridView DesiredHeight and ItemHeight](../resources/images/Controls/AdaptiveGridView/AdaptiveGridView-DesiredWidth&ItemHeight.gif "AdaptiveGridView DesiredHeight and ItemHeight")
+
+2. Maintain aspect ratio by setting `DesiredWidth` with no `ItemHeight` set:
 
     ![AdaptiveGridView Viewbox scaled](../resources/images/Controls/AdaptiveGridView/AdaptiveGridView-ViewboxAspectRatio.gif "AdaptiveGridView Viewbox scaled")
 
@@ -100,7 +98,7 @@ Using `DesiredWidth` in combination with `ItemHeight`
         </DataTemplate>
         ```
 
-- Using `OneRowModeEnabled`:
+3. Using `OneRowModeEnabled`:
 
     ![AdaptiveGridView OneRowMode](../resources/images/Controls/AdaptiveGridView/AdaptiveGridView-OneRowMode.gif "AdaptiveGridView OneRowMode")
 
