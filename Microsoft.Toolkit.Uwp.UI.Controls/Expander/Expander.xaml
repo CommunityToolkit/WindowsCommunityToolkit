@@ -460,7 +460,7 @@
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                                                          Duration="0:0:0.2" To="1" />
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent"
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent" 
                                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
                                         </ObjectAnimationUsingKeyFrames>
@@ -481,7 +481,7 @@
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                                                          Duration="0:0:0.2" From="1" To="0" />
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent"
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent" 
                                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
                                         </ObjectAnimationUsingKeyFrames>
@@ -519,7 +519,7 @@
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                                                          Duration="0:0:0.2" To="1" />
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent"
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent" 
                                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
                                         </ObjectAnimationUsingKeyFrames>
@@ -561,7 +561,7 @@
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                                                          Duration="0:0:0.2" From="1" To="0" />
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent"
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent" 
                                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
                                         </ObjectAnimationUsingKeyFrames>
