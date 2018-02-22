@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // If we are in center alignment, we only care about relayout if the number of columns we can display changes
             // Fixes #1737
-            if (HorizontalAlignment == HorizontalAlignment.Center)
+            if (HorizontalAlignment != HorizontalAlignment.Stretch)
             {
                 var prevColumns = CalculateColumns(e.PreviousSize.Width, DesiredWidth);
                 var newColumns = CalculateColumns(e.NewSize.Width, DesiredWidth);
