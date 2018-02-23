@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void Hyperlink_Click(Hyperlink sender, HyperlinkClickEventArgs args)
         {
-            LinkHandled((string)sender.GetValue(HyperlinkUrlProperty), LinkReturnType.Hyperlink);
+            LinkHandled((string)sender.GetValue(HyperlinkUrlProperty), true);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void NewImagelink_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            LinkHandled((string)(sender as Image).GetValue(HyperlinkUrlProperty), LinkReturnType.Image);
+            LinkHandled((string)(sender as Image).GetValue(HyperlinkUrlProperty), false);
         }
 
         /// <summary>
@@ -69,6 +69,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Fired when a link element in the markdown was tapped.
         /// </summary>
         public event EventHandler<LinkClickedEventArgs> LinkClicked;
+
+        /// <summary>
+        /// Fired when an image element in the markdown was tapped.
+        /// </summary>
+        public event EventHandler<LinkClickedEventArgs> ImageClicked;
 
         /// <summary>
         /// Fired when an image from the markdown document needs to be resolved.

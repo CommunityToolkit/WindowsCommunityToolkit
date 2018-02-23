@@ -19,20 +19,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class LinkClickedEventArgs : EventArgs
     {
-        internal LinkClickedEventArgs(string link, LinkReturnType type)
+        internal LinkClickedEventArgs(string link)
         {
             Link = link;
-            Type = type;
         }
 
         /// <summary>
         /// Gets the link that was tapped.
         /// </summary>
         public string Link { get; }
-
-        /// <summary>
-        /// Gets the type of link that was tapped.(Image/Link)
-        /// </summary>
-        public LinkReturnType Type { get; }
     }
 }

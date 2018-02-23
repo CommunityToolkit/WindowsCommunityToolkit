@@ -96,7 +96,7 @@ The MarkdownTextBlock control is highly customizable to blend with any theme. Cu
 
 ### LinkClicked
 
-Use this event to handle clicking on links or images for Markdown, by default the MarkdownTextBlock does not handle Clicking on Links or Images.
+Use this event to handle clicking on links for Markdown, by default the MarkdownTextBlock does not handle Clicking on Links.
 
 ```c#
 private async void MarkdownText_LinkClicked(object sender, LinkClickedEventArgs e)
@@ -108,9 +108,19 @@ private async void MarkdownText_LinkClicked(object sender, LinkClickedEventArgs 
 }
 ```
 
-> [!NOTE]
-The **LinkClicked** event will be raised when either a Hyperlink or an Image is Tapped and will return element Type in **e.LinkType** on **LinkClickedEventArgs**.
+### ImageClicked
 
+Use this event to handle clicking on images for Markdown, by default the MarkdownTextBlock does not handle Clicking on Images.
+
+```c#
+private async void MarkdownText_ImageClicked(object sender, LinkClickedEventArgs e)
+{
+    if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri link))
+    {
+        await Launcher.LaunchUriAsync(link);
+    }
+}
+```
 
 ### ImageResolving
 
