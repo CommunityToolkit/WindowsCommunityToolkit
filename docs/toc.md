@@ -120,3 +120,5 @@
 ## [Microsoft Translator Service](services/MicrosoftTranslator.md)
 ## [OneDrive Service](services/OneDrive.md)
 ## [Twitter Service](services/Twitter.md)
+
+# [Known Issues](knownissues.md)
