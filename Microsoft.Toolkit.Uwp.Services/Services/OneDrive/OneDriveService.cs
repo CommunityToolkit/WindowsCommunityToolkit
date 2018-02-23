@@ -46,6 +46,11 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         private static Toolkit.Services.OneDrive.OneDriveService _graphInstance;
 
         /// <summary>
+        /// Private field for OnlineIdAuthenticationProvider.PromptType.
+        /// </summary>
+        private OnlineIdAuthenticationProvider.PromptType _onlineIdPromptType = OnlineIdAuthenticationProvider.PromptType.PromptIfNeeded;
+
+        /// <summary>
         /// Gets public singleton property - new version that depends on Graph service / SDK - only supports ADAL v2 endpoint.
         /// </summary>
         public static Toolkit.Services.OneDrive.OneDriveService GraphInstance
@@ -96,11 +101,25 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <summary>
         /// Initialize OneDrive Service only for OnlineId Provider
         /// </summary>
-        /// <param name="scopes">Scopes represent various permission levels that an app can request from a user</param>
+        /// <param name="onlineIdPromptType">Specify whether to prompt for credentials. Set to DoNotPrompt if calling from a background task.</param>
         /// <returns>Success or failure</returns>
-        public bool Initialize(OneDriveScopes scopes = OneDriveScopes.ReadWrite | OneDriveScopes.OfflineAccess)
+        public bool Initialize(OnlineIdAuthenticationProvider.PromptType onlineIdPromptType)
         {
-            return Initialize(null, AccountProviderType.OnlineId, scopes);
+            OneDriveScopes scopes = OneDriveScopes.ReadWrite | OneDriveScopes.OfflineAccess;
+            _onlineIdPromptType = onlineIdPromptType;
+            return Initialize(scopes, _onlineIdPromptType);
+        }
+
+        /// <summary>
+        /// Initialize OneDrive Service only for OnlineId Provider
+        /// </summary>
+        /// <param name="scopes">Scopes represent various permission levels that an app can request from a user</param>
+        /// <param name="onlineIdPromptType">Specify whether to prompt for credentials. Set to DoNotPrompt if calling from a background task.</param>
+        /// <returns>Success or failure</returns>
+        public bool Initialize(OneDriveScopes scopes = OneDriveScopes.ReadWrite | OneDriveScopes.OfflineAccess, OnlineIdAuthenticationProvider.PromptType onlineIdPromptType = OnlineIdAuthenticationProvider.PromptType.PromptIfNeeded)
+        {
+            _onlineIdPromptType = onlineIdPromptType;
+            return Initialize(null, AccountProviderType.OnlineId, scopes, _onlineIdPromptType);
         }
 
         /// <summary>
@@ -112,10 +131,13 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// <para>AccountProviderType.Msa: Authenticate the user with a Microsoft Account. You need to register your app https://apps.dev.microsoft.com in the SDK Live section</para>
         /// <para>AccountProviderType.Adal: Authenticate the user with a Office 365 Account. You need to register your in Azure Active Directory</para></param>
         /// <param name="scopes">Scopes represent various permission levels that an app can request from a user. Could be null if AccountProviderType.Adal is used </param>
+        /// <param name="onlineIdPromptType">Specify whether to prompt for credentials. Set to DoNotPrompt if calling from a background task.</param>
         /// <remarks>If AccountProvider</remarks>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(string appClientId, AccountProviderType accountProviderType = AccountProviderType.OnlineId, OneDriveScopes scopes = OneDriveScopes.ReadWrite | OneDriveScopes.OfflineAccess)
+        public bool Initialize(string appClientId, AccountProviderType accountProviderType = AccountProviderType.OnlineId, OneDriveScopes scopes = OneDriveScopes.ReadWrite | OneDriveScopes.OfflineAccess, OnlineIdAuthenticationProvider.PromptType onlineIdPromptType = OnlineIdAuthenticationProvider.PromptType.PromptIfNeeded)
         {
+            _onlineIdPromptType = onlineIdPromptType;
+
             if (accountProviderType != AccountProviderType.OnlineId && string.IsNullOrEmpty(appClientId))
             {
                 throw new ArgumentNullException(nameof(appClientId));
@@ -204,7 +226,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             else if (_accountProviderType == AccountProviderType.OnlineId)
             {
                 OneDriveAuthenticationHelper.ResourceUri = "https://api.onedrive.com/v1.0";
-                _accountProvider = new OnlineIdAuthenticationProvider(Scopes);
+                _accountProvider = new OnlineIdAuthenticationProvider(Scopes, _onlineIdPromptType);
                 await ((MsaAuthenticationProvider)_accountProvider).RestoreMostRecentFromCacheOrAuthenticateUserAsync();
                 resourceEndpointUri = OneDriveAuthenticationHelper.ResourceUri;
             }
