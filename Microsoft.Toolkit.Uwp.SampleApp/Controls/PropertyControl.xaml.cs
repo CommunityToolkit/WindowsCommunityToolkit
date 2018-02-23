@@ -195,6 +195,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                         Converter = converter
                     };
 
+                    // Make textboxes instantly respond to text rather than waiting for lost focus.
+                    if (controlToAdd is TextBox)
+                    {
+                        binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                    }
+
                     controlToAdd.SetBinding(dependencyProperty, binding);
                     controlToAdd.Margin = new Thickness(0, 5, 0, 20);
                     RootPanel.Children.Add(controlToAdd);
