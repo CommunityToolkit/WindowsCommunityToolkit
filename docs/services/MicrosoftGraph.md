@@ -1,7 +1,6 @@
 ---
 title: MicrosoftGraph Service
 author: nmetulev
-ms.date: 08/20/2017
 description: The MicrosoftGraph Service aim to easily logon to Office 365 Service in order to Retrieve User Information, Retrieve and Send emails, Retrieve User events
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, MicrosoftGraph Service
 ---

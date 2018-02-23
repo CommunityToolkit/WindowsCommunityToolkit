@@ -1,7 +1,6 @@
 ---
 title: NetworkHelper
 author: nmetulev
-ms.date: 08/20/2017
 description: he NetworkHelper class provides functionality to monitor changes in network connection and allows users to query for network information without additional lookups.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, NetworkHelper
 ---

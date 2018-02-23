@@ -1,7 +1,6 @@
 ---
 title: Visual Tree Extensions
 author: nmetulev
-ms.date: 08/20/2017
 description: The VisualTree extensions provide a collection of extensions methods for UI controls. It provides DependencyObject extensions to aid in using the VisualTreeHelper class.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Visual Tree, extentions
 ---

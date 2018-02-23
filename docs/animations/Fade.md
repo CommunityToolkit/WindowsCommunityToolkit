@@ -1,7 +1,6 @@
 ---
 title: Fade animation behavior
 author: nmetulev
-ms.date: 08/20/2017
 description: The Fade animation behavior fades objects, in and out, over time and delay. It can be used along side other animations directly through XAML or code
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, fade, fade animation
 ---

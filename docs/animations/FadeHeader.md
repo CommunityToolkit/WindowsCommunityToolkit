@@ -1,7 +1,6 @@
 ---
 title: FadeHeader Behavior
 author: nmetulev
-ms.date: 08/20/2017
 description: The FadeHeader Behavior fades a ListView or GridView Header UIElement when the user scrolls.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, fadeheader, fadeheader behavior
 ---

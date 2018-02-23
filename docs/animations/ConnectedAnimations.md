@@ -1,6 +1,5 @@
 ---
 title: Connected Animations XAML Attached Properties
-ms.date: 11/22/2017
 description: The Connected Animation XAML Attached Properties enable connected animations to be defined in your XAML code
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, connected animations, animation, coordinated animations
 ---

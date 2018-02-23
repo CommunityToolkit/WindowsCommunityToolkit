@@ -1,7 +1,6 @@
 ---
 title: FrameworkElement Extensions
 author: ST-Apps
-ms.date: 01/05/2018
 description: FrameworkElementExtensions provides a simple way to bind to actual size for any FrameworkElement
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, FrameworkElement, extensions
 ---

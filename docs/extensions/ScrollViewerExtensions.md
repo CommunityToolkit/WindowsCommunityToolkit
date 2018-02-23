@@ -1,7 +1,6 @@
 ---
 title: ScrollViewer extentions
 author: ST-Apps
-ms.date: 12/08/2017
 description: ScrollViewerEx provides a simple way to manage Margin for any ScrollBar inside any container.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ScrollViewer, extentions
 ---
