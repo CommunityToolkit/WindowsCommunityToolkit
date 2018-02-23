@@ -26,4 +26,3 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public string FullText { get; set; }
     }
 }
-
