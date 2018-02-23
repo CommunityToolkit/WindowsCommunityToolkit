@@ -105,6 +105,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return DesiredWidth;
             }
 
+            // Remove 1 "device pixel" from the container width to account for
+            // weird scaling issues and flickering on higher DPI monitors #1803
             var info = Windows.Graphics.Display.DisplayInformation.GetForCurrentView();
             containerWidth = containerWidth - (1 * info.RawPixelsPerViewPixel);
 
