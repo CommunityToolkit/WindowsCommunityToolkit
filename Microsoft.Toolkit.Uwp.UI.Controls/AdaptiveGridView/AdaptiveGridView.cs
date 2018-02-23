@@ -50,6 +50,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Items.VectorChanged += ItemsOnVectorChanged;
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
+
+            // Prevent issues with higher DPIs and underlying panel. #1803
+            UseLayoutRounding = false;
         }
 
         /// <summary>
@@ -104,11 +107,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 return DesiredWidth;
             }
-
-            // Remove 1 "device pixel" from the container width to account for
-            // weird scaling issues and flickering on higher DPI monitors #1803
-            var info = Windows.Graphics.Display.DisplayInformation.GetForCurrentView();
-            containerWidth = containerWidth - (1 * info.RawPixelsPerViewPixel);
 
             var columns = CalculateColumns(containerWidth, DesiredWidth);
 
