@@ -50,6 +50,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Items.VectorChanged += ItemsOnVectorChanged;
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
+
+            // Prevent issues with higher DPIs and underlying panel. #1803
+            UseLayoutRounding = false;
         }
 
         /// <summary>
@@ -264,9 +267,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (containerWidth > 0)
             {
                 var newWidth = CalculateItemWidth(containerWidth);
-
-                // Need to subtract one here for #1803 to not fight internal panel layout with odd DPI multiple (e.g. 125%)
-                ItemWidth = Math.Max(Math.Floor(newWidth) - 1, 0);
+                ItemWidth = Math.Floor(newWidth);
             }
         }
     }
