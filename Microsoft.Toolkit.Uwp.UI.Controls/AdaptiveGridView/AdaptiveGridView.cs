@@ -105,6 +105,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return DesiredWidth;
             }
 
+            var info = Windows.Graphics.Display.DisplayInformation.GetForCurrentView();
+            containerWidth = containerWidth - (1 * info.RawPixelsPerViewPixel);
+
             var columns = CalculateColumns(containerWidth, DesiredWidth);
 
             // If there's less items than there's columns, reduce the column count (if requested);
@@ -264,9 +267,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (containerWidth > 0)
             {
                 var newWidth = CalculateItemWidth(containerWidth);
-
-                // Need to subtract one here for #1803 to not fight internal panel layout with odd DPI multiple (e.g. 125%)
-                ItemWidth = Math.Max(Math.Floor(newWidth) - 1, 0);
+                ItemWidth = Math.Floor(newWidth);
             }
         }
     }
