@@ -28,7 +28,7 @@ var control = uiElement.FindDescendantByName("MyTextBox");
 control = uiElement.FindDescendant<ListView>();
 
 // Find all visual descendant controls of the specified type.
-foreach (var child in uiElement.FindDescendant<ListViewItem>())
+foreach (var child in uiElement.FindDescendants<ListViewItem>())
 {
 	// ...
 }
