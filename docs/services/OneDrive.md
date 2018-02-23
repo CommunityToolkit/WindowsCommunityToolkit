@@ -75,6 +75,9 @@ var folder = await OneDriveService.Instance.RootFolderAsync();
 
 ```csharp
 
+// if Windows is associated with a Microsoft account, and your project is associated with the Store then you may use OnlineId for seamless login. If you are doing this and initializing from a background task, then you need to explictly request that no credentials prompt be displayed.
+OneDriveService.Instance.Initialize(Microsoft.OneDrive.Sdk.OnlineIdAuthenticationProvider.PromptType.DoNotPrompt);
+
 // if Windows is not associated with a Microsoft Account, you need to initialize the service using an authentication provider AccountProviderType.Msa or AccountProviderType.Adal
 OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msa, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
 
