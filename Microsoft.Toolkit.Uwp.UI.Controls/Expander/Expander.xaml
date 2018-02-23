@@ -294,21 +294,21 @@
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                          Storyboard.TargetProperty="(UIElement.Opacity)">
                                             <LinearDoubleKeyFrame KeyTime="0" Value="0" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="0" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.45" Value="1" />
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.15" Value="0" />
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="1" />
                                         </DoubleAnimationUsingKeyFrames>
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)">
                                             <LinearDoubleKeyFrame KeyTime="0" Value="0" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="20" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.45" Value="0" />
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.15" Value="20" />
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="0" />
                                         </DoubleAnimationUsingKeyFrames>
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                                         Duration="0:0:0.3" From="0" To="1" />
+                                                         Duration="0:0:0.2" From="0" To="1" />
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                                         Duration="0:0:0.3" To="1" />
+                                                         Duration="0:0:0.2" To="1" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="VisibleDown">
@@ -316,21 +316,21 @@
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                          Storyboard.TargetProperty="(UIElement.Opacity)">
                                             <LinearDoubleKeyFrame KeyTime="0" Value="0" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="0" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.45" Value="1" />
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.15" Value="0" />
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="1" />
                                         </DoubleAnimationUsingKeyFrames>
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)">
                                             <LinearDoubleKeyFrame KeyTime="0" Value="0" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="20" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.45" Value="0" />
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.15" Value="20" />
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="0" />
                                         </DoubleAnimationUsingKeyFrames>
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                                         Duration="0:0:0.3" To="1" />
+                                                         Duration="0:0:0.2" To="1" />
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                                         Duration="0:0:0.3" From="0" To="1" />
+                                                         Duration="0:0:0.2" From="0" To="1" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="VisibleRight">
@@ -353,21 +353,21 @@
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                          Storyboard.TargetProperty="(UIElement.Opacity)">
                                             <LinearDoubleKeyFrame KeyTime="0" Value="0" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="0" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.45" Value="1" />
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.15" Value="0" />
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="1" />
                                         </DoubleAnimationUsingKeyFrames>
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)">
                                             <LinearDoubleKeyFrame KeyTime="0" Value="0" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="20" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.45" Value="0" />
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.15" Value="20" />
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="0" />
                                         </DoubleAnimationUsingKeyFrames>
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                                         Duration="0:0:0.3" From="0" To="1" />
+                                                         Duration="0:0:0.2" From="0" To="1" />
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                                         Duration="0:0:0.3" To="1" />
+                                                         Duration="0:0:0.2" To="1" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="VisibleUp">
@@ -393,21 +393,21 @@
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                          Storyboard.TargetProperty="(UIElement.Opacity)">
                                             <LinearDoubleKeyFrame KeyTime="0" Value="0" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="0" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.45" Value="1" />
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.15" Value="0" />
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="1" />
                                         </DoubleAnimationUsingKeyFrames>
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)">
                                             <LinearDoubleKeyFrame KeyTime="0" Value="0" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="20" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.45" Value="0" />
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.15" Value="20" />
+                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="0" />
                                         </DoubleAnimationUsingKeyFrames>
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                                         Duration="0:0:0.3" To="1" />
+                                                         Duration="0:0:0.2" To="1" />
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                                         Duration="0:0:0.3" From="0" To="1" />
+                                                         Duration="0:0:0.2" From="0" To="1" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CollapsedLeft">
@@ -432,16 +432,16 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ContentPresenter"
                                                          Storyboard.TargetProperty="(UIElement.Opacity)"
-                                                         Duration="0:0:0.2" From="1" To="0" />
+                                                         Duration="0:0:0.15" From="1" To="0" />
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                                         Duration="0:0:0.2" To="0" />
+                                                         Duration="0:0:0.15" To="0" />
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                                         Duration="0:0:0.2" To="1" />
+                                                         Duration="0:0:0.15" To="1" />
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent" 
                                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="Collapsed"/>
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -451,16 +451,16 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ContentPresenter"
                                                          Storyboard.TargetProperty="(UIElement.Opacity)"
-                                                         Duration="0:0:0.2" From="1" To="0" />
+                                                         Duration="0:0:0.15" From="1" To="0" />
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                                         Duration="0:0:0.2" To="1" />
+                                                         Duration="0:0:0.15" To="1" />
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                                         Duration="0:0:0.2" From="1" To="0" />
+                                                         Duration="0:0:0.15" From="1" To="0" />
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent" 
                                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="Collapsed"/>
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -483,16 +483,16 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ContentPresenter"
                                                          Storyboard.TargetProperty="(UIElement.Opacity)"
-                                                         Duration="0:0:0.2" From="1" To="0" />
+                                                         Duration="0:0:0.15" From="1" To="0" />
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                                         Duration="0:0:0.2" To="0" />
+                                                         Duration="0:0:0.15" To="0" />
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                                         Duration="0:0:0.2" To="1" />
+                                                         Duration="0:0:0.15" To="1" />
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent" 
                                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="Collapsed"/>
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -518,16 +518,16 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ContentPresenter"
                                                          Storyboard.TargetProperty="(UIElement.Opacity)"
-                                                         Duration="0:0:0.2" From="1" To="0" />
+                                                         Duration="0:0:0.15" From="1" To="0" />
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                                         Duration="0:0:0.2" To="1" />
+                                                         Duration="0:0:0.15" To="1" />
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                                         Duration="0:0:0.2" From="1" To="0" />
+                                                         Duration="0:0:0.15" From="1" To="0" />
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent" 
                                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="Collapsed"/>
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
