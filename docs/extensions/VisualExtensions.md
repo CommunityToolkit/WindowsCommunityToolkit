@@ -28,7 +28,8 @@ The Composition Visual Attached Properties allow developers to modify common pro
 
 ## Properties
 
-> [!NOTE] Properties of type Vector2, Vector3 or Vector4 on the Visual are represented as strings here. To specify the Vector2, Vector3, or Vector4 value, use the following string format:
+> [!NOTE]
+Properties of type Vector2, Vector3 or Vector4 on the Visual are represented as strings here. To specify the Vector2, Vector3, or Vector4 value, use the following string format:
 > * Vector2 - "0" or "0, 0"
 > * Vector3 - "0" or "0, 0, 0"
 > * Vector4 - "0" or "0, 0, 0, 0"

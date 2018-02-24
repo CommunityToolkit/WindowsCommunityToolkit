@@ -36,8 +36,8 @@ This error will not be fixed until the 3.0 release as it requires a breaking cha
 
 ### Alternating rows 
 * inserting items does not work propertly - [see issue for details](https://github.com/Microsoft/UWPCommunityToolkit/issues/1837)
-### TextBoxRegEx
 
+### TextBoxRegEx
 * Some phone number formats are not supported - [see issue for details](https://github.com/Microsoft/UWPCommunityToolkit/issues/1821)
 
 

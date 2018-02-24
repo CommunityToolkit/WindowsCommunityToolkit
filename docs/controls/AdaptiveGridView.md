@@ -31,7 +31,7 @@ There are 3 ways to use this Control:
 
 1. Using `DesiredWidth` in combination with `ItemHeight`
 
-    ![AdaptiveGridView DesiredHeight and ItemHeight](../resources/images/Controls/AdaptiveGridView/AdaptiveGridView-DesiredWidth&ItemHeight.gif "AdaptiveGridView DesiredHeight and ItemHeight")
+    ![AdaptiveGridView DesiredHeight and ItemHeight](../resources/images/Controls/AdaptiveGridView/AdaptiveGridView-DesiredWidthItemHeight.gif "AdaptiveGridView DesiredHeight and ItemHeight")
 
 2. Maintain aspect ratio by setting `DesiredWidth` with no `ItemHeight` set:
 
