@@ -29,13 +29,13 @@ There are 3 ways to use this Control:
 
 ## Examples
 
-1. Using `DesiredWidth` in combination with `ItemHeight`
+1. Using `DesiredWidth` in combination with `ItemHeight`:
 
-    ![AdaptiveGridView DesiredHeight and ItemHeight](../resources/images/Controls/AdaptiveGridView/AdaptiveGridView-DesiredWidthItemHeight.gif "AdaptiveGridView DesiredHeight and ItemHeight")
+    ![AdaptiveGridView DesiredHeight and ItemHeight](../resources/images/Controls/AdaptiveGridView/AdaptiveGridView-DesiredWidthItemHeight.gif)
 
 2. Maintain aspect ratio by setting `DesiredWidth` with no `ItemHeight` set:
 
-    ![AdaptiveGridView Viewbox scaled](../resources/images/Controls/AdaptiveGridView/AdaptiveGridView-ViewboxAspectRatio.gif "AdaptiveGridView Viewbox scaled")
+    ![AdaptiveGridView Viewbox scaled](../resources/images/Controls/AdaptiveGridView/AdaptiveGridView-ViewboxAspectRatio.gif)
 
     This still requires the `ItemTemplate` to contain some scaling logic, this can be done with Height and Width set on the content inside of a Viewbox, or using custom view logic.
 
@@ -100,7 +100,7 @@ There are 3 ways to use this Control:
 
 3. Using `OneRowModeEnabled`:
 
-    ![AdaptiveGridView OneRowMode](../resources/images/Controls/AdaptiveGridView/AdaptiveGridView-OneRowMode.gif "AdaptiveGridView OneRowMode")
+    ![AdaptiveGridView OneRowMode](../resources/images/Controls/AdaptiveGridView/AdaptiveGridView-OneRowMode.gif)
 
     If there are not enough items to fill one row, the control will stretch the items until all available space is filled. This can result in much wider items than specified. If you prefer your items to always stay close to the DesiredWidth, you can set the **StretchContentForSingleRow** property to **false**, to prevent further stretching.
 
