@@ -195,10 +195,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 case VirtualKey.Left:
                     RangeMin -= 1;
+                    SyncThumbs();
                     e.Handled = true;
                     break;
                 case VirtualKey.Right:
                     RangeMin += 1;
+                    SyncThumbs();
                     e.Handled = true;
                     break;
             }
@@ -210,10 +212,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 case VirtualKey.Left:
                     RangeMax -= 1;
+                    SyncThumbs();
                     e.Handled = true;
                     break;
                 case VirtualKey.Right:
                     RangeMax += 1;
+                    SyncThumbs();
                     e.Handled = true;
                     break;
             }
