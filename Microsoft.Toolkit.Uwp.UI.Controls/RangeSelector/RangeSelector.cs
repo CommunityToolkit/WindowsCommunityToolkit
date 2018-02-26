@@ -194,12 +194,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             switch (e.Key)
             {
                 case VirtualKey.Left:
-                    RangeMin -= 1;
+                    RangeMin -= StepFrequency;
                     SyncThumbs();
                     e.Handled = true;
                     break;
                 case VirtualKey.Right:
-                    RangeMin += 1;
+                    RangeMin += StepFrequency;
                     SyncThumbs();
                     e.Handled = true;
                     break;
@@ -211,12 +211,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             switch (e.Key)
             {
                 case VirtualKey.Left:
-                    RangeMax -= 1;
+                    RangeMax -= StepFrequency;
                     SyncThumbs();
                     e.Handled = true;
                     break;
                 case VirtualKey.Right:
-                    RangeMax += 1;
+                    RangeMax += StepFrequency;
                     SyncThumbs();
                     e.Handled = true;
                     break;
