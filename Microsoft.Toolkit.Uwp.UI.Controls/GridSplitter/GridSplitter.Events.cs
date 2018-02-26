@@ -194,6 +194,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // if sibling row has fixed width then resize it
             else if (!IsStarRow(SiblingRow))
             {
+                // Would adding to this column make the current column violate the MinWidth?
+                if (IsValidRowHeight(CurrentRow, verticalChange) == false)
+                {
+                    return false;
+                }
                 if (!SetRowHeight(SiblingRow, verticalChange * -1, GridUnitType.Pixel))
                 {
                     return true;
