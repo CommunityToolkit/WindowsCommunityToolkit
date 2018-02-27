@@ -10,6 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Collections.Generic;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,6 +24,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// </summary>
     public static class ListViewExtensions
     {
+        private static Dictionary<IObservableVector<object>, Windows.UI.Xaml.Controls.ListViewBase> _itemsForList = new Dictionary<IObservableVector<object>, Windows.UI.Xaml.Controls.ListViewBase>();
+
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for binding a <see cref="Brush"/> as an alternate background color to a <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
@@ -107,10 +111,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
 
             listViewBase.ContainerContentChanging -= ColorContainerContentChanging;
+            listViewBase.Items.VectorChanged -= ColorItemsVectorChanged;
 
+            _itemsForList[listViewBase.Items] = listViewBase;
             if (AlternateColorProperty != null)
             {
                 listViewBase.ContainerContentChanging += ColorContainerContentChanging;
+                listViewBase.Items.VectorChanged += ColorItemsVectorChanged;
+            }
+        }
+
+        private static void ColorItemsVectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs args)
+        {
+            // Only need to handle Inserted and Removed because we'll handle everything else in the
+            // ColorContainerContentChanging method
+            if ((args.CollectionChange == CollectionChange.ItemInserted) || (args.CollectionChange == CollectionChange.ItemRemoved))
+            {
+                _itemsForList.TryGetValue(sender, out Windows.UI.Xaml.Controls.ListViewBase listViewBase);
+                if (listViewBase == null)
+                {
+                    return;
+                }
+
+                for (int i = 0; i < sender.Count; i++)
+                {
+                    var itemContainer = listViewBase.ContainerFromIndex(i) as Control;
+                    if (itemContainer != null)
+                    {
+                        if (i % 2 == 0)
+                        {
+                            itemContainer.Background = GetAlternateColor(listViewBase);
+                        }
+                        else
+                        {
+                            itemContainer.Background = null;
+                        }
+                    }
+                }
             }
         }
 
