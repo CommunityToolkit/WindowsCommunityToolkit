@@ -123,6 +123,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void ColorItemsVectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs args)
         {
+            // If the index is at the end we can ignore
+            if (args.Index == (sender.Count - 1))
+            {
+                return;
+            }
+
             // Only need to handle Inserted and Removed because we'll handle everything else in the
             // ColorContainerContentChanging method
             if ((args.CollectionChange == CollectionChange.ItemInserted) || (args.CollectionChange == CollectionChange.ItemRemoved))
