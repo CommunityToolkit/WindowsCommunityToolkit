@@ -141,10 +141,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
 
             listViewBase.ContainerContentChanging -= ItemTemplateContainerContentChanging;
+            listViewBase.Unloaded -= OnListViewBaseUnloaded;
 
             if (AlternateItemTemplateProperty != null)
             {
                 listViewBase.ContainerContentChanging += ItemTemplateContainerContentChanging;
+                listViewBase.Unloaded += OnListViewBaseUnloaded;
             }
         }
 
@@ -173,10 +175,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
 
             listViewBase.ContainerContentChanging -= StretchItemContainerDirectionChanging;
+            listViewBase.Unloaded -= OnListViewBaseUnloaded;
 
             if (StretchItemContainerDirectionProperty != null)
             {
                 listViewBase.ContainerContentChanging += StretchItemContainerDirectionChanging;
+                listViewBase.Unloaded += OnListViewBaseUnloaded;
             }
         }
 
@@ -201,6 +205,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             Windows.UI.Xaml.Controls.ListViewBase listViewBase = sender as Windows.UI.Xaml.Controls.ListViewBase;
             _itemsForList.Remove(listViewBase.Items);
 
+            listViewBase.ContainerContentChanging -= StretchItemContainerDirectionChanging;
+            listViewBase.ContainerContentChanging -= ItemTemplateContainerContentChanging;
             listViewBase.ContainerContentChanging -= ColorContainerContentChanging;
             listViewBase.Items.VectorChanged -= ColorItemsVectorChanged;
             listViewBase.Unloaded -= OnListViewBaseUnloaded;
