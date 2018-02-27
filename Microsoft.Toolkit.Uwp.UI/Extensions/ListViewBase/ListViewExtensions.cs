@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     public static class ListViewExtensions
     {
         private static Dictionary<IObservableVector<object>, Windows.UI.Xaml.Controls.ListViewBase> _itemsForList = new Dictionary<IObservableVector<object>, Windows.UI.Xaml.Controls.ListViewBase>();
-
+    
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for binding a <see cref="Brush"/> as an alternate background color to a <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
@@ -133,7 +133,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     return;
                 }
 
-                for (int i = 0; i < sender.Count; i++)
+                int index = (int)args.Index;
+                for (int i = index; i < sender.Count; i++)
                 {
                     var itemContainer = listViewBase.ContainerFromIndex(i) as Control;
                     if (itemContainer != null)
