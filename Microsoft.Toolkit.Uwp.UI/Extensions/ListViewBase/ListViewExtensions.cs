@@ -123,54 +123,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
         }
 
-        private static void ColorItemsVectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs args)
-        {
-            // If the index is at the end we can ignore
-            if (args.Index == (sender.Count - 1))
-            {
-                return;
-            }
-
-            // Only need to handle Inserted and Removed because we'll handle everything else in the
-            // ColorContainerContentChanging method
-            if ((args.CollectionChange == CollectionChange.ItemInserted) || (args.CollectionChange == CollectionChange.ItemRemoved))
-            {
-                _itemsForList.TryGetValue(sender, out Windows.UI.Xaml.Controls.ListViewBase listViewBase);
-                if (listViewBase == null)
-                {
-                    return;
-                }
-
-                int index = (int)args.Index;
-                for (int i = index; i < sender.Count; i++)
-                {
-                    var itemContainer = listViewBase.ContainerFromIndex(i) as Control;
-                    if (itemContainer != null)
-                    {
-                        SetItemContainerBackground(listViewBase, itemContainer, i);
-                    }
-                }
-            }
-        }
-
         private static void ColorContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             var itemContainer = args.ItemContainer as Control;
             var itemIndex = sender.IndexFromContainer(itemContainer);
 
             SetItemContainerBackground(sender, itemContainer, itemIndex);
-        }
-
-        private static void SetItemContainerBackground(Windows.UI.Xaml.Controls.ListViewBase sender, Control itemContainer, int itemIndex)
-        {
-            if (itemIndex % 2 == 0)
-            {
-                itemContainer.Background = GetAlternateColor(sender);
-            }
-            else
-            {
-                itemContainer.Background = null;
-            }
         }
 
         private static void OnAlternateItemTemplatePropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
@@ -246,6 +204,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             listViewBase.ContainerContentChanging -= ColorContainerContentChanging;
             listViewBase.Items.VectorChanged -= ColorItemsVectorChanged;
             listViewBase.Unloaded -= OnListViewBaseUnloaded;
+        }
+
+        private static void ColorItemsVectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs args)
+        {
+            // If the index is at the end we can ignore
+            if (args.Index == (sender.Count - 1))
+            {
+                return;
+            }
+
+            // Only need to handle Inserted and Removed because we'll handle everything else in the
+            // ColorContainerContentChanging method
+            if ((args.CollectionChange == CollectionChange.ItemInserted) || (args.CollectionChange == CollectionChange.ItemRemoved))
+            {
+                _itemsForList.TryGetValue(sender, out Windows.UI.Xaml.Controls.ListViewBase listViewBase);
+                if (listViewBase == null)
+                {
+                    return;
+                }
+
+                int index = (int)args.Index;
+                for (int i = index; i < sender.Count; i++)
+                {
+                    var itemContainer = listViewBase.ContainerFromIndex(i) as Control;
+                    if (itemContainer != null)
+                    {
+                        SetItemContainerBackground(listViewBase, itemContainer, i);
+                    }
+                }
+            }
+        }
+
+        private static void SetItemContainerBackground(Windows.UI.Xaml.Controls.ListViewBase sender, Control itemContainer, int itemIndex)
+        {
+            if (itemIndex % 2 == 0)
+            {
+                itemContainer.Background = GetAlternateColor(sender);
+            }
+            else
+            {
+                itemContainer.Background = null;
+            }
         }
     }
 }
