@@ -46,6 +46,18 @@ This is because by default, the ScrollViewer will block the thumbs of the RangeS
 
 If you want to use the RangeSelector using a step frequency, there is a `StepFrequency` property to set the interval between the values on the RangeSelector. For example; if you set `StepFrequency` to 2, using Minimum at 0 and Maximum at 10, the range values you can set will be 0,2,4,6,8,10.
 
+## TickFrequency
+
+For a visual representation of 'ticks' on the range selector, there is a `TickFrequency` property to set the interval between them.  
+
+## TickPlacement
+
+In order to change the placement of the ticks, use the `TickPlacement` property. There are five options, None, Inline, Outside, BottomLeft, TopRight. The default is Inline.
+
+## TickOffset
+
+If you want the ticks to start at a later point, use this property to define the offset.
+
 ## Example Image
 
 ![RangeSelector animation](../resources/images/Controls-RangeSelector.gif "RangeSelector")
