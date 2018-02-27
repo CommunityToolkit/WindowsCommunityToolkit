@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     public static class ListViewExtensions
     {
         private static Dictionary<IObservableVector<object>, Windows.UI.Xaml.Controls.ListViewBase> _itemsForList = new Dictionary<IObservableVector<object>, Windows.UI.Xaml.Controls.ListViewBase>();
-    
+
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for binding a <see cref="Brush"/> as an alternate background color to a <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
@@ -112,12 +112,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             listViewBase.ContainerContentChanging -= ColorContainerContentChanging;
             listViewBase.Items.VectorChanged -= ColorItemsVectorChanged;
+            listViewBase.Unloaded -= OnListViewBaseUnloaded;
 
             _itemsForList[listViewBase.Items] = listViewBase;
             if (AlternateColorProperty != null)
             {
                 listViewBase.ContainerContentChanging += ColorContainerContentChanging;
                 listViewBase.Items.VectorChanged += ColorItemsVectorChanged;
+                listViewBase.Unloaded += OnListViewBaseUnloaded;
             }
         }
 
@@ -234,6 +236,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             {
                 itemContainer.HorizontalContentAlignment = HorizontalAlignment.Stretch;
             }
+        }
+
+        private static void OnListViewBaseUnloaded(object sender, RoutedEventArgs e)
+        {
+            Windows.UI.Xaml.Controls.ListViewBase listViewBase = sender as Windows.UI.Xaml.Controls.ListViewBase;
+            _itemsForList.Remove(listViewBase.Items);
+
+            listViewBase.ContainerContentChanging -= ColorContainerContentChanging;
+            listViewBase.Items.VectorChanged -= ColorItemsVectorChanged;
+            listViewBase.Unloaded -= OnListViewBaseUnloaded;
         }
     }
 }
