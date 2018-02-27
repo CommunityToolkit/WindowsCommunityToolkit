@@ -83,6 +83,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty TickPlacementProperty = DependencyProperty.Register(nameof(TickPlacement), typeof(TickPlacement), typeof(RangeSelector), new PropertyMetadata(TickPlacement.Inline, TickPlacementChangedCallback));
 
+        /// <summary>
+        /// Identifies the TickOffset dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TickOffsetProperty = DependencyProperty.Register(nameof(TickOffset), typeof(double), typeof(RangeSelector), new PropertyMetadata(0.0, TickOffsetChangedCallback));
+
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
         private Thumb _minThumb;
@@ -715,6 +720,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             rangeSelector.DrawTicks();
         }
 
+        /// <summary>
+        /// Gets or sets the value for tick offset.
+        /// </summary>
+        /// <value>
+        /// The value for tick offset.
+        /// </value>
+        public double TickOffset
+        {
+            get
+            {
+                return (double)GetValue(TickOffsetProperty);
+            }
+
+            set
+            {
+                SetValue(TickOffsetProperty, value);
+            }
+        }
+
+        private static void TickOffsetChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var rangeSelector = d as RangeSelector;
+            if (rangeSelector == null)
+            {
+                return;
+            }
+
+            rangeSelector.DrawTicks();
+        }
+
         private void DrawTicks()
         {
             if (_tickCanvas == null)
@@ -736,7 +771,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double relativeTopForTopTicks = (_containerCanvas.ActualHeight / 2) - (tickMargin + tickHeight);
             double relativeTopForBottomTicks = (_containerCanvas.ActualHeight / 2) + tickMargin;
 
-            for (double i = Minimum; i <= Maximum - Minimum; i += TickFrequency)
+            for (double i = Minimum + TickOffset; i <= Maximum - Minimum; i += TickFrequency)
             {
                 double relativeLeft = i * tickActualStep;
 

@@ -24,12 +24,13 @@
                  Foreground="Black"
                  Text="{Binding RangeMin, ElementName=RangeSelectorControl, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}" />
       <controls:RangeSelector x:Name="RangeSelectorControl"
-                              Grid.Column="1"                              
+                              Grid.Column="1"
                               Minimum="@[Minimum:Slider:0:0-100]@"
-                              Maximum="@[Maximum:Slider:100:0-100]@"                              
+                              Maximum="@[Maximum:Slider:100:0-100]@"
                               StepFrequency="@[StepFrequency:DoubleSlider:1.0:0.25-10.0]@"
                               TickPlacement="@[TickPlacement:Enum:TickPlacement.Outside]"
-                              TickFrequency="@[TickFrequency:DoubleSlider:10.0:0.25-50.0]@"/>
+                              TickFrequency="@[TickFrequency:DoubleSlider:10.0:0.25-50.0]@"                               
+                              TickOffset="@[TickOffset:DoubleSlider:0.0:0.25-100.0]@"/>
       <TextBlock Grid.Column="2"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Center"
