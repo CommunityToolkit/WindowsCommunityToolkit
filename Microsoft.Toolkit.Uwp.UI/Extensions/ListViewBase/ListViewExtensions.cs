@@ -138,14 +138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     var itemContainer = listViewBase.ContainerFromIndex(i) as Control;
                     if (itemContainer != null)
                     {
-                        if (i % 2 == 0)
-                        {
-                            itemContainer.Background = GetAlternateColor(listViewBase);
-                        }
-                        else
-                        {
-                            itemContainer.Background = null;
-                        }
+                        SetItemContainerBackground(listViewBase, itemContainer, i);
                     }
                 }
             }
@@ -153,9 +146,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void ColorContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
-            var itemContainer = args.ItemContainer as SelectorItem;
+            var itemContainer = args.ItemContainer as Control;
             var itemIndex = sender.IndexFromContainer(itemContainer);
 
+            SetItemContainerBackground(sender, itemContainer, itemIndex);
+        }
+
+        private static void SetItemContainerBackground(Windows.UI.Xaml.Controls.ListViewBase sender, Control itemContainer, int itemIndex)
+        {
             if (itemIndex % 2 == 0)
             {
                 itemContainer.Background = GetAlternateColor(sender);
