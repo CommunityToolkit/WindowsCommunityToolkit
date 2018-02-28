@@ -31,7 +31,6 @@ This error will not be fixed until the 3.0 release as it requires a breaking cha
 * HamburgerMenu selected indicator moves with keyboard focus - [see issue for details](https://github.com/Microsoft/UWPCommunityToolkit/issues/1306)
 
 
-
 ## Extensions
 
 ### Alternating rows 
@@ -45,3 +44,8 @@ This error will not be fixed until the 3.0 release as it requires a breaking cha
 
 ### Markdown
 * parser combines quotes with any white space in between - [see issue for details](https://github.com/Microsoft/UWPCommunityToolkit/issues/1761)
+
+
+## Notifications
+
+The Notifications packages do not work with C++ and Javascrpt projects and throw an exception - [see issue for details](https://github.com/Microsoft/UWPCommunityToolkit/issues/1760)
