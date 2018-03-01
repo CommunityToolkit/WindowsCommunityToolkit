@@ -88,6 +88,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty TickOffsetProperty = DependencyProperty.Register(nameof(TickOffset), typeof(double), typeof(RangeSelector), new PropertyMetadata(0.0, TickOffsetChangedCallback));
 
+        /// <summary>
+        /// Identifies the SnapsTo dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SnapsToProperty = DependencyProperty.Register(nameof(SnapsTo), typeof(SliderSnapsTo), typeof(RangeSelector), new PropertyMetadata(SliderSnapsTo.StepValues));
+
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
         private Thumb _minThumb;
@@ -750,6 +755,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             rangeSelector.DrawTicks();
         }
 
+        /// <summary>
+        /// Gets or sets the value for snapping to steps or tick frequency.
+        /// </summary>
+        /// <value>
+        /// The value for snapping to ticks or steps.
+        /// </value>
+        public SliderSnapsTo SnapsTo
+        {
+            get
+            {
+                return (SliderSnapsTo)GetValue(SnapsToProperty);
+            }
+
+            set
+            {
+                SetValue(SnapsToProperty, value);
+            }
+        }
+
         private void DrawTicks()
         {
             if (_tickCanvas == null)
@@ -813,17 +837,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RangeMinToStepFrequency()
         {
-            RangeMin = MoveToStepFrequency(RangeMin);
+            RangeMin = MoveToStepOrTickFrequency(RangeMin);
         }
 
         private void RangeMaxToStepFrequency()
         {
-            RangeMax = MoveToStepFrequency(RangeMax);
+            RangeMax = MoveToStepOrTickFrequency(RangeMax);
         }
 
-        private double MoveToStepFrequency(double rangeValue)
+        private double MoveToStepOrTickFrequency(double rangeValue)
         {
-            double newValue = Minimum + (((int)Math.Round((rangeValue - Minimum) / StepFrequency)) * StepFrequency);
+            double appliedFrequency = (SnapsTo == SliderSnapsTo.StepValues) ? StepFrequency : TickFrequency;
+            double newValue = Minimum + (((int)Math.Round((rangeValue - Minimum) / appliedFrequency)) * appliedFrequency);
 
             if (newValue < Minimum)
             {
