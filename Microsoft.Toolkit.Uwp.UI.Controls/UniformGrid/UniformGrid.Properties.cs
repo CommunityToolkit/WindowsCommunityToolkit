@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Determines if this element in the grid participates in the auto-layout algorithm.
         /// </summary>
-        public static readonly DependencyProperty ColumnDefinitionColumnProperty =
+        public static readonly DependencyProperty ColumnProperty =
             DependencyProperty.RegisterAttached(
               "Column",
               typeof(int),
@@ -108,9 +108,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="element"></param>
         /// <param name="value"></param>
-        public static void SetColumnDefinitionColumn(ColumnDefinition element, int value)
+        public static void SetColumn(ColumnDefinition element, int value)
         {
-            element.SetValue(ColumnDefinitionColumnProperty, value);
+            element.SetValue(ColumnProperty, value);
         }
 
         /// <summary>
@@ -118,15 +118,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>
-        public static int GetColumnDefinitionColumn(ColumnDefinition element)
+        public static int GetColumn(ColumnDefinition element)
         {
-            return (int)element.GetValue(ColumnDefinitionColumnProperty);
+            return (int)element.GetValue(ColumnProperty);
         }
 
         /// <summary>
         /// Determines if this element in the grid participates in the auto-layout algorithm.
         /// </summary>
-        public static readonly DependencyProperty RowDefinitionRowProperty =
+        public static readonly DependencyProperty RowProperty =
             DependencyProperty.RegisterAttached(
               "Row",
               typeof(int),
@@ -138,9 +138,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="element"></param>
         /// <param name="value"></param>
-        public static void SetRowDefinitionRow(RowDefinition element, int value)
+        public static void SetRow(RowDefinition element, int value)
         {
-            element.SetValue(RowDefinitionRowProperty, value);
+            element.SetValue(RowProperty, value);
         }
 
         /// <summary>
@@ -148,9 +148,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>
-        public static int GetRowDefinitionRow(RowDefinition element)
+        public static int GetRow(RowDefinition element)
         {
-            return (int)element.GetValue(RowDefinitionRowProperty);
+            return (int)element.GetValue(RowProperty);
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="FirstColumn"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty FirstColumnProperty =
-            DependencyProperty.Register("FirstColumn", typeof(int?), typeof(UniformGrid), new PropertyMetadata(null, OnColumnsChanged));
+            DependencyProperty.Register("FirstColumn", typeof(int), typeof(UniformGrid), new PropertyMetadata(0, OnColumnsChanged));
 
         /// <summary>
         /// Identifies the <see cref="Rows"/> dependency property.
@@ -195,9 +195,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the starting column offset for the first row of the UniformGrid.
         /// </summary>
-        public int? FirstColumn
+        public int FirstColumn
         {
-            get { return (int?)GetValue(FirstColumnProperty); }
+            get { return (int)GetValue(FirstColumnProperty); }
             set { SetValue(FirstColumnProperty, value); }
         }
 

@@ -32,6 +32,9 @@
       </GridView.ItemsPanel>
     </GridView>-->
     <controls:UniformGrid>
+      <!--<controls:UniformGrid.RowDefinitions>
+        <RowDefinition controls:UniformGrid.Row="1" Height="20"/>
+      </controls:UniformGrid.RowDefinitions>-->
       <Border Background="AliceBlue"><TextBlock Text="1"/></Border>
       <Border Background="Cornsilk"><TextBlock Text="2"/></Border>
       <Border Background="DarkSalmon"><TextBlock Text="3"/></Border>
@@ -40,13 +43,13 @@
       <Border Background="MediumAquamarine"><TextBlock Text="6"/></Border>
       <Border Background="MistyRose"><TextBlock Text="7"/></Border>
     </controls:UniformGrid>
-    <controls:UniformGrid Margin="10" Rows="1"
+    <!--<controls:UniformGrid Margin="10" Rows="1"
         HorizontalAlignment="Right"
         VerticalAlignment="Bottom">
       <Button Grid.Column="0" Content="No" FontSize="18" Margin="5" Padding="6,3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
       <Button Grid.Column="1" Content="Yes, Absolutely" Margin="5" Padding="6,3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
       <Button Grid.Column="2" Content="Maybe" Margin="5" Padding="6,3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-    </controls:UniformGrid>
+    </controls:UniformGrid>-->
     <!--<controls:UniformGrid Rows="2" Columns="3">
             <Border Background="Azure"><TextBlock Text="1st"/></Border>
             <Border Background="Moccasin"><TextBlock Text="2nd"/></Border>

@@ -41,14 +41,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         #pragma warning disable SA1009 // Closing parenthesis must be followed by a space.
-        private static IEnumerable<(int row, int column)> GetFreeSpot(bool[,] array, int? firstcolumn, bool reverse)
+        private static IEnumerable<(int row, int column)> GetFreeSpot(bool[,] array, int firstcolumn, bool reverse)
         #pragma warning restore SA1009 // Closing parenthesis must be followed by a space.
         {
             if (!reverse)
             {
                 for (int r = 0; r < array.GetLength(0); r++)
                 {
-                    int start = (r == 0 && firstcolumn != null) ? firstcolumn.Value : 0;
+                    int start = (r == 0 && firstcolumn > 0) ? firstcolumn : 0;
                     for (int c = start; c < array.GetLength(1); c++)
                     {
                         if (!array[r, c])
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 for (int r = 0; r < array.GetLength(0); r++)
                 {
-                    int start = (r == 0 && firstcolumn != null) ? firstcolumn.Value : array.GetLength(1) - 1;
+                    int start = (r == 0 && firstcolumn > 0) ? firstcolumn : array.GetLength(1) - 1;
                     for (int c = start; c >= 0; c--)
                     {
                         if (!array[r, c])
@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 for (int r = this.RowDefinitions.Count - 1; r >= 0; r--)
                 {
-                    if (GetAutoLayout(this.RowDefinitions[r]) == true)
+                    if (GetAutoLayout(RowDefinitions[r]) == true)
                     {
                         this.RowDefinitions.RemoveAt(r);
                     }
@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 for (int r = 0; r < dim.rows; r++)
                 {
-                    if (!(this.RowDefinitions.Count >= r + 1 && GetRowDefinitionRow(this.RowDefinitions[r]) == r))
+                    if (!(this.RowDefinitions.Count >= r + 1 && GetRow(RowDefinitions[r]) == r))
                     {
                         var rd = new RowDefinition();
                         SetAutoLayout(rd, true);
@@ -127,11 +127,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Remove non-autolayout columns we've added and then add them in the right spots.
-            if (dim.columns != this.ColumnDefinitions.Count)
+            if (dim.columns != ColumnDefinitions.Count)
             {
-                for (int c = this.ColumnDefinitions.Count - 1; c >= 0; c--)
+                for (int c = ColumnDefinitions.Count - 1; c >= 0; c--)
                 {
-                    if (GetAutoLayout(this.ColumnDefinitions[c]) == true)
+                    if (GetAutoLayout(ColumnDefinitions[c]) == true)
                     {
                         this.ColumnDefinitions.RemoveAt(c);
                     }
@@ -139,11 +139,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 for (int c = 0; c < dim.columns; c++)
                 {
-                    if (!(this.ColumnDefinitions.Count >= c + 1 && GetColumnDefinitionColumn(this.ColumnDefinitions[c]) == c))
+                    if (!(ColumnDefinitions.Count >= c + 1 && GetColumn(ColumnDefinitions[c]) == c))
                     {
                         var cd = new ColumnDefinition();
                         SetAutoLayout(cd, true);
-                        this.ColumnDefinitions.Insert(c, cd);
+                        ColumnDefinitions.Insert(c, cd);
                     }
                 }
             }
@@ -176,7 +176,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Set Grid Row/Col for every child with autolayout = true
             // Backwards with FlowDirection
-            var freespots = GetFreeSpot(spots, this.FirstColumn, this.FlowDirection == FlowDirection.RightToLeft).GetEnumerator();
+            var freespots = GetFreeSpot(spots, FirstColumn, FlowDirection == FlowDirection.RightToLeft).GetEnumerator();
             foreach (var child in visible)
             {
                 if (GetAutoLayout(child) == true)
@@ -220,7 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (cols > 0)
                     {
                         // TODO: Handle RightToLeft
-                        var first = Math.Min(this.FirstColumn.HasValue ? this.FirstColumn.Value : 0, cols - 1);
+                        var first = Math.Min(FirstColumn, cols - 1);
 
                         // If we have columns but no rows, calculate rows based on column offset and number of children.
                         rows = (count + first + (cols - 1)) / cols;
