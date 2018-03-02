@@ -1,7 +1,7 @@
 ---
 title: UWP Community Toolkit Documentation
 author: nmetulev
-ms.topic: landing-page
+ms.topic: overview
 description: The UWP Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10. 
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit
 ---
