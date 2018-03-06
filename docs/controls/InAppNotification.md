@@ -171,8 +171,8 @@ If you want to use another style than the default one, please follow the example
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
-        <Page.Resources>
-    <ResourceDictionary>
+        </ResourceDictionary>
+    </Page.Resources>
     ```
 
 2. Apply the `Style`
