@@ -11,8 +11,7 @@ The [Theme Listener](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolk
 
 ## Syntax
 
-**C#**
-
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 var Listener = new ThemeListener();
 Listener.ThemeChanged += Listener_ThemeChanged;
@@ -22,6 +21,15 @@ private void Listener_ThemeChanged(ThemeListener sender)
     var theme = sender.CurrentTheme;
     // Use theme dependent code.
 }
+```
+```vb
+Dim listener = New ThemeListener()
+AddHandler listener.ThemeChanged, AddressOf Listener_ThemeChanged
+
+Private Sub Listener_ThemeChanged(ByVal sender As ThemeListener)
+    Dim theme = sender.CurrentTheme
+    ' Use theme dependent code.
+End Sub
 ```
 
 ## Properties

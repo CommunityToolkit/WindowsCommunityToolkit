@@ -19,21 +19,33 @@ There are several operations that apps need commonly to do against their APPX, o
 
 ## Example
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
+// Get access to a text file that was included in solution as Content | do not copy local
+using (var stream = await StreamHelper.GetPackagedFileStreamAsync("Assets/Sub/test.txt"))
+{
+    // Read the contents as ASCII text
+    var readText = await stream.ReadTextAsync();
+}
 
-    // Get access to a text file that was included in solution as Content | do not copy local
-    using (var stream = await StreamHelper.GetPackagedFileStreamAsync("Assets/Sub/test.txt"))
-    {
-	// Read the contents as ASCII text
-        var readText = await stream.ReadTextAsync();
-    }
-    
-    // Get access to a HTTP ressource
-    using (var stream = await StreamHelper.GetHttpStreamAsync(new Uri("http://dev.windows.com")))
-    {
-        ...
-    }
+// Get access to a HTTP resource
+using (var stream = await StreamHelper.GetHttpStreamAsync(new Uri("http://dev.windows.com")))
+{
+    ...
+}
+```
+```vb
+' Get access to a text file that was included in solution as Content | do not copy local
+Using stream = Await StreamHelper.GetPackagedFileStreamAsync("Assets/Sub/test.txt")
+    '  Read the contents as ASCII text
+    Dim readText = Await stream.ReadTextAsync()
+    ...
+End Using
 
+' // Get access to a HTTP resource
+Using stream = Await StreamHelper.GetHttpStreamAsync(New Uri("http://dev.windows.com"))
+    ...
+End Using
 ```
 
 You can find more examples in our [unit tests](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/UnitTests/Helpers/Test_StreamHelper.cs)
