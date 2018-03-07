@@ -153,21 +153,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
 
-                if (options != null)
-                {
-                    if (options.Count() > 0)
-                    {
-                        combined.Add(new NavigationViewItemSeparator());
-                    }
+                ////if (options != null)
+                ////{
+                ////    if (options.Count() > 0)
+                ////    {
+                ////        combined.Add(new NavigationViewItemSeparator());
+                ////    }
 
-                    foreach (var option in options)
-                    {
-                        combined.Add(option);
-                    }
-                }
+                ////    ////foreach (var option in options)
+                ////    ////{
+                ////    ////    if (!IsSettingsItem(option))
+                ////    ////    {
+                ////    ////        combined.Add(option);
+                ////    ////    }
+                ////    ////}
+                ////}
 
                 navView.MenuItemsSource = combined;
             }
+        }
+
+        private bool IsSettingsItem(object menuItem)
+        {
+            return true;
         }
 
         private void NavViewSetSelectedItem(object item)

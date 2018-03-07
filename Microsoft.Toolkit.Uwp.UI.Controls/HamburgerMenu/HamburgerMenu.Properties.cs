@@ -91,6 +91,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register("UseNavigationViewWhenPossible", typeof(bool), typeof(HamburgerMenu), new PropertyMetadata(false, OnUseNavigationViewWhenPossibleChanged));
 
         /// <summary>
+        /// Identifies the <see cref="UseNavViewSettingsFromOptions"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty UseNavViewSettingsFromOptionsProperty = DependencyProperty.Register("UseNavViewSettingsFromOptions", typeof(bool), typeof(HamburgerMenu), new PropertyMetadata(false));
+
+        /// <summary>
         /// Gets or sets the width of the pane when it's fully expanded.
         /// </summary>
         public double OpenPaneLength
@@ -226,6 +231,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (bool)GetValue(UseNavigationViewWhenPossibleProperty); }
             set { SetValue(UseNavigationViewWhenPossibleProperty, value); }
+        }
+
+        public bool UseNavViewSettingsFromOptions
+        {
+            get { return (bool)GetValue(UseNavViewSettingsFromOptionsProperty); }
+            set { SetValue(UseNavViewSettingsFromOptionsProperty, value); }
         }
 
         private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

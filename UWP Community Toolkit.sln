@@ -55,7 +55,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.targets = Directory.Build.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.Notifications.JavaScript", "Microsoft.Toolkit.Uwp.Notifications.JavaScript\Microsoft.Toolkit.Uwp.Notifications.JavaScript.csproj", "{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.Notifications.JavaScript", "Microsoft.Toolkit.Uwp.Notifications.JavaScript\Microsoft.Toolkit.Uwp.Notifications.JavaScript.csproj", "{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}"
 	ProjectSection(ProjectDependencies) = postProject
 		{97EE849B-403C-490E-80ED-D19D7CC153FD} = {97EE849B-403C-490E-80ED-D19D7CC153FD}
 	EndProjectSection
@@ -65,7 +65,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Co
 		{E9FAABFB-D726-42C1-83C1-CB46A29FEA81} = {E9FAABFB-D726-42C1-83C1-CB46A29FEA81}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Parsers", "Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj", "{42CA4935-54BE-42EA-AC19-992378C08DE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Parsers", "Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj", "{42CA4935-54BE-42EA-AC19-992378C08DE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavPlusSettingsTest", "NavPlusSettingsTest\NavPlusSettingsTest.csproj", "{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -408,6 +410,26 @@ Global
 		{42CA4935-54BE-42EA-AC19-992378C08DE6}.Release|x64.Build.0 = Release|Any CPU
 		{42CA4935-54BE-42EA-AC19-992378C08DE6}.Release|x86.ActiveCfg = Release|Any CPU
 		{42CA4935-54BE-42EA-AC19-992378C08DE6}.Release|x86.Build.0 = Release|Any CPU
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Debug|ARM.ActiveCfg = Debug|ARM
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Debug|ARM.Build.0 = Debug|ARM
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Debug|ARM.Deploy.0 = Debug|ARM
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Debug|x64.ActiveCfg = Debug|x64
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Debug|x64.Build.0 = Debug|x64
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Debug|x64.Deploy.0 = Debug|x64
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Debug|x86.ActiveCfg = Debug|x86
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Debug|x86.Build.0 = Debug|x86
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Debug|x86.Deploy.0 = Debug|x86
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Release|Any CPU.ActiveCfg = Release|x86
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Release|ARM.ActiveCfg = Release|ARM
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Release|ARM.Build.0 = Release|ARM
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Release|ARM.Deploy.0 = Release|ARM
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Release|x64.ActiveCfg = Release|x64
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Release|x64.Build.0 = Release|x64
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Release|x64.Deploy.0 = Release|x64
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Release|x86.ActiveCfg = Release|x86
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Release|x86.Build.0 = Release|x86
+		{976E1FEB-759E-45F3-A1E9-DFBDB3A38306}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
