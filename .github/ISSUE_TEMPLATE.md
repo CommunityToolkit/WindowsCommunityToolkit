@@ -4,7 +4,7 @@ ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 -->
 
 ## I'm submitting a...
-<!-- Please uncomment one ore more that apply to this issue -->
+<!-- Please uncomment one or more that apply to this issue -->
 <!-- For new features, create a UserVoice request here and link below: https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit -->
 
 <!-- - Regression (a behavior that used to work and stopped working in a new release) -->
