@@ -97,8 +97,8 @@
 
     <controls:HamburgerMenu
         x:Name="NavigationMenu"
-            UseNavigationViewWhenPossible="False"
-        UseNavViewSettingsFromOptions="False"
+            UseNavigationViewWhenPossible="True"
+        UseNavViewSettingsFromOptions="True"
             SelectedItem="{x:Bind Selected, Mode=OneWay}"
             DisplayMode="{x:Bind DisplayMode, Mode=OneWay}"
             IsPaneOpen="{x:Bind IsPaneOpen, Mode=TwoWay}"
