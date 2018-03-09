@@ -33,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the selected item.
         /// </summary>
+        /// <returns>The selected item. The default is null.</returns>
         public object SelectedItem
         {
             get { return (object)GetValue(SelectedItemProperty); }
@@ -46,8 +47,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register("SelectedItem", typeof(object), typeof(Carousel), new PropertyMetadata(null, OnCarouselPropertyChanged));
 
         /// <summary>
-        /// Gets or sets selected index.
+        /// Gets or sets the index of the selected item.
         /// </summary>
+        /// <returns>The index of the selected item. The default is -1.</returns>
         public int SelectedIndex
         {
             get
