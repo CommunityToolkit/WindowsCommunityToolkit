@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty TransitionDurationProperty = DependencyProperty.Register("TransitionDuration", typeof(int), typeof(Carousel), new PropertyMetadata(200));
 
         /// <summary>
-        /// Gets or sets depth of non Selected Index Items
+        /// Gets or sets the depth of items that are not selected.
         /// </summary>
         public int ItemDepth
         {
@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty ItemDepthProperty = DependencyProperty.Register("ItemDepth", typeof(int), typeof(Carousel), new PropertyMetadata(0, OnCarouselPropertyChanged));
 
         /// <summary>
-        /// Gets or sets easing function to apply for each Transition
+        /// Gets or sets easing function to apply for each transition.
         /// </summary>
         public EasingFunctionBase EasingFunction
         {
@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty EasingFunctionProperty = DependencyProperty.Register("EasingFunction", typeof(EasingFunctionBase), typeof(Carousel), new PropertyMetadata(null));
 
         /// <summary>
-        /// Gets or sets the item margin
+        /// Gets or sets the margin for items.
         /// </summary>
         public int ItemMargin
         {
@@ -284,7 +284,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Occurs when the selected item has changed
+        /// Occurs when the selected item changes.
         /// </summary>
         public event SelectionChangedEventHandler SelectionChanged;
 
