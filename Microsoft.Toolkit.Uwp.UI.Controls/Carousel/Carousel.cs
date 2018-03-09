@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class Carousel : ItemsControl
     {
         /// <summary>
-        /// Gets or sets the selected Item
+        /// Gets or sets the selected item.
         /// </summary>
         public object SelectedItem
         {
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register("SelectedItem", typeof(object), typeof(Carousel), new PropertyMetadata(null, OnCarouselPropertyChanged));
 
         /// <summary>
-        /// Gets or sets selected Index
+        /// Gets or sets selected index.
         /// </summary>
         public int SelectedIndex
         {
