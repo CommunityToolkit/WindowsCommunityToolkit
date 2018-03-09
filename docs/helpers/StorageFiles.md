@@ -12,36 +12,64 @@ The StorageFileHelper is a static utility class that provides functions to help 
 
 ## Example
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
+// NOTE This must be used from an async function
+string myText = "Great information that the users wants to keep";
+StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
 
-	// NOTE This must be used from an async function
-	string myText = "Great information that the users wants to keep";
-	StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-	
-	// Save some text to a file named appFilename.txt (in the local cache folder)
-	var storageFile = await StorageFileHelper.WriteTextToLocalCacheFileAsync(myText, "appFilename.txt");
-	
-	// Load some text from a file named appFilename.txt in the local cache folder	
-	string loadedText = await StorageFileHelper.ReadTextFromLocalCacheFileAsync("appFilename.txt");
-	
-	// Save some text to a file named appFilename.txt (in the local folder)
-	storageFile = await StorageFileHelper.WriteTextToLocalFileAsync(myText, "appFilename.txt");
-	
-	// Load some text from a file named appFilename.txt in the local folder	
-	loadedText = await StorageFileHelper.ReadTextFromLocalFileAsync("appFilename.txt");
+// Save some text to a file named appFilename.txt (in the local cache folder)
+var storageFile = await StorageFileHelper.WriteTextToLocalCacheFileAsync(myText, "appFilename.txt");
 
-	// Check if a file exists in a specific folder
-	bool exists = await localFolder.FileExistsAsync("appFilename.txt");
+// Load some text from a file named appFilename.txt in the local cache folder	
+string loadedText = await StorageFileHelper.ReadTextFromLocalCacheFileAsync("appFilename.txt");
 
-	// Check if a file exists in a specific folder or in one of its subfolders
-	bool exists = await localFolder.FileExistsAsync("appFilename.txt", true);
+// Save some text to a file named appFilename.txt (in the local folder)
+storageFile = await StorageFileHelper.WriteTextToLocalFileAsync(myText, "appFilename.txt");
 
-	// Check if a file name is valid or not
-	bool isFileNameValid = StorageFileHelper.IsFileNameValid("appFilename.txt");
+// Load some text from a file named appFilename.txt in the local folder	
+loadedText = await StorageFileHelper.ReadTextFromLocalFileAsync("appFilename.txt");
 
-	// Check if a file path is valid or not
-	bool isFilePathValid = StorageFileHelper.IsFilePathValid("folder/appFilename.txt");
+// Check if a file exists in a specific folder
+bool exists = await localFolder.FileExistsAsync("appFilename.txt");
 
+// Check if a file exists in a specific folder or in one of its subfolders
+bool exists = await localFolder.FileExistsAsync("appFilename.txt", true);
+
+// Check if a file name is valid or not
+bool isFileNameValid = StorageFileHelper.IsFileNameValid("appFilename.txt");
+
+// Check if a file path is valid or not
+bool isFilePathValid = StorageFileHelper.IsFilePathValid("folder/appFilename.txt");
+```
+```vb
+' NOTE This must be used from an async function
+Dim myText As String = "Great information that the users wants to keep"
+Dim localFolder As StorageFolder = Windows.Storage.ApplicationData.Current.LocalFolder
+
+' Save some text to a file named appFilename.txt (in the local cache folder)
+Dim storageFile = Await StorageFileHelper.WriteTextToLocalCacheFileAsync(myText, "appFilename.txt")
+
+' Load some text from a file named appFilename.txt in the local cache folder	
+Dim loadedText As String = Await StorageFileHelper.ReadTextFromLocalCacheFileAsync("appFilename.txt")
+
+' Save some text to a file named appFilename.txt (in the local folder)
+storageFile = Await StorageFileHelper.WriteTextToLocalFileAsync(myText, "appFilename.txt")
+
+' Load some text from a file named appFilename.txt in the local folder	
+loadedText = Await StorageFileHelper.ReadTextFromLocalFileAsync("appFilename.txt")
+
+' Check if a file exists in a specific folder
+Dim exists As Boolean = Await localFolder.FileExistsAsync("appFilename.txt")
+
+' Check if a file exists in a specific folder or in one of its subfolders
+Dim exists As Boolean = Await localFolder.FileExistsAsync("appFilename.txt", True)
+
+' Check if a file name is valid or not
+Dim isFileNameValid As Boolean = StorageFileHelper.IsFileNameValid("appFilename.txt")
+
+' Check if a file path is valid or not
+Dim isFilePathValid As Boolean = StorageFileHelper.IsFilePathValid("folder/appFilename.txt")
 ```
 
 You can find more examples in our [unit tests](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/UnitTests/Helpers/Test_StorageFileHelper.cs)

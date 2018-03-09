@@ -55,14 +55,52 @@ public class PeopleSource : IIncrementalSource<Person>
     }
 }
 ```
+```vb
+' Be sure to include the using at the top of the file:
+'Imports Microsoft.Toolkit.Uwp
+
+Public Class Person
+
+    Public Property Name As String
+End Class
+
+Public Class PeopleSource
+    Implements IIncrementalSource(Of Person)
+
+    Private ReadOnly people As List(Of Person)
+
+    Public Sub New()
+        ' Creates an example collection.
+        people = New List(Of Person)()
+        For i As Integer = 1 To 200
+            Dim p = New Person With {.Name = "Person " & i}
+            people.Add(p)
+        Next
+    End Sub
+
+    Public Async Function GetPagedItemsAsync(pageIndex As Integer, pageSize As Integer, Optional cancellationToken As CancellationToken = Nothing) As Task(Of IEnumerable(Of Person)) Implements Microsoft.Toolkit.Collections.IIncrementalSource(Of Person).GetPagedItemsAsync
+        ' Gets items from the collection according to pageIndex and pageSize parameters.
+        Dim result = (From p In people Select p).Skip(pageIndex * pageSize).Take(pageSize)
+
+        ' Simulates a longer request...
+        Await Task.Delay(1000)
+        Return result
+    End Function
+End Class
+```
 
 The *GetPagedItemsAsync* method is invoked everytime the view need to show more items.
 
 `IncrementalLoadingCollection` can then be bound to a [ListView](https://msdn.microsoft.com/library/windows/apps/windows.ui.xaml.controls.listview.aspx) or a [GridView-like](https://msdn.microsoft.com/library/windows/apps/windows.ui.xaml.controls.gridview.aspx) control:
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 var collection = new IncrementalLoadingCollection<PeopleSource, Person>();
 PeopleListView.ItemsSource = collection;
+```
+```vb
+Dim collection = New IncrementalLoadingCollection(Of PeopleSource, Person)()
+PeopleListView.ItemsSource = collection
 ```
 
 The **IncrementalLoadingCollection** constructor accepts the following arguments:

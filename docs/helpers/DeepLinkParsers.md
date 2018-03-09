@@ -11,6 +11,7 @@ Once you have an instance, simply saying `instance["optionName"]` will pull the 
 ### Example
 in OnLaunched of App.xaml.cs:
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```c#
 if (e.PrelaunchActivated == false)
 {
@@ -27,12 +28,26 @@ if (e.PrelaunchActivated == false)
         }
 ...
 ```
+```vb
+If e.PrelaunchActivated = False Then
+    If rootFrame.Content Is Nothing Then
+        Dim parser = DeepLinkParser.Create(args)
+        If parser("username") = "John Doe" Then
+            ' do work here
+        End If
+
+        If parser.Root = "Signup" Then
+            rootFrame.Navigate(GetType(Signup))
+        End If
+...
+```
 
 ## CollectionFormingDeepLinkParser
 Some consumers want to be able to do something like `?pref=this&pref=that&pref=theOther` and have a pull of `pref` come back with `this,that,theOther` as its value. This derivative of `DeepLinkParser` provides this functionality.
 ### Example
 in OnLaunched of App.xaml.cs:
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```c#
 if (e.PrelaunchActivated == false)
 {
@@ -48,8 +63,22 @@ if (e.PrelaunchActivated == false)
             var preferences = parser["pref"].Split(',');    // now a string[] of all 'pref' querystring values passed in URI
             rootFrame.Navigate(typeof(Signup));
         }
+...        
 ```
+```vb
+If e.PrelaunchActivated = False Then
+    If rootFrame.Content Is Nothing Then
+        Dim parser = CollectionFormingDeepLinkParser.Create(args)
+        If parser("username") = "John Doe" Then
+            ' do work here
+        End If
 
+        If parser.Root = "Signup" Then
+            Dim preferences = parser("pref").Split(","c) ' now a string[] of all 'pref' querystring values passed in URI
+            rootFrame.Navigate(GetType(Signup))
+        End If
+...        
+```
 
 Both of these are createable using a `.Create(IActivatedEventArgs)` method. Should you wish to create one in a different manner, the default constructor is `protected` so inheriting from either of these can provide extensibility.
 The method that does the heavy lifting of parsing in to the `Dictionary<string,string>` (`ParseUriString`) is also `protected` and `virtual` so can be used/overridden by any inheriting class.
@@ -58,17 +87,26 @@ The method that does the heavy lifting of parsing in to the `Dictionary<string,s
 This helper class aids in the creation of a `Collection<KeyValuePair<string,string>>` populated with they key-value pairs of all parameters in a query string.
 ### Example
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```c#
-var myUrl = http://microsoft.com/?user=fooUser&email=fooUser@outlook.com&firstName=John&lastName=Doe
+var myUrl = "http://microsoft.com/?user=fooUser&email=fooUser@outlook.com&firstName=John&lastName=Doe"
 var paramCollection = new QueryParameterCollection(myUrl);
 foreach (var pair in paramCollection)
 {
 	Console.WriteLine($"{pair.Key} - {pair.Value}");
 }
 ```
+```vb
+Dim myUrl = "http://microsoft.com/?user=fooUser&email=fooUser@outlook.com&firstName=John&lastName=Doe"
+Dim paramCollection = New QueryParameterCollection(myUrl)
+For Each pair In paramCollection
+    Console.WriteLine($"{pair.Key} - {pair.Value}")
+Next
+```
+
 ### Output
 
-```c#
+```
 user - fooUser
 email - fooUser@outlook.com
 firstname - John

@@ -16,6 +16,7 @@ A metered connection is an Internet connection that has a data limit or cost ass
 
 ## Example
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 // Detect if Internet can be reached
 if (NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
@@ -30,19 +31,42 @@ if (NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
 // Get precise connection type
 switch(NetworkHelper.Instance.ConnectionInformation.ConnectionType)
 {
-	case ConnectionType.Ethernet:
-		// Ethernet
-		break;
-	case ConnectionType.WiFi:
-		// WiFi
-		break;
-	case ConnectionType.Data:
-		// Data
-		break;
-	case ConnectionType.Unknown:
-		// Unknown
-		break;
+    case ConnectionType.Ethernet:
+        // Ethernet
+        break;
+    case ConnectionType.WiFi:
+        // WiFi
+        break;
+    case ConnectionType.Data:
+        // Data
+        break;
+    case ConnectionType.Unknown:
+        // Unknown
+        break;
 }
+```
+```vb
+' Detect if Internet can be reached
+If NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable Then
+    ...
+End If
+
+' Detect if the connection is metered
+If NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection Then
+   ...
+End If
+
+' Get precise connection type
+Select Case NetworkHelper.Instance.ConnectionInformation.ConnectionType
+    Case ConnectionType.Ethernet
+        ' Ethernet
+    Case ConnectionType.WiFi
+        ' WiFi
+    Case ConnectionType.Data
+        ' Data
+    Case ConnectionType.Unknown
+        ' Unknown
+End Select
 ```
 
 You can find more examples in our [unit tests](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/UnitTests/Helpers/Test_ConnectionHelper.cs)

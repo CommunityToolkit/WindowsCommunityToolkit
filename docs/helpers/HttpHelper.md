@@ -14,8 +14,8 @@ Represents an HTTP request message including headers.
 
 ## Example
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
-
 using (var request = new HttpHelperRequest(new Uri(twitterUrl), HttpMethod.Post))
 {
     using (var response = await HttpHelper.Instance.SendRequestAsync(request))
@@ -23,7 +23,13 @@ using (var request = new HttpHelperRequest(new Uri(twitterUrl), HttpMethod.Post)
         return await response.GetTextResultAsync();
     }
 }
-
+```
+```vb
+Using request = New HttpHelperRequest(New Uri(twitterUrl), HttpMethod.Post)
+    Using response = Await HttpHelper.Instance.SendRequestAsync(request)
+        Return Await response.GetTextResultAsync()
+    End Using
+End Using
 ```
 
 ## Members

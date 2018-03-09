@@ -11,18 +11,32 @@ The **Colors Helper** lets users convert colors from text names, HTML hex, HSV, 
 
 ## Example
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
-	// Be sure to include the using at the top of the file:
-	//using Microsoft.Toolkit.Uwp;
+// Be sure to include the using at the top of the file:
+//using Microsoft.Toolkit.Uwp;
 
-	// Given an HTML color, lets convert it to a Windows Color
-	Windows.UI.Color color = ColorHelper.ToColor("#3a4ab0");
+// Given an HTML color, lets convert it to a Windows Color
+Windows.UI.Color color = ColorHelper.ToColor("#3a4ab0");
 
-	// Also works with an Alpha code
-	Windows.UI.Color myColor = ColorHelper.ToColor("#ff3a4ab0");
+// Also works with an Alpha code
+Windows.UI.Color myColor = ColorHelper.ToColor("#ff3a4ab0");
 
-	// Given a color name, lets convert it to a Windows Color
-	Windows.UI.Color redColor = "Red".ToColor();
+// Given a color name, lets convert it to a Windows Color
+Windows.UI.Color redColor = "Red".ToColor();
+```
+```vb
+' Be sure to include the using at the top of the file:
+'Imports Microsoft.Toolkit.Uwp
+
+' Given an HTML color, lets convert it to a Windows Color
+Dim color As Windows.UI.Color = ColorHelper.ToColor("#3a4ab0")
+
+' Also works with an Alpha code
+Dim myColor As Windows.UI.Color = ColorHelper.ToColor("#ff3a4ab0")
+
+' Given a color name, lets convert it to a Windows Color
+Dim redColor As Windows.UI.Color = "Red".ToColor()
 ```
 
 You can find more examples in our [unit tests](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/UnitTests/Helpers/Test_ColorHelper.cs)

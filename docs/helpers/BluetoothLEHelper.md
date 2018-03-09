@@ -191,6 +191,7 @@ Gets or sets the glyph of this bluetooth device
 
 ## Example
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 // Get a local copy of the context for easier reading
 BluetoothLEHelper bluetoothLEHelper = BluetoothLEHelper.Context;
@@ -214,6 +215,29 @@ if (BluetoothLEHelper.IsBluetoothLESupported)
 	// See all the services
 	var services = device.Services;
 }
+```
+```vb
+' Get a local copy of the context for easier reading
+Dim bluetoothLEHelper As BluetoothLEHelper = BluetoothLEHelper.Context
+
+' check if BluetoothLE APIs are available
+If BluetoothLEHelper.IsBluetoothLESupported Then
+    ' Start the Enumeration
+	bluetoothLEHelper.StartEnumeration()
+
+	' At this point the user needs to select a device they want to connect to. This can be done by
+	' creating a ListView and binding the bluetoothLEHelper collection to it. Once a device is found, 
+	' the Connect() method can be called to connect to the device and start interacting with its services
+
+	' Connect to a device if your choice
+	Dim device As ObservableBluetoothLEDevice = bluetoothLEHelper.BluetoothLeDevices(<Device you choose>)
+	Await device.ConnectAsync()
+
+	' At this point the device is connected and the Services property is populated.
+
+	' See all the services
+	Dim services = device.Services
+End If
 ```
 
 ## Requirements (Windows 10 Device Family)

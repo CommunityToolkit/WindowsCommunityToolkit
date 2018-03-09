@@ -14,11 +14,14 @@ Represents an HTTP request message including headers.
 
 ## Example
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
-
 var request = new HttpHelperRequest(uri, HttpMethod.Get);
 request.Headers.Authorization = new Windows.Web.Http.Headers.HttpCredentialsHeaderValue("OAuth", authorizationHeaderParams);
-
+```
+```vb
+Dim request = New HttpHelperRequest(uri, HttpMethod.[Get])
+request.Headers.Authorization = New Windows.Web.Http.Headers.HttpCredentialsHeaderValue("OAuth", authorizationHeaderParams)
 ```
 
 ## Members

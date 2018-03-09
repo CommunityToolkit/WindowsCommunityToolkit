@@ -29,8 +29,8 @@ In this mode you are responsible for the sizing and the layout.
 
 ## Example
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
-
 // Create a new PrintHelper instance
 // "container" is a XAML panel that will be used to host printable control. 
 // It needs to be in your visual tree but can be hidden with Opacity = 0
@@ -61,20 +61,56 @@ private async void PrintHelper_OnPrintFailed()
   var dialog = new MessageDialog("Printing failed.");
   await dialog.ShowAsync();
 }
+```
+```vb
+' Create a new PrintHelper instance
+' "container" is a XAML panel that will be used to host printable control. 
+' It needs to be in your visual tree but can be hidden with Opacity = 0
+Dim printHelper = New PrintHelper(container)
+  
+' Add controls that you want to print
+printHelper.AddFrameworkElementToPrint(Await PrepareWebViewForPrintingAsync())
 
+' Connect to relevant events
+printHelper.OnPrintFailed += PrintHelper_OnPrintFailed
+printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded
+
+' Start printing process
+Await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App")
+
+' Event handlers
+
+Private Async Sub PrintHelper_OnPrintSucceeded()
+    printHelper.Dispose()
+    Dim dialog = New MessageDialog("Printing done.")
+    Await dialog.ShowAsync()
+End Sub
+
+Private Async Sub PrintHelper_OnPrintFailed()
+    printHelper.Dispose()
+    Dim dialog = New MessageDialog("Printing failed.")
+    Await dialog.ShowAsync()
+End Sub
 ```
 
 Direct print example:
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
-
 // Create a new PrintHelper instance
 // "container" is a XAML panel that will be used to get the list of printable controls. 
 var printHelper = new PrintHelper(container);
 
 // Start printing process
 await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", true);
+```
+```vb
+' Create a new PrintHelper instance
+' "container" is a XAML panel that will be used to get the list of printable controls. 
+Dim printHelper = New PrintHelper(container)
 
+' Start printing process
+Await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", True)
 ```
 
 ## Requirements (Windows 10 Device Family)

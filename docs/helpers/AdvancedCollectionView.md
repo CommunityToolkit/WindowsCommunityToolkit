@@ -21,62 +21,106 @@ In your viewmodel instead of having a public [IEnumerable](https://docs.microsof
 
 ## Example
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
+// Be sure to include the using at the top of the file:
+//using Microsoft.Toolkit.Uwp.UI;
 
-    // Be sure to include the using at the top of the file:
-    //using Microsoft.Toolkit.Uwp.UI;
+// Grab a sample type
+public class Person
+{
+    public string Name { get; set; }
+}
 
-    // Grab a sample type
-    public class Person
-    {
-        public string Name { get; set; }
-    }
+// Set up the original list with a few sample items
+var oc = new ObservableCollection<Person>
+{
+    new Person { Name = "Staff" },
+    new Person { Name = "42" },
+    new Person { Name = "Swan" },
+    new Person { Name = "Orchid" },
+    new Person { Name = "15" },
+    new Person { Name = "Flame" },
+    new Person { Name = "16" },
+    new Person { Name = "Arrow" },
+    new Person { Name = "Tempest" },
+    new Person { Name = "23" },
+    new Person { Name = "Pearl" },
+    new Person { Name = "Hydra" },
+    new Person { Name = "Lamp Post" },
+    new Person { Name = "4" },
+    new Person { Name = "Looking Glass" },
+    new Person { Name = "8" },
+};
 
-    // Set up the original list with a few sample items
+// Set up the AdvancedCollectionView with live shaping enabled to filter and sort the original list
+var acv = new AdvancedCollectionView(oc, true);
 
-    var oc = new ObservableCollection<Person>
-    {
-        new Person { Name = "Staff" },
-        new Person { Name = "42" },
-        new Person { Name = "Swan" },
-        new Person { Name = "Orchid" },
-        new Person { Name = "15" },
-        new Person { Name = "Flame" },
-        new Person { Name = "16" },
-        new Person { Name = "Arrow" },
-        new Person { Name = "Tempest" },
-        new Person { Name = "23" },
-        new Person { Name = "Pearl" },
-        new Person { Name = "Hydra" },
-        new Person { Name = "Lamp Post" },
-        new Person { Name = "4" },
-        new Person { Name = "Looking Glass" },
-        new Person { Name = "8" },
-    };
+// Let's filter out the integers
+int nul;
+acv.Filter = x => !int.TryParse(((Person)x).Name, out nul);
 
-    // Set up the AdvancedCollectionView with live shaping enabled to filter and sort the original list
+// And sort ascending by the property "Name"
+acv.SortDescriptions.Add(new SortDescription("Name", SortDirection.Ascending));
 
-    var acv = new AdvancedCollectionView(oc, true);
+// Let's add a Person to the observable collection
+var person = new Person { Name = "Aardvark" };
+oc.Add(person);
 
-    // Let's filter out the integers
-    int nul;
-    acv.Filter = x => !int.TryParse(((Person)x).Name, out nul);
+// Our added person is now at the top of the list, but if we rename this person, we can trigger a re-sort
+person.Name = "Zaphod"; // Now a re-sort is triggered and person will be last in the list
 
-    // And sort ascending by the property "Name"
-    acv.SortDescriptions.Add(new SortDescription("Name", SortDirection.Ascending));
+// AdvancedCollectionView can be bound to anything that uses collections. 
+YourListView.ItemsSource = acv;
+```
+```vb
+' Be sure to include the using at the top of the file:
+'Imports Microsoft.Toolkit.Uwp.UI
 
-    // Let's add a Person to the observable collection
-    var person = new Person { Name = "Aardvark" };
-    oc.Add(person);
-    
-    // Our added person is now at the top of the list, but if we rename this person, we can trigger a re-sort
-    person.Name = "Zaphod"; // Now a re-sort is triggered and person will be last in the list
-    
-    // AdvancedCollectionView can be bound to anything that uses collections. 
-    YourListView.ItemsSource = acv;
+' Grab a sample type
+Public Class Person
+    Public Property Name As String
+End Class
 
+' Set up the original list with a few sample items
+Dim oc = New ObservableCollection(Of Person) From {
+    New Person With {.Name = "Staff"},
+    New Person With {.Name = "42"},
+    New Person With {.Name = "Swan"},
+    New Person With {.Name = "Orchid"},
+    New Person With {.Name = "15"},
+    New Person With {.Name = "Flame"},
+    New Person With {.Name = "16"},
+    New Person With {.Name = "Arrow"},
+    New Person With {.Name = "Tempest"},
+    New Person With {.Name = "23"},
+    New Person With {.Name = "Pearl"},
+    New Person With {.Name = "Hydra"},
+    New Person With {.Name = "Lamp Post"},
+    New Person With {.Name = "4"},
+    New Person With {.Name = "Looking Glass"},
+    New Person With {.Name = "8"}
+}
 
+' Set up the AdvancedCollectionView with live shaping enabled to filter and sort the original list
+Dim acv = New AdvancedCollectionView(oc, True)
 
+' Let's filter out the integers
+Dim nul As Integer
+acv.Filter = Function(x) Not Integer.TryParse((CType(x, Person)).Name, nul)
+
+' And sort ascending by the property "Name"
+acv.SortDescriptions.Add(New SortDescription("Name", SortDirection.Ascending))
+
+' Let's add a Person to the observable collection
+Dim person = New Person With {.Name = "Aardvark"}
+oc.Add(person)
+
+' Our added person is now at the top of the list, but if we rename this person, we can trigger a re-sort
+person.Name = "Zaphod" ' Now a re-sort is triggered and person will be last in the list
+
+' AdvancedCollectionView can be bound to anything that uses collections.
+YourListView.ItemsSource = acv
 ```
 
 ## Remarks
@@ -89,16 +133,22 @@ _Any performance guidelines?_
 
 If you're removing, modifying or inserting large amounts of items while having filtering and/or sorting set up, it's recommended that you use the `NotificationDeferrer` helper provided. It skips any performance heavy logic while it's in use, and automatically calls the `Refresh` method when disposed.
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
-
-    using (acv.DeferRefresh())
+using (acv.DeferRefresh())
+{
+    for (var i = 0; i < 500; i++)
     {
-        for (var i = 0; i < 500; i++)
-        {
-            acv.Add(new Person { Name = "defer" });
-        }
-    } // acv.Refresh() gets called here
-
+        acv.Add(new Person { Name = "defer" });
+    }
+} // acv.Refresh() gets called here
+```
+```vb
+Using acv.DeferRefresh()
+    For i = 0 To 500 - 1
+        acv.Add(New Person With {.Name = "defer"})
+    Next
+End Using ' acv.Refresh() gets called here
 ```
 
 ## Requirements (Windows 10 Device Family)

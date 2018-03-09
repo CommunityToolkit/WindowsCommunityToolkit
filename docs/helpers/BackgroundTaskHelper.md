@@ -21,33 +21,60 @@ To make it work, you will need :
 
 Once it is done, you can register your Background Tasks.
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
-	
-    // Be sure to include the using at the top of the file:
-    //using Microsoft.Toolkit.Uwp;
-    //using Windows.ApplicationModel.Background;
+// Be sure to include the using at the top of the file:
+//using Microsoft.Toolkit.Uwp;
+//using Windows.ApplicationModel.Background;
 
-    // Register a normal, seperate process, background task
-    BackgroundTaskRegistration registered = BackgroundTaskHelper.Register("TaskName", "TaskEntryPoint", new TimeTrigger(15, true));
+// Register a normal, seperate process, background task
+BackgroundTaskRegistration registered = BackgroundTaskHelper.Register("TaskName", "TaskEntryPoint", new TimeTrigger(15, true));
 
-    // This can also be written using the overload of Register with Type parameter.
-    BackgroundTaskRegistration registered = BackgroundTaskHelper.Register(typeof(BackgroundTaskClass), new TimeTrigger(15, true));
+// This can also be written using the overload of Register with Type parameter.
+BackgroundTaskRegistration registered = BackgroundTaskHelper.Register(typeof(BackgroundTaskClass), new TimeTrigger(15, true));
 
-    // With condition
-    BackgroundTaskRegistration registered = 
-        BackgroundTaskHelper.Register(typeof(BackgroundTaskClass), 
-                                      new TimeTrigger(15, true), 
-                                      false, true, 
-                                      new SystemCondition(SystemConditionType.InternetAvailable));
+// With condition
+BackgroundTaskRegistration registered = 
+    BackgroundTaskHelper.Register(typeof(BackgroundTaskClass), 
+                                    new TimeTrigger(15, true), 
+                                    false,
+                                    true, 
+                                    new SystemCondition(SystemConditionType.InternetAvailable));
 
-    // 2 or more conditions
-    BackgroundTaskRegistration registered = 
-        BackgroundTaskHelper.Register(typeof(BackgroundTaskClass), 
-                                      new TimeTrigger(15, true), 
-                                      false, true, 
-                                      new SystemCondition(SystemConditionType.InternetAvailable), 
-                                      new SystemCondition(SystemConditionType.UserPresent));
+// 2 or more conditions
+BackgroundTaskRegistration registered = 
+    BackgroundTaskHelper.Register(typeof(BackgroundTaskClass), 
+                                    new TimeTrigger(15, true), 
+                                    false,
+                                    true, 
+                                    new SystemCondition(SystemConditionType.InternetAvailable), 
+                                    new SystemCondition(SystemConditionType.UserPresent));
+```
+```vb
+' Be sure to include the using at the top of the file:
+'Imports Microsoft.Toolkit.Uwp
+'Imports Windows.ApplicationModel.Background
 
+' Register a normal, seperate process, background task
+Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register("TaskName", "TaskEntryPoint", New TimeTrigger(15, True))
+
+' This can also be written using the overload of Register with Type parameter.
+Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register(GetType(BackgroundTaskClass), New TimeTrigger(15, True))
+
+' With condition
+Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register(GetType(BackgroundTaskClass),
+                                                                             New TimeTrigger(15, True),
+                                                                             False,
+                                                                             True,
+                                                                             New SystemCondition(SystemConditionType.InternetAvailable))
+
+' 2 or more conditions
+Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register(GetType(BackgroundTaskClass),
+                                                                             New TimeTrigger(15, True),
+                                                                             False,
+                                                                             True,
+                                                                             New SystemCondition(SystemConditionType.InternetAvailable),
+                                                                             New SystemCondition(SystemConditionType.UserPresent))
 ```
 
 ### Using Single-Process Model
@@ -60,42 +87,62 @@ Moreover, it is no longer required to register the Background Tasks in the packa
 
 Once you have created the Background Task, you can register it by calling the `Register` method.
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
+// Be sure to include the using at the top of the file:
+//using Microsoft.Toolkit.Uwp;
+//using Windows.ApplicationModel.Background;
 
-    // Be sure to include the using at the top of the file:
-    //using Microsoft.Toolkit.Uwp;
-    //using Windows.ApplicationModel.Background;
+// Register a single process background task (Anniversary Update and later ONLY)
+BackgroundTaskRegistration registered = BackgroundTaskHelper.Register("Name of the Background Task", new TimeTrigger(15, true));
+```
+```vb
+' Be sure to include the using at the top of the file:
+'Imports Microsoft.Toolkit.Uwp
+'Imports Windows.ApplicationModel.Background
 
-    // Register a single process background task (Anniversary Update and later ONLY)
-    BackgroundTaskRegistration registered = BackgroundTaskHelper.Register("Name of the Background Task", new TimeTrigger(15, true));
-
+' Register a single process background task (Anniversary Update and later ONLY)
+Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register("Name of the Background Task", New TimeTrigger(15, True))
 ```
 
 The other difference between SPM and MPM is that in SPM, you have to handle your Background Tasks inside the `OnBackgroundActivated` event of `App.xaml.cs` class.
 Here is an example of how to handle Background Tasks in SPM.
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
+/// <summary>
+/// Event fired when a Background Task is activated (in Single Process Model)
+/// </summary>
+/// <param name="args">Arguments that describe the BackgroundTask activated</param>
+protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+{
+    base.OnBackgroundActivated(args);
 
-    /// <summary>
-    /// Event fired when a Background Task is activated (in Single Process Model)
-    /// </summary>
-    /// <param name="args">Arguments that describe the BackgroundTask activated</param>
-    protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+    var deferral = args.TaskInstance.GetDeferral();
+
+    switch (args.TaskInstance.Task.Name)
     {
-        base.OnBackgroundActivated(args);
-
-        var deferral = args.TaskInstance.GetDeferral();
-
-        switch (args.TaskInstance.Task.Name)
-        {
-            case "Name of the Background Task":
-                new TestBackgroundTask().Run(args.TaskInstance);
-                break;
-        }
-
-        deferral.Complete();
+        case "Name of the Background Task":
+            new TestBackgroundTask().Run(args.TaskInstance);
+            break;
     }
 
+    deferral.Complete();
+}
+```
+```vb
+Protected Overrides Sub OnBackgroundActivated(ByVal args As BackgroundActivatedEventArgs)
+    MyBase.OnBackgroundActivated(args)
+
+    Dim deferral = args.TaskInstance.GetDeferral()
+
+    Select Case args.TaskInstance.Task.Name
+        Case "Name of the Background Task"
+            New TestBackgroundTask().Run(args.TaskInstance)
+    End Select
+
+    deferral.Complete()
+End Sub
 ```
 
 ### Resources

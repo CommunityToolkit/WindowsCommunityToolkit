@@ -20,6 +20,7 @@ _What is included in the helper?_
 
 ## Example
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 // Executing from a non-UI thread with helper method
 int returnedFromUIThread = await DispatcherHelper.ExecuteOnUIThreadAsync<int>(() =>
@@ -37,6 +38,22 @@ returnedFromUIThread = await CoreApplication.MainView.Dispatcher.AwaitableRunAsy
     NormalTextBlock.Text = "Updated from a random thread with extension method!";
     return 1;
 });
+```
+```vb
+' Executing from a non-UI thread with helper method
+Dim returnedFromUIThread As Integer = Await DispatcherHelper.ExecuteOnUIThreadAsync(Of Integer)(Function()
+    ' Code to execute on main window's UI thread
+    NormalTextBlock.Text = "Updated from a random thread!"
+    Return 1
+End Function)
+
+' returnedFromUIThread now is 1, execution can go on from the non-UI thread
+
+' Or update it manually via the Extension method for CoreDispatcher
+returnedFromUIThread = Await CoreApplication.MainView.Dispatcher.AwaitableRunAsync(Of Integer)(Function()
+    NormalTextBlock.Text = "Updated from a random thread with extension method!"
+    Return 1
+End Function)
 ```
 
 ## Requirements (Windows 10 Device Family)

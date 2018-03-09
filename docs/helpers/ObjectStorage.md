@@ -15,6 +15,7 @@ The Object Storage Helper will help you handle storage of generic objects within
 
 If you need to handle local saves of any object (generic), you can use `LocalObjectStorageHelper`.
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 var helper = new LocalObjectStorageHelper();
 
@@ -55,12 +56,49 @@ var o = new MyLargeObject
 };
 await helper.SaveFileAsync(keySimpleObject, o);
 ```
+```vb
+Dim helper = New LocalObjectStorageHelper()
+
+' Read simple objects
+Dim keySimpleObject As String = "simple"
+If helper.KeyExists(keySimpleObject) Then
+    Dim result As String = helper.Read(Of String)(keySimpleObject)
+End If
+
+' Read simple objects in a composite
+Dim keyCompositeObject As String = "composite"
+If helper.KeyExists(keyCompositeObject, keySimpleObject) Then
+    Dim result As String = helper.Read(Of String)(keyCompositeObject, keySimpleObject)
+End If
+
+' Save simple objects
+helper.Save(keySimpleObject, 47)
+
+' Save simple objects in a composite
+Dictionary(Of String, Object)() simpleObjects = New Dictionary(Of String, Object)()
+simpleObjects.add("simpleObjectValueOne", 47)
+simpleObjects.add("simpleObjectValueTwo", "hello!")
+helper.Save(keyCompositeObject, simpleObjects)
+
+' Read complex/large objects 
+Dim keyLargeObject As String = "large"
+If Await helper.FileExistsAsync(keyLargeObject) Then
+    Dim result = Await helper.ReadFileAsync(Of MyLargeObject)(keyLargeObject)
+End If
+
+' Save complex/large objects
+Dim o = New MyLargeObject With {
+    ...
+}
+Await helper.SaveFileAsync(keySimpleObject, o)
+```
 
 ### Roaming Storage
 
 In the same way, if you need to handle roaming saves across all of user devices, you can use `RoamingObjectStorageHelper`.
 The implementation of the `RoamingObjectStorageHelper` is absolutely similar to `LocalObjectStorageHelper`.
 
+[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 var helper = new RoamingObjectStorageHelper();
 
@@ -100,6 +138,42 @@ var o = new MyLargeObject
     ...
 };
 await helper.SaveFileAsync(keySimpleObject, o);
+```
+```vb
+Dim helper = New RoamingObjectStorageHelper()
+
+' Read simple objects
+Dim keySimpleObject As String = "simple"
+If helper.KeyExists(keySimpleObject) Then
+    Dim result As String = helper.Read(Of String)(keySimpleObject)
+End If
+
+' Read simple objects in a composite
+Dim keyCompositeObject As String = "composite"
+If helper.KeyExists(keyCompositeObject, keySimpleObject) Then
+    Dim result As String = helper.Read(Of String)(keyCompositeObject, keySimpleObject)
+End If
+
+' Save simple objects
+helper.Save(keySimpleObject, 47)
+
+' Save simple objects in a composite
+Dictionary(Of String, Object)() simpleObjects = New Dictionary(Of String, Object)()
+simpleObjects.add("simpleObjectValueOne", 47)
+simpleObjects.add("simpleObjectValueTwo", "hello!")
+helper.Save(keyCompositeObject, simpleObjects)
+
+' Read complex/large objects 
+Dim keyLargeObject As String = "large"
+If Await helper.FileExistsAsync(keyLargeObject) Then
+    Dim result = Await helper.ReadFileAsync(Of MyLargeObject)(keyLargeObject)
+End If
+
+' Save complex/large objects 
+Dim o = New MyLargeObject With {
+    ...
+}
+Await helper.SaveFileAsync(keySimpleObject, o)
 ```
 
 ## Requirements (Windows 10 Device Family)
