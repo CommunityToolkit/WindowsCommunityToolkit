@@ -17,7 +17,8 @@ The [RangeSelector Control](https://docs.microsoft.com/dotnet/api/microsoft.tool
 
 <controls:RangeSelector x:Name="RangeSelectorControl" 
 	Minimum="10" 
-	Maximum="100">
+	Maximum="100"
+	StepFrequency="2">
 </controls:RangeSelector>       
 ```
 
@@ -34,6 +35,7 @@ The [RangeSelector Control](https://docs.microsoft.com/dotnet/api/microsoft.tool
 | Minimum | double | Gets or sets the minimum value of the range |
 | RangeMax | double | Gets or sets the current upper limit value of the range |
 | RangeMin | double | Gets or sets the current lower limit value of the range |
+| StepFrequency | int | Get or set the interval between the values on the RangeSelector. For example; if you set `StepFrequency` to 2, using Minimum at 0 and Maximum at 10, the range values you can set will be 0,2,4,6,8,10 |
 
 ## Examples
 

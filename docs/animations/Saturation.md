@@ -23,6 +23,7 @@ The [Saturation animation](https://docs.microsoft.com/dotnet/api/microsoft.toolk
            Value="0" 
            Duration="2500" 
            Delay="250" 
+           EasingType="Linear"
            AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```

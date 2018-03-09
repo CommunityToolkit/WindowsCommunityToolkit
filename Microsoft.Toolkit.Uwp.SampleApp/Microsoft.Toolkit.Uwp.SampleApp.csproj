@@ -174,12 +174,12 @@
     <Content Include="Assets\People\petri.png" />
     <Content Include="Assets\People\shen.png" />
     <Content Include="Assets\People\vlad.png" />
-    <Content Include="Assets\Photos\ales-krivec-43430.jpg" />
     <Content Include="Assets\Photos\BigFourSummerHeat.jpg" />
     <Content Include="Assets\Photos\BisonBadlandsChillin.jpg" />
     <Content Include="Assets\Photos\ColumbiaRiverGorge.jpg" />
     <Content Include="Assets\Photos\GiantSlabInOregon.jpg" />
     <Content Include="Assets\Photos\GrandTetons.jpg" />
+    <Content Include="Assets\Photos\HERO.jpg" />
     <Content Include="Assets\Photos\ImageExPlaceholder.jpg" />
     <Content Include="Assets\Photos\LakeAnnMushroom.jpg" />
     <Content Include="Assets\Photos\LunchBreak.jpg" />
@@ -274,6 +274,7 @@
     <Content Include="Icons\DeveloperTools.png" />
     <Content Include="Icons\Error.png" />
     <Content Include="Icons\Extensions.png" />
+    <Content Include="Icons\Brushes.png" />
     <Content Include="Icons\Helpers.png" />
     <Content Include="Icons\Foundation.png" />
     <Content Include="Icons\Layouts.png" />
@@ -282,9 +283,14 @@
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
+    <Content Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrush.png" />
+    <Content Include="SamplePages\BackdropInvertBrush\BackdropInvertBrush.png" />
+    <Content Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrush.png" />
+    <Content Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrush.png" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelper.png" />
     <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelper.png" />
+    <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrush.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
     <Content Include="SamplePages\Connected Animations\ConnectedAnimations.png" />
     <Content Include="SamplePages\DispatcherHelper\DispatchHelper.png" />
@@ -307,6 +313,7 @@
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControl.png" />
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControl.png" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
+    <Content Include="SamplePages\ImageBlendBrush\ImageBlendBrush.png" />
     <Content Include="SamplePages\ImageCache\ImageCache.png" />
     <Content Include="SamplePages\ImageEx\ImageEx.png" />
     <Content Include="SamplePages\Implicit Animations\ImplicitAnimations.png" />
@@ -324,18 +331,21 @@
     <Content Include="SamplePages\Microsoft Graph Service\OfficeLogo.png" />
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
+    <Content Include="SamplePages\NavigationViewStyles\NavigationViewStyles.png" />
     <Content Include="SamplePages\NetworkHelper\NetworkHelper.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
     <Content Include="SamplePages\Mouse\MouseCursor.png" />
     <Content Include="SamplePages\OneDrive Service\OneDriveLogo.png" />
     <Content Include="SamplePages\ParallaxService\Parallax.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
+    <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrush.png" />
     <Content Include="SamplePages\RadialProgressBar\RadialProgressBar.png" />
     <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.png" />
     <Content Include="SamplePages\Rotate\RotateBehavior.png" />
     <Content Include="SamplePages\Saturation\SaturationBehavior.png" />
     <Content Include="SamplePages\OrbitView\OrbitView.png" />
     <Content Include="SamplePages\Scale\ScaleBehavior.png" />
+    <Content Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsCode.bind" />
     <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.png" />
     <Content Include="SamplePages\SystemInformation\SystemInformation.png" />
     <Content Include="SamplePages\TextBoxMask\TextBoxMask.png" />
@@ -460,17 +470,33 @@
     </Content>
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlXaml.bind" />
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControlXaml.bind" />
-    <Content Include="SamplePages\AppPinManager\AppPinManagerHelperCode.bind" />
     <Content Include="SamplePages\Mouse\MouseCursorPage.bind" />
     <Content Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsCode.bind">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.bind" />
+    <Content Include="SamplePages\NavigationViewStyles\NavigationViewStylesXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushXaml.bind" />
+    <Content Include="SamplePages\BackdropInvertBrush\BackdropInvertBrushXaml.bind" />
+    <Content Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrushXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrushXaml.bind" />
+    <Content Include="SamplePages\ImageBlendBrush\ImageBlendBrushXaml.bind" />
+    <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrushXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\DoubleTopThicknessConverter.cs" />
     <Compile Include="Common\ThicknessConverter.cs" />
     <Compile Include="Common\XAMLHelper.cs" />
     <Compile Include="Common\AnalyticsVersionInfoExtensions.cs" />
@@ -499,8 +525,17 @@
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\AppPinManager\AppPinManagerHelperPage.xaml.cs">
-      <DependentUpon>AppPinManagerHelperPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushPage.xaml.cs">
+      <DependentUpon>BackdropGammaTransferBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackdropInvertBrush\BackdropInvertBrushPage.xaml.cs">
+      <DependentUpon>BackdropInvertBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrushPage.xaml.cs">
+      <DependentUpon>BackdropSaturationBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrushPage.xaml.cs">
+      <DependentUpon>BackdropSepiaBrushPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperPage.xaml.cs">
       <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
@@ -518,7 +553,13 @@
     <Compile Include="SamplePages\Connected Animations\Pages\ThirdPage.xaml.cs">
       <DependentUpon>ThirdPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushPage.xaml.cs">
+      <DependentUpon>BackdropBlurBrushPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsPage.xaml.cs" />
+    <Compile Include="SamplePages\ImageBlendBrush\ImageBlendBrushPage.xaml.cs">
+      <DependentUpon>ImageBlendBrushPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Implicit Animations\ImplicitAnimationsPage.xaml.cs">
       <DependentUpon>ImplicitAnimationsPage.xaml</DependentUpon>
     </Compile>
@@ -547,6 +588,9 @@
     <Compile Include="SamplePages\Mouse\MouseCursorPage.xaml.cs">
       <DependentUpon>MouseCursorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\NavigationViewStyles\NavigationViewStylesPage.xaml.cs">
+      <DependentUpon>NavigationViewStylesPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml.cs">
       <DependentUpon>NetworkHelperPage.xaml</DependentUpon>
     </Compile>
@@ -556,6 +600,12 @@
     <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
     <Compile Include="SamplePages\RssParser\RssParserPage.xaml.cs">
       <DependentUpon>RssParserPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\RadialGradientBrush\RadialGradientBrushPage.xaml.cs">
+      <DependentUpon>RadialGradientBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsPage.xaml.cs">
+      <DependentUpon>ScrollViewerExtensionsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml.cs">
       <DependentUpon>StaggeredPanelPage.xaml</DependentUpon>
@@ -796,9 +846,21 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\AppPinManager\AppPinManagerHelperPage.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\BackdropInvertBrush\BackdropInvertBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Carousel\CarouselPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -832,6 +894,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\FocusTracker\FocusTrackerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -847,6 +913,10 @@
     <Page Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ImageBlendBrush\ImageBlendBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Implicit Animations\ImplicitAnimationsPage.xaml">
       <SubType>Designer</SubType>
@@ -864,7 +934,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SamplePages\NavigationViewStyles\NavigationViewStylesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\RadialGradientBrush\RadialGradientBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\RssParser\RssParserPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

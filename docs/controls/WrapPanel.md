@@ -39,7 +39,7 @@ The following example of adding WrapPanel Control.
 
 ```xaml
 <Page ....
-      xmlns:wrapPanel="using:Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel">
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Grid Background="{StaticResource Brush-Grey-05}">
         <Grid.RowDefinitions>
@@ -52,7 +52,7 @@ The following example of adding WrapPanel Control.
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Button Name="HorizontalButton" Click="HorizontalButton_Click" Content="Add Horizontal Control" />
-            <wrapPanel:WrapPanel Name="HorizontalWrapPanel" Grid.Row="1" Margin="2" />
+            <controls:WrapPanel Name="HorizontalWrapPanel" Grid.Row="1" Margin="2" />
         </Grid>
 
         <Grid Grid.Row="1">
@@ -61,7 +61,7 @@ The following example of adding WrapPanel Control.
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Button Name="VerticalButton" Click="VerticalButton_Click" Content="Add Vertical Control" />
-            <wrapPanel:WrapPanel Name="VerticalWrapPanel" Grid.Row="1" Margin="2"
+            <controls:WrapPanel Name="VerticalWrapPanel" Grid.Row="1" Margin="2"
                                  VerticalSpacing="10" HorizontalSpacing="10" Orientation="Vertical" />
         </Grid>
     </Grid>

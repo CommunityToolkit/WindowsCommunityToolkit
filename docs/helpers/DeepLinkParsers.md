@@ -1,7 +1,6 @@
 ---
 title: DeepLinkParser
 author: nmetulev
-ms.date: 08/20/2017
 description: Provides a way to create, Dictionary<string,string> - inheriting object that provides an additional .Root property to pull the base path of the URI 
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, DeepLinkParser
 ---

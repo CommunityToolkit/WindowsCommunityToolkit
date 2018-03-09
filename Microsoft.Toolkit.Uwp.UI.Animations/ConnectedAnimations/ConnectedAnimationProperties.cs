@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
@@ -20,10 +21,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         public UIElement Element { get; set; }
 
-        public string ElementName { get; set; }
+        public List<ConnectedAnimationListProperty> ListAnimProperties { get; set; }
 
-        public Windows.UI.Xaml.Controls.ListViewBase ListViewBase { get; set; }
-
-        public bool IsListAnimation { get; set; }
+        public bool IsListAnimation => ListAnimProperties != null;
     }
 }

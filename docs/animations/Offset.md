@@ -24,6 +24,7 @@ The [Offset animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.u
             OffsetY="25.0"
             Duration="2500" 
             Delay="250" 
+            EasingType="Linear"
             AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```
@@ -66,9 +67,6 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quartic    | Creates an animation that accelerates or decelerates using the formula f(t) = t4                                                                        | ![QuarticEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/quarticease-graph.png)     |
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
-
-> [!IMPORTANT]
-EasingType is used only when AnimationSet.UseComposition == false
 
 ## Methods
 

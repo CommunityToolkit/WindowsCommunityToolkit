@@ -69,13 +69,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="duration">The duration.</param>
         /// <param name="delay">The delay.</param>
         /// <param name="color">The color of the spotlight.</param>
+        /// <param name="easingType">The easing function</param>
         /// <returns>An animation set.</returns>
         public static AnimationSet Light(
             this FrameworkElement associatedObject,
             double distance = 0d,
             double duration = 500d,
             double delay = 0d,
-            Color? color = null)
+            Color? color = null,
+            EasingType easingType = EasingType.Default)
         {
             if (associatedObject == null)
             {
@@ -83,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Light(distance, duration, delay, color);
+            return animationSet.Light(distance, duration, delay, color, easingType);
         }
 
         /// <summary>
@@ -94,6 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay. (ignored if duration == 0)</param>
         /// <param name="color">The color of the spotlight.</param>
+        /// <param name="easingType">The easing function</param>
         /// <seealso cref="IsLightingSupported" />
         /// <returns>
         /// An Animation Set.
@@ -103,7 +106,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             double distance = 0d,
             double duration = 500d,
             double delay = 0d,
-            Color? color = null)
+            Color? color = null,
+            EasingType easingType = EasingType.Default)
         {
             if (!IsLightingSupported)
             {
@@ -206,7 +210,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 else
                 {
                     var diffuseAnimation = compositor.CreateVector3KeyFrameAnimation();
-                    diffuseAnimation.InsertKeyFrame(1f, new System.Numerics.Vector3(visual.Size.X / 2, visual.Size.Y / 2, (float)distance));
+                    if (easingType == EasingType.Default)
+                    {
+                        diffuseAnimation.InsertKeyFrame(1f, new System.Numerics.Vector3(visual.Size.X / 2, visual.Size.Y / 2, (float)distance));
+                    }
+                    else
+                    {
+                        diffuseAnimation.InsertKeyFrame(1f, new System.Numerics.Vector3(visual.Size.X / 2, visual.Size.Y / 2, (float)distance), GetCompositionEasingFunction(easingType, compositor));
+                    }
+
                     diffuseAnimation.Duration = durationTime;
                     diffuseAnimation.DelayTime = delayTime;
 

@@ -138,15 +138,15 @@ Other styles have been added to the Toolkit so you can easily switch to another 
 
     - Import external styles in your resources
 
-        ```xaml
-        <Page.Resources>
-            <ResourceDictionary>
-                <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
-                </ResourceDictionary.MergedDictionaries>
-            <Page.Resources>
+    ```xaml
+    <Page.Resources>
         <ResourceDictionary>
-        ```
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    ```
 
     - Apply the `Style`
 

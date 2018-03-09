@@ -22,7 +22,8 @@ The [Blur animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp
     <behaviors:Blur x:Name="BlurBehavior" 
             Value="10" 
             Duration="2500" 
-            Delay="250" 
+            Delay="250"
+            EasingType="Linear"
             AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```

@@ -183,8 +183,8 @@
                                     <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://github.com/google/code-prettify" Click="Link_Clicked">
                                         <TextBlock>Code Prettify (Dependency)</TextBlock>
                                     </HyperlinkButton>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://unsplash.com/photos/GfLUxuWZg0w" Click="Link_Clicked">
-                                        <TextBlock>Background photo by Ales Krivec</TextBlock>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://unsplash.com/photos/105m46GatAg" Click="Link_Clicked">
+                                        <TextBlock>Background photo by @apertism</TextBlock>
                                     </HyperlinkButton>
                                 </ItemsControl>
                             </StackPanel>

@@ -10,10 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Microsoft.Toolkit.Uwp.UI.Animations.Behaviors;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.Xaml.Interactivity;
-using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateScrollHeaderBehavior()
         {
-            var targetListViewBase = TargetListViewBase ?? this.FindAscendant<Windows.UI.Xaml.Controls.ListViewBase>();
+            var targetListViewBase = this.FindAscendant<Windows.UI.Xaml.Controls.ListViewBase>();
 
             if (targetListViewBase == null)
             {

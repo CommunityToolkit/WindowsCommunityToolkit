@@ -19,10 +19,9 @@ Developers can place menu specific content, navigation, images, text or custom c
 ## Syntax
 
 ```xaml
-<Page ...
-     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"/>
 
-<controls:HamburgerMenu PaneBackground="Black" Foreground="White" ItemTemplate="{StaticResource ButtonTemplate}"
+<controls:HamburgerMenu PaneBackground="Black" x:Name="HamburgerMenuControl"
+	Foreground="White" ItemTemplate="{StaticResource ButtonTemplate}"
 	OptionsItemTemplate="{StaticResource OptionTemplate}" ItemClick="HamburgerMenu_OnItemClick"
 	OptionsItemClick="HamburgerMenu_OnOptionsItemClick" OpenPaneLength="240"
 	DisplayMode="CompactInline" CompactPaneLength="48"

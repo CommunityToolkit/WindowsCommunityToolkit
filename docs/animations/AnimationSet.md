@@ -67,12 +67,6 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
 
-> [!IMPORTANT]
-EasingType is used only when AnimationSet.UseComposition == false
-
-> [!NOTE]
-Blur, Light and Saturation animation don't support easing
-
 ## Methods
 
 | Methods | Description |
@@ -116,8 +110,8 @@ Blur, Light and Saturation animation don't support easing
         preElement = sender as FrameworkElement;
         preElement.Blur(value: 0).Fade(value: 1).Scale(centerX: 100, centerY: 100, easingType: EasingType.Sine);
                 .SetDurationForAll(500);
-                .Start();
-    }
+.Start();
+    }                
 
     private void MyUIElement_PointerExited(object sender, PointerRoutedEventArgs e)
     {
@@ -154,12 +148,13 @@ Blur, Light and Saturation animation don't support easing
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
-
 ## API
+
 
 * [AnimationSet source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations)
 
-## Related Topics
+## Related 
+- [ ClAnimationSetCompletedEventArgsass](hTopicsttps://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationsetcompletedeventargs)
 
-- [AnimationExtensions Class](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationextensions)
-- [AnimationSetCompletedEventArgs Class](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationsetcompletedeventargs)
+- [ Class](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationextensions)
+AnimationExtensions

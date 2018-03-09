@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -270,16 +271,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            var prop = new ConnectedAnimationProperties()
-            {
-                Key = key,
-                IsListAnimation = true,
-                ElementName = elementName,
-                ListViewBase = listViewBase
-            };
-
             var props = GetPageConnectedAnimationProperties(page);
-            props[key] = prop;
+
+            if (!props.TryGetValue(key, out var prop))
+            {
+                prop = new ConnectedAnimationProperties
+                {
+                    Key = key,
+                    ListAnimProperties = new List<ConnectedAnimationListProperty>()
+                };
+                props[key] = prop;
+            }
+
+            if (!prop.ListAnimProperties.Any(lap => lap.ListViewBase == listViewBase && lap.ElementName == elementName))
+            {
+                prop.ListAnimProperties.Add(new ConnectedAnimationListProperty
+                {
+                    ElementName = elementName,
+                    ListViewBase = listViewBase
+                });
+            }
         }
 
         private static void RemoveListItem(this Page page, Windows.UI.Xaml.Controls.ListViewBase listViewBase, string key)
@@ -290,7 +301,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var props = GetPageConnectedAnimationProperties(page);
-            props.Remove(key);
+
+            if (props.TryGetValue(key, out var prop))
+            {
+                if (!prop.IsListAnimation)
+                {
+                    props.Remove(key);
+                }
+                else
+                {
+                    var listAnimProperty = prop.ListAnimProperties.FirstOrDefault(lap => lap.ListViewBase == listViewBase);
+                    if (listAnimProperty != null)
+                    {
+                        prop.ListAnimProperties.Remove(listAnimProperty);
+                        if (prop.ListAnimProperties.Count == 0)
+                        {
+                            props.Remove(key);
+                        }
+                    }
+                }
+            }
         }
 
         private static void OnKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
