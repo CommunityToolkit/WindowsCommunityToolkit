@@ -795,7 +795,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double relativeTopForTopTicks = (_containerCanvas.ActualHeight / 2) - (tickMargin + tickHeight);
             double relativeTopForBottomTicks = (_containerCanvas.ActualHeight / 2) + tickMargin;
 
-            for (double i = Minimum + TickOffset; i <= Maximum - Minimum; i += TickFrequency)
+            double appliedTickFrequency = Math.Max(TickFrequency, 20 / tickActualStep);
+
+            for (double i = Minimum + TickOffset; i <= Maximum - Minimum; i += appliedTickFrequency)
             {
                 double relativeLeft = i * tickActualStep;
 
