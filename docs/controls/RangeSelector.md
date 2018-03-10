@@ -58,7 +58,7 @@ In order to change the placement of the ticks, use the `TickPlacement` property.
 
 If you want the ticks to start at a later point, use this property to define the offset.
 
-## TickOffset
+## SnapsTo
 
 Indicates how the RangeSelector conforms the thumb position to its steps or tick marks.
 
