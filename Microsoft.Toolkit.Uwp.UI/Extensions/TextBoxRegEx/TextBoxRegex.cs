@@ -23,8 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// </summary>
     /// <remarks>
     /// If <see cref="ValidationMode"> is set to Normal then IsValid will be set according to whether the regex is valid.</see>
-    /// If <see cref="ValidationMode"> is set to Forced, the input will be validated if the TextBox loses focus, if it is invalid, the TextBox text will be deleted.</see>
-    /// If <see cref="ValidationMode"> is set to Instantly, the input will be validated immediately, if it is invalid, the text of the TextBox will be deleted.</see>
+    /// If <see cref="ValidationMode"> is set to Forced, the input will be validated if the TextBox loses focus.</see>
     /// If <see cref="ValidationMode"> is set to Dynamic, the input will be validated immediately, if it is invalid, the newest character at input of the Textbox will be deleted.</see>
     /// </remarks>
     public partial class TextBoxRegex
@@ -52,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             var textbox = (TextBox)sender;
             var validationMode = (ValidationMode)textbox.GetValue(ValidationModeProperty);
-            ValidateTextBox(textbox, validationMode == ValidationMode.Instantly || validationMode == ValidationMode.Dynamic);
+            ValidateTextBox(textbox, validationMode == ValidationMode.Dynamic);
         }
 
         private static void Textbox_Loaded(object sender, RoutedEventArgs e)
@@ -63,8 +62,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void Textbox_LostFocus(object sender, RoutedEventArgs e)
         {
-            var textbox = (TextBox)sender;
-            ValidateTextBox(textbox);
+            //var textbox = (TextBox)sender;
+            //ValidateTextBox(textbox);
         }
 
         private static void ValidateTextBox(TextBox textbox, bool force = true)
@@ -105,16 +104,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             {
                 if (!string.IsNullOrEmpty(textbox.Text))
                 {
-                    var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
-                    if (validationModel == ValidationMode.Forced || validationModel == ValidationMode.Instantly)
+                    if (validationType != ValidationType.Email || validationType != ValidationType.Characters)
                     {
-                        textbox.Text = string.Empty;
-                    }
-                    else if (validationModel == ValidationMode.Dynamic)
-                    {
-                        int selectionStart = textbox.SelectionStart - 1;
-                        textbox.Text = textbox.Text.Remove(textbox.SelectionStart - 1, 1);
-                        textbox.SelectionStart = selectionStart;
+                        var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
+
+                        if (validationModel == ValidationMode.Dynamic)
+                        {
+                            int selectionStart = textbox.SelectionStart - 1;
+                            textbox.Text = textbox.Text.Remove(textbox.SelectionStart - 1, 1);
+                            textbox.SelectionStart = selectionStart;
+                        }
                     }
                 }
             }
