@@ -74,6 +74,7 @@ The [BladeView Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.
     For example: if you set `AutoCollapseCountThreshold` to 3, the BladeView will start counting all BladeItems that are open in the BladeView and have their `TitleBarVisibility` property set to Visible. When the n+1 BladeItem, in our case the 4th one, is being added, the BladeView will auto collapse all n BladeItems except for the last one. All additional BladeItems that are added afterwards will trigger the same effect; collapse all BladeItems except for the last open one.
 
     *Sample Code*
+    
     ```xaml
     <controls:BladeView AutoCollapseCountThreshold="3">
         <controls:BladeItem>

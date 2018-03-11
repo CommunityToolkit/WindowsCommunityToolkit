@@ -120,9 +120,7 @@ Since the control is part of the page visual tree, it will render in the order i
     }
     ```
 
-- The in-app notification control is designed to support multiple styles. 
-The default style applied is the Microsoft Edge-like notification.
-Other styles have been added to the Toolkit so you can easily switch to another of your favorite In App Notification styles.
+- The in-app notification control is designed to support multiple styles. The default style applied is the Microsoft Edge-like notification. Other styles have been added to the Toolkit so you can easily switch to another of your favorite In App Notification styles.
 
     Here is the list of existing styles :
 

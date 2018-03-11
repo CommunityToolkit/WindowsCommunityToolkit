@@ -58,6 +58,7 @@ We can create the above connected animations.
 **In first page**
 
 We need a set a key for the element to be connected with another element in a different page.
+
 ```xaml
 <Grid>
     <Border Height="100" Width="100" Background="Purple" 
@@ -68,7 +69,8 @@ We need a set a key for the element to be connected with another element in a di
 
 **In second page**
  
- We need to set the same key for the element to be connected with. Also, You can anchor another element to move along the connected animation path.
+We need to set the same key for the element to be connected with. Also, You can anchor another element to move along the connected animation path.
+
 ```xaml
 <StackPanel Orientation="Horizontal">
     <Border x:Name="HeroElement" Height="300"  Width="300" Background="Purple"
@@ -83,7 +85,8 @@ We need a set a key for the element to be connected with another element in a di
 </StackPanel>
 ```
 
- In this page, we can also create a GridView which implements connected animation for its items. You need to set ListItemKey and ListItemElementName for specifying the UIElement to animate.
+In this page, we can also create a GridView which implements connected animation for its items. You need to set ListItemKey and ListItemElementName for specifying the UIElement to animate.
+
 ```xaml
 <GridView x:Name="listView" Margin="0, 40, 0, 0" SelectionMode="None" 
 Grid.Row="1" ItemClick="ListView_ItemClick" IsItemClickEnabled="True"

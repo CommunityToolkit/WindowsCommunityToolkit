@@ -44,6 +44,7 @@ The [DropShadowPanel Control](https://docs.microsoft.com/dotnet/api/microsoft.to
 ## Examples
 
 - Use IsSupported property to verify the availability of drop shadow and take necessary action if not available
+
     ```csharp
     if(!DropShadowPanel.IsSupported)
     {

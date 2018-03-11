@@ -39,6 +39,7 @@ Setting the `Background`, `BorderBrush` and `BorderThickness` properties will no
 - The `Header` property can be set to a string, or any xaml elements. If binding the `Header` to an object that is not a string, use the `HeaderTemplate` to control how the content is rendered.
 
     *Sample Code*
+    
     ```xaml
     <controls:HeaderedContentControl Header="This is the header!"/>
     

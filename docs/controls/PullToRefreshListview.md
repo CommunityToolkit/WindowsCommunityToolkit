@@ -15,7 +15,7 @@ This control uses the *PullToRefreshLabel* and *ReleaseToRefreshLabel* propertie
 
 If you want more than a text to display, you can then use *PullToRefreshContent* and *ReleaseToRefreshContent*. In this case the *PullToRefreshLabel* and *ReleaseToRefreshLabel* properties will be ignored.
 
-The *RefreshIndicatorContent* can be used with the *PullProgressChanged* event to provide a custom visual for the user.
+The `RefreshIndicatorContent` can be used with the `PullProgressChanged` event to provide a custom visual for the user.
 
 To cancel a refresh request just slide back to a position prior to the *PullThreshold* position. Upon release the *RefreshIntentCanceled* event will
 be raised and the *RefreshIntentCanceledCommand*, if any, will be executed.

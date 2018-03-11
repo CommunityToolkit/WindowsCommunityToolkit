@@ -48,7 +48,9 @@ In case you want to add a custom variable character you can use property TextBox
 
 ## Sample Output
 
-![TextBoxMask animation](../resources/images/Extensions/TextBoxMask.png)
+Text box with Mask +1999-9999 and placeHolder as space (placeholder represents the characters the user can change on runtime)
+
+![TextBoxMask animation](../resources/images/Extensions/TextBoxMask.gif)
 
 ## Attached Properties
 

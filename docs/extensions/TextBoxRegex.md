@@ -32,7 +32,9 @@ The validation has 2 modes (`ValidationMode`):
 
 ## Sample Output
 
-![TextBoxRegex animation](../resources/images/Extensions/TextBoxRegex.png)
+Text box with ValidationType=Email, validation occurs on TextChanged
+
+![TextBoxRegex animation](../resources/images/Extensions/TextBoxRegex.gif)
 
 ## Attached Properties
 

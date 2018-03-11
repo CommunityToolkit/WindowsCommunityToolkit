@@ -24,7 +24,7 @@ When the Orientation is Vertical, HorizontalSpacing adds uniform spacing between
 
 ## Sample Output
 
-![WrapPanel animation](../resources/images/Controls/WrapPanel.png)
+![WrapPanel animation](../resources/images/Controls/WrapPanel.gif)
 
 ## Properties
 

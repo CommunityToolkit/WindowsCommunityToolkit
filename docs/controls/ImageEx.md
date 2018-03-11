@@ -28,8 +28,6 @@ On Windows 10.0.16299.0 or higher, `CornerRadius` is supported on ImageEx.  Use 
 
 ![ImageEx animation](../resources/images/Controls/ImageEx.gif)
 
-## Properties
-
 ## ImageEx Properties
 
 | Property | Type | Description |

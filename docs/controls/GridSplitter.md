@@ -7,7 +7,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, GridSplitter, XAM
 
 # GridSplitter XAML Control
 
-The [GridSplitter Control]() provides an easy-to-use Splitter that redistributes space between columns or rows of a Grid Control. By dragging the control, the control will resize the targeted columns or rows.
+The [GridSplitter Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.gridsplitter) provides an easy-to-use Splitter that redistributes space between columns or rows of a Grid Control. By dragging the control, the control will resize the targeted columns or rows.
 
 The control automatically detects the targeted columns/rows to resize, while dragging the control it starts to resize the columns/rows and redistributes space between columns/rows, you can manually specify the Resize Direction Auto, Column, Row and the Resize Behavior to select which columns/rows to resize.
 
