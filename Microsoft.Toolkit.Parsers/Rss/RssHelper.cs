@@ -144,7 +144,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
         /// Get item string values for xelement and element name.
         /// </summary>
         /// <param name="item">XElement item.</param>
-        /// <param name="elementName">Name of the element</param>
+        /// <param name="elementName">Name of the element.</param>
         /// <returns>Safe list of string values.</returns>
         public static IEnumerable<string> GetSafeElementsString(this XElement item, string elementName)
         {
