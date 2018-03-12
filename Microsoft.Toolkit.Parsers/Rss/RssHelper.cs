@@ -163,11 +163,8 @@ namespace Microsoft.Toolkit.Parsers.Rss
             if (item != null)
             {
                 IEnumerable<XElement> values = item.Elements(xNamespace + elementName);
-                if (values.Any())
-                {
-                    return values.Where(f => !string.IsNullOrEmpty(f.Value))
-                        .Select(f => f.Value);
-                }
+                return values.Where(f => !string.IsNullOrEmpty(f.Value))
+                    .Select(f => f.Value);
             }
 
             return Enumerable.Empty<string>();
