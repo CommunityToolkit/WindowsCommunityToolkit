@@ -148,11 +148,6 @@ namespace Microsoft.Toolkit.Parsers.Rss
         /// <returns>Safe list of string values.</returns>
         public static IEnumerable<string> GetSafeElementsString(this XElement item, string elementName)
         {
-            if (item == null)
-            {
-                return Enumerable.Empty<string>();
-            }
-
             return GetSafeElementsString(item, elementName, item.GetDefaultNamespace());
         }
 
@@ -165,16 +160,14 @@ namespace Microsoft.Toolkit.Parsers.Rss
         /// <returns>Safe list of string values.</returns>
         public static IEnumerable<string> GetSafeElementsString(this XElement item, string elementName, XNamespace xNamespace)
         {
-            if (item == null)
+            if (item != null)
             {
-                return Enumerable.Empty<string>();
-            }
-
-            IEnumerable<XElement> values = item.Elements(xNamespace + elementName);
-            if (values.Any())
-            {
-                return values.Where(f => !string.IsNullOrEmpty(f.Value))
-                    .Select(f => f.Value);
+                IEnumerable<XElement> values = item.Elements(xNamespace + elementName);
+                if (values.Any())
+                {
+                    return values.Where(f => !string.IsNullOrEmpty(f.Value))
+                        .Select(f => f.Value);
+                }
             }
 
             return Enumerable.Empty<string>();

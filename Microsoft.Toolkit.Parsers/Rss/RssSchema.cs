@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
         public DateTime PublishDate { get; set; }
 
         /// <summary>
-        /// Gets item's categories
+        /// Gets or sets item's categories.
         /// </summary>
         public IEnumerable<string> Categories { get; set; }
     }
