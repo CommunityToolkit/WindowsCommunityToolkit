@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
     /// </summary>
     public class DelegateCommand : ICommand
     {
-        private readonly Action commandExecuteAction;
+        private readonly Action<object> commandExecuteAction;
 
         private readonly Func<bool> commandCanExecute;
 
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
         /// <exception cref="ArgumentNullException">
         /// Thrown if the execute action is null.
         /// </exception>
-        public DelegateCommand(Action execute, Func<bool> canExecute = null)
+        public DelegateCommand(Action<object> execute, Func<bool> canExecute = null)
         {
             if (execute == null)
             {
@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
 
             try
             {
-                commandExecuteAction();
+                commandExecuteAction(parameter);
             }
             catch
             {

@@ -55,7 +55,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.targets = Directory.Build.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.Notifications.JavaScript", "Microsoft.Toolkit.Uwp.Notifications.JavaScript\Microsoft.Toolkit.Uwp.Notifications.JavaScript.csproj", "{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.Notifications.JavaScript", "Microsoft.Toolkit.Uwp.Notifications.JavaScript\Microsoft.Toolkit.Uwp.Notifications.JavaScript.csproj", "{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}"
 	ProjectSection(ProjectDependencies) = postProject
 		{97EE849B-403C-490E-80ED-D19D7CC153FD} = {97EE849B-403C-490E-80ED-D19D7CC153FD}
 	EndProjectSection
@@ -65,7 +65,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Co
 		{E9FAABFB-D726-42C1-83C1-CB46A29FEA81} = {E9FAABFB-D726-42C1-83C1-CB46A29FEA81}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Parsers", "Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj", "{42CA4935-54BE-42EA-AC19-992378C08DE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Parsers", "Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj", "{42CA4935-54BE-42EA-AC19-992378C08DE6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls.Lottie", "Microsoft.Toolkit.Uwp.UI.Controls.Lottie\Microsoft.Toolkit.Uwp.UI.Controls.Lottie.csproj", "{D42D49C9-6352-4792-9869-4BF41760B2F1}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -408,6 +410,22 @@ Global
 		{42CA4935-54BE-42EA-AC19-992378C08DE6}.Release|x64.Build.0 = Release|Any CPU
 		{42CA4935-54BE-42EA-AC19-992378C08DE6}.Release|x86.ActiveCfg = Release|Any CPU
 		{42CA4935-54BE-42EA-AC19-992378C08DE6}.Release|x86.Build.0 = Release|Any CPU
+		{D42D49C9-6352-4792-9869-4BF41760B2F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D42D49C9-6352-4792-9869-4BF41760B2F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D42D49C9-6352-4792-9869-4BF41760B2F1}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{D42D49C9-6352-4792-9869-4BF41760B2F1}.Debug|ARM.Build.0 = Debug|Any CPU
+		{D42D49C9-6352-4792-9869-4BF41760B2F1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D42D49C9-6352-4792-9869-4BF41760B2F1}.Debug|x64.Build.0 = Debug|Any CPU
+		{D42D49C9-6352-4792-9869-4BF41760B2F1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D42D49C9-6352-4792-9869-4BF41760B2F1}.Debug|x86.Build.0 = Debug|Any CPU
+		{D42D49C9-6352-4792-9869-4BF41760B2F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D42D49C9-6352-4792-9869-4BF41760B2F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D42D49C9-6352-4792-9869-4BF41760B2F1}.Release|ARM.ActiveCfg = Release|Any CPU
+		{D42D49C9-6352-4792-9869-4BF41760B2F1}.Release|ARM.Build.0 = Release|Any CPU
+		{D42D49C9-6352-4792-9869-4BF41760B2F1}.Release|x64.ActiveCfg = Release|Any CPU
+		{D42D49C9-6352-4792-9869-4BF41760B2F1}.Release|x64.Build.0 = Release|Any CPU
+		{D42D49C9-6352-4792-9869-4BF41760B2F1}.Release|x86.ActiveCfg = Release|Any CPU
+		{D42D49C9-6352-4792-9869-4BF41760B2F1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -425,6 +443,7 @@ Global
 		{94994424-5F60-4CD8-ABA2-101779066208} = {9333C63A-F64F-4797-82B3-017422668A5D}
 		{EFA96B3C-857E-4659-B942-6BEF7719F4CA} = {9333C63A-F64F-4797-82B3-017422668A5D}
 		{7AEFC959-ED7C-4D96-9E92-72609B40FBE0} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
+		{D42D49C9-6352-4792-9869-4BF41760B2F1} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5403B0C4-F244-4F73-A35C-FE664D0F4345}

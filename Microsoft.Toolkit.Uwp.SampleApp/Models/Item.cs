@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Models
             return true;
         }
 
-        private void ExecuteToggleFavoriteCommand()
+        private void ExecuteToggleFavoriteCommand(object parameter)
         {
             IsFavorite = !IsFavorite;
         }

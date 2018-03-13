@@ -1,0 +1,25 @@
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Controls.Lottie"
+      mc:Ignorable="d">
+
+  <Grid Padding="48">
+    <Grid x:Name="LottieAnimationViewGrid" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Black" BorderThickness="1" Background="White">
+      <lottie:LottieAnimationView
+          x:Name="Container"
+          FileName="Assets/Gears.json"
+          AutoPlay="True"
+          ColorFilter="@[ColorFilter:String:Transparent]@"
+          Progress="@[Progress:Slider:0:0-1-.001]@"
+          Scale="@[Scale:Slider:1:0.1-10-.1]@"
+          FrameRate="@[FrameRate:String:60]@"
+          Speed="@[Speed:Slider:1:.1-10-.1]@"
+          RepeatMode="@[RepeatMode:Enum:RepeatMode.Restart]@"
+          RepeatCount="@[RepeatCount:Slider:-1:-1-100]@"
+          MinFrame="@[MinFrame:RangeSelectorMin:0:0:ID1]@"
+          MaxFrame="@[MaxFrame:RangeSelectorMax:10:10:ID1]@"/>
+    </Grid>
+  </Grid>
+</Page>

@@ -273,6 +273,15 @@
         "XamlCodeFile": "StaggeredPanel.bind",
         "Icon": "/SamplePages/StaggeredPanel/StaggeredPanel.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/StaggeredPanel.md"
+      },
+      {
+        "Name": "LottieAnimationView",
+        "Type": "LottieAnimationViewPage",
+        "About": "The LottieAnimationView Control renders Lottie animations (Adobe After Effects files exported as JSON files).",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Lottie",
+        "XamlCodeFile": "LottieAnimationView.bind",
+        "Icon": "/SamplePages/LottieAnimationView/LottieAnimationView.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/LottieAnimationView.md"
       }
     ]
   },

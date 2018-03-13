@@ -111,11 +111,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public void RegisterNewCommand(string name, RoutedEventHandler action)
         {
-            Commands.Add(new SampleCommand(name, () =>
+            Commands.Add(new SampleCommand(name, (parameter) =>
             {
                 try
                 {
-                    action.Invoke(this, new RoutedEventArgs());
+                    action.Invoke(this, (parameter as RoutedEventArgs) ?? new RoutedEventArgs());
                 }
                 catch (Exception ex)
                 {

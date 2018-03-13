@@ -16,6 +16,7 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -67,18 +68,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
                 foreach (var option in propertyDesc.Options)
                 {
-                    // Label
-                    var label = new TextBlock
-                    {
-                        Text = option.Label + ":",
-                        Foreground = new SolidColorBrush(Colors.Black)
-                    };
-                    RootPanel.Children.Add(label);
-
                     // Control
-                    Control controlToAdd;
-                    DependencyProperty dependencyProperty;
+                    Control controlToAdd = null;
+                    DependencyProperty dependencyProperty = null;
                     IValueConverter converter = null;
+                    UpdateSourceTrigger updateSourceTrigger = UpdateSourceTrigger.Default;
 
                     IDictionary<string, object> propertyDict = propertyDesc.Expando;
 
@@ -109,6 +103,62 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             dependencyProperty = RangeBase.ValueProperty;
 
                             break;
+
+                        case PropertyKind.RangeSelectorMin:
+                        case PropertyKind.RangeSelectorMax:
+
+                            RangeSelector rangeSelector;
+
+                            var rangeSelectorOption = option as RangeSelectorPropertyOptions;
+                            if (rangeSelectorOption != null)
+                            {
+                                rangeSelector = (RangeSelector)RootPanel.Children.FirstOrDefault(c => c is RangeSelector rs && rangeSelectorOption.Id.Equals(rs.Tag));
+                                if (rangeSelector == null)
+                                {
+                                    rangeSelector = new RangeSelector
+                                    {
+                                        StepFrequency = 1,
+                                        Tag = rangeSelectorOption.Id,
+                                    };
+                                }
+                                else
+                                {
+                                    var indexOfRangeSelector = RootPanel.Children.IndexOf(rangeSelector);
+                                    if (indexOfRangeSelector > 0 && RootPanel.Children.ElementAt(indexOfRangeSelector - 1) is TextBlock rangeSelectorLabel)
+                                    {
+                                        string text = rangeSelectorLabel.Text;
+                                        rangeSelectorLabel.Text = $"{text.Substring(0, text.Length - 1)} - {option.Label}:";
+                                    }
+                                }
+
+                                if (option.Kind == PropertyKind.RangeSelectorMin)
+                                {
+                                    rangeSelector.RangeMin = rangeSelectorOption.MinOrMaxValue;
+                                    dependencyProperty = RangeSelector.RangeMinProperty;
+                                }
+                                else
+                                {
+                                    rangeSelector.RangeMax = rangeSelectorOption.MinOrMaxValue;
+                                    dependencyProperty = RangeSelector.RangeMaxProperty;
+                                }
+
+                                if ((propertyDict[option.Name] as ValueHolder).Value is double valueMaxOrMin)
+                                {
+                                    if (option.Kind == PropertyKind.RangeSelectorMin)
+                                    {
+                                        rangeSelector.Minimum = valueMaxOrMin;
+                                    }
+                                    else
+                                    {
+                                        rangeSelector.Maximum = valueMaxOrMin;
+                                    }
+                                }
+
+                                controlToAdd = rangeSelector;
+                            }
+
+                            break;
+
                         case PropertyKind.Enum:
                             var enumType = option.DefaultValue.GetType();
                             var comboBox = new ComboBox
@@ -178,32 +228,50 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             controlToAdd = thicknessTextBox;
                             dependencyProperty = TextBox.TextProperty;
                             converter = new ThicknessConverter();
+
+                            // Make Thickness textboxes instantly respond to text rather than waiting for lost focus.
+                            updateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                             break;
                         default:
                             var textBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
+                            var textBoxOption = option as StringPropertyOptions;
+                            if (textBoxOption != null)
+                            {
+                                updateSourceTrigger = textBoxOption.UpdateSourceTrigger;
+                            }
 
                             controlToAdd = textBox;
                             dependencyProperty = TextBox.TextProperty;
                             break;
                     }
 
-                    var binding = new Binding
+                    if (dependencyProperty != null)
                     {
-                        Source = propertyDesc.Expando,
-                        Path = new PropertyPath(option.Name + ".Value"),
-                        Mode = BindingMode.TwoWay,
-                        Converter = converter
-                    };
+                        var binding = new Binding
+                        {
+                            Source = propertyDesc.Expando,
+                            Path = new PropertyPath(option.Name + ".Value"),
+                            Mode = BindingMode.TwoWay,
+                            Converter = converter,
+                            UpdateSourceTrigger = updateSourceTrigger
+                        };
 
-                    // Make textboxes instantly respond to text rather than waiting for lost focus.
-                    if (controlToAdd is TextBox)
-                    {
-                        binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                        controlToAdd.SetBinding(dependencyProperty, binding);
                     }
 
-                    controlToAdd.SetBinding(dependencyProperty, binding);
-                    controlToAdd.Margin = new Thickness(0, 5, 0, 20);
-                    RootPanel.Children.Add(controlToAdd);
+                    if (RootPanel.Children.Contains(controlToAdd) == false)
+                    {
+                        // Label
+                        var label = new TextBlock
+                        {
+                            Text = option.Label + ":",
+                            Foreground = new SolidColorBrush(Colors.Black)
+                        };
+                        RootPanel.Children.Add(label);
+
+                        controlToAdd.Margin = new Thickness(0, 5, 0, 20);
+                        RootPanel.Children.Add(controlToAdd);
+                    }
                 }
             }
         }
