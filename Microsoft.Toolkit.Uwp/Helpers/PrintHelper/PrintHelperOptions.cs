@@ -21,9 +21,9 @@ using Windows.Graphics.Printing;
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
-    /// Public class to store settings applyable to a print task
+    /// Public class to store settings applicable to a print task
     /// </summary>
-    public class PrintHelperOptions : IPrintTaskOptionsCoreProperties
+    public class PrintHelperOptions
     {
         /// <summary>
         /// Gets or sets the bordering option for the print task.
@@ -79,21 +79,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Gets or sets the orientation option for the print task.
         /// </summary>
         public PrintOrientation Orientation { get; set; }
-
-        /// <summary>
-        /// Gets or sets the value for the number of copies for the print task.
-        /// </summary>
-        public uint NumberOfCopies { get; set; }
-
-        /// <summary>
-        /// Gets the minimum number of copies allowed for the print task.
-        /// </summary>
-        public uint MinCopies { get; }
-
-        /// <summary>
-        /// Gets the maximum number of copies supported for the print task.
-        /// </summary>
-        public uint MaxCopies { get; }
 
         /// <summary>
         /// Gets the options that will be displayed in the printing dialog
@@ -170,7 +155,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private void InitializeDefaultOptions()
         {
-            NumberOfCopies = 0;
             Bordering = PrintBordering.Default;
             MediaSize = PrintMediaSize.Default;
             MediaType = PrintMediaType.Default;
