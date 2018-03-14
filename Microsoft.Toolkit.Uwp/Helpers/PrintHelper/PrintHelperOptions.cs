@@ -167,5 +167,21 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                                                                       .Where(p => p.PropertyType == typeof(string))
                                                                       .Select(p => (string)p.GetValue(null));
         }
+
+        private void InitializeDefaultOptions()
+        {
+            NumberOfCopies = 0;
+            Bordering = PrintBordering.Default;
+            MediaSize = PrintMediaSize.Default;
+            MediaType = PrintMediaType.Default;
+            HolePunch = PrintHolePunch.Default;
+            Binding = PrintBinding.Default;
+            Duplex = PrintDuplex.Default;
+            ColorMode = PrintColorMode.Default;
+            Collation = PrintCollation.Default;
+            PrintQuality = PrintQuality.Default;
+            Staple = PrintStaple.Default;
+            Orientation = PrintOrientation.Default;
+        }
     }
 }
