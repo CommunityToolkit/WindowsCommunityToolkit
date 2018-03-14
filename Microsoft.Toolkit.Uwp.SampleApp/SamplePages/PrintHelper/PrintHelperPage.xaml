@@ -19,6 +19,8 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid x:Name="Container"
                   Grid.RowSpan="2"
@@ -64,6 +66,12 @@
                         HorizontalAlignment="Center"
                         Orientation="Horizontal">
                 <CheckBox Margin="10,0,0,0" Name="ShowOrientationCheckBox">Show orientation in print dialog</CheckBox>
+            </StackPanel>
+            <StackPanel Grid.Row="4"
+                        Margin="20"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center">Default orientation setting</TextBlock>
                 <ComboBox Margin="10,0,0,0" Name="DefaultOrientationComboBox">
                 </ComboBox>
             </StackPanel>
