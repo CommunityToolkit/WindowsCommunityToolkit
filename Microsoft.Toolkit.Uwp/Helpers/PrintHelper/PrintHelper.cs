@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Printing;
@@ -93,6 +94,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private List<FrameworkElement> _elementsToPrint;
 
         /// <summary>
+        /// Gets the options for the print dialog
+        /// </summary>
+        private PrintHelperOptions _printHelperOptions;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PrintHelper"/> class.
         /// </summary>
         /// <param name="canvasContainer">XAML panel used to attach printing canvas. Can be hidden in your UI with Opacity = 0 for instance</param>
@@ -165,6 +171,20 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
+        /// Start the print task.
+        /// </summary>
+        /// <param name="printTaskName">Name of the print task to use</param>
+        /// <param name="printHelperOptions">Settings for the print task</param>
+        /// <param name="directPrint">Directly print the content of the container instead of relying on list built with AddFrameworkElementToPrint method</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation</returns>
+        public Task ShowPrintUIAsync(string printTaskName, PrintHelperOptions printHelperOptions, bool directPrint = false)
+        {
+            _printHelperOptions = printHelperOptions;
+
+            return ShowPrintUIAsync(printTaskName, directPrint);
+        }
+
+        /// <summary>
         /// Release associated resources
         /// </summary>
         public void Dispose()
@@ -221,6 +241,23 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             PrintTask printTask = null;
             printTask = e.Request.CreatePrintTask(_printTaskName, sourceRequested =>
             {
+                if (_printHelperOptions != null)
+                {
+                    IEnumerable<string> displayedOptionsToAdd = _printHelperOptions.DisplayedOptions;
+                    if (!_printHelperOptions.ExtendDisplayedOptions)
+                    {
+                        printTask.Options.DisplayedOptions.Clear();
+                    }
+                    else
+                    {
+                        displayedOptionsToAdd = displayedOptionsToAdd.Where(option => !printTask.Options.DisplayedOptions.Contains(option));
+                    }
+                    foreach (var displayedOption in displayedOptionsToAdd)
+                    {
+                        printTask.Options.DisplayedOptions.Add(displayedOption);
+                    }
+                }
+
                 // Print Task event handler is invoked when the print job is completed.
                 printTask.Completed += async (s, args) =>
                 {
