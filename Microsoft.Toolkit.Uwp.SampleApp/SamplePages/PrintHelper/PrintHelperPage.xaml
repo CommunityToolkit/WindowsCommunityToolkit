@@ -59,6 +59,14 @@
                         Content="Direct Print Me!" />
             </StackPanel>
             <TextBlock Grid.Row="2" HorizontalAlignment="Center">Direct Print will print the content without removing it from the visual tree (in place).</TextBlock>
+            <StackPanel Grid.Row="3"
+                        Margin="20"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <CheckBox Margin="10,0,0,0" Name="ShowOrientationCheckBox">Show orientation in print dialog</CheckBox>
+                <ComboBox Margin="10,0,0,0" Name="DefaultOrientationComboBox">
+                </ComboBox>
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>
