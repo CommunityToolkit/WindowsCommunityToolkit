@@ -99,10 +99,16 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private PrintHelperOptions _printHelperOptions;
 
         /// <summary>
+        /// Gets the default options for the print dialog
+        /// </summary>
+        private PrintHelperOptions _defaultPrintHelperOptions;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PrintHelper"/> class.
         /// </summary>
         /// <param name="canvasContainer">XAML panel used to attach printing canvas. Can be hidden in your UI with Opacity = 0 for instance</param>
-        public PrintHelper(Panel canvasContainer)
+        /// /// <param name="defaultPrintHelperOptions">Default settings for the print tasks</param>
+        public PrintHelper(Panel canvasContainer, PrintHelperOptions defaultPrintHelperOptions = null)
         {
             if (canvasContainer == null)
             {
@@ -116,6 +122,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             _canvasContainer = canvasContainer;
 
             _elementsToPrint = new List<FrameworkElement>();
+
+            _defaultPrintHelperOptions = defaultPrintHelperOptions ?? new PrintHelperOptions();
 
             RegisterForPrinting();
         }
@@ -241,22 +249,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             PrintTask printTask = null;
             printTask = e.Request.CreatePrintTask(_printTaskName, sourceRequested =>
             {
-                if (_printHelperOptions != null)
-                {
-                    IEnumerable<string> displayedOptionsToAdd = _printHelperOptions.DisplayedOptions;
-                    if (!_printHelperOptions.ExtendDisplayedOptions)
-                    {
-                        printTask.Options.DisplayedOptions.Clear();
-                    }
-                    else
-                    {
-                        displayedOptionsToAdd = displayedOptionsToAdd.Where(option => !printTask.Options.DisplayedOptions.Contains(option));
-                    }
-                    foreach (var displayedOption in displayedOptionsToAdd)
-                    {
-                        printTask.Options.DisplayedOptions.Add(displayedOption);
-                    }
-                }
+                ApplyPrintSettings(printTask);
 
                 // Print Task event handler is invoked when the print job is completed.
                 printTask.Completed += async (s, args) =>
@@ -295,6 +288,40 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
                 sourceRequested.SetSource(_printDocumentSource);
             });
+        }
+
+        private void ApplyPrintSettings(PrintTask printTask)
+        {
+            _printHelperOptions = _printHelperOptions ?? _defaultPrintHelperOptions;
+
+            IEnumerable<string> displayedOptionsToAdd = _printHelperOptions.DisplayedOptions;
+
+            if (!_printHelperOptions.ExtendDisplayedOptions)
+            {
+                printTask.Options.DisplayedOptions.Clear();
+            }
+
+            foreach (var displayedOption in displayedOptionsToAdd)
+            {
+                if (!printTask.Options.DisplayedOptions.Contains(displayedOption))
+                {
+                    printTask.Options.DisplayedOptions.Add(displayedOption);
+                }
+            }
+
+            printTask.Options.Binding = _printHelperOptions.Binding == PrintBinding.Default ? printTask.Options.Binding : _printHelperOptions.Binding;
+            printTask.Options.Bordering = _printHelperOptions.Bordering == PrintBordering.Default ? printTask.Options.Bordering : _printHelperOptions.Bordering;
+            printTask.Options.MediaType = _printHelperOptions.MediaType == PrintMediaType.Default ? printTask.Options.MediaType : _printHelperOptions.MediaType;
+            printTask.Options.MediaSize = _printHelperOptions.MediaSize == PrintMediaSize.Default ? printTask.Options.MediaSize : _printHelperOptions.MediaSize;
+            printTask.Options.HolePunch = _printHelperOptions.HolePunch == PrintHolePunch.Default ? printTask.Options.HolePunch : _printHelperOptions.HolePunch;
+            printTask.Options.Duplex = _printHelperOptions.Duplex == PrintDuplex.Default ? printTask.Options.Duplex : _printHelperOptions.Duplex;
+            printTask.Options.ColorMode = _printHelperOptions.ColorMode == PrintColorMode.Default ? printTask.Options.ColorMode : _printHelperOptions.ColorMode;
+            printTask.Options.Collation = _printHelperOptions.Collation == PrintCollation.Default ? printTask.Options.Collation : _printHelperOptions.Collation;
+            printTask.Options.PrintQuality = _printHelperOptions.PrintQuality == PrintQuality.Default ? printTask.Options.PrintQuality : _printHelperOptions.PrintQuality;
+            printTask.Options.Staple = _printHelperOptions.Staple == PrintStaple.Default ? printTask.Options.Staple : _printHelperOptions.Staple;
+            printTask.Options.Orientation = _printHelperOptions.Orientation == PrintOrientation.Default ? printTask.Options.Orientation : _printHelperOptions.Orientation;
+
+            _printHelperOptions = null;
         }
 
         /// <summary>
