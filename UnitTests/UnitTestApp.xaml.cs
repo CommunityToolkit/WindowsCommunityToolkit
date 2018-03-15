@@ -72,7 +72,7 @@ namespace UnitTests
             }
 
             Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.CreateDefaultUI();
-
+            
             // Ensure the current window is active
             Window.Current.Activate();
 

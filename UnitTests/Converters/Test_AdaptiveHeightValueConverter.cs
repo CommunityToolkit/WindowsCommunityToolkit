@@ -11,15 +11,10 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Converters;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using System.Linq;
-using Windows.UI;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
-using UITestMethod = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppContainer.UITestMethodAttribute;
 
 namespace UnitTests.Converters
 {
@@ -44,7 +39,6 @@ namespace UnitTests.Converters
             var result = converter.Convert(value, null, null, null);
             Assert.AreEqual(result, value);
         }
-
 
         [TestCategory("Converters")]
         [TestMethod]

@@ -16,10 +16,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppContainer;
-
-using Assert = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.Assert;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 
 namespace UnitTests.UI
 {
@@ -96,7 +94,6 @@ namespace UnitTests.UI
             Assert.AreEqual("sit", a[0]);
             Assert.AreEqual("how", a[1]);
             Assert.AreEqual("amet", a[2]);
-
         }
 
         [TestCategory("AdvancedCollectionView")]
@@ -129,7 +126,6 @@ namespace UnitTests.UI
             Assert.AreEqual("ipsum", a[1]);
             Assert.AreEqual("dolor", a[2]);
             Assert.AreEqual("ipsum", a[3]);
-
         }
 
         [TestCategory("AdvancedCollectionView")]
@@ -162,7 +158,6 @@ namespace UnitTests.UI
             Assert.AreEqual("ipsum", a[1]);
             Assert.AreEqual("dolor", a[2]);
             Assert.AreEqual("ipsum", a[3]);
-
         }
 
         [TestCategory("AdvancedCollectionView")]
@@ -191,7 +186,6 @@ namespace UnitTests.UI
             Assert.AreEqual(2, a.Count);
             Assert.AreEqual(a[0], "how");
             Assert.AreEqual(a[1], "amet");
-
         }
 
         [TestCategory("AdvancedCollectionView")]

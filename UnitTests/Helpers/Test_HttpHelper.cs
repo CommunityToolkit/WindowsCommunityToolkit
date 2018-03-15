@@ -13,7 +13,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Helpers
 {

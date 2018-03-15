@@ -12,11 +12,7 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.Notifications;
-#if WINDOWS_UWP
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 
 namespace UnitTests.Notifications
 {
