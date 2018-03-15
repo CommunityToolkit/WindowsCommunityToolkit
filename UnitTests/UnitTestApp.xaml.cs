@@ -23,7 +23,7 @@ namespace UnitTests
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    internal sealed partial class App : Application
+    public partial class App : Application
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.
