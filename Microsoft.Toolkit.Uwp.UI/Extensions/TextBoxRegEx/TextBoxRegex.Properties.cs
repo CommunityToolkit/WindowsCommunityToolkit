@@ -20,9 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// </summary>
     /// <remarks>
     /// If <see cref="ValidationMode"> is set to Normal then IsValid will be set according to whether the regex is valid.</see>
-    /// If <see cref="ValidationMode"> is set to Forced, the input will be validated if the TextBox loses focus, if it is invalid, the TextBox text will be deleted.</see>
-    /// If <see cref="ValidationMode"> is set to Instantly, the input will be validated immediately, if it is invalid, the text of the TextBox will be deleted.</see>
-    /// If <see cref="ValidationMode"> is set to Dynamic, the input will be validated immediately, if it is invalid, the newest character at input of the Textbox will be deleted.</see>
+    /// If <see cref="ValidationMode"> is set to Dynamic, the input will be validated at text changed. If the newest charachter is invalid, only invalid character of the Textbox will be deleted.</see>
     /// </remarks>
     public partial class TextBoxRegex
     {

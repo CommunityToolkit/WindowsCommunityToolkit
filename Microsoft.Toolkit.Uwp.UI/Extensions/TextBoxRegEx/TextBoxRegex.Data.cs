@@ -17,8 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// </summary>
     /// <remarks>
     /// If <see cref="ValidationMode"> is set to Normal then IsValid will be set according to whether the regex is valid.</see>
-    /// If <see cref="ValidationMode"> is set to Forced, the input will be validated if the TextBox loses focus.</see>
-    /// If <see cref="ValidationMode"> is set to Dynamic, the input will be validated immediately, if it is invalid, the newest character at input of the Textbox will be deleted.</see>
+    /// If <see cref="ValidationMode"> is set to Dynamic, the input will be validated at text changed. If the newest charachter is invalid, only invalid character of the Textbox will be deleted.</see>
     /// </remarks>
     public partial class TextBoxRegex
     {
@@ -28,12 +27,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public enum ValidationMode
         {
             /// <summary>
-            /// Update IsValid property with validation result
+            /// Update IsValid property with validation result at text changed
             /// </summary>
             Normal,
 
             /// <summary>
-            /// Update IsValid property instantly with validation result and clear the newest character at input which is not valid
+            /// Update IsValid property with validation result at text changed and clear the newest character at input which is not valid
             /// </summary>
             Dynamic
         }
