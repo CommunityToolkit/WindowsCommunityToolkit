@@ -58,6 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
+            ViewStateChanged += ToggleMasterListVisibility;
         }
 
         /// <summary>
@@ -309,6 +310,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (before != after)
             {
                 ViewStateChanged?.Invoke(this, after);
+            }
+        }
+
+        private void ToggleMasterListVisibility(object sender, MasterDetailsViewState viewState)
+        {
+            var masterList = this.FindDescendantByName("MasterList") as ListView;
+
+            if (masterList == null)
+            {
+                return;
+            }
+
+            if (viewState == MasterDetailsViewState.Details)
+            {
+                masterList.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                masterList.Visibility = Visibility.Visible;
             }
         }
 
