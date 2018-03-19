@@ -1,0 +1,5 @@
+// Implicit Implementation
+Interaction.GetBehaviors(MyListView).Add(new FadeHeaderBehavior());
+
+// Explicit Implementation
+Interaction.GetBehaviors(MyListView).Add(new FadeHeaderBehavior { HeaderElement = MyHeaderGrid });

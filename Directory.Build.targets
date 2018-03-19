@@ -1,0 +1,26 @@
+<Project>
+
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native'">
+      <!-- UAP versions for uap10.0 where TPMV isn't implied -->
+      <PropertyGroup>
+        <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
+        <TargetPlatformMinVersion>10.0.$(DefaultTargetPlatformMinVersion).0</TargetPlatformMinVersion>
+        <DebugType>Full</DebugType>
+      </PropertyGroup>
+
+      <ItemGroup>
+        <PackageReference Condition="'$(UseUwpMetaPackage)' == 'true'" Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="$(UwpMetaPackageVersion)" />
+
+        <SDKReference Condition="'$(UseWindowsDesktopSdk)' == 'true' " Include="WindowsDesktop, Version=$(TargetPlatformVersion)">
+          <Name>Windows Desktop Extensions for the UWP</Name>
+        </SDKReference>
+        <SDKReference Condition="'$(UseWindowsMobileSdk)' == 'true' " Include="WindowsMobile, Version=$(TargetPlatformVersion)">
+          <Name>Windows Mobile Extensions for the UWP</Name>
+        </SDKReference>
+      </ItemGroup>
+
+    </When>
+  </Choose>
+
+</Project>

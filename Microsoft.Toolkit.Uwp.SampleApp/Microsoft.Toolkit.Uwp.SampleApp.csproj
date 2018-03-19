@@ -1,0 +1,1313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{719C43C6-8753-4395-ADAA-2FCC70F76BF3}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Toolkit.Uwp.SampleApp</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Uwp.SampleApp</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PackageCertificateKeyFile>Microsoft.Toolkit.Uwp.SampleApp_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>7A086872CBF1D8A795A97B9559A3C88B3550527E</PackageCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <DocumentationFile>
+    </DocumentationFile>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>
+    </DocumentationFile>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>
+    </DocumentationFile>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>
+    </DocumentationFile>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="HockeySDK.UWP">
+      <Version>4.1.6</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>5.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="Monaco.Editor">
+      <Version>0.5.0-alpha</Version>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers">
+      <Version>1.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Graph">
+      <Version>1.6.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
+      <Version>1.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="NotificationsVisualizerLibrary">
+      <Version>1.0.5</Version>
+    </PackageReference>
+    <PackageReference Include="System.ValueTuple">
+      <Version>4.4.0</Version>
+    </PackageReference>
+    <PackageReference Include="UWP.SDKforGoogleAnalytics.Managed">
+      <Version>1.5.2</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="Assets\NotificationAssets\Cloudy-Square.png" />
+    <Content Include="Assets\NotificationAssets\Cloudy.png" />
+    <Content Include="Assets\NotificationAssets\Drizzle-Square.png" />
+    <Content Include="Assets\NotificationAssets\Drizzle.png" />
+    <Content Include="Assets\NotificationAssets\Haze-Square.png" />
+    <Content Include="Assets\NotificationAssets\Haze.png" />
+    <Content Include="Assets\NotificationAssets\Mostly Cloudy-Background.jpg" />
+    <Content Include="Assets\NotificationAssets\Mostly Cloudy-Square.png" />
+    <Content Include="Assets\NotificationAssets\Mostly Cloudy.png" />
+    <Content Include="Assets\NotificationAssets\Slight Drizzle-Square.png" />
+    <Content Include="Assets\NotificationAssets\Slight Drizzle.png" />
+    <Content Include="Assets\NotificationAssets\Snow-Square.png" />
+    <Content Include="Assets\NotificationAssets\Snow.png" />
+    <Content Include="Assets\NotificationAssets\Sunny-Square.png" />
+    <Content Include="Assets\NotificationAssets\Sunny.png" />
+    <Content Include="Assets\NotificationAssets\Thunderstorms-Square.png" />
+    <Content Include="Assets\NotificationAssets\Thunderstorms.png" />
+    <Content Include="Assets\People\dave.png" />
+    <Content Include="Assets\People\david.png" />
+    <Content Include="Assets\People\giorgio.png" />
+    <Content Include="Assets\People\jeff.png" />
+    <Content Include="Assets\People\nikola.png" />
+    <Content Include="Assets\People\pete.png" />
+    <Content Include="Assets\People\petri.png" />
+    <Content Include="Assets\People\shen.png" />
+    <Content Include="Assets\People\vlad.png" />
+    <Content Include="Assets\Photos\BigFourSummerHeat.jpg" />
+    <Content Include="Assets\Photos\BisonBadlandsChillin.jpg" />
+    <Content Include="Assets\Photos\ColumbiaRiverGorge.jpg" />
+    <Content Include="Assets\Photos\GiantSlabInOregon.jpg" />
+    <Content Include="Assets\Photos\GrandTetons.jpg" />
+    <Content Include="Assets\Photos\HERO.jpg" />
+    <Content Include="Assets\Photos\ImageExPlaceholder.jpg" />
+    <Content Include="Assets\Photos\LakeAnnMushroom.jpg" />
+    <Content Include="Assets\Photos\LunchBreak.jpg" />
+    <Content Include="Assets\Photos\MilkyWayStHelensHikePurple.jpg" />
+    <Content Include="Assets\Photos\MitchellButtes.jpg" />
+    <Content Include="Assets\Photos\MultnomahFalls.jpg" />
+    <Content Include="Assets\Photos\NorthernCascadesReflection.jpg" />
+    <Content Include="Assets\Photos\NovemberHikeWaterfall.jpg" />
+    <Content Include="Assets\Photos\OregonWineryNamaste.jpg" />
+    <Content Include="Assets\Photos\Owl.jpg" />
+    <Content Include="Assets\Photos\PaintedHillsPathway.jpg" />
+    <Content Include="Assets\Photos\RunningDogPacificCity.jpg" />
+    <Content Include="Assets\Photos\ShootingOnAutoOnTheDrone.jpg" />
+    <Content Include="Assets\Photos\SmithnRockDownTheRiverView.jpg" />
+    <Content Include="Assets\Photos\SnowyInterbayt.jpg" />
+    <Content Include="Assets\Photos\SpeedTripleAtristsPoint.jpg" />
+    <Content Include="Assets\Photos\Van.jpg" />
+    <Content Include="Assets\Photos\WestSeattleView.jpg" />
+    <Content Include="Assets\ToolkitLogoTransparent.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.scale-100.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.scale-125.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.scale-150.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.scale-200.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.scale-400.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-16.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-16_altform-unplated.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-20.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-20_altform-unplated.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-24.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-256.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-256_altform-unplated.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-30.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-30_altform-unplated.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-32.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-32_altform-unplated.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-36.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-36_altform-unplated.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-40.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-40_altform-unplated.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-48.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-48_altform-unplated.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-60.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-60_altform-unplated.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-64.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-64_altform-unplated.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-72.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-72_altform-unplated.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-80.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-80_altform-unplated.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-96.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppAppList.targetsize-96_altform-unplated.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppBadgeLogo.scale-100.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppBadgeLogo.scale-125.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppBadgeLogo.scale-150.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppBadgeLogo.scale-200.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppBadgeLogo.scale-400.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppLargeTile.scale-100.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppLargeTile.scale-125.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppLargeTile.scale-150.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppLargeTile.scale-200.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppLargeTile.scale-400.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppMedTile.scale-100.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppMedTile.scale-125.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppMedTile.scale-150.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppMedTile.scale-200.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppMedTile.scale-400.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppSmallTile.scale-100.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppSmallTile.scale-125.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppSmallTile.scale-150.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppSmallTile.scale-200.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppSmallTile.scale-400.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppSplashScreen.scale-100.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppSplashScreen.scale-125.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppSplashScreen.scale-150.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppSplashScreen.scale-200.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppSplashScreen.scale-400.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-100.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-125.png" />
+    <Content Include="Assets\ToolkitLogo.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-150.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-200.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppStoreLogo.scale-400.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppWideTile.scale-100.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppWideTile.scale-125.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppWideTile.scale-150.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppWideTile.scale-200.png" />
+    <Content Include="Assets\UWPCommunityToolkitSampleAppWideTile.scale-400.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="Icons\Animations.png" />
+    <Content Include="Icons\About.png" />
+    <Content Include="Icons\DeveloperTools.png" />
+    <Content Include="Icons\Error.png" />
+    <Content Include="Icons\Extensions.png" />
+    <Content Include="Icons\Brushes.png" />
+    <Content Include="Icons\Helpers.png" />
+    <Content Include="Icons\Foundation.png" />
+    <Content Include="Icons\Layouts.png" />
+    <Content Include="Icons\More.png" />
+    <Content Include="Icons\Notifications.png" />
+    <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
+    <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
+    <Content Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrush.png" />
+    <Content Include="SamplePages\BackdropInvertBrush\BackdropInvertBrush.png" />
+    <Content Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrush.png" />
+    <Content Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrush.png" />
+    <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelper.png" />
+    <Content Include="SamplePages\Bing Service\icon.png" />
+    <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelper.png" />
+    <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrush.png" />
+    <Content Include="SamplePages\Blur\BlurBehavior.png" />
+    <Content Include="SamplePages\Connected Animations\ConnectedAnimations.png" />
+    <Content Include="SamplePages\DispatcherHelper\DispatchHelper.png" />
+    <Content Include="SamplePages\DockPanel\DockPanel.png" />
+    <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
+    <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
+    <Content Include="SamplePages\Fade\FadeBehavior.png" />
+    <Content Include="SamplePages\FocusTracker\FocusTracker.png" />
+    <Content Include="SamplePages\Analytics\Analytics.png" />
+    <Content Include="SamplePages\Bing Service\BingCode.bind" />
+    <Content Include="SamplePages\BladeView\BladeView.png" />
+    <Content Include="SamplePages\Carousel\Carousel.png" />
+    <Content Include="SamplePages\DropShadowPanel\DropShadowPanel.png" />
+    <Content Include="SamplePages\Expander\Expander.png" />
+    <Content Include="SamplePages\DropShadowPanel\Trex.png" />
+    <Content Include="SamplePages\DropShadowPanel\Unicorn.png" />
+    <Content Include="SamplePages\GridSplitter\GridSplitter.png" />
+    <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
+    <Content Include="SamplePages\AlignmentGrid\AlignmentGrid.png" />
+    <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControl.png" />
+    <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControl.png" />
+    <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlock.png" />
+    <Content Include="SamplePages\ImageBlendBrush\ImageBlendBrush.png" />
+    <Content Include="SamplePages\ImageCache\ImageCache.png" />
+    <Content Include="SamplePages\ImageEx\ImageEx.png" />
+    <Content Include="SamplePages\Implicit Animations\ImplicitAnimations.png" />
+    <Content Include="SamplePages\InAppNotification\InAppNotification.png" />
+    <Content Include="SamplePages\Incremental Loading Collection\icon.png" />
+    <Content Include="SamplePages\Light\LightBehavior.png" />
+    <Content Include="SamplePages\LinkedIn Service\LinkedInLogo.png" />
+    <Content Include="Assets\Helpers.png" />
+    <Content Include="SamplePages\LiveTile\LiveTile.png" />
+    <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.png" />
+    <Content Include="SamplePages\Loading\Loading.png" />
+    <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.png" />
+    <Content Include="SamplePages\MasterDetailsView\OneDriveLogo.png" />
+    <Content Include="SamplePages\Menu\Menu.png" />
+    <Content Include="SamplePages\Microsoft Graph Service\OfficeLogo.png" />
+    <Content Include="SamplePages\Microsoft Graph Service\user.png" />
+    <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
+    <Content Include="SamplePages\NavigationViewStyles\NavigationViewStyles.png" />
+    <Content Include="SamplePages\NetworkHelper\NetworkHelper.png" />
+    <Content Include="SamplePages\Offset\OffsetBehavior.png" />
+    <Content Include="SamplePages\Mouse\MouseCursor.png" />
+    <Content Include="SamplePages\OneDrive Service\OneDriveLogo.png" />
+    <Content Include="SamplePages\ParallaxService\Parallax.png" />
+    <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
+    <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrush.png" />
+    <Content Include="SamplePages\RadialProgressBar\RadialProgressBar.png" />
+    <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.png" />
+    <Content Include="SamplePages\Rotate\RotateBehavior.png" />
+    <Content Include="SamplePages\Saturation\SaturationBehavior.png" />
+    <Content Include="SamplePages\OrbitView\OrbitView.png" />
+    <Content Include="SamplePages\Scale\ScaleBehavior.png" />
+    <Content Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsCode.bind" />
+    <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.png" />
+    <Content Include="SamplePages\SystemInformation\SystemInformation.png" />
+    <Content Include="SamplePages\TextBoxMask\TextBoxMask.png" />
+    <Content Include="SamplePages\TextToolbar\TextToolbar.png" />
+    <Content Include="SamplePages\TileControl\Animations.png" />
+    <Content Include="SamplePages\TileControl\TileControl.png" />
+    <Content Include="SamplePages\PrintHelper\PrintHelper.png" />
+    <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
+    <Content Include="SamplePages\ScrollHeader\ScrollHeader.png" />
+    <Content Include="SamplePages\RangeSelector\RangeSelector.png" />
+    <Content Include="SamplePages\RotatorTile\RotatorTile.png" />
+    <Content Include="SamplePages\SlidableListItem\SlidableListItem.png" />
+    <Content Include="SamplePages\Object Storage\ObjectStorage.png" />
+    <Content Include="SamplePages\SurfaceDialTextbox\SurfaceDialTextbox.png" />
+    <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.png" />
+    <Content Include="SamplePages\Toast\Toast.png" />
+    <Content Include="SamplePages\Twitter Service\TwitterLogo.png" />
+    <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
+    <Content Include="SamplePages\Twitter Service\icon.png" />
+    <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
+    <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.bind" />
+    <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
+    <Content Include="SamplePages\ViewExtensions\ViewExtensions.png" />
+    <Content Include="SamplePages\Visual Extensions\VisualExtensions.png" />
+    <Content Include="SamplePages\WrapPanel\WrapPanel.png" />
+    <Content Include="landingPageLinks.json" />
+    <None Include="Microsoft.Toolkit.Uwp.SampleApp.ruleset" />
+    <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToast.png" />
+    <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCode.bind" />
+    <Content Include="SamplePages\ImageEx\ImageExCode.bind" />
+    <Content Include="SamplePages\Offset\OffsetBehaviorCode.bind" />
+    <Content Include="SamplePages\Fade\FadeBehaviorCode.bind" />
+    <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewCode.bind" />
+    <Content Include="SamplePages\RadialGauge\RadialGaugeCode.bind" />
+    <Content Include="SamplePages\Rotate\RotateBehaviorCode.bind" />
+    <Content Include="SamplePages\Scale\ScaleBehaviorCode.bind" />
+    <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.bind" />
+    <Content Include="Assets\Photos\Photos.json" />
+    <Content Include="Assets\Photos\OnlinePhotos.json" />
+    <Content Include="SamplePages\RangeSelector\RangeSelectorCode.bind" />
+    <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridViewCode.bind" />
+    <Content Include="SamplePages\samples.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="readme.md" />
+    <Content Include="SamplePages\LiveTile\LiveTileCode.bind" />
+    <Content Include="SamplePages\Toast\ToastCode.bind" />
+    <Content Include="SamplePages\RotatorTile\RotatorTileCode.bind" />
+    <Content Include="SamplePages\Saturation\SaturationBehaviorCode.bind" />
+    <Content Include="SamplePages\Saturation\SaturationBehaviorXaml.bind" />
+    <Content Include="SamplePages\Offset\OffsetBehaviorXaml.bind" />
+    <Content Include="SamplePages\Expander\ExpanderXaml.bind" />
+    <Content Include="SamplePages\Fade\FadeBehaviorXaml.bind" />
+    <Content Include="SamplePages\Scale\ScaleBehaviorXaml.bind" />
+    <Content Include="SamplePages\Rotate\RotateBehaviorXaml.bind" />
+    <Content Include="SamplePages\BladeView\BladeCode.bind" />
+    <Content Include="SamplePages\ScrollHeader\ScrollHeaderCode.bind" />
+    <Content Include="SamplePages\GridSplitter\GridSplitter.bind" />
+    <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
+    <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
+    <Content Include="SamplePages\ImageCache\ImageCacheXaml.bind" />
+    <Content Include="SamplePages\LinkedIn Service\LinkedInCode.bind" />
+    <Content Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionCode.bind" />
+    <Content Include="SamplePages\ImageCache\ImageCacheCode.bind" />
+    <Content Include="SamplePages\DropShadowPanel\DropShadowPanelXaml.bind" />
+    <Content Include="SamplePages\LiveTile\LiveTileCodeJavaScript.bind" />
+    <Content Include="SamplePages\Toast\ToastCodeJavaScript.bind" />
+    <Content Include="SamplePages\Object Storage\ObjectStorageCode.bind" />
+    <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
+    <Content Include="SamplePages\Microsoft Graph Service\MicrosoftGraphCode.bind" />
+    <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperCode.bind" />
+    <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.bind" />
+    <Content Include="SamplePages\NetworkHelper\NetworkHelperCode.bind" />
+    <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
+    <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
+    <Content Include="SamplePages\Connected Animations\ConnectedAnimationsCode.bind" />
+    <Content Include="SamplePages\ParallaxService\ParallaxPage.bind" />
+    <Content Include="SamplePages\Loading\LoadingCode.bind" />
+    <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.bind" />
+    <Content Include="SamplePages\Light\LightBehaviorCode.bind" />
+    <Content Include="SamplePages\Light\LightBehaviorXaml.bind" />
+    <Content Include="SamplePages\TextBoxMask\TextBoxMask.bind" />
+    <Content Include="SamplePages\TileControl\TileControl.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SamplePages\SurfaceDialTextbox\SurfaceDialTextboxCode.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SamplePages\WrapPanel\WrapPanel.bind" />
+    <Content Include="SamplePages\MasterDetailsView\MasterDetailsViewCode.bind" />
+    <Content Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorCode.bind" />
+    <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.bind" />
+    <Content Include="SamplePages\MarkdownTextBlock\InitialContent.md" />
+    <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.bind" />
+    <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.bind" />
+    <Content Include="SamplePages\RadialProgressBar\RadialProgressBarCode.bind" />
+    <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockCode.bind" />
+    <Content Include="SamplePages\OneDrive Service\OneDriveCode.bind" />
+    <Content Include="SamplePages\Analytics\AnalyticsCode.bind" />
+    <Content Include="SamplePages\Blur\BlurBehaviorCode.bind" />
+    <Content Include="SamplePages\Blur\BlurBehaviorXaml.bind" />
+    <Content Include="SamplePages\ViewExtensions\ViewExtensionsCode.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SamplePages\Carousel\CarouselCode.bind" />
+    <Content Include="SamplePages\AlignmentGrid\AlignmentGridXaml.bind" />
+    <Content Include="SamplePages\FocusTracker\FocusTrackerXaml.bind" />
+    <Content Include="SamplePages\Visual Extensions\VisualExtensionsCode.bind" />
+    <Content Include="SamplePages\TextToolbar\TextToolbarCode.bind" />
+    <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperCode.bind" />
+    <Content Include="SamplePages\OrbitView\OrbitViewXaml.bind" />
+    <Content Include="SamplePages\Menu\Menu.bind" />
+    <Content Include="SamplePages\InAppNotification\InAppNotificationCode.bind" />
+    <Content Include="SamplePages\InAppNotification\InAppNotificationXaml.bind" />
+    <Content Include="SamplePages\ListViewExtensions\ListViewExtensionsCode.bind" />
+    <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewXaml.bind" />
+    <Content Include="SamplePages\Implicit Animations\ImplicitAnimationsCode.bind" />
+    <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
+    <Content Include="SamplePages\TextToolbar\TextToolbar.bind" />
+    <Content Include="SamplePages\DockPanel\DockPanel.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlXaml.bind" />
+    <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControlXaml.bind" />
+    <Content Include="SamplePages\Mouse\MouseCursorPage.bind" />
+    <Content Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsCode.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.bind" />
+    <Content Include="SamplePages\NavigationViewStyles\NavigationViewStylesXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushXaml.bind" />
+    <Content Include="SamplePages\BackdropInvertBrush\BackdropInvertBrushXaml.bind" />
+    <Content Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrushXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrushXaml.bind" />
+    <Content Include="SamplePages\ImageBlendBrush\ImageBlendBrushXaml.bind" />
+    <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrushXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\DoubleTopThicknessConverter.cs" />
+    <Compile Include="Common\ThicknessConverter.cs" />
+    <Compile Include="Common\XAMLHelper.cs" />
+    <Compile Include="Common\AnalyticsVersionInfoExtensions.cs" />
+    <Compile Include="Common\BoolStringConverter.cs" />
+    <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\DelegateCommand{T}.cs" />
+    <Compile Include="Common\TimeSpanConverter.cs" />
+    <Compile Include="Common\EnumConverter.cs" />
+    <Compile Include="Common\ListViewHoverScroll.cs" />
+    <Compile Include="Common\SampleCommand.cs" />
+    <Compile Include="Common\SolidColorBrushConverter.cs" />
+    <Compile Include="Common\DelegateCommand.cs" />
+    <Compile Include="Common\Tools.cs" />
+    <Compile Include="Controls\ExtendedHamburgerMenu.cs" />
+    <Compile Include="Controls\SampleAppMarkdownRenderer.cs" />
+    <Compile Include="Data\GitHub.cs" />
+    <Compile Include="Controls\XamlExceptionRange.cs" />
+    <Compile Include="Controls\XamlRenderService.cs" />
+    <Compile Include="Data\PhotoDataItemWithDimension.cs" />
+    <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\GitHubRelease.cs" />
+    <Compile Include="Models\LandingPageLinks.cs" />
+    <Compile Include="Models\LandingPageResource.cs" />
+    <Compile Include="Models\LandingPageLink.cs" />
+    <Compile Include="Models\PropertyDescriptor\ThicknessPropertyOptions.cs" />
+    <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
+      <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushPage.xaml.cs">
+      <DependentUpon>BackdropGammaTransferBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackdropInvertBrush\BackdropInvertBrushPage.xaml.cs">
+      <DependentUpon>BackdropInvertBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrushPage.xaml.cs">
+      <DependentUpon>BackdropSaturationBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrushPage.xaml.cs">
+      <DependentUpon>BackdropSepiaBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperPage.xaml.cs">
+      <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\IXamlRenderListener.cs" />
+    <Compile Include="SamplePages\Connected Animations\ConnectedAnimationsPage.xaml.cs">
+      <DependentUpon>ConnectedAnimationsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Connected Animations\Pages\FirstPage.xaml.cs">
+      <DependentUpon>FirstPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Connected Animations\Pages\SecondPage.xaml.cs">
+      <DependentUpon>SecondPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Connected Animations\Pages\ThirdPage.xaml.cs">
+      <DependentUpon>ThirdPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushPage.xaml.cs">
+      <DependentUpon>BackdropBlurBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsPage.xaml.cs" />
+    <Compile Include="SamplePages\ImageBlendBrush\ImageBlendBrushPage.xaml.cs">
+      <DependentUpon>ImageBlendBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Implicit Animations\ImplicitAnimationsPage.xaml.cs">
+      <DependentUpon>ImplicitAnimationsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\DockPanel\DockPanelPage.xaml.cs">
+      <DependentUpon>DockPanelPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\HeaderedContentControl\HeaderedContentControlPage.xaml.cs">
+      <DependentUpon>HeaderedContentControlPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlPage.xaml.cs">
+      <DependentUpon>HeaderedItemsControlPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\InAppNotification\InAppNotificationPage.xaml.cs">
+      <DependentUpon>InAppNotificationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ListViewExtensions\ListViewExtensionsPage.xaml.cs">
+      <DependentUpon>ListViewExtensionsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\MarkdownParser\MarkdownParserPage.xaml.cs">
+      <DependentUpon>MarkdownParserPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Menu\Commands\VsCommands.cs" />
+    <Compile Include="SamplePages\Menu\MenuPage.xaml.cs">
+      <DependentUpon>MenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Mouse\MouseCursorPage.xaml.cs">
+      <DependentUpon>MouseCursorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\NavigationViewStyles\NavigationViewStylesPage.xaml.cs">
+      <DependentUpon>NavigationViewStylesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml.cs">
+      <DependentUpon>NetworkHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\FocusTracker\FocusTrackerPage.xaml.cs">
+      <DependentUpon>FocusTrackerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
+    <Compile Include="SamplePages\RssParser\RssParserPage.xaml.cs">
+      <DependentUpon>RssParserPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\RadialGradientBrush\RadialGradientBrushPage.xaml.cs">
+      <DependentUpon>RadialGradientBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsPage.xaml.cs">
+      <DependentUpon>ScrollViewerExtensionsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml.cs">
+      <DependentUpon>StaggeredPanelPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\StringExtensions\StringExtensionsPage.xaml.cs">
+      <DependentUpon>StringExtensionsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\TextToolbar\SampleFormatter.cs" />
+    <Compile Include="SamplePages\TextToolbar\TextToolbarPage.xaml.cs">
+      <DependentUpon>TextToolbarPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\OrbitView\OrbitViewPage.xaml.cs">
+      <DependentUpon>OrbitViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ThemeListener\ThemeListenerPage.xaml.cs">
+      <DependentUpon>ThemeListenerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ViewExtensions\ViewExtensionsPage.xaml.cs">
+      <DependentUpon>ViewExtensionsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Carousel\CarouselPage.xaml.cs">
+      <DependentUpon>CarouselPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml.cs">
+      <DependentUpon>BackgroundTaskHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\DispatcherHelper\DispatcherHelperPage.xaml.cs">
+      <DependentUpon>DispatcherHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\DropShadowPanel\DropShadowPanelPage.xaml.cs">
+      <DependentUpon>DropShadowPanelPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Expander\ExpanderPage.xaml.cs">
+      <DependentUpon>ExpanderPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Facebook Service\FacebookPhotoTemplateSelector.cs" />
+    <Compile Include="Controls\CodeRenderer.cs" />
+    <Compile Include="Controls\PropertyControl.xaml.cs">
+      <DependentUpon>PropertyControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PhotoDataItem.cs" />
+    <Compile Include="Data\PhotosDataSource.cs" />
+    <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\PropertyDescriptor\SliderPropertyOptions.cs" />
+    <Compile Include="Models\PropertyDescriptor\ValueHolder.cs" />
+    <Compile Include="Models\PropertyDescriptor\PropertyOptions.cs" />
+    <Compile Include="Models\PropertyDescriptor\PropertyKind.cs" />
+    <Compile Include="Models\PropertyDescriptor\PropertyDescriptor.cs" />
+    <Compile Include="Common\BindableBase.cs" />
+    <Compile Include="SamplePages\Bing Service\BingPage.xaml.cs">
+      <DependentUpon>BingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\BladeView\BladePage.xaml.cs">
+      <DependentUpon>BladePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Blur\BlurBehaviorPage.xaml.cs">
+      <DependentUpon>BlurBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\AlignmentGrid\AlignmentGridPage.xaml.cs">
+      <DependentUpon>AlignmentGridPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockPage.xaml.cs">
+      <DependentUpon>MarkdownTextBlockPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml.cs">
+      <DependentUpon>MicrosoftTranslatorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\OneDrive Service\OneDriveDataTemplateSelector.cs" />
+    <Compile Include="SamplePages\OneDrive Service\FoldersPickerControl.xaml.cs">
+      <DependentUpon>FoldersPickerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\OneDrive Service\OneDrivePage.xaml.cs">
+      <DependentUpon>OneDrivePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\OneDrive Service\OneDriveSampleHelpers.cs" />
+    <Compile Include="SamplePages\Analytics\AnalyticsPage.xaml.cs">
+      <DependentUpon>AnalyticsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Saturation\SaturationBehaviorPage.xaml.cs">
+      <DependentUpon>SaturationBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\TileControl\TileControlPage.xaml.cs">
+      <DependentUpon>TileControlPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\RadialProgressBar\RadialProgressBarPage.xaml.cs">
+      <DependentUpon>RadialProgressBarPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ScrollHeader\ScrollHeaderPage.xaml.cs">
+      <DependentUpon>ScrollHeaderPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\GridSplitter\GridSplitterPage.xaml.cs">
+      <DependentUpon>GridSplitterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\FadeHeader\FadeHeaderBehaviorPage.xaml.cs">
+      <DependentUpon>FadeHeaderBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionPage.xaml.cs">
+      <DependentUpon>IncrementalLoadingCollectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Incremental Loading Collection\PeopleSource.cs" />
+    <Compile Include="SamplePages\Incremental Loading Collection\Person.cs" />
+    <Compile Include="SamplePages\Light\LightBehaviorPage.xaml.cs">
+      <DependentUpon>LightBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\LinkedIn Service\LinkedInPage.xaml.cs">
+      <DependentUpon>LinkedInPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Loading\LoadingPage.xaml.cs">
+      <DependentUpon>LoadingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\MasterDetailsView\MasterDetailsViewPage.xaml.cs">
+      <DependentUpon>MasterDetailsViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Microsoft Graph Service\MicrosoftGraphPage.xaml.cs">
+      <DependentUpon>MicrosoftGraphPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Microsoft Graph Service\MicrosoftGraphSource.cs" />
+    <Compile Include="SamplePages\Microsoft Graph Service\MicrosoftGraphUIExtensions.cs" />
+    <Compile Include="SamplePages\Microsoft Graph Service\SendMessageContentDialog.xaml.cs">
+      <DependentUpon>SendMessageContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ImageCache\ImageCachePage.xaml.cs">
+      <DependentUpon>ImageCachePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ParallaxService\ParallaxPage.xaml.cs">
+      <DependentUpon>ParallaxPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\PrintHelper\PrintHelperPage.xaml.cs">
+      <DependentUpon>PrintHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ReorderGridAnimation\ReorderGridPage.xaml.cs">
+      <DependentUpon>ReorderGridPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\RotatorTile\RotatorTilePage.xaml.cs">
+      <DependentUpon>RotatorTilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\LiveTile\LiveTilePage.xaml.cs">
+      <DependentUpon>LiveTilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Object Storage\ObjectStoragePage.xaml.cs">
+      <DependentUpon>ObjectStoragePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\SurfaceDialTextbox\SurfaceDialTextboxPage.xaml.cs">
+      <DependentUpon>SurfaceDialTextboxPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\SystemInformation\SystemInformationPage.xaml.cs">
+      <DependentUpon>SystemInformationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\TextBoxMask\TextBoxMaskPage.xaml.cs">
+      <DependentUpon>TextBoxMaskPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\TextBoxRegex\TextBoxRegexPage.xaml.cs">
+      <DependentUpon>TextBoxRegexPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Toast\ToastPage.xaml.cs">
+      <DependentUpon>ToastPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Twitter Service\TwitterPage.xaml.cs">
+      <DependentUpon>TwitterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Offset\OffsetBehaviorPage.xaml.cs">
+      <DependentUpon>OffsetBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Fade\FadeBehaviorPage.xaml.cs">
+      <DependentUpon>FadeBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Facebook Service\FacebookPage.xaml.cs">
+      <DependentUpon>FacebookPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml.cs">
+      <DependentUpon>HamburgerMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockPage.xaml.cs">
+      <DependentUpon>HeaderedTextBlockPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
+      <DependentUpon>ImageExPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Twitter Service\TwitterTemplateSelector.cs" />
+    <Compile Include="SamplePages\Visual Extensions\VisualExtensionsPage.xaml.cs">
+      <DependentUpon>VisualExtensionsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml.cs">
+      <DependentUpon>WeatherLiveTileAndToastPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\PullToRefreshListView\PullToRefreshListViewPage.xaml.cs">
+      <DependentUpon>PullToRefreshListViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Rotate\RotateBehaviorPage.xaml.cs">
+      <DependentUpon>RotateBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Scale\ScaleBehaviorPage.xaml.cs">
+      <DependentUpon>ScaleBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml.cs">
+      <DependentUpon>SlidableListItemPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\RadialGauge\RadialGaugePage.xaml.cs">
+      <DependentUpon>RadialGaugePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\RangeSelector\RangeSelectorPage.xaml.cs">
+      <DependentUpon>RangeSelectorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\WrapPanel\WrapPanelPage.xaml.cs">
+      <DependentUpon>WrapPanelPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Option.cs" />
+    <Compile Include="Models\SampleCategory.cs" />
+    <Compile Include="Models\Sample.cs" />
+    <Compile Include="Models\Samples.cs" />
+    <Compile Include="Pages\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\AdaptiveGridView\AdaptiveGridViewPage.xaml.cs">
+      <DependentUpon>AdaptiveGridViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TrackingManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <None Include="Microsoft.Toolkit.Uwp.SampleApp_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\Default.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="Controls\PropertyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\BackdropInvertBrush\BackdropInvertBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Carousel\CarouselPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Connected Animations\ConnectedAnimationsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Connected Animations\Pages\FirstPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Connected Animations\Pages\SecondPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Connected Animations\Pages\ThirdPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\DockPanel\DockPanelPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\FocusTracker\FocusTrackerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\HeaderedContentControl\HeaderedContentControlPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ImageBlendBrush\ImageBlendBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Implicit Animations\ImplicitAnimationsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\InAppNotification\InAppNotificationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\MarkdownParser\MarkdownParserPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Mouse\MouseCursorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\NavigationViewStyles\NavigationViewStylesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\RadialGradientBrush\RadialGradientBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\RssParser\RssParserPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\StringExtensions\StringExtensionsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\TextToolbar\TextToolbarPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ListViewExtensions\ListViewExtensionsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Menu\MenuPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\OrbitView\OrbitViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ThemeListener\ThemeListenerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ViewExtensions\ViewExtensionsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\DispatcherHelper\DispatcherHelperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Bing Service\BingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\BladeView\BladePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Blur\BlurBehaviorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\AlignmentGrid\AlignmentGridPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Expander\ExpanderPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\OneDrive Service\FoldersPickerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\OneDrive Service\OneDrivePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Analytics\AnalyticsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Saturation\SaturationBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\TileControl\TileControlPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\RadialProgressBar\RadialProgressBarPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ScrollHeader\ScrollHeaderPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\DropShadowPanel\DropShadowPanelPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\GridSplitter\GridSplitterPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\FadeHeader\FadeHeaderBehaviorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Light\LightBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\LinkedIn Service\LinkedInPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Loading\LoadingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\MasterDetailsView\MasterDetailsViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Microsoft Graph Service\MicrosoftGraphPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Microsoft Graph Service\SendMessageContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ImageCache\ImageCachePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ParallaxService\ParallaxPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\PrintHelper\PrintHelperPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ReorderGridAnimation\ReorderGridPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\RotatorTile\RotatorTilePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\LiveTile\LiveTilePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Offset\OffsetBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Fade\FadeBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Object Storage\ObjectStoragePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\SurfaceDialTextbox\SurfaceDialTextboxPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\SystemInformation\SystemInformationPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\TextBoxMask\TextBoxMaskPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\TextBoxRegex\TextBoxRegexPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Toast\ToastPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Twitter Service\TwitterPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Facebook Service\FacebookPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Visual Extensions\VisualExtensionsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\PullToRefreshListView\PullToRefreshListViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\RadialGauge\RadialGaugePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\RangeSelector\RangeSelectorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\Rotate\RotateBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Scale\ScaleBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\WrapPanel\WrapPanelPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\AdaptiveGridView\AdaptiveGridViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj">
+      <Project>{42CA4935-54BE-42EA-AC19-992378C08DE6}</Project>
+      <Name>Microsoft.Toolkit.Parsers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj">
+      <Project>{34398053-fc70-4243-84f9-f355defff66d}</Project>
+      <Name>Microsoft.Toolkit.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.csproj">
+      <Project>{e7697922-9555-4cfb-aee0-c5f4d657e559}</Project>
+      <Name>Microsoft.Toolkit.Uwp.DeveloperTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
+      <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Notifications\Microsoft.Toolkit.Uwp.Notifications.csproj">
+      <Project>{97ee849b-403c-490e-80ed-d19d7cc153fd}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Notifications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks\Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.csproj">
+      <Project>{1ae2cb5c-58a0-4f12-8e6f-2cd4aaadb34c}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Samples.BackgroundTasks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj">
+      <Project>{7189a42d-6f1a-4fa3-8e00-e2c14fdf167a}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj">
+      <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
+      <Name>Microsoft.Toolkit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj">
+      <Project>{b24a296c-b3eb-4e06-a64e-74ac2d1acc91}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Animations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
+      <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj">
+      <Project>{3dd8aa7c-3569-4e51-992f-0c2257e8878e}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj">
+      <Project>{805F80DF-75C6-4C2F-8FD9-B47F6D0DF5A3}</Project>
+      <Name>Microsoft.Toolkit.Uwp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <_GenerateAppxManifestDependsOn>
+      ModifyAppXPackageDebug;
+      $(_GenerateAppxManifestDependsOn)
+    </_GenerateAppxManifestDependsOn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <_GenerateAppxManifestDependsOn>
+      ModifyAppXPackageRelease;
+      $(_GenerateAppxManifestDependsOn)
+    </_GenerateAppxManifestDependsOn>
+  </PropertyGroup>
+  <Target Name="ModifyAppXPackageDebug" Condition="'$(BuildingProject)' == 'true'">
+    <ItemGroup>
+      <toolkit_docs Include="$(SolutionDir)docs\**\*" />
+    </ItemGroup>
+    <ItemGroup>
+      <AppxPackagePayload Include="@(toolkit_docs)">
+        <TargetPath>docs/%(RecursiveDir)%(FileName)%(Extension)</TargetPath>
+      </AppxPackagePayload>
+    </ItemGroup>
+  </Target>
+  <Target Name="ModifyAppXPackageRelease" Condition="'$(BuildingProject)' == 'true'">
+    <ItemGroup>
+      <toolkit_docs Include="$(SolutionDir)docs\**\*.md" />
+    </ItemGroup>
+    <ItemGroup>
+      <AppxPackagePayload Include="@(toolkit_docs)">
+        <TargetPath>docs/%(RecursiveDir)%(FileName)%(Extension)</TargetPath>
+      </AppxPackagePayload>
+    </ItemGroup>
+  </Target>
+  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
+  <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
+    <ItemGroup>
+      <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />
+    </ItemGroup>
+    <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
+    <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f | findstr /v /b &quot;#pragma&quot; &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
+  </Target>
+</Project>

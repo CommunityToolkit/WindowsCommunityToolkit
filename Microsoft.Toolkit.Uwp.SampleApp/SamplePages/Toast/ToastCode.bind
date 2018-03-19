@@ -1,0 +1,68 @@
+private void PopToast()
+{
+    // Generate the toast notification content and pop the toast
+    ToastContent content = GenerateToastContent();
+    ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(content.GetXml()));
+}
+
+public static ToastContent GenerateToastContent()
+{
+    return new ToastContent()
+    {
+        Launch = "action=viewEvent&eventId=1983",
+        Scenario = ToastScenario.Reminder,
+
+        Visual = new ToastVisual()
+        {
+            BindingGeneric = new ToastBindingGeneric()
+            {
+                Children =
+                {
+                    new AdaptiveText()
+                    {
+                        Text = "Adaptive Tiles Meeting"
+                    },
+
+                    new AdaptiveText()
+                    {
+                        Text = "Conf Room 2001 / Building 135"
+                    },
+
+                    new AdaptiveText()
+                    {
+                        Text = "10:00 AM - 10:30 AM"
+                    }
+                }
+            }
+        },
+
+        Actions = new ToastActionsCustom()
+        {
+            Inputs =
+            {
+                new ToastSelectionBox("snoozeTime")
+                {
+                    DefaultSelectionBoxItemId = "15",
+                    Items =
+                    {
+                        new ToastSelectionBoxItem("1", "1 minute"),
+                        new ToastSelectionBoxItem("15", "15 minutes"),
+                        new ToastSelectionBoxItem("60", "1 hour"),
+                        new ToastSelectionBoxItem("240", "4 hours"),
+                        new ToastSelectionBoxItem("1440", "1 day")
+                    }
+                }
+            },
+
+            Buttons =
+            {
+                new ToastButtonSnooze()
+                {
+                    SelectionBoxId = "snoozeTime"
+                },
+
+                new ToastButtonDismiss()
+            }
+        }
+    };
+}
