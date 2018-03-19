@@ -1,7 +1,0 @@
-
-This project began as an independent open source project called Universal Markdown. It was originally created by Quinn Damerell
-and Paul Bartrum for use in Baconit, an open source reddit UWP app.
-
-The goal of this project was to make a universal markdown renderer control that's easy to use but is also very efficient. This 
-control is intended to be used in virtualized lists, so the performance needs to be great. Thanks to a lot of hard work from Paul,
-the control supports the full markdown syntax and is very performant.
