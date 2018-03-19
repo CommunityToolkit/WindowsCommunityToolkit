@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = LayoutTransformerPart, Type = typeof(LayoutTransformControl))]
     [TemplatePart(Name = ContentOverlayPart, Type = typeof(ContentPresenter))]
     [ContentProperty(Name = "Content")]
-    public partial class Expander : ContentControl
+    public partial class Expander : HeaderedContentControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Expander"/> class.
