@@ -176,8 +176,8 @@
                                     <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://github.com/WilliamABradley/ColorCode-Universal" Click="Link_Clicked">
                                         <TextBlock>ColorCode-Universal (Dependency)</TextBlock>
                                     </HyperlinkButton>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://unsplash.com/photos/GfLUxuWZg0w" Click="Link_Clicked">
-                                        <TextBlock>Background photo by Ales Krivec</TextBlock>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://unsplash.com/photos/105m46GatAg" Click="Link_Clicked">
+                                        <TextBlock>Background photo by @apertism</TextBlock>
                                     </HyperlinkButton>
                                 </ItemsControl>
                             </StackPanel>

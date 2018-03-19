@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = LayoutTransformerPart, Type = typeof(LayoutTransformControl))]
     [TemplatePart(Name = ContentOverlayPart, Type = typeof(ContentPresenter))]
     [ContentProperty(Name = "Content")]
-    public partial class Expander : ContentControl
+    public partial class Expander : HeaderedContentControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Expander"/> class.
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 button.KeyDown += ExpanderToggleButtonPart_KeyDown;
             }
 
-            OnExpandDirectionChanged();
+            OnExpandDirectionChanged(false);
             OnDisplayModeOrIsExpandedChanged(false);
         }
 
@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Called when the ExpandDirection on Expander changes
         /// </summary>
-        private void OnExpandDirectionChanged()
+        private void OnExpandDirectionChanged(bool useTransitions = true)
         {
             var button = (ToggleButton)GetTemplateChild(ExpanderToggleButtonPart);
 
@@ -128,21 +128,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            UpdateDisplayModeOrExpanderDirection();
+            UpdateDisplayModeOrExpanderDirection(useTransitions);
 
             switch (ExpandDirection)
             {
                 case ExpandDirection.Left:
-                    VisualStateManager.GoToState(button, StateContentLeftDirection, true);
+                    VisualStateManager.GoToState(button, StateContentLeftDirection, useTransitions);
                     break;
                 case ExpandDirection.Down:
-                    VisualStateManager.GoToState(button, StateContentDownDirection, true);
+                    VisualStateManager.GoToState(button, StateContentDownDirection, useTransitions);
                     break;
                 case ExpandDirection.Right:
-                    VisualStateManager.GoToState(button, StateContentRightDirection, true);
+                    VisualStateManager.GoToState(button, StateContentRightDirection, useTransitions);
                     break;
                 case ExpandDirection.Up:
-                    VisualStateManager.GoToState(button, StateContentUpDirection, true);
+                    VisualStateManager.GoToState(button, StateContentUpDirection, useTransitions);
                     break;
             }
 
@@ -156,10 +156,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnDisplayModeOrIsExpandedChanged(bool useTransitions = true)
         {
-            UpdateDisplayModeOrExpanderDirection();
+            UpdateDisplayModeOrExpanderDirection(useTransitions);
         }
 
-        private void UpdateDisplayModeOrExpanderDirection()
+        private void UpdateDisplayModeOrExpanderDirection(bool useTransitions = true)
         {
             string visualState = null;
 
@@ -181,7 +181,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (!string.IsNullOrWhiteSpace(visualState))
             {
-                VisualStateManager.GoToState(this, visualState, true);
+                VisualStateManager.GoToState(this, visualState, useTransitions);
             }
         }
 

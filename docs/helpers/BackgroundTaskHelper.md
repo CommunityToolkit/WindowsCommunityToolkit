@@ -1,7 +1,6 @@
 ---
 title: Background Task Helper
 author: nmetulev
-ms.date: 08/20/2017
 description: The Background Task Helper helps users interacting with background tasks in an easier manner. 
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Background Task Helper
 ---

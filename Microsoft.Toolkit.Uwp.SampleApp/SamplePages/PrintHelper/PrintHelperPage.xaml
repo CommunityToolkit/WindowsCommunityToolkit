@@ -19,6 +19,8 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid x:Name="Container"
                   Grid.RowSpan="2"
@@ -58,9 +60,20 @@
                         Click="DirectPrint_Click"
                         Content="Direct Print Me!" />
             </StackPanel>
-            <StackPanel Grid.Row="2">
-                <TextBlock  HorizontalAlignment="Center">Direct Print will print the content without removing it from the visual tree (in place).</TextBlock>
-                <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap">Warning: Printing in Dark Theme will print white text, which isn't visible. Take this into account when printing.</TextBlock>
+            <TextBlock Grid.Row="2" HorizontalAlignment="Center">Direct Print will print the content without removing it from the visual tree (in place).</TextBlock>
+            <StackPanel Grid.Row="3"
+                        Margin="20"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <CheckBox Margin="10,0,0,0" Name="ShowOrientationCheckBox">Show orientation in print dialog</CheckBox>
+            </StackPanel>
+            <StackPanel Grid.Row="4"
+                        Margin="20"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center">Default orientation setting</TextBlock>
+                <ComboBox Margin="10,0,0,0" Name="DefaultOrientationComboBox">
+                </ComboBox>
             </StackPanel>
         </Grid>
     </Grid>

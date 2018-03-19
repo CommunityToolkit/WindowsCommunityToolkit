@@ -252,7 +252,7 @@
                                     Orientation="Vertical">
                             <HyperlinkButton Margin="0,0,0,15"
                                              Content="Show me how to get these values"
-                                             NavigateUri="http://uwpcommunitytoolkit.com/en/master/services/Twitter/" />
+                                             NavigateUri="https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Twitter/" />
                             <TextBox x:Name="ConsumerKey"
                                      Margin="0,0,0,12"
                                      Header="Consumer Key:" />

@@ -1,7 +1,6 @@
 ---
 title: Facebook Service 
 author: nmetulev
-ms.date: 08/20/2017
 description: The Facebook Service allows you to retrieve or publish data to the Facebook graph. Examples of the types of objects you can work with are Posts, Tagged Objects, and the primary user feed.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Facebook Service 
 ---

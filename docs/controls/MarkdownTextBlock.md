@@ -28,6 +28,7 @@ Here are some limitations you may encounter:
 
 - Images cannot be embedded inside a hyperlink
 - All images are stretched with the same stretch value (defined by ImageStretch property)
+- Relative Links & Relative Images needs to be handled manually using `LinkClicked` event.
 
 ## Example Image
 Note: scrolling is smooth, the gif below is not.
@@ -107,6 +108,19 @@ private async void MarkdownText_LinkClicked(object sender, LinkClickedEventArgs 
 }
 ```
 
+### ImageClicked
+
+Use this event to handle clicking on images for Markdown, by default the MarkdownTextBlock does not handle Clicking on Images.
+
+```c#
+private async void MarkdownText_ImageClicked(object sender, LinkClickedEventArgs e)
+{
+    if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri link))
+    {
+        await Launcher.LaunchUriAsync(link);
+    }
+}
+```
 
 ### ImageResolving
 

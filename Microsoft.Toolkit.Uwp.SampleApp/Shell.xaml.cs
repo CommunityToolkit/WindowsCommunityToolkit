@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             var background = new Image()
             {
-                Source = new BitmapImage(new Uri("ms-appx:///Assets/Photos/Backgrounds/ales-krivec-43430.jpg")),
+                Source = new BitmapImage(new Uri("ms-appx:///Assets/Photos/Backgrounds/HERO.jpg")),
                 Stretch = Windows.UI.Xaml.Media.Stretch.UniformToFill
             };
 
@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public void SetTitles(string title)
         {
             HamburgerMenu.Title = title;
-            ApplicationView.SetTitle(this, title);
+            ApplicationViewExtensions.SetTitle(this, title);
         }
 
         public void AttachScroll(ScrollViewer viewer)

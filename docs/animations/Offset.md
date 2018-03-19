@@ -1,7 +1,6 @@
 ---
 title: Offset animation behavior
 author: nmetulev
-ms.date: 08/20/2017
 description: The Offset animation behavior gets the number of pixels, from the origin of the associated control, then offsets the control.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, offset animation
 ---
@@ -25,6 +24,7 @@ The Offset animation is used to move the control from one place to another. Offs
             OffsetY="25.0"
             Duration="2500" 
             Delay="250" 
+            EasingType="Linear"
             AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```
@@ -59,8 +59,6 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quartic    | Creates an animation that accelerates or decelerates using the formula f(t) = t4                                                                        | ![QuarticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quarticease-graph.png)     |
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
-
-***Note:** EasingType is used only when AnimationSet.UseComposition == false*
 
 ## Examples
 

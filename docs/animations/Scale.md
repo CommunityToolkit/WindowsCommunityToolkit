@@ -1,7 +1,6 @@
 ---
 title: Scale animation behavior
 author: nmetulev
-ms.date: 08/20/2017
 description: The Scale animation behavior allows you to change a control's scale by increasing or decreasing the control through animation. 
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, scale animation, scale
 ---
@@ -27,6 +26,7 @@ The Scale animation  allows you to change a control's scale by increasing or dec
                      CenterY="0.0" 
                      Duration="1000" 
                      Delay="500" 
+                     EasingType="Linear"
                      AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```
@@ -60,8 +60,6 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quartic    | Creates an animation that accelerates or decelerates using the formula f(t) = t4                                                                        | ![QuarticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quarticease-graph.png)     |
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
-
-***Note:** EasingType is used only when AnimationSet.UseComposition == false*
 
 ## Examples
 

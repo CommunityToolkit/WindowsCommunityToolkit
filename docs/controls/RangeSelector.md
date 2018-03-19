@@ -1,7 +1,6 @@
 ---
 title: RangeSelector XAML Control
 author: nmetulev
-ms.date: 08/20/2017
 description: The RangeSelector Control is a Double Slider control that allows the user to select a sub-range of values from a larger range of possible values.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, RangeSelector, XAML Control, xaml, double slider
 ---
@@ -41,6 +40,10 @@ This is because by default, the ScrollViewer will block the thumbs of the RangeS
 	Maximum="100">
 </controls:RangeSelector>       
 ```
+
+## StepFrequency
+
+If you want to use the RangeSelector using a step frequency, there is a `StepFrequency` property to set the interval between the values on the RangeSelector. For example; if you set `StepFrequency` to 2, using Minimum at 0 and Maximum at 10, the range values you can set will be 0,2,4,6,8,10.
 
 ## Example Image
 

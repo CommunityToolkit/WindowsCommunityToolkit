@@ -1,7 +1,6 @@
 ---
 title: DockPanel XAML Control
 author: IbraheemOsama
-ms.date: 10/18/2017
 description: Defines an area where you can arrange child elements either horizontally or vertically, relative to each other.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, DockPanel, XAML Control, xaml
 ---
@@ -25,11 +24,20 @@ You can set DockPanel LastChildFill property to true if you want the last item a
   LastChildFill="False" />
 ```
 
-## Example Image
+## Sample Output
 
 ![DockPanel animation](../resources/images/Controls-DockPanel.gif "DockPanel")
 
-## Example Code
+## Properties
+
+<!-- Explain all properties in a table format -->
+
+| Property | Type | Description |
+| -- | -- | -- |
+| LastChildFill | boolean | Gets or sets a value that indicates whether the last child element within a DockPanel stretches to fill the remaining available space. |
+| Padding | Thickness | The dimensions of the space between the edge and its child as a Thickness value. Thickness is a structure that stores dimension values using pixel measures. |
+
+## Examples
 
 [DockPanel Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DockPanel)
 
@@ -62,6 +70,6 @@ The following sample demonstrates how to add DockPanel Control.
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 
-## API
+## API Source Code
 
 * [DockPanel source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DockPanel)

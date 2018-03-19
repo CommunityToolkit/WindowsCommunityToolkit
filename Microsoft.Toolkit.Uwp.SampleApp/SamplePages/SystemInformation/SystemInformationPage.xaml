@@ -208,14 +208,38 @@
                             Orientation="Horizontal">
                     <TextBlock FontSize="18"
                                FontWeight="Bold"
-                               Text="Launch count:"
+                               Text="Last reset time:"
                                TextWrapping="Wrap" />
                     <TextBlock Margin="20,0"
                                FontSize="18"
-                               Text="{x:Bind LaunchCount}"
+                               Text="{x:Bind LastResetTime, Mode=OneWay}"
                                TextWrapping="Wrap" />
                 </StackPanel>
                 <StackPanel x:Name="Stack17"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Current launch count:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind LaunchCount, Mode=OneWay}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack18"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Total launch count:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind TotalLaunchCount}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack19"
                             Margin="10"
                             Orientation="Horizontal">
                     <TextBlock FontSize="18"

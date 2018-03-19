@@ -1,7 +1,6 @@
 ---
 title: ImageEx XAML Control
 author: nmetulev
-ms.date: 08/20/2017
 description: The ImageEx Control and RoundImageEx Control downloads images asynchronously, while showing a loading indicator.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ImageEx, RoundImageEx, xaml control, xaml
 ---

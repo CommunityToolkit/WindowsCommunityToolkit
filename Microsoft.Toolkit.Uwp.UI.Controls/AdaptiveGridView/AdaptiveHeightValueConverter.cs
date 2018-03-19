@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 double.TryParse(value.ToString(), out double height);
 
                 var padding = gridView.Padding;
-                var margin = GetItemMargin(gridView);
+                var margin = GetItemMargin(gridView, DefaultItemMargin);
                 height = height + margin.Top + margin.Bottom + padding.Top + padding.Bottom;
 
                 return height;
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             throw new NotImplementedException();
         }
 
-        private Thickness GetItemMargin(GridView view)
+        internal static Thickness GetItemMargin(GridView view, Thickness fallback = default(Thickness))
         {
             var setter = view.ItemContainerStyle?.Setters.OfType<Setter>().FirstOrDefault(s => s.Property == FrameworkElement.MarginProperty);
             if (setter != null)
@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // Use the default thickness for a GridViewItem
-                return DefaultItemMargin;
+                return fallback;
             }
         }
     }

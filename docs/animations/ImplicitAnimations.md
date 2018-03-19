@@ -1,6 +1,5 @@
 ---
 title: Implicit Animations XAML Attached Properties
-ms.date: 11/22/2017
 description: The Implicit Animations Attached Properties enable implicit animations to be defined in your XAML code
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, composition animations, animation, implicit animations, XAML, implicit, composition, show animation, hide animation
 ---

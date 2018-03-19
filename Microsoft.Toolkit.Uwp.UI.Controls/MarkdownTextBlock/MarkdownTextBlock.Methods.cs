@@ -17,7 +17,9 @@ using System.Threading.Tasks;
 using ColorCode;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -44,12 +46,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void RenderMarkdown()
         {
-            // Make sure we have something to parse.
-            if (string.IsNullOrWhiteSpace(Text))
-            {
-                return;
-            }
-
             // Leave if we don't have our root yet.
             if (_rootElement == null)
             {
@@ -60,101 +56,110 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UnhookListeners();
 
             var markdownRenderedArgs = new MarkdownRenderedEventArgs(null);
-            try
+
+            // Make sure we have something to parse.
+            if (string.IsNullOrWhiteSpace(Text))
             {
-                // Try to parse the markdown.
-                MarkdownDocument markdown = new MarkdownDocument();
-                markdown.Parse(Text);
-
-                // Now try to display it
-                var renderer = Activator.CreateInstance(renderertype, markdown, this, this, this) as MarkdownRenderer;
-                if (renderer == null)
-                {
-                    throw new Exception("Markdown Renderer was not of the correct type.");
-                }
-
-                renderer.Background = Background;
-                renderer.BorderBrush = BorderBrush;
-                renderer.BorderThickness = BorderThickness;
-                renderer.CharacterSpacing = CharacterSpacing;
-                renderer.FontFamily = FontFamily;
-                renderer.FontSize = FontSize;
-                renderer.FontStretch = FontStretch;
-                renderer.FontStyle = FontStyle;
-                renderer.FontWeight = FontWeight;
-                renderer.Foreground = Foreground;
-                renderer.IsTextSelectionEnabled = IsTextSelectionEnabled;
-                renderer.Padding = Padding;
-                renderer.CodeBackground = CodeBackground;
-                renderer.CodeBorderBrush = CodeBorderBrush;
-                renderer.CodeBorderThickness = CodeBorderThickness;
-                renderer.InlineCodeBorderThickness = InlineCodeBorderThickness;
-                renderer.InlineCodeBackground = InlineCodeBackground;
-                renderer.InlineCodeBorderBrush = InlineCodeBorderBrush;
-                renderer.InlineCodePadding = InlineCodePadding;
-                renderer.InlineCodeFontFamily = InlineCodeFontFamily;
-                renderer.CodeForeground = CodeForeground;
-                renderer.CodeFontFamily = CodeFontFamily;
-                renderer.CodePadding = CodePadding;
-                renderer.CodeMargin = CodeMargin;
-                renderer.EmojiFontFamily = EmojiFontFamily;
-                renderer.Header1FontSize = Header1FontSize;
-                renderer.Header1FontWeight = Header1FontWeight;
-                renderer.Header1Margin = Header1Margin;
-                renderer.Header1Foreground = Header1Foreground;
-                renderer.Header2FontSize = Header2FontSize;
-                renderer.Header2FontWeight = Header2FontWeight;
-                renderer.Header2Margin = Header2Margin;
-                renderer.Header2Foreground = Header2Foreground;
-                renderer.Header3FontSize = Header3FontSize;
-                renderer.Header3FontWeight = Header3FontWeight;
-                renderer.Header3Margin = Header3Margin;
-                renderer.Header3Foreground = Header3Foreground;
-                renderer.Header4FontSize = Header4FontSize;
-                renderer.Header4FontWeight = Header4FontWeight;
-                renderer.Header4Margin = Header4Margin;
-                renderer.Header4Foreground = Header4Foreground;
-                renderer.Header5FontSize = Header5FontSize;
-                renderer.Header5FontWeight = Header5FontWeight;
-                renderer.Header5Margin = Header5Margin;
-                renderer.Header5Foreground = Header5Foreground;
-                renderer.Header6FontSize = Header6FontSize;
-                renderer.Header6FontWeight = Header6FontWeight;
-                renderer.Header6Margin = Header6Margin;
-                renderer.Header6Foreground = Header6Foreground;
-                renderer.HorizontalRuleBrush = HorizontalRuleBrush;
-                renderer.HorizontalRuleMargin = HorizontalRuleMargin;
-                renderer.HorizontalRuleThickness = HorizontalRuleThickness;
-                renderer.ListMargin = ListMargin;
-                renderer.ListGutterWidth = ListGutterWidth;
-                renderer.ListBulletSpacing = ListBulletSpacing;
-                renderer.ParagraphMargin = ParagraphMargin;
-                renderer.QuoteBackground = QuoteBackground;
-                renderer.QuoteBorderBrush = QuoteBorderBrush;
-                renderer.QuoteBorderThickness = QuoteBorderThickness;
-                renderer.QuoteForeground = QuoteForeground;
-                renderer.QuoteMargin = QuoteMargin;
-                renderer.QuotePadding = QuotePadding;
-                renderer.TableBorderBrush = TableBorderBrush;
-                renderer.TableBorderThickness = TableBorderThickness;
-                renderer.TableCellPadding = TableCellPadding;
-                renderer.TableMargin = TableMargin;
-                renderer.TextWrapping = TextWrapping;
-                renderer.LinkForeground = LinkForeground;
-                renderer.ImageStretch = ImageStretch;
-                renderer.WrapCodeBlock = WrapCodeBlock;
-
-                _rootElement.Child = renderer.Render();
+                _rootElement.Child = null;
             }
-            catch (Exception ex)
+            else
             {
-                Debug.WriteLine("Error while parsing and rendering: " + ex.Message);
-                if (Debugger.IsAttached)
+                try
                 {
-                    Debugger.Break();
-                }
+                    // Try to parse the markdown.
+                    MarkdownDocument markdown = new MarkdownDocument();
+                    markdown.Parse(Text);
 
-                markdownRenderedArgs = new MarkdownRenderedEventArgs(ex);
+                    // Now try to display it
+                    var renderer = Activator.CreateInstance(renderertype, markdown, this, this, this) as MarkdownRenderer;
+                    if (renderer == null)
+                    {
+                        throw new Exception("Markdown Renderer was not of the correct type.");
+                    }
+
+                    renderer.Background = Background;
+                    renderer.BorderBrush = BorderBrush;
+                    renderer.BorderThickness = BorderThickness;
+                    renderer.CharacterSpacing = CharacterSpacing;
+                    renderer.FontFamily = FontFamily;
+                    renderer.FontSize = FontSize;
+                    renderer.FontStretch = FontStretch;
+                    renderer.FontStyle = FontStyle;
+                    renderer.FontWeight = FontWeight;
+                    renderer.Foreground = Foreground;
+                    renderer.IsTextSelectionEnabled = IsTextSelectionEnabled;
+                    renderer.Padding = Padding;
+                    renderer.CodeBackground = CodeBackground;
+                    renderer.CodeBorderBrush = CodeBorderBrush;
+                    renderer.CodeBorderThickness = CodeBorderThickness;
+                    renderer.InlineCodeBorderThickness = InlineCodeBorderThickness;
+                    renderer.InlineCodeBackground = InlineCodeBackground;
+                    renderer.InlineCodeBorderBrush = InlineCodeBorderBrush;
+                    renderer.InlineCodePadding = InlineCodePadding;
+                    renderer.InlineCodeFontFamily = InlineCodeFontFamily;
+                    renderer.CodeForeground = CodeForeground;
+                    renderer.CodeFontFamily = CodeFontFamily;
+                    renderer.CodePadding = CodePadding;
+                    renderer.CodeMargin = CodeMargin;
+                    renderer.EmojiFontFamily = EmojiFontFamily;
+                    renderer.Header1FontSize = Header1FontSize;
+                    renderer.Header1FontWeight = Header1FontWeight;
+                    renderer.Header1Margin = Header1Margin;
+                    renderer.Header1Foreground = Header1Foreground;
+                    renderer.Header2FontSize = Header2FontSize;
+                    renderer.Header2FontWeight = Header2FontWeight;
+                    renderer.Header2Margin = Header2Margin;
+                    renderer.Header2Foreground = Header2Foreground;
+                    renderer.Header3FontSize = Header3FontSize;
+                    renderer.Header3FontWeight = Header3FontWeight;
+                    renderer.Header3Margin = Header3Margin;
+                    renderer.Header3Foreground = Header3Foreground;
+                    renderer.Header4FontSize = Header4FontSize;
+                    renderer.Header4FontWeight = Header4FontWeight;
+                    renderer.Header4Margin = Header4Margin;
+                    renderer.Header4Foreground = Header4Foreground;
+                    renderer.Header5FontSize = Header5FontSize;
+                    renderer.Header5FontWeight = Header5FontWeight;
+                    renderer.Header5Margin = Header5Margin;
+                    renderer.Header5Foreground = Header5Foreground;
+                    renderer.Header6FontSize = Header6FontSize;
+                    renderer.Header6FontWeight = Header6FontWeight;
+                    renderer.Header6Margin = Header6Margin;
+                    renderer.Header6Foreground = Header6Foreground;
+                    renderer.HorizontalRuleBrush = HorizontalRuleBrush;
+                    renderer.HorizontalRuleMargin = HorizontalRuleMargin;
+                    renderer.HorizontalRuleThickness = HorizontalRuleThickness;
+                    renderer.ListMargin = ListMargin;
+                    renderer.ListGutterWidth = ListGutterWidth;
+                    renderer.ListBulletSpacing = ListBulletSpacing;
+                    renderer.ParagraphMargin = ParagraphMargin;
+                    renderer.QuoteBackground = QuoteBackground;
+                    renderer.QuoteBorderBrush = QuoteBorderBrush;
+                    renderer.QuoteBorderThickness = QuoteBorderThickness;
+                    renderer.QuoteForeground = QuoteForeground;
+                    renderer.QuoteMargin = QuoteMargin;
+                    renderer.QuotePadding = QuotePadding;
+                    renderer.TableBorderBrush = TableBorderBrush;
+                    renderer.TableBorderThickness = TableBorderThickness;
+                    renderer.TableCellPadding = TableCellPadding;
+                    renderer.TableMargin = TableMargin;
+                    renderer.TextWrapping = TextWrapping;
+                    renderer.LinkForeground = LinkForeground;
+                    renderer.ImageStretch = ImageStretch;
+                    renderer.WrapCodeBlock = WrapCodeBlock;
+
+                    _rootElement.Child = renderer.Render();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Error while parsing and rendering: " + ex.Message);
+                    if (Debugger.IsAttached)
+                    {
+                        Debugger.Break();
+                    }
+
+                    markdownRenderedArgs = new MarkdownRenderedEventArgs(ex);
+                }
             }
 
             // Indicate that the parse is done.
@@ -164,9 +169,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void UnhookListeners()
         {
             // Clear any hyper link events if we have any
-            foreach (Hyperlink link in _listeningHyperlinks)
+            foreach (object link in _listeningHyperlinks)
             {
-                link.Click -= Hyperlink_Click;
+                if (link is Hyperlink hyperlink)
+                {
+                    hyperlink.Click -= Hyperlink_Click;
+                }
+                else if (link is Image image)
+                {
+                    image.Tapped -= NewImagelink_Tapped;
+                }
             }
 
             // Clear everything that exists.
@@ -186,6 +198,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Add it to our list
             _listeningHyperlinks.Add(newHyperlink);
+        }
+
+        /// <summary>
+        /// Called when the render has a link we need to listen to.
+        /// </summary>
+        public void RegisterNewHyperLink(Image newImagelink, string linkUrl)
+        {
+            // Setup a listener for clicks.
+            newImagelink.Tapped += NewImagelink_Tapped;
+
+            // Associate the URL with the hyperlink.
+            newImagelink.SetValue(HyperlinkUrlProperty, linkUrl);
+
+            // Add it to our list
+            _listeningHyperlinks.Add(newImagelink);
         }
 
         /// <summary>
@@ -275,6 +302,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             catch
             {
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Called when a link needs to be handled
+        /// </summary>
+        internal async void LinkHandled(string url, bool isHyperlink)
+        {
+            // Links that are nested within superscript elements cause the Click event to fire multiple times.
+            // e.g. this markdown "[^bot](http://www.reddit.com/r/youtubefactsbot/wiki/index)"
+            // Therefore we detect and ignore multiple clicks.
+            if (multiClickDetectionTriggered)
+            {
+                return;
+            }
+
+            multiClickDetectionTriggered = true;
+            await Dispatcher.RunAsync(CoreDispatcherPriority.High, () => multiClickDetectionTriggered = false);
+
+            // Get the hyperlink URL.
+            if (url == null)
+            {
+                return;
+            }
+
+            // Fire off the event.
+            var eventArgs = new LinkClickedEventArgs(url);
+            if (isHyperlink)
+            {
+                LinkClicked?.Invoke(this, eventArgs);
+            }
+            else
+            {
+                ImageClicked?.Invoke(this, eventArgs);
             }
         }
     }

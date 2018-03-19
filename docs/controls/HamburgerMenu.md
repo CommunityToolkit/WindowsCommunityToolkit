@@ -1,7 +1,6 @@
 ---
 title: HamburgerMenu XAML Control
 author: nmetulev
-ms.date: 11/20/2017
 description: The Hamburger Menu Control provides an easy-to-use, side-bar menu which users can show or hide by using a Hamburger button
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HamburgerMenu, xaml control, xaml
 ---
@@ -23,7 +22,7 @@ Developers can place menu specific content, navigation, images, text or custom c
 
 ```xaml
 
-<controls:HamburgerMenu PaneBackground="@[PaneBackground:Brush:Black]" x:Name="HamburgerMenuControl"
+<controls:HamburgerMenu PaneBackground="Black" x:Name="HamburgerMenuControl"
 	Foreground="White"
 	ItemTemplate="{StaticResource ButtonTemplate}"
 	OptionsItemTemplate="{StaticResource OptionTemplate}"
@@ -45,7 +44,7 @@ Developers can place menu specific content, navigation, images, text or custom c
 
 ## Example Code
 
-The following example shows you how to simply setup a HamburgerMemu using HamburgerMenuGlyphItem directly in your XAML code:
+The following example shows you how to simply setup a HamburgerMenu using HamburgerMenuGlyphItem directly in your XAML code:
 
 [HamburgerMenu Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/HamburgerMenu)
 

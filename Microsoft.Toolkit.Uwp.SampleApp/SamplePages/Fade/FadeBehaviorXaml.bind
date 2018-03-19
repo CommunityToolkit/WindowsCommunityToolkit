@@ -15,7 +15,12 @@
               Value="@[Value:DoubleSlider:0.0:0.0-1.0]"
               Duration="@[Duration:DoubleSlider:1000.0:0.0-5000.0]"
               Delay="@[Delay:DoubleSlider:0.0:0.0-5000.0]"
+<<<<<<< HEAD
               AutomaticallyStart="@[AutomaticallyStart:Bool:True]" />
+=======
+              EasingType="@[EasingType:Enum:EasingType.Linear]"
+              AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
+>>>>>>> master
         </interactivity:Interaction.Behaviors>
       </Image>
     </Border>

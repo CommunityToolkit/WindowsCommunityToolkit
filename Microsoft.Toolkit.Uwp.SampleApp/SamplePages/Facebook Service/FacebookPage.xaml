@@ -169,7 +169,7 @@
                                      Header="App ID" />
                             <HyperlinkButton Margin="0,0,0,15"
                                              Content="Show me how to get this ID"
-                                             NavigateUri="http://uwpcommunitytoolkit.com/en/master/services/Facebook/" />
+                                             NavigateUri="https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/facebook" />
                             <StackPanel Orientation="Horizontal">
                                 <ComboBox x:Name="QueryType"
                                           Header="Type:" />

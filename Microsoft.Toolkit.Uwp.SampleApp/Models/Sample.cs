@@ -24,7 +24,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Media;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -110,6 +112,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public string Icon { get; set; }
 
         public string BadgeUpdateVersionRequired { get; set; }
+
+        public string DeprecatedWarning { get; set; }
 
         public string ApiCheck { get; set; }
 
@@ -618,6 +622,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var controlsProxyType = GridSplitter.GridResizeDirection.Auto;
             assembly = controlsProxyType.GetType().GetTypeInfo().Assembly;
 
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Microsoft.Toolkit.Uwp.UI.Animations
+            var animationsProxyType = EasingType.Default;
+            assembly = animationsProxyType.GetType().GetTypeInfo().Assembly;
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Microsoft.Toolkit.Uwp.UI
+            var uiProxyType = ImageBlendMode.Multiply;
+            assembly = uiProxyType.GetType().GetTypeInfo().Assembly;
             foreach (var typeInfo in assembly.ExportedTypes)
             {
                 if (typeInfo.Name == typeName)

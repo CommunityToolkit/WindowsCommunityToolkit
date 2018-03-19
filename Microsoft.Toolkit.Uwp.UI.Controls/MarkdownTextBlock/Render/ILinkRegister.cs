@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
@@ -25,5 +26,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         /// <param name="newHyperlink">Hyperlink to Register.</param>
         /// <param name="linkUrl">Url to Register.</param>
         void RegisterNewHyperLink(Hyperlink newHyperlink, string linkUrl);
+
+        /// <summary>
+        /// Registers a Hyperlink with a LinkUrl.
+        /// </summary>
+        /// <param name="newImagelink">ImageLink to Register.</param>
+        /// <param name="linkUrl">Url to Register.</param>
+        void RegisterNewHyperLink(Image newImagelink, string linkUrl);
     }
 }

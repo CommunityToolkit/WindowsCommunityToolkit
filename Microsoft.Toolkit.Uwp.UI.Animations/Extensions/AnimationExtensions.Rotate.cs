@@ -119,7 +119,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animation = compositor.CreateScalarKeyFrameAnimation();
                 animation.Duration = TimeSpan.FromMilliseconds(duration);
                 animation.DelayTime = TimeSpan.FromMilliseconds(delay);
-                animation.InsertKeyFrame(1f, value);
+                if (easingType == EasingType.Default)
+                {
+                    animation.InsertKeyFrame(1f, value);
+                }
+                else
+                {
+                    animation.InsertKeyFrame(1f, value, GetCompositionEasingFunction(easingType, compositor));
+                }
 
                 animationSet.AddCompositionAnimation("RotationAngleInDegrees", animation);
             }

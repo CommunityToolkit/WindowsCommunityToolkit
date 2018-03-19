@@ -1,7 +1,6 @@
 ---
 title: Blur animation behavior
 author: nmetulev
-ms.date: 08/20/2017
 description: The UWP Community Toolkit Blur animation behavior selectively blurs a XAML element by increasing or decreasing pixel size
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, blur, blur animation
 ---
@@ -23,7 +22,8 @@ The Blur animation blurs a XAML element by increasing or decreasing pixel size. 
     <behaviors:Blur x:Name="BlurBehavior" 
             Value="10" 
             Duration="2500" 
-            Delay="250" 
+            Delay="250"
+            EasingType="Linear"
             AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```

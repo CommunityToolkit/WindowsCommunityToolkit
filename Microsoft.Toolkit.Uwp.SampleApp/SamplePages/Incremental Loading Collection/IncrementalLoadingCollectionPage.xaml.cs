@@ -10,6 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Windows.UI.Xaml;
+
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
@@ -28,12 +30,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void Load()
         {
+            SampleController.Current.RegisterNewCommand("Refresh Collection", RefreshCollection);
+
             // IncrementalLoadingCollection can be bound to a GridView or a ListView. In this case it is a ListView called PeopleListView.
             var collection = new IncrementalLoadingCollection<PeopleSource, Person>();
             PeopleListView.ItemsSource = collection;
 
             // Binds the collection to the page DataContext in order to use its IsLoading and HasMoreItems properties.
             DataContext = collection;
+        }
+
+        private void RefreshCollection(object sender, RoutedEventArgs e)
+        {
+            var collection = (IncrementalLoadingCollection<PeopleSource, Person>)PeopleListView.ItemsSource;
+            collection.Refresh();
         }
     }
 }

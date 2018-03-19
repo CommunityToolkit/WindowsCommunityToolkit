@@ -10,10 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.ComponentModel;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -70,8 +74,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         // To get the time the app was previously launched, not including this instance
         public string LastLaunchTime => SystemInformation.LastLaunchTime.ToString(Culture.DateTimeFormat);
 
+        // To get the time the launch count was reset, not including this instance
+        public string LastResetTime
+        {
+            get { return (string)GetValue(LastResetTimeProperty); }
+            set { SetValue(LastResetTimeProperty, value); }
+        }
+
+        public static readonly DependencyProperty LastResetTimeProperty =
+            DependencyProperty.Register(nameof(LastResetTime), typeof(string), typeof(SystemInformationPage), new PropertyMetadata(string.Empty));
+
+        // To get the number of times the app has been launched sicne the last reset.
+        public long LaunchCount
+        {
+            get { return (long)GetValue(LaunchCountProperty); }
+            set { SetValue(LaunchCountProperty, value); }
+        }
+
+        public static readonly DependencyProperty LaunchCountProperty =
+            DependencyProperty.Register(nameof(LaunchCount), typeof(long), typeof(SystemInformationPage), new PropertyMetadata(0));
+
         // To get the number of times the app has been launched.
-        public long LaunchCount => SystemInformation.LaunchCount;
+        public long TotalLaunchCount => SystemInformation.TotalLaunchCount;
 
         // To get how long the app has been running
         public string AppUptime => SystemInformation.AppUptime.ToString();
@@ -79,6 +103,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public SystemInformationPage()
         {
             InitializeComponent();
+
+            RefreshProperties();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            SampleController.Current.RegisterNewCommand("Reset launch count", (sender, args) =>
+            {
+                SystemInformation.ResetLaunchCount();
+                RefreshProperties();
+            });
+        }
+
+        private void RefreshProperties()
+        {
+            LaunchCount = SystemInformation.LaunchCount;
+            LastResetTime = SystemInformation.LastResetTime.ToString(Culture.DateTimeFormat);
         }
     }
 }

@@ -1,7 +1,6 @@
 ---
 title: Loading XAML Control 
 author: nmetulev
-ms.date: 08/20/2017
 description: The loading control is for showing an animation with some content when the user should wait in some tasks of the app.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Loading, XAML Control , xaml
 ---
@@ -20,7 +19,6 @@ An example of how we can build the loading control.
 </controls:Loading>
 ```
 
-- **Background** and **Opacity** are for the panel who appears and disappears behind our custom control.
 - Use the **LoadingControl** to show specialized content.
 - You can also use **BorderBrush** and **BorderThickness** to change the **LoadingControl**.
 
@@ -41,9 +39,15 @@ An example of how we can build the loading control.
 `LoadingControl.IsLoading = true;`
 
 
-## Example Image
+## Sample Output
 
 ![Loading animation](../resources/images/LoadingXamlControl.gif "Loading Xaml Control")
+
+## Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| IsLoaded | boolean | Gets or sets a value indicating whether the control is in the loading state. Set this to true to show the Loading control, false to hide the control. |
 
 ## Example Code
 

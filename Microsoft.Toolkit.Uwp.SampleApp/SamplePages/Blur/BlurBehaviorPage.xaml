@@ -6,6 +6,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:media="using:Microsoft.Xaml.Interactions.Media"
       mc:Ignorable="d">
 
     <Grid>
@@ -37,6 +38,25 @@
                         <core:EventTriggerBehavior EventName="Click">
                             <core:CallMethodAction />
                         </core:EventTriggerBehavior>
+                        <core:EventTriggerBehavior EventName="">
+                            <core:ChangePropertyAction />
+                        </core:EventTriggerBehavior>
+                        <core:EventTriggerBehavior EventName="">
+                            <core:GoToStateAction />
+                        </core:EventTriggerBehavior>
+                        <core:EventTriggerBehavior EventName="">
+                            <core:InvokeCommandAction />
+                        </core:EventTriggerBehavior>
+                        <core:EventTriggerBehavior EventName="">
+                            <core:NavigateToPageAction />
+                        </core:EventTriggerBehavior>
+                        <core:EventTriggerBehavior EventName="">
+                            <media:ControlStoryboardAction />
+                        </core:EventTriggerBehavior>
+                        <core:EventTriggerBehavior EventName="">
+                            <media:PlaySoundAction />
+                        </core:EventTriggerBehavior>
+                        <core:DataTriggerBehavior />
                     </interactivity:Interaction.Behaviors>
                 </Button>
             </StackPanel>

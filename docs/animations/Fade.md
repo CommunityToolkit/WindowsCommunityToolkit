@@ -1,7 +1,6 @@
 ---
 title: Fade animation behavior
 author: nmetulev
-ms.date: 08/20/2017
 description: The Fade animation behavior fades objects, in and out, over time and delay. It can be used along side other animations directly through XAML or code
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, fade, fade animation
 ---
@@ -23,7 +22,8 @@ The Fade animation fades objects, in and out, over time. Fade animation is appli
     <behaviors:Fade x:Name="FadeBehavior" 
             Value="0.5" 
             Duration="2500" 
-            Delay="250" 
+            Delay="250"
+            EasingType="Linear"
             AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```
@@ -58,8 +58,6 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quartic    | Creates an animation that accelerates or decelerates using the formula f(t) = t4                                                                        | ![QuarticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quarticease-graph.png)     |
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
-
-***Note:** EasingType is used only when AnimationSet.UseComposition == false*
 
 ## Examples
 
