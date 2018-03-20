@@ -9,7 +9,7 @@
     <Grid x:Name="LottieAnimationViewGrid" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Black" BorderThickness="1" Background="White">
       <lottie:LottieAnimationView
           x:Name="Container"
-          FileName="Assets/Gears.json"
+          Source="Assets/Gears.json"
           AutoPlay="True"
           ColorFilter="@[ColorFilter:String:Transparent]@"
           Progress="@[Progress:Slider:0:0-1-.001]@"

@@ -16,6 +16,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Models
     {
         public string Id { get; set; }
 
-        public double MinOrMaxValue { get; set; }
+        public double Value { get; set; }
     }
 }

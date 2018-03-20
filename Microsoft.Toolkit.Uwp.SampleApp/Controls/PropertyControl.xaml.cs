@@ -133,12 +133,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
                                 if (option.Kind == PropertyKind.RangeSelectorMin)
                                 {
-                                    rangeSelector.RangeMin = rangeSelectorOption.MinOrMaxValue;
+                                    rangeSelector.RangeMin = rangeSelectorOption.Value;
                                     dependencyProperty = RangeSelector.RangeMinProperty;
                                 }
                                 else
                                 {
-                                    rangeSelector.RangeMax = rangeSelectorOption.MinOrMaxValue;
+                                    rangeSelector.RangeMax = rangeSelectorOption.Value;
                                     dependencyProperty = RangeSelector.RangeMaxProperty;
                                 }
 

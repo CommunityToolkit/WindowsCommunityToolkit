@@ -7,7 +7,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, lottie, lottieuwp
 
 # LottieAnimationView XAML Control
 
-The **LottieAnimationView Control** allows you to render an Adobe After Effects animation in your UWP App. It lets you control the Progress, the Scale, the Frame Rate, the Speed, it's behaviour for loops and the start and ending frames.
+The **LottieAnimationView Control** allows you to render an Adobe After Effects animation in your UWP App. It lets you control the Progress, the Scale, the Frame Rate, the Speed, it's behavior for loops and the start and ending frames.
 
 ## How it works?
 Lottie loads Json files that are exported from Adobe After Effects using a plugin called [Bodymovin](http://airbnb.io/lottie/after-effects/bodymovin-installation.html).
@@ -16,11 +16,11 @@ It parses this Json, creating all the layers and animations in memory, and draws
 
 ## LottieAnimationView Properties
 
-### FileName
+### Source
 Allows you to setup a file that will be loaded when the XAML control is loaded. If you want to reuse this LottieAnimationView to load other animations, you can use the `SetAnimationAsync` methods.
 
 ### AutoPlay
-Used in conjunction with `FileName`, when set to true, will automatically play this animation when it is loaded.
+Used in conjunction with `Source`, when set to true, will automatically play this animation when it is loaded.
 
 ### ColorFilter
 Use this to filter the colors that are drawn for each of the layers of the animation. This works as a dynamic property using the key "**" (all layers) on the ColorFilter property, creating a `SimpleColorFilter` with the `ColorFilter` as the `Color` to filter to. For more informations, refer to [Dynamic Properties](#dynamic-properties).
@@ -86,7 +86,7 @@ animationView.AddValueCallback<Color?>(
 
 ```xaml
 <lottie:LottieAnimationView
-    FileName="Assets/Gears.json"
+    Source="Assets/Gears.json"
     AutoPlay="True"
     ColorFilter="Transparent"
     Progress="0.287885218858719"
@@ -122,7 +122,7 @@ The following sample demonstrates how to add a LottieAnimationView Control.
 
     <Grid Background="{StaticResource Brush-Grey-05}">
         <lottie:LottieAnimationView
-            FileName="Assets/Gears.json"
+            Source="Assets/Gears.json"
             AutoPlay="True"
             ColorFilter="Transparent"
             Progress="0.287885218858719"
@@ -138,6 +138,11 @@ The following sample demonstrates how to add a LottieAnimationView Control.
 
 
 ```
+
+## Related Topics
+* [Adobe After Effects](http://www.adobe.com/products/aftereffects.html)
+* [Lottie Web](https://github.com/airbnb/lottie-web)
+* [Body Movin](http://airbnb.io/lottie/after-effects/bodymovin-installation.html)
 
 ## Requirements (Windows 10 Device Family)
 

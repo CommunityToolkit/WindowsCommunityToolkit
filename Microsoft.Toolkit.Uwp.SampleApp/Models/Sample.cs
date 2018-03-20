@@ -494,7 +494,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                         var rangeSelectorOptions = new RangeSelectorPropertyOptions { DefaultValue = double.Parse(value, CultureInfo.InvariantCulture) };
 
                                         var parameters = match.Groups["parameters"].Value;
-                                        rangeSelectorOptions.MinOrMaxValue = double.Parse(parameters, CultureInfo.InvariantCulture);
+                                        rangeSelectorOptions.Value = double.Parse(parameters, CultureInfo.InvariantCulture);
                                         rangeSelectorOptions.Id = match.Groups["options"].Value;
 
                                         options = rangeSelectorOptions;

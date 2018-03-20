@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 			AddCallback(typeof(LottieAnimationView),
 				b =>
 				{   
-					b.AddCustomAttributes(nameof(LottieAnimationView.FileName),
+					b.AddCustomAttributes(nameof(LottieAnimationView.Source),
 						new CategoryAttribute(Properties.Resources.CategoryCommon)
 					);
                     b.AddCustomAttributes(nameof(LottieAnimationView.AutoPlay),

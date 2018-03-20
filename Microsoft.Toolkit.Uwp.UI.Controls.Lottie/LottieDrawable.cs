@@ -313,72 +313,89 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie
             set => _alpha = value;
         }
 
-        // public int Opacity
-        // {
-        //    get
-        //    {
-        //        return PixelFormat.TRANSLUCENT;
-        //    }
-        // }
         private void CanvasControlOnDraw(ICanvasAnimatedControl canvasControl, CanvasAnimatedDrawEventArgs args)
         {
             lock (this)
             {
-                if (_bitmapCanvas == null)
+                Render(_bitmapCanvas, _compositionLayer, _composition, canvasControl.Device, _scale, _alpha, _matrix, canvasControl.Size.Width, canvasControl.Size.Height, args.DrawingSession);
+            }
+        }
+
+        internal static void Render(
+            BitmapCanvas bitmapCanvas,
+            CompositionLayer compositionLayer,
+            LottieComposition composition,
+            CanvasDevice device,
+            float renderScale,
+            byte alpha,
+            Matrix3X3 matrix,
+            double width,
+            double height,
+            CanvasDrawingSession drawingSession)
+        {
+            // If there are masks or mattes, we can't scale the animation larger than the canvas or else
+            // the off screen rendering for masks and mattes after saveLayer calls will get clipped.
+            float GetMaxScale()
+            {
+                var maxScaleX = (float)bitmapCanvas.Width / (float)composition.Bounds.Width;
+                var maxScaleY = (float)bitmapCanvas.Height / (float)composition.Bounds.Height;
+                return Math.Min(maxScaleX, maxScaleY);
+            }
+
+            if (bitmapCanvas == null)
+            {
+                return;
+            }
+
+            using (bitmapCanvas.CreateSession(device, width, height, drawingSession))
+            {
+                bitmapCanvas.Clear(Colors.Transparent);
+                LottieLog.BeginSection("Drawable.Draw");
+                if (compositionLayer == null)
                 {
                     return;
                 }
 
-                using (_bitmapCanvas.CreateSession(canvasControl.Device, canvasControl.Size.Width, canvasControl.Size.Height, args.DrawingSession))
+                var scale = renderScale;
+                float extraScale = 1f;
+
+                float maxScale = GetMaxScale();
+                if (scale > maxScale)
                 {
-                    _bitmapCanvas.Clear(Colors.Transparent);
-                    LottieLog.BeginSection("Drawable.Draw");
-                    if (_compositionLayer == null)
-                    {
-                        return;
-                    }
+                    scale = maxScale;
+                    extraScale = renderScale / scale;
+                }
 
-                    var scale = _scale;
-                    float extraScale = 1f;
+                if (extraScale > 1)
+                {
+                    // This is a bit tricky...
+                    // We can't draw on a canvas larger than ViewConfiguration.get(context).getScaledMaximumDrawingCacheSize()
+                    // which works out to be roughly the size of the screen because Android can't generate a
+                    // bitmap large enough to render to.
+                    // As a result, we cap the scale such that it will never be wider/taller than the screen
+                    // and then only render in the top left corner of the canvas. We then use extraScale
+                    // to scale up the rest of the scale. However, since we rendered the animation to the top
+                    // left corner, we need to scale up and translate the canvas to zoom in on the top left
+                    // corner.
+                    bitmapCanvas.Save();
+                    float halfWidth = (float)composition.Bounds.Width / 2f;
+                    float halfHeight = (float)composition.Bounds.Height / 2f;
+                    float scaledHalfWidth = halfWidth * scale;
+                    float scaledHalfHeight = halfHeight * scale;
+                    bitmapCanvas.Translate(
+                        (renderScale * halfWidth) - scaledHalfWidth,
+                        (renderScale * halfHeight) - scaledHalfHeight);
+                    bitmapCanvas.Scale(extraScale, extraScale, scaledHalfWidth, scaledHalfHeight);
+                }
 
-                    float maxScale = GetMaxScale(_bitmapCanvas);
-                    if (scale > maxScale)
-                    {
-                        scale = maxScale;
-                        extraScale = _scale / scale;
-                    }
+                matrix.Reset();
+                matrix = MatrixExt.PreScale(matrix, scale, scale);
+                compositionLayer.Draw(bitmapCanvas, matrix, alpha);
+                LottieLog.EndSection("Drawable.Draw");
 
-                    if (extraScale > 1)
-                    {
-                        // This is a bit tricky...
-                        // We can't draw on a canvas larger than ViewConfiguration.get(context).getScaledMaximumDrawingCacheSize()
-                        // which works out to be roughly the size of the screen because Android can't generate a
-                        // bitmap large enough to render to.
-                        // As a result, we cap the scale such that it will never be wider/taller than the screen
-                        // and then only render in the top left corner of the canvas. We then use extraScale
-                        // to scale up the rest of the scale. However, since we rendered the animation to the top
-                        // left corner, we need to scale up and translate the canvas to zoom in on the top left
-                        // corner.
-                        _bitmapCanvas.Save();
-                        float halfWidth = (float)_composition.Bounds.Width / 2f;
-                        float halfHeight = (float)_composition.Bounds.Height / 2f;
-                        float scaledHalfWidth = halfWidth * scale;
-                        float scaledHalfHeight = halfHeight * scale;
-                        _bitmapCanvas.Translate(
-                            (Scale * halfWidth) - scaledHalfWidth,
-                            (Scale * halfHeight) - scaledHalfHeight);
-                        _bitmapCanvas.Scale(extraScale, extraScale, scaledHalfWidth, scaledHalfHeight);
-                    }
-
-                    _matrix.Reset();
-                    _matrix = MatrixExt.PreScale(_matrix, scale, scale);
-                    _compositionLayer.Draw(_bitmapCanvas, _matrix, _alpha);
-                    LottieLog.EndSection("Drawable.Draw");
-
-                    if (extraScale > 1)
-                    {
-                        _bitmapCanvas.Restore();
-                    }
+                if (extraScale > 1)
+                {
+                    bitmapCanvas.Restore();
                 }
             }
         }
@@ -985,7 +1002,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie
         {
             get
             {
-                // !_imageAssetManager.hasSameContext(Context))
                 if (_imageAssetManager != null && false)
                 {
                     _imageAssetManager.RecycleBitmaps();
@@ -1009,15 +1025,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie
 
         private FontAssetManager FontAssetManager => _fontAssetManager ??
             (_fontAssetManager = new FontAssetManager(_fontAssetDelegate));
-
-        // If there are masks or mattes, we can't scale the animation larger than the canvas or else
-        // the off screen rendering for masks and mattes after saveLayer calls will get clipped.
-        private float GetMaxScale(BitmapCanvas canvas)
-        {
-            var maxScaleX = (float)canvas.Width / (float)_composition.Bounds.Width;
-            var maxScaleY = (float)canvas.Height / (float)_composition.Bounds.Height;
-            return Math.Min(maxScaleX, maxScaleY);
-        }
 
         private void Dispose(bool disposing)
         {
