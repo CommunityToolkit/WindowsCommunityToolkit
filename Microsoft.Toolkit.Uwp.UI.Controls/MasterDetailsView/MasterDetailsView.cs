@@ -59,6 +59,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
             ViewStateChanged += ToggleMasterListVisibility;
+            ViewStateChanged += SetItemListFocusWhenNotInDetails;
+            ViewStateChanged += SetListSelectionWithKeyboardFocusOnVisualStateChanged;
         }
 
         /// <summary>
@@ -176,6 +178,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _loaded = true;
         }
 
+        private void SetListSelectionWithKeyboardFocusOnVisualStateChanged(object sender, MasterDetailsViewState viewState)
+        {
+            if (viewState == MasterDetailsViewState.Both)
+            {
+                SetListSelectionWithKeyboardFocus(true);
+            }
+            else
+            {
+                SetListSelectionWithKeyboardFocus(false);
+            }
+        }
+
+        private void SetListSelectionWithKeyboardFocus(bool singleSelectionFollowsFocus)
+        {
+            if (this.FindDescendantByName("MasterList") is ListView masterList)
+            {
+                masterList.SingleSelectionFollowsFocus = singleSelectionFollowsFocus;
+            }
+        }
+
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
             if (DesignMode.DesignModeEnabled == false)
@@ -233,6 +255,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 SelectedItem = null;
                 args.Handled = true;
+            }
+        }
+
+        private void FocusItemList()
+        {
+            if (this.FindDescendantByName("MasterList") is ListView masterList)
+            {
+                masterList.Focus(FocusState.Programmatic);
             }
         }
 
@@ -310,6 +340,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (before != after)
             {
                 ViewStateChanged?.Invoke(this, after);
+            }
+        }
+
+        private void SetItemListFocusWhenNotInDetails(object sender, MasterDetailsViewState viewState)
+        {
+            if (viewState != MasterDetailsViewState.Details)
+            {
+                FocusItemList();
             }
         }
 
