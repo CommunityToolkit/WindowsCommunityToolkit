@@ -126,9 +126,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static void ColorContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             var itemContainer = args.ItemContainer as Control;
-            var itemIndex = sender.IndexFromContainer(itemContainer);
 
-            SetItemContainerBackground(sender, itemContainer, itemIndex);
+            SetItemContainerBackground(sender, itemContainer, args.ItemIndex);
         }
 
         private static void OnAlternateItemTemplatePropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
@@ -153,9 +152,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static void ItemTemplateContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             var itemContainer = args.ItemContainer as SelectorItem;
-            var itemIndex = sender.IndexFromContainer(itemContainer);
 
-            if (itemIndex % 2 == 0)
+            if (args.ItemIndex % 2 == 0)
             {
                 itemContainer.ContentTemplate = GetAlternateItemTemplate(sender);
             }
