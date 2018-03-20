@@ -14,11 +14,4 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
-    /// <summary>
-    ///  Class OneDriveItemConflictBehavior which define
-    /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public class OneDriveItemConflictBehavior : Toolkit.Services.OneDrive.OneDriveItemConflictBehavior
-    {
-    }
 }

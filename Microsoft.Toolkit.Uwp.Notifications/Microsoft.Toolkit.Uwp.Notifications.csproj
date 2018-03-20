@@ -7,6 +7,7 @@
     <Description>Generate tile, toast, and badge notifications for Windows 10 via code, with the help of IntelliSense, instead of directly using XML.
 Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is part of the UWP Community Toolkit. Supports C# and C++ UWP project types (see Microsoft.Toolkit.Uwp.Notifications.JavaScript for the JS version). Also works with C# portable class libraries and non-UWP C# projects like server projects.</Description>
     <PackageTags>notifications win10 windows 10 tile tiles toast toasts badge xml uwp c# csharp c++</PackageTags>
+    <Configurations>Debug;Release;OneDrive</Configurations>
   </PropertyGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native' ">
@@ -23,6 +24,18 @@ Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is pa
 
   <ItemGroup>
     <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'native'">
+    <PackageReference Include="System.Numerics.Vectors.WindowsRuntime">
+      <Version>4.3.0</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0'">
+    <PackageReference Include="System.Numerics.Vectors.WindowsRuntime">
+      <Version>4.3.0</Version>
+    </PackageReference>
   </ItemGroup>
   
 

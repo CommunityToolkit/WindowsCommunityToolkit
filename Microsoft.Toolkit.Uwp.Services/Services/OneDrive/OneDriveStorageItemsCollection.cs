@@ -12,6 +12,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Toolkit.Services.OneDrive;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {

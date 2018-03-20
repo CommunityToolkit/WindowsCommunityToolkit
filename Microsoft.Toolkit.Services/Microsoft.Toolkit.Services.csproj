@@ -8,6 +8,7 @@
 
     <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
     <DebugType>Full</DebugType>
+    <Configurations>Debug;Release;OneDrive</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

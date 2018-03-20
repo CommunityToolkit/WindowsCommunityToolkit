@@ -14,11 +14,4 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
-    /// <summary>
-    ///  RootParentReference class
-    /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public class OneDriveParentReference : Toolkit.Services.OneDrive.OneDriveParentReference
-    {
-    }
 }

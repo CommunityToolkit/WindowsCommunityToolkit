@@ -18,41 +18,4 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
-    /// <summary>
-    /// Specifies what type of access the app is granted
-    /// </summary>
-    [Flags]
-    [Obsolete("This enum is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public enum OneDriveScopes
-    {
-        /// <summary>
-        /// Authentication Provider does not use scopes (.ie ADAL)
-        /// </summary>
-        None = 0,
-
-        /// <summary>
-        /// Allow to get a refresh token
-        /// </summary>
-        OfflineAccess = 1,
-
-        /// <summary>
-        /// Grants read-only permission
-        /// </summary>
-        ReadOnly = 2,
-
-        /// <summary>
-        /// Grants read/write permission
-        /// </summary>
-        ReadWrite = 4,
-
-        /// <summary>
-        /// Grants read/write permission to a specific folder for your application
-        /// </summary>
-        AppFolder = 8,
-
-        /// <summary>
-        /// Single sign-in behavior.
-        /// </summary>
-        WlSignin = 16
-    }
 }
