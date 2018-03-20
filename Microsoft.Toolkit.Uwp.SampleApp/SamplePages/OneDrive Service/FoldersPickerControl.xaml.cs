@@ -14,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
+using Microsoft.Toolkit.Services.OneDrive;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -51,14 +51,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 return _graphDestinationFolder;
             }
-        }
-
-        public FoldersPickerControl(List<OneDriveStorageFolder> folders, OneDriveStorageFolder rootFolder)
-        {
-            this.InitializeComponent();
-            _folders = folders;
-            _currentFolder = _rootFolder = rootFolder;
-            _legacyMode = true;
         }
 
         public FoldersPickerControl(List<Toolkit.Services.OneDrive.OneDriveStorageFolder> folders, Toolkit.Services.OneDrive.OneDriveStorageFolder rootFolder)
@@ -186,29 +178,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             finally
             {
-                progressRing.IsActive = false;
-            }
-        }
-
-        private async Task NavigateToFolderAsync(OneDriveStorageItem item)
-        {
-                progressRing.IsActive = true;
-                try
-                {
-                    var currentFolder = await _currentFolder.GetFolderAsync(item.Name);
-                    var items = await currentFolder.GetFoldersAsync(100);
-                    if (items.Count > 0)
-                    {
-                        LstFolder.ItemsSource = items;
-                        _currentFolder = currentFolder;
-                    }
-                }
-                catch (ServiceException ex)
-                {
-                    await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(ex);
-                }
-                finally
-                {
                 progressRing.IsActive = false;
             }
         }

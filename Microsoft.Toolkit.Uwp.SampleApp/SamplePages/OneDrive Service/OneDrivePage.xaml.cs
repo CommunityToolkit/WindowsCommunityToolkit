@@ -13,7 +13,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
+using Microsoft.Toolkit.Services.OneDrive;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Popups;
@@ -58,39 +58,39 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 // OnlineId
                 if (indexProvider == 0)
                 {
-                    Services.OneDrive.OneDriveService.Instance.Initialize();
+                    OneDriveService.Instance.Initialize();
                 }
                 else if (indexProvider == 1)
                 {
-                    Services.OneDrive.OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msa, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
+                    OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msa, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
                 }
                 else if (indexProvider == 2)
                 {
-                    Services.OneDrive.OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Adal);
+                    OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Adal);
                 }
                 else if (indexProvider == 3)
                 {
-                    Services.OneDrive.OneDriveService.GraphInstance.Initialize(appClientId, DelegatedPermissionScopes.Text.Split(' '));
+                    OneDriveService.GraphInstance.Initialize(appClientId, DelegatedPermissionScopes.Text.Split(' '));
                 }
 
                 if (indexProvider == 3)
                 {
-                    if (!await Services.OneDrive.OneDriveService.GraphInstance.LoginAsync())
+                    if (!await OneDriveService.GraphInstance.LoginAsync())
                     {
                         throw new Exception("Unable to sign in");
                     }
 
-                    _graphCurrentFolder = _graphRootFolder = await Services.OneDrive.OneDriveService.GraphInstance.RootFolderForMeAsync();
+                    _graphCurrentFolder = _graphRootFolder = await OneDriveService.GraphInstance.RootFolderForMeAsync();
                     OneDriveItemsList.ItemsSource = await _graphRootFolder.GetItemsAsync(20);
                 }
                 else
                 {
-                    if (!await Services.OneDrive.OneDriveService.Instance.LoginAsync())
+                    if (!await OneDriveService.Instance.LoginAsync())
                     {
                         throw new Exception("Unable to sign in");
                     }
 
-                    _currentFolder = _rootFolder = await Services.OneDrive.OneDriveService.Instance.RootFolderAsync();
+                    _currentFolder = _rootFolder = await OneDriveService.Instance.RootFolderAsync();
                     OneDriveItemsList.ItemsSource = _rootFolder.GetItemsAsync();
                 }
 
@@ -150,11 +150,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (_indexProvider == 3)
             {
-                await Services.OneDrive.OneDriveService.GraphInstance.LogoutAsync();
+                await OneDriveService.GraphInstance.LogoutAsync();
             }
             else
             {
-                await Services.OneDrive.OneDriveService.Instance.LogoutAsync();
+                await OneDriveService.Instance.LogoutAsync();
             }
 
             OneDriveItemsList.Visibility = Visibility.Collapsed;
@@ -271,33 +271,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private async Task NavigateToFolderAsync(Toolkit.Uwp.Services.OneDrive.OneDriveStorageItem item)
-        {
-            if (item.IsFolder())
-            {
-                Shell.Current.DisplayWaitRing = true;
-                try
-                {
-                    var currentFolder = await _currentFolder.GetFolderAsync(item.Name);
-                    OneDriveItemsList.ItemsSource = currentFolder.GetItemsAsync();
-                    _currentFolder = currentFolder;
-                }
-                catch (ServiceException ex)
-                {
-                    await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(ex);
-                }
-                finally
-                {
-                    Shell.Current.DisplayWaitRing = false;
-                }
-            }
-        }
-
         private async Task NavigateBackAsync()
         {
             if (_currentFolder != null)
             {
-                Services.OneDrive.OneDriveStorageFolder currentFolder = null;
+                OneDriveStorageFolder currentFolder = null;
                 Shell.Current.DisplayWaitRing = true;
                 try
                 {
@@ -463,33 +441,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var command = await messageDialog.ShowAsync();
         }
 
-        private async Task DeleteAsync(Services.OneDrive.OneDriveStorageItem itemToDelete)
-        {
-            MessageDialog messageDialog = new MessageDialog($"Are you sure you want to delete '{itemToDelete.Name}'", "Delete");
-            messageDialog.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(async (cmd) =>
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = true; });
-                try
-                {
-                    await itemToDelete.DeleteAsync();
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { OneDriveItemsList.ItemsSource = _currentFolder.GetItemsAsync();  });
-                }
-                catch (ServiceException ex)
-                {
-                    await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(ex);
-                }
-                finally
-                {
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = false; });
-                }
-            })));
-
-            messageDialog.Commands.Add(new UICommand("No", new UICommandInvokedHandler((cmd) => { return; })));
-
-            messageDialog.DefaultCommandIndex = 0;
-            messageDialog.CancelCommandIndex = 1;
-            var command = await messageDialog.ShowAsync();
-        }
 
         private async void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
