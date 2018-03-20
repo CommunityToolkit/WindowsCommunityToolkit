@@ -1,7 +1,6 @@
 ---
 title: MasterDetailsView XAML Control
 author: nmetulev
-ms.date: 08/20/2017
 description: The MasterDetailsView Control presents items in a master/details pattern.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, MasterDetailsView, XAML Control, xaml
 ---

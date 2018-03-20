@@ -1,7 +1,6 @@
 ---
 title: DockPanel XAML Control
 author: IbraheemOsama
-ms.date: 10/18/2017
 description: Defines an area where you can arrange child elements either horizontally or vertically, relative to each other.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, DockPanel, XAML Control, xaml
 ---

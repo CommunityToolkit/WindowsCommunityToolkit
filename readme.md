@@ -6,7 +6,7 @@ The UWP Community Toolkit is a collection of helper functions, custom controls, 
 ## Build status
 | Target | Branch | Status | Recommended Nuget packages version |
 | ------ | ------ | ------ | ------ |
-| Production | rel/2.1.1 | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/rel/2.1.1?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/rel/2.1.1) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
+| Production | rel/2.2.0 | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/rel/2.2.0?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/rel/2.2.0) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
 | Pre-release beta testing | master | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/master?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/master) | [![MyGet](https://img.shields.io/dotnet.myget/uwpcommunitytoolkit/vpre/Microsoft.Toolkit.Uwp.svg)](https://dotnet.myget.org/gallery/uwpcommunitytoolkit) |
 
 ## Getting started
@@ -28,8 +28,8 @@ Once you search you should see a list similar to the one below (versions may be 
 | NuGet Package Name | Description |
 | --- | --- |
 | Microsoft.Toolkit | .NET Standard NuGet package containing common code |
+| Microsoft.Toolkit.Parsers | .NET Standard NuGet package containing cross-platform parsers, such as Markdown and RSS |
 | Microsoft.Toolkit.Services | .NET Standard NuGet package containing cross-platform services |
-| Microsoft.Toolkit.Parsers | .NET Standard NuGet package containing cross-platform parsers, such as Markdown, RSS and JSON |
 | Microsoft.Toolkit.Uwp | Main NuGet package includes code only helpers such as Colors conversion tool, Storage file handling, a Stream helper class, etc. |
 | Microsoft.Toolkit.Uwp.Notifications | Notifications Package - Generate tile, toast, and badge notifications for Windows 10 via code.  Includes intellisense support to avoid having to use the XML syntax. |
 | Microsoft.Toolkit.Uwp.Notifications.Javascript | Notification Packages for JavaScript |
@@ -48,6 +48,7 @@ Once you search you should see a list similar to the one below (versions may be 
 ## Features
 
 ### Animations
+* [AnimationSet](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/AnimationSet/)
 * [Blur](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Blur/)
 * [Composition Animations](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/CompositionAnimations/)
 * [Connected Animations](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/ConnectedAnimations/)
@@ -64,7 +65,6 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Scale](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Scale/)
 
 ### Brushes
-
 * [BackdropBlurBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropBlurBrush/)
 * [BackdropGammaTransferBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropGammaTransferBrush/)
 * [BackdropInvertBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropInvertBrush/)
@@ -99,6 +99,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [RotatorTile](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RotatorTile/)
 * [ScrollHeader](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/ScrollHeader/)
 * [SlideableListItem](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/SlidableListItem/)
+* [StaggeredPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/StaggeredPanel/)
 * [TextToolbar](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TextToolbar/)
 * [TileControl](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TileControl/)
 * [WrapPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/WrapPanel/)
@@ -108,8 +109,9 @@ Once you search you should see a list similar to the one below (versions may be 
 * [FocusTracker](https://docs.microsoft.com/windows/uwpcommunitytoolkit/developer-tools/FocusTracker/)
 
 ### Extensions
-* [Hyperlink](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/Hyperlink/)
-* [ListViewBase](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ListViewBase/)
+* [FrameworkElementExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/FrameworkElementExtensions/)
+* [HyperlinkExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/Hyperlink/)
+* [ListViewExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ListViewBase/)
 * [LogicalTree](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/LogicalTree/)
 * [MouseCursor](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/MouseCursor/)
 * [NavigationView Styles](https://docs.uwpcommunitytoolkit.com/windows/uwpcommunitytoolkit/extensions/NavigationView/)
@@ -118,9 +120,9 @@ Once you search you should see a list similar to the one below (versions may be 
 * [TextBoxMask](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/TextBoxMask/)
 * [TextBoxRegex](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/TextBoxRegex/)
 * [ViewExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ViewExtensions/)
-* [VisualEx](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/VisualEx/)
+* [VisualExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/VisualEx/)
 * [VisualTree](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/VisualTree/)
-* [WebView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/WebView/)
+* [WebViewExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/WebView/)
 
 ### Helpers
 * [AdvancedCollectionView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/AdvancedCollectionView/)

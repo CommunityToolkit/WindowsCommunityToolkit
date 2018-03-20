@@ -1,7 +1,6 @@
 ---
 title: Incremental Loading Collection Helpers
 author: nmetulev
-ms.date: 08/20/2017
 description: The IncrementalLoadingCollection helpers greatly simplify the definition and usage of collections whose items can be loaded incrementally only when needed by the view
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, IncrementalLoadingCollection
 ---

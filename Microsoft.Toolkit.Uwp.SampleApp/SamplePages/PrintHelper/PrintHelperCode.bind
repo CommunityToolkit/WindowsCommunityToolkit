@@ -1,7 +1,16 @@
+// Create a new PrintHelperOptions instance
+var defaultPrintHelperOptions = new PrintHelperOptions();
+ 
+//Add options that you want to be displayed on the print dialog
+defaultPrintHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation);
+ 
+//Set preselected settings
+defaultPrintHelperOptions.Orientation = PrintOrientation.Landscape;
+
 // Create a new PrintHelper instance
 // "container" is a XAML panel that will be used to host printable control. 
 // It needs to be in your visual tree but can be hidden with Opacity = 0
-var printHelper = new PrintHelper(container);
+var printHelper = new PrintHelper(container, defaultPrintHelperOptions);
 
 // Add controls that you want to print
 printHelper.AddFrameworkElementToPrint(await PrepareWebViewForPrintingAsync());

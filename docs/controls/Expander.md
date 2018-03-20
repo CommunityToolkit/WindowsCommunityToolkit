@@ -1,7 +1,6 @@
 ---
 title: Expander Control
 author: nmetulev
-ms.date: 08/20/2017
 description: The Expander Control provides an expandable container to host any content.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Expander, xaml Control, xaml
 ---

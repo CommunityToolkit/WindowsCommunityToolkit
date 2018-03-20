@@ -1,7 +1,6 @@
 ---
 title: OneDrive Service
 author: nmetulev
-ms.date: 08/20/2017
 description: The OneDrive Service provides a simple way to access resources on either OneDrive or OneDrive for Business (Office 365).
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, OneDrive
 ---

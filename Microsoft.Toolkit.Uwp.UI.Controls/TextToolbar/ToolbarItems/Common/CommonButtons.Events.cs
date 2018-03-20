@@ -133,8 +133,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
         /// Opens a <see cref="ContentDialog"/> to notify the user about empty and whitespace inputs.
         /// </summary>
         /// <param name="title">The <see cref="string"/> </param>
-        /// <param name="content">The <see cref="string"/> </param>
-        /// <param name="primaryButtonText">The <see cref="string"/> </param>
+        /// <param name="content">The <see cref="string"/> of the ContentDialog</param>
+        /// <param name="primaryButtonText">The <see cref="string"/> content of the primary button</param>
         private async void ShowContentDialog(string title, string content, string primaryButtonText)
         {
             await new ContentDialog

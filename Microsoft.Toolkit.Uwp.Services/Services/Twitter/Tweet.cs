@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         [JsonProperty("text")]
         public string Text { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the extended mode.
         /// </summary>

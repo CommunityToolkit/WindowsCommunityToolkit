@@ -507,11 +507,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                     items = await SearchAsync(config.Query, maxRecords, parser);
                     break;
 
-                case TwitterQueryType.Home:
                 case TwitterQueryType.Custom:
                     items = await GetCustomSearch(config.Query, parser);
                     break;
 
+                case TwitterQueryType.Home:
                 default:
                     items = await GetHomeTimeLineAsync(maxRecords, parser);
                     break;

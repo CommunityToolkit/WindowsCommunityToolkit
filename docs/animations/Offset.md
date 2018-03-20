@@ -1,7 +1,6 @@
 ---
 title: Offset animation behavior
 author: nmetulev
-ms.date: 08/20/2017
 description: The Offset animation behavior gets the number of pixels, from the origin of the associated control, then offsets the control.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, offset animation
 ---

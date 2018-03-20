@@ -50,6 +50,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Items.VectorChanged += ItemsOnVectorChanged;
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
+
+            // Prevent issues with higher DPIs and underlying panel. #1803
+            UseLayoutRounding = false;
         }
 
         /// <summary>
@@ -162,9 +165,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // If the width of the internal list view changes, check if more or less columns needs to be rendered.
-            if (e.PreviousSize.Width != e.NewSize.Width)
+            // If we are in center alignment, we only care about relayout if the number of columns we can display changes
+            // Fixes #1737
+            if (HorizontalAlignment != HorizontalAlignment.Stretch)
             {
+                var prevColumns = CalculateColumns(e.PreviousSize.Width, DesiredWidth);
+                var newColumns = CalculateColumns(e.NewSize.Width, DesiredWidth);
+
+                // If the width of the internal list view changes, check if more or less columns needs to be rendered.
+                if (prevColumns != newColumns)
+                {
+                    RecalculateLayout(e.NewSize.Width);
+                }
+            }
+            else if (e.PreviousSize.Width != e.NewSize.Width)
+            {
+                // We need to recalculate width as our size changes to adjust internal items.
                 RecalculateLayout(e.NewSize.Width);
             }
         }

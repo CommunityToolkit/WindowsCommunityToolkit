@@ -11,14 +11,10 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Converters;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using System.Linq;
-using Windows.UI;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
-using UITestMethod = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppContainer.UITestMethodAttribute;
+using Windows.UI.Xaml.Controls;
 
 namespace UnitTests.Converters
 {
@@ -44,7 +40,6 @@ namespace UnitTests.Converters
             Assert.AreEqual(result, value);
         }
 
-
         [TestCategory("Converters")]
         [TestMethod]
         public void Convert_GridViewIsNull_ReturnsValue()
@@ -57,15 +52,19 @@ namespace UnitTests.Converters
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Convert_DefaultAdaptiveGridView_ReturnsHeightPlusItemMargin()
+        public void Convert_GridViewWithItemContainerStyle_ReturnsHeightPlusItemMargin()
         {
             var converter = new AdaptiveHeightValueConverter();
             double value = 100;
             var gridView = new AdaptiveGridView();
-            var margin = (Thickness)gridView.ItemContainerStyle?.Setters.OfType<Setter>().First(s => s.Property == FrameworkElement.MarginProperty).Value;
+
+            var margin = new Thickness(10);
+            var style = new Style(typeof(GridViewItem));
+            style.Setters.Add(new Setter(GridViewItem.MarginProperty, margin));
+            gridView.ItemContainerStyle = style;
 
             var result = converter.Convert(value, null, gridView, null);
-            Assert.AreEqual(result, value + margin.Bottom);
+            Assert.AreEqual(result, value + margin.Bottom + margin.Top);
         }
 
         [TestCategory("Converters")]

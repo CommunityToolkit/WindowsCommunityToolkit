@@ -1,7 +1,6 @@
 ---
 title: SurfaceDialTextboxHelper XAML Property
 author: nmetulev
-ms.date: 08/20/2017
 description: The SurfaceDialTextboxHelper XAML Property adds features from the Surface Dial control to a numeric TextBox.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, SurfaceDialTextboxHelper, XAML
 ---
@@ -27,7 +26,8 @@ This property enables the MinValue and MaxValue limits of the Textbox. These val
 **EnableTapToNextControl**: Optional
 Enables you to click the Surface Dial Control to move to the next focus item in your UI. Good for quickly navigating between Textbox elements on your UI.
 
-> [!NOTE] Windows Anniversary Update (10.0.14393.0) is required for this helper to work correctly.
+> [!NOTE]
+Windows Anniversary Update (10.0.14393.0) is required for this helper to work correctly.
 
 ## Syntax
 

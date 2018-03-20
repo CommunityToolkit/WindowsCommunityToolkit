@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class RangeSelector : Control
     {
         private const double Epsilon = 0.01;
-        private const double DefaultStepFrequency = 0.01;
+        private const double DefaultStepFrequency = 1;
         private const double DefaultTickFrequency = 0;
 
         /// <summary>
@@ -219,11 +219,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             switch (e.Key)
             {
                 case VirtualKey.Left:
-                    RangeMin -= 1;
+                    RangeMin -= StepFrequency;
+                    SyncThumbs();
                     e.Handled = true;
                     break;
                 case VirtualKey.Right:
-                    RangeMin += 1;
+                    RangeMin += StepFrequency;
+                    SyncThumbs();
                     e.Handled = true;
                     break;
             }
@@ -234,11 +236,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             switch (e.Key)
             {
                 case VirtualKey.Left:
-                    RangeMax -= 1;
+                    RangeMax -= StepFrequency;
+                    SyncThumbs();
                     e.Handled = true;
                     break;
                 case VirtualKey.Right:
-                    RangeMax += 1;
+                    RangeMax += StepFrequency;
+                    SyncThumbs();
                     e.Handled = true;
                     break;
             }
