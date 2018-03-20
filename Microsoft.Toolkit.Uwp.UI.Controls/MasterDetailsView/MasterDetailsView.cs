@@ -332,21 +332,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnMasterCommandBarChanged()
         {
-            var panel = GetTemplateChild("DetailsCommandBarPanel") as Panel;
-            if (panel == null)
-            {
-                return;
-            }
-
-            panel.Children.Clear();
-            if (DetailsCommandBar != null)
-            {
-                panel.Children.Add(DetailsCommandBar);
-            }
-        }
-
-        private void OnDetailsCommandBarChanged()
-        {
             var panel = GetTemplateChild("MasterCommandBarPanel") as Panel;
             if (panel == null)
             {
@@ -357,6 +342,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (MasterCommandBar != null)
             {
                 panel.Children.Add(MasterCommandBar);
+            }
+        }
+
+        private void OnDetailsCommandBarChanged()
+        {
+            var panel = GetTemplateChild("DetailsCommandBarPanel") as Panel;
+            if (panel == null)
+            {
+                return;
+            }
+
+            panel.Children.Clear();
+            if (DetailsCommandBar != null)
+            {
+                panel.Children.Add(DetailsCommandBar);
             }
         }
     }
