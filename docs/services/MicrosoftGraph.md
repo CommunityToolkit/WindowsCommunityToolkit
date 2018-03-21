@@ -187,6 +187,35 @@ if (events == null)
 
 ```
 
+## Sign in using Device Code (useful to Sign in to a non-keyboard/touch device from a touch device)
+
+```csharp
+
+// Initialize the service
+MicrosoftGraphService.Instance.Initialize(ClientId.Text);
+
+// Generate a Device code
+await MicrosoftGraphService.Instance.InitializeDeviceCodeAsync();
+
+// Display the generated device code
+var popup = new ContentDialog
+{
+	Content = "Go to http://aka.ms/devicelogin and enter the following code :" + MicrosoftGraphService.Instance.UserCode,
+	Title = "Pending authentication...",
+	CloseButtonText = "Cancel"
+};
+
+popup.ShowAsync().GetResults();
+			
+// Login via Azure Active Directory (will wait until authentication have been done on http://aka.ms/devicelogin)
+if (!await MicrosoftGraphService.Instance.LoginAsync())
+{
+ popup.Hide();
+ return;
+}
+
+```
+
 ### Example
 [MicrosoftGraph Service Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Microsoft%20Graph%20Service)
 
