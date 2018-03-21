@@ -72,6 +72,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         public string TextBoxId { get; set; }
 
+        /// <summary>
+        /// Gets or sets an identifier used in telemetry to identify your category of action. This should be something
+        /// like "Delete", "Reply", or "Archive". In the upcoming toast telemetry dashboard in Dev Center, you will
+        /// be able to view how frequently your actions are being clicked.
+        /// </summary>
+        public string HintActionId { get; set; }
+
         internal Element_ToastAction ConvertToElement()
         {
             var el = new Element_ToastAction()
@@ -80,7 +87,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 Arguments = Arguments,
                 ActivationType = Element_Toast.ConvertActivationType(ActivationType),
                 ImageUri = ImageUri,
-                InputId = TextBoxId
+                InputId = TextBoxId,
+                HintActionId = HintActionId
             };
 
             ActivationOptions?.PopulateElement(el);

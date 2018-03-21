@@ -61,6 +61,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         public ToastActivationOptions ActivationOptions { get; set; }
 
+        /// <summary>
+        /// Gets or sets an identifier used in telemetry to identify your category of action. This should be something
+        /// like "TurnOff" or "ManageSettings". In the upcoming toast telemetry dashboard in Dev Center, you will
+        /// be able to view how frequently your actions are being clicked.
+        /// </summary>
+        public string HintActionId { get; set; }
+
         internal Element_ToastAction ConvertToElement()
         {
             var el = new Element_ToastAction
@@ -68,7 +75,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 Content = Content,
                 Arguments = Arguments,
                 ActivationType = Element_Toast.ConvertActivationType(ActivationType),
-                Placement = Element_ToastActionPlacement.ContextMenu
+                Placement = Element_ToastActionPlacement.ContextMenu,
+                HintActionId = HintActionId
             };
 
             ActivationOptions?.PopulateElement(el);

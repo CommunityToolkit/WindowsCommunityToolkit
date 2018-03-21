@@ -11,10 +11,10 @@
 // ******************************************************************
 
 using System;
-using System.Collections.ObjectModel;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
@@ -22,6 +22,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -39,14 +40,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             LogOutButton.Visibility = Visibility.Collapsed;
         }
 
-        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
+        private async Task<bool> CanLoginAsync()
         {
             if (!await Tools.CheckInternetConnectionAsync())
             {
-                return;
+                return false;
             }
 
             if (string.IsNullOrEmpty(ClientId.Text))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private async void RemoteConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!await CanLoginAsync())
             {
                 return;
             }
@@ -54,14 +65,122 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Initialize the service
             MicrosoftGraphService.Instance.Initialize(ClientId.Text);
 
-            // Login via Azure Active Directory
-            if (!await MicrosoftGraphService.Instance.LoginAsync())
+            // Initialize the device code
+            try
             {
-                var error = new MessageDialog("Unable to sign in to Office 365");
+                // Initialize the device code
+                await MicrosoftGraphService.Instance.InitializeDeviceCodeAsync();
+            }
+            catch (IdentityModel.Clients.ActiveDirectory.AdalException adalException)
+            {
+                var error = new MessageDialog($"The Client Id is invalid.\n{adalException.Message}");
                 await error.ShowAsync();
                 return;
             }
 
+            var popup = new ContentDialog
+            {
+                Content = "Go to http://aka.ms/devicelogin and enter the following code :" + MicrosoftGraphService.Instance.UserCode,
+                Title = "Pending authentication...",
+                CloseButtonText = "Cancel"
+            };
+
+            popup.ShowAsync().GetResults();
+
+            if (await LoginAsync())
+            {
+                popup.Hide();
+                await LoadProfileAsync();
+            }
+        }
+
+        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!await CanLoginAsync())
+            {
+                return;
+            }
+
+            // Initialize the service
+            MicrosoftGraphService.Instance.Initialize(ClientId.Text);
+
+            if (await LoginAsync())
+            {
+                await LoadProfileAsync();
+            }
+        }
+
+        private async Task<bool> LoginAsync()
+        {
+            if (!await Tools.CheckInternetConnectionAsync())
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(ClientId.Text))
+            {
+                return false;
+            }
+
+            var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
+            var endpointVersion = item.Tag.ToString() == "v2" ? AuthenticationModel.V2 : AuthenticationModel.V1;
+
+            MicrosoftGraphService.Instance.AuthenticationModel = endpointVersion;
+
+            // Initialize the service
+            switch (endpointVersion)
+            {
+                case AuthenticationModel.V1:
+                    MicrosoftGraphService.Instance.Initialize(ClientId.Text);
+                    break;
+                case AuthenticationModel.V2:
+                    var scopes = DelegatedPermissionScopes.Text.Split(' ');
+                    MicrosoftGraphService.Instance.Initialize(ClientId.Text, ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, scopes);
+                    break;
+                default:
+                    break;
+            }
+
+            // Login via Azure Active Directory
+            try
+            {
+                if (!await MicrosoftGraphService.Instance.LoginAsync())
+                {
+                    var error = new MessageDialog("Unable to sign in to Office 365");
+                    await error.ShowAsync();
+                    return false;
+                }
+            }
+            catch (AdalServiceException ase)
+            {
+                var error = new MessageDialog(ase.Message);
+                await error.ShowAsync();
+                return false;
+            }
+            catch (AdalException ae)
+            {
+                var error = new MessageDialog(ae.Message);
+                await error.ShowAsync();
+                return false;
+            }
+            catch (MsalServiceException mse)
+            {
+                var error = new MessageDialog(mse.Message);
+                await error.ShowAsync();
+                return false;
+            }
+            catch (MsalException me)
+            {
+                var error = new MessageDialog(me.Message);
+                await error.ShowAsync();
+                return false;
+            }
+
+            return true;
+        }
+
+        private async Task LoadProfileAsync()
+        {
             Shell.Current.DisplayWaitRing = true;
             try
             {
@@ -99,6 +218,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ClientIdBox.Visibility = Visibility.Collapsed;
             LogOutButton.Visibility = Visibility.Visible;
             ConnectButton.Visibility = Visibility.Collapsed;
+            RemoteConnectButton.Visibility = Visibility.Collapsed;
         }
 
         private async void GetEventsButton_Click(object sender, RoutedEventArgs e)
@@ -242,10 +362,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void LogOutButton_Click(object sender, RoutedEventArgs e)
+        private async void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
             MessagesList.LoadMoreItemsAsync().Cancel();
-            MicrosoftGraphService.Instance.Logout();
+            await MicrosoftGraphService.Instance.Logout();
             EventsList.Visibility = Visibility.Collapsed;
             EventsBox.Visibility = Visibility.Collapsed;
             MessagesList.Visibility = Visibility.Collapsed;
@@ -254,6 +374,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             UserBox.Visibility = Visibility.Collapsed;
             ClientIdBox.Visibility = Visibility.Visible;
             ConnectButton.Visibility = Visibility.Visible;
+            RemoteConnectButton.Visibility = Visibility.Visible;
+        }
+
+        private void VersionEndpointDropdown_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
+            if (DelegatedPermissionScopes != null)
+            {
+                DelegatedPermissionScopes.Visibility = item.Tag.ToString() == "v2" ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
     }
 }

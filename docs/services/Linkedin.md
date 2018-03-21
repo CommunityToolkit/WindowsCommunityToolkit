@@ -1,7 +1,6 @@
 ---
 title: LinkedIn Service 
 author: nmetulev
-ms.date: 08/20/2017
 description: The LinkedIn Service allows you to retrieve or publish data to the LinkedIn graph. Examples of the types of objects you can work with are User profile data and sharing Activity.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, LinkedIn Service 
 ---

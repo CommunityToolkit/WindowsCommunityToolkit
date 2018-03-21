@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Text;
 using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 
@@ -18,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// <summary>
     /// OneDriveHelper Type
     /// </summary>
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
     public static class OneDriveHelper
     {
         /// <summary>
@@ -25,6 +27,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="collisionOption">Windows storage string collision option</param>
         /// <returns>The transformed option</returns>
+        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
         public static string TransformCollisionOptionToConflictBehavior(string collisionOption)
         {
             if (collisionOption.Equals("GenerateUniqueName"))
@@ -45,6 +48,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="scopes">onedrive scopes</param>
         /// <returns>a string array containing the OneDrive permissions</returns>
+        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
         public static string[] TransformScopes(OneDriveScopes scopes)
         {
             StringBuilder sb = new StringBuilder();
@@ -81,6 +85,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
         /// </summary>
         /// <param name="order">orderby enum</param>
         /// <returns>a string array containing the OneDrive Order by string</returns>
+        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
         public static string TransformOrderByToODataString(OrderBy order)
         {
             switch (order)

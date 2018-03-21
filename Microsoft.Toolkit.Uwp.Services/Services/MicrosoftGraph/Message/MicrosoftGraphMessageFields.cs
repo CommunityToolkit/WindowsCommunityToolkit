@@ -10,11 +10,15 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
     /// <summary>
     /// Message's Fields
     /// </summary>
+    [Obsolete("This enum is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
+
     public enum MicrosoftGraphMessageFields
     {
         /// <summary>

@@ -1,7 +1,6 @@
 ---
 title: Expander Control
 author: nmetulev
-ms.date: 08/20/2017
 description: The Expander Control provides an expandable container to host any content.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Expander, xaml Control, xaml
 ---
@@ -28,15 +27,16 @@ You can also use these events :
 ```xaml
 
 <controls:Expander Header="Header of the expander"
-                   Foreground="White"
-                   Background="Gray"
-                   IsExpanded="True">
+  Foreground="White"
+  Background="Gray"
+  IsExpanded="True">
+
 	<Grid Height="250">
-        <TextBlock HorizontalAlignment="Center"
-                   TextWrapping="Wrap"
-                   Text="This is the content"
-                   VerticalAlignment="Center" />
-    </Grid>
+    <TextBlock HorizontalAlignment="Center"
+      TextWrapping="Wrap"
+      Text="This is the content"
+      VerticalAlignment="Center" />
+  </Grid>
 </controls:Expander>       
 
 ```

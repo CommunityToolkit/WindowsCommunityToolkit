@@ -38,12 +38,12 @@
 
     <Grid Padding="48">
         <ListView Name="WrapPanelContainer"
-                  Margin="2"
                   IsItemClickEnabled="True"
                   ItemTemplate="{StaticResource PhotoTemplate}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <controls:WrapPanel Background="LightGray"
+                                        Padding="@[Padding:Thickness:0,0,0,0]@"
                                         VerticalSpacing="@[VerticalSpacing:Slider:5:0-200]@"
                                         HorizontalSpacing="@[HorizontalSpacing:Slider:5:0-200]@"/>
                 </ItemsPanelTemplate>

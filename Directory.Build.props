@@ -76,6 +76,12 @@
     <PackageReference Include="Nerdbank.GitVersioning" Version="2.0.37-beta" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json">
+      <Link>stylecop.json</Link>
+    </AdditionalFiles>
+  </ItemGroup>
+
   <!-- https://github.com/NuGet/Home/issues/4337 -->
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' == 'true' ">
     <Import Project="$(UserProfile)\.nuget\packages\nerdbank.gitversioning\$(NerdbankGitVersioningVersion)\buildCrossTargeting\Nerdbank.GitVersioning.targets"

@@ -1,7 +1,6 @@
 ---
 title: ImageEx XAML Control
 author: nmetulev
-ms.date: 08/20/2017
 description: The ImageEx Control and RoundImageEx Control downloads images asynchronously, while showing a loading indicator.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ImageEx, RoundImageEx, xaml control, xaml
 ---
@@ -14,7 +13,6 @@ You can also use a placeholder image that will be displayed will loading the mai
 ## Syntax
 
 ```xaml
-
 <controls:ImageEx Name="ImageExControl"
 	IsCacheEnabled="True"
 	PlaceholderSource="/assets/thumbnails/thumbnails.png"
@@ -27,7 +25,6 @@ You can also use a placeholder image that will be displayed will loading the mai
 	Source="/assets/bigPicture.png"
 	CornerRadius="999"
 /> 
-
 ```
 
 ## Example Image

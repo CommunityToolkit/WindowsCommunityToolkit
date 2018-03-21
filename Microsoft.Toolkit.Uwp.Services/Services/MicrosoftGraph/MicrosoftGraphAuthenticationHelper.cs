@@ -11,14 +11,9 @@
 // ******************************************************************
 
 using System;
-using System.IO;
-using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Newtonsoft.Json;
 using Windows.Security.Authentication.Web;
 using Windows.Security.Credentials;
 using Windows.Storage;
@@ -26,23 +21,16 @@ using Windows.Storage;
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
     /// <summary>
-    /// Authentication Helper Using Azure Active Directory V1.0 app Model
-    /// and Azure Active Directory library for .NET
+    /// Authentication Helper Using Azure Active Directory v1.0 and v2.0 app Model
     /// </summary>
-    internal class MicrosoftGraphAuthenticationHelper
+    internal class MicrosoftGraphAuthenticationHelper : Toolkit.Services.MicrosoftGraph.MicrosoftGraphAuthenticationHelper
     {
         /// <summary>
         /// Base Url for service.
         /// </summary>
-        private const string Authority = "https://login.microsoftonline.com/common/";
+        private const string DeviceAuthUrl = "https://login.microsoftonline.com/common/oauth2/deviceauth";
         private const string LogoutUrl = "https://login.microsoftonline.com/common/oauth2/logout";
         private const string MicrosoftGraphResource = "https://graph.microsoft.com";
-        private const string DefaultRedirectUri = "urn:ietf:wg:oauth:2.0:oob";
-
-        private const string AuthorityV2Model = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
-        private const string AuthorizationTokenService = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
-        private const string LogoutUrlV2Model = "https://login.microsoftonline.com/common/oauth2/v2.0/logout";
-        private const string Scope = "openid+profile+https://graph.microsoft.com/Files.ReadWrite https://graph.microsoft.com/Mail.ReadWrite https://graph.microsoft.com/User.ReadWrite+offline_access";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftGraphAuthenticationHelper"/> class.
@@ -53,14 +41,14 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Storage key name for access token.
+        /// Initializes a new instance of the <see cref="MicrosoftGraphAuthenticationHelper"/> class.
         /// </summary>
-        private static readonly string STORAGEKEYACCESSTOKEN = "AccessToken";
-
-        /// <summary>
-        /// Storage key name for token expiration.
-        /// </summary>
-        private static readonly string STORAGEKEYEXPIRATION = "Expiration";
+        /// <param name="delegatedPermissionScopes">Delegated Permission Scopes</param>
+        public MicrosoftGraphAuthenticationHelper(string[] delegatedPermissionScopes)
+            : base(delegatedPermissionScopes)
+        {
+            _vault = new PasswordVault();
+        }
 
         /// <summary>
         /// Storage key name for user name.
@@ -73,25 +61,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         private readonly PasswordVault _vault;
 
         /// <summary>
-        /// Store the current connected user
-        /// </summary>
-        private Identity.Client.User _user;
-
-        /// <summary>
-        /// Store the Oauth2 access token.
-        /// </summary>
-        private string _tokenForUser = null;
-
-        /// <summary>
-        /// Store The lifetime in seconds of the access token.
-        /// </summary>
-        /// <remarks>By default the life time of the first access token is 3600 (1h)</remarks>
-        private DateTimeOffset _expiration;
-
-        private PasswordCredential _passwordCredential;
-
-        /// <summary>
-        /// Azure Active Directory Authentication context use to get an access token
+        /// Azure Active Directory Authentication context use to get an access token [ADAL]
         /// </summary>
         private AuthenticationContext _azureAdContext = new AuthenticationContext(Authority);
 
@@ -104,29 +74,74 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         {
             // For the first use get an access token prompting the user, after one hour
             // refresh silently the token
-            if (_tokenForUser == null)
+            if (TokenForUser == null)
             {
                 IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(MicrosoftGraphResource, appClientId, new Uri(DefaultRedirectUri), new IdentityModel.Clients.ActiveDirectory.PlatformParameters(PromptBehavior.Always, false));
-                _tokenForUser = userAuthnResult.AccessToken;
-                _expiration = userAuthnResult.ExpiresOn;
+                TokenForUser = userAuthnResult.AccessToken;
+                Expiration = userAuthnResult.ExpiresOn;
             }
 
-            if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
+            if (Expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
             {
                 IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenSilentAsync(MicrosoftGraphResource, appClientId);
-                _tokenForUser = userAuthnResult.AccessToken;
-                _expiration = userAuthnResult.ExpiresOn;
+                TokenForUser = userAuthnResult.AccessToken;
+                Expiration = userAuthnResult.ExpiresOn;
             }
 
-            return _tokenForUser;
+            return TokenForUser;
+        }
+
+        /// <summary>
+        /// Step 1 - Server side - Get code to authenticate the standalone device
+        /// </summary>
+        /// <param name="appClientId">Client Id</param>
+        /// <returns>Code Result</returns>
+        internal Task<DeviceCodeResult> GetCode(string appClientId)
+        {
+            return _azureAdContext.AcquireDeviceCodeAsync(MicrosoftGraphResource, appClientId);
+        }
+
+        /// <summary>
+        /// Step 2 - Client side - Display login page (to be called from a device which is keyboard capable
+        /// </summary>
+        /// <returns>Even if successfull, the result is useless</returns>
+        internal async Task<WebAuthenticationResult> AuthenticateByDeviceCodeAsync()
+        {
+            return await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, new Uri(DeviceAuthUrl), new Uri(DefaultRedirectUri));
+        }
+
+        /// <summary>
+        /// Step 3 - Server side - Get token by code
+        /// </summary>
+        /// <param name="appClientId">Client Id</param>
+        /// <param name="code">DeviceCodeResult previously acquired with GetCode() method</param>
+        /// <returns>User Token</returns>
+        internal async Task<string> GetUserTokenByDeviceCodeAsync(string appClientId, DeviceCodeResult code)
+        {
+            // For the first use get an access token prompting the user, after one hour
+            // refresh silently the token
+            if (TokenForUser == null)
+            {
+                AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenByDeviceCodeAsync(code);
+                TokenForUser = userAuthnResult.AccessToken;
+                Expiration = userAuthnResult.ExpiresOn;
+            }
+            else if (Expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
+            {
+                AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenSilentAsync(MicrosoftGraphResource, appClientId);
+                TokenForUser = userAuthnResult.AccessToken;
+                Expiration = userAuthnResult.ExpiresOn;
+            }
+
+            return TokenForUser;
         }
 
         /// <summary>
         /// Clean the TokenCache
         /// </summary>
-        internal void CleanToken()
+        internal override void CleanToken()
         {
-            _tokenForUser = null;
+            TokenForUser = null;
             _azureAdContext.TokenCache.Clear();
         }
 
@@ -138,6 +153,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         internal async Task<bool> LogoutAsync(string authenticationModel)
         {
             HttpResponseMessage response = null;
+            ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] = null;
+
             if (authenticationModel.Equals("V1"))
             {
                 using (var client = new HttpClient())
@@ -147,132 +164,13 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                     return response.IsSuccessStatusCode;
                 }
             }
-           else if (authenticationModel.Equals("V2"))
-            {
-                if (_user != null)
-                {
-                    _user.SignOut();
-                }
-            }
 
-            ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] = null;
-            if (_passwordCredential != null)
+            if (authenticationModel.Equals("V2"))
             {
-                _vault.Remove(_passwordCredential);
+                return Logout();
             }
 
             return true;
-        }
-
-        private string StoreCredential(Identity.Client.AuthenticationResult authResult)
-        {
-            _user = authResult.User;
-            _expiration = authResult.ExpiresOn;
-            ApplicationData.Current.LocalSettings.Values[STORAGEKEYEXPIRATION] = authResult.ExpiresOn;
-            ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] = authResult.User.DisplayableId;
-            _passwordCredential = new PasswordCredential(STORAGEKEYACCESSTOKEN, authResult.User.DisplayableId, authResult.Token);
-            _vault.Add(_passwordCredential);
-            return authResult.Token;
-        }
-
-        /// <summary>
-        /// Get a Microsoft Graph access token using the v2.0 Endpoint.
-        /// </summary>
-        /// <param name="appClientId">Application client ID</param>
-        /// <returns>An oauth2 access token.</returns>
-        private async Task<string> GetUserTokenV2Async(string appClientId)
-        {
-            string authorizationCode = null;
-            string authorizationUrl = $"{AuthorityV2Model}?response_type=code&client_id={appClientId}&redirect_uri={DefaultRedirectUri}&scope={Scope}&response_mode=query";
-
-            JwToken jwtToken = null;
-            if (_tokenForUser == null)
-            {
-                var webAuthResult = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, new Uri(authorizationUrl), new Uri(DefaultRedirectUri));
-
-                // Process the navigation result.
-                if (webAuthResult.ResponseStatus == WebAuthenticationStatus.Success)
-                {
-                    authorizationCode = ParseAuthorizationCode(webAuthResult.ResponseData);
-                    jwtToken = await RequestTokenAsync(appClientId, authorizationCode);
-                    _tokenForUser = jwtToken.AccessToken;
-                }
-            }
-
-            return _tokenForUser;
-        }
-
-        private async Task<JwToken> RequestTokenAsync(string appClientId, string code)
-        {
-            var requestBody = $"grant_type=authorization_code&client_id={appClientId}&code={code}&redirect_uri={DefaultRedirectUri}&scope={Scope}";
-            var requestBytes = Encoding.UTF8.GetBytes(requestBody);
-
-            // Build request.
-            var request = HttpWebRequest.CreateHttp(AuthorizationTokenService);
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
-            var requestStream = await request.GetRequestStreamAsync()
-                                                    .ConfigureAwait(continueOnCapturedContext: true);
-            await requestStream.WriteAsync(requestBytes, 0, requestBytes.Length);
-
-            // Get response.
-            var response = await request.GetResponseAsync()
-                                            .ConfigureAwait(continueOnCapturedContext: true)
-                                as HttpWebResponse;
-            var responseReader = new StreamReader(response.GetResponseStream());
-            var responseBody = await responseReader.ReadToEndAsync()
-                                                        .ConfigureAwait(continueOnCapturedContext: true);
-
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                // Parse the JWT.
-                var jwt = JsonConvert.DeserializeObject<JwToken>(responseBody);
-                return jwt;
-            }
-
-            // Consent was not obtained.
-            return null;
-        }
-
-       /// <summary>
-       /// Retrieve the authorisation code
-       /// </summary>
-       /// <param name="responseData">string contening the authorisation code</param>
-       /// <returns>The authorization code</returns>
-        private string ParseAuthorizationCode(string responseData)
-        {
-            string code = null;
-            var queryParams = SplitQueryString(responseData);
-            foreach (var param in queryParams)
-            {
-                // Split the current parameter into name and value.
-                var parts = param.Split('=');
-                var paramName = parts[0].ToLowerInvariant().Trim();
-                var paramValue = WebUtility.UrlDecode(parts[1]).Trim();
-
-                // Process the output parameter.
-                if (paramName.Equals("code"))
-                {
-                    code = paramValue;
-                }
-            }
-
-            return code;
-        }
-
-        private string[] SplitQueryString(string queryString)
-        {
-            // Do some hygiene on the query string upfront to ease the parsing.
-            queryString.Trim();
-            var queryStringBegin = queryString.IndexOf('?');
-
-            if (queryStringBegin >= 0)
-            {
-                queryString = queryString.Substring(queryStringBegin + 1);
-            }
-
-            // Now split the query string.
-            return queryString.Split('&');
         }
     }
 }

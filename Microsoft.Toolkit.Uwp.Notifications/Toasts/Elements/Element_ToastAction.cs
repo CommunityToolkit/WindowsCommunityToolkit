@@ -54,6 +54,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         [NotificationXmlAttribute("placement", DEFAULT_PLACEMENT)]
         public Element_ToastActionPlacement Placement { get; set; } = DEFAULT_PLACEMENT;
+
+        [NotificationXmlAttribute("hint-actionId")]
+        public string HintActionId { get; set; }
     }
 
     internal enum Element_ToastActionPlacement

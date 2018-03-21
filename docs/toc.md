@@ -22,6 +22,15 @@
 ## [Saturation](animations/Saturation.md)
 ## [Scale](animations/Scale.md)
 
+# Brushes
+## [BackdropBlurBrush](brushes/BackdropBlurBrush.md)
+## [BackdropGammaTransferBrush](brushes/BackdropGammaTransferBrush.md)
+## [BackdropInvertBrush](brushes/BackdropInvertBrush.md)
+## [BackdropSaturationBrush](brushes/BackdropSaturationBrush.md)
+## [BackdropSepiaBrush](brushes/BackdropSepiaBrush.md)
+## [ImageBlendBrush](brushes/ImageBlendBrush.md)
+## [RadialGradientBrush](brushes/RadialGradientBrush.md)
+
 # Controls
 ## [AdaptiveGridView](controls/AdaptiveGridView.md)
 ## [Blade](controls/BladeView.md)
@@ -48,6 +57,7 @@
 ## [RotatorTile](controls/RotatorTile.md)
 ## [ScrollHeader](controls/ScrollHeader.md)
 ## [SlidableListItem](controls/SlidableListItem.md)
+## [StaggeredPanel](controls/StaggeredPanel.md)
 ## [TextToolbar](controls/TextToolbar.md)
 ## [TileControl](controls/TileControl.md)
 ## [WrapPanel](controls/WrapPanel.md)
@@ -57,21 +67,23 @@
 ## [FocusTracker](developer-tools/FocusTracker.md)
 
 # Extensions
-## [Hyperlink](extensions/Hyperlink.md)
-## [ListViewBase](extensions/ListViewBase.md)
+## [Composition Visual Layer Extensions](extensions/VisualExtensions.md)
+## [FrameworkElementExtensions](extensions/FrameworkElementExtensions.md)
+## [HyperlinkExtensions](extensions/HyperlinkExtensions.md)
+## [ListViewExtensions](extensions/ListViewExtensions.md)
 ## [Logical Tree](extensions/LogicalTree.md)
 ## [Mouse Cursor](extensions/MouseCursor.md)
+## [NavigationView Styles](extensions/NavigationView.md)
+## [ScrollViewerExtensions](extensions/ScrollViewerExtensions.md)
 ## [SurfaceDialTextboxHelper](extensions/SurfaceDialTextboxHelper.md)
 ## [TextBoxMask](extensions/TextBoxMask.md)
 ## [TextBoxRegex](extensions/TextBoxRegex.md)
 ## [ViewExtensions](extensions/ViewExtensions.md)
-## [Visual Layer Extensions](extensions/VisualEx.md)
 ## [Visual Tree](extensions/VisualTree.md)
-## [WebView](extensions/WebView.md)
+## [WebViewExtensions](extensions/WebViewExtensions.md)
 
 # Helpers
 ## [AdvancedCollectionView](helpers/AdvancedCollectionView.md)
-## [AppPinManager](helpers/AppPinManager.md)
 ## [BackgroundTaskHelper](helpers/BackgroundTaskHelper.md)
 ## [BindableValueHolder](helpers/BindableValueHolder.md)
 ## [BluetoothLEHelper](helpers/BluetoothLEHelper.md)
@@ -90,16 +102,23 @@
 ## [StorageFileHelper](helpers/StorageFiles.md)
 ## [Streams Helper](helpers/Streams.md)
 ## [SystemInformation](helpers/SystemInformation.md)
+## [ThemeListener](helpers/ThemeListener.md)
 ## [WeakEventListener](helpers/WeakEventListener.md)
 
 # Notifications
 ## [Notifications Overview](notifications/NotificationsOverview.md)
 
+# Parsers
+## [MarkdownParser](parsers/MarkdownParser.md)
+## [RSSParser](parsers/RSSParser.md)
+
 # Services
 ## [Bing Service](services/Bing.md)
 ## [Facebook Service](services/Facebook.md)
 ## [LinkedIn Service](services/Linkedin.md)
-## [MicrosoftGraph Service](services/MicrosoftGraph.md)
+## [Microsoft Graph Service](services/MicrosoftGraph.md)
 ## [Microsoft Translator Service](services/MicrosoftTranslator.md)
 ## [OneDrive Service](services/OneDrive.md)
 ## [Twitter Service](services/Twitter.md)
+
+# [Known Issues](knownissues.md)

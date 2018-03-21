@@ -51,6 +51,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private DateTime _timeSampleEditedFirst = DateTime.MinValue;
         private DateTime _timeSampleEditedLast = DateTime.MinValue;
         private bool _xamlCodeRendererSupported = false;
+        private string documentationPath;
 
         public bool DisplayWaitRing
         {
@@ -64,6 +65,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             InitializeComponent();
 
             Current = this;
+            DocumentationTextblock.SetRenderer<SampleAppMarkdownRenderer>();
         }
 
         public void ShowInfoArea()
@@ -71,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             InfoAreaGrid.Visibility = Visibility.Visible;
             RootGrid.ColumnDefinitions[0].Width = new GridLength(2, GridUnitType.Star);
             RootGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
-            RootGrid.RowDefinitions[1].Height = new GridLength(32);
+            RootGrid.RowDefinitions[2].Height = new GridLength(32);
             Splitter.Visibility = Visibility.Visible;
         }
 
@@ -242,7 +244,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop || HamburgerMenu.CurrentSample.DisableXamlEditorRendering)
                     {
                         // Only makes sense (and works) for now to show Live Xaml on Desktop, so fallback to old system here otherwise.
-                        XamlReadOnlyCodeRenderer.XamlSource = HamburgerMenu.CurrentSample.UpdatedXamlCode;
+                        XamlReadOnlyCodeRenderer.SetCode(HamburgerMenu.CurrentSample.UpdatedXamlCode, "xaml");
 
                         InfoAreaPivot.Items.Add(XamlReadOnlyPivotItem);
                     }
@@ -260,13 +262,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (HamburgerMenu.CurrentSample.HasCSharpCode)
                 {
-                    CSharpCodeRenderer.CSharpSource = await this.HamburgerMenu.CurrentSample.GetCSharpSourceAsync();
+                    var code = await HamburgerMenu.CurrentSample.GetCSharpSourceAsync();
+
+                    CSharpCodeRenderer.SetCode(code, "c#");
                     InfoAreaPivot.Items.Add(CSharpPivotItem);
                 }
 
                 if (HamburgerMenu.CurrentSample.HasJavaScriptCode)
                 {
-                    JavaScriptCodeRenderer.CSharpSource = await this.HamburgerMenu.CurrentSample.GetJavaScriptSourceAsync();
+                    var code = await HamburgerMenu.CurrentSample.GetJavaScriptSourceAsync();
+
+                    JavaScriptCodeRenderer.SetCode(code, "js");
                     InfoAreaPivot.Items.Add(JavaScriptPivotItem);
                 }
 
@@ -283,9 +289,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (HamburgerMenu.CurrentSample.HasDocumentation)
                 {
                     var docs = await this.HamburgerMenu.CurrentSample.GetDocumentationAsync();
-                    if (!string.IsNullOrWhiteSpace(docs))
+                    documentationPath = docs.path;
+                    if (!string.IsNullOrWhiteSpace(docs.contents))
                     {
-                        DocumentationTextblock.Text = docs;
+                        DocumentationTextblock.Text = docs.contents;
                         InfoAreaPivot.Items.Add(DocumentationPivotItem);
                     }
                 }
@@ -296,7 +303,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
 
                 HamburgerMenu.Title = $"{category.Name} > {HamburgerMenu.CurrentSample?.Name}";
-                ApplicationView.SetTitle(this, $"{category.Name} > {HamburgerMenu.CurrentSample?.Name}");
+                ApplicationViewExtensions.SetTitle(this, $"{category.Name} > {HamburgerMenu.CurrentSample?.Name}");
             }
         }
 
@@ -304,12 +311,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             InfoAreaGrid.Visibility = Visibility.Collapsed;
             RootGrid.ColumnDefinitions[1].Width = GridLength.Auto;
-            RootGrid.RowDefinitions[1].Height = GridLength.Auto;
+            RootGrid.RowDefinitions[2].Height = GridLength.Auto;
             HamburgerMenu.CurrentSample = null;
             Commands.Clear();
             Splitter.Visibility = Visibility.Collapsed;
             HamburgerMenu.Title = string.Empty;
-            ApplicationView.SetTitle(this, string.Empty);
+            ApplicationViewExtensions.SetTitle(this, string.Empty);
         }
 
         private void ExpandButton_Click(object sender, RoutedEventArgs e)
@@ -335,7 +342,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     if (_isPaneOpen)
                     {
                         Grid.SetRowSpan(InfoAreaGrid, 1);
-                        Grid.SetRow(InfoAreaGrid, 1);
+                        Grid.SetRow(InfoAreaGrid, 2);
                         _isPaneOpen = false;
                         ExpandButton.Content = "";
                     }
@@ -343,14 +350,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     {
                         // pane is closed, so let's open it
                         Grid.SetRowSpan(InfoAreaGrid, 2);
-                        Grid.SetRow(InfoAreaGrid, 0);
+                        Grid.SetRow(InfoAreaGrid, 1);
                         _isPaneOpen = true;
                         ExpandButton.Content = "";
 
                         // Update Read-Only XAML tab when switching back to show changes to TwoWay Bound Properties
                         if (HamburgerMenu.CurrentSample?.HasXAMLCode == true && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
                         {
-                            XamlReadOnlyCodeRenderer.XamlSource = HamburgerMenu.CurrentSample.UpdatedXamlCode;
+                            XamlReadOnlyCodeRenderer.SetCode(HamburgerMenu.CurrentSample.UpdatedXamlCode, "xaml");
                         }
                     }
 
@@ -390,7 +397,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-           if (NavigationFrame.CanGoBack)
+            if (NavigationFrame.CanGoBack)
             {
                 NavigationFrame.GoBack();
                 backRequestedEventArgs.Handled = true;
@@ -430,7 +437,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-           if (NavigationFrame.CurrentSourcePageType != option.PageType)
+            if (NavigationFrame.CurrentSourcePageType != option.PageType)
             {
                 NavigationFrame.Navigate(option.PageType);
             }
@@ -490,19 +497,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (HamburgerMenu.CurrentSample.HasXAMLCode && InfoAreaPivot.SelectedItem == XamlReadOnlyPivotItem)
             {
                 // Update Read-Only XAML tab on non-desktop devices to show changes to Properties
-                XamlReadOnlyCodeRenderer.XamlSource = HamburgerMenu.CurrentSample.UpdatedXamlCode;
+                XamlReadOnlyCodeRenderer.SetCode(HamburgerMenu.CurrentSample.UpdatedXamlCode, "xaml");
             }
 
             if (HamburgerMenu.CurrentSample.HasCSharpCode && InfoAreaPivot.SelectedItem == CSharpPivotItem)
             {
-                CSharpCodeRenderer.CSharpSource = await HamburgerMenu.CurrentSample.GetCSharpSourceAsync();
+                var code = await HamburgerMenu.CurrentSample.GetCSharpSourceAsync();
+                CSharpCodeRenderer.SetCode(code, "c#");
 
                 return;
             }
 
             if (HamburgerMenu.CurrentSample.HasJavaScriptCode && InfoAreaPivot.SelectedItem == JavaScriptPivotItem)
             {
-                JavaScriptCodeRenderer.JavaScriptSource = await HamburgerMenu.CurrentSample.GetJavaScriptSourceAsync();
+                var code = await HamburgerMenu.CurrentSample.GetJavaScriptSourceAsync();
+                JavaScriptCodeRenderer.SetCode(code, "js");
 
                 return;
             }
@@ -511,13 +520,46 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private async void DocumentationTextblock_OnLinkClicked(object sender, LinkClickedEventArgs e)
         {
             TrackingManager.TrackEvent("Link", e.Link);
-            await Launcher.LaunchUriAsync(new Uri(e.Link));
+            if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri result))
+            {
+                await Launcher.LaunchUriAsync(new Uri(e.Link));
+            }
         }
 
-        private void DocumentationTextblock_ImageResolving(object sender, ImageResolvingEventArgs e)
+        private async void DocumentationTextblock_ImageResolving(object sender, ImageResolvingEventArgs e)
         {
-            e.Image = new BitmapImage(new Uri("ms-appx:///Assets/pixel.png"));
-            e.Handled = true;
+            var deferral = e.GetDeferral();
+            BitmapImage image = null;
+
+            // Determine if the link is not absolute, meaning it is relative.
+            if (!Uri.TryCreate(e.Url, UriKind.Absolute, out Uri url))
+            {
+                url = new Uri(documentationPath + e.Url);
+            }
+
+            if (url.Scheme == "ms-appx")
+            {
+                image = new BitmapImage(url);
+            }
+            else
+            {
+                var imageStream = await this.HamburgerMenu.CurrentSample.GetImageStream(url);
+
+                if (imageStream != null)
+                {
+                    image = new BitmapImage();
+                    await image.SetSourceAsync(imageStream);
+                }
+            }
+
+            // Handle only if no exceptions occur.
+            if (image != null)
+            {
+                e.Image = image;
+                e.Handled = true;
+            }
+
+            deferral.Complete();
         }
 
         private void GitHub_OnClick(object sender, RoutedEventArgs e)
@@ -671,9 +713,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             TrackingManager.TrackException(args);
 
             // If you hit an issue here, please report repro steps along with all the info from the Exception object.
-            #if DEBUG
+#if DEBUG
             Debugger.Break();
-            #endif
+#endif
         }
 
         private void ProcessSampleEditorTime()

@@ -12,7 +12,8 @@
 
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using System.Text;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
+using Microsoft.Toolkit.Parsers.Markdown;
+using Microsoft.Toolkit.Parsers.Markdown.Blocks;
 
 namespace UnitTests.Markdown.Parse
 {

@@ -11,10 +11,6 @@
 // ******************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Exceptions;
 
 namespace Microsoft.Toolkit.Uwp.Services
 {

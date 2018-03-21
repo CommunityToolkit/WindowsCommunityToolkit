@@ -31,6 +31,7 @@
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
+        <Setter Property="Padding" Value="8,4,8,4" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:MenuItem">
@@ -46,7 +47,8 @@
                             FontStyle="{TemplateBinding FontStyle}"
                             FontWeight="{TemplateBinding FontWeight}"
                             Foreground="{TemplateBinding Foreground}"
-                            IsTabStop="False">
+                            IsTabStop="False"
+                            Padding="{TemplateBinding Padding}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
@@ -67,6 +69,25 @@
                                                                     Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <PointerUpThemeAnimation Storyboard.TargetName="FlyoutButton" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FlyoutButton"
+                                                                       Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FlyoutButton"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FlyoutButton"
+                                                                       Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>

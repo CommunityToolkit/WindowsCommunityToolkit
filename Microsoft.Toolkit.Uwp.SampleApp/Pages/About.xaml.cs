@@ -295,7 +295,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
         {
             var background = new Image()
             {
-                Source = new BitmapImage(new Uri("ms-appx:///Assets/Photos/ales-krivec-43430.jpg")),
+                Source = new BitmapImage(new Uri("ms-appx:///Assets/Photos/HERO.jpg")),
                 Stretch = Windows.UI.Xaml.Media.Stretch.UniformToFill
             };
 

@@ -14,21 +14,22 @@ using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using static Microsoft.Toolkit.Uwp.Services.MicrosoftGraph.MicrosoftGraphEnums;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Windows.Security.Authentication.Web;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
     /// <summary>
     ///  Class for connecting to Office 365 Microsoft Graph
     /// </summary>
-    public partial class MicrosoftGraphService
+    public partial class MicrosoftGraphService : Toolkit.Services.MicrosoftGraph.MicrosoftGraphService
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MicrosoftGraphService"/> class.
+        /// Gets or sets field to store the model of authentication
+        /// V1 Only for Work or Scholar account
+        /// V2 for MSA and Work or Scholar account
         /// </summary>
-        public MicrosoftGraphService()
-        {
-        }
+        public Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.AuthenticationModel AuthenticationModel { get; set; }
 
         /// <summary>
         /// Private singleton field.
@@ -36,93 +37,59 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         private static MicrosoftGraphService _instance;
 
         /// <summary>
-        /// Store an instance of the MicrosoftGraphAuthenticationHelper class
-        /// </summary>
-        private MicrosoftGraphAuthenticationHelper _authentication;
-
-        /// <summary>
-        /// Store a reference to an instance of the underlying data provider.
-        /// </summary>
-        private GraphServiceClient _graphProvider;
-
-        /// <summary>
         /// Gets public singleton property.
         /// </summary>
-        public static MicrosoftGraphService Instance => _instance ?? (_instance = new MicrosoftGraphService());
+        public static new MicrosoftGraphService Instance => _instance ?? (_instance = new MicrosoftGraphService());
 
         /// <summary>
-        /// Field for tracking initialization status.
+        /// Fields to store the device code for device authentication
         /// </summary>
-        private bool _isInitialized;
+        private DeviceCodeResult _deviceCode;
 
         /// <summary>
-        /// Field for tracking if the user is connected.
+        /// Gets or sets fields to store a MicrosoftGraphServiceMessages instance
         /// </summary>
-        private bool _isConnected;
+        public new MicrosoftGraphUserService User { get; set; }
 
         /// <summary>
-        /// Field to store Azure AD Application clientid
+        /// Gets the code to enter in http://aka.ms/deviceauth
         /// </summary>
-        private string _appClientId;
+        public new string UserCode => _deviceCode?.UserCode;
 
         /// <summary>
-        /// Field to store the services to initialize
+        /// Set code associated to the device.
+        /// This code is used to authenticate the device from http://aka.ms/deviceauth
         /// </summary>
-        private ServicesToInitialize _servicesToInitialize;
-
-        /// <summary>
-        /// Field to store the model of authentication
-        /// V1 Only for Work or Scholar account
-        /// V2 for MSA and Work or Scholar account
-        /// </summary>
-        private AuthenticationModel _authenticationModel = AuthenticationModel.V1;
-
-        /// <summary>
-        /// Fields to store a MicrosoftGraphServiceMessages instance
-        /// </summary>
-        private MicrosoftGraphUserService _user;
-
-        /// <summary>
-        /// Gets a reference to an instance of the MicrosoftGraphUserService class
-        /// </summary>
-        public MicrosoftGraphUserService User
+        /// <returns>Code</returns>
+        public async Task InitializeDeviceCodeAsync()
         {
-            get { return _user; }
+            Authentication = new MicrosoftGraphAuthenticationHelper();
+            _deviceCode = await ((MicrosoftGraphAuthenticationHelper)Authentication).GetCode(AppClientId);
         }
 
         /// <summary>
-        /// Initialize Microsoft Graph.
+        /// Prompt the user to enter the device code and credential.
         /// </summary>
-        /// <param name='appClientId'>Azure AD's App client id</param>
-        /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
-        /// <returns>Success or failure.</returns>
-        public bool Initialize(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event)
+        /// <returns>Useless result (always return UserCancel)</returns>
+        public Task<WebAuthenticationResult> AuthenticateByDeviceCodeAsync()
         {
-            if (string.IsNullOrEmpty(appClientId))
-            {
-                throw new ArgumentNullException(nameof(appClientId));
-            }
-
-            _appClientId = appClientId;
-            _graphProvider = CreateGraphClientProvider(appClientId);
-            _servicesToInitialize = servicesToInitialize;
-            _isInitialized = true;
-            return true;
+            Authentication = new MicrosoftGraphAuthenticationHelper();
+            return ((MicrosoftGraphAuthenticationHelper)Authentication).AuthenticateByDeviceCodeAsync();
         }
 
         /// <summary>
         /// Logout the current user
         /// </summary>
         /// <returns>success or failure</returns>
-        public async Task<bool> Logout()
+        public override async Task<bool> Logout()
         {
-            if (!_isInitialized)
+            if (!IsInitialized)
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
-            var authenticationModel = _authenticationModel.ToString();
-            return await _authentication.LogoutAsync(authenticationModel);
+            var authenticationModel = AuthenticationModel.ToString();
+            return await ((MicrosoftGraphAuthenticationHelper)Authentication).LogoutAsync(authenticationModel);
         }
 
         /// <summary>
@@ -130,35 +97,39 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// </summary>
         /// <remarks>Need Sign in and read user profile scopes (User.Read)</remarks>
         /// <returns>Returns success or failure of login attempt.</returns>
-        public async Task<bool> LoginAsync()
+        public override async Task<bool> LoginAsync()
         {
-            _isConnected = false;
-            if (!_isInitialized)
+            IsConnected = false;
+            if (!IsInitialized)
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
-            _authentication = new MicrosoftGraphAuthenticationHelper();
+            Authentication = new MicrosoftGraphAuthenticationHelper(DelegatedPermissionScopes);
             string accessToken = null;
-            if (_authenticationModel == AuthenticationModel.V1)
+            if (_deviceCode != null)
             {
-                accessToken = await _authentication.GetUserTokenAsync(_appClientId);
+                accessToken = await ((MicrosoftGraphAuthenticationHelper)Authentication).GetUserTokenByDeviceCodeAsync(AppClientId, _deviceCode);
+            }
+            else if (AuthenticationModel == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.AuthenticationModel.V1)
+            {
+                accessToken = await ((MicrosoftGraphAuthenticationHelper)Authentication).GetUserTokenAsync(AppClientId);
             }
             else
             {
-                // accessToken = await _authentication.GetUserTokenV2Async(_appClientId);
+                accessToken = await Authentication.GetUserTokenV2Async(AppClientId);
             }
 
             if (string.IsNullOrEmpty(accessToken))
             {
-                return _isConnected;
+                return IsConnected;
             }
 
-            _isConnected = true;
+            IsConnected = true;
 
-            _user = new MicrosoftGraphUserService(_graphProvider);
+            User = new MicrosoftGraphUserService(GraphProvider);
 
-            if ((_servicesToInitialize & ServicesToInitialize.UserProfile) == ServicesToInitialize.UserProfile)
+            if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile)
             {
                 await GetUserAsyncProfile();
             }
@@ -167,17 +138,17 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             // {
             //    _user.InitializeDrive();
             // }
-            if ((_servicesToInitialize & ServicesToInitialize.Message) == ServicesToInitialize.Message)
+            if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Message) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Message)
             {
-                _user.InitializeMessage();
+                User.InitializeMessage();
             }
 
-            if ((_servicesToInitialize & ServicesToInitialize.Event) == ServicesToInitialize.Event)
+            if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Event) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Event)
             {
-                _user.InitializeEvent();
+                User.InitializeEvent();
             }
 
-            return _isConnected;
+            return IsConnected;
         }
 
         /// <summary>
@@ -185,33 +156,39 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// </summary>
         /// <param name='appClientId'>Azure AD's App client id</param>
         /// <returns>instance of the GraphServiceclient</returns>
-        private GraphServiceClient CreateGraphClientProvider(string appClientId)
+        internal override GraphServiceClient CreateGraphClientProvider(string appClientId)
         {
-            return new GraphServiceClient(
+            if (AuthenticationModel == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.AuthenticationModel.V1)
+            {
+                return new GraphServiceClient(
                   new DelegateAuthenticationProvider(
                      async (requestMessage) =>
                      {
-                         // requestMessage.Headers.Add('outlook.timezone', 'Romance Standard Time');
                          requestMessage.Headers.Authorization =
-                                            new AuthenticationHeaderValue(
-                                                     "bearer",
-                                                     await _authentication.GetUserTokenAsync(appClientId).ConfigureAwait(false));
+                             new AuthenticationHeaderValue(
+                                         "bearer",
+                                         await ((MicrosoftGraphAuthenticationHelper)Authentication).GetUserTokenAsync(appClientId).ConfigureAwait(false));
                          return;
                      }));
+            }
+            else
+            {
+                return base.CreateGraphClientProvider(appClientId);
+            }
         }
 
         /// <summary>
         /// Initialize a instance of MicrosoftGraphUserService class
         /// </summary>
         /// <returns><see cref="Task"/> representing the asynchronous operation.</returns>
-        private async Task GetUserAsyncProfile()
+        protected override async Task GetUserAsyncProfile()
         {
-            MicrosoftGraphUserFields[] selectedFields =
+            Toolkit.Services.MicrosoftGraph.MicrosoftGraphUserFields[] selectedFields =
             {
-                MicrosoftGraphUserFields.Id
+                Toolkit.Services.MicrosoftGraph.MicrosoftGraphUserFields.Id
             };
 
-            await _user.GetProfileAsync(selectedFields);
+            await User.GetProfileAsync(selectedFields);
         }
     }
 }

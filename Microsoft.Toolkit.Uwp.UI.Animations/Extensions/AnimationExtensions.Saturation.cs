@@ -35,12 +35,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="value">The value, between 0 and 1. 0 is desaturated, 1 is saturated.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds.</param>
+        /// <param name="easingType">The <see cref="EasingType"/></param>
         /// <returns>An animation set with saturation effects incorporated.</returns>
         public static AnimationSet Saturation(
             this FrameworkElement associatedObject,
             double value = 0d,
             double duration = 500d,
-            double delay = 0d)
+            double delay = 0d,
+            EasingType easingType = EasingType.Default)
         {
             if (associatedObject == null)
             {
@@ -48,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Saturation(value, duration, delay);
+            return animationSet.Saturation(value, duration, delay, easingType);
         }
 
         /// <summary>
@@ -58,14 +60,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="value">The value. 0 is desaturated, 1 is saturated.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds.</param>
+        /// <param name="easingType">The <see cref="EasingType"/></param>
         /// <returns>An animation set with saturation effects incorporated.</returns>
         public static AnimationSet Saturation(
             this AnimationSet animationSet,
             double value = 0d,
             double duration = 500d,
-            double delay = 0d)
+            double delay = 0d,
+            EasingType easingType = EasingType.Default)
         {
-            return SaturationEffect.EffectAnimation(animationSet, value, duration, delay);
+            return SaturationEffect.EffectAnimation(animationSet, value, duration, delay, easingType);
         }
     }
 }

@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
 #if WINDOWS_UWP
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
@@ -75,11 +76,28 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public ToastActivationOptions ActivationOptions { get; set; }
 
         /// <summary>
-        /// Gets or sets new an optional custom time to use for the notification's timestamp, visible within Action Center.
+        /// Gets or sets an optional custom time to use for the notification's timestamp, visible within Action Center.
         /// If provided, this date/time will be used on the notification instead of the date/time that the notification was received.
         /// Requires Creators Update
         /// </summary>
         public DateTimeOffset? DisplayTimestamp { get; set; }
+
+        /// <summary>
+        /// Gets or sets an identifier used in telemetry to identify your category of toast notification. This should be something
+        /// like "NewMessage", "AppointmentReminder", "Promo30Off", or "PleaseRate". In the upcoming toast telemetry dashboard
+        /// in Dev Center, you will be able to view activation info filtered by toast identifier.
+        /// </summary>
+        public string HintToastId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the person that this toast is related to. For more info, see the My People documentation. New in Fall Creators Update.
+        /// </summary>
+        public ToastPeople HintPeople { get; set; }
+
+        /// <summary>
+        /// Gets a dictionary where you can assign additional properties.
+        /// </summary>
+        public IDictionary<string, string> AdditionalProperties { get; } = new Dictionary<string, string>();
 
         /// <summary>
         /// Retrieves the notification XML content as a string, so that it can be sent with a HTTP POST in a push notification.
@@ -132,7 +150,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 Duration = Duration,
                 Launch = Launch,
                 Scenario = Scenario,
-                DisplayTimestamp = strippedDisplayTimestamp
+                DisplayTimestamp = strippedDisplayTimestamp,
+                HintToastId = HintToastId,
+                AdditionalProperties = AdditionalProperties
             };
 
             ActivationOptions?.PopulateElement(toast);
@@ -156,6 +176,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             {
                 toast.Header = Header.ConvertToElement();
             }
+
+            HintPeople?.PopulateToastElement(toast);
 
             return toast;
         }
