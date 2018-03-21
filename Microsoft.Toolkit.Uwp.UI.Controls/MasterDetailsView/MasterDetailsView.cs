@@ -58,9 +58,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
-            ViewStateChanged += ToggleMasterListVisibility;
-            ViewStateChanged += SetItemListFocusWhenNotInDetails;
-            ViewStateChanged += SetListSelectionWithKeyboardFocusOnVisualStateChanged;
+            ViewStateChanged += OnViewStateChanged;
+            SizeChanged += OnSizeChanged;
         }
 
         /// <summary>
@@ -175,27 +174,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 UpdateView(true);
             }
 
+            FocusItemList();
+
             _loaded = true;
-        }
-
-        private void SetListSelectionWithKeyboardFocusOnVisualStateChanged(object sender, MasterDetailsViewState viewState)
-        {
-            if (viewState == MasterDetailsViewState.Both)
-            {
-                SetListSelectionWithKeyboardFocus(true);
-            }
-            else
-            {
-                SetListSelectionWithKeyboardFocus(false);
-            }
-        }
-
-        private void SetListSelectionWithKeyboardFocus(bool singleSelectionFollowsFocus)
-        {
-            if (this.FindDescendantByName("MasterList") is ListView masterList)
-            {
-                masterList.SingleSelectionFollowsFocus = singleSelectionFollowsFocus;
-            }
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -255,14 +236,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 SelectedItem = null;
                 args.Handled = true;
-            }
-        }
-
-        private void FocusItemList()
-        {
-            if (this.FindDescendantByName("MasterList") is ListView masterList)
-            {
-                masterList.Focus(FocusState.Programmatic);
             }
         }
 
@@ -343,33 +316,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void SetItemListFocusWhenNotInDetails(object sender, MasterDetailsViewState viewState)
-        {
-            if (viewState != MasterDetailsViewState.Details)
-            {
-                FocusItemList();
-            }
-        }
-
-        private void ToggleMasterListVisibility(object sender, MasterDetailsViewState viewState)
-        {
-            var masterList = this.FindDescendantByName("MasterList") as ListView;
-
-            if (masterList == null)
-            {
-                return;
-            }
-
-            if (viewState == MasterDetailsViewState.Details)
-            {
-                masterList.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                masterList.Visibility = Visibility.Visible;
-            }
-        }
-
         private void SetVisualState(VisualState state, bool animate)
         {
             string noSelectionState = state == _narrowState
@@ -410,6 +356,111 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (commandbar != null)
             {
                 panel.Children.Add(commandbar);
+            }
+        }
+
+        /// <summary>
+        /// Fires when the size of the control changes
+        /// </summary>
+        /// <param name="sender">the sender</param>
+        /// <param name="e">the event args</param>
+        /// <remarks>
+        /// Sets focus to the item list when the viewState is not Details.
+        /// Sets whether the selected item should change when focused with the keyboard.
+        /// </remarks>
+        private void OnSizeChanged(object sender, RoutedEventArgs e)
+        {
+            SetItemListFocusWhenNotInDetails(ViewState);
+            SetListSelectionWithKeyboardFocusOnVisualStateChanged(ViewState);
+        }
+
+        /// <summary>
+        /// Fires when the View State property changes
+        /// </summary>
+        /// <param name="sender">the sender</param>
+        /// <param name="viewState">the event args</param>
+        /// <remarks>
+        /// Toggles the visibility of the item list.
+        /// Sets focus to the item list when the viewState is not Details.
+        /// Sets whether the selected item should change when focused with the keyboard.
+        /// </remarks>
+        private void OnViewStateChanged(object sender, MasterDetailsViewState viewState)
+        {
+            ToggleMasterListVisibility(viewState);
+            SetItemListFocusWhenNotInDetails(viewState);
+            SetListSelectionWithKeyboardFocusOnVisualStateChanged(viewState);
+        }
+
+        /// <summary>
+        /// Toggles the visibility of the item list
+        /// </summary>
+        /// <param name="viewState">the view state</param>
+        private void ToggleMasterListVisibility(MasterDetailsViewState viewState)
+        {
+            var masterList = this.FindDescendantByName("MasterList") as ListView;
+
+            if (masterList == null)
+            {
+                return;
+            }
+
+            if (viewState == MasterDetailsViewState.Details)
+            {
+                masterList.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                masterList.Visibility = Visibility.Visible;
+            }
+        }
+
+        /// <summary>
+        /// Sets whether the selected item should change when focused with the keyboard based on the view state
+        /// </summary>
+        /// <param name="viewState">the view state</param>
+        private void SetListSelectionWithKeyboardFocusOnVisualStateChanged(MasterDetailsViewState viewState)
+        {
+            if (viewState == MasterDetailsViewState.Both)
+            {
+                SetListSelectionWithKeyboardFocus(true);
+            }
+            else
+            {
+                SetListSelectionWithKeyboardFocus(false);
+            }
+        }
+
+        /// <summary>
+        /// Sets whether the selected item should change when focused with the keyboard
+        /// </summary>
+        private void SetListSelectionWithKeyboardFocus(bool singleSelectionFollowsFocus)
+        {
+            if (this.FindDescendantByName("MasterList") is ListView masterList)
+            {
+                masterList.SingleSelectionFollowsFocus = singleSelectionFollowsFocus;
+            }
+        }
+
+        /// <summary>
+        /// Sets focus to the item list when the viewState is not Details
+        /// </summary>
+        /// <param name="viewState">the view state</param>
+        private void SetItemListFocusWhenNotInDetails(MasterDetailsViewState viewState)
+        {
+            if (viewState != MasterDetailsViewState.Details)
+            {
+                FocusItemList();
+            }
+        }
+
+        /// <summary>
+        /// Sets focus to the item list
+        /// </summary>
+        private void FocusItemList()
+        {
+            if (this.FindDescendantByName("MasterList") is ListView masterList)
+            {
+                masterList.Focus(FocusState.Programmatic);
             }
         }
     }
