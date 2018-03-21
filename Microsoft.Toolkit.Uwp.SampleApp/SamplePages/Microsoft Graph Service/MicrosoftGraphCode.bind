@@ -102,16 +102,16 @@ if (events == null)
 	// no more events
 }
 
-// Using device code authentication 
- 
-// If you want to authenticate via device code (http://aka.ms/deviceauth), add following initialization 
-await MicrosoftGraphService.Instance.InitializeDeviceCodeAsync(); 
- 
-// Display code to user 
-MicrosoftGraphService.Instance.UserCode 
- 
-// Wait for sign in (operation is waiting until user sign in through http://aka.ms/deviceauth) 
-await MicrosoftGraphService.Instance.LoginAsync(); 
- 
-// Client side, prompt the user to enter the device code and to sign in. 
+// Using device code authentication
+
+// If you want to authenticate via device code (http://aka.ms/deviceauth), add following initialization
+await MicrosoftGraphService.Instance.InitializeDeviceCodeAsync();
+
+// Display code to user
+MicrosoftGraphService.Instance.UserCode
+
+// Wait for sign in (operation is waiting until user sign in through http://aka.ms/deviceauth)
+await MicrosoftGraphService.Instance.LoginAsync();
+
+// Client side, prompt the user to enter the device code and to sign in.
 await MicrosoftGraphService.Instance.AuthenticateByDeviceCodeAsync();

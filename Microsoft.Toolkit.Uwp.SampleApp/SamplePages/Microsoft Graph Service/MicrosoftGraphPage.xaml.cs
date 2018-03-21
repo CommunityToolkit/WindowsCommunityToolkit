@@ -65,7 +65,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Initialize the service
             MicrosoftGraphService.Instance.Initialize(ClientId.Text);
 
-            // Initialize the device code
             try
             {
                 // Initialize the device code
