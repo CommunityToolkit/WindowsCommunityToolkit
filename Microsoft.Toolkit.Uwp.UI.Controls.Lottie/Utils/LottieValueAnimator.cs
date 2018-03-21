@@ -181,7 +181,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie.Utils
             set
             {
                 _composition = value;
-                SetMinAndMaxFrames(_composition.StartFrame, _composition.EndFrame);
+                SetMinAndMaxFrames(
+                    (int)Math.Max(_minFrame, _composition.StartFrame),
+                    (int)Math.Min(_maxFrame, _composition.EndFrame));
                 FrameRate = _composition.FrameRate;
                 Frame = _frame;
                 _lastFrameTimeNs = SystemnanoTime();
