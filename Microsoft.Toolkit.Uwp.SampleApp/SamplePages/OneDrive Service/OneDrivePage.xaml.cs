@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Services.OneDrive;
@@ -41,9 +42,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             FilesBox.Visibility = Visibility.Collapsed;
             menuButton.Visibility = Visibility.Collapsed;
             BackButton.Visibility = Visibility.Collapsed;
+
+            foreach (var p in typeof(MicrosoftGraphScope).GetFields())
+            {
+                DelegatedPermissions.Items.Add(p.GetValue(null));
+            }
         }
 
-        private async Task SigninAsync(int indexProvider, string appClientId)
+        private async Task SigninAsync(string appClientId)
         {
             if (!await Tools.CheckInternetConnectionAsync())
             {
@@ -55,46 +61,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             try
             {
-                // OnlineId
-                if (indexProvider == 0)
+                // Converged app authentication
+                appClientId = "812747a8-a21b-479d-adaa-2662f9db936b";
+                OneDriveService.ServicePlatformInitializer = new OneDriveServicePlatformInitializer();
+                OneDriveService.Instance.Initialize(appClientId, new string[] { MicrosoftGraphScope.FilesReadAll }, null, null);
+
+                if (!await OneDriveService.Instance.LoginAsync())
                 {
-                    appClientId = "812747a8-a21b-479d-adaa-2662f9db936b";
-                    OneDriveService.ServicePlatformInitializer = new OneDriveServicePlatformInitializer();
-                    OneDriveService.Instance.Initialize(appClientId, new string[] { MicrosoftGraphScope.FilesReadAll }, null, null);
-                }
-                else if (indexProvider == 1)
-                {
-                    // OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msa, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
-                }
-                else if (indexProvider == 2)
-                {
-                    // OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Adal);
-                }
-                else if (indexProvider == 3)
-                {
-                    // OneDriveService.GraphInstance.Initialize(appClientId, DelegatedPermissionScopes.Text.Split(' '));
+                    throw new Exception("Unable to sign in");
                 }
 
-                if (indexProvider == 3)
-                {
-                    // if (!await OneDriveService.GraphInstance.LoginAsync())
-                    // {
-                    //    throw new Exception("Unable to sign in");
-                    // }
-
-                    // _graphCurrentFolder = _graphRootFolder = await OneDriveService.GraphInstance.RootFolderForMeAsync();
-                    // OneDriveItemsList.ItemsSource = await _graphRootFolder.GetItemsAsync(20);
-                }
-                else
-                {
-                    if (!await OneDriveService.Instance.LoginAsync())
-                    {
-                        throw new Exception("Unable to sign in");
-                    }
-
-                    _graphCurrentFolder = _graphRootFolder = await OneDriveService.Instance.RootFolderAsync();
-                    OneDriveItemsList.ItemsSource = await _graphRootFolder.GetItemsAsync(20);
-                }
+                _graphCurrentFolder = _graphRootFolder = await OneDriveService.Instance.RootFolderAsync();
+                OneDriveItemsList.ItemsSource = await _graphRootFolder.GetItemsAsync(20);
 
                 succeeded = true;
             }
@@ -140,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             try
             {
-                await SigninAsync(_indexProvider, ClientId.Text);
+                await SigninAsync(ClientId.Text);
             }
             catch (Exception ex)
             {
@@ -203,7 +181,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Shell.Current.DisplayWaitRing = true;
             try
             {
-                    OneDriveItemsList.ItemsSource = await _graphCurrentFolder.GetItemsAsync(top);
+                OneDriveItemsList.ItemsSource = await _graphCurrentFolder.GetItemsAsync(top);
             }
             catch (ServiceException ex)
             {
@@ -333,8 +311,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void UploadLargeFileButton_Click(object sender, RoutedEventArgs e)
         {
-                await OneDriveSampleHelpers.UploadLargeFileAsync(_graphCurrentFolder);
-                OneDriveItemsList.ItemsSource = await _graphCurrentFolder.GetItemsAsync(20);
+            await OneDriveSampleHelpers.UploadLargeFileAsync(_graphCurrentFolder);
+            OneDriveItemsList.ItemsSource = await _graphCurrentFolder.GetItemsAsync(20);
         }
 
         private async void RenameButton_Click(object sender, RoutedEventArgs e)
@@ -383,25 +361,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private int _indexProvider = 0;
 
-        private async void CboProvider_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            _indexProvider = CboProvider.SelectedIndex;
-            var visibility = Visibility.Visible;
+        //private async void CboProvider_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    _indexProvider = CboProvider.SelectedIndex;
+        //    var visibility = Visibility.Visible;
 
-            if (_indexProvider == 0)
-            {
-                await SigninAsync(_indexProvider, null);
-                visibility = Visibility.Collapsed;
-            }
+        //    if (_indexProvider == 0)
+        //    {
+        //        await SigninAsync(_indexProvider, null);
+        //        visibility = Visibility.Collapsed;
+        //    }
 
-            DelegatedPermissionScopes.Visibility = Visibility.Collapsed;
-            if (_indexProvider == 3)
-            {
-                DelegatedPermissionScopes.Visibility = Visibility.Visible;
-            }
+        //    DelegatedPermissionScopes.Visibility = Visibility.Collapsed;
+        //    if (_indexProvider == 3)
+        //    {
+        //        DelegatedPermissionScopes.Visibility = Visibility.Visible;
+        //    }
 
-            ClientIdHelper.Visibility = ConnectButton.Visibility = ClientId.Visibility = visibility;
-        }
+        //    ClientIdHelper.Visibility = ConnectButton.Visibility = ClientId.Visibility = visibility;
+        //}
 
         private async void CopyToButton_Click(object sender, RoutedEventArgs e)
         {
