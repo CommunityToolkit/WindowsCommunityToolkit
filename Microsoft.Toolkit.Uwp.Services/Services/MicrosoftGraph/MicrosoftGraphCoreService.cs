@@ -93,27 +93,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Set code associated to the device.
-        /// This code is used to authenticate the device from http://aka.ms/deviceauth
-        /// </summary>
-        /// <returns>Code</returns>
-        public async Task InitializeDeviceCodeAsync()
-        {
-            _authentication = new MicrosoftGraphAuthenticationHelper();
-            _deviceCode = await _authentication.GetCode(_appClientId);
-        }
-
-        /// <summary>
-        /// Prompt the user to enter the device code and credential.
-        /// </summary>
-        /// <returns>Useless result (always return UserCancel)</returns>
-        public Task<WebAuthenticationResult> AuthenticateByDeviceCodeAsync()
-        {
-            _authentication = new MicrosoftGraphAuthenticationHelper();
-            return _authentication.AuthenticateByDeviceCodeAsync();
-        }
-
-        /// <summary>
         /// Login the user from Azure AD and Get Microsoft Graph access token.
         /// </summary>
         /// <remarks>Need Sign in and read user profile scopes (User.Read)</remarks>
