@@ -75,6 +75,11 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// </summary>
         public virtual MicrosoftGraphUserService User { get; set; }
 
+        /// <summary>
+        /// Gets the code to enter in http://aka.ms/deviceauth
+        /// </summary>
+        public virtual string UserCode { get; }
+
         private IMicrosoftGraphUserServicePhotos _photosService;
 
         private UIParent _uiParent = null;

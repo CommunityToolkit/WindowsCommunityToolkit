@@ -11,8 +11,6 @@
 // ******************************************************************
 
 using System;
-using System.Collections.ObjectModel;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
@@ -42,16 +40,86 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             LogOutButton.Visibility = Visibility.Collapsed;
         }
 
-        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
+        private async Task<bool> CanLoginAsync()
         {
             if (!await Tools.CheckInternetConnectionAsync())
             {
-                return;
+                return false;
             }
 
             if (string.IsNullOrEmpty(ClientId.Text))
             {
+                return false;
+            }
+
+            return true;
+        }
+
+        private async void RemoteConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!await CanLoginAsync())
+            {
                 return;
+            }
+
+            // Initialize the service
+            MicrosoftGraphService.Instance.Initialize(ClientId.Text);
+
+            // Initialize the device code
+            try
+            {
+                // Initialize the device code
+                await MicrosoftGraphService.Instance.InitializeDeviceCodeAsync();
+            }
+            catch (IdentityModel.Clients.ActiveDirectory.AdalException adalException)
+            {
+                var error = new MessageDialog($"The Client Id is invalid.\n{adalException.Message}");
+                await error.ShowAsync();
+                return;
+            }
+
+            var popup = new ContentDialog
+            {
+                Content = "Go to http://aka.ms/devicelogin and enter the following code :" + MicrosoftGraphService.Instance.UserCode,
+                Title = "Pending authentication...",
+                CloseButtonText = "Cancel"
+            };
+
+            popup.ShowAsync().GetResults();
+
+            if (await LoginAsync())
+            {
+                popup.Hide();
+                await LoadProfileAsync();
+            }
+        }
+
+        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!await CanLoginAsync())
+            {
+                return;
+            }
+
+            // Initialize the service
+            MicrosoftGraphService.Instance.Initialize(ClientId.Text);
+
+            if (await LoginAsync())
+            {
+                await LoadProfileAsync();
+            }
+        }
+
+        private async Task<bool> LoginAsync()
+        {
+            if (!await Tools.CheckInternetConnectionAsync())
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(ClientId.Text))
+            {
+                return false;
             }
 
             var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
@@ -80,34 +148,39 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     var error = new MessageDialog("Unable to sign in to Office 365");
                     await error.ShowAsync();
-                    return;
+                    return false;
                 }
             }
             catch (AdalServiceException ase)
             {
                 var error = new MessageDialog(ase.Message);
                 await error.ShowAsync();
-                return;
+                return false;
             }
             catch (AdalException ae)
             {
                 var error = new MessageDialog(ae.Message);
                 await error.ShowAsync();
-                return;
+                return false;
             }
             catch (MsalServiceException mse)
             {
                 var error = new MessageDialog(mse.Message);
                 await error.ShowAsync();
-                return;
+                return false;
             }
             catch (MsalException me)
             {
                 var error = new MessageDialog(me.Message);
                 await error.ShowAsync();
-                return;
+                return false;
             }
 
+            return true;
+        }
+
+        private async Task LoadProfileAsync()
+        {
             Shell.Current.DisplayWaitRing = true;
             try
             {
@@ -145,6 +218,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ClientIdBox.Visibility = Visibility.Collapsed;
             LogOutButton.Visibility = Visibility.Visible;
             ConnectButton.Visibility = Visibility.Collapsed;
+            RemoteConnectButton.Visibility = Visibility.Collapsed;
         }
 
         private async void GetEventsButton_Click(object sender, RoutedEventArgs e)
@@ -300,6 +374,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             UserBox.Visibility = Visibility.Collapsed;
             ClientIdBox.Visibility = Visibility.Visible;
             ConnectButton.Visibility = Visibility.Visible;
+            RemoteConnectButton.Visibility = Visibility.Visible;
         }
 
         private void VersionEndpointDropdown_SelectionChanged(object sender, SelectionChangedEventArgs e)
