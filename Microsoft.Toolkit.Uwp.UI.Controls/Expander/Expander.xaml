@@ -267,6 +267,7 @@
     <Style TargetType="controls:Expander">
         <Setter Property="Header" Value="Header" />
         <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="HeaderStyle" Value="{StaticResource HeaderToggleButtonStyle}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:Expander">
@@ -585,7 +586,7 @@
                                               Height="40"
                                               TabIndex="0"
                                               AutomationProperties.Name="Expand"
-                                              Style="{StaticResource HeaderToggleButtonStyle}" 
+                                              Style="{TemplateBinding HeaderStyle}" 
                                               Foreground="{TemplateBinding Foreground}"
                                               ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}"
                                               IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
