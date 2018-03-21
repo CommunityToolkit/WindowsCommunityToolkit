@@ -255,7 +255,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-
         public static async Task RenameAsync(Toolkit.Services.OneDrive.OneDriveStorageItem itemToRename)
         {
             try
@@ -307,7 +306,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Shell.Current.DisplayWaitRing = false;
             }
         }
-
 
         public static async Task MoveToAsync(Toolkit.Services.OneDrive.OneDriveStorageItem item, Toolkit.Services.OneDrive.OneDriveStorageFolder rootFolder)
         {
