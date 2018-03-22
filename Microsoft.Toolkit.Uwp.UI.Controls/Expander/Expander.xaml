@@ -11,6 +11,7 @@
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource ToggleButtonBorderThemeThickness}" />
+        <Setter Property="Height" Value="40" />
         <Setter Property="Padding" Value="8,4,8,4" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -583,7 +584,6 @@
                                     <RotateTransform x:Name="RotateLayoutTransform" Angle="0" />
                                 </controls:LayoutTransformControl.Transform>
                                 <ToggleButton x:Name="PART_ExpanderToggleButton" 
-                                              Height="40"
                                               TabIndex="0"
                                               AutomationProperties.Name="Expand"
                                               Style="{TemplateBinding HeaderStyle}" 
