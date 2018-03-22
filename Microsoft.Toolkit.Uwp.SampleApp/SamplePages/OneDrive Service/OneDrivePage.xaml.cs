@@ -43,10 +43,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             menuButton.Visibility = Visibility.Collapsed;
             BackButton.Visibility = Visibility.Collapsed;
 
+            this.Loaded += OneDrivePage_Loaded;
+        }
+
+        private void OneDrivePage_Loaded(object sender, RoutedEventArgs e)
+        {
             foreach (var p in typeof(MicrosoftGraphScope).GetFields())
             {
                 DelegatedPermissions.Items.Add(p.GetValue(null));
             }
+
+            DelegatedPermissions.SelectedIndex = DelegatedPermissions.Items.IndexOf(MicrosoftGraphScope.FilesReadAll);
+
+            DelegatedPermissions.ScrollIntoView(MicrosoftGraphScope.FilesReadAll);
         }
 
         private async Task SigninAsync(string appClientId)
@@ -62,7 +71,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             try
             {
                 // Converged app authentication
-                // appClientId = "812747a8-a21b-479d-adaa-2662f9db936b";
                 // Get the selected Delegated Permissions
                 var scopes = DelegatedPermissions.SelectedItems as string[];
 
@@ -421,6 +429,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Shell.Current.DisplayWaitRing = false;
             }
         }
+
 #pragma warning restore CS0618 // Type or member is obsolete
     }
 }
