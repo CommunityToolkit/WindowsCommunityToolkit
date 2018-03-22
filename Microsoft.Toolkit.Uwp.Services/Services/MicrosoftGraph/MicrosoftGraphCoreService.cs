@@ -52,9 +52,20 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         public new MicrosoftGraphUserService User { get; set; }
 
         /// <summary>
-        /// Gets the code to enter in http://aka.ms/deviceauth
+        /// Gets or sets the code to enter in http://aka.ms/deviceauth
         /// </summary>
-        public new string UserCode => _deviceCode?.UserCode;
+        public override string UserCode
+        {
+            get
+            {
+                return _deviceCode?.UserCode;
+            }
+
+            set
+            {
+                _deviceCode = null;
+            }
+        }
 
         /// <summary>
         /// Set code associated to the device.

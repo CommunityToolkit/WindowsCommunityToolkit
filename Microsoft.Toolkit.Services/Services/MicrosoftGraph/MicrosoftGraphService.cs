@@ -76,9 +76,9 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         public virtual MicrosoftGraphUserService User { get; set; }
 
         /// <summary>
-        /// Gets the code to enter in http://aka.ms/deviceauth
+        /// Gets or sets the code to enter in http://aka.ms/deviceauth
         /// </summary>
-        public virtual string UserCode { get; }
+        public virtual string UserCode { get; set; }
 
         private IMicrosoftGraphUserServicePhotos _photosService;
 
@@ -110,6 +110,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             AppClientId = appClientId;
             GraphProvider = CreateGraphClientProvider(appClientId);
             ServicesToInitialize = servicesToInitialize;
+            UserCode = null;
             IsInitialized = true;
             DelegatedPermissionScopes = delegatedPermissionScopes;
             return true;
@@ -136,6 +137,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             AppClientId = appClientId;
             GraphProvider = CreateGraphClientProvider(appClientId);
             ServicesToInitialize = servicesToInitialize;
+            UserCode = null;
             IsInitialized = true;
             DelegatedPermissionScopes = delegatedPermissionScopes;
             return true;

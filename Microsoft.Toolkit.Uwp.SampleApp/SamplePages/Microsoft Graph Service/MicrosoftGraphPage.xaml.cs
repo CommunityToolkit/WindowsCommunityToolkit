@@ -55,6 +55,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             return true;
         }
 
+        private void Initialize()
+        {
+            var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
+            var endpointVersion = item.Tag.ToString() == "v2" ? AuthenticationModel.V2 : AuthenticationModel.V1;
+
+            MicrosoftGraphService.Instance.AuthenticationModel = endpointVersion;
+
+            // Initialize the service
+            switch (endpointVersion)
+            {
+                case AuthenticationModel.V1:
+                    MicrosoftGraphService.Instance.Initialize(ClientId.Text);
+                    break;
+                case AuthenticationModel.V2:
+                    var scopes = DelegatedPermissionScopes.Text.Split(' ');
+                    MicrosoftGraphService.Instance.Initialize(ClientId.Text, ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, scopes);
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private async void RemoteConnectButton_Click(object sender, RoutedEventArgs e)
         {
             if (!await CanLoginAsync())
@@ -63,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             // Initialize the service
-            MicrosoftGraphService.Instance.Initialize(ClientId.Text);
+            Initialize();
 
             try
             {
@@ -79,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             var popup = new ContentDialog
             {
-                Content = "Go to http://aka.ms/devicelogin and enter the following code :" + MicrosoftGraphService.Instance.UserCode,
+                Content = "Go to http://aka.ms/devicelogin and enter the following code : " + MicrosoftGraphService.Instance.UserCode,
                 Title = "Pending authentication...",
                 CloseButtonText = "Cancel"
             };
@@ -101,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             // Initialize the service
-            MicrosoftGraphService.Instance.Initialize(ClientId.Text);
+            Initialize();
 
             if (await LoginAsync())
             {
@@ -111,35 +133,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async Task<bool> LoginAsync()
         {
-            if (!await Tools.CheckInternetConnectionAsync())
-            {
-                return false;
-            }
-
-            if (string.IsNullOrEmpty(ClientId.Text))
-            {
-                return false;
-            }
-
-            var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
-            var endpointVersion = item.Tag.ToString() == "v2" ? AuthenticationModel.V2 : AuthenticationModel.V1;
-
-            MicrosoftGraphService.Instance.AuthenticationModel = endpointVersion;
-
-            // Initialize the service
-            switch (endpointVersion)
-            {
-                case AuthenticationModel.V1:
-                    MicrosoftGraphService.Instance.Initialize(ClientId.Text);
-                    break;
-                case AuthenticationModel.V2:
-                    var scopes = DelegatedPermissionScopes.Text.Split(' ');
-                    MicrosoftGraphService.Instance.Initialize(ClientId.Text, ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, scopes);
-                    break;
-                default:
-                    break;
-            }
-
             // Login via Azure Active Directory
             try
             {
