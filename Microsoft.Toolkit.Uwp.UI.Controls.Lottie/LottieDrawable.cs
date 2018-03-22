@@ -146,19 +146,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie
             return _compositionLayer != null && _compositionLayer.HasMatte();
         }
 
-        internal virtual bool EnableMergePathsForKitKatAndAbove()
+        internal virtual bool EnableMergePaths()
         {
             return _enableMergePaths;
         }
 
         /// <summary>
-        /// Enable this to get merge path support for devices running KitKat (19) and above.
+        /// Enable this to get merge path support.
         ///
         /// Merge paths currently don't work if the the operand shape is entirely contained within the
         /// first shape. If you need to cut out one shape from another shape, use an even-odd fill type
         /// instead of using merge paths.
         /// </summary>
-        public virtual void EnableMergePathsForKitKatAndAbove(bool enable)
+        public virtual void EnableMergePaths(bool enable)
         {
             _enableMergePaths = enable;
             if (_composition != null)
@@ -171,7 +171,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie
         /// Get a value that indicates if merge paths are enabled or not
         /// </summary>
         /// <returns>Returns true if merge paths are enabled</returns>
-        public bool IsMergePathsEnabledForKitKatAndAbove()
+        public bool IsMergePathsEnabled()
         {
             return _enableMergePaths;
         }
@@ -529,8 +529,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie
         }
 
         /// <summary>
-        /// <see cref="MinFrame"/>
-        /// <see cref="MaxFrame"/>
+        /// Sets the minimum and the maximum frame that the animation will start and end when playing or looping.
         /// </summary>
         /// <param name="minFrame">The minimum frame that the animation will start from when playing or looping.</param>
         /// <param name="maxFrame">The maximum frame that the animation will end at when playing or looping.</param>
@@ -540,8 +539,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie
         }
 
         /// <summary>
-        /// <see cref="MinProgress"/>
-        /// <see cref="MaxProgress"/>
+        /// Sets the minimum and the maximum progress that the animation will start and end from when playing or looping.
         /// </summary>
         /// <param name="minProgress">The minimum progress that the animation will start from when playing or looping.</param>
         /// <param name="maxProgress">The maximum progress that the animation will end at when playing or looping.</param>

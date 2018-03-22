@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie
         }
 
         /// <summary>
-        /// Overload of <see cref="AddValueCallback{T}(KeyPath, LottieProperty, ILottieValueCallback{T})"/> that takes an interface. This allows you to use a single abstract
+        /// Overload of <see cref="AddValueCallback{T}(KeyPath, LottieProperty, ILottieValueCallback{T})"/> that takes a delegate. This allows you to use a single abstract
         /// method code block in Kotlin such as:
         /// animationView.AddValueCallback(yourKeyPath, LottieProperty.Color) { yourColor }
         /// </summary>
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie
 
             _lottieDrawable.RepeatCount = RepeatCount;
 
-            EnableMergePathsForKitKatAndAbove(false);
+            EnableMergePaths(false);
             UpdateColorFilter();
 
             EnableOrDisableHardwareLayer();
@@ -152,28 +152,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie
         }
 
         /// <summary>
-        /// Enable this to get merge path support for devices running KitKat (19) and above.
+        /// Enable this to get merge path support.
         ///
         /// Merge paths currently don't work if the the operand shape is entirely contained within the
         /// first shape. If you need to cut out one shape from another shape, use an even-odd fill type
         /// instead of using merge paths.
         /// </summary>
-        public void EnableMergePathsForKitKatAndAbove(bool enable)
+        public void EnableMergePaths(bool enable)
         {
-            _lottieDrawable.EnableMergePathsForKitKatAndAbove(enable);
+            _lottieDrawable.EnableMergePaths(enable);
         }
 
         /// <summary>
-        /// Returns whether merge paths are enabled for KitKat and above.
+        /// Returns whether merge paths are enabled.
         /// </summary>
         /// <returns>Returns true if merge paths are enabled</returns>
-        public bool IsMergePathsEnabledForKitKatAndAbove()
+        public bool IsMergePathsEnabled()
         {
-            return _lottieDrawable.IsMergePathsEnabledForKitKatAndAbove();
+            return _lottieDrawable.IsMergePathsEnabled();
         }
 
         /// <summary>
-        /// This method enables or disables hardware acceletation
+        /// This method enables or disables hardware acceletation.
         /// </summary>
         /// <param name="use">True will enable hardware acceleration</param>
         public virtual void UseExperimentalHardwareAcceleration(bool use = true)
@@ -326,7 +326,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie
 
         /// <summary>
         /// Plays the animation from the beginning.If speed is &lt; 0, it will start at the end
-        /// and play towards the beginning
+        /// and play towards the beginning.
         /// </summary>
         public virtual void PlayAnimation()
         {
@@ -345,8 +345,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie
         }
 
         /// <summary>
-        /// <see cref="MinFrame"/>
-        /// <see cref="MaxFrame"/>
+        /// Sets the minimum and the maximum frame that the animation will start and end when playing or looping.
         /// </summary>
         /// <param name="minFrame">The minimum frame that the animation will start from when playing or looping.</param>
         /// <param name="maxFrame">The maximum frame that the animation will end at when playing or looping.</param>
@@ -356,8 +355,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie
         }
 
         /// <summary>
-        /// <see cref="MinProgress"/>
-        /// <see cref="MaxProgress"/>
+        /// Sets the minimum and the maximum progress that the animation will start and end from when playing or looping.
         /// </summary>
         /// <param name="minProgress">The minimum progress that the animation will start from when playing or looping.</param>
         /// <param name="maxProgress">The maximum progress that the animation will end at when playing or looping.</param>

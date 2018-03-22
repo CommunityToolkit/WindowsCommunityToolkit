@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie.Model.Content
 
         public IContent ToContent(LottieDrawable drawable, BaseLayer layer)
         {
-            if (!drawable.EnableMergePathsForKitKatAndAbove())
+            if (!drawable.EnableMergePaths())
             {
                 Debug.WriteLine("Animation contains merge paths but they are disabled.", LottieLog.Tag);
                 return null;
