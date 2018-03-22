@@ -62,9 +62,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             try
             {
                 // Converged app authentication
-                appClientId = "812747a8-a21b-479d-adaa-2662f9db936b";
+                // appClientId = "812747a8-a21b-479d-adaa-2662f9db936b";
+                // Get the selected Delegated Permissions
+                var scopes = DelegatedPermissions.SelectedItems as string[];
+
+                // If the user hasn't selected a scope then set it to FilesReadAll
+                if (scopes == null)
+                {
+                    scopes = new string[] { MicrosoftGraphScope.FilesReadAll };
+                }
+
                 OneDriveService.ServicePlatformInitializer = new OneDriveServicePlatformInitializer();
-                OneDriveService.Instance.Initialize(appClientId, new string[] { MicrosoftGraphScope.FilesReadAll }, null, null);
+                OneDriveService.Instance.Initialize(appClientId, scopes, null, null);
 
                 if (!await OneDriveService.Instance.LoginAsync())
                 {
