@@ -50,7 +50,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             foreach (var p in typeof(MicrosoftGraphScope).GetFields())
             {
-                DelegatedPermissions.Items.Add(p.GetValue(null));
+                if (string.CompareOrdinal(p.GetValue(null) as string, 0, "Files", 0, 5) == 0)
+                {
+                    DelegatedPermissions.Items.Add(p.GetValue(null));
+                }
             }
 
             DelegatedPermissions.SelectedIndex = DelegatedPermissions.Items.IndexOf(MicrosoftGraphScope.FilesReadAll);
@@ -88,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     throw new Exception("Unable to sign in");
                 }
 
-                _graphCurrentFolder = _graphRootFolder = await OneDriveService.Instance.RootFolderAsync();
+                _graphCurrentFolder = _graphRootFolder = await OneDriveService.Instance.RootFolderForMeAsync();
                 OneDriveItemsList.ItemsSource = await _graphRootFolder.GetItemsAsync(20);
 
                 succeeded = true;
