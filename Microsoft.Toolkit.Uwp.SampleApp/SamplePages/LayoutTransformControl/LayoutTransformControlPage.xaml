@@ -22,9 +22,14 @@
                 </TransformGroup>
             </controls:LayoutTransformControl.Transform>
 
-            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-                <TextBlock Foreground="White" Text="This is a test message." />
-            </Grid>
+            <Border HorizontalAlignment="Center" 
+                    VerticalAlignment="Center"
+                    BorderBrush="Red"
+                    BorderThickness="5">
+                <Grid>
+                    <TextBlock Padding="10" Foreground="White" Text="This is a test message." />
+                </Grid>
+            </Border>
         </controls:LayoutTransformControl>
     </Grid>
 </Page>

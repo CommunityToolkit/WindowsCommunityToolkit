@@ -319,6 +319,7 @@
     <Content Include="SamplePages\Implicit Animations\ImplicitAnimations.png" />
     <Content Include="SamplePages\InAppNotification\InAppNotification.png" />
     <Content Include="SamplePages\Incremental Loading Collection\icon.png" />
+    <Content Include="SamplePages\LayoutTransformControl\LayoutTransformControl.png" />
     <Content Include="SamplePages\Light\LightBehavior.png" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInLogo.png" />
     <Content Include="Assets\Helpers.png" />
