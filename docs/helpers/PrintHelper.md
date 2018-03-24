@@ -22,15 +22,50 @@ Several events are available to control the printing process:
 * OnPrintSucceeded will be triggered after a successful print
 * OnPreviewPagesCreated will be triggered after print preview pages are generated. This allows you to control the look and feel of your page before they are sent to the spooler.
 
-**Please note that page breaks are not supported. Every control will be printed on a single page**
+> [!IMPORTANT]
+Page breaks are not supported. Every control will be printed on a single page
 
-Since version 1.3, you can also call `ShowPrintUIAsync` with a second parameter to determine that the list of controls to print should directly be taken from the content of the container passed to the PrintHelper constructor. 
-In this mode you are responsible for the sizing and the layout.
+You can call `ShowPrintUIAsync` with a second parameter to determine that the list of controls to print should directly be taken from the content of the container passed to the PrintHelper constructor. In this mode you are responsible for the sizing and the layout.
+
+## Syntax
+
+```csharp
+var printHelper = new PrintHelper(container);
+
+printHelper.AddFrameworkElementToPrint(frameworkElement);
+
+await printHelper.ShowPrintUIAsync("Title");
+```
+
+## Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| ApplicationContentMarginLeft | double | Gets or sets the percent of app's margin width |
+| ApplicationContentMarginTop | double | Gets or sets the percent of app's margin height |
+
+## Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| AddFrameworkElementToPrint(FrameworkElement) | void | Add an element to the list of printable elements |
+| ClearListOfPrintableFrameworkElements() | void | Empties the list of printable elements |
+| Dispose() | void | Release associated resources |
+| RemoveFrameworkElementToPrint(FrameworkElement) | void | Remove an element from the list of printable elements |
+| ShowPrintUIAsync(String, Boolean) | Task | Start the print task |
+
+## Events
+
+| Events | Description |
+| -- | -- |
+| OnPreviewPagesCreated | Event which is called after print preview pages are generated |
+| OnPrintCanceled | Event raised when print is cancelled by the user |
+| OnPrintFailed | Event raised when print failed |
+| OnPrintSucceeded | Event raised when print was successful |
 
 ## Example
 
 ```csharp
-
 // Create a new PrintHelper instance
 // "container" is a XAML panel that will be used to host printable control. 
 // It needs to be in your visual tree but can be hidden with Opacity = 0
@@ -61,28 +96,26 @@ private async void PrintHelper_OnPrintFailed()
   var dialog = new MessageDialog("Printing failed.");
   await dialog.ShowAsync();
 }
-
 ```
 
-Direct print example:
+**Direct print example:**
 
 ```csharp
-
 // Create a new PrintHelper instance
 // "container" is a XAML panel that will be used to get the list of printable controls. 
 var printHelper = new PrintHelper(container);
 
 // Start printing process
 await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", true);
-
 ```
 
-## Requirements (Windows 10 Device Family)
+## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
+| NuGet package | [Microsoft.Toolkit.Uwp](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
 
 ## API
-* [Print Helper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper/)
 
+* [Print Helper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper/)

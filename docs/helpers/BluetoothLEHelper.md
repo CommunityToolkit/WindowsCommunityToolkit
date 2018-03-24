@@ -13,181 +13,89 @@ The BluetoothLEHelper class provides functionality to easily enumerate, connect 
 
 ### Properties
 
-- **BluetoothLeDevices**
-
-	Gets the list of available bluetooth devices
-
-- **IsEnumerating**
-
-	Gets a value indicating whether app is currently enumerating
-
-- **IsPeripheralRoleSupported**
-
-	Gets a value indicating whether peripheral mode is supported by this device
-
-- **IsCentralRoleSupported**
-
-	Gets a value indicating whether central role is supported by this device
-
-
-### Events
-
-- **EnumerationCompleted**
-
-	An event for when the enumeration is complete
+| Property | Type | Description |
+| -- | -- | -- |
+| BluetoothLeDevices | ObservableCollection<ObservableBluetoothLEDevice> | Gets the list of available bluetooth devices |
+| IsEnumerating | bool | Gets a value indicating whether app is currently enumerating |
+| IsPeripheralRoleSupported | bool | Gets a value indicating whether peripheral mode is supported by this device |
+| IsCentralRoleSupported | bool | Gets a value indicating whether central role is supported by this device |
 
 ### Methods
 
-- **StartEnumeration**
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| StartEnumeration() | void | Starts enumeration of bluetooth le devices |
+| StopEnumeration() | void | Stops enumeration of bluetooth device |
 
-	Starts enumeration of bluetooth le devices
+### Events
 
-- **StopEnumeration**
-
-	Stops enumeration of bluetooth le devices
+| Events | Description |
+| -- | -- |
+| EnumerationCompleted | An event for when the enumeration is complete |
 
 ## ObservableBluetoothLEDevice class
 
 ### Properties
 
-- **BluetoothLEDevice**
-
-	Gets the base bluetooth device this class wraps
-
-- **Glyph**
-Gets or sets the glyph of this bluetooth device
-
-- **DeviceInfo**
-
-	Gets the device information for the device this class wraps
-
-- **IsConnected**
-
-	Gets a value indicating whether this device is connected
-
-- **isPaired**
-
-	Gets a value indicating whether this device is paired
-
-- **Services**
-
-	Gets the services this device supports
-
-- **ServiceCount**
-
-	Gets or sets the number of services this device has
-
-- **Name**
-
-	Gets the name of this device
-
-- **ErrorText**
-
-	Gets the error text when connecting to this device fails
-
-- **BluetoothAddressAsString**
-
-	Gets the bluetooth address of this device as a string
-
-- **BluetoothAddressAsUlong**
-
-	Gets the bluetooth address of this device
+| Property | Type | Description |
+| -- | -- | -- |
+| BluetoothAddressAsString | string | Gets the bluetooth address of this device as a string |
+| BluetoothAddressAsUlong | ulong | Gets the bluetooth address of this device |
+| BluetoothLEDevice | BluetoothLEDevice | Gets the base bluetooth device this class wraps |
+| DeviceInfo | [DeviceInformation](https://docs.microsoft.com/uwp/api/Windows.Devices.Enumeration.DeviceInformation) | Gets the device information for the device this class wraps |
+| ErrorText | string | Gets the error text when connecting to this device fails |
+| Glyph | BitmapImage | Gets or sets the glyph of this bluetooth device |
+| IsConnected | bool | Gets a value indicating whether this device is connected |
+| IsPaired | bool | Gets a value indicating whether this device is paired |
+| Name | string | Gets the name of this device |
+| RSSI | int | Gets the RSSI value of this device |
+| Services | ObservableCollection<ObservableGattDeviceService> | Gets the services this device supports |
+| ServiceCount | int | Gets or sets the number of services this device has |
 
 ### Methods
 
-- **ConnectAsync**
-
-	Connects to this bluetooth device
-
-- **DoInAppPairingAsync**
-
-	Does the in application pairing
-
-- **UpdateAsync**
-
-	Updates this device's deviceInformation
-
-- **ToString**
-
-	Overrides the ToString function to return the name of the device
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| ConnectAsync() | Task | ConnectAsync to this bluetooth device |
+| DoInAppPairingAsync() | Task | Does the in application pairing |
+| UpdateAsync(DeviceInformationUpdate) | Task | Updates this device's deviceInformation |
+| ToString() | string | Overrides the ToString function to return the name of the device |
 
 ## ObservableGattDeviceService
 
 ### Properties
 
-- **Service**
-
-	Gets the service this class wraps
-
-- **Characteristics**
-
-	Gets all the characteristics of this service
-
-- **Name**
-
-	Gets the name of this service
-
-- **UUID**
-
-	Gets the UUID of this service
+| Property | Type | Description |
+| -- | -- | -- |
+| Characteristics | ObservableCollection<ObservableGattCharacteristics> | Gets all the characteristics of this service |
+| Name | string | Gets the name of this service |
+| UUID | string | Gets the UUID of this service |
+| Service | GattDeviceService | Gets the service this class wraps |
 
 ## ObservableGattCharacteristics
 
 ### Properties
 
-- **Characteristic**
-
-	Gets or sets the characteristic this class wraps
-
-- **IsIndicateSet**
-
-	Gets a value indicating whether indicate is set
-
-- **IsNotifySet**
-
-	Gets a value indicating whether notify is set
-
-- **Parent**
-
-	Gets or sets the parent service of this characteristic
-
-- **Name**
-
-	Gets or sets the name of this characteristic
-
-- **UUID**
-
-	Gets or sets the UUID of this characteristic
-
-- **Value**
-
-	Gets the value of this characteristic
-
-- **DisplayType**
-
-	Gets or sets how this characteristic's value should be displayed
+| Property | Type | Description |
+| -- | -- | -- |
+| Characteristic | GattCharacteristic | Gets or sets the characteristic this class wraps |
+| IsIndicateSet | bool | Gets a value indicating whether indicate is set |
+| IsNotifySet | bool | Gets a value indicating whether notify is set |
+| Parent | ObservableGattDeviceService | Gets or sets the parent service of this characteristic |
+| Name | string | Gets or sets the name of this characteristic |
+| UUID | string | Gets or sets the UUID of this characteristic |
+| Value | string | Gets the value of this characteristic |
+| DisplayType | DisplayTypes | Gets or sets how this characteristic's value should be displayed |
 
 ### Methods
 
-- **ReadValueAsync**
-
-	Reads the value of the Characteristic
-
-- **SetIndicateAsync**
-
-	Set's the indicate descriptor
-
-- **StopIndicateAsync**
-
-	Unset the indicate descriptor
-
-- **SetNotifyAsync**
-
-	Sets the notify characteristic
-
-- **StopNotifyAsync**
-
-	Unsets the notify descriptor
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| ReadValueAsync() | Task<string> | Reads the value of the Characteristic |
+| SetIndicateAsync() | Task<bool> | Set's the indicate descriptor |
+| StopIndicateAsync() | Task<bool> | Unset the indicate descriptor |
+| SetNotifyAsync() | Task<bool> | Sets the notify characteristic |
+| StopNotifyAsync() | Task<bool> | Unsets the notify descriptor |
 
 ## Example
 
@@ -216,14 +124,13 @@ if (BluetoothLEHelper.IsBluetoothLESupported)
 }
 ```
 
-## Requirements (Windows 10 Device Family)
+## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.15063.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Connectivity |
+| NuGet package | [Microsoft.Toolkit.Uwp](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
 
 ## API
 
 * [BluetoothLEHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Connectivity/BluetoothLEHelper)
-
-
