@@ -77,7 +77,7 @@ await MyUIElement.Blur(value: 5, duration: 2500, delay: 250).StartAsync();  //Bl
 
     ![Use Case 1 Output](../resources/images/Animations/Blur/Use-Case-1.gif)
 
-- Use this to create chaining animations with other animations. Visit the [AnimationSet](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/animationset) documentation for more information.
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](AnimationSet.md) documentation for more information.
 
     **Sample Code**
 

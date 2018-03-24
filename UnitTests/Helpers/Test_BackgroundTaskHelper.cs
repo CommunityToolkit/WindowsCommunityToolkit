@@ -11,7 +11,7 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.ApplicationModel.Background;
 
 namespace UnitTests.Helpers

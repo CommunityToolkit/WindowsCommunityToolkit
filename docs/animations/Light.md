@@ -62,7 +62,7 @@ await MyUIElement.Light(distance: 5, duration: 2500, delay: 250, color: Colors.R
 ## Examples
 
 - The light behavior is great at drawing the user's eye towards a particular pieces of user interface. Closer the light source, the more focused it will be, but, will make the overall UI element darker. The further away from the light source the more the light will spread over the UIElement.
-- Use this to create chaining animations with other animations. Visit the [AnimationSet](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/animationset) documentation for more information.
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](AnimationSet.md) documentation for more information.
 
     **Sample Code**
     

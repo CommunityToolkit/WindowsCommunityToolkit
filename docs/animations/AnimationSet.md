@@ -7,7 +7,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, animationset, ani
 
 # AnimationSet
 
-The [AnimationSet](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationset) class defines an object for storing and managing [Storyboard](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Media.Animation.Storyboard) and [CompositionAnimations](https://docs.microsoft.com/windows/uwp/composition/composition-animation) for an element. AnimationSet includes [Blur](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/blur), [Fade](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/fade), [Light](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/light), [Offset](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/offset), [Rotate](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/rotate), [Saturation](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/saturation) and [Scale](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/scale) animations. AnimationSet animations is applied to all the XAML elements in its parent control/panel. AnimationSet animations doesn't affect the functionality of the control.
+The AnimationSet class defines an object for storing and managing Storyboard and CompositionAnimations for an element. AnimationSet includes [Blur](Blur.md), [Fade](Fade.md), [Light](Light.md), [Offset](Offset.md), [Rotate](Rotate.md), [Saturation](Saturation.md) and [Scale](Scale.md) animations. AnimationSet animations is applied to all the XAML elements in its parent control/panel. AnimationSet animations doesn't affect the functionality of the control.
 
 ## Syntax
 
