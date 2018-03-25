@@ -110,32 +110,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
         public void Show(string text, int duration = 0)
         {
-            bool shouldDisplayImmediately = ShouldDisplayImmediately();
-
-            if (StackMode == StackMode.QueueBehind)
+            var notificationInfo = new TextStackedNotificationInfo
             {
-                _stackedNotificationInfos.Add(new TextStackedNotificationInfo
-                {
-                    Duration = duration,
-                    Text = text
-                });
-            }
-
-            if (StackMode == StackMode.StackAbove)
-            {
-                _stackedNotificationInfos.Insert(0, new TextStackedNotificationInfo
-                {
-                    Duration = duration,
-                    Text = text
-                });
-            }
-
-            if (shouldDisplayImmediately)
-            {
-                ContentTemplate = null;
-                Content = text;
-                Show(duration);
-            }
+                Duration = duration,
+                Text = text
+            };
+            Show(notificationInfo);
         }
 
         /// <summary>
@@ -145,32 +125,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
         public void Show(UIElement element, int duration = 0)
         {
-            bool shouldDisplayImmediately = ShouldDisplayImmediately();
-
-            if (StackMode == StackMode.QueueBehind)
+            var notificationInfo = new UIElementStackedNotificationInfo
             {
-                _stackedNotificationInfos.Add(new UIElementStackedNotificationInfo
-                {
-                    Duration = duration,
-                    Element = element
-                });
-            }
-
-            if (StackMode == StackMode.StackAbove)
-            {
-                _stackedNotificationInfos.Insert(0, new UIElementStackedNotificationInfo
-                {
-                    Duration = duration,
-                    Element = element
-                });
-            }
-
-            if (shouldDisplayImmediately)
-            {
-                ContentTemplate = null;
-                Content = element;
-                Show(duration);
-            }
+                Duration = duration,
+                Element = element
+            };
+            Show(notificationInfo);
         }
 
         /// <summary>
@@ -180,32 +140,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
         public void Show(DataTemplate dataTemplate, int duration = 0)
         {
-            bool shouldDisplayImmediately = ShouldDisplayImmediately();
-
-            if (StackMode == StackMode.QueueBehind)
+            var notificationInfo = new DataTemplateStackedNotificationInfo
             {
-                _stackedNotificationInfos.Add(new DataTemplateStackedNotificationInfo
-                {
-                    Duration = duration,
-                    DataTemplate = dataTemplate
-                });
-            }
-
-            if (StackMode == StackMode.StackAbove)
-            {
-                _stackedNotificationInfos.Insert(0, new DataTemplateStackedNotificationInfo
-                {
-                    Duration = duration,
-                    DataTemplate = dataTemplate
-                });
-            }
-
-            if (shouldDisplayImmediately)
-            {
-                ContentTemplate = dataTemplate;
-                Content = null;
-                Show(duration);
-            }
+                Duration = duration,
+                DataTemplate = dataTemplate
+            };
+            Show(notificationInfo);
         }
 
         /// <summary>
@@ -272,6 +212,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="stackedNotificationInfo">Information to display for the next notification</param>
         private void DisplayNextStackedNotification(StackedNotificationInfo stackedNotificationInfo)
         {
+            UpdateContent(stackedNotificationInfo);
+
+            _dismissTimer.Stop();
+
+            if (stackedNotificationInfo.Duration > 0)
+            {
+                _dismissTimer.Interval = TimeSpan.FromMilliseconds(stackedNotificationInfo.Duration);
+                _dismissTimer.Start();
+            }
+        }
+
+        /// <summary>
+        /// Update the Content of the notification
+        /// </summary>
+        /// <param name="stackedNotificationInfo">Information about the notification to display</param>
+        private void UpdateContent(StackedNotificationInfo stackedNotificationInfo)
+        {
             switch (stackedNotificationInfo)
             {
                 case TextStackedNotificationInfo textStackedNotificationInfo:
@@ -287,13 +244,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     Content = null;
                     break;
             }
+        }
 
-            _dismissTimer.Stop();
+        /// <summary>
+        /// Handle the display of the notification based on the current StackMode
+        /// </summary>
+        /// <param name="stackedNotificationInfo">Information about the notification to display</param>
+        private void Show(StackedNotificationInfo stackedNotificationInfo)
+        {
+            bool shouldDisplayImmediately = ShouldDisplayImmediately();
 
-            if (stackedNotificationInfo.Duration > 0)
+            if (StackMode == StackMode.QueueBehind)
             {
-                _dismissTimer.Interval = TimeSpan.FromMilliseconds(stackedNotificationInfo.Duration);
-                _dismissTimer.Start();
+                _stackedNotificationInfos.Add(stackedNotificationInfo);
+            }
+
+            if (StackMode == StackMode.StackAbove)
+            {
+                _stackedNotificationInfos.Insert(0, stackedNotificationInfo);
+            }
+
+            if (shouldDisplayImmediately)
+            {
+                UpdateContent(stackedNotificationInfo);
+                Show(stackedNotificationInfo.Duration);
             }
         }
     }
