@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Base class for information about stacked notification
     /// </summary>
-    public abstract class StackedNotificationInfo
+    internal abstract class StackedNotificationInfo
     {
         /// <summary>
         /// Gets or sets duration of the stacked notification
@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Information about stacked notification (using text only)
     /// </summary>
-    public class TextStackedNotificationInfo : StackedNotificationInfo
+    internal class TextStackedNotificationInfo : StackedNotificationInfo
     {
         /// <summary>
         /// Gets or sets text of the stacked notification
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Information about stacked notification (using a UIElement)
     /// </summary>
-    public class UIElementStackedNotificationInfo : StackedNotificationInfo
+    internal class UIElementStackedNotificationInfo : StackedNotificationInfo
     {
         /// <summary>
         /// Gets or sets UIElement of the stacked notification
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Information about stacked notification (using a DataTemplate)
     /// </summary>
-    public class DataTemplateStackedNotificationInfo : StackedNotificationInfo
+    internal class DataTemplateStackedNotificationInfo : StackedNotificationInfo
     {
         /// <summary>
         /// Gets or sets DataTemplate of the stacked notification

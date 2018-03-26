@@ -90,7 +90,7 @@ By default, each time you display an in-app notification using the same control,
 You can change this behavior with one of these values:
 
 | StackMode properties | Description |
-| -- | -- | -- |
+| -- | -- |
 | `Replace` | Default mode, replace previous notification |
 | `QueueBehind` | Store every notifications to show, when you dismiss a notification the remaining ones will be displayed successively |
 | `StackAbove` | Store every notifications to show, when you show a notification it will be displayed in priority (in the reverse order of `QueueBehind` mode) |
