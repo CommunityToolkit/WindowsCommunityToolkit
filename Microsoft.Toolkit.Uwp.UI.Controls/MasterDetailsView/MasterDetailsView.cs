@@ -27,6 +27,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = PartDetailsPanel, Type = typeof(FrameworkElement))]
     [TemplateVisualState(Name = NoSelectionNarrowState, GroupName = SelectionStates)]
     [TemplateVisualState(Name = NoSelectionWideState, GroupName = SelectionStates)]
+    [TemplateVisualState(Name = HasSelectionWideState, GroupName = SelectionStates)]
+    [TemplateVisualState(Name = HasSelectionNarrowState, GroupName = SelectionStates)]
     [TemplateVisualState(Name = NarrowState, GroupName = WidthStates)]
     [TemplateVisualState(Name = WideState, GroupName = WidthStates)]
     public partial class MasterDetailsView : ItemsControl
@@ -38,7 +40,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string WideState = "WideState";
         private const string WidthStates = "WidthStates";
         private const string SelectionStates = "SelectionStates";
-        private const string HasSelectionState = "HasSelection";
+        private const string HasSelectionNarrowState = "HasSelectionNarrow";
+        private const string HasSelectionWideState = "HasSelectionWide";
         private const string NoSelectionNarrowState = "NoSelectionNarrow";
         private const string NoSelectionWideState = "NoSelectionWide";
 
@@ -46,6 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ContentPresenter _detailsPresenter;
         private VisualStateGroup _stateGroup;
         private VisualState _narrowState;
+        private VisualStateGroup _selectionStateGroup;
         private Frame _frame;
         private bool _loaded = false;
 
@@ -58,8 +62,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
-            ViewStateChanged += OnViewStateChanged;
-            SizeChanged += OnSizeChanged;
         }
 
         /// <summary>
@@ -171,10 +173,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _stateGroup.CurrentStateChanged += OnVisualStateChanged;
                 _narrowState = GetTemplateChild(NarrowState) as VisualState;
-                UpdateView(true);
             }
 
-            FocusItemList();
+            _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
+            if (_selectionStateGroup != null)
+            {
+                _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
+            }
+
+            UpdateView(true);
 
             _loaded = true;
         }
@@ -195,6 +202,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _stateGroup.CurrentStateChanged -= OnVisualStateChanged;
                 _stateGroup = null;
+            }
+
+            if (_selectionStateGroup != null)
+            {
+                _selectionStateGroup.CurrentStateChanged -= OnSelectionStateChanged;
+                _selectionStateGroup = null;
             }
         }
 
@@ -321,7 +334,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             string noSelectionState = state == _narrowState
                 ? NoSelectionNarrowState
                 : NoSelectionWideState;
-            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : HasSelectionState, animate);
+            string hasSelectionState = state == _narrowState
+                ? HasSelectionNarrowState
+                : HasSelectionWideState;
+            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : hasSelectionState, animate);
         }
 
         private void SetDetailsContent()
@@ -360,7 +376,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Fires when the size of the control changes
+        /// Fires when the selection state of the control changes
         /// </summary>
         /// <param name="sender">the sender</param>
         /// <param name="e">the event args</param>
@@ -368,50 +384,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Sets focus to the item list when the viewState is not Details.
         /// Sets whether the selected item should change when focused with the keyboard.
         /// </remarks>
-        private void OnSizeChanged(object sender, RoutedEventArgs e)
+        private void OnSelectionStateChanged(object sender, VisualStateChangedEventArgs e)
         {
             SetItemListFocusWhenNotInDetails(ViewState);
             SetListSelectionWithKeyboardFocusOnVisualStateChanged(ViewState);
-        }
-
-        /// <summary>
-        /// Fires when the View State property changes
-        /// </summary>
-        /// <param name="sender">the sender</param>
-        /// <param name="viewState">the event args</param>
-        /// <remarks>
-        /// Toggles the visibility of the item list.
-        /// Sets focus to the item list when the viewState is not Details.
-        /// Sets whether the selected item should change when focused with the keyboard.
-        /// </remarks>
-        private void OnViewStateChanged(object sender, MasterDetailsViewState viewState)
-        {
-            ToggleMasterListVisibility(viewState);
-            SetItemListFocusWhenNotInDetails(viewState);
-            SetListSelectionWithKeyboardFocusOnVisualStateChanged(viewState);
-        }
-
-        /// <summary>
-        /// Toggles the visibility of the item list
-        /// </summary>
-        /// <param name="viewState">the view state</param>
-        private void ToggleMasterListVisibility(MasterDetailsViewState viewState)
-        {
-            var masterList = this.FindDescendantByName("MasterList") as ListView;
-
-            if (masterList == null)
-            {
-                return;
-            }
-
-            if (viewState == MasterDetailsViewState.Details)
-            {
-                masterList.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                masterList.Visibility = Visibility.Visible;
-            }
         }
 
         /// <summary>
@@ -435,7 +411,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void SetListSelectionWithKeyboardFocus(bool singleSelectionFollowsFocus)
         {
-            if (this.FindDescendantByName("MasterList") is ListView masterList)
+            if (this.FindDescendantByName("MasterList") is Windows.UI.Xaml.Controls.ListViewBase masterList)
             {
                 masterList.SingleSelectionFollowsFocus = singleSelectionFollowsFocus;
             }
@@ -458,7 +434,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void FocusItemList()
         {
-            if (this.FindDescendantByName("MasterList") is ListView masterList)
+            if (this.FindDescendantByName("MasterList") is Control masterList)
             {
                 masterList.Focus(FocusState.Programmatic);
             }
