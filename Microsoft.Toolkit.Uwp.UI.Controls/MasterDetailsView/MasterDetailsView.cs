@@ -388,7 +388,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void SetListSelectionWithKeyboardFocus(bool singleSelectionFollowsFocus)
         {
-            if (this.FindDescendantByName("MasterList") is Windows.UI.Xaml.Controls.ListViewBase masterList)
+            if (GetTemplateChild("MasterList") is Windows.UI.Xaml.Controls.ListViewBase masterList)
             {
                 masterList.SingleSelectionFollowsFocus = singleSelectionFollowsFocus;
             }
