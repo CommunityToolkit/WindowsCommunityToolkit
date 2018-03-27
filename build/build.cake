@@ -154,7 +154,6 @@ Task("Build")
     .SetConfiguration("Release")
     .WithTarget("Restore");
 
-    // Force a restore again to get proper version numbers https://github.com/NuGet/Home/issues/4337
     MSBuild(Solution, buildSettings);
 
     EnsureDirectoryExists(nupkgDir);
