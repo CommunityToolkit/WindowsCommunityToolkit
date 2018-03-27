@@ -174,25 +174,6 @@ namespace Microsoft.Toolkit.Services.OneDrive
         }
 
         /// <summary>
-        /// Gets the OneDrive root folder (default drive)
-        /// </summary>
-        /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
-        public virtual async Task<OneDriveStorageFolder> RootFolderAsync()
-        {
-            // log the user silently with a Microsoft Account associate to Windows
-            if (IsConnected == false)
-            {
-                if (!await OneDriveService.Instance.LoginAsync())
-                {
-                    throw new Exception("Unable to sign in");
-                }
-            }
-
-            var oneDriveRootItem = await Provider.GraphProvider.Drive.Root.Request().GetAsync();
-            return new OneDriveStorageFolder(Provider.GraphProvider, Provider.GraphProvider.Drive.Root, oneDriveRootItem);
-        }
-
-        /// <summary>
         /// Gets the OneDrive root folder for Me
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
@@ -208,6 +189,8 @@ namespace Microsoft.Toolkit.Services.OneDrive
             }
 
             var oneDriveRootItem = await Provider.GraphProvider.Me.Drive.Root.Request().GetAsync();
+            var oneDriveItem = await Provider.GraphProvider.Me.Drive.Root.Children.Request().GetAsync();
+
             return new OneDriveStorageFolder(Provider.GraphProvider, Provider.GraphProvider.Me.Drive.Root, oneDriveRootItem);
         }
 
