@@ -32,9 +32,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         /// <summary>
         /// Begins a Storyboard animation and returns a task that completes when the
-        /// animaton is complete
+        /// animation is complete
         /// </summary>
-        /// <param name="storyboard">The storyoard to be started</param>
+        /// <param name="storyboard">The storyboard to be started</param>
         /// <returns>Task that completes when the animation is complete</returns>
         public static Task BeginAsync(this Storyboard storyboard)
         {
@@ -53,11 +53,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Gets the EasingFunction from EasingType to be used with Storyboard animations
+        /// Gets the EasingFunction from an EasingType and optional EasingMode to be used with Storyboard animations
         /// </summary>
         /// <param name="easingType">The EasingType used to determine the EasingFunction</param>
+        /// <param name="easingMode">The EasingMode used to determine the EasingFunction. Defaults to <see cref="EasingMode.EaseOut"/></param>
         /// <returns>Return the appropriate EasingFuntion or null if the EasingType is Linear</returns>
-        public static EasingFunctionBase GetEasingFunction(EasingType easingType)
+        public static EasingFunctionBase GetEasingFunction(EasingType easingType, EasingMode easingMode = EasingMode.EaseOut)
         {
             if (easingType == EasingType.Default)
             {
@@ -69,23 +70,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 case EasingType.Linear:
                     return null;
                 case EasingType.Cubic:
-                    return new CubicEase();
+                    return new CubicEase { EasingMode = easingMode };
                 case EasingType.Back:
-                    return new BackEase();
+                    return new BackEase { EasingMode = easingMode };
                 case EasingType.Bounce:
-                    return new BounceEase();
+                    return new BounceEase { EasingMode = easingMode };
                 case EasingType.Elastic:
-                    return new ElasticEase();
+                    return new ElasticEase { EasingMode = easingMode };
                 case EasingType.Circle:
-                    return new CircleEase();
+                    return new CircleEase { EasingMode = easingMode };
                 case EasingType.Quadratic:
-                    return new QuadraticEase();
+                    return new QuadraticEase { EasingMode = easingMode };
                 case EasingType.Quartic:
-                    return new QuarticEase();
+                    return new QuarticEase { EasingMode = easingMode };
                 case EasingType.Quintic:
-                    return new QuinticEase();
+                    return new QuinticEase { EasingMode = easingMode };
                 case EasingType.Sine:
-                    return new SineEase();
+                    return new SineEase { EasingMode = easingMode };
                 default:
                     throw new NotSupportedException($"{easingType.ToString()} EasingType is not currently supported");
             }
@@ -96,49 +97,122 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="easingType">The <see cref="EasingType"/> used to generate the CompositionEasingFunction</param>
         /// <param name="compositor">The <see cref="Compositor"/></param>
+        /// <param name="easingMode">The <see cref="EasingMode"/> used to generate the CompositionEasingFunction. Defaults to <see cref="EasingMode.EaseOut"/></param>
         /// <returns><see cref="CompositionEasingFunction"/></returns>
-        public static CompositionEasingFunction GetCompositionEasingFunction(EasingType easingType, Compositor compositor)
+        public static CompositionEasingFunction GetCompositionEasingFunction(EasingType easingType, Compositor compositor, EasingMode easingMode = EasingMode.EaseOut)
         {
             if (DesignTimeHelpers.IsRunningInLegacyDesignerMode)
             {
                 return compositor.CreateLinearEasingFunction();
             }
 
-            return GenerateCompositionEasingFunctionFromEasingType(easingType, compositor);
+            return GenerateCompositionEasingFunctionFromEasingType(easingType, compositor, easingMode);
         }
 
-        private static CompositionEasingFunction GenerateCompositionEasingFunctionFromEasingType(EasingType easingType, Compositor compositor)
+        private static CompositionEasingFunction GenerateCompositionEasingFunctionFromEasingType(EasingType easingType, Compositor compositor, EasingMode easingMode = EasingMode.EaseOut)
         {
             if (easingType == EasingType.Default)
             {
                 easingType = DefaultEasingType;
             }
 
-            switch (easingType)
+#pragma warning disable SA1515 // Single-line comment must be preceded by blank line - suppressed for brevity.
+
+            int key = ((int)easingType * 10) + (int)easingMode;
+            switch (key)
             {
-                case EasingType.Linear:
+                // Linear, EaseOut, EaseIn, EaseInOut
+                case 10:
+                case 11:
+                case 12:
                     return compositor.CreateLinearEasingFunction();
-                case EasingType.Cubic:
+                // Cubic, EaseOut
+                case 20:
                     return compositor.CreateCubicBezierEasingFunction(new Vector2(0.215f, 0.61f), new Vector2(0.355f, 1f));
-                case EasingType.Back:
+                // Cubic, EaseIn
+                case 21:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.55f, 0.055f), new Vector2(0.675f, 0.19f));
+                // Cubic, EaseInOut
+                case 22:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.645f, 0.045f), new Vector2(0.355f, 1f));
+                // Back, EaseOut
+                case 30:
                     return compositor.CreateCubicBezierEasingFunction(new Vector2(0.175f, 0.885f), new Vector2(0.32f, 1.275f));
-                case EasingType.Bounce:
+                // Back, EaseIn
+                case 31:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.6f, -0.28f), new Vector2(0.735f, 0.045f));
+                // Back, EaseInOut
+                case 32:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.68f, -0.55f), new Vector2(0.265f, 1.55f));
+                // Bounce, EaseOut
+                case 40:
                     return compositor.CreateCubicBezierEasingFunction(new Vector2(0.58f, 1.93f), new Vector2(.08f, .36f));
-                case EasingType.Elastic:
+                // Bounce, EaseIn
+                case 41:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.93f, 0.7f), new Vector2(0.4f, -0.93f));
+                // Bounce, EaseInOut
+                case 42:
+                    throw new NotImplementedException();
+                // Elastic, EaseOut
+                case 50:
                     return compositor.CreateCubicBezierEasingFunction(new Vector2(0.37f, 2.68f), new Vector2(0f, 0.22f));
-                case EasingType.Circle:
+                // Elastic, EaseIn
+                case 51:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(1, .78f), new Vector2(.63f, -1.68f));
+                // Elastic, EaseInOut
+                case 52:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.18f, -3f), new Vector2(0.82f, 3));
+                // Circle, EaseOut
+                case 60:
                     return compositor.CreateCubicBezierEasingFunction(new Vector2(0.075f, 0.82f), new Vector2(0.165f, 1f));
-                case EasingType.Quadratic:
+                // Circle, EaseIn
+                case 61:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.6f, 0.04f), new Vector2(0.98f, 0.335f));
+                // Circle, EaseInOut
+                case 62:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.785f, 0.135f), new Vector2(0.15f, 0.86f));
+                // Quadratic, EaseOut
+                case 70:
                     return compositor.CreateCubicBezierEasingFunction(new Vector2(0.25f, 0.46f), new Vector2(0.45f, 0.94f));
-                case EasingType.Quartic:
+                // Quadratic, EaseIn
+                case 71:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.55f, 0.085f), new Vector2(0.68f, 0.53f));
+                // Quadratic, EaseInOut
+                case 72:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.445f, 0.03f), new Vector2(0.515f, 0.955f));
+                // Quartic, EaseOut
+                case 80:
                     return compositor.CreateCubicBezierEasingFunction(new Vector2(0.165f, 0.84f), new Vector2(0.44f, 1f));
-                case EasingType.Quintic:
+                // Quartic, EaseIn
+                case 81:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.895f, 0.03f), new Vector2(0.685f, 0.22f));
+                // Quartic, EaseInOut
+                case 82:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.77f, 0.0f), new Vector2(0.175f, 1.0f));
+                // Quintic, EaseOut
+                case 90:
                     return compositor.CreateCubicBezierEasingFunction(new Vector2(0.23f, 1f), new Vector2(0.32f, 1f));
-                case EasingType.Sine:
+                // Quintic, EaseIn
+                case 91:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.755f, 0.05f), new Vector2(0.855f, 0.06f));
+                // Quintic, EaseInOut
+                case 92:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.86f, 0.0f), new Vector2(0.07f, 1.0f));
+                // Sine, EaseOut
+                case 100:
                     return compositor.CreateCubicBezierEasingFunction(new Vector2(0.39f, 0.575f), new Vector2(0.565f, 1f));
+                // Sine, EaseIn
+                case 101:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.47f, 0.0f), new Vector2(0.745f, 0.715f));
+                // Sine, EaseInOut
+                case 102:
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.445f, 0.05f), new Vector2(0.55f, 0.95f));
                 default:
-                    throw new NotSupportedException($"{easingType.ToString()} EasingType is not currently supported");
+                    throw new NotSupportedException($"{easingType.ToString()} EasingType and {easingMode.ToString()} EasingMode combination is not currently supported");
             }
+
+#pragma warning restore SA1515 // Single-line comment must be preceded by blank line
+
         }
 
         private static string GetAnimationPath(CompositeTransform transform, UIElement element, string property)

@@ -20,7 +20,7 @@ using Windows.UI.Composition;
 using Windows.UI.Composition.Effects;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         /// <summary>
         /// Stores all the point lights along with the visuals that they are applied to.
-        /// This is to stop mulitplication of point lights on a single visual.
+        /// This is to stop multiplication of point lights on a single visual.
         /// </summary>
         private static Dictionary<Visual, PointLight> pointLights = new Dictionary<Visual, PointLight>();
 
@@ -70,6 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="delay">The delay.</param>
         /// <param name="color">The color of the spotlight.</param>
         /// <param name="easingType">The easing function</param>
+        /// <param name="easingMode">The easing mode</param>
         /// <returns>An animation set.</returns>
         public static AnimationSet Light(
             this FrameworkElement associatedObject,
@@ -77,7 +78,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             double duration = 500d,
             double delay = 0d,
             Color? color = null,
-            EasingType easingType = EasingType.Default)
+            EasingType easingType = EasingType.Default,
+            EasingMode easingMode = EasingMode.EaseOut)
         {
             if (associatedObject == null)
             {
@@ -97,6 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="delay">The delay. (ignored if duration == 0)</param>
         /// <param name="color">The color of the spotlight.</param>
         /// <param name="easingType">The easing function</param>
+        /// <param name="easingMode">The easing mode</param>
         /// <seealso cref="IsLightingSupported" />
         /// <returns>
         /// An Animation Set.
@@ -107,7 +110,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             double duration = 500d,
             double delay = 0d,
             Color? color = null,
-            EasingType easingType = EasingType.Default)
+            EasingType easingType = EasingType.Default,
+            EasingMode easingMode = EasingMode.EaseOut)
         {
             if (!IsLightingSupported)
             {
@@ -216,7 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     }
                     else
                     {
-                        diffuseAnimation.InsertKeyFrame(1f, new System.Numerics.Vector3(visual.Size.X / 2, visual.Size.Y / 2, (float)distance), GetCompositionEasingFunction(easingType, compositor));
+                        diffuseAnimation.InsertKeyFrame(1f, new System.Numerics.Vector3(visual.Size.X / 2, visual.Size.Y / 2, (float)distance), GetCompositionEasingFunction(easingType, compositor, easingMode));
                     }
 
                     diffuseAnimation.Duration = durationTime;
