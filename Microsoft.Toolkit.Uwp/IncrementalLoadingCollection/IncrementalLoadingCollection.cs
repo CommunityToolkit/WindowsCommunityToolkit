@@ -199,10 +199,26 @@ namespace Microsoft.Toolkit.Uwp
         /// Clears the collection and reloads data from the source
         /// </summary>
         /// <returns>This method does not return a result</returns>
-        [Obsolete("RefreshAsync is deprecated, please use Refresh instead.")]
-        public async Task RefreshAsync()
+        public Task RefreshAsync()
         {
-            await Task.Run(() => Refresh());
+            if (IsLoading)
+            {
+                _refreshOnLoad = true;
+            }
+            else
+            {
+                var previousCount = Count;
+                Clear();
+                CurrentPageIndex = 0;
+                HasMoreItems = true;
+
+                if (previousCount == 0)
+                {
+                    return LoadMoreItemsAsync(0).AsTask();
+                }
+            }
+
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -211,16 +227,7 @@ namespace Microsoft.Toolkit.Uwp
         /// </summary>
         public void Refresh()
         {
-            if (IsLoading)
-            {
-                _refreshOnLoad = true;
-            }
-            else
-            {
-                Clear();
-                CurrentPageIndex = 0;
-                HasMoreItems = true;
-            }
+            RefreshAsync().Wait();
         }
 
         /// <summary>
@@ -284,7 +291,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (_refreshOnLoad)
                 {
                     _refreshOnLoad = false;
-                    Refresh();
+                    await RefreshAsync();
                 }
             }
 
