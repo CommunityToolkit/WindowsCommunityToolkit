@@ -187,7 +187,7 @@ if (events == null)
 
 ```
 
-## Sign in using Device Code (useful to Sign in to a non-keyboard/touch device from a touch device)
+### Sign in using Device Code (useful to Sign in to a non-keyboard/touch device from a touch device)
 
 ```csharp
 

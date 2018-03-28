@@ -55,11 +55,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             return true;
         }
 
-        private void Initialize()
+        private void Initialize(AuthenticationModel endpointVersion)
         {
-            var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
-            var endpointVersion = item.Tag.ToString() == "v2" ? AuthenticationModel.V2 : AuthenticationModel.V1;
-
             MicrosoftGraphService.Instance.AuthenticationModel = endpointVersion;
 
             // Initialize the service
@@ -85,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             // Initialize the service
-            Initialize();
+            Initialize(AuthenticationModel.V1);
 
             try
             {
@@ -122,8 +119,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
+            var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
+            var endpointVersion = item.Tag.ToString() == "v2" ? AuthenticationModel.V2 : AuthenticationModel.V1;
+
             // Initialize the service
-            Initialize();
+            Initialize(endpointVersion);
 
             if (await LoginAsync())
             {
