@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Page Remove="InfiniteCanvas\InfiniteCanvas.xaml" />
+    <None Remove="InfiniteCanvas\InfiniteCanvas.xaml" />
   </ItemGroup>
 
 
