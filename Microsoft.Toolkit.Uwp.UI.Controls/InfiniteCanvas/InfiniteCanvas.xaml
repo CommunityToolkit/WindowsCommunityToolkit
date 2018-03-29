@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
+
+    <Style TargetType="local:InfiniteCanvas">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:InfiniteCanvas">
+                    <Grid>
+                        <Grid x:Name="CanvasContainer">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0"
+                                        Orientation="Horizontal">
+                                <InkToolbar x:Name="canToolBar" />
+                            </StackPanel>
+                            <ScrollViewer x:Name="inkScrollViewer"
+                                          Grid.Row="1"
+                                          HorizontalScrollBarVisibility="Auto"
+                                          HorizontalScrollMode="Enabled"
+                                          VerticalScrollBarVisibility="Auto"
+                                          VerticalScrollMode="Enabled"
+                                          ZoomMode="Enabled">
+                                <Grid x:Name="OutputGrid">
+                                    <local:VirtualDrawingSurface x:Name="canvasOne" />
+                                    <!--  Inking area  -->
+                                    <InkCanvas x:Name="inkCanvas"
+                                               Height="Auto" />
+                                </Grid>
+                            </ScrollViewer>
+                        </Grid>
+                        <!--<Button x:Name="EnableDisableButton" Content="Enable-Disable" />-->
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

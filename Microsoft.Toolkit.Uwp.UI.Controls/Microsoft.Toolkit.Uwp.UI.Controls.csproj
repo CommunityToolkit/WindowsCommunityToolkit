@@ -8,6 +8,10 @@
 
   </PropertyGroup>
 
+  <ItemGroup>
+    <Page Remove="InfiniteCanvas\InfiniteCanvas.xaml" />
+  </ItemGroup>
+
 
   <ItemGroup>
 
