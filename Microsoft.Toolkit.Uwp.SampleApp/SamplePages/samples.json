@@ -273,6 +273,15 @@
         "XamlCodeFile": "StaggeredPanel.bind",
         "Icon": "/SamplePages/StaggeredPanel/StaggeredPanel.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/StaggeredPanel.md"
+      },
+      {
+        "Name": "InfiniteCanvas",
+        "Type": "InfiniteCanvasPage",
+        "About": "About InfiniteCanvas",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/InfiniteCanvas",
+        "XamlCodeFile": "InfiniteCanvas.bind",
+        "Icon": "/SamplePages/InfiniteCanvas/InfiniteCanvas.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/InfiniteCanvas.md"
       }
     ]
   },
