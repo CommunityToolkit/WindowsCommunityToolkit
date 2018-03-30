@@ -11,6 +11,8 @@
 // ******************************************************************
 
 using System.Collections.Generic;
+using System.Diagnostics;
+using Windows.Foundation;
 using Microsoft.Graphics.Canvas;
 using Windows.UI.Core;
 using Windows.UI.Input.Inking;
@@ -32,8 +34,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         CanvasRenderTarget renderTarget;
         IReadOnlyList<InkStroke> wetInkStrokes;
         InkSynchronizer inkSync;
-        const float LARGE_CANVAS_WIDTH = 1 << 21;
-        const float LARGE_CANVAS_HEIGHT = 1 << 21;
+        internal const float LargeCanvasWidth = 1 << 15;
+        internal const float LargeCanvasHeight = 1 << 15;
 
         public InfiniteCanvas()
         {
@@ -47,6 +49,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             CanvasContainer = (Grid)GetTemplateChild("CanvasContainer");
             OutputGrid = (Grid)GetTemplateChild("OutputGrid");
             inkScrollViewer = (ScrollViewer)GetTemplateChild("inkScrollViewer");
+
+            //inkScrollViewer.Clip
+            //inkScrollViewer.ExtentHeight
+            //inkScrollViewer.ExtentWidth
+            //inkScrollViewer.HorizontalOffset
+            //VerticalOffset
+            //inkScrollViewer.ZoomFactor
+            //inkScrollViewer.ScrollableHeight
+            //inkScrollViewer.ViewportHeight
+            //inkScrollViewer.ViewportWidth
 
             canToolBar = (InkToolbar)GetTemplateChild("canToolBar");
 
@@ -87,8 +99,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             inkScrollViewer.MinZoomFactor = 0.25f;
             inkScrollViewer.ViewChanged += InkScrollViewer_ViewChanged;
 
-            OutputGrid.Width = LARGE_CANVAS_WIDTH;
-            OutputGrid.Height = LARGE_CANVAS_HEIGHT;
+
+            OutputGrid.Width = LargeCanvasWidth;
+            OutputGrid.Height = LargeCanvasHeight;
         }
 
         void OnCanvasControlSizeChanged(object sender, SizeChangedEventArgs e)
@@ -99,13 +112,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         void OnStrokesCollected(InkPresenter sender, InkStrokesCollectedEventArgs args)
         {
-            this.wetInkStrokes = this.inkSync.BeginDry();
-
-            _canvasOne.DrawLine(this.wetInkStrokes);
-            //this.strokeContainer.AddStrokes(args.Strokes);
-
+            IReadOnlyList<InkStroke> strokes = this.inkSync.BeginDry();
+            var inkDrawable = new InkDrawable(strokes);
+            _canvasOne.AddDrawable(inkDrawable);
             this.inkSync.EndDry();
-            //this.canvasControl.Invalidate();
+
+            _canvasOne.ReDraw(ViewPort);
         }
 
         private void InkScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
@@ -113,7 +125,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!e.IsIntermediate)
             {
                 _canvasOne.UpdateZoomFactor(inkScrollViewer.ZoomFactor);
+                _canvasOne.ReDraw(ViewPort);
             }
         }
+
+        private Rect ViewPort => new Rect(inkScrollViewer.HorizontalOffset, inkScrollViewer.VerticalOffset, inkScrollViewer.ViewportWidth, inkScrollViewer.ViewportHeight);
     }
 }

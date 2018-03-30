@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Numerics;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
@@ -18,7 +19,7 @@ using Windows.UI.Xaml.Hosting;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    public class VirtualDrawingSurface : Panel, IInteractionTrackerOwner
+    public class VirtualDrawingSurface : Panel
     {
         private Compositor compositor;
         private CanvasDevice win2dDevice;
@@ -33,9 +34,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ExpressionAnimation moveSurfaceExpressionAnimation;
         private ExpressionAnimation moveSurfaceUpDownExpressionAnimation;
         private ExpressionAnimation scaleSurfaceUpDownExpressionAnimation;
-
-        private const int TILESIZE = 250;
-        Random randonGen = new Random();
 
         public VirtualDrawingSurface()
         {
@@ -89,14 +87,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            //DrawTile(new Rect(0, 0, 200, 200), 0, 0);
-            //DrawTile(new Rect(200, 200, 200, 200), 1, 1);
-
-            //            drawingSurface.Trim(
-            //                new[] { new RectInt32
-            //                { X = 0, Y = 0, Width = 50, Height = 50 }
-            //}
-            //                );
         }
 
         public void InitializeComposition()
@@ -112,8 +102,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var size = new SizeInt32
             {
-                Height = 10000,
-                Width = 10000
+                Height = (int)InfiniteCanvas.LargeCanvasHeight,
+                Width = (int)InfiniteCanvas.LargeCanvasWidth
             };
 
             this.drawingSurface = comositionGraphicsDevice.CreateVirtualDrawingSurface(size,
@@ -138,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             this.interactionSource.ScaleSourceMode = InteractionSourceMode.EnabledWithInertia;
 
-            this.tracker = InteractionTracker.CreateWithOwner(this.compositor, this);
+            this.tracker = InteractionTracker.Create(this.compositor);
             this.tracker.InteractionSources.Add(this.interactionSource);
 
             this.moveSurfaceExpressionAnimation = this.compositor.CreateExpressionAnimation("-tracker.Position.X");
@@ -152,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             this.tracker.MinPosition = new Vector3(0, 0, 0);
             //TODO: use same consts as tilemanager object
-            this.tracker.MaxPosition = new Vector3(10000, 10000, 0);
+            this.tracker.MaxPosition = new Vector3(InfiniteCanvas.LargeCanvasWidth, InfiniteCanvas.LargeCanvasHeight, 0);
 
             this.tracker.MinScale = .25f;
             this.tracker.MaxScale = 4f;
@@ -179,10 +169,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public void DrawTile(Rect rect, int tileRow, int tileColumn)
         {
-            Color randomColor = Color.FromArgb((byte)255, (byte)randonGen.Next(255), (byte)randonGen.Next(255), (byte)randonGen.Next(255));
+
             using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface, rect))
             {
-                drawingSession.Clear(randomColor);
+                //drawingSession.Clear(randomColor);
                 CanvasTextFormat tf = new CanvasTextFormat() { FontSize = 72 };
                 drawingSession.DrawText($"{tileColumn},{tileRow}", new Vector2(50, 50), Colors.Green, tf);
             }
@@ -193,71 +183,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             drawingSurface.Trim(new RectInt32[] { new RectInt32 { X = (int)trimRect.X, Y = (int)trimRect.Y, Width = (int)trimRect.Width, Height = (int)trimRect.Height } });
         }
 
-        public void CustomAnimationStateEntered(InteractionTracker sender, InteractionTrackerCustomAnimationStateEnteredArgs args)
-        {
-
-        }
-
-        public void IdleStateEntered(InteractionTracker sender, InteractionTrackerIdleStateEnteredArgs args)
-        {
-
-        }
-
-        public void InertiaStateEntered(InteractionTracker sender, InteractionTrackerInertiaStateEnteredArgs args)
-        {
-
-        }
-
-        public void InteractingStateEntered(InteractionTracker sender, InteractionTrackerInteractingStateEnteredArgs args)
-        {
-
-        }
-
-        public void RequestIgnored(InteractionTracker sender, InteractionTrackerRequestIgnoredArgs args)
-        {
-
-        }
-
-        public void ValuesChanged(InteractionTracker sender, InteractionTrackerValuesChangedArgs args)
-        {
-
-        }
-
-        List<InkStroke> list = new List<InkStroke>();
+        List<IReadOnlyList<InkStroke>> list = new List<IReadOnlyList<InkStroke>>();
 
         public void DrawLine(IReadOnlyList<InkStroke> inkes)
         {
-
-            list.AddRange(inkes);
-
-            //Debug.WriteLine($"{tracker.Position}");
-
-
-            // full screen but only record the last element as every time we draw it clear the old drawings
-            using (
-                var drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface))
-            {
-                CanvasTextFormat tf = new CanvasTextFormat() { FontSize = 72 };
-                //drawingSession.DrawText($"hopa", 50, 50, Colors.Green, tf);
-
-                float xLoc = 100.0f;
-                float yLoc = 100.0f;
-                //CanvasTextFormat format = new CanvasTextFormat
-                //{
-                //    FontSize = 30.0f,
-                //    WordWrapping = CanvasWordWrapping.NoWrap
-                //};
-                //CanvasTextLayout textLayout = new CanvasTextLayout(drawingSession, "Hello World!", format, 0.0f, 0.0f);
-                //Rect theRectYouAreLookingFor = new Rect(xLoc + textLayout.DrawBounds.X, yLoc + textLayout.DrawBounds.Y,
-                //    textLayout.DrawBounds.Width, textLayout.DrawBounds.Height);
-                //drawingSession.DrawRectangle(theRectYouAreLookingFor, Colors.Green, 1.0f);
-                //drawingSession.DrawTextLayout(textLayout, xLoc, yLoc, Colors.Yellow);
-
-                //DrawTile(new Rect(0, 0, 200, 200), 0, 0);
-                //DrawTile(new Rect(200, 200, 200, 200), 1, 1);
-
-                drawingSession.DrawInk(list);
-            }
+            list.Add(inkes);
         }
 
         private string sofar = string.Empty;
@@ -286,17 +216,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 //drawingSession.DrawText()
 
-                drawingSession.DrawInk(list);
+                //drawingSession.DrawInk(list);
             }
         }
 
         public void UpdateZoomFactor(float zoomFactor)
         {
-
-
             startAnimation(surfaceBrush, zoomFactor);
+        }
 
+        public void ReDraw(Rect viewPort)
+        {
+            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface))
+            {
+                foreach (var drawable in _drawableList)
+                {
+                    if (drawable.IsVisible(viewPort))
+                    {
+                        Debug.WriteLine("Drawn");
+                        drawable.Draw(drawingSession);
+                    }
+                    else
+                    {
+                        Debug.WriteLine("not drawn");
+                    }
+                }
+            }
+        }
 
+        private readonly List<IDrawable> _drawableList = new List<IDrawable>();
+
+        internal void AddDrawable(IDrawable inkDrawable)
+        {
+            _drawableList.Add(inkDrawable);
         }
     }
 }
