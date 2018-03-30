@@ -169,7 +169,7 @@ Task("Build")
 	
 	MSBuild(Solution, buildSettings);
 	
-	// Invoke the pack target in the end	
+	// Invoke the pack target in the end
     buildSettings = new MSBuildSettings
     {
         MaxCpuCount = 0
@@ -180,6 +180,50 @@ Task("Build")
 	.WithProperty("PackageOutputPath", nupkgDir);
 
     MSBuild(Solution, buildSettings);
+
+    // -- NATIVE PACKAGES
+    // build native packages for x64
+    buildSettings = new MSBuildSettings
+    {
+        MaxCpuCount = 0
+    }
+    .SetConfiguration("Native")
+    .SetPlatformTarget(PlatformTarget.x64);
+
+    MSBuild(Solution, buildSettings);
+
+    // build native packages for x86
+    buildSettings = new MSBuildSettings
+    {
+        MaxCpuCount = 0
+    }
+    .SetConfiguration("Native")
+    .SetPlatformTarget(PlatformTarget.x86);
+
+    MSBuild(Solution, buildSettings);
+
+    // build native packages for ARM
+    buildSettings = new MSBuildSettings
+    {
+        MaxCpuCount = 0
+    }
+    .SetConfiguration("Native")
+    .SetPlatformTarget(PlatformTarget.ARM);
+
+    MSBuild(Solution, buildSettings);
+
+    var nuGetPackSettings = new NuGetPackSettings
+	{
+		OutputDirectory = nupkgDir,
+        Version = Version
+	};
+
+    var nuspecs = GetFiles("./*.nuspec");
+    foreach (var nuspec in nuspecs)
+    {
+        Information("Nuspec : {0}", nuspec);
+        NuGetPack(nuspec, nuGetPackSettings);
+    }
 });
 
 Task("SignNuGet")

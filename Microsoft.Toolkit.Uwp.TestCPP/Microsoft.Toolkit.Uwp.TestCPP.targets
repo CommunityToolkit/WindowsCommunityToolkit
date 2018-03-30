@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <Lib-Platform Condition="'$(Platform)' == 'Win32'">x86</Lib-Platform>
+        <Lib-Platform Condition="'$(Platform)' != 'Win32'">$(Platform)</Lib-Platform>
+    </PropertyGroup>
+    <ItemGroup Condition="'$(TargetPlatformIdentifier)' == 'UAP'">
+        <Reference Include="$(MSBuildThisFileDirectory)..\..\lib\uap10.0\Microsoft.Toolkit.Uwp.TestCPP.winmd">
+            <Implementation>Microsoft.Toolkit.Uwp.TestCPP.dll</Implementation>
+        </Reference>
+    <ReferenceCopyLocalPaths Include="$(MSBuildThisFileDirectory)..\..\runtimes\win10-$(Lib-Platform)\native\Microsoft.Toolkit.Uwp.TestCPP.dll" />
+    </ItemGroup>
+</Project>
