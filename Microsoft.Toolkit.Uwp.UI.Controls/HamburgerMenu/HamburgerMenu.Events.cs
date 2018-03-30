@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var options = OptionsItemsSource as IEnumerable<object>;
                 var isOption = options != null && options.Contains(args.InvokedItem);
 
-                ItemInvoked?.Invoke(this, new HamburgerMenuItemInvokedEventArgs() {InvokedItem = args.InvokedItem, IsItemOptions = isOption});
+                ItemInvoked?.Invoke(this, new HamburgerMenuItemInvokedEventArgs() { InvokedItem = args.InvokedItem, IsItemOptions = isOption });
             }
         }
     }

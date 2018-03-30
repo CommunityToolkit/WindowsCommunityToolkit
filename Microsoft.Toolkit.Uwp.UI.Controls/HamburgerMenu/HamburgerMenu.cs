@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     foreach (var option in options)
                     {
-                        if (!UseNavViewSettingsFromOptions)
+                        if (!UseNavigationViewSettingsWhenPossible)
                         {
                             combined.Add(option);
                         }
@@ -189,12 +189,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private bool IsSettingsItem(object menuItem)
         {
-            Dictionary<string, object> values = (menuItem)
-                .GetType()
-                .GetProperties()
-                .ToDictionary(p => p.Name, p => p.GetValue(menuItem));
+            Dictionary<string, object> values = menuItem.GetType()
+                                                        .GetProperties()
+                                                        .ToDictionary(p => p.Name, p => p.GetValue(menuItem));
 
-            // Adds using System.Reflection; (for GetProperties)
             return menuItem.GetType()
                            .GetProperties()
                            .Any(p => p.GetValue(menuItem).ToString().IndexOf("setting", StringComparison.OrdinalIgnoreCase) >= 0
