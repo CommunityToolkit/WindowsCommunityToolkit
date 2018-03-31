@@ -10,14 +10,15 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Windows.Foundation;
 using Microsoft.Graphics.Canvas;
+using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal interface IDrawable
     {
         void Draw(CanvasDrawingSession drawingSession);
+
         bool IsVisible(Rect viewPort);
     }
 }

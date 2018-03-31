@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Graphics.Canvas;
 using Windows.Foundation;
@@ -33,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 left = Math.Min(stroke.BoundingRect.Left, left);
             }
 
-            _bounds = new Rect(top, left, bottom, right);
+            _bounds = new Rect(top, left, bottom - top, right - left);
         }
 
         public bool IsVisible(Rect viewPort)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Numerics;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
@@ -227,7 +228,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public void ReDraw(Rect viewPort)
         {
-            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface))
+            if (!_drawableList.Any())
+            {
+                return;
+            }
+
+            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface, viewPort))
             {
                 foreach (var drawable in _drawableList)
                 {

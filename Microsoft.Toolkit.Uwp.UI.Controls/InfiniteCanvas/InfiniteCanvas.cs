@@ -34,8 +34,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         CanvasRenderTarget renderTarget;
         IReadOnlyList<InkStroke> wetInkStrokes;
         InkSynchronizer inkSync;
-        internal const float LargeCanvasWidth = 1 << 15;
-        internal const float LargeCanvasHeight = 1 << 15;
+        internal const float LargeCanvasWidth = 1 << 14;
+        internal const float LargeCanvasHeight = 1 << 14;
 
         public InfiniteCanvas()
         {
@@ -98,10 +98,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             inkScrollViewer.MaxZoomFactor = 4.0f;
             inkScrollViewer.MinZoomFactor = 0.25f;
             inkScrollViewer.ViewChanged += InkScrollViewer_ViewChanged;
-
+            inkScrollViewer.SizeChanged += InkScrollViewer_SizeChanged;
 
             OutputGrid.Width = LargeCanvasWidth;
             OutputGrid.Height = LargeCanvasHeight;
+        }
+
+        private void ReDrawCanvas()
+        {
+            _canvasOne.ReDraw(ViewPort);
+        }
+
+        private void InkScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ReDrawCanvas();
         }
 
         void OnCanvasControlSizeChanged(object sender, SizeChangedEventArgs e)
@@ -117,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasOne.AddDrawable(inkDrawable);
             this.inkSync.EndDry();
 
-            _canvasOne.ReDraw(ViewPort);
+            ReDrawCanvas();
         }
 
         private void InkScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
@@ -125,10 +135,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!e.IsIntermediate)
             {
                 _canvasOne.UpdateZoomFactor(inkScrollViewer.ZoomFactor);
-                _canvasOne.ReDraw(ViewPort);
+                ReDrawCanvas();
             }
         }
 
-        private Rect ViewPort => new Rect(inkScrollViewer.HorizontalOffset, inkScrollViewer.VerticalOffset, inkScrollViewer.ViewportWidth, inkScrollViewer.ViewportHeight);
+        private Rect ViewPort => new Rect(inkScrollViewer.HorizontalOffset, inkScrollViewer.VerticalOffset, inkScrollViewer.ViewportWidth / inkScrollViewer.ZoomFactor, inkScrollViewer.ViewportHeight / inkScrollViewer.ZoomFactor);
     }
 }
