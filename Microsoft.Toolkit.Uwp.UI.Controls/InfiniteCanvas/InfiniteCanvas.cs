@@ -42,6 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.DefaultStyleKey = typeof(InfiniteCanvas);
         }
 
+        private InkToolbarCustomToolButton _enableTextButton;
         protected override void OnApplyTemplate()
         {
 
@@ -50,22 +51,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             OutputGrid = (Grid)GetTemplateChild("OutputGrid");
             inkScrollViewer = (ScrollViewer)GetTemplateChild("inkScrollViewer");
             var eraseAllButton = (InkToolbarCustomToolButton)GetTemplateChild("EraseAllButton");
-            var eraseAllIcon = (SymbolIcon)GetTemplateChild("EraseAllIcon");
 
+
+            _enableTextButton = (InkToolbarCustomToolButton)GetTemplateChild("EnableTextButton");
+
+            _enableTextButton.Checked += _enableTextButton_Checked;
             eraseAllButton.Click += EraseAllButton_Click;
-            eraseAllIcon.Symbol = Symbol.Delete;
+            
 
             canToolBar = (InkToolbar)GetTemplateChild("canToolBar");
 
             _inkCanvas = (InkCanvas)GetTemplateChild("inkCanvas");
             //var enableButton = (Button)GetTemplateChild("EnableDisableButton");
             //enableButton.Click += EnableButton_Click;
-            canToolBar.TargetInkCanvas = _inkCanvas;
+            //canToolBar.TargetInkCanvas = _inkCanvas;
 
-            MainPage_Loaded();
+            //MainPage_Loaded();
             base.OnApplyTemplate();
         }
 
+        private void _enableTextButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (_enableTextButton.IsChecked.Value)
+            {
+
+            }
+            else
+            {
+                
+            }
+        }
+        
         private void EraseAllButton_Click(object sender, RoutedEventArgs e)
         {
             _canvasOne.ClearAll();

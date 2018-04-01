@@ -15,10 +15,15 @@
 
                             <StackPanel Grid.Row="0"
                                         Orientation="Horizontal">
-                                <InkToolbar x:Name="canToolBar">
+                                <InkToolbar x:Name="canToolBar"
+                                            TargetInkCanvas="{Binding ElementName=canvasOne}">
                                     <InkToolbarCustomToolButton x:Name="EraseAllButton"
                                                                 ToolTipService.ToolTip="Erase All">
-                                        <SymbolIcon x:Name="EraseAllIcon"/>
+                                        <SymbolIcon Symbol="Delete" />
+                                    </InkToolbarCustomToolButton>
+                                    <InkToolbarCustomToolButton x:Name="EnableTextButton"
+                                                                ToolTipService.ToolTip="Insert Text">
+                                        <SymbolIcon Symbol="Font" />
                                     </InkToolbarCustomToolButton>
                                 </InkToolbar>
                             </StackPanel>
@@ -30,14 +35,49 @@
                                           VerticalScrollMode="Enabled"
                                           ZoomMode="Enabled">
                                 <Grid x:Name="OutputGrid">
+
                                     <local:VirtualDrawingSurface x:Name="canvasOne" />
-                                    <!--  Inking area  -->
+
                                     <InkCanvas x:Name="inkCanvas"
                                                Height="Auto" />
+                                    <local:InfiniteCanvasTextBox />
                                 </Grid>
                             </ScrollViewer>
                         </Grid>
                         <!--<Button x:Name="EnableDisableButton" Content="Enable-Disable" />-->
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="local:InfiniteCanvasTextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:InfiniteCanvasTextBox">
+                    <Grid x:Name="MainGrid"
+                          Width="400"
+                          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <local:TextToolbar x:Name="TextToolbar"
+                                           Background="#4C4F4F4F"
+                                           Editor="{Binding ElementName=EditZone}" />
+
+                        <ScrollViewer Grid.Row="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <RichEditBox x:Name="EditZone"
+                                             MaxHeight="300"
+                                             VerticalContentAlignment="Stretch"
+                                             PlaceholderText="Enter Text Here"
+                                             TextWrapping="Wrap" />
+                            </Grid>
+                        </ScrollViewer>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

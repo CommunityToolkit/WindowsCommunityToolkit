@@ -153,6 +153,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     else
                     {
                         _toolbar.Formatter.Selected.Text = $"This was filled by {demoText} button ";
+
+                        _toolbar.Formatter.Selected.CharacterFormat.Size = 40;
                     }
                 }
             };
