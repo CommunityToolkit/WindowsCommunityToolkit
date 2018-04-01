@@ -34,8 +34,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         CanvasRenderTarget renderTarget;
         IReadOnlyList<InkStroke> wetInkStrokes;
         InkSynchronizer inkSync;
-        internal const float LargeCanvasWidth = 1 << 14;
-        internal const float LargeCanvasHeight = 1 << 14;
+
+        internal const float LargeCanvasWidthHeight = 1 << 14;
 
         public InfiniteCanvas()
         {
@@ -87,10 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             this.inkSync = this._inkCanvas.InkPresenter.ActivateCustomDrying();
             this._inkCanvas.InkPresenter.StrokesCollected += OnStrokesCollected;
-
-
-
-            //this.canvasControl.SizeChanged += OnCanvasControlSizeChanged; ;
+            this._inkCanvas.InkPresenter.UnprocessedInput.PointerMoved += UnprocessedInput_PointerMoved;
 
             this.strokeContainer = new InkStrokeContainer();
 
@@ -100,8 +97,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             inkScrollViewer.ViewChanged += InkScrollViewer_ViewChanged;
             inkScrollViewer.SizeChanged += InkScrollViewer_SizeChanged;
 
-            OutputGrid.Width = LargeCanvasWidth;
-            OutputGrid.Height = LargeCanvasHeight;
+            OutputGrid.Width = LargeCanvasWidthHeight;
+            OutputGrid.Height = LargeCanvasWidthHeight;
+
+
+            _strokeContainer = new InkStrokeContainer();
+
+            Application.Current.Resuming += Current_Resuming;
+        }
+
+        private void Current_Resuming(object sender, object e)
+        {
+            _canvasOne.ReDraw(ViewPort);
+        }
+
+        private InkStrokeContainer _strokeContainer;
+
+        private Point _prevErasingPoint;
+
+        private void UnprocessedInput_PointerMoved(InkUnprocessedInput sender, PointerEventArgs args)
+        {
+            if (canToolBar.ActiveTool == canToolBar.GetToolButton(InkToolbarTool.Eraser))
+            {
+                _canvasOne.Erase(args.CurrentPoint.Position, ViewPort);
+            }
         }
 
         private void ReDrawCanvas()

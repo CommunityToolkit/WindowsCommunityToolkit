@@ -13,6 +13,7 @@ using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Composition.Interactions;
 using Windows.UI.Core;
+using Windows.UI.Input;
 using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -103,11 +104,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var size = new SizeInt32
             {
-                Height = (int)InfiniteCanvas.LargeCanvasHeight,
-                Width = (int)InfiniteCanvas.LargeCanvasWidth
+                Height = (int)InfiniteCanvas.LargeCanvasWidthHeight,
+                Width = (int)InfiniteCanvas.LargeCanvasWidthHeight
             };
 
-            this.drawingSurface = comositionGraphicsDevice.CreateVirtualDrawingSurface(size,
+            this.drawingSurface = comositionGraphicsDevice.CreateVirtualDrawingSurface(
+                size,
                 DirectXPixelFormat.B8G8R8A8UIntNormalized,
                 DirectXAlphaMode.Premultiplied);
 
@@ -143,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             this.tracker.MinPosition = new Vector3(0, 0, 0);
             //TODO: use same consts as tilemanager object
-            this.tracker.MaxPosition = new Vector3(InfiniteCanvas.LargeCanvasWidth, InfiniteCanvas.LargeCanvasHeight, 0);
+            this.tracker.MaxPosition = new Vector3(InfiniteCanvas.LargeCanvasWidthHeight, InfiniteCanvas.LargeCanvasWidthHeight, 0);
 
             this.tracker.MinScale = .25f;
             this.tracker.MaxScale = 4f;
@@ -228,23 +230,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public void ReDraw(Rect viewPort)
         {
-            if (!_drawableList.Any())
+            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface))
             {
-                return;
-            }
-
-            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface, viewPort))
-            {
+                //TODO change to property
+                drawingSession.Clear(Colors.White);
                 foreach (var drawable in _drawableList)
                 {
                     if (drawable.IsVisible(viewPort))
                     {
-                        Debug.WriteLine("Drawn");
                         drawable.Draw(drawingSession);
-                    }
-                    else
-                    {
-                        Debug.WriteLine("not drawn");
                     }
                 }
             }
@@ -255,6 +249,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal void AddDrawable(IDrawable inkDrawable)
         {
             _drawableList.Add(inkDrawable);
+        }
+
+        public void Erase(Point point, Rect viewPort)
+        {
+            for (var i = _drawableList.Count - 1; i >= 0; i--)
+            {
+                var drawable = _drawableList[i];
+                Debug.WriteLine($"{drawable.Bounds.Contains(point)}, {drawable.Bounds}, {point}");
+                if (drawable.IsActive && drawable is InkDrawable inkDrawable && drawable.Bounds.Contains(point))
+                {
+                    foreach (var stroke in inkDrawable.Strokes)
+                    {
+                        if (stroke.BoundingRect.Contains(point))
+                        {
+                            Debug.WriteLine("removed at" + i);
+                            _drawableList.RemoveAt(i);
+                            ReDraw(viewPort);
+                            return;
+                        }
+                    }
+                }
+            }
         }
     }
 }

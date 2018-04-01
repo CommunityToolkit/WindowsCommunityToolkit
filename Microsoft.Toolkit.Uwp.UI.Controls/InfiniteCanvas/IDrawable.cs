@@ -20,5 +20,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         void Draw(CanvasDrawingSession drawingSession);
 
         bool IsVisible(Rect viewPort);
+
+        bool IsActive { get; set; }
+
+        Rect Bounds { get; set; }
     }
 }

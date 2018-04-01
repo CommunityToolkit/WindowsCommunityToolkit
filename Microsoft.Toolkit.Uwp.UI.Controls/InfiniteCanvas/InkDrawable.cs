@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Microsoft.Graphics.Canvas;
 using Windows.Foundation;
@@ -11,8 +10,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal class InkDrawable : IDrawable
     {
-        private readonly Rect _bounds;
-        private readonly IReadOnlyList<InkStroke> _strokes;
+        public readonly IReadOnlyList<InkStroke> Strokes;
+
+        public Rect Bounds { get; set; }
+
+        public bool IsActive { get; set; }
 
         public InkDrawable(IReadOnlyList<InkStroke> strokes)
         {
@@ -21,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            _strokes = strokes;
+            Strokes = strokes;
 
             var first = strokes.First();
             double top = first.BoundingRect.Top, bottom = first.BoundingRect.Bottom, left = first.BoundingRect.Left, right = first.BoundingRect.Right;
@@ -34,17 +36,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 left = Math.Min(stroke.BoundingRect.Left, left);
             }
 
-            _bounds = new Rect(top, left, bottom - top, right - left);
+            Bounds = new Rect(top, left, bottom - top, right - left);
         }
 
         public bool IsVisible(Rect viewPort)
         {
-            return RectHelper.Intersect(viewPort, _bounds) != Rect.Empty;
+            IsActive = RectHelper.Intersect(viewPort, Bounds) != Rect.Empty;
+            return IsActive;
         }
 
         public void Draw(CanvasDrawingSession drawingSession)
         {
-            drawingSession.DrawInk(_strokes);
+            drawingSession.DrawInk(Strokes);
         }
     }
 }
