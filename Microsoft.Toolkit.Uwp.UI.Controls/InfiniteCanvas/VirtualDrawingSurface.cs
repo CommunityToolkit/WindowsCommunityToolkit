@@ -228,12 +228,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             startAnimation(surfaceBrush, zoomFactor);
         }
 
+        public Color Background { get; set; } = Colors.White;
+
         public void ReDraw(Rect viewPort)
         {
             using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface))
             {
-                //TODO change to property
-                drawingSession.Clear(Colors.White);
+                drawingSession.Clear(Background);
                 foreach (var drawable in _drawableList)
                 {
                     if (drawable.IsVisible(viewPort))
@@ -269,6 +270,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         }
                     }
                 }
+            }
+        }
+
+        public void ClearAll()
+        {
+            _drawableList.Clear();
+            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface))
+            {
+                drawingSession.Clear(Background);
             }
         }
     }

@@ -49,16 +49,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             CanvasContainer = (Grid)GetTemplateChild("CanvasContainer");
             OutputGrid = (Grid)GetTemplateChild("OutputGrid");
             inkScrollViewer = (ScrollViewer)GetTemplateChild("inkScrollViewer");
+            var eraseAllButton = (InkToolbarCustomToolButton)GetTemplateChild("EraseAllButton");
+            var eraseAllIcon = (SymbolIcon)GetTemplateChild("EraseAllIcon");
 
-            //inkScrollViewer.Clip
-            //inkScrollViewer.ExtentHeight
-            //inkScrollViewer.ExtentWidth
-            //inkScrollViewer.HorizontalOffset
-            //VerticalOffset
-            //inkScrollViewer.ZoomFactor
-            //inkScrollViewer.ScrollableHeight
-            //inkScrollViewer.ViewportHeight
-            //inkScrollViewer.ViewportWidth
+            eraseAllButton.Click += EraseAllButton_Click;
+            eraseAllIcon.Symbol = Symbol.Delete;
 
             canToolBar = (InkToolbar)GetTemplateChild("canToolBar");
 
@@ -69,6 +64,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             MainPage_Loaded();
             base.OnApplyTemplate();
+        }
+
+        private void EraseAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            _canvasOne.ClearAll();
         }
 
         public InkToolbar canToolBar { get; set; }

@@ -15,7 +15,12 @@
 
                             <StackPanel Grid.Row="0"
                                         Orientation="Horizontal">
-                                <InkToolbar x:Name="canToolBar" />
+                                <InkToolbar x:Name="canToolBar">
+                                    <InkToolbarCustomToolButton x:Name="EraseAllButton"
+                                                                ToolTipService.ToolTip="Erase All">
+                                        <SymbolIcon x:Name="EraseAllIcon"/>
+                                    </InkToolbarCustomToolButton>
+                                </InkToolbar>
                             </StackPanel>
                             <ScrollViewer x:Name="inkScrollViewer"
                                           Grid.Row="1"
