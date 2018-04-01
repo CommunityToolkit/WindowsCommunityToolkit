@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Graphics.Canvas;
 using Windows.Foundation;
+using Windows.UI;
 using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
 
@@ -28,15 +29,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var first = strokes.First();
             double top = first.BoundingRect.Top, bottom = first.BoundingRect.Bottom, left = first.BoundingRect.Left, right = first.BoundingRect.Right;
 
-            foreach (var stroke in strokes)
+            for (var index = 1; index < strokes.Count; index++)
             {
+                var stroke = strokes[index];
                 bottom = Math.Max(stroke.BoundingRect.Bottom, bottom);
                 right = Math.Max(stroke.BoundingRect.Right, right);
                 top = Math.Min(stroke.BoundingRect.Top, top);
                 left = Math.Min(stroke.BoundingRect.Left, left);
             }
 
-            Bounds = new Rect(top, left, bottom - top, right - left);
+            Bounds = new Rect(left, top, right - left, bottom - top);
         }
 
         public bool IsVisible(Rect viewPort)

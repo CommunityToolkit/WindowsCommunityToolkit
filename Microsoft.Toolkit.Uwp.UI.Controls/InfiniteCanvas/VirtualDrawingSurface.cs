@@ -263,7 +263,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         if (stroke.BoundingRect.Contains(point))
                         {
-                            Debug.WriteLine("removed at" + i);
                             _drawableList.RemoveAt(i);
                             ReDraw(viewPort);
                             return;
