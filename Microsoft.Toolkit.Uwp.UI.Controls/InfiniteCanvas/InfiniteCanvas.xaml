@@ -40,7 +40,7 @@
 
                                     <InkCanvas x:Name="inkCanvas"
                                                Height="Auto" />
-                                    <local:InfiniteCanvasTextBox />
+                                    <local:InfiniteCanvasTextBox x:Name="CanvasTextBox" Visibility="Collapsed" />
                                 </Grid>
                             </ScrollViewer>
                         </Grid>

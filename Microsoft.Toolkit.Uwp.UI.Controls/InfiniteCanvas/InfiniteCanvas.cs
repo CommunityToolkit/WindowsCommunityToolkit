@@ -43,6 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         private InkToolbarCustomToolButton _enableTextButton;
+        private InfiniteCanvasTextBox _canvasTextBox;
         protected override void OnApplyTemplate()
         {
 
@@ -52,16 +53,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             inkScrollViewer = (ScrollViewer)GetTemplateChild("inkScrollViewer");
             var eraseAllButton = (InkToolbarCustomToolButton)GetTemplateChild("EraseAllButton");
 
+            _canvasTextBox = (InfiniteCanvasTextBox)GetTemplateChild("CanvasTextBox");
 
             _enableTextButton = (InkToolbarCustomToolButton)GetTemplateChild("EnableTextButton");
 
             _enableTextButton.Checked += _enableTextButton_Checked;
+            _enableTextButton.Unchecked += _enableTextButton_Unchecked;
             eraseAllButton.Click += EraseAllButton_Click;
-            
 
             canToolBar = (InkToolbar)GetTemplateChild("canToolBar");
 
             _inkCanvas = (InkCanvas)GetTemplateChild("inkCanvas");
+            inkScrollViewer.PointerPressed += InkScrollViewer_PointerPressed;
             //var enableButton = (Button)GetTemplateChild("EnableDisableButton");
             //enableButton.Click += EnableButton_Click;
             //canToolBar.TargetInkCanvas = _inkCanvas;
@@ -70,18 +73,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-        private void _enableTextButton_Checked(object sender, RoutedEventArgs e)
+        private void InkScrollViewer_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (_enableTextButton.IsChecked.Value)
+            if (_enableTextButton.IsChecked ?? false)
             {
-
-            }
-            else
-            {
-                
+                var points = e.GetCurrentPoint(inkScrollViewer);
             }
         }
-        
+
+        private void _enableTextButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            _canvasTextBox.Visibility = Visibility.Collapsed;
+        }
+
+        private void _enableTextButton_Checked(object sender, RoutedEventArgs e)
+        {
+            _canvasTextBox.Visibility = Visibility.Visible;
+        }
+
         private void EraseAllButton_Click(object sender, RoutedEventArgs e)
         {
             _canvasOne.ClearAll();

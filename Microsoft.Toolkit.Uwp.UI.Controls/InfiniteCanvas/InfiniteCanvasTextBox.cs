@@ -47,8 +47,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _textToolbar.CustomButtons.Add(fontIncrease);
             _textToolbar.CustomButtons.Add(fontdecrease);
 
+
+            _textToolbar.Loaded += _textToolbar_Loaded;
+
             base.OnApplyTemplate();
         }
 
+        private void _textToolbar_Loaded(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in _textToolbar.DefaultButtons)
+            {
+                if (item is ToolbarButton button)
+                {
+                    button.Visibility = Visibility.Collapsed;
+                }
+            }
+
+            var bold = _textToolbar?.GetDefaultButton(ButtonType.Bold);
+            if (bold != null)
+            {
+                bold.Visibility = Visibility.Visible;
+            }
+
+            var italic = _textToolbar?.GetDefaultButton(ButtonType.Italics);
+            if (italic != null)
+            {
+                italic.Visibility = Visibility.Visible;
+            }
+        }
     }
 }
