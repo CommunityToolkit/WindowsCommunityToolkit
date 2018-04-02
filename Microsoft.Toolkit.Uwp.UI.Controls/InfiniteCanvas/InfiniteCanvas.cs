@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _canvasOne = (VirtualDrawingSurface)GetTemplateChild("canvasOne");
             CanvasContainer = (Grid)GetTemplateChild("CanvasContainer");
-            OutputGrid = (Grid)GetTemplateChild("OutputGrid");
+            OutputGrid = (Canvas)GetTemplateChild("OutputGrid");
             inkScrollViewer = (ScrollViewer)GetTemplateChild("inkScrollViewer");
             var eraseAllButton = (InkToolbarCustomToolButton)GetTemplateChild("EraseAllButton");
 
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             //enableButton.Click += EnableButton_Click;
             //canToolBar.TargetInkCanvas = _inkCanvas;
 
-            //MainPage_Loaded();
+            MainPage_Loaded();
             base.OnApplyTemplate();
         }
 
@@ -78,17 +78,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_enableTextButton.IsChecked ?? false)
             {
                 var points = e.GetCurrentPoint(inkScrollViewer);
+                _canvasTextBox.Visibility = Visibility.Visible;
+
+                Canvas.SetLeft(_canvasTextBox, points.Position.X);
+                Canvas.SetTop(_canvasTextBox, points.Position.Y);
             }
         }
 
         private void _enableTextButton_Unchecked(object sender, RoutedEventArgs e)
         {
             _canvasTextBox.Visibility = Visibility.Collapsed;
+            _inkCanvas.Visibility = Visibility.Visible;
         }
 
         private void _enableTextButton_Checked(object sender, RoutedEventArgs e)
         {
-            _canvasTextBox.Visibility = Visibility.Visible;
+            _inkCanvas.Visibility = Visibility.Collapsed;
         }
 
         private void EraseAllButton_Click(object sender, RoutedEventArgs e)
@@ -98,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public InkToolbar canToolBar { get; set; }
 
-        public Grid OutputGrid { get; set; }
+        public Canvas OutputGrid { get; set; }
         public ScrollViewer inkScrollViewer { get; set; }
 
         private void EnableButton_Click(object sender, RoutedEventArgs e)
@@ -124,11 +129,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             OutputGrid.Width = LargeCanvasWidthHeight;
             OutputGrid.Height = LargeCanvasWidthHeight;
+            _inkCanvas.Width = LargeCanvasWidthHeight;
+            _inkCanvas.Height = LargeCanvasWidthHeight;
+            _canvasOne.Width = LargeCanvasWidthHeight;
+            _canvasOne.Height = LargeCanvasWidthHeight;
 
 
             _strokeContainer = new InkStrokeContainer();
 
             Application.Current.Resuming += Current_Resuming;
+
+            Canvas.SetLeft(_canvasTextBox, 0);
+            Canvas.SetTop(_canvasTextBox, 0);
         }
 
         private void Current_Resuming(object sender, object e)

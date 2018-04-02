@@ -50,7 +50,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _textToolbar.Loaded += _textToolbar_Loaded;
 
+
+            _textToolbar.CharacterReceived += _textToolbar_CharacterReceived;
+
             base.OnApplyTemplate();
+        }
+
+        private void _textToolbar_CharacterReceived(UIElement sender, Windows.UI.Xaml.Input.CharacterReceivedRoutedEventArgs args)
+        {
+            _textToolbar.Formatter.Text;
+            _textToolbar.Formatter.
         }
 
         private void _textToolbar_Loaded(object sender, RoutedEventArgs e)

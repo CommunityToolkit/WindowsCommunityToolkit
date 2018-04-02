@@ -15,6 +15,7 @@ using Windows.UI.Composition.Interactions;
 using Windows.UI.Core;
 using Windows.UI.Input;
 using Windows.UI.Input.Inking;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
@@ -194,33 +195,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         private string sofar = string.Empty;
-        public void DrawString(string c)
+        public void DrawString(string c, CanvasDrawingSession drawingSession)
         {
             sofar += c;
-            using (
-                var drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface,
-                    new Rect(0, 0, ActualWidth, ActualHeight)))
+
+
+            CanvasTextFormat tf = new CanvasTextFormat() { FontSize = 72 };
+
+            float xLoc = 100.0f;
+            float yLoc = 100.0f;
+            CanvasTextFormat format = new CanvasTextFormat
             {
-                CanvasTextFormat tf = new CanvasTextFormat() { FontSize = 72 };
+                FontSize = 30.0f,
+                FontStyle = FontStyle.Italic,
+                FontWeight = FontWeights.Bold
+            };
+            CanvasTextLayout textLayout = new CanvasTextLayout(drawingSession, sofar, format, 0.0f,
+                0.0f);
+            Rect theRectYouAreLookingFor = new Rect(xLoc + textLayout.DrawBounds.X,
+                yLoc + textLayout.DrawBounds.Y, textLayout.DrawBounds.Width, textLayout.DrawBounds.Height);
+            drawingSession.DrawRectangle(theRectYouAreLookingFor, Colors.Gray, 1.0f);
+            drawingSession.DrawTextLayout(textLayout, xLoc, yLoc, Colors.Black);
 
-                float xLoc = 100.0f;
-                float yLoc = 100.0f;
-                CanvasTextFormat format = new CanvasTextFormat
-                {
-                    FontSize = 30.0f,
-                    WordWrapping = CanvasWordWrapping.NoWrap
-                };
-                CanvasTextLayout textLayout = new CanvasTextLayout(drawingSession, sofar, format, 0.0f,
-                    0.0f);
-                Rect theRectYouAreLookingFor = new Rect(xLoc + textLayout.DrawBounds.X,
-                    yLoc + textLayout.DrawBounds.Y, textLayout.DrawBounds.Width, textLayout.DrawBounds.Height);
-                drawingSession.DrawRectangle(theRectYouAreLookingFor, Colors.Green, 1.0f);
-                drawingSession.DrawTextLayout(textLayout, xLoc, yLoc, Colors.Yellow);
-
-                //drawingSession.DrawText()
-
-                //drawingSession.DrawInk(list);
-            }
         }
 
         public void UpdateZoomFactor(float zoomFactor)
@@ -237,6 +233,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 drawingSession.Clear(Background);
                 foreach (var drawable in _drawableList)
                 {
+                    DrawString("Hello", drawingSession);
                     if (drawable.IsVisible(viewPort))
                     {
                         drawable.Draw(drawingSession);

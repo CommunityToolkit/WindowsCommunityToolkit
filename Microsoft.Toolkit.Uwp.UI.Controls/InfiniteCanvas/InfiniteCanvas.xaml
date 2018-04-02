@@ -34,14 +34,17 @@
                                           VerticalScrollBarVisibility="Auto"
                                           VerticalScrollMode="Enabled"
                                           ZoomMode="Enabled">
-                                <Grid x:Name="OutputGrid">
+                                <Canvas x:Name="OutputGrid"
+                                        Background="Transparent">
 
                                     <local:VirtualDrawingSurface x:Name="canvasOne" />
 
                                     <InkCanvas x:Name="inkCanvas"
+                                               Width="Auto"
                                                Height="Auto" />
-                                    <local:InfiniteCanvasTextBox x:Name="CanvasTextBox" Visibility="Collapsed" />
-                                </Grid>
+                                    <local:InfiniteCanvasTextBox x:Name="CanvasTextBox"
+                                                                 Visibility="Collapsed" />
+                                </Canvas>
                             </ScrollViewer>
                         </Grid>
                         <!--<Button x:Name="EnableDisableButton" Content="Enable-Disable" />-->
