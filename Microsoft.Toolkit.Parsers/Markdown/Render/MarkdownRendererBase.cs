@@ -225,8 +225,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
             }
             else
             {
-                // Url is valid, create Link.
-                RenderMarkdownLink(element, context);
+                if (element.Inlines[0] is ImageInline imageInline)
+                {
+                    // this is an image, create Image.
+                    RenderImage(imageInline, context);
+                }
+                else
+                {
+                    // Url is valid, create Link.
+                    RenderMarkdownLink(element, context);
+                }
             }
         }
 
