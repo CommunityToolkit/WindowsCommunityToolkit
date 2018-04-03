@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Fade(value, duration, delay, easingType);
+            return animationSet.Fade(value, duration, delay, easingType, easingMode);
         }
 
         /// <summary>

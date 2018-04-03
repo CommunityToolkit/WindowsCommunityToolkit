@@ -144,7 +144,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
                 foreach (var effectProperty in _effectProperties)
                 {
                     var animation = Compositor.CreateScalarKeyFrameAnimation();
-                    if (easingType == EasingType.Default)
+                    if (easingType == EasingType.Default && easingMode == EasingMode.EaseOut)
                     {
                         animation.InsertKeyFrame(1f, (float)value);
                     }

@@ -113,12 +113,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// Gets or sets the <see cref="EasingMode"/> used to generate the easing function of the animation.
         /// </summary>
         /// <value>
-        /// The easing function
+        /// The easing mode
         /// </value>
         public EasingMode EasingMode
         {
-            get { return (EasingMode)GetValue(EasingTypeProperty); }
-            set { SetValue(EasingTypeProperty, value); }
+            get { return (EasingMode)GetValue(EasingModeProperty); }
+            set { SetValue(EasingModeProperty, value); }
         }
 
         /// <summary>

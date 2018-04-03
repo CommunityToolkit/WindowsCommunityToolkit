@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Scale(scaleX, scaleY, centerX, centerY, duration, delay, easingType);
+            return animationSet.Scale(scaleX, scaleY, centerX, centerY, duration, delay, easingType, easingMode);
         }
 
         /// <summary>

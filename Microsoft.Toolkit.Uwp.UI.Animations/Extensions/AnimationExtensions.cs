@@ -219,7 +219,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (element.RenderTransform == transform)
             {
-                return "(UIElement.RenderTransform).(CompositeTransform.Rotation)";
+                return $"(UIElement.RenderTransform).(CompositeTransform.{property})";
             }
 
             var group = element.RenderTransform as TransformGroup;

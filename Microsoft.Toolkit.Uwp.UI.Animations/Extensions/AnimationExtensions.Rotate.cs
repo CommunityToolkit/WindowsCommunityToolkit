@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Animates the rotation in degrees of the the UIElement.
+        /// Animates the rotation in degrees of the UIElement.
         /// </summary>
         /// <param name="animationSet">The animation set.</param>
         /// <param name="value">The value in degrees to rotate.</param>
@@ -65,6 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <param name="easingType">Used to describe how the animation interpolates between keyframes.</param>
+        /// <param name="easingMode">The EasingMode to use to interpolate between keyframes.</param>
         /// <returns>
         /// An AnimationSet.
         /// </returns>

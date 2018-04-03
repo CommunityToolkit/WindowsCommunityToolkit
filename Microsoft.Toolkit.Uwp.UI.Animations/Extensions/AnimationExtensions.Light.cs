@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Light(distance, duration, delay, color, easingType);
+            return animationSet.Light(distance, duration, delay, color, easingType, easingMode);
         }
 
         /// <summary>
