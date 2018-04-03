@@ -81,18 +81,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Desired Size</returns>
         protected override Size MeasureOverride(Size availableSize)
         {
-            var dim = this.GetDimensions();
+            // Get all Visible FrameworkElement Children
+            var visible = Children.Where(item => item.Visibility != Visibility.Collapsed && item is FrameworkElement).Select(item => item as FrameworkElement);
+
+            var dim = GetDimensions(ref visible);
 
             /*Size childSize = new Size(
                 (availableSize.Width - (ColumnSpacing * (dim.columns - 1))) / dim.columns,
                 (availableSize.Height - (RowSpacing * (dim.rows - 1))) / dim.rows);*/
 
-            // Mark existing definitions so we don't erase them.
+            // Mark existing dev-defined definitions so we don't erase them.
             foreach (var rd in RowDefinitions)
             {
                 if (GetAutoLayout(rd) == null)
                 {
                     SetAutoLayout(rd, false);
+
+                    // If we don't have our attached property, assign it based on index.
+                    if (GetRow(rd) == 0)
+                    {
+                        SetRow(rd, RowDefinitions.IndexOf(rd));
+                    }
                 }
             }
 
@@ -101,6 +110,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (GetAutoLayout(cd) == null)
                 {
                     SetAutoLayout(cd, false);
+
+                    // If we don't have our attached property, assign it based on index.
+                    if (GetColumn(cd) == 0)
+                    {
+                        SetColumn(cd, ColumnDefinitions.IndexOf(cd));
+                    }
                 }
             }
 
@@ -147,9 +162,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
             }
-
-            // Get all Visible FrameworkElement Children
-            var visible = this.Children.Where(item => item.Visibility != Visibility.Collapsed && item is FrameworkElement).Select(item => item as FrameworkElement);
 
             bool[,] spots = new bool[dim.rows, dim.columns];
 
@@ -199,28 +211,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return base.MeasureOverride(availableSize);
         }
 
+        // Based on the number of visible children,
+        // returns the dimensions of the
+        // grid we need to hold all elements.
         #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
-        private (int rows, int columns) GetDimensions()
+        private (int rows, int columns) GetDimensions(ref IEnumerable<FrameworkElement> visible)
         #pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
         {
-            int rows = this.Rows;
-            int cols = this.Columns;
+            // Make copy of our properties as we don't want to modify.
+            int rows = Rows;
+            int cols = Columns;
 
+            // If a dimension isn't specified, we need to figure out the other one (or both).
             if (rows == 0 || cols == 0)
             {
-                // TODO: Cache as needed above
-                var children = this.Children.Where(item => item.Visibility != Visibility.Collapsed && item is FrameworkElement).Select(item => item as FrameworkElement);
-
-                // Calculate the size of all objects in the grid to know how much space we need.
+                // Calculate the size & area of all objects in the grid to know how much space we need.
                 // TODO: Need to trim size of objects that go out of bounds?
-                var count = children.Sum(item => GetRowSpan(item) * GetColumnSpan(item));
+                // TODO: Do we need to worry if there aren't enough small items to fill in the gaps?
+                var count = visible.Sum(item => GetRowSpan(item) * GetColumnSpan(item));
 
                 if (rows == 0)
                 {
                     if (cols > 0)
                     {
-                        // TODO: Handle RightToLeft
-                        var first = Math.Min(FirstColumn, cols - 1);
+                        // TODO: Handle RightToLeft?
+                        var first = Math.Min(FirstColumn, cols - 1); // Bound check
 
                         // If we have columns but no rows, calculate rows based on column offset and number of children.
                         rows = (count + first + (cols - 1)) / cols;
@@ -234,8 +249,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else if (cols == 0)
                 {
                     // If we have rows and no columns, then calculate columns needed based on rows
-                    // TODO: Do we need to account for FirstColumn here too?
                     cols = (count + (rows - 1)) / rows;
+
+                    // Now that we know a rough size of our shape, see if the FirstColumn effects that:
+                    var first = Math.Min(FirstColumn, cols - 1); // Bound check
+
+                    cols = (count + first + (rows - 1)) / rows;
                 }
             }
 
