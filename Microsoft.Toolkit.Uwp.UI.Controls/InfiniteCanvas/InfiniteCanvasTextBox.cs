@@ -6,10 +6,39 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    public class InfiniteCanvasToolbarFormatter : RichTextFormatter
+    {
+        public InfiniteCanvasToolbarFormatter(TextToolbar model)
+            : base(model)
+        {
+            CommonButtons = new CommonButtons(model);
+            ButtonActions = new RichTextButtonActions(this);
+        }
+
+        public override ButtonMap DefaultButtons
+        {
+            get
+            {
+                var bold = CommonButtons.Bold;
+                var italic = CommonButtons.Italics;
+                return new ButtonMap
+                {
+                    bold,
+                    italic
+                };
+            }
+        }
+
+        private CommonButtons CommonButtons { get; }
+    }
+
     public class InfiniteCanvasTextBox : Control
     {
         public InfiniteCanvasTextBox()
@@ -19,10 +48,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private float currentFontSize = 12;
         private TextToolbar _textToolbar;
+        private RichEditBox _editZone;
 
         protected override void OnApplyTemplate()
         {
             _textToolbar = (TextToolbar)GetTemplateChild("TextToolbar");
+            _editZone = (RichEditBox)GetTemplateChild("EditZone");
+
+            _editZone.TextChanged += _editZone_TextChanged;
+
+            _textToolbar.Loaded += _textToolbar_Loaded;
+            base.OnApplyTemplate();
+        }
+
+        private void _textToolbar_Loaded(object sender, RoutedEventArgs e)
+        {
+            var formatter = new InfiniteCanvasToolbarFormatter(_textToolbar);
+            _textToolbar.Formatter = formatter;
 
             var fontIncrease = new ToolbarButton
             {
@@ -46,43 +88,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _textToolbar.CustomButtons.Add(fontIncrease);
             _textToolbar.CustomButtons.Add(fontdecrease);
-
-
-            _textToolbar.Loaded += _textToolbar_Loaded;
-
-
-            _textToolbar.CharacterReceived += _textToolbar_CharacterReceived;
-
-            base.OnApplyTemplate();
         }
 
-        private void _textToolbar_CharacterReceived(UIElement sender, Windows.UI.Xaml.Input.CharacterReceivedRoutedEventArgs args)
+        private void _editZone_TextChanged(object sender, RoutedEventArgs e)
         {
-            _textToolbar.Formatter.Text;
-            _textToolbar.Formatter.
-        }
-
-        private void _textToolbar_Loaded(object sender, RoutedEventArgs e)
-        {
-            foreach (var item in _textToolbar.DefaultButtons)
-            {
-                if (item is ToolbarButton button)
-                {
-                    button.Visibility = Visibility.Collapsed;
-                }
-            }
-
-            var bold = _textToolbar?.GetDefaultButton(ButtonType.Bold);
-            if (bold != null)
-            {
-                bold.Visibility = Visibility.Visible;
-            }
-
-            var italic = _textToolbar?.GetDefaultButton(ButtonType.Italics);
-            if (italic != null)
-            {
-                italic.Visibility = Visibility.Visible;
-            }
+            var document = _editZone.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf);
         }
     }
 }

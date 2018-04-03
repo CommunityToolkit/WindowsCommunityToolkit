@@ -197,10 +197,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private string sofar = string.Empty;
         public void DrawString(string c, CanvasDrawingSession drawingSession)
         {
-            sofar += c;
-
-
-            CanvasTextFormat tf = new CanvasTextFormat() { FontSize = 72 };
+            sofar = c;
 
             float xLoc = 100.0f;
             float yLoc = 100.0f;
@@ -208,8 +205,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 FontSize = 30.0f,
                 FontStyle = FontStyle.Italic,
-                FontWeight = FontWeights.Bold
+                FontWeight = FontWeights.Bold,
+                WordWrapping = CanvasWordWrapping.NoWrap
             };
+
             CanvasTextLayout textLayout = new CanvasTextLayout(drawingSession, sofar, format, 0.0f,
                 0.0f);
             Rect theRectYouAreLookingFor = new Rect(xLoc + textLayout.DrawBounds.X,
