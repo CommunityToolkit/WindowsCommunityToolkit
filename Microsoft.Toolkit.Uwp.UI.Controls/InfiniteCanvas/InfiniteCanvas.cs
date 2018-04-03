@@ -10,21 +10,28 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using Windows.Foundation;
 using Microsoft.Graphics.Canvas;
 using Windows.UI.Core;
 using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Microsoft.Toolkit.Parsers.Markdown;
+using Microsoft.Toolkit.Parsers.Markdown.Blocks;
+using Microsoft.Toolkit.Parsers.Markdown.Enums;
+using Microsoft.Toolkit.Parsers.Markdown.Inlines;
+using Microsoft.Toolkit.Parsers.Markdown.Render;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// Infinite Canvas
     /// </summary>
-    public class InfiniteCanvas : Control
+    public partial class InfiniteCanvas : Control
     {
         InkCanvas _inkCanvas;
         VirtualDrawingSurface _canvasOne;
@@ -69,8 +76,64 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             //enableButton.Click += EnableButton_Click;
             //canToolBar.TargetInkCanvas = _inkCanvas;
 
+
+            _canvasTextBox.TextChanged += _canvasTextBox_TextChanged;
+
             MainPage_Loaded();
             base.OnApplyTemplate();
+        }
+
+        private void _canvasTextBox_TextChanged(object sender, string text)
+        {
+            var top = Canvas.GetTop(_canvasTextBox);
+            var left = Canvas.GetLeft(_canvasTextBox);
+            processText(text);
+        }
+
+        protected void RenderBlock(MarkdownBlock element, IRenderContext context)
+        {
+            {
+                switch (element.Type)
+                {
+                    case MarkdownBlockType.Paragraph:
+                        RenderInlineChildren(((ParagraphBlock)element).Inlines, context);
+                        break;
+                }
+            }
+        }
+
+        protected void RenderInlineChildren(IList<MarkdownInline> inlineElements, IRenderContext context)
+        {
+            foreach (MarkdownInline element in inlineElements)
+            {
+                switch (element.Type)
+                {
+                    default:
+                        RenderInline(element, context);
+                        break;
+                }
+            }
+        }
+
+        protected void RenderInline(MarkdownInline element, IRenderContext context)
+        {
+            switch (element.Type)
+            {
+                case MarkdownInlineType.TextRun:
+                    var asdas = (TextRunInline)element;
+
+                    var x = 1;
+                    break;
+
+                case MarkdownInlineType.Italic:
+                    var y = 2;
+                    break;
+
+                case MarkdownInlineType.Bold:
+                    var z = 2;
+
+                    break;
+            }
         }
 
         private void InkScrollViewer_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,9 +62,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
+        private InfiniteCanvasToolbarFormatter formatter;
         private void _textToolbar_Loaded(object sender, RoutedEventArgs e)
         {
-            var formatter = new InfiniteCanvasToolbarFormatter(_textToolbar);
+            formatter = new InfiniteCanvasToolbarFormatter(_textToolbar);
             _textToolbar.Formatter = formatter;
 
             var fontIncrease = new ToolbarButton
@@ -72,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ToolTip = "Font Increase",
                 Activation = (b) =>
                 {
-                    _textToolbar.Formatter.Selected.CharacterFormat.Size = ++currentFontSize;
+                    _textToolbar.Formatter.Selected.CharacterFormat.Size++;
                 }
             };
 
@@ -82,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ToolTip = "Font Decrease",
                 Activation = (b) =>
                 {
-                    _textToolbar.Formatter.Selected.CharacterFormat.Size = --currentFontSize;
+                    _textToolbar.Formatter.Selected.CharacterFormat.Size--;
                 }
             };
 
@@ -90,9 +92,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _textToolbar.CustomButtons.Add(fontdecrease);
         }
 
+        public event EventHandler<string> TextChanged;
+
         private void _editZone_TextChanged(object sender, RoutedEventArgs e)
         {
-            var document = _editZone.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf);
+            string value = string.Empty;
+
+            _editZone.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out value);
+
+            TextChanged?.Invoke(this, value);
         }
     }
 }

@@ -75,7 +75,6 @@
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <RichEditBox x:Name="EditZone"
-                                             MaxHeight="300"
                                              VerticalContentAlignment="Stretch"
                                              PlaceholderText="Enter Text Here"
                                              TextWrapping="Wrap" />
