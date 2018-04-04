@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Microsoft.Graphics.Canvas;
 using Windows.Foundation;
 using Windows.UI;
-using Windows.UI.Input.Inking;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Microsoft.Graphics.Canvas.Text;
