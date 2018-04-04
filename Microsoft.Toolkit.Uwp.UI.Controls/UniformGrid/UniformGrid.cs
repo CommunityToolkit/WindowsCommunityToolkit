@@ -86,10 +86,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var dim = GetDimensions(ref visible);
 
-            /*Size childSize = new Size(
-                (availableSize.Width - (ColumnSpacing * (dim.columns - 1))) / dim.columns,
-                (availableSize.Height - (RowSpacing * (dim.rows - 1))) / dim.rows);*/
-
             // Mark existing dev-defined definitions so we don't erase them.
             foreach (var rd in RowDefinitions)
             {
@@ -186,11 +182,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
+            // Setup available size with our known dimensions now.
+            // UniformGrid expands size based on largest singular item.
+            var columnSpacingSize = ColumnSpacing * (dim.columns - 1);
+            var rowSpacingSize = RowSpacing * (dim.rows - 1);
+
+            Size childSize = new Size(
+                (availableSize.Width - columnSpacingSize) / dim.columns,
+                (availableSize.Height - rowSpacingSize) / dim.rows);
+
+            double maxWidth = 0.0;
+            double maxHeight = 0.0;
+
             // Set Grid Row/Col for every child with autolayout = true
             // Backwards with FlowDirection
             var freespots = GetFreeSpot(spots, FirstColumn, FlowDirection == FlowDirection.RightToLeft).GetEnumerator();
             foreach (var child in visible)
             {
+                // Set location if we're in charge
                 if (GetAutoLayout(child) == true)
                 {
                     if (freespots.MoveNext())
@@ -205,10 +214,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // TODO: We've run out of spots somehow? Now What?
                     }
                 }
+
+                // Get measurement for max child
+                child.Measure(childSize);
+
+                maxWidth = Math.Max(child.DesiredSize.Width, maxWidth);
+                maxHeight = Math.Max(child.DesiredSize.Height, maxHeight);
             }
 
-            // Perform regular grid layout now.
-            return base.MeasureOverride(availableSize);
+            // Return our desired size based on the largest child we found, our dimensions, and spacing.
+            var desiredSize = new Size((maxWidth * (double)dim.columns) + columnSpacingSize, (maxHeight * (double)dim.rows) + rowSpacingSize);
+
+            // Required to perform regular grid measurement, but ignore result.
+            base.MeasureOverride(desiredSize);
+
+            return desiredSize;
         }
 
         // Based on the number of visible children,
