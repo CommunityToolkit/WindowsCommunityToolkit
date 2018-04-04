@@ -196,7 +196,7 @@ namespace Microsoft.Toolkit.Uwp
             => LoadMoreItemsAsync(count, new CancellationToken(false)).AsAsyncOperation();
 
         /// <summary>
-        /// Clears the collection and reloads data from the source
+        /// Clears the collection and triggers/forces a reload of the first page
         /// </summary>
         /// <returns>This method does not return a result</returns>
         public Task RefreshAsync()
@@ -214,7 +214,10 @@ namespace Microsoft.Toolkit.Uwp
 
                 if (previousCount == 0)
                 {
-                    return LoadMoreItemsAsync(0).AsTask();
+                    // When the list was empty before clearing, the automatic reload isn't fired, so force a reload.
+                    var loadMoreItemsTask = LoadMoreItemsAsync(0).AsTask();
+                    loadMoreItemsTask.ConfigureAwait(false);
+                    return loadMoreItemsTask;
                 }
             }
 
@@ -222,12 +225,12 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Clears the collection and resets the page index
-        /// which triggers an automatic reload of the first page
+        /// Clears the collection and triggers/forces a reload of the first page
         /// </summary>
+        [Obsolete("Refresh is deprecated, please use RefreshAsync instead")]
         public void Refresh()
         {
-            RefreshAsync().Wait();
+            RefreshAsync();
         }
 
         /// <summary>
