@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.UI.Input.Inking;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -132,6 +134,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return textBlockList;
+        }
+
+        internal static InkPoint MapPointToToSessionBounds(InkPoint point, Rect sessionBounds)
+        {
+            return new InkPoint(new Point(point.Position.X - sessionBounds.X, point.Position.Y - sessionBounds.Y), point.Pressure, point.TiltX, point.TiltY, point.Timestamp);
         }
     }
 }

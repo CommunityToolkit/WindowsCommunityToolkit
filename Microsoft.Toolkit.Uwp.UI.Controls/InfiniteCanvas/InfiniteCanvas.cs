@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         IReadOnlyList<InkStroke> wetInkStrokes;
         InkSynchronizer inkSync;
 
-        internal const float LargeCanvasWidthHeight = 1 << 14;
+        internal const float LargeCanvasWidthHeight = 1 << 21;
 
         public InfiniteCanvas()
         {
@@ -83,57 +83,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
+        private const int ToolbarHeight = 48;
         private void _canvasTextBox_TextChanged(object sender, string text)
         {
-            var top = Canvas.GetTop(_canvasTextBox);
+            if (string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+
+            var editZoneHeight = _canvasTextBox.GetEditZoneHeight();
+            var top = Canvas.GetTop(_canvasTextBox) + (_canvasTextBox.ActualHeight - editZoneHeight);
             var left = Canvas.GetLeft(_canvasTextBox);
-            processText(text);
-        }
+            var canvasTextBlockList = processText(text);
 
-        protected void RenderBlock(MarkdownBlock element, IRenderContext context)
-        {
+            if (canvasTextBlockList.Count == 0)
             {
-                switch (element.Type)
-                {
-                    case MarkdownBlockType.Paragraph:
-                        RenderInlineChildren(((ParagraphBlock)element).Inlines, context);
-                        break;
-                }
+                return;
             }
-        }
 
-        protected void RenderInlineChildren(IList<MarkdownInline> inlineElements, IRenderContext context)
-        {
-            foreach (MarkdownInline element in inlineElements)
-            {
-                switch (element.Type)
-                {
-                    default:
-                        RenderInline(element, context);
-                        break;
-                }
-            }
-        }
+            var textDrawable = new TextDrawable(
+                top,
+                left,
+                _canvasTextBox.GetEditZoneHeight(),
+                _canvasTextBox.GetEditZoneWidth(),
+                canvasTextBlockList,
+                text);
 
-        protected void RenderInline(MarkdownInline element, IRenderContext context)
-        {
-            switch (element.Type)
-            {
-                case MarkdownInlineType.TextRun:
-                    var asdas = (TextRunInline)element;
+            _canvasOne.AddDrawable(textDrawable);
 
-                    var x = 1;
-                    break;
-
-                case MarkdownInlineType.Italic:
-                    var y = 2;
-                    break;
-
-                case MarkdownInlineType.Bold:
-                    var z = 2;
-
-                    break;
-            }
+            _canvasOne.ReDraw(ViewPort);
         }
 
         private void InkScrollViewer_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -161,7 +139,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void EraseAllButton_Click(object sender, RoutedEventArgs e)
         {
-            _canvasOne.ClearAll();
+            _canvasOne.ClearAll(ViewPort);
         }
 
         public InkToolbar canToolBar { get; set; }
@@ -258,6 +236,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private Rect ViewPort => new Rect(inkScrollViewer.HorizontalOffset, inkScrollViewer.VerticalOffset, inkScrollViewer.ViewportWidth / inkScrollViewer.ZoomFactor, inkScrollViewer.ViewportHeight / inkScrollViewer.ZoomFactor);
+        private Rect ViewPort => new Rect(inkScrollViewer.HorizontalOffset / inkScrollViewer.ZoomFactor, inkScrollViewer.VerticalOffset / inkScrollViewer.ZoomFactor, inkScrollViewer.ViewportWidth / inkScrollViewer.ZoomFactor, inkScrollViewer.ViewportHeight / inkScrollViewer.ZoomFactor);
     }
 }

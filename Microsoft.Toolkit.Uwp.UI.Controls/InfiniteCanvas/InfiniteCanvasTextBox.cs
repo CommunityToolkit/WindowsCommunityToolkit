@@ -102,5 +102,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             TextChanged?.Invoke(this, value);
         }
+
+        public double GetEditZoneWidth()
+        {
+            return _editZone.ActualWidth;
+        }
+
+        public double GetEditZoneHeight()
+        {
+            return _editZone.ActualHeight;
+        }
     }
 }

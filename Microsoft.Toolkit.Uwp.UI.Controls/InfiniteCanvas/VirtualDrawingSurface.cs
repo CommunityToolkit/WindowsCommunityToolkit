@@ -227,16 +227,49 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public void ReDraw(Rect viewPort)
         {
-            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface))
+            var visibleList = new List<IDrawable>();
+            foreach (var drawable in _drawableList)
+            {
+                if (drawable.IsVisible(viewPort))
+                {
+                    visibleList.Add(drawable);
+                }
+            }
+
+            Rect toDraw;
+            var first = visibleList.FirstOrDefault();
+            if (first != null)
+            {
+                double top = first.Bounds.Top,
+                    bottom = first.Bounds.Bottom,
+                    left = first.Bounds.Left,
+                    right = first.Bounds.Right;
+
+                for (var index = 1; index < visibleList.Count; index++)
+                {
+                    var stroke = visibleList[index];
+                    bottom = Math.Max(stroke.Bounds.Bottom, bottom);
+                    right = Math.Max(stroke.Bounds.Right, right);
+                    top = Math.Min(stroke.Bounds.Top, top);
+                    left = Math.Min(stroke.Bounds.Left, left);
+                }
+
+                const int margin = 1000;
+                toDraw = new Rect(Math.Max(left - margin, 0), Math.Max(top - margin, 0), Math.Max(right - left + margin, 0), Math.Max(bottom - top + margin, 0));
+
+                toDraw.Union(viewPort);
+            }
+            else
+            {
+                toDraw = viewPort;
+            }
+
+            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface, toDraw))
             {
                 drawingSession.Clear(Background);
-                foreach (var drawable in _drawableList)
+                foreach (var drawable in visibleList)
                 {
-                    DrawString("Hello", drawingSession);
-                    if (drawable.IsVisible(viewPort))
-                    {
-                        drawable.Draw(drawingSession);
-                    }
+                    drawable.Draw(drawingSession, toDraw);
                 }
             }
         }
@@ -245,6 +278,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void AddDrawable(IDrawable inkDrawable)
         {
+            //_drawableList.Clear();
             _drawableList.Add(inkDrawable);
         }
 
@@ -269,10 +303,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        public void ClearAll()
+        public void ClearAll(Rect viewPort)
         {
             _drawableList.Clear();
-            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface))
+            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface, viewPort))
             {
                 drawingSession.Clear(Background);
             }

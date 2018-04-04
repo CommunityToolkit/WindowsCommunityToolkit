@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal interface IDrawable
     {
-        void Draw(CanvasDrawingSession drawingSession);
+        void Draw(CanvasDrawingSession drawingSession, Rect sessionBounds);
 
         bool IsVisible(Rect viewPort);
 

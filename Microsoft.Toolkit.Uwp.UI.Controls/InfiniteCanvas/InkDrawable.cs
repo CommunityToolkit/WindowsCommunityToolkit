@@ -17,6 +17,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public bool IsActive { get; set; }
 
+        private static InkStrokeBuilder _strokeBuilder = new InkStrokeBuilder();
+
         public InkDrawable(IReadOnlyList<InkStroke> strokes)
         {
             if (!strokes.Any())
@@ -47,9 +49,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return IsActive;
         }
 
-        public void Draw(CanvasDrawingSession drawingSession)
+        public void Draw(CanvasDrawingSession drawingSession, Rect sessionBounds)
         {
-            drawingSession.DrawInk(Strokes);
+            List<InkStroke> finalStrokeList = new List<InkStroke>(Strokes.Count);
+
+            foreach (InkStroke stroke in Strokes)
+            {
+                var points = stroke.GetInkPoints();
+                var finalPointList = new List<InkPoint>(points.Count);
+                foreach (InkPoint point in points)
+                {
+                    finalPointList.Add(InfiniteCanvas.MapPointToToSessionBounds(point, sessionBounds));
+                }
+
+                _strokeBuilder.SetDefaultDrawingAttributes(stroke.DrawingAttributes);
+                var newStroke = _strokeBuilder.CreateStrokeFromInkPoints(finalPointList, stroke.PointTransform);
+                finalStrokeList.Add(newStroke);
+            }
+
+            drawingSession.DrawInk(finalStrokeList);
         }
     }
 }

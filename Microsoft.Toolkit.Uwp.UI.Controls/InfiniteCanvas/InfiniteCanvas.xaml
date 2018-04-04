@@ -16,7 +16,7 @@
                             <StackPanel Grid.Row="0"
                                         Orientation="Horizontal">
                                 <InkToolbar x:Name="canToolBar"
-                                            TargetInkCanvas="{Binding ElementName=canvasOne}">
+                                            TargetInkCanvas="{Binding ElementName=inkCanvas}">
                                     <InkToolbarCustomToolButton x:Name="EraseAllButton"
                                                                 ToolTipService.ToolTip="Erase All">
                                         <SymbolIcon Symbol="Delete" />
