@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Text;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
-using Microsoft.Graphics.Canvas.Text;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -33,7 +33,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public void Draw(CanvasDrawingSession drawingSession, Rect sessionBounds)
         {
-            var currentXLocation = Bounds.X;
+            var currentXLocation = Bounds.X - sessionBounds.X;
+            var currentYLocation = Bounds.Y - sessionBounds.Y;
             drawingSession.DrawRectangle(Bounds, Colors.Gray, 1.0f);
 
             foreach (var textBlock in CanvasTextBlockList)
@@ -48,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 CanvasTextLayout textLayout = new CanvasTextLayout(drawingSession, textBlock.Text, format, 0.0f, 0.0f);
 
-                drawingSession.DrawTextLayout(textLayout, (float)currentXLocation, (float)Bounds.Y, Colors.Black);
+                drawingSession.DrawTextLayout(textLayout, (float)currentXLocation, (float)currentYLocation, Colors.Black);
 
                 currentXLocation += textLayout.DrawBounds.Width;
             }
