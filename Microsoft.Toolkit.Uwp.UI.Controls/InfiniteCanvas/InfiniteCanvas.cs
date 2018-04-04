@@ -81,6 +81,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public float FontSize { get; set; } = 22;
 
+        private TextDrawable _selectedTextDrawable;
+
         private void _canvasTextBox_TextChanged(object sender, string text)
         {
             if (string.IsNullOrEmpty(text))
@@ -88,15 +90,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var textDrawable = new TextDrawable(
-                _lastInputPoint.Y,
-                _lastInputPoint.X,
+            if (_selectedTextDrawable != null)
+            {
+                _selectedTextDrawable.Text = text;
+                _canvasOne.ReDraw(ViewPort);
+                return;
+            }
+
+            _selectedTextDrawable = new TextDrawable(
+                (_lastInputPoint.Y / inkScrollViewer.ZoomFactor) + (inkScrollViewer.VerticalOffset / inkScrollViewer.ZoomFactor),
+                                (_lastInputPoint.X / inkScrollViewer.ZoomFactor) + (inkScrollViewer.HorizontalOffset / inkScrollViewer.ZoomFactor),
                 FontSize,
                 _canvasTextBox.GetEditZoneHeight(),
                 _canvasTextBox.GetEditZoneWidth(),
                 text);
 
-            _canvasOne.AddDrawable(textDrawable);
+            _canvasOne.AddDrawable(_selectedTextDrawable);
             _canvasOne.ReDraw(ViewPort);
         }
 
@@ -106,12 +115,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_enableTextButton.IsChecked ?? false)
             {
+                ClearTextBoxValue();
                 var point = e.GetCurrentPoint(inkScrollViewer);
                 _canvasTextBox.Visibility = Visibility.Visible;
 
                 _lastInputPoint = point.Position;
-                Canvas.SetLeft(_canvasTextBox, point.Position.X);
-                Canvas.SetTop(_canvasTextBox, point.Position.Y);
+
+                Canvas.SetLeft(_canvasTextBox, _lastInputPoint.X);
+                Canvas.SetTop(_canvasTextBox, _lastInputPoint.Y);
+
+                _selectedTextDrawable = null;
             }
         }
 
@@ -135,11 +148,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public Canvas OutputGrid { get; set; }
         public ScrollViewer inkScrollViewer { get; set; }
-
-        private void EnableButton_Click(object sender, RoutedEventArgs e)
-        {
-            _inkCanvas.Visibility = _inkCanvas.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
-        }
 
         private void MainPage_Loaded()
         {
@@ -171,6 +179,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Canvas.SetLeft(_canvasTextBox, 0);
             Canvas.SetTop(_canvasTextBox, 0);
+
+            _canvasTextBox.FontSize = FontSize;
         }
 
         private void Current_Resuming(object sender, object e)
@@ -197,6 +207,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void InkScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            ClearTextBoxValue();
             ReDrawCanvas();
         }
 
@@ -220,9 +231,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (!e.IsIntermediate)
             {
+                ClearTextBoxValue();
                 _canvasOne.UpdateZoomFactor(inkScrollViewer.ZoomFactor);
                 ReDrawCanvas();
             }
+        }
+
+        private void ClearTextBoxValue()
+        {
+            _canvasTextBox.Visibility = Visibility.Collapsed;
+            _canvasTextBox.Clear();
         }
 
         private Rect ViewPort => new Rect(inkScrollViewer.HorizontalOffset / inkScrollViewer.ZoomFactor, inkScrollViewer.VerticalOffset / inkScrollViewer.ZoomFactor, inkScrollViewer.ViewportWidth / inkScrollViewer.ZoomFactor, inkScrollViewer.ViewportHeight / inkScrollViewer.ZoomFactor);

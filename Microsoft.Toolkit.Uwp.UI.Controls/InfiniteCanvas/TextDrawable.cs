@@ -41,15 +41,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             CanvasTextLayout textLayout = new CanvasTextLayout(drawingSession, Text, format, 0.0f, 0.0f);
 
-            Rect theRectYouAreLookingFor = new Rect(
-                Bounds.X + textLayout.DrawBounds.X - sessionBounds.X,
-                Bounds.Y + textLayout.DrawBounds.Y - sessionBounds.Y,
-                textLayout.DrawBounds.Width,
-                textLayout.DrawBounds.Height);
-
-            //Bounds = theRectYouAreLookingFor;
-
-            //drawingSession.DrawRectangle(Bounds, Colors.Gray, 1.0f);
             drawingSession.DrawTextLayout(textLayout, (float)Bounds.X, (float)Bounds.Y, Colors.Black);
         }
     }

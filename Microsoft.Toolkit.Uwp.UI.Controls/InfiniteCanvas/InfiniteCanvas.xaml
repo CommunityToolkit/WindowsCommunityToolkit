@@ -54,14 +54,14 @@
     </Style>
 
     <Style TargetType="local:InfiniteCanvasTextBox">
+        <Setter Property="IsTabStop" Value="false" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:InfiniteCanvasTextBox">
                     <Grid x:Name="MainGrid"
-                          Width="400">
+                          MinWidth="200">
                         <TextBox Name="EditZone"
-                                 AcceptsReturn="True"
-                                 TextWrapping="Wrap" />
+                                 AcceptsReturn="True" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _editZone = (TextBox)GetTemplateChild("EditZone");
             _editZone.TextChanged += _editZone_TextChanged;
-
+            _editZone.FontSize = FontSize;
             base.OnApplyTemplate();
         }
         
@@ -46,6 +46,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public double GetEditZoneHeight()
         {
             return _editZone.ActualHeight;
+        }
+
+        public void Clear()
+        {
+            if (_editZone==null)
+            {
+                return;
+            }
+
+            _editZone.TextChanged -= _editZone_TextChanged;
+            _editZone.Text = string.Empty;
+            _editZone.TextChanged += _editZone_TextChanged;
         }
     }
 }
