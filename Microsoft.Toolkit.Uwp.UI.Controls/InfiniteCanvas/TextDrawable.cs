@@ -47,9 +47,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 textLayout.DrawBounds.Width,
                 textLayout.DrawBounds.Height);
 
-            Bounds = theRectYouAreLookingFor;
+            //Bounds = theRectYouAreLookingFor;
 
-            drawingSession.DrawRectangle(Bounds, Colors.Gray, 1.0f);
+            //drawingSession.DrawRectangle(Bounds, Colors.Gray, 1.0f);
             drawingSession.DrawTextLayout(textLayout, (float)Bounds.X, (float)Bounds.Y, Colors.Black);
         }
     }

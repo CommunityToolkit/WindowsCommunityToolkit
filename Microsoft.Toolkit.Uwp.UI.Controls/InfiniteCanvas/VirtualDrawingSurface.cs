@@ -278,7 +278,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void AddDrawable(IDrawable inkDrawable)
         {
-            //_drawableList.Clear();
             _drawableList.Add(inkDrawable);
         }
 
