@@ -10,19 +10,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal class TextDrawable : IDrawable
     {
-        public readonly List<InfiniteCanvas.InfiniteCanvasTextBlock> CanvasTextBlockList;
-
-        public string OriginalText { get; set; }
+        public string Text { get; set; }
 
         public Rect Bounds { get; set; }
 
         public bool IsActive { get; set; }
 
-        public TextDrawable(double top, double left, double height, double width, List<InfiniteCanvas.InfiniteCanvasTextBlock> canvasTextBlockList, string text)
+        public float FontSize { get; set; }
+
+        public TextDrawable(double top, double left, float fontSize, double height, double width, string text)
         {
             Bounds = new Rect(left, top, width, height);
-            CanvasTextBlockList = canvasTextBlockList;
-            OriginalText = text;
+            Text = text;
+            FontSize = fontSize;
         }
 
         public bool IsVisible(Rect viewPort)
@@ -33,26 +33,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public void Draw(CanvasDrawingSession drawingSession, Rect sessionBounds)
         {
-            var currentXLocation = Bounds.X - sessionBounds.X;
-            var currentYLocation = Bounds.Y - sessionBounds.Y;
-            drawingSession.DrawRectangle(Bounds, Colors.Gray, 1.0f);
-
-            foreach (var textBlock in CanvasTextBlockList)
+            CanvasTextFormat format = new CanvasTextFormat
             {
-                CanvasTextFormat format = new CanvasTextFormat
-                {
-                    FontSize = textBlock.FontSize,
-                    FontStyle = textBlock.IsItalic ? FontStyle.Italic : FontStyle.Normal,
-                    FontWeight = textBlock.IsBold ? FontWeights.Bold : FontWeights.Normal,
-                    WordWrapping = CanvasWordWrapping.NoWrap
-                };
+                FontSize = FontSize,
+                WordWrapping = CanvasWordWrapping.NoWrap
+            };
 
-                CanvasTextLayout textLayout = new CanvasTextLayout(drawingSession, textBlock.Text, format, 0.0f, 0.0f);
+            CanvasTextLayout textLayout = new CanvasTextLayout(drawingSession, Text, format, 0.0f, 0.0f);
 
-                drawingSession.DrawTextLayout(textLayout, (float)currentXLocation, (float)currentYLocation, Colors.Black);
+            Rect theRectYouAreLookingFor = new Rect(
+                Bounds.X + textLayout.DrawBounds.X - sessionBounds.X,
+                Bounds.Y + textLayout.DrawBounds.Y - sessionBounds.Y,
+                textLayout.DrawBounds.Width,
+                textLayout.DrawBounds.Height);
 
-                currentXLocation += textLayout.DrawBounds.Width;
-            }
+            Bounds = theRectYouAreLookingFor;
+
+            drawingSession.DrawRectangle(Bounds, Colors.Gray, 1.0f);
+            drawingSession.DrawTextLayout(textLayout, (float)Bounds.X, (float)Bounds.Y, Colors.Black);
         }
     }
 }

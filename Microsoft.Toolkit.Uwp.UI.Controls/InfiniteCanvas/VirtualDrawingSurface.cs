@@ -213,6 +213,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 0.0f);
             Rect theRectYouAreLookingFor = new Rect(xLoc + textLayout.DrawBounds.X,
                 yLoc + textLayout.DrawBounds.Y, textLayout.DrawBounds.Width, textLayout.DrawBounds.Height);
+
             drawingSession.DrawRectangle(theRectYouAreLookingFor, Colors.Gray, 1.0f);
             drawingSession.DrawTextLayout(textLayout, xLoc, yLoc, Colors.Black);
 
@@ -254,8 +255,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     left = Math.Min(stroke.Bounds.Left, left);
                 }
 
-                const int margin = 1000;
-                toDraw = new Rect(Math.Max(left - margin, 0), Math.Max(top - margin, 0), Math.Max(right - left + margin, 0), Math.Max(bottom - top + margin, 0));
+                toDraw = new Rect(Math.Max(left, 0), Math.Max(top, 0), Math.Max(right - left, 0), Math.Max(bottom - top, 0));
 
                 toDraw.Union(viewPort);
             }

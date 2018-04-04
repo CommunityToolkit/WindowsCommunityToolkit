@@ -72,10 +72,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _inkCanvas = (InkCanvas)GetTemplateChild("inkCanvas");
             inkScrollViewer.PointerPressed += InkScrollViewer_PointerPressed;
-            //var enableButton = (Button)GetTemplateChild("EnableDisableButton");
-            //enableButton.Click += EnableButton_Click;
-            //canToolBar.TargetInkCanvas = _inkCanvas;
-
 
             _canvasTextBox.TextChanged += _canvasTextBox_TextChanged;
 
@@ -83,7 +79,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-        private const int ToolbarHeight = 48;
+        public float FontSize { get; set; } = 22;
+
         private void _canvasTextBox_TextChanged(object sender, string text)
         {
             if (string.IsNullOrEmpty(text))
@@ -91,38 +88,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var editZoneHeight = _canvasTextBox.GetEditZoneHeight();
-            var top = Canvas.GetTop(_canvasTextBox) + (_canvasTextBox.ActualHeight - editZoneHeight);
-            var left = Canvas.GetLeft(_canvasTextBox);
-            var canvasTextBlockList = processText(text);
-
-            if (canvasTextBlockList.Count == 0)
-            {
-                return;
-            }
-
             var textDrawable = new TextDrawable(
-                top,
-                left,
+                _lastInputPoint.Y,
+                _lastInputPoint.X,
+                FontSize,
                 _canvasTextBox.GetEditZoneHeight(),
                 _canvasTextBox.GetEditZoneWidth(),
-                canvasTextBlockList,
                 text);
 
             _canvasOne.AddDrawable(textDrawable);
-
             _canvasOne.ReDraw(ViewPort);
         }
+
+        Point _lastInputPoint;
 
         private void InkScrollViewer_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             if (_enableTextButton.IsChecked ?? false)
             {
-                var points = e.GetCurrentPoint(inkScrollViewer);
+                var point = e.GetCurrentPoint(inkScrollViewer);
                 _canvasTextBox.Visibility = Visibility.Visible;
 
-                Canvas.SetLeft(_canvasTextBox, points.Position.X);
-                Canvas.SetTop(_canvasTextBox, points.Position.Y);
+                _lastInputPoint = point.Position;
+                Canvas.SetLeft(_canvasTextBox, point.Position.X);
+                Canvas.SetTop(_canvasTextBox, point.Position.Y);
             }
         }
 

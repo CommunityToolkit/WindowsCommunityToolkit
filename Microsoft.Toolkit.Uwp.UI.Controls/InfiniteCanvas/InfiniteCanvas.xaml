@@ -47,7 +47,6 @@
                                 </Canvas>
                             </ScrollViewer>
                         </Grid>
-                        <!--<Button x:Name="EnableDisableButton" Content="Enable-Disable" />-->
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -59,27 +58,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:InfiniteCanvasTextBox">
                     <Grid x:Name="MainGrid"
-                          Width="400"
-                          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <local:TextToolbar x:Name="TextToolbar"
-                                           Background="#4C4F4F4F"
-                                           Editor="{Binding ElementName=EditZone}" />
-
-                        <ScrollViewer Grid.Row="1">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <RichEditBox x:Name="EditZone"
-                                             VerticalContentAlignment="Stretch"
-                                             PlaceholderText="Enter Text Here"
-                                             TextWrapping="Wrap" />
-                            </Grid>
-                        </ScrollViewer>
+                          Width="400">
+                        <TextBox Name="EditZone"
+                                 AcceptsReturn="True"
+                                 TextWrapping="Wrap" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
