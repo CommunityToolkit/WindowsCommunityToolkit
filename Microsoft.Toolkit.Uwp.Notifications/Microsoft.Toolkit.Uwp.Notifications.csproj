@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;uap10.0;native</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;uap10.0;</TargetFrameworks>
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <Title>UWP Community Toolkit Notifications</Title>
     <Description>Generate tile, toast, and badge notifications for Windows 10 via code, with the help of IntelliSense, instead of directly using XML.
@@ -9,41 +9,20 @@ Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is pa
     <PackageTags>notifications win10 windows 10 tile tiles toast toasts badge xml uwp c# csharp c++</PackageTags>
   </PropertyGroup>
   
-  <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0'">
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="5.4.1" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'native' ">
-    <PackageReference Update="Microsoft.NETCore.UniversalWindowsPlatform" PrivateAssets="all" />
+  <ItemGroup>
+    <None Include="Microsoft.Toolkit.Uwp.Notifications.targets" PackagePath="build\native" Pack="true" />
+    <None Include="..\Microsoft.Toolkit.Uwp.Notifications.WinRT\bin\$(Configuration)\*.*" PackagePath="lib\native" Pack="true" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Microsoft.Toolkit.Uwp.Notifications.targets" Pack="true" PackagePath="build\native" />
+    <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.0" />
-  </ItemGroup>
-  
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
-    <OutputType>winmdobj</OutputType>
-    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <NugetTargetMoniker>UAP,Version=v10.0</NugetTargetMoniker>
-    <PackageTargetFallback>uap10.0</PackageTargetFallback>
-    <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.10240.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == '' ">10.0.10240.0</TargetPlatformMinVersion>
-    <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);NETFX_CORE;WINDOWS_UWP;WINRT</DefineConstants>
-    <CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>
-    <TargetFrameworkIdentifier>.NETCore</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
-    <LanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v15.0\Microsoft.Windows.UI.Xaml.CSharp.targets</LanguageTargets>
-
-    <!-- Need to override the built-in implicit defines for UAP or it'll be NETCORE5_0 -->
-    <!-- this makes it UAP10_0_10240_0 to match the rest -->
-    <ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">UAP$(TargetPlatformMinVersion.Replace('.', '_'))</ImplicitFrameworkDefine>
-    <DisableImplicitFrameworkDefines Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">true</DisableImplicitFrameworkDefines>
-  </PropertyGroup>
+  <Import Project="..\Microsoft.Toolkit.Uwp.Notifications.Shared\Microsoft.Toolkit.Uwp.Notifications.Shared.projitems" Label="Shared" />
 
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>
