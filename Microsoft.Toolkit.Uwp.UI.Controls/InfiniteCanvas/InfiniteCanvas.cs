@@ -36,10 +36,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         InkCanvas _inkCanvas;
         VirtualDrawingSurface _canvasOne;
-        private Grid CanvasContainer;
-
-        InkStrokeContainer strokeContainer;
-        CanvasRenderTarget renderTarget;
         IReadOnlyList<InkStroke> wetInkStrokes;
         InkSynchronizer inkSync;
 
@@ -52,11 +48,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private InkToolbarCustomToolButton _enableTextButton;
         private InfiniteCanvasTextBox _canvasTextBox;
+        private StackPanel _canvasTextBoxTools;
         protected override void OnApplyTemplate()
         {
+            _canvasTextBoxTools = (StackPanel)GetTemplateChild("CanvasTextBoxTools");
 
             _canvasOne = (VirtualDrawingSurface)GetTemplateChild("canvasOne");
-            CanvasContainer = (Grid)GetTemplateChild("CanvasContainer");
             OutputGrid = (Canvas)GetTemplateChild("OutputGrid");
 
             inkScrollViewer = (ScrollViewer)GetTemplateChild("inkScrollViewer");
@@ -74,7 +71,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _inkCanvas = (InkCanvas)GetTemplateChild("inkCanvas");
             inkScrollViewer.PointerPressed += InkScrollViewer_PointerPressed;
-
             _canvasTextBox.TextChanged += _canvasTextBox_TextChanged;
 
             MainPage_Loaded();
@@ -122,10 +118,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         Point _lastInputPoint;
 
+        private void DisableScrollView()
+        {
+            inkScrollViewer.VerticalScrollMode = ScrollMode.Disabled;
+            inkScrollViewer.HorizontalScrollMode = ScrollMode.Disabled;
+        }
+
+        private void EnableScrollView()
+        {
+            inkScrollViewer.VerticalScrollMode = ScrollMode.Enabled;
+            inkScrollViewer.HorizontalScrollMode = ScrollMode.Enabled;
+        }
+
         private void InkScrollViewer_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             if (_enableTextButton.IsChecked ?? false)
             {
+
                 var point = e.GetCurrentPoint(inkScrollViewer);
                 _lastInputPoint = new Point((point.Position.X + inkScrollViewer.HorizontalOffset) / inkScrollViewer.ZoomFactor, (point.Position.Y + inkScrollViewer.VerticalOffset) / inkScrollViewer.ZoomFactor);
 
@@ -141,9 +150,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     Canvas.SetTop(_canvasTextBox, currentTextDrawable.Bounds.Y - 2);
                     _selectedTextDrawable = currentTextDrawable;
+
+                    DisableScrollView();
                     return;
                 }
 
+                _inkCanvas.Visibility = Visibility.Collapsed;
+                DisableScrollView();
                 ClearTextBoxValue();
                 _canvasTextBox.Visibility = Visibility.Visible;
                 Canvas.SetLeft(_canvasTextBox, _lastInputPoint.X - (FontSize / 2));
@@ -154,6 +167,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void _enableTextButton_Unchecked(object sender, RoutedEventArgs e)
         {
             _canvasTextBox.Visibility = Visibility.Collapsed;
+            EnableScrollView();
             _inkCanvas.Visibility = Visibility.Visible;
         }
 
@@ -180,8 +194,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this._inkCanvas.InkPresenter.StrokesCollected += OnStrokesCollected;
             this._inkCanvas.InkPresenter.UnprocessedInput.PointerMoved += UnprocessedInput_PointerMoved;
 
-            this.strokeContainer = new InkStrokeContainer();
-
 
             inkScrollViewer.MaxZoomFactor = 4.0f;
             inkScrollViewer.MinZoomFactor = 0.25f;
@@ -201,7 +213,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Canvas.SetTop(_canvasTextBox, 0);
 
             _canvasTextBox.FontSize = FontSize;
-            // _canvasTextBox.PointerWheelChanged += _canvasTextBox_PointerWheelChanged;
         }
 
         private async void Current_LeavingBackground(object sender, Windows.ApplicationModel.LeavingBackgroundEventArgs e)
@@ -211,11 +222,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasOne.ReDraw(ViewPort);
         }
 
-        private void _canvasTextBox_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            _canvasTextBox.Visibility = Visibility.Collapsed;
-            _inkCanvas.Visibility = Visibility.Visible;
-        }
 
         private void UnprocessedInput_PointerMoved(InkUnprocessedInput sender, PointerEventArgs args)
         {
@@ -236,12 +242,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ReDrawCanvas();
         }
 
-        void OnCanvasControlSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            this.renderTarget?.Dispose();
-            this.renderTarget = null;
-        }
-
         void OnStrokesCollected(InkPresenter sender, InkStrokesCollectedEventArgs args)
         {
             IReadOnlyList<InkStroke> strokes = this.inkSync.BeginDry();
@@ -256,6 +256,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (!e.IsIntermediate)
             {
+                _canvasTextBox.Visibility = Visibility.Collapsed;
                 ClearTextBoxValue();
                 _canvasOne.UpdateZoomFactor(inkScrollViewer.ZoomFactor);
                 ReDrawCanvas();
@@ -264,8 +265,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ClearTextBoxValue()
         {
+            EnableScrollView();
             _selectedTextDrawable = null;
-            _canvasTextBox.Visibility = Visibility.Collapsed;
             _canvasTextBox.Clear();
         }
 

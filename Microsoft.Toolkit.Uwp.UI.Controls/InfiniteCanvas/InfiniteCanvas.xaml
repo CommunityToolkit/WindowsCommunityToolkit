@@ -26,6 +26,9 @@
                                         <SymbolIcon Symbol="Font" />
                                     </InkToolbarCustomToolButton>
                                 </InkToolbar>
+                            </StackPanel Orientation="Horizontal" x:Name="CanvasTextBoxTools">
+                            
+                            <StackPanel>
                             </StackPanel>
                             <ScrollViewer x:Name="inkScrollViewer"
                                           Grid.Row="1"
@@ -37,7 +40,9 @@
                                 <Canvas x:Name="OutputGrid"
                                         Background="Transparent">
 
-                                    <local:VirtualDrawingSurface x:Name="canvasOne" />
+                                    <local:VirtualDrawingSurface x:Name="canvasOne"
+                                                                 Width="Auto"
+                                                                 Height="Auto" />
 
                                     <InkCanvas x:Name="inkCanvas"
                                                Width="Auto"
@@ -59,14 +64,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:InfiniteCanvasTextBox">
-                    <Grid x:Name="MainGrid"
-                          MinWidth="200">
-                        <TextBox Name="EditZone"
-                                 AcceptsReturn="True"
-                                 Background="Transparent"
-                                 Foreground="Transparent"
-                                 Style="{StaticResource InfiniteCanvasTextBoxStyle}" />
-                    </Grid>
+                    <TextBox Name="EditZone"
+                             MinWidth="200"
+                             AcceptsReturn="True"
+                             Background="Transparent"
+                             Foreground="Transparent"
+                             Style="{StaticResource InfiniteCanvasTextBoxStyle}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

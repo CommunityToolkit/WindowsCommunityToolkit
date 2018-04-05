@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void _editZone_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            //this.Visibility = Visibility.Collapsed;
+            this.Visibility = Visibility.Collapsed;
         }
 
         public event EventHandler<string> TextChanged;
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public void SetText(string text)
         {
             _editZone.Text = text;
-            _editZone.SelectionStart = text.Length - 1;
+            _editZone.SelectionStart = text.Length;
         }
     }
 }

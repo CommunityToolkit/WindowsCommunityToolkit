@@ -87,19 +87,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public void ConfigureInteraction()
         {
             this.interactionSource = VisualInteractionSource.Create(myDrawingVisual);
-            this.interactionSource.PositionXSourceMode = InteractionSourceMode.EnabledWithInertia;
-            this.interactionSource.PositionYSourceMode = InteractionSourceMode.EnabledWithInertia;
+            //this.interactionSource.PositionXSourceMode = InteractionSourceMode.EnabledWithInertia;
+            //this.interactionSource.PositionYSourceMode = InteractionSourceMode.EnabledWithInertia;
 
             this.interactionSource.ScaleSourceMode = InteractionSourceMode.EnabledWithInertia;
 
             this.tracker = InteractionTracker.Create(this.compositor);
             this.tracker.InteractionSources.Add(this.interactionSource);
 
-            this.moveSurfaceExpressionAnimation = this.compositor.CreateExpressionAnimation("-tracker.Position.X");
-            this.moveSurfaceExpressionAnimation.SetReferenceParameter("tracker", this.tracker);
+            //this.moveSurfaceExpressionAnimation = this.compositor.CreateExpressionAnimation("-tracker.Position.X");
+            //this.moveSurfaceExpressionAnimation.SetReferenceParameter("tracker", this.tracker);
 
-            this.moveSurfaceUpDownExpressionAnimation = this.compositor.CreateExpressionAnimation("-tracker.Position.Y");
-            this.moveSurfaceUpDownExpressionAnimation.SetReferenceParameter("tracker", this.tracker);
+            //this.moveSurfaceUpDownExpressionAnimation = this.compositor.CreateExpressionAnimation("-tracker.Position.Y");
+            //this.moveSurfaceUpDownExpressionAnimation.SetReferenceParameter("tracker", this.tracker);
 
             this.scaleSurfaceUpDownExpressionAnimation = this.compositor.CreateExpressionAnimation("tracker.Scale");
             this.scaleSurfaceUpDownExpressionAnimation.SetReferenceParameter("tracker", this.tracker);
@@ -115,16 +115,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void startAnimation(CompositionSurfaceBrush brush, float scale = 1f)
         {
             animatingPropset = compositor.CreatePropertySet();
-            animatingPropset.InsertScalar("xcoord", 1.0f);
-            animatingPropset.StartAnimation("xcoord", moveSurfaceExpressionAnimation);
+            //animatingPropset.InsertScalar("xcoord", 1.0f);
+            //animatingPropset.StartAnimation("xcoord", moveSurfaceExpressionAnimation);
 
-            animatingPropset.InsertScalar("ycoord", 1.0f);
-            animatingPropset.StartAnimation("ycoord", moveSurfaceUpDownExpressionAnimation);
+            //animatingPropset.InsertScalar("ycoord", 1.0f);
+            //animatingPropset.StartAnimation("ycoord", moveSurfaceUpDownExpressionAnimation);
 
             animatingPropset.InsertScalar("scale", scale);
             animatingPropset.StartAnimation("scale", scaleSurfaceUpDownExpressionAnimation);
 
-            animateMatrix = compositor.CreateExpressionAnimation("Matrix3x2(props.scale, 0.0, 0.0, props.scale, props.xcoord, props.ycoord)");
+            animateMatrix = compositor.CreateExpressionAnimation("Matrix3x2(props.scale, 0.0, 0.0, props.scale, 1.0, 1.0)");
             animateMatrix.SetReferenceParameter("props", animatingPropset);
 
             brush.StartAnimation(nameof(brush.TransformMatrix), animateMatrix);
