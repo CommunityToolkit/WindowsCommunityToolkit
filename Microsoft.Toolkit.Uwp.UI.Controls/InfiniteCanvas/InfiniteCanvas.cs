@@ -116,13 +116,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_enableTextButton.IsChecked ?? false)
             {
-                ClearTextBoxValue();
-
                 var point = e.GetCurrentPoint(inkScrollViewer);
-                _canvasTextBox.Visibility = Visibility.Visible;
-
                 _lastInputPoint = new Point((point.Position.X + inkScrollViewer.HorizontalOffset) / inkScrollViewer.ZoomFactor, (point.Position.Y + inkScrollViewer.VerticalOffset) / inkScrollViewer.ZoomFactor);
 
+                var currentTextDrawable = _canvasOne.GetEditableTextDrawable(_lastInputPoint, ViewPort);
+
+                if (currentTextDrawable != null)
+                {
+                    _canvasTextBox.Visibility = Visibility.Visible;
+                    _canvasTextBox.SetText(currentTextDrawable.Text);
+                    Canvas.SetLeft(_canvasTextBox, currentTextDrawable.Bounds.X);
+                    Canvas.SetTop(_canvasTextBox, currentTextDrawable.Bounds.Y);
+                    _selectedTextDrawable = currentTextDrawable;
+                    return;
+                }
+
+                ClearTextBoxValue();
+                _canvasTextBox.Visibility = Visibility.Visible;
                 Canvas.SetLeft(_canvasTextBox, _lastInputPoint.X);
                 Canvas.SetTop(_canvasTextBox, _lastInputPoint.Y);
             }
@@ -231,7 +241,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void InkScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
-            Debug.WriteLine("Scroll");
             if (!e.IsIntermediate)
             {
                 ClearTextBoxValue();

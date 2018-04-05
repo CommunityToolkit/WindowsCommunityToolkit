@@ -65,5 +65,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _editZone.Text = string.Empty;
             _editZone.TextChanged += _editZone_TextChanged;
         }
+
+        public void SetText(string text)
+        {
+            _editZone.Text = text;
+        }
     }
 }

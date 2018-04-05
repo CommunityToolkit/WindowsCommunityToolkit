@@ -44,52 +44,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ConfigureSpriteVisual();
             ConfigureInteraction();
             startAnimation(surfaceBrush);
-            Loaded += MainPage_Loaded;
             this.SizeChanged += TheSurface_SizeChanged;
-            //this.PointerPressed += InfiniteCanvas_PointerPressed;
-            //Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
-            //Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
-        }
-
-        private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
-        {
-            //var key = args.VirtualKey.ToString();
-            //args.Handled = true;
-            //DrawString(key);
-        }
-
-        private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
-        {
-            try
-            {
-                interactionSource.TryRedirectForManipulation(args.CurrentPoint);
-            }
-            catch
-            {
-
-            }
-        }
-
-        private void InfiniteCanvas_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            try
-            {
-                var currentPoint = e.GetCurrentPoint(this);
-                interactionSource.TryRedirectForManipulation(currentPoint);
-            }
-            catch
-            {
-
-            }
         }
 
         private void TheSurface_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             myDrawingVisual.Size = new Vector2((float)ActualWidth, (float)ActualHeight);
-        }
-
-        private void MainPage_Loaded(object sender, RoutedEventArgs e)
-        {
         }
 
         public void InitializeComposition()
@@ -170,53 +130,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             brush.StartAnimation(nameof(brush.TransformMatrix), animateMatrix);
         }
 
-        public void DrawTile(Rect rect, int tileRow, int tileColumn)
-        {
-
-            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface, rect))
-            {
-                //drawingSession.Clear(randomColor);
-                CanvasTextFormat tf = new CanvasTextFormat() { FontSize = 72 };
-                drawingSession.DrawText($"{tileColumn},{tileRow}", new Vector2(50, 50), Colors.Green, tf);
-            }
-        }
-
         public void Trim(Rect trimRect)
         {
             drawingSurface.Trim(new RectInt32[] { new RectInt32 { X = (int)trimRect.X, Y = (int)trimRect.Y, Width = (int)trimRect.Width, Height = (int)trimRect.Height } });
         }
 
         List<IReadOnlyList<InkStroke>> list = new List<IReadOnlyList<InkStroke>>();
-
-        public void DrawLine(IReadOnlyList<InkStroke> inkes)
-        {
-            list.Add(inkes);
-        }
-
-        private string sofar = string.Empty;
-        public void DrawString(string c, CanvasDrawingSession drawingSession)
-        {
-            sofar = c;
-
-            float xLoc = 100.0f;
-            float yLoc = 100.0f;
-            CanvasTextFormat format = new CanvasTextFormat
-            {
-                FontSize = 30.0f,
-                FontStyle = FontStyle.Italic,
-                FontWeight = FontWeights.Bold,
-                WordWrapping = CanvasWordWrapping.NoWrap
-            };
-
-            CanvasTextLayout textLayout = new CanvasTextLayout(drawingSession, sofar, format, 0.0f,
-                0.0f);
-            Rect theRectYouAreLookingFor = new Rect(xLoc + textLayout.DrawBounds.X,
-                yLoc + textLayout.DrawBounds.Y, textLayout.DrawBounds.Width, textLayout.DrawBounds.Height);
-
-            drawingSession.DrawRectangle(theRectYouAreLookingFor, Colors.Gray, 1.0f);
-            drawingSession.DrawTextLayout(textLayout, xLoc, yLoc, Colors.Black);
-
-        }
 
         public void UpdateZoomFactor(float zoomFactor)
         {
@@ -225,19 +144,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public Color Background { get; set; } = Colors.White;
 
+        readonly List<IDrawable> _visibleList = new List<IDrawable>();
+
         public void ReDraw(Rect viewPort)
         {
-            var visibleList = new List<IDrawable>();
+            _visibleList.Clear();
             foreach (var drawable in _drawableList)
             {
                 if (drawable.IsVisible(viewPort))
                 {
-                    visibleList.Add(drawable);
+                    _visibleList.Add(drawable);
                 }
             }
 
             Rect toDraw;
-            var first = visibleList.FirstOrDefault();
+            var first = _visibleList.FirstOrDefault();
             if (first != null)
             {
                 double top = first.Bounds.Top,
@@ -245,9 +166,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     left = first.Bounds.Left,
                     right = first.Bounds.Right;
 
-                for (var index = 1; index < visibleList.Count; index++)
+                for (var index = 1; index < _visibleList.Count; index++)
                 {
-                    var stroke = visibleList[index];
+                    var stroke = _visibleList[index];
                     bottom = Math.Max(stroke.Bounds.Bottom, bottom);
                     right = Math.Max(stroke.Bounds.Right, right);
                     top = Math.Min(stroke.Bounds.Top, top);
@@ -266,7 +187,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface, toDraw))
             {
                 drawingSession.Clear(Background);
-                foreach (var drawable in visibleList)
+                foreach (var drawable in _visibleList)
                 {
                     drawable.Draw(drawingSession, toDraw);
                 }
@@ -282,11 +203,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public void Erase(Point point, Rect viewPort)
         {
-            for (var i = _drawableList.Count - 1; i >= 0; i--)
+            for (var i = _visibleList.Count - 1; i >= 0; i--)
             {
                 var drawable = _drawableList[i];
-                Debug.WriteLine($"{drawable.Bounds.Contains(point)}, {drawable.Bounds}, {point}");
-                if (drawable.IsActive && drawable is InkDrawable inkDrawable && drawable.Bounds.Contains(point))
+                if (drawable is InkDrawable inkDrawable && drawable.Bounds.Contains(point))
                 {
                     foreach (var stroke in inkDrawable.Strokes)
                     {
@@ -299,6 +219,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
             }
+        }
+
+        internal TextDrawable GetEditableTextDrawable(Point point, Rect viewPort)
+        {
+            for (var i = _visibleList.Count - 1; i >= 0; i--)
+            {
+                var drawable = _drawableList[i];
+                Debug.WriteLine($"{drawable.Bounds.Contains(point)}, {drawable.Bounds}, {point}");
+                if (drawable is TextDrawable textDrawable && drawable.Bounds.Contains(point))
+                {
+                    return textDrawable;
+                }
+            }
+
+            return null;
         }
 
         public void ClearAll(Rect viewPort)
