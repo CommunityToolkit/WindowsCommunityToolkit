@@ -57,6 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasOne = (VirtualDrawingSurface)GetTemplateChild("canvasOne");
             CanvasContainer = (Grid)GetTemplateChild("CanvasContainer");
             OutputGrid = (Canvas)GetTemplateChild("OutputGrid");
+            
             inkScrollViewer = (ScrollViewer)GetTemplateChild("inkScrollViewer");
             var eraseAllButton = (InkToolbarCustomToolButton)GetTemplateChild("EraseAllButton");
 
@@ -98,8 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _selectedTextDrawable = new TextDrawable(
-                (_lastInputPoint.Y / inkScrollViewer.ZoomFactor) + (inkScrollViewer.VerticalOffset / inkScrollViewer.ZoomFactor),
-                                (_lastInputPoint.X / inkScrollViewer.ZoomFactor) + (inkScrollViewer.HorizontalOffset / inkScrollViewer.ZoomFactor),
+                _lastInputPoint.Y, _lastInputPoint.X,
                 FontSize,
                 _canvasTextBox.GetEditZoneHeight(),
                 _canvasTextBox.GetEditZoneWidth(),
@@ -116,6 +116,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_enableTextButton.IsChecked ?? false)
             {
                 ClearTextBoxValue();
+                _canvasOne.Visibility = Visibility.Collapsed;
+
                 var point = e.GetCurrentPoint(inkScrollViewer);
                 _canvasTextBox.Visibility = Visibility.Visible;
 
@@ -123,8 +125,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 Canvas.SetLeft(_canvasTextBox, _lastInputPoint.X);
                 Canvas.SetTop(_canvasTextBox, _lastInputPoint.Y);
-
-                _selectedTextDrawable = null;
             }
         }
 
@@ -132,6 +132,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _canvasTextBox.Visibility = Visibility.Collapsed;
             _inkCanvas.Visibility = Visibility.Visible;
+
+            
         }
 
         private void _enableTextButton_Checked(object sender, RoutedEventArgs e)
@@ -172,25 +174,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasOne.Width = LargeCanvasWidthHeight;
             _canvasOne.Height = LargeCanvasWidthHeight;
 
-
-            _strokeContainer = new InkStrokeContainer();
-
             Application.Current.Resuming += Current_Resuming;
 
             Canvas.SetLeft(_canvasTextBox, 0);
             Canvas.SetTop(_canvasTextBox, 0);
 
             _canvasTextBox.FontSize = FontSize;
+           // _canvasTextBox.PointerWheelChanged += _canvasTextBox_PointerWheelChanged;
+        }
+
+        private void _canvasTextBox_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            _canvasTextBox.Visibility = Visibility.Collapsed;
+            _inkCanvas.Visibility = Visibility.Visible;
         }
 
         private void Current_Resuming(object sender, object e)
         {
             _canvasOne.ReDraw(ViewPort);
         }
-
-        private InkStrokeContainer _strokeContainer;
-
-        private Point _prevErasingPoint;
 
         private void UnprocessedInput_PointerMoved(InkUnprocessedInput sender, PointerEventArgs args)
         {
@@ -229,6 +231,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void InkScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
+            Debug.WriteLine("Scroll");
             if (!e.IsIntermediate)
             {
                 ClearTextBoxValue();
@@ -239,6 +242,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ClearTextBoxValue()
         {
+            _selectedTextDrawable = null;
             _canvasTextBox.Visibility = Visibility.Collapsed;
             _canvasTextBox.Clear();
         }

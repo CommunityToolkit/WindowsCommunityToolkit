@@ -150,7 +150,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             this.tracker.MinScale = .25f;
             this.tracker.MaxScale = 4f;
-
         }
 
         private void startAnimation(CompositionSurfaceBrush brush, float scale = 1f)

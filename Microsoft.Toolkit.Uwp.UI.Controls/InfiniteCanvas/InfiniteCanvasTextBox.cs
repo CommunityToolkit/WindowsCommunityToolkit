@@ -28,9 +28,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _editZone = (TextBox)GetTemplateChild("EditZone");
             _editZone.TextChanged += _editZone_TextChanged;
             _editZone.FontSize = FontSize;
+            _editZone.PointerWheelChanged += _editZone_PointerWheelChanged;
             base.OnApplyTemplate();
         }
-        
+
+        private void _editZone_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            //this.Visibility = Visibility.Collapsed;
+        }
+
         public event EventHandler<string> TextChanged;
 
         private void _editZone_TextChanged(object sender, RoutedEventArgs e)

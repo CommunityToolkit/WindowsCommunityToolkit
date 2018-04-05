@@ -42,6 +42,7 @@
                                     <InkCanvas x:Name="inkCanvas"
                                                Width="Auto"
                                                Height="Auto" />
+
                                     <local:InfiniteCanvasTextBox x:Name="CanvasTextBox"
                                                                  Visibility="Collapsed" />
                                 </Canvas>
@@ -61,7 +62,11 @@
                     <Grid x:Name="MainGrid"
                           MinWidth="200">
                         <TextBox Name="EditZone"
-                                 AcceptsReturn="True" />
+                                 AcceptsReturn="True"
+                                 Background="Transparent"
+                                 BorderBrush="Transparent"
+                                 BorderThickness="0"
+                                 Foreground="Transparent" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
