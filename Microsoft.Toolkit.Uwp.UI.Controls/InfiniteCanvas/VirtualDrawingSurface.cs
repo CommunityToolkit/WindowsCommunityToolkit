@@ -46,9 +46,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             startAnimation(surfaceBrush);
             Loaded += MainPage_Loaded;
             this.SizeChanged += TheSurface_SizeChanged;
-            this.PointerPressed += InfiniteCanvas_PointerPressed;
-            Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
-            Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+            //this.PointerPressed += InfiniteCanvas_PointerPressed;
+            //Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+            //Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
         }
 
         private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
