@@ -244,5 +244,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 drawingSession.Clear(Background);
             }
         }
+
+        internal void RemoveDrawable(IDrawable selectedTextDrawable)
+        {
+            _drawableList.Remove(selectedTextDrawable);
+        }
     }
 }

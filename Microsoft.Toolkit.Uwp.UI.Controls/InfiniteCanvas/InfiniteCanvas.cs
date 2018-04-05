@@ -87,14 +87,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void _canvasTextBox_TextChanged(object sender, string text)
         {
-            if (string.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text) && _selectedTextDrawable == null)
             {
                 return;
             }
 
             if (_selectedTextDrawable != null)
             {
-                _selectedTextDrawable.Text = text;
+                if (string.IsNullOrEmpty(text))
+                {
+                    _canvasOne.RemoveDrawable(_selectedTextDrawable);
+                    _selectedTextDrawable = null;
+                    _canvasOne.ReDraw(ViewPort);
+                }
+                else
+                {
+                    _selectedTextDrawable.Text = text;
+                }
+
                 _canvasOne.ReDraw(ViewPort);
                 return;
             }
@@ -125,16 +135,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _canvasTextBox.Visibility = Visibility.Visible;
                     _canvasTextBox.SetText(currentTextDrawable.Text);
-                    Canvas.SetLeft(_canvasTextBox, currentTextDrawable.Bounds.X);
-                    Canvas.SetTop(_canvasTextBox, currentTextDrawable.Bounds.Y);
+
+                    // ToDO create a cahced value for fontsize/2
+                    Canvas.SetLeft(_canvasTextBox, currentTextDrawable.Bounds.X - (FontSize / 2));
+
+                    Canvas.SetTop(_canvasTextBox, currentTextDrawable.Bounds.Y - 2);
                     _selectedTextDrawable = currentTextDrawable;
                     return;
                 }
 
                 ClearTextBoxValue();
                 _canvasTextBox.Visibility = Visibility.Visible;
-                Canvas.SetLeft(_canvasTextBox, _lastInputPoint.X);
-                Canvas.SetTop(_canvasTextBox, _lastInputPoint.Y);
+                Canvas.SetLeft(_canvasTextBox, _lastInputPoint.X - (FontSize / 2));
+                Canvas.SetTop(_canvasTextBox, _lastInputPoint.Y - 2);
             }
         }
 

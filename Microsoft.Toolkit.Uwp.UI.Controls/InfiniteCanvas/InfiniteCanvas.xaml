@@ -93,6 +93,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
                     <Grid>
+                        <Border x:Name="BorderElement"
+                                Grid.RowSpan="1"
+                                BorderBrush="Blue"
+                                BorderThickness="1" />
                         <ScrollViewer x:Name="ContentElement"
                                       Margin="{TemplateBinding BorderThickness}"
                                       Padding="{TemplateBinding Padding}"

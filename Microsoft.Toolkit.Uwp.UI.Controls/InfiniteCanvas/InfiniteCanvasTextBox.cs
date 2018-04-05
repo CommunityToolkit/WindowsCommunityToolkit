@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public void Clear()
         {
-            if (_editZone==null)
+            if (_editZone == null)
             {
                 return;
             }
@@ -69,6 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public void SetText(string text)
         {
             _editZone.Text = text;
+            _editZone.SelectionStart = text.Length - 1;
         }
     }
 }
