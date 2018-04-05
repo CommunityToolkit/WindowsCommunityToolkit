@@ -49,6 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ContentPresenter _detailsPresenter;
         private VisualStateGroup _stateGroup;
         private VisualState _narrowState;
+        private VisualStateGroup _selectionStateGroup;
         private Frame _frame;
         private bool _loaded = false;
 
@@ -174,9 +175,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _narrowState = GetTemplateChild(NarrowState) as VisualState;
             }
 
-            SelectionChanged += SetItemListFocusWhenNotInDetails;
-
             UpdateView(true);
+
+            _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
+            if (_selectionStateGroup != null)
+            {
+                _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
+            }
 
             _loaded = true;
         }
@@ -199,7 +204,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _stateGroup = null;
             }
 
-            SelectionChanged += SetItemListFocusWhenNotInDetails;
+            _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
+            if (_selectionStateGroup != null)
+            {
+                _selectionStateGroup.CurrentStateChanged -= OnSelectionStateChanged;
+                _selectionStateGroup = null;
+            }
         }
 
         /// <summary>
@@ -394,13 +404,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        /// <summary>
-        /// Sets focus to the item list when the viewState is not Details
-        /// </summary>
+    /// <summary>
+    /// Fires when the selection state of the control changes
+    /// </summary>
+    /// <param name="sender">the sender</param>
+    /// <param name="e">the event args</param>
+    /// <remarks>
+    /// Sets focus to the item list when the viewState is not Details.
+    /// Sets whether the selected item should change when focused with the keyboard.
+    /// </remarks>
+    private void OnSelectionStateChanged(object sender, VisualStateChangedEventArgs e)
+    {
+        SetItemListFocusWhenNotInDetails(ViewState);
+        SetListSelectionWithKeyboardFocusOnVisualStateChanged(ViewState);
+    }
 
-        private void SetItemListFocusWhenNotInDetails(object sender, SelectionChangedEventArgs e)
+    /// <summary>
+    /// Sets focus to the item list when the viewState is not Details
+    /// </summary>
+    private void SetItemListFocusWhenNotInDetails(MasterDetailsViewState viewState)
         {
-            if (ViewState != MasterDetailsViewState.Details)
+            if (viewState != MasterDetailsViewState.Details)
             {
                 FocusItemList();
             }
