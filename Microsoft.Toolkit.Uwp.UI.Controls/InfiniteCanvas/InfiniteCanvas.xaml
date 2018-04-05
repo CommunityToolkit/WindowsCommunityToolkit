@@ -26,9 +26,41 @@
                                         <SymbolIcon Symbol="Font" />
                                     </InkToolbarCustomToolButton>
                                 </InkToolbar>
-                            </StackPanel Orientation="Horizontal" x:Name="CanvasTextBoxTools">
-                            
-                            <StackPanel>
+                                <StackPanel x:Name="CanvasTextBoxTools"
+                                            Orientation="Horizontal"
+                                            Visibility="Collapsed">
+                                    <Button>
+                                        <Button.Content>
+                                            <SymbolIcon Symbol="Highlight" />
+                                        </Button.Content>
+                                        <Button.Flyout>
+                                            <Flyout Placement="Bottom">
+                                                <ColorPicker x:Name="CanvasTextBoxColorPicker"
+                                                             Color="Black" />
+                                            </Flyout>
+                                        </Button.Flyout>
+                                    </Button>
+
+                                    <ToggleButton x:Name="CanvasTextBoxBoldButton">
+                                        <ToggleButton.Content>
+                                            <SymbolIcon Symbol="Bold" />
+                                        </ToggleButton.Content>
+                                    </ToggleButton>
+
+                                    <ToggleButton x:Name="CanvasTextBoxItlaicButton">
+                                        <ToggleButton.Content>
+                                            <SymbolIcon Symbol="Italic" />
+                                        </ToggleButton.Content>
+                                    </ToggleButton>
+
+                                    <TextBox x:Name="CanvasTextBoxFontSizeTextBox"
+                                             Width="64"
+                                             Height="32"
+                                             InputScope="Number"
+                                             MaxLength="3"
+                                             Text="22" />
+
+                                </StackPanel>
                             </StackPanel>
                             <ScrollViewer x:Name="inkScrollViewer"
                                           Grid.Row="1"

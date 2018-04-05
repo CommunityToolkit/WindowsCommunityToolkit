@@ -16,11 +16,13 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.UI;
 using Microsoft.Graphics.Canvas;
 using Windows.UI.Core;
 using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
 using Microsoft.Toolkit.Parsers.Markdown.Enums;
@@ -49,9 +51,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private InkToolbarCustomToolButton _enableTextButton;
         private InfiniteCanvasTextBox _canvasTextBox;
         private StackPanel _canvasTextBoxTools;
+        private ColorPicker _canvasTextBoxColorPicker;
+
+        private TextBox _canvasTextBoxFontSizeTextBox;
+        private ToggleButton _canvasTextBoxItlaicButton;
+        private ToggleButton _canvasTextBoxBoldButton;
+
         protected override void OnApplyTemplate()
         {
             _canvasTextBoxTools = (StackPanel)GetTemplateChild("CanvasTextBoxTools");
+
+            _canvasTextBoxColorPicker = (ColorPicker)GetTemplateChild("CanvasTextBoxColorPicker");
+            _canvasTextBoxFontSizeTextBox = (TextBox)GetTemplateChild("CanvasTextBoxFontSizeTextBox");
+            _canvasTextBoxItlaicButton = (ToggleButton)GetTemplateChild("CanvasTextBoxItlaicButton");
+            _canvasTextBoxBoldButton = (ToggleButton)GetTemplateChild("CanvasTextBoxBoldButton");
+
+            _canvasTextBoxFontSizeTextBox.TextChanged += _canvasTextBoxFontSizeTextBox_TextChanged;
+            _canvasTextBoxItlaicButton.Checked += _canvasTextBoxItlaicButton_Checked;
+            _canvasTextBoxBoldButton.Checked += _canvasTextBoxBoldButton_Checked;
+
+            _canvasTextBoxColorPicker.ColorChanged += _canvasTextBoxColorPicker_ColorChanged;
 
             _canvasOne = (VirtualDrawingSurface)GetTemplateChild("canvasOne");
             OutputGrid = (Canvas)GetTemplateChild("OutputGrid");
@@ -77,7 +96,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-        public float FontSize { get; set; } = 22;
+        private void _canvasTextBoxBoldButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (_selectedTextDrawable != null)
+            {
+                _selectedTextDrawable.IsBold = _canvasTextBoxBoldButton.IsChecked ?? false;
+                ReDrawCanvas();
+            }
+        }
+
+        private void _canvasTextBoxItlaicButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (_selectedTextDrawable != null)
+            {
+                _selectedTextDrawable.IsItalic = _canvasTextBoxItlaicButton.IsChecked ?? false;
+                ReDrawCanvas();
+            }
+        }
+
+        public int TextFontSize => int.Parse(_canvasTextBoxFontSizeTextBox.Text);
+
+        private void _canvasTextBoxFontSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_selectedTextDrawable != null)
+            {
+                _selectedTextDrawable.FontSize = TextFontSize;
+                _canvasTextBox.UpdateFontSize(TextFontSize);
+                ReDrawCanvas();
+            }
+        }
+
+        private void _canvasTextBoxColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+        {
+            if (_selectedTextDrawable != null)
+            {
+                _selectedTextDrawable.TextColor = _canvasTextBoxColorPicker.Color;
+                ReDrawCanvas();
+            }
+        }
 
         private TextDrawable _selectedTextDrawable;
 
@@ -107,10 +163,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _selectedTextDrawable = new TextDrawable(
                 _lastInputPoint.Y, _lastInputPoint.X,
-                FontSize,
+                TextFontSize,
                 _canvasTextBox.GetEditZoneHeight(),
                 _canvasTextBox.GetEditZoneWidth(),
-                text);
+                text,
+                _canvasTextBoxColorPicker.Color,
+                _canvasTextBoxBoldButton.IsChecked ?? false,
+                _canvasTextBoxItlaicButton.IsChecked ?? false);
 
             _canvasOne.AddDrawable(_selectedTextDrawable);
             _canvasOne.ReDraw(ViewPort);
@@ -146,11 +205,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _canvasTextBox.SetText(currentTextDrawable.Text);
 
                     // ToDO create a cahced value for fontsize/2
-                    Canvas.SetLeft(_canvasTextBox, currentTextDrawable.Bounds.X - (FontSize / 2));
+                    Canvas.SetLeft(_canvasTextBox, currentTextDrawable.Bounds.X - (TextFontSize / 2));
 
                     Canvas.SetTop(_canvasTextBox, currentTextDrawable.Bounds.Y - 2);
                     _selectedTextDrawable = currentTextDrawable;
-
+                    _canvasTextBoxColorPicker.Color = currentTextDrawable.TextColor;
                     DisableScrollView();
                     return;
                 }
@@ -159,7 +218,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 DisableScrollView();
                 ClearTextBoxValue();
                 _canvasTextBox.Visibility = Visibility.Visible;
-                Canvas.SetLeft(_canvasTextBox, _lastInputPoint.X - (FontSize / 2));
+                Canvas.SetLeft(_canvasTextBox, _lastInputPoint.X - (TextFontSize / 2));
                 Canvas.SetTop(_canvasTextBox, _lastInputPoint.Y - 2);
             }
         }
@@ -169,11 +228,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasTextBox.Visibility = Visibility.Collapsed;
             EnableScrollView();
             _inkCanvas.Visibility = Visibility.Visible;
+            _canvasTextBoxTools.Visibility = Visibility.Collapsed;
         }
 
         private void _enableTextButton_Checked(object sender, RoutedEventArgs e)
         {
             _inkCanvas.Visibility = Visibility.Collapsed;
+            _canvasTextBoxTools.Visibility = Visibility.Visible;
         }
 
         private void EraseAllButton_Click(object sender, RoutedEventArgs e)
@@ -212,7 +273,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Canvas.SetLeft(_canvasTextBox, 0);
             Canvas.SetTop(_canvasTextBox, 0);
 
-            _canvasTextBox.FontSize = FontSize;
+            _canvasTextBox.UpdateFontSize(TextFontSize);
         }
 
         private async void Current_LeavingBackground(object sender, Windows.ApplicationModel.LeavingBackgroundEventArgs e)
