@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             CanvasTextLayout textLayout = new CanvasTextLayout(drawingSession, Text, format, 0.0f, 0.0f);
 
-            drawingSession.DrawTextLayout(textLayout, (float)Bounds.X, (float)Bounds.Y, Colors.Black);
+            drawingSession.DrawTextLayout(textLayout, (float)(Bounds.X - sessionBounds.X), (float)(Bounds.Y - sessionBounds.Y), Colors.Black);
         }
     }
 }

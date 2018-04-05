@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Microsoft.Graphics.Canvas;
 using Windows.UI.Core;
@@ -57,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasOne = (VirtualDrawingSurface)GetTemplateChild("canvasOne");
             CanvasContainer = (Grid)GetTemplateChild("CanvasContainer");
             OutputGrid = (Canvas)GetTemplateChild("OutputGrid");
-            
+
             inkScrollViewer = (ScrollViewer)GetTemplateChild("inkScrollViewer");
             var eraseAllButton = (InkToolbarCustomToolButton)GetTemplateChild("EraseAllButton");
 
@@ -116,12 +117,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_enableTextButton.IsChecked ?? false)
             {
                 ClearTextBoxValue();
-                _canvasOne.Visibility = Visibility.Collapsed;
 
                 var point = e.GetCurrentPoint(inkScrollViewer);
                 _canvasTextBox.Visibility = Visibility.Visible;
 
-                _lastInputPoint = point.Position;
+                _lastInputPoint = new Point((point.Position.X + inkScrollViewer.HorizontalOffset) / inkScrollViewer.ZoomFactor, (point.Position.Y + inkScrollViewer.VerticalOffset) / inkScrollViewer.ZoomFactor);
 
                 Canvas.SetLeft(_canvasTextBox, _lastInputPoint.X);
                 Canvas.SetTop(_canvasTextBox, _lastInputPoint.Y);
@@ -132,8 +132,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _canvasTextBox.Visibility = Visibility.Collapsed;
             _inkCanvas.Visibility = Visibility.Visible;
-
-            
         }
 
         private void _enableTextButton_Checked(object sender, RoutedEventArgs e)
@@ -174,24 +172,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasOne.Width = LargeCanvasWidthHeight;
             _canvasOne.Height = LargeCanvasWidthHeight;
 
-            Application.Current.Resuming += Current_Resuming;
+            Application.Current.LeavingBackground += Current_LeavingBackground;
 
             Canvas.SetLeft(_canvasTextBox, 0);
             Canvas.SetTop(_canvasTextBox, 0);
 
             _canvasTextBox.FontSize = FontSize;
-           // _canvasTextBox.PointerWheelChanged += _canvasTextBox_PointerWheelChanged;
+            // _canvasTextBox.PointerWheelChanged += _canvasTextBox_PointerWheelChanged;
+        }
+
+        private async void Current_LeavingBackground(object sender, Windows.ApplicationModel.LeavingBackgroundEventArgs e)
+        {
+            // work around to virtual drawing surface bug.
+            await Task.Delay(1000);
+            _canvasOne.ReDraw(ViewPort);
         }
 
         private void _canvasTextBox_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             _canvasTextBox.Visibility = Visibility.Collapsed;
             _inkCanvas.Visibility = Visibility.Visible;
-        }
-
-        private void Current_Resuming(object sender, object e)
-        {
-            _canvasOne.ReDraw(ViewPort);
         }
 
         private void UnprocessedInput_PointerMoved(InkUnprocessedInput sender, PointerEventArgs args)
