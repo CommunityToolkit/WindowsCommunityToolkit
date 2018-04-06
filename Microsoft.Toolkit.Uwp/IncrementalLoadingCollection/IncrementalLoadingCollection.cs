@@ -215,9 +215,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (previousCount == 0)
                 {
                     // When the list was empty before clearing, the automatic reload isn't fired, so force a reload.
-                    var loadMoreItemsTask = LoadMoreItemsAsync(0).AsTask();
-                    loadMoreItemsTask.ConfigureAwait(false);
-                    return loadMoreItemsTask;
+                    return LoadMoreItemsAsync(0).AsTask();
                 }
             }
 
