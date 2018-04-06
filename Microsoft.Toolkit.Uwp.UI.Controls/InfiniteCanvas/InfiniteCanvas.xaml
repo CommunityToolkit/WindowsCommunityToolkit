@@ -17,19 +17,47 @@
                                         Orientation="Horizontal">
                                 <InkToolbar x:Name="canToolBar"
                                             TargetInkCanvas="{Binding ElementName=inkCanvas}">
-                                    <InkToolbarCustomToolButton x:Name="EraseAllButton"
-                                                                ToolTipService.ToolTip="Erase All">
-                                        <SymbolIcon Symbol="Delete" />
-                                    </InkToolbarCustomToolButton>
                                     <InkToolbarCustomToolButton x:Name="EnableTextButton"
                                                                 ToolTipService.ToolTip="Insert Text">
                                         <SymbolIcon Symbol="Font" />
                                     </InkToolbarCustomToolButton>
                                 </InkToolbar>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Grid Width="2"
+                                          Height="48"
+                                          Background="Black" />
+                                    <Button x:Name="EraseAllButton"
+                                            Style="{StaticResource CanvasTextBoxButtonStyle}"
+                                            ToolTipService.ToolTip="Erase All">
+                                        <Button.Content>
+                                            <SymbolIcon Symbol="Delete" />
+                                        </Button.Content>
+                                    </Button>
+                                    <Button x:Name="UndoButton"
+                                            Style="{StaticResource CanvasTextBoxButtonStyle}"
+                                            ToolTipService.ToolTip="Undo">
+                                        <Button.Content>
+                                            <SymbolIcon Symbol="Undo" />
+                                        </Button.Content>
+                                    </Button>
+                                    <Button x:Name="RedoButton"
+                                            Style="{StaticResource CanvasTextBoxButtonStyle}"
+                                            ToolTipService.ToolTip="Redo">
+                                        <Button.Content>
+                                            <SymbolIcon Symbol="Redo" />
+                                        </Button.Content>
+                                    </Button>
+                                </StackPanel>
                                 <StackPanel x:Name="CanvasTextBoxTools"
+                                            Background="#FFE6E6E6"
                                             Orientation="Horizontal"
                                             Visibility="Collapsed">
-                                    <Button>
+                                    <Grid Width="2"
+                                          Height="48"
+                                          Background="Black" />
+                                    <Button Style="{StaticResource CanvasTextBoxButtonStyle}"
+                                            ToolTipService.ToolTip="Text Color">
                                         <Button.Content>
                                             <SymbolIcon Symbol="Highlight" />
                                         </Button.Content>
@@ -41,13 +69,17 @@
                                         </Button.Flyout>
                                     </Button>
 
-                                    <ToggleButton x:Name="CanvasTextBoxBoldButton">
+                                    <ToggleButton x:Name="CanvasTextBoxBoldButton"
+                                                  Style="{StaticResource CanvasTextBoxToggleButtonStyle}"
+                                                  ToolTipService.ToolTip="Bold Text">
                                         <ToggleButton.Content>
                                             <SymbolIcon Symbol="Bold" />
                                         </ToggleButton.Content>
                                     </ToggleButton>
 
-                                    <ToggleButton x:Name="CanvasTextBoxItlaicButton">
+                                    <ToggleButton x:Name="CanvasTextBoxItlaicButton"
+                                                  Style="{StaticResource CanvasTextBoxToggleButtonStyle}"
+                                                  ToolTipService.ToolTip="Italic Text">
                                         <ToggleButton.Content>
                                             <SymbolIcon Symbol="Italic" />
                                         </ToggleButton.Content>
@@ -58,7 +90,8 @@
                                              Height="32"
                                              InputScope="Number"
                                              MaxLength="3"
-                                             Text="22" />
+                                             Text="22"
+                                             ToolTipService.ToolTip="Font Size" />
 
                                 </StackPanel>
                             </StackPanel>
@@ -107,6 +140,19 @@
         </Setter>
     </Style>
 
+    <Style x:Key="CanvasTextBoxToggleButtonStyle"
+           TargetType="ToggleButton">
+        <Setter Property="Width" Value="48" />
+        <Setter Property="Height" Value="48" />
+        <Setter Property="Background" Value="#FFE6E6E6" />
+    </Style>
+    <Style x:Key="CanvasTextBoxButtonStyle"
+           TargetType="Button">
+        <Setter Property="Width" Value="48" />
+        <Setter Property="Height" Value="48" />
+        <Setter Property="Background" Value="#FFE6E6E6" />
+    </Style>
+
     <Style x:Key="InfiniteCanvasTextBoxStyle"
            TargetType="TextBox">
         <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}" />
@@ -137,13 +183,13 @@
                                       Padding="{TemplateBinding Padding}"
                                       AutomationProperties.AccessibilityView="Raw"
                                       HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                      HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                      HorizontalScrollMode="Disabled"
                                       IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
                                       IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
                                       IsTabStop="False"
                                       IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
                                       VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                                      VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                      VerticalScrollMode="Disabled"
                                       ZoomMode="Disabled" />
                         <ContentControl x:Name="PlaceholderTextContentPresenter"
                                         Grid.ColumnSpan="2"
@@ -155,21 +201,6 @@
                                         IsTabStop="False" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Disabled">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement"
-                                                                       Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="Transparent" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter"
-                                                                       Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="Transparent" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Normal" />
                                 <VisualState x:Name="Focused">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter"

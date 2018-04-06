@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             OutputGrid = (Canvas)GetTemplateChild("OutputGrid");
 
             inkScrollViewer = (ScrollViewer)GetTemplateChild("inkScrollViewer");
-            var eraseAllButton = (InkToolbarCustomToolButton)GetTemplateChild("EraseAllButton");
+            var eraseAllButton = (Button)GetTemplateChild("EraseAllButton");
 
             _canvasTextBox = (InfiniteCanvasTextBox)GetTemplateChild("CanvasTextBox");
 
@@ -86,7 +86,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _enableTextButton.Checked += _enableTextButton_Checked;
             _enableTextButton.Unchecked += _enableTextButton_Unchecked;
             eraseAllButton.Click += EraseAllButton_Click;
-
             canToolBar = (InkToolbar)GetTemplateChild("canToolBar");
 
             _inkCanvas = (InkCanvas)GetTemplateChild("inkCanvas");

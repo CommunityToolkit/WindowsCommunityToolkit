@@ -101,33 +101,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             //this.moveSurfaceUpDownExpressionAnimation = this.compositor.CreateExpressionAnimation("-tracker.Position.Y");
             //this.moveSurfaceUpDownExpressionAnimation.SetReferenceParameter("tracker", this.tracker);
 
-            this.scaleSurfaceUpDownExpressionAnimation = this.compositor.CreateExpressionAnimation("tracker.Scale");
-            this.scaleSurfaceUpDownExpressionAnimation.SetReferenceParameter("tracker", this.tracker);
+            //this.scaleSurfaceUpDownExpressionAnimation = this.compositor.CreateExpressionAnimation("tracker.Scale");
+            //this.scaleSurfaceUpDownExpressionAnimation.SetReferenceParameter("tracker", this.tracker);
 
-            this.tracker.MinPosition = new Vector3(0, 0, 0);
-            //TODO: use same consts as tilemanager object
-            this.tracker.MaxPosition = new Vector3(InfiniteCanvas.LargeCanvasWidthHeight, InfiniteCanvas.LargeCanvasWidthHeight, 0);
+            //this.tracker.MinPosition = new Vector3(0, 0, 0);
+            
+            //this.tracker.MaxPosition = new Vector3(InfiniteCanvas.LargeCanvasWidthHeight, InfiniteCanvas.LargeCanvasWidthHeight, 0);
 
-            this.tracker.MinScale = .25f;
-            this.tracker.MaxScale = 4f;
+            //this.tracker.MinScale = .25f;
+            //this.tracker.MaxScale = 4f;
         }
 
         private void startAnimation(CompositionSurfaceBrush brush, float scale = 1f)
         {
-            animatingPropset = compositor.CreatePropertySet();
-            //animatingPropset.InsertScalar("xcoord", 1.0f);
-            //animatingPropset.StartAnimation("xcoord", moveSurfaceExpressionAnimation);
+            //animatingPropset = compositor.CreatePropertySet();
+            ////animatingPropset.InsertScalar("xcoord", 1.0f);
+            ////animatingPropset.StartAnimation("xcoord", moveSurfaceExpressionAnimation);
 
-            //animatingPropset.InsertScalar("ycoord", 1.0f);
-            //animatingPropset.StartAnimation("ycoord", moveSurfaceUpDownExpressionAnimation);
+            ////animatingPropset.InsertScalar("ycoord", 1.0f);
+            ////animatingPropset.StartAnimation("ycoord", moveSurfaceUpDownExpressionAnimation);
 
-            animatingPropset.InsertScalar("scale", scale);
-            animatingPropset.StartAnimation("scale", scaleSurfaceUpDownExpressionAnimation);
+            //animatingPropset.InsertScalar("scale", scale);
+            //animatingPropset.StartAnimation("scale", scaleSurfaceUpDownExpressionAnimation);
 
-            animateMatrix = compositor.CreateExpressionAnimation("Matrix3x2(props.scale, 0.0, 0.0, props.scale, 1.0, 1.0)");
-            animateMatrix.SetReferenceParameter("props", animatingPropset);
+            //animateMatrix = compositor.CreateExpressionAnimation("Matrix3x2(props.scale, 0.0, 0.0, props.scale, 1.0, 1.0)");
+            //animateMatrix.SetReferenceParameter("props", animatingPropset);
 
-            brush.StartAnimation(nameof(brush.TransformMatrix), animateMatrix);
+            //brush.StartAnimation(nameof(brush.TransformMatrix), animateMatrix);
         }
 
         public void Trim(Rect trimRect)
