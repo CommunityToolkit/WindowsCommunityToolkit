@@ -42,14 +42,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             InitializeComposition();
             ConfigureSpriteVisual();
-            ConfigureInteraction();
-            startAnimation(surfaceBrush);
-            this.SizeChanged += TheSurface_SizeChanged;
-        }
-
-        private void TheSurface_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            myDrawingVisual.Size = new Vector2((float)ActualWidth, (float)ActualHeight);
         }
 
         public void InitializeComposition()
@@ -78,68 +70,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.surfaceBrush.Stretch = CompositionStretch.None;
             this.surfaceBrush.HorizontalAlignmentRatio = 0;
             this.surfaceBrush.VerticalAlignmentRatio = 0;
-            this.surfaceBrush.TransformMatrix = Matrix3x2.CreateTranslation(20.0f, 20.0f);
+            this.surfaceBrush.TransformMatrix = Matrix3x2.CreateTranslation(0, 0);
 
             this.myDrawingVisual.Brush = surfaceBrush;
             this.surfaceBrush.Offset = new Vector2(0, 0);
-        }
-
-        public void ConfigureInteraction()
-        {
-            this.interactionSource = VisualInteractionSource.Create(myDrawingVisual);
-            //this.interactionSource.PositionXSourceMode = InteractionSourceMode.EnabledWithInertia;
-            //this.interactionSource.PositionYSourceMode = InteractionSourceMode.EnabledWithInertia;
-
-            this.interactionSource.ScaleSourceMode = InteractionSourceMode.EnabledWithInertia;
-
-            this.tracker = InteractionTracker.Create(this.compositor);
-            this.tracker.InteractionSources.Add(this.interactionSource);
-
-            //this.moveSurfaceExpressionAnimation = this.compositor.CreateExpressionAnimation("-tracker.Position.X");
-            //this.moveSurfaceExpressionAnimation.SetReferenceParameter("tracker", this.tracker);
-
-            //this.moveSurfaceUpDownExpressionAnimation = this.compositor.CreateExpressionAnimation("-tracker.Position.Y");
-            //this.moveSurfaceUpDownExpressionAnimation.SetReferenceParameter("tracker", this.tracker);
-
-            //this.scaleSurfaceUpDownExpressionAnimation = this.compositor.CreateExpressionAnimation("tracker.Scale");
-            //this.scaleSurfaceUpDownExpressionAnimation.SetReferenceParameter("tracker", this.tracker);
-
-            //this.tracker.MinPosition = new Vector3(0, 0, 0);
-            
-            //this.tracker.MaxPosition = new Vector3(InfiniteCanvas.LargeCanvasWidthHeight, InfiniteCanvas.LargeCanvasWidthHeight, 0);
-
-            //this.tracker.MinScale = .25f;
-            //this.tracker.MaxScale = 4f;
-        }
-
-        private void startAnimation(CompositionSurfaceBrush brush, float scale = 1f)
-        {
-            //animatingPropset = compositor.CreatePropertySet();
-            ////animatingPropset.InsertScalar("xcoord", 1.0f);
-            ////animatingPropset.StartAnimation("xcoord", moveSurfaceExpressionAnimation);
-
-            ////animatingPropset.InsertScalar("ycoord", 1.0f);
-            ////animatingPropset.StartAnimation("ycoord", moveSurfaceUpDownExpressionAnimation);
-
-            //animatingPropset.InsertScalar("scale", scale);
-            //animatingPropset.StartAnimation("scale", scaleSurfaceUpDownExpressionAnimation);
-
-            //animateMatrix = compositor.CreateExpressionAnimation("Matrix3x2(props.scale, 0.0, 0.0, props.scale, 1.0, 1.0)");
-            //animateMatrix.SetReferenceParameter("props", animatingPropset);
-
-            //brush.StartAnimation(nameof(brush.TransformMatrix), animateMatrix);
-        }
-
-        public void Trim(Rect trimRect)
-        {
-            drawingSurface.Trim(new RectInt32[] { new RectInt32 { X = (int)trimRect.X, Y = (int)trimRect.Y, Width = (int)trimRect.Width, Height = (int)trimRect.Height } });
-        }
-
-        List<IReadOnlyList<InkStroke>> list = new List<IReadOnlyList<InkStroke>>();
-
-        public void UpdateZoomFactor(float zoomFactor)
-        {
-            startAnimation(surfaceBrush, zoomFactor);
+            myDrawingVisual.Size = new Vector2((float)ActualWidth, (float)ActualHeight);
         }
 
         public Color Background { get; set; } = Colors.White;

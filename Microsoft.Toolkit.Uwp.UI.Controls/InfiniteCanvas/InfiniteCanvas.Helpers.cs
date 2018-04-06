@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal static InkPoint MapPointToToSessionBounds(InkPoint point, Rect sessionBounds)
         {
-            const int margin = 20;
+            const int margin = 0;
             return new InkPoint(new Point(point.Position.X - sessionBounds.X - margin, point.Position.Y - sessionBounds.Y - margin), point.Pressure, point.TiltX, point.TiltY, point.Timestamp);
         }
     }

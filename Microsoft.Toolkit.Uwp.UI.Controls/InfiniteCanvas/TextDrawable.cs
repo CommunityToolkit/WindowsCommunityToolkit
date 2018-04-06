@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public bool IsBold { get; set; }
         public bool IsItalic { get; set; }
 
-        public TextDrawable(double top, double left, float fontSize, double height, double width, string text, Color textColor, bool isBold, bool isItalic)
+        public TextDrawable(double left, double top, double width, double height, float fontSize, string text, Color textColor, bool isBold, bool isItalic)
         {
             Bounds = new Rect(left, top, width, height);
             Text = text;

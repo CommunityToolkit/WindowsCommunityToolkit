@@ -158,7 +158,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         private TextDrawable _selectedTextDrawable;
-        const float diffMargin = 20;
 
         private void _canvasTextBox_TextChanged(object sender, string text)
         {
@@ -184,10 +183,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _selectedTextDrawable = new TextDrawable(
-                _lastInputPoint.Y - (diffMargin), _lastInputPoint.X - (TextFontSize),
-                TextFontSize,
-                _canvasTextBox.GetEditZoneHeight(),
+                _lastInputPoint.X, _lastInputPoint.Y,
                 _canvasTextBox.GetEditZoneWidth(),
+                _canvasTextBox.GetEditZoneHeight(),
+                TextFontSize,
                 text,
                 _canvasTextBoxColorPicker.Color,
                 _canvasTextBoxBoldButton.IsChecked ?? false,
@@ -214,9 +213,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _canvasTextBox.SetText(currentTextDrawable.Text);
 
                     // ToDO create a cahced value for fontsize/2
-                    Canvas.SetLeft(_canvasTextBox, currentTextDrawable.Bounds.X - TextFontSize);
-
-                    Canvas.SetTop(_canvasTextBox, currentTextDrawable.Bounds.Y - TextFontSize);
+                    Canvas.SetLeft(_canvasTextBox, currentTextDrawable.Bounds.X);
+                    Canvas.SetTop(_canvasTextBox, currentTextDrawable.Bounds.Y);
                     _selectedTextDrawable = currentTextDrawable;
                     _canvasTextBoxColorPicker.Color = currentTextDrawable.TextColor;
                     _canvasTextBox.UpdateFontSize(currentTextDrawable.FontSize);
@@ -227,8 +225,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _inkCanvas.Visibility = Visibility.Collapsed;
                 ClearTextBoxValue();
                 _canvasTextBox.Visibility = Visibility.Visible;
-                Canvas.SetLeft(_canvasTextBox, _lastInputPoint.X - (TextFontSize / 2));
-                Canvas.SetTop(_canvasTextBox, _lastInputPoint.Y - 2);
+                Canvas.SetLeft(_canvasTextBox, _lastInputPoint.X);
+                Canvas.SetTop(_canvasTextBox, _lastInputPoint.Y);
             }
         }
 
@@ -327,7 +325,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!e.IsIntermediate)
             {
                 ClearTextBoxValue();
-                _canvasOne.UpdateZoomFactor(inkScrollViewer.ZoomFactor);
                 ReDrawCanvas();
             }
         }
