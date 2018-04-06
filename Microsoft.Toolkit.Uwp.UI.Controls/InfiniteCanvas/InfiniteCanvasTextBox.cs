@@ -81,5 +81,49 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _editZone.FontSize = textFontSize;
             }
         }
+
+        public bool CannotGoRight()
+        {
+            return _editZone.SelectionStart == _editZone.Text.Length;
+        }
+
+        public bool CannotGoLeft()
+        {
+            return _editZone.SelectionStart == 0;
+        }
+
+        public bool CannotGoUp()
+        {
+            var lines = _editZone.Text.Split('\r');
+            if (lines.Count() == 1)
+            {
+                return true;
+            }
+
+            var firstLine = lines.First();
+            if (firstLine.Length >= _editZone.SelectionStart)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool CannotGoDown()
+        {
+            var lines = _editZone.Text.Split('\r');
+            if (lines.Count() == 1)
+            {
+                return true;
+            }
+
+            var lastLine = lines.ElementAt(lines.Length - 1);
+            if ((_editZone.Text.Length - lastLine.Length) <= _editZone.SelectionStart)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

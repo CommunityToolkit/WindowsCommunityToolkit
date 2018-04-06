@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI;
 using Microsoft.Graphics.Canvas;
 using Windows.UI.Core;
@@ -90,10 +91,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _inkCanvas = (InkCanvas)GetTemplateChild("inkCanvas");
             inkScrollViewer.PointerPressed += InkScrollViewer_PointerPressed;
+            inkScrollViewer.PreviewKeyDown += InkScrollViewer_PreviewKeyDown;
             _canvasTextBox.TextChanged += _canvasTextBox_TextChanged;
 
             MainPage_Loaded();
             base.OnApplyTemplate();
+        }
+
+        private void InkScrollViewer_PreviewKeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            // fixing scroll viewer issue with text box when you hit UP/DOWN/Right/LEFT
+            if (_canvasTextBox.Visibility != Visibility.Visible)
+            {
+                return;
+            }
+
+            if (((e.Key == VirtualKey.PageUp || e.Key == VirtualKey.Up) && _canvasTextBox.CannotGoUp()) || ((e.Key == VirtualKey.PageDown || e.Key == VirtualKey.Down) && _canvasTextBox.CannotGoDown()))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            if (((e.Key == VirtualKey.Right || e.Key == VirtualKey.End) && _canvasTextBox.CannotGoRight())
+                || ((e.Key == VirtualKey.Left || e.Key == VirtualKey.Home) && _canvasTextBox.CannotGoLeft()))
+            {
+                e.Handled = true;
+            }
         }
 
         private void _canvasTextBoxBoldButton_Checked(object sender, RoutedEventArgs e)
@@ -114,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        public int TextFontSize => int.Parse(_canvasTextBoxFontSizeTextBox.Text);
+        public int TextFontSize => string.IsNullOrWhiteSpace(_canvasTextBoxFontSizeTextBox.Text) ? 22 : int.Parse(_canvasTextBoxFontSizeTextBox.Text);
 
         private void _canvasTextBoxFontSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -175,6 +198,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasOne.ReDraw(ViewPort);
         }
 
+        private void InkScrollViewer_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (_enableTextButton.IsChecked ?? false)
+            {
+
+                var point = e.GetCurrentPoint(inkScrollViewer);
+                _lastInputPoint = new Point((point.Position.X + inkScrollViewer.HorizontalOffset) / inkScrollViewer.ZoomFactor, (point.Position.Y + inkScrollViewer.VerticalOffset) / inkScrollViewer.ZoomFactor);
+
+                var currentTextDrawable = _canvasOne.GetEditableTextDrawable(_lastInputPoint, ViewPort);
+
+
+                if (currentTextDrawable != null)
+                {
+                    _canvasTextBox.Visibility = Visibility.Visible;
+                    _canvasTextBox.SetText(currentTextDrawable.Text);
+
+                    // ToDO create a cahced value for fontsize/2
+                    Canvas.SetLeft(_canvasTextBox, currentTextDrawable.Bounds.X - (TextFontSize / 2));
+
+                    Canvas.SetTop(_canvasTextBox, currentTextDrawable.Bounds.Y - 2);
+                    _selectedTextDrawable = currentTextDrawable;
+                    _canvasTextBoxColorPicker.Color = currentTextDrawable.TextColor;
+
+                    return;
+                }
+
+                _inkCanvas.Visibility = Visibility.Collapsed;
+                ClearTextBoxValue();
+                _canvasTextBox.Visibility = Visibility.Visible;
+                Canvas.SetLeft(_canvasTextBox, _lastInputPoint.X - (TextFontSize / 2));
+                Canvas.SetTop(_canvasTextBox, _lastInputPoint.Y - 2);
+            }
+        }
+
         Point _lastInputPoint;
 
         private void DisableScrollView()
@@ -189,39 +246,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             inkScrollViewer.HorizontalScrollMode = ScrollMode.Enabled;
         }
 
-        private void InkScrollViewer_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (_enableTextButton.IsChecked ?? false)
-            {
 
-                var point = e.GetCurrentPoint(inkScrollViewer);
-                _lastInputPoint = new Point((point.Position.X + inkScrollViewer.HorizontalOffset) / inkScrollViewer.ZoomFactor, (point.Position.Y + inkScrollViewer.VerticalOffset) / inkScrollViewer.ZoomFactor);
-
-                var currentTextDrawable = _canvasOne.GetEditableTextDrawable(_lastInputPoint, ViewPort);
-
-                if (currentTextDrawable != null)
-                {
-                    _canvasTextBox.Visibility = Visibility.Visible;
-                    _canvasTextBox.SetText(currentTextDrawable.Text);
-
-                    // ToDO create a cahced value for fontsize/2
-                    Canvas.SetLeft(_canvasTextBox, currentTextDrawable.Bounds.X - (TextFontSize / 2));
-
-                    Canvas.SetTop(_canvasTextBox, currentTextDrawable.Bounds.Y - 2);
-                    _selectedTextDrawable = currentTextDrawable;
-                    _canvasTextBoxColorPicker.Color = currentTextDrawable.TextColor;
-                    DisableScrollView();
-                    return;
-                }
-
-                _inkCanvas.Visibility = Visibility.Collapsed;
-                DisableScrollView();
-                ClearTextBoxValue();
-                _canvasTextBox.Visibility = Visibility.Visible;
-                Canvas.SetLeft(_canvasTextBox, _lastInputPoint.X - (TextFontSize / 2));
-                Canvas.SetTop(_canvasTextBox, _lastInputPoint.Y - 2);
-            }
-        }
 
         private void _enableTextButton_Unchecked(object sender, RoutedEventArgs e)
         {
@@ -326,7 +351,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ClearTextBoxValue()
         {
-            EnableScrollView();
             _selectedTextDrawable = null;
             _canvasTextBox.Clear();
         }
