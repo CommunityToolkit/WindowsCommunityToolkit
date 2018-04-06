@@ -225,7 +225,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             for (var i = _visibleList.Count - 1; i >= 0; i--)
             {
-                var drawable = _drawableList[i];
+                var drawable = _visibleList[i];
                 Debug.WriteLine($"{drawable.Bounds.Contains(point)}, {drawable.Bounds}, {point}");
                 if (drawable is TextDrawable textDrawable && drawable.Bounds.Contains(point))
                 {
@@ -238,6 +238,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public void ClearAll(Rect viewPort)
         {
+            _visibleList.Clear();
             _drawableList.Clear();
             using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface, viewPort))
             {

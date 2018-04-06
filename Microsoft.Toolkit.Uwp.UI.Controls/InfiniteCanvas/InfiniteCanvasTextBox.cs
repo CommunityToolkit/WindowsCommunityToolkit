@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _editZone.SelectionStart = text.Length;
         }
 
-        public void UpdateFontSize(int textFontSize)
+        public void UpdateFontSize(float textFontSize)
         {
             FontSize = textFontSize;
 

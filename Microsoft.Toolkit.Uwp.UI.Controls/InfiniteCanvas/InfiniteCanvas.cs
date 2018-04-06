@@ -140,10 +140,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void _canvasTextBoxFontSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            _canvasTextBox.UpdateFontSize(TextFontSize);
             if (_selectedTextDrawable != null)
             {
                 _selectedTextDrawable.FontSize = TextFontSize;
-                _canvasTextBox.UpdateFontSize(TextFontSize);
                 ReDrawCanvas();
             }
         }
@@ -158,6 +158,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         private TextDrawable _selectedTextDrawable;
+        const float diffMargin = 20;
 
         private void _canvasTextBox_TextChanged(object sender, string text)
         {
@@ -172,19 +173,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _canvasOne.RemoveDrawable(_selectedTextDrawable);
                     _selectedTextDrawable = null;
-                    _canvasOne.ReDraw(ViewPort);
                 }
                 else
                 {
                     _selectedTextDrawable.Text = text;
                 }
 
-                _canvasOne.ReDraw(ViewPort);
+                ReDrawCanvas();
                 return;
             }
 
             _selectedTextDrawable = new TextDrawable(
-                _lastInputPoint.Y, _lastInputPoint.X,
+                _lastInputPoint.Y - (diffMargin), _lastInputPoint.X - (TextFontSize),
                 TextFontSize,
                 _canvasTextBox.GetEditZoneHeight(),
                 _canvasTextBox.GetEditZoneWidth(),
@@ -214,11 +214,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _canvasTextBox.SetText(currentTextDrawable.Text);
 
                     // ToDO create a cahced value for fontsize/2
-                    Canvas.SetLeft(_canvasTextBox, currentTextDrawable.Bounds.X - (TextFontSize / 2));
+                    Canvas.SetLeft(_canvasTextBox, currentTextDrawable.Bounds.X - TextFontSize);
 
-                    Canvas.SetTop(_canvasTextBox, currentTextDrawable.Bounds.Y - 2);
+                    Canvas.SetTop(_canvasTextBox, currentTextDrawable.Bounds.Y - TextFontSize);
                     _selectedTextDrawable = currentTextDrawable;
                     _canvasTextBoxColorPicker.Color = currentTextDrawable.TextColor;
+                    _canvasTextBox.UpdateFontSize(currentTextDrawable.FontSize);
 
                     return;
                 }
@@ -233,24 +234,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         Point _lastInputPoint;
 
-        private void DisableScrollView()
-        {
-            inkScrollViewer.VerticalScrollMode = ScrollMode.Disabled;
-            inkScrollViewer.HorizontalScrollMode = ScrollMode.Disabled;
-        }
-
-        private void EnableScrollView()
-        {
-            inkScrollViewer.VerticalScrollMode = ScrollMode.Enabled;
-            inkScrollViewer.HorizontalScrollMode = ScrollMode.Enabled;
-        }
-
-
-
         private void _enableTextButton_Unchecked(object sender, RoutedEventArgs e)
         {
             _canvasTextBox.Visibility = Visibility.Collapsed;
-            EnableScrollView();
             _inkCanvas.Visibility = Visibility.Visible;
             _canvasTextBoxTools.Visibility = Visibility.Collapsed;
         }
@@ -307,7 +293,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasOne.ReDraw(ViewPort);
         }
 
-
         private void UnprocessedInput_PointerMoved(InkUnprocessedInput sender, PointerEventArgs args)
         {
             if (canToolBar.ActiveTool == canToolBar.GetToolButton(InkToolbarTool.Eraser))
@@ -341,7 +326,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (!e.IsIntermediate)
             {
-                _canvasTextBox.Visibility = Visibility.Collapsed;
                 ClearTextBoxValue();
                 _canvasOne.UpdateZoomFactor(inkScrollViewer.ZoomFactor);
                 ReDrawCanvas();
