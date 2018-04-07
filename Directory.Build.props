@@ -18,7 +18,6 @@
 
     <IsDesignProject>$(MSBuildProjectName.Contains('.Design'))</IsDesignProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
-    <IsWinRTProject>$(MSBuildProjectName.Contains('WinRT'))</IsWinRTProject>
     <IsUwpProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Uwp'))</IsUwpProject>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
  
@@ -37,7 +36,7 @@
   </Choose>
 
   <Choose>
-    <When Condition="'$(IsUwpProject)' == 'true' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true' and '$(IsWinRTProject)' != 'true'">
+    <When Condition="'$(IsUwpProject)' == 'true' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true' ">
       <PropertyGroup>
         <GenerateLibraryLayout>true</GenerateLibraryLayout>
       </PropertyGroup>
@@ -49,7 +48,7 @@
   </Choose>
 
   <Choose>
-    <When Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true' and '$(IsWinRTProject)' != 'true'">
+    <When Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true' ">
       <ItemGroup>
         <PackageReference Include="SourceLink.Create.CommandLine" Version="2.2.0" PrivateAssets="All" />
       </ItemGroup>
