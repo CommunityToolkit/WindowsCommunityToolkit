@@ -127,6 +127,7 @@
     <Compile Include="Converters\Test_BoolToObjectConverter.cs" />
     <Compile Include="Converters\Test_EmptyCollectionToObjectConverter.cs" />
     <Compile Include="Converters\Test_EmptyStringToObjectConverter.cs" />
+    <Compile Include="Extensions\Test_ArrayExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\Test_BackgroundTaskHelper.cs" />
     <Compile Include="Helpers\Test_ColorHelper.cs" />
