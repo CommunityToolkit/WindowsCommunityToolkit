@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
@@ -79,6 +80,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_editZone != null)
             {
                 _editZone.FontSize = textFontSize;
+            }
+        }
+
+        public void UpdateFontStyle(bool isItalic)
+        {
+            if (_editZone != null)
+            {
+                _editZone.FontStyle = isItalic ? FontStyle.Italic : FontStyle.Normal;
+            }
+        }
+
+        public void UpdateFontWeight(bool isBold)
+        {
+            if (_editZone != null)
+            {
+                _editZone.FontWeight = isBold ? FontWeights.Bold : FontWeights.Normal;
             }
         }
 

@@ -17,6 +17,10 @@
                                         Orientation="Horizontal">
                                 <InkToolbar x:Name="canToolBar"
                                             TargetInkCanvas="{Binding ElementName=inkCanvas}">
+                                    <InkToolbarCustomToggleButton x:Name="EnableTouchInkingButton"
+                                                                  ToolTipService.ToolTip="Touck Inking">
+                                        <SymbolIcon Symbol="TouchPointer" />
+                                    </InkToolbarCustomToggleButton>
                                     <InkToolbarCustomToolButton x:Name="EnableTextButton"
                                                                 ToolTipService.ToolTip="Insert Text">
                                         <SymbolIcon Symbol="Font" />

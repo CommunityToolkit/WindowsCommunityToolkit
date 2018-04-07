@@ -24,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     public class VirtualDrawingSurface : Panel
     {
+        private const int DrawableNullIndex = -1;
         private Compositor compositor;
         private CanvasDevice win2dDevice;
         private CompositionGraphicsDevice comositionGraphicsDevice;
@@ -42,6 +43,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             InitializeComposition();
             ConfigureSpriteVisual();
+            SizeChanged += TheSurface_SizeChanged;
+        }
+
+        private void TheSurface_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            myDrawingVisual.Size = new Vector2((float)ActualWidth, (float)ActualHeight);
         }
 
         public void InitializeComposition()
@@ -74,7 +81,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             this.myDrawingVisual.Brush = surfaceBrush;
             this.surfaceBrush.Offset = new Vector2(0, 0);
-            myDrawingVisual.Size = new Vector2((float)ActualWidth, (float)ActualHeight);
         }
 
         public Color Background { get; set; } = Colors.White;
@@ -136,39 +142,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _drawableList.Add(inkDrawable);
         }
 
-        public void Erase(Point point, Rect viewPort)
+        public void Erase(Point point, Rect viewPort, float zoomFactor)
         {
+            const int tolerance = 5;
+            float toleranceWithZoom = tolerance;
+            if (zoomFactor > 1)
+            {
+                toleranceWithZoom /= zoomFactor;
+            }
+
             for (var i = _visibleList.Count - 1; i >= 0; i--)
             {
-                var drawable = _drawableList[i];
+                var drawable = _visibleList[i];
                 if (drawable is InkDrawable inkDrawable && drawable.Bounds.Contains(point))
                 {
                     foreach (var stroke in inkDrawable.Strokes)
                     {
+
                         if (stroke.BoundingRect.Contains(point))
                         {
-                            _drawableList.RemoveAt(i);
-                            ReDraw(viewPort);
+                            foreach (var inkPoint in stroke.GetInkPoints())
+                            {
+                                if (Math.Abs(point.X - inkPoint.Position.X) < toleranceWithZoom && Math.Abs(point.Y - inkPoint.Position.Y) < toleranceWithZoom)
+                                {
+                                    var toRemove = _visibleList.ElementAt(i);
+                                    _drawableList.Remove(toRemove);
+                                    ReDraw(viewPort);
+                                }
+                            }
+
                             return;
                         }
                     }
                 }
             }
-        }
-
-        internal TextDrawable GetEditableTextDrawable(Point point, Rect viewPort)
-        {
-            for (var i = _visibleList.Count - 1; i >= 0; i--)
-            {
-                var drawable = _visibleList[i];
-                Debug.WriteLine($"{drawable.Bounds.Contains(point)}, {drawable.Bounds}, {point}");
-                if (drawable is TextDrawable textDrawable && drawable.Bounds.Contains(point))
-                {
-                    return textDrawable;
-                }
-            }
-
-            return null;
         }
 
         public void ClearAll(Rect viewPort)
@@ -184,6 +191,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal void RemoveDrawable(IDrawable selectedTextDrawable)
         {
             _drawableList.Remove(selectedTextDrawable);
+        }
+
+        private int _selectedTextDrawableIndex = DrawableNullIndex;
+
+        internal void UpdateSelectedTextDrawableIfSelected(Point point, Rect viewPort)
+        {
+            for (var i = _visibleList.Count - 1; i >= 0; i--)
+            {
+                var drawable = _visibleList[i];
+                if (drawable is TextDrawable && drawable.Bounds.Contains(point))
+                {
+                    _selectedTextDrawableIndex = i;
+                    return;
+                }
+            }
+
+            _selectedTextDrawableIndex = DrawableNullIndex;
+        }
+
+        internal TextDrawable GetSelectedTextDrawable()
+        {
+            if (_selectedTextDrawableIndex == DrawableNullIndex)
+            {
+                return null;
+            }
+
+            return (TextDrawable)_visibleList.ElementAt(_selectedTextDrawableIndex);
+        }
+
+        internal void ResetSelectedTextDrawable()
+        {
+            _selectedTextDrawableIndex = DrawableNullIndex;
+        }
+
+        internal void UpdateSelectedTextDrawable()
+        {
+            _selectedTextDrawableIndex = _visibleList.Count - 1;
         }
     }
 }

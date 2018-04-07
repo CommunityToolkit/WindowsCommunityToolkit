@@ -10,25 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.System;
-using Windows.UI;
-using Microsoft.Graphics.Canvas;
 using Windows.UI.Core;
 using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Microsoft.Toolkit.Parsers.Markdown;
-using Microsoft.Toolkit.Parsers.Markdown.Blocks;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
-using Microsoft.Toolkit.Parsers.Markdown.Inlines;
-using Microsoft.Toolkit.Parsers.Markdown.Render;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -50,6 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         private InkToolbarCustomToolButton _enableTextButton;
+        private InkToolbarCustomToggleButton _enableTouchInkingButton;
         private InfiniteCanvasTextBox _canvasTextBox;
         private StackPanel _canvasTextBoxTools;
         private ColorPicker _canvasTextBoxColorPicker;
@@ -83,6 +73,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _enableTextButton = (InkToolbarCustomToolButton)GetTemplateChild("EnableTextButton");
 
+            _enableTouchInkingButton = (InkToolbarCustomToggleButton)GetTemplateChild("EnableTouchInkingButton");
+
+            _enableTouchInkingButton.Checked += _enableTouchInkingButton_Checked;
+            _enableTouchInkingButton.Unchecked += _enableTouchInkingButton_Unchecked;
+
             _enableTextButton.Checked += _enableTextButton_Checked;
             _enableTextButton.Unchecked += _enableTextButton_Unchecked;
             eraseAllButton.Click += EraseAllButton_Click;
@@ -97,140 +92,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-        private void InkScrollViewer_PreviewKeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void _enableTouchInkingButton_Unchecked(object sender, RoutedEventArgs e)
         {
-            // fixing scroll viewer issue with text box when you hit UP/DOWN/Right/LEFT
-            if (_canvasTextBox.Visibility != Visibility.Visible)
-            {
-                return;
-            }
-
-            if (((e.Key == VirtualKey.PageUp || e.Key == VirtualKey.Up) && _canvasTextBox.CannotGoUp()) || ((e.Key == VirtualKey.PageDown || e.Key == VirtualKey.Down) && _canvasTextBox.CannotGoDown()))
-            {
-                e.Handled = true;
-                return;
-            }
-
-            if (((e.Key == VirtualKey.Right || e.Key == VirtualKey.End) && _canvasTextBox.CannotGoRight())
-                || ((e.Key == VirtualKey.Left || e.Key == VirtualKey.Home) && _canvasTextBox.CannotGoLeft()))
-            {
-                e.Handled = true;
-            }
+            _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen;
         }
 
-        private void _canvasTextBoxBoldButton_Checked(object sender, RoutedEventArgs e)
+        private void _enableTouchInkingButton_Checked(object sender, RoutedEventArgs e)
         {
-            if (_selectedTextDrawable != null)
-            {
-                _selectedTextDrawable.IsBold = _canvasTextBoxBoldButton.IsChecked ?? false;
-                ReDrawCanvas();
-            }
+            _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen | CoreInputDeviceTypes.Touch;
         }
-
-        private void _canvasTextBoxItlaicButton_Checked(object sender, RoutedEventArgs e)
-        {
-            if (_selectedTextDrawable != null)
-            {
-                _selectedTextDrawable.IsItalic = _canvasTextBoxItlaicButton.IsChecked ?? false;
-                ReDrawCanvas();
-            }
-        }
-
-        public int TextFontSize => string.IsNullOrWhiteSpace(_canvasTextBoxFontSizeTextBox.Text) ? 22 : int.Parse(_canvasTextBoxFontSizeTextBox.Text);
-
-        private void _canvasTextBoxFontSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            _canvasTextBox.UpdateFontSize(TextFontSize);
-            if (_selectedTextDrawable != null)
-            {
-                _selectedTextDrawable.FontSize = TextFontSize;
-                ReDrawCanvas();
-            }
-        }
-
-        private void _canvasTextBoxColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
-        {
-            if (_selectedTextDrawable != null)
-            {
-                _selectedTextDrawable.TextColor = _canvasTextBoxColorPicker.Color;
-                ReDrawCanvas();
-            }
-        }
-
-        private TextDrawable _selectedTextDrawable;
-
-        private void _canvasTextBox_TextChanged(object sender, string text)
-        {
-            if (string.IsNullOrEmpty(text) && _selectedTextDrawable == null)
-            {
-                return;
-            }
-
-            if (_selectedTextDrawable != null)
-            {
-                if (string.IsNullOrEmpty(text))
-                {
-                    _canvasOne.RemoveDrawable(_selectedTextDrawable);
-                    _selectedTextDrawable = null;
-                }
-                else
-                {
-                    _selectedTextDrawable.Text = text;
-                }
-
-                ReDrawCanvas();
-                return;
-            }
-
-            _selectedTextDrawable = new TextDrawable(
-                _lastInputPoint.X, _lastInputPoint.Y,
-                _canvasTextBox.GetEditZoneWidth(),
-                _canvasTextBox.GetEditZoneHeight(),
-                TextFontSize,
-                text,
-                _canvasTextBoxColorPicker.Color,
-                _canvasTextBoxBoldButton.IsChecked ?? false,
-                _canvasTextBoxItlaicButton.IsChecked ?? false);
-
-            _canvasOne.AddDrawable(_selectedTextDrawable);
-            _canvasOne.ReDraw(ViewPort);
-        }
-
-        private void InkScrollViewer_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            if (_enableTextButton.IsChecked ?? false)
-            {
-
-                var point = e.GetCurrentPoint(inkScrollViewer);
-                _lastInputPoint = new Point((point.Position.X + inkScrollViewer.HorizontalOffset) / inkScrollViewer.ZoomFactor, (point.Position.Y + inkScrollViewer.VerticalOffset) / inkScrollViewer.ZoomFactor);
-
-                var currentTextDrawable = _canvasOne.GetEditableTextDrawable(_lastInputPoint, ViewPort);
-
-
-                if (currentTextDrawable != null)
-                {
-                    _canvasTextBox.Visibility = Visibility.Visible;
-                    _canvasTextBox.SetText(currentTextDrawable.Text);
-
-                    // ToDO create a cahced value for fontsize/2
-                    Canvas.SetLeft(_canvasTextBox, currentTextDrawable.Bounds.X);
-                    Canvas.SetTop(_canvasTextBox, currentTextDrawable.Bounds.Y);
-                    _selectedTextDrawable = currentTextDrawable;
-                    _canvasTextBoxColorPicker.Color = currentTextDrawable.TextColor;
-                    _canvasTextBox.UpdateFontSize(currentTextDrawable.FontSize);
-
-                    return;
-                }
-
-                _inkCanvas.Visibility = Visibility.Collapsed;
-                ClearTextBoxValue();
-                _canvasTextBox.Visibility = Visibility.Visible;
-                Canvas.SetLeft(_canvasTextBox, _lastInputPoint.X);
-                Canvas.SetTop(_canvasTextBox, _lastInputPoint.Y);
-            }
-        }
-
-        Point _lastInputPoint;
 
         private void _enableTextButton_Unchecked(object sender, RoutedEventArgs e)
         {
@@ -295,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (canToolBar.ActiveTool == canToolBar.GetToolButton(InkToolbarTool.Eraser))
             {
-                _canvasOne.Erase(args.CurrentPoint.Position, ViewPort);
+                _canvasOne.Erase(args.CurrentPoint.Position, ViewPort, inkScrollViewer.ZoomFactor);
             }
         }
 
@@ -327,12 +197,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ClearTextBoxValue();
                 ReDrawCanvas();
             }
-        }
-
-        private void ClearTextBoxValue()
-        {
-            _selectedTextDrawable = null;
-            _canvasTextBox.Clear();
         }
 
         private Rect ViewPort => new Rect(inkScrollViewer.HorizontalOffset / inkScrollViewer.ZoomFactor, inkScrollViewer.VerticalOffset / inkScrollViewer.ZoomFactor, inkScrollViewer.ViewportWidth / inkScrollViewer.ZoomFactor, inkScrollViewer.ViewportHeight / inkScrollViewer.ZoomFactor);

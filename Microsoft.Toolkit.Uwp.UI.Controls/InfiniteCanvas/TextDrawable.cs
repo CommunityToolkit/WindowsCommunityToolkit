@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.Graphics.Canvas;
+﻿using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
 using Windows.Foundation;
 using Windows.UI;
@@ -39,6 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public void Draw(CanvasDrawingSession drawingSession, Rect sessionBounds)
         {
+            const int verticalMargin = 3;
             CanvasTextFormat format = new CanvasTextFormat
             {
                 FontSize = FontSize,
@@ -49,7 +49,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             CanvasTextLayout textLayout = new CanvasTextLayout(drawingSession, Text, format, 0.0f, 0.0f);
 
-            drawingSession.DrawTextLayout(textLayout, (float)(Bounds.X - sessionBounds.X), (float)(Bounds.Y - sessionBounds.Y), TextColor);
+            drawingSession.DrawRectangle((float)(Bounds.X - sessionBounds.X + HorizontalMarginBasedOnFont),
+                (float)(Bounds.Y - sessionBounds.Y + verticalMargin), (float)Bounds.Width, (float)Bounds.Height, Colors.Green);
+
+            drawingSession.DrawTextLayout(textLayout, (float)(Bounds.X - sessionBounds.X + HorizontalMarginBasedOnFont), (float)(Bounds.Y - sessionBounds.Y + verticalMargin), TextColor);
+            
+        }
+
+        public void UpdateBounds(double actualWidth, double actualHeight)
+        {
+            Bounds = new Rect(Bounds.X, Bounds.Y, actualWidth, actualHeight);
+        }
+
+        public float HorizontalMarginBasedOnFont
+        {
+            get
+            {
+                if (FontSize > 100)
+                {
+                    return 5;
+                }
+
+                return ((100 - FontSize) / 10) + 5;
+            }
         }
     }
 }
