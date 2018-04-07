@@ -5,10 +5,6 @@
       xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       extensions:ApplicationViewExtensions.Title="View Extensions"
-      extensions:StatusBarExtensions.BackgroundColor="Blue"
-      extensions:StatusBarExtensions.BackgroundOpacity="0.8"
-      extensions:StatusBarExtensions.ForegroundColor="White"
-      extensions:StatusBarExtensions.IsVisible="True"
       extensions:TitleBarExtensions.BackgroundColor="Blue"
       extensions:TitleBarExtensions.ForegroundColor="White"
       mc:Ignorable="d">

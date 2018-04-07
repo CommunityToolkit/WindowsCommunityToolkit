@@ -37,7 +37,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             base.OnNavigatedFrom(e);
 
             // Reset app back to normal.
-
             ApplicationViewExtensions.SetTitle(this, string.Empty);
 
             var lightGreyBrush = (Color)Application.Current.Resources["Grey-04"];

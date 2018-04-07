@@ -14,7 +14,6 @@
       xmlns:monaco="using:Monaco"
       xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
       xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-      extensions:StatusBar.IsVisible="False"
       extensions:TitleBar.BackgroundColor="{StaticResource Brand-Color}"
       extensions:TitleBar.ButtonBackgroundColor="{StaticResource Brand-Color}"
       extensions:TitleBar.ButtonForegroundColor="{StaticResource Grey-04}"
