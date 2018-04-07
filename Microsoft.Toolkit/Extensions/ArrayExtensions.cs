@@ -106,6 +106,17 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
+        /// Joins the array together in a simple string representation.
+        /// </summary>
+        /// <typeparam name="T">Type of array.</typeparam>
+        /// <param name="array">Extended type instance.</param>
+        /// <returns>String representation of array.</returns>
+        public static string ToArrayString<T>(this T[] array)
+        {
+            return "[" + string.Join(",\t", array) + "]";
+        }
+
+        /// <summary>
         /// Joins the multi-dimensional array together in a string representation.
         /// </summary>
         /// <typeparam name="T">Type of jagged array.</typeparam>
