@@ -7,10 +7,11 @@
     <Description>Generate tile, toast, and badge notifications for Windows 10 via code, with the help of IntelliSense, instead of directly using XML.
 Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is part of the UWP Community Toolkit. Supports C# and C++ UWP project types (see Microsoft.Toolkit.Uwp.Notifications.JavaScript for the JS version). Also works with C# portable class libraries and non-UWP C# projects like server projects.</Description>
     <PackageTags>notifications win10 windows 10 tile tiles toast toasts badge xml uwp c# csharp c++</PackageTags>
+    <NoWarn>$(NoWarn);NU1701</NoWarn>
   </PropertyGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'native' ">
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.8" />
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.8" NoWarn="NU1701" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'native' ">
@@ -28,9 +29,9 @@ Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is pa
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
     <OutputType>winmdobj</OutputType>
+    <DebugType>Full</DebugType>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <NugetTargetMoniker>UAP,Version=v10.0.16299</NugetTargetMoniker>
-    <DisableImplicitAssetTargetFallback>true</DisableImplicitAssetTargetFallback>
+    <NugetTargetMoniker>UAP,Version=v10.0.16299</NugetTargetMoniker>    
     <AssetTargetFallback>uap10.0.16299</AssetTargetFallback>
     <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
     <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == '' ">10.0.16299.0</TargetPlatformMinVersion>
