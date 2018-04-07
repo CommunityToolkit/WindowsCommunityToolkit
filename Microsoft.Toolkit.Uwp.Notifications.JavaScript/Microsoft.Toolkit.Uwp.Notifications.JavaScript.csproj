@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
@@ -14,7 +14,5 @@
     <None Include="Microsoft.Toolkit.Uwp.Notifications.JavaScript.targets" PackagePath="build\Windows" Pack="true" />
     <None Include="..\Microsoft.Toolkit.Uwp.Notifications\bin\$(Configuration)\native\*.*" PackagePath="lib\Windows" Pack="true" />
   </ItemGroup>
-
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
   
 </Project>
