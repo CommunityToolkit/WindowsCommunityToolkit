@@ -37,7 +37,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             base.OnNavigatedFrom(e);
 
             // Reset app back to normal.
-            StatusBarExtensions.SetIsVisible(this, false);
 
             ApplicationViewExtensions.SetTitle(this, string.Empty);
 

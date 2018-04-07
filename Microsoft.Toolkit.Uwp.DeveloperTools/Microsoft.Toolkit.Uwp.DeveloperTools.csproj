@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0</TargetFramework>
+    <TargetFramework>uap10.0.16299</TargetFramework>
     <Title>UWP Community Toolkit Developer Tools</Title>
     <Description>This library provides XAML user controls and services to help developer building their app. It is part of the UWP Community Toolkit.</Description>
     <PackageTags>UWP Toolkit Windows Controls XAML Developer Tools Accessibility</PackageTags>

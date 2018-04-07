@@ -23,6 +23,7 @@
  
     <DefaultTargetPlatformVersion>16299</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>14393</DefaultTargetPlatformMinVersion>
+
   </PropertyGroup>
 
   <Choose>
