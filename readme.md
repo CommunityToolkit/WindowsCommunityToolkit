@@ -41,9 +41,8 @@ Once you search you should see a list similar to the one below (versions may be 
 | Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app | 
 
 ## <a name="supported"></a> Supported SDKs
-* Anniversary Update (14393)
-* Creators Update (15063)
 * Fall Creators Update (16299)
+* 17133
 
 ## Features
 
@@ -169,6 +168,8 @@ For general questions and support, please use [Stack Overflow](https://stackover
 
 ## Contributing
 Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md).
+
+Note: Visual Studio 2017 15.6, or higher, is required to open and build this solution.
 
 ## Principles
  - Principle #1: The toolkit will be kept simple.
