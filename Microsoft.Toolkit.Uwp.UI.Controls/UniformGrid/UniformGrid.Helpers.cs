@@ -64,13 +64,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // returns the dimensions of the
         // grid we need to hold all elements.
         #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
-        internal (int rows, int columns) GetDimensions(ref IEnumerable<FrameworkElement> visible)
+        internal static (int rows, int columns) GetDimensions(ref IEnumerable<FrameworkElement> visible, int rows, int cols, int firstColumn) //// TODO: Switch to 'in' for C# 7.2
         #pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
         {
-            // Make copy of our properties as we don't want to modify.
-            int rows = Rows;
-            int cols = Columns;
-
             // If a dimension isn't specified, we need to figure out the other one (or both).
             if (rows == 0 || cols == 0)
             {
@@ -84,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (cols > 0)
                     {
                         // TODO: Handle RightToLeft?
-                        var first = Math.Min(FirstColumn, cols - 1); // Bound check
+                        var first = Math.Min(firstColumn, cols - 1); // Bound check
 
                         // If we have columns but no rows, calculate rows based on column offset and number of children.
                         rows = (count + first + (cols - 1)) / cols;
@@ -92,7 +88,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     // Otherwise, determine square layout if both are zero.
-                    rows = (int)Math.Ceiling(Math.Sqrt(count));
+                    var size = (int)Math.Ceiling(Math.Sqrt(count));
+
+                    // Figure out if firstColumn in bounds
+                    var first2 = Math.Min(firstColumn, size - 1); // Bound check
+
+                    rows = (int)Math.Ceiling(Math.Sqrt(count + first2));
                     return (rows, rows);
                 }
                 else if (cols == 0)
@@ -101,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     cols = (count + (rows - 1)) / rows;
 
                     // Now that we know a rough size of our shape, see if the FirstColumn effects that:
-                    var first = Math.Min(FirstColumn, cols - 1); // Bound check
+                    var first = Math.Min(firstColumn, cols - 1); // Bound check
 
                     cols = (count + first + (rows - 1)) / rows;
                 }

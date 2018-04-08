@@ -16,12 +16,14 @@ using Microsoft.Toolkit.Extensions;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// The UniformGrid control presents information within a Grid with even spacing.
     /// </summary>
+    [Bindable]
     public partial class UniformGrid : Grid
     {
         /// <summary>
@@ -34,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Get all Visible FrameworkElement Children
             var visible = Children.Where(item => item.Visibility != Visibility.Collapsed && item is FrameworkElement).Select(item => item as FrameworkElement);
 
-            var dim = GetDimensions(ref visible);
+            var dim = GetDimensions(ref visible, Rows, Columns, FirstColumn);
 
             // Mark existing dev-defined definitions so we don't erase them.
             foreach (var rd in RowDefinitions)

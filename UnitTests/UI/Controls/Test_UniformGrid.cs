@@ -10,15 +10,19 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Extensions;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppContainer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppContainer;
+using Windows.Foundation;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Markup;
 
 using Assert = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.Assert;
 
@@ -27,6 +31,78 @@ namespace UnitTests.UI.Controls
     [TestClass]
     public class Test_UniformGrid
     {
+        [TestCategory("UniformGrid")]
+        [UITestMethod]
+        public void Test_UniformGrid_GetDimensions_AllVisible()
+        {
+            var treeroot = XamlReader.Load(@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    <controls:UniformGrid x:Name=""UniformGrid"">
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border/>
+    </controls:UniformGrid>
+</Page>") as FrameworkElement;
+
+            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+
+            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+
+            Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
+
+            var children = grid.Children.Select(item => item as FrameworkElement);
+
+            Assert.AreEqual(8, grid.Children.Count());
+
+            var dimensions = UniformGrid.GetDimensions(ref children, 0, 0, 0);
+            
+            Assert.AreEqual(3, dimensions.rows);
+            Assert.AreEqual(3, dimensions.columns);
+        }
+
+        [TestCategory("UniformGrid")]
+        [UITestMethod]
+        public void Test_UniformGrid_GetDimensions_FirstColumn()
+        {
+            var treeroot = XamlReader.Load(@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    <controls:UniformGrid x:Name=""UniformGrid"">
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border/>
+    </controls:UniformGrid>
+</Page>") as FrameworkElement;
+
+            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+
+            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+
+            Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
+
+            var children = grid.Children.Select(item => item as FrameworkElement);
+
+            Assert.AreEqual(8, grid.Children.Count());
+
+            var dimensions = UniformGrid.GetDimensions(ref children, 0, 0, 2);
+
+            Assert.AreEqual(4, dimensions.rows);
+            Assert.AreEqual(4, dimensions.columns);
+        }
+
         [TestCategory("UniformGrid")]
         [UITestMethod]
         public void Test_UniformGrid_GetFreeSpots_Basic()
