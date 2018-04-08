@@ -90,6 +90,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         }
 
         /// <summary>
+        /// Gets the Current UI Theme.
+        /// </summary>
+        /// <returns>The Current UI Theme</returns>
+        public ElementTheme GetActualTheme()
+        {
+            var theme = _themeListener.CurrentTheme == ApplicationTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
+            if (RequestedTheme != ElementTheme.Default)
+            {
+                theme = RequestedTheme;
+            }
+
+            return theme;
+        }
+
+        /// <summary>
         /// Sets the Current UI Theme.
         /// </summary>
         /// <param name="theme">Theme to set</param>

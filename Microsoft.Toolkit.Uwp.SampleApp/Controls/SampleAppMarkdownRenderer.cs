@@ -165,8 +165,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                                 // Removes the identifier from the text
                                 textinline.Text = textinline.Text.Replace(identifier.Key, string.Empty);
 
-                                localforeground = style.LightForeground;
-                                localbackground = style.LightBackground;
+                                var theme = Shell.Current.GetActualTheme();
+                                if (theme == ElementTheme.Light)
+                                {
+                                    localforeground = style.LightForeground;
+                                    localbackground = style.LightBackground;
+                                }
+                                else
+                                {
+                                    localforeground = new SolidColorBrush(Colors.White);
+                                    localbackground = style.DarkBackground;
+                                }
                             }
                         }
                     }

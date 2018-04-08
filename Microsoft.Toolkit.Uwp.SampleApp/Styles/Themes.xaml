@@ -34,6 +34,8 @@
             <SolidColorBrush x:Key="Brush-Brand-Color"
                          Color="{StaticResource Brand-Color}" />
             <!-- UI Elements -->
+            <SolidColorBrush x:Key="SliderThumbBackground"
+                             Color="Black" />
             <SolidColorBrush x:Key="Brush-Grey-01"
                          Color="{ThemeResource Grey-01}" />
             <SolidColorBrush x:Key="Brush-Grey-02"
@@ -48,6 +50,8 @@
                          Color="{StaticResource White}" />
             <SolidColorBrush x:Key="Brush-Alt"
                           Color="Black" />
+            <SolidColorBrush x:Key="Brush-Sample-Background"
+                             Color="White" />
             <SolidColorBrush x:Key="Brush-Blue-01"
                          Color="{StaticResource Blue-01}" />
             <SolidColorBrush x:Key="Separator-01"
@@ -83,7 +87,7 @@
             <SolidColorBrush x:Key="Brush-SampleInfo-HeaderBacking"
                              Color="#11000000" />
             <SolidColorBrush x:Key="Brush-Sample-HeaderBacking"
-                             Color="#44FFFFFF" />
+                             Color="#11000000" />
             <SolidColorBrush x:Key="Brush-Sample-HostAcrylic"
                              Color="Transparent" />
             <SolidColorBrush x:Key="Brush-Sample-AppAcrylic"
@@ -106,6 +110,8 @@
             <SolidColorBrush x:Key="Brush-Brand-Color"
                          Color="White" />
             <!-- UI Elements -->
+            <SolidColorBrush x:Key="SliderThumbBackground"
+                             Color="White" />
             <SolidColorBrush x:Key="Brush-Grey-01"
                          Color="{ThemeResource Grey-01}" />
             <SolidColorBrush x:Key="Brush-Grey-02"
@@ -120,6 +126,8 @@
                          Color="{StaticResource Black}" />
             <SolidColorBrush x:Key="Brush-Alt"
                           Color="White" />
+            <SolidColorBrush x:Key="Brush-Sample-Background"
+                             Color="{ThemeResource Grey-05}" />
             <SolidColorBrush x:Key="Brush-Blue-01"
                          Color="{StaticResource Blue-01}" />
             <SolidColorBrush x:Key="Separator-01"

@@ -15,7 +15,7 @@
 
     <Grid>
         <Border x:Name="PlainBackground"
-                Background="{ThemeResource Brush-Grey-05}"
+                Background="{ThemeResource Brush-Sample-Background}"
                 Visibility="{x:Bind Not(UseBackground), Mode=OneWay}" />
 
         <Grid x:Name="RootGrid">
