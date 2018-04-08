@@ -4,7 +4,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal class InfiniteCanvasClearAllCommand : IInfiniteCanvasCommand
     {
-        private List<IDrawable> _drawableList;
+        private readonly List<IDrawable> _drawableList;
         private IDrawable[] _storeList;
 
         public InfiniteCanvasClearAllCommand(List<IDrawable> drawableList)

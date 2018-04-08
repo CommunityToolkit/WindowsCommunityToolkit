@@ -15,8 +15,8 @@
 
                             <StackPanel Grid.Row="0"
                                         Orientation="Horizontal">
-                                <InkToolbar x:Name="canToolBar"
-                                            TargetInkCanvas="{Binding ElementName=inkCanvas}">
+                                <InkToolbar x:Name="InkCanvasToolBar"
+                                            TargetInkCanvas="{Binding ElementName=DrawingInkCanvas}">
                                     <InkToolbarCustomToggleButton x:Name="EnableTouchInkingButton"
                                                                   ToolTipService.ToolTip="Touck Inking">
                                         <SymbolIcon Symbol="TouchPointer" />
@@ -113,7 +113,7 @@
                                                                                Width="Auto"
                                                                                Height="Auto" />
 
-                                    <InkCanvas x:Name="inkCanvas"
+                                    <InkCanvas x:Name="DrawingInkCanvas"
                                                Width="Auto"
                                                Height="Auto" />
 

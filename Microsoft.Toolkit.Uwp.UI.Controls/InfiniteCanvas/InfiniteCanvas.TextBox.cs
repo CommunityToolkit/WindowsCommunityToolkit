@@ -5,6 +5,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// InfiniteCanvas is an advanced control that supports Ink, Text, Format Text, Zoom in/out, Redo, Undo
+    /// </summary>
     public partial class InfiniteCanvas
     {
         private Point _lastInputPoint;
@@ -34,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void _canvasTextBoxBoldButton_Clicked(object sender, RoutedEventArgs e)
+        private void CanvasTextBoxBoldButton_Clicked(object sender, RoutedEventArgs e)
         {
             if (SelectedTextDrawable != null)
             {
@@ -44,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void _canvasTextBoxItlaicButton_Clicked(object sender, RoutedEventArgs e)
+        private void CanvasTextBoxItlaicButton_Clicked(object sender, RoutedEventArgs e)
         {
             if (SelectedTextDrawable != null)
             {
@@ -54,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void _canvasTextBoxFontSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void CanvasTextBoxFontSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             _canvasTextBox.UpdateFontSize(TextFontSize);
             if (SelectedTextDrawable != null)
@@ -64,12 +67,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void _canvasTextBox_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void CanvasTextBox_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             SelectedTextDrawable?.UpdateBounds(_canvasTextBox.ActualWidth, _canvasTextBox.ActualHeight);
         }
 
-        private void _canvasTextBoxColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+        private void CanvasTextBoxColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
         {
             if (SelectedTextDrawable != null)
             {
@@ -78,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void _canvasTextBox_TextChanged(object sender, string text)
+        private void CanvasTextBox_TextChanged(object sender, string text)
         {
             if (string.IsNullOrEmpty(text) && SelectedTextDrawable == null)
             {

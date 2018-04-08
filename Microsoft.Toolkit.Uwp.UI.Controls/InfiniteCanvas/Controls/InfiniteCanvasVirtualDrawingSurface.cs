@@ -1,35 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Numerics;
+﻿using System.Numerics;
 using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Graphics.Canvas.UI.Composition;
-using Windows.Foundation;
 using Windows.Graphics;
 using Windows.Graphics.DirectX;
 using Windows.UI;
 using Windows.UI.Composition;
-using Windows.UI.Composition.Interactions;
-using Windows.UI.Core;
-using Windows.UI.Input;
-using Windows.UI.Input.Inking;
-using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    public partial class InfiniteCanvasVirtualDrawingSurface : Panel
+    /// <summary>
+    /// The virtual Drawing surface renderer used to render the ink and text.
+    /// </summary>
+    internal partial class InfiniteCanvasVirtualDrawingSurface : Panel
     {
-        private Compositor compositor;
-        private CanvasDevice win2dDevice;
-        private CompositionGraphicsDevice comositionGraphicsDevice;
-        private SpriteVisual myDrawingVisual;
-        private CompositionVirtualDrawingSurface drawingSurface;
-        private CompositionSurfaceBrush surfaceBrush;
+        private Compositor _compositor;
+        private CanvasDevice _win2DDevice;
+        private CompositionGraphicsDevice _comositionGraphicsDevice;
+        private SpriteVisual _myDrawingVisual;
+        private CompositionVirtualDrawingSurface _drawingSurface;
+        private CompositionSurfaceBrush _surfaceBrush;
 
         public InfiniteCanvasVirtualDrawingSurface()
         {
@@ -40,16 +32,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void TheSurface_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            myDrawingVisual.Size = new Vector2((float)ActualWidth, (float)ActualHeight);
+            _myDrawingVisual.Size = new Vector2((float)ActualWidth, (float)ActualHeight);
         }
 
         public void InitializeComposition()
         {
-            compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-            win2dDevice = CanvasDevice.GetSharedDevice();
-            comositionGraphicsDevice = CanvasComposition.CreateCompositionGraphicsDevice(compositor, win2dDevice);
-            myDrawingVisual = compositor.CreateSpriteVisual();
-            ElementCompositionPreview.SetElementChildVisual(this, myDrawingVisual);
+            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            _win2DDevice = CanvasDevice.GetSharedDevice();
+            _comositionGraphicsDevice = CanvasComposition.CreateCompositionGraphicsDevice(_compositor, _win2DDevice);
+            _myDrawingVisual = _compositor.CreateSpriteVisual();
+            ElementCompositionPreview.SetElementChildVisual(this, _myDrawingVisual);
         }
 
         public void ConfigureSpriteVisual()
@@ -60,21 +52,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Width = (int)InfiniteCanvas.LargeCanvasWidthHeight
             };
 
-            this.drawingSurface = comositionGraphicsDevice.CreateVirtualDrawingSurface(
+            _drawingSurface = _comositionGraphicsDevice.CreateVirtualDrawingSurface(
                 size,
                 DirectXPixelFormat.B8G8R8A8UIntNormalized,
                 DirectXAlphaMode.Premultiplied);
 
-            this.surfaceBrush = compositor.CreateSurfaceBrush(drawingSurface);
-            this.surfaceBrush.Stretch = CompositionStretch.None;
-            this.surfaceBrush.HorizontalAlignmentRatio = 0;
-            this.surfaceBrush.VerticalAlignmentRatio = 0;
-            this.surfaceBrush.TransformMatrix = Matrix3x2.CreateTranslation(0, 0);
+            _surfaceBrush = _compositor.CreateSurfaceBrush(_drawingSurface);
+            _surfaceBrush.Stretch = CompositionStretch.None;
+            _surfaceBrush.HorizontalAlignmentRatio = 0;
+            _surfaceBrush.VerticalAlignmentRatio = 0;
+            _surfaceBrush.TransformMatrix = Matrix3x2.CreateTranslation(0, 0);
 
-            this.myDrawingVisual.Brush = surfaceBrush;
-            this.surfaceBrush.Offset = new Vector2(0, 0);
+            _myDrawingVisual.Brush = _surfaceBrush;
+            _surfaceBrush.Offset = new Vector2(0, 0);
         }
 
-        public Color Background { get; set; } = Colors.White;
+        public Color DrawingCanvasBackground { get; set; } = Colors.White;
     }
 }

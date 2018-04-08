@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Core;
@@ -22,7 +21,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Infinite Canvas
+    /// InfiniteCanvas is an advanced control that supports Ink, Text, Format Text, Zoom in/out, Redo, Undo
     /// </summary>
     public partial class InfiniteCanvas : Control
     {
@@ -40,6 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ToggleButton _canvasTextBoxBoldButton;
         private Button _undoButton;
         private Button _redoButton;
+        private Button _eraseAllButton;
 
         private InkToolbar _inkCanvasToolBar;
         private Canvas _mainContainer;
@@ -50,11 +50,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Rect ViewPort => new Rect(_infiniteCanvasScrollViewer.HorizontalOffset / _infiniteCanvasScrollViewer.ZoomFactor, _infiniteCanvasScrollViewer.VerticalOffset / _infiniteCanvasScrollViewer.ZoomFactor, _infiniteCanvasScrollViewer.ViewportWidth / _infiniteCanvasScrollViewer.ZoomFactor, _infiniteCanvasScrollViewer.ViewportHeight / _infiniteCanvasScrollViewer.ZoomFactor);
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InfiniteCanvas"/> class.
+        /// </summary>
         public InfiniteCanvas()
         {
-            this.DefaultStyleKey = typeof(InfiniteCanvas);
+            DefaultStyleKey = typeof(InfiniteCanvas);
         }
 
+        /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
             _canvasTextBoxTools = (StackPanel)GetTemplateChild("CanvasTextBoxTools");
@@ -62,51 +66,65 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasTextBoxFontSizeTextBox = (TextBox)GetTemplateChild("CanvasTextBoxFontSizeTextBox");
             _canvasTextBoxItlaicButton = (ToggleButton)GetTemplateChild("CanvasTextBoxItlaicButton");
             _canvasTextBoxBoldButton = (ToggleButton)GetTemplateChild("CanvasTextBoxBoldButton");
-
             _drawingSurfaceRenderer = (InfiniteCanvasVirtualDrawingSurface)GetTemplateChild("DrawingSurfaceRenderer");
             _mainContainer = (Canvas)GetTemplateChild("MainContainer");
-
             _infiniteCanvasScrollViewer = (ScrollViewer)GetTemplateChild("InfiniteCanvasScrollViewer");
-            var eraseAllButton = (Button)GetTemplateChild("EraseAllButton");
-
+            _eraseAllButton = (Button)GetTemplateChild("EraseAllButton");
             _canvasTextBox = (InfiniteCanvasTextBox)GetTemplateChild("CanvasTextBox");
-
             _enableTextButton = (InkToolbarCustomToolButton)GetTemplateChild("EnableTextButton");
-
             _enableTouchInkingButton = (InkToolbarCustomToggleButton)GetTemplateChild("EnableTouchInkingButton");
-
-            _inkCanvasToolBar = (InkToolbar)GetTemplateChild("canToolBar");
-
-            _inkCanvas = (InkCanvas)GetTemplateChild("inkCanvas");
-
+            _inkCanvasToolBar = (InkToolbar)GetTemplateChild("InkCanvasToolBar");
+            _inkCanvas = (InkCanvas)GetTemplateChild("DrawingInkCanvas");
             _undoButton = (Button)GetTemplateChild("UndoButton");
             _redoButton = (Button)GetTemplateChild("RedoButton");
 
-            _canvasTextBoxFontSizeTextBox.TextChanged += _canvasTextBoxFontSizeTextBox_TextChanged;
-            _canvasTextBoxItlaicButton.Click += _canvasTextBoxItlaicButton_Clicked;
-            _canvasTextBoxBoldButton.Click += _canvasTextBoxBoldButton_Clicked;
-
-            _canvasTextBoxColorPicker.ColorChanged += _canvasTextBoxColorPicker_ColorChanged;
-
-            _enableTouchInkingButton.Checked += _enableTouchInkingButton_Checked;
-            _enableTouchInkingButton.Unchecked += _enableTouchInkingButton_Unchecked;
-
-            _enableTextButton.Checked += _enableTextButton_Checked;
-            _enableTextButton.Unchecked += _enableTextButton_Unchecked;
-            eraseAllButton.Click += EraseAllButton_Click;
-
-            _infiniteCanvasScrollViewer.PointerPressed += InkScrollViewer_PointerPressed;
-            _infiniteCanvasScrollViewer.PreviewKeyDown += InkScrollViewer_PreviewKeyDown;
-            _canvasTextBox.TextChanged += _canvasTextBox_TextChanged;
-            _canvasTextBox.SizeChanged += _canvasTextBox_SizeChanged;
-            _undoButton.Click += _undoButton_Click;
-            _redoButton.Click += _redoButton_Click;
-
-            Unloaded += InfiniteCanvas_Unloaded;
-            Application.Current.LeavingBackground += Current_LeavingBackground;
+            UnRegisterEvents();
+            RegisterEvents();
 
             ConfigureControls();
             base.OnApplyTemplate();
+        }
+
+        private void UnRegisterEvents()
+        {
+            _canvasTextBoxFontSizeTextBox.TextChanged -= CanvasTextBoxFontSizeTextBox_TextChanged;
+            _canvasTextBoxItlaicButton.Click -= CanvasTextBoxItlaicButton_Clicked;
+            _canvasTextBoxBoldButton.Click -= CanvasTextBoxBoldButton_Clicked;
+            _canvasTextBoxColorPicker.ColorChanged -= CanvasTextBoxColorPicker_ColorChanged;
+            _enableTouchInkingButton.Checked -= EnableTouchInkingButton_Checked;
+            _enableTouchInkingButton.Unchecked -= EnableTouchInkingButton_Unchecked;
+            _enableTextButton.Checked -= EnableTextButton_Checked;
+            _enableTextButton.Unchecked -= EnableTextButton_Unchecked;
+            _eraseAllButton.Click -= EraseAllButton_Click;
+            _infiniteCanvasScrollViewer.PointerPressed -= InkScrollViewer_PointerPressed;
+            _infiniteCanvasScrollViewer.PreviewKeyDown -= InkScrollViewer_PreviewKeyDown;
+            _canvasTextBox.TextChanged -= CanvasTextBox_TextChanged;
+            _canvasTextBox.SizeChanged -= CanvasTextBox_SizeChanged;
+            _undoButton.Click -= UndoButton_Click;
+            _redoButton.Click -= RedoButton_Click;
+            Unloaded -= InfiniteCanvas_Unloaded;
+            Application.Current.LeavingBackground -= Current_LeavingBackground;
+        }
+
+        private void RegisterEvents()
+        {
+            _canvasTextBoxFontSizeTextBox.TextChanged += CanvasTextBoxFontSizeTextBox_TextChanged;
+            _canvasTextBoxItlaicButton.Click += CanvasTextBoxItlaicButton_Clicked;
+            _canvasTextBoxBoldButton.Click += CanvasTextBoxBoldButton_Clicked;
+            _canvasTextBoxColorPicker.ColorChanged += CanvasTextBoxColorPicker_ColorChanged;
+            _enableTouchInkingButton.Checked += EnableTouchInkingButton_Checked;
+            _enableTouchInkingButton.Unchecked += EnableTouchInkingButton_Unchecked;
+            _enableTextButton.Checked += EnableTextButton_Checked;
+            _enableTextButton.Unchecked += EnableTextButton_Unchecked;
+            _eraseAllButton.Click += EraseAllButton_Click;
+            _infiniteCanvasScrollViewer.PointerPressed += InkScrollViewer_PointerPressed;
+            _infiniteCanvasScrollViewer.PreviewKeyDown += InkScrollViewer_PreviewKeyDown;
+            _canvasTextBox.TextChanged += CanvasTextBox_TextChanged;
+            _canvasTextBox.SizeChanged += CanvasTextBox_SizeChanged;
+            _undoButton.Click += UndoButton_Click;
+            _redoButton.Click += RedoButton_Click;
+            Unloaded += InfiniteCanvas_Unloaded;
+            Application.Current.LeavingBackground += Current_LeavingBackground;
         }
 
         private void ConfigureControls()
@@ -114,10 +132,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen;
             _inkSync = _inkCanvas.InkPresenter.ActivateCustomDrying();
             _inkCanvas.InkPresenter.StrokesCollected += OnStrokesCollected;
+
+            _inkCanvas.InkPresenter.UnprocessedInput.PointerMoved -= UnprocessedInput_PointerMoved;
             _inkCanvas.InkPresenter.UnprocessedInput.PointerMoved += UnprocessedInput_PointerMoved;
 
             _infiniteCanvasScrollViewer.MaxZoomFactor = 4.0f;
             _infiniteCanvasScrollViewer.MinZoomFactor = 0.25f;
+
+            _infiniteCanvasScrollViewer.ViewChanged -= InkScrollViewer_ViewChanged;
+            _infiniteCanvasScrollViewer.SizeChanged -= InkScrollViewer_SizeChanged;
             _infiniteCanvasScrollViewer.ViewChanged += InkScrollViewer_ViewChanged;
             _infiniteCanvasScrollViewer.SizeChanged += InkScrollViewer_SizeChanged;
 
@@ -128,9 +151,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _drawingSurfaceRenderer.Width = LargeCanvasWidthHeight;
             _drawingSurfaceRenderer.Height = LargeCanvasWidthHeight;
 
-            Canvas.SetLeft(_canvasTextBox, 0);
-            Canvas.SetTop(_canvasTextBox, 0);
-
             _canvasTextBox.UpdateFontSize(TextFontSize);
         }
 
@@ -139,34 +159,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Application.Current.LeavingBackground -= Current_LeavingBackground;
         }
 
-        private void _redoButton_Click(object sender, RoutedEventArgs e)
+        private void RedoButton_Click(object sender, RoutedEventArgs e)
         {
             _drawingSurfaceRenderer.Redo(ViewPort);
         }
 
-        private void _undoButton_Click(object sender, RoutedEventArgs e)
+        private void UndoButton_Click(object sender, RoutedEventArgs e)
         {
             _drawingSurfaceRenderer.Undo(ViewPort);
         }
 
-        private void _enableTouchInkingButton_Unchecked(object sender, RoutedEventArgs e)
+        private void EnableTouchInkingButton_Unchecked(object sender, RoutedEventArgs e)
         {
             _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen;
         }
 
-        private void _enableTouchInkingButton_Checked(object sender, RoutedEventArgs e)
+        private void EnableTouchInkingButton_Checked(object sender, RoutedEventArgs e)
         {
             _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen | CoreInputDeviceTypes.Touch;
         }
 
-        private void _enableTextButton_Unchecked(object sender, RoutedEventArgs e)
+        private void EnableTextButton_Unchecked(object sender, RoutedEventArgs e)
         {
             _canvasTextBox.Visibility = Visibility.Collapsed;
             _inkCanvas.Visibility = Visibility.Visible;
             _canvasTextBoxTools.Visibility = Visibility.Collapsed;
         }
 
-        private void _enableTextButton_Checked(object sender, RoutedEventArgs e)
+        private void EnableTextButton_Checked(object sender, RoutedEventArgs e)
         {
             _inkCanvas.Visibility = Visibility.Collapsed;
             _canvasTextBoxTools.Visibility = Visibility.Visible;

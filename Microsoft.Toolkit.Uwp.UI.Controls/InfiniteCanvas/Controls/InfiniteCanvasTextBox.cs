@@ -1,27 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    public class InfiniteCanvasTextBox : Control
+    internal class InfiniteCanvasTextBox : Control
     {
         public event EventHandler<string> TextChanged;
 
         public InfiniteCanvasTextBox()
         {
-            this.DefaultStyleKey = typeof(InfiniteCanvasTextBox);
+            DefaultStyleKey = typeof(InfiniteCanvasTextBox);
         }
 
         private TextBox _editZone;
@@ -29,12 +20,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnApplyTemplate()
         {
             _editZone = (TextBox)GetTemplateChild("EditZone");
-            _editZone.TextChanged += _editZone_TextChanged;
+            _editZone.TextChanged += EditZone_TextChanged;
             _editZone.FontSize = FontSize;
             base.OnApplyTemplate();
         }
 
-        private void _editZone_TextChanged(object sender, RoutedEventArgs e)
+        private void EditZone_TextChanged(object sender, RoutedEventArgs e)
         {
             TextChanged?.Invoke(this, _editZone.Text);
         }
@@ -56,9 +47,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            _editZone.TextChanged -= _editZone_TextChanged;
+            _editZone.TextChanged -= EditZone_TextChanged;
             _editZone.Text = string.Empty;
-            _editZone.TextChanged += _editZone_TextChanged;
+            _editZone.TextChanged += EditZone_TextChanged;
         }
 
         public void SetText(string text)

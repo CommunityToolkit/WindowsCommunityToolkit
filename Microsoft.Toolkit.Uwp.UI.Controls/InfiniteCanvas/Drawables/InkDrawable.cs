@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Graphics.Canvas;
 using Windows.Foundation;
-using Windows.UI;
 using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
 
@@ -11,13 +10,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal class InkDrawable : IDrawable
     {
-        public readonly IReadOnlyList<InkStroke> Strokes;
+        public IReadOnlyList<InkStroke> Strokes { get; }
 
         public Rect Bounds { get; set; }
 
         public bool IsActive { get; set; }
 
-        private static InkStrokeBuilder _strokeBuilder = new InkStrokeBuilder();
+        private static readonly InkStrokeBuilder StrokeBuilder = new InkStrokeBuilder();
 
         public InkDrawable(IReadOnlyList<InkStroke> strokes)
         {
@@ -51,19 +50,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public void Draw(CanvasDrawingSession drawingSession, Rect sessionBounds)
         {
-            List<InkStroke> finalStrokeList = new List<InkStroke>(Strokes.Count);
+            var finalStrokeList = new List<InkStroke>(Strokes.Count);
 
-            foreach (InkStroke stroke in Strokes)
+            foreach (var stroke in Strokes)
             {
                 var points = stroke.GetInkPoints();
                 var finalPointList = new List<InkPoint>(points.Count);
-                foreach (InkPoint point in points)
+                foreach (var point in points)
                 {
                     finalPointList.Add(MapPointToToSessionBounds(point, sessionBounds));
                 }
 
-                _strokeBuilder.SetDefaultDrawingAttributes(stroke.DrawingAttributes);
-                var newStroke = _strokeBuilder.CreateStrokeFromInkPoints(finalPointList, stroke.PointTransform);
+                StrokeBuilder.SetDefaultDrawingAttributes(stroke.DrawingAttributes);
+                var newStroke = StrokeBuilder.CreateStrokeFromInkPoints(finalPointList, stroke.PointTransform);
                 finalStrokeList.Add(newStroke);
             }
 

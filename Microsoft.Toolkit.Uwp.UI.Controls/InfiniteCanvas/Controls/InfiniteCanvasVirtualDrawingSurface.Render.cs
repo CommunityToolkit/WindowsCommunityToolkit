@@ -7,7 +7,10 @@ using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    public partial class InfiniteCanvasVirtualDrawingSurface
+    /// <summary>
+    /// The virtual Drawing surface renderer used to render the ink and text.
+    /// </summary>
+    internal partial class InfiniteCanvasVirtualDrawingSurface
     {
         private readonly List<IDrawable> _visibleList = new List<IDrawable>();
         private readonly List<IDrawable> _drawableList = new List<IDrawable>();
@@ -45,9 +48,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 toDraw = viewPort;
             }
 
-            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface, toDraw))
+            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(_drawingSurface, toDraw))
             {
-                drawingSession.Clear(Background);
+                drawingSession.Clear(DrawingCanvasBackground);
                 foreach (var drawable in _visibleList)
                 {
                     drawable.Draw(drawingSession, toDraw);
@@ -60,9 +63,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _visibleList.Clear();
             ExecuteClearAll();
 
-            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface, viewPort))
+            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(_drawingSurface, viewPort))
             {
-                drawingSession.Clear(Background);
+                drawingSession.Clear(DrawingCanvasBackground);
             }
         }
     }

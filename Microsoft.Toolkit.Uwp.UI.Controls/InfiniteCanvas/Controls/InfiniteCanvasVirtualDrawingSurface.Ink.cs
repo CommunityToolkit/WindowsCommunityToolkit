@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    public partial class InfiniteCanvasVirtualDrawingSurface
+    /// <summary>
+    /// The virtual Drawing surface renderer used to render the ink and text.
+    /// </summary>
+    internal partial class InfiniteCanvasVirtualDrawingSurface
     {
         public void Erase(Point point, Rect viewPort, float zoomFactor)
         {
@@ -25,7 +25,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     foreach (var stroke in inkDrawable.Strokes)
                     {
-
                         if (stroke.BoundingRect.Contains(point))
                         {
                             foreach (var inkPoint in stroke.GetInkPoints())

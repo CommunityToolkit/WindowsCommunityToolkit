@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    public partial class InfiniteCanvasVirtualDrawingSurface
+    /// <summary>
+    /// The virtual Drawing surface renderer used to render the ink and text.
+    /// </summary>
+    internal partial class InfiniteCanvasVirtualDrawingSurface
     {
         private const int DrawableNullIndex = -1;
 

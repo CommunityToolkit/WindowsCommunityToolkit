@@ -5,7 +5,10 @@ using Windows.UI.Input.Inking;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    public partial class InfiniteCanvasVirtualDrawingSurface
+    /// <summary>
+    /// The virtual Drawing surface renderer used to render the ink and text.
+    /// </summary>
+    internal partial class InfiniteCanvasVirtualDrawingSurface
     {
         private readonly Stack<IInfiniteCanvasCommand> _undoCommands = new Stack<IInfiniteCanvasCommand>();
         private readonly Stack<IInfiniteCanvasCommand> _redoCommands = new Stack<IInfiniteCanvasCommand>();
