@@ -21,7 +21,6 @@ using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.System;
 using Windows.System.Profile;
 using Windows.UI.Core;
@@ -91,7 +90,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             this.InitializeComponent();
             Current = this;
+            Shell.Current.ThemeChanged += Current_ThemeChanged;
 
+            DocumentationTextblock.RequestedTheme = Shell.Current.GetCurrentTheme();
             DocumentationTextblock.SetRenderer<SampleAppMarkdownRenderer>();
 
             ProcessSampleEditorTime();
@@ -572,6 +573,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // Restart the State, full state changed things.
                 VisualStateManager.GoToState(this, NarrowState.Name, false);
             }
+        }
+
+        private void Current_ThemeChanged(object sender, ThemeChangedArgs e)
+        {
+            if (e.CustomSet)
+            {
+                DocumentationTextblock.RequestedTheme = e.Theme;
+            }
+        }
+
+        private void ThemePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Shell.Current.SetCurrentTheme((ElementTheme)ThemePicker.SelectedIndex);
         }
     }
 }

@@ -29,20 +29,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class MarkdownTextBlockPage : Page, IXamlRenderListener
     {
         private TextBox unformattedText;
+        private MarkdownTextBlock markdownText;
 
         public MarkdownTextBlockPage()
         {
             InitializeComponent();
+            Shell.Current.ThemeChanged += Current_ThemeChanged;
         }
 
         public void OnXamlRendered(FrameworkElement control)
         {
             unformattedText = control.FindChildByName("UnformattedText") as TextBox;
 
-            var markdownText = control.FindChildByName("MarkdownText") as MarkdownTextBlock;
+            markdownText = control.FindChildByName("MarkdownText") as MarkdownTextBlock;
 
             if (markdownText != null)
             {
+                markdownText.RequestedTheme = Shell.Current.GetCurrentTheme();
                 markdownText.LinkClicked += MarkdownText_LinkClicked;
                 markdownText.ImageClicked += MarkdownText_ImageClicked;
                 markdownText.CodeBlockResolving += MarkdownText_CodeBlockResolving;
@@ -50,6 +53,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             SetInitalText("Loading text...");
             LoadData();
+        }
+
+        private void Current_ThemeChanged(object sender, Models.ThemeChangedArgs e)
+        {
+            if (e.CustomSet)
+            {
+                markdownText.RequestedTheme = e.Theme;
+            }
         }
 
         private async void MarkdownText_ImageClicked(object sender, LinkClickedEventArgs e)

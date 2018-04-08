@@ -527,6 +527,7 @@
     <Compile Include="Models\LandingPageLink.cs" />
     <Compile Include="Models\PaneState.cs" />
     <Compile Include="Models\PropertyDescriptor\ThicknessPropertyOptions.cs" />
+    <Compile Include="Models\ThemeChangedArgs.cs" />
     <Compile Include="Pages\SampleController.xaml.cs">
       <DependentUpon>SampleController.xaml</DependentUpon>
     </Compile>

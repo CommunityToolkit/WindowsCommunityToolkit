@@ -66,11 +66,22 @@
 
                     <AppBarSeparator Margin="-10, 3, -10, 0" />
 
-                    <ToggleSwitch x:Name="BGSwitch"
-                        Margin="10,0,0,0"
+                    <!-- Sample Display properties -->
+                    <StackPanel Margin="10,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <!-- Disabled for Possible Future PR -->
+                        <ToggleSwitch x:Name="BGSwitch"
+                        Visibility="Collapsed"
                         OffContent="BG Image"
                         OnContent="BG Image"
                         IsOn="{x:Bind UseBackground, Mode=TwoWay}" />
+
+                        <TextBlock Text="Theme" VerticalAlignment="Center" Margin="0,0,10,0" />
+                        <ComboBox x:Name="ThemePicker" SelectedIndex="0" SelectionChanged="ThemePicker_SelectionChanged">
+                            <ComboBoxItem Content="System" />
+                            <ComboBoxItem Content="Light" />
+                            <ComboBoxItem Content="Dark" />
+                        </ComboBox>
+                    </StackPanel>
                 </StackPanel>
 
                 <AppBarButton x:Name="NarrowInfoButton"

@@ -16,8 +16,13 @@
                         <Grid x:Name="Container"
                                   Grid.RowSpan="2"
                                   Opacity="0" />
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <RichTextBlock Name="codeView" />
+                        <ScrollViewer
+                                          Grid.Row="0"
+                                          HorizontalScrollMode="Auto"
+                                          HorizontalScrollBarVisibility="Auto">
+                            <RichTextBlock Name="codeView"
+                                               FontFamily="Consolas"
+                                               Padding="10" />
                         </ScrollViewer>
                         <StackPanel Grid.Row="1"
                                         HorizontalAlignment="Center"

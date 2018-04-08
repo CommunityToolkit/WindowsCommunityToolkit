@@ -13,7 +13,6 @@
 using System;
 using ColorCode;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -23,7 +22,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
     public class CodeRenderer : Control
     {
-        private ThemeListener themeListener;
         private RichTextBlockFormatter _formatter;
         private RichTextBlock _codeView;
         private Button _printButton;
@@ -34,13 +32,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         private string _displayedText;
         private ILanguage _language;
         private bool _rendered;
+        private ElementTheme _theme;
 
         public CodeRenderer()
         {
             DefaultStyleKey = typeof(CodeRenderer);
-
-            themeListener = new ThemeListener();
-            themeListener.ThemeChanged += ThemeListener_ThemeChanged;
+            _theme = Shell.Current.GetCurrentTheme();
+            Shell.Current.ThemeChanged += Current_ThemeChanged;
         }
 
         /// <summary>
@@ -98,13 +96,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         private void RenderDocument()
         {
             _codeView?.Blocks?.Clear();
-            var theme = themeListener.CurrentTheme == ApplicationTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
-            if (RequestedTheme != ElementTheme.Default)
-            {
-                theme = RequestedTheme;
-            }
-
-            _formatter = new RichTextBlockFormatter(theme);
+            _formatter = new RichTextBlockFormatter(_theme);
             _formatter.FormatRichTextBlock(_displayedText, _language, _codeView);
             _rendered = true;
         }
@@ -170,8 +162,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             ReleasePrintHelper();
         }
 
-        private void ThemeListener_ThemeChanged(ThemeListener sender)
+        private void Current_ThemeChanged(object sender, Models.ThemeChangedArgs e)
         {
+            _theme = e.Theme;
             try
             {
                 _rendered = false;
