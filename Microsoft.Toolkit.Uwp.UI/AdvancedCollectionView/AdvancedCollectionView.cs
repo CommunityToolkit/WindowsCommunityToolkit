@@ -534,16 +534,19 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private void HandleFilterChanged()
         {
-            for (var index = 0; index < _view.Count; index++)
+            if (_filter != null)
             {
-                var item = _view.ElementAt(index);
-                if (_filter(item))
+                for (var index = 0; index < _view.Count; index++)
                 {
-                    continue;
-                }
+                    var item = _view.ElementAt(index);
+                    if (_filter(item))
+                    {
+                        continue;
+                    }
 
-                RemoveFromView(index, item);
-                index--;
+                    RemoveFromView(index, item);
+                    index--;
+                }
             }
 
             var viewHash = new HashSet<object>(_view);

@@ -14,7 +14,7 @@ namespace Tests
 {
     using System;
     using System.Diagnostics;
-    using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using UnitTests;
     using Microsoft.Toolkit.Uwp.Helpers;
 

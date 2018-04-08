@@ -61,7 +61,7 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ## Examples
 
-- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](AnimationSet.md) documentation for more information.
 
     **Sample Code**
 
