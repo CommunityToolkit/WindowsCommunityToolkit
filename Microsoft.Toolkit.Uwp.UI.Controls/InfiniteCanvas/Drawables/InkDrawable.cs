@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using Microsoft.Graphics.Canvas;
 using Windows.Foundation;
 using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
+using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal class InkDrawable : IDrawable
     {
-        public IReadOnlyList<InkStroke> Strokes { get; }
+        [JsonIgnore]
+        public IReadOnlyList<InkStroke> Strokes { get; set; }
 
         public Rect Bounds { get; set; }
 
         public bool IsActive { get; set; }
 
-        private static readonly InkStrokeBuilder StrokeBuilder = new InkStrokeBuilder();
+        internal static readonly InkStrokeBuilder StrokeBuilder = new InkStrokeBuilder();
 
         public InkDrawable(IReadOnlyList<InkStroke> strokes)
         {
@@ -72,6 +75,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static InkPoint MapPointToToSessionBounds(InkPoint point, Rect sessionBounds)
         {
             return new InkPoint(new Point(point.Position.X - sessionBounds.X, point.Position.Y - sessionBounds.Y), point.Pressure, point.TiltX, point.TiltY, point.Timestamp);
+        }
+
+        [OnSerializing]
+        internal void OnSerializingMethod(StreamingContext context)
+        {
+            Member2 = "This value went into the data file during serialization.";
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Input.Inking;
@@ -12,6 +13,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private readonly Stack<IInfiniteCanvasCommand> _undoCommands = new Stack<IInfiniteCanvasCommand>();
         private readonly Stack<IInfiniteCanvasCommand> _redoCommands = new Stack<IInfiniteCanvasCommand>();
+
+        public event EventHandler CommandExecuted;
 
         public void Undo(Rect viewPort)
         {
@@ -108,6 +111,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _undoCommands.Push(command);
             _redoCommands.Clear();
             command.Execute();
+
+            CommandExecuted?.Invoke(this, EventArgs.Empty);
         }
     }
 }

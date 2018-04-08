@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Core;
@@ -104,6 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _redoButton.Click -= RedoButton_Click;
             Unloaded -= InfiniteCanvas_Unloaded;
             Application.Current.LeavingBackground -= Current_LeavingBackground;
+            _drawingSurfaceRenderer.CommandExecuted -= DrawingSurfaceRenderer_CommandExecuted;
         }
 
         private void RegisterEvents()
@@ -125,6 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _redoButton.Click += RedoButton_Click;
             Unloaded += InfiniteCanvas_Unloaded;
             Application.Current.LeavingBackground += Current_LeavingBackground;
+            _drawingSurfaceRenderer.CommandExecuted += DrawingSurfaceRenderer_CommandExecuted;
         }
 
         private void ConfigureControls()
@@ -161,12 +164,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RedoButton_Click(object sender, RoutedEventArgs e)
         {
-            _drawingSurfaceRenderer.Redo(ViewPort);
+            Redo();
         }
 
         private void UndoButton_Click(object sender, RoutedEventArgs e)
         {
-            _drawingSurfaceRenderer.Undo(ViewPort);
+            Undo();
         }
 
         private void EnableTouchInkingButton_Unchecked(object sender, RoutedEventArgs e)
@@ -238,5 +241,49 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ReDrawCanvas();
             }
         }
+
+        private void DrawingSurfaceRenderer_CommandExecuted(object sender, EventArgs e)
+        {
+            ReRenderCompleted?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Redo the last action.
+        /// </summary>
+        public void Redo()
+        {
+            _drawingSurfaceRenderer.Redo(ViewPort);
+        }
+
+        /// <summary>
+        /// Undo the last action.
+        /// </summary>
+        public void Undo()
+        {
+            _drawingSurfaceRenderer.Undo(ViewPort);
+        }
+
+        /// <summary>
+        /// Export the InfinitCanvas as json string.
+        /// </summary>
+        /// <returns>json string</returns>
+        public string ExportAsJson()
+        {
+            return _drawingSurfaceRenderer.GetSerializedList();
+        }
+
+        /// <summary>
+        /// Import InfiniteCanvas from json string and render the new canvas, this function will empty the Redo/Undo queue.
+        /// </summary>
+        /// <param name="json">InfiniteCanvas json representation</param>
+        public void ImportFromJson(string json)
+        {
+            _drawingSurfaceRenderer.RenderFromJsonAndDraw(ViewPort, json);
+        }
+
+        /// <summary>
+        /// This event triggered after each render happended because of any change in the canvas elements.
+        /// </summary>
+        public event EventHandler ReRenderCompleted;
     }
 }

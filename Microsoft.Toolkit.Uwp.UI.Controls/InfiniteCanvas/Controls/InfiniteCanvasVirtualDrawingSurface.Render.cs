@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
+using Newtonsoft.Json;
 using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -67,6 +68,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 drawingSession.Clear(DrawingCanvasBackground);
             }
+        }
+
+        public string GetSerializedList()
+        {
+            return JsonConvert.SerializeObject(_drawableList, Formatting.Indented, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            });
+        }
+
+        public void RenderFromJsonAndDraw(Rect viewPort, string json)
+        {
+            _visibleList.Clear();
+            _drawableList.Clear();
+            _undoCommands.Clear();
+            _redoCommands.Clear();
+
+            var newList = JsonConvert.DeserializeObject<List<IDrawable>>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
+            foreach (var drawable in newList)
+            {
+                _drawableList.Add(drawable);
+            }
+
+            ReDraw(viewPort);
         }
     }
 }

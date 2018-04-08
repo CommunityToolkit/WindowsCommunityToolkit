@@ -1,17 +1,45 @@
-﻿using Windows.UI.Xaml.Controls;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+﻿using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// InfinteCanvas sample page.
     /// </summary>
-    public sealed partial class InfiniteCanvasPage : Page
+    public sealed partial class InfiniteCanvasPage : Page, IXamlRenderListener
     {
+        private const string InfiniteCanvasFileName = "infiniteCanvasFile.txt";
+        private InfiniteCanvas _infiniteCanvas;
+
         public InfiniteCanvasPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            _infiniteCanvas = control.FindChildByName("canvas") as InfiniteCanvas;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            Shell.Current.RegisterNewCommand("Export & Save", async (sender, args) =>
+            {
+                var json = _infiniteCanvas.ExportAsJson();
+                await StorageFileHelper.WriteTextToLocalFileAsync(json, InfiniteCanvasFileName, Windows.Storage.CreationCollisionOption.ReplaceExisting);
+            });
+
+            Shell.Current.RegisterNewCommand("Import and Load", async (sender, args) =>
+            {
+                var json = await StorageFileHelper.ReadTextFromLocalFileAsync(InfiniteCanvasFileName);
+                _infiniteCanvas.ImportFromJson(json);
+            });
         }
     }
 }

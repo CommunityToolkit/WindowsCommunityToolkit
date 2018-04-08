@@ -6,6 +6,6 @@
       mc:Ignorable="d">
 
   <Grid>
-    <controls:InfiniteCanvas/>
+    <controls:InfiniteCanvas Name="canvas"/>
   </Grid>
 </Page>

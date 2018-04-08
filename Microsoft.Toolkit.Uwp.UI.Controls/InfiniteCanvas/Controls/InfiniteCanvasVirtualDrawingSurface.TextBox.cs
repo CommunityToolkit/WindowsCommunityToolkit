@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             for (var i = _drawableList.Count - 1; i >= 0; i--)
             {
                 var drawable = _drawableList[i];
-                if (drawable is TextDrawable && drawable.Bounds.Contains(point))
+                if (drawable is TextDrawable && drawable.IsActive && drawable.Bounds.Contains(point))
                 {
                     _selectedTextDrawableIndex = i;
                     return;
