@@ -189,10 +189,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private bool IsSettingsItem(object menuItem)
         {
-            Dictionary<string, object> values = menuItem.GetType()
-                                                        .GetProperties()
-                                                        .ToDictionary(p => p.Name, p => p.GetValue(menuItem));
-
             return menuItem.GetType()
                            .GetProperties()
                            .Any(p => p.GetValue(menuItem).ToString().IndexOf("setting", StringComparison.OrdinalIgnoreCase) >= 0
