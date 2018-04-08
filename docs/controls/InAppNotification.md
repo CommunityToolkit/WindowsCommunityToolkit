@@ -93,7 +93,7 @@ You can change this behavior with one of these values:
 | -- | -- |
 | `Replace` | Default mode, replace previous notification |
 | `QueueBehind` | Store every notifications to show, when you dismiss a notification the remaining ones will be displayed successively |
-| `StackAbove` | Store every notifications to show, when you show a notification it will be displayed in priority (in the reverse order of `QueueBehind` mode) |
+| `StackInFront` | Store every notifications to show, when you show a notification it will be displayed in priority (in the reverse order of `QueueBehind` mode) |
 
 ## Events
 

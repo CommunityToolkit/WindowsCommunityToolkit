@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Opening a notification will display it immediately, remaining notifications will appear when a notification is dismissed
         /// </summary>
-        StackAbove,
+        StackInFront,
 
         /// <summary>
         /// Dismissing a notification will show the next one in the queue

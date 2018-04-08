@@ -259,7 +259,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _stackedNotificationOptions.Add(notificationOptions);
             }
 
-            if (StackMode == StackMode.StackAbove)
+            if (StackMode == StackMode.StackInFront)
             {
                 _stackedNotificationOptions.Insert(0, notificationOptions);
             }
