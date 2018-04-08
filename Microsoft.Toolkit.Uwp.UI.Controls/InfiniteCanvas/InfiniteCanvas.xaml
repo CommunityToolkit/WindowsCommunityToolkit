@@ -109,9 +109,9 @@
                                 <Canvas x:Name="OutputGrid"
                                         Background="Transparent">
 
-                                    <local:VirtualDrawingSurface x:Name="canvasOne"
-                                                                 Width="Auto"
-                                                                 Height="Auto" />
+                                    <local:InfiniteCanvasVirtualDrawingSurface x:Name="canvasOne"
+                                                                               Width="Auto"
+                                                                               Height="Auto" />
 
                                     <InkCanvas x:Name="inkCanvas"
                                                Width="Auto"

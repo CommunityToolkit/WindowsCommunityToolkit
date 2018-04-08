@@ -26,18 +26,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class InfiniteCanvas : Control
     {
-        InkCanvas _inkCanvas;
-        VirtualDrawingSurface _canvasOne;
-        IReadOnlyList<InkStroke> wetInkStrokes;
-        InkSynchronizer inkSync;
-
-        internal const float LargeCanvasWidthHeight = 1 << 21;
-
-        public InfiniteCanvas()
-        {
-            this.DefaultStyleKey = typeof(InfiniteCanvas);
-        }
-
+        private InkCanvas _inkCanvas;
+        private InfiniteCanvasVirtualDrawingSurface _drawingSurfaceRenderer;
+        private InkSynchronizer _inkSync;
         private InkToolbarCustomToolButton _enableTextButton;
         private InkToolbarCustomToggleButton _enableTouchInkingButton;
         private InfiniteCanvasTextBox _canvasTextBox;
@@ -47,26 +38,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private TextBox _canvasTextBoxFontSizeTextBox;
         private ToggleButton _canvasTextBoxItlaicButton;
         private ToggleButton _canvasTextBoxBoldButton;
+        private Button _undoButton;
+        private Button _redoButton;
+
+        private InkToolbar _inkCanvasToolBar;
+        private Canvas _mainContainer;
+        private ScrollViewer _infiniteCanvasScrollViewer;
+
+        // TODO as property
+        internal const float LargeCanvasWidthHeight = 1 << 21;
+
+        private Rect ViewPort => new Rect(_infiniteCanvasScrollViewer.HorizontalOffset / _infiniteCanvasScrollViewer.ZoomFactor, _infiniteCanvasScrollViewer.VerticalOffset / _infiniteCanvasScrollViewer.ZoomFactor, _infiniteCanvasScrollViewer.ViewportWidth / _infiniteCanvasScrollViewer.ZoomFactor, _infiniteCanvasScrollViewer.ViewportHeight / _infiniteCanvasScrollViewer.ZoomFactor);
+
+        public InfiniteCanvas()
+        {
+            this.DefaultStyleKey = typeof(InfiniteCanvas);
+        }
 
         protected override void OnApplyTemplate()
         {
             _canvasTextBoxTools = (StackPanel)GetTemplateChild("CanvasTextBoxTools");
-
             _canvasTextBoxColorPicker = (ColorPicker)GetTemplateChild("CanvasTextBoxColorPicker");
             _canvasTextBoxFontSizeTextBox = (TextBox)GetTemplateChild("CanvasTextBoxFontSizeTextBox");
             _canvasTextBoxItlaicButton = (ToggleButton)GetTemplateChild("CanvasTextBoxItlaicButton");
             _canvasTextBoxBoldButton = (ToggleButton)GetTemplateChild("CanvasTextBoxBoldButton");
 
-            _canvasTextBoxFontSizeTextBox.TextChanged += _canvasTextBoxFontSizeTextBox_TextChanged;
-            _canvasTextBoxItlaicButton.Checked += _canvasTextBoxItlaicButton_Checked;
-            _canvasTextBoxBoldButton.Checked += _canvasTextBoxBoldButton_Checked;
+            _drawingSurfaceRenderer = (InfiniteCanvasVirtualDrawingSurface)GetTemplateChild("canvasOne");
+            _mainContainer = (Canvas)GetTemplateChild("OutputGrid");
 
-            _canvasTextBoxColorPicker.ColorChanged += _canvasTextBoxColorPicker_ColorChanged;
-
-            _canvasOne = (VirtualDrawingSurface)GetTemplateChild("canvasOne");
-            OutputGrid = (Canvas)GetTemplateChild("OutputGrid");
-
-            inkScrollViewer = (ScrollViewer)GetTemplateChild("inkScrollViewer");
+            _infiniteCanvasScrollViewer = (ScrollViewer)GetTemplateChild("inkScrollViewer");
             var eraseAllButton = (Button)GetTemplateChild("EraseAllButton");
 
             _canvasTextBox = (InfiniteCanvasTextBox)GetTemplateChild("CanvasTextBox");
@@ -75,17 +75,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _enableTouchInkingButton = (InkToolbarCustomToggleButton)GetTemplateChild("EnableTouchInkingButton");
 
+            _inkCanvasToolBar = (InkToolbar)GetTemplateChild("canToolBar");
+
+            _inkCanvas = (InkCanvas)GetTemplateChild("inkCanvas");
+
+
+            _undoButton = (Button)GetTemplateChild("UndoButton");
+            _redoButton = (Button)GetTemplateChild("RedoButton");
+
+            _canvasTextBoxFontSizeTextBox.TextChanged += _canvasTextBoxFontSizeTextBox_TextChanged;
+            _canvasTextBoxItlaicButton.Checked += _canvasTextBoxItlaicButton_Checked;
+            _canvasTextBoxBoldButton.Checked += _canvasTextBoxBoldButton_Checked;
+
+            _canvasTextBoxColorPicker.ColorChanged += _canvasTextBoxColorPicker_ColorChanged;
+
+
             _enableTouchInkingButton.Checked += _enableTouchInkingButton_Checked;
             _enableTouchInkingButton.Unchecked += _enableTouchInkingButton_Unchecked;
 
             _enableTextButton.Checked += _enableTextButton_Checked;
             _enableTextButton.Unchecked += _enableTextButton_Unchecked;
             eraseAllButton.Click += EraseAllButton_Click;
-            canToolBar = (InkToolbar)GetTemplateChild("canToolBar");
 
-            _inkCanvas = (InkCanvas)GetTemplateChild("inkCanvas");
-            inkScrollViewer.PointerPressed += InkScrollViewer_PointerPressed;
-            inkScrollViewer.PreviewKeyDown += InkScrollViewer_PreviewKeyDown;
+            _infiniteCanvasScrollViewer.PointerPressed += InkScrollViewer_PointerPressed;
+            _infiniteCanvasScrollViewer.PreviewKeyDown += InkScrollViewer_PreviewKeyDown;
             _canvasTextBox.TextChanged += _canvasTextBox_TextChanged;
             _canvasTextBox.SizeChanged += _canvasTextBox_SizeChanged;
 
@@ -118,34 +131,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void EraseAllButton_Click(object sender, RoutedEventArgs e)
         {
-            _canvasOne.ClearAll(ViewPort);
+            _drawingSurfaceRenderer.ClearAll(ViewPort);
         }
-
-        public InkToolbar canToolBar { get; set; }
-
-        public Canvas OutputGrid { get; set; }
-        public ScrollViewer inkScrollViewer { get; set; }
 
         private void MainPage_Loaded()
         {
             _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen;
 
-            this.inkSync = this._inkCanvas.InkPresenter.ActivateCustomDrying();
+            this._inkSync = this._inkCanvas.InkPresenter.ActivateCustomDrying();
             this._inkCanvas.InkPresenter.StrokesCollected += OnStrokesCollected;
             this._inkCanvas.InkPresenter.UnprocessedInput.PointerMoved += UnprocessedInput_PointerMoved;
 
 
-            inkScrollViewer.MaxZoomFactor = 4.0f;
-            inkScrollViewer.MinZoomFactor = 0.25f;
-            inkScrollViewer.ViewChanged += InkScrollViewer_ViewChanged;
-            inkScrollViewer.SizeChanged += InkScrollViewer_SizeChanged;
+            _infiniteCanvasScrollViewer.MaxZoomFactor = 4.0f;
+            _infiniteCanvasScrollViewer.MinZoomFactor = 0.25f;
+            _infiniteCanvasScrollViewer.ViewChanged += InkScrollViewer_ViewChanged;
+            _infiniteCanvasScrollViewer.SizeChanged += InkScrollViewer_SizeChanged;
 
-            OutputGrid.Width = LargeCanvasWidthHeight;
-            OutputGrid.Height = LargeCanvasWidthHeight;
+            _mainContainer.Width = LargeCanvasWidthHeight;
+            _mainContainer.Height = LargeCanvasWidthHeight;
             _inkCanvas.Width = LargeCanvasWidthHeight;
             _inkCanvas.Height = LargeCanvasWidthHeight;
-            _canvasOne.Width = LargeCanvasWidthHeight;
-            _canvasOne.Height = LargeCanvasWidthHeight;
+            _drawingSurfaceRenderer.Width = LargeCanvasWidthHeight;
+            _drawingSurfaceRenderer.Height = LargeCanvasWidthHeight;
 
             Application.Current.LeavingBackground += Current_LeavingBackground;
 
@@ -159,20 +167,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // work around to virtual drawing surface bug.
             await Task.Delay(1000);
-            _canvasOne.ReDraw(ViewPort);
+            _drawingSurfaceRenderer.ReDraw(ViewPort);
         }
 
         private void UnprocessedInput_PointerMoved(InkUnprocessedInput sender, PointerEventArgs args)
         {
-            if (canToolBar.ActiveTool == canToolBar.GetToolButton(InkToolbarTool.Eraser))
+            if (_inkCanvasToolBar.ActiveTool == _inkCanvasToolBar.GetToolButton(InkToolbarTool.Eraser))
             {
-                _canvasOne.Erase(args.CurrentPoint.Position, ViewPort, inkScrollViewer.ZoomFactor);
+                _drawingSurfaceRenderer.Erase(args.CurrentPoint.Position, ViewPort, _infiniteCanvasScrollViewer.ZoomFactor);
             }
         }
 
         private void ReDrawCanvas()
         {
-            _canvasOne.ReDraw(ViewPort);
+            _drawingSurfaceRenderer.ReDraw(ViewPort);
         }
 
         private void InkScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -183,10 +191,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         void OnStrokesCollected(InkPresenter sender, InkStrokesCollectedEventArgs args)
         {
-            IReadOnlyList<InkStroke> strokes = this.inkSync.BeginDry();
+            IReadOnlyList<InkStroke> strokes = this._inkSync.BeginDry();
             var inkDrawable = new InkDrawable(strokes);
-            _canvasOne.AddDrawable(inkDrawable);
-            this.inkSync.EndDry();
+            _drawingSurfaceRenderer.AddDrawable(inkDrawable);
+            this._inkSync.EndDry();
 
             ReDrawCanvas();
         }
@@ -199,7 +207,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ReDrawCanvas();
             }
         }
-
-        private Rect ViewPort => new Rect(inkScrollViewer.HorizontalOffset / inkScrollViewer.ZoomFactor, inkScrollViewer.VerticalOffset / inkScrollViewer.ZoomFactor, inkScrollViewer.ViewportWidth / inkScrollViewer.ZoomFactor, inkScrollViewer.ViewportHeight / inkScrollViewer.ZoomFactor);
     }
 }

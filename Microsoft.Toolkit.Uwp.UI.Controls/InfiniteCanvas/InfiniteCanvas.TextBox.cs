@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private TextDrawable _selectedTextDrawable => _canvasOne.GetSelectedTextDrawable();
+        private TextDrawable _selectedTextDrawable => _drawingSurfaceRenderer.GetSelectedTextDrawable();
 
         private void _canvasTextBox_TextChanged(object sender, string text)
         {
@@ -89,8 +89,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (string.IsNullOrEmpty(text))
                 {
-                    _canvasOne.RemoveDrawable(_selectedTextDrawable);
-                    _canvasOne.ResetSelectedTextDrawable();
+                    _drawingSurfaceRenderer.RemoveDrawable(_selectedTextDrawable);
+                    _drawingSurfaceRenderer.ResetSelectedTextDrawable();
                 }
                 else
                 {
@@ -115,19 +115,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _canvasTextBoxBoldButton.IsChecked ?? false,
                 _canvasTextBoxItlaicButton.IsChecked ?? false);
 
-            _canvasOne.AddDrawable(textDrawable);
-            _canvasOne.ReDraw(ViewPort);
-            _canvasOne.UpdateSelectedTextDrawable();
+            _drawingSurfaceRenderer.AddDrawable(textDrawable);
+            _drawingSurfaceRenderer.ReDraw(ViewPort);
+            _drawingSurfaceRenderer.UpdateSelectedTextDrawable();
         }
 
         private void InkScrollViewer_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             if (_enableTextButton.IsChecked ?? false)
             {
-                var point = e.GetCurrentPoint(inkScrollViewer);
-                _lastInputPoint = new Point((point.Position.X + inkScrollViewer.HorizontalOffset) / inkScrollViewer.ZoomFactor, (point.Position.Y + inkScrollViewer.VerticalOffset) / inkScrollViewer.ZoomFactor);
+                var point = e.GetCurrentPoint(_infiniteCanvasScrollViewer);
+                _lastInputPoint = new Point((point.Position.X + _infiniteCanvasScrollViewer.HorizontalOffset) / _infiniteCanvasScrollViewer.ZoomFactor, (point.Position.Y + _infiniteCanvasScrollViewer.VerticalOffset) / _infiniteCanvasScrollViewer.ZoomFactor);
 
-                _canvasOne.UpdateSelectedTextDrawableIfSelected(_lastInputPoint, ViewPort);
+                _drawingSurfaceRenderer.UpdateSelectedTextDrawableIfSelected(_lastInputPoint, ViewPort);
 
                 if (_selectedTextDrawable != null)
                 {
@@ -158,7 +158,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ClearTextBoxValue()
         {
-            _canvasOne.ResetSelectedTextDrawable();
+            _drawingSurfaceRenderer.ResetSelectedTextDrawable();
             _canvasTextBox.Clear();
         }
     }
