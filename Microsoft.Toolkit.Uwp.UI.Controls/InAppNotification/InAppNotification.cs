@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private DispatcherTimer _dismissTimer = new DispatcherTimer();
         private Button _dismissButton;
         private VisualStateGroup _visualStateGroup;
-        private List<StackedNotificationInfo> _stackedNotificationInfos = new List<StackedNotificationInfo>();
+        private List<NotificationOptions> _stackedNotificationOptions = new List<NotificationOptions>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InAppNotification"/> class.
@@ -110,12 +110,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
         public void Show(string text, int duration = 0)
         {
-            var notificationInfo = new TextStackedNotificationInfo
+            var notificationOptions = new NotificationOptions
             {
                 Duration = duration,
-                Text = text
+                Content = text
             };
-            Show(notificationInfo);
+            Show(notificationOptions);
         }
 
         /// <summary>
@@ -125,12 +125,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
         public void Show(UIElement element, int duration = 0)
         {
-            var notificationInfo = new UIElementStackedNotificationInfo
+            var notificationOptions = new NotificationOptions
             {
                 Duration = duration,
-                Element = element
+                Content = element
             };
-            Show(notificationInfo);
+            Show(notificationOptions);
         }
 
         /// <summary>
@@ -140,12 +140,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
         public void Show(DataTemplate dataTemplate, int duration = 0)
         {
-            var notificationInfo = new DataTemplateStackedNotificationInfo
+            var notificationOptions = new NotificationOptions
             {
                 Duration = duration,
-                DataTemplate = dataTemplate
+                Content = dataTemplate
             };
-            Show(notificationInfo);
+            Show(notificationOptions);
         }
 
         /// <summary>
@@ -165,13 +165,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (Visibility == Visibility.Visible)
             {
                 // Continue to display notification if on remaining stacked notification
-                if (_stackedNotificationInfos.Any())
+                if (_stackedNotificationOptions.Any())
                 {
-                    _stackedNotificationInfos.RemoveAt(0);
+                    _stackedNotificationOptions.RemoveAt(0);
 
-                    if (_stackedNotificationInfos.Any())
+                    if (_stackedNotificationOptions.Any())
                     {
-                        DisplayNextStackedNotification(_stackedNotificationInfos[0]);
+                        DisplayNextStackedNotification(_stackedNotificationOptions[0]);
                         return;
                     }
                 }
@@ -203,22 +203,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool ShouldDisplayImmediately()
         {
             return StackMode != StackMode.QueueBehind ||
-                (StackMode == StackMode.QueueBehind && _stackedNotificationInfos.Count == 0);
+                (StackMode == StackMode.QueueBehind && _stackedNotificationOptions.Count == 0);
         }
 
         /// <summary>
         /// Display the next stacked notification using StackedNotificationInfo
         /// </summary>
-        /// <param name="stackedNotificationInfo">Information to display for the next notification</param>
-        private void DisplayNextStackedNotification(StackedNotificationInfo stackedNotificationInfo)
+        /// <param name="notificationOptions">Information to display for the next notification</param>
+        private void DisplayNextStackedNotification(NotificationOptions notificationOptions)
         {
-            UpdateContent(stackedNotificationInfo);
+            UpdateContent(notificationOptions);
 
             _dismissTimer.Stop();
 
-            if (stackedNotificationInfo.Duration > 0)
+            if (notificationOptions.Duration > 0)
             {
-                _dismissTimer.Interval = TimeSpan.FromMilliseconds(stackedNotificationInfo.Duration);
+                _dismissTimer.Interval = TimeSpan.FromMilliseconds(notificationOptions.Duration);
                 _dismissTimer.Start();
             }
         }
@@ -226,21 +226,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Update the Content of the notification
         /// </summary>
-        /// <param name="stackedNotificationInfo">Information about the notification to display</param>
-        private void UpdateContent(StackedNotificationInfo stackedNotificationInfo)
+        /// <param name="notificationOptions">Information about the notification to display</param>
+        private void UpdateContent(NotificationOptions notificationOptions)
         {
-            switch (stackedNotificationInfo)
+            switch (notificationOptions.Content)
             {
-                case TextStackedNotificationInfo textStackedNotificationInfo:
+                case string text:
                     ContentTemplate = null;
-                    Content = textStackedNotificationInfo.Text;
+                    Content = text;
                     break;
-                case UIElementStackedNotificationInfo UIElementStackedNotificationInfo:
+                case UIElement element:
                     ContentTemplate = null;
-                    Content = UIElementStackedNotificationInfo.Element;
+                    Content = element;
                     break;
-                case DataTemplateStackedNotificationInfo dataTemplateStackedNotificationInfo:
-                    ContentTemplate = dataTemplateStackedNotificationInfo.DataTemplate;
+                case DataTemplate dataTemplate:
+                    ContentTemplate = dataTemplate;
                     Content = null;
                     break;
             }
@@ -249,25 +249,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Handle the display of the notification based on the current StackMode
         /// </summary>
-        /// <param name="stackedNotificationInfo">Information about the notification to display</param>
-        private void Show(StackedNotificationInfo stackedNotificationInfo)
+        /// <param name="notificationOptions">Information about the notification to display</param>
+        private void Show(NotificationOptions notificationOptions)
         {
             bool shouldDisplayImmediately = ShouldDisplayImmediately();
 
             if (StackMode == StackMode.QueueBehind)
             {
-                _stackedNotificationInfos.Add(stackedNotificationInfo);
+                _stackedNotificationOptions.Add(notificationOptions);
             }
 
             if (StackMode == StackMode.StackAbove)
             {
-                _stackedNotificationInfos.Insert(0, stackedNotificationInfo);
+                _stackedNotificationOptions.Insert(0, notificationOptions);
             }
 
             if (shouldDisplayImmediately)
             {
-                UpdateContent(stackedNotificationInfo);
-                Show(stackedNotificationInfo.Duration);
+                UpdateContent(notificationOptions);
+                Show(notificationOptions.Duration);
             }
         }
     }
