@@ -11,12 +11,6 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, known issues
 For an accurate list of known bugs and issues, take a look at the [issues on GitHub](https://github.com/Microsoft/UWPCommunityToolkit/issues)
 
 
-## Services
-
-* UnresolvableAssemblyReference when building for Release when using the Microsoft.Toolkit.Uwp.Services package
-This error will not be fixed until the 3.0 release as it requires a breaking change. The workaround is to manually add a reference to the Microsoft.IdentityModel.Clients.ActiveDirectory package, version 2.29.0 (or any version between 2.22 and 3.0) - [see issue for more details](https://github.com/Microsoft/UWPCommunityToolkit/issues/1788)
-
-
 ## Controls
 
 ### MasterDetailsView
