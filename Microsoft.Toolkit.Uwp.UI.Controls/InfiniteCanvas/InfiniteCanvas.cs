@@ -197,7 +197,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnStrokesCollected(InkPresenter sender, InkStrokesCollectedEventArgs args)
         {
-            _drawingSurfaceRenderer.CreateInk(_inkSync.BeginDry());
+            _drawingSurfaceRenderer.ExecuteCreateInk(_inkSync.BeginDry());
             _inkSync.EndDry();
             ReDrawCanvas();
         }

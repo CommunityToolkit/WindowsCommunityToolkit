@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (SelectedTextDrawable != null)
             {
-                _drawingSurfaceRenderer.UpdateTextBoxWeight(_canvasTextBoxBoldButton.IsChecked ?? false);
+                _drawingSurfaceRenderer.ExecuteUpdateTextBoxWeight(_canvasTextBoxBoldButton.IsChecked ?? false);
                 _canvasTextBox.UpdateFontStyle(SelectedTextDrawable.IsBold);
                 ReDrawCanvas();
             }
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (SelectedTextDrawable != null)
             {
-                _drawingSurfaceRenderer.UpdateTextBoxStyle(_canvasTextBoxItlaicButton.IsChecked ?? false);
+                _drawingSurfaceRenderer.ExecuteUpdateTextBoxStyle(_canvasTextBoxItlaicButton.IsChecked ?? false);
                 _canvasTextBox.UpdateFontStyle(SelectedTextDrawable.IsItalic);
                 ReDrawCanvas();
             }
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasTextBox.UpdateFontSize(TextFontSize);
             if (SelectedTextDrawable != null)
             {
-                _drawingSurfaceRenderer.UpdateTextBoxFontSize(TextFontSize);
+                _drawingSurfaceRenderer.ExecuteUpdateTextBoxFontSize(TextFontSize);
                 ReDrawCanvas();
             }
         }
@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (SelectedTextDrawable != null)
             {
-                _drawingSurfaceRenderer.UpdateTextBoxColor(_canvasTextBoxColorPicker.Color);
+                _drawingSurfaceRenderer.ExecuteUpdateTextBoxColor(_canvasTextBoxColorPicker.Color);
                 ReDrawCanvas();
             }
         }
@@ -89,14 +89,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (string.IsNullOrEmpty(text))
                 {
-                    _drawingSurfaceRenderer.RemoveTextBox();
+                    _drawingSurfaceRenderer.ExecuteRemoveTextBox();
                     _drawingSurfaceRenderer.ResetSelectedTextDrawable();
                 }
                 else
                 {
                     if (SelectedTextDrawable.Text != text)
                     {
-                        _drawingSurfaceRenderer.UpdateTextBoxText(text);
+                        _drawingSurfaceRenderer.ExecuteUpdateTextBoxText(text);
                     }
                 }
 
@@ -104,7 +104,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            _drawingSurfaceRenderer.CreateTextBox(
+            _drawingSurfaceRenderer.ExecuteCreateTextBox(
                 _lastInputPoint.X,
                 _lastInputPoint.Y,
                 _canvasTextBox.GetEditZoneWidth(),
