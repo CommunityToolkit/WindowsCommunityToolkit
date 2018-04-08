@@ -142,7 +142,6 @@
     <Compile Include="Helpers\Test_StorageHelper.cs" />
     <Compile Include="Helpers\Test_StreamHelper.cs" />
     <Compile Include="Helpers\Test_DeepLinkParser.cs" />
-    <Compile Include="Helpers\Text_InfiniteCanvasInputHelper.cs" />
     <Compile Include="Markdown\Parse\BoldTests.cs" />
     <Compile Include="Markdown\Parse\CodeTests.cs" />
     <Compile Include="Markdown\Parse\HeaderTests.cs" />

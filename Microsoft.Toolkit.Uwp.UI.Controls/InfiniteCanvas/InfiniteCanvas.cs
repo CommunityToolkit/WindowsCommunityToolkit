@@ -109,6 +109,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
+        private void ConfigureControls()
+        {
+            _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen;
+            _inkSync = _inkCanvas.InkPresenter.ActivateCustomDrying();
+            _inkCanvas.InkPresenter.StrokesCollected += OnStrokesCollected;
+            _inkCanvas.InkPresenter.UnprocessedInput.PointerMoved += UnprocessedInput_PointerMoved;
+
+            _infiniteCanvasScrollViewer.MaxZoomFactor = 4.0f;
+            _infiniteCanvasScrollViewer.MinZoomFactor = 0.25f;
+            _infiniteCanvasScrollViewer.ViewChanged += InkScrollViewer_ViewChanged;
+            _infiniteCanvasScrollViewer.SizeChanged += InkScrollViewer_SizeChanged;
+
+            _mainContainer.Width = LargeCanvasWidthHeight;
+            _mainContainer.Height = LargeCanvasWidthHeight;
+            _inkCanvas.Width = LargeCanvasWidthHeight;
+            _inkCanvas.Height = LargeCanvasWidthHeight;
+            _drawingSurfaceRenderer.Width = LargeCanvasWidthHeight;
+            _drawingSurfaceRenderer.Height = LargeCanvasWidthHeight;
+
+            Canvas.SetLeft(_canvasTextBox, 0);
+            Canvas.SetTop(_canvasTextBox, 0);
+
+            _canvasTextBox.UpdateFontSize(TextFontSize);
+        }
+
+        private void InfiniteCanvas_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Application.Current.LeavingBackground -= Current_LeavingBackground;
+        }
+
         private void _redoButton_Click(object sender, RoutedEventArgs e)
         {
             _drawingSurfaceRenderer.Redo(ViewPort);
@@ -117,11 +147,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void _undoButton_Click(object sender, RoutedEventArgs e)
         {
             _drawingSurfaceRenderer.Undo(ViewPort);
-        }
-
-        private void InfiniteCanvas_Unloaded(object sender, RoutedEventArgs e)
-        {
-            Application.Current.LeavingBackground -= Current_LeavingBackground;
         }
 
         private void _enableTouchInkingButton_Unchecked(object sender, RoutedEventArgs e)
@@ -152,44 +177,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _drawingSurfaceRenderer.ClearAll(ViewPort);
         }
 
-        private void ConfigureControls()
-        {
-            _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen;
-            _inkSync = _inkCanvas.InkPresenter.ActivateCustomDrying();
-            _inkCanvas.InkPresenter.StrokesCollected += OnStrokesCollected;
-            _inkCanvas.InkPresenter.UnprocessedInput.PointerMoved += UnprocessedInput_PointerMoved;
-
-            _infiniteCanvasScrollViewer.MaxZoomFactor = 4.0f;
-            _infiniteCanvasScrollViewer.MinZoomFactor = 0.25f;
-            _infiniteCanvasScrollViewer.ViewChanged += InkScrollViewer_ViewChanged;
-            _infiniteCanvasScrollViewer.SizeChanged += InkScrollViewer_SizeChanged;
-
-            _mainContainer.Width = LargeCanvasWidthHeight;
-            _mainContainer.Height = LargeCanvasWidthHeight;
-            _inkCanvas.Width = LargeCanvasWidthHeight;
-            _inkCanvas.Height = LargeCanvasWidthHeight;
-            _drawingSurfaceRenderer.Width = LargeCanvasWidthHeight;
-            _drawingSurfaceRenderer.Height = LargeCanvasWidthHeight;
-
-            Canvas.SetLeft(_canvasTextBox, 0);
-            Canvas.SetTop(_canvasTextBox, 0);
-
-            _canvasTextBox.UpdateFontSize(TextFontSize);
-        }
-
         private async void Current_LeavingBackground(object sender, Windows.ApplicationModel.LeavingBackgroundEventArgs e)
         {
             // work around to virtual drawing surface bug.
             await Task.Delay(1000);
             _drawingSurfaceRenderer.ReDraw(ViewPort);
-        }
-
-        private void UnprocessedInput_PointerMoved(InkUnprocessedInput sender, PointerEventArgs args)
-        {
-            if (_inkCanvasToolBar.ActiveTool == _inkCanvasToolBar.GetToolButton(InkToolbarTool.Eraser))
-            {
-                _drawingSurfaceRenderer.Erase(args.CurrentPoint.Position, ViewPort, _infiniteCanvasScrollViewer.ZoomFactor);
-            }
         }
 
         private void ReDrawCanvas()
@@ -205,12 +197,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnStrokesCollected(InkPresenter sender, InkStrokesCollectedEventArgs args)
         {
-            IReadOnlyList<InkStroke> strokes = this._inkSync.BeginDry();
-            var inkDrawable = new InkDrawable(strokes);
-            _drawingSurfaceRenderer.AddDrawable(inkDrawable);
-            this._inkSync.EndDry();
-
+            _drawingSurfaceRenderer.CreateInk(_inkSync.BeginDry());
+            _inkSync.EndDry();
             ReDrawCanvas();
+        }
+
+        private void UnprocessedInput_PointerMoved(InkUnprocessedInput sender, PointerEventArgs args)
+        {
+            if (_inkCanvasToolBar.ActiveTool == _inkCanvasToolBar.GetToolButton(InkToolbarTool.Eraser))
+            {
+                _drawingSurfaceRenderer.Erase(args.CurrentPoint.Position, ViewPort, _infiniteCanvasScrollViewer.ZoomFactor);
+            }
         }
 
         private void InkScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)

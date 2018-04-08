@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                 if (Math.Abs(point.X - inkPoint.Position.X) < toleranceWithZoom && Math.Abs(point.Y - inkPoint.Position.Y) < toleranceWithZoom)
                                 {
                                     var toRemove = _visibleList.ElementAt(i);
-                                    _drawableList.Remove(toRemove);
+                                    EraseInk(toRemove);
                                     ReDraw(viewPort);
                                 }
                             }

@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var finalPointList = new List<InkPoint>(points.Count);
                 foreach (InkPoint point in points)
                 {
-                    finalPointList.Add(InfiniteCanvas.MapPointToToSessionBounds(point, sessionBounds));
+                    finalPointList.Add(MapPointToToSessionBounds(point, sessionBounds));
                 }
 
                 _strokeBuilder.SetDefaultDrawingAttributes(stroke.DrawingAttributes);
@@ -68,6 +68,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             drawingSession.DrawInk(finalStrokeList);
+        }
+
+        private static InkPoint MapPointToToSessionBounds(InkPoint point, Rect sessionBounds)
+        {
+            return new InkPoint(new Point(point.Position.X - sessionBounds.X, point.Position.Y - sessionBounds.Y), point.Pressure, point.TiltX, point.TiltY, point.Timestamp);
         }
     }
 }

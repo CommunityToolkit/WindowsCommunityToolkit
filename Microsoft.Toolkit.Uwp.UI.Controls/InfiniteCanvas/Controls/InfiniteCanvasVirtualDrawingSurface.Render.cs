@@ -5,6 +5,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
 using Windows.Foundation;
 using Windows.UI;
+using Windows.UI.Input.Inking;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -75,16 +76,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        internal void AddDrawable(IDrawable inkDrawable)
-        {
-            _drawableList.Add(inkDrawable);
-        }
-
-        internal void RemoveDrawable(IDrawable selectedTextDrawable)
-        {
-            _drawableList.Remove(selectedTextDrawable);
-        }
-
         public void Undo(Rect viewPort)
         {
             if (_undoCommands.Count != 0)
@@ -113,59 +104,64 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var drawable = GetSelectedTextDrawable();
             var command = new InfiniteCanvasUpdateTextCommand(drawable, drawable.Text, newText);
-            _undoCommands.Push(command);
-            _redoCommands.Clear();
-            command.Execute();
+            ExecuteCommand(command);
         }
 
         public void UpdateTextBoxColor(Color newColor)
         {
             var drawable = GetSelectedTextDrawable();
             var command = new InfiniteCanvasUpdateTextColorCommand(drawable, drawable.TextColor, newColor);
-            _undoCommands.Push(command);
-            _redoCommands.Clear();
-            command.Execute();
+            ExecuteCommand(command);
         }
 
         public void UpdateTextBoxStyle(bool newValue)
         {
             var drawable = GetSelectedTextDrawable();
             var command = new InfiniteCanvasUpdateTextStyleCommand(drawable, drawable.IsItalic, newValue);
-            _undoCommands.Push(command);
-            _redoCommands.Clear();
-            command.Execute();
+            ExecuteCommand(command);
         }
 
         public void UpdateTextBoxWeight(bool newValue)
         {
             var drawable = GetSelectedTextDrawable();
             var command = new InfiniteCanvasUpdateTextWeightCommand(drawable, drawable.IsBold, newValue);
-            _undoCommands.Push(command);
-            _redoCommands.Clear();
-            command.Execute();
+            ExecuteCommand(command);
         }
 
         public void UpdateTextBoxFontSize(float newValue)
         {
             var drawable = GetSelectedTextDrawable();
             var command = new InfiniteCanvasUpdateTextFontSizeCommand(drawable, drawable.FontSize, newValue);
-            _undoCommands.Push(command);
-            _redoCommands.Clear();
-            command.Execute();
+            ExecuteCommand(command);
         }
 
         public void CreateTextBox(double x, double y, double width, double height, int textFontSize, string text, Color color, bool isBold, bool isItalic)
         {
             var command = new InfiniteCanvasCreateTextBoxCommand(_drawableList, x, y, width, height, textFontSize, text, color, isBold, isItalic);
-            _undoCommands.Push(command);
-            _redoCommands.Clear();
-            command.Execute();
+            ExecuteCommand(command);
         }
 
         public void RemoveTextBox()
         {
             var drawable = GetSelectedTextDrawable();
             var command = new InfiniteCanvasRemoveTextBoxCommand(_drawableList, drawable);
+            ExecuteCommand(command);
+        }
+
+        public void CreateInk(IReadOnlyList<InkStroke> beginDry)
+        {
+            var command = new InfiniteCanvasCreateInkCommand(_drawableList, beginDry);
+            ExecuteCommand(command);
+        }
+
+        internal void EraseInk(IDrawable drawable)
+        {
+            var command = new InfiniteCanvasEraseInkCommand(_drawableList, drawable);
+            ExecuteCommand(command);
+        }
+
+        private void ExecuteCommand(IInfiniteCanvasCommand command)
+        {
             _undoCommands.Push(command);
             _redoCommands.Clear();
             command.Execute();
