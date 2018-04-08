@@ -7,9 +7,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     public partial class InfiniteCanvas
     {
-        Point _lastInputPoint;
+        private Point _lastInputPoint;
 
-        public int TextFontSize => string.IsNullOrWhiteSpace(_canvasTextBoxFontSizeTextBox.Text) ? 22 : int.Parse(_canvasTextBoxFontSizeTextBox.Text);
+        private TextDrawable SelectedTextDrawable => _drawingSurfaceRenderer.GetSelectedTextDrawable();
+
+        private int TextFontSize => string.IsNullOrWhiteSpace(_canvasTextBoxFontSizeTextBox.Text) ? 22 : int.Parse(_canvasTextBoxFontSizeTextBox.Text);
 
         private void InkScrollViewer_PreviewKeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
@@ -32,21 +34,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void _canvasTextBoxBoldButton_Checked(object sender, RoutedEventArgs e)
+        private void _canvasTextBoxBoldButton_Clicked(object sender, RoutedEventArgs e)
         {
             if (SelectedTextDrawable != null)
             {
-                SelectedTextDrawable.IsBold = _canvasTextBoxBoldButton.IsChecked ?? false;
+                _drawingSurfaceRenderer.UpdateTextBoxWeight(_canvasTextBoxBoldButton.IsChecked ?? false);
                 _canvasTextBox.UpdateFontStyle(SelectedTextDrawable.IsBold);
                 ReDrawCanvas();
             }
         }
 
-        private void _canvasTextBoxItlaicButton_Checked(object sender, RoutedEventArgs e)
+        private void _canvasTextBoxItlaicButton_Clicked(object sender, RoutedEventArgs e)
         {
             if (SelectedTextDrawable != null)
             {
-                SelectedTextDrawable.IsItalic = _canvasTextBoxItlaicButton.IsChecked ?? false;
+                _drawingSurfaceRenderer.UpdateTextBoxStyle(_canvasTextBoxItlaicButton.IsChecked ?? false);
                 _canvasTextBox.UpdateFontStyle(SelectedTextDrawable.IsItalic);
                 ReDrawCanvas();
             }
@@ -57,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasTextBox.UpdateFontSize(TextFontSize);
             if (SelectedTextDrawable != null)
             {
-                SelectedTextDrawable.FontSize = TextFontSize;
+                _drawingSurfaceRenderer.UpdateTextBoxFontSize(TextFontSize);
                 ReDrawCanvas();
             }
         }
@@ -71,12 +73,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (SelectedTextDrawable != null)
             {
-                SelectedTextDrawable.TextColor = _canvasTextBoxColorPicker.Color;
+                _drawingSurfaceRenderer.UpdateTextBoxColor(_canvasTextBoxColorPicker.Color);
                 ReDrawCanvas();
             }
         }
-
-        private TextDrawable SelectedTextDrawable => _drawingSurfaceRenderer.GetSelectedTextDrawable();
 
         private void _canvasTextBox_TextChanged(object sender, string text)
         {
@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (string.IsNullOrEmpty(text))
                 {
-                    _drawingSurfaceRenderer.RemoveDrawable(SelectedTextDrawable);
+                    _drawingSurfaceRenderer.RemoveTextBox();
                     _drawingSurfaceRenderer.ResetSelectedTextDrawable();
                 }
                 else
@@ -115,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _canvasTextBoxBoldButton.IsChecked ?? false,
                 _canvasTextBoxItlaicButton.IsChecked ?? false);
 
-            _drawingSurfaceRenderer.ReDraw(ViewPort);
+            ReDrawCanvas();
             _drawingSurfaceRenderer.UpdateSelectedTextDrawable();
         }
 

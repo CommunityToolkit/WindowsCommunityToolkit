@@ -1,12 +1,12 @@
 ﻿namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    internal class InfiniteCanvasTextChange : IInfiniteCanvasCommand
+    internal class InfiniteCanvasUpdateTextCommand : IInfiniteCanvasCommand
     {
         private readonly string _oldText;
         private readonly string _newText;
         private readonly TextDrawable _drawable;
 
-        public InfiniteCanvasTextChange(TextDrawable drawable, string oldText, string newText)
+        public InfiniteCanvasUpdateTextCommand(TextDrawable drawable, string oldText, string newText)
         {
             _oldText = oldText;
             _newText = newText;

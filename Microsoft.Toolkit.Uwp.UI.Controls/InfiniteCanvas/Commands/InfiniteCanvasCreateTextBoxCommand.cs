@@ -3,12 +3,12 @@ using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    internal class InfiniteCanvasCreateTextBox : IInfiniteCanvasCommand
+    internal class InfiniteCanvasCreateTextBoxCommand : IInfiniteCanvasCommand
     {
         private readonly List<IDrawable> _drawableList;
         private readonly TextDrawable _drawable;
 
-        public InfiniteCanvasCreateTextBox(List<IDrawable> drawableList, double x, double y, double width, double height, int textFontSize, string text, Color color, bool isBold, bool isItalic)
+        public InfiniteCanvasCreateTextBoxCommand(List<IDrawable> drawableList, double x, double y, double width, double height, int textFontSize, string text, Color color, bool isBold, bool isItalic)
         {
             _drawable = new TextDrawable(
                 x,

@@ -83,8 +83,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _redoButton = (Button)GetTemplateChild("RedoButton");
 
             _canvasTextBoxFontSizeTextBox.TextChanged += _canvasTextBoxFontSizeTextBox_TextChanged;
-            _canvasTextBoxItlaicButton.Checked += _canvasTextBoxItlaicButton_Checked;
-            _canvasTextBoxBoldButton.Checked += _canvasTextBoxBoldButton_Checked;
+            _canvasTextBoxItlaicButton.Click += _canvasTextBoxItlaicButton_Clicked;
+            _canvasTextBoxBoldButton.Click += _canvasTextBoxBoldButton_Clicked;
 
             _canvasTextBoxColorPicker.ColorChanged += _canvasTextBoxColorPicker_ColorChanged;
 
