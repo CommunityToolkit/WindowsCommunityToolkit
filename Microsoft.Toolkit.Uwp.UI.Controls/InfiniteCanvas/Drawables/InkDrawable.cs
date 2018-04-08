@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Microsoft.Graphics.Canvas;
+using Newtonsoft.Json;
 using Windows.Foundation;
 using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
-using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -14,6 +14,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         [JsonIgnore]
         public IReadOnlyList<InkStroke> Strokes { get; set; }
+
+        public List<SerializableStroke> SerializableStrokeList { get; set; }
 
         public Rect Bounds { get; set; }
 
@@ -23,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public InkDrawable(IReadOnlyList<InkStroke> strokes)
         {
-            if (!strokes.Any())
+            if (strokes == null || !strokes.Any())
             {
                 return;
             }
@@ -80,7 +82,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         [OnSerializing]
         internal void OnSerializingMethod(StreamingContext context)
         {
-            Member2 = "This value went into the data file during serialization.";
+            SerializableStrokeList = new List<SerializableStroke>(Strokes.Count);
+            foreach (var stroke in Strokes)
+            {
+                var serializableStroke = new SerializableStroke();
+                var points = stroke.GetInkPoints();
+                var finalPointList = new List<InkPoint>(points.Count);
+                foreach (var point in points)
+                {
+                    finalPointList.Add(point);
+                }
+
+                serializableStroke.FinalPointList = finalPointList;
+
+                serializableStroke.DrawingAttributes = stroke.DrawingAttributes;
+                serializableStroke.PointTransform = stroke.PointTransform;
+                SerializableStrokeList.Add(serializableStroke);
+            }
+        }
+
+        [OnDeserialized]
+        internal void OnDeserializedMethod(StreamingContext context)
+        {
+            var finalStrokeList = new List<InkStroke>(SerializableStrokeList.Count);
+
+            foreach (var stroke in SerializableStrokeList)
+            {
+                StrokeBuilder.SetDefaultDrawingAttributes(stroke.DrawingAttributes);
+                var newStroke = StrokeBuilder.CreateStrokeFromInkPoints(stroke.FinalPointList, stroke.PointTransform);
+                finalStrokeList.Add(newStroke);
+            }
+
+            Strokes = finalStrokeList;
+            SerializableStrokeList = null;
+        }
+
+        [OnSerialized]
+        internal void OnSerializedMethod(StreamingContext context)
+        {
+            SerializableStrokeList = null;
         }
     }
 }
