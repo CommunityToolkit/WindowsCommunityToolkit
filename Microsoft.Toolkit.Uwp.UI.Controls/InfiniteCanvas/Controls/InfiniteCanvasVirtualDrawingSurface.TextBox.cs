@@ -15,9 +15,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void UpdateSelectedTextDrawableIfSelected(Point point, Rect viewPort)
         {
-            for (var i = _visibleList.Count - 1; i >= 0; i--)
+            for (var i = _drawableList.Count - 1; i >= 0; i--)
             {
-                var drawable = _visibleList[i];
+                var drawable = _drawableList[i];
                 if (drawable is TextDrawable && drawable.Bounds.Contains(point))
                 {
                     _selectedTextDrawableIndex = i;
@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return null;
             }
 
-            return (TextDrawable)_visibleList.ElementAt(_selectedTextDrawableIndex);
+            return (TextDrawable)_drawableList.ElementAt(_selectedTextDrawableIndex);
         }
 
         internal void ResetSelectedTextDrawable()
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void UpdateSelectedTextDrawable()
         {
-            _selectedTextDrawableIndex = _visibleList.Count - 1;
+            _selectedTextDrawableIndex = _drawableList.Count - 1;
         }
     }
 }

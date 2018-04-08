@@ -16,8 +16,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public bool IsActive { get; set; }
 
         public float FontSize { get; set; }
+
         public Color TextColor { get; set; }
+
         public bool IsBold { get; set; }
+
         public bool IsItalic { get; set; }
 
         public TextDrawable(double left, double top, double width, double height, float fontSize, string text, Color textColor, bool isBold, bool isItalic)
@@ -49,11 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             CanvasTextLayout textLayout = new CanvasTextLayout(drawingSession, Text, format, 0.0f, 0.0f);
 
-            drawingSession.DrawRectangle((float)(Bounds.X - sessionBounds.X + HorizontalMarginBasedOnFont),
-                (float)(Bounds.Y - sessionBounds.Y + verticalMargin), (float)Bounds.Width, (float)Bounds.Height, Colors.Green);
-
             drawingSession.DrawTextLayout(textLayout, (float)(Bounds.X - sessionBounds.X + HorizontalMarginBasedOnFont), (float)(Bounds.Y - sessionBounds.Y + verticalMargin), TextColor);
-            
         }
 
         public void UpdateBounds(double actualWidth, double actualHeight)

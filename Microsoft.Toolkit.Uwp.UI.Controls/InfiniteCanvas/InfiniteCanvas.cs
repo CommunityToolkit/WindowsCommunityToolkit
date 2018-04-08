@@ -63,10 +63,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasTextBoxItlaicButton = (ToggleButton)GetTemplateChild("CanvasTextBoxItlaicButton");
             _canvasTextBoxBoldButton = (ToggleButton)GetTemplateChild("CanvasTextBoxBoldButton");
 
-            _drawingSurfaceRenderer = (InfiniteCanvasVirtualDrawingSurface)GetTemplateChild("canvasOne");
-            _mainContainer = (Canvas)GetTemplateChild("OutputGrid");
+            _drawingSurfaceRenderer = (InfiniteCanvasVirtualDrawingSurface)GetTemplateChild("DrawingSurfaceRenderer");
+            _mainContainer = (Canvas)GetTemplateChild("MainContainer");
 
-            _infiniteCanvasScrollViewer = (ScrollViewer)GetTemplateChild("inkScrollViewer");
+            _infiniteCanvasScrollViewer = (ScrollViewer)GetTemplateChild("InfiniteCanvasScrollViewer");
             var eraseAllButton = (Button)GetTemplateChild("EraseAllButton");
 
             _canvasTextBox = (InfiniteCanvasTextBox)GetTemplateChild("CanvasTextBox");
@@ -79,7 +79,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _inkCanvas = (InkCanvas)GetTemplateChild("inkCanvas");
 
-
             _undoButton = (Button)GetTemplateChild("UndoButton");
             _redoButton = (Button)GetTemplateChild("RedoButton");
 
@@ -88,7 +87,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasTextBoxBoldButton.Checked += _canvasTextBoxBoldButton_Checked;
 
             _canvasTextBoxColorPicker.ColorChanged += _canvasTextBoxColorPicker_ColorChanged;
-
 
             _enableTouchInkingButton.Checked += _enableTouchInkingButton_Checked;
             _enableTouchInkingButton.Unchecked += _enableTouchInkingButton_Unchecked;
@@ -101,9 +99,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _infiniteCanvasScrollViewer.PreviewKeyDown += InkScrollViewer_PreviewKeyDown;
             _canvasTextBox.TextChanged += _canvasTextBox_TextChanged;
             _canvasTextBox.SizeChanged += _canvasTextBox_SizeChanged;
+            _undoButton.Click += _undoButton_Click;
+            _redoButton.Click += _redoButton_Click;
 
-            MainPage_Loaded();
+            Unloaded += InfiniteCanvas_Unloaded;
+            Application.Current.LeavingBackground += Current_LeavingBackground;
+
+            ConfigureControls();
             base.OnApplyTemplate();
+        }
+
+        private void _redoButton_Click(object sender, RoutedEventArgs e)
+        {
+            _drawingSurfaceRenderer.Redo(ViewPort);
+        }
+
+        private void _undoButton_Click(object sender, RoutedEventArgs e)
+        {
+            _drawingSurfaceRenderer.Undo(ViewPort);
+        }
+
+        private void InfiniteCanvas_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Application.Current.LeavingBackground -= Current_LeavingBackground;
         }
 
         private void _enableTouchInkingButton_Unchecked(object sender, RoutedEventArgs e)
@@ -134,14 +152,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _drawingSurfaceRenderer.ClearAll(ViewPort);
         }
 
-        private void MainPage_Loaded()
+        private void ConfigureControls()
         {
             _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen;
-
-            this._inkSync = this._inkCanvas.InkPresenter.ActivateCustomDrying();
-            this._inkCanvas.InkPresenter.StrokesCollected += OnStrokesCollected;
-            this._inkCanvas.InkPresenter.UnprocessedInput.PointerMoved += UnprocessedInput_PointerMoved;
-
+            _inkSync = _inkCanvas.InkPresenter.ActivateCustomDrying();
+            _inkCanvas.InkPresenter.StrokesCollected += OnStrokesCollected;
+            _inkCanvas.InkPresenter.UnprocessedInput.PointerMoved += UnprocessedInput_PointerMoved;
 
             _infiniteCanvasScrollViewer.MaxZoomFactor = 4.0f;
             _infiniteCanvasScrollViewer.MinZoomFactor = 0.25f;
@@ -154,8 +170,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _inkCanvas.Height = LargeCanvasWidthHeight;
             _drawingSurfaceRenderer.Width = LargeCanvasWidthHeight;
             _drawingSurfaceRenderer.Height = LargeCanvasWidthHeight;
-
-            Application.Current.LeavingBackground += Current_LeavingBackground;
 
             Canvas.SetLeft(_canvasTextBox, 0);
             Canvas.SetTop(_canvasTextBox, 0);
@@ -189,7 +203,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ReDrawCanvas();
         }
 
-        void OnStrokesCollected(InkPresenter sender, InkStrokesCollectedEventArgs args)
+        private void OnStrokesCollected(InkPresenter sender, InkStrokesCollectedEventArgs args)
         {
             IReadOnlyList<InkStroke> strokes = this._inkSync.BeginDry();
             var inkDrawable = new InkDrawable(strokes);

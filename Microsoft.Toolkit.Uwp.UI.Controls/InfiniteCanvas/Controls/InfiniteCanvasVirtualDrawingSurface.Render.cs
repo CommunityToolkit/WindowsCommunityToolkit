@@ -4,36 +4,17 @@ using System.Linq;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
 using Windows.Foundation;
+using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     public partial class InfiniteCanvasVirtualDrawingSurface
     {
         private readonly List<IDrawable> _visibleList = new List<IDrawable>();
-        private readonly List<IDrawable> _drawableList = new List<IDrawable>();
+        private List<IDrawable> _drawableList = new List<IDrawable>();
 
         private Stack<IInfiniteCanvasCommand> _undoCommands = new Stack<IInfiniteCanvasCommand>();
         private Stack<IInfiniteCanvasCommand> _redoCommands = new Stack<IInfiniteCanvasCommand>();
-
-        public void Undo()
-        {
-            if (_undoCommands.Count != 0)
-            {
-                IInfiniteCanvasCommand command = _undoCommands.Pop();
-                command.UnExecute();
-                _redoCommands.Push(command);
-            }
-        }
-
-        public void Redo()
-        {
-            if (_redoCommands.Count != 0)
-            {
-                IInfiniteCanvasCommand command = _redoCommands.Pop();
-                command.Execute();
-                _undoCommands.Push(command);
-            }
-        }
 
         public void ReDraw(Rect viewPort)
         {
@@ -102,6 +83,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal void RemoveDrawable(IDrawable selectedTextDrawable)
         {
             _drawableList.Remove(selectedTextDrawable);
+        }
+
+        public void Undo(Rect viewPort)
+        {
+            if (_undoCommands.Count != 0)
+            {
+                IInfiniteCanvasCommand command = _undoCommands.Pop();
+                command.UnExecute();
+                _redoCommands.Push(command);
+
+                ReDraw(viewPort);
+            }
+        }
+
+        public void Redo(Rect viewPort)
+        {
+            if (_redoCommands.Count != 0)
+            {
+                IInfiniteCanvasCommand command = _redoCommands.Pop();
+                command.Execute();
+                _undoCommands.Push(command);
+
+                ReDraw(viewPort);
+            }
+        }
+
+        public void UpdateTextBoxText(string newText)
+        {
+            var drawable = GetSelectedTextDrawable();
+            var command = new InfiniteCanvasTextChange(drawable, drawable.Text, newText);
+            _undoCommands.Push(command);
+            _redoCommands.Clear();
+            command.Execute();
+        }
+
+        public void CreateTextBox(double x, double y, double width, double height, int textFontSize, string text, Color color, bool isBold, bool isItalic)
+        {
+            var command = new InfiniteCanvasCreateTextBox(_drawableList, x, y, width, height, textFontSize, text, color, isBold, isItalic);
+            _undoCommands.Push(command);
+            _redoCommands.Clear();
+            command.Execute();
         }
     }
 }

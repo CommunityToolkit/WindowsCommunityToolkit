@@ -99,17 +99,17 @@
 
                                 </StackPanel>
                             </StackPanel>
-                            <ScrollViewer x:Name="inkScrollViewer"
+                            <ScrollViewer x:Name="InfiniteCanvasScrollViewer"
                                           Grid.Row="1"
                                           HorizontalScrollBarVisibility="Auto"
                                           HorizontalScrollMode="Enabled"
                                           VerticalScrollBarVisibility="Auto"
                                           VerticalScrollMode="Enabled"
                                           ZoomMode="Enabled">
-                                <Canvas x:Name="OutputGrid"
+                                <Canvas x:Name="MainContainer"
                                         Background="Transparent">
 
-                                    <local:InfiniteCanvasVirtualDrawingSurface x:Name="canvasOne"
+                                    <local:InfiniteCanvasVirtualDrawingSurface x:Name="DrawingSurfaceRenderer"
                                                                                Width="Auto"
                                                                                Height="Auto" />
 

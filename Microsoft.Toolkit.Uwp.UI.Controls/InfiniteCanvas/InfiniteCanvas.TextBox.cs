@@ -34,69 +34,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void _canvasTextBoxBoldButton_Checked(object sender, RoutedEventArgs e)
         {
-            if (_selectedTextDrawable != null)
+            if (SelectedTextDrawable != null)
             {
-                _selectedTextDrawable.IsBold = _canvasTextBoxBoldButton.IsChecked ?? false;
-                _canvasTextBox.UpdateFontStyle(_selectedTextDrawable.IsBold);
+                SelectedTextDrawable.IsBold = _canvasTextBoxBoldButton.IsChecked ?? false;
+                _canvasTextBox.UpdateFontStyle(SelectedTextDrawable.IsBold);
                 ReDrawCanvas();
             }
         }
 
         private void _canvasTextBoxItlaicButton_Checked(object sender, RoutedEventArgs e)
         {
-            if (_selectedTextDrawable != null)
+            if (SelectedTextDrawable != null)
             {
-                _selectedTextDrawable.IsItalic = _canvasTextBoxItlaicButton.IsChecked ?? false;
-                _canvasTextBox.UpdateFontStyle(_selectedTextDrawable.IsItalic);
+                SelectedTextDrawable.IsItalic = _canvasTextBoxItlaicButton.IsChecked ?? false;
+                _canvasTextBox.UpdateFontStyle(SelectedTextDrawable.IsItalic);
                 ReDrawCanvas();
             }
         }
-        
+
         private void _canvasTextBoxFontSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             _canvasTextBox.UpdateFontSize(TextFontSize);
-            if (_selectedTextDrawable != null)
+            if (SelectedTextDrawable != null)
             {
-                _selectedTextDrawable.FontSize = TextFontSize;
+                SelectedTextDrawable.FontSize = TextFontSize;
                 ReDrawCanvas();
             }
         }
 
         private void _canvasTextBox_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            _selectedTextDrawable?.UpdateBounds(_canvasTextBox.ActualWidth, _canvasTextBox.ActualHeight);
+            SelectedTextDrawable?.UpdateBounds(_canvasTextBox.ActualWidth, _canvasTextBox.ActualHeight);
         }
 
         private void _canvasTextBoxColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
         {
-            if (_selectedTextDrawable != null)
+            if (SelectedTextDrawable != null)
             {
-                _selectedTextDrawable.TextColor = _canvasTextBoxColorPicker.Color;
+                SelectedTextDrawable.TextColor = _canvasTextBoxColorPicker.Color;
                 ReDrawCanvas();
             }
         }
 
-        private TextDrawable _selectedTextDrawable => _drawingSurfaceRenderer.GetSelectedTextDrawable();
+        private TextDrawable SelectedTextDrawable => _drawingSurfaceRenderer.GetSelectedTextDrawable();
 
         private void _canvasTextBox_TextChanged(object sender, string text)
         {
-            if (string.IsNullOrEmpty(text) && _selectedTextDrawable == null)
+            if (string.IsNullOrEmpty(text) && SelectedTextDrawable == null)
             {
                 return;
             }
 
-            if (_selectedTextDrawable != null)
+            if (SelectedTextDrawable != null)
             {
                 if (string.IsNullOrEmpty(text))
                 {
-                    _drawingSurfaceRenderer.RemoveDrawable(_selectedTextDrawable);
+                    _drawingSurfaceRenderer.RemoveDrawable(SelectedTextDrawable);
                     _drawingSurfaceRenderer.ResetSelectedTextDrawable();
                 }
                 else
                 {
-                    if (_selectedTextDrawable.Text != text)
+                    if (SelectedTextDrawable.Text != text)
                     {
-                        _selectedTextDrawable.Text = text;
+                        _drawingSurfaceRenderer.UpdateTextBoxText(text);
                     }
                 }
 
@@ -104,7 +104,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var textDrawable = new TextDrawable(
+            _drawingSurfaceRenderer.CreateTextBox(
                 _lastInputPoint.X,
                 _lastInputPoint.Y,
                 _canvasTextBox.GetEditZoneWidth(),
@@ -115,7 +115,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _canvasTextBoxBoldButton.IsChecked ?? false,
                 _canvasTextBoxItlaicButton.IsChecked ?? false);
 
-            _drawingSurfaceRenderer.AddDrawable(textDrawable);
             _drawingSurfaceRenderer.ReDraw(ViewPort);
             _drawingSurfaceRenderer.UpdateSelectedTextDrawable();
         }
@@ -129,17 +128,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _drawingSurfaceRenderer.UpdateSelectedTextDrawableIfSelected(_lastInputPoint, ViewPort);
 
-                if (_selectedTextDrawable != null)
+                if (SelectedTextDrawable != null)
                 {
                     _canvasTextBox.Visibility = Visibility.Visible;
-                    _canvasTextBox.SetText(_selectedTextDrawable.Text);
+                    _canvasTextBox.SetText(SelectedTextDrawable.Text);
 
-                    Canvas.SetLeft(_canvasTextBox, _selectedTextDrawable.Bounds.X);
-                    Canvas.SetTop(_canvasTextBox, _selectedTextDrawable.Bounds.Y);
-                    _canvasTextBoxColorPicker.Color = _selectedTextDrawable.TextColor;
-                    _canvasTextBox.UpdateFontSize(_selectedTextDrawable.FontSize);
-                    _canvasTextBox.UpdateFontStyle(_selectedTextDrawable.IsItalic);
-                    _canvasTextBox.UpdateFontWeight(_selectedTextDrawable.IsBold);
+                    Canvas.SetLeft(_canvasTextBox, SelectedTextDrawable.Bounds.X);
+                    Canvas.SetTop(_canvasTextBox, SelectedTextDrawable.Bounds.Y);
+                    _canvasTextBoxColorPicker.Color = SelectedTextDrawable.TextColor;
+                    _canvasTextBox.UpdateFontSize(SelectedTextDrawable.FontSize);
+                    _canvasTextBox.UpdateFontStyle(SelectedTextDrawable.IsItalic);
+                    _canvasTextBox.UpdateFontWeight(SelectedTextDrawable.IsBold);
 
                     return;
                 }
