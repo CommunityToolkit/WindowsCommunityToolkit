@@ -9,6 +9,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         Point _lastInputPoint;
 
+        public int TextFontSize => string.IsNullOrWhiteSpace(_canvasTextBoxFontSizeTextBox.Text) ? 22 : int.Parse(_canvasTextBoxFontSizeTextBox.Text);
+
         private void InkScrollViewer_PreviewKeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             // fixing scroll viewer issue with text box when you hit UP/DOWN/Right/LEFT
@@ -49,18 +51,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ReDrawCanvas();
             }
         }
-
-        public int TextFontSize => string.IsNullOrWhiteSpace(_canvasTextBoxFontSizeTextBox.Text) ? 22 : int.Parse(_canvasTextBoxFontSizeTextBox.Text);
-
+        
         private void _canvasTextBoxFontSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             _canvasTextBox.UpdateFontSize(TextFontSize);
             if (_selectedTextDrawable != null)
             {
                 _selectedTextDrawable.FontSize = TextFontSize;
-                _selectedTextDrawable.UpdateBounds(_canvasTextBox.ActualWidth, _canvasTextBox.ActualHeight);
                 ReDrawCanvas();
             }
+        }
+
+        private void _canvasTextBox_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _selectedTextDrawable?.UpdateBounds(_canvasTextBox.ActualWidth, _canvasTextBox.ActualHeight);
         }
 
         private void _canvasTextBoxColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
@@ -93,7 +97,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (_selectedTextDrawable.Text != text)
                     {
                         _selectedTextDrawable.Text = text;
-                        _selectedTextDrawable.UpdateBounds(_canvasTextBox.ActualWidth, _canvasTextBox.ActualHeight);
                     }
                 }
 

@@ -31,13 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private SpriteVisual myDrawingVisual;
         private CompositionVirtualDrawingSurface drawingSurface;
         private CompositionSurfaceBrush surfaceBrush;
-        private InteractionTracker tracker;
-        private VisualInteractionSource interactionSource;
-        private CompositionPropertySet animatingPropset;
-        private ExpressionAnimation animateMatrix;
-        private ExpressionAnimation moveSurfaceExpressionAnimation;
-        private ExpressionAnimation moveSurfaceUpDownExpressionAnimation;
-        private ExpressionAnimation scaleSurfaceUpDownExpressionAnimation;
 
         public VirtualDrawingSurface()
         {
@@ -182,6 +175,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _visibleList.Clear();
             _drawableList.Clear();
+
             using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface, viewPort))
             {
                 drawingSession.Clear(Background);

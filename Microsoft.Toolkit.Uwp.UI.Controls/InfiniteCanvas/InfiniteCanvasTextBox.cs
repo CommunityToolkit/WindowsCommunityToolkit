@@ -17,6 +17,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     public class InfiniteCanvasTextBox : Control
     {
+        public event EventHandler<string> TextChanged;
+
         public InfiniteCanvasTextBox()
         {
             this.DefaultStyleKey = typeof(InfiniteCanvasTextBox);
@@ -29,16 +31,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _editZone = (TextBox)GetTemplateChild("EditZone");
             _editZone.TextChanged += _editZone_TextChanged;
             _editZone.FontSize = FontSize;
-            _editZone.PointerWheelChanged += _editZone_PointerWheelChanged;
             base.OnApplyTemplate();
         }
-
-        private void _editZone_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            this.Visibility = Visibility.Collapsed;
-        }
-
-        public event EventHandler<string> TextChanged;
 
         private void _editZone_TextChanged(object sender, RoutedEventArgs e)
         {
@@ -101,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public bool CannotGoRight()
         {
-            return _editZone.SelectionStart == _editZone.Text.Length;
+            return (_editZone.SelectionStart + _editZone.SelectionLength) == _editZone.Text.Length;
         }
 
         public bool CannotGoLeft()
@@ -135,7 +129,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var lastLine = lines.ElementAt(lines.Length - 1);
-            if ((_editZone.Text.Length - lastLine.Length) <= _editZone.SelectionStart)
+            if ((_editZone.Text.Length - lastLine.Length) <= (_editZone.SelectionStart + _editZone.SelectionLength))
             {
                 return true;
             }

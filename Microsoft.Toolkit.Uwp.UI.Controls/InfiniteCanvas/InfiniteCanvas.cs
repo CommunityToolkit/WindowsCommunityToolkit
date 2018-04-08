@@ -87,6 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             inkScrollViewer.PointerPressed += InkScrollViewer_PointerPressed;
             inkScrollViewer.PreviewKeyDown += InkScrollViewer_PreviewKeyDown;
             _canvasTextBox.TextChanged += _canvasTextBox_TextChanged;
+            _canvasTextBox.SizeChanged += _canvasTextBox_SizeChanged;
 
             MainPage_Loaded();
             base.OnApplyTemplate();
