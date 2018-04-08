@@ -13,6 +13,7 @@
 using System;
 using ColorCode;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -22,6 +23,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
     public class CodeRenderer : Control
     {
+        private ThemeListener themeListener;
         private RichTextBlockFormatter _formatter;
         private RichTextBlock _codeView;
         private Button _printButton;
@@ -36,6 +38,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         public CodeRenderer()
         {
             DefaultStyleKey = typeof(CodeRenderer);
+
+            themeListener = new ThemeListener();
+            themeListener.ThemeChanged += ThemeListener_ThemeChanged;
         }
 
         /// <summary>
@@ -92,8 +97,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private void RenderDocument()
         {
-            _codeView.Blocks.Clear();
-            _formatter = new RichTextBlockFormatter();
+            _codeView?.Blocks?.Clear();
+            var theme = themeListener.CurrentTheme == ApplicationTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
+            if (RequestedTheme != ElementTheme.Default)
+            {
+                theme = RequestedTheme;
+            }
+
+            _formatter = new RichTextBlockFormatter(theme);
             _formatter.FormatRichTextBlock(_displayedText, _language, _codeView);
             _rendered = true;
         }
@@ -113,9 +124,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             var printblock = new RichTextBlock
             {
-                FontFamily = _codeView.FontFamily
+                FontFamily = _codeView.FontFamily,
+                RequestedTheme = ElementTheme.Light
             };
-            _formatter.FormatRichTextBlock(_displayedText, _language, printblock);
+            var printFormatter = new RichTextBlockFormatter(ElementTheme.Light);
+            printFormatter.FormatRichTextBlock(_displayedText, _language, printblock);
 
             _printHelper = new PrintHelper(_container);
             _printHelper.AddFrameworkElementToPrint(printblock);
@@ -155,6 +168,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         private void PrintHelper_OnPrintCanceled()
         {
             ReleasePrintHelper();
+        }
+
+        private void ThemeListener_ThemeChanged(ThemeListener sender)
+        {
+            try
+            {
+                _rendered = false;
+                RenderDocument();
+            }
+            catch { }
         }
     }
 }

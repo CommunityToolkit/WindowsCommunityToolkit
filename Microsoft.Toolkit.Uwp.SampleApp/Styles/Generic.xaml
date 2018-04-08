@@ -9,46 +9,13 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp">
 
-    <!--  Styles  -->
-    <Style TargetType="controls:CodeRenderer">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="controls:CodeRenderer">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid x:Name="Container"
-                                  Grid.RowSpan="2"
-                                  Opacity="0" />
-                        <ProgressRing Name="progress"
-                                          Grid.Row="0"
-                                          Width="100"
-                                          Height="100"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          Foreground="{TemplateBinding Foreground}"
-                                          IsActive="True" />
-                        <WebView Name="webView"
-                                     Grid.Row="0"
-                                     Visibility="Collapsed" />
-                        <StackPanel Grid.Row="1"
-                                        HorizontalAlignment="Center"
-                                        Orientation="Horizontal">
-                            <Button x:Name="CopyButton"
-                                        Margin="5"
-                                        Content="Copy" />
-                            <Button x:Name="PrintButton"
-                                        Margin="5"
-                                        Content="Print" />
-                        </StackPanel>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///Controls/ExtendedHamburgerMenu.xaml" />
+        <ResourceDictionary Source="ms-appx:///Controls/CodeRenderer.xaml" />
+        <ResourceDictionary Source="ms-appx:///Styles/Custom/PivotHeaderItemUnderlineStyle.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
+    <!--  Styles  -->
     <Style x:Key="AboutHyperlinkButtonStyle" TargetType="HyperlinkButton">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{ThemeResource Brush-Brand-Color}" />
@@ -136,7 +103,7 @@
 
     <DataTemplate x:Key="PivotHeaderTemplate">
         <Grid>
-            <TextBlock FontSize="14"
+            <TextBlock FontSize="16" FontWeight="SemiBold"
                            Text="{Binding}" />
         </Grid>
     </DataTemplate>
@@ -582,373 +549,6 @@
         </StackPanel>
     </DataTemplate>
 
-    <Style x:Key="HorizontalHamburgerMenu"
-               TargetType="controls:ExtendedHamburgerMenu">
-        <Setter Property="HamburgerMenuTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <FontIcon Margin="16"
-                                  FontFamily="Segoe MDL2 Assets"
-                                  FontSize="16"
-                                  Glyph="&#xE700;" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="controls:ExtendedHamburgerMenu">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="48" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <Grid.Resources>
-                            <animations:AnimationCollection x:Key="FromRightShowAnimation">
-                                <animations:TranslationAnimation From="100, 0, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
-                                <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
-                            </animations:AnimationCollection>
-                            <animations:AnimationCollection x:Key="FromRightHideAnimation">
-                                <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.2"></animations:OpacityAnimation>
-                                <animations:TranslationAnimation To="100, 0, 0" From="0" Duration="0:0:0.2"></animations:TranslationAnimation>
-                            </animations:AnimationCollection>
-                        </Grid.Resources>
-
-                        <ContentPresenter x:Name="ContentPart"
-                                              Grid.Row="1"
-                                              AutomationProperties.Name="Content"
-                                              Content="{TemplateBinding Content}" />
-
-                        <Grid Grid.Row="1">
-
-                            <Border x:Name="ContentShadow"
-                                        Background="{ThemeResource BackingTint}"
-                                        Visibility="{Binding Visibility, ElementName=SamplePickerGrid}">
-                                <interactivity:Interaction.Behaviors>
-                                    <behaviors:Blur AutomaticallyStart="True"
-                                                        Delay="0"
-                                                        Value="2"
-                                                        Duration="0" />
-                                </interactivity:Interaction.Behaviors>
-                                <animations:Implicit.ShowAnimations>
-                                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
-                                </animations:Implicit.ShowAnimations>
-                                <animations:Implicit.HideAnimations>
-                                    <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.2"></animations:OpacityAnimation>
-                                </animations:Implicit.HideAnimations>
-                            </Border>
-
-                            <Grid x:Name="SamplePickerGrid"
-                                      x:DeferLoadStrategy="Lazy"
-                                      Visibility="Collapsed"
-                                      VerticalAlignment="Top">
-                                <toolkitControls:DropShadowPanel VerticalContentAlignment="Stretch"
-                                                                     HorizontalContentAlignment="Stretch"
-                                                                     ShadowOpacity="0.7"
-                                                                     Color="{ThemeResource Color-Alt}"
-                                                                     BlurRadius="10"
-                                                                     VerticalAlignment="Bottom"
-                                                                     Margin="0,0,0,-3">
-                                    <Border Height="1"></Border>
-                                </toolkitControls:DropShadowPanel>
-
-                                <Border x:Name="SamplePickerGridBackground"
-                                             Background="{ThemeResource Menu-DropDown-Background}"></Border>
-                                <GridView x:Name="SamplePickerGridView"
-                                              IsItemClickEnabled="True"
-                                              animations:ReorderGridAnimation.Duration="200"
-                                              ItemContainerStyle="{StaticResource SecondaryHamburgerMenuItemStyle}"
-                                              ItemTemplate="{StaticResource SampleTemplate}"
-                                              SelectionMode="Single"
-                                              ItemContainerTransitions="{x:Null}"
-                                              Transitions="{x:Null}">
-                                    <animations:Implicit.ShowAnimations>
-                                        <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" Delay="0:0:0.2" SetInitialValueBeforeDelay="True"></animations:OpacityAnimation>
-                                    </animations:Implicit.ShowAnimations>
-                                </GridView>
-
-                                <animations:Implicit.ShowAnimations>
-                                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
-                                    <animations:TranslationAnimation From="0, -1000, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
-                                </animations:Implicit.ShowAnimations>
-                                <animations:Implicit.HideAnimations>
-                                    <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.5"></animations:OpacityAnimation>
-                                    <animations:TranslationAnimation To="0, -1000, 0" From="0" Duration="0:0:0.5"></animations:TranslationAnimation>
-                                </animations:Implicit.HideAnimations>
-                            </Grid>
-                        </Grid>
-
-                        <Grid Background="{TemplateBinding PaneBackground}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <ListView x:Name="ButtonsListView"
-                                          AutomationProperties.Name="Menu items"
-                                          IsItemClickEnabled="True"
-                                          ItemContainerStyle="{StaticResource HamburgerMenuItemStyle}"
-                                          ItemTemplate="{TemplateBinding ItemTemplate}"
-                                          ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                          ItemsSource="{TemplateBinding ItemsSource}"
-                                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                                          ScrollViewer.HorizontalScrollMode="Auto"
-                                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                          ScrollViewer.VerticalScrollMode="Disabled"
-                                          SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                          SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                          SelectionMode="Single"
-                                          TabIndex="1"
-                                          Grid.Column="1">
-                                <animations:Implicit.ShowAnimations>
-                                    <animations:TranslationAnimation From="-500, 0, 0" To="0" Duration="0:0:0.3"></animations:TranslationAnimation>
-                                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
-                                </animations:Implicit.ShowAnimations>
-                                <animations:Implicit.HideAnimations>
-                                    <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.2"></animations:OpacityAnimation>
-                                    <animations:TranslationAnimation To="-500, 0, 0" From="0" Duration="0:0:0.2"></animations:TranslationAnimation>
-                                </animations:Implicit.HideAnimations>
-                                <animations:Implicit.Animations>
-                                    <animations:OffsetAnimation Duration="0:0:0.2"></animations:OffsetAnimation>
-                                </animations:Implicit.Animations>
-                                <ListView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <ItemsStackPanel Orientation="Horizontal" />
-                                    </ItemsPanelTemplate>
-                                </ListView.ItemsPanel>
-                            </ListView>
-
-                            <TextBlock x:Name="TitleTextBlock"
-                                           Grid.Column="1"
-                                           VerticalAlignment="Center"
-                                           FontFamily="Segoe UI"
-                                           FontSize="15px"
-                                           FontWeight="Normal"
-                                           Margin="2,0,0,0"
-                                           Text="{TemplateBinding Title}"
-                                           animations:Implicit.ShowAnimations="{StaticResource FromRightShowAnimation}"
-                                           animations:Implicit.HideAnimations="{StaticResource FromRightHideAnimation}" />
-
-                            <Grid Grid.Column="2" x:Name="SearchGrid"
-                                      animations:Implicit.ShowAnimations="{StaticResource FromRightShowAnimation}"
-                                      animations:Implicit.HideAnimations="{StaticResource FromRightHideAnimation}">
-                                <Button Name="SearchButton"
-                                            Padding="0"
-                                            VerticalAlignment="Stretch"
-                                            AutomationProperties.Name="Search button"
-                                            Background="Transparent"
-                                            HorizontalAlignment="Right"
-                                            BorderThickness="0"
-                                            Opacity="0.6">
-                                    <FontIcon Margin="16,12"
-                                                  FontFamily="Segoe MDL2 Assets"
-                                                  FontSize="16"
-                                                  Foreground="{TemplateBinding PaneForeground}"
-                                                  Glyph="&#xE721;" />
-                                    <animations:Implicit.ShowAnimations>
-                                        <animations:OpacityAnimation From="0" To="0.6" Duration="0:0:0.3"></animations:OpacityAnimation>
-                                    </animations:Implicit.ShowAnimations>
-                                </Button>
-                                <AutoSuggestBox x:Name="SearchBox"
-                                                    MinWidth="300"
-                                                    Margin="5,0"
-                                                    VerticalAlignment="Center"
-                                                    IsTabStop="False"
-                                                    QueryIcon="Find"
-                                                    extensions:VisualEx.NormalizedCenterPoint="0.95, 0.5, 0"
-                                                    Visibility="Collapsed">
-                                    <animations:Implicit.ShowAnimations>
-                                        <animations:ScaleAnimation From="0,1,1" To="1" Duration="0:0:0.3"></animations:ScaleAnimation>
-                                    </animations:Implicit.ShowAnimations>
-                                </AutoSuggestBox>
-                            </Grid>
-
-                            <ListView x:Name="OptionsListView"
-                                          Grid.Column="3"
-                                          AutomationProperties.Name="Option items"
-                                          IsItemClickEnabled="True"
-                                          ItemContainerStyle="{StaticResource HamburgerMenuItemStyle}"
-                                          ItemTemplate="{TemplateBinding OptionsItemTemplate}"
-                                          ItemTemplateSelector="{TemplateBinding OptionsItemTemplateSelector}"
-                                          ItemsSource="{TemplateBinding OptionsItemsSource}"
-                                          ScrollViewer.HorizontalScrollMode="Disabled"
-                                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                          SelectedIndex="{Binding SelectedOptionsIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                          SelectedItem="{Binding SelectedOptionsItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                          SelectionMode="Single"
-                                          TabIndex="2"
-                                          animations:Implicit.ShowAnimations="{StaticResource FromRightShowAnimation}"
-                                          animations:Implicit.HideAnimations="{StaticResource FromRightHideAnimation}">
-                                <ListView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <ItemsStackPanel Orientation="Horizontal" />
-                                    </ItemsPanelTemplate>
-                                </ListView.ItemsPanel>
-                            </ListView>
-
-                            <Button x:Name="HamburgerButton"
-                                        Width="{TemplateBinding HamburgerWidth}"
-                                        Height="{TemplateBinding HamburgerHeight}"
-                                        Opacity="0.6"
-                                        Padding="0"
-                                        VerticalAlignment="Top"
-                                        AutomationProperties.Name="Main button"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        TabIndex="0"
-                                        Visibility="Collapsed">
-                                <ContentControl Margin="{TemplateBinding HamburgerMargin}"
-                                                    ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
-                                                    Foreground="{TemplateBinding PaneForeground}"
-                                                    Background="{ThemeResource Brush-Main}"
-                                                    extensions:VisualEx.NormalizedCenterPoint="0.5"
-                                                    IsTabStop="False">
-                                    <animations:Implicit.ShowAnimations>
-                                        <animations:OpacityAnimation Duration="0:0:0.3" To="0.6"></animations:OpacityAnimation>
-                                        <animations:RotationInDegreesAnimation Duration="0:0:0.4" From="-180" To="0"></animations:RotationInDegreesAnimation>
-                                    </animations:Implicit.ShowAnimations>
-                                    <animations:Implicit.HideAnimations>
-                                        <animations:OpacityAnimation Duration="0:0:0.2" To="0"></animations:OpacityAnimation>
-                                        <animations:RotationInDegreesAnimation Duration="0:0:0.2" To="-180" From="0"></animations:RotationInDegreesAnimation>
-                                    </animations:Implicit.HideAnimations>
-                                </ContentControl>
-                            </Button>
-
-                            <Border Background="{ThemeResource Separator-03}" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="4"></Border>
-                        </Grid>
-
-                        <Canvas Background="Transparent"
-                                    x:Name="MoreInfoCanvas"
-                                    Visibility="Collapsed"
-                                    Grid.RowSpan="2">
-
-                            <Grid x:Name="MoreInfoContent"
-                                      Width="260"
-                                      Height="320"
-                                      extensions:VisualEx.NormalizedCenterPoint="0.5">
-                                <Grid VerticalAlignment="Top">
-
-                                    <toolkitControls:DropShadowPanel VerticalContentAlignment="Stretch"
-                                                                         HorizontalContentAlignment="Stretch"
-                                                                         ShadowOpacity="0.6"
-                                                                         Color="{ThemeResource Color-Alt}"
-                                                                         OffsetY="6"
-                                                                         BlurRadius="60">
-                                        <Border Background="{ThemeResource Menu-DropDown-Background}"
-                                                    Opacity="0.96">
-                                            <interactivity:Interaction.Behaviors>
-                                                <behaviors:Blur AutomaticallyStart="True"
-                                                                    Delay="0"
-                                                                    Value="3"
-                                                                    Duration="0" />
-                                            </interactivity:Interaction.Behaviors>
-                                        </Border>
-                                    </toolkitControls:DropShadowPanel>
-
-                                    <Grid Padding="10">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="160" />
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
-
-                                        <Grid
-                                            Grid.Row="0"
-                                            Background="{ThemeResource SampleIconBacking}">
-                                            <Image Width="240"
-                                                   x:Name="MoreInfoImage"
-                                                       Height="160"
-                                                       Source="{Binding Icon}" />
-                                        </Grid>
-
-                                        <StackPanel Grid.Row="1">
-                                            <TextBlock Margin="0, 10"
-                                                           FontSize="14"
-                                                           FontWeight="SemiBold"
-                                                           Text="{Binding Name}"
-                                                           TextTrimming="CharacterEllipsis" />
-
-                                            <TextBlock FontSize="12"
-                                                           Text="{Binding About}"
-                                                           TextWrapping="Wrap" />
-
-                                            <Border Margin="0,10,0,0"
-                                                      Opacity="1"
-                                                      HorizontalAlignment="Left"
-                                                      Background="{StaticResource Brush-Blue-01}"
-                                                      Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
-                                                <TextBlock Margin="2"
-                                                               FontSize="10"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Bottom"
-                                                               Foreground="{ThemeResource Brush-Main}"
-                                                               Text="{Binding BadgeUpdateVersionRequired}" />
-
-                                                <animations:Implicit.HideAnimations>
-                                                    <animations:OpacityAnimation To="0"  Duration="0:0:0.01"></animations:OpacityAnimation>
-                                                </animations:Implicit.HideAnimations>
-                                                <animations:Implicit.ShowAnimations>
-                                                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.4" Delay="0:0:0.2" SetInitialValueBeforeDelay="True"></animations:OpacityAnimation>
-                                                    <animations:TranslationAnimation From="0, 20, 0" To="0" Duration="0:0:0.3" Delay="0:0:0.2"></animations:TranslationAnimation>
-                                                </animations:Implicit.ShowAnimations>
-                                            </Border>
-
-                                            <animations:Implicit.ShowAnimations>
-                                                <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.4" Delay="0:0:0.2" SetInitialValueBeforeDelay="True"></animations:OpacityAnimation>
-                                                <animations:TranslationAnimation From="0, 20, 0" To="0" Duration="0:0:0.3" Delay="0:0:0.2"></animations:TranslationAnimation>
-                                            </animations:Implicit.ShowAnimations>
-                                        </StackPanel>
-                                    </Grid>
-                                </Grid>
-
-                                <animations:Implicit.ShowAnimations>
-                                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3"></animations:OpacityAnimation>
-                                    <animations:ScaleAnimation From="0.5" To="1" Duration="0:0:0.3"></animations:ScaleAnimation>
-                                </animations:Implicit.ShowAnimations>
-                                <animations:Implicit.HideAnimations>
-                                    <animations:OpacityAnimation To="0" From="1" Duration="0:0:0.2"></animations:OpacityAnimation>
-                                    <animations:ScaleAnimation To="0.5" From="1" Duration="0:0:0.2"></animations:ScaleAnimation>
-                                </animations:Implicit.HideAnimations>
-                            </Grid>
-                        </Canvas>
-
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="WindowStates">
-                                <VisualState x:Name="NarrowState">
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="0" />
-                                    </VisualState.StateTriggers>
-                                    <VisualState.Setters>
-                                        <Setter Target="HamburgerButton.Visibility" Value="Visible" />
-                                        <Setter Target="ButtonsListView.Visibility" Value="Collapsed" />
-                                        <Setter Target="OptionsListView.Visibility" Value="Visible" />
-                                        <Setter Target="SearchGrid.Visibility" Value="Visible" />
-                                        <Setter Target="TitleTextBlock.Visibility" Value="Visible" />
-                                        <Setter Target="SamplePickerGrid.Visibility" Value="Collapsed"></Setter>
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="WideState">
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="700" />
-                                    </VisualState.StateTriggers>
-                                    <VisualState.Setters>
-                                        <Setter Target="HamburgerButton.Visibility" Value="Collapsed" />
-                                        <Setter Target="ButtonsListView.Visibility" Value="Visible" />
-                                        <Setter Target="OptionsListView.Visibility" Value="Visible" />
-                                        <Setter Target="SearchGrid.Visibility" Value="Visible" />
-                                        <Setter Target="TitleTextBlock.Visibility" Value="Collapsed" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="DismissTextBlockButtonStyle" TargetType="ButtonBase">
         <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
@@ -1106,6 +706,256 @@
                                                 AutomationProperties.Name="Dismiss" />
                                 </Grid>
                             </toolkitControls:DropShadowPanel>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Name="ScrollViewerScrollBarlessTemplate" TargetType="ScrollViewer">
+        <Grid Background="{TemplateBinding Background}">
+            <ScrollContentPresenter x:Name="ScrollContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Margin="{TemplateBinding Padding}" />
+        </Grid>
+    </ControlTemplate>
+
+    <Style x:Key="PivotUnderlineStyle" TargetType="Pivot">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="{ThemeResource PivotBackground}" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <Grid />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Pivot">
+                    <Grid x:Name="RootElement" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                        <Grid.Resources>
+                            <Style x:Key="BaseContentControlStyle" TargetType="ContentControl">
+                                <Setter Property="FontFamily" Value="XamlAutoFontFamily" />
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                                <Setter Property="FontSize" Value="15" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ContentControl">
+                                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentTransitions="{TemplateBinding ContentTransitions}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" OpticalMarginAlignment="TrimSideBearings" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                            <Style x:Key="TitleContentControlStyle" BasedOn="{StaticResource BaseContentControlStyle}" TargetType="ContentControl">
+                                <Setter Property="FontFamily" Value="{ThemeResource PivotTitleFontFamily}" />
+                                <Setter Property="FontWeight" Value="{ThemeResource PivotTitleThemeFontWeight}" />
+                                <Setter Property="FontSize" Value="{ThemeResource PivotTitleFontSize}" />
+                            </Style>
+
+                            <Style BasedOn="{StaticResource PivotHeaderItemUnderlineStyle}" TargetType="PivotHeaderItem" />
+                        </Grid.Resources>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="Orientation">
+                                <VisualState x:Name="Portrait">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TitleContentControl" Storyboard.TargetProperty="Margin">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPortraitThemePadding}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Landscape">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TitleContentControl" Storyboard.TargetProperty="Margin">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotLandscapeThemePadding}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="NavigationButtonsVisibility">
+                                <VisualState x:Name="NavigationButtonsHidden" />
+                                <VisualState x:Name="NavigationButtonsVisible">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NextButton" Storyboard.TargetProperty="Opacity">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NextButton" Storyboard.TargetProperty="IsEnabled">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PreviousButton" Storyboard.TargetProperty="Opacity">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PreviousButton" Storyboard.TargetProperty="IsEnabled">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="PreviousButtonVisible">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PreviousButton" Storyboard.TargetProperty="Opacity">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PreviousButton" Storyboard.TargetProperty="IsEnabled">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="NextButtonVisible">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NextButton" Storyboard.TargetProperty="Opacity">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NextButton" Storyboard.TargetProperty="IsEnabled">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="HeaderStates">
+                                <VisualState x:Name="HeaderDynamic" />
+                                <VisualState x:Name="HeaderStatic">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Header" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="StaticHeader" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <ContentControl x:Name="TitleContentControl" ContentTemplate="{TemplateBinding TitleTemplate}" Content="{TemplateBinding Title}" IsTabStop="False" Margin="{StaticResource PivotPortraitThemePadding}" Style="{StaticResource TitleContentControlStyle}" Visibility="Collapsed" />
+                        <Grid Grid.Row="1">
+                            <Grid.Resources>
+                                <ControlTemplate x:Key="NextTemplate" TargetType="Button">
+                                    <Border x:Name="Root" Background="{ThemeResource PivotNextButtonBackground}" BorderThickness="{ThemeResource PivotNavButtonBorderThemeThickness}" BorderBrush="{ThemeResource PivotNextButtonBorderBrush}">
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal" />
+                                                <VisualState x:Name="PointerOver">
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonBackgroundPointerOver}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="BorderBrush">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonBorderBrushPointerOver}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow" Storyboard.TargetProperty="Foreground">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonForegroundPointerOver}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </VisualState>
+                                                <VisualState x:Name="Pressed">
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonBackgroundPressed}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="BorderBrush">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonBorderBrushPressed}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow" Storyboard.TargetProperty="Foreground">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonForegroundPressed}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <FontIcon x:Name="Arrow" FontFamily="{ThemeResource SymbolThemeFontFamily}" Foreground="{ThemeResource PivotNextButtonForeground}" FontSize="12" Glyph="&#xE0E3;" HorizontalAlignment="Center" MirroredWhenRightToLeft="True" UseLayoutRounding="False" VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                                <ControlTemplate x:Key="PreviousTemplate" TargetType="Button">
+                                    <Border x:Name="Root" Background="{ThemeResource PivotPreviousButtonBackground}" BorderThickness="{ThemeResource PivotNavButtonBorderThemeThickness}" BorderBrush="{ThemeResource PivotPreviousButtonBorderBrush}">
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal" />
+                                                <VisualState x:Name="PointerOver">
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonBackgroundPointerOver}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="BorderBrush">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonBorderBrushPointerOver}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow" Storyboard.TargetProperty="Foreground">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonForegroundPointerOver}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </VisualState>
+                                                <VisualState x:Name="Pressed">
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonBackgroundPressed}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="BorderBrush">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonBorderBrushPressed}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow" Storyboard.TargetProperty="Foreground">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonForegroundPressed}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <FontIcon x:Name="Arrow" FontFamily="{ThemeResource SymbolThemeFontFamily}" Foreground="{ThemeResource PivotPreviousButtonForeground}" FontSize="12" Glyph="&#xE0E2;" HorizontalAlignment="Center" MirroredWhenRightToLeft="True" UseLayoutRounding="False" VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Grid.Resources>
+                            <ScrollViewer x:Name="ScrollViewer" BringIntoViewOnFocusChange="False" HorizontalScrollBarVisibility="Hidden" HorizontalSnapPointsAlignment="Center" HorizontalSnapPointsType="MandatorySingle" Margin="{TemplateBinding Padding}" Template="{StaticResource ScrollViewerScrollBarlessTemplate}" VerticalContentAlignment="Stretch" VerticalSnapPointsType="None" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" ZoomMode="Disabled">
+                                <PivotPanel x:Name="Panel" VerticalAlignment="Stretch">
+                                    <Grid x:Name="PivotLayoutElement">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.RenderTransform>
+                                            <CompositeTransform x:Name="PivotLayoutElementTranslateTransform" />
+                                        </Grid.RenderTransform>
+                                        <ContentPresenter x:Name="LeftHeaderPresenter" ContentTemplate="{TemplateBinding LeftHeaderTemplate}" Content="{TemplateBinding LeftHeader}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                        <ContentControl x:Name="HeaderClipper" Grid.Column="1" HorizontalContentAlignment="Stretch" UseSystemFocusVisuals="True">
+                                            <ContentControl.Clip>
+                                                <RectangleGeometry x:Name="HeaderClipperGeometry" />
+                                            </ContentControl.Clip>
+                                            <Grid Background="{ThemeResource PivotHeaderBackground}">
+                                                <Grid.RenderTransform>
+                                                    <CompositeTransform x:Name="HeaderOffsetTranslateTransform" />
+                                                </Grid.RenderTransform>
+                                                <PivotHeaderPanel x:Name="StaticHeader" Visibility="Collapsed">
+                                                    <PivotHeaderPanel.RenderTransform>
+                                                        <CompositeTransform x:Name="StaticHeaderTranslateTransform" />
+                                                    </PivotHeaderPanel.RenderTransform>
+                                                </PivotHeaderPanel>
+                                                <PivotHeaderPanel x:Name="Header">
+                                                    <PivotHeaderPanel.RenderTransform>
+                                                        <CompositeTransform x:Name="HeaderTranslateTransform" />
+                                                    </PivotHeaderPanel.RenderTransform>
+                                                </PivotHeaderPanel>
+                                            </Grid>
+                                        </ContentControl>
+                                        <Button x:Name="PreviousButton" Background="Transparent" Grid.Column="1" HorizontalAlignment="Left" Height="36" IsEnabled="False" IsTabStop="False" Margin="{ThemeResource PivotNavButtonMargin}" Opacity="0" Template="{StaticResource PreviousTemplate}" UseSystemFocusVisuals="False" VerticalAlignment="Top" Width="20" />
+                                        <Button x:Name="NextButton" Background="Transparent" Grid.Column="1" HorizontalAlignment="Right" Height="36" IsEnabled="False" IsTabStop="False" Margin="{ThemeResource PivotNavButtonMargin}" Opacity="0" Template="{StaticResource NextTemplate}" UseSystemFocusVisuals="False" VerticalAlignment="Top" Width="20" />
+                                        <ContentPresenter x:Name="RightHeaderPresenter" ContentTemplate="{TemplateBinding RightHeaderTemplate}" Content="{TemplateBinding RightHeader}" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                        <ItemsPresenter x:Name="PivotItemPresenter" Grid.ColumnSpan="3" Grid.Row="1">
+                                            <ItemsPresenter.RenderTransform>
+                                                <TransformGroup>
+                                                    <TranslateTransform x:Name="ItemsPresenterTranslateTransform" />
+                                                    <CompositeTransform x:Name="ItemsPresenterCompositeTransform" />
+                                                </TransformGroup>
+                                            </ItemsPresenter.RenderTransform>
+                                        </ItemsPresenter>
+                                    </Grid>
+                                </PivotPanel>
+                            </ScrollViewer>
                         </Grid>
                     </Grid>
                 </ControlTemplate>

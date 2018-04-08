@@ -17,6 +17,7 @@ using System.Reflection;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -70,7 +71,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     // Label
                     var label = new TextBlock
                     {
-                        Text = option.Label + ":"
+                        Text = option.Label,
+                        FontSize = 15,
+                        FontWeight = FontWeights.Bold
                     };
                     RootPanel.Children.Add(label);
 
@@ -175,6 +178,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             converter = new TimeSpanConverter();
 
                             break;
+
                         case PropertyKind.Thickness:
                             var thicknessTextBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
 
@@ -182,6 +186,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             dependencyProperty = TextBox.TextProperty;
                             converter = new ThicknessConverter();
                             break;
+
                         default:
                             var textBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
 

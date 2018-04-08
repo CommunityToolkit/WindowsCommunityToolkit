@@ -58,20 +58,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        public bool UseAcrylic
-        {
-            get
-            {
-                return _useAcrylic;
-            }
-
-            set
-            {
-                _useAcrylic = value;
-                UpdateAcrylics();
-            }
-        }
-
         public bool UseBackground
         {
             get
@@ -82,21 +68,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             set
             {
                 _useBackground = value;
-                UpdateAcrylics();
+                UpdateProperty(nameof(UseBackground));
             }
         }
-
-        private void UpdateAcrylics()
-        {
-            UpdateProperty(nameof(UseAcrylic));
-            UpdateProperty(nameof(UseBackground));
-            UpdateProperty(nameof(UseAppAcrylic));
-            UpdateProperty(nameof(UseHostAcrylic));
-        }
-
-        public bool UseAppAcrylic => UseAcrylic && _useBackground;
-
-        public bool UseHostAcrylic => UseAcrylic && !_useBackground;
 
         private Page SamplePage => SampleContent.Content as Page;
 
@@ -104,8 +78,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private bool _lastRenderedProperties = true;
         private bool _xamlCodeRendererSupported = false;
 
-        private bool _useAcrylic;
-        private bool _useBackground = true;
+        private bool _useBackground = false;
 
         private PaneState _paneState;
         private bool _hasDocumentation = true;
@@ -120,12 +93,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             Current = this;
 
             DocumentationTextblock.SetRenderer<SampleAppMarkdownRenderer>();
-
-            if (!VisualHelpers.SupportsFluentAcrylic)
-            {
-                // Disable Acrylic Toggle.
-                AcrylicSwitch.Visibility = Visibility.Collapsed;
-            }
 
             ProcessSampleEditorTime();
             XamlCodeEditor.UpdateRequested += XamlCodeEditor_UpdateRequested;
@@ -221,17 +188,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     _xamlRenderer.DataContext = propertyDesc.Expando;
                 }
 
-                if (CurrentSample.HasDocumentation)
-                {
-                    var docs = await CurrentSample.GetDocumentationAsync();
-                    documentationPath = docs.path;
-                    if (!string.IsNullOrWhiteSpace(docs.contents))
-                    {
-                        DocumentationTextblock.Text = docs.contents;
-                        InfoAreaPivot.Items.Add(DocumentationPivotItem);
-                    }
-                }
-
                 if (propertyDesc != null && propertyDesc.Options.Count > 0)
                 {
                     InfoAreaPivot.Items.Add(PropertiesPivotItem);
@@ -274,14 +230,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     InfoAreaPivot.Items.Add(JavaScriptPivotItem);
                 }
 
-                if (!string.IsNullOrEmpty(CurrentSample.CodeUrl))
+                if (CurrentSample.HasDocumentation)
                 {
-                    //GitHub.NavigateUri = new Uri(CurrentSample.CodeUrl);
-                    //GitHub.Visibility = Visibility.Visible;
+                    var (contents, path) = await CurrentSample.GetDocumentationAsync();
+                    documentationPath = path;
+                    if (!string.IsNullOrWhiteSpace(contents))
+                    {
+                        DocumentationTextblock.Text = contents;
+                        InfoAreaPivot.Items.Add(DocumentationPivotItem);
+                    }
                 }
-                else
+
+                // Hide the Github button if there isn't a CodeUrl.
+                if (string.IsNullOrEmpty(CurrentSample.CodeUrl))
                 {
-                    //GitHub.Visibility = Visibility.Collapsed;
+                    GithubButton.Visibility = Visibility.Collapsed;
                 }
 
                 if (InfoAreaPivot.Items.Count == 0)
@@ -305,6 +268,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 SampleTitleBar.Children.Remove(NarrowInfoButton);
                 WindowStates.States.Clear();
+            }
+        }
+
+        public async Task RefreshXamlRenderAsync()
+        {
+            if (CurrentSample != null)
+            {
+                var code = string.Empty;
+                if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
+                {
+                    code = CurrentSample.BindedXamlCode;
+                }
+                else
+                {
+                    code = CurrentSample.UpdatedXamlCode;
+                }
+
+                if (!string.IsNullOrWhiteSpace(code))
+                {
+                    await UpdateXamlRenderAsync(code);
+                }
             }
         }
 
@@ -452,30 +436,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             deferral.Complete();
         }
 
-        private void GitHub_OnClick(object sender, RoutedEventArgs e)
+        private async void GitHub_OnClick(object sender, RoutedEventArgs e)
         {
-            //TrackingManager.TrackEvent("Link", GitHub.NavigateUri.ToString());
-        }
-
-        public async Task RefreshXamlRenderAsync()
-        {
-            if (CurrentSample != null)
+            var url = CurrentSample.CodeUrl;
+            TrackingManager.TrackEvent("Link", url);
+            try
             {
-                var code = string.Empty;
-                if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
-                {
-                    code = CurrentSample.BindedXamlCode;
-                }
-                else
-                {
-                    code = CurrentSample.UpdatedXamlCode;
-                }
-
-                if (!string.IsNullOrWhiteSpace(code))
-                {
-                    await UpdateXamlRenderAsync(code);
-                }
+                await Launcher.LaunchUriAsync(new Uri(url));
             }
+            catch { }
         }
 
         private async Task UpdateXamlRenderAsync(string text)
