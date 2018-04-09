@@ -26,7 +26,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public static class OneDriveSampleHelpers
     {
-        #pragma warning disable CS0618 // Type or member is obsolete
         public static async Task<string> InputTextDialogAsync(string title)
         {
             TextBox inputTextBox = new TextBox { AcceptsReturn = false, Height = 32 };
@@ -100,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// </summary>
         /// <param name="folder">Destination folder where to create the new folder</param>
         /// <returns>Task to support await of async call.</returns>
-        public static async Task NewFolderAsync(Toolkit.Services.OneDrive.OneDriveStorageFolder folder)
+        public static async Task NewFolderAsync(OneDriveStorageFolder folder)
         {
             if (folder != null)
             {
@@ -129,12 +128,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// </summary>
         /// <param name="item">File to download from OneDrive</param>
         /// <returns>Task to support await of async call.</returns>
-        public static async Task DownloadAsync(Toolkit.Services.OneDrive.OneDriveStorageItem item)
+        public static async Task DownloadAsync(OneDriveStorageItem item)
         {
             try
             {
                 Shell.Current.DisplayWaitRing = true;
-                var oneDriveFile = (Toolkit.Services.OneDrive.OneDriveStorageFile)item;
+                var oneDriveFile = (OneDriveStorageFile)item;
                 using (var remoteStream = (await oneDriveFile.StorageFilePlatformService.OpenAsync()) as IRandomAccessStream)
                 {
                     await SaveToLocalFolder(remoteStream, oneDriveFile.Name);
@@ -175,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// </summary>
         /// <param name="folder">The destination folder</param>
         /// <returns>Task to support await of async call.</returns>
-        public static async Task UploadSimpleFileAsync(Toolkit.Services.OneDrive.OneDriveStorageFolder folder)
+        public static async Task UploadSimpleFileAsync(OneDriveStorageFolder folder)
         {
             Shell.Current.DisplayWaitRing = true;
 
@@ -217,7 +216,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// </summary>
         /// <param name="folder">The destination folder</param>
         /// <returns>Task to support await of async call.</returns>
-        public static async Task UploadLargeFileAsync(Toolkit.Services.OneDrive.OneDriveStorageFolder folder)
+        public static async Task UploadLargeFileAsync(OneDriveStorageFolder folder)
         {
             try
             {
@@ -255,7 +254,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        public static async Task RenameAsync(Toolkit.Services.OneDrive.OneDriveStorageItem itemToRename)
+        public static async Task RenameAsync(OneDriveStorageItem itemToRename)
         {
             try
             {
@@ -281,7 +280,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        public static async Task CopyToAsync(Toolkit.Services.OneDrive.OneDriveStorageItem item, Toolkit.Services.OneDrive.OneDriveStorageFolder rootFolder)
+        public static async Task CopyToAsync(OneDriveStorageItem item, OneDriveStorageFolder rootFolder)
         {
             Shell.Current.DisplayWaitRing = true;
             try
@@ -307,7 +306,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        public static async Task MoveToAsync(Toolkit.Services.OneDrive.OneDriveStorageItem item, Toolkit.Services.OneDrive.OneDriveStorageFolder rootFolder)
+        public static async Task MoveToAsync(OneDriveStorageItem item, OneDriveStorageFolder rootFolder)
         {
             Shell.Current.DisplayWaitRing = true;
             try
@@ -333,7 +332,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        public static async Task<Toolkit.Services.OneDrive.OneDriveStorageFolder> OpenFolderPicker(string title, Toolkit.Services.OneDrive.OneDriveStorageFolder rootFolder)
+        public static async Task<OneDriveStorageFolder> OpenFolderPicker(string title, OneDriveStorageFolder rootFolder)
         {
             FoldersPickerControl folderPicker = new FoldersPickerControl(await rootFolder.GetFoldersAsync(100), rootFolder);
 
@@ -382,6 +381,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             return await picker.PickSingleFileAsync();
         }
-        #pragma warning restore CS0618 // Type or member is obsolete
     }
 }

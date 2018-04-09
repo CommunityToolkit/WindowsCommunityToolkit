@@ -16,23 +16,19 @@ using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Services.OneDrive;
 using Microsoft.Toolkit.Services.Services.MicrosoftGraph;
-using Microsoft.Toolkit.Uwp.Services.OneDrive.Platform;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 
 #pragma warning disable SA1118
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class OneDrivePage : Page
     {
-#pragma warning disable CS0618 // Type or member is obsolete
-
-        private Toolkit.Services.OneDrive.OneDriveStorageFolder _graphRootFolder = null;
-        private Toolkit.Services.OneDrive.OneDriveStorageFolder _graphCurrentFolder = null;
+        private OneDriveStorageFolder _graphRootFolder = null;
+        private OneDriveStorageFolder _graphCurrentFolder = null;
 
         public OneDrivePage()
         {
@@ -48,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void OneDrivePage_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach (var p in typeof(Toolkit.Services.Services.MicrosoftGraph.MicrosoftGraphScope).GetFields())
+            foreach (var p in typeof(MicrosoftGraphScope).GetFields())
             {
                 if (string.CompareOrdinal(p.GetValue(null) as string, 0, "Files", 0, 5) == 0)
                 {
@@ -83,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     scopes = new string[] { MicrosoftGraphScope.FilesReadAll };
                 }
 
-                Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveService.Instance.Initialize(appClientId, scopes, null, null);
+                Services.OneDrive.OneDriveService.Instance.Initialize(appClientId, scopes, null, null);
 
                 if (!await OneDriveService.Instance.LoginAsync())
                 {
@@ -224,10 +220,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void OneDriveItemsList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            await NavigateToFolderAsync(e.ClickedItem as Toolkit.Services.OneDrive.OneDriveStorageItem);
+            await NavigateToFolderAsync(e.ClickedItem as OneDriveStorageItem);
         }
 
-        private async Task NavigateToFolderAsync(Toolkit.Services.OneDrive.OneDriveStorageItem item)
+        private async Task NavigateToFolderAsync(OneDriveStorageItem item)
         {
             if (item.IsFolder())
             {
@@ -284,7 +280,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (_graphCurrentFolder != null)
             {
-                Toolkit.Services.OneDrive.OneDriveStorageFolder currentFolder = null;
+                OneDriveStorageFolder currentFolder = null;
                 Shell.Current.DisplayWaitRing = true;
                 try
                 {
@@ -336,13 +332,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void RenameButton_Click(object sender, RoutedEventArgs e)
         {
-            await OneDriveSampleHelpers.RenameAsync((Toolkit.Services.OneDrive.OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
+            await OneDriveSampleHelpers.RenameAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
             OneDriveItemsList.ItemsSource = await _graphCurrentFolder.GetItemsAsync(20);
         }
 
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            await DeleteAsync((Toolkit.Services.OneDrive.OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
+            await DeleteAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
         }
 
         private async Task DeleteAsync(Toolkit.Services.OneDrive.OneDriveStorageItem itemToDelete)
@@ -375,19 +371,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
-            await OneDriveSampleHelpers.DownloadAsync((Toolkit.Services.OneDrive.OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
+            await OneDriveSampleHelpers.DownloadAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
         }
-
-        private int _indexProvider = 0;
 
         private async void CopyToButton_Click(object sender, RoutedEventArgs e)
         {
-            await OneDriveSampleHelpers.CopyToAsync((Toolkit.Services.OneDrive.OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _graphRootFolder);
+            await OneDriveSampleHelpers.CopyToAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _graphRootFolder);
         }
 
         private async void MoveButton_Click(object sender, RoutedEventArgs e)
         {
-            await OneDriveSampleHelpers.MoveToAsync((Toolkit.Services.OneDrive.OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _graphRootFolder);
+            await OneDriveSampleHelpers.MoveToAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _graphRootFolder);
         }
 
         private async void ThumbnailButton_Click(object sender, RoutedEventArgs e)
@@ -396,7 +390,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 Shell.Current.DisplayWaitRing = true;
 
-                var file = (Toolkit.Services.OneDrive.OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext;
+                var file = (OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext;
                 using (var stream = (await file.StorageItemPlatformService.GetThumbnailAsync(Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ThumbnailSize.Large)) as IRandomAccessStream)
                 {
                     await OneDriveSampleHelpers.DisplayThumbnail(stream, "thumbnail");
@@ -411,7 +405,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Shell.Current.DisplayWaitRing = false;
             }
         }
-
-#pragma warning restore CS0618 // Type or member is obsolete
     }
 }
