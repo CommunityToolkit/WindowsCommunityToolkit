@@ -131,8 +131,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie.Utils
                 if (RepeatCount != LottieDrawable.Infinite && _repeatCount >= RepeatCount)
                 {
                     _frame = MaxFrame;
-                    OnAnimationEnd(IsReversed);
                     RemoveFrameCallback();
+                    OnAnimationEnd(IsReversed);
                 }
                 else
                 {

@@ -485,7 +485,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie
                     return;
                 }
 
-                MinFrame = value * _composition.DurationFrames;
+                MinFrame = MiscUtils.Lerp(value, _composition.StartFrame, _composition.EndFrame);
             }
         }
 
@@ -524,7 +524,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie
                     return;
                 }
 
-                MaxFrame = value / _composition.DurationFrames;
+                MaxFrame = MiscUtils.Lerp(value, _composition.StartFrame, _composition.EndFrame);
             }
         }
 
