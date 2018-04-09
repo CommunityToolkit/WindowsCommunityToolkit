@@ -851,5 +851,29 @@
         "Icon": "/SamplePages/Analytics/Analytics.png"
       }
     ]
+  },
+  {
+    "Name": "Gaze",
+    "Icon": "Icons/DeveloperTools.png",
+    "Samples": [
+      {
+        "Name": "GazeInteraction",
+        "Type": "GazeInteractionPage",
+        "About": "Shows how you can easily enable your apps to interact with eye gaze.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Input.Gaze/",
+        "XamlCodeFile": "GazeInteractionXaml.bind",
+        "Icon": "/SamplePages/Gaze/Gaze.png",
+        "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
+      },
+      {
+        "Name": "GazeTracing",
+        "Type": "GazeTracingPage",
+        "About": "Shows how you can easily enable your apps to interact with eye gaze.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Input.Gaze/",
+        "XamlCodeFile": "GazeTracingXaml.bind",
+        "Icon": "/SamplePages/Gaze/Gaze.png",
+        "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
+      }
+    ]
   }
 ]

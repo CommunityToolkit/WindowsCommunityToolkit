@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.0
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{9AD30620-667D-433C-9961-8D885EE7B762}"
 EndProject
@@ -55,7 +55,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.targets = Directory.Build.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.Notifications.JavaScript", "Microsoft.Toolkit.Uwp.Notifications.JavaScript\Microsoft.Toolkit.Uwp.Notifications.JavaScript.csproj", "{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.Notifications.JavaScript", "Microsoft.Toolkit.Uwp.Notifications.JavaScript\Microsoft.Toolkit.Uwp.Notifications.JavaScript.csproj", "{94F8D702-3A9D-4CFB-85C9-79FC5DBD8B22}"
 	ProjectSection(ProjectDependencies) = postProject
 		{97EE849B-403C-490E-80ED-D19D7CC153FD} = {97EE849B-403C-490E-80ED-D19D7CC153FD}
 	EndProjectSection
@@ -65,7 +65,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Co
 		{E9FAABFB-D726-42C1-83C1-CB46A29FEA81} = {E9FAABFB-D726-42C1-83C1-CB46A29FEA81}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Parsers", "Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj", "{42CA4935-54BE-42EA-AC19-992378C08DE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Parsers", "Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj", "{42CA4935-54BE-42EA-AC19-992378C08DE6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Microsoft.Toolkit.Uwp.Input.Gaze", "Microsoft.Toolkit.UWP.Input.Gaze\Microsoft.Toolkit.Uwp.Input.Gaze.vcxproj", "{A5E98964-45B1-442D-A07A-298A3221D81E}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -408,6 +410,20 @@ Global
 		{42CA4935-54BE-42EA-AC19-992378C08DE6}.Release|x64.Build.0 = Release|Any CPU
 		{42CA4935-54BE-42EA-AC19-992378C08DE6}.Release|x86.ActiveCfg = Release|Any CPU
 		{42CA4935-54BE-42EA-AC19-992378C08DE6}.Release|x86.Build.0 = Release|Any CPU
+		{A5E98964-45B1-442D-A07A-298A3221D81E}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{A5E98964-45B1-442D-A07A-298A3221D81E}.Debug|ARM.ActiveCfg = Debug|ARM
+		{A5E98964-45B1-442D-A07A-298A3221D81E}.Debug|ARM.Build.0 = Debug|ARM
+		{A5E98964-45B1-442D-A07A-298A3221D81E}.Debug|x64.ActiveCfg = Debug|x64
+		{A5E98964-45B1-442D-A07A-298A3221D81E}.Debug|x64.Build.0 = Debug|x64
+		{A5E98964-45B1-442D-A07A-298A3221D81E}.Debug|x86.ActiveCfg = Debug|Win32
+		{A5E98964-45B1-442D-A07A-298A3221D81E}.Debug|x86.Build.0 = Debug|Win32
+		{A5E98964-45B1-442D-A07A-298A3221D81E}.Release|Any CPU.ActiveCfg = Release|Win32
+		{A5E98964-45B1-442D-A07A-298A3221D81E}.Release|ARM.ActiveCfg = Release|ARM
+		{A5E98964-45B1-442D-A07A-298A3221D81E}.Release|ARM.Build.0 = Release|ARM
+		{A5E98964-45B1-442D-A07A-298A3221D81E}.Release|x64.ActiveCfg = Release|x64
+		{A5E98964-45B1-442D-A07A-298A3221D81E}.Release|x64.Build.0 = Release|x64
+		{A5E98964-45B1-442D-A07A-298A3221D81E}.Release|x86.ActiveCfg = Release|Win32
+		{A5E98964-45B1-442D-A07A-298A3221D81E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

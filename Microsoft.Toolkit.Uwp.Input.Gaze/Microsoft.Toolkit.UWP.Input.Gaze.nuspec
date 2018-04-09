@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Microsoft.Toolkit.UWP.Input.Gaze</id>
+    <version>1.0.0</version>
+    <title>ECTK</title>
+    <authors>MSREnable</authors>
+    <owners>MSREnable</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Eye control tool kit</description>
+    <releaseNotes>Test release</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>Eye control tool kit</tags>
+  </metadata>
+ <files>
+<!-- WinMd and IntelliSense files -->
+        <file src="..\Release\Microsoft.Toolkit.UWP.Input.Gaze\Microsoft.Toolkit.UWP.Input.Gaze.winmd" target="lib\uap10.0"/>
+        <file src="..\Release\Microsoft.Toolkit.UWP.Input.Gaze\Microsoft.Toolkit.UWP.Input.Gaze.xml" target="lib\uap10.0"/>
+
+ <!-- DLLs and resources -->
+        <file src="..\ARM\Release\Microsoft.Toolkit.UWP.Input.Gaze\Microsoft.Toolkit.UWP.Input.Gaze.dll" target="runtimes\win10-arm\native"/>
+        <file src="..\ARM\Release\Microsoft.Toolkit.UWP.Input.Gaze\Microsoft.Toolkit.UWP.Input.Gaze.pri" target="runtimes\win10-arm\native"/>
+        <file src="..\ARM\Release\Microsoft.Toolkit.UWP.Input.Gaze\Microsoft.Toolkit.UWP.Input.Gaze.pdb" target="runtimes\win10-arm\native"/>
+
+        <file src="..\x64\Release\Microsoft.Toolkit.UWP.Input.Gaze\Microsoft.Toolkit.UWP.Input.Gaze.dll" target="runtimes\win10-x64\native"/>
+        <file src="..\x64\Release\Microsoft.Toolkit.UWP.Input.Gaze\Microsoft.Toolkit.UWP.Input.Gaze.pri" target="runtimes\win10-x64\native"/>
+        <file src="..\x64\Release\Microsoft.Toolkit.UWP.Input.Gaze\Microsoft.Toolkit.UWP.Input.Gaze.pdb" target="runtimes\win10-x64\native"/>
+
+        <file src="..\Release\Microsoft.Toolkit.UWP.Input.Gaze\Microsoft.Toolkit.UWP.Input.Gaze.dll" target="runtimes\win10-x86\native"/>
+        <file src="..\Release\Microsoft.Toolkit.UWP.Input.Gaze\Microsoft.Toolkit.UWP.Input.Gaze.pri" target="runtimes\win10-x86\native"/>
+        <file src="..\Release\Microsoft.Toolkit.UWP.Input.Gaze\Microsoft.Toolkit.UWP.Input.Gaze.pdb" target="runtimes\win10-x86\native"/>
+    </files>
+</package>
