@@ -525,7 +525,6 @@
     <Compile Include="Models\LandingPageResource.cs" />
     <Compile Include="Models\LandingPageLink.cs" />
     <Compile Include="Models\PropertyDescriptor\RangeSelectorPropertyOptions.cs" />
-    <Compile Include="Models\PropertyDescriptor\StringPropertyOptions.cs" />
     <Compile Include="Models\PropertyDescriptor\ThicknessPropertyOptions.cs" />
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>

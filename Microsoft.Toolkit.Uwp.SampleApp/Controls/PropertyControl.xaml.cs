@@ -72,7 +72,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     Control controlToAdd = null;
                     DependencyProperty dependencyProperty = null;
                     IValueConverter converter = null;
-                    UpdateSourceTrigger updateSourceTrigger = UpdateSourceTrigger.Default;
 
                     IDictionary<string, object> propertyDict = propertyDesc.Expando;
 
@@ -228,17 +227,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             controlToAdd = thicknessTextBox;
                             dependencyProperty = TextBox.TextProperty;
                             converter = new ThicknessConverter();
-
-                            // Make Thickness textboxes instantly respond to text rather than waiting for lost focus.
-                            updateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                             break;
                         default:
                             var textBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
-                            var textBoxOption = option as StringPropertyOptions;
-                            if (textBoxOption != null)
-                            {
-                                updateSourceTrigger = textBoxOption.UpdateSourceTrigger;
-                            }
 
                             controlToAdd = textBox;
                             dependencyProperty = TextBox.TextProperty;
@@ -252,9 +243,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             Source = propertyDesc.Expando,
                             Path = new PropertyPath(option.Name + ".Value"),
                             Mode = BindingMode.TwoWay,
-                            Converter = converter,
-                            UpdateSourceTrigger = updateSourceTrigger
+                            Converter = converter
                         };
+
+                        // Make textboxes instantly respond to text rather than waiting for lost focus.
+                        if (controlToAdd is TextBox)
+                        {
+                            binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                        }
 
                         controlToAdd.SetBinding(dependencyProperty, binding);
                     }

@@ -35,7 +35,7 @@ Here is an example:
 ```
 
 You can define "interactive" values in this file. The value types can be:
-* String: You want the user to provide a text. The string is built like this @[Name:**String**:Default value:UpdateSourceTriggerId]
+* String: You want the user to provide a text. The string is built like this @[Name:**String**:Default value]
 * Slider: You want the user to provide a double value. The string is built like this @[Name:**Slider**:Default value:min-max]
 * DoubleSlider: Same as slider but with double values (0.01 precision)
 * RangeSelectorMin and RangeSelectorMax: You want the user to provide two values, usualy for max and min. The strings are built like this @[NameMin:RangeSelectorMin:Default min value:min:ID] and @[NameMax:RangeSelectorMax:Default max value:max:ID]. The IDs need to match.

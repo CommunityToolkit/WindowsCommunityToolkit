@@ -601,28 +601,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     break;
 
                                 default:
-                                    try
-                                    {
-                                        var stringOptions = new StringPropertyOptions { DefaultValue = value };
-                                        var parameters = match.Groups["parameters"]?.Value;
-                                        if (string.IsNullOrEmpty(parameters) == false)
-                                        {
-                                            var split = parameters.Split('-');
-                                            if (split.Length > 0)
-                                            {
-                                                stringOptions.UpdateSourceTrigger = (Windows.UI.Xaml.Data.UpdateSourceTrigger)Convert.ToInt32(split[0]);
-                                            }
-                                        }
-
-                                        options = stringOptions;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Debug.WriteLine($"Unable to extract string info from {value}({ex.Message})");
-                                        TrackingManager.TrackException(ex);
-                                        continue;
-                                    }
-
+                                    options = new PropertyOptions { DefaultValue = value };
                                     break;
                             }
 
