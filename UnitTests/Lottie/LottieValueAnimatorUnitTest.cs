@@ -26,20 +26,21 @@ namespace UnitTests.Lottie
     public class LottieValueAnimatorUnitTest
     {
         private Mock<TestLottieValueAnimator> _mockAnimator;
+        private LottieComposition _composition;
         private TestLottieValueAnimator _animator;
         private volatile bool isDone;
 
         [TestInitialize]
         public void Init()
         {
-            LottieComposition composition = new LottieComposition();
-            composition.Init(default(Rect), 0, 1000, 1000, new List<Layer>(), new Dictionary<long, Layer>(0), new Dictionary<string, List<Layer>>(0), new Dictionary<string, LottieImageAsset>(0), new Dictionary<int, FontCharacter>(0), new Dictionary<string, Font>(0));
+            _composition = new LottieComposition();
+            _composition.Init(default(Rect), 0, 1000, 1000, new List<Layer>(), new Dictionary<long, Layer>(0), new Dictionary<string, List<Layer>>(0), new Dictionary<string, LottieImageAsset>(0), new Dictionary<int, FontCharacter>(0), new Dictionary<string, Font>(0));
             _mockAnimator = new Mock<TestLottieValueAnimator>
             {
                 CallBase = true,
             };
             _animator = _mockAnimator.Object;
-            _animator.Composition = composition;
+            _animator.Composition = _composition;
 
             isDone = false;
         }
@@ -53,6 +54,11 @@ namespace UnitTests.Lottie
                 OnValueChangedCount++;
             }
 
+            protected internal override void RemoveFrameCallback()
+            {
+                InternalIsRunning = false;
+            }
+
             protected override void OnValueChanged()
             {
                 base.OnValueChanged();
@@ -62,11 +68,6 @@ namespace UnitTests.Lottie
             protected override void PostFrameCallback()
             {
                 InternalIsRunning = true;
-            }
-
-            protected internal override void RemoveFrameCallback()
-            {
-                InternalIsRunning = false;
             }
         }
 
@@ -314,6 +315,22 @@ namespace UnitTests.Lottie
                 _mockAnimator.Verify(l => l.OnAnimationEnd(true), Times.Once);
                 _mockAnimator.Verify(l => l.OnAnimationCancel(), Times.Never);
             });
+        }
+
+        [TestCategory("Lottie")]
+        [TestMethod]
+        public void SetMinFrameSmallerThanComposition()
+        {
+            _animator.MinFrame = -9000;
+            Assert.AreEqual(_animator.MinFrame, _composition.StartFrame);
+        }
+
+        [TestCategory("Lottie")]
+        [TestMethod]
+        public void SetMaxFrameLargerThanComposition()
+        {
+            _animator.MaxFrame = 9000;
+            Assert.AreEqual(_animator.MaxFrame, _composition.EndFrame);
         }
 
         private void TestAnimator(Action verifyListener)

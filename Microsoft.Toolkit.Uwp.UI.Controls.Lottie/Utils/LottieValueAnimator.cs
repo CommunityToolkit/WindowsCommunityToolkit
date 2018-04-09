@@ -228,8 +228,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie.Utils
 
         public void SetMinAndMaxFrames(float minFrame, float maxFrame)
         {
-            _minFrame = minFrame;
-            _maxFrame = maxFrame;
+            float compositionMinFrame = _composition == null ? float.MinValue : _composition.StartFrame;
+            float compositionMaxFrame = _composition == null ? float.MaxValue : _composition.EndFrame;
+            _minFrame = MiscUtils.Clamp(minFrame, compositionMinFrame, compositionMaxFrame);
+            _maxFrame = MiscUtils.Clamp(maxFrame, compositionMinFrame, compositionMaxFrame);
             Frame = MiscUtils.Clamp(_frame, minFrame, maxFrame);
         }
 
