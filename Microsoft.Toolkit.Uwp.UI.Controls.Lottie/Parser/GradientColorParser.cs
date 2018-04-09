@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Controls.Lottie.Model.Content;
 using Microsoft.Toolkit.Uwp.UI.Controls.Lottie.Utils;
 using Newtonsoft.Json;
@@ -81,12 +80,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie.Parser
 
             byte r = 0;
             byte g = 0;
-            if (array.Count != _colorPoints * 4)
-            {
-                Debug.WriteLine(
-                    $"Unexpected gradient length: {array.Count}. Expected {_colorPoints * 4}. This may affect the appearance of the gradient. Make sure to save your After Effects file before exporting an animation with gradients.", LottieLog.Tag);
-            }
-
             for (int i = 0; i < _colorPoints * 4; i++)
             {
                 int colorIndex = i / 4;
