@@ -223,15 +223,6 @@ namespace Microsoft.Toolkit.Uwp
         }
 
         /// <summary>
-        /// Clears the collection and triggers/forces a reload of the first page
-        /// </summary>
-        [Obsolete("Refresh is deprecated, please use RefreshAsync instead")]
-        public void Refresh()
-        {
-            RefreshAsync();
-        }
-
-        /// <summary>
         /// Actually performs the incremental loading.
         /// </summary>
         /// <param name="cancellationToken">
