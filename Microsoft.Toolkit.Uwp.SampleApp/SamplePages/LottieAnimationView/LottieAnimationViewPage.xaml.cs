@@ -59,7 +59,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             Shell.Current.RegisterNewCommand("Resume/Pause", ResumePauseButton_Click);
             Shell.Current.RegisterNewCommand("Open File", OpenFileButton_Click);
-            Shell.Current.RegisterNewCommand("Background White", BackgroundColorButton_Click);
+            Shell.Current.RegisterNewCommand("Background White", BackgroundWhiteButton_Click);
+            Shell.Current.RegisterNewCommand("Background Black", BackgroundBlackButton_Click);
         }
 
         private void UpdateRangeSelector()
@@ -109,23 +110,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void BackgroundColorButton_Click(object sender, RoutedEventArgs e)
+        private void BackgroundWhiteButton_Click(object sender, RoutedEventArgs e)
         {
-            var backgroundColorButton = (Button)e.OriginalSource;
-            var solidColorBrush = (SolidColorBrush)_lottieAnimationViewGrid.Background;
-            if (solidColorBrush != null)
-            {
-                if (solidColorBrush.Color == Colors.White)
-                {
-                    backgroundColorButton.Content = "Background Black";
-                    _lottieAnimationViewGrid.Background = new SolidColorBrush(Colors.Black);
-                }
-                else
-                {
-                    backgroundColorButton.Content = "Background White";
-                    _lottieAnimationViewGrid.Background = new SolidColorBrush(Colors.White);
-                }
-            }
+            _lottieAnimationViewGrid.Background = new SolidColorBrush(Colors.White);
+        }
+
+        private void BackgroundBlackButton_Click(object sender, RoutedEventArgs e)
+        {
+            _lottieAnimationViewGrid.Background = new SolidColorBrush(Colors.Black);
         }
     }
 }
