@@ -22,6 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie.Utils
     internal class LottieValueAnimator : BaseLottieAnimator
     {
         private float _speed = 1f;
+        private bool _speedReversedForRepeatMode = false;
         private long _lastFrameTimeNs;
         private float _frame;
         private int _repeatCount;
@@ -139,6 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie.Utils
                     _repeatCount++;
                     if (RepeatMode == RepeatMode.Reverse)
                     {
+                        _speedReversedForRepeatMode = !_speedReversedForRepeatMode;
                         ReverseAnimationSpeed();
                     }
                     else
@@ -240,10 +242,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie.Utils
             Speed = -Speed;
         }
 
+        /// <summary>
+        /// Gets or sets the current speed. This will be affected by repeat mode <see cref="RepeatMode.Reverse"/>.
+        /// </summary>
         public float Speed
         {
             get => _speed;
             set => _speed = value;
+        }
+
+        public override RepeatMode RepeatMode
+        {
+            set
+            {
+                base.RepeatMode = value;
+                if (value != RepeatMode.Reverse && _speedReversedForRepeatMode)
+                {
+                    _speedReversedForRepeatMode = false;
+                    ReverseAnimationSpeed();
+                }
+            }
         }
 
         public override void PlayAnimation()
@@ -286,7 +304,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie.Utils
             RemoveFrameCallback();
         }
 
-        private bool IsReversed => _speed < 0;
+        private bool IsReversed => Speed < 0;
 
         protected virtual void PostFrameCallback()
         {

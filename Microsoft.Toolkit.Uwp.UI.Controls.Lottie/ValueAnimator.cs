@@ -104,7 +104,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Lottie
         /// <summary>
         /// Gets or sets the <see cref="RepeatMode"/> of this <see cref="ValueAnimator"/>
         /// </summary>
-        public RepeatMode RepeatMode { get; set; }
+        public virtual RepeatMode RepeatMode { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="ValueAnimator"/> is running or not
