@@ -29,18 +29,17 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         /// <summary>
         /// Initializes a new instance of the <see cref="CameraHelper"/> class.
         /// </summary>
-        /// <param name="group">MediaFrameSourceGroup</param>
-        public CameraHelper(MediaFrameSourceGroup group)
+        public CameraHelper()
         {
-            _group = group;
         }
 
         /// <summary>
-        /// Initializes Media Capture settings and starts Frame Reader.
+        /// Initializes Media Capture settings and starts video capture using Frame Reader.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task InitMediaCaptureAndStartFrameReaderAsync()
+        public async Task InitializeAndStartCapture(MediaFrameSourceGroup group)
         {
+            Cleanup();
             await InitMediaCaptureAsync();
 
             if (_frameSource != null)
@@ -153,8 +152,18 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
 
         private void Cleanup()
         {
-            _mediaCapture?.Dispose();
-            _mediaCapture = null;
+            if (_frameReader != null)
+            {
+                _frameReader.FrameArrived -= Reader_FrameArrived;
+                _frameReader.Dispose();
+                _frameReader = null;
+            }
+
+            if (_mediaCapture != null)
+            {
+                _mediaCapture.Dispose();
+                _mediaCapture = null;
+            }
         }
     }
 }

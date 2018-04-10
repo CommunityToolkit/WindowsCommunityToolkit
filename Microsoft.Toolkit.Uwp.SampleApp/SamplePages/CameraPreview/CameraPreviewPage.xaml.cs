@@ -19,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         private CameraHelper cameraHelper;
         private VideoFrame _currentVideoFrame;
+        private SoftwareBitmapSource softwareBitmapSource;
 
         public CameraPreviewPage()
         {
@@ -28,19 +29,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            softwareBitmapSource = new SoftwareBitmapSource();
+            CurrentVideoFrameImage.Source = softwareBitmapSource;
+
             await InitFrameSourcesAsync();
-        }
-
-        private async void InitCameraHelper(MediaFrameSourceGroup group)
-        {
-            if (cameraHelper == null)
-            {
-                cameraHelper = new CameraHelper(group);
-                await cameraHelper.InitMediaCaptureAndStartFrameReaderAsync();
-
-                // Subscribe to the video frame as they arrive
-                cameraHelper.VideoFrameArrived += CameraHelper_VideoFrameArrived;
-            }
         }
 
         private void CameraHelper_VideoFrameArrived(object sender, VideoFrameEventArgs e)
@@ -54,22 +46,35 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private async Task InitFrameSourcesAsync()
         {
             var frameSourceGroups = await FrameSourceGroupsHelper.GetAllAvailableFrameSourceGroups();
+
             if (frameSourceGroups.Count > 0)
             {
                 FrameSourceGroupCombo.ItemsSource = frameSourceGroups;
-                FrameSourceGroupCombo.SelectedIndex = 0;
                 var selectedGroup = FrameSourceGroupCombo.SelectedItem as MediaFrameSourceGroup;
-                InitCameraHelper(selectedGroup);
+                FrameSourceGroupCombo.SelectedIndex = 0;
             }
             else
             {
                 FrameSourceGroupCombo.ItemsSource = new { DisplayName = "No valid sources found" };
+                FrameSourceGroupCombo.SelectedIndex = 0;
             }
         }
 
-        private void FrameSourceGroupCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void FrameSourceGroupCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var selectedGroup = FrameSourceGroupCombo.SelectedItem as MediaFrameSourceGroup;
+            if (selectedGroup != null)
+            {
+                if (cameraHelper == null)
+                {
+                    cameraHelper = new CameraHelper();
 
+                    // Subscribe to the video frame as they arrive
+                    cameraHelper.VideoFrameArrived += CameraHelper_VideoFrameArrived;
+                }
+
+                await cameraHelper.InitializeAndStartCapture(selectedGroup);
+            }
         }
 
         private async void CaptureVideoFrame_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -77,15 +82,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (_currentVideoFrame != null)
             {
                 var softwareBitmap = _currentVideoFrame.SoftwareBitmap;
-                if (softwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 || softwareBitmap.BitmapAlphaMode == BitmapAlphaMode.Straight)
+                if (softwareBitmap != null &&
+                    (softwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 || softwareBitmap.BitmapAlphaMode == BitmapAlphaMode.Straight))
                 {
                     softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+                    await softwareBitmapSource.SetBitmapAsync(softwareBitmap);
                 }
-
-                var source = new SoftwareBitmapSource();
-                await source.SetBitmapAsync(softwareBitmap);
-
-                CurrentVideoFrameImage.Source = source;
             }
         }
     }
