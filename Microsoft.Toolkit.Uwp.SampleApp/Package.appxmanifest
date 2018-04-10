@@ -45,5 +45,6 @@
     <Capability Name="privateNetworkClientServer" />
     <DeviceCapability Name="location" />
     <DeviceCapability Name="bluetooth" />
+    <DeviceCapability Name="webcam" />
   </Capabilities>
 </Package>
