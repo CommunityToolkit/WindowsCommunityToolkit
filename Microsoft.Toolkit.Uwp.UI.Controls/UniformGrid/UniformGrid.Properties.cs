@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Sets the AutoLayout Attached Property Value.
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="element"><see cref="FrameworkElement"/></param>
         /// <param name="value"></param>
         public static void SetAutoLayout(FrameworkElement element, bool? value)
         {
@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
               new PropertyMetadata(null));
 
         /// <summary>
-        /// Sets the AutoLayout Attached Property Value.
+        /// Sets the Column Attached Property Value.
         /// </summary>
         /// <param name="element"></param>
         /// <param name="value"></param>
@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets the AutoLayout Attached Property Value.
+        /// Gets the Column Attached Property Value.
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>
@@ -140,7 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
               new PropertyMetadata(null));
 
         /// <summary>
-        /// Sets the AutoLayout Attached Property Value.
+        /// Sets the Row Attached Property Value.
         /// </summary>
         /// <param name="element"></param>
         /// <param name="value"></param>
@@ -150,7 +150,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets the AutoLayout Attached Property Value.
+        /// Gets the Row Attached Property Value.
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>
