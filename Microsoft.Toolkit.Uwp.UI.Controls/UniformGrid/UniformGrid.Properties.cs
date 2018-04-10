@@ -93,10 +93,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return (bool?)element.GetValue(AutoLayoutProperty);
         }
 
+        //// This Property is for ColumnDefinition (DependencyObject) vs. the Grid's FrameworkElement attached property.
+        #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
         /// <summary>
         /// Determines if this element in the grid participates in the auto-layout algorithm.
         /// </summary>
         public static readonly DependencyProperty ColumnProperty =
+        #pragma warning restore CS0108 // Member hides inherited member; missing new keyword
             DependencyProperty.RegisterAttached(
               "Column",
               typeof(int),
@@ -123,10 +126,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return (int)element.GetValue(ColumnProperty);
         }
 
+        //// This Property is for RowDefinition (DependencyObject) vs. the Grid's FrameworkElement attached property.
+        #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
         /// <summary>
         /// Determines if this element in the grid participates in the auto-layout algorithm.
         /// </summary>
         public static readonly DependencyProperty RowProperty =
+        #pragma warning restore CS0108 // Member hides inherited member; missing new keyword
             DependencyProperty.RegisterAttached(
               "Row",
               typeof(int),
@@ -177,10 +183,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (self.FirstColumn >= self.Columns)
             {
-                //self.FirstColumn = 0;
+                ////self.FirstColumn = 0;
             }
 
-            //self.RecalculateLayout();
+            ////self.RecalculateLayout();
         }
 
         /// <summary>

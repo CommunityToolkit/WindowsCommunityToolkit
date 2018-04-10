@@ -38,78 +38,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var dim = GetDimensions(ref visible, Rows, Columns, FirstColumn);
 
-            // Mark existing dev-defined definitions so we don't erase them.
-            foreach (var rd in RowDefinitions)
-            {
-                if (GetAutoLayout(rd) == null)
-                {
-                    SetAutoLayout(rd, false);
-
-                    // If we don't have our attached property, assign it based on index.
-                    if (GetRow(rd) == 0)
-                    {
-                        SetRow(rd, RowDefinitions.IndexOf(rd));
-                    }
-                }
-            }
-
-            foreach (var cd in ColumnDefinitions)
-            {
-                if (GetAutoLayout(cd) == null)
-                {
-                    SetAutoLayout(cd, false);
-
-                    // If we don't have our attached property, assign it based on index.
-                    if (GetColumn(cd) == 0)
-                    {
-                        SetColumn(cd, ColumnDefinitions.IndexOf(cd));
-                    }
-                }
-            }
-
-            // Remove non-autolayout rows we've added and then add them in the right spots.
-            if (dim.rows != this.RowDefinitions.Count)
-            {
-                for (int r = this.RowDefinitions.Count - 1; r >= 0; r--)
-                {
-                    if (GetAutoLayout(RowDefinitions[r]) == true)
-                    {
-                        this.RowDefinitions.RemoveAt(r);
-                    }
-                }
-
-                for (int r = 0; r < dim.rows; r++)
-                {
-                    if (!(this.RowDefinitions.Count >= r + 1 && GetRow(RowDefinitions[r]) == r))
-                    {
-                        var rd = new RowDefinition();
-                        SetAutoLayout(rd, true);
-                        this.RowDefinitions.Insert(r, rd);
-                    }
-                }
-            }
-
-            // Remove non-autolayout columns we've added and then add them in the right spots.
-            if (dim.columns != ColumnDefinitions.Count)
-            {
-                for (int c = ColumnDefinitions.Count - 1; c >= 0; c--)
-                {
-                    if (GetAutoLayout(ColumnDefinitions[c]) == true)
-                    {
-                        this.ColumnDefinitions.RemoveAt(c);
-                    }
-                }
-
-                for (int c = 0; c < dim.columns; c++)
-                {
-                    if (!(ColumnDefinitions.Count >= c + 1 && GetColumn(ColumnDefinitions[c]) == c))
-                    {
-                        var cd = new ColumnDefinition();
-                        SetAutoLayout(cd, true);
-                        ColumnDefinitions.Insert(c, cd);
-                    }
-                }
-            }
+            // Now that we know size, setup automatic rows/columns
+            // to utilize Grid for UniformGrid behavior.
+            // We also interleave any specified rows/columns with fixed sizes.
+            SetupRowDefinitions(dim.rows);
+            SetupColumnDefinitions(dim.columns);
 
             bool[,] spots = new bool[dim.rows, dim.columns];
 
@@ -122,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var colspan = GetColumnSpan(child);
 
                 // TODO: Document
-                // If an element needs to be forced in the 0, 0 position, 
+                // If an element needs to be forced in the 0, 0 position,
                 // they should manually set UniformGrid.AutoLayout to False for that element.
                 if (row == 0 && col == 0 && GetAutoLayout(child) == null)
                 {

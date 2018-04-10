@@ -110,5 +110,88 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             return (rows, cols);
         }
+
+        // Used to interleave specified row dimensions with automatic rows added to use
+        // underlying Grid layout for main arrange of UniformGrid.
+        internal void SetupRowDefinitions(int rows)
+        {
+            // Mark existing dev-defined definitions so we don't erase them.
+            foreach (var rd in RowDefinitions)
+            {
+                if (GetAutoLayout(rd) == null)
+                {
+                    SetAutoLayout(rd, false);
+
+                    // If we don't have our attached property, assign it based on index.
+                    if (GetRow(rd) == 0)
+                    {
+                        SetRow(rd, RowDefinitions.IndexOf(rd));
+                    }
+                }
+            }
+
+            // Remove non-autolayout rows we've added and then add them in the right spots.
+            if (rows != RowDefinitions.Count)
+            {
+                for (int r = RowDefinitions.Count - 1; r >= 0; r--)
+                {
+                    if (GetAutoLayout(RowDefinitions[r]) == true)
+                    {
+                        RowDefinitions.RemoveAt(r);
+                    }
+                }
+
+                for (int r = 0; r < rows; r++)
+                {
+                    if (!(this.RowDefinitions.Count >= r + 1 && GetRow(RowDefinitions[r]) == r))
+                    {
+                        var rd = new RowDefinition();
+                        SetAutoLayout(rd, true);
+                        this.RowDefinitions.Insert(r, rd);
+                    }
+                }
+            }
+        }
+
+        // Used to interleave specified column dimensions with automatic columns added to use
+        // underlying Grid layout for main arrange of UniformGrid.
+        internal void SetupColumnDefinitions(int columns)
+        {
+            foreach (var cd in ColumnDefinitions)
+            {
+                if (GetAutoLayout(cd) == null)
+                {
+                    SetAutoLayout(cd, false);
+
+                    // If we don't have our attached property, assign it based on index.
+                    if (GetColumn(cd) == 0)
+                    {
+                        SetColumn(cd, ColumnDefinitions.IndexOf(cd));
+                    }
+                }
+            }
+
+            // Remove non-autolayout columns we've added and then add them in the right spots.
+            if (columns != ColumnDefinitions.Count)
+            {
+                for (int c = ColumnDefinitions.Count - 1; c >= 0; c--)
+                {
+                    if (GetAutoLayout(ColumnDefinitions[c]) == true)
+                    {
+                        this.ColumnDefinitions.RemoveAt(c);
+                    }
+                }
+
+                for (int c = 0; c < columns; c++)
+                {
+                    if (!(ColumnDefinitions.Count >= c + 1 && GetColumn(ColumnDefinitions[c]) == c))
+                    {
+                        var cd = new ColumnDefinition();
+                        SetAutoLayout(cd, true);
+                        ColumnDefinitions.Insert(c, cd);
+                    }
+                }
+            }
+        }
     }
 }
