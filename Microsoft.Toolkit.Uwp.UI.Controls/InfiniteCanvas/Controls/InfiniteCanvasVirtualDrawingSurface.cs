@@ -15,7 +15,6 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
 using Windows.Graphics;
 using Windows.Graphics.DirectX;
-using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -38,7 +37,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public InfiniteCanvasVirtualDrawingSurface()
         {
             InitializeComposition();
-            ConfigureSpriteVisual();
             SizeChanged += TheSurface_SizeChanged;
         }
 
@@ -56,12 +54,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ElementCompositionPreview.SetElementChildVisual(this, _myDrawingVisual);
         }
 
-        public void ConfigureSpriteVisual()
+        public void ConfigureSpriteVisual(double width, double height)
         {
             var size = new SizeInt32
             {
-                Height = (int)InfiniteCanvas.LargeCanvasWidthHeight,
-                Width = (int)InfiniteCanvas.LargeCanvasWidthHeight
+                Height = (int)width,
+                Width = (int)height
             };
 
             _drawingSurface = _comositionGraphicsDevice.CreateVirtualDrawingSurface(
@@ -78,7 +76,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _myDrawingVisual.Brush = _surfaceBrush;
             _surfaceBrush.Offset = new Vector2(0, 0);
         }
-
-        public Color DrawingCanvasBackground { get; set; } = Colors.White;
     }
 }

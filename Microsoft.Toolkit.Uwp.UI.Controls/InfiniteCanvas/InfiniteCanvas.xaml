@@ -14,7 +14,7 @@
                             </Grid.RowDefinitions>
 
                             <StackPanel Grid.Row="0"
-                                        Orientation="Horizontal">
+                                        Orientation="Horizontal" x:Name="CanvasToolbarContainer">
                                 <InkToolbar x:Name="InkCanvasToolBar"
                                             TargetInkCanvas="{Binding ElementName=DrawingInkCanvas}">
                                     <InkToolbarCustomToggleButton x:Name="EnableTouchInkingButton"

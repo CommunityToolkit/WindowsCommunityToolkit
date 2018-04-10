@@ -18,6 +18,7 @@ using Microsoft.Graphics.Canvas.UI.Composition;
 using Newtonsoft.Json;
 using Windows.Foundation;
 using Windows.Graphics;
+using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -64,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(_drawingSurface, toDraw))
             {
-                drawingSession.Clear(DrawingCanvasBackground);
+                drawingSession.Clear(Colors.White);
                 foreach (var drawable in _visibleList)
                 {
                     drawable.Draw(drawingSession, toDraw);

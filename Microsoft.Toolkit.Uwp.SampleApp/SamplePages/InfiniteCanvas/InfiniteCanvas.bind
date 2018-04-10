@@ -6,6 +6,6 @@
       mc:Ignorable="d">
 
   <Grid>
-    <controls:InfiniteCanvas Name="canvas"/>
+    <controls:InfiniteCanvas Name="canvas" ToolbarVisibility="@[ToolbarVisibility:Enum:Visibility.Visible]"/>
   </Grid>
 </Page>
