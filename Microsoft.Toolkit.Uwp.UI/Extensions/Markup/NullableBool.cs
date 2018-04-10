@@ -10,6 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
     /// Custom <see cref="MarkupExtension"/> which can provide nullable bool values.
+    /// See https://wpdev.uservoice.com/forums/110705-universal-windows-platform/suggestions/17767198-nullable-dependency-properties.
     /// </summary>
     [Bindable]
     [MarkupExtensionReturnType(ReturnType = typeof(bool?))]
