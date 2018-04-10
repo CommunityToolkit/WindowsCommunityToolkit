@@ -1,0 +1,66 @@
+// ## XAML - Text + buttons (DataTemplate)
+
+<DataTemplate x:Key="InAppNotificationWithButtonsTemplate">
+    <UserControl>
+        <Grid>
+            <Grid x:Name="RootGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                        
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock x:Name="TextBlock" Grid.RowSpan="2" 
+                            Text="Do you like it?" VerticalAlignment="Center" />
+
+                <StackPanel x:Name="ButtonsStackPanel" Grid.RowSpan="2" Grid.Column="1" 
+                            Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="YesButton" Content="Yes" Width="150" Height="30" Click="YesButton_Click" />
+                    <Button x:Name="NoButton" Content="No" Width="150" Height="30" Margin="10 0 0 0" Click="NoButton_Click" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </UserControl>
+</DataTemplate>
+
+// ## XAML - Control placed where you want the notification to appear
+
+<controls:InAppNotification x:Name="ExampleInAppNotification" />
+
+// ## C# - Show and dismiss the in app notification
+
+// Show notification with simple text (and a duration of 2 seconds)
+int duration = 2000;
+ExampleInAppNotification.Show("Some text.", duration);
+
+// Show notification using a DataTemplate
+object inAppNotificationWithButtonsTemplate;
+bool isTemplatePresent = Resources.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);
+
+if (isTemplatePresent && inAppNotificationWithButtonsTemplate is DataTemplate)
+{
+    ExampleInAppNotification.Show(inAppNotificationWithButtonsTemplate as DataTemplate);
+}
+
+// Dismiss notification
+ExampleInAppNotification.Dismiss();
+
+// ## C# - Handle button events
+
+private void YesButton_Click(object sender, RoutedEventArgs e)
+{
+	// TODO : Do something when user accepted
+
+    ExampleInAppNotification.Dismiss();
+}
+
+private void NoButton_Click(object sender, RoutedEventArgs e)
+{
+	// TODO : Do something when user refused
+
+    ExampleInAppNotification.Dismiss();
+}

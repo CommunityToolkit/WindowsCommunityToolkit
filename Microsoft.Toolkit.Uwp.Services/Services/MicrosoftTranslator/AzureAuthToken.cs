@@ -11,9 +11,9 @@
 // ******************************************************************
 
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Windows.Web.Http;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
 {
@@ -37,6 +37,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
         /// Use a duration of 8 minutes, which is less than the actual token lifetime of 10 minutes.
         /// </summary>
         private static readonly TimeSpan TokenCacheDuration = new TimeSpan(0, 8, 0);
+
+        private static HttpClient client = new HttpClient();
 
         private string _storedTokenValue = string.Empty;
         private DateTime _storedTokenTime = DateTime.MinValue;
@@ -96,14 +98,14 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
                 return _storedTokenValue;
             }
 
-            using (var request = new HttpHelperRequest(ServiceUrl, HttpMethod.Post))
+            using (var request = new HttpRequestMessage(HttpMethod.Post, ServiceUrl))
             {
                 request.Headers.Add(OcpApimSubscriptionKeyHeader, SubscriptionKey);
 
-                var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false);
-                var content = await response.GetTextResultAsync().ConfigureAwait(false);
+                var response = await client.SendAsync(request).ConfigureAwait(false);
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                if (!response.Success)
+                if (!response.IsSuccessStatusCode)
                 {
                     var error = JsonConvert.DeserializeObject<ErrorResponse>(content);
                     throw new TranslatorServiceException(error.Message);

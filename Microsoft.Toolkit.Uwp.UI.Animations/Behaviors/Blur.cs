@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             if (AnimationExtensions.BlurEffect.IsSupported)
             {
-                AssociatedObject?.Blur(duration: Duration, delay: Delay, value: (float)Value)?.Start();
+                AssociatedObject?.Blur(duration: Duration, delay: Delay, value: (float)Value, easingType: EasingType)?.Start();
             }
         }
     }

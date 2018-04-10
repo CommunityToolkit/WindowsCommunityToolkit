@@ -1,22 +1,24 @@
-<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.StatusBarExtensionsCode"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-      extensions:StatusBar.BackgroundColor="Blue"
-      extensions:StatusBar.BackgroundOpacity="0.8"
-      extensions:StatusBar.ForegroundColor="White"
-      extensions:StatusBar.IsVisible="@[IsVisible:Bool:false]"
-      extensions:ApplicationView.Title="View Extensions"
-      extensions:TitleBar.BackgroundColor="Blue"
-      extensions:TitleBar.ForegroundColor="White"
+      extensions:ApplicationViewExtensions.Title="View Extensions"
+      extensions:TitleBarExtensions.BackgroundColor="CornflowerBlue"
+      extensions:TitleBarExtensions.ForegroundColor="White"
+      extensions:TitleBarExtensions.ButtonBackgroundColor="CornflowerBlue"
+      extensions:TitleBarExtensions.ButtonForegroundColor="White"
+      extensions:StatusBarExtensions.BackgroundColor="CornflowerBlue"
+      extensions:StatusBarExtensions.BackgroundOpacity="0.8"
+      extensions:StatusBarExtensions.ForegroundColor="White"
+      extensions:StatusBarExtensions.IsVisible="False"
       mc:Ignorable="d">
 
-  <Grid x:Name="Root"
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    
+  <Grid>
+    <TextBlock Margin="16">
+      Modify the XAML to change the Title and (mobile) Status bars.
+    </TextBlock>
   </Grid>
 </Page>

@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// <summary>
     /// Twitter Timeline Parser.
     /// </summary>
-    public class TweetParser : IParser<Tweet>
+    public class TweetParser : Parsers.IParser<Tweet>
     {
         /// <summary>
         /// Parse string data into strongly typed list.

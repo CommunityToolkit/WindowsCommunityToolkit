@@ -13,7 +13,9 @@
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -22,53 +24,57 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class GridSplitter
     {
+        // Symbols for GripperBar in Segoe MDL2 Assets
+        private const string GripperBarVertical = "\xE784";
+        private const string GripperBarHorizontal = "\xE76F";
+        private const string GripperDisplayFont = "Segoe MDL2 Assets";
+
         private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
         {
             _resizeDirection = GetResizeDirection();
             _resizeBehavior = GetResizeBehavior();
 
-            GridSplitterGripper gripper;
-
             // Adding Grip to Grid Splitter
             if (Element == default(UIElement))
             {
-                gripper = new GridSplitterGripper(
-                    _resizeDirection,
-                    GripperForeground);
+                CreateGripperDisplay();
+                Element = _gripperDisplay;
             }
-            else
+
+            if (_hoverWrapper == null)
             {
-                var content = Element;
-                Element = null;
-                gripper = new GridSplitterGripper(content, _resizeDirection);
+                var hoverWrapper = new GripperHoverWrapper(
+                    CursorBehavior == SplitterCursorBehavior.ChangeOnSplitterHover
+                    ? this
+                    : Element,
+                    _resizeDirection,
+                    GripperCursor,
+                    GripperCustomCursorResource);
+                ManipulationStarted += hoverWrapper.SplitterManipulationStarted;
+                ManipulationCompleted += hoverWrapper.SplitterManipulationCompleted;
+
+                _hoverWrapper = hoverWrapper;
             }
-
-            Element = gripper;
-
-            gripper.KeyDown += Gripper_KeyDown;
-
-            var hoverWrapper = new GripperHoverWrapper(
-                CursorBehavior == SplitterCursorBehavior.ChangeOnSplitterHover
-                ? this
-                : Element,
-                _resizeDirection,
-                GripperCursor,
-                GripperCustomCursorResource);
-            ManipulationStarted += hoverWrapper.SplitterManipulationStarted;
-            ManipulationCompleted += hoverWrapper.SplitterManipulationCompleted;
-
-            _hoverWrapper = hoverWrapper;
         }
 
-        private void Gripper_KeyDown(object sender, KeyRoutedEventArgs e)
+        private void CreateGripperDisplay()
         {
-            var gripper = sender as GridSplitterGripper;
-
-            if (gripper == null)
+            if (_gripperDisplay == null)
             {
-                return;
+                _gripperDisplay = new TextBlock
+                {
+                    FontFamily = new FontFamily(GripperDisplayFont),
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Foreground = GripperForeground,
+                    Text = _resizeDirection == GridResizeDirection.Columns ? GripperBarVertical : GripperBarHorizontal
+                };
             }
+        }
 
+        /// <inheritdoc />
+        protected override void OnKeyDown(KeyRoutedEventArgs e)
+        {
             var step = 1;
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
             if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
@@ -76,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 step = 5;
             }
 
-            if (gripper.ResizeDirection == GridResizeDirection.Columns)
+            if (_resizeDirection == GridResizeDirection.Columns)
             {
                 if (e.Key == VirtualKey.Left)
                 {
@@ -95,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (gripper.ResizeDirection == GridResizeDirection.Rows)
+            if (_resizeDirection == GridResizeDirection.Rows)
             {
                 if (e.Key == VirtualKey.Up)
                 {
@@ -112,6 +118,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 e.Handled = true;
             }
+
+            base.OnKeyDown(e);
         }
 
         /// <inheritdoc />
@@ -186,6 +194,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // if sibling row has fixed width then resize it
             else if (!IsStarRow(SiblingRow))
             {
+                // Would adding to this column make the current column violate the MinWidth?
+                if (IsValidRowHeight(CurrentRow, verticalChange) == false)
+                {
+                    return false;
+                }
                 if (!SetRowHeight(SiblingRow, verticalChange * -1, GridUnitType.Pixel))
                 {
                     return true;
@@ -200,7 +213,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // respect the other star row height by setting it's height to it's actual height with stars
 
                 // We need to validate current and sibling height to not cause any un expected behavior
-                if (!IsValidRowHeight(CurrentRow, verticalChange) || 
+                if (!IsValidRowHeight(CurrentRow, verticalChange) ||
                     !IsValidRowHeight(SiblingRow, verticalChange * -1))
                 {
                     return true;
@@ -246,6 +259,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // if sibling column has fixed width then resize it
             else if (!IsStarColumn(SiblingColumn))
             {
+                // Would adding to this column make the current column violate the MinWidth?
+                if (IsValidColumnWidth(CurrentColumn, horizontalChange) == false)
+                {
+                    return false;
+                }
+
                 if (!SetColumnWidth(SiblingColumn, horizontalChange * -1, GridUnitType.Pixel))
                 {
                     return true;

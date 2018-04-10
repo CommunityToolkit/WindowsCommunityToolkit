@@ -10,24 +10,29 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class ReorderGridPage : Page
+    public sealed partial class ReorderGridPage : Page, IXamlRenderListener
     {
+        private GridView imageView;
+
         public ReorderGridPage()
         {
             InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        public async void OnXamlRendered(FrameworkElement control)
         {
-            base.OnNavigatedTo(e);
+            imageView = control.FindChildByName("ImageView") as GridView;
 
-            ImagesView.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+            if (imageView != null)
+            {
+                imageView.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+            }
         }
     }
 }

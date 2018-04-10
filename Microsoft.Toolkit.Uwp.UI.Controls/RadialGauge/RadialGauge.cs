@@ -112,14 +112,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the ValueBrush dependency property.
         /// </summary>
+        [Obsolete("This property has been deprecated. Use the Foreground property or the RadialGaugeForegroundBrush ThemeResource instead")]
         public static readonly DependencyProperty ValueBrushProperty =
-            DependencyProperty.Register(nameof(ValueBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+            DependencyProperty.Register(nameof(ValueBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White), OnValueBrushChanged));
 
         /// <summary>
         /// Identifies the UnitBrush dependency property.
         /// </summary>
+        [Obsolete("This property has been deprecated. Use the RadialGaugeAccentBrush ThemeResource instead")]
         public static readonly DependencyProperty UnitBrushProperty =
-            DependencyProperty.Register(nameof(UnitBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White)));
+            DependencyProperty.Register(nameof(UnitBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White), OnUnitBrushChanged));
 
         /// <summary>
         /// Identifies the ValueStringFormat dependency property.
@@ -348,6 +350,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the brush for the displayed value.
         /// </summary>
+        [Obsolete("This property has been depracated. Use the Foreground property or the RadialGaugeForegroundBrush ThemeResource instead")]
         public Brush ValueBrush
         {
             get { return (Brush)GetValue(ValueBrushProperty); }
@@ -357,6 +360,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the brush for the displayed unit measure.
         /// </summary>
+        [Obsolete("This property has been depracated. Use the RadialGaugeAccentBrush ThemeResource instead")]
         public Brush UnitBrush
         {
             get { return (Brush)GetValue(UnitBrushProperty); }
@@ -619,13 +623,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     scale.Data = pg;
                 }
 
-                OnFaceChanged(radialGauge);
+                if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode)
+                {
+                    OnFaceChanged(radialGauge);
+                }
             }
         }
 
         private static void OnFaceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            OnFaceChanged(d);
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode)
+            {
+                OnFaceChanged(d);
+            }
+        }
+
+        private static void OnValueBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var gauge = (RadialGauge)d;
+            gauge.Foreground = (Brush)e.NewValue;
+        }
+
+        private static void OnUnitBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var gauge = (RadialGauge)d;
+            gauge.Resources["RadialGaugeAccentBrush"] = (Brush)e.NewValue;
         }
 
         private static void OnFaceChanged(DependencyObject d)
@@ -633,7 +655,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RadialGauge radialGauge = (RadialGauge)d;
 
             var container = radialGauge.GetTemplateChild(ContainerPartName) as Grid;
-            if (container == null || DesignMode.DesignModeEnabled)
+            if (container == null || DesignTimeHelpers.IsRunningInLegacyDesignerMode)
             {
                 // Bad template.
                 return;
@@ -696,7 +718,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 e.Handled = true;
             }
         }
-        
+
         private void UpdateNormalizedAngles()
         {
             var result = Mod(MinAngle, 360);

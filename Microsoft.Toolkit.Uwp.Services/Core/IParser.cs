@@ -1,4 +1,4 @@
-﻿// ******************************************************************
+// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Collections.Generic;
+using System;
 
 namespace Microsoft.Toolkit.Uwp.Services
 {
@@ -18,14 +18,9 @@ namespace Microsoft.Toolkit.Uwp.Services
     /// Parser interface.
     /// </summary>
     /// <typeparam name="T">Type to parse into.</typeparam>
-    public interface IParser<out T>
-        where T : SchemaBase
+    [Obsolete("This interface is being deprecated. Please use the counterpart found in Microsoft.Toolkit.Parsers")]
+    public interface IParser<out T> : Toolkit.Parsers.IParser<T>
+        where T : Toolkit.Parsers.SchemaBase
     {
-        /// <summary>
-        /// Parse method which all classes must implement.
-        /// </summary>
-        /// <param name="data">Data to parse.</param>
-        /// <returns>Strong typed parsed data.</returns>
-        IEnumerable<T> Parse(string data);
     }
 }

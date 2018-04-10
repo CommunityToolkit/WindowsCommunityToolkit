@@ -21,6 +21,7 @@ namespace Microsoft.Toolkit.Uwp
     /// <summary>
     /// HttpHelperResponse instance to hold data from Http Response.
     /// </summary>
+    [Obsolete]
     public class HttpHelperResponse : IDisposable
     {
         private HttpResponseMessage _responseMessage = null;

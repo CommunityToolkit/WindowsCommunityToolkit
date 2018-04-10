@@ -1,33 +1,40 @@
-# Blade XAML Control 
+---
+title: BladeView XAML Control
+author: nmetulev
+description: The BladeView provides a container to host blades as extra detail pages in, for example, a master-detail scenario.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, BladeView, XAML Control, xaml
+---
+
+# BladeView XAML Control 
 
 The BladeView provides a container to host blades as extra detail pages in, for example, a master-detail scenario. The control is based on how the Azure Portal works. 
 
 ## Syntax
 
-```xml
-
+```xaml
 <controls:BladeView>
     <controls:BladeItem IsOpen="True"
-                        TitleBarVisibility="Collapsed">
+        TitleBarVisibility="Collapsed">
+
         <StackPanel Margin="8">
             <ToggleButton Width="180"
-                          Height="100"
-                          Margin="0, 20, 0, 0"
-                          IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=DefaultBlade}"
-                          Content="Default blade" />
+                Height="100"
+                Margin="0, 20, 0, 0"
+                IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=DefaultBlade}"
+                Content="Default blade" />
         </StackPanel>
     </controls:BladeItem>
 
     <controls:BladeItem x:Name="DefaultBlade" 
-	                    Title="A blade"
-                        IsOpen="False">
+        Header="A blade"
+        IsOpen="False">
+
         <TextBlock HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Style="{StaticResource SubtitleTextBlockStyle}"
-                   Text="This is a blade with all settings set to default." />
+            VerticalAlignment="Center"
+            Style="{StaticResource SubtitleTextBlockStyle}"
+            Text="This is a blade with all settings set to default." />
     </controls:BladeItem>
 </controls:BladeView>
-
 ```
 
 ## Blade modes
@@ -37,7 +44,6 @@ If you want blade items to stay unchanged (based on their respective width and h
 Otherwise, you can extend each blade items to fill the entire container (example: Grid, StackPanel, etc..). To do that, you'll have to choose the Fullscreen mode (BladeMode.Fullscreen).
 
 ```csharp
-
 public enum BladeMode
 {
     /// <summary>
@@ -50,21 +56,24 @@ public enum BladeMode
     /// </summary>
     Fullscreen
 }
-
 ```
 
 Here is an example of a BladeView where the `BladeMode` property is binded to a value in the code-behind.
 
-```xml
-
+```xaml
 <controls:BladeView x:Name="BladeView"
-                    Padding="0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    BladeMode="{Binding BladeMode}">
+    Padding="0"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    BladeMode="{Binding BladeMode}">
 </controls:BladeView>
-
 ```
+
+## AutoCollapseCountThreshold
+
+If you want to use the BladeView for handling a flow of actions, you can use the `AutoCollapseCountThreshold` property to tell it to start auto collapsing BladeItems after a certain threshold count has been reached. This will also help keep a clean, uncluttered screen real estate.
+
+For example; if you set `AutoCollapseCountThreshold` to 3, the BladeView will start counting all BladeItems that are open in the BladeView and have their `TitleBarVisibility` property set to Visible. When the n+1 BladeItem, in our case the 4th one, is being added, the BladeView will auto collapse all n BladeItems except for the last one. All additional BladeItems that are added afterwards will trigger the same effect; collapse all BladeItems except for the last open one.
 
 ## Example Image
 
@@ -80,7 +89,7 @@ Here is an example of a BladeView where the `BladeMode` property is binded to a 
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family]("http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 

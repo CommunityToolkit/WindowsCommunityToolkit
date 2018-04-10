@@ -25,6 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI
     {
         private int _maxItemCount;
         private ConcurrentDictionary<string, InMemoryStorageItem<T>> _inMemoryStorage = new ConcurrentDictionary<string, InMemoryStorageItem<T>>();
+        private object _settingMaxItemCountLocker = new object();
 
         /// <summary>
         /// Gets or sets the maximum count of Items that can be stored in this InMemoryStorage instance.
@@ -45,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
                 _maxItemCount = value;
 
-                lock (this)
+                lock (_settingMaxItemCountLocker)
                 {
                     EnsureStorageBounds(value);
                 }

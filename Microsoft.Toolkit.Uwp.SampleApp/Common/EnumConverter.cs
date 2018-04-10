@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return value;
+            return value.ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

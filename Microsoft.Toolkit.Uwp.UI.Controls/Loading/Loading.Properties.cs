@@ -30,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether the control is in the loading state.
         /// </summary>
+        /// <remarks>Set this to true to show the Loading control, false to hide the control.</remarks>
         public bool IsLoading
         {
             get { return (bool)GetValue(IsLoadingProperty); }
@@ -39,6 +40,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void IsLoadingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as Loading;
+            if (control._presenter == null)
+            {
+                control._presenter = control.GetTemplateChild("ContentGrid") as FrameworkElement;
+            }
+
             control?.Update();
         }
     }

@@ -127,7 +127,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animation = compositor.CreateVector3KeyFrameAnimation();
                 animation.Duration = TimeSpan.FromMilliseconds(duration);
                 animation.DelayTime = TimeSpan.FromMilliseconds(delay);
-                animation.InsertKeyFrame(1f, scaleVector);
+                if (easingType == EasingType.Default)
+                {
+                    animation.InsertKeyFrame(1f, scaleVector);
+                }
+                else
+                {
+                    animation.InsertKeyFrame(1f, scaleVector, GetCompositionEasingFunction(easingType, compositor));
+                }
 
                 animationSet.AddCompositionAnimation("Scale", animation);
             }

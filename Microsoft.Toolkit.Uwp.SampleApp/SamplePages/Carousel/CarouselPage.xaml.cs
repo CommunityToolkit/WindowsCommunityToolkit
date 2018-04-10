@@ -10,7 +10,11 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -19,8 +23,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// A page that shows how to use the Carousel control.
     /// </summary>
-    public sealed partial class CarouselPage : Page
+    public sealed partial class CarouselPage : Page, IXamlRenderListener
     {
+        private Carousel carouselControl;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CarouselPage"/> class.
         /// </summary>
@@ -29,22 +35,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Invoked when the Page is loaded and becomes the current source of a parent Frame.
-        /// </summary>
-        /// <param name="e">Event data that can be examined by overriding code. The event data is representative of the pending navigation that will load the current Page. Usually the most relevant property to examine is Parameter.</param>
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        public async void OnXamlRendered(FrameworkElement control)
         {
-            base.OnNavigatedTo(e);
-
-            var propertyDesc = e.Parameter as PropertyDescriptor;
-
-            if (propertyDesc != null)
-            {
-                DataContext = propertyDesc.Expando;
-            }
-
-            CarouselControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+            carouselControl = control.FindDescendantByName("CarouselControl") as Carousel;
+            carouselControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
         }
     }
 }

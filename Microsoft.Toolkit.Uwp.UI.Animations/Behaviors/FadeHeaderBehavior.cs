@@ -10,7 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Xaml.Interactivity;
+using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -115,14 +116,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 return false;
             }
 
-            // Implicit operation: Find the Header object of the control if it uses ListViewBase
-            if (HeaderElement == null)
+            var listView = AssociatedObject as Windows.UI.Xaml.Controls.ListViewBase ?? AssociatedObject.FindDescendant<Windows.UI.Xaml.Controls.ListViewBase>();
+
+            if (listView != null && listView.ItemsPanelRoot != null)
             {
-                var listElement = AssociatedObject as ListViewBase ?? AssociatedObject.FindDescendant<ListViewBase>();
-                if (listElement != null)
-                {
-                    HeaderElement = listElement.Header as UIElement;
-                }
+                Canvas.SetZIndex(listView.ItemsPanelRoot, -1);
+            }
+
+            // Implicit operation: Find the Header object of the control if it uses ListViewBase
+            if (HeaderElement == null && listView != null)
+            {
+                HeaderElement = listView.Header as UIElement;
             }
 
             // If no header is set or detected, return.
@@ -133,16 +137,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 
             // Get the ScrollViewer's ManipulationPropertySet
             var scrollViewerManipulationPropSet = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scroller);
-            var compositor = scrollViewerManipulationPropSet.Compositor;
+            var scrollPropSet = scrollViewerManipulationPropSet.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
 
             // Use the ScrollViewer's Y offset and the header's height to calculate the opacity percentage. Clamp it between 0% and 100%
-            var opacityExpression = compositor.CreateExpressionAnimation("Clamp(1 - (-ScrollManipulationPropSet.Translation.Y / HeaderHeight), 0, 1)");
-
-            // Get the ScrollViewerManipulation Reference
-            opacityExpression.SetReferenceParameter("ScrollManipulationPropSet", scrollViewerManipulationPropSet);
-
-            // Pass in the height of the header as a Scalar
-            opacityExpression.SetScalarParameter("HeaderHeight", (float)HeaderElement.RenderSize.Height);
+            var headerHeight = (float)HeaderElement.RenderSize.Height;
+            var opacityExpression = ExpressionFunctions.Clamp(1 - (-scrollPropSet.Translation.Y / headerHeight), 0, 1);
 
             // Begin animating
             var targetElement = ElementCompositionPreview.GetElementVisual(HeaderElement);

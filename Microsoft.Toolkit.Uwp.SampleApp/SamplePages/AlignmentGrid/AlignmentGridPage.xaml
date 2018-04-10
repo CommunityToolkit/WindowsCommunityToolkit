@@ -6,20 +6,7 @@
       xmlns:developerTools="using:Microsoft.Toolkit.Uwp.DeveloperTools"
       mc:Ignorable="d">
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
-        <developerTools:AlignmentGrid
-                Opacity="{Binding Opacity.Value}"
-                LineBrush="{Binding LineBrush.Value}"
-                HorizontalStep="{Binding HorizontalStep.Value}"
-                VerticalStep="{Binding VerticalStep.Value}"
-                />
-        
-        <StackPanel Margin="40" BorderThickness="1" BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}">
-            <TextBlock Margin="0,0,0,30" Text="You can use the AlignmentGrid to check if your UI elements are corrected aligned"/>
-            <TextBlock Margin="0,0,0,30" Text="The container of these texts has a margin of (40, 40, 40, 40)"/>
-            <TextBlock Margin="20,0,0,20" Text="This text has a margin of (20, 0, 0, 20)"/>
-            <TextBlock Margin="40,0,0,20" Text="This text has a margin of (40, 0, 0, 20)"/>
-            <TextBlock Margin="20,0,0,20" Text="This text has a margin of (20, 0, 0, 20)"/>
-        </StackPanel>
+    <Grid>
+        <developerTools:AlignmentGrid />
     </Grid>
 </Page>

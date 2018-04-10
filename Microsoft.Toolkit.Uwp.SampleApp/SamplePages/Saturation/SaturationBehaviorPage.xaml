@@ -2,7 +2,6 @@
     x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.SaturationBehaviorPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.Saturation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
@@ -20,24 +19,19 @@
                    TextWrapping="Wrap"
                    Visibility="Collapsed" />
 
-        <Image x:Name="MyImage"
-               Source="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg">
+        <Grid x:Name="XamlRoot" />
+        
+        <!-- Shallow Copy -->
+        <Image>
             <interactivity:Interaction.Behaviors>
-                <behaviors:Saturation x:Name="SaturationBehavior"
-                                AutomaticallyStart="{Binding AutomaticallyStart.Value, Mode=OneWay}"
-                                Delay="{Binding Delay.Value, Mode=OneWay}"
-                                Value="{Binding Value.Value, Mode=OneWay}"
-                                Duration="{Binding Duration.Value, Mode=OneWay}" />
+                <behaviors:Saturation  />
             </interactivity:Interaction.Behaviors>
         </Image>
-        <StackPanel HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom">
-            <Button Margin="10"
-                    Content="Apply">
+        <StackPanel Visibility="Collapsed">
+            <Button>
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
-                        <core:CallMethodAction MethodName="StartAnimation"
-                                               TargetObject="{Binding ElementName=SaturationBehavior}" />
+                        <core:CallMethodAction />
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </Button>

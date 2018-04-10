@@ -10,8 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.ApplicationModel.Background;
 
 namespace UnitTests.Helpers

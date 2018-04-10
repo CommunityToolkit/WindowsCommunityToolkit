@@ -11,9 +11,7 @@
 // ******************************************************************
 
 using System;
-using System.Net;
-using System.Reflection;
-using System.Text.RegularExpressions;
+using Microsoft.Toolkit.Extensions;
 using Microsoft.Toolkit.Uwp.Services.Bing;
 
 namespace Microsoft.Toolkit.Uwp.Services.Core
@@ -21,21 +19,18 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
     /// <summary>
     /// This class offers general purpose methods.
     /// </summary>
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Extensions.StringExtensions and Microsoft.Toolkit.Services.")]
     public static class ExtensionMethods
     {
-        /// <summary>
-        /// Regular expression of HTML tags to remove.
-        /// </summary>
-        private static readonly Regex RemoveHtmlTagsRegex = new Regex(@"(?></?\w+)(?>(?:[^>'""]+|'[^']*'|""[^""]*"")*)>");
-
         /// <summary>
         /// Converts object into string.
         /// </summary>
         /// <param name="value">Object value.</param>
         /// <returns>Returns string value.</returns>
+        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Extensions.StringExtensions.")]
         public static string ToSafeString(this object value)
         {
-            return value?.ToString();
+            return StringExtensions.ToSafeString(value);
         }
 
         /// <summary>
@@ -43,19 +38,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
         /// </summary>
         /// <param name="htmlText">HTML string.</param>
         /// <returns>Returns decoded HTML string.</returns>
+        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Extensions.StringExtensions.")]
         public static string DecodeHtml(this string htmlText)
         {
-            if (htmlText == null)
-            {
-                return null;
-            }
-
-            var ret = htmlText.FixHtml();
-
-            // Remove html tags
-            ret = RemoveHtmlTagsRegex.Replace(ret, string.Empty);
-
-            return WebUtility.HtmlDecode(ret);
+            return StringExtensions.DecodeHtml(htmlText);
         }
 
         /// <summary>
@@ -63,9 +49,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
         /// </summary>
         /// <param name="value">BingCountry enumeration.</param>
         /// <returns>Returns country code.</returns>
+        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
         public static string GetStringValue(this BingCountry value)
         {
-            return GetStringValue((Enum)value);
+            return Toolkit.Services.Core.ExtensionMethods.GetStringValue((Toolkit.Services.Bing.BingCountry)value);
         }
 
         /// <summary>
@@ -73,29 +60,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Core
         /// </summary>
         /// <param name="value">BingLanguage enumeration.</param>
         /// <returns>Returns language code.</returns>
+        [Obsolete("This method is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
         public static string GetStringValue(this BingLanguage value)
         {
-            return GetStringValue((Enum)value);
-        }
-
-        /// <summary>
-        /// Converts between enumeration value and string value.
-        /// </summary>
-        /// <param name="value">Enumeration.</param>
-        /// <returns>Returns string value.</returns>
-        private static string GetStringValue(Enum value)
-        {
-            string output = null;
-            Type type = value.GetType();
-
-            FieldInfo fi = type.GetRuntimeField(value.ToString());
-            StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
-            if (attrs != null && attrs.Length > 0)
-            {
-                output = attrs[0].Value;
-            }
-
-            return output;
+            return Toolkit.Services.Core.ExtensionMethods.GetStringValue((Toolkit.Services.Bing.BingLanguage)value);
         }
     }
 }

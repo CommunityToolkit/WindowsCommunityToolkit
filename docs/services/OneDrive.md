@@ -1,3 +1,10 @@
+---
+title: OneDrive Service
+author: nmetulev
+description: The OneDrive Service provides a simple way to access resources on either OneDrive or OneDrive for Business (Office 365).
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, OneDrive
+---
+
 # OneDrive Service
 
 The **OneDrive** Service provides a simple way to access resources on either OneDrive or OneDrive for Business (Office 365).  You can:
@@ -9,6 +16,22 @@ The **OneDrive** Service provides a simple way to access resources on either One
 ## Authentication
 
 In order to use the OneDriveService you need to authenticate the user and get an access token
+
+### OneDrive (Consumer) and OneDrive for Business - Converged applications
+
+The Microsoft Authentication Library (MSAL) supports v2 of the Azure AD service endpoint, which enables converged applications - this means that you can use the portal to register your app only once, irrespective of whether your user authenticates with their Work, School or personal Microsoft Account.  To register your app as a converged application, you need to:
+
+1) Go to the https://apps.dev.microsoft.com portal
+2) In the section Converged Applications, click on the "Add an app" button 
+3) Register your application 
+4) In the Platform section, click "Add platform" then choose "Native Application" 
+
+You may then test this in the sample app by copying the "Application Id" from the portal page and pasting it into 
+the Client Id field inside of the OneDrive services page.  To use the new flow, you need to select the "Work Or School Accounts Or Microsoft Account" authentication provider option.
+
+Programmatically, you will now need to use the OneDriveService.GraphInstance property instead of the older OneDriveService.Instance property.  You may still need to use the older property for backwards compatibility, or for accessing features such as OnlineId authentication support, which MSAL does not yet support.  The APIs under the Instance and GraphInstance properties are very similar, so be sure to switch to the correct one when following the code snippets in the sections below.
+
+For setting up your app against for the previous authentication flows, follow the steps below.
 
 ### OneDrive (Consumer)
 
@@ -50,6 +73,9 @@ var folder = await OneDriveService.Instance.RootFolderAsync();
 ### Initialization
 
 ```csharp
+
+// if Windows is associated with a Microsoft account, and your project is associated with the Store then you may use OnlineId for seamless login. If you are doing this and initializing from a background task, then you need to explictly request that no credentials prompt be displayed.
+OneDriveService.Instance.Initialize(Microsoft.OneDrive.Sdk.OnlineIdAuthenticationProvider.PromptType.DoNotPrompt);
 
 // if Windows is not associated with a Microsoft Account, you need to initialize the service using an authentication provider AccountProviderType.Msa or AccountProviderType.Adal
 OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msa, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
@@ -199,7 +225,7 @@ thumbnail.Source = bmp;
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Services |
 

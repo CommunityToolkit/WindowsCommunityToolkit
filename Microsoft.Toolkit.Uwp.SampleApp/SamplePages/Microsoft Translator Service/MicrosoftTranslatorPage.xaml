@@ -31,9 +31,9 @@
             <ComboBox x:Name="Languages"
                       Margin="0,10,0,0"
                       HorizontalAlignment="Stretch"
-                      DisplayMemberPath="Value"
+                      DisplayMemberPath="Name"
                       Header="Target Language:"
-                      SelectedValuePath="Key" />
+                      SelectedValuePath="Code" />
             <Button x:Name="Translate"
                     Margin="0,10,0,0"
                     Click="Translate_OnClick"

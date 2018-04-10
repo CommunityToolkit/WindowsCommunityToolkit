@@ -1,64 +1,83 @@
+---
+title: Light animation behavior
+author: nmetulev
+description: The Light animation behavior performs a point light in the middle of a given UIElement. 
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, light, light animation
+---
+
 # Light
 
-The **Light animation behavior** performs a point light (A point source of light that emits light in all directions) in the middle of a given UIElement. 
-The light behavior is great drawing the user's eye towards a particular pieces of user interface. You set the distance property of the 
-light to determine how bright the light will be. The closer the light source, the more focused it will be, but, will make the overall UI element darker.
-The further away from the light source the more the light will spread over the UIElement.
-
-**NOTE**:  Heavy usage of effects may have a negative impact on the performance of your application. 
+The Light animation behavior performs a point light (A point source of light that emits light in all directions) in the middle of a given UIElement. You set the distance property of the light to determine how bright the light will be. The closer the light source, the darker the UI element will be. ***NOTE**:  Heavy usage of effects may have a negative impact on the performance of your application.* 
 
 ## Syntax
 
-You can either use the light behavior from your XAML code:
+**XAML**
 
-```xml
+```xaml
+<Page ...
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"/>
 
-    <interactivity:Interaction.Behaviors>
+<interactivity:Interaction.Behaviors>
     <behaviors:Light x:Name="LightBehavior" 
            Distance="10" 
            Duration="500" 
-           Delay="0" 
-           AutomaticallyStart="True"/>
-    </interactivity:Interaction.Behaviors>
+           Delay="0"
+           EasingType="Linear"
+           AutomaticallyStart="True"
+           Color="Red"/>
+</interactivity:Interaction.Behaviors>
 
 ```
 
-or directly from code:
+**C#**
 
 ```csharp
-var animation = ToolkitLogo.Light(value: 10, duration: 500, delay: 0); 
-await animation.StartAsync();
-
+MyUIElement.Light(distance: 5, duration: 2500, delay: 250, color: Colors.Red).Start();
+await MyUIElement.Light(distance: 5, duration: 2500, delay: 250, color: Colors.Red).StartAsync(); //Light animation can be awaited
 ```
 
-Behavior animations can also be chained and awaited.
+## Sample Output
 
-```csharp
+![Light Behavior animation](../resources/images/Animations/Light/Sample-Output.gif)
 
-    Element.Rotate(value: 30f, duration: 0.3).StartAsync();
+## Properties
 
-    await Element.Rotate(value: 30f, duration: 0.3).StartAsync();
+### Distance
+The distance of the spotlight. 0 being the furthest.
 
-    var anim = element.Rotate(30f).Fade(0.5).Light(10);
-    anim.SetDurationForAll(2);
+### Color
+The color of the spot light specified as a Brush
+
+## Examples
+
+- The light behavior is great at drawing the user's eye towards a particular pieces of user interface. Closer the light source, the more focused it will be, but, will make the overall UI element darker. The further away from the light source the more the light will spread over the UIElement.
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](AnimationSet.md) documentation for more information.
+
+    **Sample Code**
+
+    ```csharp
+    var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
+    anim.SetDurationForAll(2500);
+    anim.SetDelay(250);
     anim.Completed += animation_completed;
-    anim.StartAsync();
+    anim.Start();
+    ```
 
-    anim.Stop();
+    **Sample Output**
 
-```
+    ![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
 
-[Light Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Light)
+## Sample Project
 
-## Example Image
+[Light Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Light). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
 
-![Light Behavior animation](../resources/images/Animations-Light.gif "Light Behavior")
+## Requirements
 
-## Requirements (Windows 10 Device Family)
-
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, [Windows 10 Anniversary SDK 14393](https://blogs.windows.com/windowsexperience/2016/07/18/build14393/) 10.0.14393.0 |
-| --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI.Animations |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
+| ---------------------------------------------------------------- | ----------------------------------- |
+| Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
 
 ## API
 

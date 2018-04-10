@@ -15,6 +15,8 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
@@ -22,6 +24,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -33,6 +36,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public MicrosoftGraphPage()
         {
             InitializeComponent();
+            EventsBox.Visibility = Visibility.Collapsed;
             MessagesBox.Visibility = Visibility.Collapsed;
             UserBox.Visibility = Visibility.Collapsed;
             LogOutButton.Visibility = Visibility.Collapsed;
@@ -50,13 +54,56 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
+            var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
+            var endpointVersion = item.Tag.ToString() == "v2" ? AuthenticationModel.V2 : AuthenticationModel.V1;
+
+            MicrosoftGraphService.Instance.AuthenticationModel = endpointVersion;
+
             // Initialize the service
-            MicrosoftGraphService.Instance.Initialize(ClientId.Text);
+            switch (endpointVersion)
+            {
+                case AuthenticationModel.V1:
+                    MicrosoftGraphService.Instance.Initialize(ClientId.Text);
+                    break;
+                case AuthenticationModel.V2:
+                    var scopes = DelegatedPermissionScopes.Text.Split(' ');
+                    MicrosoftGraphService.Instance.Initialize(ClientId.Text, ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, scopes);
+                    break;
+                default:
+                    break;
+            }
 
             // Login via Azure Active Directory
-            if (!await MicrosoftGraphService.Instance.LoginAsync())
+            try
             {
-                var error = new MessageDialog("Unable to sign in to Office 365");
+                if (!await MicrosoftGraphService.Instance.LoginAsync())
+                {
+                    var error = new MessageDialog("Unable to sign in to Office 365");
+                    await error.ShowAsync();
+                    return;
+                }
+            }
+            catch (AdalServiceException ase)
+            {
+                var error = new MessageDialog(ase.Message);
+                await error.ShowAsync();
+                return;
+            }
+            catch (AdalException ae)
+            {
+                var error = new MessageDialog(ae.Message);
+                await error.ShowAsync();
+                return;
+            }
+            catch (MsalServiceException mse)
+            {
+                var error = new MessageDialog(mse.Message);
+                await error.ShowAsync();
+                return;
+            }
+            catch (MsalException me)
+            {
+                var error = new MessageDialog(me.Message);
                 await error.ShowAsync();
                 return;
             }
@@ -92,11 +139,49 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Shell.Current.DisplayWaitRing = false;
             }
 
+            EventsBox.Visibility = Visibility.Visible;
             MessagesBox.Visibility = Visibility.Visible;
             UserBox.Visibility = Visibility.Visible;
             ClientIdBox.Visibility = Visibility.Collapsed;
             LogOutButton.Visibility = Visibility.Visible;
             ConnectButton.Visibility = Visibility.Collapsed;
+        }
+
+        private async void GetEventsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!await Tools.CheckInternetConnectionAsync())
+            {
+                return;
+            }
+
+            int top = 10;
+
+            var collection = new IncrementalLoadingCollection<MicrosoftGraphSource<Event>, Event>(
+                top,
+                async () =>
+                {
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = true; });
+                },
+                async () =>
+                {
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = false; });
+                },
+                async ex =>
+                {
+                    if (!Dispatcher.HasThreadAccess)
+                    {
+                        if (ex is ServiceException)
+                        {
+                            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => { await DisplayAuthorizationErrorMessageAsync(ex as ServiceException, "Read user event"); });
+                        }
+                        else
+                        {
+                            throw ex;
+                        }
+                    }
+                });
+
+            EventsList.ItemsSource = collection;
         }
 
         private async void GetMessagesButton_Click(object sender, RoutedEventArgs e)
@@ -117,7 +202,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 top = Convert.ToInt32(txtTop);
             }
 
-            var collection = new IncrementalLoadingCollection<MicrosoftGraphSource, Message>(
+            var collection = new IncrementalLoadingCollection<MicrosoftGraphSource<Message>, Message>(
                 top,
                 async () =>
                 {
@@ -183,6 +268,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             SetVisibilityStatusPanel(MessagesList, (Button)sender);
         }
 
+        private void EventBoxExpandButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetVisibilityStatusPanel(EventsPanel, (Button)sender);
+            SetVisibilityStatusPanel(EventsList, (Button)sender);
+        }
+
         private void SetVisibilityStatusPanel(FrameworkElement box, Button switchButton)
         {
             if (box.Visibility == Visibility.Visible)
@@ -197,16 +288,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void LogOutButton_Click(object sender, RoutedEventArgs e)
+        private async void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
             MessagesList.LoadMoreItemsAsync().Cancel();
-            MicrosoftGraphService.Instance.Logout();
+            await MicrosoftGraphService.Instance.Logout();
+            EventsList.Visibility = Visibility.Collapsed;
+            EventsBox.Visibility = Visibility.Collapsed;
             MessagesList.Visibility = Visibility.Collapsed;
             MessagesBox.Visibility = Visibility.Collapsed;
             LogOutButton.Visibility = Visibility.Collapsed;
             UserBox.Visibility = Visibility.Collapsed;
             ClientIdBox.Visibility = Visibility.Visible;
             ConnectButton.Visibility = Visibility.Visible;
+        }
+
+        private void VersionEndpointDropdown_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
+            if (DelegatedPermissionScopes != null)
+            {
+                DelegatedPermissionScopes.Visibility = item.Tag.ToString() == "v2" ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
     }
 }

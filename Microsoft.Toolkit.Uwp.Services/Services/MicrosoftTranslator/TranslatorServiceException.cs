@@ -22,8 +22,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TranslatorServiceException"/> class using the specified error message.
-        /// <param name="message">Message that describes the error</param>
         /// </summary>
+        /// <param name="message">Message that describes the error</param>
         public TranslatorServiceException(string message)
             : base(message)
         {

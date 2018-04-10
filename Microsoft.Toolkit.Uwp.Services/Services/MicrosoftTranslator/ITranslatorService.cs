@@ -38,6 +38,15 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
         string Language { get; set; }
 
         /// <summary>
+        /// Initializes the <see cref="TranslatorService"/> class by getting an access token for the service.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> that represents the initialize operation.</returns>
+        /// <exception cref="ArgumentNullException">The <see cref="SubscriptionKey"/> property hasn't been set.</exception>
+        /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
+        /// <remarks>Calling this method isn't mandatory, because the token is get/refreshed everytime is needed. However, it is called at startup, it can speed-up subsequest requests.</remarks>
+        Task InitializeAsync();
+
+        /// <summary>
         /// Detects the language of a text.
         /// </summary>
         /// <param name="text">A string represeting the text whose language must be detected.</param>
@@ -50,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
         /// </exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
         /// <remarks><para>This method performs a non-blocking request for language detection.</para>
-        /// <para>For more information, go to http://msdn.microsoft.com/en-us/library/ff512427.aspx.
+        /// <para>For more information, go to https://docs.microsofttranslator.com/text-translate.html#!/default/get_Detect.
         /// </para></remarks>
         /// <seealso cref="GetLanguagesAsync"/>
         /// <seealso cref="Language"/>
@@ -63,19 +72,24 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
         /// <exception cref="ArgumentNullException">The <see cref="SubscriptionKey"/> property hasn't been set.</exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
         /// <remarks><para>This method performs a non-blocking request for language codes.</para>
-        /// <para>For more information, go to http://msdn.microsoft.com/en-us/library/ff512415.aspx.
+        /// <para>For more information, go to https://docs.microsofttranslator.com/text-translate.html#!/default/get_GetLanguagesForTranslate.
         /// </para>
         /// </remarks>
         Task<IEnumerable<string>> GetLanguagesAsync();
 
         /// <summary>
-        /// Initializes the <see cref="TranslatorService"/> class by getting an access token for the service.
+        /// Retrieves friendly names for the languages available for text translation.
         /// </summary>
-        /// <returns>A <see cref="Task"/> that represents the initialize operation.</returns>
+        /// <param name="language">The language used to localize the language names. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
+        /// <returns>An array of <see cref="ServiceLanguage"/> containing the language codes and names supported for translation by <strong>Microsoft Translator Service</strong>.</returns>
         /// <exception cref="ArgumentNullException">The <see cref="SubscriptionKey"/> property hasn't been set.</exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
-        /// <remarks>Calling this method isn't mandatory, because the token is get/refreshed everytime is needed. However, it is called at startup, it can speed-up subsequest requests.</remarks>
-        Task InitializeAsync();
+        /// <remarks><para>This method performs a non-blocking request for language name.</para>
+        /// <para>For more information, go to https://docs.microsofttranslator.com/text-translate.html#!/default/post_GetLanguageNames.
+        /// </para>
+        /// </remarks>
+        /// <see cref="GetLanguagesAsync"/>
+        Task<IEnumerable<ServiceLanguage>> GetLanguageNamesAsync(string language = null);
 
         /// <summary>
         /// Translates a text string into the specified language.
@@ -93,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
         /// <exception cref="ArgumentException">The <paramref name="text"/> parameter is longer than 1000 characters.</exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
         /// <remarks><para>This method perform a non-blocking request for text translation.</para>
-        /// <para>For more information, go to http://msdn.microsoft.com/en-us/library/ff512421.aspx.
+        /// <para>For more information, go to https://docs.microsofttranslator.com/text-translate.html#!/default/get_Translate.
         /// </para>
         /// </remarks>
         /// <seealso cref="Language"/>
@@ -114,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
         /// <exception cref="ArgumentException">The <paramref name="text"/> parameter is longer than 1000 characters.</exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
         /// <remarks><para>This method perform a non-blocking request for text translation.</para>
-        /// <para>For more information, go to http://msdn.microsoft.com/en-us/library/ff512421.aspx.
+        /// <para>For more information, go to https://docs.microsofttranslator.com/text-translate.html#!/default/get_Translate.
         /// </para>
         /// </remarks>
         /// <seealso cref="Language"/>

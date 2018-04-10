@@ -1,10 +1,17 @@
+---
+title: NetworkHelper
+author: nmetulev
+description: he NetworkHelper class provides functionality to monitor changes in network connection and allows users to query for network information without additional lookups.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, NetworkHelper
+---
+
 # NetworkHelper
 
 The NetworkHelper class provides functionality to monitor changes in network connection and allows users to query for network information without additional lookups.
 
 It exposes network information though a property called ConnectionInformation. The ConnectionInformation holds information about ConnectionType, ConnectivityLevel, ConnectionCost, SignalStrength, Internet Connectivity and more.
 
-***_What is a metered connection?_***
+**_What is a metered connection?_**
 A metered connection is an Internet connection that has a data limit or cost associated with it. Cellular data connections are set as metered by default. Wi-Fi network connections can be set to metered, but aren't by default. Application developers should take metered nature of connection into account and reduce data usage.
 
 ## Example
@@ -42,11 +49,11 @@ You can find more examples in our [unit tests](https://github.com/Microsoft/UWPC
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp |
+| Namespace | Microsoft.Toolkit.Uwp.Connectivity |
 
 ## API
 
-* [NetworkHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/Network/NetworkHelper.cs)
+* [NetworkHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.Connectivity/Network/NetworkHelper.cs)
 

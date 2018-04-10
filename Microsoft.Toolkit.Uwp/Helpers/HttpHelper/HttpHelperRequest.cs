@@ -20,6 +20,7 @@ namespace Microsoft.Toolkit.Uwp
     /// <summary>
     /// Represents an HTTP request message including headers.
     /// </summary>
+    [Obsolete]
     public class HttpHelperRequest : IDisposable
     {
         private HttpRequestMessage _requestMessage = null;

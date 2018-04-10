@@ -14,21 +14,35 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Media;
 using Windows.Foundation.Metadata;
+using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
-using Windows.Web.Http;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public class Sample
     {
+        private const string _repoOnlineRoot = "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/";
+        private const string _docsOnlineRoot = "https://raw.githubusercontent.com/MicrosoftDocs/UWPCommunityToolkitDocs/";
+
+        private static HttpClient client = new HttpClient();
+        private string _cachedDocumentation = string.Empty;
+        private string _cachedPath = string.Empty;
+
         internal static async Task<Sample> FindAsync(string category, string name)
         {
             var categories = await Samples.GetCategoriesAsync();
@@ -46,13 +60,50 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string About { get; set; }
 
-        public string CodeUrl { get; set; }
+        private string _codeUrl;
+
+        public string CodeUrl
+        {
+            get
+            {
+                return _codeUrl;
+            }
+
+            set
+            {
+#if DEBUG
+                _codeUrl = value;
+#else
+                var regex = new Regex("^https://github.com/Microsoft/UWPCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
+                var docMatch = regex.Match(value);
+
+                var branch = string.Empty;
+                var path = string.Empty;
+                if (docMatch.Success)
+                {
+                    branch = docMatch.Groups["branch"].Value;
+                    path = docMatch.Groups["path"].Value;
+                }
+
+                if (string.IsNullOrWhiteSpace(branch))
+                {
+                    _codeUrl = value;
+                }
+                else
+                {
+                    _codeUrl = $"https://github.com/Microsoft/UWPCommunityToolkit/tree/master/{path}";
+                }
+#endif
+            }
+        }
 
         public string CodeFile { get; set; }
 
         public string JavaScriptCodeFile { get; set; }
 
         public string XamlCodeFile { get; set; }
+
+        public bool DisableXamlEditorRendering { get; set; }
 
         public string XamlCode { get; private set; }
 
@@ -61,6 +112,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public string Icon { get; set; }
 
         public string BadgeUpdateVersionRequired { get; set; }
+
+        public string DeprecatedWarning { get; set; }
 
         public string ApiCheck { get; set; }
 
@@ -89,7 +142,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{CodeFile}"))
             {
-                return await codeStream.ReadTextAsync();
+                using (var streamreader = new StreamReader(codeStream.AsStream()))
+                {
+                    return await streamreader.ReadToEndAsync();
+                }
             }
         }
 
@@ -97,56 +153,191 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{JavaScriptCodeFile}"))
             {
-                return await codeStream.ReadTextAsync();
+                using (var streamreader = new StreamReader(codeStream.AsStream()))
+                {
+                    return await streamreader.ReadToEndAsync();
+                }
             }
         }
 
-        public async Task<string> GetDocumentationAsync()
+#pragma warning disable SA1009 // Doesn't like ValueTuples.
+        public async Task<(string contents, string path)> GetDocumentationAsync()
+#pragma warning restore SA1009 // Doesn't like ValueTuples.
         {
+            if (!string.IsNullOrWhiteSpace(_cachedDocumentation))
+            {
+                return (_cachedDocumentation, _cachedPath);
+            }
+
+            var filepath = string.Empty;
+            var filename = string.Empty;
+            var localPath = string.Empty;
+
+            var docRegex = new Regex("^" + _repoOnlineRoot + "(?<branch>.+?)/docs/(?<file>.+)");
+            var docMatch = docRegex.Match(DocumentationUrl);
+            if (docMatch.Success)
+            {
+                filepath = docMatch.Groups["file"].Value;
+                filename = Path.GetFileName(filepath);
+                localPath = $"ms-appx:///docs/{Path.GetDirectoryName(filepath)}/";
+            }
+
+#if !DEBUG // use the docs repo in release mode
+            string modifiedDocumentationUrl = $"{_docsOnlineRoot}master/docs/{filepath}";
+
+            _cachedPath = modifiedDocumentationUrl.Replace(filename, string.Empty);
+
+            // Read from Cache if available.
             try
             {
-                using (var request = new HttpHelperRequest(new Uri(DocumentationUrl), HttpMethod.Get))
+                _cachedDocumentation = await StorageFileHelper.ReadTextFromLocalCacheFileAsync(filename);
+            }
+            catch (Exception)
+            {
+            }
+
+            // Grab from docs repo if not.
+            if (string.IsNullOrWhiteSpace(_cachedDocumentation))
+            {
+                try
                 {
-                    using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                    using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(modifiedDocumentationUrl)))
                     {
-                        if (response.Success)
+                        using (var response = await client.SendAsync(request).ConfigureAwait(false))
                         {
-                            var result = await response.Content.ReadAsStringAsync();
-
-                            // Need to do some cleaning
-                            // Rework code tags
-                            var regex = new Regex("```(xaml|xml|csharp)(?<code>.+?)```", RegexOptions.Singleline);
-
-                            foreach (Match match in regex.Matches(result))
+                            if (response.IsSuccessStatusCode)
                             {
-                                var code = match.Groups["code"].Value;
-                                var lines = code.Split('\n');
-                                var newCode = new StringBuilder();
-                                foreach (var line in lines)
+                                var result = await response.Content.ReadAsStringAsync();
+                                _cachedDocumentation = ProcessDocs(result);
+
+                                if (!string.IsNullOrWhiteSpace(_cachedDocumentation))
                                 {
-                                    newCode.AppendLine("    " + line);
+                                    await StorageFileHelper.WriteTextToLocalCacheFileAsync(_cachedDocumentation, filename);
                                 }
-
-                                result = result.Replace(match.Value, newCode.ToString());
                             }
-
-                            // Images
-                            regex = new Regex("## Example Image.+?##", RegexOptions.Singleline);
-                            result = regex.Replace(result, "##");
-
-                            return result;
                         }
                     }
                 }
+                catch (Exception)
+                {
+                }
             }
-            catch (Exception ex)
+#endif
+
+            // Grab the local copy in Debug mode, allowing you to preview changes made.
+            if (string.IsNullOrWhiteSpace(_cachedDocumentation))
             {
-                return ex.Message;
+                try
+                {
+                    using (var localDocsStream = await StreamHelper.GetPackagedFileStreamAsync($"docs/{filepath}"))
+                    {
+                        var result = await localDocsStream.ReadTextAsync();
+                        _cachedDocumentation = ProcessDocs(result);
+                        _cachedPath = localPath;
+                    }
+                }
+                catch (Exception)
+                {
+                }
             }
 
-            return string.Empty;
+            return (_cachedDocumentation, _cachedPath);
         }
 
+        /// <summary>
+        /// Gets the image data from a Uri, with Caching.
+        /// </summary>
+        /// <param name="uri">Image Uri</param>
+        /// <returns>Image Stream</returns>
+        public async Task<IRandomAccessStream> GetImageStream(Uri uri)
+        {
+            async Task<Stream> CopyStream(HttpContent source)
+            {
+                var stream = new MemoryStream();
+                await source.CopyToAsync(stream);
+                stream.Seek(0, SeekOrigin.Begin);
+                return stream;
+            }
+
+            IRandomAccessStream imageStream = null;
+            var localpath = $"{uri.Host}/{uri.LocalPath}";
+
+            // Cache only in Release
+#if !DEBUG
+            try
+            {
+                imageStream = await StreamHelper.GetLocalCacheFileStreamAsync(localpath, Windows.Storage.FileAccessMode.Read);
+            }
+            catch
+            {
+            }
+#endif
+
+            if (imageStream == null)
+            {
+                try
+                {
+                    using (var response = await client.GetAsync(uri))
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var imageCopy = await CopyStream(response.Content);
+                            imageStream = imageCopy.AsRandomAccessStream();
+
+                            // Cache only in Release
+#if !DEBUG
+                            // Takes a second copy of the image stream, so that is can save the image data to cache.
+                            using (var saveStream = await CopyStream(response.Content))
+                            {
+                                await SaveImageToCache(localpath, saveStream);
+                            }
+#endif
+                        }
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            return imageStream;
+        }
+
+        private async Task SaveImageToCache(string localpath, Stream imageStream)
+        {
+            var folder = ApplicationData.Current.LocalCacheFolder;
+            localpath = Path.Combine(folder.Path, localpath);
+
+            // Resort to creating using traditional methods to avoid iteration for folder creation.
+            Directory.CreateDirectory(Path.GetDirectoryName(localpath));
+
+            using (var filestream = File.Create(localpath))
+            {
+                await imageStream.CopyToAsync(filestream);
+            }
+        }
+
+        private string ProcessDocs(string docs)
+        {
+            string result = docs;
+
+            var metadataRegex = new Regex("^---(.+?)---", RegexOptions.Singleline);
+            var metadataMatch = metadataRegex.Match(result);
+            if (metadataMatch.Success)
+            {
+                result = result.Remove(metadataMatch.Index, metadataMatch.Index + metadataMatch.Length);
+            }
+
+            // Images
+            var regex = new Regex("## Example Image.+?##", RegexOptions.Singleline);
+            result = regex.Replace(result, "##");
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets a version of the XamlCode with the explicit values of the option controls.
+        /// </summary>
         public string UpdatedXamlCode
         {
             get
@@ -160,10 +351,48 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 var proxy = (IDictionary<string, object>)_propertyDescriptor.Expando;
                 foreach (var option in _propertyDescriptor.Options)
                 {
-                    var value = proxy[option.Name] as ValueHolder;
-                    if (value != null)
+                    if (proxy[option.Name] is ValueHolder value)
                     {
-                        result = result.Replace(option.OriginalString, value.Value.ToString());
+                        var newString = value.Value is Windows.UI.Xaml.Media.SolidColorBrush brush ?
+                                            brush.Color.ToString() : value.Value.ToString();
+
+                        result = result.Replace(option.OriginalString, newString);
+                        result = result.Replace("@[" + option.Label + "]@", newString);
+                        result = result.Replace("@[" + option.Label + "]", newString);
+                    }
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Gets a version of the XamlCode bound directly to the slider/option controls.
+        /// </summary>
+        public string BindedXamlCode
+        {
+            get
+            {
+                if (_propertyDescriptor == null)
+                {
+                    return string.Empty;
+                }
+
+                var result = XamlCode;
+                var proxy = (IDictionary<string, object>)_propertyDescriptor.Expando;
+                foreach (var option in _propertyDescriptor.Options)
+                {
+                    if (proxy[option.Name] is ValueHolder value)
+                    {
+                        result = result.Replace(
+                            option.OriginalString,
+                            "{Binding " + option.Name + ".Value, Mode=" + (option.IsTwoWayBinding ? "TwoWay" : "OneWay") + "}");
+                        result = result.Replace(
+                            "@[" + option.Label + "]@",
+                            "{Binding " + option.Name + ".Value, Mode=TwoWay}");
+                        result = result.Replace(
+                            "@[" + option.Label + "]",
+                            "{Binding " + option.Name + ".Value, Mode=OneWay}"); // Order important here.
                     }
                 }
 
@@ -185,24 +414,40 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // Get Xaml code
                 using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{XamlCodeFile}"))
                 {
-                    XamlCode = await codeStream.ReadTextAsync();
+                    XamlCode = await codeStream.ReadTextAsync(Encoding.UTF8);
 
                     // Look for @[] values and generate associated properties
-                    var regularExpression = new Regex(@"@\[(?<name>.+?):(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*\]");
+                    var regularExpression = new Regex(@"@\[(?<name>.+?)(:(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*)?\]@?");
 
                     _propertyDescriptor = new PropertyDescriptor { Expando = new ExpandoObject() };
                     var proxy = (IDictionary<string, object>)_propertyDescriptor.Expando;
 
                     foreach (Match match in regularExpression.Matches(XamlCode))
                     {
-                        var name = match.Groups["name"].Value;
+                        var label = match.Groups["name"].Value;
+                        var name = label.Replace(" ", string.Empty); // Allow us to have nicer display names, but create valid properties.
                         var type = match.Groups["type"].Value;
                         var value = match.Groups["value"].Value;
 
-                        PropertyKind kind;
+                        var existingOption = _propertyDescriptor.Options.Where(o => o.Name == name).FirstOrDefault();
 
-                        if (Enum.TryParse(type, out kind))
+                        if (existingOption == null && string.IsNullOrWhiteSpace(type))
                         {
+                            throw new NotSupportedException($"Unrecognized short identifier '{name}'; Define type and parameters of property in first occurance in {XamlCodeFile}.");
+                        }
+
+                        if (Enum.TryParse(type, out PropertyKind kind))
+                        {
+                            if (existingOption != null)
+                            {
+                                if (existingOption.Kind != kind)
+                                {
+                                    throw new NotSupportedException($"Multiple options with same name but different type not supported: {XamlCodeFile}:{name}");
+                                }
+
+                                continue;
+                            }
+
                             PropertyOptions options;
 
                             switch (kind)
@@ -211,7 +456,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                 case PropertyKind.DoubleSlider:
                                     try
                                     {
-                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = double.Parse(value) };
+                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = double.Parse(value, CultureInfo.InvariantCulture) };
                                         var parameters = match.Groups["parameters"].Value;
                                         var split = parameters.Split('-');
                                         int minIndex = 0;
@@ -222,11 +467,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                             minMultiplier = -1;
                                         }
 
-                                        sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex]);
-                                        sliderOptions.MaxValue = double.Parse(split[minIndex + 1]);
+                                        sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex], CultureInfo.InvariantCulture);
+                                        sliderOptions.MaxValue = double.Parse(split[minIndex + 1], CultureInfo.InvariantCulture);
                                         if (split.Length > 2 + minIndex)
                                         {
-                                            sliderOptions.Step = double.Parse(split[split.Length - 1]);
+                                            sliderOptions.Step = double.Parse(split[split.Length - 1], CultureInfo.InvariantCulture);
                                         }
 
                                         options = sliderOptions;
@@ -239,6 +484,39 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
+                                case PropertyKind.TimeSpan:
+                                    try
+                                    {
+                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = TimeSpan.FromMilliseconds(double.Parse(value, CultureInfo.InvariantCulture)) };
+                                        var parameters = match.Groups["parameters"].Value;
+                                        var split = parameters.Split('-');
+                                        int minIndex = 0;
+                                        int minMultiplier = 1;
+                                        if (string.IsNullOrEmpty(split[0]))
+                                        {
+                                            minIndex = 1;
+                                            minMultiplier = -1;
+                                        }
+
+                                        sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex], CultureInfo.InvariantCulture);
+                                        sliderOptions.MaxValue = double.Parse(split[minIndex + 1], CultureInfo.InvariantCulture);
+                                        if (split.Length > 2 + minIndex)
+                                        {
+                                            sliderOptions.Step = double.Parse(split[split.Length - 1], CultureInfo.InvariantCulture);
+                                        }
+
+                                        options = sliderOptions;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Debug.WriteLine($"Unable to extract slider info from {value}({ex.Message})");
+                                        TrackingManager.TrackException(ex);
+                                        continue;
+                                    }
+
+                                    break;
+
                                 case PropertyKind.Enum:
                                     try
                                     {
@@ -256,6 +534,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.Bool:
                                     try
                                     {
@@ -268,6 +547,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
                                 case PropertyKind.Brush:
                                     try
                                     {
@@ -281,14 +561,32 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     }
 
                                     break;
+
+                                case PropertyKind.Thickness:
+                                    try
+                                    {
+                                        var thicknessOptions = new ThicknessPropertyOptions { DefaultValue = value };
+                                        options = thicknessOptions;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Debug.WriteLine($"Unable to extract slider info from {value}({ex.Message})");
+                                        TrackingManager.TrackException(ex);
+                                        continue;
+                                    }
+
+                                    break;
+
                                 default:
                                     options = new PropertyOptions { DefaultValue = value };
                                     break;
                             }
 
+                            options.Label = label;
                             options.Name = name;
                             options.OriginalString = match.Value;
                             options.Kind = kind;
+                            options.IsTwoWayBinding = options.OriginalString.EndsWith("@");
                             proxy[name] = new ValueHolder(options.DefaultValue);
 
                             _propertyDescriptor.Options.Add(options);
@@ -324,6 +622,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var controlsProxyType = GridSplitter.GridResizeDirection.Auto;
             assembly = controlsProxyType.GetType().GetTypeInfo().Assembly;
 
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Microsoft.Toolkit.Uwp.UI.Animations
+            var animationsProxyType = EasingType.Default;
+            assembly = animationsProxyType.GetType().GetTypeInfo().Assembly;
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Microsoft.Toolkit.Uwp.UI
+            var uiProxyType = ImageBlendMode.Multiply;
+            assembly = uiProxyType.GetType().GetTypeInfo().Assembly;
             foreach (var typeInfo in assembly.ExportedTypes)
             {
                 if (typeInfo.Name == typeName)

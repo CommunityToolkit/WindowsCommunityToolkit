@@ -75,7 +75,7 @@
                                     Orientation="Vertical">
                             <HyperlinkButton Margin="0,0,0,15"
                                              Content="Show me how to get these values"
-                                             NavigateUri="http://uwpcommunitytoolkit.readthedocs.io/en/master/services/Linkedin/" />
+                                             NavigateUri="https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Linkedin/" />
                             <TextBox x:Name="ClientId"
                                      Margin="0,0,0,12"
                                      Header="Client Id:" />

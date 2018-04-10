@@ -1,3 +1,10 @@
+---
+title: Background Task Helper
+author: nmetulev
+description: The Background Task Helper helps users interacting with background tasks in an easier manner. 
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Background Task Helper
+---
+
 # Background Task Helper
 
 The **Background Task Helper** helps users interacting with background tasks in an easier manner. 
@@ -45,7 +52,7 @@ Once it is done, you can register your Background Tasks.
 
 ### Using Single-Process Model
 
-Using MPM (Single-Process Model) is the new and simple way of using Background Task.
+Using SPM (Single-Process Model) is the new and simple way of using Background Task.
 It is required to target Anniversary Update (SDK 14393) or later.
 
 Using SPM, you can declare your Background Tasks inside your own project, no need to create a Windows Runtime Component.
@@ -97,7 +104,7 @@ You can find more examples in our [unit tests](https://github.com/Microsoft/UWPC
 
 ## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
+| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
 

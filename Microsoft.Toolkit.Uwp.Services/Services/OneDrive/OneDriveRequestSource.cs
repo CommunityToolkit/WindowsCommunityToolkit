@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,7 +23,8 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// Type to handle paged requests to OneDrive.
     /// </summary>
     /// <typeparam name="T">Strong type to return.</typeparam>
-    public class OneDriveRequestSource<T> : IIncrementalSource<T>
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
+    public class OneDriveRequestSource<T> : Collections.IIncrementalSource<T>
     {
         private IOneDriveClient _provider;
         private IItemRequestBuilder _requestBuilder;

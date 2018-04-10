@@ -40,6 +40,7 @@
                                           Grid.Row="1"
                                           IsTabStop="False"
                                           ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+                                          ItemContainerStyleSelector="{TemplateBinding ItemContainerStyleSelector}"
                                           ItemTemplate="{TemplateBinding ItemTemplate}"
                                           ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                           ItemsSource="{TemplateBinding ItemsSource}"

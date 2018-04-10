@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.ApplicationModel.Activation;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// A version of <see cref="DeepLinkParser" /> which generates a comma-separated-list as the value for any option that is repeated in the query string
