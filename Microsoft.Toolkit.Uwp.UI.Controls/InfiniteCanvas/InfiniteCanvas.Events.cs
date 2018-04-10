@@ -24,6 +24,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             infiniteCanvas._canvasToolbarContainer.Visibility = infiniteCanvas.ToolbarVisibility;
         }
 
+        private static void MinMaxZoomChangedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var infiniteCanvas = (InfiniteCanvas)d;
+            infiniteCanvas.SetZoomFactor();
+        }
+
         private void InfiniteCanvas_Unloaded(object sender, RoutedEventArgs e)
         {
             Application.Current.LeavingBackground -= Current_LeavingBackground;

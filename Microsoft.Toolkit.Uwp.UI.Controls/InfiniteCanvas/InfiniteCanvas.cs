@@ -25,7 +25,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class InfiniteCanvas : Control
     {
+        private const double DefaultMaxZoomFactor = 4.0;
+        private const double DefaultMinZoomFactor = .25;
         private const double LargeCanvasWidthHeight = 1 << 21;
+
         private InkCanvas _inkCanvas;
         private InfiniteCanvasVirtualDrawingSurface _drawingSurfaceRenderer;
         private InkSynchronizer _inkSync;
@@ -103,6 +106,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 typeof(Visibility),
                 typeof(InfiniteCanvas),
                 new PropertyMetadata(Visibility.Visible, ToolbarVisibilityPropertyChanged));
+
+        /// <summary>
+        /// Gets or sets the MaxZoomFactor for the canvas, range between 1 to 10 and the default value is 4
+        /// </summary>
+        public double MaxZoomFactor
+        {
+            get { return (double)GetValue(MaxZoomFactorProperty); }
+            set { SetValue(MaxZoomFactorProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="MaxZoomFactor"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MaxZoomFactorProperty =
+            DependencyProperty.Register(
+                nameof(MaxZoomFactor),
+                typeof(double),
+                typeof(InfiniteCanvas),
+                new PropertyMetadata(DefaultMaxZoomFactor, MinMaxZoomChangedPropertyChanged));
+
+        /// <summary>
+        /// Gets or sets the MinZoomFactor for the canvas, range between .1 to 1 the default value is .25
+        /// </summary>
+        public double MinZoomFactor
+        {
+            get { return (double)GetValue(MinZoomFactorProperty); }
+            set { SetValue(MinZoomFactorProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="MinZoomFactor"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MinZoomFactorProperty =
+            DependencyProperty.Register(
+                nameof(MinZoomFactor),
+                typeof(double),
+                typeof(InfiniteCanvas),
+                new PropertyMetadata(DefaultMinZoomFactor, MinMaxZoomChangedPropertyChanged));
 
         private Rect ViewPort => new Rect(_infiniteCanvasScrollViewer.HorizontalOffset / _infiniteCanvasScrollViewer.ZoomFactor, _infiniteCanvasScrollViewer.VerticalOffset / _infiniteCanvasScrollViewer.ZoomFactor, _infiniteCanvasScrollViewer.ViewportWidth / _infiniteCanvasScrollViewer.ZoomFactor, _infiniteCanvasScrollViewer.ViewportHeight / _infiniteCanvasScrollViewer.ZoomFactor);
 
@@ -196,8 +237,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _inkCanvas.InkPresenter.UnprocessedInput.PointerMoved -= UnprocessedInput_PointerMoved;
             _inkCanvas.InkPresenter.UnprocessedInput.PointerMoved += UnprocessedInput_PointerMoved;
 
-            _infiniteCanvasScrollViewer.MaxZoomFactor = 4.0f;
-            _infiniteCanvasScrollViewer.MinZoomFactor = 0.25f;
+            SetZoomFactor();
 
             _infiniteCanvasScrollViewer.ViewChanged -= InkScrollViewer_ViewChanged;
             _infiniteCanvasScrollViewer.SizeChanged -= InkScrollViewer_SizeChanged;
@@ -207,6 +247,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetCanvasWidthHeight();
 
             _canvasTextBox.UpdateFontSize(TextFontSize);
+        }
+
+        private void SetZoomFactor()
+        {
+            var maxZoomFactor = DefaultMaxZoomFactor;
+            var minZoomFactor = DefaultMinZoomFactor;
+
+            if (MaxZoomFactor >= 1 && MaxZoomFactor <= 10)
+            {
+                maxZoomFactor = MaxZoomFactor;
+            }
+
+            if (MinZoomFactor >= .1 && MinZoomFactor <= 1)
+            {
+                minZoomFactor = MinZoomFactor;
+            }
+
+            _infiniteCanvasScrollViewer.MaxZoomFactor = (float)maxZoomFactor;
+            _infiniteCanvasScrollViewer.MinZoomFactor = (float)minZoomFactor;
         }
 
         private void SetCanvasWidthHeight()
