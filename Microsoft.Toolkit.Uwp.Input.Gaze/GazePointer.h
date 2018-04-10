@@ -121,7 +121,6 @@ ref struct GazeTargetItem sealed
 		RepeatCount = 0;
 		MaxRepeatCount = GazeApi::GetMaxRepeatCount(TargetElement);
     }
-
 };
 
 public ref struct GazePointerEventArgs sealed
@@ -183,7 +182,6 @@ public:
 public ref class GazePointer sealed
 {
 public:
-    GazePointer(UIElement^ root);
     virtual ~GazePointer();
 
     void LoadSettings(ValueSet^ settings);
@@ -249,7 +247,12 @@ public:
         void set(int value) { _gazeCursor->CursorRadius = value; }
     }
 
+internal:
+
+	GazePointer(UIElement^ root);
+
 private:
+
 	TimeSpan GetDefaultPropertyValue(GazePointerState state);
 
     void    InitializeHistogram();
@@ -289,7 +292,7 @@ private:
     Control^                            _offScreenElement;
 
     // The value is the total time that FrameworkElement has been gazed at
-    Vector<GazeTargetItem^>^        _activeHitTargetTimes;
+    Vector<GazeTargetItem^>^            _activeHitTargetTimes;
 
     // A vector to track the history of observed gaze targets
     Vector<GazeHistoryItem^>^           _gazeHistory;

@@ -24,17 +24,17 @@ static DependencyProperty^ GazePointerProperty = DependencyProperty::RegisterAtt
 
 GazePointer^ GazeApi::GetGazePointer(Page^ page)
 {
-	auto gazePointer = safe_cast<GazePointer^>(page->GetValue(GazePointerProperty));
+    auto gazePointer = safe_cast<GazePointer^>(page->GetValue(GazePointerProperty));
 
-	if (gazePointer == nullptr)
-	{
-		gazePointer = ref new GazePointer(page);
-		page->SetValue(GazePointerProperty, gazePointer);
+    if (gazePointer == nullptr)
+    {
+        gazePointer = ref new GazePointer(page);
+        page->SetValue(GazePointerProperty, gazePointer);
 
-		gazePointer->IsCursorVisible = safe_cast<bool>(page->GetValue(GazeApi::IsGazeCursorVisibleProperty));
-	}
+        gazePointer->IsCursorVisible = safe_cast<bool>(page->GetValue(GazeApi::IsGazeCursorVisibleProperty));
+    }
 
-	return gazePointer;
+    return gazePointer;
 }
 
 static void OnIsGazeEnabledChanged(DependencyObject^ ob, DependencyPropertyChangedEventArgs^ args)
@@ -44,7 +44,7 @@ static void OnIsGazeEnabledChanged(DependencyObject^ ob, DependencyPropertyChang
     {
         auto page = safe_cast<Page^>(ob);
 
-		auto gazePointer = GazeApi::GetGazePointer(page);
+        auto gazePointer = GazeApi::GetGazePointer(page);
     }
     else
     {
@@ -72,7 +72,7 @@ static DependencyProperty^ s_dwellProperty = DependencyProperty::RegisterAttache
 static DependencyProperty^ s_dwellRepeatProperty = DependencyProperty::RegisterAttached("DwellRepeat", TimeSpan::typeid, UIElement::typeid, ref new PropertyMetadata(s_nonTimeSpan));
 static DependencyProperty^ s_enterProperty = DependencyProperty::RegisterAttached("Enter", TimeSpan::typeid, UIElement::typeid, ref new PropertyMetadata(s_nonTimeSpan));
 static DependencyProperty^ s_exitProperty = DependencyProperty::RegisterAttached("Exit", TimeSpan::typeid, UIElement::typeid, ref new PropertyMetadata(s_nonTimeSpan));
-static DependencyProperty^ s_maxRepeatCountProperty = DependencyProperty::RegisterAttached("MaxRepeatCount", int::typeid, UIElement::typeid, ref new PropertyMetadata(0));
+static DependencyProperty^ s_maxRepeatCountProperty = DependencyProperty::RegisterAttached("MaxRepeatCount", int::typeid, UIElement::typeid, ref new PropertyMetadata(safe_cast<Object^>(0)));
 
 DependencyProperty^ GazeApi::IsGazeEnabledProperty::get() { return s_isGazeEnabledProperty; }
 DependencyProperty^ GazeApi::IsGazeCursorVisibleProperty::get() { return s_isGazeCursorVisibleProperty; }
@@ -188,11 +188,6 @@ void GazePointer::LoadSettings(ValueSet^ settings)
     {
         EyesOffDelay = (int)(settings->Lookup("GazePointer.GazeIdleTime"));
     }
-
-    if (settings->HasKey("GazePointer.MaxHistoryDuration"))
-    {
-        _maxHistoryTime = (int)(settings->Lookup("GazePointer.MaxHistoryDuration"));
-    }
 }
 
 void GazePointer::InitializeHistogram()
@@ -227,7 +222,7 @@ static DependencyProperty^ GetProperty(GazePointerState state)
     case GazePointerState::Enter: return GazeApi::EnterProperty;
     case GazePointerState::Exit: return GazeApi::ExitProperty;
     default: return nullptr;
-        }
+    }
 }
 
 TimeSpan GazePointer::GetDefaultPropertyValue(GazePointerState state)
@@ -252,14 +247,7 @@ void GazePointer::SetElementStateDelay(UIElement ^element, GazePointerState rele
     // fix up _maxHistoryTime in case the new param exceeds the history length we are currently tracking
     int dwellTime = GetElementStateDelay(element, GazePointerState::Dwell);
     int repeatTime = GetElementStateDelay(element, GazePointerState::DwellRepeat);
-    if (repeatTime != INT_MAX)
-    {
-        _maxHistoryTime = max(2 * repeatTime, _maxHistoryTime);
-    }
-    else
-    {
-        _maxHistoryTime = max(2 * dwellTime, _maxHistoryTime);
-    }
+    _maxHistoryTime = 2 * max(dwellTime, repeatTime);
 }
 
 int GazePointer::GetElementStateDelay(UIElement ^element, GazePointerState pointerState)
@@ -272,9 +260,9 @@ int GazePointer::GetElementStateDelay(UIElement ^element, GazePointerState point
     do
     {
         if (elementWalker == nullptr)
-    {
+        {
             delay = GetDefaultPropertyValue(pointerState);
-    }
+        }
         else
         {
             auto ob = elementWalker->GetValue(property);
@@ -283,13 +271,23 @@ int GazePointer::GetElementStateDelay(UIElement ^element, GazePointerState point
         }
     } while (delay.Duration == s_nonTimeSpan.Duration);
 
-    return safe_cast<int>(delay.Duration / 10);
+    auto ticks = safe_cast<int>(delay.Duration / 10);
+    switch (pointerState)
+    {
+    case GazePointerState::Dwell:
+    case GazePointerState::DwellRepeat:
+        _maxHistoryTime = max(_maxHistoryTime, 2 * ticks);
+        break;
+    }
+    return ticks;
 }
 
 void GazePointer::Reset()
 {
     _activeHitTargetTimes->Clear();
     _gazeHistory->Clear();
+
+    _maxHistoryTime = DEFAULT_MAX_HISTORY_DURATION;
 }
 
 bool GazePointer::IsInvokable(UIElement^ element)
@@ -320,12 +318,6 @@ bool GazePointer::IsInvokable(UIElement^ element)
 
         auto textbox = dynamic_cast<TextBox^>(element);
         if (textbox != nullptr)
-        {
-            return true;
-        }
-
-        auto pivot = dynamic_cast<Pivot^>(element);
-        if (pivot != nullptr)
         {
             return true;
         }
@@ -426,15 +418,6 @@ UIElement^ GazePointer::ResolveHitTarget(Point gazePoint, long long timestamp)
         // subtract the duration obtained from the oldest sample in _gazeHistory
         auto targetItem = GetGazeTargetItem(evOldest->HitTarget);
         targetItem->ElapsedTime -= evOldest->Duration;
-
-        if (targetItem->ElementState == GazePointerState::Dwell)
-        {
-            auto dwellRepeat = GetElementStateDelay(targetItem->TargetElement, GazePointerState::DwellRepeat);
-            if (dwellRepeat != MAXINT)
-        {
-            targetItem->NextStateTime -= evOldest->Duration;
-        }
-    }
     }
 
     // Return the most recent hit target 
@@ -525,14 +508,6 @@ void GazePointer::InvokeTarget(UIElement ^target)
             peer->SetFocus();
             return;
         }
-
-        auto pivot = dynamic_cast<Pivot^>(control);
-        if (pivot != nullptr)
-        {
-            auto peer = ref new PivotAutomationPeer(pivot);
-            peer->SetFocus();
-            return;
-        }
     }
 }
 
@@ -558,15 +533,7 @@ void GazePointer::CheckIfExiting(long long curTimestamp)
             GotoState(targetElement, GazePointerState::Exit);
             RaiseGazePointerEvent(targetElement, GazePointerState::Exit, targetItem->ElapsedTime);
 
-            unsigned int index;
-            if (_activeHitTargetTimes->IndexOf(targetItem, &index))
-            {
-                _activeHitTargetTimes->RemoveAt(index);
-            }
-            else
-            {
-                assert(false);
-            }
+            _activeHitTargetTimes->RemoveAt(index);
 
             // remove all history samples referring to deleted hit target
             for (unsigned i = 0; i < _gazeHistory->Size; )
@@ -690,21 +657,21 @@ void GazePointer::ProcessGazePoint(long long timestamp, Point position)
         else
         {
             // move the NextStateTime by one dwell period, while continuing to stay in Dwell state
-			targetItem->NextStateTime += GetElementStateDelay(targetItem->TargetElement, GazePointerState::Dwell) -
-				GetElementStateDelay(targetItem->TargetElement, GazePointerState::Fixation);
+            targetItem->NextStateTime += GetElementStateDelay(targetItem->TargetElement, GazePointerState::Dwell) -
+                GetElementStateDelay(targetItem->TargetElement, GazePointerState::Fixation);
         }
 
         GotoState(targetItem->TargetElement, targetItem->ElementState);
         RaiseGazePointerEvent(targetItem->TargetElement, targetItem->ElementState, targetItem->ElapsedTime);
-	
-		if (targetItem->ElementState == GazePointerState::Dwell)
-		{
-			targetItem->RepeatCount++;
-			if (targetItem->MaxRepeatCount < targetItem->RepeatCount)
-			{
-				targetItem->NextStateTime = MAXINT;
-			}
-		}
+
+        if (targetItem->ElementState == GazePointerState::Dwell)
+        {
+            targetItem->RepeatCount++;
+            if (targetItem->MaxRepeatCount < targetItem->RepeatCount)
+            {
+                targetItem->NextStateTime = MAXINT;
+            }
+        }
     }
 
     _eyesOffTimer->Start();
