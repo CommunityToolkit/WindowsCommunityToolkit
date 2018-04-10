@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _drawable.TextColor = _newColor;
         }
 
-        public void UnExecute()
+        public void Undo()
         {
             _drawable.TextColor = _oldColor;
         }

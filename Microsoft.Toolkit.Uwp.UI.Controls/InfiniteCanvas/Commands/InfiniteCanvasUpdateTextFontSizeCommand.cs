@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _drawable.FontSize = _newValue;
         }
 
-        public void UnExecute()
+        public void Undo()
         {
             _drawable.FontSize = _oldValue;
         }

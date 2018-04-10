@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _drawable.Text = _newText;
         }
 
-        public void UnExecute()
+        public void Undo()
         {
             _drawable.Text = _oldText;
         }

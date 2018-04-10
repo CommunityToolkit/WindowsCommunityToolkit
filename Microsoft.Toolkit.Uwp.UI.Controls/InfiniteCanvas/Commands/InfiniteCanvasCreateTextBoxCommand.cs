@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _drawableList.Add(_drawable);
         }
 
-        public void UnExecute()
+        public void Undo()
         {
             _drawableList.Remove(_drawable);
         }

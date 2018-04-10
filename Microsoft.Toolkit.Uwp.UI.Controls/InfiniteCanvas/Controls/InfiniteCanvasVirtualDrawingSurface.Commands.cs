@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_undoCommands.Count != 0)
             {
                 IInfiniteCanvasCommand command = _undoCommands.Pop();
-                command.UnExecute();
+                command.Undo();
                 _redoCommands.Push(command);
 
                 ReDraw(viewPort);

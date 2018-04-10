@@ -17,6 +17,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
 using Newtonsoft.Json;
 using Windows.Foundation;
+using Windows.Graphics;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -75,11 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _visibleList.Clear();
             ExecuteClearAll();
-
-            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(_drawingSurface, viewPort))
-            {
-                drawingSession.Clear(DrawingCanvasBackground);
-            }
+            _drawingSurface.Trim(new RectInt32[0]);
         }
 
         public string GetSerializedList()

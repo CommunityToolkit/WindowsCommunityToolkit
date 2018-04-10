@@ -16,6 +16,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         void Execute();
 
-        void UnExecute();
+        void Undo();
     }
 }

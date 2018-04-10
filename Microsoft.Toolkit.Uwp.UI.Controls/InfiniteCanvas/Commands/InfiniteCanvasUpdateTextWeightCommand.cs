@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _drawable.IsBold = _newValue;
         }
 
-        public void UnExecute()
+        public void Undo()
         {
             _drawable.IsBold = _oldValue;
         }

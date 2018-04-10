@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _drawableList.Clear();
         }
 
-        public void UnExecute()
+        public void Undo()
         {
             foreach (var drawable in _storeList)
             {
