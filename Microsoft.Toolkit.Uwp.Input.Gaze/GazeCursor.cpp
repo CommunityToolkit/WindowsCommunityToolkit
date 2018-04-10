@@ -8,10 +8,9 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 GazeCursor::GazeCursor()
 {
-    _gazeSettings = GazeSettings::Instance;
+    _cursorRadius = DEFAULT_CURSOR_RADIUS;
 
-    _cursorRadius = _gazeSettings->GazeCursor_Cursor_Radius;
-    _isCursorVisible = _gazeSettings->GazeCursor_Cursor_Visibility;
+    _isCursorVisible = DEFAULT_CURSOR_VISIBILITY;
 
     _gazePopup = ref new Popup();
     _gazeCanvas = ref new Canvas();
@@ -59,6 +58,17 @@ void GazeCursor::IsCursorVisible::set(bool value)
     if (_gazePopup != nullptr)
     {
         _gazePopup->IsOpen = _isCursorVisible;
+    }
+}
+void GazeCursor::LoadSettings(ValueSet^ settings)
+{
+    if (settings->HasKey("GazeCursor.CursorRadius"))
+    {
+        CursorRadius = (int)(settings->Lookup("GazeCursor.CursorRadius"));
+    }
+    if (settings->HasKey("GazeCursor.CursorVisibility"))
+    {
+        IsCursorVisible = (bool)(settings->Lookup("GazeCursor.CursorVisibility"));
     }
 }
 

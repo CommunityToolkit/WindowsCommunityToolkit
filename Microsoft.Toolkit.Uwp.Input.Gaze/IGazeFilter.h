@@ -5,6 +5,7 @@
 #include "pch.h"
 
 using namespace Windows::Foundation;
+using namespace Windows::Foundation::Collections;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
@@ -25,6 +26,7 @@ public ref struct GazeEventArgs sealed
 public interface class IGazeFilter
 {
     GazeEventArgs^ Update(GazeEventArgs^ args);
+    void LoadSettings(ValueSet^ settings);
 };
 
 
@@ -36,6 +38,11 @@ public:
     virtual inline GazeEventArgs^ Update(GazeEventArgs^ args)
     {
         return args;
+    }
+
+    virtual inline void LoadSettings(ValueSet^ settings)
+    {
+
     }
 };
 

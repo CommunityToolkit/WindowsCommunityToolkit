@@ -28,7 +28,7 @@
     <ClCompile Include="pch.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="GazeSettings.cpp">
+    <ClCompile Include="GazeSettingsHelper.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -51,7 +51,7 @@
     <ClInclude Include="OneEuroFilter.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="GazeSettings.h">
+    <ClInclude Include="GazeSettingsHelper.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

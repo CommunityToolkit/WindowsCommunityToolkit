@@ -25,23 +25,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class GazeInteractionPage : Page
     {
-        private GazePointer _gazePointer;
         private uint _button1ClickCount = 0;
         private uint _togglebutton1ClickCount = 0;
 
         public GazeInteractionPage()
         {
             this.InitializeComponent();
-            _gazePointer = new GazePointer(this);
-            _gazePointer.OnGazePointerEvent += OnGazePointerEvent;
-        }
-
-        private void OnGazePointerEvent(GazePointer sender, GazePointerEventArgs ea)
-        {
-            if (ea.PointerState == GazePointerState.Dwell)
-            {
-                _gazePointer.InvokeTarget(ea.HitTarget);
-            }
         }
 
         private void Button1_Click(object sender, RoutedEventArgs e)

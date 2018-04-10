@@ -4,11 +4,15 @@
 #pragma once
 #include "pch.h"
 #include "IGazeFilter.h"
-#include "GazeSettings.h"
 
 using namespace Windows::Foundation;
+using namespace Windows::Foundation::Collections;
 
 BEGIN_NAMESPACE_GAZE_INPUT
+
+const float ONEEUROFILTER_DEFAULT_BETA = 5.0f;
+const float ONEEUROFILTER_DEFAULT_CUTOFF = 0.1f;
+const float ONEEUROFILTER_DEFAULT_VELOCITY_CUTOFF = 1.0f;
 
 public ref class LowpassFilter sealed
 {
@@ -41,6 +45,7 @@ public:
     OneEuroFilter();
     OneEuroFilter(float cutoff, float beta);
     virtual GazeEventArgs^ Update(GazeEventArgs^ args);
+    virtual void LoadSettings(ValueSet^ settings);
 
 public:
     property float Beta;
@@ -55,7 +60,6 @@ private:
     LowpassFilter^  _pointFilter;
     LowpassFilter^  _deltaFilter;
 
-    GazeSettings^   _gazeSettings;
 };
 
 END_NAMESPACE_GAZE_INPUT
