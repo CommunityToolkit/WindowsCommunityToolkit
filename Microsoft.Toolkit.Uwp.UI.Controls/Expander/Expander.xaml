@@ -7,12 +7,12 @@
     mc:Ignorable="d">
 
     <Style x:Key="HeaderToggleButtonStyle" TargetType="ToggleButton">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource ToggleButtonBorderThemeThickness}" />
+        <Setter Property="Padding" Value="0" />
         <Setter Property="Height" Value="40" />
-        <Setter Property="Padding" Value="8,4,8,4" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -39,7 +39,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
                                                                        Storyboard.TargetName="RootGrid">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource ToggleButtonBackgroundPointerOver}" />
+                                                                    Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
@@ -53,7 +53,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
                                                                        Storyboard.TargetName="RootGrid">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource ToggleButtonBackgroundPressed}" />
+                                                                    Value="{ThemeResource SystemControlBackgroundListMediumBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" To="0.0"
@@ -80,7 +80,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
                                                                        Storyboard.TargetName="RootGrid">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+                                                                    Value="{ThemeResource SystemControlHighlightListAccentLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
@@ -94,7 +94,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
                                                                        Storyboard.TargetName="RootGrid">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+                                                                    Value="{ThemeResource SystemControlHighlightListAccentMediumBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
@@ -108,7 +108,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
                                                                        Storyboard.TargetName="RootGrid">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
+                                                                    Value="{ThemeResource SystemControlHighlightListAccentHighBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" To="{Binding ElementName=ArrowRotation, Path=Value}"
@@ -238,16 +238,20 @@
 
                         <Slider x:Name="ArrowRotation" Visibility="Collapsed" Value="90" Minimum="-180" Maximum="180" />
 
-                        <SymbolIcon x:Name="Arrow" Width="40"
-                                    RenderTransformOrigin="0.5,0.5"
-                                    Symbol="Forward">
-                            <SymbolIcon.RenderTransform>
+                        <FontIcon x:Name="Arrow"
+                                  FontFamily="Segoe MDL2 Assets"
+                                  FontSize="12"
+                                  Glyph="&#xE76C;"
+                                  RenderTransformOrigin="0.5,0.5"
+                                  Margin="12">
+                            <FontIcon.RenderTransform>
                                 <RotateTransform />
-                            </SymbolIcon.RenderTransform>
-                        </SymbolIcon>
+                            </FontIcon.RenderTransform>
+                        </FontIcon>
 
                         <ContentPresenter Grid.Column="1"
-                                          x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw"
+                                          x:Name="ContentPresenter" 
+                                          AutomationProperties.AccessibilityView="Raw"
                                           BorderBrush="{TemplateBinding BorderBrush}"
                                           BorderThickness="{TemplateBinding BorderThickness}"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -258,7 +262,9 @@
                                           Padding="{TemplateBinding Padding}"
                                           VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          RenderTransformOrigin="0.5,0.5" />
+                                          RenderTransformOrigin="0.5,0.5"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          Margin="0,0,12,0"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -269,6 +275,7 @@
         <Setter Property="Header" Value="Header" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="HeaderStyle" Value="{StaticResource HeaderToggleButtonStyle}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlHighlightChromeAltLowBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:Expander">
@@ -549,6 +556,8 @@
                             <ContentControl Grid.Row="1" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="2"
                                             x:Name="PART_ContentOverlay"
                                             Content="{TemplateBinding ContentOverlay}"
+                                            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
+                                            MinHeight="120"
                                             HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Stretch"
                                             VerticalAlignment="Stretch"
@@ -556,6 +565,18 @@
                                 <ContentControl.RenderTransform>
                                     <ScaleTransform />
                                 </ContentControl.RenderTransform>
+                                <!-- Override template to pass Background value to ContentPresenter -->
+                                <ContentControl.Template>
+                                    <ControlTemplate TargetType="ContentControl">
+                                        <ContentPresenter Content="{TemplateBinding Content}"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                            Margin="{TemplateBinding Padding}"
+                                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            Background="{TemplateBinding Background}" />
+                                    </ControlTemplate>
+                                </ContentControl.Template>
                             </ContentControl>
                             <Grid Grid.Row="1" 
                                   Grid.RowSpan="1" 
@@ -567,7 +588,8 @@
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  VerticalContentAlignment="Stretch">
+                                                  VerticalContentAlignment="Stretch"
+                                                  Foreground="{ThemeResource SystemControlForegroundAltHighBrush}">
                                     <ContentPresenter.RenderTransform>
                                         <TranslateTransform Y="20"/>
                                     </ContentPresenter.RenderTransform>
@@ -578,7 +600,6 @@
                             </Grid>
                             <controls:LayoutTransformControl Grid.Row="0" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="2"
                                                              x:Name="PART_LayoutTransformer"
-                                                             Background="{TemplateBinding Background}"
                                                              RenderTransformOrigin="0.5,0.5">
                                 <controls:LayoutTransformControl.Transform>
                                     <RotateTransform x:Name="RotateLayoutTransform" Angle="0" />
@@ -588,8 +609,11 @@
                                               AutomationProperties.Name="Expand"
                                               Style="{TemplateBinding HeaderStyle}" 
                                               Foreground="{TemplateBinding Foreground}"
-                                              ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}"
-                                              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}" 
+                                              Content="{TemplateBinding Header}" 
+                                              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              MinWidth="40"
+                                              MinHeight="40" />
                             </controls:LayoutTransformControl>
                         </Grid>
                     </Border>
