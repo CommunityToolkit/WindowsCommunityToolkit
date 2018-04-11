@@ -327,7 +327,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 {
                     var versionInfo = FileVersionInfo.GetVersionInfo(
                         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "edgehtml.dll"));
-                    return new Version(versionInfo.FileMajorPart, versionInfo.FileMinorPart, versionInfo.FileBuildPart,
+                    return new Version(
+                        versionInfo.FileMajorPart,
+                        versionInfo.FileMinorPart,
+                        versionInfo.FileBuildPart,
                         versionInfo.FilePrivatePart);
                 }
 
