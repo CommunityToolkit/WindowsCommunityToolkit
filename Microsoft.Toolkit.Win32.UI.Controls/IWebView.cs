@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <summary>
         /// Occurs when the status of whether the <see cref="IWebView"/> currently contains a full screen element or not changes.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Matches IWebViewControl interface")]
         event EventHandler<object> ContainsFullScreenElementChanged;
 
         /// <summary>
