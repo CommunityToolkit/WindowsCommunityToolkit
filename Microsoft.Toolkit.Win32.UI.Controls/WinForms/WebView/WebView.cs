@@ -1,0 +1,440 @@
+﻿using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Runtime.InteropServices;
+using System.Security;
+using System.Security.Permissions;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+using Windows.Web.UI.Interop;
+
+using WebViewControlDeferredPermissionRequest = Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlDeferredPermissionRequest;
+using WebViewControlMoveFocusReason = Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlMoveFocusReason;
+using WebViewControlProcess = Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlProcess;
+using WebViewControlSettings = Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlSettings;
+
+namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
+{
+    /// <summary>
+    /// Provides a control that hosts HTML content in an app.
+    /// </summary>
+    /// <seealso cref="Control" />
+    /// <seealso cref="ISupportInitialize" />
+    [Designer(typeof(WebViewDesigner))]
+    [DefaultProperty(Constants.ComponentDefaultProperty)]
+    [DefaultEvent(Constants.ComponentDefaultEvent)]
+    [Docking(DockingBehavior.AutoDock)]
+    [SecurityCritical]
+    [PermissionSet(SecurityAction.InheritanceDemand, Name = Constants.SecurityPermissionSetName)]
+    public sealed partial class WebView : Control, IWebView
+    {
+        private bool _delayedIsIndexDbEnabled = true;
+        private bool _delayedIsJavaScriptEnabled = true;
+        private bool _delayedIsScriptNotifyAllowed = true;
+        private Uri _delayedSource;
+        private WebViewControlHost _webViewControl;
+
+        private bool _webViewControlClosed;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebView"/> class.
+        /// </summary>
+        public WebView()
+        {
+            Paint += OnWebViewPaint;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="WebView"/> contains an element that supports full screen.
+        /// </summary>
+        /// <value><c>true</c> if the <see cref="WebView"/> contains an element that supports full screen; otherwise, <c>false</c>.</value>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool ContainsFullScreenElement
+        {
+            get
+            {
+                Verify.IsFalse(IsDisposed);
+                Verify.IsNotNull(_webViewControl);
+                return _webViewControl?.ContainsFullScreenElement ?? false;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value that indicates whether the <see cref="T:System.ComponentModel.Component" /> is currently in design mode.
+        /// </summary>
+        /// <value><c>true</c> if the control is being used in a designer; otherwise, <c>false</c>.</value>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new bool DesignMode => IsInDesignMode();
+
+        /// <summary>
+        /// Gets the title of the page currently displayed in the <see cref="WebView"/>.
+        /// </summary>
+        /// <value>The page title.</value>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string DocumentTitle
+        {
+            get
+            {
+                Verify.IsFalse(IsDisposed);
+                Verify.IsNotNull(_webViewControl);
+                return _webViewControl?.DocumentTitle;
+            }
+        }
+
+        // Returns true if this or any of its child windows has focus
+        public override bool Focused
+        {
+            get
+            {
+                if (base.Focused)
+                {
+                    return true;
+                }
+
+                var hwndFocus = UnsafeNativeMethods.GetFocus();
+                var ret = hwndFocus != IntPtr.Zero
+                       && NativeMethods.IsChild(new HandleRef(this, Handle), new HandleRef(null, hwndFocus));
+
+                return ret;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the use of IndexedDB is allowed.
+        /// </summary>
+        /// <value><c>true</c> if IndexedDB is allowed; otherwise, <c>false</c>.</value>
+        [StringResourceCategory(Constants.CategoryBehavior)]
+        [DefaultValue(false)]
+        public bool IsIndexDBEnabled
+        {
+            get
+            {
+                Verify.IsFalse(IsDisposed);
+                Verify.Implies(Initializing, !Initialized);
+                Verify.Implies(Initialized, WebViewControlInitialized);
+                return WebViewControlInitialized
+                    ? _webViewControl.Settings.IsIndexedDBEnabled
+                    : _delayedIsIndexDbEnabled;
+            }
+            set
+            {
+                Verify.IsFalse(IsDisposed);
+                _delayedIsIndexDbEnabled = value;
+                if (!DesignMode)
+                {
+                    EnsureInitialized();
+                    if (WebViewControlInitialized)
+                    {
+                        _webViewControl.Settings.IsIndexedDBEnabled = value;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the use of JavaScript is allowed.
+        /// </summary>
+        /// <value><c>true</c> if the use of JavaScript is allowed; otherwise, <c>false</c>.</value>
+        [StringResourceCategory(Constants.CategoryBehavior)]
+        [DefaultValue(false)]
+        public bool IsJavaScriptEnabled
+        {
+            get
+            {
+                Verify.IsFalse(IsDisposed);
+                Verify.Implies(Initializing, !Initialized);
+                Verify.Implies(Initialized, WebViewControlInitialized);
+                return WebViewControlInitialized
+                    ? _webViewControl.Settings.IsJavaScriptEnabled
+                    : _delayedIsJavaScriptEnabled;
+            }
+            set
+            {
+                Verify.IsFalse(IsDisposed);
+                _delayedIsJavaScriptEnabled = value;
+                if (!DesignMode)
+                {
+                    EnsureInitialized();
+                    if (WebViewControlInitialized)
+                    {
+                        _webViewControl.Settings.IsJavaScriptEnabled = value;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether <see cref="ScriptNotify"/> is allowed;
+        /// </summary>
+        /// <value><c>true</c> if <see cref="ScriptNotify"/> is allowed; otherwise, <c>false</c>.</value>
+        [StringResourceCategory(Constants.CategoryBehavior)]
+        [DefaultValue(false)]
+        public bool IsScriptNotifyAllowed
+        {
+            get
+            {
+                Verify.IsFalse(IsDisposed);
+                Verify.Implies(Initializing, !Initialized);
+                Verify.Implies(Initialized, WebViewControlInitialized);
+                return WebViewControlInitialized
+                    ? _webViewControl.Settings.IsScriptNotifyAllowed
+                    : _delayedIsScriptNotifyAllowed;
+            }
+            set
+            {
+                Verify.IsFalse(IsDisposed);
+                _delayedIsScriptNotifyAllowed = value;
+                if (!DesignMode)
+                {
+                    EnsureInitialized();
+                    if (WebViewControlInitialized)
+                    {
+                        _webViewControl.Settings.IsScriptNotifyAllowed = value;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets a <see cref="WebViewControlProcess"/> object that the control is hosted in.
+        /// </summary>
+        /// <value>The <see cref="WebViewControlProcess"/> object that the control is hosted in.</value>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public WebViewControlProcess Process { get; private set; }
+
+        /// <summary>
+        /// Gets a <see cref="WebViewControlSettings"/> object that contains properties to enable or disable <see cref="WebView"/> features.
+        /// </summary>
+        /// <value>A <see cref="WebViewControlSettings"/> object that contains properties to enable or disable <see cref="WebView"/> features.</value>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public WebViewControlSettings Settings
+        {
+            get
+            {
+                Verify.IsFalse(IsDisposed);
+                Verify.Implies(Initializing, !Initialized);
+                Verify.Implies(Initialized, WebViewControlInitialized);
+                return _webViewControl?.Settings;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the Uniform Resource Identifier (URI) source of the HTML content to display in the <see cref="WebView"/>.
+        /// </summary>
+        /// <value>
+        /// The Uniform Resource Identifier (URI) source of the HTML content to display in the <see cref="WebView"/>.
+        /// </value>
+        [Bindable(true)]
+        [StringResourceCategory(Constants.CategoryBehavior)]
+        [StringResourceDescription(Constants.DescriptionSource)]
+        [TypeConverter(typeof(WebBrowserUriTypeConverter))]
+        [DefaultValue((string)null)]
+        public Uri Source
+        {
+            get
+            {
+                Verify.IsFalse(IsDisposed);
+                Verify.Implies(Initializing, !Initialized);
+                Verify.Implies(Initialized, WebViewControlInitialized);
+                return WebViewControlInitialized
+                    ? _webViewControl.Source
+                    : _delayedSource;
+            }
+            set
+            {
+                Verify.IsFalse(IsDisposed);
+                _delayedSource = value;
+                if (!DesignMode)
+                {
+                    EnsureInitialized();
+                    if (WebViewControlInitialized)
+                    {
+                        // During initialization if there is no Source set a navigation to "about:blank" will occur
+                        if (Initializing && value != null)
+                        {
+                            _webViewControl.Source = value;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the version of EDGEHTML.DLL used by the control.
+        /// </summary>
+        /// <value>The version of EDGEHTML.DLL used by the control.</value>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Version Version => _webViewControl?.Version;
+
+        /// <summary>
+        /// Closes this control.
+        /// </summary>
+        public void Close()
+        {
+            var webViewControlAlreadyClosed = _webViewControlClosed;
+            _webViewControlClosed = true;
+
+            // Unsubscribe all events:
+            UnsubscribeEvents();
+
+            if (!webViewControlAlreadyClosed)
+            {
+                _webViewControl?.Close();
+                _webViewControl?.Dispose();
+            }
+
+            _webViewControl = null;
+            Process = null;
+        }
+
+        /// <summary>
+        /// Gets the deferred permission request with the specified Id.
+        /// </summary>
+        /// <param name="id">The Id of the deferred permission request.</param>
+        /// <returns>A <see cref="WebViewControlDeferredPermissionRequest" /> object of the specified <paramref name="id"/>.</returns>
+        public WebViewControlDeferredPermissionRequest GetDeferredPermissionRequestById(uint id) => _webViewControl?.GetDeferredPermissionRequestById(id);
+
+        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
+        public object InvokeScript(string scriptName) => _webViewControl?.InvokeScript(scriptName);
+
+        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
+        public object InvokeScript(string scriptName, params string[] arguments) => _webViewControl?.InvokeScript(scriptName, arguments);
+
+        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
+        public object InvokeScript(string scriptName, IEnumerable<string> arguments) => _webViewControl?.InvokeScript(scriptName, arguments);
+
+        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
+        public Task<string> InvokeScriptAsync(string scriptName) => _webViewControl?.InvokeScriptAsync(scriptName);
+
+        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
+        public Task<string> InvokeScriptAsync(string scriptName, params string[] arguments) =>
+            _webViewControl?.InvokeScriptAsync(scriptName, arguments);
+
+        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
+        public Task<string> InvokeScriptAsync(string scriptName, IEnumerable<string> arguments)
+        => _webViewControl?.InvokeScriptAsync(scriptName, arguments);
+
+        /// <summary>
+        /// Moves the focus.
+        /// </summary>
+        /// <param name="reason">The reason.</param>
+        public void MoveFocus(WebViewControlMoveFocusReason reason) => _webViewControl?.MoveFocus(reason);
+
+        /// <summary>
+        /// Loads the document at the location indicated by the specified <see cref="Source"/> into the <see cref="WebView"/> control, replacing the previous document.
+        /// </summary>
+        /// <param name="source">A <see cref="Source"/> representing the URL of the document to load.</param>
+        /// <exception cref="ArgumentException">The provided source is a relative URI.</exception>
+        public void Navigate(Uri source) => _webViewControl?.Navigate(source);
+
+        /// <exception cref="UriFormatException">
+        ///                 In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <see cref="T:System.FormatException" />, instead.
+        ///               <paramref name="source" /> is empty.-or- The scheme specified in <paramref name="source" /> is not correctly formed. See <see cref="M:System.Uri.CheckSchemeName(System.String)" />.-or-
+        ///               <paramref name="source" /> contains too many slashes.-or- The password specified in <paramref name="source" /> is not valid.-or- The host name specified in <paramref name="source" /> is not valid.-or- The file name specified in <paramref name="source" /> is not valid. -or- The user name specified in <paramref name="source" /> is not valid.-or- The host or authority name specified in <paramref name="source" /> cannot be terminated by backslashes.-or- The port number specified in <paramref name="source" /> is not valid or cannot be parsed.-or- The length of <paramref name="source" /> exceeds 65519 characters.-or- The length of the scheme specified in <paramref name="source" /> exceeds 1023 characters.-or- There is an invalid character sequence in <paramref name="source" />.-or- The MS-DOS path specified in <paramref name="source" /> must start with c:\\.</exception>
+        public void Navigate(string source)
+        {
+            Verify.IsFalse(IsDisposed);
+            Verify.IsNotNull(_webViewControl);
+            _webViewControl?.Navigate(source);
+        }
+
+        /// <summary>
+        /// Loads the specified HTML content as a new document.
+        /// </summary>
+        /// <param name="text">The HTML content to display in the control.</param>
+        public void NavigateToString(string text) => _webViewControl?.NavigateToString(text);
+
+        /// <summary>
+        /// Releases the unmanaged resources used by the <see cref="T:System.Windows.Forms.Control" /> and its child controls and optionally releases the managed resources.
+        /// </summary>
+        /// <param name="disposing"><see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</param>
+        protected override void Dispose(bool disposing)
+        {
+            try
+            {
+                if (disposing)
+                {
+                    Close();
+                    _webViewControl?.Dispose();
+                    _webViewControl = null;
+                    Process = null;
+                }
+            }
+            finally
+            {
+                base.Dispose(disposing);
+            }
+        }
+
+        protected override void OnClientSizeChanged(EventArgs e)
+        {
+            base.OnClientSizeChanged(e);
+            UpdateBounds();
+        }
+
+        protected override void OnDockChanged(EventArgs e)
+        {
+            base.OnDockChanged(e);
+            UpdateBounds();
+        }
+
+        protected override void OnLocationChanged(EventArgs e)
+        {
+            base.OnLocationChanged(e);
+            UpdateBounds();
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            UpdateBounds();
+        }
+
+        private bool IsInDesignMode()
+        {
+            var wpfDesignMode = (LicenseManager.UsageMode == LicenseUsageMode.Designtime);
+            var formsDesignMode = System.Diagnostics.Process.GetCurrentProcess().ProcessName == "devenv";
+            return wpfDesignMode || formsDesignMode;
+        }
+
+        private void OnWebViewPaint(object sender, PaintEventArgs e)
+        {
+            if (!DesignMode) return;
+
+            using (var g = e.Graphics)
+            {
+                using (var hb = new HatchBrush(HatchStyle.ZigZag, Color.Black, BackColor))
+                    g.FillRectangle(hb, ClientRectangle);
+            }
+        }
+
+        private new void UpdateBounds()
+        {
+            try
+            {
+#if DEBUG_LAYOUT
+                Debug.WriteLine("RECT:   X: {0}, Y: {1}, Height: {2}, Width: {3}", ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Height, ClientRectangle.Width);
+#endif
+
+                _webViewControl?.UpdateBounds(ClientRectangle);
+            }
+            finally
+            {
+                base.UpdateBounds();
+            }
+        }
+    }
+}
