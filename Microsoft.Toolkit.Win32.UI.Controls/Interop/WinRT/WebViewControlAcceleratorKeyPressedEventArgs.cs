@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public CoreAcceleratorKeyEventType EventType
         {
             [SecurityCritical]
-            get { return (CoreAcceleratorKeyEventType) _args.EventType; }
+            get { return (CoreAcceleratorKeyEventType)_args.EventType; }
         }
 
         public bool Handled
@@ -43,13 +43,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public WebViewControlAcceleratorKeyRoutingStage RoutingStage
         {
             [SecurityCritical]
-            get { return (WebViewControlAcceleratorKeyRoutingStage) _args.RoutingStage; }
+            get { return (WebViewControlAcceleratorKeyRoutingStage)_args.RoutingStage; }
         }
 
         public VirtualKey VirtualKey
         {
             [SecurityCritical]
-            get { return (VirtualKey) _args.VirtualKey; }
+            get { return (VirtualKey)_args.VirtualKey; }
         }
 
         [SecurityCritical]
