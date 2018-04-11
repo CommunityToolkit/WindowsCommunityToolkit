@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     // ReSharper disable InconsistentNaming
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM")]
     public sealed class WebViewControlDOMContentLoadedEventArgs : EventArgs
+
   // ReSharper restore InconsistentNaming
   {
     [SecurityCritical]

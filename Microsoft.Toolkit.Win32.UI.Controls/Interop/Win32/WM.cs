@@ -120,6 +120,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         NCMOUSELEAVE = 0x02A2,
 
         TABLET_DEFBASE = 0x02C0,
+
         // WM_TABLET_MAXOFFSET = 0x20,
 
         TABLET_ADDED = TABLET_DEFBASE + 8,

@@ -94,6 +94,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// Occurs when a frame in the <see cref="WebViewControlHost"/> finished parsing its current content.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM")]
+
         // ReSharper disable InconsistentNaming
         public event EventHandler<WebViewControlDOMContentLoadedEventArgs> FrameDOMContentLoaded = (sender, args) => { };
 
@@ -327,6 +328,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                     return new Version(versionInfo.FileMajorPart, versionInfo.FileMinorPart, versionInfo.FileBuildPart,
                         versionInfo.FilePrivatePart);
                 }
+
                 // Reuse the message, close enough
                 throw new InvalidOperationException(DesignerUI.NotSup_Win10RS4);
             }
@@ -457,6 +459,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             {
                 throw new ArgumentNullException(nameof(scriptName));
             }
+
             // TODO: Error message
             if (_webViewControl == null)
             {
@@ -510,6 +513,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 if (source == null)
                 {
                     NavigatingToAboutBlank = true;
+
                     // TODO: Make this readonly static
                     source = new Uri("about:blank");
                 }
@@ -698,6 +702,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             if (NavigatingToAboutBlank)
             {
                 Verify.Implies(NavigatingToAboutBlank, Source == null || Source == new Uri("about:blank"));
+
                 // Make sure we pass null in the event args
                 var a = new WebViewControlDOMContentLoadedEventArgs((Uri)null);
                 OnDOMContentLoaded(a);
@@ -800,6 +805,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             if (NavigatingToAboutBlank)
             {
                 Verify.Implies(NavigatingToAboutBlank, Source == null || Source == new Uri("about:blank"));
+
                 // Make sure we pass null in the event args
                 var a = new WebViewNavigationCompletedEventArgs(args, null);
                 OnNavigationCompleted(a);
@@ -866,6 +872,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                     cancelRequested = a.Cancel;
                 }
             }
+
             // Disable to suppress FXCop warning since we really do want to catch all exceptions
 #pragma warning disable 6502
             catch

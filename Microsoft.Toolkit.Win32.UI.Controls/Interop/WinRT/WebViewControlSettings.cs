@@ -27,6 +27,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         // ReSharper disable InconsistentNaming
         public bool IsIndexedDBEnabled
+
         // ReSharper restore InconsistentNaming
         {
             get => _settings.IsIndexedDBEnabled;

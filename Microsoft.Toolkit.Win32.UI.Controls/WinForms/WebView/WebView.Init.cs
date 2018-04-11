@@ -121,6 +121,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                     });
                     _webViewControl = Process.CreateWebViewControlHost(Handle, ClientRectangle);
                     SubscribeEvents();
+
                     // Set values. They could have been changed in the designer
                     IsScriptNotifyAllowed = _delayedIsScriptNotifyAllowed;
                     IsIndexDBEnabled = _delayedIsIndexDbEnabled;

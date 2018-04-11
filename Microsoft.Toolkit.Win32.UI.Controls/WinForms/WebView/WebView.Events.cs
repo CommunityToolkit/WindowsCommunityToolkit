@@ -52,6 +52,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// </summary>
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewDomContentLoaded)]
+
         // ReSharper disable InconsistentNaming
         public event EventHandler<WebViewControlDOMContentLoadedEventArgs> DOMContentLoaded = (sender, args) => { };
 
@@ -70,6 +71,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM")]
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewFrameDomContentLoaded)]
+
         // ReSharper disable InconsistentNaming
         public event EventHandler<WebViewControlDOMContentLoadedEventArgs> FrameDOMContentLoaded = (sender, args) => { };
 

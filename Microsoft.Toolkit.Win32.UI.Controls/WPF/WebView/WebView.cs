@@ -97,6 +97,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 // TODO: Message
                 // ReSharper disable ThrowExceptionInUnexpectedLocation
                 throw new InvalidOperationException();
+
                 // ReSharper restore ThrowExceptionInUnexpectedLocation
             }
 
@@ -166,6 +167,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                         break;
                     case Visibility.Collapsed:
                         webView._webViewControl.IsVisible = false;
+
                         // TODO: Update bounds to set PreferredSize?
                         break;
                 }
@@ -201,6 +203,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// </summary>
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewDomContentLoaded)]
+
         // ReSharper disable InconsistentNaming
         public event EventHandler<WebViewControlDOMContentLoadedEventArgs> DOMContentLoaded = (sender, args) => { };
 
@@ -218,6 +221,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM")]
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewFrameDomContentLoaded)]
+
         // ReSharper disable InconsistentNaming
         public event EventHandler<WebViewControlDOMContentLoadedEventArgs> FrameDOMContentLoaded = (sender, args) => { };
 
@@ -559,6 +563,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
             VerifyAccess();
             Verify.IsNotNull(_webViewControl);
+
             // TODO: Support for pack://
             _webViewControl?.Navigate(source);
         }

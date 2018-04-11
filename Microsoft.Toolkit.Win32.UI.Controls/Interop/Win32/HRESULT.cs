@@ -122,6 +122,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
             // MSDN documentation incorrectly uses 12 bits for the ESE facility (e5e), so go ahead and let that one slide.
             // And WIC also ignores it the documented size...
             Verify.Implies((int)facility != (int)((int)facility & 0x1FF), facility == Facility.Ese || facility == Facility.WinCodec);
+
             // Code has 4 bits reserved.
             Verify.AreEqual(code, code & 0xFFFF);
 
@@ -279,6 +280,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
                     message += " (" + ToString() + ")";
                 }
 #endif
+
                 // Wow.  Reflection in a throw call.  Later on this may turn out to have been a bad idea.
                 // If you're throwing an exception I assume it's OK for me to take some time to give it back.
                 // I want to convert the HRESULT to a more appropriate exception type than COMException.
@@ -292,6 +294,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
                 // overhead of doing it, nor would it have significant value over this approach.
                 var e = NativeMethods.GetExceptionForHR((int)_value);
                 Verify.IsNotNull(e);
+
                 // ArgumentNullException doesn't have the right constructor parameters,
                 // (nor does Win32Exception...)
                 // but E_POINTER gets mapped to NullReferenceException,
@@ -332,6 +335,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         public static void ThrowLastError()
         {
             ((HRESULT)Win32Error.GetLastError()).ThrowIfFailed();
+
             // Only expecting to call this when we're expecting a failed GetLastError()
             Verify.Fail();
         }
