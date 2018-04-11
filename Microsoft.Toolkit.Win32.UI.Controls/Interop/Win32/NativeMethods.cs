@@ -141,7 +141,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
             IntPtr lpParam)
         {
             var ret = _CreateWindowEx(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
-            if (IntPtr.Zero == ret)
+            if (ret == IntPtr.Zero)
             {
                 HRESULT.ThrowLastError();
             }

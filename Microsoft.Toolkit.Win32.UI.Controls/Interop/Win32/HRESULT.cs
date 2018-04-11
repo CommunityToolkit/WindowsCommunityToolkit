@@ -315,7 +315,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
                 else
                 {
                     var cons = e.GetType().GetConstructor(new[] { typeof(string) });
-                    if (null != cons)
+                    if (cons != null)
                     {
                         e = cons.Invoke(new object[] { message }) as Exception;
                         Verify.IsNotNull(e);

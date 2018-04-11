@@ -40,10 +40,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         [Conditional("DEBUG")]
         public static void AreEqual<T>(T expected, T actual)
         {
-            if (null == expected)
+            if (expected == null)
             {
                 // Two nulls are considered equal, regardless of type semantics.
-                if (null != actual && !actual.Equals(expected))
+                if (actual != null && !actual.Equals(expected))
                 {
                     Break();
                 }
@@ -165,7 +165,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         [Conditional("DEBUG")]
         public static void IsNotNull<T>(T value) where T : class
         {
-            if (null == value)
+            if (value == null)
             {
                 Break();
             }
@@ -187,7 +187,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         [Conditional("DEBUG")]
         public static void IsNull<T>(T item) where T : class
         {
-            if (null != item)
+            if (item != null)
             {
                 Break();
             }
