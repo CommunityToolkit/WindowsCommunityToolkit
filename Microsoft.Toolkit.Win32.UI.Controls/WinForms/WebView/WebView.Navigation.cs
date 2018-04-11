@@ -45,6 +45,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
             return retval;
         }
+
         public bool GoForward()
         {
             var retval = true;

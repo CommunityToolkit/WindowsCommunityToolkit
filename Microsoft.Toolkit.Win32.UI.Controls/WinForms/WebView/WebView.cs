@@ -138,6 +138,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                     ? _webViewControl.Settings.IsIndexedDBEnabled
                     : _delayedIsIndexDbEnabled;
             }
+
             set
             {
                 Verify.IsFalse(IsDisposed);
@@ -170,6 +171,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                     ? _webViewControl.Settings.IsJavaScriptEnabled
                     : _delayedIsJavaScriptEnabled;
             }
+
             set
             {
                 Verify.IsFalse(IsDisposed);
@@ -202,6 +204,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                     ? _webViewControl.Settings.IsScriptNotifyAllowed
                     : _delayedIsScriptNotifyAllowed;
             }
+
             set
             {
                 Verify.IsFalse(IsDisposed);
@@ -264,6 +267,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                     ? _webViewControl.Source
                     : _delayedSource;
             }
+
             set
             {
                 Verify.IsFalse(IsDisposed);

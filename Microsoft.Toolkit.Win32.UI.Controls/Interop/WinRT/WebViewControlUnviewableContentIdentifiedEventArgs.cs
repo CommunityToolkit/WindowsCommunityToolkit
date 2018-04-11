@@ -27,7 +27,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     }
 
     public Uri Uri => _args.Uri;
+
     public Uri Referrer => _args.Referrer;
+
     public string MediaType => _args.MediaType;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]

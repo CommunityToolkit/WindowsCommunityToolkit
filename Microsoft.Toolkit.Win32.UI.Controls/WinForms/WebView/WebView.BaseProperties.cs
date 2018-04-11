@@ -99,6 +99,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             get => base.ImeMode;
             set => base.ImeMode = value;
         }
+
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]

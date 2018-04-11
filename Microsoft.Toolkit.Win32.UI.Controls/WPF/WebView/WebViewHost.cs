@@ -99,6 +99,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
             return ChildWindow;
         }
+
         protected abstract void Initialize();
 
         protected override void DestroyWindowCore(HandleRef hwnd)

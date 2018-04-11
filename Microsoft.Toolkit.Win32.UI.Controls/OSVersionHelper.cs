@@ -90,7 +90,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         public static bool IsWindows10RS4OrGreater => Windows10Release >= Win10Release.Redstone4;
 
         public static bool IsWorkstation { get; } = !IsServer();
+
         public static bool UseWindowsInformationProtectionApi => Windows10Release >= Win10Release.Anniversary && ProtectionPolicyManager.IsProtectionEnabled;
+
         private static Win10Release Windows10Release { get; }
 
         /// <exception cref="NotSupportedException">Not running correct OS or OS Version.</exception>

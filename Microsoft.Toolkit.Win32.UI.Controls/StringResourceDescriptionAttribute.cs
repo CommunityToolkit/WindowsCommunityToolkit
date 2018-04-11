@@ -24,6 +24,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             : base(description)
         {
         }
+
         public override string Description
         {
             get

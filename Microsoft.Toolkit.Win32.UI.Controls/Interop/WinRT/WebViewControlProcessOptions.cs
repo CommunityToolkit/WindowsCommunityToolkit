@@ -17,6 +17,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     public class WebViewControlProcessOptions
     {
         public string EnterpriseId { get; set; }
+
         public WebViewControlProcessCapabilityState PrivateNetworkClientServerCapability { get; set; }
 
         public WebViewControlProcessOptions()

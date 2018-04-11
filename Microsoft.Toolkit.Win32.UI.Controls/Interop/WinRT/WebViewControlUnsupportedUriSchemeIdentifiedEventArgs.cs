@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             get => _args.Handled;
             set => _args.Handled = value;
         }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
         public static implicit operator WebViewControlUnsupportedUriSchemeIdentifiedEventArgs(Windows.Web.UI.WebViewControlUnsupportedUriSchemeIdentifiedEventArgs args) =>
             new WebViewControlUnsupportedUriSchemeIdentifiedEventArgs(args);

@@ -36,8 +36,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         }
 
         private bool Initialized => _initializationState == InitializationState.IsInitialized;
+
         private bool Initializing => _initializationState == InitializationState.IsInitializing;
+
         private bool WebViewControlInitialized => _webViewControl != null;
+
         void ISupportInitialize.BeginInit()
         {
             if (Initialized)
@@ -137,6 +140,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
             _initializationState = InitializationState.IsInitialized;
         }
+
         private void SubscribeEvents()
         {
             if (_webViewControl == null)

@@ -50,6 +50,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     public sealed class WebView : WebViewHost, IWebView
     {
         private static readonly Hashtable InvalidatorMap = new Hashtable();
+
         private delegate void PropertyInvalidator(WebView webViewHost);
 
         private static readonly DependencyProperty IsIndexDBEnabledProperty = DependencyProperty.Register(
@@ -398,6 +399,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 Verify.IsNotNull(_webViewControl);
                 return _webViewControl.IsVisible;
             }
+
             set
             {
                 Verify.IsNotNull(_webViewControl);

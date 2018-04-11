@@ -251,6 +251,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
                 return _webViewControl?.IsVisible ?? false;
             }
+
             set
             {
                 Verify.IsFalse(IsDisposed);
@@ -298,6 +299,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
                 return url;
             }
+
             set
             {
                 Verify.IsFalse(IsDisposed);
@@ -816,6 +818,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 handler(this, args);
             }
         }
+
         private void OnNavigationStarting(IWebViewControl sender, Windows.Web.UI.WebViewControlNavigationStartingEventArgs args)
         {
             var newNavigationRequested = false;
