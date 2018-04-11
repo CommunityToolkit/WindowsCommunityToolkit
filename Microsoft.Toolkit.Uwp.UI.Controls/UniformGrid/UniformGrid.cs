@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Toolkit.Extensions;
 using Windows.Foundation;
@@ -26,6 +27,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [Bindable]
     public partial class UniformGrid : Grid
     {
+        // Internal list we use to keep track of items that we don't have space to layout.
+        private List<UIElement> _overflow = new List<UIElement>();
+
         /// <summary>
         /// Measure the controls before layout.
         /// </summary>
@@ -57,7 +61,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // TODO: Document
                 // If an element needs to be forced in the 0, 0 position,
                 // they should manually set UniformGrid.AutoLayout to False for that element.
-                if (row == 0 && col == 0 && GetAutoLayout(child) == null)
+                if ((row == 0 && col == 0 && GetAutoLayout(child) == null) ||
+                    GetAutoLayout(child) == true)
                 {
                     SetAutoLayout(child, true);
                 }
@@ -97,7 +102,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     else
                     {
-                        // TODO: We've run out of spots somehow? Now What?
+                        // We've run out of spots as the developer has
+                        // most likely given us a fixed size and too many elements
+                        // Therefore, tell this element it has no size and move on.
+                        child.Measure(Size.Empty);
+
+                        _overflow.Add(child);
+
+                        continue;
                     }
                 }
 
@@ -115,6 +127,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.MeasureOverride(desiredSize);
 
             return desiredSize;
+        }
+
+        /// <inheritdoc/>
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            // Have grid to the bulk of our heavy lifting.
+            var size = base.ArrangeOverride(finalSize);
+
+            // Make sure all overflown elements have no size.
+            foreach (var child in _overflow)
+            {
+                child.Arrange(new Rect(0, 0, 0, 0));
+            }
+
+            _overflow = new List<UIElement>(); // Reset for next time.
+
+            return size;
         }
     }
 }
