@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else
                 {
                     SetAutoLayout(child, false);
-                    spots.Fill(true, row, col, rowspan, colspan);
+                    spots.Fill(true, row, col, colspan, rowspan); // row, col, width, height
                 }
             }
 
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Set Grid Row/Col for every child with autolayout = true
             // Backwards with FlowDirection
-            var freespots = GetFreeSpot(spots, FirstColumn, FlowDirection == FlowDirection.RightToLeft).GetEnumerator();
+            var freespots = GetFreeSpot(spots, FirstColumn, false).GetEnumerator();
             foreach (var child in visible)
             {
                 // Set location if we're in charge
