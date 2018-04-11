@@ -32,10 +32,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// Gets the identifier for the permission request.
         /// </summary>
         public uint Id => _webViewControlDeferredPermissionRequest.Id;
+
         /// <summary>
         /// Gets a value that indicates the type of permission that's requested.
         /// </summary>
         public WebViewControlPermissionType PermissionType => (WebViewControlPermissionType)_webViewControlDeferredPermissionRequest.PermissionType;
+
         /// <summary>
         /// Gets the Uniform Resource Identifier (URI) of the content where the permission request originated.
         /// </summary>

@@ -74,6 +74,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         }
 
         // Exception raised by a demand may contain security sensitive information
+
         /// <exception cref="SecurityException">A caller higher in the call stack does not have the permission specified by the current instance.-or- A caller higher in the call stack has called <see cref="M:System.Security.CodeAccessPermission.Deny" /> on the current permission object. </exception>
         [SecurityCritical]
         internal static void DemandUnamangedCode()

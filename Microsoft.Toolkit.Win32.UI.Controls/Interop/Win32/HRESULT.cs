@@ -29,36 +29,47 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
 
         // NOTE: These public static field declarations are automatically
         // picked up by ToString through reflection.
+
         /// <summary>S_OK</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT S_OK = new HRESULT(0x00000000);
+
         /// <summary>S_FALSE</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT S_FALSE = new HRESULT(0x00000001);
+
         /// <summary>E_PENDING</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT E_PENDING = new HRESULT(0x8000000A);
+
         /// <summary>E_NOTIMPL</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT E_NOTIMPL = new HRESULT(0x80004001);
+
         /// <summary>E_NOINTERFACE</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT E_NOINTERFACE = new HRESULT(0x80004002);
+
         /// <summary>E_POINTER</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT E_POINTER = new HRESULT(0x80004003);
+
         /// <summary>E_ABORT</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT E_ABORT = new HRESULT(0x80004004);
+
         /// <summary>E_FAIL</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT E_FAIL = new HRESULT(0x80004005);
+
         /// <summary>E_UNEXPECTED</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT E_UNEXPECTED = new HRESULT(0x8000FFFF);
+
         /// <summary>STG_E_INVALIDFUNCTION</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT STG_E_INVALIDFUNCTION = new HRESULT(0x80030001);
+
         /// <summary>REGDB_E_CLASSNOTREG</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT REGDB_E_CLASSNOTREG = new HRESULT(0x80040154);
@@ -67,10 +78,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         /// <remarks>There is no Assoc Handler for the given item registered by the specified application.</remarks>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT DESTS_E_NO_MATCHING_ASSOC_HANDLER = new HRESULT(0x80040F03);
+
         /// <summary>DESTS_E_NORECDOCS.  Win7 internal error code for Jump Lists.</summary>
         /// <remarks>The given item is excluded from the recent docs folder by the NoRecDocs bit on its registration.</remarks>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT DESTS_E_NORECDOCS = new HRESULT(0x80040F04);
+
         /// <summary>DESTS_E_NOTALLCLEARED.  Win7 internal error code for Jump Lists.</summary>
         /// <remarks>Not all of the items were successfully cleared</remarks>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
@@ -80,23 +93,29 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         /// <remarks>Win32Error ERROR_ACCESS_DENIED.</remarks>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT E_ACCESSDENIED = new HRESULT(0x80070005);
+
         /// <summary>E_OUTOFMEMORY</summary>
         /// <remarks>Win32Error ERROR_OUTOFMEMORY.</remarks>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT E_OUTOFMEMORY = new HRESULT(0x8007000E);
+
         /// <summary>E_INVALIDARG</summary>
         /// <remarks>Win32Error ERROR_INVALID_PARAMETER.</remarks>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT E_INVALIDARG = new HRESULT(0x80070057);
+
         /// <summary>INTSAFE_E_ARITHMETIC_OVERFLOW</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT INTSAFE_E_ARITHMETIC_OVERFLOW = new HRESULT(0x80070216);
+
         /// <summary>COR_E_OBJECTDISPOSED</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT COR_E_OBJECTDISPOSED = new HRESULT(0x80131622);
+
         /// <summary>WC_E_GREATERTHAN</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT WC_E_GREATERTHAN = new HRESULT(0xC00CEE23);
+
         /// <summary>WC_E_SYNTAX</summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly HRESULT WC_E_SYNTAX = new HRESULT(0xC00CEE2D);

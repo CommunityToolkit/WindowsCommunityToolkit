@@ -90,6 +90,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public event EventHandler<WebViewControlContentLoadingEventArgs> FrameContentLoading = (sender, args) => { };
 
         // ReSharper restore InconsistentNaming
+
         /// <summary>
         /// Occurs when a frame in the <see cref="WebViewControlHost"/> finished parsing its current content.
         /// </summary>
@@ -104,6 +105,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public event EventHandler<WebViewNavigationCompletedEventArgs> FrameNavigationCompleted = (sender, args) => { };
 
         // ReSharper restore InconsistentNaming
+
         /// <summary>
         /// Occurs when a frame in the <see cref="WebViewControlHost"/> navigates to new content.
         /// </summary>

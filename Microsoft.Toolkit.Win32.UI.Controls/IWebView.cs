@@ -48,6 +48,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         event EventHandler<WebViewControlDOMContentLoadedEventArgs> DOMContentLoaded;
 
         // ReSharper restore InconsistentNaming
+
         /// <summary>
         /// Occurs when a frame in the <see cref="IWebView"/> has started loading new content.
         /// </summary>
@@ -60,6 +61,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         event EventHandler<WebViewControlDOMContentLoadedEventArgs> FrameDOMContentLoaded;
 
         // ReSharper restore InconsistentNaming
+
         /// <summary>
         /// Occurs when a frame in the <see cref="IWebView"/> finished navigating to new content.
         /// </summary>
