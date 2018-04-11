@@ -11,8 +11,8 @@
 // ******************************************************************
 
 using System.Drawing;
-using Windows.Foundation;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
