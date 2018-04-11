@@ -182,8 +182,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
             return (int)(error & 0xFFFF);
         }
 
-        #region Object class override members
-
         /// <summary>
         /// Get a string representation of this HRESULT.
         /// </summary>
@@ -250,8 +248,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         {
             return _value.GetHashCode();
         }
-
-        #endregion
 
         public static bool operator ==(HRESULT hrLeft, HRESULT hrRight)
         {

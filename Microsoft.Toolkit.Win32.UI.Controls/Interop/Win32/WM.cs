@@ -157,10 +157,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         DWMWINDOWMAXIMIZEDCHANGE = 0x0321,
 
         GETTITLEBARINFOEX = 0x033F,
-        #region Windows 7
         DWMSENDICONICTHUMBNAIL = 0x0323,
         DWMSENDICONICLIVEPREVIEWBITMAP = 0x0326,
-        #endregion
 
         USER = 0x0400,
 
