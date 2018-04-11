@@ -11,8 +11,28 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>bin\Debug\Microsoft.Toolkit.Win32.UI.Controls.xml</DocumentationFile>
+    <DocumentationFile>obj\Debug\dotNet4.7\Microsoft.Toolkit.Win32.UI.Controls.xml</DocumentationFile>
     <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;DEV_DEBUG;DEBUG_LAYOUT</DefineConstants>
+    <NoWarn>1701;1702;1705</NoWarn>
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+    <DebugType>full</DebugType>
+    <OutputPath>bin\Debug\dotNet4.7\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Release\dotNet4.7\</OutputPath>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
+    <DocumentationFile>obj\Release\dotNet4.7\Microsoft.Toolkit.Win32.UI.Controls.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>F:\src\GitHub\rjmurillo\UWPCommunityToolkit\Toolkit.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -37,9 +57,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.Common.cs">
-      <Link>Properties\AssemblyInfo.Common.cs</Link>
-    </Compile>
     <Compile Include="Interop\Win32\RECT.cs" />
     <Compile Include="UriHelper.cs" />
     <Compile Include="Verify.cs" />
@@ -133,11 +150,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DesignerUI.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="GitVersionTask">
-      <Version>3.6.5</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
