@@ -67,6 +67,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
                     err.ToHRESULT().ThrowIfFailed();
                 }
             }
+
             return osVersionInfo;
         }
 
@@ -235,6 +236,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
             {
                 HRESULT.ThrowLastError();
             }
+
             return retPtr;
         }
 

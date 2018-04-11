@@ -56,6 +56,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             {
                 return false;
             }
+
             return true;
         }
 
@@ -83,6 +84,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             {
                 _unmanagedCodePermission = new SecurityPermission(SecurityPermissionFlag.UnmanagedCode);
             }
+
             _unmanagedCodePermission.Demand();
         }
 

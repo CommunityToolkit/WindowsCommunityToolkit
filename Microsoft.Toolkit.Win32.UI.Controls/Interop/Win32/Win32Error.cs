@@ -133,6 +133,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
             {
                 return new HRESULT((uint)error._value);
             }
+
             return HRESULT.Make(true, Facility.Win32, error._value & 0x0000FFFF);
         }
 

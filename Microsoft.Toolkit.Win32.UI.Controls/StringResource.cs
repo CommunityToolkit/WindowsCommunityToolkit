@@ -45,6 +45,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
                 var r = new StringResource();
                 Interlocked.CompareExchange(ref _loader, r, null);
             }
+
             return _loader;
         }
     }

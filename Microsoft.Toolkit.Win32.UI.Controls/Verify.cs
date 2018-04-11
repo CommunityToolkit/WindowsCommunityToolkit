@@ -255,6 +255,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
                 {
                     Debug.WriteLine(message);
                 }
+
                 Debugger.Break();
 #pragma warning restore 162
             }

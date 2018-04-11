@@ -343,6 +343,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
                         Verify.IsNotNull(e);
                     }
                 }
+
                 throw e;
             }
         }
