@@ -15,7 +15,6 @@ using System.Security;
 using System.Windows;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
-
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     public static class WebViewControlProcessExtensions

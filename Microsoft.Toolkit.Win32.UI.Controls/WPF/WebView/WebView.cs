@@ -642,8 +642,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             });
         }
 
-
-
         private void UpdateBounds(int x, int y, int width, int height, int clientWidth, int clientHeight)
         {
 #if DEBUG_LAYOUT

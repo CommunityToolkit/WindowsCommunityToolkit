@@ -94,7 +94,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
             return ret;
         }
 
-
         // Critical: This calls into Marshal.GetExceptionForHR which is critical
         //           it populates the exception object from data stored in a per thread IErrorInfo
         //           the IErrorInfo may have security sensitive information like file paths stored in it
@@ -168,7 +167,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
                 IntPtr.Zero);
         }
 
-
         // Critical : P-Invokes
         [SecurityCritical]
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -183,14 +181,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsWindow(IntPtr hwnd);
 
-
         // Critical : P-Invokes
         [SecurityCritical]
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport(ExternDll.Kernel32, EntryPoint = "GetModuleFileName", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern int _GetModuleFileName(IntPtr hModule, StringBuilder lpFilename, int nSize);
-
-
 
         // Critical : Calls critical method
         [SecurityCritical]
@@ -219,12 +214,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
             }
         }
 
-
         // Critical : P-Invokes
         [SecurityCritical]
         [DllImport(ExternDll.Kernel32, EntryPoint = "GetModuleHandleW", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern IntPtr _GetModuleHandle([MarshalAs(UnmanagedType.LPWStr)] string lpModuleName);
-
 
         // Critical : Calls critical method
         [SecurityCritical]

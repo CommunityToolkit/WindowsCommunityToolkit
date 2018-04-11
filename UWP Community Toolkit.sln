@@ -51,6 +51,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CFA75BE0-5A44-45DE-8114-426A605B062B}"
 	ProjectSection(SolutionItems) = preProject
 		build\build.cake = build\build.cake
+		build\build.ps1 = build\build.ps1
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
 	EndProjectSection
@@ -70,11 +71,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Win32.UI.Controls", "Microsoft.Toolkit.Win32.UI.Controls\Microsoft.Toolkit.Win32.UI.Controls.csproj", "{392734A6-6CCB-49D5-BCA2-44A484008FB8}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{982cc826-aacd-4855-9075-430bb6ce40a9}*SharedItemsImports = 13
-		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{bab1caf4-c400-4a7f-a987-c576de63cffd}*SharedItemsImports = 4
-		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{efa96b3c-857e-4659-b942-6bef7719f4ca}*SharedItemsImports = 4
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -418,8 +414,8 @@ Global
 		{392734A6-6CCB-49D5-BCA2-44A484008FB8}.Debug|x64.Build.0 = Debug|Any CPU
 		{392734A6-6CCB-49D5-BCA2-44A484008FB8}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{392734A6-6CCB-49D5-BCA2-44A484008FB8}.Debug|x86.Build.0 = Debug|Any CPU
-		{392734A6-6CCB-49D5-BCA2-44A484008FB8}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{392734A6-6CCB-49D5-BCA2-44A484008FB8}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{392734A6-6CCB-49D5-BCA2-44A484008FB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{392734A6-6CCB-49D5-BCA2-44A484008FB8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{392734A6-6CCB-49D5-BCA2-44A484008FB8}.Release|ARM.ActiveCfg = Debug|Any CPU
 		{392734A6-6CCB-49D5-BCA2-44A484008FB8}.Release|ARM.Build.0 = Debug|Any CPU
 		{392734A6-6CCB-49D5-BCA2-44A484008FB8}.Release|x64.ActiveCfg = Debug|Any CPU

@@ -35,7 +35,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         static WebViewHost()
         {
 
-
             // register for access keys
             EventManager.RegisterClassHandler(typeof(WebViewHost), AccessKeyManager.AccessKeyPressedEvent, new AccessKeyPressedEventHandler(OnAccessKeyPressed));
 
@@ -127,8 +126,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 !double.IsPositiveInfinity(constraint.Width) ? constraint.Width : 250.0,
                 !double.IsPositiveInfinity(constraint.Height) ? constraint.Height : 250.0);
         }
-
-
 
         protected override bool TabIntoCore(TraversalRequest request)
         {
