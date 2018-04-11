@@ -7,69 +7,26 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot>
-            <PivotItem Header="Working Controls">
-                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Button x:Name="Button1" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button1_Click">Button</Button>
-                    <TextBlock x:Name="TextBlock_Button1" Grid.Row="0" Grid.Column="1" />
-                    <ToggleButton x:Name="ToggleButton1" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Checked="ToggleButton1_Checked">Toggle Button</ToggleButton>
-                    <TextBlock x:Name="TextBlock_ToggleButton1" Grid.Row="1" Grid.Column="1" />
-                    <ToggleSwitch x:Name="ToggleSwitch1" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">Toggle Switch</ToggleSwitch>
-                    <TextBox x:Name="TextBox1" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="Sample Text - Change Me!" />
-                    <CheckBox x:Name="CheckBox1" Grid.Row="4" Grid.Column="0" Content="Check Me!"/>
-                    <FlipView x:Name="flipView1" Grid.Row="5" Grid.Column="0">
-                        <TextBlock Text="Item 1" />
-                        <TextBlock Text="Item 2" />
-                        <TextBlock Text="Item 3" />
-                        <TextBlock Text="Item 4" />
-                        <TextBlock Text="Item 5" />
-                    </FlipView>
-                </Grid>
-            </PivotItem>
-            <PivotItem Header="Non-Working Controls">
-                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Button x:Name="MessageDialog" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="MessageDialog_Click">MessageDialog</Button>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="MessageDialog is not supported for EyeGaze API" />
-                    <Button x:Name="ContentDialog" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="ContentDialog_Click">ContentDialog</Button>
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="ContentDialog is not supported for EyeGaze API" />
-                    <Pivot x:Name="Pivot1Root" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Title="Pivot">
-                        <PivotItem Header="Item 1">
-                            <TextBlock Text="Text for Item 1"/>
-                        </PivotItem>
-                        <PivotItem Header="Item 2">
-                            <TextBlock Text="Text for Item 2"/>
-                        </PivotItem>
-                        <PivotItem Header="Item 3">
-                            <TextBlock Text="Text for Item 3"/>
-                        </PivotItem>
-                    </Pivot>
-                    <TextBlock Grid.Row="2" Grid.Column="1" Text="Bug: Need to focus on the pivot item to trigger click, not the Pivot getting focus" />
-
-                </Grid>
-            </PivotItem>
-        </Pivot>
-    </Grid>
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Button x:Name="Button1" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button1_Click">Button</Button>
+    <TextBlock x:Name="TextBlock_Button1" Grid.Row="0" Grid.Column="1" />
+    <ToggleButton x:Name="ToggleButton1" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Checked="ToggleButton1_Checked">Toggle Button</ToggleButton>
+    <TextBlock x:Name="TextBlock_ToggleButton1" Grid.Row="1" Grid.Column="1" />
+    <ToggleSwitch x:Name="ToggleSwitch1" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">Toggle Switch</ToggleSwitch>
+    <TextBox x:Name="TextBox1" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="Sample Text - Change Me!" />
+    <CheckBox x:Name="CheckBox1" Grid.Row="4" Grid.Column="0" Content="Check Me!"/>
+  </Grid>
 </Page>
