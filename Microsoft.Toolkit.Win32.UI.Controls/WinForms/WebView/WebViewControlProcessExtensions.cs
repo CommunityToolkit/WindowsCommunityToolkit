@@ -39,7 +39,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         {
             Verify.IsNotNull(process);
             Verify.IsFalse(hostWindowHandle == IntPtr.Zero);
-            if (hostWindowHandle == IntPtr.Zero) throw new ArgumentNullException(nameof(hostWindowHandle));
+            if (hostWindowHandle == IntPtr.Zero)
+            {
+                throw new ArgumentNullException(nameof(hostWindowHandle));
+            }
 
             var wvc = await await Task.Run(() => process.CreateWebViewControlAsync(hostWindowHandle, bounds)).ConfigureAwait(false);
             

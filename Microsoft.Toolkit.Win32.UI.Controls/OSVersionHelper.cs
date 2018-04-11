@@ -28,13 +28,34 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         {
             if (IsSince(WindowsVersions.Win10))
             {
-                if (IsApiContractPresent(6)) Windows10Release = Win10Release.Redstone4;
-                else if (IsApiContractPresent(5)) Windows10Release = Win10Release.FallCreators;
-                else if (IsApiContractPresent(4)) Windows10Release = Win10Release.Creators;
-                else if (IsApiContractPresent(3)) Windows10Release = Win10Release.Anniversary;
-                else if (IsApiContractPresent(2)) Windows10Release = Win10Release.Threshold2;
-                else if (IsApiContractPresent(1)) Windows10Release = Win10Release.Threshold1;
-                else Windows10Release = Win10Release.Unknown;
+                if (IsApiContractPresent(6))
+                {
+                    Windows10Release = Win10Release.Redstone4;
+                }
+                else if (IsApiContractPresent(5))
+                {
+                    Windows10Release = Win10Release.FallCreators;
+                }
+                else if (IsApiContractPresent(4))
+                {
+                    Windows10Release = Win10Release.Creators;
+                }
+                else if (IsApiContractPresent(3))
+                {
+                    Windows10Release = Win10Release.Anniversary;
+                }
+                else if (IsApiContractPresent(2))
+                {
+                    Windows10Release = Win10Release.Threshold2;
+                }
+                else if (IsApiContractPresent(1))
+                {
+                    Windows10Release = Win10Release.Threshold1;
+                }
+                else
+                {
+                    Windows10Release = Win10Release.Unknown;
+                }
             }
         }
 

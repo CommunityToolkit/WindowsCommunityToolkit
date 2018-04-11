@@ -35,7 +35,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
             catch (Exception e)
             {
-                if (e.IsSecurityOrCriticalException()) throw;
+                if (e.IsSecurityOrCriticalException())
+                {
+                    throw;
+                }
 
                 retval = false;
             }
@@ -51,7 +54,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
             catch (Exception e)
             {
-                if (e.IsSecurityOrCriticalException()) throw;
+                if (e.IsSecurityOrCriticalException())
+                {
+                    throw;
+                }
+
                 retval = false;
             }
 
@@ -66,7 +73,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
             catch (Exception e)
             {
-                if (e.IsSecurityOrCriticalException()) throw;
+                if (e.IsSecurityOrCriticalException())
+                {
+                    throw;
+                }
             }
         }
 
@@ -78,7 +88,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
             catch (Exception e)
             {
-                if (e.IsSecurityOrCriticalException()) throw;
+                if (e.IsSecurityOrCriticalException())
+                {
+                    throw;
+                }
             }
         }
     }

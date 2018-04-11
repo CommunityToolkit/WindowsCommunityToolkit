@@ -424,12 +424,17 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         private void OnWebViewPaint(object sender, PaintEventArgs e)
         {
-            if (!DesignMode) return;
+            if (!DesignMode)
+            {
+                return;
+            }
 
             using (var g = e.Graphics)
             {
                 using (var hb = new HatchBrush(HatchStyle.ZigZag, Color.Black, BackColor))
+                {
                     g.FillRectangle(hb, ClientRectangle);
+                }
             }
         }
 

@@ -139,7 +139,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         }
         private void SubscribeEvents()
         {
-            if (_webViewControl == null) return;
+            if (_webViewControl == null)
+            {
+                return;
+            }
 
             _webViewControl.AcceleratorKeyPressed += OnAcceleratorKeyPressed;
             _webViewControl.ContainsFullScreenElementChanged += OnContainsFullScreenElementChanged;
@@ -163,7 +166,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         private void UnsubscribeEvents()
         {
-            if (_webViewControl == null) return;
+            if (_webViewControl == null)
+            {
+                return;
+            }
 
             _webViewControl.AcceleratorKeyPressed -= OnAcceleratorKeyPressed;
             _webViewControl.ContainsFullScreenElementChanged -= OnContainsFullScreenElementChanged;

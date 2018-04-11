@@ -168,7 +168,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         private static void OnAccessKeyPressed(object sender, AccessKeyPressedEventArgs args)
         {
             if (args.Handled || args.Scope != null || args.Target != null)
+            {
                 return;
+            }
+
             args.Target = (UIElement)sender;
         }
     }

@@ -882,7 +882,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
             SizeChanged += OnSizeChanged;
             Verify.IsNotNull(_webViewControl);
-            if (_webViewControl == null) return;
+            if (_webViewControl == null)
+            {
+                return;
+            }
 
             _webViewControl.AcceleratorKeyPressed += OnAcceleratorKeyPressed;
             _webViewControl.ContainsFullScreenElementChanged += OnContainsFullScreenElementChanged;
@@ -908,7 +911,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
             SizeChanged -= OnSizeChanged;
             Verify.IsNotNull(_webViewControl);
-            if (_webViewControl == null) return;
+            if (_webViewControl == null)
+            {
+                return;
+            }
 
             _webViewControl.AcceleratorKeyPressed -= OnAcceleratorKeyPressed;
             _webViewControl.ContainsFullScreenElementChanged -= OnContainsFullScreenElementChanged;

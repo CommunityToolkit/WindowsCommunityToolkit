@@ -43,7 +43,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         [SecuritySafeCritical]
         internal static bool CallerAndAppDomainHaveUnrestrictedWebBrowserPermission()
         {
-            if (!AppDomainHasPermission(CachedWebBrowserPermission)) return false;
+            if (!AppDomainHasPermission(CachedWebBrowserPermission))
+            {
+                return false;
+            }
 
             try
             {
@@ -91,7 +94,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         [SecurityCritical] // Exceptions raised by a demand may contain security sensisitve information
         internal static void DemandWebPermission(Uri uri)
         {
-            if (uri == null) return;
+            if (uri == null)
+            {
+                return;
+            }
+
             if (uri.IsFile)
             {
                 new FileIOPermission(FileIOPermissionAccess.Read, uri.LocalPath).Demand();

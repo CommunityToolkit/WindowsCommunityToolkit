@@ -187,7 +187,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 Verify.IsNotNull(_webViewControl);
 
                 if (!IsDisposed && _webViewControl != null)
+                {
                     return _webViewControl.CanGoBack;
+                }
+
                 return false;
             }
         }
@@ -200,7 +203,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 Verify.IsNotNull(_webViewControl);
 
                 if (!IsDisposed && _webViewControl != null)
+                {
                     return _webViewControl.CanGoForward;
+                }
+
                 return false;
             }
         }
@@ -213,7 +219,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 Verify.IsNotNull(_webViewControl);
 
                 if (!IsDisposed && _webViewControl != null)
+                {
                     return _webViewControl.ContainsFullScreenElement;
+                }
+
                 return false;
             }
         }
@@ -362,7 +371,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         {
             Verify.IsFalse(IsDisposed);
             Verify.IsNotNull(_webViewControl);
-            if (_webViewControl == null) return null;
+            if (_webViewControl == null)
+            {
+                return null;
+            }
 
             _webViewControl.GetDeferredPermissionRequestById(id, out var retval);
             return retval;
@@ -380,7 +392,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
             catch (Exception e)
             {
-                if (e.IsSecurityOrCriticalException()) throw;
+                if (e.IsSecurityOrCriticalException())
+                {
+                    throw;
+                }
 
                 retval = false;
             }
@@ -400,7 +415,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
             catch (Exception e)
             {
-                if (e.IsSecurityOrCriticalException()) throw;
+                if (e.IsSecurityOrCriticalException())
+                {
+                    throw;
+                }
+
                 retval = false;
             }
 
@@ -432,9 +451,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             Verify.IsNotNull(_webViewControl);
             Verify.IsNeitherNullNorEmpty(scriptName);
 
-            if (string.IsNullOrEmpty(scriptName)) throw new ArgumentNullException(nameof(scriptName));
+            if (string.IsNullOrEmpty(scriptName))
+            {
+                throw new ArgumentNullException(nameof(scriptName));
+            }
             // TODO: Error message
-            if (_webViewControl == null) throw new InvalidOperationException();
+            if (_webViewControl == null)
+            {
+                throw new InvalidOperationException();
+            }
 
             // Protect against the cross domain scripting attacks
             // If it is our internal navigation to blank for navigating to null or load string or before navigation has happened, Source will be null
@@ -554,7 +579,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null"/></exception>
         public void NavigateToString(string text)
         {
-            if (string.IsNullOrEmpty(text)) throw new ArgumentNullException(nameof(text));
+            if (string.IsNullOrEmpty(text))
+            {
+                throw new ArgumentNullException(nameof(text));
+            }
+
             _webViewControl?.NavigateToString(text);
         }
 
@@ -566,7 +595,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
             catch (Exception e)
             {
-                if (e.IsSecurityOrCriticalException()) throw;
+                if (e.IsSecurityOrCriticalException())
+                {
+                    throw;
+                }
             }
         }
 
@@ -578,7 +610,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
             catch (Exception e)
             {
-                if (e.IsSecurityOrCriticalException()) throw;
+                if (e.IsSecurityOrCriticalException())
+                {
+                    throw;
+                }
             }
         }
 
@@ -924,7 +959,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         [SecurityCritical]
         private void SubscribeEvents()
         {
-            if (_webViewControl == null) return;
+            if (_webViewControl == null)
+            {
+                return;
+            }
 
             _webViewControl.AcceleratorKeyPressed += OnAcceleratorKeyPressed;
             _webViewControl.ContainsFullScreenElementChanged += OnContainsFullScreenElementChanged;
@@ -949,14 +987,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         [SecurityCritical]
         private void SubscribeProcessExited()
         {
-            if (Process == null) return;
+            if (Process == null)
+            {
+                return;
+            }
 
             Process.ProcessExited += OnProcessExited;
         }
 
         private void UnsubscribeEvents()
         {
-            if (_webViewControl == null) return;
+            if (_webViewControl == null)
+            {
+                return;
+            }
 
             _webViewControl.AcceleratorKeyPressed -= OnAcceleratorKeyPressed;
             _webViewControl.ContainsFullScreenElementChanged -= OnContainsFullScreenElementChanged;
@@ -980,7 +1024,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         private void UnsubscribeProcessExited()
         {
-            if (Process == null) return;
+            if (Process == null)
+            {
+                return;
+            }
 
             Process.ProcessExited -= OnProcessExited;
         }
