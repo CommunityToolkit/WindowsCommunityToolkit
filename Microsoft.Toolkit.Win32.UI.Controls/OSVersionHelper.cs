@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             Anniversary = 1607,  // 14393 Redstone 1
             Creators = 1703,     // 15063 Redstone 2
             FallCreators = 1709, // 16299 Redstone 3
-            Redstone4 = 1803     // 17133 Redstone 4
+            Redstone4 = 1803 // 17133 Redstone 4
         }
 
         internal enum WindowsVersions
@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         {
             // RtlGetVersion does not return ProductType
             var versionInfo = NativeMethods.GetVersionEx();
-            return versionInfo.ProductType == 2     // VER_NT_DOMAIN_CONTROLLER
+            return versionInfo.ProductType == 2 // VER_NT_DOMAIN_CONTROLLER
                    || versionInfo.ProductType == 3; // VER_NT_SERVER
         }
 

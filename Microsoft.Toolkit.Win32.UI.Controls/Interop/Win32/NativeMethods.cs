@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         /// </summary>
         /// <param name="fEnable"><see langword="true"/> to turn on mouse input support</param>
         /// <returns></returns>
-        [SecurityCritical]  // P-Invokes
+        [SecurityCritical] // P-Invokes
         [DllImport(ExternDll.User32, SetLastError = true, EntryPoint = "EnableMouseInPointer")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool _EnableMouseInPointer(bool fEnable);
