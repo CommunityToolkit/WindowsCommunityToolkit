@@ -163,7 +163,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <param name="value">The value to check for nullness.</param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void IsNotNull<T>(T value) where T : class
+        public static void IsNotNull<T>(T value)
+            where T : class
         {
             if (value == null)
             {
@@ -185,7 +186,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// </summary>
         /// <param name="item">The item to verify is null.</param>
         [Conditional("DEBUG")]
-        public static void IsNull<T>(T item) where T : class
+        public static void IsNull<T>(T item)
+            where T : class
         {
             if (item != null)
             {
