@@ -95,6 +95,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty IsPullToRefreshWithMouseEnabledProperty =
             DependencyProperty.Register(nameof(IsPullToRefreshWithMouseEnabled), typeof(bool), typeof(PullToRefreshListView), new PropertyMetadata(false));
 
+        /// <summary>
+        /// Identifies the <see cref="UseRefreshContainerWhenPossible"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty UseRefreshContainerWhenPossibleProperty =
+            DependencyProperty.Register(nameof(UseRefreshContainerWhenPossibleProperty), typeof(bool), typeof(PullToRefreshListView), new PropertyMetadata(false));
+
         private const string PartRoot = "Root";
         private const string PartScroller = "ScrollViewer";
         private const string PartContentTransform = "ContentTransform";
@@ -123,6 +129,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double _overscrollMultiplier;
         private bool _isManipulatingWithMouse;
         private double _startingVerticalOffset;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the HamburgerMenu should use the NavigationView when possible (Fall Creators Update and above)
+        /// When set to true and the device supports NavigationView, the HamburgerMenu will use a template based on NavigationView
+        /// </summary>
+        public bool UseRefreshContainerWhenPossible
+        {
+            get { return (bool)GetValue(UseRefreshContainerWhenPossibleProperty); }
+            set { SetValue(UseRefreshContainerWhenPossibleProperty, value); }
+        }
 
         /// <summary>
         /// Occurs when the user has requested content to be refreshed

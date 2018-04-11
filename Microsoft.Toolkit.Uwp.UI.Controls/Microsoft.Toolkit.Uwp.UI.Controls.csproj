@@ -8,6 +8,10 @@
 
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="PullToRefreshListView\PullToRefreshListViewTemplate.xaml" />
+  </ItemGroup>
+
 
   <ItemGroup>
 
