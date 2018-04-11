@@ -85,7 +85,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         public static bool EnableMouseInPointer(bool enable)
         {
             // NOTE: This is available on Windows 8 or later only
-
             var ret = _EnableMouseInPointer(enable);
             if (!ret)
             {

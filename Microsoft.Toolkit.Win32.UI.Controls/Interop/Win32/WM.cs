@@ -122,7 +122,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         TABLET_DEFBASE = 0x02C0,
 
         // WM_TABLET_MAXOFFSET = 0x20,
-
         TABLET_ADDED = TABLET_DEFBASE + 8,
         TABLET_DELETED = TABLET_DEFBASE + 9,
         TABLET_FLICK = TABLET_DEFBASE + 11,

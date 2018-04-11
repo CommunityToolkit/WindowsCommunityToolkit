@@ -154,7 +154,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Verify.IsNotNull(webView._webViewControl);
 
             // TODO: OnVisibilityInvalidated
-
             if (webView?._webViewControl != null)
             {
                 switch (webView.Visibility)
@@ -461,7 +460,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public override void Close()
         {
             // TODO: Guard IsDisposed
-
             UnsubscribeEvents();
             _webViewControl?.Close();
             _webViewControl?.Dispose();

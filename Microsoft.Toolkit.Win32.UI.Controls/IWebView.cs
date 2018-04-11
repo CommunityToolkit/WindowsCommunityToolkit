@@ -163,7 +163,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
 
         // TODO: Process
         // WebViewControlProcess Process { get; }
-
         WebViewControlSettings Settings { get; }
 
         /// <summary>

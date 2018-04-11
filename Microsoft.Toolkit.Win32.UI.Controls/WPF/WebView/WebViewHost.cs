@@ -78,7 +78,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
             // TODO: There is a case where a process could have already been created
             // TODO: Multiple WebViewControl instances
-
             if (ChildWindow.Handle == IntPtr.Zero)
             {
                 // Create a simple STATIC HWND
@@ -136,7 +135,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         protected override bool TabIntoCore(TraversalRequest request)
         {
             // TODO: Assert should be at least InPlaceActive
-
             return base.TabIntoCore(request);
         }
 
