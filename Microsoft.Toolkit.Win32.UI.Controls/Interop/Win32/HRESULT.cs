@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
             // Code has 4 bits reserved.
             Verify.AreEqual(code, code & 0xFFFF);
 
-            return new HRESULT((uint)((severe ? (1 << 31) : 0) | ((int)facility << 16) | code));
+            return new HRESULT((uint)((severe ? 1 << 31 : 0) | ((int)facility << 16) | code));
         }
 
         /// <summary>

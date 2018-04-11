@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 // Create a simple STATIC HWND
                 var windowHandle = NativeMethods.CreateWindow(
                     "Static",
-                    (WS.CHILD | WS.VISIBLE | WS.CLIPCHILDREN),
+                    WS.CHILD | WS.VISIBLE | WS.CLIPCHILDREN,
                     0,
                     0,
                     0,

@@ -418,7 +418,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         private bool IsInDesignMode()
         {
-            var wpfDesignMode = (LicenseManager.UsageMode == LicenseUsageMode.Designtime);
+            var wpfDesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
             var formsDesignMode = System.Diagnostics.Process.GetCurrentProcess().ProcessName == "devenv";
             return wpfDesignMode || formsDesignMode;
         }
