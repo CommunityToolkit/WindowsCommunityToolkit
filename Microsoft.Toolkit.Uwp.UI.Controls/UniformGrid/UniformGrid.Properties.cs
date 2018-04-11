@@ -34,60 +34,61 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
               new PropertyMetadata(null));
 
         /// <summary>
-        /// Sets the AutoLayout Attached Property Value.
+        /// Sets the AutoLayout Attached Property Value. Used internally to track items which need to be arranged vs. fixed in place.
+        /// Though it its required to use this property to force an element to the 0, 0 position.
         /// </summary>
         /// <param name="element"><see cref="FrameworkElement"/></param>
-        /// <param name="value"></param>
+        /// <param name="value">A true value indicates this item should be automatically arranged.</param>
         public static void SetAutoLayout(FrameworkElement element, bool? value)
         {
             element.SetValue(AutoLayoutProperty, value);
         }
 
         /// <summary>
-        /// Gets the AutoLayout Attached Property Value.
+        /// Gets the AutoLayout Attached Property Value. Used internally to track items which need to be arranged vs. fixed in place.
         /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
+        /// <param name="element"><see cref="FrameworkElement"/></param>
+        /// <returns>A true value indicates this item should be automatically arranged.</returns>
         public static bool? GetAutoLayout(FrameworkElement element)
         {
             return (bool?)element.GetValue(AutoLayoutProperty);
         }
 
         /// <summary>
-        /// Sets the AutoLayout Attached Property Value.
+        /// Sets the AutoLayout Attached Property Value. Used internally to track items which need to be arranged vs. fixed in place.
         /// </summary>
-        /// <param name="element"></param>
-        /// <param name="value"></param>
+        /// <param name="element"><see cref="ColumnDefinition"/></param>
+        /// <param name="value">A true value indicates this item should be automatically arranged.</param>
         public static void SetAutoLayout(ColumnDefinition element, bool? value)
         {
             element.SetValue(AutoLayoutProperty, value);
         }
 
         /// <summary>
-        /// Gets the AutoLayout Attached Property Value.
+        /// Gets the AutoLayout Attached Property Value. Used internally to track items which need to be arranged vs. fixed in place.
         /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
+        /// <param name="element"><see cref="ColumnDefinition"/></param>
+        /// <returns>A true value indicates this item should be automatically arranged.</returns>
         public static bool? GetAutoLayout(ColumnDefinition element)
         {
             return (bool?)element.GetValue(AutoLayoutProperty);
         }
 
         /// <summary>
-        /// Sets the AutoLayout Attached Property Value.
+        /// Sets the AutoLayout Attached Property Value. Used internally to track items which need to be arranged vs. fixed in place.
         /// </summary>
-        /// <param name="element"></param>
-        /// <param name="value"></param>
+        /// <param name="element"><see cref="RowDefinition"/></param>
+        /// <param name="value">A true value indicates this item should be automatically arranged.</param>
         public static void SetAutoLayout(RowDefinition element, bool? value)
         {
             element.SetValue(AutoLayoutProperty, value);
         }
 
         /// <summary>
-        /// Gets the AutoLayout Attached Property Value.
+        /// Gets the AutoLayout Attached Property Value. Used internally to track items which need to be arranged vs. fixed in place.
         /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
+        /// <param name="element"><see cref="RowDefinition"/></param>
+        /// <returns>A true value indicates this item should be automatically arranged.</returns>
         public static bool? GetAutoLayout(RowDefinition element)
         {
             return (bool?)element.GetValue(AutoLayoutProperty);
@@ -109,8 +110,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Sets the Column Attached Property Value.
         /// </summary>
-        /// <param name="element"></param>
-        /// <param name="value"></param>
+        /// <param name="element"><see cref="ColumnDefinition"/></param>
+        /// <param name="value">Zero-based Index of column for this ColumnDefinition.</param>
         public static void SetColumn(ColumnDefinition element, int value)
         {
             element.SetValue(ColumnProperty, value);
@@ -119,8 +120,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the Column Attached Property Value.
         /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
+        /// <param name="element"><see cref="ColumnDefinition"/></param>
+        /// <returns>Specified column index for the ColumnDefinition.</returns>
         public static int GetColumn(ColumnDefinition element)
         {
             return (int)element.GetValue(ColumnProperty);
@@ -142,8 +143,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Sets the Row Attached Property Value.
         /// </summary>
-        /// <param name="element"></param>
-        /// <param name="value"></param>
+        /// <param name="element"><see cref="RowDefinition"/></param>
+        /// <param name="value">Zero-based Index of row for this RowDefinition.</param>
         public static void SetRow(RowDefinition element, int value)
         {
             element.SetValue(RowProperty, value);
@@ -152,8 +153,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the Row Attached Property Value.
         /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
+        /// <param name="element"><see cref="RowDefinition"/></param>
+        /// <returns>Specified row index for the RowDefinition.</returns>
         public static int GetRow(RowDefinition element)
         {
             return (int)element.GetValue(RowProperty);
@@ -163,19 +164,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="Columns"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ColumnsProperty =
-            DependencyProperty.Register("Columns", typeof(int), typeof(UniformGrid), new PropertyMetadata(0, OnColumnsChanged));
+            DependencyProperty.Register(nameof(Columns), typeof(int), typeof(UniformGrid), new PropertyMetadata(0, OnColumnsChanged));
 
         /// <summary>
         /// Identifies the <see cref="FirstColumn"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty FirstColumnProperty =
-            DependencyProperty.Register("FirstColumn", typeof(int), typeof(UniformGrid), new PropertyMetadata(0, OnColumnsChanged));
+            DependencyProperty.Register(nameof(FirstColumn), typeof(int), typeof(UniformGrid), new PropertyMetadata(0, OnColumnsChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="Orientation"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty OrientationProperty =
+            DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(UniformGrid), new PropertyMetadata(Orientation.Horizontal));
 
         /// <summary>
         /// Identifies the <see cref="Rows"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty RowsProperty =
-            DependencyProperty.Register("Rows", typeof(int), typeof(UniformGrid), new PropertyMetadata(0));
+            DependencyProperty.Register(nameof(Rows), typeof(int), typeof(UniformGrid), new PropertyMetadata(0));
 
         private static void OnColumnsChanged(DependencyObject d, object newValue)
         {
@@ -205,6 +212,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (int)GetValue(FirstColumnProperty); }
             set { SetValue(FirstColumnProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the orientation of the grid. When <see cref="Orientation.Vertical"/>,
+        /// will transpose the layout of automatically arranged items such that they start from
+        /// top to bottom then based on <see cref="FlowDirection"/>.
+        /// Defaults to <see cref="Orientation.Horizontal"/>.
+        /// </summary>
+        public Orientation Orientation
+        {
+            get { return (Orientation)GetValue(OrientationProperty); }
+            set { SetValue(OrientationProperty, value); }
         }
 
         /// <summary>

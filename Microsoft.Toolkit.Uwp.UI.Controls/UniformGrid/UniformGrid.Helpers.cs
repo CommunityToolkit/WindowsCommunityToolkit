@@ -27,15 +27,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         // Provides the next spot in the boolean array with a 'false' value.
         #pragma warning disable SA1009 // Closing parenthesis must be followed by a space.
-        internal static IEnumerable<(int row, int column)> GetFreeSpot(bool[,] array, int firstcolumn, bool reverse)
+        internal static IEnumerable<(int row, int column)> GetFreeSpot(bool[,] array, int firstcolumn, bool topdown)
         #pragma warning restore SA1009 // Closing parenthesis must be followed by a space.
         {
-            if (!reverse)
+            if (topdown)
             {
-                for (int r = 0; r < array.GetLength(0); r++)
+                // Layout spots from Top-Bottom, Left-Right (right-left handled automatically by Grid with Flow-Direction).
+                // Effectively transpose the Grid Layout.
+                for (int c = 0; c < array.GetLength(1); c++)
                 {
-                    int start = (r == 0 && firstcolumn > 0) ? firstcolumn : 0;
-                    for (int c = start; c < array.GetLength(1); c++)
+                    int start = (c == 0 && firstcolumn > 0) ? firstcolumn : 0;
+                    for (int r = start; r < array.GetLength(0); r++)
                     {
                         if (!array[r, c])
                         {
@@ -46,10 +48,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
+                // Layout spots as normal from Left-Right.
+                // (right-left handled automatically by Grid with Flow-Direction
+                // during its layout, internal model is always left-right).
                 for (int r = 0; r < array.GetLength(0); r++)
                 {
-                    int start = (r == 0 && firstcolumn > 0) ? firstcolumn : array.GetLength(1) - 1;
-                    for (int c = start; c >= 0; c--)
+                    int start = (r == 0 && firstcolumn > 0) ? firstcolumn : 0;
+                    for (int c = start; c < array.GetLength(1); c++)
                     {
                         if (!array[r, c])
                         {

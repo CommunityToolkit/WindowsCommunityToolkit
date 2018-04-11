@@ -95,7 +95,7 @@ namespace UnitTests.UI.Controls
 
         [TestCategory("UniformGrid")]
         [UITestMethod]
-        public void Test_UniformGrid_GetFreeSpots_Reverse()
+        public void Test_UniformGrid_GetFreeSpots_VerticalOrientation()
         {
             var grid = new UniformGrid();
 
@@ -109,13 +109,14 @@ namespace UnitTests.UI.Controls
 
             var results = UniformGrid.GetFreeSpot(test, 0, true).ToArray();
 
-            // right to left, so this should be reversed
+            // top-bottom, transpose of matrix above.
             var expected = new(int row, int column)[]
                 {
-                    (0, 4),       (0, 2),(0, 1),(0, 0),
-                    (1, 4),(1, 3),              (1, 0),
-                    (2, 4),       (2, 2),(2, 1),
-                    (3, 4),(3, 3),       (3, 1),(3, 0)
+                    (0, 0),(1, 0),       (3, 0),
+                    (0, 1),       (2, 1),(3, 1),
+                    (0, 2),       (2, 2),
+                           (1, 3),       (3, 3),
+                    (0, 4),(1, 4),(2, 4),(3, 4)
                 };
 
             CollectionAssert.AreEqual(
