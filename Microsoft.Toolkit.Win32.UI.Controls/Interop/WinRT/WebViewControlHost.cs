@@ -336,7 +336,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        internal Guid LastNavigation { get; [SecurityCritical] set; }
+        internal Guid LastNavigation
+        {
+            get;
+            [SecurityCritical]
+            set;
+        }
 
         // Indicates whether we are navigating to "about:blank" internally because Source is set to null or navigating to string
         // Set is SecurityCritical because it is involved in making security decisions
