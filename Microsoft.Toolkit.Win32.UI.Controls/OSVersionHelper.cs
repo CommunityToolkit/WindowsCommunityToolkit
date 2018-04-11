@@ -10,11 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
-
 using System;
 using System.IO;
-
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 using Windows.Foundation.Metadata;
 using Windows.Security.EnterpriseData;
 

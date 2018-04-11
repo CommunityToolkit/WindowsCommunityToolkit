@@ -10,10 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-
 using System;
-
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using WebViewControlAcceleratorKeyPressedEventArgs = Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlAcceleratorKeyPressedEventArgs;
 using WebViewControlContentLoadingEventArgs = Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlContentLoadingEventArgs;
 using WebViewControlDOMContentLoadedEventArgs = Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlDOMContentLoadedEventArgs;

@@ -10,11 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-
 using System;
 using System.ComponentModel;
-
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using WebViewControlProcess = Windows.Web.UI.Interop.WebViewControlProcess;
 using WebViewControlProcessCapabilityState = Windows.Web.UI.Interop.WebViewControlProcessCapabilityState;
 using WebViewControlProcessOptions = Windows.Web.UI.Interop.WebViewControlProcessOptions;

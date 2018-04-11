@@ -10,10 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
-using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-using Microsoft.Toolkit.Win32.UI.Controls.WinForms;
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,7 +22,9 @@ using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+using Microsoft.Toolkit.Win32.UI.Controls.WinForms;
 using Point = Windows.Foundation.Point;
 using Size = Windows.Foundation.Size;
 
