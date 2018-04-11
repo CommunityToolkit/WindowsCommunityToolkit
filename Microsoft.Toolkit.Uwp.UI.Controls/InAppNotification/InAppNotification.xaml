@@ -8,20 +8,27 @@
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <AcrylicBrush x:Key="SystemControlChromeWhiteAcrylicElementBrush" 
+                  BackgroundSource="Backdrop" 
+                  TintColor="{StaticResource SystemChromeWhiteColor}" 
+                  TintOpacity="0.8"
+                  FallbackColor="{StaticResource SystemChromeMediumLowColor}" />
+
     <Style TargetType="local:InAppNotification">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}" />
-        <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlChromeWhiteAcrylicElementBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlHighlightBaseLowBrush}" />
         <Setter Property="Visibility" Value="Collapsed" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Bottom" />
         <Setter Property="MinHeight" Value="55" />
-        <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontSize" Value="16" />
         <Setter Property="RenderTransformOrigin" Value="0.5,1" />
-        <Setter Property="Margin" Value="20 0" />
-        <Setter Property="Padding" Value="25 10" />
-        <Setter Property="MaxWidth" Value="1200" />
+        <Setter Property="Margin" Value="24,12" />
+        <Setter Property="Padding" Value="24,12" />
+        <Setter Property="MaxWidth" Value="960" />
+        <Setter Property="MinWidth" Value="132" />
         <Setter Property="AnimationDuration" Value="0:0:0.100" />
         <Setter Property="VerticalOffset" Value="100" />
         <Setter Property="HorizontalOffset" Value="0" />
