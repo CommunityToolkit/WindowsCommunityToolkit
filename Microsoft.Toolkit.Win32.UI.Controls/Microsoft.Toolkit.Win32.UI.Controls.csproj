@@ -57,6 +57,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interop\Win32\ExternDll.cs" />
     <Compile Include="Interop\Win32\RECT.cs" />
     <Compile Include="UriHelper.cs" />
     <Compile Include="Verify.cs" />
