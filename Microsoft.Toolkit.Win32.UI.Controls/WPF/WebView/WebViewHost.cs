@@ -34,7 +34,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     {
         static WebViewHost()
         {
-
             // register for access keys
             EventManager.RegisterClassHandler(typeof(WebViewHost), AccessKeyManager.AccessKeyPressedEvent, new AccessKeyPressedEventHandler(OnAccessKeyPressed));
 

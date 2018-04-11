@@ -12,7 +12,6 @@
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
-
     /// <summary>
     /// Initialization states of WebView object.
     /// </summary>
