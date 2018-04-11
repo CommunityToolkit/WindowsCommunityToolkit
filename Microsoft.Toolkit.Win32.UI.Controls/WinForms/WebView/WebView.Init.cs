@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
             if (Initializing)
             {
-                //TODO: Message
+                // TODO: Message
                 // Cannot initialize WebView since it is already being initialized
                 throw new InvalidOperationException();
             }
@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         {
             if (!Initializing)
             {
-                //TODO: Message
+                // TODO: Message
                 // Cannot complete WebView initialization that is not being initialized
                 throw new InvalidOperationException();
             }

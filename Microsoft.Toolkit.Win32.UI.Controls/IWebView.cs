@@ -160,7 +160,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         bool IsScriptNotifyAllowed { get; set; }
 
         // TODO: Process
-        //WebViewControlProcess Process { get; }
+        // WebViewControlProcess Process { get; }
 
         WebViewControlSettings Settings { get; }
 
@@ -309,12 +309,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Stop")]
         void Stop();
 
-        //TODO: ObjectForScripting
-        //TODO: Refresh with option (e.g. bypass cache)
-        //TODO: Navigate with new window
-        //TODO: Navigate target frame
-        //TODO: Navigate with POST
-        //TODO: Navigate with headers
-        //TODO: Print
+        // TODO: ObjectForScripting
+        // TODO: Refresh with option (e.g. bypass cache)
+        // TODO: Navigate with new window
+        // TODO: Navigate target frame
+        // TODO: Navigate with POST
+        // TODO: Navigate with headers
+        // TODO: Print
     }
 }

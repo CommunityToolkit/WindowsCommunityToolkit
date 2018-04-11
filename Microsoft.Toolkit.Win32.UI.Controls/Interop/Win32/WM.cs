@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         NCMOUSELEAVE = 0x02A2,
 
         TABLET_DEFBASE = 0x02C0,
-        //WM_TABLET_MAXOFFSET = 0x20,
+        // WM_TABLET_MAXOFFSET = 0x20,
 
         TABLET_ADDED = TABLET_DEFBASE + 8,
         TABLET_DELETED = TABLET_DEFBASE + 9,
@@ -166,7 +166,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
 
         // This is the hard-coded message value used by WinForms for Shell_NotifyIcon.
         // It's relatively safe to reuse.
-        TRAYMOUSEMESSAGE = 0x800, //WM_USER + 1024
+        TRAYMOUSEMESSAGE = 0x800, // WM_USER + 1024
         APP = 0x8000,
     }
 }

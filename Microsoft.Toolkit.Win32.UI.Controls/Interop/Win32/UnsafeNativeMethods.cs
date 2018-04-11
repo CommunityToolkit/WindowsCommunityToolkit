@@ -30,12 +30,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         [DllImport(ExternDll.User32, CharSet = CharSet.Auto)]
         internal static extern IntPtr GetParent(HandleRef hWnd);
 
-        //     Critical: This code elevates to unmanaged code permission
+        // Critical: This code elevates to unmanaged code permission
         [SecurityCritical, SuppressUnmanagedCodeSecurity]
         [DllImport(ExternDll.Kernel32, EntryPoint = "GetModuleFileName", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern int IntGetModuleFileName(HandleRef hModule, StringBuilder buffer, int length);
 
-        //     Critical: This code elevates to unmanaged code permission by calling into IntGetModuleFileName
+        // Critical: This code elevates to unmanaged code permission by calling into IntGetModuleFileName
         [SecurityCritical]
         internal static string GetModuleFileName(HandleRef hModule)
         {

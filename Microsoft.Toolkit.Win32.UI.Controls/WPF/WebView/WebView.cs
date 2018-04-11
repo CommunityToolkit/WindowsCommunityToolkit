@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             // Haven't tested with MTA
             Verify.IsApartmentState(ApartmentState.STA);
 
-            //TODO: Assign Feature Control Keys
+            // TODO: Assign Feature Control Keys
 
             // We use this map to lookup which invalidator method to call when the parent's properties change
             InvalidatorMap[VisibilityProperty] = new PropertyInvalidator(OnVisibilityInvalidated);
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Verify.IsNotNull(webView._webViewControl);
             if (webView?._webViewControl != null)
             {
-                //TODO: Is there an equivalent for Win32WebViewHost?
+                // TODO: Is there an equivalent for Win32WebViewHost?
             }
         }
 
@@ -175,7 +175,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public WebView()
         {
             // TODO: Check whether browser is disabled
-            //TODO: Handle case (OnLoad) for handling POPUP windows
+            // TODO: Handle case (OnLoad) for handling POPUP windows
         }
 
         public event EventHandler<WebViewControlAcceleratorKeyPressedEventArgs> AcceleratorKeyPressed = (sender, args) => { };

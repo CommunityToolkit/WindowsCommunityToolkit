@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
 
         public static HRESULT Make(bool severe, Facility facility, int code)
         {
-            //#define MAKE_HRESULT(sev,fac,code) \
+            // #define MAKE_HRESULT(sev,fac,code) \
             //    ((HRESULT) (((unsigned long)(sev)<<31) | ((unsigned long)(fac)<<16) | ((unsigned long)(code))) )
 
             // Severity has 1 bit reserved.
