@@ -661,8 +661,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             VerifyAccess();
             var rect = new Windows.Foundation.Rect(
                 new Point(x, y),
-                new Size(width, height)
-            );
+                new Size(width, height));
             Verify.IsNotNull(_webViewControl);
             _webViewControl?.UpdateBounds(rect);
 

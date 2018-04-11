@@ -71,8 +71,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         [SecurityCritical]
         internal IAsyncOperation<WebViewControl> CreateWebViewControlAsync(
             long hostWindowHandle,
-            Rect bounds
-        )
+            Rect bounds)
         {
             Security.DemandUnamangedCode();
             if (hostWindowHandle == 0)
