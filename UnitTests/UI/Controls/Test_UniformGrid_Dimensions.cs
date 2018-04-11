@@ -31,6 +31,34 @@ namespace UnitTests.UI.Controls
     {
         [TestCategory("UniformGrid")]
         [UITestMethod]
+        public void Test_UniformGrid_GetDimensions_NoElements()
+        {
+            var treeroot = XamlReader.Load(@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    <controls:UniformGrid x:Name=""UniformGrid"">
+    </controls:UniformGrid>
+</Page>") as FrameworkElement;
+
+            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+
+            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+
+            Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
+
+            var children = grid.Children.Select(item => item as FrameworkElement);
+
+            Assert.AreEqual(0, grid.Children.Count());
+
+            var dimensions = UniformGrid.GetDimensions(ref children, 0, 0, 0);
+
+            Assert.AreEqual(1, dimensions.rows);
+            Assert.AreEqual(1, dimensions.columns);
+        }
+
+        [TestCategory("UniformGrid")]
+        [UITestMethod]
         public void Test_UniformGrid_GetDimensions_AllVisible()
         {
             var treeroot = XamlReader.Load(@"<Page

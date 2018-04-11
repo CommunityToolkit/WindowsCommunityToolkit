@@ -211,6 +211,100 @@ namespace UnitTests.UI.Controls
                 Assert.AreEqual(expected[i].col, Grid.GetColumn(children[i]));
             }
         }
+
+        [TestCategory("UniformGrid")]
+        [UITestMethod]
+        public void Test_UniformGrid_AutoLayout_VerticalElement_FixedPosition()
+        {
+            var treeroot = XamlReader.Load(@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    <controls:UniformGrid x:Name=""UniformGrid"">
+        <Border/>
+        <Border Grid.Row=""1"" Grid.Column=""1"" Grid.RowSpan=""2"" x:Name=""OurItem""/>
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border x:Name=""Shifted""/>
+    </controls:UniformGrid>
+</Page>") as FrameworkElement;
+
+            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+
+            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+
+            Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
+
+            var children = grid.Children.Select(item => item as FrameworkElement);
+
+            Assert.AreEqual(8, grid.Children.Count());
+
+            grid.Measure(new Size(1000, 1000));
+
+            var border = treeroot.FindChildByName("OurItem") as Border;
+
+            Assert.IsNotNull(border, "Could not find our item to test.");
+
+            Assert.AreEqual(1, Grid.GetRow(border));
+            Assert.AreEqual(1, Grid.GetColumn(border));
+
+            var border2 = treeroot.FindChildByName("Shifted") as Border;
+
+            Assert.IsNotNull(border2, "Could not find shifted item to test.");
+
+            Assert.AreEqual(2, Grid.GetRow(border2));
+            Assert.AreEqual(2, Grid.GetColumn(border2));
+        }
+
+        [TestCategory("UniformGrid")]
+        [UITestMethod]
+        public void Test_UniformGrid_AutoLayout_HorizontalElement_FixedPosition()
+        {
+            var treeroot = XamlReader.Load(@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    <controls:UniformGrid x:Name=""UniformGrid"">
+        <Border/>
+        <Border Grid.Row=""1"" Grid.Column=""1"" Grid.ColumnSpan=""2"" x:Name=""OurItem""/>
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border x:Name=""Shifted""/>
+        <Border/>
+        <Border/>
+    </controls:UniformGrid>
+</Page>") as FrameworkElement;
+
+            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+
+            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+
+            Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
+
+            var children = grid.Children.Select(item => item as FrameworkElement);
+
+            Assert.AreEqual(8, grid.Children.Count());
+
+            grid.Measure(new Size(1000, 1000));
+
+            var border = treeroot.FindChildByName("OurItem") as Border;
+
+            Assert.IsNotNull(border, "Could not find our item to test.");
+
+            Assert.AreEqual(1, Grid.GetRow(border));
+            Assert.AreEqual(1, Grid.GetColumn(border));
+
+            var border2 = treeroot.FindChildByName("Shifted") as Border;
+
+            Assert.IsNotNull(border2, "Could not find shifted item to test.");
+
+            Assert.AreEqual(2, Grid.GetRow(border2));
+            Assert.AreEqual(0, Grid.GetColumn(border2));
+        }
     }
     #pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
 }

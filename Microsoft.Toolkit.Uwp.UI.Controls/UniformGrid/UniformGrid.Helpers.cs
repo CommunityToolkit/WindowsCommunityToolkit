@@ -73,13 +73,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Calculate the size & area of all objects in the grid to know how much space we need.
                 // TODO: Need to trim size of objects that go out of bounds?
                 // TODO: Do we need to worry if there aren't enough small items to fill in the gaps?
-                var count = visible.Sum(item => GetRowSpan(item) * GetColumnSpan(item));
+                var count = Math.Max(1, visible.Sum(item => GetRowSpan(item) * GetColumnSpan(item)));
 
                 if (rows == 0)
                 {
                     if (cols > 0)
                     {
-                        // TODO: Handle RightToLeft?
                         var first = Math.Min(firstColumn, cols - 1); // Bound check
 
                         // If we have columns but no rows, calculate rows based on column offset and number of children.
