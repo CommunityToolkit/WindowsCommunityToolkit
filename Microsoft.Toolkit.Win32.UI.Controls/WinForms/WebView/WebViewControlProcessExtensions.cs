@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
 
             var wvc = await await Task.Run(() => process.CreateWebViewControlAsync(hostWindowHandle, bounds)).ConfigureAwait(false);
-            
+
             return new WebViewControlHost(wvc);
         }
 
