@@ -798,7 +798,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         private void OnNavigationCompleted(object sender, WebViewNavigationCompletedEventArgs args)
-
         {
             // We could have used
             // if (NavigationCompleted != null) NavigationCompleted(this, args);

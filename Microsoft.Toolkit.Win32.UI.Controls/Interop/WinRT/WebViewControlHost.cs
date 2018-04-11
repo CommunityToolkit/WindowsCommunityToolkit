@@ -794,7 +794,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         private void OnMoveFocusRequested(WebViewControl sender, Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs args) => OnMoveFocusRequested(args);
 
         private void OnNavigationCompleted(WebViewNavigationCompletedEventArgs args)
-
         {
             // We could have used
             // if (NavigationCompleted != null) NavigationCompleted(this, args);
