@@ -30,8 +30,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         internal string CSDVersion;
         internal ushort ServicePackMajor;
         internal ushort ServicePackMinor;
-        internal short SuiteMask ;
+        internal short SuiteMask;
         internal byte ProductType;
-        internal byte Reserved ;
+        internal byte Reserved;
     }
 }
