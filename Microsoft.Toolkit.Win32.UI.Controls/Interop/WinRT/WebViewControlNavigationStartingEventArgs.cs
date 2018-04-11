@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         [SecurityCritical]
         internal WebViewControlNavigationStartingEventArgs(Windows.Web.UI.WebViewControlNavigationStartingEventArgs args, Uri uri)
-            :this(args)
+            : this(args)
         {
             Uri = uri;
         }
