@@ -280,7 +280,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// Loads the HTML content at the specified Uniform Resource Identifier (URI).
         /// </summary>
         /// <param name="source">The Uniform Resource Identifier (URI) to load.</param>
-        /// <see cref="Navigate(System.String)"/> is asynchronous. Use the <see cref="NavigationCompleted"/> event to detect when
+        /// <see cref="Navigate(string)"/> is asynchronous. Use the <see cref="NavigationCompleted"/> event to detect when
         /// navigation has completed.
         void Navigate(string source);
 
