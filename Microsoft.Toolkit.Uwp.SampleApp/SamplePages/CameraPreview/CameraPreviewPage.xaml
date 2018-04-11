@@ -6,25 +6,30 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="30">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Frame Source Group"></TextBlock>
-            <ComboBox x:Name="FrameSourceGroupCombo" SelectionChanged="FrameSourceGroupCombo_SelectionChanged">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding DisplayName}"></TextBlock>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-        </StackPanel>
-        <StackPanel Orientation="Vertical" Grid.Row="1">
-            <Button x:Name="CaptureVideoFrame" Content="Capture Current Video Frame" Click="CaptureVideoFrame_Click"></Button>
-            <Image x:Name="CurrentVideoFrameImage"></Image>
-        </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Frame Source Group"></TextBlock>
+        <ComboBox x:Name="FrameSourceGroupCombo" Grid.Column="1" SelectionChanged="FrameSourceGroupCombo_SelectionChanged" HorizontalAlignment="Stretch" Margin="0,0,176,0">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding DisplayName}"></TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <TextBlock Text="Video Preview" Grid.Row="1"></TextBlock>
+        <MediaPlayerElement x:Name="MediaPlayerElementControl" Grid.Row="1" Grid.Column="1" 
+                            MinWidth="300" MinHeight="300" Width="400" Height="400" HorizontalAlignment="Left"  
+                            AreTransportControlsEnabled="True">
+        </MediaPlayerElement>
+        <Button x:Name="CaptureVideoFrame" Grid.Row="2" Content="Capture Current Video Frame" Click="CaptureVideoFrame_Click"></Button>
+        <Image x:Name="CurrentVideoFrameImage" Grid.Row="2" Grid.Column="1" MinHeight="300" MinWidth="300" Width="400" Height="400"></Image>
     </Grid>
 </Page>

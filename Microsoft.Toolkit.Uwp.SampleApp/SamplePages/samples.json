@@ -607,6 +607,15 @@
         "CodeFile": "AdvancedCollectionView.bind",
         "Icon": "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/AdvancedCollectionView.md"
+      },
+      {
+        "Name": "CameraPreview",
+        "Type": "CameraPreviewPage",
+        "About": "Allows to easily use camera media capture to preview and capture video frames.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/CameraHelper/CameraHelper.cs",
+        "CodeFile": "CameraPreviewCode.bind",
+        "Icon": "/SamplePages/CameraPreview/Camera.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/CameraHelper.md"
       }
     ]
   },

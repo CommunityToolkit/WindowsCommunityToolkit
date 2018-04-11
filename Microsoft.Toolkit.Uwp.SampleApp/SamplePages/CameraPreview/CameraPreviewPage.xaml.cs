@@ -1,15 +1,16 @@
-﻿using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
 using Windows.Graphics.Imaging;
 using Windows.Media;
 using Windows.Media.Capture.Frames;
+using Windows.Media.Core;
+using Windows.Media.Playback;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
@@ -17,9 +18,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class CameraPreviewPage : Page
     {
-        private CameraHelper cameraHelper;
+        private CameraHelper _cameraHelper;
         private VideoFrame _currentVideoFrame;
-        private SoftwareBitmapSource softwareBitmapSource;
+        private SoftwareBitmap _softwareBitmap;
+        private SoftwareBitmapSource _softwareBitmapSource;
+        private MediaPlayer _mediaPlayer;
 
         public CameraPreviewPage()
         {
@@ -29,10 +32,44 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            softwareBitmapSource = new SoftwareBitmapSource();
-            CurrentVideoFrameImage.Source = softwareBitmapSource;
+            _softwareBitmapSource = new SoftwareBitmapSource();
+            CurrentVideoFrameImage.Source = _softwareBitmapSource;
 
             await InitFrameSourcesAsync();
+        }
+
+        protected override async void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            await _cameraHelper?.Cleanup();
+            CleanUpMediaPlayer();
+        }
+
+        private void CleanUpMediaPlayer()
+        {
+            if (_mediaPlayer != null)
+            {
+                _mediaPlayer.Dispose();
+                _mediaPlayer = null;
+            }
+        }
+
+        private void SetMediaPlayerSource()
+        {
+            var frameSource = _cameraHelper?.FrameSource;
+            if (frameSource != null)
+            {
+                if (_mediaPlayer == null)
+                {
+                    _mediaPlayer = new MediaPlayer
+                    {
+                        AutoPlay = true,
+                        RealTimePlayback = true
+                    };
+                }
+
+                _mediaPlayer.Source = MediaSource.CreateFromMediaFrameSource(frameSource);
+                MediaPlayerElementControl.SetMediaPlayer(_mediaPlayer);
+            }
         }
 
         private void CameraHelper_VideoFrameArrived(object sender, VideoFrameEventArgs e)
@@ -40,6 +77,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (e.VideoFrame != null)
             {
                 _currentVideoFrame = e.VideoFrame;
+                _softwareBitmap = e.SoftwareBitmap;
             }
         }
 
@@ -65,29 +103,32 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var selectedGroup = FrameSourceGroupCombo.SelectedItem as MediaFrameSourceGroup;
             if (selectedGroup != null)
             {
-                if (cameraHelper == null)
+                if (_cameraHelper == null)
                 {
-                    cameraHelper = new CameraHelper();
+                    _cameraHelper = new CameraHelper();
 
                     // Subscribe to the video frame as they arrive
-                    cameraHelper.VideoFrameArrived += CameraHelper_VideoFrameArrived;
+                    _cameraHelper.VideoFrameArrived += CameraHelper_VideoFrameArrived;
                 }
 
-                await cameraHelper.InitializeAndStartCapture(selectedGroup);
+                await _cameraHelper.InitializeAndStartCapture(selectedGroup);
+
+                SetMediaPlayerSource();
             }
         }
 
         private async void CaptureVideoFrame_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            if (_currentVideoFrame != null)
+            var targetSoftwareBitmap = _softwareBitmap;
+
+            if (_softwareBitmap != null)
             {
-                var softwareBitmap = _currentVideoFrame.SoftwareBitmap;
-                if (softwareBitmap != null &&
-                    (softwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 || softwareBitmap.BitmapAlphaMode == BitmapAlphaMode.Straight))
+                if (_softwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 || _softwareBitmap.BitmapAlphaMode == BitmapAlphaMode.Straight)
                 {
-                    softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
-                    await softwareBitmapSource.SetBitmapAsync(softwareBitmap);
+                    targetSoftwareBitmap = SoftwareBitmap.Convert(_softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
                 }
+
+                await _softwareBitmapSource.SetBitmapAsync(targetSoftwareBitmap);
             }
         }
     }

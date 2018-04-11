@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Graphics.Imaging;
 using Windows.Media;
 
 namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
@@ -15,5 +16,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         /// <summary>
         /// Gets or sets Video Frame</summary>
         public VideoFrame VideoFrame { get; set; }
+
+        /// <summary>
+        /// Gets or sets SoftwareBitmap
+        /// </summary>
+        public SoftwareBitmap SoftwareBitmap { get; set; }
     }
 }

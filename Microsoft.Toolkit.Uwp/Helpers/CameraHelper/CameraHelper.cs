@@ -22,6 +22,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         private MediaFrameSource _frameSource;
 
         /// <summary>
+        /// Gets the current MediaFrameSource
+        /// </summary>
+        public MediaFrameSource FrameSource { get => _frameSource; }
+
+        /// <summary>
         /// Event raised when a new video frame arrives.
         /// </summary>
         public event EventHandler<VideoFrameEventArgs> VideoFrameArrived;
@@ -39,12 +44,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task InitializeAndStartCapture(MediaFrameSourceGroup group)
         {
-            Cleanup();
+            await Cleanup();
+            _group = group;
             await InitMediaCaptureAsync();
 
             if (_frameSource != null)
             {
-                _frameReader = await _mediaCapture.CreateFrameReaderAsync(_frameSource, MediaEncodingSubtypes.Argb32);
+                _frameReader = await _mediaCapture.CreateFrameReaderAsync(_frameSource);
                 _frameReader.AcquisitionMode = MediaFrameReaderAcquisitionMode.Realtime;
                 Debug.WriteLine($"Frame Reader created on source: {_frameSource.Info.Id}");
             }
@@ -104,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
             catch (Exception ex)
             {
                 Debug.WriteLine("Failed to initialize media capture: " + ex.Message);
-                Cleanup();
+                await Cleanup();
             }
         }
 
@@ -142,22 +148,21 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
                     return;
                 }
 
-                var videoFrame = frame.VideoMediaFrame.GetVideoFrame();
+                var vmf = frame.VideoMediaFrame;
 
                 EventHandler<VideoFrameEventArgs> handler = VideoFrameArrived;
-                var frameArgs = new VideoFrameEventArgs() { VideoFrame = videoFrame };
+                var frameArgs = new VideoFrameEventArgs() { VideoFrame = vmf.GetVideoFrame(), SoftwareBitmap = vmf.SoftwareBitmap };
                 handler?.Invoke(sender, frameArgs);
             }
         }
 
-        private void Cleanup()
+        /// <summary>
+        /// Clean up and dispose resources
+        /// </summary>
+        /// <returns>>A <see cref="Task"/> representing the asynchronous operation.></returns>
+        public async Task Cleanup()
         {
-            if (_frameReader != null)
-            {
-                _frameReader.FrameArrived -= Reader_FrameArrived;
-                _frameReader.Dispose();
-                _frameReader = null;
-            }
+            await StopReaderAsync();
 
             if (_mediaCapture != null)
             {
