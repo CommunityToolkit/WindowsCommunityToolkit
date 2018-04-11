@@ -250,8 +250,12 @@ public:
 internal:
 
 	GazePointer(UIElement^ root);
+    void OnPageUnloaded(Object^ sender, RoutedEventArgs^ args);
+    EventRegistrationToken _unloadedToken;
 
 private:
+
+    bool _isShuttingDown;
 
 	TimeSpan GetDefaultPropertyValue(GazePointerState state);
 

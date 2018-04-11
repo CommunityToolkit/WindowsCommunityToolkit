@@ -31,10 +31,27 @@ GazePointer^ GazeApi::GetGazePointer(Page^ page)
         gazePointer = ref new GazePointer(page);
         page->SetValue(GazePointerProperty, gazePointer);
 
+        gazePointer->_unloadedToken = page->Unloaded += ref new RoutedEventHandler(gazePointer, &GazePointer::OnPageUnloaded);
+
         gazePointer->IsCursorVisible = safe_cast<bool>(page->GetValue(GazeApi::IsGazeCursorVisibleProperty));
     }
 
     return gazePointer;
+}
+
+void GazePointer::OnPageUnloaded(Object^ sender, RoutedEventArgs^ e)
+{
+    _isShuttingDown = true;
+    IsCursorVisible = false;
+
+    auto page = safe_cast<Page^>(_rootElement);
+    page->Unloaded -= _unloadedToken;
+    page->ClearValue(GazePointerProperty);
+
+    //if (_gazeInputSource != nullptr)
+    //{
+    //    _gazeInputSource->GazeMoved -= _gazeMovedToken;
+    //}
 }
 
 static void OnIsGazeEnabledChanged(DependencyObject^ ob, DependencyPropertyChangedEventArgs^ args)
@@ -612,13 +629,16 @@ void GazePointer::RaiseGazePointerEvent(UIElement^ target, GazePointerState stat
 
 void GazePointer::OnGazeMoved(GazeInputSourcePreview^ provider, GazeMovedPreviewEventArgs^ args)
 {
-    auto intermediatePoints = args->GetIntermediatePoints();
-    for each(auto point in intermediatePoints)
+    if (!_isShuttingDown)
     {
-        auto position = point->EyeGazePosition;
-        if (position != nullptr)
+        auto intermediatePoints = args->GetIntermediatePoints();
+        for each(auto point in intermediatePoints)
         {
-            ProcessGazePoint(point->Timestamp, position->Value);
+            auto position = point->EyeGazePosition;
+            if (position != nullptr)
+            {
+                ProcessGazePoint(point->Timestamp, position->Value);
+            }
         }
     }
 }

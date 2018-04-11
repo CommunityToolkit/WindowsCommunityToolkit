@@ -45,7 +45,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             rootFrame = Window.Current.Content as Frame;
             gazeInputSourcePreview = GazeInputSourcePreview.GetForCurrentView();
             gazeInputSourcePreview.GazeMoved += GazeInputSourcePreview_GazeMoved;
-
         }
 
         private void UpdateGazeHistory(GazePointPreview pt)
