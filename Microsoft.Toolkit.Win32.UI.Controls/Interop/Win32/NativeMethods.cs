@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         // Critical : P-Invokes
         [SecurityCritical]
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "CreateWindowExW")]
+        [DllImport(ExternDll.User32, SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "CreateWindowExW")]
         private static extern IntPtr _CreateWindowEx(
             WS_EX dwExStyle,
             [MarshalAs(UnmanagedType.LPWStr)] string lpClassName,
@@ -172,14 +172,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         // Critical : P-Invokes
         [SecurityCritical]
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport(ExternDll.User32, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DestroyWindow(IntPtr hwnd);
 
         // Critical : P-Invokes
         [SecurityCritical]
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("user32.dll")]
+        [DllImport(ExternDll.User32)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsWindow(IntPtr hwnd);
 
@@ -187,7 +187,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         // Critical : P-Invokes
         [SecurityCritical]
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("kernel32.dll", EntryPoint = "GetModuleFileName", CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(ExternDll.Kernel32, EntryPoint = "GetModuleFileName", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern int _GetModuleFileName(IntPtr hModule, StringBuilder lpFilename, int nSize);
 
 
@@ -222,7 +222,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
 
         // Critical : P-Invokes
         [SecurityCritical]
-        [DllImport("kernel32.dll", EntryPoint = "GetModuleHandleW", CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(ExternDll.Kernel32, EntryPoint = "GetModuleHandleW", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern IntPtr _GetModuleHandle([MarshalAs(UnmanagedType.LPWStr)] string lpModuleName);
 
 
