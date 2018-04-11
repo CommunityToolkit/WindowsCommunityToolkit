@@ -321,7 +321,5 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
                 return AppDomainHasUnitTestAssembly() || TypeHasUnitTestAttribute();
             }
         }
-
-
     }
 }

@@ -33,6 +33,5 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         internal short SuiteMask ;
         internal byte ProductType;
         internal byte Reserved ;
-
     }
 }

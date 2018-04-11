@@ -35,7 +35,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
                     uri.IsAbsoluteUri ? UriComponents.AbsoluteUri : UriComponents.SerializationInfoString,
                     UriFormat.SafeUnescaped),
                 MAX_URL_LENGTH).ToString();
-
         }
     }
 }

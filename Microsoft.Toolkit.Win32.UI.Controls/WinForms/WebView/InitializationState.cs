@@ -38,5 +38,4 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// </summary>
         IsInitialized,
     }
-
 }
