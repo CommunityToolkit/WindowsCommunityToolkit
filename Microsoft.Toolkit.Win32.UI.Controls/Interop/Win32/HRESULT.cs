@@ -273,18 +273,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
             get { return (int)_value < 0; }
         }
 
-        [
-            SuppressMessage(
+        [SuppressMessage(
                 "Microsoft.Usage",
                 "CA2201:DoNotRaiseReservedExceptionTypes",
-                Justification = "Only recreating Exceptions that were already raised."),
-            SuppressMessage(
+                Justification = "Only recreating Exceptions that were already raised.")]
+        [SuppressMessage(
                 "Microsoft.Security",
-                "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands"),
-            SuppressMessage(
+                "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
+        [SuppressMessage(
                 "Microsoft.Globalization",
-                "CA1303:DoNotPassLiteralsAsLocalizedParameters")
-        ]
+                "CA1303:DoNotPassLiteralsAsLocalizedParameters")]
         public void ThrowIfFailed(string message = null)
         {
             if (Failed)
