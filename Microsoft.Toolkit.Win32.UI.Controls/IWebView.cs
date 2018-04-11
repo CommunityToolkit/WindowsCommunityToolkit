@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// script. To determine how long the script has been running, check the <see cref="WebViewControlLongRunningScriptDetectedEventArgs.ExecutionTime"/>
         /// property of the <see cref="WebViewControlLongRunningScriptDetectedEventArgs"/> object. To halt the script, set the event args
         /// <see cref="WebViewControlLongRunningScriptDetectedEventArgs.StopPageScriptExecution"/> property to true. The halted script will
-        /// not execute again unless it is reloaded during a subseqent <see cref="IWebView"/> navigation.
+        /// not execute again unless it is reloaded during a subsequent <see cref="IWebView"/> navigation.
         /// </remarks>
         /// <seealso cref="WebViewControlLongRunningScriptDetectedEventArgs"/>
         /// <seealso cref="WebViewControlLongRunningScriptDetectedEventArgs.ExecutionTime"/>
@@ -293,7 +293,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// navigation has completed.
         ///
         /// <see cref="NavigateToString"/> supports content with references to external files such as CSS, scripts, images,
-        ///  and fonts. However, it does not provide a way to generate or provide these resources programatically.
+        ///  and fonts. However, it does not provide a way to generate or provide these resources programmatically.
         /// </remarks>
         void NavigateToString(string text);
 

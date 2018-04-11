@@ -358,7 +358,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         [SuppressMessage(
             "Microsoft.Security",
             "CA2136:TransparencyAnnotationsShouldNotConflict",
-            Justification = "Calls safe overload of Win32Exception ctor that explicity sets the error code and message.")]
+            Justification = "Calls safe overload of Win32Exception ctor that explicitly sets the error code and message.")]
         private static Exception CreateWin32Exception(int code, string message)
         {
             return new Win32Exception(code, message);

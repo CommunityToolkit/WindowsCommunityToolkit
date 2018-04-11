@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         STATICEDGE = 0x00020000,
         APPWINDOW = 0x00040000,
         LAYERED = 0x00080000,
-        NOINHERITLAYOUT = 0x00100000, // Disable inheritence of mirroring by children
+        NOINHERITLAYOUT = 0x00100000, // Disable inheritance of mirroring by children
         LAYOUTRTL = 0x00400000,       // Right to left mirroring
         COMPOSITED = 0x02000000,
         NOACTIVATE = 0x08000000,

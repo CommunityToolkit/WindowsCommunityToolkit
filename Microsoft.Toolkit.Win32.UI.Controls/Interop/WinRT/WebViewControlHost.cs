@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// script. To determine how long the script has been running, check the <see cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs.ExecutionTime"/>
         /// property of the <see cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/> object. To halt the script, set the event args
         /// <see cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs.StopPageScriptExecution"/> property to true. The halted script will
-        /// not execute again unless it is reloaded during a subseqent <see cref="WebViewControlHost"/> navigation.
+        /// not execute again unless it is reloaded during a subsequent <see cref="WebViewControlHost"/> navigation.
         /// </remarks>
         /// <seealso cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/>
         /// <seealso cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs.ExecutionTime"/>
@@ -524,7 +524,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 {
                     NavigatingToAboutBlank = true;
 
-                    // TODO: Make this readonly static
+                    // TODO: Make this read only static
                     source = new Uri("about:blank");
                 }
                 else
@@ -800,7 +800,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             // However, if there is a subscriber and the moment the null check and the call to
             // the event handler by the method is invoked, the subscriber may unsubscribe
             // (e.g. on a different thread) and cause a NullReferenceException.
-            // To work around this create a temporarly local variable to store the reference and check that
+            // To work around this create a temporarily local variable to store the reference and check that
             var handler = NavigationCompleted;
             if (handler != null)
             {
@@ -867,7 +867,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
                     var a = new WebViewControlNavigationStartingEventArgs(args, url);
 
-                    // Launching a navigation from the NavigationStarting event handler causes reentrancy
+                    // Launching a navigation from the NavigationStarting event handler causes re-entrancy
                     var lastNavigation = LastNavigation;
 
                     // Fire navigating event

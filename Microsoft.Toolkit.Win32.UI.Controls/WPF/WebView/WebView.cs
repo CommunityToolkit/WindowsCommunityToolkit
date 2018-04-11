@@ -247,7 +247,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// script. To determine how long the script has been running, check the <see cref="WebViewControlLongRunningScriptDetectedEventArgs.ExecutionTime"/>
         /// property of the <see cref="WebViewControlLongRunningScriptDetectedEventArgs"/> object. To halt the script, set the event args
         /// <see cref="WebViewControlLongRunningScriptDetectedEventArgs.StopPageScriptExecution"/> property to true. The halted script will
-        /// not execute again unless it is reloaded during a subseqent <see cref="WebView"/> navigation.
+        /// not execute again unless it is reloaded during a subsequent <see cref="WebView"/> navigation.
         /// </remarks>
         /// <seealso cref="WebViewControlLongRunningScriptDetectedEventArgs"/>
         /// <seealso cref="WebViewControlLongRunningScriptDetectedEventArgs.ExecutionTime"/>
@@ -649,7 +649,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Debug.Indent();
             Debug.WriteLine($"oldBounds={{x={x} y={y} width={width} height={height} clientWidth={clientWidth} clientHeight={clientHeight}}}");
 #endif
-            // HACK: looks like the virtal pos is counted twice, giving a gap
+            // HACK: looks like the vertical pos is counted twice, giving a gap
             y = 0;
 
 #if DEBUG_LAYOUT
@@ -802,7 +802,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             // However, if there is a subscriber and the moment the null check and the call to
             // the event handler by the method is invoked, the subscriber may unsubscribe
             // (e.g. on a different thread) and cause a NullReferenceException.
-            // To work around this create a temporarly local variable to store the reference and check that
+            // To work around this create a temporally local variable to store the reference and check that
             var handler = NavigationCompleted;
             if (handler != null)
             {

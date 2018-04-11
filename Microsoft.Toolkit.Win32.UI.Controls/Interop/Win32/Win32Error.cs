@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly Win32Error ERROR_CANCELLED = new Win32Error(1223);
 
-        /// <summary>Not all provileges or groups references are assigned to the caller </summary>
+        /// <summary>Not all privileges or groups references are assigned to the caller </summary>
         [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         public static readonly Win32Error ERROR_NOT_ALL_ASSIGNED = new Win32Error(1300);
 
@@ -124,7 +124,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
 
         /// <summary>Performs HRESULT_FROM_WIN32 conversion.</summary>
         /// <param name="error">The Win32 error being converted to an HRESULT.</param>
-        /// <returns>The equivilent HRESULT value.</returns>
+        /// <returns>The equivalent HRESULT value.</returns>
         public static explicit operator HRESULT(Win32Error error)
         {
             // #define __HRESULT_FROM_WIN32(x)
@@ -140,7 +140,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         // Method version of the cast operation
 
         /// <summary>Performs HRESULT_FROM_WIN32 conversion.</summary>
-        /// <returns>The equivilent HRESULT value.</returns>
+        /// <returns>The equivalent HRESULT value.</returns>
         public HRESULT ToHRESULT()
         {
             return (HRESULT)this;

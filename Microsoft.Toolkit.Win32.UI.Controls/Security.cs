@@ -94,7 +94,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             CachedWebBrowserPermission.Demand();
         }
 
-        [SecurityCritical] // Exceptions raised by a demand may contain security sensisitve information
+        [SecurityCritical] // Exceptions raised by a demand may contain security sensitive information
         internal static void DemandWebPermission(Uri uri)
         {
             if (uri == null)
