@@ -30,10 +30,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             infiniteCanvas.SetCanvasWidthHeight();
         }
 
-        private static void ToolbarVisibilityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void IsToolbarVisiblePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var infiniteCanvas = (InfiniteCanvas)d;
-            infiniteCanvas._canvasToolbarContainer.Visibility = infiniteCanvas.ToolbarVisibility;
+            if (infiniteCanvas._canvasToolbarContainer != null)
+            {
+                infiniteCanvas._canvasToolbarContainer.Visibility = infiniteCanvas.IsToolbarVisible ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         private static void MinMaxZoomChangedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -59,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void EnableTouchInkingButton_Unchecked(object sender, RoutedEventArgs e)
         {
-            _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen;
+            _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Pen;
         }
 
         private void EnableTouchInkingButton_Checked(object sender, RoutedEventArgs e)

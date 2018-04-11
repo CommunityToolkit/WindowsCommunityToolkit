@@ -89,23 +89,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(LargeCanvasWidthHeight, CanvasWidthHeightPropertyChanged));
 
         /// <summary>
-        /// Gets or sets the visibility of the toolbar.
+        /// Gets or sets a value indicating whether the toolbar is visible or not.
         /// </summary>
-        public Visibility ToolbarVisibility
+        public bool IsToolbarVisible
         {
-            get { return (Visibility)GetValue(ToolbarVisibilityProperty); }
-            set { SetValue(ToolbarVisibilityProperty, value); }
+            get { return (bool)GetValue(IsToolbarVisibleProperty); }
+            set { SetValue(IsToolbarVisibleProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="ToolbarVisibility"/> dependency property.
+        /// Identifies the <see cref="IsToolbarVisible "/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty ToolbarVisibilityProperty =
+        public static readonly DependencyProperty IsToolbarVisibleProperty =
             DependencyProperty.Register(
-                nameof(ToolbarVisibility),
-                typeof(Visibility),
+                nameof(IsToolbarVisible),
+                typeof(bool),
                 typeof(InfiniteCanvas),
-                new PropertyMetadata(Visibility.Visible, ToolbarVisibilityPropertyChanged));
+                new PropertyMetadata(true, IsToolbarVisiblePropertyChanged));
 
         /// <summary>
         /// Gets or sets the MaxZoomFactor for the canvas, range between 1 to 10 and the default value is 4
@@ -230,7 +230,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ConfigureControls()
         {
-            _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen;
+            _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Pen;
             _inkSync = _inkCanvas.InkPresenter.ActivateCustomDrying();
             _inkCanvas.InkPresenter.StrokesCollected += OnStrokesCollected;
 
