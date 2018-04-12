@@ -47,7 +47,7 @@
             <Grid x:Name="Container"
                   Grid.RowSpan="2"
                   Opacity="0" />
-            <Grid x:Name="PrintCanvas"
+            <Grid x:Name="CustomPrintContainer"
                   Opacity="0" />
             <Grid x:Name="DirectPrintContainer">
                 <ListView x:Name="PrintableContent"

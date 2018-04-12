@@ -110,7 +110,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             Shell.Current.DisplayWaitRing = true;
 
-            _printHelper = new PrintHelper(PrintCanvas);
+            // Provide an invisible container
+            _printHelper = new PrintHelper(CustomPrintContainer);
 
             var pageNumber = 0;
 
@@ -121,12 +122,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
                 grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
-                // Header
-                var header = new TextBlock { Text = "UWP Community Sample App Print Helper Custom Print", Margin = new Thickness(0, 0, 0, 20) };
+                // Static header
+                var header = new TextBlock { Text = "UWP Community Toolkit Sample App - Print Helper - Custom Print", Margin = new Thickness(0, 0, 0, 20) };
                 Grid.SetRow(header, 0);
                 grid.Children.Add(header);
 
-                // Main content
+                // Main content with layout from data template
                 var cont = new ContentControl();
                 cont.ContentTemplate = Resources["CustomPrintTemplate"] as DataTemplate;
                 cont.DataContext = item;
