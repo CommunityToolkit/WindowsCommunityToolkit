@@ -7,7 +7,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, animationset, ani
 
 # AnimationSet
 
-The AnimationSet class defines an object for storing and managing Storyboard and CompositionAnimations for an element. AnimationSet includes [Blur](\Blur.md), [Fade](\Fade.md), [Light](\Light.md), [Offset](\Offset.md), [Rotate](\Rotate.md), [Saturation](\Saturation.md) and [Scale](\Scale.md) animations. AnimationSet animations is applied to all the XAML elements in its parent control/panel. AnimationSet animations doesn't affect the functionality of the control.
+The AnimationSet class defines an object for storing and managing Storyboard and CompositionAnimations for an element. AnimationSet includes [Blur](Blur.md), [Fade](Fade.md), [Light](Light.md), [Offset](Offset.md), [Rotate](Rotate.md), [Saturation](Saturation.md) and [Scale](Scale.md) animations. AnimationSet animations is applied to all the XAML elements in its parent control/panel. AnimationSet animations doesn't affect the functionality of the control.
 
 ## Syntax
 
