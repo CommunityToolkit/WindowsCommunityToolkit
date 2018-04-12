@@ -14,6 +14,7 @@ using System;
 using System.Windows.Input;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
+using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -99,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="UseRefreshContainerWhenPossible"/> dependency property
         /// </summary>
         public static readonly DependencyProperty UseRefreshContainerWhenPossibleProperty =
-            DependencyProperty.Register(nameof(UseRefreshContainerWhenPossibleProperty), typeof(bool), typeof(PullToRefreshListView), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(UseRefreshContainerWhenPossible), typeof(bool), typeof(PullToRefreshListView), new PropertyMetadata(false, OnUseRefreshContainerWhenPossibleChanged));
 
         private const string PartRoot = "Root";
         private const string PartScroller = "ScrollViewer";
@@ -129,6 +130,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double _overscrollMultiplier;
         private bool _isManipulatingWithMouse;
         private double _startingVerticalOffset;
+        private ControlTemplate _previousTemplateUsed;
 
         /// <summary>
         /// Gets or sets a value indicating whether the HamburgerMenu should use the NavigationView when possible (Fall Creators Update and above)
@@ -139,6 +141,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (bool)GetValue(UseRefreshContainerWhenPossibleProperty); }
             set { SetValue(UseRefreshContainerWhenPossibleProperty, value); }
         }
+
+        /// <summary>
+        /// Gets a value indicating whether <see cref="RefreshContainer"/> is supported
+        /// </summary>
+        public static bool IsRefreshContainerSupported { get; } = ApiInformation.IsTypePresent("Windows.UI.Xaml.Controls.RefreshContainer");
 
         /// <summary>
         /// Occurs when the user has requested content to be refreshed
@@ -677,6 +684,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnReleaseToRefreshLabelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             d.SetValue(ReleaseToRefreshLabelProperty, e.NewValue);
+        }
+
+        private static void OnUseRefreshContainerWhenPossibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var list = d as PullToRefreshListView;
+            if (list == null)
+            {
+                return;
+            }
+
+            if (list.UseRefreshContainerWhenPossible && IsRefreshContainerSupported)
+            {
+                ResourceDictionary dict = new ResourceDictionary();
+                dict.Source = new System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/PullToRefreshListView/PullToRefreshListViewRefreshContainerTemplate.xaml");
+                list._previousTemplateUsed = list.Template;
+                list.Template = dict["PullToRefreshListViewRefreshContainerTemplate"] as ControlTemplate;
+            }
+            else if (!list.UseRefreshContainerWhenPossible &&
+                     e.OldValue is bool oldValue &&
+                     oldValue &&
+                     list._previousTemplateUsed != null)
+            {
+                list.Template = list._previousTemplateUsed;
+            }
         }
 
         /// <summary>
