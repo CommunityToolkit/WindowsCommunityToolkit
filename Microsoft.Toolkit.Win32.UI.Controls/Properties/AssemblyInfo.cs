@@ -74,7 +74,7 @@ using System.Security;
 [assembly: Dependency("Windows.Storage.winmd", LoadHint.Sometimes)]
 
 // InternalsVisableTo
-[assembly: InternalsVisibleTo("Microsoft.Toolkit.Win32.UI.Controls.WinForms.Tests")]
+[assembly: InternalsVisibleTo("Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView")]
 
 [assembly: SecurityRules(SecurityRuleSet.Level2)]
 #if ALLOW_PARTIALLY_TRUSTED_CALLERS
