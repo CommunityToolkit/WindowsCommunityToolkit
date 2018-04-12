@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             return f.GetAwaiter().GetResult();
         }
 
-        internal static async Task<WebViewControlHost> CreateWebViewControlHostAsync(
+        internal static Task<WebViewControlHost> CreateWebViewControlHostAsync(
             this WebViewControlProcess process,
             IntPtr hostWindowHandle,
             Rectangle bounds)
@@ -44,19 +44,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                 throw new ArgumentNullException(nameof(hostWindowHandle));
             }
 
-            var wvc = await await Task.Run(() => process.CreateWebViewControlAsync(hostWindowHandle, bounds)).ConfigureAwait(false);
-
-            return new WebViewControlHost(wvc);
-        }
-
-        internal static IAsyncOperation<WebViewControl> CreateWebViewControlAsync(
-            this WebViewControlProcess process,
-            IntPtr hostWindowHandle,
-            Rectangle bounds)
-        {
-            Verify.IsNotNull(process);
             var rect = new Rect(bounds.X, bounds.Y, bounds.Width, bounds.Height);
-            return process.CreateWebViewControlAsync(hostWindowHandle, rect);
+            return process.CreateWebViewControlHostAsync(hostWindowHandle, rect);
+            //var wvc = await await Task.Run(() => process.CreateWebViewControlHostAsync(hostWindowHandle, rect)).ConfigureAwait(false);
+            //return wvc;
         }
+
+        //internal static IAsyncOperation<WebViewControl> CreateWebViewControlAsync(
+        //    this WebViewControlProcess process,
+        //    IntPtr hostWindowHandle,
+        //    Rectangle bounds)
+        //{
+        //    Verify.IsNotNull(process);
+        //    var rect = new Rect(bounds.X, bounds.Y, bounds.Width, bounds.Height);
+        //    return process.CreateWebViewControlAsync(hostWindowHandle, rect);
+        //}
     }
 }

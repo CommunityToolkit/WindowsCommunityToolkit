@@ -30,17 +30,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         public WebViewControlProcess(WebViewControlProcessOptions processOptions)
+            : this(new Windows.Web.UI.Interop.WebViewControlProcess(processOptions.ToWinRtWebViewControlProcessOptions()))
         {
-            if (processOptions is null)
-            {
-                throw new ArgumentNullException(nameof(processOptions));
-            }
-
-            _process = new Windows.Web.UI.Interop.WebViewControlProcess(processOptions.ToWinRtWebViewControlProcessOptions());
-            SubscribeEvents();
         }
 
-        internal WebViewControlProcess(Windows.Web.UI.Interop.WebViewControlProcess process)
+        private WebViewControlProcess(Windows.Web.UI.Interop.WebViewControlProcess process)
         {
             _process = process ?? throw new ArgumentNullException(nameof(process));
             SubscribeEvents();
@@ -60,28 +54,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         public void Terminate() => _process.Terminate();
 
-        internal IAsyncOperation<WebViewControl> CreateWebViewControlAsync(
-            IntPtr hostWindowHandle,
-            Rect bounds)
-        {
-            var hwh = hostWindowHandle.ToInt64();
-            return CreateWebViewControlAsync(hwh, bounds);
-        }
-
-        [SecurityCritical]
-        internal IAsyncOperation<WebViewControl> CreateWebViewControlAsync(
-            long hostWindowHandle,
-            Rect bounds)
-        {
-            Security.DemandUnamangedCode();
-            if (hostWindowHandle == 0)
-            {
-                throw new ArgumentNullException(nameof(hostWindowHandle));
-            }
-
-            return _process.CreateWebViewControlAsync(hostWindowHandle, bounds);
-        }
-
         internal async Task<WebViewControlHost> CreateWebViewControlHostAsync(IntPtr hostWindowHandle, Rect bounds)
         {
             if (hostWindowHandle == IntPtr.Zero)
@@ -92,6 +64,28 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             var wvc = await await Task.Run(() => CreateWebViewControlAsync(hostWindowHandle, bounds)).ConfigureAwait(false);
 
             return new WebViewControlHost(wvc);
+        }
+
+        private IAsyncOperation<WebViewControl> CreateWebViewControlAsync(
+                    IntPtr hostWindowHandle,
+                    Rect bounds)
+        {
+            var hwh = hostWindowHandle.ToInt64();
+            return CreateWebViewControlAsync(hwh, bounds);
+        }
+
+        [SecurityCritical]
+        private IAsyncOperation<WebViewControl> CreateWebViewControlAsync(
+            long hostWindowHandle,
+            Rect bounds)
+        {
+            Security.DemandUnamangedCode();
+            if (hostWindowHandle == 0)
+            {
+                throw new ArgumentNullException(nameof(hostWindowHandle));
+            }
+
+            return _process.CreateWebViewControlAsync(hostWindowHandle, bounds);
         }
 
         private void OnWebViewControlProcessExited(Windows.Web.UI.Interop.WebViewControlProcess sender, object args)
