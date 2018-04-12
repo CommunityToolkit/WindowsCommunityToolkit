@@ -27,8 +27,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 				b =>
 				{   
 					b.AddCustomAttributes(nameof(WrapPanel.Orientation),
-						new CategoryAttribute(Properties.Resources.CategoryCommon)
+						new CategoryAttribute(Properties.Resources.CategoryLayout)
 					);
+                    b.AddCustomAttributes(nameof(WrapPanel.HorizontalSpacing),
+                        new CategoryAttribute(Properties.Resources.CategoryLayout)
+                    );
+                    b.AddCustomAttributes(nameof(WrapPanel.VerticalSpacing),
+                        new CategoryAttribute(Properties.Resources.CategoryLayout)
+                    );
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
 				}
 			);

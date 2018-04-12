@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Microsoft.OneDrive.Sdk;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
@@ -17,6 +18,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// <summary>
     /// Class used to store urls to a specific set of thumbnails
     /// </summary>
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
     public class OneDriveThumbnailSet
     {
         /// <summary>

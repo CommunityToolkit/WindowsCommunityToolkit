@@ -1,48 +1,60 @@
 ---
 title: Expander Control
 author: nmetulev
-ms.date: 08/20/2017
 description: The Expander Control provides an expandable container to host any content.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Expander, xaml Control, xaml
 ---
 
 # Expander Control
 
-The **Expander Control** provides an expandable container to host any content.
-You can show or hide this content by toggling a Header.
-
-You can use these properties :
-
-* Header
-* HeaderTemplate
-* IsExpanded (define if the content is visible or not)
-* ExpandDirection
-* DisplayMode
-
-You can also use these events :
-
-* Expanded (fires when the expander is opened)
-* Collapsed (fires when the expander is closed)
+The **Expander Control** provides an expandable container to host any content.  It is a specialized form of a [HeaderedContentControl](HeaderedContentControl.md)
+You can show or hide this content by interacting with the Header.
 
 ## Syntax
 
 ```xaml
 
 <controls:Expander Header="Header of the expander"
-                   Foreground="White"
-                   Background="Gray"
-                   IsExpanded="True">
+  Foreground="White"
+  Background="Gray"
+  IsExpanded="True">
+
 	<Grid Height="250">
-        <TextBlock HorizontalAlignment="Center"
-                   TextWrapping="Wrap"
-                   Text="This is the content"
-                   VerticalAlignment="Center" />
-    </Grid>
+    <TextBlock HorizontalAlignment="Center"
+      TextWrapping="Wrap"
+      Text="This is the content"
+      VerticalAlignment="Center" />
+  </Grid>
 </controls:Expander>       
 
 ```
 
 ## Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| ContentOverlay | UIElement | Specifies alternate content to show when the Expander is collapsed. |
+| ExpandDirection | ExpandDirection enum | Specifies the direction of where expanded content should be displayed in relation to the header. |
+| HeaderStyle | Style | Specifies an alternate style template for the `ToggleButton` header control. |
+| IsExpanded | bool | Indicates if the Expander is currently open or closed.  The default is `False`. |
+
+### ContentOverlay
+
+The `ContentOverlay` property can be used to define the content to be shown when the Expander is collapsed
+
+```xaml
+<controls:Expander Header="Header">
+  <Grid>
+    <TextBlock Text="Expanded content" />
+  </Grid>
+
+  <controls:Expander.ContentOverlay>
+    <Grid MinHeight="250">
+      <TextBlock Text="Collapsed content" />
+    </Grid>
+  </controls:Expander.ContentOverlay>
+</controls:Expander>
+```
 
 ### ExpandDirection
 
@@ -53,18 +65,45 @@ The `ExpandDirection` property can take 4 values that will expand the content ba
 * `Right` - from left to right
 * `Left` - from right to left
 
-### DisplayMode
+### HeaderStyle
 
-The `DisplayMode` property can take 2 values that will modify the behavior of the Expander control:
+Allows creating an alternate style for the entire Expander header including the arrow symbol, in contrast to the `HeaderTemplate` which can control the content next to the arrow.
 
-* `Expand` - the content is either visible or collapsed (default)
-* `Overlay` - when the content is collapsed, an overlay content is shown
+For instance to remove the header entirely from the Expander:
+
+```xaml
+  <Page.Resources>
+    <Style x:Key="NoExpanderHeaderStyle" TargetType="ToggleButton">
+      <Setter Property="Height" Value="0"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ToggleButton">
+            <Grid/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </Page.Resources>
+
+  <controls:Expander HeaderStyle="{StaticResource NoExpanderHeaderStyle} IsExpanded="True">
+    <TextBlock Text="My Content"/>
+  </controls:Expander>
+```
+
+## Events
+
+<!-- Explain all events in a table format -->
+
+| Events | Description |
+| -- | -- |
+| Collapsed | Fires when the expander is closed. |
+| Expanded | Fires when the expander is opened. |
 
 ## Example Image
 
 ![Expander animation](../resources/images/Controls-Expander.gif "Expander")
 
-## Example Code
+## Sample Code
 
 [Expander Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Expander)
 
@@ -80,4 +119,9 @@ The `DisplayMode` property can take 2 values that will modify the behavior of th
 
 ## API
 
-* [Expander source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Expander)
+- [Expander source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Expander)
+
+## Related Topics
+
+- [HeaderedControlControl](HeaderedContentControl.md)
+- [ToggleButton](https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.Controls.Primitives.ToggleButton)

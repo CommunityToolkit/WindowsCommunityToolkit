@@ -66,5 +66,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (bool)GetValue(LastChildFillProperty); }
             set { SetValue(LastChildFillProperty, value); }
         }
+
+        /// <summary>
+        /// Identifies the Padding dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="Padding"/> dependency property.</returns>
+        public static readonly DependencyProperty PaddingProperty =
+            DependencyProperty.Register(
+                nameof(Padding),
+                typeof(Thickness),
+                typeof(DockPanel),
+                new PropertyMetadata(default(Thickness), OnPaddingChanged));
+
+        /// <summary>
+        /// Gets or sets the distance between the border and its child object.
+        /// </summary>
+        /// <returns>
+        /// The dimensions of the space between the border and its child as a Thickness value.
+        /// Thickness is a structure that stores dimension values using pixel measures.
+        /// </returns>
+        public Thickness Padding
+        {
+            get { return (Thickness)GetValue(PaddingProperty); }
+            set { SetValue(PaddingProperty, value); }
+        }
     }
 }

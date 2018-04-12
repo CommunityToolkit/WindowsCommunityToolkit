@@ -11,11 +11,10 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Extensions;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics;
 using System.Linq;
-using Assert = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.Assert;
 
 namespace UnitTests.Extensions
 {

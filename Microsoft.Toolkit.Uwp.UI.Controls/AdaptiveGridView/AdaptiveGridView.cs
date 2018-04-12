@@ -37,6 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ScrollBarVisibility _savedHorizontalScrollBarVisibility;
         private Orientation _savedOrientation;
         private bool _needToRestoreScrollStates;
+        private bool _needContainerMarginForLayout;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdaptiveGridView"/> class.
@@ -50,15 +51,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
 
-            // Define ItemContainerStyle in code rather than using the DefaultStyle
-            // to avoid having to define the entire style of a GridView. This can still
-            // be set by the enduser to values of their chosing
-            var style = new Style(typeof(GridViewItem));
-            style.Setters.Add(new Setter(HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
-            style.Setters.Add(new Setter(VerticalContentAlignmentProperty, VerticalAlignment.Stretch));
-            style.Setters.Add(new Setter(MarginProperty, new Thickness(0, 0, 0, 4)));
-            style.Setters.Add(new Setter(PaddingProperty, new Thickness(2, 0, 2, 0)));
-            ItemContainerStyle = style;
+            // Prevent issues with higher DPIs and underlying panel. #1803
+            UseLayoutRounding = false;
         }
 
         /// <summary>
@@ -88,6 +82,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 element.SetBinding(HeightProperty, heightBinding);
                 element.SetBinding(WidthProperty, widthBinding);
             }
+
+            if (obj is ContentControl contentControl)
+            {
+                contentControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+                contentControl.VerticalContentAlignment = VerticalAlignment.Stretch;
+            }
+
+            if (_needContainerMarginForLayout)
+            {
+                _needContainerMarginForLayout = false;
+                RecalculateLayout(ActualWidth);
+            }
         }
 
         /// <summary>
@@ -97,9 +103,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The calculated item width.</returns>
         protected virtual double CalculateItemWidth(double containerWidth)
         {
-            double desiredWidth = double.IsNaN(DesiredWidth) ? containerWidth : DesiredWidth;
+            if (double.IsNaN(DesiredWidth))
+            {
+                return DesiredWidth;
+            }
 
-            var columns = CalculateColumns(containerWidth, desiredWidth);
+            var columns = CalculateColumns(containerWidth, DesiredWidth);
 
             // If there's less items than there's columns, reduce the column count (if requested);
             if (Items != null && Items.Count > 0 && Items.Count < columns && StretchContentForSingleRow)
@@ -107,7 +116,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 columns = Items.Count;
             }
 
-            return containerWidth / columns;
+            // subtract the margin from the width so we place the correct width for placement
+            var fallbackThickness = default(Thickness);
+            var itemMargin = AdaptiveHeightValueConverter.GetItemMargin(this, fallbackThickness);
+            if (itemMargin == fallbackThickness)
+            {
+                // No style explicitly defined, or no items or no container for the items
+                // We need to get an actual margin for proper layout
+                _needContainerMarginForLayout = true;
+            }
+
+            return (containerWidth / columns) - itemMargin.Left - itemMargin.Right;
         }
 
         /// <summary>
@@ -146,9 +165,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // If the width of the internal list view changes, check if more or less columns needs to be rendered.
-            if (e.PreviousSize.Width != e.NewSize.Width)
+            // If we are in center alignment, we only care about relayout if the number of columns we can display changes
+            // Fixes #1737
+            if (HorizontalAlignment != HorizontalAlignment.Stretch)
             {
+                var prevColumns = CalculateColumns(e.PreviousSize.Width, DesiredWidth);
+                var newColumns = CalculateColumns(e.NewSize.Width, DesiredWidth);
+
+                // If the width of the internal list view changes, check if more or less columns needs to be rendered.
+                if (prevColumns != newColumns)
+                {
+                    RecalculateLayout(e.NewSize.Width);
+                }
+            }
+            else if (e.PreviousSize.Width != e.NewSize.Width)
+            {
+                // We need to recalculate width as our size changes to adjust internal items.
                 RecalculateLayout(e.NewSize.Width);
             }
         }
@@ -175,7 +207,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var b = new Binding()
                     {
                         Source = this,
-                        Path = new PropertyPath("ItemHeight")
+                        Path = new PropertyPath("ItemHeight"),
+                        Converter = new AdaptiveHeightValueConverter(),
+                        ConverterParameter = this
                     };
 
                     if (itemsWrapGridPanel != null)
@@ -233,7 +267,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (containerWidth > 0)
             {
                 var newWidth = CalculateItemWidth(containerWidth);
-                ItemWidth = Math.Floor(newWidth - 1);
+                ItemWidth = Math.Floor(newWidth);
             }
         }
     }

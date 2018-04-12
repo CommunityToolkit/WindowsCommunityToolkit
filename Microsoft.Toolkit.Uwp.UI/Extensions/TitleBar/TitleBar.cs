@@ -10,9 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
@@ -20,6 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Provides attached dependency properties for interacting with the <see cref="ApplicationViewTitleBar"/> on a window (app view).
     /// </summary>
+    [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.TitleBarExtensions")]
     public static class TitleBar
     {
         /// <summary>

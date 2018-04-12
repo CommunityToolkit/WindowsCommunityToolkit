@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Services.Core;
+using Microsoft.Toolkit.Parsers.Core;
 
 namespace Microsoft.Toolkit.Services.Bing
 {
@@ -660,12 +660,6 @@ namespace Microsoft.Toolkit.Services.Bing
         /// </summary>
         [StringValue("mn")]
         Mongolian,
-
-        /// <summary>
-        /// Moldavian
-        /// </summary>
-        [StringValue("mo")]
-        Moldavian,
 
         /// <summary>
         /// Marathi

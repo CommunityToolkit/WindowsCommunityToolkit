@@ -12,6 +12,7 @@
 
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Microsoft.Toolkit.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -26,12 +27,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// </remarks>
     public partial class TextBoxRegex
     {
-        private const string DecimalRegex = "^-?[0-9]{1,28}([.,][0-9]{1,28})?$";
-        private const string EmailRegex = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,})+)$";
-        private const string NumberRegex = "^-?[0-9]{1,9}$";
-        private const string PhoneNumberRegex = @"^\s*\+?\s*([0-9][\s-]*){9,}$";
-        private const string CharactersRegex = "^[A-Za-z]+$";
-
         private static void TextBoxRegexPropertyOnChange(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var textbox = sender as TextBox;
@@ -73,6 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             var validationType = (ValidationType)textbox.GetValue(ValidationTypeProperty);
             string regex;
+            bool regexMatch = false;
             switch (validationType)
             {
                 default:
@@ -83,41 +79,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                         return;
                     }
 
+                    regexMatch = Regex.IsMatch(textbox.Text, regex);
                     break;
                 case ValidationType.Decimal:
-                    regex = DecimalRegex;
+                    regexMatch = textbox.Text.IsDecimal();
                     break;
                 case ValidationType.Email:
-                    regex = EmailRegex;
+                    regexMatch = textbox.Text.IsEmail();
                     break;
                 case ValidationType.Number:
-                    regex = NumberRegex;
+                    regexMatch = textbox.Text.IsNumeric();
                     break;
                 case ValidationType.PhoneNumber:
-                    regex = PhoneNumberRegex;
+                    regexMatch = textbox.Text.IsPhoneNumber();
                     break;
                 case ValidationType.Characters:
-                    regex = CharactersRegex;
+                    regexMatch = textbox.Text.IsCharacterString();
                     break;
             }
 
-            if (Regex.IsMatch(textbox.Text, regex))
+            if (!regexMatch && force)
             {
-                textbox.SetValue(IsValidProperty, true);
-            }
-            else
-            {
-                if (force)
+                var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
+                if (validationModel == ValidationMode.Forced)
                 {
-                    var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
-                    if (validationModel == ValidationMode.Forced)
-                    {
-                        textbox.Text = string.Empty;
-                    }
+                    textbox.Text = string.Empty;
                 }
-
-                textbox.SetValue(IsValidProperty, false);
             }
+
+            textbox.SetValue(IsValidProperty, regexMatch);
         }
     }
 }

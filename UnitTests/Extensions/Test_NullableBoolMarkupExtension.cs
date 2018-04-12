@@ -11,14 +11,12 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppContainer;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using UnitTests.Extensions.Helpers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
-
-using Assert = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.Assert;
 
 namespace UnitTests.Extensions
 {

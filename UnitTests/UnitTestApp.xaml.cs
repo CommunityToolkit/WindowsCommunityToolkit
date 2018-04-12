@@ -23,7 +23,7 @@ namespace UnitTests
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    public sealed partial class App : Application
+    public partial class App : Application
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.
@@ -72,7 +72,7 @@ namespace UnitTests
             }
 
             Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.CreateDefaultUI();
-
+            
             // Ensure the current window is active
             Window.Current.Activate();
 

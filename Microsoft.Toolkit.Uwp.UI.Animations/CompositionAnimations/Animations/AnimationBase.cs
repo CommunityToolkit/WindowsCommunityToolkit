@@ -136,6 +136,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="element">The <see cref="UIElement"/> to be animated</param>
         public void StartAnimation(UIElement element)
         {
+            if (element == null)
+            {
+                return;
+            }
+
             var visual = ElementCompositionPreview.GetElementVisual(element);
             var compositor = visual.Compositor;
 

@@ -1,7 +1,6 @@
 ---
 title: ExpressionBuilder
 author: nmetulev
-ms.date: 08/20/2017
 description: The ExpressionBuilder classes are a C#-only alternative to building Composition Expressions with type safety.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, expressions, expressionbuilder
 ---
@@ -173,9 +172,11 @@ var expressionNode = ExpressionValues.Reference.CreateVisualReference("visualA",
 expressionNode.SetReferenceParameter("visualA", _visualC);
 expressionNode.SetScalarParameter("addOffset", 100f);
 ```  
+
 ### <a name="e2e-example"></a>E2E Example
 
 Let's walk through the expression used in the PullToAnimate sample to animate Opacity with InteractionTracker
+
 ```csharp
 // Expression written with strings
 var progressExp = _compositor.CreateExpressionAnimation();
@@ -183,7 +184,9 @@ progressExp.Expression = "Clamp(tracker.Position.Y / tracker.MaxPosition.Y, 0, 1
 progressExp.SetReferenceParameter("tracker", _tracker);
 visual.StartAnimation("Opacity", progressExp);
 ```
+
 Now let's show what this looks like with ExpressionBuilder:
+
 ```csharp
 // Expression written with ExpressionBuilder
 var trackerNode = _tracker.GetReference();

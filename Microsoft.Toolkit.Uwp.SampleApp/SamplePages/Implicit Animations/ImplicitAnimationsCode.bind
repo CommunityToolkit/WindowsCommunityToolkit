@@ -19,8 +19,8 @@
               extensions:VisualEx.CenterPoint="50,50,0">
 
         <animations:Implicit.ShowAnimations>
-          <animations:TranslationAnimation Duration="0:0:1" To="0, 0, 0" ></animations:TranslationAnimation>
-          <animations:OpacityAnimation Duration="0:0:1" To="1.0"></animations:OpacityAnimation>
+          <animations:TranslationAnimation Duration="0:0:1" From="0, -200, 0" To="0" ></animations:TranslationAnimation>
+          <animations:OpacityAnimation Duration="0:0:1" From="0" To="1.0"></animations:OpacityAnimation>
         </animations:Implicit.ShowAnimations>
 
         <animations:Implicit.HideAnimations>

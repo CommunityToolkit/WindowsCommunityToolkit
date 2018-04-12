@@ -13,7 +13,7 @@
 namespace Microsoft.Toolkit.Uwp.Services.Bing
 {
     using System;
-    using Microsoft.Toolkit.Uwp.Services.Core;
+    using Microsoft.Toolkit.Parsers.Core;
 
     /// <summary>
     /// Country filter for search query.

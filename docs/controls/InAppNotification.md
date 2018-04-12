@@ -1,7 +1,6 @@
 ---
 title: InAppNotification XAML Control
 author: nmetulev
-ms.date: 08/20/2017
 description: The InAppNotification control offers the ability to show local notifications in your application.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, InAppNotification, in app notification, xaml control, xaml
 ---
@@ -15,10 +14,8 @@ The *InAppNotification* control offers the ability to show local notifications i
 The control should be placed where you want your notification to be displayed in the page, generally in the root grid.
 
 ```xaml
-
 <controls:InAppNotification
     x:Name="ExampleInAppNotification" />
-
 ```
 
 > [!NOTE]
@@ -30,37 +27,37 @@ You have multiple options to show an in-app notification.
 
 1. By simply displaying the notification using the current template
 
-```csharp
-ExampleInAppNotification.Show();
-```
+    ```csharp
+    ExampleInAppNotification.Show();
+    ```
 
 2. By using a simple text content.
 
-```csharp
-ExampleInAppNotification.Show("Some text.");
-```
+    ```csharp
+    ExampleInAppNotification.Show("Some text.");
+    ```
 
 3. By using a UIElement (with a container as parent, ex: Grid)
 
-```csharp
-var grid = new Grid();
+    ```csharp
+    var grid = new Grid();
 
-// TODO : Construct the Grid in C#
+    // TODO : Construct the Grid in C#
 
-ExampleInAppNotification.Show(grid);
-```
+    ExampleInAppNotification.Show(grid);
+    ```
 
 4. By using a DataTemplate
 
-```csharp
-object inAppNotificationWithButtonsTemplate;
-bool isTemplatePresent = Resources.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);
+    ```csharp
+    object inAppNotificationWithButtonsTemplate;
+    bool isTemplatePresent = Resources.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);
 
-if (isTemplatePresent && inAppNotificationWithButtonsTemplate is DataTemplate)
-{
-    ExampleInAppNotification.Show(inAppNotificationWithButtonsTemplate as DataTemplate);
-}
-```
+    if (isTemplatePresent && inAppNotificationWithButtonsTemplate is DataTemplate)
+    {
+        ExampleInAppNotification.Show(inAppNotificationWithButtonsTemplate as DataTemplate);
+    }
+    ```
 
 ### Notification duration
 
@@ -161,30 +158,30 @@ The default style applied is the Microsoft Edge-like notification.
 Other styles have been added to the Toolkit so you can easily switch to another of your favorite In App Notification styles.
 
 Here is the list of existing styles : 
-* [Microsoft Edge notification style](../..//Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml)
-* [Visual Studio Code notification style](../..//Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml)
+* [Microsoft Edge notification style](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml)
+* [Visual Studio Code notification style](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml)
 
 If you want to use another style than the default one, please follow the example below :
 
 1. Import external styles in your resources
 
-```xaml
-<Page.Resources>
-    <ResourceDictionary>
-        <ResourceDictionary.MergedDictionaries>
-            <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
-        </ResourceDictionary.MergedDictionaries>
+    ```xaml
     <Page.Resources>
-<ResourceDictionary>
-```
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    ```
 
 2. Apply the `Style`
 
-```xaml
-<controls:InAppNotification 
-    x:Name="ExampleVSCodeInAppNotification"
-    Style="{StaticResource VSCodeNotificationStyle}" />
-```
+    ```xaml
+    <controls:InAppNotification 
+        x:Name="ExampleVSCodeInAppNotification"
+        Style="{StaticResource VSCodeNotificationStyle}" />
+    ```
 
 ### Adding styles
 

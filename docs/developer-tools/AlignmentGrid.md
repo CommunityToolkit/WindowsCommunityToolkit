@@ -1,7 +1,6 @@
 ---
 title: AlignmentGrid XAML Control 
 author: nmetulev
-ms.date: 08/20/2017
 description: The AlignmentGrid Control can be used to display a grid to help aligning controls.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, AlignmentGrid, XAML Control, xaml
 ---

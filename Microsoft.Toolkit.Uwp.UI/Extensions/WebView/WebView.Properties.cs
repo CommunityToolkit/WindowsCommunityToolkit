@@ -23,11 +23,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Using a DependencyProperty as the backing store for HTML content. This enables binding html string content.
         /// </summary>
+        [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.WebViewExtensions instead")]
         public static readonly DependencyProperty ContentProperty = DependencyProperty.RegisterAttached("Content", typeof(string), typeof(WebView), new PropertyMetadata(string.Empty, OnContentChanged));
 
         /// <summary>
         /// Using a DependencyProperty as the backing store for Content Uri.  This binding Content Uri.
         /// </summary>
+        [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.WebViewExtensions instead")]
         public static readonly DependencyProperty ContentUriProperty = DependencyProperty.RegisterAttached("ContentUri", typeof(Uri), typeof(WebView), new PropertyMetadata(null, OnContentUriChanged));
 
         /// <summary>

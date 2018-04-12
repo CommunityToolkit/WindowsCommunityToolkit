@@ -18,6 +18,7 @@
                 CenterY="@[CenterY:DoubleSlider:50.0:0.0-100.0]"
                 Duration="@[Duration:DoubleSlider:1000.0:0.0-5000.0]"
                 Delay="@[Delay:DoubleSlider:0.0:0.0-5000.0]"
+                EasingType="@[EasingType:Enum:EasingType.Linear]"
                 AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
         </interactivity:Interaction.Behaviors>
       </Image>

@@ -1,7 +1,6 @@
 ---
 title: Menu Control
 author: nmetulev
-ms.date: 08/20/2017
 description: The UWP Community Toolkit Menu control defines a top level menu for commands, options, properties and much more within your UWP apps.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Menu, xaml, xaml control
 ---
@@ -25,18 +24,20 @@ If the tooltip is allowed on the Menu control when clicking Alt a tooltip with t
 ```xaml
 
 <controls:Menu>
-            <controls:MenuItem Name="FileMenu"
-                               controls:Menu.InputGestureText="Alt+F"
-                               Header="File">
-                <MenuFlyoutSubItem Text="New">
-                    <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
-                                    Command="{StaticResource NewProject}"
-                                    Text="Project" />
-                    <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+N"
-                                    Command="{StaticResource NewFile}"
-                                    Text="File" />
-                </MenuFlyoutSubItem>
-            </controls:MenuItem>
+    <controls:MenuItem Name="FileMenu"
+        controls:Menu.InputGestureText="Alt+F"
+        Header="File">
+
+        <MenuFlyoutSubItem Text="New">
+            <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
+                Command="{StaticResource NewProject}"
+                Text="Project" />
+
+            <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+N"
+                Command="{StaticResource NewFile}"
+                Text="File" />
+        </MenuFlyoutSubItem>
+    </controls:MenuItem>
 </controls:Menu>
 
 ```
@@ -95,13 +96,13 @@ The following sample demonstrates how to add Menu Control.
 ```xaml
 
 <Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.MenuPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:commands="using:Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands"
-      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d">
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:commands="using:Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
 
     <Page.Resources>
         <ResourceDictionary>
@@ -112,12 +113,13 @@ The following sample demonstrates how to add Menu Control.
     <Grid>
         <controls:Menu>
             <controls:MenuItem Name="FileMenu"
-                               controls:Menu.InputGestureText="Alt+F"
-                               Header="File">
+                controls:Menu.InputGestureText="Alt+F"
+                Header="File">
+
                 <MenuFlyoutSubItem Text="New">
                     <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
-                                    Command="{StaticResource NewProject}"
-                                    Text="Project" />
+                        Command="{StaticResource NewProject}"
+                        Text="Project" />
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
         </controls:Menu>
@@ -127,23 +129,21 @@ The following sample demonstrates how to add Menu Control.
 ```
 
 ``` CSharp
-
 internal class NewProjectCommand : ICommand
+{
+    public bool CanExecute(object parameter)
     {
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public async void Execute(object parameter)
-        {
-            var dialog = new MessageDialog("Create New Project");
-            await dialog.ShowAsync();
-        }
-
-        public event EventHandler CanExecuteChanged;
+        return true;
     }
 
+    public async void Execute(object parameter)
+    {
+        var dialog = new MessageDialog("Create New Project");
+        await dialog.ShowAsync();
+    }
+
+    public event EventHandler CanExecuteChanged;
+}
 ```
 
 ## Default Template 

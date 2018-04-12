@@ -15,7 +15,7 @@ var target = Argument("target", "Default");
 // VERSIONS
 //////////////////////////////////////////////////////////////////////
 
-var gitVersioningVersion = "2.0.41";
+var gitVersioningVersion = "2.1.23";
 var signClientVersion = "0.9.0";
 
 //////////////////////////////////////////////////////////////////////
@@ -32,6 +32,7 @@ var nupkgDir = binDir + "/nupkg";
 
 var signClientSettings = MakeAbsolute(File("SignClientSettings.json")).ToString();
 var signClientSecret = EnvironmentVariable("SignClientSecret");
+var signClientUser = EnvironmentVariable("SignClientUser");
 var signClientAppPath = toolsDir + "/SignClient/Tools/netcoreapp2.0/SignClient.dll";
 
 var styler = toolsDir + "/XamlStyler.Console/tools/xstyler.exe";
@@ -69,7 +70,7 @@ void VerifyHeaders(bool Replace)
 		{
 		   continue;
 		}
-        var rgx = new Regex("^(//.*\r?\n|\r?\n)*");
+        var rgx = new Regex("^(//.*\r?\n)*\r?\n");
         var newContent = header + rgx.Replace(oldContent, "");
 
         if(!newContent.Equals(oldContent, StringComparison.Ordinal))
@@ -153,8 +154,6 @@ Task("Build")
     .SetConfiguration("Release")
     .WithTarget("Restore");
 
-    // Force a restore again to get proper version numbers https://github.com/NuGet/Home/issues/4337
-    MSBuild(Solution, buildSettings);
     MSBuild(Solution, buildSettings);
 
     EnsureDirectoryExists(nupkgDir);
@@ -207,6 +206,7 @@ Task("SignNuGet")
                 .AppendQuoted(signClientAppPath)
                 .Append("sign")
                 .AppendSwitchQuotedSecret("-s", signClientSecret)
+                .AppendSwitchQuotedSecret("-r", signClientUser)
                 .AppendSwitchQuoted("-c", signClientSettings)
                 .AppendSwitchQuoted("-i", MakeAbsolute(package).FullPath)
                 .AppendSwitchQuoted("-n", name)

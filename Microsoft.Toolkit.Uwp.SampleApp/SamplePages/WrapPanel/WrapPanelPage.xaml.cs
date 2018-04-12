@@ -54,7 +54,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             _wrapPanelCollection = new ObservableCollection<PhotoDataItemWithDimension>();
 
-            Shell.Current.RegisterNewCommand("Add Image", AddButton_Click);
+            Shell.Current.RegisterNewCommand("Add random sized Image", AddButton_Click);
+            Shell.Current.RegisterNewCommand("Add fixed sized Image", AddFixedButton_Click);
             Shell.Current.RegisterNewCommand("Switch Orientation", SwitchButton_Click);
         }
 
@@ -80,14 +81,37 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             });
         }
 
+        private void AddFixedButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            _wrapPanelCollection.Add(new PhotoDataItemWithDimension
+            {
+                Category = "Remove",
+                Thumbnail = "ms-appx:///Assets/Photos/BigFourSummerHeat.jpg",
+                Width = 150,
+                Height = 100
+            });
+        }
+
         private void SwitchButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var sampleWrapPanel = _itemControl.FindDescendant<WrapPanel>();
-            if (sampleWrapPanel != null)
+            if (_itemControl.FindDescendant<WrapPanel>() is var sampleWrapPanel)
             {
-                sampleWrapPanel.Orientation = sampleWrapPanel.Orientation == Orientation.Horizontal
-                    ? Orientation.Vertical
-                    : Orientation.Horizontal;
+                if (sampleWrapPanel.Orientation == Orientation.Horizontal)
+                {
+                    sampleWrapPanel.Orientation = Orientation.Vertical;
+                    ScrollViewer.SetVerticalScrollMode(_itemControl, ScrollMode.Disabled);
+                    ScrollViewer.SetVerticalScrollBarVisibility(_itemControl, ScrollBarVisibility.Disabled);
+                    ScrollViewer.SetHorizontalScrollMode(_itemControl, ScrollMode.Auto);
+                    ScrollViewer.SetHorizontalScrollBarVisibility(_itemControl, ScrollBarVisibility.Auto);
+                }
+                else
+                {
+                    sampleWrapPanel.Orientation = Orientation.Horizontal;
+                    ScrollViewer.SetVerticalScrollMode(_itemControl, ScrollMode.Auto);
+                    ScrollViewer.SetVerticalScrollBarVisibility(_itemControl, ScrollBarVisibility.Auto);
+                    ScrollViewer.SetHorizontalScrollMode(_itemControl, ScrollMode.Disabled);
+                    ScrollViewer.SetHorizontalScrollBarVisibility(_itemControl, ScrollBarVisibility.Disabled);
+                }
             }
         }
     }

@@ -1,7 +1,6 @@
 ---
 title: Logical Tree Extensions
 author: nmetulev
-ms.date: 08/20/2017
 description: The LogicalTree extensions provide a collection of extensions methods for UI controls. It provides FrameworkElement extensions to aid in walking the logical tree of control structures.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Logical Tree, extentions
 ---
@@ -21,31 +20,29 @@ See also [VisualTree Extensions](VisualTree.md).
 ## Example
 
 ```csharp
+// Include namespace to access extensions.
+using Microsoft.Toolkit.Uwp.UI;
 
-	// Include namespace to access extensions.
-	using Microsoft.Toolkit.Uwp.UI;
+// Find logical child control using its name.
+var control = uiElement.FindChildByName("MyTextBox");
 
-	// Find logical child control using its name.
-	var control = uiElement.FindChildByName("MyTextBox");
+// Find first logical child control of a specified type.
+control = uiElement.FindChild<ListView>();
 
-	// Find first logical child control of a specified type.
-	control = uiElement.FindChild<ListView>();
+// Find all logical child controls of the specified type.
+foreach (var child in uiElement.FindChildren<ListViewItem>())
+{
+	// ...
+}
 
-	// Find all logical child controls of the specified type.
-	foreach (var child in uiElement.FindChildren<ListViewItem>())
-	{
-		// ...
-	}
+// Find first logical parent using its name.
+control = uiElement.FindParentByName("MyGrid");
 
-	// Find first logical parent using its name.
-	control = uiElement.FindParentByName("MyGrid");
+// Find first logical parent control of a specified type.
+control = uiElement.FindParent<Grid>();
 
-	// Find first logical parent control of a specified type.
-	control = uiElement.FindParent<Grid>();
-
-	// Retrieves the Content for the specified control from whatever its 'Content' Property may be.
-	var content = uiElement.GetContentControl();
-
+// Retrieves the Content for the specified control from whatever its 'Content' Property may be.
+var content = uiElement.GetContentControl();
 ```
 
 ## Requirements (Windows 10 Device Family)
