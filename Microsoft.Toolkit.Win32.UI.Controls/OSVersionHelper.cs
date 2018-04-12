@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             {
                 if (IsApiContractPresent(6))
                 {
-                    Windows10Release = Win10Release.Redstone4;
+                    Windows10Release = Win10Release.SpringCreators;
                 }
                 else if (IsApiContractPresent(5))
                 {
@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             Anniversary = 1607,  // 14393 Redstone 1
             Creators = 1703,     // 15063 Redstone 2
             FallCreators = 1709, // 16299 Redstone 3
-            Redstone4 = 1803 // 17133 Redstone 4
+            SpringCreators = 1803 // 17133 Redstone 4
         }
 
         internal enum WindowsVersions
@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <summary>
         /// Windows 10 RS4 (1803, build 17133)
         /// </summary>
-        public static bool IsWindows10RS4OrGreater => Windows10Release >= Win10Release.Redstone4;
+        public static bool IsWindows10RS4OrGreater => Windows10Release >= Win10Release.SpringCreators;
 
         public static bool IsWorkstation { get; } = !IsServer();
 
