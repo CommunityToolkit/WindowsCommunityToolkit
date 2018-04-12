@@ -32,12 +32,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (topdown)
             {
+                var rows = arrayref.SpotsTaken.GetLength(0);
+
                 // Layout spots from Top-Bottom, Left-Right (right-left handled automatically by Grid with Flow-Direction).
                 // Effectively transpose the Grid Layout.
                 for (int c = 0; c < arrayref.SpotsTaken.GetLength(1); c++)
                 {
-                    int start = (c == 0 && firstcolumn > 0) ? firstcolumn : 0;
-                    for (int r = start; r < arrayref.SpotsTaken.GetLength(0); r++)
+                    int start = (c == 0 && firstcolumn > 0 && firstcolumn < rows) ? firstcolumn : 0;
+                    for (int r = start; r < rows; r++)
                     {
                         // TODO: Do we want/need to worry about size here, what is our expectation?
                         if (!arrayref.SpotsTaken[r, c])
@@ -49,13 +51,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
+                var columns = arrayref.SpotsTaken.GetLength(1);
+
                 // Layout spots as normal from Left-Right.
                 // (right-left handled automatically by Grid with Flow-Direction
                 // during its layout, internal model is always left-right).
                 for (int r = 0; r < arrayref.SpotsTaken.GetLength(0); r++)
                 {
-                    int start = (r == 0 && firstcolumn > 0) ? firstcolumn : 0;
-                    for (int c = start; c < arrayref.SpotsTaken.GetLength(1); c++)
+                    int start = (r == 0 && firstcolumn > 0 && firstcolumn < columns) ? firstcolumn : 0;
+                    for (int c = start; c < columns; c++)
                     {
                         // TODO: Do we want/need to worry about size here, what is our expectation?
                         if (!arrayref.SpotsTaken[r, c])
@@ -86,21 +90,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (cols > 0)
                     {
-                        var first = Math.Min(firstColumn, cols - 1); // Bound check
+                        // Bound check
+                        var first = (firstColumn >= cols || firstColumn < 0) ? 0 : firstColumn;
 
                         // If we have columns but no rows, calculate rows based on column offset and number of children.
                         rows = (count + first + (cols - 1)) / cols;
                         return (rows, cols);
                     }
+                    else
+                    {
+                        // Otherwise, determine square layout if both are zero.
+                        var size = (int)Math.Ceiling(Math.Sqrt(count));
 
-                    // Otherwise, determine square layout if both are zero.
-                    var size = (int)Math.Ceiling(Math.Sqrt(count));
+                        // Figure out if firstColumn is in bounds
+                        var first = (firstColumn >= size || firstColumn < 0) ? 0 : firstColumn;
 
-                    // Figure out if firstColumn in bounds
-                    var first2 = Math.Min(firstColumn, size - 1); // Bound check
-
-                    rows = (int)Math.Ceiling(Math.Sqrt(count + first2));
-                    return (rows, rows);
+                        rows = (int)Math.Ceiling(Math.Sqrt(count + first));
+                        return (rows, rows);
+                    }
                 }
                 else if (cols == 0)
                 {
@@ -108,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     cols = (count + (rows - 1)) / rows;
 
                     // Now that we know a rough size of our shape, see if the FirstColumn effects that:
-                    var first = Math.Min(firstColumn, cols - 1); // Bound check
+                    var first = (firstColumn >= cols || firstColumn < 0) ? 0 : firstColumn;
 
                     cols = (count + first + (rows - 1)) / rows;
                 }

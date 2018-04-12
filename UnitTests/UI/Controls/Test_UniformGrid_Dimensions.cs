@@ -205,6 +205,43 @@ namespace UnitTests.UI.Controls
             Assert.AreEqual(4, dimensions.rows);
             Assert.AreEqual(4, dimensions.columns);
         }
+
+        [TestCategory("UniformGrid")]
+        [UITestMethod]
+        public void Test_UniformGrid_GetDimensions_FirstColumnEqualsColumns()
+        {
+            var treeroot = XamlReader.Load(@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    <controls:UniformGrid x:Name=""UniformGrid"">
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border/>
+        <Border/>
+    </controls:UniformGrid>
+</Page>") as FrameworkElement;
+
+            Assert.IsNotNull(treeroot, "Could not load XAML tree.");
+
+            var grid = treeroot.FindChildByName("UniformGrid") as UniformGrid;
+
+            Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
+
+            var children = grid.Children.Select(item => item as FrameworkElement);
+
+            Assert.AreEqual(7, grid.Children.Count());
+            
+            // columns == first column
+            // In WPF, First Column is ignored and we have a 1x7 layout.
+            var dimensions = UniformGrid.GetDimensions(ref children, 0, 7, 7);
+
+            Assert.AreEqual(1, dimensions.rows, "Expected single row.");
+            Assert.AreEqual(7, dimensions.columns, "Expected seven columns.");
+        }
     }
     #pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
 }

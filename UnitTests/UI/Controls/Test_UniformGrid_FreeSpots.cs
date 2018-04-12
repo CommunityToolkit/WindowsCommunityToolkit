@@ -95,6 +95,96 @@ namespace UnitTests.UI.Controls
 
         [TestCategory("UniformGrid")]
         [UITestMethod]
+        public void Test_UniformGrid_GetFreeSpots_FirstColumnEndBoundMinusOne()
+        {
+            var grid = new UniformGrid();
+
+            var testref = new TakenSpotsReferenceHolder(new bool[3, 3]
+                {
+                    { false, false, false },
+                    { false, false, false },
+                    { false, false, false },
+                });
+
+            var results = UniformGrid.GetFreeSpot(testref, 2, false).ToArray();
+
+            var expected = new(int row, int column)[]
+                {
+                                  (0, 2),
+                    (1, 0),(1, 1),(1, 2),
+                    (2, 0),(2, 1),(2, 2),
+                };
+
+            CollectionAssert.AreEqual(
+                expected,
+                results,
+                "GetFreeSpot failed FirstColumn.  Expected:\n{0}.\nActual:\n{1}",
+                expected.ToArrayString(),
+                results.ToArrayString());
+        }
+
+        [TestCategory("UniformGrid")]
+        [UITestMethod]
+        public void Test_UniformGrid_GetFreeSpots_FirstColumnEndBound()
+        {
+            var grid = new UniformGrid();
+
+            var testref = new TakenSpotsReferenceHolder(new bool[3, 3]
+                {
+                    { false, false, false },
+                    { false, false, false },
+                    { false, false, false },
+                });
+
+            var results = UniformGrid.GetFreeSpot(testref, 3, false).ToArray();
+
+            var expected = new(int row, int column)[]
+                {
+                    (0, 0),(0, 1),(0, 2),
+                    (1, 0),(1, 1),(1, 2),
+                    (2, 0),(2, 1),(2, 2),
+                };
+
+            CollectionAssert.AreEqual(
+                expected,
+                results,
+                "GetFreeSpot failed FirstColumn.  Expected:\n{0}.\nActual:\n{1}",
+                expected.ToArrayString(),
+                results.ToArrayString());
+        }
+
+        [TestCategory("UniformGrid")]
+        [UITestMethod]
+        public void Test_UniformGrid_GetFreeSpots_FirstColumnEndBound_TopDown()
+        {
+            var grid = new UniformGrid();
+
+            var testref = new TakenSpotsReferenceHolder(new bool[3, 3]
+                {
+                    { false, false, false },
+                    { false, false, false },
+                    { false, false, false },
+                });
+
+            var results = UniformGrid.GetFreeSpot(testref, 3, true).ToArray();
+
+            var expected = new(int row, int column)[]
+                {
+                    (0, 0),(1, 0),(2, 0),
+                    (0, 1),(1, 1),(2, 1),
+                    (0, 2),(1, 2),(2, 2),
+                };
+
+            CollectionAssert.AreEqual(
+                expected,
+                results,
+                "GetFreeSpot failed FirstColumn.  Expected:\n{0}.\nActual:\n{1}",
+                expected.ToArrayString(),
+                results.ToArrayString());
+        }
+
+        [TestCategory("UniformGrid")]
+        [UITestMethod]
         public void Test_UniformGrid_GetFreeSpots_VerticalOrientation()
         {
             var grid = new UniformGrid();
