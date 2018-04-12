@@ -8,7 +8,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
             <Grid>
-                <RefreshContainer>
+                <RefreshContainer x:Name="RefreshContainer">
                     <ScrollViewer x:Name="ScrollViewer"
                                               AutomationProperties.AccessibilityView="Raw"
                                               BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"

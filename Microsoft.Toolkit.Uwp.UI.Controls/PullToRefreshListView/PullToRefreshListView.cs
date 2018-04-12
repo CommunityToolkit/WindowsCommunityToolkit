@@ -102,6 +102,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty UseRefreshContainerWhenPossibleProperty =
             DependencyProperty.Register(nameof(UseRefreshContainerWhenPossible), typeof(bool), typeof(PullToRefreshListView), new PropertyMetadata(false, OnUseRefreshContainerWhenPossibleChanged));
 
+        /// <summary>
+        /// Gets a value indicating whether <see cref="RefreshContainer"/> is supported
+        /// </summary>
+        public static bool IsRefreshContainerSupported { get; } = ApiInformation.IsTypePresent("Windows.UI.Xaml.Controls.RefreshContainer");
+
         private const string PartRoot = "Root";
         private const string PartScroller = "ScrollViewer";
         private const string PartContentTransform = "ContentTransform";
@@ -110,6 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string PartIndicatorTransform = "RefreshIndicatorTransform";
         private const string PartDefaultIndicatorContent = "DefaultIndicatorContent";
         private const string PullAndReleaseIndicatorContent = "PullAndReleaseIndicatorContent";
+        private const string PartRefreshContainer = "RefreshContainer";
 
         private Border _root;
         private Border _refreshIndicatorBorder;
@@ -131,6 +137,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _isManipulatingWithMouse;
         private double _startingVerticalOffset;
         private ControlTemplate _previousTemplateUsed;
+        private RefreshContainer _refreshContainer;
+
+        private bool UsingRefreshContainer => IsRefreshContainerSupported && UseRefreshContainerWhenPossible;
 
         /// <summary>
         /// Gets or sets a value indicating whether the HamburgerMenu should use the NavigationView when possible (Fall Creators Update and above)
@@ -141,11 +150,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (bool)GetValue(UseRefreshContainerWhenPossibleProperty); }
             set { SetValue(UseRefreshContainerWhenPossibleProperty, value); }
         }
-
-        /// <summary>
-        /// Gets a value indicating whether <see cref="RefreshContainer"/> is supported
-        /// </summary>
-        public static bool IsRefreshContainerSupported { get; } = ApiInformation.IsTypePresent("Windows.UI.Xaml.Controls.RefreshContainer");
 
         /// <summary>
         /// Occurs when the user has requested content to be refreshed
@@ -208,6 +212,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
             }
 
+            if (UsingRefreshContainer)
+            {
+                OnApplyRefreshContainerTemplate();
+            }
+
             _root = GetTemplateChild(PartRoot) as Border;
             _scroller = GetTemplateChild(PartScroller) as ScrollViewer;
             _scrollerContent = GetTemplateChild(PartScrollerContent) as ItemsPresenter;
@@ -246,6 +255,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             base.OnApplyTemplate();
+        }
+
+        private void OnApplyRefreshContainerTemplate()
+        {
+            if (_refreshContainer != null)
+            {
+                _refreshContainer.RefreshRequested -= RefreshContainer_RefreshRequested;
+            }
+
+            _refreshContainer = GetTemplateChild(PartRefreshContainer) as RefreshContainer;
+
+            if (_refreshContainer != null)
+            {
+                _refreshContainer.RefreshRequested += RefreshContainer_RefreshRequested;
+            }
         }
 
         private void Scroller_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
@@ -649,6 +673,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
                 _root.ManipulationStarted += Scroller_ManipulationStarted;
                 _root.ManipulationCompleted += Scroller_ManipulationCompleted;
+            }
+        }
+
+        private void RefreshContainer_RefreshRequested(object sender, RefreshRequestedEventArgs args)
+        {
+            using (var deferral = args.GetDeferral())
+            {
+                RefreshRequested?.Invoke(this, EventArgs.Empty);
+                if (RefreshCommand != null && RefreshCommand.CanExecute(null))
+                {
+                    RefreshCommand.Execute(null);
+                }
             }
         }
 
