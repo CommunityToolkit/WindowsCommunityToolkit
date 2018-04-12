@@ -35,15 +35,15 @@ namespace UnitTests.UI.Controls
         {
             var grid = new UniformGrid();
 
-            bool[,] test = new bool[4, 5]
+            var testref = new TakenSpotsReferenceHolder(new bool[4, 5]
                 {
                     { false,  true, false,  true, false },
                     { false,  true,  true,  true, false },
                     { false,  true, false,  true, false },
                     { false, false,  true, false, false },
-                };
+                });
 
-            var results = UniformGrid.GetFreeSpot(test, 0, false).ToArray();
+            var results = UniformGrid.GetFreeSpot(testref, 0, false).ToArray();
 
             var expected = new(int row, int column)[]
                 {
@@ -67,15 +67,15 @@ namespace UnitTests.UI.Controls
         {
             var grid = new UniformGrid();
 
-            bool[,] test = new bool[4, 5]
+            var testref = new TakenSpotsReferenceHolder(new bool[4, 5]
                 {
                     { true,  false, false,  true, false },
                     { false,  true,  true,  true, false },
                     { false,  true,  true,  true, false },
                     { false, false,  true, false, false },
-                };
+                });
 
-            var results = UniformGrid.GetFreeSpot(test, 2, false).ToArray();
+            var results = UniformGrid.GetFreeSpot(testref, 2, false).ToArray();
 
             var expected = new(int row, int column)[]
                 {
@@ -99,15 +99,15 @@ namespace UnitTests.UI.Controls
         {
             var grid = new UniformGrid();
 
-            bool[,] test = new bool[4, 5]
+            var testref = new TakenSpotsReferenceHolder(new bool[4, 5]
                 {
                     { false, false, false,  true, false },
                     { false,  true,  true, false, false },
                     { true,  false, false,  true, false },
                     { false, false,  true, false, false },
-                };
+                });
 
-            var results = UniformGrid.GetFreeSpot(test, 0, true).ToArray();
+            var results = UniformGrid.GetFreeSpot(testref, 0, true).ToArray();
 
             // top-bottom, transpose of matrix above.
             var expected = new(int row, int column)[]

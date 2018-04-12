@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetupRowDefinitions(dim.rows);
             SetupColumnDefinitions(dim.columns);
 
-            bool[,] spots = new bool[dim.rows, dim.columns];
+            var spotref = new TakenSpotsReferenceHolder(dim.rows, dim.columns);
 
             // Figure out which children we should automatically layout and where available openings are.
             foreach (var child in visible)
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else
                 {
                     SetAutoLayout(child, false);
-                    spots.Fill(true, row, col, colspan, rowspan); // row, col, width, height
+                    spotref.SpotsTaken.Fill(true, row, col, colspan, rowspan); // row, col, width, height
                 }
             }
 
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Set Grid Row/Col for every child with autolayout = true
             // Backwards with FlowDirection
-            var freespots = GetFreeSpot(spots, FirstColumn, Orientation == Orientation.Vertical).GetEnumerator();
+            var freespots = GetFreeSpot(spotref, FirstColumn, Orientation == Orientation.Vertical).GetEnumerator();
             foreach (var child in visible)
             {
                 // Set location if we're in charge
@@ -99,6 +99,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                         SetRow(child, loc.row);
                         SetColumn(child, loc.column);
+
+                        var rowspan = GetRowSpan(child);
+                        var colspan = GetColumnSpan(child);
+
+                        if (rowspan > 1 || colspan > 1)
+                        {
+                            // TODO: Need to tie this into iterator
+                            spotref.SpotsTaken.Fill(true, loc.row, loc.column, GetColumnSpan(child), GetRowSpan(child)); // row, col, width, height
+                        }
                     }
                     else
                     {
