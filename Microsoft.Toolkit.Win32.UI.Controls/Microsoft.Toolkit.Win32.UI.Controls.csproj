@@ -6,7 +6,7 @@
     <AssemblyName>Microsoft.Toolkit.Win32.UI.Controls</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    
+
     <Title>UWP Community Toolkit Win32 Controls</Title>
     <Description>This library provides XAML user controls for Win32. It is part of the UWP Community Toolkit.</Description>
     <PackageTags>WebView Win32 WPF WindowsForms</PackageTags>
@@ -23,6 +23,9 @@
     <Reference Include="System.Xaml" />
     <Reference Include="Windows">
       <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17125.0\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17125.0\Windows.winmd</HintPath>
+      <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17128.0\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17128.0\Windows.winmd</HintPath>
+      <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17113.0\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17113.0\Windows.winmd</HintPath>
+      <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17632.0\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17632.0\Windows.winmd</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase" />
