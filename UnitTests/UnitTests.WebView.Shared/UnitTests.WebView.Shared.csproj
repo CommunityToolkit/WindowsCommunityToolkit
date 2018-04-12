@@ -45,14 +45,14 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MSTest.TestAdapter">
-      <Version>1.2.0</Version>
+      <Version>1.2.1</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestFramework">
-      <Version>1.2.0</Version>
+      <Version>1.2.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="Pack" >
+  <Target Name="Pack">
     <!-- No-op to avoid build error when packing solution from commandline -->
   </Target>
 </Project>

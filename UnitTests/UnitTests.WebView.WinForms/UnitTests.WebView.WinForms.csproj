@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -98,6 +97,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="FunctionalTests\Forms.Controls.FunctionalTests\" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="InputSimulator">
       <Version>1.0.4</Version>
     </PackageReference>
@@ -110,9 +112,6 @@
     <PackageReference Include="Should">
       <Version>1.1.20</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FunctionalTests\Forms.Controls.FunctionalTests\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
