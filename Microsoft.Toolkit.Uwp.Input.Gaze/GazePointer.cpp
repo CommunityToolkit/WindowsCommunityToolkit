@@ -597,32 +597,33 @@ void GazePointer::RaiseGazePointerEvent(UIElement^ target, GazePointerState stat
     //    Debug::WriteLine(L"GPE: 0x%08x -> %s, %d", target != nullptr ? target->GetHashCode() : 0, PointerStates[(int)state], elapsedTime);
     //}
 
-    auto handled = false;
-
-    if (target != nullptr)
+    auto gazePage = safe_cast<GazePage^>(_rootElement->GetValue(s_gazePageProperty));
+    if (gazePage != nullptr)
     {
-        auto element = GazeApi::GetGazeElement(target);
-        if (element != nullptr && state == GazePointerState::Dwell)
-        {
-            auto args = ref new GazeInvokedRoutedEventArgs();
-            element->RaiseInvoked(this, args);
-            handled = args->Handled;
-        }
+        gazePage->RaiseGazePointerEvent(this, gpea);
     }
 
-    if (!handled)
+    auto gazeElement = target != nullptr ? GazeApi::GetGazeElement(target) : nullptr;
+
+    if (gazeElement != nullptr)
     {
-        if (state == GazePointerState::Dwell)
+        gazeElement->RaiseGazePointerEvent(this, gpea);
+    }
+
+    if (state == GazePointerState::Dwell)
+    {
+        auto handled = false;
+
+        if (gazeElement != nullptr)
+        {
+            auto args = ref new GazeInvokedRoutedEventArgs();
+            gazeElement->RaiseInvoked(this, args);
+            handled = args->Handled;
+        }
+
+        if (!handled)
         {
             InvokeTarget(target);
-        }
-        else
-        {
-            auto surrogate = safe_cast<GazePage^>(_rootElement->GetValue(s_gazePageProperty));
-            if (surrogate != nullptr)
-            {
-                surrogate->RaiseGazePointerEvent(this, gpea);
-            }
         }
     }
 }

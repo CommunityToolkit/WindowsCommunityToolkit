@@ -128,6 +128,7 @@ public ref struct GazePointerEventArgs sealed
     property UIElement^ HitTarget;
     property GazePointerState PointerState;
     property int ElapsedTime;
+    property TimeSpan ElapsedTimeSpan { TimeSpan get() { return *new TimeSpan{ 10 * ElapsedTime }; } }
 
     GazePointerEventArgs(UIElement^ target, GazePointerState state, int elapsedTime)
     {
@@ -172,6 +173,8 @@ public:
 
     event GazePointerEvent^ GazePointerEvent;
     event EventHandler<GazeInvokedRoutedEventArgs^>^ Invoked;
+
+    void RaiseGazePointerEvent(GazePointer^ sender, GazePointerEventArgs^ args) { GazePointerEvent(sender, args); }
 
     void RaiseInvoked(Object^ sender, GazeInvokedRoutedEventArgs^ args)
     {
