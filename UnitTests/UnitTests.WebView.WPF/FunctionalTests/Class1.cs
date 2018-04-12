@@ -17,12 +17,12 @@ using Microsoft.Toolkit.Win32.UI.Controls.Test.WebView.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
 
-namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTests.Wpf.FunctionalTests
+namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WPF.WebView.FunctionalTests
 {
     [TestClass]
     public class Class1 : ContextSpecification
     {
-        private Microsoft.Toolkit.Win32.UI.Controls.WPF.WebView _webView;
+        private Controls.WPF.WebView _webView;
         private Window _window;
 
         protected override void Given()
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             _window.Closed += (o, e) => { WriteLine("Window.Closed"); };
 
 
-            _webView = new Microsoft.Toolkit.Win32.UI.Controls.WPF.WebView()
+            _webView = new Controls.WPF.WebView
             {
                 Name = "WebView1",
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
                 Height = _window.Height,
                 Width = _window.Width,
                 MinHeight = 200,
-                MinWidth = 200,
+                MinWidth = 200
             };
             var dp = new DockPanel();
             dp.Children.Add(_webView);
@@ -103,11 +103,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
                 ShowModalWindowCallback callback = ShowModalWindow;
                 return (bool?)window.Dispatcher.Invoke(callback, DispatcherPriority.Normal, window);
             }
-            else
-            {
-                // now we are in the right thread, show modal window
-                return window.ShowDialog();
-            }
+
+            // now we are in the right thread, show modal window
+            return window.ShowDialog();
         }
 
         private delegate bool? ShowModalWindowCallback(Window window);

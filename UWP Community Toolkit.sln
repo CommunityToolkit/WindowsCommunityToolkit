@@ -76,6 +76,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.WebView.Shared", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Win32.UI.Controls", "Microsoft.Toolkit.Win32.UI.Controls\Microsoft.Toolkit.Win32.UI.Controls.csproj", "{78D8B77B-2A55-4037-BCC9-B47806039D23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.WebView.WPF", "UnitTests\UnitTests.WebView.WPF\UnitTests.WebView.WPF.csproj", "{2E49400E-B114-4FAE-B743-6CB57B500E31}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{982cc826-aacd-4855-9075-430bb6ce40a9}*SharedItemsImports = 13
@@ -465,6 +467,22 @@ Global
 		{78D8B77B-2A55-4037-BCC9-B47806039D23}.Release|x64.Build.0 = Release|Any CPU
 		{78D8B77B-2A55-4037-BCC9-B47806039D23}.Release|x86.ActiveCfg = Release|Any CPU
 		{78D8B77B-2A55-4037-BCC9-B47806039D23}.Release|x86.Build.0 = Release|Any CPU
+		{2E49400E-B114-4FAE-B743-6CB57B500E31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E49400E-B114-4FAE-B743-6CB57B500E31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E49400E-B114-4FAE-B743-6CB57B500E31}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{2E49400E-B114-4FAE-B743-6CB57B500E31}.Debug|ARM.Build.0 = Debug|Any CPU
+		{2E49400E-B114-4FAE-B743-6CB57B500E31}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2E49400E-B114-4FAE-B743-6CB57B500E31}.Debug|x64.Build.0 = Debug|Any CPU
+		{2E49400E-B114-4FAE-B743-6CB57B500E31}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2E49400E-B114-4FAE-B743-6CB57B500E31}.Debug|x86.Build.0 = Debug|Any CPU
+		{2E49400E-B114-4FAE-B743-6CB57B500E31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E49400E-B114-4FAE-B743-6CB57B500E31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E49400E-B114-4FAE-B743-6CB57B500E31}.Release|ARM.ActiveCfg = Release|Any CPU
+		{2E49400E-B114-4FAE-B743-6CB57B500E31}.Release|ARM.Build.0 = Release|Any CPU
+		{2E49400E-B114-4FAE-B743-6CB57B500E31}.Release|x64.ActiveCfg = Release|Any CPU
+		{2E49400E-B114-4FAE-B743-6CB57B500E31}.Release|x64.Build.0 = Release|Any CPU
+		{2E49400E-B114-4FAE-B743-6CB57B500E31}.Release|x86.ActiveCfg = Release|Any CPU
+		{2E49400E-B114-4FAE-B743-6CB57B500E31}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -486,6 +504,7 @@ Global
 		{10129749-7761-49B8-96B9-94BC833BA60B} = {EF53C82B-8622-42C5-A318-CF24A695D913}
 		{B220BE88-944E-45D1-9248-6FAEF53868A3} = {EF53C82B-8622-42C5-A318-CF24A695D913}
 		{78D8B77B-2A55-4037-BCC9-B47806039D23} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
+		{2E49400E-B114-4FAE-B743-6CB57B500E31} = {EF53C82B-8622-42C5-A318-CF24A695D913}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5403B0C4-F244-4F73-A35C-FE664D0F4345}
