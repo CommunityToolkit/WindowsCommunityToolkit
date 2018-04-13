@@ -11,9 +11,13 @@ The UWP Community Toolkit provides **WebView** controls for WPF and Windows Form
 
 ## About WebView controls
 
-The **WebView** control for Windows Forms applications is located in the **Microsoft.Toolkit.Win32.UI.Controls.WinForms** namespace and is a subclass of [Control](https://docs.microsoft.com/dotnet/api/system.windows.forms.control). The **WebView** control for WPF applications is located in the **Microsoft.Toolkit.Win32.UI.Controls.WPF** namespace. Additional related types (such as event args classes) are provided in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
+The **WebView** control for Windows Forms applications is located in the **Microsoft.Toolkit.Win32.UI.Controls.WinForms** namespace and it is a subclass of [Control](https://docs.microsoft.com/dotnet/api/system.windows.forms.control).
 
-Internally, these controls wrap the [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) class, so they provide a subset of members from that class. The [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) is similar to the [WebView](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.webview) class, but it is designed to run out of process in a desktop application (such as a WPF or Windows Forms application) and it supports a smaller set of members.
+The **WebView** control for WPF applications is located in the **Microsoft.Toolkit.Win32.UI.Controls.WPF** namespace.
+
+Additional related types (such as event args classes) are provided in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
+
+Internally, these controls wrap the [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) class, so they provide a subset of members from the [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) class. The [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) is similar to the [WebView](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.webview) class, but it is designed to run out of process in a desktop application (such as a WPF or Windows Forms application) and it supports a smaller set of members.
 
 Unless specified otherwise in this article, the documentation for the [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) class applies to the WPF and Windows Forms **WebView** controls. This article links to reference pages for the UWP [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) class for more information about most members.
 
@@ -89,8 +93,9 @@ You can use the [InvokeScriptAsync](https://docs.microsoft.com/uwp/api/windows.w
 
 The **WebView** control also receives keyboard input focus and participates in the tab sequence. Access this information via the following members:
 <!-- This is goofy right now with the way we are nesting windows -->
-* Use the [Focus](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.focus) method to programmatically set input focus, and handle the `GotFocus` and `LostFocus` events to be notified of input focus changes.
 * In a Windows Forms app, access tab sequence info via the  [TabIndex](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.tabindex) and [TabStop](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.tabstop) properties. The tab sequence includes all elements in the web view content that can receive input focus.
+* Use the [Focus](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.focus) method to programmatically set input focus, and handle the `GotFocus` and `LostFocus` events to be notified of input focus changes.
+
 * Handle keyboard input via the `KeyDown`, `KeyUp` events and mouse-related events.
 
 <!-- There does not appear to be TabIndex, TabStop, and MouseClick members for the WPF version of this control. -->
