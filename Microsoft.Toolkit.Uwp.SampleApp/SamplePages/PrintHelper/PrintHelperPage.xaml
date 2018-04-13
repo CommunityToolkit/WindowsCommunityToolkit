@@ -38,8 +38,7 @@
               HorizontalAlignment="Center"
               VerticalAlignment="Center">
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -90,40 +89,36 @@
                 </ListView>
             </Grid>
             <StackPanel Grid.Row="1"
-                        Margin="20"
-                        HorizontalAlignment="Center"
+                        Margin="20 20 20 5"
+                        HorizontalAlignment="Left"
                         Orientation="Horizontal">
-                <Button Click="Print_Click"
-                        Content="Print Me!" />
-                <Button Margin="10 0 0 0"
-                        Click="DirectPrint_Click"
-                        Content="Direct Print Me!" />
-                <Button Margin="10 0 0 0"
-                        Click="CustomPrint_Click"
-                        Content="Custom Print Me!" />
+                <TextBlock VerticalAlignment="Center">Orientation field in print dialog</TextBlock>
+                <ToggleSwitch Margin="10,0,0,0"
+                              Name="ShowOrientationSwitch"
+                              OnContent="Show"
+                              OffContent="Hide" />
             </StackPanel>
-            <TextBlock Grid.Row="2"
-                       HorizontalAlignment="Center">
-                <Run>Direct Print will print the content without removing it from the visual tree (in place).</Run>
-                <LineBreak />
-                <Run>Custom Print will create print pages in code-behind, with static header, paging, layout changes, and page numbering.</Run>
-            </TextBlock>
-            <StackPanel Grid.Row="3"
-                        Margin="20"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal">
-                <CheckBox Margin="10,0,0,0"
-                          Name="ShowOrientationCheckBox">Show orientation in print dialog</CheckBox>
-            </StackPanel>
-            <StackPanel Grid.Row="4"
-                        Margin="20"
-                        HorizontalAlignment="Center"
+            <StackPanel Grid.Row="2"
+                        Margin="20 5 20 20"
+                        HorizontalAlignment="Left"
                         Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center">Default orientation setting</TextBlock>
                 <ComboBox Margin="10,0,0,0"
                           Name="DefaultOrientationComboBox">
                 </ComboBox>
             </StackPanel>
+            <TextBlock Grid.Row="3"
+                       Margin="20 20 20 10"
+                       TextWrapping="Wrap">
+                <Run FontWeight="SemiBold">Print</Run>
+                <Run> will wrap the content in a print page with margins.</Run>
+                <LineBreak />
+                <Run FontWeight="SemiBold">Direct Print</Run>
+                <Run> will print the content without removing it from the visual tree.</Run>
+                <LineBreak />
+                <Run FontWeight="SemiBold">Custom Print</Run>
+                <Run> will create print pages in code-behind, with static header, paging, layout changes, and page numbering.</Run>
+            </TextBlock>
         </Grid>
     </Grid>
 </Page>

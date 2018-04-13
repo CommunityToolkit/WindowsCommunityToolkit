@@ -17,6 +17,7 @@ using Windows.Graphics.Printing;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -28,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             InitializeComponent();
 
-            ShowOrientationCheckBox.IsChecked = true;
+            ShowOrientationSwitch.IsOn = true;
 
             DefaultOrientationComboBox.ItemsSource = new List<PrintOrientation>()
             {
@@ -61,6 +62,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            Shell.Current.RegisterNewCommand("Print", Print_Click);
+            Shell.Current.RegisterNewCommand("Direct Print", DirectPrint_Click);
+            Shell.Current.RegisterNewCommand("Custom Print", CustomPrint_Click);
+        }
+
         private async void Print_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             Shell.Current.DisplayWaitRing = true;
@@ -77,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var printHelperOptions = new PrintHelperOptions(false);
             printHelperOptions.Orientation = (PrintOrientation)DefaultOrientationComboBox.SelectedItem;
 
-            if (ShowOrientationCheckBox.IsChecked.HasValue && ShowOrientationCheckBox.IsChecked.Value)
+            if (ShowOrientationSwitch.IsOn)
             {
                 printHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation);
             }
@@ -98,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var printHelperOptions = new PrintHelperOptions(false);
             printHelperOptions.Orientation = (PrintOrientation)DefaultOrientationComboBox.SelectedItem;
 
-            if (ShowOrientationCheckBox.IsChecked.HasValue && ShowOrientationCheckBox.IsChecked.Value)
+            if (ShowOrientationSwitch.IsOn)
             {
                 printHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation);
             }
@@ -150,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var printHelperOptions = new PrintHelperOptions(false);
             printHelperOptions.Orientation = (PrintOrientation)DefaultOrientationComboBox.SelectedItem;
 
-            if (ShowOrientationCheckBox.IsChecked.HasValue && ShowOrientationCheckBox.IsChecked.Value)
+            if (ShowOrientationSwitch.IsOn)
             {
                 printHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation);
             }
