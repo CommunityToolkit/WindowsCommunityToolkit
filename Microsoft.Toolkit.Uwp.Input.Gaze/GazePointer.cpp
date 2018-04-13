@@ -82,7 +82,6 @@ static DependencyProperty^ s_isGazeEnabledProperty = DependencyProperty::Registe
     ref new PropertyMetadata(false, ref new PropertyChangedCallback(&OnIsGazeEnabledChanged)));
 static DependencyProperty^ s_isGazeCursorVisibleProperty = DependencyProperty::RegisterAttached("IsGazeCursorVisible", bool::typeid, Page::typeid,
     ref new PropertyMetadata(true, ref new PropertyChangedCallback(&OnIsGazeCursorVisibleChanged)));
-static DependencyProperty^ s_gazePageProperty = DependencyProperty::RegisterAttached("GazePage", GazePage::typeid, Page::typeid, ref new PropertyMetadata(nullptr));
 static DependencyProperty^ s_gazeElementProperty = DependencyProperty::RegisterAttached("GazeElement", GazeElement::typeid, UIElement::typeid, ref new PropertyMetadata(nullptr));
 static DependencyProperty^ s_fixationProperty = DependencyProperty::RegisterAttached("Fixation", TimeSpan::typeid, UIElement::typeid, ref new PropertyMetadata(s_nonTimeSpan));
 static DependencyProperty^ s_dwellProperty = DependencyProperty::RegisterAttached("Dwell", TimeSpan::typeid, UIElement::typeid, ref new PropertyMetadata(s_nonTimeSpan));
@@ -93,7 +92,6 @@ static DependencyProperty^ s_maxRepeatCountProperty = DependencyProperty::Regist
 
 DependencyProperty^ GazeApi::IsGazeEnabledProperty::get() { return s_isGazeEnabledProperty; }
 DependencyProperty^ GazeApi::IsGazeCursorVisibleProperty::get() { return s_isGazeCursorVisibleProperty; }
-DependencyProperty^ GazeApi::GazePageProperty::get() { return s_gazePageProperty; }
 DependencyProperty^ GazeApi::GazeElementProperty::get() { return s_gazeElementProperty; }
 DependencyProperty^ GazeApi::FixationProperty::get() { return s_fixationProperty; }
 DependencyProperty^ GazeApi::DwellProperty::get() { return s_dwellProperty; }
@@ -104,7 +102,6 @@ DependencyProperty^ GazeApi::MaxRepeatCountProperty::get() { return s_maxRepeatC
 
 bool GazeApi::GetIsGazeEnabled(Page^ page) { return safe_cast<bool>(page->GetValue(s_isGazeEnabledProperty)); }
 bool GazeApi::GetIsGazeCursorVisible(Page^ page) { return safe_cast<bool>(page->GetValue(s_isGazeCursorVisibleProperty)); }
-GazePage^ GazeApi::GetGazePage(Page^ page) { return safe_cast<GazePage^>(page->GetValue(s_gazePageProperty)); }
 GazeElement^ GazeApi::GetGazeElement(UIElement^ element) { return safe_cast<GazeElement^>(element->GetValue(s_gazeElementProperty)); }
 TimeSpan GazeApi::GetFixation(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_fixationProperty)); }
 TimeSpan GazeApi::GetDwell(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_dwellProperty)); }
@@ -115,7 +112,6 @@ int GazeApi::GetMaxRepeatCount(UIElement^ element) { return safe_cast<int>(eleme
 
 void GazeApi::SetIsGazeEnabled(Page^ page, bool value) { page->SetValue(s_isGazeEnabledProperty, value); }
 void GazeApi::SetIsGazeCursorVisible(Page^ page, bool value) { page->SetValue(s_isGazeCursorVisibleProperty, value); }
-void GazeApi::SetGazePage(Page^ page, GazePage^ value) { page->SetValue(s_gazePageProperty, value); }
 void GazeApi::SetGazeElement(UIElement^ element, GazeElement^ value) { element->SetValue(s_gazeElementProperty, value); }
 void GazeApi::SetFixation(UIElement^ element, TimeSpan span) { element->SetValue(s_fixationProperty, span); }
 void GazeApi::SetDwell(UIElement^ element, TimeSpan span) { element->SetValue(s_dwellProperty, span); }
@@ -596,12 +592,6 @@ void GazePointer::RaiseGazePointerEvent(UIElement^ target, GazePointerState stat
     //{
     //    Debug::WriteLine(L"GPE: 0x%08x -> %s, %d", target != nullptr ? target->GetHashCode() : 0, PointerStates[(int)state], elapsedTime);
     //}
-
-    auto gazePage = safe_cast<GazePage^>(_rootElement->GetValue(s_gazePageProperty));
-    if (gazePage != nullptr)
-    {
-        gazePage->RaiseGazePointerEvent(this, gpea);
-    }
 
     auto gazeElement = target != nullptr ? GazeApi::GetGazeElement(target) : nullptr;
 

@@ -20,7 +20,6 @@ namespace Shapes = Windows::UI::Xaml::Shapes;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-ref class GazePage;
 ref class GazeElement;
 ref class GazePointer;
 
@@ -29,7 +28,6 @@ public ref class GazeApi sealed
 public:
     static property DependencyProperty^ IsGazeEnabledProperty { DependencyProperty^ get(); }
     static property DependencyProperty^ IsGazeCursorVisibleProperty { DependencyProperty^ get(); }
-    static property DependencyProperty^ GazePageProperty { DependencyProperty^ get(); }
 
     static property DependencyProperty^ GazeElementProperty { DependencyProperty^ get(); }
 
@@ -43,7 +41,6 @@ public:
 
     static bool GetIsGazeEnabled(Page^ page);
     static bool GetIsGazeCursorVisible(Page^ page);
-    static GazePage^ GetGazePage(Page^ page);
     static GazeElement^ GetGazeElement(UIElement^ element);
     static TimeSpan GetFixation(UIElement^ element);
     static TimeSpan GetDwell(UIElement^ element);
@@ -54,7 +51,6 @@ public:
 
     static void SetIsGazeEnabled(Page^ page, bool value);
     static void SetIsGazeCursorVisible(Page^ page, bool value);
-    static void SetGazePage(Page^ page, GazePage^ value);
     static void SetGazeElement(UIElement^ element, GazeElement^ value);
     static void SetFixation(UIElement^ element, TimeSpan span);
     static void SetDwell(UIElement^ element, TimeSpan span);
@@ -143,14 +139,6 @@ public delegate void GazePointerEvent(GazePointer^ sender, GazePointerEventArgs^
 
 public delegate bool GazeIsInvokableDelegate(UIElement^ target);
 public delegate void GazeInvokeTargetDelegate(UIElement^ target);
-
-public ref class GazePage sealed
-{
-public:
-    event GazePointerEvent^ GazePointerEvent;
-
-    void RaiseGazePointerEvent(GazePointer^ sender, GazePointerEventArgs^ args) { GazePointerEvent(sender, args); }
-};
 
 public ref class GazeInvokedRoutedEventArgs : public RoutedEventArgs
 {
