@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class TileContent
     {
         /// <summary>
-        /// The visual element is required.
+        /// Gets or sets the visual element. Required.
         /// </summary>
         public TileVisual Visual { get; set; }
 

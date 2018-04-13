@@ -13,9 +13,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Exceptions;
-using System.Net.Http;
 
 namespace Microsoft.Toolkit.Services
 {
@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Services
     public abstract class DataProviderBase<TConfig>
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the <see cref="DataProviderBase{TConfig}"/> class.
         /// </summary>
         public DataProviderBase()
         {
@@ -42,8 +42,8 @@ namespace Microsoft.Toolkit.Services
         /// <param name="parser">Parser to use for results.</param>
         /// <returns>Strong typed list of results.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is an async method, so nesting generic types is necessary.")]
-        public async Task<IEnumerable<TSchema>> LoadDataAsync<TSchema>(TConfig config, int maxRecords, int pageIndex, IParser<TSchema> parser)
-            where TSchema : SchemaBase
+        public async Task<IEnumerable<TSchema>> LoadDataAsync<TSchema>(TConfig config, int maxRecords, int pageIndex, Parsers.IParser<TSchema> parser)
+            where TSchema : Parsers.SchemaBase
         {
             if (config == null)
             {
@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Services
         private static HttpClient httpClient;
 
         /// <summary>
-        /// Static instance of HttpClient.
+        /// Gets or sets static instance of HttpClient.
         /// </summary>
         public static HttpClient HttpClient
         {
@@ -88,8 +88,8 @@ namespace Microsoft.Toolkit.Services
         /// <param name="parser">Parser to use</param>
         /// <typeparam name="TSchema">Schema defining data returned</typeparam>
         /// <returns>List of data</returns>
-        protected abstract Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TConfig config, int maxRecords, int pageIndex, IParser<TSchema> parser)
-            where TSchema : SchemaBase;
+        protected abstract Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TConfig config, int maxRecords, int pageIndex, Parsers.IParser<TSchema> parser)
+            where TSchema : Parsers.SchemaBase;
 
         /// <summary>
         /// Method provided by derived class to validate specified configuration

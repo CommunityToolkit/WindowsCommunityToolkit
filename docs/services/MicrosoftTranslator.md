@@ -1,7 +1,6 @@
 ---
 title: Microsoft Translator Service
 author: nmetulev
-ms.date: 08/20/2017
 description: The Microsoft Translator Service allows you to translate text to various supported languages.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, MicrosoftTranslator
 ---
@@ -21,6 +20,12 @@ The **Microsoft Translator Service** allows you to translate text to various sup
 // using Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator;
 
 await TranslatorService.Instance.InitializeAsync("<translator service key");
+
+// Retrieves friendly names for the languages available for text translation.
+var languages = await TranslatorService.Instance.GetLanguageNamesAsync();
+
+// Detects the language of a text.
+var language = await TranslatorService.Instance.DetectLanguageAsync();
 
 // Translates the text to Italian.
 var translatedText = await TranslatorService.Instance.TranslateAsync("Hello everyone!", "it");

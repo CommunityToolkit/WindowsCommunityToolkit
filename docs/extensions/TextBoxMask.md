@@ -1,7 +1,6 @@
 ---
 title: TextBox Mask XAML Property
 author: nmetulev
-ms.date: 08/20/2017
 description: The TextBoxMask Property allows a user to more easily enter fixed width text in TextBox control where you would like them to enter the data in a certain format
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, TextBoxMask, XAML
 ---
@@ -33,24 +32,19 @@ In case you want to add a custom variable character you can use property TextBox
 
 ## Syntax
 
-```xml
+```xaml
+<TextBox extensions:TextBoxMask.Mask="9a9a-a9a*"
+    Header="Text box with Mask 9a9a-a9a* (9 allows from 0 to 9, a allow from a to Z and * allows both a and 9)" />
 
-            <TextBox extensions:TextBoxMask.Mask="9a9a-a9a*"
-                     Header="Text box with Mask 9a9a-a9a* (9 allows from 0 to 9, a allow from a to Z and * allows both a and 9)"
-                      />
+<TextBox 
+    extensions:TextBoxMask.Mask="+1999-9999"
+    extensions:TextBoxMask.PlaceHolder=" "
+    Header="Text box with Mask +1999-9999 and placeHolder as space (placeholder represents the characters the user can change on runtime)" />
 
-            <TextBox 
-                     extensions:TextBoxMask.Mask="+1999-9999"
-                     extensions:TextBoxMask.PlaceHolder=" "
-                     Header="Text box with Mask +1999-9999 and placeHolder as space (placeholder represents the characters the user can change on runtime)"
-                      />
-
-            <TextBox
-                     extensions:TextBoxMask.CustomMask="5:[1-5],c:[a-c]"
-                     extensions:TextBoxMask.Mask="a5c-5c*9"
-                     Header="Text box with CustomMask in case you want to define your own variable character like a,9 and * , mask: a5c-5c*9, 5: [1-5], c: [a-c]"
-                     />
-
+<TextBox
+    extensions:TextBoxMask.CustomMask="5:[1-5],c:[a-c]"
+    extensions:TextBoxMask.Mask="a5c-5c*9"
+    Header="Text box with CustomMask in case you want to define your own variable character like a,9 and * , mask: a5c-5c*9, 5: [1-5], c: [a-c]" />
 ```
 
 
@@ -64,8 +58,7 @@ In case you want to add a custom variable character you can use property TextBox
 
 The following sample demonstrates how to add TextBoxMask property.
 
-```xml
-
+```xaml
 <Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextBoxMaskPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -119,8 +112,6 @@ The following sample demonstrates how to add TextBoxMask property.
         </Grid>
     </Grid>
 </Page>
-
-
 ```
 
 ## Requirements (Windows 10 Device Family)

@@ -1,7 +1,6 @@
 ---
 title: InAppNotification XAML Control
 author: nmetulev
-ms.date: 08/20/2017
 description: The InAppNotification control offers the ability to show local notifications in your application.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, InAppNotification, in app notification, xaml control, xaml
 ---
@@ -14,14 +13,13 @@ The *InAppNotification* control offers the ability to show local notifications i
 
 The control should be placed where you want your notification to be displayed in the page, generally in the root grid.
 
-```xml
-
+```xaml
 <controls:InAppNotification
     x:Name="ExampleInAppNotification" />
-
 ```
 
-**Note:** Since the control is part of the page visual tree, it will render in the order it was added in the parent control, and might be hidden by other elements. For the control to render on top of other elements, add it as the last child of the parent control or set the Canvas.ZIndex to a high number.
+> [!NOTE]
+Since the control is part of the page visual tree, it will render in the order it was added in the parent control, and might be hidden by other elements. For the control to render on top of other elements, add it as the last child of the parent control or set the Canvas.ZIndex to a high number.
 
 ### Show notification
 
@@ -29,49 +27,49 @@ You have multiple options to show an in-app notification.
 
 1. By simply displaying the notification using the current template
 
-```c#
-ExampleInAppNotification.Show();
-```
+    ```csharp
+    ExampleInAppNotification.Show();
+    ```
 
 2. By using a simple text content.
 
-```c#
-ExampleInAppNotification.Show("Some text.");
-```
+    ```csharp
+    ExampleInAppNotification.Show("Some text.");
+    ```
 
 3. By using a UIElement (with a container as parent, ex: Grid)
 
-```c#
-var grid = new Grid();
+    ```csharp
+    var grid = new Grid();
 
-// TODO : Construct the Grid in C#
+    // TODO : Construct the Grid in C#
 
-ExampleInAppNotification.Show(grid);
-```
+    ExampleInAppNotification.Show(grid);
+    ```
 
 4. By using a DataTemplate
 
-```c#
-object inAppNotificationWithButtonsTemplate;
-bool isTemplatePresent = Resources.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);
+    ```csharp
+    object inAppNotificationWithButtonsTemplate;
+    bool isTemplatePresent = Resources.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);
 
-if (isTemplatePresent && inAppNotificationWithButtonsTemplate is DataTemplate)
-{
-    ExampleInAppNotification.Show(inAppNotificationWithButtonsTemplate as DataTemplate);
-}
-```
+    if (isTemplatePresent && inAppNotificationWithButtonsTemplate is DataTemplate)
+    {
+        ExampleInAppNotification.Show(inAppNotificationWithButtonsTemplate as DataTemplate);
+    }
+    ```
 
 ### Notification duration
 
 By passing a second argument to the `Show()` method, you can set the duration of the notification (in milliseconds).
 
-```c#
+```csharp
 ExampleInAppNotification.Show("Some text.", 2000); // the notification will appear for 2 seconds
 ```
 
 ### Dismiss notification
 
-```c#
+```csharp
 ExampleInAppNotification.Dismiss();
 ```
 
@@ -88,12 +86,53 @@ To hide it, simply set the property to `ShowDismissButton="False"`.
 
 ## Events
 
-### Dismissed
+### Opening
 
-This event is raised when the system or your user dismissed the notification.
+This event is raised just before the notification starts to open.
 
-```c#
-private void InAppNotification_OnDismissed(object sender, EventArgs e)
+```csharp
+private void InAppNotification_OnOpening(object sender, InAppNotificationOpeningEventArgs e)
+{
+    // TODO
+}
+```
+
+### Opened
+
+This event is raised when the notification is fully opened (after open animation).
+
+```csharp
+private void InAppNotification_OnOpened(object sender, EventArgs e)
+{
+    // TODO
+}
+```
+
+### Closing
+
+This event is raised when the system or your user started to close the notification.
+
+```csharp
+private void InAppNotification_OnClosing(object sender, InAppNotificationDismissingEventArgs e)
+{
+    // TODO
+    if (e.DismissKind == InAppNotificationDismissKind.User)
+    {
+        // When the user asked to dismiss the notification
+    }
+    if (e.DismissKind == InAppNotificationDismissKind.Timeout)
+    {
+        // When the notification is dismissed after timeout
+    }
+}
+```
+
+### Closed
+
+This event is raised when the notification is fully closed (after close animation).
+
+```csharp
+private void InAppNotification_OnClosed(object sender, EventArgs e)
 {
     // TODO
 }
@@ -101,23 +140,57 @@ private void InAppNotification_OnDismissed(object sender, EventArgs e)
 
 ## Animation
 
-By default, the popup animation of the control is a bottom to top animation. You can update the popup animation using the `RenderTransformOrigin` property of the control. See examples:
+The default animation are set on each Notification Style. 
+You can update the animation using three distinct properties :
 
-```xml
+| Animation properties | Type | Description |
+| -- | -- | -- |
+| `AnimationDuration` | TimeSpan | Duration of the popup animation in milliseconds |
+| `VerticalOffset` | double | Vertical offset of the popup animation |
+| `HorizontalOffset` | double | Horizontal offset of the popup animation |
 
-<controls:InAppNotification RenderTransformOrigin="0.5,1" />
+## Styling
 
-```
+### Using styles
 
-The default value (X: 0.5, Y:1) will show popup animation from bottom to top.
+The in-app notification control is designed to support multiple styles. 
+The default style applied is the Microsoft Edge-like notification.
+Other styles have been added to the Toolkit so you can easily switch to another of your favorite In App Notification styles.
 
-```xml
+Here is the list of existing styles : 
+* [Microsoft Edge notification style](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml)
+* [Visual Studio Code notification style](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml)
 
-<controls:InAppNotification RenderTransformOrigin="0.5,0" />
+If you want to use another style than the default one, please follow the example below :
 
-```
+1. Import external styles in your resources
 
-An alternate version of the popup animation (used by the vscode-like notification) will start from top to bottom.
+    ```xaml
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    ```
+
+2. Apply the `Style`
+
+    ```xaml
+    <controls:InAppNotification 
+        x:Name="ExampleVSCodeInAppNotification"
+        Style="{StaticResource VSCodeNotificationStyle}" />
+    ```
+
+### Adding styles
+
+If you want to add styles to the Toolkit, please follow these steps :
+
+1. Create a `ResourceDictionary` file under `InAppNotification/Styles/` folder of `Microsoft.Toolkit.Uwp.UI.Controls` project
+2. Create a new `Style` with `TargetType="local:InAppNotification"`
+3. Create a new `ControlTemplate` with `TargetType="local:InAppNotification"` and add a `ContentPresenter` inside the Template
+4. Do not forget to set the `Template` property inside your `Style` resource
 
 ## Example Code
 

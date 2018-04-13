@@ -152,6 +152,33 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             controlToAdd = colorComboBox;
                             dependencyProperty = Selector.SelectedItemProperty;
                             break;
+                        case PropertyKind.TimeSpan:
+                            var timeSlider = new Slider();
+                            var timeSliderOption = option as SliderPropertyOptions;
+                            if (timeSliderOption != null)
+                            {
+                                timeSlider.Minimum = timeSliderOption.MinValue;
+                                timeSlider.Maximum = timeSliderOption.MaxValue;
+                                timeSlider.StepFrequency = timeSliderOption.Step;
+                            }
+
+                            if ((propertyDict[option.Name] as ValueHolder).Value is double timeValue)
+                            {
+                                timeSlider.Value = timeValue;
+                            }
+
+                            controlToAdd = timeSlider;
+                            dependencyProperty = RangeBase.ValueProperty;
+                            converter = new TimeSpanConverter();
+
+                            break;
+                        case PropertyKind.Thickness:
+                            var thicknessTextBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
+
+                            controlToAdd = thicknessTextBox;
+                            dependencyProperty = TextBox.TextProperty;
+                            converter = new ThicknessConverter();
+                            break;
                         default:
                             var textBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
 
@@ -167,6 +194,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                         Mode = BindingMode.TwoWay,
                         Converter = converter
                     };
+
+                    // Make textboxes instantly respond to text rather than waiting for lost focus.
+                    if (controlToAdd is TextBox)
+                    {
+                        binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                    }
 
                     controlToAdd.SetBinding(dependencyProperty, binding);
                     controlToAdd.Margin = new Thickness(0, 5, 0, 20);

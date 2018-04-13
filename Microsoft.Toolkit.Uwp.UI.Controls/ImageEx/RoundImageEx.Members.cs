@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 
@@ -22,16 +23,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class RoundImageEx
     {
-        // Using a DependencyProperty as the backing store for CornerRadius.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CornerRadiusProperty =
+        /// <summary>
+        /// Identifies the <see cref="CornerRadius"/> dependency property.
+        /// </summary>
+        public static new readonly DependencyProperty CornerRadiusProperty =
             DependencyProperty.Register(nameof(CornerRadius), typeof(double), typeof(RoundImageEx), new PropertyMetadata(0));
 
-        public double CornerRadius
+        /// <summary>
+        /// Gets or sets the corner radius of the image
+        /// </summary>
+        [Obsolete("Use ImageEx directly instead for 16299 and above.", false)]
+        public new double CornerRadius
         {
             get { return (double)GetValue(CornerRadiusProperty); }
             set { SetValue(CornerRadiusProperty, value); }
         }
 
+        /// <inheritdoc/>
         public override CompositionBrush GetAlphaMask()
         {
             return IsInitialized ? ImageRectangle.GetAlphaMask() : null;

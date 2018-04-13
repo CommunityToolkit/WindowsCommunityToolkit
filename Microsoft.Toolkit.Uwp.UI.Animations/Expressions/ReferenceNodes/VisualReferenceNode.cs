@@ -142,6 +142,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         /// <summary>
+        /// Gets the Translation.
+        /// </summary>
+        public Vector3Node Translation
+        {
+            get { return GetVector3Property("Translation"); }
+        }
+
+        /// <summary>
         /// Gets the orientation.
         /// </summary>
         /// <value>The orientation.</value>

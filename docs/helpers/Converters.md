@@ -1,7 +1,6 @@
 ---
 title: Converters
 author: nmetulev
-ms.date: 08/20/2017
 description: Commonly used converters that allow the data to be modified as it passes through the binding engine.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, BoolToObjectConverter, BoolToVisibilityConverter, CollectionVisibilityConverter, EmptyCollectionToObjectConverter, EmptyStringToObjectConverter, StringFormatConverter, StringVisibilityConverter
 ---
@@ -28,7 +27,7 @@ Commonly used **converters** that allow the data to be modified as it passes thr
 `BoolToObjectConverter` can be used to generalize the behavior of `BoolToVisibilityConverter` by allowing to pass the two values it can return.
 You can use it to switch Visibility by declaring it :
 
-```xml
+```xaml
 
 <Page.Resources>
     <converters:BoolToObjectConverter x:Key="BoolToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
@@ -38,7 +37,7 @@ You can use it to switch Visibility by declaring it :
 
 and using it like that :
 
-```xml
+```xaml
 
 <Image Visibility="{x:Bind Path=MyBoolValue, Converter={StaticResource BoolToVisibilityConverter}}" />
 
@@ -48,7 +47,7 @@ It can also be used to switch between two values of brush.
 
 Note : you can use a resource for the brush or pass the color string and have it converted to a brush automatically.
 
-```xml
+```xaml
 
 <Page.Resources>
     <converters:BoolToObjectConverter x:Key="BoolToBrushConverter" TrueValue="Green" FalseValue="{StaticResource NopeBrush}" />
@@ -58,7 +57,7 @@ Note : you can use a resource for the brush or pass the color string and have it
 
 and using it like that :
 
-```xml
+```xaml
 
 <Border Background="{x:Bind Path=MyBoolValue, Converter={StaticResource BoolToBrushConverter}}" />
 
@@ -66,7 +65,7 @@ and using it like that :
 
 An other example is to switch between two images by specifying their source :
 
-```xml
+```xaml
 
 <Page.Resources>
     <converters:BoolToObjectConverter x:Key="BoolToImageConverter" TrueValue="ms-appx:///Assets/Yes.png" FalseValue="ms-appx:///Assets/No.png" />
@@ -76,7 +75,7 @@ An other example is to switch between two images by specifying their source :
 
 and using it like that :
 
-```xml
+```xaml
 
 <Image Source="{x:Bind Path=MyBoolValue, Converter={StaticResource BoolToImageConverter}}" />
 
@@ -87,7 +86,7 @@ and using it like that :
 `BoolToVisibilityConverter` can be used to easily change a boolean value to a Visibility based one. 
 If targetting 14393 or later, this is done automatically through [x:Bind][1].  First, declare the converter in your resources:
 
-```xml
+```xaml
 
 <Page.Resources>
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -97,7 +96,7 @@ If targetting 14393 or later, this is done automatically through [x:Bind][1].  F
 
 and use it like this :
 
-```xml
+```xaml
 
 <Image Visibility="{Binding Path=MyBoolValue, Converter={StaticResource BoolToVisibilityConverter}}" />
 
@@ -105,7 +104,7 @@ and use it like this :
 
 you can also invert the boolean as a ConverterParameter:
 
-```xml
+```xaml
 
 <Image Visibility="{Binding Path=MyBoolValue, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
 
@@ -113,7 +112,7 @@ you can also invert the boolean as a ConverterParameter:
 
 or if you want to not pass a parameter, you can use `BoolToObjectConverter` to create an `InverseBoolToVisibilityConveter`:
 
-```xml
+```xaml
 
 <Page.Resources>
     <converters:BoolToObjectConverter x:Key="InverseBoolToVisibilityConverter" TrueValue="Collapsed" FalseValue="Visible"/>
@@ -130,7 +129,7 @@ That result can also be inverted withe a ConverterParameter.
 
 For instance you can generalize the `CollectionVisibilityConverter` using the `EmptyCollectionToObjectConverter`:
 
-```xml
+```xaml
 
 <Page.Resources>
     <converters:EmptyCollectionToObjectConverter x:Key="CollectionVisibilityConverter" EmptyValue="Collapsed" NotEmptyValue="Visible"/>
@@ -140,7 +139,7 @@ For instance you can generalize the `CollectionVisibilityConverter` using the `E
 
 this can be used as follows to hide a list with no items and instead show text through inversion with the ConverterParameter:
 
-```xml
+```xaml
 
 <ListView Visibility="{Binding Path=MyCollectionValue, Converter={StaticResource CollectionVisibilityConverter}}" />
 
@@ -154,7 +153,7 @@ this can be used as follows to hide a list with no items and instead show text t
 It only allows for a single input value (the binding string), but can be formatted with the regular string.Format
 methods.  First, add it to your page resources:
 
-```xml
+```xaml
 
 <Page.Resources>
     <converters:StringFormatConverter x:Key="StringFormatConverter"/>
@@ -164,7 +163,7 @@ methods.  First, add it to your page resources:
 
 then use it like so:
 
-```xml
+```xaml
 
 <TestBlock Text="{Binding IsLoading, Converter={StaticResource StringFormatConverter}, ConverterParameter='Is Loading: {0}'}" />
 

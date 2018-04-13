@@ -10,19 +10,15 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Newtonsoft.Json;
+using System;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
     /// Parent class
     /// </summary>
-    public class OneDriveParent
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
+    public class OneDriveParent : Toolkit.Services.OneDrive.OneDriveParent
     {
-        /// <summary>
-        /// Gets or sets parent path
-        /// </summary>
-        [JsonProperty("path")]
-        public string Path { get; set; }
     }
 }

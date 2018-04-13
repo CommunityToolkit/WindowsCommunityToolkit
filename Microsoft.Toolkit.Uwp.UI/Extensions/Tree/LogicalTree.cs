@@ -160,9 +160,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                         yield return child as T;
                     }
 
-                    foreach (T childOfChild in (child as FrameworkElement)?.FindChildren<T>())
+                    var childFrameworkElement = child as FrameworkElement;
+
+                    if (childFrameworkElement != null)
                     {
-                        yield return childOfChild;
+                        foreach (T childOfChild in childFrameworkElement.FindChildren<T>())
+                        {
+                            yield return childOfChild;
+                        }
                     }
                 }
             }
@@ -170,9 +175,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             {
                 foreach (var item in (element as ItemsControl).Items)
                 {
-                    foreach (T childOfChild in (item as FrameworkElement)?.FindChildren<T>())
+                    var childFrameworkElement = item as FrameworkElement;
+
+                    if (childFrameworkElement != null)
                     {
-                        yield return childOfChild;
+                        foreach (T childOfChild in childFrameworkElement.FindChildren<T>())
+                        {
+                            yield return childOfChild;
+                        }
                     }
                 }
             }
@@ -185,9 +195,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     yield return content as T;
                 }
 
-                foreach (T childOfChild in (content as FrameworkElement)?.FindChildren<T>())
+                var childFrameworkElement = content as FrameworkElement;
+
+                if (childFrameworkElement != null)
                 {
-                    yield return childOfChild;
+                    foreach (T childOfChild in childFrameworkElement.FindChildren<T>())
+                    {
+                        yield return childOfChild;
+                    }
                 }
             }
         }

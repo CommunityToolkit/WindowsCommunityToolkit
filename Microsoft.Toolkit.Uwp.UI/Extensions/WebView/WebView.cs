@@ -16,8 +16,10 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.Controls.WebView"/> that allows attaching HTML string content/>.
+    /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.Controls.WebView"/>
+    /// that allows attaching HTML string content/>.
     /// </summary>
+    [Obsolete("Use Microsoft.Toolkit.Uwp.UI.Extensions.WebViewExtensions instead")]
     public partial class WebView
     {
         private static void OnContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

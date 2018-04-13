@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
         private TextBlock controlFirstParentWithName;
 
         /// <summary>
-        /// Gets or sets a boolean indicating whether the tracker is running or not.
+        /// Gets or sets a value indicating whether the tracker is running or not.
         /// </summary>
         public bool IsActive
         {

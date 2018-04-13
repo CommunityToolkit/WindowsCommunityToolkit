@@ -10,16 +10,16 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Services.Rss;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Parsers.Rss;
 
 namespace Microsoft.Toolkit.Services.Bing
 {
     /// <summary>
     /// Parse Bing results into strong type.
     /// </summary>
-    public class BingParser : IParser<BingResult>
+    public class BingParser : Parsers.IParser<BingResult>
     {
         /// <summary>
         /// Take string data and parse into strong data type.
@@ -36,14 +36,14 @@ namespace Microsoft.Toolkit.Services.Bing
             RssParser rssParser = new RssParser();
             IEnumerable<RssSchema> syndicationItems = rssParser.Parse(data);
             return from r in syndicationItems
-                    select new BingResult
-                    {
-                        InternalID = r.InternalID,
-                        Title = r.Title,
-                        Summary = r.Summary,
-                        Link = r.FeedUrl,
-                        Published = r.PublishDate
-                    };
+                   select new BingResult
+                   {
+                       InternalID = r.InternalID,
+                       Title = r.Title,
+                       Summary = r.Summary,
+                       Link = r.FeedUrl,
+                       Published = r.PublishDate
+                   };
         }
     }
 }

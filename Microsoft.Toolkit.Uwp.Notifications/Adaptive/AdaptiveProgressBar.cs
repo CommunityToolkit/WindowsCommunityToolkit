@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             ValueStringOverride { get; set; }
 
         /// <summary>
-        /// Required. Gets or sets a status string, which is displayed underneath the progress bar. This string should reflect the status of the operation, like "Downloading..." or "Installing..."
+        /// Gets or sets a status string (Required), which is displayed underneath the progress bar. This string should reflect the status of the operation, like "Downloading..." or "Installing..."
         /// </summary>
         public
 #if WINRT

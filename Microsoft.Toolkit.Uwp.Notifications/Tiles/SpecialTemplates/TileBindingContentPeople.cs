@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class TileBindingContentPeople : ITileBindingContent
     {
         /// <summary>
-        /// Images that will roll around as circles.
+        /// Gets images that will roll around as circles.
         /// </summary>
         public IList<TileBasicImage> Images { get; private set; } = new List<TileBasicImage>();
 

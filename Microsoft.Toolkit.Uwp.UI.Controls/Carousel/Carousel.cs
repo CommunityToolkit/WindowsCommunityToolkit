@@ -31,21 +31,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class Carousel : ItemsControl
     {
         /// <summary>
-        /// Gets or sets the selected Item
+        /// Gets or sets the selected item.
         /// </summary>
+        /// <returns>The selected item. The default is null.</returns>
         public object SelectedItem
         {
             get { return (object)GetValue(SelectedItemProperty); }
             set { SetValue(SelectedItemProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for SelectedItem.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="SelectedItem"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty SelectedItemProperty =
             DependencyProperty.Register("SelectedItem", typeof(object), typeof(Carousel), new PropertyMetadata(null, OnCarouselPropertyChanged));
 
         /// <summary>
-        /// Gets or sets selected Index
+        /// Gets or sets the index of the selected item.
         /// </summary>
+        /// <returns>The index of the selected item. The default is -1.</returns>
         public int SelectedIndex
         {
             get
@@ -59,12 +63,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        // Using a DependencyProperty as the backing store for SelectedIndex.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="SelectedIndex"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty SelectedIndexProperty =
             DependencyProperty.Register("SelectedIndex", typeof(int), typeof(Carousel), new PropertyMetadata(-1, OnCarouselPropertyChanged));
 
         /// <summary>
-        /// Gets or sets duration of the easing function animation (ms)
+        /// Gets or sets duration of the easing function animation (ms).
         /// </summary>
         public int TransitionDuration
         {
@@ -72,11 +78,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(TransitionDurationProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for TransitionDuration.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="TransitionDuration"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty TransitionDurationProperty = DependencyProperty.Register("TransitionDuration", typeof(int), typeof(Carousel), new PropertyMetadata(200));
 
         /// <summary>
-        /// Gets or sets depth of non Selected Index Items
+        /// Gets or sets the depth of items that are not selected.
         /// </summary>
         public int ItemDepth
         {
@@ -84,11 +92,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ItemDepthProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Depth.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="ItemDepth"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty ItemDepthProperty = DependencyProperty.Register("ItemDepth", typeof(int), typeof(Carousel), new PropertyMetadata(0, OnCarouselPropertyChanged));
 
         /// <summary>
-        /// Gets or sets easing function to apply for each Transition
+        /// Gets or sets easing function to apply for each transition.
         /// </summary>
         public EasingFunctionBase EasingFunction
         {
@@ -96,11 +106,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(EasingFunctionProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for EasingFunction.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty EasingFunctionProperty = DependencyProperty.Register("EasingFunction", typeof(EasingFunctionBase), typeof(Carousel), new PropertyMetadata(new ExponentialEase { EasingMode = EasingMode.EaseOut }));
+        /// <summary>
+        /// Identifies the <see cref="EasingFunction"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty EasingFunctionProperty = DependencyProperty.Register("EasingFunction", typeof(EasingFunctionBase), typeof(Carousel), new PropertyMetadata(null));
 
         /// <summary>
-        /// Gets or sets the item margin
+        /// Gets or sets the margin for items.
         /// </summary>
         public int ItemMargin
         {
@@ -108,7 +120,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ItemMarginProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for TranslateX.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="ItemMargin"/> dependency property
+        /// </summary>
         public static readonly DependencyProperty ItemMarginProperty = DependencyProperty.Register("ItemMargin", typeof(int), typeof(Carousel), new PropertyMetadata(0, OnCarouselPropertyChanged));
 
         /// <summary>
@@ -122,7 +136,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(InvertPositiveProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for InvertPostive.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="InvertPositive"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty InvertPositiveProperty =
             DependencyProperty.Register("InvertPositive", typeof(bool), typeof(Carousel), new PropertyMetadata(true, OnCarouselPropertyChanged));
 
@@ -135,7 +151,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ItemRotationXProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Rotation.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="ItemRotationX"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty ItemRotationXProperty = DependencyProperty.Register("ItemRotationX", typeof(double), typeof(Carousel), new PropertyMetadata(0d, OnCarouselPropertyChanged));
 
         /// <summary>
@@ -147,7 +165,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ItemRotationYProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Rotation.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="ItemRotationY"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty ItemRotationYProperty = DependencyProperty.Register("ItemRotationY", typeof(double), typeof(Carousel), new PropertyMetadata(0d, OnCarouselPropertyChanged));
 
         /// <summary>
@@ -159,7 +179,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ItemRotationZProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Rotation.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="ItemRotationZ"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty ItemRotationZProperty = DependencyProperty.Register("ItemRotationZ", typeof(double), typeof(Carousel), new PropertyMetadata(0d, OnCarouselPropertyChanged));
 
         /// <summary>
@@ -171,7 +193,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(OrientationProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for MaxViewableItems.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="Orientation"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(Orientation), typeof(Carousel), new PropertyMetadata(Orientation.Horizontal, OnCarouselPropertyChanged));
 
         /// <summary>
@@ -185,13 +209,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var newValue = (int)e.NewValue == -1 ? null : carouselControl.Items[(int)e.NewValue];
                 var oldValue = e.OldValue == null ? null : carouselControl.Items.ElementAtOrDefault((int)e.OldValue);
+                if (oldValue != null)
+                {
+                    var item = (CarouselItem)carouselControl.ContainerFromIndex((int)e.OldValue);
+                    if (item != null)
+                    {
+                        item.IsSelected = false;
+                    }
+                }
+
+                bool isNewSelectedItem = carouselControl.SelectedItem != newValue;
+
                 if (newValue != null)
                 {
+                    var item = (CarouselItem)carouselControl.ContainerFromIndex((int)e.NewValue);
+                    if (item != null)
+                    {
+                        item.IsSelected = true;
+                    }
+
                     carouselControl.FocusContainerFromIndex((int)e.NewValue);
                 }
 
                 // double check
-                if (carouselControl.SelectedItem != newValue)
+                if (isNewSelectedItem)
                 {
                     carouselControl.SetValue(SelectedItemProperty, newValue);
                     var newValues = new List<object>() { newValue };
@@ -238,14 +279,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 newElem.Focus(oldElem != null && oldElem.FocusState != FocusState.Unfocused ? oldElem.FocusState : FocusState.Programmatic);
             }
 
-            if (oldElem != null && (string)oldElem.Tag == "CarouselItem")
+            if (oldElem != null && oldElem is CarouselItem)
             {
                 oldElem.IsTabStop = false;
             }
         }
 
         /// <summary>
-        /// Occurs when the selected item has changed
+        /// Occurs when the selected item changes.
         /// </summary>
         public event SelectionChangedEventHandler SelectionChanged;
 
@@ -261,10 +302,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Returns the container used for each item
         /// </summary>
-        /// <returns>Returns always a ContentControl</returns>
+        /// <returns>Returns always a CarouselItem</returns>
         protected override DependencyObject GetContainerForItemOverride()
         {
-            return new ContentControl();
+            return new CarouselItem();
         }
 
         /// <summary>
@@ -436,41 +477,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             e.Handled = true;
         }
 
+        /// <inheritdoc/>
         protected override bool IsItemItsOwnContainerOverride(object item)
         {
-            return false;
+            return item is CarouselItem;
         }
 
+        /// <inheritdoc/>
+        protected override void ClearContainerForItemOverride(DependencyObject element, object item)
+        {
+            base.ClearContainerForItemOverride(element, item);
+            var carouselItem = (CarouselItem)element;
+            carouselItem.Selected -= OnCarouselItemSelected;
+        }
+
+        /// <inheritdoc/>
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             base.PrepareContainerForItemOverride(element, item);
 
-            FrameworkElement contentControl = element as ContentControl;
+            var carouselItem = (CarouselItem)element;
+            carouselItem.Selected += OnCarouselItemSelected;
 
-            if (contentControl == null)
-            {
-                contentControl = element as FrameworkElement;
-            }
-            else if (ItemTemplate != null && (contentControl as ContentControl) != null)
-            {
-                ((ContentControl)contentControl).Content = ItemTemplate.LoadContent();
-            }
+            carouselItem.RenderTransformOrigin = new Point(0.5, 0.5);
 
-            if (contentControl == null)
-            {
-                throw new InvalidCastException("Any element added to the Carousel should be at least a Control component");
-            }
-
-            contentControl.DataContext = item;
-            contentControl.Opacity = 1;
-            contentControl.RenderTransformOrigin = new Point(0.5, 0.5);
-            contentControl.Tag = "CarouselItem";
-
-            if (contentControl as Control != null)
-            {
-                ((Control)contentControl).IsTabStop = Items.IndexOf(item) == SelectedIndex;
-                ((Control)contentControl).UseSystemFocusVisuals = true;
-            }
+            carouselItem.IsTabStop = Items.IndexOf(item) == SelectedIndex;
+            carouselItem.UseSystemFocusVisuals = true;
 
             PlaneProjection planeProjection = new PlaneProjection();
             planeProjection.CenterOfRotationX = 0.5;
@@ -480,10 +512,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var compositeTransform = new CompositeTransform();
             compositeTransform.CenterX = 0.5;
             compositeTransform.CenterY = 0.5;
-            compositeTransform.CenterY = 0.5;
 
-            contentControl.Projection = planeProjection;
-            contentControl.RenderTransform = compositeTransform;
+            carouselItem.Projection = planeProjection;
+            carouselItem.RenderTransform = compositeTransform;
+
+            if (item == SelectedItem)
+            {
+                carouselItem.IsSelected = true;
+            }
+        }
+
+        private void OnCarouselItemSelected(object sender, EventArgs e)
+        {
+            var item = (CarouselItem)sender;
+
+            SelectedItem = ItemFromContainer(item);
         }
     }
 }

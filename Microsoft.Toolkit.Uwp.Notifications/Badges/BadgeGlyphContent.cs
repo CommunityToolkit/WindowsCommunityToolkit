@@ -23,6 +23,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class BadgeGlyphContent : INotificationContent
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="BadgeGlyphContent"/> class.
         /// Default constructor to create a glyph badge content object.
         /// </summary>
         public BadgeGlyphContent()
@@ -30,6 +31,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="BadgeGlyphContent"/> class.
         /// Constructor to create a glyph badge content object with a glyph.
         /// </summary>
         /// <param name="glyph">The glyph to be displayed on the badge.</param>
@@ -39,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
-        /// The glyph to be displayed on the badge.
+        /// Gets or sets the glyph to be displayed on the badge.
         /// </summary>
         public BadgeGlyphValue Glyph
         {

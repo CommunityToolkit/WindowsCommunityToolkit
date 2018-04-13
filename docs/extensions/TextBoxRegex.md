@@ -1,7 +1,6 @@
 ---
 title: TextBoxRegex XAML Property
 author: nmetulev
-ms.date: 08/20/2017
 description: The TextBoxRegex Property allows text validation using a regular expression or using built in validation types.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, TextBoxRegex, XAML
 ---
@@ -25,19 +24,17 @@ Main Attached Properties:
 
 ## Syntax
 
-```xml
+```xaml
+<TextBox extensions:TextBoxRegex.Regex="^\s*\+?\s*([0-9][\s-]*){9,}$" />
 
-            <TextBox extensions:TextBoxRegex.Regex="^\s*\+?\s*([0-9][\s-]*){9,}$" />
+<TextBox extensions:TextBoxRegex.ValidationMode="Forced"
+    extensions:TextBoxRegex.ValidationType="PhoneNumber"
+    Text="+61616161611" />
 
-            <TextBox extensions:TextBoxRegex.ValidationMode="Forced"
-                      extensions:TextBoxRegex.ValidationType="PhoneNumber"
-                      Text="+61616161611" />
+<TextBox extensions:TextBoxRegex.ValidationType="Email" />
 
-           <TextBox extensions:TextBoxRegex.ValidationType="Email"   />
-
-            <TextBox extensions:TextBoxRegex.ValidationMode="Forced"
-                     extensions:TextBoxRegex.ValidationType="Decimal" />
-
+<TextBox extensions:TextBoxRegex.ValidationMode="Forced"
+    extensions:TextBoxRegex.ValidationType="Decimal" />
 ```
 
 
@@ -51,13 +48,12 @@ Main Attached Properties:
 
 The following sample demonstrates how to add TextBoxRegex property.
 
-```xml
-
+```xaml
 <Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextBoxRegexPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
-      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Extenions"
+      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extenions"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
@@ -144,9 +140,6 @@ The following sample demonstrates how to add TextBoxRegex property.
         </Grid>
     </Grid>
 </Page>
-
-
-
 ```
 
 ## Requirements (Windows 10 Device Family)

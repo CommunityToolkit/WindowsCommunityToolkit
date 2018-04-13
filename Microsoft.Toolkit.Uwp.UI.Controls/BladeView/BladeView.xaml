@@ -85,6 +85,8 @@
 
     <Style TargetType="controls:BladeItem">
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="TitleBarForeground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
+        <Setter Property="CloseButtonForeground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
         <Setter Property="Background" Value="Transparent" />
@@ -101,6 +103,13 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="IsExpanded" Value="True"/>
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:BladeItem">
@@ -132,12 +141,10 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock x:Name="TitleBar"
-                                       Margin="4,0,0,0"
-                                       HorizontalAlignment="Left"
-                                       VerticalAlignment="Center"
-                                       Foreground="{TemplateBinding TitleBarForeground}"
-                                       Text="{TemplateBinding Title}" />
+                            <ContentPresenter x:Name="TitleBar"
+                                              Content="{TemplateBinding Header}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                              Foreground="{TemplateBinding TitleBarForeground}"/>
                             <Button Name="EnlargeButton"
                                     Grid.Column="1"
                                     TabIndex="0"

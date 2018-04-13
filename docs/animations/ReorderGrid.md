@@ -1,7 +1,6 @@
 ---
 title: ReorderGridAnimation
 author: nmetulev
-ms.date: 08/20/2017
 description: The ReorderGridAnimation class allows your GridView controls to animate items into position when the size of the GridView changes.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ReorderGridAnimation
 ---
@@ -14,7 +13,7 @@ The ReorderGridAnimation class allows your GridView controls to animate items in
 
 **XAML**
 
-```xml
+```xaml
 <Page ...
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"/>
 <GridView x:Name="MyGridView"

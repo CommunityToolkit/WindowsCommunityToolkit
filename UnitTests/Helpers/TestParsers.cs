@@ -13,7 +13,6 @@
 namespace UnitTests
 {
     using System;
-    using Microsoft.Toolkit.Uwp;
     using Microsoft.Toolkit.Uwp.Helpers;
 
 #pragma warning disable SA1649 // File name must match first type name

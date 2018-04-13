@@ -14,32 +14,49 @@ using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 {
+    /// <summary>
+    /// Default button Actions for MarkDown Formatter
+    /// </summary>
     public class MarkDownButtonActions : ButtonActions
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MarkDownButtonActions"/> class.
+        /// </summary>
+        /// <param name="formatter">The Formatter to use</param>
         public MarkDownButtonActions(MarkDownFormatter formatter)
         {
             Formatter = formatter;
         }
 
+        /// <inheritdoc/>
         public override void FormatBold(ToolbarButton button)
         {
             Formatter.SetSelection("**", "**");
         }
 
+        /// <inheritdoc/>
         public override void FormatItalics(ToolbarButton button)
         {
             Formatter.SetSelection("_", "_");
         }
 
+        /// <inheritdoc/>
         public override void FormatStrikethrough(ToolbarButton button)
         {
             Formatter.SetSelection("~~", "~~");
         }
 
+        /// <inheritdoc/>
         public override void FormatLink(ToolbarButton button, string label, string formattedText, string link)
         {
             var select = Formatter.Selected;
             int originalStart = Formatter.Selected.StartPosition;
+
+            // Replaces Selection of first Line only.
+            if (select.Text.Contains("\r"))
+            {
+                select.EndPosition = select.Text.IndexOf("\r");
+            }
 
             if (string.IsNullOrWhiteSpace(label))
             {
@@ -60,26 +77,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             }
             else if (string.IsNullOrWhiteSpace(link))
             {
-                Formatter.SetSelection("[", $"]({Formatter.Model.Labels.UrlLabel})", false, label);
+                Formatter.SetSelection($"[{label}](", ")", false, Formatter.Model.Labels.UrlLabel);
             }
             else
             {
                 select.Text = $"[{label}]({link})";
                 select.StartPosition = select.EndPosition;
-                select.EndPosition = select.StartPosition;
             }
         }
 
+        /// <inheritdoc/>
         public override void FormatList(ToolbarButton button)
         {
             Formatter.SetList(() => "- ", button);
         }
 
+        /// <inheritdoc/>
         public override void FormatOrderedList(ToolbarButton button)
         {
             Formatter.SetList(Formatter.OrderedListIterate, button);
         }
 
+        /// <summary>
+        /// Gets the Formatter used
+        /// </summary>
         public MarkDownFormatter Formatter { get; }
     }
 }

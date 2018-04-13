@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="52b9212c-97a9-4639-9426-3e1ea9c1569e" Publisher="CN=davca" Version="2.0.0.0" />
+  <Identity Name="52b9212c-97a9-4639-9426-3e1ea9c1569e" Publisher="CN=Nikola" Version="2.2.0.0" />
   <mp:PhoneIdentity PhoneProductId="52b9212c-97a9-4639-9426-3e1ea9c1569e" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Microsoft.Toolkit.Uwp.SampleApp</DisplayName>
@@ -27,21 +27,22 @@
         <uap:SplashScreen Image="Assets\UWPCommunityToolkitSampleAppSplashScreen.png" BackgroundColor="#3750D1" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.TestBackgroundTask">
-          <BackgroundTasks>
-            <Task Type="timer" />
-          </BackgroundTasks>
-        </Extension>
         <uap:Extension Category="windows.protocol">
           <uap:Protocol Name="uwpct">
             <uap:DisplayName>UWP Community Toolkit</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.TestBackgroundTask">
+          <BackgroundTasks>
+            <Task Type="timer" />
+          </BackgroundTasks>
+        </Extension>
       </Extensions>
     </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
+    <Capability Name="privateNetworkClientServer" />
     <DeviceCapability Name="location" />
     <DeviceCapability Name="bluetooth" />
   </Capabilities>

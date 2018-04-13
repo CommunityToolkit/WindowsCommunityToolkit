@@ -20,23 +20,31 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class ToastButtonDismiss : IToastButton
     {
         /// <summary>
-        /// Custom text displayed on the button that overrides the default localized "Dismiss" text.
+        /// Gets custom text displayed on the button that overrides the default localized "Dismiss" text.
         /// </summary>
         public string CustomContent { get; private set; }
 
         /// <summary>
-        /// An optional image icon for the button to display.
+        /// Gets or sets an optional image icon for the button to display.
         /// </summary>
         public string ImageUri { get; set; }
 
         /// <summary>
-        /// Initializes a system-handled dismiss button that displays localized "Dismiss" text on the button.
+        /// Gets or sets an identifier used in telemetry to identify your category of action. This should be something
+        /// like "Delete", "Reply", or "Archive". In the upcoming toast telemetry dashboard in Dev Center, you will
+        /// be able to view how frequently your actions are being clicked.
+        /// </summary>
+        public string HintActionId { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToastButtonDismiss"/> class.
         /// </summary>
         public ToastButtonDismiss()
         {
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ToastButtonDismiss"/> class.
         /// Constructs a system-handled dismiss button that displays your text on the button.
         /// </summary>
         /// <param name="customContent">The text you want displayed on the button.</param>
@@ -53,14 +61,15 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         internal Element_ToastAction ConvertToElement()
         {
             return new Element_ToastAction()
-                       {
-                           Content = this.CustomContent == null ? string.Empty : this.CustomContent, // If not using custom content, we need to provide empty string, otherwise Toast doesn't get displayed
-                           Arguments = "dismiss",
-                           ActivationType = Element_ToastActivationType.System,
-                           ImageUri = ImageUri
+            {
+                Content = this.CustomContent == null ? string.Empty : this.CustomContent, // If not using custom content, we need to provide empty string, otherwise Toast doesn't get displayed
+                Arguments = "dismiss",
+                ActivationType = Element_ToastActivationType.System,
+                ImageUri = ImageUri,
+                HintActionId = HintActionId
 
-                           // InputId is useless since dismiss button can't be placed to the right of text box (shell doesn't display it)
-                       };
+                // InputId is useless since dismiss button can't be placed to the right of text box (shell doesn't display it)
+            };
         }
     }
 }

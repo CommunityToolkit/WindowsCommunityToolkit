@@ -23,12 +23,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         internal string RawValue { get; private set; }
 
         /// <summary>
-        /// The name that maps to your binding data value.
+        /// Gets or sets the name that maps to your binding data value.
         /// </summary>
         public string BindingName { get; set; }
 
         /// <summary>
-        /// Initializes a new binding for a string value, with the required binding name. Do NOT include surrounding {} brackets.
+        /// Initializes a new instance of the <see cref="BindableString"/> class.
+        /// A new binding for a string value, with the required binding name. Do NOT include surrounding {} brackets.
         /// </summary>
         /// <param name="bindingName">The name that maps to your data binding value.</param>
         public BindableString(string bindingName)
@@ -37,6 +38,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="BindableString"/> class.
         /// Private constructor used by the implicit converter to assign the raw value.
         /// </summary>
         private BindableString()

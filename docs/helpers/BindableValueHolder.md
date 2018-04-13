@@ -1,7 +1,6 @@
 ---
 title: BindableValueHolder
 author: nmetulev
-ms.date: 08/20/2017
 description: The BindableValueHolder lets users change several objects' states at a time.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, BindableValueHolder
 ---
@@ -14,7 +13,7 @@ The **BindableValueHolder** lets users change several objects' states at a time.
 
 You can use it to switch several object states by declaring it as a Resource (either in a page or control):
 
-```xml
+```xaml
 
 <helpers:BindableValueHolder x:Name="HighlightBrushHolder" Value="{StaticResource BlackBrush}" />
 
@@ -22,7 +21,7 @@ You can use it to switch several object states by declaring it as a Resource (ei
 
 and using it like that:
 
-```xml
+```xaml
 
 <TextBlock x:Name="Label" Foreground="{Binding Value, ElementName=HighlightBrushHolder}" />
 
@@ -32,7 +31,7 @@ and using it like that:
 
 and switching it like that:
 
-```xml
+```xaml
 
 <VisualStateGroup x:Name="HighlightStates">
     <VisualState x:Name="Normal" />

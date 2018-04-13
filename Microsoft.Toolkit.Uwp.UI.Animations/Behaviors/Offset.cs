@@ -65,6 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             AssociatedObject.Offset(
                 duration: Duration,
                 delay: Delay,
+                easingType: EasingType,
                 offsetX: (float)OffsetX,
                 offsetY: (float)OffsetY)?.Start();
         }

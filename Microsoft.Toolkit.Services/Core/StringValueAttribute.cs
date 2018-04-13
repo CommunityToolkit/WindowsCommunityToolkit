@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Services.Core
     /// StringValue attribute.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
+    [Obsolete("This class is being deprecated. Please use the counterpart in Microsoft.Toolkit.Parsers.Core.")]
     public sealed class StringValueAttribute : Attribute
     {
         /// <summary>

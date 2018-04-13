@@ -15,8 +15,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -41,29 +41,36 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// </summary>
         public class RSSIComparer : IComparer
         {
+            /// <summary>
+            /// Compares two ObservableBluettothLEDevices and returns a value indicating
+            /// whether one is less than, equal to, or greater than the other.
+            /// </summary>
+            /// <param name="x">First object to compare</param>
+            /// <param name="y">Second object to compare</param>
+            /// <returns>Returns 0 if equal</returns>
             public int Compare(object x, object y)
             {
                 ObservableBluetoothLEDevice a = x as ObservableBluetoothLEDevice;
                 ObservableBluetoothLEDevice b = y as ObservableBluetoothLEDevice;
 
-                if( a == null || b == null)
+                if (a == null || b == null)
                 {
                     throw new InvalidOperationException("Compared objects are not ObservableBluetoothLEDevice");
                 }
 
                 // If they're equal
-                if(a.RSSI == b.RSSI)
+                if (a.RSSI == b.RSSI)
                 {
                     return 0;
                 }
 
                 // RSSI == 0 means we don't know it. Always make that the end.
-                if(b.RSSI == 0)
+                if (b.RSSI == 0)
                 {
                     return -1;
                 }
 
-                if(a.RSSI < b.RSSI || a.RSSI == 0)
+                if (a.RSSI < b.RSSI || a.RSSI == 0)
                 {
                     return 1;
                 }
@@ -113,17 +120,17 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// result of finding all the services
         /// </summary>
         private GattDeviceServicesResult _result;
-		
-		/// <summary>
-		/// Queue to store the last 10 observed RSSI values
-		/// </summary>
-        private Queue<int> _rssiValue = new Queue<int>(10); 
-        
+
+        /// <summary>
+        /// Queue to store the last 10 observed RSSI values
+        /// </summary>
+        private Queue<int> _rssiValue = new Queue<int>(10);
+
         /// <summary>
         /// Source for <see cref="RSSI"/>
         /// </summary>
         private int _rssi;
-		
+
         /// <summary>
         /// Source for <see cref="ServiceCount" />
         /// </summary>
@@ -325,7 +332,6 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
             }
         }
 
-
         /// <summary>
         /// Gets the RSSI value of this device
         /// </summary>
@@ -342,10 +348,11 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
                 {
                     _rssiValue.Dequeue();
                 }
+
                 _rssiValue.Enqueue(value);
 
                 int newValue = (int)Math.Round(_rssiValue.Average(), 0);
-                
+
                 if (_rssi != newValue)
                 {
                     _rssi = newValue;
@@ -380,9 +387,9 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
 
         private void ObservableBluetoothLEDevice_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == "DeviceInfo")
+            if (e.PropertyName == "DeviceInfo")
             {
-                if(DeviceInfo.Properties.ContainsKey("System.Devices.Aep.SignalStrength") && DeviceInfo.Properties["System.Devices.Aep.SignalStrength"] != null)
+                if (DeviceInfo.Properties.ContainsKey("System.Devices.Aep.SignalStrength") && DeviceInfo.Properties["System.Devices.Aep.SignalStrength"] != null)
                 {
                     RSSI = (int)DeviceInfo.Properties["System.Devices.Aep.SignalStrength"];
                 }

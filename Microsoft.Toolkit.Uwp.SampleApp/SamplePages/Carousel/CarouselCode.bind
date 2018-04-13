@@ -15,7 +15,7 @@
                   ItemRotationY="@[ItemRotationY:Slider:45:-180-180]"
                   ItemRotationZ ="@[ItemRotationZ:Slider:0:-180-180]"
                   Orientation="@[Orientation:Enum:Orientation.Horizontal]"
-                  SelectedIndex="@[SelectedIndex:String:4]">
+                  SelectedIndex="@[SelectedIndex:String:4]@">
         <controls:Carousel.EasingFunction>
           <CubicEase EasingMode="EaseOut" />
         </controls:Carousel.EasingFunction>

@@ -10,10 +10,11 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Microsoft.Toolkit.Parsers.Markdown.Blocks;
+using Microsoft.Toolkit.Parsers.Markdown.Enums;
+using Microsoft.Toolkit.Parsers.Markdown.Inlines;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
-using UITestMethodAttribute = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppContainer.UITestMethodAttribute;
 
 namespace UnitTests.Markdown.Parse
 {
@@ -388,8 +389,6 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "] " },
                     new MarkdownLinkInline { Url = "https://www.reddit.com" }.AddChildren(
                         new TextRunInline { Text = "text" })));
-        }
-
-        
+        }   
     }
 }

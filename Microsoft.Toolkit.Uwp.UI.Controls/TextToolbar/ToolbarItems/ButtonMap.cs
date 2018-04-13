@@ -14,6 +14,9 @@ using System.Collections.ObjectModel;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 {
+    /// <summary>
+    /// ObservableCollection of <see cref="IToolbarItem"/>
+    /// </summary>
     public class ButtonMap : ObservableCollection<IToolbarItem>
     {
     }

@@ -23,33 +23,53 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class TextToolbar
     {
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="Editor"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty EditorProperty =
             DependencyProperty.Register(nameof(Editor), typeof(RichEditBox), typeof(TextToolbar), new PropertyMetadata(null, OnEditorChanged));
 
-        // Using a DependencyProperty as the backing store for Formatting.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="Format"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty FormatProperty =
             DependencyProperty.Register(nameof(Format), typeof(Format), typeof(TextToolbar), new PropertyMetadata(Format.RichText, OnFormatTypeChanged));
 
-        // Using a DependencyProperty as the backing store for TextFormat.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="Formatter"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty FormatterProperty =
             DependencyProperty.Register(nameof(Formatter), typeof(Formatter), typeof(TextToolbar), new PropertyMetadata(null, OnFormatterChanged));
 
-        // Using a DependencyProperty as the backing store for DefaultButtons.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="DefaultButton"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty DefaultButtonsProperty =
             DependencyProperty.Register(nameof(DefaultButtons), typeof(ButtonMap), typeof(TextToolbar), new PropertyMetadata(null));
 
-        // Using a DependencyProperty as the backing store for CustomButtons.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="CustomButtons"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty CustomButtonsProperty =
             DependencyProperty.Register(nameof(CustomButtons), typeof(ButtonMap), typeof(TextToolbar), new PropertyMetadata(null, OnButtonMapChanged));
 
-        // Using a DependencyProperty as the backing store for RemoveDefaultButtons.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="ButtonModifications"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty DefaultButtonModificationsProperty =
             DependencyProperty.Register(nameof(ButtonModifications), typeof(DefaultButtonModificationList), typeof(TextToolbar), new PropertyMetadata(null, OnDefaultButtonModificationsChanged));
 
-        // Using a DependencyProperty as the backing store for Labels.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="Labels"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty LabelsProperty =
             DependencyProperty.Register(nameof(Labels), typeof(TextToolbarStrings), typeof(TextToolbar), new PropertyMetadata(new TextToolbarStrings()));
+
+        /// <summary>
+        /// Identifies the <see cref="UseURIChecker"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty UseURICheckerProperty =
+            DependencyProperty.Register(nameof(UseURIChecker), typeof(bool), typeof(TextToolbar), new PropertyMetadata(true));
 
         /// <summary>
         /// Gets or sets the RichEditBox to Attach to, this is required for any formatting to work.
@@ -70,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the formatter which is used to format the text from the buttons.
+        /// Gets or sets the formatter instance which is used to format the text, using the buttons and shortcuts.
         /// </summary>
         public Formatter Formatter
         {
@@ -79,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets the default buttons for this format
+        /// Gets the default buttons for this format.
         /// </summary>
         public ButtonMap DefaultButtons
         {
@@ -88,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a list of buttons to add to the Default Button set.
+        /// Gets or sets a list of buttons to add on top of the Default Button set.
         /// </summary>
         public ButtonMap CustomButtons
         {
@@ -97,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a list of Default buttons to remove from the UI.
+        /// Gets or sets a list of Default buttons to Modify.
         /// </summary>
         public DefaultButtonModificationList ButtonModifications
         {
@@ -105,13 +125,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(DefaultButtonModificationsProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the default string Labels
+        /// </summary>
         public TextToolbarStrings Labels
         {
             get { return (TextToolbarStrings)GetValue(LabelsProperty); }
             set { SetValue(LabelsProperty, value); }
         }
 
+        /// <summary>
+        /// Gets the last key pressed using the Editor.
+        /// </summary>
         public VirtualKey LastKeyPress { get; private set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to enable use of URI Checker for Link Creator. This allows you to verify Absolute URIs, before creating the Link.
+        /// </summary>
+        public bool UseURIChecker
+        {
+            get { return (bool)GetValue(UseURICheckerProperty); }
+            set { SetValue(UseURICheckerProperty, value); }
+        }
 
         internal static bool InDesignMode
         {

@@ -29,18 +29,54 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = PartProgress, Type = typeof(ProgressRing))]
     public abstract partial class ImageExBase : Control
     {
+        /// <summary>
+        /// Image name in template
+        /// </summary>
         protected const string PartImage = "Image";
+
+        /// <summary>
+        /// ProgressRing name in template
+        /// </summary>
         protected const string PartProgress = "Progress";
+
+        /// <summary>
+        /// VisualStates name in template
+        /// </summary>
         protected const string CommonGroup = "CommonStates";
+
+        /// <summary>
+        /// Loading state name in template
+        /// </summary>
         protected const string LoadingState = "Loading";
+
+        /// <summary>
+        /// Loaded state name in template
+        /// </summary>
         protected const string LoadedState = "Loaded";
+
+        /// <summary>
+        /// Unloaded state name in template
+        /// </summary>
         protected const string UnloadedState = "Unloaded";
+
+        /// <summary>
+        /// Failed name in template
+        /// </summary>
         protected const string FailedState = "Failed";
 
+        /// <summary>
+        /// Gets the backing image object
+        /// </summary>
         protected object Image { get; private set; }
 
+        /// <summary>
+        /// Gets backing object for the ProgressRing
+        /// </summary>
         protected ProgressRing Progress { get; private set; }
 
+        /// <summary>
+        /// Gets object used for lock
+        /// </summary>
         protected object LockObj { get; private set; }
 
         /// <summary>
@@ -51,6 +87,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             LockObj = new object();
         }
 
+        /// <summary>
+        /// Attach image opened event handler
+        /// </summary>
+        /// <param name="handler">Routed Event Handler</param>
         protected void AttachImageOpened(RoutedEventHandler handler)
         {
             var image = Image as Image;
@@ -66,6 +106,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Remove image opened handler
+        /// </summary>
+        /// <param name="handler">RoutedEventHandler</param>
         protected void RemoveImageOpened(RoutedEventHandler handler)
         {
             var image = Image as Image;
@@ -81,6 +125,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Attach image failed event handler
+        /// </summary>
+        /// <param name="handler">Excpetion Routed Event Handler</param>
         protected void AttachImageFailed(ExceptionRoutedEventHandler handler)
         {
             var image = Image as Image;
@@ -96,6 +144,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Remove Image Failed handler
+        /// </summary>
+        /// <param name="handler">Excpetion Routed Event Handler</param>
         protected void RemoveImageFailed(ExceptionRoutedEventHandler handler)
         {
             var image = Image as Image;

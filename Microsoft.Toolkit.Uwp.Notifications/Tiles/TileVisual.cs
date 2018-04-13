@@ -22,22 +22,22 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class TileVisual
     {
         /// <summary>
-        /// The target locale of the XML payload, specified as a BCP-47 language tags such as "en-US" or "fr-FR". This locale is overridden by any locale specified in binding or text. If this value is a literal string, this attribute defaults to the user's UI language. If this value is a string reference, this attribute defaults to the locale chosen by Windows Runtime in resolving the string.
+        /// Gets or sets the target locale of the XML payload, specified as a BCP-47 language tags such as "en-US" or "fr-FR". This locale is overridden by any locale specified in binding or text. If this value is a literal string, this attribute defaults to the user's UI language. If this value is a string reference, this attribute defaults to the locale chosen by Windows Runtime in resolving the string.
         /// </summary>
         public string Language { get; set; }
 
         /// <summary>
-        /// A default base URI that is combined with relative URIs in image source attributes.
+        /// Gets or sets a default base URI that is combined with relative URIs in image source attributes.
         /// </summary>
         public Uri BaseUri { get; set; }
 
         /// <summary>
-        /// The form that the Tile should use to display the app's brand.
+        /// Gets or sets the form that the Tile should use to display the app's brand.
         /// </summary>
         public TileBranding Branding { get; set; } = Element_TileVisual.DEFAULT_BRANDING;
 
         /// <summary>
-        /// Defaults to false. Set to true to allow Windows to append a query string to the image URI supplied in the Tile notification. Use this attribute if your server hosts images and can handle query strings, either by retrieving an image variant based on the query strings or by ignoring the query string and returning the image as specified without the query string. This query string specifies scale, contrast setting, and language; for instance, a value of
+        /// Gets or sets a value whether Windows is allowed to append a query string to the image URI supplied in the Tile notification. Use this attribute if your server hosts images and can handle query strings, either by retrieving an image variant based on the query strings or by ignoring the query string and returning the image as specified without the query string. This query string specifies scale, contrast setting, and language; for instance, a value of
         ///
         /// "www.website.com/images/hello.png"
         ///
@@ -48,52 +48,55 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public bool? AddImageQuery { get; set; }
 
         /// <summary>
-        /// Set to a sender-defined string that uniquely identifies the content of the notification. This prevents duplicates in the situation where a large Tile template is displaying the last three wide Tile notifications.
+        /// Gets or sets a sender-defined string that uniquely identifies the content of the notification. This prevents duplicates in the situation where a large Tile template is displaying the last three wide Tile notifications.
         /// </summary>
         public string ContentId { get; set; }
 
         /// <summary>
-        /// An optional string to override the Tile's display name while showing this notification.
+        /// Gets or sets an optional string to override the Tile's display name while showing this notification.
         /// </summary>
         public string DisplayName { get; set; }
 
         /// <summary>
-        /// If you specify this, you must also provide a Wide Tile binding. This is the first line of text that will be displayed on the lock screen if the user has selected your Tile as their detailed status app.
+        /// Gets or sets the first line of text that will be displayed on the lock screen if the user has selected
+        /// your Tile as their detailed status app. Ff you specify this, you must also provide a Wide Tile binding.
         /// </summary>
         public string LockDetailedStatus1 { get; set; }
 
         /// <summary>
-        /// If you specify this, you must also provide a Wide Tile binding. This is the second line of text that will be displayed on the lock screen if the user has selected your Tile as their detailed status app.
+        /// Gets or sets the second line of text that will be displayed on the lock screen if the user has selected
+        /// your Tile as their detailed status app. If you specify this, you must also provide a Wide Tile binding.
         /// </summary>
         public string LockDetailedStatus2 { get; set; }
 
         /// <summary>
-        /// If you specify this, you must also provide a Wide Tile binding. This is the third line of text that will be displayed on the lock screen if the user has selected your Tile as their detailed status app.
+        /// Gets or sets the third line of text that will be displayed on the lock screen if the user has selected your
+        /// Tile as their detailed status app. If you specify this, you must also provide a Wide Tile binding.
         /// </summary>
         public string LockDetailedStatus3 { get; set; }
 
         /// <summary>
-        /// New in Anniversary Update: App-defined data that is passed back to your app via the TileActivatedInfo property on LaunchActivatedEventArgs when the user launches your app from the Live Tile. This allows you to know which Tile notifications your user saw when they tapped your Live Tile. On devices without the Anniversary Update, this will simply be ignored.
+        /// Gets or sets app-defined data that is passed back to your app via the TileActivatedInfo property on LaunchActivatedEventArgs when the user launches your app from the Live Tile. This allows you to know which Tile notifications your user saw when they tapped your Live Tile. On devices without the Anniversary Update, this will simply be ignored.
         /// </summary>
         public string Arguments { get; set; }
 
         /// <summary>
-        /// Provide an optional small binding to specify content for the small Tile size.
+        /// Gets or sets an optional small binding to specify content for the small Tile size.
         /// </summary>
         public TileBinding TileSmall { get; set; }
 
         /// <summary>
-        /// Provide an optional medium binding to specify content for the medium Tile size.
+        /// Gets or sets an optional medium binding to specify content for the medium Tile size.
         /// </summary>
         public TileBinding TileMedium { get; set; }
 
         /// <summary>
-        /// Provide an optional wide binding to specify content for the wide Tile size.
+        /// Gets or sets an optional wide binding to specify content for the wide Tile size.
         /// </summary>
         public TileBinding TileWide { get; set; }
 
         /// <summary>
-        /// Desktop-only. Provide an optional large binding to specify content for the large Tile size.
+        /// Gets or sets an optional large binding to specify content for the large Tile size. Desktop-only
         /// </summary>
         public TileBinding TileLarge { get; set; }
 

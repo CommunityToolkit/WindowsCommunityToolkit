@@ -22,8 +22,15 @@ using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 {
+    /// <summary>
+    /// Formatter implementation for MarkDown
+    /// </summary>
     public class MarkDownFormatter : Formatter
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MarkDownFormatter"/> class.
+        /// </summary>
+        /// <param name="model"><see cref="TextToolbar"/> where formatter will be used</param>
         public MarkDownFormatter(TextToolbar model)
             : base(model)
         {
@@ -31,6 +38,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             ButtonActions = new MarkDownButtonActions(this);
         }
 
+        /// <summary>
+        /// Invoked the flyout to style a header
+        /// </summary>
+        /// <param name="button">The button pressed</param>
         public void StyleHeader(ToolbarButton button)
         {
             var list = new ListBox { Margin = new Thickness(0), Padding = new Thickness(0) };
@@ -39,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             string headerVal = "#";
             for (int i = 1; i <= 5; i++)
             {
-                string val = string.Concat(Enumerable.Repeat(headerVal, i)) + " ";
+                string val = string.Concat(Enumerable.Repeat(headerVal, i));
                 var item = new ListBoxItem
                 {
                     Content = new MarkdownTextBlock
@@ -62,20 +73,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         {
             var item = sender as FrameworkElement;
 
-            var selectStart = Selected.StartPosition;
-            var selectEnd = Selected.EndPosition;
-
             EnsureAtStartOfCurrentLine();
-            string linesStart = item.Tag as string;
+            string linesStart = (item.Tag as string) + " ";
 
-            SetSelection(linesStart, string.Empty, false);
+            if (Selected.Text.StartsWith(linesStart))
+            {
+                // Revert Header.
+                Selected.Text = Selected.Text.Substring(linesStart.Length);
+            }
+            else
+            {
+                // Clear Header before replacing.
+                Selected.Text = Selected.Text.TrimStart('#', ' ');
+                SetSelection(linesStart, string.Empty, false);
+            }
 
-            Selected.StartPosition = selectStart + linesStart.Length;
-            Selected.EndPosition = selectEnd + linesStart.Length;
-
+            Selected.StartPosition = Selected.EndPosition;
             headerFlyout?.Hide();
         }
 
+        /// <summary>
+        /// Formats a string as code
+        /// </summary>
+        /// <param name="button">Button invoking the action</param>
         public void FormatCode(ToolbarButton button)
         {
             if (DetermineSimpleReverse("`", "`"))
@@ -97,6 +117,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             }
         }
 
+        /// <summary>
+        /// Formats a string as quote
+        /// </summary>
+        /// <param name="button">Button invoking the actions</param>
         public void FormatQuote(ToolbarButton button)
         {
             SetList(() => "> ", button);
@@ -251,13 +275,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                 string text = listChar();
 
                 var lines = Selected.Text.Split(new string[] { Return }, StringSplitOptions.None).ToList();
-                if (!wrapNewLines)
-                {
-                    lines.RemoveAt(lines.Count - 1); // remove last escape as selected end of last line
-                }
-                else
+                if (wrapNewLines)
                 {
                     lines.Insert(0, string.Empty);
+                }
+                else if (lines.Count > 1)
+                {
+                    lines.RemoveAt(lines.Count - 1); // remove last escape as selected end of last line
                 }
 
                 for (int i = 0; i < lines.Count; i++)
@@ -302,11 +326,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         /// <returns>True if List formatting is reversing, otherwise false</returns>
         protected virtual bool DetermineListReverse(Func<string> listChar, bool wrapNewLines)
         {
-            if (string.IsNullOrWhiteSpace(Selected.Text))
-            {
-                return false;
-            }
-
             if (wrapNewLines && DetermineInlineWrapListReverse(listChar))
             {
                 return true;
@@ -314,6 +333,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 
             string text = string.Empty;
             int startpos = Selected.StartPosition;
+
+            // Test if line contains List Char, if so, reverse. For Single Line Operations Only.
+            if (!Selected.Text.Contains("\r"))
+            {
+                var testChar = listChar();
+                Selected.StartPosition -= testChar.Length;
+                if (Selected.Text.StartsWith(testChar))
+                {
+                    Selected.Text = Selected.Text.Substring(testChar.Length);
+                    return true;
+                }
+                else
+                {
+                    Selected.StartPosition = startpos;
+                }
+            }
 
             var lines = Selected.Text.Split(new string[] { Return }, StringSplitOptions.None).ToList();
             if (wrapNewLines)
@@ -407,6 +442,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 
         private CommonButtons CommonButtons { get; }
 
+        /// <inheritdoc/>
         public override string Text
         {
             get
@@ -417,6 +453,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             }
         }
 
+        /// <inheritdoc/>
         public override ButtonMap DefaultButtons
         {
             get
@@ -481,6 +518,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 
         internal ToolbarButton OrderedListButton { get; set; }
 
+        /// <inheritdoc/>
         public override string NewLineChars => "\r\r";
 
         private Flyout headerFlyout;

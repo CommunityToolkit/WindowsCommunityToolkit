@@ -10,15 +10,18 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// Types of swipe status.
     /// </summary>
+    [Obsolete("The SwipeStatus will be removed alongside SlidableListItem in a future major release. Please use the SwipeControl available in the Fall Creators Update")]
     public enum SwipeStatus
     {
         /// <summary>
-        /// Swiping is not occuring.
+        /// Swiping is not occurring.
         /// </summary>
         Idle,
 

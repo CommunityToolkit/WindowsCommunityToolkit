@@ -37,6 +37,8 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private readonly Dictionary<string, PropertyInfo> _sortProperties;
 
+        private readonly bool _liveShapingEnabled;
+
         private IEnumerable _source;
 
         private IList _sourceList;
@@ -46,6 +48,8 @@ namespace Microsoft.Toolkit.Uwp.UI
         private int _index;
 
         private int _deferCounter;
+
+        private HashSet<string> _observedFilterProperties = new HashSet<string>();
 
         private WeakEventListener<AdvancedCollectionView, object, NotifyCollectionChangedEventArgs> _sourceWeakEventListener;
 
@@ -61,8 +65,10 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Initializes a new instance of the <see cref="AdvancedCollectionView"/> class.
         /// </summary>
         /// <param name="source">source IEnumerable</param>
-        public AdvancedCollectionView(IEnumerable source)
+        /// <param name="isLiveShaping">Denotes whether or not this ACV should re-filter/re-sort if a PropertyChanged is raised for an observed property.</param>
+        public AdvancedCollectionView(IEnumerable source, bool isLiveShaping = false)
         {
+            _liveShapingEnabled = isLiveShaping;
             _view = new List<object>();
             _sortDescriptions = new ObservableCollection<SortDescription>();
             _sortDescriptions.CollectionChanged += SortDescriptions_CollectionChanged;
@@ -88,8 +94,15 @@ namespace Microsoft.Toolkit.Uwp.UI
                     return;
                 }
 
+                if (_source != null)
+                {
+                    DetachPropertyChangedHandler(_source);
+                }
+
                 _source = value;
+                AttachPropertyChangedHandler(_source);
                 _sourceList = value as IList;
+
                 _sourceWeakEventListener?.Detach();
 
                 var sourceNcc = _source as INotifyCollectionChanged;
@@ -118,6 +131,18 @@ namespace Microsoft.Toolkit.Uwp.UI
         public void Refresh()
         {
             HandleSourceChanged();
+        }
+
+        /// <inheritdoc/>
+        public void RefreshFilter()
+        {
+            HandleFilterChanged();
+        }
+
+        /// <inheritdoc/>
+        public void RefreshSorting()
+        {
+            HandleSortChanged();
         }
 
         /// <inheritdoc />
@@ -183,15 +208,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 throw new NotSupportedException("Collection is read-only.");
             }
 
-            if (_sortDescriptions.Count > 0 || _filter != null)
-            {
-                // no sense in inserting w/ filters or sorts, just add it
-                _sourceList.Add(item);
-            }
-            else
-            {
-                _sourceList.Insert(index, item);
-            }
+            _sourceList.Insert(index, item);
         }
 
         /// <summary>
@@ -335,7 +352,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
 
                 _filter = value;
-                Refresh();
+                HandleFilterChanged();
             }
         }
 
@@ -428,6 +445,128 @@ namespace Microsoft.Toolkit.Uwp.UI
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <inheritdoc/>
+        public void ObserveFilterProperty(string propertyName)
+        {
+            _observedFilterProperties.Add(propertyName);
+        }
+
+        /// <inheritdoc/>
+        public void ClearObservedFilterProperties()
+        {
+            _observedFilterProperties.Clear();
+        }
+
+        private void ItemOnPropertyChanged(object item, PropertyChangedEventArgs e)
+        {
+            if (!_liveShapingEnabled)
+            {
+                return;
+            }
+
+            var filterResult = _filter?.Invoke(item);
+
+            if (filterResult.HasValue && _observedFilterProperties.Contains(e.PropertyName))
+            {
+                var viewIndex = _view.IndexOf(item);
+                if (viewIndex != -1 && !filterResult.Value)
+                {
+                    RemoveFromView(viewIndex, item);
+                }
+                else if (viewIndex == -1 && filterResult.Value)
+                {
+                    var index = _sourceList.IndexOf(item);
+                    HandleItemAdded(index, item);
+                }
+            }
+
+            if ((filterResult ?? true) && SortDescriptions.Any(sd => sd.PropertyName == e.PropertyName))
+            {
+                var oldIndex = _view.IndexOf(item);
+                _view.RemoveAt(oldIndex);
+                OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemRemoved, oldIndex, item));
+
+                var targetIndex = _view.BinarySearch(item, this);
+                if (targetIndex < 0)
+                {
+                    targetIndex = ~targetIndex;
+                }
+
+                _view.Insert(targetIndex, item);
+
+                OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemInserted, targetIndex, item));
+            }
+        }
+
+        private void AttachPropertyChangedHandler(IEnumerable items)
+        {
+            if (!_liveShapingEnabled || items == null)
+            {
+                return;
+            }
+
+            foreach (var item in items.OfType<INotifyPropertyChanged>())
+            {
+                item.PropertyChanged += ItemOnPropertyChanged;
+            }
+        }
+
+        private void DetachPropertyChangedHandler(IEnumerable items)
+        {
+            if (!_liveShapingEnabled || items == null)
+            {
+                return;
+            }
+
+            foreach (var item in items.OfType<INotifyPropertyChanged>())
+            {
+                item.PropertyChanged -= ItemOnPropertyChanged;
+            }
+        }
+
+        private void HandleSortChanged()
+        {
+            _sortProperties.Clear();
+            _view.Sort(this);
+            _sortProperties.Clear();
+            OnVectorChanged(new VectorChangedEventArgs(CollectionChange.Reset));
+        }
+
+        private void HandleFilterChanged()
+        {
+            if (_filter != null)
+            {
+                for (var index = 0; index < _view.Count; index++)
+                {
+                    var item = _view.ElementAt(index);
+                    if (_filter(item))
+                    {
+                        continue;
+                    }
+
+                    RemoveFromView(index, item);
+                    index--;
+                }
+            }
+
+            var viewHash = new HashSet<object>(_view);
+            var viewIndex = 0;
+            for (var index = 0; index < _sourceList.Count; index++)
+            {
+                var item = _sourceList[index];
+                if (viewHash.Contains(item))
+                {
+                    viewIndex++;
+                    continue;
+                }
+
+                if (HandleItemAdded(index, item, viewIndex))
+                {
+                    viewIndex++;
+                }
+            }
+        }
+
         private void HandleSourceChanged()
         {
             _sortProperties.Clear();
@@ -472,6 +611,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
+                    AttachPropertyChangedHandler(e.NewItems);
                     if (e.NewItems?.Count == 1)
                     {
                         HandleItemAdded(e.NewStartingIndex, e.NewItems[0]);
@@ -483,6 +623,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
                     break;
                 case NotifyCollectionChangedAction.Remove:
+                    DetachPropertyChangedHandler(e.OldItems);
                     if (e.OldItems?.Count == 1)
                     {
                         HandleItemRemoved(e.OldStartingIndex, e.OldItems[0]);
@@ -501,20 +642,22 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
         }
 
-        private void HandleItemAdded(int newStartingIndex, object newItem)
+        private bool HandleItemAdded(int newStartingIndex, object newItem, int? viewIndex = null)
         {
             if (_filter != null && !_filter(newItem))
             {
-                return;
+                return false;
             }
+
+            var newViewIndex = _view.Count;
 
             if (_sortDescriptions.Any())
             {
                 _sortProperties.Clear();
-                newStartingIndex = _view.BinarySearch(newItem, this);
-                if (newStartingIndex < 0)
+                newViewIndex = _view.BinarySearch(newItem, this);
+                if (newViewIndex < 0)
                 {
-                    newStartingIndex = ~newStartingIndex;
+                    newViewIndex = ~newViewIndex;
                 }
             }
             else if (_filter != null)
@@ -522,29 +665,48 @@ namespace Microsoft.Toolkit.Uwp.UI
                 if (_sourceList == null)
                 {
                     HandleSourceChanged();
-                    return;
+                    return false;
                 }
 
-                var visibleBelowIndex = 0;
-                for (var i = newStartingIndex; i < _sourceList.Count; i++)
+                if (newStartingIndex == 0 || _view.Count == 0)
                 {
-                    if (!_filter(_sourceList[i]))
+                    newViewIndex = 0;
+                }
+                else if (newStartingIndex == _sourceList.Count - 1)
+                {
+                    newViewIndex = _view.Count - 1;
+                }
+                else if (viewIndex.HasValue)
+                {
+                    newViewIndex = viewIndex.Value;
+                }
+                else
+                {
+                    for (int i = 0, j = 0; i < _sourceList.Count; i++)
                     {
-                        visibleBelowIndex++;
+                        if (i == newStartingIndex)
+                        {
+                            newViewIndex = j;
+                            break;
+                        }
+
+                        if (_view[j] == _sourceList[i])
+                        {
+                            j++;
+                        }
                     }
                 }
-
-                newStartingIndex = _view.Count - visibleBelowIndex;
             }
 
-            _view.Insert(newStartingIndex, newItem);
-            if (newStartingIndex <= _index)
+            _view.Insert(newViewIndex, newItem);
+            if (newViewIndex <= _index)
             {
                 _index++;
             }
 
-            var e = new VectorChangedEventArgs(CollectionChange.ItemInserted, newStartingIndex, newItem);
+            var e = new VectorChangedEventArgs(CollectionChange.ItemInserted, newViewIndex, newItem);
             OnVectorChanged(e);
+            return true;
         }
 
         private void HandleItemRemoved(int oldStartingIndex, object oldItem)
@@ -564,13 +726,18 @@ namespace Microsoft.Toolkit.Uwp.UI
                 return;
             }
 
-            _view.RemoveAt(oldStartingIndex);
-            if (oldStartingIndex <= _index)
+            RemoveFromView(oldStartingIndex, oldItem);
+        }
+
+        private void RemoveFromView(int itemIndex, object item)
+        {
+            _view.RemoveAt(itemIndex);
+            if (itemIndex <= _index)
             {
                 _index--;
             }
 
-            var e = new VectorChangedEventArgs(CollectionChange.ItemRemoved, oldStartingIndex, oldItem);
+            var e = new VectorChangedEventArgs(CollectionChange.ItemRemoved, itemIndex, item);
             OnVectorChanged(e);
         }
 
@@ -581,7 +748,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 return;
             }
 
-            HandleSourceChanged();
+            HandleSortChanged();
         }
 
         private bool MoveCurrentToIndex(int i)

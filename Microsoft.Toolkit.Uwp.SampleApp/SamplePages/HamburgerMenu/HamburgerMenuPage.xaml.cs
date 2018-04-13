@@ -22,6 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class HamburgerMenuPage : IXamlRenderListener
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         private HamburgerMenu hamburgerMenuControl;
         private Grid contentGrid;
 
@@ -36,25 +37,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             hamburgerMenuControl = control.FindDescendantByName("HamburgerMenu") as HamburgerMenu;
             if (hamburgerMenuControl != null)
             {
-                hamburgerMenuControl.ItemClick += HamburgerMenu_OnItemClick;
-                hamburgerMenuControl.OptionsItemClick += HamburgerMenu_OnOptionsItemClick;
+                hamburgerMenuControl.ItemInvoked += HamburgerMenuControl_ItemInvoked;
             }
         }
 
-        private void HamburgerMenu_OnItemClick(object sender, ItemClickEventArgs e)
+        private async void HamburgerMenuControl_ItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
         {
-            if (contentGrid != null)
+            if (e.IsItemOptions)
             {
-                contentGrid.DataContext = e.ClickedItem;
+                var menuItem = e.InvokedItem as HamburgerMenuItem;
+                var dialog = new MessageDialog($"You clicked on {menuItem.Label} button");
+
+                await dialog.ShowAsync();
+            }
+            else if (contentGrid != null)
+            {
+                contentGrid.DataContext = e.InvokedItem;
             }
         }
-
-        private async void HamburgerMenu_OnOptionsItemClick(object sender, ItemClickEventArgs e)
-        {
-            var menuItem = e.ClickedItem as HamburgerMenuItem;
-            var dialog = new MessageDialog($"You clicked on {menuItem.Label} button");
-
-            await dialog.ShowAsync();
-        }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

@@ -48,7 +48,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             if (AnimationExtensions.SaturationEffect.IsSupported)
             {
-                _frameworkElement?.Saturation(duration: Duration, delay: Delay, value: (float)Value)?.StartAsync();
+                _frameworkElement?.Saturation(
+                    duration: Duration,
+                    delay: Delay,
+                    easingType: EasingType,
+                    value: (float)Value)?.StartAsync();
             }
         }
 

@@ -1,7 +1,6 @@
 ---
 title: Bing Service
 author: nmetulev
-ms.date: 08/20/2017
 description: The Bing Service allows you to retrieve Bing results. Bing can return web and news results in your language, images, and videos for many countries around the world.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, bing
 ---

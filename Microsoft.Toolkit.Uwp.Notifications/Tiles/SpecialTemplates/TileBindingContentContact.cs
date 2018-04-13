@@ -18,12 +18,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class TileBindingContentContact : ITileBindingContent
     {
         /// <summary>
-        /// The image to display.
+        /// Gets or sets the image to display.
         /// </summary>
         public TileBasicImage Image { get; set; }
 
         /// <summary>
-        /// A line of text that is displayed. Not displayed on Small Tile.
+        /// Gets or sets a line of text that is displayed. Not displayed on Small Tile.
         /// </summary>
         public TileBasicText Text { get; set; }
 

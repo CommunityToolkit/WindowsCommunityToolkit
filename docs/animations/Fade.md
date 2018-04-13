@@ -1,7 +1,6 @@
 ---
 title: Fade animation behavior
 author: nmetulev
-ms.date: 08/20/2017
 description: The Fade animation behavior fades objects, in and out, over time and delay. It can be used along side other animations directly through XAML or code
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, fade, fade animation
 ---
@@ -14,7 +13,7 @@ The Fade animation fades objects, in and out, over time. Fade animation is appli
 
 **XAML**
 
-```xml
+```xaml
 <Page ...
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"/>
@@ -23,7 +22,8 @@ The Fade animation fades objects, in and out, over time. Fade animation is appli
     <behaviors:Fade x:Name="FadeBehavior" 
             Value="0.5" 
             Duration="2500" 
-            Delay="250" 
+            Delay="250"
+            EasingType="Linear"
             AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```
@@ -40,8 +40,6 @@ await MyUIElement.Fade(value: 0.5f, duration: 2500, delay: 250, easingType: Easi
 ![Fade Behavior animation](../resources/images/Animations/Fade/Sample-Output.gif)
 
 ## Properties
-
-
 
 ### EasingType
 
@@ -61,13 +59,12 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
 
-***Note:** EasingType is used only when AnimationSet.UseComposition == false*
-
 ## Examples
 
-- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](AnimationSet.md) documentation for more information.
 
     **Sample Code**
+
     ```csharp
     var anim = MyUIElement.Fade(0.5f).Blur(5).Rotate(30);
     anim.SetDurationForAll(2500);
@@ -75,6 +72,7 @@ You can change the way how the animation interpolates between keyframes by defin
     anim.Completed += animation_completed;
     anim.Start();
     ```
+
     **Sample Output**
 
     ![Use Case 1 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
