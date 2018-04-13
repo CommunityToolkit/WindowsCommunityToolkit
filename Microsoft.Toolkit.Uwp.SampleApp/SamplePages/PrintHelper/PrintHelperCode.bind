@@ -1,10 +1,8 @@
 // Create a new PrintHelperOptions instance
 var defaultPrintHelperOptions = new PrintHelperOptions();
  
-//Add options that you want to be displayed on the print dialog
+// Configure options that you want to be displayed on the print dialog
 defaultPrintHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation);
- 
-//Set preselected settings
 defaultPrintHelperOptions.Orientation = PrintOrientation.Landscape;
 
 // Create a new PrintHelper instance

@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Graphics.Printing;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -21,9 +22,10 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class PrintHelperPage
+    public sealed partial class PrintHelperPage : IXamlRenderListener
     {
         private PrintHelper _printHelper;
+        private DataTemplate customPrintTemplate;
 
         public PrintHelperPage()
         {
@@ -38,6 +40,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 PrintOrientation.Landscape
             };
             DefaultOrientationComboBox.SelectedIndex = 0;
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            var listView = control.FindChildByName("PrintSampleListView") as ListView;
+            listView.ItemsSource = PrintSampleItems;
+            customPrintTemplate = listView.Resources["CustomPrintTemplate"] as DataTemplate;
         }
 
         internal List<PrintSampleItem> PrintSampleItems
@@ -139,7 +148,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 // Main content with layout from data template
                 var cont = new ContentControl();
-                cont.ContentTemplate = Resources["CustomPrintTemplate"] as DataTemplate;
+                cont.ContentTemplate = customPrintTemplate;
                 cont.DataContext = item;
                 Grid.SetRow(cont, 1);
                 grid.Children.Add(cont);
