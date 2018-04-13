@@ -47,12 +47,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             rootFrame = Window.Current.Content as Frame;
             gazeInputSourcePreview = GazeInputSourcePreview.GetForCurrentView();
             gazeInputSourcePreview.GazeMoved += GazeInputSourcePreview_GazeMoved;
-
-            var random = new Random();
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Tick += (s, e) => GazeHistory.Add(new Point(random.Next(0, 300), random.Next(0, 300)));
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Start();
         }
 
         private void UpdateGazeHistory(GazePointPreview pt)
