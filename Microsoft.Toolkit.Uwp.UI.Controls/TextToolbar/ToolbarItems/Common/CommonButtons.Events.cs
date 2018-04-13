@@ -109,23 +109,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 
                 string linkText = linkBox.Text.Trim();
 
+                if (string.IsNullOrWhiteSpace(linkText))
+                {
+                    ShowContentDialog(Model.Labels.WarningLabel, Model.Labels.LinkInvalidLabel, Model.Labels.OkLabel);
+                    return;
+                }
+
                 if (Model.UseURIChecker && !string.IsNullOrWhiteSpace(linkText))
                 {
                     var wellFormed = Uri.IsWellFormedUriString(linkText, relativeBox?.IsChecked == true ? UriKind.RelativeOrAbsolute : UriKind.Absolute);
                     if (!wellFormed)
                     {
-                        await new ContentDialog
-                        {
-                            Title = Model.Labels.WarningLabel,
-                            Content = Model.Labels.LinkInvalidLabel,
-                            PrimaryButtonText = Model.Labels.OkLabel
-                        }.ShowAsync();
+                        ShowContentDialog(Model.Labels.WarningLabel, Model.Labels.LinkInvalidLabel, Model.Labels.OkLabel);
                         return;
                     }
                 }
 
                 Model.Formatter.ButtonActions.FormatLink(button, labelText.Trim(), formattedlabelText.Trim(), linkText);
             }
+        }
+
+        /// <summary>
+        /// Opens a <see cref="ContentDialog"/> to notify the user about empty and whitespace inputs.
+        /// </summary>
+        /// <param name="title">The <see cref="string"/> </param>
+        /// <param name="content">The <see cref="string"/> of the ContentDialog</param>
+        /// <param name="primaryButtonText">The <see cref="string"/> content of the primary button</param>
+        private async void ShowContentDialog(string title, string content, string primaryButtonText)
+        {
+            await new ContentDialog
+            {
+                Title = title,
+                Content = content,
+                PrimaryButtonText = primaryButtonText
+            }.ShowAsync();
         }
     }
 }

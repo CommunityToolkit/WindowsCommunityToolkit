@@ -20,18 +20,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class Expander
     {
         /// <summary>
-        /// Identifies the <see cref="Header"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty HeaderProperty =
-            DependencyProperty.Register(nameof(Header), typeof(string), typeof(Expander), new PropertyMetadata(null));
-
-        /// <summary>
-        /// Identifies the <see cref="HeaderTemplate"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty HeaderTemplateProperty =
-            DependencyProperty.Register(nameof(HeaderTemplate), typeof(DataTemplate), typeof(Expander), new PropertyMetadata(null));
-
-        /// <summary>
         /// Identifies the <see cref="IsExpanded"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsExpandedProperty =
@@ -50,22 +38,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ContentOverlay), typeof(UIElement), typeof(Expander), new PropertyMetadata(default(UIElement)));
 
         /// <summary>
-        /// Gets or sets a value indicating whether the Header of the control.
+        /// Identifies the <see cref="HeaderStyle"/> dependency property.
         /// </summary>
-        public string Header
-        {
-            get { return (string)GetValue(HeaderProperty); }
-            set { SetValue(HeaderProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the HeaderTemplate of the control.
-        /// </summary>
-        public DataTemplate HeaderTemplate
-        {
-            get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
-            set { SetValue(HeaderTemplateProperty, value); }
-        }
+        public static readonly DependencyProperty HeaderStyleProperty =
+            DependencyProperty.Register(nameof(HeaderStyle), typeof(Style), typeof(Expander), new PropertyMetadata(default(Style)));
 
         /// <summary>
         /// Gets or sets a value indicating whether the content of the control is opened/visible or closed/hidden.
@@ -92,6 +68,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (UIElement)GetValue(ContentOverlayProperty); }
             set { SetValue(ContentOverlayProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value for the style to use for the Header of the Expander.
+        /// </summary>
+        public Style HeaderStyle
+        {
+            get { return (Style)GetValue(HeaderStyleProperty);  }
+            set { SetValue(HeaderStyleProperty, value);  }
         }
 
         private static void OnIsExpandedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

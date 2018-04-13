@@ -1,7 +1,6 @@
 ---
 title: PullToRefreshListView XAML Control
 author: nmetulev
-ms.date: 08/20/2017
 description: The PullToRefreshListView Control lets the user pull down beyond the top limit on the listview to trigger a refresh of the content.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, PullToRefreshListView, XAML Control, xaml
 ---
@@ -24,7 +23,6 @@ be raised and the *RefreshIntentCanceledCommand*, if any, will be executed.
 ## Syntax
 
 ```xaml
-
 <controls:PullToRefreshListView Name="PullToRefreshListViewControl"
     ItemsSource="{x:Bind _items}"	
     OverscrollLimit="0.4"
@@ -37,7 +35,6 @@ be raised and the *RefreshIntentCanceledCommand*, if any, will be executed.
         <Border HorizontalAlignment="Center" x:Name="refreshindicator" CornerRadius="30" Height="20" Width="20" ></Border>
     </controls:PullToRefreshListView.RefreshIndicatorContent>
 </controls:PullToRefreshListView>
-
 ```
 
 ## Example Image

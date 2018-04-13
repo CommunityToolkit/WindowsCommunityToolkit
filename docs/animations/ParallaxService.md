@@ -1,7 +1,6 @@
 ---
 title: ParallaxService
 author: nmetulev
-ms.date: 08/20/2017
 description: The ParallaxService class allows to create a parallax effect for items contained within an element that scrolls like a ScrollViewer or ListView.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, parallaxservice
 ---
@@ -50,7 +49,7 @@ However, the way the two are used is different. Unlike the ParallaxService, the 
 
 Here is an example of using the ParallaxView
 
-```csharp
+```xaml
 <Grid>
     <ParallaxView Source="{x:Bind ForegroundElement}" VerticalShift="50"> 
 

@@ -464,23 +464,23 @@ namespace Microsoft.Toolkit.Uwp.UI
                 return;
             }
 
-            var filterResult = _filter(item);
+            var filterResult = _filter?.Invoke(item);
 
-            if (_observedFilterProperties.Contains(e.PropertyName))
+            if (filterResult.HasValue && _observedFilterProperties.Contains(e.PropertyName))
             {
                 var viewIndex = _view.IndexOf(item);
-                if (viewIndex != -1 && !filterResult)
+                if (viewIndex != -1 && !filterResult.Value)
                 {
                     RemoveFromView(viewIndex, item);
                 }
-                else if (viewIndex == -1 && filterResult)
+                else if (viewIndex == -1 && filterResult.Value)
                 {
                     var index = _sourceList.IndexOf(item);
                     HandleItemAdded(index, item);
                 }
             }
 
-            if (filterResult && SortDescriptions.Any(sd => sd.PropertyName == e.PropertyName))
+            if ((filterResult ?? true) && SortDescriptions.Any(sd => sd.PropertyName == e.PropertyName))
             {
                 var oldIndex = _view.IndexOf(item);
                 _view.RemoveAt(oldIndex);
@@ -534,16 +534,19 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private void HandleFilterChanged()
         {
-            for (var index = 0; index < _view.Count; index++)
+            if (_filter != null)
             {
-                var item = _view.ElementAt(index);
-                if (_filter(item))
+                for (var index = 0; index < _view.Count; index++)
                 {
-                    continue;
-                }
+                    var item = _view.ElementAt(index);
+                    if (_filter(item))
+                    {
+                        continue;
+                    }
 
-                RemoveFromView(index, item);
-                index--;
+                    RemoveFromView(index, item);
+                    index--;
+                }
             }
 
             var viewHash = new HashSet<object>(_view);

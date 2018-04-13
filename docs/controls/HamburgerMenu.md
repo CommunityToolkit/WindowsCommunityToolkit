@@ -1,7 +1,6 @@
 ---
 title: HamburgerMenu XAML Control
 author: nmetulev
-ms.date: 11/20/2017
 description: The Hamburger Menu Control provides an easy-to-use, side-bar menu which users can show or hide by using a Hamburger button
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HamburgerMenu, xaml control, xaml
 ---
@@ -23,7 +22,7 @@ Developers can place menu specific content, navigation, images, text or custom c
 
 ```xaml
 
-<controls:HamburgerMenu PaneBackground="@[PaneBackground:Brush:Black]" x:Name="HamburgerMenuControl"
+<controls:HamburgerMenu PaneBackground="Black" x:Name="HamburgerMenuControl"
 	Foreground="White"
 	ItemTemplate="{StaticResource ButtonTemplate}"
 	OptionsItemTemplate="{StaticResource OptionTemplate}"
@@ -45,7 +44,7 @@ Developers can place menu specific content, navigation, images, text or custom c
 
 ## Example Code
 
-The following example shows you how to simply setup a HamburgerMemu using HamburgerMenuGlyphItem directly in your XAML code:
+The following example shows you how to simply setup a HamburgerMenu using HamburgerMenuGlyphItem directly in your XAML code:
 
 [HamburgerMenu Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/HamburgerMenu)
 
@@ -80,12 +79,13 @@ The next sample demonstrates how to add custom menu items to the HamburgerMenu c
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <controls:HamburgerMenu x:Name="hamburgerMenuControl"
-                                PaneBackground="Black"
-                                Foreground="White"
-                                ItemTemplate="{StaticResource DefaultTemplate}"
-                                ItemClick="OnMenuItemClick"
-                                OptionsItemTemplate="{StaticResource DefaultTemplate}"
-                                OptionsItemClick="OnMenuItemClick">
+            PaneBackground="Black"
+            Foreground="White"
+            ItemTemplate="{StaticResource DefaultTemplate}"
+            ItemClick="OnMenuItemClick"
+            OptionsItemTemplate="{StaticResource DefaultTemplate}"
+            OptionsItemClick="OnMenuItemClick">
+
             <Frame x:Name="contentFrame" Foreground="Black"/>
         </controls:HamburgerMenu>
     </Grid>
@@ -96,7 +96,6 @@ The next sample demonstrates how to add custom menu items to the HamburgerMenu c
 As you can see below, we declared a Frame inside the HamburgerMenu control. Using this Frame object, you can navigate to your pages by using the following code.
 
 ```csharp
-
 using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
@@ -143,7 +142,6 @@ namespace HamburgerSample
         }
     }
 }
-
 ```
 
 ## <a name="navview"></a> Moving to NavigationView
@@ -163,8 +161,8 @@ The HamburgerMenu and NavigationView share the same concepts and provide the sam
     | ItemClick | ItemInvoked |
 
     The *OptionsItemsSource* and *OptionItemsTemplate* is not available in the NavigationView. Instead, the NavigationView has two additional new properties that provide a much more flexible way of handling settings and optional items:
-    * An optional property for app settings. Simply set the property *IsSettingsVisible* to true and the NavigationView will display the settings button at the bottom. You can even customize the settings item 
-
+    * An optional property for app settings. Simply set the property *IsSettingsVisible* to true and the NavigationView will display the settings button at the bottom. You can even customize the settings item:
+    
         ```csharp
         var settingsItem = HamburgerMenu.SettingsItem as NavigationViewItem;
         settingsItem.Content = "About";
@@ -180,7 +178,6 @@ The HamburgerMenu and NavigationView share the same concepts and provide the sam
     * There is a new optional header area that is vertically aligned with the navigation button and has a fixed height. Its purpose is to hold the page title of the selected nav category. The header is docked to the top of the page and acts as a scroll clipping point for the content area.
     * AutoSuggestBox property allows you to add a search box that integrates directly with the NavigationView. Some developers accomplished the same with the HamburgerMenu by re-templating it and writing a lot of custom code. That is not needed with the NavigationView
 
-
 ### Making the transition even easier
 Starting with v2.1 of the UWP Community Toolkit, the HamburgerMenu provides a new property called **UseNavigationViewWhenPossible**. Setting the value to true will force the HamburgerMenu to use a template based on the NavigationView when running on the Fall Creators Update and above, and the regular template otherwise.
 
@@ -189,10 +186,13 @@ Using this property will enable you to take advantage of the NavigationView on d
 > [!NOTE]
 The **ItemClick** and **OptionsItemClick** events will continue to work but the EventArgs will be null when **UseNavigationViewWhenPossible** is set to true. There is a new event called **ItemInvoked** that should be used instead. This new event will include information about the clicked item and whether it is an item or options item. This event also works if UseNavigationViewWhenPossible is set to false. 
 
+*****
+
 > [!NOTE]
 The PaneBackground will not have any effect when **UseNavigationViewWhenPossible** is set to null. To change the pane background of the NavigationView, modify the two theme resources by overwriting them in your App.xaml. See the [NavigationVew documentation](https://docs.microsoft.com/en-us/windows/uwp/design/controls-and-patterns/navigationview#customizing-backgrounds) for more details.
 
 There are several HamburgerMenu properties that have no effect when the HamburgerMenu is using the NavigationView:
+
 * DisplayMode
 * PanePlacement
 * PaneBackground

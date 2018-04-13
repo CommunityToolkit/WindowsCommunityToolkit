@@ -115,7 +115,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animation = compositor.CreateVector3KeyFrameAnimation();
                 animation.Duration = TimeSpan.FromMilliseconds(duration);
                 animation.DelayTime = TimeSpan.FromMilliseconds(delay);
-                animation.InsertKeyFrame(1f, offsetVector);
+                if (easingType == EasingType.Default)
+                {
+                    animation.InsertKeyFrame(1f, offsetVector);
+                }
+                else
+                {
+                    animation.InsertKeyFrame(1f, offsetVector, GetCompositionEasingFunction(easingType, compositor));
+                }
 
                 animationSet.AddCompositionAnimation("Offset", animation);
             }

@@ -61,7 +61,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             if (AnimationExtensions.IsLightingSupported)
             {
-                AssociatedObject?.Light(duration: Duration, delay: Delay, distance: (float)Distance, color: ((SolidColorBrush)Color).Color)?.Start();
+                AssociatedObject?.Light(
+                    duration: Duration,
+                    delay: Delay,
+                    easingType: EasingType,
+                    distance: (float)Distance,
+                    color: ((SolidColorBrush)Color).Color)?.Start();
             }
         }
     }

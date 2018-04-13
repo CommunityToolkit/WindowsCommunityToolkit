@@ -1,7 +1,6 @@
 ---
 title: OrbitView XAML Control
 author: nmetulev
-ms.date: 08/20/2017
 description: The OrbitView is an ItemsControl where all items are arranged in circle around a center element
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, OrbitView, xaml control, xaml
 ---
@@ -17,12 +16,13 @@ The `OrbitView` control provides a new control, inherited from the `ItemsControl
 ```xaml
 
 <controls:OrbitView OrbitsEnabled="True" 
-                    AnchorsEnabled="False" 
-                    IsItemClickEnabled="True" 
-                    MinItemSize="20" 
-                    MaxItemSize="60"
-                    AnchorColor="Gray"
-                    OrbitColor="Gray">
+  AnchorsEnabled="False" 
+  IsItemClickEnabled="True" 
+  MinItemSize="20" 
+  MaxItemSize="60"
+  AnchorColor="Gray"
+  OrbitColor="Gray">
+
   <controls:OrbitView.ItemTemplate>
     <DataTemplate x:DataType="controls:OrbitViewDataItem">
       <controls:DropShadowPanel Color="Black" BlurRadius="20" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
@@ -34,6 +34,7 @@ The `OrbitView` control provides a new control, inherited from the `ItemsControl
       </controls:DropShadowPanel>
     </DataTemplate>
   </controls:OrbitView.ItemTemplate>
+
   <controls:OrbitView.ItemsSource>
     <controls:OrbitViewDataItemCollection>
       <controls:OrbitViewDataItem Image="ms-appx:///Assets/People/shen.png" Distance="0.1" Label="Shen" Diameter="0.2"></controls:OrbitViewDataItem>
@@ -42,6 +43,7 @@ The `OrbitView` control provides a new control, inherited from the `ItemsControl
       <controls:OrbitViewDataItem Image="ms-appx:///Assets/People/vlad.png" Distance="0.8" Label="Vlad" Diameter="0.8"></controls:OrbitViewDataItem>
     </controls:OrbitViewDataItemCollection>
   </controls:OrbitView.ItemsSource>
+  
   <controls:OrbitView.CenterContent>
     <Grid>
       <controls:DropShadowPanel>

@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.IO;
 using System.Runtime.Serialization;
 using Microsoft.Graph;
@@ -22,6 +23,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
     /// </summary>
     [DataContract]
     [JsonConverter(typeof(DerivedTypeConverter))]
+    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
     public class OneDriveItem
     {
         /// <summary>

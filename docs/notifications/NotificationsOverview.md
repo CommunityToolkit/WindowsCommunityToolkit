@@ -1,7 +1,6 @@
 ---
 title: Notifications Overview 
 author: nmetulev
-ms.date: 08/20/2017
 description: Instead of having to deal with XML, you can now use UWP Community toolkit and its notification extensions to work with Tiles and notifications using a complete object model.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, adaptive live tiles, interactive toast, tiles, notifications
 ---

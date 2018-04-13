@@ -12,7 +12,7 @@
 
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Bing;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Services
 {

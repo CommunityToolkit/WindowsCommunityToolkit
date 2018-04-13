@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
-    <Style x:Key="HambugerMenuItemStyle" TargetType="ListViewItem">
+    <Style x:Key="HamburgerMenuItemStyle" TargetType="ListViewItem">
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="MinHeight" Value="0"/>
@@ -83,6 +83,9 @@
         </Setter>
     </Style>
 
+    <!-- Obsolete: The HamburgetMenuItemStyle will be removed caused by a typo. Please use the HamburgerMenuItemStyle instead. -->
+    <Style x:Key="HamburgetMenuItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource HamburgerMenuItemStyle}" />
+
     <ControlTemplate x:Key="HamburgerMenuTemplate" TargetType="local:HamburgerMenu">
         <Grid>
             <SplitView x:Name="MainSplitView"
@@ -109,14 +112,13 @@
                                               Width="{TemplateBinding OpenPaneLength}"
                                               AutomationProperties.Name="Menu items"
                                               IsItemClickEnabled="True"
-                                              ItemContainerStyle="{StaticResource HambugerMenuItemStyle}"
+                                              ItemContainerStyle="{StaticResource HamburgerMenuItemStyle}"
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
                                               ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                               ItemsSource="{TemplateBinding ItemsSource}"
                                               ScrollViewer.VerticalScrollBarVisibility="Auto"
                                               SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                               SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                              SelectionMode="Single"
                                               TabIndex="1">
                         </ListView>
                         <ListView x:Name="OptionsListView"
@@ -125,14 +127,13 @@
                                               VerticalAlignment="Bottom"
                                               AutomationProperties.Name="Option items"
                                               IsItemClickEnabled="True"
-                                              ItemContainerStyle="{StaticResource HambugerMenuItemStyle}"
+                                              ItemContainerStyle="{StaticResource HamburgerMenuItemStyle}"
                                               ItemTemplate="{TemplateBinding OptionsItemTemplate}"
                                               ItemTemplateSelector="{TemplateBinding OptionsItemTemplateSelector}"
                                               ItemsSource="{TemplateBinding OptionsItemsSource}"
                                               ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                               SelectedIndex="{Binding SelectedOptionsIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                               SelectedItem="{Binding SelectedOptionsItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                              SelectionMode="Single"
                                               TabIndex="2"
                                               Margin="0,20,0,8">
                         </ListView>

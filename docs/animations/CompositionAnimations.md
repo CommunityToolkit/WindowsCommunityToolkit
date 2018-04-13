@@ -1,6 +1,5 @@
 ---
 title: Composition Animations in XAML
-ms.date: 11/22/2017
 description: The Composition Animations can be used directly from XAML including with Implicit animations
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, composition animations, animation, implicit animations, XAML, implicit, composition
 ---
@@ -23,7 +22,7 @@ These XAML elements enable developer to specify composition animations directly 
     <animations:ScalarKeyFrame Key="0.1" Value="30"></animations:ScalarKeyFrame>
     <animations:ScalarKeyFrame Key="0.5" Value="0.0"></animations:ScalarKeyFrame>
 </animations:ScalarAnimation>
- ```
+```
 
 ## Animations
 
