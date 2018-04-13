@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
+using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
 using Windows.Media;
 using Windows.Media.Capture.Frames;
 using Windows.Media.Core;
 using Windows.Media.Playback;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
@@ -27,6 +29,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public CameraPreviewPage()
         {
             this.InitializeComponent();
+
+            Application.Current.Suspending += Application_Suspending;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -40,12 +44,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         protected override async void OnNavigatedFrom(NavigationEventArgs e)
         {
-            await _cameraHelper?.Cleanup();
-            CleanUpMediaPlayer();
+            await CleanUpCameraAsync();
         }
 
-        private void CleanUpMediaPlayer()
+        private async void Application_Suspending(object sender, SuspendingEventArgs e)
         {
+            if (Frame.CurrentSourcePageType == typeof(CameraPreviewPage))
+            {
+                var deferral = e.SuspendingOperation.GetDeferral();
+                await CleanUpCameraAsync();
+                deferral.Complete();
+            }
+
+        }
+
+        private async Task CleanUpCameraAsync()
+        {
+            await _cameraHelper?.Cleanup();
+
             if (_mediaPlayer != null)
             {
                 _mediaPlayer.Dispose();
@@ -111,9 +127,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     _cameraHelper.VideoFrameArrived += CameraHelper_VideoFrameArrived;
                 }
 
-                await _cameraHelper.InitializeAndStartCapture(selectedGroup);
+                var result = await _cameraHelper.InitializeAndStartCapture(selectedGroup);
 
-                SetMediaPlayerSource();
+                if (result.Status)
+                {
+                    SetMediaPlayerSource();
+                }
+                else
+                {
+                    _currentVideoFrame = null;
+                    _softwareBitmap = null;
+                }
+
+                VideoPreviewErrorMessage.Text = result.Message;
+                VideoPreviewErrorMessage.Visibility = result.Status ? Visibility.Collapsed : Visibility.Visible;
+
+                CaptureVideoFrame.IsEnabled = result.Status;
+                MediaPlayerElementControl.IsEnabled = result.Status;
+                CurrentVideoFrameImage.Opacity = result.Status ? 1 : 0.5;
             }
         }
 

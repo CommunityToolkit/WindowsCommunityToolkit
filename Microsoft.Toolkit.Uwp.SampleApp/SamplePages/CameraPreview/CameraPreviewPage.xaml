@@ -6,6 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <Page.Resources>
+        <Style x:Name="MessageStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Red"/>
+        </Style>
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="30">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -16,20 +23,24 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Frame Source Group"></TextBlock>
-        <ComboBox x:Name="FrameSourceGroupCombo" Grid.Column="1" SelectionChanged="FrameSourceGroupCombo_SelectionChanged" HorizontalAlignment="Stretch" Margin="0,0,176,0">
+        <TextBlock Text="Frame Source Group" VerticalAlignment="Center" Margin="10"></TextBlock>
+        <ComboBox x:Name="FrameSourceGroupCombo" Grid.Column="1" SelectionChanged="FrameSourceGroupCombo_SelectionChanged" 
+                  HorizontalAlignment="Stretch" Margin="10,10" Width="Auto">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding DisplayName}"></TextBlock>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
-        </ComboBox>
-        <TextBlock Text="Video Preview" Grid.Row="1"></TextBlock>
-        <MediaPlayerElement x:Name="MediaPlayerElementControl" Grid.Row="1" Grid.Column="1" 
-                            MinWidth="300" MinHeight="300" Width="400" Height="400" HorizontalAlignment="Left"  
-                            AreTransportControlsEnabled="True">
-        </MediaPlayerElement>
-        <Button x:Name="CaptureVideoFrame" Grid.Row="2" Content="Capture Current Video Frame" Click="CaptureVideoFrame_Click"></Button>
-        <Image x:Name="CurrentVideoFrameImage" Grid.Row="2" Grid.Column="1" MinHeight="300" MinWidth="300" Width="400" Height="400"></Image>
+        </ComboBox>        
+        <TextBlock Text="Video Preview" Grid.Row="1" VerticalAlignment="Center" Margin="10"></TextBlock>        
+        <MediaPlayerElement x:Name="MediaPlayerElementControl" Grid.Row="1" Grid.Column="1" Margin="10,10" 
+                            MinWidth="300" MinHeight="300" Width="400" Height="400" HorizontalAlignment="Left">
+        </MediaPlayerElement>        
+        <Button x:Name="CaptureVideoFrame" Grid.Row="2" Content="Capture Current Video Frame" Margin="10"
+                VerticalAlignment="Center" Click="CaptureVideoFrame_Click"></Button>
+        <Image x:Name="CurrentVideoFrameImage" Grid.Row="2" Grid.Column="1" Margin="10,10"
+               MinHeight="300" MinWidth="300" Width="400" Height="400"></Image>
+        <TextBlock x:Name="VideoPreviewErrorMessage" Style="{StaticResource MessageStyle}" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Center" Margin="10" 
+                   Visibility="Collapsed"></TextBlock>
     </Grid>
 </Page>
