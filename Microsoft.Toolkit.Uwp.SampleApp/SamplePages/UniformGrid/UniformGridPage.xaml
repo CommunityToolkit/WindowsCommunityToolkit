@@ -7,24 +7,5 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Page.Resources>
-        <DataTemplate x:Key="PhotosTemplate">
-            <Grid Background="White"
-                  BorderBrush="Black"
-                  BorderThickness="1">
-                <Image HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Source="{Binding Thumbnail}"
-                       Stretch="UniformToFill" />
-            </Grid>
-        </DataTemplate>
-
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-    </Page.Resources>
-
-
-    <Grid Background="{StaticResource Brush-Grey-05}">
-        <controls:UniformGrid />
-    </Grid>
 </Page>
 

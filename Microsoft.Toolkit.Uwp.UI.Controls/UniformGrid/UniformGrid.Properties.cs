@@ -164,36 +164,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="Columns"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ColumnsProperty =
-            DependencyProperty.Register(nameof(Columns), typeof(int), typeof(UniformGrid), new PropertyMetadata(0, OnColumnsChanged));
+            DependencyProperty.Register(nameof(Columns), typeof(int), typeof(UniformGrid), new PropertyMetadata(0, OnPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="FirstColumn"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty FirstColumnProperty =
-            DependencyProperty.Register(nameof(FirstColumn), typeof(int), typeof(UniformGrid), new PropertyMetadata(0, OnColumnsChanged));
+            DependencyProperty.Register(nameof(FirstColumn), typeof(int), typeof(UniformGrid), new PropertyMetadata(0, OnPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="Orientation"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OrientationProperty =
-            DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(UniformGrid), new PropertyMetadata(Orientation.Horizontal));
+            DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(UniformGrid), new PropertyMetadata(Orientation.Horizontal, OnPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="Rows"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty RowsProperty =
-            DependencyProperty.Register(nameof(Rows), typeof(int), typeof(UniformGrid), new PropertyMetadata(0));
+            DependencyProperty.Register(nameof(Rows), typeof(int), typeof(UniformGrid), new PropertyMetadata(0, OnPropertyChanged));
 
-        private static void OnColumnsChanged(DependencyObject d, object newValue)
+        private static void OnPropertyChanged(DependencyObject d, object newValue)
         {
             var self = d as UniformGrid;
 
-            if (self.FirstColumn >= self.Columns)
+            if (self != null)
             {
-                ////self.FirstColumn = 0;
+                self.InvalidateMeasure();
             }
-
-            ////self.RecalculateLayout();
         }
 
         /// <summary>

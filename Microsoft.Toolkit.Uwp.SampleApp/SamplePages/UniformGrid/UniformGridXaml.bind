@@ -6,56 +6,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-  <Page.Resources>
-    <DataTemplate x:Key="PhotosTemplate">
-      <Grid
-          Background="White"
-          BorderBrush="Black"
-          BorderThickness="1">
-        <Image
-            Source="{Binding Thumbnail}"
-            Stretch="UniformToFill"
-            Height="200"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"/>
-      </Grid>
-    </DataTemplate>
-  </Page.Resources>
-
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <!--<GridView x:Name="GridViewControl"
-              ItemTemplate="{StaticResource PhotosTemplate}">
-      <GridView.ItemsPanel>
-        <ItemsPanelTemplate>
-          <controls:UniformGrid FirstColumn="2" Columns="7"/>
-        </ItemsPanelTemplate>
-      </GridView.ItemsPanel>
-    </GridView>-->
-    <controls:UniformGrid>
-      <!--<controls:UniformGrid.RowDefinitions>
-        <RowDefinition controls:UniformGrid.Row="1" Height="20"/>
-      </controls:UniformGrid.RowDefinitions>-->
+    <controls:UniformGrid Rows="@[Rows:Slider:0:0-5]"
+                          Columns="@[Columns:Slider:0:0-5]"
+                          FirstColumn="@[FirstColumn:Slider:0:0-5]"
+                          Orientation="@[Orientation:Enum:Orientation.Horizontal]">
       <Border Background="AliceBlue"><TextBlock Text="1"/></Border>
-      <Border Background="Cornsilk"><TextBlock Text="2"/></Border>
+      <Border Background="Cornsilk" Grid.RowSpan="@[Row Span:Slider:1:1-3]" Grid.ColumnSpan="@[Column Span:Slider:1:1-3]"><TextBlock Text="2"/></Border>
       <Border Background="DarkSalmon"><TextBlock Text="3"/></Border>
       <Border Background="Gainsboro"><TextBlock Text="4"/></Border>
       <Border Background="LightBlue"><TextBlock Text="5"/></Border>
       <Border Background="MediumAquamarine"><TextBlock Text="6"/></Border>
       <Border Background="MistyRose"><TextBlock Text="7"/></Border>
     </controls:UniformGrid>
-    <!--<controls:UniformGrid Margin="10" Rows="1"
-        HorizontalAlignment="Right"
-        VerticalAlignment="Bottom">
-      <Button Grid.Column="0" Content="No" FontSize="18" Margin="5" Padding="6,3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-      <Button Grid.Column="1" Content="Yes, Absolutely" Margin="5" Padding="6,3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-      <Button Grid.Column="2" Content="Maybe" Margin="5" Padding="6,3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-    </controls:UniformGrid>-->
-    <!--<controls:UniformGrid Rows="2" Columns="3">
-            <Border Background="Azure"><TextBlock Text="1st"/></Border>
-            <Border Background="Moccasin"><TextBlock Text="2nd"/></Border>
-            <Border Background="DarkSeaGreen"><TextBlock Text="3rd"/></Border>
-            <Border Background="Violet"><TextBlock Text="4th"/></Border>
-            <Border Background="Pink"><TextBlock Text="5th"/></Border>
-        </controls:UniformGrid>-->
   </Grid>
 </Page>
