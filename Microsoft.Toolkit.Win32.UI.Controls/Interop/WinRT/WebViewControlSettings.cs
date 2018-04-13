@@ -15,6 +15,10 @@ using System.Security;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
+    /// <summary>
+    /// A proxy for <see cref="Windows.Web.UI.WebViewControlSettings"/>. This class cannot be inherited.
+    /// </summary>
+    /// <seealso cref="Windows.Web.UI.WebViewControlSettings"/>
     public sealed class WebViewControlSettings
     {
         [SecurityCritical]
@@ -25,6 +29,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }
 
+        /// <summary>
+        /// Gets or sets a value that indicates whether the use of IndexedDB is allowed.
+        /// </summary>
+        /// <value><c>true</c> if IndexedDB is allowed; otherwise, <c>false</c>. The default is <c>true</c>.</value>
         // ReSharper disable InconsistentNaming
         public bool IsIndexedDBEnabled
 
@@ -34,18 +42,31 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             set => _settings.IsIndexedDBEnabled = value;
         }
 
+        /// <summary>
+        /// Gets or sets a value that indicates whether the use of JavaScript is allowed.
+        /// </summary>
+        /// <value> true if JavaScript is allowed in the <see cref="IWebView"/>; otherwise, false. The default is true.</value>
         public bool IsJavaScriptEnabled
         {
             get => _settings.IsJavaScriptEnabled;
             set => _settings.IsJavaScriptEnabled = value;
         }
 
+        /// <summary>
+        /// Gets or sets whether <see cref="IWebView.ScriptNotify" /> is allowed.
+        /// </summary>
+        /// <value>Whether <see cref="IWebView.ScriptNotify" /> is allowed.</value>
         public bool IsScriptNotifyAllowed
         {
             get => _settings.IsScriptNotifyAllowed;
             set => _settings.IsScriptNotifyAllowed = value;
         }
 
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="Windows.Web.UI.WebViewControlSettings"/> to <see cref="WebViewControlSettings"/>.
+        /// </summary>
+        /// <param name="settings">The settings.</param>
+        /// <returns>The result of the conversion.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
         public static implicit operator WebViewControlSettings(Windows.Web.UI.WebViewControlSettings settings) => new WebViewControlSettings(settings);
     }

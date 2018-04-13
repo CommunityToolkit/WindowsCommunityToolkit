@@ -53,17 +53,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         private bool _webViewControlClosed;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebView"/> class.
+        /// Initializes a new instance of the <see cref="T:Microsoft.Toolkit.Win32.UI.Controls.WinForms.WebView" /> class.
         /// </summary>
         public WebView()
         {
             Paint += OnWebViewPaint;
         }
 
-        /// <summary>
-        /// Gets a value indicating whether the <see cref="WebView"/> contains an element that supports full screen.
-        /// </summary>
-        /// <value><c>true</c> if the <see cref="WebView"/> contains an element that supports full screen; otherwise, <c>false</c>.</value>
+        /// <inheritdoc cref="Controls.IWebView.ContainsFullScreenElement"/>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ContainsFullScreenElement
@@ -76,18 +73,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
         }
 
-        /// <summary>
-        /// Gets a value that indicates whether the <see cref="T:System.ComponentModel.Component" /> is currently in design mode.
-        /// </summary>
-        /// <value><c>true</c> if the control is being used in a designer; otherwise, <c>false</c>.</value>
+        /// <inheritdoc cref="Control.DesignMode" />
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool DesignMode => IsInDesignMode();
 
-        /// <summary>
-        /// Gets the title of the page currently displayed in the <see cref="WebView"/>.
-        /// </summary>
-        /// <value>The page title.</value>
+        /// <inheritdoc cref="Controls.IWebView.DocumentTitle"/>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string DocumentTitle
@@ -100,7 +91,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
         }
 
-        // Returns true if this or any of its child windows has focus
+        /// <inheritdoc />
+        /// <remarks>Returns true if this or any of its child windows has focus.</remarks>
         public override bool Focused
         {
             get
@@ -118,13 +110,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the use of IndexedDB is allowed.
-        /// </summary>
-        /// <value><c>true</c> if IndexedDB is allowed; otherwise, <c>false</c>.</value>
+        /// <inheritdoc cref="Controls.IWebView.IsIndexedDBEnabled" />
         [StringResourceCategory(Constants.CategoryBehavior)]
         [DefaultValue(false)]
-        public bool IsIndexDBEnabled
+        public bool IsIndexedDBEnabled
         {
             get
             {

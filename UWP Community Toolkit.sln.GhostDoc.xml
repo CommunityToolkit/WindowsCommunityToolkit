@@ -55,5 +55,6 @@
   </HelpConfiguration>
 </HelpConfigurations>
 <GeneralProperties>
+  <SearchInheritedCommentsOnlyWithinProject>False</SearchInheritedCommentsOnlyWithinProject>
 </GeneralProperties>
 </GhostDoc>

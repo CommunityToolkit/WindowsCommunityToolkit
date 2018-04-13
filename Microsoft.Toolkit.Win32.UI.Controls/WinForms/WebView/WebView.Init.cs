@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
                     // Set values. They could have been changed in the designer
                     IsScriptNotifyAllowed = _delayedIsScriptNotifyAllowed;
-                    IsIndexDBEnabled = _delayedIsIndexDbEnabled;
+                    IsIndexedDBEnabled = _delayedIsIndexDbEnabled;
                     IsJavaScriptEnabled = _delayedIsJavaScriptEnabled;
 
                     // This will cause a navigation

@@ -14,6 +14,11 @@ using System.ComponentModel;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
+    /// <summary>
+    /// Provides a control that hosts HTML content in a WinForms app.
+    /// </summary>
+    /// <seealso cref="T:Microsoft.Toolkit.Win32.UI.Controls.IWebView" />
+    /// <seealso cref="T:System.ComponentModel.ISupportInitialize" />
     public interface IWebView : Controls.IWebView, ISupportInitialize
     {
     }

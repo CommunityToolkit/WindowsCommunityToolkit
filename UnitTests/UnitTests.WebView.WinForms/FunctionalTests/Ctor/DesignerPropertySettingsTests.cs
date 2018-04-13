@@ -184,18 +184,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         protected override void Given()
         {
             base.Given();
-            _expected = WebView.IsIndexDBEnabled != true;
+            _expected = WebView.IsIndexedDBEnabled != true;
         }
 
         protected override void When()
         {
-            WebView.IsIndexDBEnabled = _expected;
+            WebView.IsIndexedDBEnabled = _expected;
         }
 
         [TestMethod]
         public void PropertyEqualsSettingsValue()
         {
-            WebView.Settings.IsIndexedDBEnabled.ShouldEqual(WebView.IsIndexDBEnabled);
+            WebView.Settings.IsIndexedDBEnabled.ShouldEqual(WebView.IsIndexedDBEnabled);
         }
     }
 
@@ -208,7 +208,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         protected override void Given()
         {
             base.Given();
-            _expected = WebView.IsIndexDBEnabled != true;
+            _expected = WebView.IsIndexedDBEnabled != true;
         }
 
         protected override void When()
@@ -219,7 +219,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         [TestMethod]
         public void PropertyEqualsSettingsValue()
         {
-            WebView.IsIndexDBEnabled.ShouldEqual(WebView.Settings.IsIndexedDBEnabled);
+            WebView.IsIndexedDBEnabled.ShouldEqual(WebView.Settings.IsIndexedDBEnabled);
         }
     }
 
@@ -236,16 +236,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         {
             // Behavior like the designer
             ((ISupportInitialize)WebView).BeginInit();
-            WebView.IsIndexDBEnabled = false;
+            WebView.IsIndexedDBEnabled = false;
             ((ISupportInitialize)WebView).EndInit();
         }
 
         [TestMethod]
         public void ScriptNotifyIsDisabled()
         {
-            WebView.IsIndexDBEnabled.ShouldBeFalse();
+            WebView.IsIndexedDBEnabled.ShouldBeFalse();
             WebView.Settings.IsIndexedDBEnabled.ShouldBeFalse();
-            WebView.Settings.IsIndexedDBEnabled.ShouldEqual(WebView.IsIndexDBEnabled);
+            WebView.Settings.IsIndexedDBEnabled.ShouldEqual(WebView.IsIndexedDBEnabled);
         }
 
         protected override void Cleanup()

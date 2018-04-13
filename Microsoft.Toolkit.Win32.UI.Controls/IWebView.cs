@@ -17,12 +17,13 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls
 {
+    /// <inheritdoc />
     /// <summary>
     /// Provides a control that hosts HTML content in an app.
     /// </summary>
-    /// <seealso cref="IDisposable" />
+    /// <seealso cref="T:System.IDisposable" />
     /// <remarks>
-    /// Subset of functionality from <see cref="Windows.Web.UI.IWebViewControl"/>
+    /// Subset of functionality from <see cref="T:Windows.Web.UI.IWebViewControl" />
     /// </remarks>
     public interface IWebView : IDisposable
     {
@@ -126,42 +127,77 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         event EventHandler<WebViewControlScriptNotifyEventArgs> ScriptNotify;
 
         /// <summary>
-        /// Occurs when <see cref="IWebView"/> shows a warning page for content that was reported as unsafe by SmartScreen filter.
+        /// Occurs when <see cref="IWebView" /> shows a warning page for content that was reported as unsafe by SmartScreen filter.
         /// </summary>
         event EventHandler<object> UnsafeContentWarningDisplaying;
 
         /// <summary>
-        /// Occurs when an attempt is made to navigate to a <see cref="Source"/> using a scheme that <see cref="IWebView"/> does not support.
+        /// Occurs when an attempt is made to navigate to a <see cref="Source" /> using a scheme that <see cref="IWebView" /> does not support.
         /// </summary>
         event EventHandler<WebViewControlUnsupportedUriSchemeIdentifiedEventArgs> UnsupportedUriSchemeIdentified;
 
         /// <summary>
-        /// Occurs when <see cref="IWebView"/> attempts to download an unsupported file.
+        /// Occurs when <see cref="IWebView" /> attempts to download an unsupported file.
         /// </summary>
         event EventHandler<WebViewControlUnviewableContentIdentifiedEventArgs> UnviewableContentIdentified;
 
         /// <summary>
         /// Gets a value indicating whether there is at least one page in the backward navigation history.
         /// </summary>
-        /// <value><c>true</c> if the <see cref="IWebView"/> can navigate backward; otherwise, <c>false</c>.</value>
+        /// <value><c>true</c> if the <see cref="IWebView" /> can navigate backward; otherwise, <c>false</c>.</value>
         bool CanGoBack { get; }
 
         /// <summary>
         /// Gets a value indicating whether there is at least one page in the forward navigation history.
         /// </summary>
-        /// <value><c>true</c> if the <see cref="IWebView"/> can navigate forward; otherwise, <c>false</c>.</value>
+        /// <value><c>true</c> if the <see cref="IWebView" /> can navigate forward; otherwise, <c>false</c>.</value>
         bool CanGoForward { get; }
 
+
+        /// <summary>
+        /// Gets a value indicating whether <see cref="IWebView"/> contains an element that supports full screen.
+        /// </summary>
+        /// <value><see langword="true" /> if the <see cref="IWebView"/> contains an element that supports full screen; otherwise, <see langword="false" />.</value>
         bool ContainsFullScreenElement { get; }
 
-        bool IsIndexDBEnabled { get; set; }
+        /// <summary>
+        /// Gets the title of the page currently displayed in the <see cref="IWebView"/>.
+        /// </summary>
+        /// <value>The page title.</value>
+        /// <seealso cref="Windows.Web.UI.IWebViewControl.DocumentTitle"/>
+        string DocumentTitle { get; }
 
+        /// <summary>
+        /// Gets or sets a value that indicates whether the use of IndexedDB is allowed.
+        /// </summary>
+        /// <value><c>true</c> if IndexedDB is allowed; otherwise, <c>false</c>. The default is <c>true</c>.</value>
+        /// <see cref="WebViewControlSettings.IsIndexedDBEnabled"/>
+        bool IsIndexedDBEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value that indicates whether the use of JavaScript is allowed.
+        /// </summary>
+        /// <value> true if JavaScript is allowed in the <see cref="IWebView"/>; otherwise, false. The default is true.</value>
+        /// <see cref="WebViewControlSettings.IsJavaScriptEnabled"/>
         bool IsJavaScriptEnabled { get; set; }
-
+        /// <summary>
+        /// Gets or sets whether <see cref="IWebView.ScriptNotify" /> is allowed.
+        /// </summary>
+        /// <value>Whether <see cref="IWebView.ScriptNotify" /> is allowed.</value>
+        /// <see cref="WebViewControlSettings.IsScriptNotifyAllowed" />
         bool IsScriptNotifyAllowed { get; set; }
 
         // TODO: Process
         // WebViewControlProcess Process { get; }
+
+        /// <summary>
+        /// Gets a <see cref="WebViewControlSettings" /> object that contains properties to enable or disable <see cref="IWebView" /> features.
+        /// </summary>
+        /// <value>A <see cref="WebViewControlSettings" /> object that contains properties to enable or disable <see cref="IWebView" /> features.</value>
+        /// <seealso cref="WebViewControlSettings.IsScriptNotifyAllowed" />
+        /// <seealso cref="WebViewControlSettings.IsJavaScriptEnabled" />
+        /// <seealso cref="WebViewControlSettings.IsIndexedDBEnabled" />
+        /// <remarks>Use the <see cref="WebViewControlSettings" /> object to enable or disable the use of JavaScript, ScriptNotify, and IndexedDB in the <see cref="IWebView" />.</remarks>
         WebViewControlSettings Settings { get; }
 
         /// <summary>
@@ -173,35 +209,43 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         Uri Source { get; set; }
 
         /// <summary>
-        /// Gets the version of EDGEHTML.DLL used by <see cref="IWebView"/>.
+        /// Gets the version of EDGEHTML.DLL used by <see cref="IWebView" />.
         /// </summary>
-        /// <value>The version of EDGEHTML.DLL used by <see cref="IWebView"/>.</value>
+        /// <value>The version of EDGEHTML.DLL used by <see cref="IWebView" />.</value>
         Version Version { get; }
 
+        /// <summary>
+        /// Closes this instance.
+        /// </summary>
+        /// <remarks>Equivalent to calling <see cref="IDisposable.Dispose"/>.</remarks>
         void Close();
 
+        /// <summary>
+        /// Gets the deferred permission request with the specified <see cref="WebViewControlPermissionRequest.Id" />.
+        /// </summary>
+        /// <param name="id">The <see cref="WebViewControlPermissionRequest.Id" /> of the deferred permission request.</param>
+        /// <returns><see cref="WebViewControlDeferredPermissionRequest" /> The deferred permission request with the specified <see cref="WebViewControlPermissionRequest.Id" />, or null if no permission request with the specified <see cref="WebViewControlPermissionRequest.Id" /> was found.</returns>
+        /// <see cref="Windows.Web.UI.Interop.WebViewControl.DeferredPermissionRequestById(out uint)"/>
         WebViewControlDeferredPermissionRequest GetDeferredPermissionRequestById(uint id);
 
         /// <summary>
-        /// Navigates the <see cref="IWebView"/> to the previous page in the navigation history.
+        /// Navigates the <see cref="IWebView" /> to the previous page in the navigation history.
         /// </summary>
-        /// <returns><c>true</c> if the <see cref="IWebView"/> navigation to the previous page in the navigation history is successful; otherwise, <c>false</c>.</returns>
+        /// <returns><c>true</c> if the <see cref="IWebView" /> navigation to the previous page in the navigation history is successful; otherwise, <c>false</c>.</returns>
         bool GoBack();
 
         /// <summary>
-        /// Navigates the <see cref="IWebView"/> to the next page in the navigation history.
+        /// Navigates the <see cref="IWebView" /> to the next page in the navigation history.
         /// </summary>
-        /// <returns><c>true</c> if the <see cref="IWebView"/> navigation to the next page in the navigation history is successful; otherwise, <c>false</c>.</returns>
+        /// <returns><c>true</c> if the <see cref="IWebView" /> navigation to the next page in the navigation history is successful; otherwise, <c>false</c>.</returns>
         bool GoForward();
 
         /// <summary>
         /// Executes the specified script function from the currently loaded HTML, with no arguments, as a synchronous action.
         /// </summary>
         /// <param name="scriptName">Name of the script function to invoke.</param>
-        /// <returns>When this method returns, the <see cref="object"/> result of the script invocation.</returns>
-        /// <remarks>
-        /// To prevent malicious code from exploiting your app, be sure to call this method to invoke only scripts that you trust.
-        /// </remarks>
+        /// <returns>When this method returns, the <see cref="object" /> result of the script invocation.</returns>
+        /// <remarks>To prevent malicious code from exploiting your app, be sure to call this method to invoke only scripts that you trust.</remarks>
         object InvokeScript(string scriptName);
 
         /// <summary>

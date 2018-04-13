@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         [TestMethod]
         public void IndexDBEnabled()
         {
-            WebView.IsIndexDBEnabled.ShouldBeTrue();
+            WebView.IsIndexedDBEnabled.ShouldBeTrue();
         }
 
         [TestMethod]

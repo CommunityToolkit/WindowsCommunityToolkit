@@ -40,8 +40,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         public bool IsIndexDBEnabled
         {
-            get => (bool)ShadowProperties[nameof(WebView.IsIndexDBEnabled)];
-            set => ShadowProperties[nameof(WebView.IsIndexDBEnabled)] = value;
+            get => (bool)ShadowProperties[nameof(WebView.IsIndexedDBEnabled)];
+            set => ShadowProperties[nameof(WebView.IsIndexedDBEnabled)] = value;
         }
 
         protected override InheritanceAttribute InheritanceAttribute
@@ -94,7 +94,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                 nameof(WebView.Source),
                 nameof(WebView.IsScriptNotifyAllowed),
                 nameof(WebView.IsJavaScriptEnabled),
-                nameof(WebView.IsIndexDBEnabled)
+                nameof(WebView.IsIndexedDBEnabled)
             };
             PropertyDescriptor prop;
             Attribute[] empty = new Attribute[0];

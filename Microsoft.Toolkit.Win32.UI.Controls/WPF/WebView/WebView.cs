@@ -51,8 +51,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         private delegate void PropertyInvalidator(WebView webViewHost);
 
-        private static readonly DependencyProperty IsIndexDBEnabledProperty = DependencyProperty.Register(
-            nameof(IsIndexDBEnabled),
+        private static readonly DependencyProperty IsIndexedDBEnabledProperty = DependencyProperty.Register(
+            nameof(IsIndexedDBEnabled),
             typeof(bool),
             typeof(WebView),
             new PropertyMetadata(true, PropertyChangedCallback));
@@ -370,10 +370,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         [StringResourceCategory(Constants.CategoryBehavior)]
         [DefaultValue(false)]
-        public bool IsIndexDBEnabled
+        public bool IsIndexedDBEnabled
         {
-            get => (bool)GetValue(IsIndexDBEnabledProperty);
-            set => SetValue(IsIndexDBEnabledProperty, value);
+            get => (bool)GetValue(IsIndexedDBEnabledProperty);
+            set => SetValue(IsIndexedDBEnabledProperty, value);
         }
 
         [StringResourceCategory(Constants.CategoryBehavior)]
@@ -624,14 +624,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 {
                     source = Dispatcher.Invoke(() => Source);
                     javaScriptEnabled = Dispatcher.Invoke(() => IsJavaScriptEnabled);
-                    indexDBEnabled = Dispatcher.Invoke(() => IsIndexDBEnabled);
+                    indexDBEnabled = Dispatcher.Invoke(() => IsIndexedDBEnabled);
                     scriptNotifyAllowed = Dispatcher.Invoke(() => IsScriptNotifyAllowed);
                 }
                 else
                 {
                     source = Source;
                     javaScriptEnabled = IsJavaScriptEnabled;
-                    indexDBEnabled = IsIndexDBEnabled;
+                    indexDBEnabled = IsIndexedDBEnabled;
                     scriptNotifyAllowed = IsScriptNotifyAllowed;
                 }
 
@@ -687,7 +687,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 {
                     wv.Navigate(dependencyPropertyChangedEventArgs.NewValue as Uri);
                 }
-                else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsIndexDBEnabled))
+                else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsIndexedDBEnabled))
                 {
                     Verify.IsTrue(wv.WebViewControlInitialized);
                     wv._webViewControl.Settings.IsIndexedDBEnabled = (bool)dependencyPropertyChangedEventArgs.NewValue;

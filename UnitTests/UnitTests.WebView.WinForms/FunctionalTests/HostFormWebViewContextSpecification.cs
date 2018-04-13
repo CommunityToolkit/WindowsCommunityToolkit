@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             WebView.Dock = DockStyle.Fill;
             WebView.Size = Form.ClientSize;
             WebView.IsScriptNotifyAllowed = true;
-            WebView.IsIndexDBEnabled = true;
+            WebView.IsIndexedDBEnabled = true;
             WebView.IsJavaScriptEnabled = true;
             WebView.Visible = true;
             Form.Controls.Add(WebView);
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             Form.PerformLayout();
 
             WebView.IsScriptNotifyAllowed.ShouldBeTrue();
-            WebView.IsIndexDBEnabled.ShouldBeTrue();
+            WebView.IsIndexedDBEnabled.ShouldBeTrue();
             WebView.IsJavaScriptEnabled.ShouldBeTrue();
         }
     }
