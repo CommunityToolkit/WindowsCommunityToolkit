@@ -4,8 +4,15 @@ using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
 var frameSourceGroup = await FrameSourceGroupsHelper.GetFirstAvailableFrameSourceGroup();
 if (frameSourceGroup != null)
 {
-  CameraHelper cameraHelper = new CameraHelper(group);
-  await cameraHelper.InitMediaCaptureAndStartFrameReaderAsync();
+  CameraHelper cameraHelper = new CameraHelper();
+  var result = await _cameraHelper.InitializeAndStartCapture(frameSourceGroup);
+
+  // Camera Initialization and Capture failed for some reason
+  if(result.Status == false)
+  {
+	// log the error
+	var errorMessage = result.Message;
+  }
 
   // Subscribe to the video frame as they arrive
   cameraHelper.VideoFrameArrived += CameraHelper_VideoFrameArrived;
@@ -17,5 +24,9 @@ else
 
 private void CameraHelper_VideoFrameArrived(object sender, VideoFrameEventArgs e)
 {
-  var currentVideoFrame = e.VideoFrame;
+  // Gets the current video frame
+  VideoFrame currentVideoFrame  = e.VideoFrame;
+
+  // Gets the software bitmap image
+  SoftwareBitmap softwareBitmap = e.SoftwareBitmap;
 }

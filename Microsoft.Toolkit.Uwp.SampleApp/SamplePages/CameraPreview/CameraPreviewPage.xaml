@@ -32,7 +32,7 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>        
-        <TextBlock Text="Video Preview" Grid.Row="1" VerticalAlignment="Center" Margin="10"></TextBlock>        
+        <TextBlock x:Name="VideoPreviewText" Text="Video Preview" Grid.Row="1" VerticalAlignment="Center" Margin="10"></TextBlock>        
         <MediaPlayerElement x:Name="MediaPlayerElementControl" Grid.Row="1" Grid.Column="1" Margin="10,10" 
                             MinWidth="300" MinHeight="300" Width="400" Height="400" HorizontalAlignment="Left">
         </MediaPlayerElement>        

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
 using Windows.ApplicationModel;
@@ -60,7 +61,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async Task CleanUpCameraAsync()
         {
-            await _cameraHelper?.Cleanup();
+            if (_cameraHelper != null)
+            {
+                await _cameraHelper.Cleanup();
+            }
 
             if (_mediaPlayer != null)
             {
@@ -90,18 +94,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void CameraHelper_VideoFrameArrived(object sender, VideoFrameEventArgs e)
         {
-            if (e.VideoFrame != null)
-            {
-                _currentVideoFrame = e.VideoFrame;
-                _softwareBitmap = e.SoftwareBitmap;
-            }
+            _currentVideoFrame = e.VideoFrame;
+            _softwareBitmap = e.SoftwareBitmap;
         }
 
         private async Task InitFrameSourcesAsync()
         {
             var frameSourceGroups = await FrameSourceGroupsHelper.GetAllAvailableFrameSourceGroups();
 
-            if (frameSourceGroups.Count > 0)
+            if (frameSourceGroups != null)
             {
                 FrameSourceGroupCombo.ItemsSource = frameSourceGroups;
                 var selectedGroup = FrameSourceGroupCombo.SelectedItem as MediaFrameSourceGroup;
@@ -109,8 +110,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             else
             {
-                FrameSourceGroupCombo.ItemsSource = new { DisplayName = "No valid sources found" };
+                FrameSourceGroupCombo.ItemsSource = new List<object> { new { DisplayName = "No camera sources found." } };
                 FrameSourceGroupCombo.SelectedIndex = 0;
+                CaptureVideoFrame.Visibility = CaptureVideoFrame.Visibility = VideoPreviewText.Visibility =
+                    MediaPlayerElementControl.Visibility = Visibility.Collapsed;
             }
         }
 
