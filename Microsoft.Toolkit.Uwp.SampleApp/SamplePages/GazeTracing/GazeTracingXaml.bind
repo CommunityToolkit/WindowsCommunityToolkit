@@ -6,27 +6,28 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     mc:Ignorable="d">
+  
+    <Grid>
+      <Grid.Resources>
+        <DataTemplate x:Key="ItemsControlItemTemplate1">
+          <Ellipse Fill="#FF1111FC" HorizontalAlignment="Left" Width="@[Size:Slider:5:5-50]" Height="@[Size:Slider:5:5-50]" Stroke="Black" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+            <Ellipse.RenderTransform>
+              <TranslateTransform X="{Binding X}" Y="{Binding Y}"/>
+            </Ellipse.RenderTransform>
+          </Ellipse>
 
-  <Page.Resources>
-    <DataTemplate x:Key="ItemsControlItemTemplate1">
-      <Ellipse Fill="#FF1111FC" HorizontalAlignment="Left" Width="@[Height:Slider:5:1-20]" Height="@[Height:Slider:5:1-20]" Stroke="IndianRed" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
-        <Ellipse.RenderTransform>
-          <TranslateTransform X="{Binding X}" Y="{Binding Y}"/>
-        </Ellipse.RenderTransform>
-      </Ellipse>
-
-    </DataTemplate>
-    <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
-      <Canvas ></Canvas>
-    </ItemsPanelTemplate>
-  </Page.Resources>
-
-  <Grid>
+        </DataTemplate>
+        <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
+          <Canvas ></Canvas>
+        </ItemsPanelTemplate>
+      </Grid.Resources>
+  
     <Grid.RowDefinitions>
-      <RowDefinition />
-    </Grid.RowDefinitions>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-      <ItemsControl ItemTemplate="{StaticResource ItemsControlItemTemplate1}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding GazeHistory}" ItemsPanel="{StaticResource ItemsPanelTemplate1}"/>
+        <RowDefinition />
+      </Grid.RowDefinitions>
+    
+      <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ItemsControl ItemTemplate="{StaticResource ItemsControlItemTemplate1}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding GazeHistory}" ItemsPanel="{StaticResource ItemsPanelTemplate1}"/>
+      </Grid>
     </Grid>
-  </Grid>
 </Page>

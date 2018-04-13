@@ -7,21 +7,20 @@
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     mc:Ignorable="d">
 
-    <Page.Resources>
-        <DataTemplate x:Key="ItemsControlItemTemplate1">
-            <Ellipse Fill="#FF1111FC" HorizontalAlignment="Left" Height="5" Stroke="Black" VerticalAlignment="Top" Width="5" RenderTransformOrigin="0.5,0.5">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform X="{Binding X}" Y="{Binding Y}"/>
-                </Ellipse.RenderTransform>
-            </Ellipse>
+    <Grid x:Name="XamlRoot">
+        <Grid.Resources>
+            <DataTemplate x:Key="ItemsControlItemTemplate1">
+                <Ellipse Fill="#FF1111FC" HorizontalAlignment="Left" Height="5" Stroke="Black" VerticalAlignment="Top" Width="5" RenderTransformOrigin="0.5,0.5">
+                    <Ellipse.RenderTransform>
+                        <TranslateTransform X="{Binding X}" Y="{Binding Y}"/>
+                    </Ellipse.RenderTransform>
+                </Ellipse>
 
-        </DataTemplate>
-        <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
-            <Canvas ></Canvas>
-        </ItemsPanelTemplate>
-    </Page.Resources>
-
-    <Grid>
+            </DataTemplate>
+            <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
+                <Canvas ></Canvas>
+            </ItemsPanelTemplate>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition />
         </Grid.RowDefinitions>

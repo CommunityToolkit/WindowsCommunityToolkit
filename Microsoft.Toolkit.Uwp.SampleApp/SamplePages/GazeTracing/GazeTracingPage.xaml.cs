@@ -37,6 +37,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public GazeTracingPage()
         {
             this.InitializeComponent();
+            DataContext = this;
 
             ShowIntermediatePoints = false;
             MaxGazeHistorySize = 100;
