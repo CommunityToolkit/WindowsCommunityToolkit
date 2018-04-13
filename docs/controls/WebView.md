@@ -75,7 +75,7 @@ To specify a color to use as the web page background when the HTML content does 
 This table contains links to each of these members.
 
 | Member | Windows Forms WebView | WPF WebView |
-|-------|-------------|
+|-------|-------------|---|
 |Width property |[Width](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.width)|[Width](https://docs.microsoft.com/dotnet/api/system.windows.frameworkelement.width)|
 |Height property|[Height](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.height)|[Height](https://docs.microsoft.com/dotnet/api/system.windows.frameworkelement.height)|
 
@@ -98,7 +98,7 @@ The **WebView** control also receives keyboard input focus and participates in t
 This table contains links to some of the members described in this section.
 
 | Member | Windows Forms WebView | WPF WebView |
-|-------|-------------|
+|-------|-------------|---|
 |GotFocus event |[GotFocus](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.gotfocus)|[GotFocus](https://docs.microsoft.com/dotnet/api/system.windows.uielement.gotfocus)|
 |LostFocus event|[LostFocus](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.lostfocus)|[LostFocus](https://docs.microsoft.com/dotnet/api/system.windows.uielement.lostfocus)|
 |KeyDown event |[KeyDown](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.keydown)|[KeyDown](https://docs.microsoft.com/dotnet/api/system.windows.uielement.keydown)|
