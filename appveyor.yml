@@ -31,7 +31,7 @@ build_script:
 - ps: .\build\build.ps1 -target=SignNuGet
 
 artifacts:
-- path: .\Output\NuGet\Release\*.nupkg
+- path: .\bin\nupkg\*.nupkg
   
 deploy:
   provider: NuGet

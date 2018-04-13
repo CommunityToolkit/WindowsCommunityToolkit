@@ -26,7 +26,7 @@
     <DefaultTargetPlatformVersion>16299</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>14393</DefaultTargetPlatformMinVersion>
 	
-	<PackageOutputPath>$(MSBuildThisFileDirectory)Output\NuGet\$(Configuration)\</PackageOutputPath>
+	  <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
   </PropertyGroup>
 
   <Choose>
