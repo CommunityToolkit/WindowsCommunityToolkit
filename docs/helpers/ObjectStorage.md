@@ -3,6 +3,9 @@ title: Object Storage
 author: nmetulev
 description: The Object Storage Helper will help you handle storage of generic objects within UWP applications, both locally and across all devices (roaming).
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Object Storage, local storage, roaming storage
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Object Storage
@@ -15,7 +18,6 @@ The Object Storage Helper will help you handle storage of generic objects within
 
 If you need to handle local saves of any object (generic), you can use `LocalObjectStorageHelper`.
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 var helper = new LocalObjectStorageHelper();
 
@@ -98,7 +100,6 @@ Await helper.SaveFileAsync(keySimpleObject, o)
 In the same way, if you need to handle roaming saves across all of user devices, you can use `RoamingObjectStorageHelper`.
 The implementation of the `RoamingObjectStorageHelper` is absolutely similar to `LocalObjectStorageHelper`.
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 var helper = new RoamingObjectStorageHelper();
 

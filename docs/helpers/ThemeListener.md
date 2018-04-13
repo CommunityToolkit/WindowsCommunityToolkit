@@ -3,6 +3,9 @@ title: Theme Listener
 author: williamabradley
 description: The Theme Listener allows you to determine the current Application Theme, and when it is changed via System Theme changes.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, theme listener, themeing, themes, system theme, helpers
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Theme Listener
@@ -11,7 +14,6 @@ The [Theme Listener](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolk
 
 ## Syntax
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 var Listener = new ThemeListener();
 Listener.ThemeChanged += Listener_ThemeChanged;

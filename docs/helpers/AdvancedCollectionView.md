@@ -3,6 +3,9 @@ title: AdvancedCollectionView
 author: nmetulev
 description: The AdvancedCollectionView is a collection view implementation that support filtering, sorting and incremental loading. It's meant to be used in a viewmodel. 
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, AdvancedCollectionView
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # AdvancedCollectionView
@@ -21,7 +24,6 @@ In your viewmodel instead of having a public [IEnumerable](https://docs.microsof
 
 ## Example
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 // Be sure to include the using at the top of the file:
 //using Microsoft.Toolkit.Uwp.UI;
@@ -133,7 +135,6 @@ _Any performance guidelines?_
 
 If you're removing, modifying or inserting large amounts of items while having filtering and/or sorting set up, it's recommended that you use the `NotificationDeferrer` helper provided. It skips any performance heavy logic while it's in use, and automatically calls the `Refresh` method when disposed.
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 using (acv.DeferRefresh())
 {

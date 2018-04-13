@@ -3,6 +3,9 @@ title: StorageFileHelper
 author: nmetulev
 description: The StorageFileHelper is a static utility class that provides functions to help with reading and writing of text and bytes to the disk.  These functions are all wrapped into Async tasks.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, StorageFileHelper
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # StorageFileHelper
@@ -12,7 +15,6 @@ The StorageFileHelper is a static utility class that provides functions to help 
 
 ## Example
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 // NOTE This must be used from an async function
 string myText = "Great information that the users wants to keep";

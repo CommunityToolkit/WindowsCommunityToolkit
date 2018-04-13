@@ -3,6 +3,9 @@ title: NetworkHelper
 author: nmetulev
 description: he NetworkHelper class provides functionality to monitor changes in network connection and allows users to query for network information without additional lookups.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, NetworkHelper
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # NetworkHelper
@@ -16,7 +19,6 @@ A metered connection is an Internet connection that has a data limit or cost ass
 
 ## Example
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 // Detect if Internet can be reached
 if (NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)

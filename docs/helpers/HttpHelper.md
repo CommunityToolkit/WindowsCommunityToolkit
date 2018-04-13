@@ -3,6 +3,9 @@ title: HttpHelper
 author: nmetulev
 description: HttpHelper is a UWP Community Toolkit helper class used to assist in common http and networking scenarios.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelper
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # HttpHelper
@@ -14,7 +17,6 @@ Represents an HTTP request message including headers.
 
 ## Example
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 using (var request = new HttpHelperRequest(new Uri(twitterUrl), HttpMethod.Post))
 {

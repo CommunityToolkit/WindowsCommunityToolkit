@@ -3,6 +3,9 @@ title: Colors Helper
 author: nmetulev
 description: The Colors Helper lets users convert colors from text names, HTML hex, HSV, or HSL to Windows UI Colors
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Colors Helper
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Colors Helper
@@ -11,7 +14,6 @@ The **Colors Helper** lets users convert colors from text names, HTML hex, HSV, 
 
 ## Example
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 // Be sure to include the using at the top of the file:
 //using Microsoft.Toolkit.Uwp;

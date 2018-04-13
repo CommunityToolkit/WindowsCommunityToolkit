@@ -3,6 +3,9 @@ title: Incremental Loading Collection Helpers
 author: nmetulev
 description: The IncrementalLoadingCollection helpers greatly simplify the definition and usage of collections whose items can be loaded incrementally only when needed by the view
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, IncrementalLoadingCollection
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Incremental Loading Collection Helpers
@@ -93,7 +96,6 @@ The *GetPagedItemsAsync* method is invoked everytime the view need to show more 
 
 `IncrementalLoadingCollection` can then be bound to a [ListView](https://msdn.microsoft.com/library/windows/apps/windows.ui.xaml.controls.listview.aspx) or a [GridView-like](https://msdn.microsoft.com/library/windows/apps/windows.ui.xaml.controls.gridview.aspx) control:
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 var collection = new IncrementalLoadingCollection<PeopleSource, Person>();
 PeopleListView.ItemsSource = collection;

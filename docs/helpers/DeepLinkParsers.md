@@ -3,6 +3,9 @@ title: DeepLinkParser
 author: nmetulev
 description: Provides a way to create, Dictionary<string,string> - inheriting object that provides an additional .Root property to pull the base path of the URI 
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, DeepLinkParser
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # DeepLinkParser
@@ -11,7 +14,6 @@ Once you have an instance, simply saying `instance["optionName"]` will pull the 
 ### Example
 in OnLaunched of App.xaml.cs:
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```c#
 if (e.PrelaunchActivated == false)
 {
@@ -47,7 +49,6 @@ Some consumers want to be able to do something like `?pref=this&pref=that&pref=t
 ### Example
 in OnLaunched of App.xaml.cs:
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```c#
 if (e.PrelaunchActivated == false)
 {
@@ -87,7 +88,6 @@ The method that does the heavy lifting of parsing in to the `Dictionary<string,s
 This helper class aids in the creation of a `Collection<KeyValuePair<string,string>>` populated with they key-value pairs of all parameters in a query string.
 ### Example
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```c#
 var myUrl = "http://microsoft.com/?user=fooUser&email=fooUser@outlook.com&firstName=John&lastName=Doe"
 var paramCollection = new QueryParameterCollection(myUrl);

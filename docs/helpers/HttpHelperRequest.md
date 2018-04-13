@@ -3,6 +3,9 @@ title: HttpHelperRequest
 author: nmetulev
 description: HttpHelperRequest is a UWP Community Toolkit helper class used with the HttpHelper class to create http requests.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelperRequest
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # HttpHelperRequest
@@ -12,9 +15,6 @@ or [Windows.Web.Http.HttpRequestMessage](https://docs.microsoft.com/en-us/uwp/ap
 
 Represents an HTTP request message including headers. 
 
-## Example
-
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 var request = new HttpHelperRequest(uri, HttpMethod.Get);
 request.Headers.Authorization = new Windows.Web.Http.Headers.HttpCredentialsHeaderValue("OAuth", authorizationHeaderParams);

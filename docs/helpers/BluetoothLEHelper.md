@@ -3,6 +3,9 @@ title: BluetoothLEHelper
 author: nmetulev
 description: The BluetoothLEHelper class provides functionality to easily enumerate, connect to and interact with Bluetooth LE Peripherals. 
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, BluetoothLEHelper, bluetooth le, bluetooth
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # BluetoothLEHelper
@@ -191,7 +194,6 @@ Gets or sets the glyph of this bluetooth device
 
 ## Example
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 // Get a local copy of the context for easier reading
 BluetoothLEHelper bluetoothLEHelper = BluetoothLEHelper.Context;

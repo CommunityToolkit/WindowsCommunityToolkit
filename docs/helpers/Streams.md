@@ -3,6 +3,9 @@ title: Streams Helper
 author: nmetulev
 description: There are several operations that apps need commonly to do against their APPX, or from the Internet that are not easy.  This helper class wraps up some of the most common operations we need in multiple apps.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Streams
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Streams Helper
@@ -19,7 +22,6 @@ There are several operations that apps need commonly to do against their APPX, o
 
 ## Example
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 // Get access to a text file that was included in solution as Content | do not copy local
 using (var stream = await StreamHelper.GetPackagedFileStreamAsync("Assets/Sub/test.txt"))

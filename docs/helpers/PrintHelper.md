@@ -3,6 +3,9 @@ title: Print Helper
 author: nmetulev
 description: The PrintHelper is a UWP Community Toolkit helper class that enables the rendering of a framework element per page for printing purposes
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, PrintHelper
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Print Helper
@@ -29,7 +32,6 @@ In this mode you are responsible for the sizing and the layout.
 
 ## Example
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 // Create a new PrintHelper instance
 // "container" is a XAML panel that will be used to host printable control. 
@@ -95,7 +97,6 @@ End Sub
 
 Direct print example:
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 // Create a new PrintHelper instance
 // "container" is a XAML panel that will be used to get the list of printable controls. 

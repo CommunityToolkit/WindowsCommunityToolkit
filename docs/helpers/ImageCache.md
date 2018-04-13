@@ -3,6 +3,9 @@ title: ImageCache
 author: nmetulev
 description: The ImageCache provides methods and tools to cache images in a temporary local folder.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ImageCache
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # ImageCache
@@ -11,7 +14,6 @@ The **ImageCache** provides methods and tools to cache images in a temporary loc
 
 ## Example
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 // Set cache duration
 ImageCache.Instance.CacheDuration = TimeSpan.FromHours(24);

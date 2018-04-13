@@ -3,6 +3,9 @@ title: Background Task Helper
 author: nmetulev
 description: The Background Task Helper helps users interacting with background tasks in an easier manner. 
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Background Task Helper
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Background Task Helper
@@ -21,7 +24,6 @@ To make it work, you will need :
 
 Once it is done, you can register your Background Tasks.
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 // Be sure to include the using at the top of the file:
 //using Microsoft.Toolkit.Uwp;
@@ -87,7 +89,6 @@ Moreover, it is no longer required to register the Background Tasks in the packa
 
 Once you have created the Background Task, you can register it by calling the `Register` method.
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 // Be sure to include the using at the top of the file:
 //using Microsoft.Toolkit.Uwp;
@@ -108,7 +109,6 @@ Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register("Na
 The other difference between SPM and MPM is that in SPM, you have to handle your Background Tasks inside the `OnBackgroundActivated` event of `App.xaml.cs` class.
 Here is an example of how to handle Background Tasks in SPM.
 
-[!div class="tabbedCodeSnippets" data-resources="OutlookServices.Calendar"]
 ```csharp
 /// <summary>
 /// Event fired when a Background Task is activated (in Single Process Model)
