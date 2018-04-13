@@ -22,7 +22,7 @@
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
  
     <DefaultTargetPlatformVersion>16299</DefaultTargetPlatformVersion>
-    <DefaultTargetPlatformMinVersion>14393</DefaultTargetPlatformMinVersion>
+    <DefaultTargetPlatformMinVersion>15063</DefaultTargetPlatformMinVersion>
   </PropertyGroup>
 
   <Choose>
