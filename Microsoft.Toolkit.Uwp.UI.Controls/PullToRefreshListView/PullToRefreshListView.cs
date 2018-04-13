@@ -34,6 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = PartIndicatorTransform, Type = typeof(CompositeTransform))]
     [TemplatePart(Name = PartDefaultIndicatorContent, Type = typeof(TextBlock))]
     [TemplatePart(Name = PullAndReleaseIndicatorContent, Type = typeof(ContentPresenter))]
+    [Obsolete("The PullToRefreshListView will be removed in a future major release. Please use the RefreshContainer control available in the 1803 version of Windows")]
     public class PullToRefreshListView : ListView
     {
         /// <summary>
