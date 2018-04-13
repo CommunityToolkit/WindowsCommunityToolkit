@@ -10,6 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using System;
 using System.Collections.ObjectModel;
 using Windows.Devices.Input.Preview;
 using Windows.Foundation;
@@ -21,12 +23,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class GazeTracingPage : Page
+    public sealed partial class GazeTracingPage : IXamlRenderListener
     {
         private GazeInputSourcePreview gazeInputSourcePreview;
         private Frame rootFrame;
 
-        public ObservableCollection<Point> GazeHistory { get; set; }
+        public ObservableCollection<Point> GazeHistory { get; set; } = new ObservableCollection<Point>();
 
         public int TracePointDiameter { get; set; }
 
@@ -41,11 +43,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             ShowIntermediatePoints = false;
             MaxGazeHistorySize = 100;
-            GazeHistory = new ObservableCollection<Point>();
 
             rootFrame = Window.Current.Content as Frame;
             gazeInputSourcePreview = GazeInputSourcePreview.GetForCurrentView();
             gazeInputSourcePreview.GazeMoved += GazeInputSourcePreview_GazeMoved;
+
+            var random = new Random();
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Tick += (s, e) => GazeHistory.Add(new Point(random.Next(0, 300), random.Next(0, 300)));
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Start();
         }
 
         private void UpdateGazeHistory(GazePointPreview pt)
@@ -76,6 +83,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             foreach (var pt in points)
             {
                 UpdateGazeHistory(pt);
+            }
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            var itemsControl = control.FindChildByName("Points") as ItemsControl;
+            if (itemsControl != null)
+            {
+                itemsControl.ItemsSource = GazeHistory;
             }
         }
     }
