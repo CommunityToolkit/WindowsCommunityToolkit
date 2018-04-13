@@ -662,12 +662,6 @@ namespace Microsoft.Toolkit.Services.Bing
         Mongolian,
 
         /// <summary>
-        /// Moldavian
-        /// </summary>
-        [StringValue("mo")]
-        Moldavian,
-
-        /// <summary>
         /// Marathi
         /// </summary>
         [StringValue("mr")]
