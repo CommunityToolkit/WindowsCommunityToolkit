@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Failed to get frame sources." + ex.Message);
+                Debug.WriteLine($"Failed to get frame sources. Error: {ex.Message}");
             }
 
             return _frameSourceGroups;
