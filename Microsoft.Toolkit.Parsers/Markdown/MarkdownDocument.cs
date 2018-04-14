@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Toolkit.Extensions;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
 using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
@@ -93,11 +94,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             var paragraphText = new StringBuilder();
 
             // These are needed to parse underline-style header blocks.
+            int previousRealtStartOfLine = start;
             int previousStartOfLine = start;
             int previousEndOfLine = start;
 
-            // When a Quote is continued on a new line, but doesn't start with '>'.
-            bool inQuoteNewLine = false;
+            bool comingOutOfNest = false;
 
             // Go line by line.
             while (startOfLine < end)
@@ -153,24 +154,52 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                     }
                     else
                     {
-                        // There were less block quote characters than expected.
-                        // But it doesn't matter if this is not the start of a new paragraph.
-                        if (!lineStartsNewParagraph || nonSpaceChar == '\0')
+                        int lastIndentation = 0;
+                        string lastline = null;
+
+                        // Determines how many Quote levels were in the last line.
+                        if (realStartOfLine > 0)
                         {
-                            // Continue the Quote if the previous line was a quote.
-                            if (((previousStartOfLine - 2) >= 0 && markdown[previousStartOfLine - 2] == '>') || ((previousStartOfLine - 1) >= 0 && markdown[previousStartOfLine - 1] == '>'))
+                            lastline = markdown.Substring(previousRealtStartOfLine, previousEndOfLine - previousRealtStartOfLine);
+                            lastIndentation = lastline.Occurrences(">");
+                        }
+
+                        var currentEndOfLine = Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out _);
+                        var currentline = markdown.Substring(realStartOfLine, currentEndOfLine - realStartOfLine);
+                        var currentIndentation = currentline.Occurrences(">");
+                        var firstChar = markdown[realStartOfLine];
+
+                        // This is a quote that doesn't start with a Quote marker, but carries on from the last line.
+                        if (lastIndentation == 1)
+                        {
+                            if (nonSpaceChar != '\0' && firstChar != '>')
                             {
-                                inQuoteNewLine = true;
                                 break;
                             }
-                        }
-                        else
-                        {
-                            inQuoteNewLine = false;
                         }
 
                         // This must be the end of the blockquote.  End the current paragraph, if any.
                         actualEnd = previousEndOfLine;
+
+                        // There were less block quote characters than expected.
+                        // But it doesn't matter if this is not the start of a new paragraph.
+                        if (lastIndentation > 1)
+                        {
+                            if (firstChar != '\r' && currentIndentation >= lastIndentation)
+                            {
+                                if (currentIndentation < lastIndentation)
+                                {
+                                    comingOutOfNest = true;
+                                }
+
+                                break;
+                            }
+                            else
+                            {
+                                actualEnd = currentEndOfLine;
+                            }
+                        }
+
                         if (paragraphText.Length > 0)
                         {
                             blocks.Add(ParagraphBlock.Parse(paragraphText.ToString()));
@@ -289,12 +318,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                                 paragraphText[paragraphText.Length - 2] = '\r';
                                 paragraphText[paragraphText.Length - 1] = '\n';
                             }
-                            else if (paragraphText.Length > 0 && ((markdown[startOfLine - 2] == '>' || markdown[startOfLine - 1] == '>') || inQuoteNewLine))
-                            {
-                                // If the start of the line is a QuoteBlock, and the Paragraph has already been started, Create a new line.
-                                paragraphText.Append("\r\n");
-                                inQuoteNewLine = false;
-                            }
                             else
                             {
                                 paragraphText.Append(" ");
@@ -335,6 +358,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 }
 
                 // Repeat.
+                previousRealtStartOfLine = realStartOfLine;
                 previousStartOfLine = startOfLine;
                 previousEndOfLine = endOfLine;
                 startOfLine = startOfNextLine;

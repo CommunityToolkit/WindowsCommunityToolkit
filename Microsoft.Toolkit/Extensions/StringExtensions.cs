@@ -13,6 +13,7 @@
 using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Extensions
 {
@@ -93,6 +94,31 @@ namespace Microsoft.Toolkit.Extensions
         public static bool IsCharacterString(this string str)
         {
             return Regex.IsMatch(str, CharactersRegex);
+        }
+
+        /// <summary>
+        /// Finds the number of occurrences of a substring exists inside of a string.
+        /// </summary>
+        /// <param name="searchString">String to search through</param>
+        /// <param name="toFind">Substring to find</param>
+        /// <returns>Number of times the substring occurs</returns>
+        public static int Occurrences(this string searchString, string toFind)
+        {
+            int total = 0;
+            var ch = toFind.ToCharArray();
+
+            for (int y = 0; y < ch.Length; y++)
+            {
+                foreach (char a in searchString)
+                {
+                    if (a == ch[y])
+                    {
+                        total += 1;
+                    }
+                }
+            }
+
+            return total;
         }
 
         /// <summary>

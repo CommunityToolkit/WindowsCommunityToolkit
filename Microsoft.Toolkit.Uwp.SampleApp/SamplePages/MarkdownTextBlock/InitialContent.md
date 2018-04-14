@@ -396,33 +396,55 @@ which renders in:
 
 You'll probably do a lot of quoting of other redditors.  In those cases, you'll want to use block quotes.  Simple begin each line you want quoted with a right angle bracket (>).  Multiple angle brackets can be used for nested quotes.  To cause a new paragraph to be quoted, begin that paragraph with another angle bracket.  So the following:
 
-    >Here's a quote.
-    
-    >Another paragraph in the same quote.
-    >>A nested quote.
+    >Quote1
 
-    >Back to a single quote.
-    
+    >Quote2.1
+    >>Quote2.Nest1.1
+    >>
+    >>Quote2.Nest1.2
+    >
+    >Quote2.3
 
-    >Here is a separate quote
+    >Quote3.1
+    >Quote3.2
 
-    And finally some unquoted text.
+    >Quote4.1
+    >
+    >Quote4.2
+
+    >Quote5.1
+    Quote5.2
+
+    >Quote6
+
+    Plain text.
 
 
 Is displayed as:
 
 
->Here's a quote.
+>Quote1
 
->Another paragraph in the same quote.
->>A nested quote.
+>Quote2.1
+>>Quote2.Nest1.1
+>>
+>>Quote2.Nest1.2
+>
+>Quote2.3
 
->Back to a single quote.
+>Quote3.1
+>Quote3.2
 
+>Quote4.1
+>
+>Quote4.2
 
->Here is a separate quote
+>Quote5.1
+Quote5.2
 
-And finally some unquoted text.
+>Quote6
+
+Plain text.
 
 *****
 
