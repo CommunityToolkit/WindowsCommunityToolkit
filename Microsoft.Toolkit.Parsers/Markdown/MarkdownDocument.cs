@@ -96,6 +96,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             int previousStartOfLine = start;
             int previousEndOfLine = start;
 
+            // When a Quote is continued on a new line, but doesn't start with '>'.
+            bool inQuoteNewLine = false;
+
             // Go line by line.
             while (startOfLine < end)
             {
@@ -154,7 +157,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         // But it doesn't matter if this is not the start of a new paragraph.
                         if (!lineStartsNewParagraph || nonSpaceChar == '\0')
                         {
-                            break;
+                            // Continue the Quote if the previous line was a quote.
+                            if (((previousStartOfLine - 2) >= 0 && markdown[previousStartOfLine - 2] == '>') || ((previousStartOfLine - 1) >= 0 && markdown[previousStartOfLine - 1] == '>'))
+                            {
+                                inQuoteNewLine = true;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            inQuoteNewLine = false;
                         }
 
                         // This must be the end of the blockquote.  End the current paragraph, if any.
@@ -276,6 +288,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                                 // Replace the two spaces with a line break.
                                 paragraphText[paragraphText.Length - 2] = '\r';
                                 paragraphText[paragraphText.Length - 1] = '\n';
+                            }
+                            else if (paragraphText.Length > 0 && ((markdown[startOfLine - 2] == '>' || markdown[startOfLine - 1] == '>') || inQuoteNewLine))
+                            {
+                                // If the start of the line is a QuoteBlock, and the Paragraph has already been started, Create a new line.
+                                paragraphText.Append("\r\n");
+                                inQuoteNewLine = false;
                             }
                             else
                             {

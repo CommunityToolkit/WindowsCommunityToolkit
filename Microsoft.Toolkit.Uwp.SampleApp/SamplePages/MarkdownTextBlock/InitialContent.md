@@ -402,6 +402,9 @@ You'll probably do a lot of quoting of other redditors.  In those cases, you'll 
     >>A nested quote.
 
     >Back to a single quote.
+    
+
+    >Here is a separate quote
 
     And finally some unquoted text.
 
@@ -410,11 +413,14 @@ Is displayed as:
 
 
 >Here's a quote.
-    
+
 >Another paragraph in the same quote.
 >>A nested quote.
 
 >Back to a single quote.
+
+
+>Here is a separate quote
 
 And finally some unquoted text.
 
