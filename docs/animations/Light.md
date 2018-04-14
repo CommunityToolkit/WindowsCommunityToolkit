@@ -3,6 +3,9 @@ title: Light animation behavior
 author: nmetulev
 description: The Light animation behavior performs a point light in the middle of a given UIElement. 
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, light, light animation
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Light
@@ -36,6 +39,10 @@ The Light animation behavior performs a point light (A point source of light tha
 MyUIElement.Light(distance: 5, duration: 2500, delay: 250, color: Colors.Red).Start();
 await MyUIElement.Light(distance: 5, duration: 2500, delay: 250, color: Colors.Red).StartAsync(); //Light animation can be awaited
 ```
+```vb
+MyUIElement.Light(distance:=5, duration:=2500, delay:=250, color:=Colors.Red).Start()
+Await MyUIElement.Light(distance:=5, duration:=2500, delay:=250, color:=Colors.Red).StartAsync()  ' Light animation can be awaited
+```
 
 ## Sample Output
 
@@ -62,6 +69,13 @@ The color of the spot light specified as a Brush
     anim.SetDelay(250);
     anim.Completed += animation_completed;
     anim.Start();
+    ```
+    ```vb
+    Dim anim = MyUIElement.Light(5).Offset(offsetX:=100, offsetY:=100).Saturation(0.5).Scale(scaleX:=2, scaleY:=2)
+    anim.SetDurationForAll(2500)
+    anim.SetDelay(250)
+    AddHandler anim.Completed, AddressOf animation_completed
+    anim.Start()
     ```
 
     **Sample Output**

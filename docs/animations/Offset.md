@@ -3,6 +3,9 @@ title: Offset animation behavior
 author: nmetulev
 description: The Offset animation behavior gets the number of pixels, from the origin of the associated control, then offsets the control.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, offset animation
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Offset
@@ -35,6 +38,10 @@ The Offset animation is used to move the control from one place to another. Offs
 MyUIElement.Offset(offsetX: 25, offsetY: 25, duration: 2500, delay: 250, easingType: EasingType.Default).Start();
 await MyUIElement.Offset(offsetX: 25, offsetY: 25, duration: 2500, delay: 250, easingType: EasingType.Default).StartAsync();  //Offset animation can be awaited
 ```
+```vb
+MyUIElement.Offset(offsetX:=25, offsetY:=25, duration:=2500, delay:=250, easingType:=EasingType.[Default]).Start()
+Await MyUIElement.Offset(offsetX:=25, offsetY:=25, duration:=2500, delay:=250, easingType:=EasingType.[Default]).StartAsync()  ' Offset animation can be awaited
+```
 
 ## Sample Output
 
@@ -62,14 +69,17 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ## Examples
 
-- You can just call `Offset()` set the control in the orginal position
+- You can just call `Offset()` set the control in the original position
 
     **Sample Code**
 
     ```csharp
     await MyUIElement.Offset().Start();
     ```
-- Use await to create a continous movement
+    ```vb
+    Await MyUIElement.Offset().Start()
+    ```
+- Use await to create a continuous movement
 
     **Sample Code**
 
@@ -81,6 +91,14 @@ You can change the way how the animation interpolates between keyframes by defin
         await MyUIElement.Offset(offsetX: 0, offsetY:100, duration: 1000).StartAsync();
         await MyUIElement.Offset(duration: 1000).StartAsync();
     }
+    ```
+    ```vb
+    Public Async Function OffsetAsync() As Task
+        Await MyUIElement.Offset(offsetX:=100, duration:=1000).StartAsync()
+        Await MyUIElement.Offset(offsetX:=100, offsetY:=100, duration:=1000).StartAsync()
+        Await MyUIElement.Offset(offsetX:=0, offsetY:=100, duration:=1000).StartAsync()
+        Await MyUIElement.Offset(duration:=1000).StartAsync()
+    End Function
     ```
 
     **Sample Output**
@@ -97,6 +115,13 @@ You can change the way how the animation interpolates between keyframes by defin
     anim.SetDelay(250);
     anim.Completed += animation_completed;
     anim.Start();
+    ```
+    ```vb
+    Dim anim = MyUIElement.Light(5).Offset(offsetX:=100, offsetY:=100).Saturation(0.5).Scale(scaleX:=2, scaleY:=2)
+    anim.SetDurationForAll(2500)
+    anim.SetDelay(250)
+    AddHandler anim.Completed, AddressOf animation_completed
+    anim.Start()
     ```
 
     **Sample Output**
