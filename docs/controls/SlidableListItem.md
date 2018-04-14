@@ -3,6 +3,9 @@ title: SlidableListItem XAML Control
 author: nmetulev
 description: The SlidableListItem Control is a UI control that enables actions to be triggered by sliding the content left or right.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, SlidableListItem, XAML Control, xaml
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # SlidableListItem XAML Control
@@ -40,6 +43,21 @@ private void SlidableListItem_SwipeStatusChanged(SlidableListItem sender, SwipeS
     }
 }
 ```
+```vb
+Private Sub SlidableListItem_SwipeStatusChanged(ByVal sender As SlidableListItem, ByVal args As SwipeStatusChangedEventArgs)
+    If args.NewValue = SwipeStatus.Starting Then
+        ' Swiping starting
+    ElseIf args.NewValue = SwipeStatus.Idle Then
+        If args.OldValue = SwipeStatus.SwipingPassedLeftThreshold Then
+            ' Swiping to the left completed
+        ElseIf args.OldValue = SwipeStatus.SwipingPassedRightThreshold Then
+            ' Swiping to the right completed
+        Else
+            ' Swiping cancelled
+        End If
+    End If
+End Sub
+```
 
 If you use **SlidableListItem** in a **ListView** with the **ItemClick** event, you need to be aware the **ItemClick** event is triggered by default when the control has been swiped. If you don’t want this behavior you can set **IsPointerReleasedOnSwipingHandled** to **true** to suppress the **ItemClick** event. If you need more control you can instead check the **SwipeStatus** property in the **ItemClick** event. The following code shows how to do that:
 
@@ -56,6 +74,18 @@ private void ListView_ItemClick(object sender, ItemClickEventArgs e)
 
     ...
 }
+```
+```vb
+Private Sub ListView_ItemClick(ByVal sender As Object, ByVal e As ItemClickEventArgs)
+    Dim listView = TryCast(sender, ListView)
+    Dim listViewItem = TryCast(listView.ContainerFromItem(e.ClickedItem), ListViewItem)
+    Dim slidableListItem = TryCast(listViewItem.ContentTemplateRoot, SlidableListItem)
+
+    ' Don't do anything unless the SwipeStatus is Idle.
+    If slidableListItem.SwipeStatus <> SwipeStatus.Idle Then Return
+
+    ...
+End Sub
 ```
 
 ## Syntax
@@ -128,4 +158,3 @@ There are several SlidableListItem properties that have no effect when the Slida
 ## API
 
 * [SlidableListItem source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem)
-

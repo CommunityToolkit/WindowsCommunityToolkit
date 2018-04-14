@@ -1,8 +1,11 @@
 ---
 title: Carousel XAML Control
 author: nmetulev
-description: The Carousel control inherites from ItemsControl, representing a nice and smooth carousel.
+description: The Carousel control inherits from ItemsControl, representing a nice and smooth carousel.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, carousel, xaml control, xaml
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Carousel XAML Control 
@@ -61,11 +64,24 @@ namespace Windows.UI.Xaml.Controls
     }
 }
 ```
+```vb
+Namespace Windows.UI.Xaml.Controls
+
+    Public Enum Orientation
+        ' The control or layout should be vertically oriented.
+        Vertical = 0
+
+        ' The control or layout should be horizontally oriented.
+        Horizontal = 1
+    End Enum
+End Namespace
+```
+
 ![Carousel ItemDepth 0](../resources/images/Controls-Carousel-Orientation.jpg "Carousel")  
 
 ### ItemDepth
 
-The ItemDepth specify the depth beetween the centered (and so the selected) item and all others items.
+The ItemDepth specify the depth between the centered (and so the selected) item and all others items.
 
 ```csharp
 /// <summary>
@@ -77,6 +93,12 @@ public int ItemDepth
     set;
 }
 ```
+```vb
+''' <summary>
+''' Gets or sets depth of non Selected Items
+''' </summary>
+Public Property ItemDepth As Integer
+```
 
 ![Carousel ItemDepth 0](../resources/images/Controls-Carousel-ItemDepth01.jpg "Carousel")  
 *Set ItemDepth to 0*
@@ -86,7 +108,7 @@ public int ItemDepth
 
 ### ItemMargin
 
-The ItemMargin specifies the margin beetween each items, excepting the selected item.
+The ItemMargin specifies the margin between each items, excepting the selected item.
 
 ```csharp
 /// <summary>
@@ -98,6 +120,13 @@ public int ItemMargin
     set;
 }
 ```
+```vb
+''' <summary>
+''' Gets or sets margin of non Selected Items
+''' </summary>
+Public Property ItemMargin As Integer
+```
+
 ![Carousel ItemDepth 0](../resources/images/Controls-Carousel-ItemMargin02.jpg "Carousel")  
 *Set ItemMargin to 0*
 
@@ -134,7 +163,23 @@ public int ItemRotationZ
 {
     get;
     set;
-}                
+}
+```
+```vb
+''' <summary>
+''' Gets or sets rotation on X axis of non Selected Items
+''' </summary>
+Public Property ItemRotationX As Integer
+
+''' <summary>
+''' Gets or sets rotation on Y axis of non Selected Items
+''' </summary>
+Public Property ItemRotationY As Integer
+
+''' <summary>
+''' Gets or sets rotation on Z axis of non Selected Items
+''' </summary>
+Public Property ItemRotationZ As Integer
 ```
 
 ![Carousel ItemRotation](../resources/images/Controls-Carousel-ItemRotation.jpg "Carousel")  
@@ -144,7 +189,7 @@ public int ItemRotationZ
 
 The `InvertPositive` property specifies which behavior to apply to items on left and right (or up and down)   
 If **false**, all the items (except the selected item) will have the exact same transformations.  
-If **true**, all the items where `index` > `SelectedIndex` will have an opposite tranformation (Rotation X Y and Z will be multiply by -1)
+If **true**, all the items where `index` > `SelectedIndex` will have an opposite transformation (Rotation X Y and Z will be multiply by -1)
 
 ![Carousel InvertPositive](../resources/images/Controls-Carousel-InvertPositive01.jpg "Carousel")  
 *Set InvertPositive to false*

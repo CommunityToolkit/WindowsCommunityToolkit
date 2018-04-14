@@ -3,6 +3,9 @@ title: InAppNotification XAML Control
 author: nmetulev
 description: The InAppNotification control offers the ability to show local notifications in your application.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, InAppNotification, in app notification, xaml control, xaml
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # InAppNotification 
@@ -30,11 +33,17 @@ You have multiple options to show an in-app notification.
     ```csharp
     ExampleInAppNotification.Show();
     ```
+    ```vb
+    ExampleInAppNotification.Show()
+    ```
 
 2. By using a simple text content.
 
     ```csharp
     ExampleInAppNotification.Show("Some text.");
+    ```
+    ```vb
+    ExampleInAppNotification.Show("Some text.")
     ```
 
 3. By using a UIElement (with a container as parent, ex: Grid)
@@ -45,6 +54,13 @@ You have multiple options to show an in-app notification.
     // TODO : Construct the Grid in C#
 
     ExampleInAppNotification.Show(grid);
+    ```
+    ```vb
+        Dim grid = New Grid()
+    
+        ' TODO : Construct the Grid in code
+
+        ExampleInAppNotification.Show(grid)
     ```
 
 4. By using a DataTemplate
@@ -58,6 +74,14 @@ You have multiple options to show an in-app notification.
         ExampleInAppNotification.Show(inAppNotificationWithButtonsTemplate as DataTemplate);
     }
     ```
+    ```vb
+    Dim inAppNotificationWithButtonsTemplate As Object
+    Dim isTemplatePresent As Boolean = Resources.TryGetValue("InAppNotificationWithButtonsTemplate", inAppNotificationWithButtonsTemplate)
+
+    If isTemplatePresent AndAlso TypeOf inAppNotificationWithButtonsTemplate Is DataTemplate Then
+        ExampleInAppNotification.Show(TryCast(inAppNotificationWithButtonsTemplate, DataTemplate))
+    End If
+    ```
 
 ### Notification duration
 
@@ -66,11 +90,17 @@ By passing a second argument to the `Show()` method, you can set the duration of
 ```csharp
 ExampleInAppNotification.Show("Some text.", 2000); // the notification will appear for 2 seconds
 ```
+```vb
+ExampleInAppNotification.Show("Some text.", 2000)  ' The notification will appear for 2 seconds
+```
 
 ### Dismiss notification
 
 ```csharp
 ExampleInAppNotification.Dismiss();
+```
+```vb
+ExampleInAppNotification.Dismiss()
 ```
 
 ## Example Image
@@ -96,6 +126,11 @@ private void InAppNotification_OnOpening(object sender, InAppNotificationOpening
     // TODO
 }
 ```
+```vb
+Private Sub InAppNotification_OnOpening(ByVal sender As Object, ByVal e As InAppNotificationOpeningEventArgs)
+    ' TODO
+End Sub
+```
 
 ### Opened
 
@@ -106,6 +141,11 @@ private void InAppNotification_OnOpened(object sender, EventArgs e)
 {
     // TODO
 }
+```
+```vb
+Private Sub InAppNotification_OnOpened(ByVal sender As Object, ByVal e As EventArgs)
+    ' TODO
+End Sub
 ```
 
 ### Closing
@@ -126,6 +166,17 @@ private void InAppNotification_OnClosing(object sender, InAppNotificationDismiss
     }
 }
 ```
+```vb
+Private Sub InAppNotification_OnClosing(ByVal sender As Object, ByVal e As InAppNotificationDismissingEventArgs)
+    If e.DismissKind = InAppNotificationDismissKind.User Then
+        ' When the user asked to dismiss the notification
+    End If
+
+    If e.DismissKind = InAppNotificationDismissKind.Timeout Then
+        ' When the notification is dismissed after timeout
+    End If
+End Sub
+```
 
 ### Closed
 
@@ -136,6 +187,11 @@ private void InAppNotification_OnClosed(object sender, EventArgs e)
 {
     // TODO
 }
+```
+```vb
+Private Sub InAppNotification_OnClosed(ByVal sender As Object, ByVal e As EventArgs)
+    ' TODO
+End Sub
 ```
 
 ## Animation
@@ -209,4 +265,3 @@ If you want to add styles to the Toolkit, please follow these steps :
 ## API
 
 * [InAppNotification source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification)
-

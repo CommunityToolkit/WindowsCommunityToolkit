@@ -3,6 +3,9 @@ title: BladeView XAML Control
 author: nmetulev
 description: The BladeView provides a container to host blades as extra detail pages in, for example, a master-detail scenario.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, BladeView, XAML Control, xaml
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # BladeView XAML Control 
@@ -56,6 +59,19 @@ public enum BladeMode
     /// </summary>
     Fullscreen
 }
+```
+```vb
+Public Enum BladeMode
+    ''' <summary>
+    ''' Default mode : each blade will take the specified Width and Height
+    ''' </summary>
+    Normal
+
+    ''' <summary>
+    ''' Fullscreen mode : each blade will take the entire Width and Height of the UI control container (cf <see cref="BladeView"/>)
+    ''' </summary>
+    Fullscreen
+End Enum
 ```
 
 Here is an example of a BladeView where the `BladeMode` property is binded to a value in the code-behind.
