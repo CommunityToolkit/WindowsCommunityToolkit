@@ -10,33 +10,13 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Linq;
-using Microsoft.Toolkit.Uwp.SampleApp.Data;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.UI.Popups;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class UniformGridPage : IXamlRenderListener
+    public sealed partial class UniformGridPage
     {
-        private GridView uniformGridControl;
-
         public UniformGridPage()
         {
             InitializeComponent();
-        }
-
-        public async void OnXamlRendered(FrameworkElement control)
-        {
-            uniformGridControl = control.FindDescendantByName("GridViewControl") as GridView;
-            if (uniformGridControl != null)
-            {
-                uniformGridControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
-            }
         }
     }
 }
