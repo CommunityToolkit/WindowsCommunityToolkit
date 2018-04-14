@@ -202,6 +202,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         public Stretch ImageStretch { get; set; }
 
         /// <summary>
+        /// Gets or sets the MaxHeight for images.
+        /// </summary>
+        public double ImageMaxHeight { get; set; }
+
+        /// <summary>
+        /// Gets or sets the MaxWidth for images.
+        /// </summary>
+        public double ImageMaxWidth { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether to wrap text in the Code Block, or use Horizontal Scroll.
         /// </summary>
         public bool WrapCodeBlock { get; set; }

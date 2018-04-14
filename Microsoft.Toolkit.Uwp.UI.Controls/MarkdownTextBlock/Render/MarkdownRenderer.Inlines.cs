@@ -250,7 +250,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             }
 
             var image = new Image();
-            var imageContainer = new InlineUIContainer() { Child = image };
+            var scrollViewer = new ScrollViewer();
+            scrollViewer.Content = image;
+            scrollViewer.HorizontalScrollMode = ScrollMode.Auto;
+            scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+            scrollViewer.VerticalScrollMode = ScrollMode.Disabled;
+            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+            var imageContainer = new InlineUIContainer() { Child = scrollViewer };
 
             LinkRegister.RegisterNewHyperLink(image, element.Url);
 
@@ -258,6 +264,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;
             image.Stretch = ImageStretch;
+
+            var actualHeight = default(double);
+            var actualWidth = default(double);
+
+            if (resolvedImage is Windows.UI.Xaml.Media.Imaging.BitmapImage bitmapImage)
+            {
+                bitmapImage.ImageOpened += (s, e) =>
+                {
+                    actualHeight = bitmapImage.PixelHeight;
+                    actualWidth = bitmapImage.PixelWidth;
+
+                    if (ImageMaxHeight < actualHeight || ImageMaxWidth < actualWidth)
+                    {
+                        image.Stretch = Stretch.UniformToFill;
+                    }
+                };
+            }
+
+            if (ImageMaxHeight > 0)
+            {
+                image.MaxHeight = ImageMaxHeight;
+            }
+
+            if (ImageMaxWidth > 0)
+            {
+                image.MaxWidth = ImageMaxWidth;
+            }
 
             if (element.ImageWidth > 0)
             {
