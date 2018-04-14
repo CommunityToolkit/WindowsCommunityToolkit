@@ -1,0 +1,34 @@
+﻿<Page
+    x:Class="GazeInputTest.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GazeInputTest"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:gaze="using:Microsoft.Toolkit.Uwp.Input.Gaze"
+    gaze:GazeApi.IsGazeEnabled="True"
+    mc:Ignorable="d" Margin="0,40,0,-40">
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <ToggleButton Grid.Row="0" Grid.Column="0" x:Name="ShowCursor" Checked="ShowCursor_Toggle" Unchecked="ShowCursor_Toggle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">Show Cursor</ToggleButton>
+        <Button       Grid.Row="0" Grid.Column="1" x:Name="Dwell" Click="Dwell_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Eyes Here">
+            <gaze:GazeApi.GazeElement>
+                <gaze:GazeElement GazePointerEvent="OnGazePointerEvent"/>
+            </gaze:GazeApi.GazeElement>
+        </Button>
+        <Button Grid.Row="1" Grid.Column="1" x:Name="HowButton" Content="0: Idle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="OnLegacyInvoked" gaze:GazeApi.MaxRepeatCount="4">
+            <gaze:GazeApi.GazeElement>
+                <gaze:GazeElement Invoked="OnGazeInvoked"/>
+            </gaze:GazeApi.GazeElement>
+        </Button>
+    </Grid>
+</Page>
