@@ -163,7 +163,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                                 symbolglyph = style.Glyph;
 
                                 // Removes the identifier from the text
-                                textinline.Text = textinline.Text.Replace(identifier.Key, string.Empty);
+                                textinline.Text = textinline.Text.Replace(identifier.Key, string.Empty).TrimStart();
 
                                 localforeground = style.LightForeground;
                                 localbackground = style.LightBackground;
