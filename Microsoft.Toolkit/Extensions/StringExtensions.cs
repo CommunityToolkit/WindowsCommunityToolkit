@@ -13,7 +13,6 @@
 using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Extensions
 {
