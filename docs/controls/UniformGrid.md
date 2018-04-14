@@ -74,7 +74,9 @@ If a child uses the `Grid.RowSpan` or `Grid.ColumnSpan` attached properties it c
   ![UniformGrid Sized Child](../resources/images/Controls/UniformGrid/SizedChild.png)
 
 > [!NOTE]
-If an item is laid out in a position such that it's size would make it too large for the current layout, it may be cropped to fit within the grid instead.  However, it's size is usually taken into account when determining how large the grid should be.  E.g. if the UniformGrid's next available cell is the last cell of the row, but the child is requesting to have a ColumnSpan of 2, then the item will not wrap to the next line leaving a blank space or filling with a smaller item, but instead have it's ColumnSpan request ignored.
+If an item is laid out in a position such that it's size would make it too large for the current layout, it may be cropped to fit within the grid instead.  However, it's size is usually taken into account when determining how large the grid should be.
+>
+> E.g. if the UniformGrid's next available cell is the last cell of the row, but the child is requesting to have a ColumnSpan of 2, then the item will not wrap to the next line leaving a blank space or filling with a smaller item, but instead have it's ColumnSpan request ignored.
 
 ### Fixed Child Locations
 
@@ -100,7 +102,11 @@ Fixed locations must be provided before initial layout.  Otherwise, an element w
 ******
 
 > [!NOTE]
-In order to pin a child to the top-left position (0, 0), you must specify the `controls:UniformGrid.AutoLayout` property to be `False`.  *(This is the ONLY way the `AutoLayout` property should be used.)*  Otherwise, the UniformGrid can't distinguish between the default locations of Grid children (0, 0) and knowing that you don't want it to be automatically arranged during layout. E.g. ```<Border Background="Gainsboro" controls:UniformGrid.AutoLayout="{ex:NullableBool Value=False}"><TextBlock Text="4"/></Border>```  This specific edge-case is only supported in Markup on 16299 and above for the required Markup Extension; otherwise, name the element and use code-behind to set the property.
+In order to pin a child to the top-left position (0, 0), you must specify the `controls:UniformGrid.AutoLayout` property to be `False`.  *(This is the ONLY way the `AutoLayout` property should be used.)*  Otherwise, the UniformGrid can't distinguish between the default locations of Grid children (0, 0) and knowing that you don't want it to be automatically arranged during layout.
+>
+> E.g. ```<Border Background="Gainsboro" controls:UniformGrid.AutoLayout="{ex:NullableBool Value=False}"><TextBlock Text="4"/></Border>```
+>
+> This specific edge-case is only supported in Markup on 16299 and above for the required Markup Extension; otherwise, name the element and use code-behind to set the property.
 
 ### Sized Rows and Columns
 
