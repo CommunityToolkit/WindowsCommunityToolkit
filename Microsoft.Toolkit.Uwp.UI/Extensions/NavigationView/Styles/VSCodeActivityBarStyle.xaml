@@ -1,10 +1,11 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Extensions">
+    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)">
 
-    <ControlTemplate x:Key="VSCodeActivityBarTemplate"
-                     TargetType="NavigationView">
+    <Windows10FallCreatorsUpdate:ControlTemplate x:Key="VSCodeActivityBarTemplate"
+                                                 TargetType="NavigationView">
         <Grid x:Name="RootGrid">
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup x:Name="HeaderGroup">
@@ -64,9 +65,9 @@
                             <ContentControl x:Name="PaneAutoSuggestBoxPresenter" Content="{TemplateBinding AutoSuggestBox}" HorizontalContentAlignment="Stretch" IsTabStop="False" Margin="12,0,12,0" VerticalContentAlignment="Center"/>
                             <Button x:Name="PaneAutoSuggestButton" Content="&#xE11A;" MinHeight="40" Style="{TemplateBinding PaneToggleButtonStyle}" Visibility="Collapsed" Width="{TemplateBinding CompactPaneLength}"/>
                         </Grid>
-                        <NavigationViewList x:Name="MenuItemsHost" ItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}" ItemContainerStyle="{TemplateBinding MenuItemContainerStyle}" ItemTemplate="{TemplateBinding MenuItemTemplate}" IsItemClickEnabled="True" ItemsSource="{TemplateBinding MenuItemsSource}" ItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}" Margin="0,0,0,20" Grid.Row="3" SelectionMode="Single" SelectedItem="{TemplateBinding SelectedItem}"/>
+                        <Windows10FallCreatorsUpdate:NavigationViewList x:Name="MenuItemsHost" ItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}" ItemContainerStyle="{TemplateBinding MenuItemContainerStyle}" ItemTemplate="{TemplateBinding MenuItemTemplate}" IsItemClickEnabled="True" ItemsSource="{TemplateBinding MenuItemsSource}" ItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}" Margin="0,0,0,20" Grid.Row="3" SelectionMode="Single" SelectedItem="{TemplateBinding SelectedItem}"/>
                         <Border x:Name="FooterContentBorder" Child="{TemplateBinding PaneFooter}" Grid.Row="4"/>
-                        <NavigationViewItem x:Name="SettingsNavPaneItem" Grid.Row="5" Icon="Setting" Style="{TemplateBinding MenuItemContainerStyle}"/>
+                        <Windows10FallCreatorsUpdate:NavigationViewItem x:Name="SettingsNavPaneItem" Grid.Row="5" Icon="Setting" Style="{TemplateBinding MenuItemContainerStyle}"/>
                     </Grid>
                 </SplitView.Pane>
                 <Grid x:Name="ContentGrid">
@@ -79,9 +80,9 @@
                 </Grid>
             </SplitView>
         </Grid>    
-    </ControlTemplate>
+    </Windows10FallCreatorsUpdate:ControlTemplate>
 
-    <Style x:Key="VSCodeActivityBarStyle" TargetType="NavigationView">
+    <Windows10FallCreatorsUpdate:Style x:Key="VSCodeActivityBarStyle" TargetType="NavigationView">
         <Setter Property="PaneToggleButtonStyle" Value="{StaticResource PaneToggleButtonStyle}"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HeaderTemplate">
@@ -97,10 +98,10 @@
         <Setter Property="ExpandedModeThresholdWidth" Value="0"/>
         <Setter Property="AlwaysShowHeader" Value="False"/>
         <Setter Property="Template" Value="{StaticResource VSCodeActivityBarTemplate}"/>
-    </Style>
+    </Windows10FallCreatorsUpdate:Style>
 
-    <ControlTemplate x:Key="LargeIconNavigationViewItemTemplate" 
-                     TargetType="NavigationViewItem">
+    <Windows10FallCreatorsUpdate:ControlTemplate x:Key="LargeIconNavigationViewItemTemplate" 
+                                                 TargetType="NavigationViewItem">
         <Grid x:Name="LayoutRoot" Background="{TemplateBinding Background}" Height="48" Control.IsTemplateFocusTarget="True">
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup x:Name="PointerStates">
@@ -185,9 +186,9 @@
                 <ContentPresenter x:Name="ContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentTransitions="{TemplateBinding ContentTransitions}" Grid.Column="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
             </Grid>
         </Grid>
-    </ControlTemplate>
+    </Windows10FallCreatorsUpdate:ControlTemplate>
 
-    <Style x:Key="LargeIconNavigationViewItemStyle" TargetType="NavigationViewItem">
+    <Windows10FallCreatorsUpdate:Style x:Key="LargeIconNavigationViewItemStyle" TargetType="NavigationViewItem">
         <Setter Property="Foreground" Value="{ThemeResource NavigationViewItemForeground}"/>
         <Setter Property="Background" Value="{ThemeResource NavigationViewItemBackground}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource NavigationViewItemBorderBrush}"/>
@@ -195,5 +196,5 @@
         <Setter Property="UseSystemFocusVisuals" Value="True"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Template" Value="{StaticResource LargeIconNavigationViewItemTemplate}"/>
-    </Style>
+    </Windows10FallCreatorsUpdate:Style>
 </ResourceDictionary>
