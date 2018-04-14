@@ -40,10 +40,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             DataContext = collection;
         }
 
-        private void RefreshCollection(object sender, RoutedEventArgs e)
+        private async void RefreshCollection(object sender, RoutedEventArgs e)
         {
             var collection = (IncrementalLoadingCollection<PeopleSource, Person>)PeopleListView.ItemsSource;
-            collection.Refresh();
+            await collection.RefreshAsync();
         }
     }
 }
