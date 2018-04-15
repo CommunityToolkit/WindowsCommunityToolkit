@@ -1,7 +1,6 @@
 ---
 title: TextBoxRegex XAML Property
 author: nmetulev
-ms.date: 08/20/2017
 description: The TextBoxRegex Property allows text validation using a regular expression or using built in validation types.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, TextBoxRegex, XAML
 ---
@@ -13,16 +12,15 @@ The **TextBoxRegex Property** allows text validation using a regular expression 
 ### How it works
 
 The developer adds a regular expression to validate the TextBox Text against the regular expression throw Regex property or from selecting ValidationType property on the TextBox.
-The validation has 4 modes (ValidationMode):-
+The validation has 2 modes (ValidationMode):-
 1) Normal (Default) : This type will set TextBox IsValid attached property to false or true whether the TextBox text is a valid or not against the Regex property.
-2) Forced : This type sets the IsValid property and remove the TextBox text if not valid when the TextBox lose focus.  
-3) Instantly : This type sets the IsValid property instantly and remove the TextBox text if not valid.
-3) Dynamic : This type sets the IsValid property instantly and if it is invalid, the newest character at input of the Textbox will be deleted.
+2) Dynamic : This type extends 1) Normal and if is the newest input of the Textbox  is invalid, the character which is invalied will be deleted.
 
 Main Attached Properties:
 1) Regex : this property used to set the regular expression that will be used to validate the TextBox.
-2) ValidationMode: Normal (Default), Forced, Instantly or Dynamic.
+2) ValidationMode: Normal or Dynamic.
 3) ValidationType: use a built in predefined validation types Email, Decimal, Phone Number, Character or Number.
+Note that ValidationType Email and Phone Number not support the ValidationMode Dynamic. If you set the ValidationMode to Dynamic, the ValidationMode Normal is selected automatically.
 
 
 ## Syntax
@@ -30,7 +28,7 @@ Main Attached Properties:
 ```xaml
 <TextBox extensions:TextBoxRegex.Regex="^\s*\+?\s*([0-9][\s-]*){9,}$" />
 
-<TextBox extensions:TextBoxRegex.ValidationMode="Forced"
+<TextBox extensions:TextBoxRegex.ValidationMode="Normal"
     extensions:TextBoxRegex.ValidationType="PhoneNumber"
     Text="+61616161611" />
 
@@ -52,15 +50,16 @@ Main Attached Properties:
 The following sample demonstrates how to add TextBoxRegex property.
 
 ```xaml
-<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextBoxRegexPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
-      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extenions"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <Page.Resources>
+    <Page.Resources>
     <common:BoolStringConverter x:Key="StringFormatConverter" />
     <Style x:Key="TextBoxRegexStyle"
            TargetType="TextBox">
@@ -84,7 +83,6 @@ The following sample demonstrates how to add TextBoxRegex property.
         <RowDefinition />
         <RowDefinition />
         <RowDefinition />
-        <RowDefinition />
       </Grid.RowDefinitions>
 
                 <StackPanel Margin="10,10,10,0">
@@ -102,66 +100,51 @@ The following sample demonstrates how to add TextBoxRegex property.
 
       <StackPanel Grid.Row="1"
                         Margin="10,10,10,0">
-        <TextBox Name="PhoneNumberValidatorForce"
-                 extensions:TextBoxRegex.ValidationMode="Forced"
-                 extensions:TextBoxRegex.ValidationType="PhoneNumber"
-                 Header="Text box with ValidationType=PhoneNumber, validation occurs on TextChanged and force occurs on lose focus with ValidationMode=Force"
+        <TextBox Name="CharactValidator"
+                 extensions:TextBoxRegex.ValidationMode="Dynamic"
+                 extensions:TextBoxRegex.ValidationType="Characters"
+                 Header="Text box with ValidationType=Characters, validation occurs at input with ValidationMode=Dynamic and clear only single character when value is invalid"
                  HeaderTemplate="{StaticResource HeaderTemplate}"
                  Style="{StaticResource TextBoxRegexStyle}"
-                 Text="+61616161611" />
+                 Text="abcdef" />
         <StackPanel Orientation="Horizontal">
           <TextBlock Text="Is Valid: " />
-          <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=PhoneNumberValidatorForce, Converter={StaticResource StringFormatConverter}}" />
+          <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=CharactValidator, Converter={StaticResource StringFormatConverter}}" />
         </StackPanel>
       </StackPanel>
 
       <StackPanel Grid.Row="2"
                         Margin="10,10,10,0">
-        <TextBox Name="EmailValidatorForce"
+        <TextBox Name="EmailValidator"
                  extensions:TextBoxRegex.ValidationType="Email"
                  Header="Text box with ValidationType=Email, validation occurs on TextChanged"
                  HeaderTemplate="{StaticResource HeaderTemplate}"
                  Style="{StaticResource TextBoxRegexStyle}" />
         <StackPanel Orientation="Horizontal">
           <TextBlock Text="Is Valid: " />
-          <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=EmailValidatorForce, Converter={StaticResource StringFormatConverter}}" />
+          <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=EmailValidator, Converter={StaticResource StringFormatConverter}}" />
         </StackPanel>
       </StackPanel>
 
       <StackPanel Grid.Row="3"
                         Margin="10,10,10,0">
-        <TextBox Name="DecimalValidatorForce"
-                 extensions:TextBoxRegex.ValidationMode="Forced"
+        <TextBox Name="DecimalValidator"
                  extensions:TextBoxRegex.ValidationType="Decimal"
-                 Header="Text box with ValidationType=Decimal, validation occurs on TextChanged and force occurs on lose focus with ValidationMode=Force (333,111 or 333.111)"
+                 Header="Text box with ValidationType=Decimal, validation occurs on TextChanged with ValidationMode=Normal (333,111 or 333.111)"
                  HeaderTemplate="{StaticResource HeaderTemplate}"
                  Style="{StaticResource TextBoxRegexStyle}" />
         <StackPanel Orientation="Horizontal">
           <TextBlock Text="Is Valid: " />
-          <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=DecimalValidatorForce, Converter={StaticResource StringFormatConverter}}" />
+          <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=DecimalValidator, Converter={StaticResource StringFormatConverter}}" />
         </StackPanel>
       </StackPanel>
 
       <StackPanel Grid.Row="4"
                         Margin="10,10,10,0">
-        <TextBox Name="NumberValidatorInstantly"
-                 extensions:TextBoxRegex.ValidationMode="Instantly"
-                 extensions:TextBoxRegex.ValidationType="Number"
-                 Header="Text box with ValidationType=Number, validation occurs at input with ValidationMode=Instantly (clear text box value)"
-                 HeaderTemplate="{StaticResource HeaderTemplate}"
-                 Style="{StaticResource TextBoxRegexStyle}" />
-        <StackPanel Orientation="Horizontal">
-          <TextBlock Text="Is Valid: " />
-          <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=NumberValidatorInstantly, Converter={StaticResource StringFormatConverter}}" />
-        </StackPanel>
-      </StackPanel>
-
-      <StackPanel Grid.Row="5"
-                        Margin="10,10,10,0">
         <TextBox Name="NumberValidatorDynamic"
                  extensions:TextBoxRegex.ValidationMode="Dynamic"
                  extensions:TextBoxRegex.ValidationType="Number"
-                 Header="Text box with ValidationType=Number, validation occurs at input with ValidationMode=Dynamic (clear only single character)"
+                 Header="Text box with ValidationType=Number, validation occurs at input with ValidationMode=Dynamic and clear only single character when value is invalid"
                  HeaderTemplate="{StaticResource HeaderTemplate}"
                  Style="{StaticResource TextBoxRegexStyle}" />
         <StackPanel Orientation="Horizontal">
@@ -174,7 +157,6 @@ The following sample demonstrates how to add TextBoxRegex property.
         </ScrollViewer>
   </Grid>
 </Page>
-
 ```
 
 ## Requirements (Windows 10 Device Family)
