@@ -21,6 +21,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 {
@@ -252,10 +253,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             var image = new Image();
             var scrollViewer = new ScrollViewer();
             scrollViewer.Content = image;
-            scrollViewer.HorizontalScrollMode = ScrollMode.Auto;
-            scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
-            scrollViewer.VerticalScrollMode = ScrollMode.Disabled;
-            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
             var imageContainer = new InlineUIContainer() { Child = scrollViewer };
 
             LinkRegister.RegisterNewHyperLink(image, element.Url);
@@ -264,20 +261,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;
             image.Stretch = ImageStretch;
+            scrollViewer.VerticalScrollMode = ScrollMode.Disabled;
+            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
 
-            var actualHeight = default(double);
-            var actualWidth = default(double);
-
-            if (resolvedImage is Windows.UI.Xaml.Media.Imaging.BitmapImage bitmapImage)
+            // To find actual image size
+            if (resolvedImage is BitmapImage bitmapImage)
             {
                 bitmapImage.ImageOpened += (s, e) =>
                 {
-                    actualHeight = bitmapImage.PixelHeight;
-                    actualWidth = bitmapImage.PixelWidth;
+                    var actualHeight = bitmapImage.PixelHeight;
+                    var actualWidth = bitmapImage.PixelWidth;
 
-                    if (ImageMaxHeight < actualHeight || ImageMaxWidth < actualWidth)
+                    if (element.ImageHeight == 0 && element.ImageWidth == 0)
                     {
-                        image.Stretch = Stretch.UniformToFill;
+                        // To resize image when it become smaller than the max size
+                        if ((ImageMaxHeight > 0 && ImageMaxHeight < actualHeight) || (ImageMaxWidth > 0 && ImageMaxWidth < actualWidth))
+                        {
+                            image.Stretch = Stretch.Uniform;
+                        }
+                    }
+
+                    // To resize image when it overflow
+                    if (image.Stretch == Stretch.None)
+                    {
+                        image.MaxHeight = actualHeight;
+                        image.MaxWidth = actualWidth;
+                        image.Stretch = Stretch.Uniform;
                     }
                 };
             }
@@ -312,6 +321,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             if (element.ImageHeight > 0 && element.ImageWidth > 0)
             {
                 image.Stretch = Stretch.Fill;
+            }
+
+            // If image size is given then scroll to view overflown part
+            if (element.ImageHeight > 0 || element.ImageWidth > 0)
+            {
+                scrollViewer.HorizontalScrollMode = ScrollMode.Auto;
+                scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+            }
+
+            // Else resize the image
+            else
+            {
+                scrollViewer.HorizontalScrollMode = ScrollMode.Disabled;
+                scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
             }
 
             ToolTipService.SetToolTip(image, element.Tooltip);
