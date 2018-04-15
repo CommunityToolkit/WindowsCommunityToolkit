@@ -3,6 +3,9 @@ title: OneDrive Service
 author: nmetulev
 description: The OneDrive Service provides a simple way to access resources on either OneDrive or OneDrive for Business (Office 365).
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, OneDrive
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # OneDrive Service
@@ -54,66 +57,82 @@ OneDrive (Consumer) gives you two options in order to authenticate:
 OneDrive for Business requires you to register your app in the Azure Management Portal:
 
 OneDrive For Business you need to register your app from the Azure Management Portal
-For more information to manualy register your app see go to the following article
+For more information to manually register your app see go to the following article
 https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-authentication-scenarios#basics-of-registering-an-application-in-azure-ad
 When registering your application don't forget to add the Office 365 Sharepoint Online application with the "Read and Write user Files" permissions. You should set your Redirect URI to "urn:ietf:wg:oauth:2.0:oob". You may also need to add the following capabilities to your Package.appxmanifest: privateNetworkClientServer; enterpriseAuthentication
-
 
 ## Syntax
 
 ### Retrieve the root of your OneDrive
 
 ```csharp
-
 // By default the service silently connects the current Windows user if Windows is associated with a Microsoft Account
 var folder = await OneDriveService.Instance.RootFolderAsync();
-
+```
+```vb
+' By default the service silently connects the current Windows user if Windows is associated with a Microsoft Account
+Dim folder = Await OneDriveService.Instance.RootFolderAsync()
 ```
 
 ### Initialization
 
 ```csharp
-
-// if Windows is associated with a Microsoft account, and your project is associated with the Store then you may use OnlineId for seamless login. If you are doing this and initializing from a background task, then you need to explictly request that no credentials prompt be displayed.
+// if Windows is associated with a Microsoft account, and your project is associated with the Store then you may use OnlineId for seamless login. If you are doing this and initializing from a background task, then you need to explicitly request that no credentials prompt be displayed.
 OneDriveService.Instance.Initialize(Microsoft.OneDrive.Sdk.OnlineIdAuthenticationProvider.PromptType.DoNotPrompt);
 
 // if Windows is not associated with a Microsoft Account, you need to initialize the service using an authentication provider AccountProviderType.Msa or AccountProviderType.Adal
 OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msa, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
+```
+```vb
+' if Windows is associated with a Microsoft account, and your project is associated with the Store then you may use OnlineId for seamless login. If you are doing this and initializing from a background task, then you need to explicitly request that no credentials prompt be displayed.
+OneDriveService.Instance.Initialize(Microsoft.OneDrive.Sdk.OnlineIdAuthenticationProvider.PromptType.DoNotPrompt)
 
+' if Windows is not associated with a Microsoft Account, you need to initialize the service using an authentication provider AccountProviderType.Msa or AccountProviderType.Adal
+OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msa, OneDriveScopes.OfflineAccess Or OneDriveScopes.ReadWrite)
 ```
 
 ### Login
 
 ```csharp
-
 // Login
 if (!await OneDriveService.Instance.LoginAsync())
 {
     throw new Exception("Unable to sign in");
 }
-
+```
+```vb
+' Login
+If Not Await OneDriveService.Instance.LoginAsync() Then
+    Throw New Exception("Unable to sign in")
+End If
 ```
 
 ### Retrieving files
 
 ```csharp
-
 // Once you have a reference to the Root Folder you can get a list of all items
 // List the Items from the current folder
 var OneDriveItems = await folder.GetItemsAsync();
 do
 {
-	//Get the next page of items
+	// Get the next page of items
     OneDriveItems = await folder.NextItemsAsync();   
 }
 while (OneDriveItems != null);
-
+```
+```vb
+' Once you have a reference to the Root Folder you can get a list of all items
+' List the Items from the current folder
+Dim OneDriveItems = Await folder.GetItemsAsync()
+Do
+	' Get the next page of items
+    OneDriveItems = Await folder.NextItemsAsync()
+Loop While OneDriveItems IsNot Nothing
 ```
 
 ### Creating folders
 
 ```csharp
-
 // Then from there you can play with folders and files
 // Create Folder
 var level1Folder = await rootFolder.CreateFolderAsync("Level1");
@@ -121,22 +140,29 @@ var level1Folder = await rootFolder.CreateFolderAsync("Level1");
 var level2Folder = await level1Folder.CreateFolderAsync("Level2");
 
 var level3Folder = await level2Folder.CreateFolderAsync("Level3");
-
+```
+```vb
+' Then from there you can play with folders and files
+' Create Folder
+Dim level1Folder = Await rootFolder.CreateFolderAsync("Level1")
+Dim level2Folder = Await level1Folder.CreateFolderAsync("Level2")
+Dim level3Folder = Await level2Folder.CreateFolderAsync("Level3")
 ```
 
 ### Retrieving subfolders
 
 ```csharp
-
 // You can get a sub folder by path
 var level3Folder = await rootFolder.GetFolderAsync("Level1/Level2/Level3");
-
+```
+```vb
+' You can get a sub folder by path
+Dim level3Folder = await rootFolder.GetFolderAsync("Level1/Level2/Level3")
 ```
 
 ### Moving, copying and renaming folders
 
 ```csharp
-
 // Move Folder
 var result=await level3Folder.MoveAsync(rootFolder);
 
@@ -145,13 +171,21 @@ Var result=level3Folder.CopyAsync(destFolder)
 
 // Rename Folder
 await level3Folder.RenameAsync("NewLevel3");
+```
+```vb
+' Move Folder
+Dim result = Await level3Folder.MoveAsync(rootFolder)
 
+' Copy Folder
+Dim result As Var = level3Folder.CopyAsync(destFolder)
+
+' Rename Folder
+Await level3Folder.RenameAsync("NewLevel3")
 ```
 
 ### Creating files
 
 ```csharp
-
 // Create new files
 var selectedFile = await OpenLocalFileAsync(); // e.g. using file picker
 if (selectedFile != null)
@@ -161,33 +195,46 @@ if (selectedFile != null)
      var fileCreated = await level3Folder.CreateFileAsync(selectedFile.Name, CreationCollisionOption.GenerateUniqueName, localStream);
    }
 }
-
+```
+```vb
+' Create new files
+Dim selectedFile = Await OpenLocalFileAsync()  ' e.g. using file picker
+If selectedFile IsNot Nothing Then
+    Using localStream = Await selectedFile.OpenReadAsync()
+        Dim fileCreated = Await level3Folder.CreateFileAsync(selectedFile.Name, CreationCollisionOption.GenerateUniqueName, localStream)
+    End Using
+End If
 ```
 
 ### Creating files - that exceed 4MB
 
 ```csharp
-
 // If the file exceed the Maximum size (ie 4MB) use the UploadFileAsync method instead
 var largeFileCreated = await folder.UploadFileAsync(selectedFile.Name, localStream, CreationCollisionOption.GenerateUniqueName, 320 * 1024);
-
+```
+```vb
+' If the file exceed the Maximum size (ie 4MB) use the UploadFileAsync method instead
+Dim largeFileCreated = Await folder.UploadFileAsync(selectedFile.Name, localStream, CreationCollisionOption.GenerateUniqueName, 320 * 1024)
 ```
 
 ### Moving, copying and renaming files
 
 ```csharp
-
 // You can also Move, Copy or Rename a file
 await fileCreated.MoveAsync(destFolder);
 await fileCreated.CopyAsync(destFolder);
 await fileCreated.RenameAsync("newName");
-
+```
+```vb
+' You can also Move, Copy or Rename a file
+Await fileCreated.MoveAsync(destFolder)
+Await fileCreated.CopyAsync(destFolder)
+Await fileCreated.RenameAsync("newName")
 ```
 
 ### Downloading files
 
 ```csharp
-
 // Download a file and save the content in a local file
 var remoteFile=await level3Folder.GetFile("NewFile.docx"); 
 
@@ -195,7 +242,7 @@ using (var remoteStream = await remoteFile.OpenAsync())
  {
      byte[] buffer = new byte[remoteStream.Size];
      var localBuffer = await remoteStream.ReadAsync(buffer.AsBuffer(), (uint)remoteStream.Size, InputStreamOptions.ReadAhead);
-	 var localFolder = ApplicationData.Current.LocalFolder;
+     var localFolder = ApplicationData.Current.LocalFolder;
      var myLocalFile = await localFolder.CreateFileAsync($"{oneDriveFile.Name}", CreationCollisionOption.GenerateUniqueName);
      using (var localStream = await myLocalFile.OpenAsync(FileAccessMode.ReadWrite))
      {
@@ -203,22 +250,41 @@ using (var remoteStream = await remoteFile.OpenAsync())
          await localStream.FlushAsync();
      }
  }
-
+```
+```vb
+' Download a file and save the content in a local file
+Dim remoteFile = Await level3Folder.GetFile("NewFile.docx")
+Using remoteStream = Await remoteFile.OpenAsync()
+    Dim buffer As Byte() = New Byte(remoteStream.Size - 1) {}
+    Dim localBuffer = Await remoteStream.ReadAsync(buffer.AsBuffer(), CUInt(remoteStream.Size), InputStreamOptions.ReadAhead)
+    Dim localFolder = ApplicationData.Current.LocalFolder
+    Dim myLocalFile = Await localFolder.CreateFileAsync($"{oneDriveFile.Name}", CreationCollisionOption.GenerateUniqueName)
+    Using localStream = Await myLocalFile.OpenAsync(FileAccessMode.ReadWrite)
+        Await localStream.WriteAsync(localBuffer)
+        Await localStream.FlushAsync()
+    End Using
+End Using
 ```
 
 ### Retrieving file thumbnails
 
 ```csharp
-
 // At last you can get the thumbnail of a file
 var stream = await file.GetThumbnailAsync(ThumbnailSize.Large)
 Windows.UI.Xaml.Controls.Image thumbnail = new Windows.UI.Xaml.Controls.Image();
 BitmapImage bmp = new BitmapImage();
 await bmp.SetSourceAsync(streamTodDisplay);
 thumbnail.Source = bmp;
-
 ```
-  
+```vb
+' At last you can get the thumbnail of a file
+Dim stream = Await file.GetThumbnailAsync(ThumbnailSize.Large)
+Dim thumbnail As Windows.UI.Xaml.Controls.Image = New Windows.UI.Xaml.Controls.Image()
+Dim bmp As BitmapImage = New BitmapImage()
+Await bmp.SetSourceAsync(streamTodDisplay)
+thumbnail.Source = bmp
+```
+
 ## Example
 
 [OneDrive Service Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/OneDrive%20Service)

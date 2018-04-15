@@ -3,6 +3,9 @@ title: LinkedIn Service
 author: nmetulev
 description: The LinkedIn Service allows you to retrieve or publish data to the LinkedIn graph. Examples of the types of objects you can work with are User profile data and sharing Activity.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, LinkedIn Service 
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # LinkedIn Service 
@@ -22,7 +25,6 @@ The **LinkedIn Service** allows you to retrieve or publish data to the LinkedIn 
 ## Syntax
 
 ```csharp
-
 // Initialize service - use overload if you need to supply additional permissions
 LinkedInService.Instance.Initialize(ClientId.Text, ClientSecret.Text, CallbackUri.Text);
 
@@ -37,9 +39,23 @@ await LinkedInService.Instance.GetUserProfileAsync();
 
 // Share message to LinkedIn (text should include a Url so LinkedIn can scrape preview information)
 await LinkedInService.Instance.ShareActivityAsync(ShareText.Text);
-
 ```
- 
+```vb
+' Initialize service - use overload if you need to supply additional permissions
+LinkedInService.Instance.Initialize(ClientId.Text, ClientSecret.Text, CallbackUri.Text)
+
+' Login to LinkedIn
+If Not Await LinkedInService.Instance.LoginAsync() Then
+    Return
+End If
+
+' Get current user's profile details
+Await LinkedInService.Instance.GetUserProfileAsync()
+
+' Share message to LinkedIn (text should include a Url so LinkedIn can scrape preview information)
+Await LinkedInService.Instance.ShareActivityAsync(ShareText.Text)
+```
+
 ## Example
 
 [LinkedIn Service Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/LinkedIn%20Service)
@@ -59,4 +75,3 @@ await LinkedInService.Instance.ShareActivityAsync(ShareText.Text);
 Microsoft.Toolkit.Uwp.Services
 
 See the [NuGet Packages page](../Nuget-Packages.md) for complete list.
-

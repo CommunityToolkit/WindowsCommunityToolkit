@@ -3,6 +3,9 @@ title: MicrosoftGraph Service
 author: nmetulev
 description: The MicrosoftGraph Service aim to easily logon to Office 365 Service in order to Retrieve User Information, Retrieve and Send emails, Retrieve User events
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, MicrosoftGraph Service
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # MicrosoftGraph Service
@@ -47,7 +50,7 @@ When you register your app in the [Azure Management Portal](http://manage.window
    * **Read user mail and Send mail as user** to retrieve/send messages.
    * **Read user calendars** to retrieve events.
 
-**Note:** Once register copy and save the Client ID for futur use.
+**Note:** Once register copy and save the Client ID for future use.
  
 |Setting|Value|
 |----------|:-------------:|
@@ -62,7 +65,6 @@ When you register your app in the [Azure Management Portal](http://manage.window
 ### Sign in with an Office 365 account
 
 ```csharp
-
 // Initialize the service
 if (!MicrosoftGraphService.Instance.Initialize(ClientId.Text))
 {
@@ -73,13 +75,22 @@ if (!await MicrosoftGraphService.Instance.LoginAsync())
 {
  return;
 }
+```
+```vb
+' Initialize the service
+If Not MicrosoftGraphService.Instance.Initialize(ClientId.Text) Then
+    Return
+End If
 
+' Login via Azure Active Directory
+If Not Await MicrosoftGraphService.Instance.LoginAsync() Then
+    Return
+End If
 ```
 
 ### Get the connected user's info
 
 ```csharp
-
 // Retrieve user's info from Azure Active Directory
 var user = await MicrosoftGraphService.Instance.User.GetProfileAsync();
 UserPanel.DataContext = user;
@@ -113,7 +124,36 @@ using (IRandomAccessStream photoStream = await MicrosoftGraphService.Instance.Us
 
   this.Photo.Source = photo;
 }
+```
+```vb
+' Retrieve user's info from Azure Active Directory
+Dim user = Await MicrosoftGraphService.Instance.User.GetProfileAsync()
+UserPanel.DataContext = user
 
+' You can also select any fields you want in the response
+Dim selectedFields As MicrosoftGraphUserFields() = {
+    MicrosoftGraphUserFields.Id,
+    MicrosoftGraphUserFields.DisplayName,
+    MicrosoftGraphUserFields.JobTitle,
+    MicrosoftGraphUserFields.Mail,
+    MicrosoftGraphUserFields.Department,
+    MicrosoftGraphUserFields.PreferredLanguage
+}
+
+Dim user = Await MicrosoftGraphService.Instance.User.GetProfileAsync(selectedFields)
+UserPanel.DataContext = user
+
+' Retrieve the user's photo
+Using photoStream As IRandomAccessStream = Await MicrosoftGraphService.Instance.User.PhotosService.GetPhotoAsync()
+    Dim photo As BitmapImage = New BitmapImage()
+    If photoStream IsNot Nothing Then
+        Await photo.SetSourceAsync(photoStream)
+    Else
+        photo.UriSource = New Uri("ms-appx:///SamplePages/MicrosoftGraph Service/user.png")
+    End If
+
+    Me.Photo.Source = photo
+End Using
 ```
 
 ### Retrieve/Send messages
@@ -139,7 +179,7 @@ MessagesList.ItemsSource = messages;
 messages = await MicrosoftGraphService.Instance.User.Message.NextPageEmailsAsync();
 if (messages == null)
 {
-	// no more messages
+	 // no more messages
 }
 
 // Send a message
@@ -152,8 +192,37 @@ await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, conten
 // You can also send a message in html format
 string content = GetHtmlMessage();
 await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, content, BodyType.Html, toRecipients);
+```
+```vb
+' Get the top 10 messages
+messages = Await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(10)
+MessagesList.ItemsSource = messages
 
+' You can also select any fields you want in the response
+Dim selectedFields As MicrosoftGraphMessageFields() = {
+    MicrosoftGraphMessageFields.Id,
+    MicrosoftGraphMessageFields.From,
+    MicrosoftGraphMessageFields.Subject,
+    MicrosoftGraphMessageFields.BodyPreview
+}
+messages = Await MicrosoftGraphService.Instance.User.Message.GetEmailsAsync(10, selectedFields)
+MessagesList.ItemsSource = messages
 
+' Request the next 10 messages
+messages = Await MicrosoftGraphService.Instance.User.Message.NextPageEmailsAsync()
+If messages Is Nothing Then
+    ' no more messages
+End If
+
+' Send a message
+Dim toRecipients As String() = {"user1@contoso.com", "user2@contoso.com"}
+Dim subject As String = "This is the subject of my message;"
+Dim content As String = "This is the content of my message"
+Await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, content, BodyType.Text, toRecipients)
+
+' You can also send a message in html format
+Dim content As String = GetHtmlMessage()
+Await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, content, BodyType.Html, toRecipients)
 ```
 
 ### Retrieve calendar events
@@ -183,8 +252,29 @@ if (events == null)
 {
 	// no more events
 }
+```
+```vb
+' Get the top 10 events
+events = Await MicrosoftGraphService.Instance.User.[Event].GetEventsAsync(10)
+EventsList.ItemsSource = events
 
+' You can also select any fields you want in the response
+Dim selectedFields As MicrosoftGraphEventFields() = {
+    MicrosoftGraphEventFields.Id,
+    MicrosoftGraphEventFields.Attendees,
+    MicrosoftGraphEventFields.Start,
+    MicrosoftGraphEventFields.HasAttachments,
+    MicrosoftGraphEventFields.Subject,
+    MicrosoftGraphEventFields.BodyPreview
+}
+events = Await MicrosoftGraphService.Instance.User.[Event].GetEventsAsync(10, selectedFields)
+EventsList.ItemsSource = events
 
+' Request the next 10 events
+events = Await MicrosoftGraphService.Instance.User.[Event].NextPageEventsAsync()
+If events Is Nothing Then
+    ' no more events
+End If
 ```
 
 ### Example

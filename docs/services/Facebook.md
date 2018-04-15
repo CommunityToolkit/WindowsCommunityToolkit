@@ -3,6 +3,9 @@ title: Facebook Service
 author: nmetulev
 description: The Facebook Service allows you to retrieve or publish data to the Facebook graph. Examples of the types of objects you can work with are Posts, Tagged Objects, and the primary user feed.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Facebook Service 
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Facebook Service 
@@ -14,29 +17,30 @@ The **Facebook Service** allows you to retrieve or publish data to the Facebook 
 The Windows Store SID is a unique value per application generated, and it not tied to the actual store publication.  Creating a local application will give you a valid SID that you can use for debugging against Facebook.  
 
 ```csharp
-
-
 	// Put the following code in your mainform loaded event
 	// Note that this will not work in the App.xaml.cs Loaded
 #if DEBUG
 	System.Diagnostics.Debug.WriteLine("Windows Store SID = " + Microsoft.Toolkit.Uwp.Services.Facebook.FacebookService.Instance.WindowsStoreId);
 #endif
-
-
 ```
-
+```vb
+#If DEBUG Then
+    System.Diagnostics.Debug.WriteLine("Windows Store SID = " & Microsoft.Toolkit.Uwp.Services.Facebook.FacebookService.Instance.WindowsStoreId)
+#End If
+```
 
 **NOTE:** You may have to turn on the Output window in Visual Studio to see this debug writeline.
 
 The above code will output something like this: 
 
 ```csharp
-
 // EXAMPLE ONLY DO NOT USE THIS!
 Windows Store SID = ms-app://s-1-15-2-12341451-1486691014-2395677208-123421631-1234998043-1234490472-123452499/
-
 ```
-
+```vb
+' EXAMPLE ONLY DO NOT USE THIS!
+Windows Store SID = ms-app://s-1-15-2-12341451-1486691014-2395677208-123421631-1234998043-1234490472-123452499/
+```
 
 When entering the value into the Facebook Developer site you must strip the ms-app:// and the trailing / off the string.
 
@@ -60,11 +64,9 @@ When entering the value into the Facebook Developer site you must strip the ms-a
 |Login from Devices|No|
 |Valid OAuth redirect URIs|Blank|
 
-
 ## Syntax
 
 ```csharp
-
 // Initialize service
 FacebookService.Instance.Initialize(AppIDText.Text);
 
@@ -94,9 +96,38 @@ await FacebookService.Instance.GetUserAlbumsAsync();
 
 // Get current user's photos by album Id
 await FacebookService.Instance.GetUserPhotosByAlbumIdAsync(addedItem.Id);
-
 ```
- 
+```vb
+' Initialize service
+FacebookService.Instance.Initialize(AppIDText.Text)
+
+' Login to Facebook
+If Not Await FacebookService.Instance.LoginAsync() Then
+    Return
+End If
+
+' Get user's feed
+ListView.ItemsSource = Await FacebookService.Instance.RequestAsync(FacebookDataConfig.MyFeed, 50)
+
+' Get current user profile picture
+ProfileImage.DataContext = Await FacebookService.Instance.GetUserPictureInfoAsync()
+
+' Post a message on your wall
+Await FacebookService.Instance.PostToFeedAsync(TitleText.Text, MessageText.Text, DescriptionText.Text, UrlText.Text)
+
+' Post a message on your wall using Facebook Dialog
+Await FacebookService.Instance.PostToFeedWithDialogAsync(TitleText.Text, DescriptionText.Text, UrlText.Text)
+
+' Post a message with a picture on your wall
+Await FacebookService.Instance.PostToFeedAsync(TitleText.Text, MessageText.Text, DescriptionText.Text, picture.Name, Stream)
+
+' Get current user's photo albums
+Await FacebookService.Instance.GetUserAlbumsAsync()
+
+' Get current user's photos by album Id
+Await FacebookService.Instance.GetUserPhotosByAlbumIdAsync(addedItem.Id)
+```
+
 ## Example
 
 [Facebook Service Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Facebook%20Service)
@@ -111,10 +142,8 @@ await FacebookService.Instance.GetUserPhotosByAlbumIdAsync(addedItem.Id);
 
 * [Facebook Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Facebook)
 
-
 ## NuGet Packages Required
 
 Microsoft.Toolkit.Uwp.Services
 
 See the [NuGet Packages page](../Nuget-Packages.md) for complete list.
-
