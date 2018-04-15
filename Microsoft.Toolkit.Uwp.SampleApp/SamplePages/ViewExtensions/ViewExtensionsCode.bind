@@ -10,10 +10,6 @@
       extensions:TitleBarExtensions.ForegroundColor="White"
       extensions:TitleBarExtensions.ButtonBackgroundColor="CornflowerBlue"
       extensions:TitleBarExtensions.ButtonForegroundColor="White"
-      extensions:StatusBarExtensions.BackgroundColor="CornflowerBlue"
-      extensions:StatusBarExtensions.BackgroundOpacity="0.8"
-      extensions:StatusBarExtensions.ForegroundColor="White"
-      extensions:StatusBarExtensions.IsVisible="False"
       mc:Ignorable="d">
 
   <Grid>
