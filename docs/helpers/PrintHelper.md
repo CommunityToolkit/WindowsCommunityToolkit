@@ -132,6 +132,20 @@ defaultPrintHelperOptions.Orientation = PrintOrientation.Landscape;
 // "container" is a XAML panel that will be used to get the list of printable controls.
 var printHelper = new PrintHelper(container, defaultPrintHelperOptions);
 ```
+```vb
+' Create a new PrintHelperOptions instance
+Dim defaultPrintHelperOptions = New PrintHelperOptions()
+
+' Add options that you want to be displayed on the print dialog
+defaultPrintHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation)
+
+' Set preselected settings
+defaultPrintHelperOptions.Orientation = PrintOrientation.Landscape
+
+' Create a new PrintHelper instance
+' "container" is a XAML panel that will be used to get the list of printable controls.
+Dim printHelper = New PrintHelper(container, defaultPrintHelperOptions)
+```
 
 Using custom settings for one print job:
 
@@ -152,6 +166,24 @@ printHelperOptions.Orientation = PrintOrientation.Landscape;
 
 // Start printing process
 await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions);
+```
+```vb
+' Create a new PrintHelper instance
+' "container" is a XAML panel that will be used to get the list of printable controls.
+' "defaultPrintHelperOptions" is a PrintHelperOptions instance that will be used to get the default options for printing.
+Dim printHelper = New PrintHelper(container, defaultPrintHelperOptions)
+
+' Create a new PrintHelperOptions instance
+Dim printHelperOptions = New PrintHelperOptions()
+
+' Add options that you want to be displayed on the print dialog
+printHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation)
+
+' Set preselected settings
+printHelperOptions.Orientation = PrintOrientation.Landscape
+
+' Start printing process
+Await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions)
 ```
 
 ## Requirements (Windows 10 Device Family)
