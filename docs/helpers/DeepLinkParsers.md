@@ -14,7 +14,7 @@ Once you have an instance, simply saying `instance["optionName"]` will pull the 
 ### Example
 in OnLaunched of App.xaml.cs:
 
-```c#
+```csharp
 if (e.PrelaunchActivated == false)
 {
     if (rootFrame.Content == null)
@@ -49,7 +49,7 @@ Some consumers want to be able to do something like `?pref=this&pref=that&pref=t
 ### Example
 in OnLaunched of App.xaml.cs:
 
-```c#
+```csharp
 if (e.PrelaunchActivated == false)
 {
     if (rootFrame.Content == null)
@@ -88,7 +88,7 @@ The method that does the heavy lifting of parsing in to the `Dictionary<string,s
 This helper class aids in the creation of a `Collection<KeyValuePair<string,string>>` populated with they key-value pairs of all parameters in a query string.
 ### Example
 
-```c#
+```csharp
 var myUrl = "http://microsoft.com/?user=fooUser&email=fooUser@outlook.com&firstName=John&lastName=Doe"
 var paramCollection = new QueryParameterCollection(myUrl);
 foreach (var pair in paramCollection)
