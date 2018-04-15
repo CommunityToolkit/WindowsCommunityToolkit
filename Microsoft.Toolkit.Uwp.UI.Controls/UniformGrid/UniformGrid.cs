@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Toolkit.Extensions;
 using Windows.Foundation;
+using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -27,6 +28,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [Bindable]
     public partial class UniformGrid : Grid
     {
+        // Guard for 15063 as Grid Spacing only works on 16299+.
+        private static bool _hasGridSpacing = ApiInformation.IsPropertyPresent("Windows.UI.Xaml.Controls.Grid", "ColumnSpacing");
+
         // Internal list we use to keep track of items that we don't have space to layout.
         private List<UIElement> _overflow = new List<UIElement>();
 
@@ -75,8 +79,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Setup available size with our known dimensions now.
             // UniformGrid expands size based on largest singular item.
-            var columnSpacingSize = ColumnSpacing * (dim.columns - 1);
-            var rowSpacingSize = RowSpacing * (dim.rows - 1);
+            double columnSpacingSize = 0;
+            double rowSpacingSize = 0;
+
+            // Guard for 15063 as Grid Spacing only works on 16299+.
+            if (_hasGridSpacing)
+            {
+                columnSpacingSize = ColumnSpacing * (dim.columns - 1);
+                rowSpacingSize = RowSpacing * (dim.rows - 1);
+            }
 
             Size childSize = new Size(
                 (availableSize.Width - columnSpacingSize) / dim.columns,

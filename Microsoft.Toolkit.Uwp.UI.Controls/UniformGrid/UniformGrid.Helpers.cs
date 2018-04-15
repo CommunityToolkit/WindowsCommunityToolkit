@@ -41,7 +41,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     int start = (c == 0 && firstcolumn > 0 && firstcolumn < rows) ? firstcolumn : 0;
                     for (int r = start; r < rows; r++)
                     {
-                        // TODO: Do we want/need to worry about size here, what is our expectation?
                         if (!arrayref.SpotsTaken[r, c])
                         {
                             yield return (r, c);
@@ -61,7 +60,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     int start = (r == 0 && firstcolumn > 0 && firstcolumn < columns) ? firstcolumn : 0;
                     for (int c = start; c < columns; c++)
                     {
-                        // TODO: Do we want/need to worry about size here, what is our expectation?
                         if (!arrayref.SpotsTaken[r, c])
                         {
                             yield return (r, c);
@@ -82,8 +80,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (rows == 0 || cols == 0)
             {
                 // Calculate the size & area of all objects in the grid to know how much space we need.
-                // TODO: Need to trim size of objects that go out of bounds?
-                // TODO: Do we need to worry if there aren't enough small items to fill in the gaps?
                 var count = Math.Max(1, visible.Sum(item => GetRowSpan(item) * GetColumnSpan(item)));
 
                 if (rows == 0)
