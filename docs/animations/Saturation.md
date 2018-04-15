@@ -75,7 +75,7 @@ ToolkitLogo.Saturation(value:=0, duration:=500, delay:=250)
 
     ![Use Case 1 Output](../resources/images/Animations/Saturation/Use-Case-1.gif)
 
-- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](AnimationSet.md) documentation for more information.
 
     **Sample Code**
 

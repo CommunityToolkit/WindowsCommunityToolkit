@@ -11,9 +11,11 @@
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource ToggleButtonBorderThemeThickness}" />
+        <Setter Property="Height" Value="40" />
         <Setter Property="Padding" Value="8,4,8,4" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
@@ -251,10 +253,11 @@
                                           ContentTemplate="{TemplateBinding ContentTemplate}"
                                           ContentTransitions="{TemplateBinding ContentTransitions}"
                                           Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           Padding="{TemplateBinding Padding}"
+                                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          HorizontalAlignment="Left"
                                           RenderTransformOrigin="0.5,0.5" />
                     </Grid>
                 </ControlTemplate>
@@ -265,6 +268,7 @@
     <Style TargetType="controls:Expander">
         <Setter Property="Header" Value="Header" />
         <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="HeaderStyle" Value="{StaticResource HeaderToggleButtonStyle}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:Expander">
@@ -580,11 +584,9 @@
                                     <RotateTransform x:Name="RotateLayoutTransform" Angle="0" />
                                 </controls:LayoutTransformControl.Transform>
                                 <ToggleButton x:Name="PART_ExpanderToggleButton" 
-                                              Height="40"
                                               TabIndex="0"
                                               AutomationProperties.Name="Expand"
-                                              Style="{StaticResource HeaderToggleButtonStyle}" 
-                                              VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
+                                              Style="{TemplateBinding HeaderStyle}" 
                                               Foreground="{TemplateBinding Foreground}"
                                               ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}"
                                               IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />

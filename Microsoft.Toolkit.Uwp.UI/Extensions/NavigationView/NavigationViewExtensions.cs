@@ -145,9 +145,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             int value = GetSelectedIndex(navview);
 
-            if (value >= 0 && value < navview.MenuItems.Count && navview.SelectedItem != navview.MenuItems[value])
+            if (value >= 0 && value < navview.MenuItems.Count)
             {
-                navview.SelectedItem = navview.MenuItems[value];
+                // Only update if we need to.
+                if (navview.SelectedItem == null || !navview.SelectedItem.Equals(navview.MenuItems[value] as NavigationViewItem))
+                {
+                    navview.SelectedItem = navview.MenuItems[value];
+                }
             }
             else
             {
