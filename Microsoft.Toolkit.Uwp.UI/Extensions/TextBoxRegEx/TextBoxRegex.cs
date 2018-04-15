@@ -23,7 +23,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// </summary>
     /// <remarks>
     /// If <see cref="ValidationMode"> is set to Normal then IsValid will be set according to whether the regex is valid.</see>
-    /// If <see cref="ValidationMode"> is set to Dynamic, the input will be validated at text changed. If the newest charachter is invalid, only invalid character of the Textbox will be deleted.</see>
+    /// If <see cref="ValidationMode"> is set to Forced then IsValid will be set according to whether the regex is valid, when TextBox lose focus and in case the textbox is invalid clear its value. </see>
+    /// If <see cref="ValidationMode"> is set to Dynamic then IsValid will be set according to whether the regex is valid. If the newest charachter is invalid, only invalid character of the Textbox will be deleted.</see>
     /// </remarks>
     public partial class TextBoxRegex
     {
@@ -39,8 +40,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             ValidateTextBox(textbox, false);
 
             textbox.Loaded -= Textbox_Loaded;
+            textbox.LostFocus -= Textbox_LostFocus;
             textbox.TextChanged -= Textbox_TextChanged;
             textbox.Loaded += Textbox_Loaded;
+            textbox.LostFocus += Textbox_LostFocus;
             textbox.TextChanged += Textbox_TextChanged;
         }
 
@@ -52,6 +55,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         private static void Textbox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var textbox = (TextBox)sender;
+            ValidateTextBox(textbox);
+        }
+
+        private static void Textbox_LostFocus(object sender, RoutedEventArgs e)
         {
             var textbox = (TextBox)sender;
             ValidateTextBox(textbox);
@@ -95,14 +104,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             {
                 if (!string.IsNullOrEmpty(textbox.Text))
                 {
-                    if (validationType != ValidationType.Email && validationType != ValidationType.PhoneNumber)
+                    var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
+                    if (validationModel == ValidationMode.Forced)
                     {
-                        var validationModel = (ValidationMode)textbox.GetValue(ValidationModeProperty);
-
+                        textbox.Text = string.Empty;
+                    }
+                    else if (validationType != ValidationType.Email && validationType != ValidationType.PhoneNumber)
+                    {
                         if (validationModel == ValidationMode.Dynamic)
                         {
                             int selectionStart = textbox.SelectionStart - 1;
-                            textbox.Text = textbox.Text.Remove(textbox.SelectionStart - 1, 1);
+                            textbox.Text = textbox.Text.Remove(selectionStart, 1);
                             textbox.SelectionStart = selectionStart;
                         }
                     }

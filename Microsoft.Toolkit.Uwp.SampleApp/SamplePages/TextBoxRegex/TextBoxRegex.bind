@@ -74,15 +74,16 @@
       </StackPanel>
 
       <StackPanel Grid.Row="3"
-                        Margin="10,10,10,0">
-        <TextBox Name="DecimalValidator"
+                  Margin="10,10,10,0">
+        <TextBox Name="DecimalValidatorForce"
+                 extensions:TextBoxRegex.ValidationMode="Forced"
                  extensions:TextBoxRegex.ValidationType="Decimal"
-                 Header="Text box with ValidationType=Decimal, validation occurs on TextChanged with ValidationMode=Normal (333,111 or 333.111)"
+                 Header="Text box with ValidationType=Decimal, validation occurs on TextChanged and force occurs on lose focus with ValidationMode=Force (333,111 or 333.111)"
                  HeaderTemplate="{StaticResource HeaderTemplate}"
                  Style="{StaticResource TextBoxRegexStyle}" />
         <StackPanel Orientation="Horizontal">
           <TextBlock Text="Is Valid: " />
-          <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=DecimalValidator, Converter={StaticResource StringFormatConverter}}" />
+          <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=DecimalValidatorForce, Converter={StaticResource StringFormatConverter}}" />
         </StackPanel>
       </StackPanel>
 
