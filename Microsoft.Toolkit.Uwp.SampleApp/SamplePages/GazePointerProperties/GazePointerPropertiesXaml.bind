@@ -1,0 +1,51 @@
+﻿<Page   
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:gaze="using:Microsoft.Toolkit.Uwp.Input.Gaze"           
+    gaze:GazeApi.IsGazeCursorVisible="@[IsGazeCursorVisible:Bool:True]"
+    gaze:GazeApi.Dwell="@[Dwell:TimeSpan:800:50-2000]"
+    >
+
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" ></RowDefinition>
+      <RowDefinition></RowDefinition>
+    </Grid.RowDefinitions>
+
+
+    <Grid Grid.Row="1">
+      <Grid.RowDefinitions>
+        <RowDefinition></RowDefinition>
+        <RowDefinition></RowDefinition>
+        <RowDefinition></RowDefinition>
+        <RowDefinition></RowDefinition>
+        <RowDefinition></RowDefinition>
+        <RowDefinition></RowDefinition>
+        <RowDefinition></RowDefinition>
+        <RowDefinition></RowDefinition>
+        <RowDefinition></RowDefinition>
+      </Grid.RowDefinitions>
+
+
+      <Button Width="100" Height="100" Margin="20" HorizontalAlignment="Center"/>
+
+      <TextBlock Text="@[Enter:TimeSpan:50:50-200]" Grid.Row="1" Margin="10"></TextBlock>
+      <TextBlock Text="@[Fixation:TimeSpan:400:50-1000]" Grid.Row="2"></TextBlock>
+      
+      <TextBlock Text="@[Repeat:TimeSpan:1600:50-2000]" Grid.Row="4"></TextBlock>
+      <TextBlock Text="@[RepeatMax:Slider:0:0-20]" Grid.Row="5"></TextBlock>
+
+      <TextBlock Text="@[CursorRadius:DoubleSlider:0:0-10]" Grid.Row="7"></TextBlock>
+      
+      <TextBlock Text="@[IsGazeEnabled:Bool:True]" Grid.Row="9"></TextBlock>
+
+
+
+
+    </Grid>
+
+  </Grid>
+</Page>
