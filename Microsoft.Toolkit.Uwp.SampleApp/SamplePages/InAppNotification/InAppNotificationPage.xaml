@@ -15,14 +15,14 @@
                 <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml" />
                 <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <local:DismissCommand x:Key="DismissCommand" />
-            
+
             <Style x:Key="DismissTextBlockButtonStyle" TargetType="ButtonBase">
                 <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />
                 <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
-                <Setter Property="MinWidth" Value="0" />
-                <Setter Property="MinHeight" Value="0" />
+                <Setter Property="Width" Value="40" />
+                <Setter Property="Height" Value="40" />
                 <Setter Property="UseSystemFocusVisuals" Value="True" />
                 <Setter Property="Template">
                     <Setter.Value>
@@ -89,24 +89,20 @@
                             <VisualStateGroup>
                                 <VisualState x:Name="NarrowState">
                                     <VisualState.Setters>
-                                        <Setter Target="TextBlock.(Grid.RowSpan)" Value="1" />
-                                        <Setter Target="TextBlock.(Grid.ColumnSpan)" Value="2" />
-
                                         <Setter Target="ButtonsStackPanel.(Grid.Row)" Value="1" />
-                                        <Setter Target="ButtonsStackPanel.(Grid.RowSpan)" Value="1" />
                                         <Setter Target="ButtonsStackPanel.(Grid.Column)" Value="0" />
-                                        <Setter Target="ButtonsStackPanel.(Grid.ColumnSpan)" Value="2" />
+                                        <Setter Target="ButtonsStackPanel.(Grid.ColumnSpan)" Value="3" />
                                         <Setter Target="ButtonsStackPanel.Orientation" Value="Vertical" />
-                                        <Setter Target="ButtonsStackPanel.Margin" Value="0 5 0 0" />
+                                        <Setter Target="ButtonsStackPanel.Margin" Value="0 6 0 0" />
 
-                                        <Setter Target="YesButton.Width" Value="Auto" />
-                                        <Setter Target="YesButton.HorizontalAlignment" Value="Stretch" />
+                                        <Setter Target="OkButton.Width" Value="Auto" />
+                                        <Setter Target="OkButton.HorizontalAlignment" Value="Stretch" />
 
-                                        <Setter Target="NoButton.Width" Value="Auto" />
-                                        <Setter Target="NoButton.HorizontalAlignment" Value="Stretch" />
-                                        <Setter Target="NoButton.Margin" Value="0 5 0 0" />
+                                        <Setter Target="CancelButton.Width" Value="Auto" />
+                                        <Setter Target="CancelButton.HorizontalAlignment" Value="Stretch" />
+                                        <Setter Target="CancelButton.Margin" Value="0 5 0 0" />
                                     </VisualState.Setters>
-                                    
+
                                     <VisualState.StateTriggers>
                                         <StateTrigger IsActive="{Binding IsRootGridActualWidthLargerThan700, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
                                     </VisualState.StateTriggers>
@@ -121,24 +117,59 @@
                         </VisualStateManager.VisualStateGroups>
 
                         <Grid x:Name="RootGrid">
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                        
+                            <Grid.RenderTransform>
+                                <CompositeTransform />
+                            </Grid.RenderTransform>
+
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock x:Name="TextBlock" Grid.RowSpan="2" 
-                                       Text="Do you like it?" VerticalAlignment="Center" />
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
 
-                            <StackPanel x:Name="ButtonsStackPanel" Grid.RowSpan="2" Grid.Column="1" 
-                                        Orientation="Horizontal" VerticalAlignment="Center">
-                                <Button x:Name="YesButton" Content="Yes" Width="150" Height="30" />
-                                <Button x:Name="NoButton" Content="No" Width="150" Height="30" Margin="10 0 0 0" />
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Grid.Row="0"
+                                              Grid.Column="0"
+                                              HorizontalContentAlignment="Stretch"
+                                              VerticalContentAlignment="Center"
+                                              TextWrapping="WrapWholeWords" 
+                                              Margin="0,0,24,0" />
+
+                            <StackPanel x:Name="ButtonsStackPanel" 
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Center">
+
+                                <Button x:Name="OkButton"
+                                        FontSize="16"
+                                        Content="Ok" 
+                                        Height="40"
+                                        Width="120"
+                                        AutomationProperties.Name="Ok" />
+
+                                <Button x:Name="CancelButton"
+                                        FontSize="16"
+                                        Content="Cancel"
+                                        Height="40"
+                                        Width="120"
+                                        Margin="4,0"
+                                        AutomationProperties.Name="Cancel" />
                             </StackPanel>
+
+                            <Button x:Name="PART_DismissButton"
+                                    Grid.Row="0"
+                                    Grid.Column="2" 
+                                    FontSize="16"
+                                    Style="{StaticResource DismissTextBlockButtonStyle}"
+                                    Content="&#xE894;"
+                                    FontFamily="Segoe MDL2 Assets" 
+                                    AutomationProperties.Name="Dismiss" />
                         </Grid>
                     </Grid>
                 </UserControl>
@@ -181,7 +212,7 @@
                         </VisualStateGroup>
                     </VisualStateManager.VisualStateGroups>
 
-                    <Grid x:Name="RootGrid"                               
+                    <Grid x:Name="RootGrid"
                               RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}"
                               Margin="{TemplateBinding Margin}"
                               MaxWidth="{TemplateBinding MaxWidth}"
@@ -193,29 +224,35 @@
                         <controls:DropShadowPanel BlurRadius="8" ShadowOpacity="0.7"
                                                       OffsetX="0.2" OffsetY="0.2"
                                                       HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                            <Grid Background="{TemplateBinding Background}" 
-                                      BorderBrush="{TemplateBinding BorderBrush}" 
-                                      BorderThickness="{TemplateBinding BorderThickness}"
-                                      Padding="{TemplateBinding Padding}">
+                            <Grid
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}">
+
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
                                 <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                                      HorizontalContentAlignment="Stretch"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                      VerticalContentAlignment="Center"
-                                                      TextWrapping="WrapWholeWords" />
+                                                HorizontalContentAlignment="Stretch"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                VerticalContentAlignment="Center"
+                                                TextWrapping="WrapWholeWords" />
 
                                 <Button x:Name="PART_DismissButton"
-                                            Grid.Column="1" 
-                                            Visibility="{Binding ShowDismissButton, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
-                                            Margin="10 0 -10 0"
-                                            FontSize="12"
-                                            Style="{StaticResource DismissTextBlockButtonStyle}"
-                                            Content="&#xE894;" FontFamily="Segoe MDL2 Assets" 
-                                            AutomationProperties.Name="Dismiss" />
+                                    Grid.Column="1" 
+                                    Margin="24,0,0,0"
+                                    FontSize="16"
+                                    Style="{StaticResource DismissTextBlockButtonStyle}"
+                                    Content="&#xE894;"
+                                    FontFamily="Segoe MDL2 Assets" 
+                                    AutomationProperties.Name="Dismiss">
+                                    <Button.RenderTransform>
+                                        <TranslateTransform x:Name="DismissButtonTransform" X="18" />
+                                    </Button.RenderTransform>
+                                </Button>
                             </Grid>
                         </controls:DropShadowPanel>
                     </Grid>
@@ -237,7 +274,7 @@
                                 <ContentPresenter Content="{TemplateBinding Content}"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                
+
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal" />
