@@ -5,7 +5,7 @@
     <Title>UWP Community Toolkit Services</Title>
     <Description>This library enables access to different data sources like Bing, Facebook, LinkedIn, MicrosoftGraph, OneDrive and Twitter. It is part of the UWP Community Toolkit.</Description>
     <PackageTags>UWP Toolkit Windows Twitter OAuth Facebook Bing MicrosoftGraph LinkedIn OneDrive</PackageTags>
-    <Configurations>Debug;Release;OneDrive</Configurations>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
 

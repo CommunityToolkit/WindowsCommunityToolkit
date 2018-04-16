@@ -33,14 +33,6 @@
   <PropertyGroup>
     <ValidateFrameworkCompatibility>false</ValidateFrameworkCompatibility>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OneDrive|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\OneDrive\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>C:\Users\tony_\Source\Repos\UWPCommunityToolkit\Toolkit.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Runtime" />
     <Reference Include="System.ObjectModel" />

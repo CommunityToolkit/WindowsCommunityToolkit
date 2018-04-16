@@ -5,7 +5,7 @@
     <Title>UWP Community Toolkit Devices</Title>
     <Description>This library enables easier consumption of Devices / Peripherals connected to Windows device. It is part of the UWP Community Toolkit.</Description>
     <PackageTags>UWP Toolkit Windows Devices Bluetooth BTLE Networking</PackageTags>
-    <Configurations>Debug;Release;OneDrive</Configurations>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
