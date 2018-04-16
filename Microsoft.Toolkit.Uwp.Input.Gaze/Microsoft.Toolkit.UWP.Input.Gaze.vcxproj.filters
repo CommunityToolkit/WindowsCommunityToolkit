@@ -114,5 +114,8 @@
     <ClInclude Include="GazePointerEvent.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="GazeProgressState.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

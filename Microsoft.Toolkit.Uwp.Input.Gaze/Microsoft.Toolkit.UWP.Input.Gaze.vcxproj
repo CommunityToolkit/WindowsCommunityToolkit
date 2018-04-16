@@ -220,6 +220,7 @@
     <ClInclude Include="GazePointerEvent.h" />
     <ClInclude Include="GazePointerEventArgs.h" />
     <ClInclude Include="GazePointerState.h" />
+    <ClInclude Include="GazeProgressState.h" />
     <ClInclude Include="GazeSettingsHelper.h" />
     <ClInclude Include="GazeStats.h" />
     <ClInclude Include="GazeTargetItem.h" />
