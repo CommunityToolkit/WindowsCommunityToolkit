@@ -282,7 +282,6 @@
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\UniformGrid\UniformGrid.png" />
-    <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
     <Content Include="SamplePages\DockPanel\DockPanel.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />

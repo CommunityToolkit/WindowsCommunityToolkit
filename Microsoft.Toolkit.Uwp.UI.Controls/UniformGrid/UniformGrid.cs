@@ -62,7 +62,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var rowspan = GetRowSpan(child);
                 var colspan = GetColumnSpan(child);
 
-                // TODO: Document
                 // If an element needs to be forced in the 0, 0 position,
                 // they should manually set UniformGrid.AutoLayout to False for that element.
                 if ((row == 0 && col == 0 && GetAutoLayout(child) == null) ||
