@@ -151,7 +151,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Verify.IsNotNull(webView);
             Verify.IsNotNull(webView._webViewControl);
 
-            // TODO: OnVisibilityInvalidated
             if (webView?._webViewControl != null)
             {
                 switch (webView.Visibility)
