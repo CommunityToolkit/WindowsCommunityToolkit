@@ -29,7 +29,7 @@ Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is pa
     <NugetTargetMoniker>UAP,Version=v10.0</NugetTargetMoniker>
     <PackageTargetFallback>uap10.0</PackageTargetFallback>
     <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.15063.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == '' ">10.0.15063.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == '' ">10.0.10240.0</TargetPlatformMinVersion>
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);NETFX_CORE;WINDOWS_UWP;WINRT</DefineConstants>
     <CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>
     <TargetFrameworkIdentifier>.NETCore</TargetFrameworkIdentifier>
