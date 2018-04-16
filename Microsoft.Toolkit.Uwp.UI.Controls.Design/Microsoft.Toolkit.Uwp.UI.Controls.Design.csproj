@@ -60,6 +60,12 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Lottie\Microsoft.Toolkit.Uwp.UI.Controls.Lottie.csproj" Condition="'$(ExcludeRestorePackageImports)' != 'true'">
+      <Project>{d42d49c9-6352-4792-9869-4bf41760b2f1}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Lottie</Name>
+	  <Private>False</Private>
+      <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj" Condition="'$(ExcludeRestorePackageImports)' != 'true'">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
@@ -126,6 +132,7 @@
     <Compile Include="SlidableListItemMetadata.cs" />
     <Compile Include="TextToolbarMetadata.cs" />
     <Compile Include="TileControlMetadata.cs" />
+    <Compile Include="LottieAnimationViewMetadata.cs" />
     <Compile Include="WrapPanelMetadata.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -140,6 +147,10 @@
   <ItemGroup>
     <EmbeddedResource Include="..\Microsoft.Toolkit.Uwp.UI.Controls\bin\$(Configuration)\uap10.0\Microsoft.Toolkit.Uwp.UI.Controls.xml">
       <Link>Microsoft.Toolkit.Uwp.UI.Controls.xml</Link>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+	<EmbeddedResource Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Lottie\bin\$(Configuration)\uap10.0\Microsoft.Toolkit.Uwp.UI.Controls.Lottie.xml">
+      <Link>Microsoft.Toolkit.Uwp.UI.Controls.Lottie.xml</Link>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
