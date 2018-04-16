@@ -53,7 +53,7 @@ static void OnGazeCursorRadiusChanged(DependencyObject^ ob, DependencyPropertyCh
     auto gazePointer = safe_cast<GazePointer^>(ob->GetValue(GazeApi::GazePointerProperty));
     if (gazePointer != nullptr)
     {
-        gazePointer->CursorRadius = safe_cast<bool>(args->NewValue);
+        gazePointer->CursorRadius = safe_cast<int>(args->NewValue);
     }
 }
 
