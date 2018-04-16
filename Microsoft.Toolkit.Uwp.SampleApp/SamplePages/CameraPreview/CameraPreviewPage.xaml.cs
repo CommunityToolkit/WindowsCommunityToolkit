@@ -1,4 +1,16 @@
-﻿using System;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
@@ -13,7 +25,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
@@ -56,21 +67,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 await CleanUpCameraAsync();
                 deferral.Complete();
             }
-
-        }
-
-        private async Task CleanUpCameraAsync()
-        {
-            if (_cameraHelper != null)
-            {
-                await _cameraHelper.Cleanup();
-            }
-
-            if (_mediaPlayer != null)
-            {
-                _mediaPlayer.Dispose();
-                _mediaPlayer = null;
-            }
         }
 
         private void SetMediaPlayerSource()
@@ -102,19 +98,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             var frameSourceGroups = await FrameSourceGroupsHelper.GetAllAvailableFrameSourceGroups();
 
-            if (frameSourceGroups != null)
+            if (frameSourceGroups?.Count > 0)
             {
                 FrameSourceGroupCombo.ItemsSource = frameSourceGroups;
-                var selectedGroup = FrameSourceGroupCombo.SelectedItem as MediaFrameSourceGroup;
-                FrameSourceGroupCombo.SelectedIndex = 0;
             }
             else
             {
                 FrameSourceGroupCombo.ItemsSource = new List<object> { new { DisplayName = "No camera sources found." } };
-                FrameSourceGroupCombo.SelectedIndex = 0;
                 CaptureVideoFrame.Visibility = CaptureVideoFrame.Visibility = VideoPreviewText.Visibility =
                     MediaPlayerElementControl.Visibility = Visibility.Collapsed;
             }
+            FrameSourceGroupCombo.SelectedIndex = 0;
         }
 
         private async void FrameSourceGroupCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -163,6 +157,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
 
                 await _softwareBitmapSource.SetBitmapAsync(targetSoftwareBitmap);
+            }
+        }
+
+        private async Task CleanUpCameraAsync()
+        {
+            if (_cameraHelper != null)
+            {
+                await _cameraHelper.Cleanup();
+            }
+
+            if (_mediaPlayer != null)
+            {
+                _mediaPlayer.Dispose();
+                _mediaPlayer = null;
             }
         }
     }
