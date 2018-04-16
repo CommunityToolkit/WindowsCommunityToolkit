@@ -144,13 +144,16 @@ ListView.ItemsSource = Await TwitterService.Instance.SearchAsync(TagText.Text, 5
 
 ' Open a connection with the stream service in order to receive live tweets and events
 ListView.ItemsSource = _tweets
-Await TwitterService.Instance.StartUserStreamAsync(Async Sub(tweet)
-														Await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, Sub()
-																													If tweet IsNot Nothing Then
-																														_tweets.Insert(0, tweet)
-																													End If
-																												End Sub)
-													End Sub)
+Await TwitterService.Instance.StartUserStreamAsync(
+    Async Sub(tweet)
+        Await Dispatcher.RunAsync(
+        CoreDispatcherPriority.Normal,
+        Sub()
+            If tweet IsNot Nothing Then
+                _tweets.Insert(0, tweet)
+            End If
+        End Sub)
+    End Sub)
 
 ' Stop receiving live tweets and events
 TwitterService.Instance.StopUserStream()
