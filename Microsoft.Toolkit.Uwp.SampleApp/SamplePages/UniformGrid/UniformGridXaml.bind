@@ -63,7 +63,12 @@
       <GridView.ItemsPanel>
         <ItemsPanelTemplate>
           <controls:UniformGrid Columns="7"
-                                FirstColumn="{Binding MonthStartOffset}"/>
+                                FirstColumn="{Binding MonthStartOffset}">
+            <controls:UniformGrid.ColumnDefinitions>
+              <ColumnDefinition controls:UniformGrid.Column="0" Width="0.75*"/>
+              <ColumnDefinition controls:UniformGrid.Column="6" Width="0.75*"/>
+            </controls:UniformGrid.ColumnDefinitions>
+          </controls:UniformGrid>
         </ItemsPanelTemplate>
       </GridView.ItemsPanel>
       <GridView.ItemContainerStyle>
