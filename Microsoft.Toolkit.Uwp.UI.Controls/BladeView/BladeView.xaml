@@ -85,7 +85,6 @@
 
     <Style TargetType="controls:BladeItem">
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="TitleBarForeground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
         <Setter Property="CloseButtonForeground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
@@ -143,8 +142,7 @@
 
                             <ContentPresenter x:Name="TitleBar"
                                               Content="{TemplateBinding Header}"
-                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                              Foreground="{TemplateBinding TitleBarForeground}"/>
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"/>
                             <Button Name="EnlargeButton"
                                     Grid.Column="1"
                                     TabIndex="0"
