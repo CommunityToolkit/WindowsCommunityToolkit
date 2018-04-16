@@ -3,10 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:gaze="using:Microsoft.Toolkit.Uwp.Input.Gaze"  
     mc:Ignorable="d"
-    xmlns:gaze="using:Microsoft.Toolkit.Uwp.Input.Gaze"           
-    gaze:GazeApi.IsGazeCursorVisible="@[IsGazeCursorVisible:Bool:True]"
-    gaze:GazeApi.Dwell="@[Dwell:TimeSpan:800:50-2000]"
+    
     >
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -18,22 +17,25 @@
 
     <Grid Grid.Row="1">
       <Grid.RowDefinitions>
-        <RowDefinition></RowDefinition>
-        <RowDefinition></RowDefinition>
-        <RowDefinition></RowDefinition>
-        <RowDefinition></RowDefinition>
-        <RowDefinition></RowDefinition>
-        <RowDefinition></RowDefinition>
-        <RowDefinition></RowDefinition>
-        <RowDefinition></RowDefinition>
-        <RowDefinition></RowDefinition>
-      </Grid.RowDefinitions>
+            <RowDefinition Height="Auto" ></RowDefinition>
+            <RowDefinition Height="Auto" ></RowDefinition>
+            <RowDefinition Height="Auto" ></RowDefinition>
+            <RowDefinition Height="Auto" ></RowDefinition>
+            <RowDefinition Height="Auto" ></RowDefinition>
+            <RowDefinition Height="Auto" ></RowDefinition>
+            <RowDefinition Height="Auto" ></RowDefinition>
+            <RowDefinition Height="Auto" ></RowDefinition>
+            <RowDefinition Height="Auto" ></RowDefinition>
+            <RowDefinition Height="Auto" ></RowDefinition>
+        </Grid.RowDefinitions>
 
 
-      <Button Width="100" Height="100" Margin="20" HorizontalAlignment="Center"/>
+      <ToggleButton Width="100" Height="100" Margin="20" HorizontalAlignment="Center"  gaze:GazeApi.Dwell="@[Dwell:TimeSpan:800:100-5000]"/>
 
-      <TextBlock Text="@[Enter:TimeSpan:50:50-200]" Grid.Row="1" Margin="10"></TextBlock>
-      <TextBlock Text="@[Fixation:TimeSpan:400:50-1000]" Grid.Row="2"></TextBlock>
+      <TextBlock Text="Dwell time: @[Dwell]" Grid.Row="1" Margin="10"></TextBlock>
+      
+      <TextBlock Text="@[Enter:TimeSpan:50:50-200]" Grid.Row="2" Margin="10"></TextBlock>
+      <TextBlock Text="@[Fixation:TimeSpan:400:50-1000]" Grid.Row="3"></TextBlock>
       
       <TextBlock Text="@[Repeat:TimeSpan:1600:50-2000]" Grid.Row="4"></TextBlock>
       <TextBlock Text="@[RepeatMax:Slider:0:0-20]" Grid.Row="5"></TextBlock>
