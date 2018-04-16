@@ -230,12 +230,10 @@ bool GazePointer::IsInvokable(UIElement^ element)
 	}
 	else
 	{
-		auto peer = FrameworkElementAutomationPeer::FromElement(element);
-
-		isInvokable = dynamic_cast<IInvokeProvider^>(peer) != nullptr ||
-			dynamic_cast<IToggleProvider^>(peer) != nullptr ||
-			dynamic_cast<ISelectionItemProvider^>(peer) != nullptr ||
-			dynamic_cast<IExpandCollapseProvider^>(peer) != nullptr;
+		isInvokable = dynamic_cast<IInvokeProvider^>(element) != nullptr ||
+			dynamic_cast<IToggleProvider^>(element) != nullptr ||
+			dynamic_cast<ISelectionItemProvider^>(element) != nullptr ||
+			dynamic_cast<IExpandCollapseProvider^>(element) != nullptr;
 	}
 
 	return isInvokable;
@@ -389,30 +387,28 @@ void GazePointer::InvokeTarget(UIElement ^target)
 		}
 		else
 		{
-			auto peer = FrameworkElementAutomationPeer::FromElement(control);
-
-			auto invokeProvider = dynamic_cast<IInvokeProvider^>(peer);
+			auto invokeProvider = dynamic_cast<IInvokeProvider^>(control);
 			if (invokeProvider != nullptr)
 			{
 				invokeProvider->Invoke();
 			}
 			else
 			{
-				auto toggleProvider = dynamic_cast<IToggleProvider^>(peer);
+				auto toggleProvider = dynamic_cast<IToggleProvider^>(control);
 				if (toggleProvider != nullptr)
 				{
 					toggleProvider->Toggle();
 				}
 				else
 				{
-					auto selectionItemProvider = dynamic_cast<ISelectionItemProvider^>(peer);
+					auto selectionItemProvider = dynamic_cast<ISelectionItemProvider^> (control);
 					if (selectionItemProvider != nullptr)
 					{
 						selectionItemProvider->Select();
 					}
 					else
 					{
-						auto expandCollapseProvider = dynamic_cast<IExpandCollapseProvider^>(peer);
+						auto expandCollapseProvider = dynamic_cast<IExpandCollapseProvider^>(control);
 						if (expandCollapseProvider != nullptr)
 						{
 							switch (expandCollapseProvider->ExpandCollapseState)
