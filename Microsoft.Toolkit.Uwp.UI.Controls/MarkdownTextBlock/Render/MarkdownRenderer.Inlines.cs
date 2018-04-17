@@ -252,7 +252,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             var image = new Image();
             var scrollViewer = new ScrollViewer();
-            scrollViewer.Content = image;
+            var viewbox = new Viewbox();
+            scrollViewer.Content = viewbox;
+            viewbox.Child = image;
             var imageContainer = new InlineUIContainer() { Child = scrollViewer };
 
             LinkRegister.RegisterNewHyperLink(image, element.Url);
@@ -263,42 +265,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             image.Stretch = ImageStretch;
             scrollViewer.VerticalScrollMode = ScrollMode.Disabled;
             scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
-
-            // To find actual image size
-            if (resolvedImage is BitmapImage bitmapImage)
-            {
-                bitmapImage.ImageOpened += (s, e) =>
-                {
-                    var actualHeight = bitmapImage.PixelHeight;
-                    var actualWidth = bitmapImage.PixelWidth;
-
-                    if (element.ImageHeight == 0 && element.ImageWidth == 0)
-                    {
-                        // To resize image when it become smaller than the max size
-                        if ((ImageMaxHeight > 0 && ImageMaxHeight < actualHeight) || (ImageMaxWidth > 0 && ImageMaxWidth < actualWidth))
-                        {
-                            image.Stretch = Stretch.Uniform;
-                        }
-                    }
-
-                    // To resize image when it overflow
-                    if (image.Stretch == Stretch.None)
-                    {
-                        image.MaxHeight = actualHeight;
-                        image.MaxWidth = actualWidth;
-                        image.Stretch = Stretch.Uniform;
-                    }
-                };
-            }
+            viewbox.StretchDirection = StretchDirection.DownOnly;
 
             if (ImageMaxHeight > 0)
             {
-                image.MaxHeight = ImageMaxHeight;
+                viewbox.MaxHeight = ImageMaxHeight;
             }
 
             if (ImageMaxWidth > 0)
             {
-                image.MaxWidth = ImageMaxWidth;
+                viewbox.MaxWidth = ImageMaxWidth;
             }
 
             if (element.ImageWidth > 0)
