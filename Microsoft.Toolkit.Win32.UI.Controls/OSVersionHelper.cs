@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             Anniversary = 1607,  // 14393 Redstone 1
             Creators = 1703,     // 15063 Redstone 2
             FallCreators = 1709, // 16299 Redstone 3
-            SpringCreators = 1803 // 17133 Redstone 4
+            SpringCreators = 1803 // 17134 Redstone 4
         }
 
         internal enum WindowsVersions
@@ -146,7 +146,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
                     break;
 
                 default:
-                    throw new ArgumentException("Unrecognized version", nameof(version));
+                    throw new ArgumentException("Unrecognized Windows version", nameof(version));
             }
 
             // After 8.1 apps without manifest or are not manifested for 8.1/10 return 6.2.
