@@ -82,6 +82,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             typeof(WebView),
             new PropertyMetadata(new Uri("about:blank"), PropertyChangedCallback));
 
+        private static readonly DependencyProperty IsPrivateNetworkClientServerCapabilityEnabledProperty = DependencyProperty.Register(
+            nameof(IsPrivateNetworkClientServerCapabilityEnabled),
+            typeof(bool),
+            typeof(WebView),
+            new PropertyMetadata(false, PropertyChangedCallback)
+            );
+
         private WebViewControlProcess _process;
         private WebViewControlHost _webViewControl;
 
@@ -433,6 +440,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             set => SetValue(IsScriptNotifyAllowedProperty, value);
         }
 
+        [StringResourceCategory(Constants.CategoryBehavior)]
+        [DefaultValue(false)]
+        public bool IsPrivateNetworkClientServerCapabilityEnabled
+        {
+            get => (bool)GetValue(IsPrivateNetworkClientServerCapabilityEnabledProperty);
+            set => SetValue(IsPrivateNetworkClientServerCapabilityEnabledProperty, value);
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether this instance is web view visible.
         /// </summary>
@@ -703,8 +718,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
             OSVersionHelper.ThrowIfBeforeWindows10RS4();
 
-            _process = new WebViewControlProcess();
-            Verify.IsNotNull(_process);
+            var privateNetworkEnabled = !Dispatcher.CheckAccess()
+                ? Dispatcher.Invoke(() => IsPrivateNetworkClientServerCapabilityEnabled)
+                : IsPrivateNetworkClientServerCapabilityEnabled;
+
+            _process = new WebViewControlProcess(new WebViewControlProcessOptions
+            {
+                PrivateNetworkClientServerCapability = privateNetworkEnabled
+                                                        ? WebViewControlProcessCapabilityState.Enabled
+                                                        : WebViewControlProcessCapabilityState.Disabled
+            });
 
             // TODO: Attach WebView to existing process
             Dispatcher.InvokeAsync(async () =>
@@ -807,6 +830,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 {
                     Verify.IsTrue(wv.WebViewControlInitialized);
                     wv._webViewControl.Settings.IsScriptNotifyAllowed = (bool)dependencyPropertyChangedEventArgs.NewValue;
+                }
+                else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsPrivateNetworkClientServerCapabilityEnabled))
+                {
+                    Verify.IsFalse(wv.WebViewControlInitialized);
+                    if (wv.WebViewControlInitialized)
+                    {
+                        throw new InvalidOperationException(DesignerUI.InvalidOp_Immutable);
+                    }
                 }
             }
         }

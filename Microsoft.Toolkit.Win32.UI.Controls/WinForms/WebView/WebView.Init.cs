@@ -131,8 +131,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                     // Was not injected via ctor, create using defaults
                     Process = new WebViewControlProcess(new WebViewControlProcessOptions
                     {
-                        // TODO: Set secure default
-                        PrivateNetworkClientServerCapability = WebViewControlProcessCapabilityState.Enabled
+                        PrivateNetworkClientServerCapability = _delayedPrivateNetworkEnabled
+                                                                    ? WebViewControlProcessCapabilityState.Enabled
+                                                                    : WebViewControlProcessCapabilityState.Disabled
                     });
                     _webViewControl = Process.CreateWebViewControlHost(Handle, ClientRectangle);
                     SubscribeEvents();

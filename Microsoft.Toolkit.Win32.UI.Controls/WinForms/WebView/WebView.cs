@@ -47,6 +47,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         private bool _delayedIsIndexDbEnabled = true;
         private bool _delayedIsJavaScriptEnabled = true;
         private bool _delayedIsScriptNotifyAllowed = true;
+        private bool _delayedPrivateNetworkEnabled = false;
         private Uri _delayedSource;
         private WebViewControlHost _webViewControl;
 
@@ -202,6 +203,36 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                     if (WebViewControlInitialized)
                     {
                         _webViewControl.Settings.IsScriptNotifyAllowed = value;
+                    }
+                }
+            }
+        }
+
+        [StringResourceCategory(Constants.CategoryBehavior)]
+        [DefaultValue(false)]
+        public bool IsPrivateNetworkClientServerCapabilityEnabled
+        {
+            get
+            {
+                Verify.IsFalse(IsDisposed);
+                Verify.Implies(Initializing, !Initialized);
+                Verify.Implies(Initialized, WebViewControlInitialized);
+                return WebViewControlInitialized
+                    ? _webViewControl.Process.IsPrivateNetworkClientServerCapabilityEnabled
+                    : _delayedPrivateNetworkEnabled;
+            }
+
+            set
+            {
+                Verify.IsFalse(IsDisposed);
+                _delayedPrivateNetworkEnabled = value;
+                if (!DesignMode)
+                {
+                    EnsureInitialized();
+                    if (WebViewControlInitialized
+                        && _webViewControl.Process.IsPrivateNetworkClientServerCapabilityEnabled != _delayedPrivateNetworkEnabled)
+                    {
+                        throw new InvalidOperationException(DesignerUI.InvalidOp_Immutable);
                     }
                 }
             }

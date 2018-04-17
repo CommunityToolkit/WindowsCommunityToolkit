@@ -38,10 +38,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             set => ShadowProperties[nameof(WebView.IsJavaScriptEnabled)] = value;
         }
 
-        public bool IsIndexDBEnabled
+        public bool IsIndexedDBEnabled
         {
             get => (bool)ShadowProperties[nameof(WebView.IsIndexedDBEnabled)];
             set => ShadowProperties[nameof(WebView.IsIndexedDBEnabled)] = value;
+        }
+
+        public bool IsPrivateNetworkClientServerCapabilityEnabled
+        {
+            get => (bool) ShadowProperties[nameof(WebView.IsPrivateNetworkClientServerCapabilityEnabled)];
+            set => ShadowProperties[nameof(WebView.IsPrivateNetworkClientServerCapabilityEnabled)] = value;
         }
 
         protected override InheritanceAttribute InheritanceAttribute
@@ -79,7 +85,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                 nameof(WebView.Source),
                 nameof(WebView.IsScriptNotifyAllowed),
                 nameof(WebView.IsJavaScriptEnabled),
-                nameof(WebView.IsIndexedDBEnabled)
+                nameof(WebView.IsIndexedDBEnabled),
+                nameof(WebView.IsPrivateNetworkClientServerCapabilityEnabled)
             };
             PropertyDescriptor prop;
             Attribute[] empty = new Attribute[0];

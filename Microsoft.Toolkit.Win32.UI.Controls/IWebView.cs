@@ -184,6 +184,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         bool IsJavaScriptEnabled { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the <see cref="WebViewControlProcess.IsPrivateNetworkClientServerCapabilityEnabled"/>
+        /// </summary>
+        /// <value><see langword="true" /> if this instance is private network client server capability enabled; otherwise, <see langword="false" />.</value>
+        /// <remarks>Value can be set prior to the component being initialized.</remarks>
+        bool IsPrivateNetworkClientServerCapabilityEnabled { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether <see cref="IWebView.ScriptNotify" /> is allowed.
         /// </summary>
         /// <value>Whether <see cref="IWebView.ScriptNotify" /> is allowed.</value>

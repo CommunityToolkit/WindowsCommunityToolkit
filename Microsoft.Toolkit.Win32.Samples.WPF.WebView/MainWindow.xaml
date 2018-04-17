@@ -59,6 +59,7 @@
                      ContainsFullScreenElementChanged="WebView1_OnContainsFullScreenElementChanged"
                      IsIndexedDBEnabled="True"
                      IsJavaScriptEnabled="True"
+                     IsPrivateNetworkClientServerCapabilityEnabled="True"
                      IsScriptNotifyAllowed="True"
                      NavigationCompleted="WebView1_OnNavigationCompleted"
                      NavigationStarting="WebView1_OnNavigationStarting"
