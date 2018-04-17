@@ -22,6 +22,12 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 void GazeTargetItem::RaiseProgressEvent(GazeProgressState state)
 {
+    // TODO: We should eliminate non-invokable controls before we arrive here!
+    if (dynamic_cast<Page^>(TargetElement) != nullptr)
+    {
+        return;
+    }
+
     switch (state)
     {
     case GazeProgressState::Idle:
