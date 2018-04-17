@@ -33,7 +33,19 @@ Since the control is part of the page visual tree, it will render in the order i
 | AnimationDuration | TimeSpan | Gets or sets a value indicating the duration of the popup animation (in milliseconds) |
 | HorizontalOffset | double | Gets or sets a value indicating the horizontal offset of the popup animation |
 | ShowDismissButton | bool | Gets or sets a value indicating whether to show the Dismiss button of the control |
+| StackMode | StackMode | Gets or sets a value indicating the stack mode of the notifications |
 | VerticalOffset | double | Gets or sets a value indicating the vertical offset of the popup animation |
+
+### StackMode
+
+By default, each time you display an in-app notification using the same control, each notification will replace the previous one.
+You can change this behavior with one of these values:
+
+| StackMode properties | Description |
+| -- | -- |
+| Replace | Default mode, replace previous notification |
+| QueueBehind | Store every notifications to show, when you dismiss a notification the remaining ones will be displayed successively |
+| StackInFront | Store every notifications to show, when you show a notification it will be displayed in priority (in the reverse order of `QueueBehind` mode) |
 
 ## Methods
 
@@ -76,7 +88,6 @@ Since the control is part of the page visual tree, it will render in the order i
         var grid = new Grid();
 
         // TODO : Construct the Grid in C#
-
         ExampleInAppNotification.Show(grid);
         ```
 

@@ -196,6 +196,8 @@ namespace Microsoft.Toolkit.Parsers.Rss
                 image = item.GetImage();
             }
 
+            rssItem.Categories = item.GetSafeElementsString("category");
+
             rssItem.ImageUrl = image;
 
             return rssItem;
