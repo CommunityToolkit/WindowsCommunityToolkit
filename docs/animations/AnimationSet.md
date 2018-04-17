@@ -108,9 +108,9 @@ You can change the way how the animation interpolates between keyframes by defin
     private void MyUIElement_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
         preElement = sender as FrameworkElement;
-        preElement.Blur(value: 0).Fade(value: 1).Scale(centerX: 100, centerY: 100, easingType: EasingType.Sine);
-                .SetDurationForAll(500);
-.Start();
+        preElement.Blur(value: 0).Fade(value: 1).Scale(centerX: 100, centerY: 100, easingType: EasingType.Sine)
+                .SetDurationForAll(500)
+                .Start();
     }                
 
     private void MyUIElement_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -118,7 +118,7 @@ You can change the way how the animation interpolates between keyframes by defin
         if (preElement != null)
         {
             preElement.Blur(value: 0).Fade(value: 0.1f).Scale(scaleX: 0.5f, scaleY: 0.5f, centerX: 100, centerY: 100, easingType: EasingType.Sine)
-                    .SetDurationForAll(500);
+                    .SetDurationForAll(500)
                     .Start();
         }
     }

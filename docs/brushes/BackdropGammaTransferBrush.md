@@ -23,7 +23,7 @@ To apply a red hue:
 
 ## Example Image
 
-![Backdrop Gamma](../resources/images/Brushes-BackdropGamma.jpg "Backdrop Gamma")
+![Backdrop Gamma](../resources/images/Brushes/BackdropGamma.jpg "Backdrop Gamma")
 
 ## Properties
 

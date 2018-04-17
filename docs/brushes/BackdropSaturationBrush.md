@@ -21,7 +21,7 @@ The [BackdropSaturationBrush](https://docs.microsoft.com/dotnet/api/microsoft.to
 
 ## Example Image
 
-![Backdrop Saturation](../resources/images/Brushes-BackdropSaturation.jpg "Backdrop Saturation")
+![Backdrop Saturation](../resources/images/Brushes/BackdropSaturation.jpg "Backdrop Saturation")
 
 ## Properties
 

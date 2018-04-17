@@ -1,13 +1,13 @@
 ---
-title: SurfaceDialTextboxHelper XAML Property
+title: SurfaceDialTextbox XAML Property
 author: nmetulev
 description: The SurfaceDialTextboxHelper XAML Property adds features from the Surface Dial control to a numeric TextBox.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, SurfaceDialTextboxHelper, XAML
 ---
 
-# SurfaceDialTextboxHelper XAML Property
+# SurfaceDialTextbox XAML Property
 
-The [SurfaceDialTextboxHelper XAML Property](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/surfacedialtextboxhelper) adds features from the Surface Dial control to a numeric TextBox. This enables you to modify the content of the TextBox when rotating the Surface Dial (increasing or decreasing the value) and optionally go to the next focus element by tapping the Surface Dial click button.
+The [SurfaceDialTextbox XAML Property](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.extensions.surfacedialtextbox) adds features from the Surface Dial control to a numeric TextBox. This enables you to modify the content of the TextBox when rotating the Surface Dial (increasing or decreasing the value) and optionally go to the next focus element by tapping the Surface Dial click button.
 
 ## Syntax
 
@@ -18,20 +18,20 @@ The [SurfaceDialTextboxHelper XAML Property](https://docs.microsoft.com/windows/
 <TextBox Width="106"
           HorizontalAlignment="Left"
           VerticalAlignment="Top"
-          extensions:SurfaceDialTextboxHelper.EnableHapticFeedback="True"
-          extensions:SurfaceDialTextboxHelper.EnableMinMaxValue="True"
-          extensions:SurfaceDialTextboxHelper.EnableTapToNextControl="False"
-          extensions:SurfaceDialTextboxHelper.ForceMenuItem="True"
-          extensions:SurfaceDialTextboxHelper.Icon="Ruler"
-          extensions:SurfaceDialTextboxHelper.MaxValue="0"
-          extensions:SurfaceDialTextboxHelper.MinValue="100"
-          extensions:SurfaceDialTextboxHelper.StepValue="1"
+          extensions:SurfaceDialTextbox.EnableHapticFeedback="True"
+          extensions:SurfaceDialTextbox.EnableMinMaxValue="True"
+          extensions:SurfaceDialTextbox.EnableTapToNextControl="False"
+          extensions:SurfaceDialTextbox.ForceMenuItem="True"
+          extensions:SurfaceDialTextbox.Icon="Ruler"
+          extensions:SurfaceDialTextbox.MaxValue="0"
+          extensions:SurfaceDialTextbox.MinValue="100"
+          extensions:SurfaceDialTextbox.StepValue="1"
           Text="0" />  
 ```
 
 ## Example Image
 
-![SurfaceDialTextboxHelper animation](../resources/images/Extensions/SurfaceDialTextbox.gif)
+![SurfaceDialTextbox animation](../resources/images/Extensions/SurfaceDialTextbox.gif)
 
 ## Attached Properties
 
@@ -58,7 +58,7 @@ The [SurfaceDialTextboxHelper XAML Property](https://docs.microsoft.com/windows/
 
 ## Sample Code
 
-[SurfaceDialTextboxHelper Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/SurfaceDialTextboxHelper). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[SurfaceDialTextbox Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/SurfaceDialTextbox). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
@@ -69,4 +69,4 @@ The [SurfaceDialTextboxHelper XAML Property](https://docs.microsoft.com/windows/
 
 ## API
 
-* [SurfaceDialTextboxHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/SurfaceDialTextbox)
+* [SurfaceDialTextbox source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/SurfaceDialTextbox)

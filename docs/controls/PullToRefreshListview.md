@@ -7,7 +7,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, PullToRefreshList
 
 # PullToRefreshListView XAML Control
 
-The [PullToRefreshListView Control](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.controls.pulltorefreshlistview?view=uwp-toolkit-ui-controls-2.0.0), is derived from the built-in List View in XAML. It lets the user pull down beyond the top limit on the listview to trigger a refresh of the content. This control can create rich, animations, and is easy to use. 
+The [PullToRefreshListView Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.pulltorefreshlistview), is derived from the built-in List View in XAML. It lets the user pull down beyond the top limit on the listview to trigger a refresh of the content. This control can create rich, animations, and is easy to use. 
 
 This control is very common on mobile devices, where the user can pull from the top to force a content refresh in applications like Twitter.
 

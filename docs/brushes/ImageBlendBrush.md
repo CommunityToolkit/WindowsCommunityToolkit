@@ -24,7 +24,7 @@ The [ImageBlendBrush](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uw
 
 ## Example Image
 
-![Image Blend](../resources/images/Brushes-ImageBlend.jpg "Image Blend")
+![Image Blend](../resources/images/Brushes/ImageBlend.jpg "Image Blend")
 
 ## Properties
 

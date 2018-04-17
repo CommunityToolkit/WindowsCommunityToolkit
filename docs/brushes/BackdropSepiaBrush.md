@@ -21,7 +21,7 @@ The [BackdropSepiaBrush](https://docs.microsoft.com/dotnet/api/microsoft.toolkit
 
 ## Example Image
 
-![Backdrop Sepia](../resources/images/Brushes-BackdropSepia.jpg "Backdrop Sepia")
+![Backdrop Sepia](../resources/images/Brushes/BackdropSepia.jpg "Backdrop Sepia")
 
 ## Properties
 

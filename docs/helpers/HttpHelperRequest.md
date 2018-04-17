@@ -7,6 +7,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelperRequest
 
 # HttpHelperRequest
 
+> [!WARNING]
 (This API is obsolete and will be removed in the future. Please use [System.Net.Http.HttpRequestMessage](https://msdn.microsoft.com/library/system.net.http.httprequestmessage(v=vs.110).aspx) 
 or [Windows.Web.Http.HttpRequestMessage](https://docs.microsoft.com/uwp/api/windows.web.http.httprequestmessage) directly)
 

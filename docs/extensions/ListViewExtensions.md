@@ -7,7 +7,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ListViewBase, ext
 
 # ListViewExtensions
 
-[ListViewBaseExtensions](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.extensions.listviewbase) provide a lightweight way to extend every control that inherits the [ListViewBase](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Controls.ListViewBase) class with attached properties.
+[ListViewExtensions](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.extensions.listviewextensions) provide a lightweight way to extend every control that inherits the [ListViewBase](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Controls.ListViewBase) class with attached properties.
 
 ## AlternateColor extentions
 
@@ -23,7 +23,7 @@ The [ContainerContentChanging](https://docs.microsoft.com/uwp/api/windows.ui.xam
      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions">
 
 <ListView
-    extensions:ListViewBase.AlternateColor="Silver"
+    extensions:ListViewExtensions.AlternateColor="Silver"
     ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}" />
 ```
 
@@ -58,7 +58,7 @@ The [ContainerContentChanging](https://docs.microsoft.com/uwp/api/windows.ui.xam
 
 <ListView
     ItemTemplate="{StaticResource NormalTemplate}"
-    extensions:ListViewBase.AlternateItemTemplate="{StaticResource AlternateTemplate}"
+    extensions:ListViewExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
     ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}" />
 ```
 
@@ -70,7 +70,7 @@ The [ContainerContentChanging](https://docs.microsoft.com/uwp/api/windows.ui.xam
 
 ## Command extentions
 
-ListViewBase provides extension method that allow attaching [ICommand](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Input.ICommand) to handle ListViewBase Item interaction by means of [ItemClick](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.listviewbase#Windows_UI_Xaml_Controls_ListViewBase_ItemClick) event.
+ListViewExtensions provides extension method that allow attaching [ICommand](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Input.ICommand) to handle ListViewBase Item interaction by means of [ItemClick](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.listviewbase#Windows_UI_Xaml_Controls_ListViewBase_ItemClick) event.
 
 > [!IMPORTANT]
 ListViewBase [IsItemClickEnabled](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.listviewbase#Windows_UI_Xaml_Controls_ListViewBase_IsItemClickEnabled) must be set to `true`
@@ -82,7 +82,7 @@ ListViewBase [IsItemClickEnabled](https://docs.microsoft.com/uwp/api/windows.ui.
      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions">
      
 <ListView
-    extensions:ListViewBase.Command="{x:Bind MainViewModel.ItemSelectedCommand, Mode=OneWay}"
+    extensions:ListViewExtensions.Command="{x:Bind MainViewModel.ItemSelectedCommand, Mode=OneWay}"
     IsItemClickEnabled="True"
     ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}"
     SelectionMode="None" />
@@ -108,7 +108,7 @@ The [ContainerContentChanging](https://docs.microsoft.com/uwp/api/windows.ui.xam
      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions">
 
 <ListView
-    extensions:ListViewBase.StretchItemContainerDirection="Horizontal"
+    extensions:ListViewExtensions.StretchItemContainerDirection="Horizontal"
     ItemsSource="{x:Bind MainViewModel.Items, Mode=OneWay}" />
 ```
 
@@ -120,7 +120,7 @@ The [ContainerContentChanging](https://docs.microsoft.com/uwp/api/windows.ui.xam
 
 ## Sample Code
 
-[ListViewBase extentions](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ListViewExtensions). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[ListViewExtensions](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ListViewExtensions). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
@@ -131,4 +131,4 @@ The [ContainerContentChanging](https://docs.microsoft.com/uwp/api/windows.ui.xam
 
 ## API
 
-* [ListViewBase source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/ListViewBase)
+* [ListViewExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/ListViewBase)

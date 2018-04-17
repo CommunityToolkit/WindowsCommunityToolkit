@@ -38,7 +38,7 @@ The Animation or Binding of *GradientStop* `Offset` and `Color` properties is no
 
 ## Example Image
 
-![Radial Gradient](../resources/images/Brushes-RadialGradient.jpg "Radial Gradient")
+![Radial Gradient](../resources/images/Brushes/RadialGradient.jpg "Radial Gradient")
 
 ## Properties
 

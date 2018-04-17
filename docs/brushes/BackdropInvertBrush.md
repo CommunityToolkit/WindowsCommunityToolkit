@@ -21,7 +21,7 @@ The [BackdropInvertBrush](https://docs.microsoft.com/dotnet/api/microsoft.toolki
 
 ## Example Image
 
-![Backdrop Invert](../resources/images/Brushes-BackdropInvert.jpg "Backdrop Invert")
+![Backdrop Invert](../resources/images/Brushes/BackdropInvert.jpg "Backdrop Invert")
 
 ## Sample Code
 
