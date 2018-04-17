@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebViewControlProcess"/> class.
+        /// Initializes a new instance of the <see cref="WebViewControlProcess"/> class with the specified <paramref name="processOptions"/>.
         /// </summary>
         /// <param name="processOptions">The process options.</param>
         public WebViewControlProcess(WebViewControlProcessOptions processOptions)

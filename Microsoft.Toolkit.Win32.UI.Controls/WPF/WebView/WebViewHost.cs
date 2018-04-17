@@ -26,7 +26,7 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// The <see cref="WebViewHost"/> class hosts a WebView inside of a WPF tree
+    /// The <see cref="WebViewHost"/> class hosts a <see cref="WebView"/> inside of a WPF tree
     /// </summary>
     /// <remarks>Requires unmanaged code permissions</remarks>
     [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
@@ -44,7 +44,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             KeyboardNavigation.TabNavigationProperty.OverrideMetadata(typeof(WebViewHost), new FrameworkPropertyMetadata(KeyboardNavigationMode.Once));
         }
 
-        public WebViewHost()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebViewHost"/> class.
+        /// </summary>
+        protected WebViewHost()
         {
 #if DEBUG_FOCUS
             GotFocus += (o, e) => { Debug.WriteLine($"GotFocus"); };
@@ -60,12 +63,30 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         private delegate void PropertyInvalidator(WebViewHost webViewHost);
 
+        /// <summary>
+        /// Gets the child window.
+        /// </summary>
+        /// <value>The child window created during <see cref="Initialize"/>.</value>
         protected HandleRef ChildWindow { get; private set; }
 
+        /// <summary>
+        /// Gets the parent handle.
+        /// </summary>
+        /// <value>The <see cref="HandleRef"/> passed in to <see cref="BuildWindowCore"/>.</value>
         protected HandleRef ParentHandle { get; private set; }
 
+        /// <summary>
+        /// Closes the <see cref="WebViewHost"/>.
+        /// </summary>
+        /// <seealso cref="IDisposable.Dispose"/>
         public abstract void Close();
 
+        /// <summary>
+        /// When overridden in a derived class, creates the window to be hosted.
+        /// </summary>
+        /// <param name="hwndParent">The window handle of the parent window.</param>
+        /// <returns>The handle to the child Win32 window to create.</returns>
+        /// <seealso cref="Initialize"/>
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
             ParentHandle = hwndParent;
@@ -95,13 +116,24 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             return ChildWindow;
         }
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         protected abstract void Initialize();
 
+        /// <summary>
+        /// Destroys the hosted window.
+        /// </summary>
+        /// <param name="hwnd">A structure that contains the window handle.</param>
         protected override void DestroyWindowCore(HandleRef hwnd)
         {
             NativeMethods.DestroyWindow(hwnd.Handle);
         }
 
+        /// <summary>
+        /// Immediately frees any system resources that the <see cref="WebViewHost"/> might hold.
+        /// </summary>
+        /// <param name="disposing">Set to <see langword="true" /> if called from an explicit disposer and <see langword="false" /> otherwise.</param>
         protected override void Dispose(bool disposing)
         {
             try
@@ -117,6 +149,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
+        /// <summary>
+        /// Returns the size of the window represented by the <see cref="T:System.Windows.Interop.HwndHost" /> object, as requested by layout engine operations.
+        /// </summary>
+        /// <param name="constraint">The size of the <see cref="T:System.Windows.Interop.HwndHost" /> object.</param>
+        /// <returns>The size of the <see cref="T:System.Windows.Interop.HwndHost" /> object.</returns>
+        /// <remarks>The minimum size is 250 length and 250 width.</remarks>
         protected override Size MeasureOverride(Size constraint)
         {
             base.MeasureOverride(constraint);
@@ -126,12 +164,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 !double.IsPositiveInfinity(constraint.Height) ? constraint.Height : 250.0);
         }
 
-        protected override bool TabIntoCore(TraversalRequest request)
-        {
-            // TODO: Assert should be at least InPlaceActive
-            return base.TabIntoCore(request);
-        }
-
+        /// <summary>
+        /// Processes keyboard input at the keydown message level.
+        /// </summary>
+        /// <param name="msg">The message and associated data. Do not modify this structure. It is passed by reference for performance reasons only.</param>
+        /// <param name="modifiers">Modifier keys.</param>
+        /// <returns>Always returns <see langword="false" />.</returns>
         [SecurityCritical]
         [UIPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         protected override bool TranslateAcceleratorCore(ref MSG msg, ModifierKeys modifiers)
@@ -149,8 +187,21 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             return base.TranslateAcceleratorCore(ref msg, modifiers);
         }
 
+        /// <summary>
+        /// Updates the location and size of <see cref="WebViewHost"/>.
+        /// </summary>
+        /// <param name="bounds">A <see cref="Rect"/> containing numerical values that represent the location and size of the control.</param>
         protected abstract void UpdateBounds(Rect bounds);
 
+        /// <summary>
+        /// When overridden in a derived class, accesses the window process (handle) of the hosted child window.
+        /// </summary>
+        /// <param name="hwnd">The window handle of the hosted window.</param>
+        /// <param name="msg">The message to act upon.</param>
+        /// <param name="wParam">Information that may be relevant to handling the message. This is typically used to store small pieces of information, such as flags.</param>
+        /// <param name="lParam">Information that may be relevant to handling the message. This is typically used to reference an object.</param>
+        /// <param name="handled">Whether events resulting should be marked handled.</param>
+        /// <returns>The window handle of the child window.</returns>
         protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             Debug.WriteLine($"HWND: {hwnd}, msg: {msg} ({msg:x4}), wParam: {wParam}, lParam: {lParam}");

@@ -32,7 +32,7 @@ using WebViewControlSettings = Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
     /// <summary>
-    /// Provides a control that hosts HTML content in an app.
+    /// This class is an implementation of <see cref="IWebView"/> for Windows Forms. This class cannot be inherited.
     /// </summary>
     /// <seealso cref="Control" />
     /// <seealso cref="ISupportInitialize" />
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
     [Docking(DockingBehavior.AutoDock)]
     [SecurityCritical]
     [PermissionSet(SecurityAction.InheritanceDemand, Name = Constants.SecurityPermissionSetName)]
-    public sealed partial class WebView : Control, IWebView
+    public sealed partial class WebView : Control, IWebView, ISupportInitialize
     {
         private bool _delayedIsIndexDbEnabled = true;
         private bool _delayedIsJavaScriptEnabled = true;
@@ -52,15 +52,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         private bool _webViewControlClosed;
 
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Microsoft.Toolkit.Win32.UI.Controls.WinForms.WebView" /> class.
+        /// Initializes a new instance of the <see cref="WebView"/> class.
         /// </summary>
         public WebView()
         {
             Paint += OnWebViewPaint;
         }
 
-        /// <inheritdoc cref="Controls.IWebView.ContainsFullScreenElement"/>
+        /// <inheritdoc/>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ContainsFullScreenElement
@@ -73,12 +74,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
         }
 
-        /// <inheritdoc cref="Control.DesignMode" />
+        /// <inheritdoc/>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool DesignMode => IsInDesignMode();
 
-        /// <inheritdoc cref="Controls.IWebView.DocumentTitle"/>
+        /// <inheritdoc/>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string DocumentTitle
@@ -91,8 +92,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
         }
 
-        /// <inheritdoc />
-        /// <remarks>Returns true if this or any of its child windows has focus.</remarks>
+        /// <inheritdoc/>
+        /// <remarks>Returns <see langword="true" /> if this or any of its child windows has focus.</remarks>
         public override bool Focused
         {
             get
@@ -110,7 +111,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
         }
 
-        /// <inheritdoc cref="Controls.IWebView.IsIndexedDBEnabled" />
+        /// <inheritdoc/>
         [StringResourceCategory(Constants.CategoryBehavior)]
         [DefaultValue(false)]
         public bool IsIndexedDBEnabled
@@ -309,10 +310,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// <returns>A <see cref="WebViewControlDeferredPermissionRequest" /> object of the specified <paramref name="id"/>.</returns>
         public WebViewControlDeferredPermissionRequest GetDeferredPermissionRequestById(uint id) => _webViewControl?.GetDeferredPermissionRequestById(id);
 
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
+        /// <exception cref="InvalidOperationException"> When the underlying &lt;
+        /// <see cref="WebViewControl"/> is not yet initialized. </exception>
+        ///
+        /// <inheritdoc/>
+
         public object InvokeScript(string scriptName) => _webViewControl?.InvokeScript(scriptName);
 
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
+        /// <exception cref="InvalidOperationException"> When the underlying &lt;&amp;&lt;
+        /// <see cref="WebViewControl"/> is not yet initialized. </exception>
+        ///
+        /// <inheritdoc/>
+
         public object InvokeScript(string scriptName, params string[] arguments) => _webViewControl?.InvokeScript(scriptName, arguments);
 
         /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>

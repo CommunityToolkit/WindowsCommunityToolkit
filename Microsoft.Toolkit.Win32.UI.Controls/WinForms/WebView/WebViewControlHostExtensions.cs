@@ -10,14 +10,23 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Drawing;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
-    public static class WebViewControlHostExtensions
+    internal static class WebViewControlHostExtensions
     {
+        /// <summary>
+        /// Updates the location and size of <see cref="WebView"/>.
+        /// </summary>
+        /// <param name="host">A <see cref="WebViewControlHost"/> instance</param>
+        /// <param name="bounds">A <see cref="Rectangle"/> containing numerical values that represent the location and size of the control.</param>
+        /// <seealso cref="WebViewControlHost.UpdateBounds"/>
+        /// <exception cref="ArgumentNullException"><paramref name="host"/> is <see langword="null"/>.</exception>
+        /// <remarks><paramref name="bounds" /> is translated into a <seealso cref="Windows.Foundation.Rect"/>.</remarks>
         internal static void UpdateBounds(this WebViewControlHost host, Rectangle bounds)
         {
             Rect CreateBounds()
@@ -26,6 +35,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                     new Windows.Foundation.Point(bounds.X, bounds.Y),
                     new Windows.Foundation.Size(bounds.Width, bounds.Height));
             }
+
+            if (host is null) throw new ArgumentNullException(nameof(host));
 
             host.UpdateBounds(CreateBounds());
         }

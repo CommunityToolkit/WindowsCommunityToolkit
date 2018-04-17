@@ -19,6 +19,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     public static class WebViewControlProcessExtensions
     {
+        /// <summary>
+        /// Creates a <see cref="WebViewControlHost"/> within the context of <paramref name="process"/>.
+        /// </summary>
+        /// <param name="process">An instance of <see cref="WebViewControlProcess"/>.</param>
+        /// <param name="hostWindowHandle">The parent window handle hosting the control.</param>
+        /// <param name="desiredSize">A <see cref="Size"/> containing numerical values that represent the size of the control.</param>
+        /// <returns>A <see cref="WebViewControlHost"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="hostWindowHandle"/> is equal to <see cref="IntPtr.Zero"/></exception>
+        /// <remarks>Since <paramref name="desiredSize"/> contains only size, the location is presumed 0, 0.</remarks>
         [SecuritySafeCritical]
         internal static WebViewControlHost CreateWebViewControlHost(
             this WebViewControlProcess process,
@@ -26,6 +35,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Size desiredSize)
         {
             Verify.IsNotNull(process);
+            if (hostWindowHandle == IntPtr.Zero)
+            {
+                throw new ArgumentNullException(nameof(hostWindowHandle));
+            }
 
             var rect = new Windows.Foundation.Rect(0, 0, (int)desiredSize.Width, (int)desiredSize.Height);
 

@@ -633,6 +633,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
+
+        /// <summary>
+        /// Updates the location and size of the web view.
+        /// </summary>
+        /// <param name="bounds">A <see cref="Rect"/> containing numerical values that represent the location and size of the control.</param>
+        /// <remarks>Sets the <seealso cref="WebViewControl.Bounds"/> property.</remarks>
         public void UpdateBounds(Rect bounds)
         {
             if (_webViewControl != null)

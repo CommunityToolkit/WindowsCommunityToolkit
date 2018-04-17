@@ -10,10 +10,11 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls
 {
@@ -27,6 +28,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
     /// </remarks>
     public interface IWebView : IDisposable
     {
+        /// <summary>
+        /// An event that is triggered when the accelerator key is pressed.
+        /// </summary>
         event EventHandler<WebViewControlAcceleratorKeyPressedEventArgs> AcceleratorKeyPressed;
 
         /// <summary>
@@ -44,7 +48,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// Occurs when the <see cref="IWebView"/> finished parsing the current content.
         /// </summary>
         // ReSharper disable InconsistentNaming
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM", Justification = "Name from WinRT type")]
         event EventHandler<WebViewControlDOMContentLoadedEventArgs> DOMContentLoaded;
 
         // ReSharper restore InconsistentNaming
@@ -102,7 +106,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// </summary>
         event EventHandler<WebViewControlNavigationStartingEventArgs> NavigationStarting;
 
-        /// <summary>eds
+        /// <summary>
         /// Occurs when an action is performed that causes content to be opened in a new window.
         /// </summary>
         event EventHandler<WebViewControlNewWindowRequestedEventArgs> NewWindowRequested;
@@ -153,7 +157,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <value><c>true</c> if the <see cref="IWebView" /> can navigate forward; otherwise, <c>false</c>.</value>
         bool CanGoForward { get; }
 
-
         /// <summary>
         /// Gets a value indicating whether <see cref="IWebView"/> contains an element that supports full screen.
         /// </summary>
@@ -164,31 +167,34 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// Gets the title of the page currently displayed in the <see cref="IWebView"/>.
         /// </summary>
         /// <value>The page title.</value>
-        /// <seealso cref="Windows.Web.UI.IWebViewControl.DocumentTitle"/>
         string DocumentTitle { get; }
 
         /// <summary>
-        /// Gets or sets a value that indicates whether the use of IndexedDB is allowed.
+        /// Gets or sets a value indicating whether the use of IndexedDB is allowed.
         /// </summary>
         /// <value><c>true</c> if IndexedDB is allowed; otherwise, <c>false</c>. The default is <c>true</c>.</value>
         /// <see cref="WebViewControlSettings.IsIndexedDBEnabled"/>
         bool IsIndexedDBEnabled { get; set; }
 
         /// <summary>
-        /// Gets or sets a value that indicates whether the use of JavaScript is allowed.
+        /// Gets or sets a value indicating whether the use of JavaScript is allowed.
         /// </summary>
         /// <value> true if JavaScript is allowed in the <see cref="IWebView"/>; otherwise, false. The default is true.</value>
         /// <see cref="WebViewControlSettings.IsJavaScriptEnabled"/>
         bool IsJavaScriptEnabled { get; set; }
+
         /// <summary>
-        /// Gets or sets whether <see cref="IWebView.ScriptNotify" /> is allowed.
+        /// Gets or sets a value indicating whether <see cref="IWebView.ScriptNotify" /> is allowed.
         /// </summary>
         /// <value>Whether <see cref="IWebView.ScriptNotify" /> is allowed.</value>
         /// <see cref="WebViewControlSettings.IsScriptNotifyAllowed" />
         bool IsScriptNotifyAllowed { get; set; }
 
-        // TODO: Process
-        // WebViewControlProcess Process { get; }
+        /// <summary>
+        /// Gets the <see cref="WebViewControlProcess"/> that the control is hosted in.
+        /// </summary>
+        /// <value>The <see cref="WebViewControlProcess"/> that the control is hosted in.</value>
+        WebViewControlProcess Process { get; }
 
         /// <summary>
         /// Gets a <see cref="WebViewControlSettings" /> object that contains properties to enable or disable <see cref="IWebView" /> features.
@@ -225,7 +231,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// </summary>
         /// <param name="id">The <see cref="WebViewControlPermissionRequest.Id" /> of the deferred permission request.</param>
         /// <returns><see cref="WebViewControlDeferredPermissionRequest" /> The deferred permission request with the specified <see cref="WebViewControlPermissionRequest.Id" />, or null if no permission request with the specified <see cref="WebViewControlPermissionRequest.Id" /> was found.</returns>
-        /// <see cref="Windows.Web.UI.Interop.WebViewControl.DeferredPermissionRequestById(out uint)"/>
         WebViewControlDeferredPermissionRequest GetDeferredPermissionRequestById(uint id);
 
         /// <summary>
@@ -274,7 +279,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// Executes the specified script function from the currently loaded HTML, with no arguments, as an asynchronous action.
         /// </summary>
         /// <param name="scriptName">Name of the script function to invoke.</param>
-        /// <returns>When this method returns, the <see cref="object"/> result of the script invocation.</returns>
+        /// <returns>When this method returns, the <see cref="string"/> result of the script invocation.</returns>
         /// <remarks>
         /// To prevent malicious code from exploiting your app, be sure to call this method to invoke only scripts that you trust.
         /// The invoked script can only return string values.
@@ -286,7 +291,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// </summary>
         /// <param name="scriptName">Name of the script function to invoke.</param>
         /// <param name="arguments">A string array that packages arguments to the script function.</param>
-        /// <returns>When this method returns, the <see cref="object"/> result of the script invocation.</returns>
+        /// <returns>When this method returns, the <see cref="string"/> result of the script invocation.</returns>
         /// <remarks>
         /// To prevent malicious code from exploiting your app, be sure to call this method to invoke only scripts that you trust.
         /// The invoked script can only return string values.
@@ -298,7 +303,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// </summary>
         /// <param name="scriptName">Name of the script function to invoke.</param>
         /// <param name="arguments">A string array that packages arguments to the script function.</param>
-        /// <returns>When this method returns, the <see cref="object"/> result of the script invocation.</returns>
+        /// <returns>When this method returns, the <see cref="string"/> result of the script invocation.</returns>
         /// <remarks>
         /// To prevent malicious code from exploiting your app, be sure to call this method to invoke only scripts that you trust.
         /// The invoked script can only return string values.
@@ -350,7 +355,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <summary>
         /// Halts the current <see cref="IWebView"/> navigation or download.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Stop")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Stop", Justification = "Method exposed in WinRT type")]
         void Stop();
 
         // TODO: ObjectForScripting

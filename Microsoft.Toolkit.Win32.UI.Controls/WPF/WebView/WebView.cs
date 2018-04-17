@@ -45,6 +45,11 @@ NOTE: Depending on how the control is hosted, input messages flow different
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
+    /// <summary>
+    /// This class is an implementation of <see cref="IWebView"/> for WPF. This class cannot be inherited.
+    /// </summary>
+    /// <seealso cref="Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewHost" />
+    /// <seealso cref="Microsoft.Toolkit.Win32.UI.Controls.IWebView" />
     public sealed class WebView : WebViewHost, IWebView
     {
         private static readonly Hashtable InvalidatorMap = new Hashtable();
@@ -170,6 +175,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebView"/> class.
+        /// </summary>
         [SecurityCritical]
         public WebView()
         {
@@ -177,12 +185,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             // TODO: Handle case (OnLoad) for handling POPUP windows
         }
 
+        /// <summary>
+        /// An event that is triggered when the accelerator key is pressed.
+        /// </summary>
         public event EventHandler<WebViewControlAcceleratorKeyPressedEventArgs> AcceleratorKeyPressed = (sender, args) => { };
 
         /// <summary>
         /// Occurs when the status of whether the <see cref="WebView"/> current contains a full screen element or not changes.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
+        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event does not provide argument deriving from EventArgs")]
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewContainsFullScreenElement)]
         public event EventHandler<object> ContainsFullScreenElementChanged = (sender, args) => { };
@@ -287,11 +298,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// Occurs when an action in a <see cref="WebView"/> requires that permission be granted.
         /// </summary>
         /// <remarks>
-        /// The types of permission that can be requested are defined in the <see cref="Windows.Web.UI.WebViewControlPermissionType"/> enumeration.
+        /// The types of permission that can be requested are defined in the <see cref="WebViewControlPermissionType"/> enumeration.
         ///
         /// If you don't handle the <see cref="PermissionRequested"/> event, the <see cref="WebView"/> denies permission by default.
         ///
-        /// When you handle a permission request in <see cref="WebView"/>, you get a <see cref="Windows.Web.UI.WebViewControlPermissionRequest"/> object as
+        /// When you handle a permission request in <see cref="WebView"/>, you get a <see cref="WebViewControlPermissionRequest"/> object as
         /// the value of the <see cref="M:WebViewControlPermissionRequestedEventArgs.PermissionRequest"/> property. You can call Allow to grant the request,
         /// Deny to deny the request, or Defer to defer the request until a later time.
         /// </remarks>
@@ -327,6 +338,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unviewable")]
         public event EventHandler<WebViewControlUnviewableContentIdentifiedEventArgs> UnviewableContentIdentified = (sender, args) => { };
 
+        /// <summary>
+        /// Gets a value indicating whether there is at least one page in the backward navigation history.
+        /// </summary>
+        /// <value><c>true</c> if the <see cref="WebView"/> can navigate backward; otherwise, <c>false</c>.</value>
         public bool CanGoBack
         {
             get
@@ -337,6 +352,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether there is at least one page in the forward navigation history.
+        /// </summary>
+        /// <value><c>true</c> if the <see cref="WebView"/> can navigate forward; otherwise, <c>false</c>.</value>
         public bool CanGoForward
         {
             get
@@ -347,6 +366,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether <see cref="WebView" /> contains an element that supports full screen.
+        /// </summary>
+        /// <value><see langword="true" /> if the <see cref="WebView" /> contains an element that supports full screen; otherwise, <see langword="false" />.</value>
         public bool ContainsFullScreenElement
         {
             get
@@ -357,6 +380,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
+        /// <summary>
+        /// Gets the title of the page currently displayed in the <see cref="WebView" />.
+        /// </summary>
+        /// <value>The page title.</value>
         public string DocumentTitle
         {
             get
@@ -367,6 +394,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the use of IndexedDB is allowed.
+        /// </summary>
+        /// <value><c>true</c> if IndexedDB is allowed; otherwise, <c>false</c>. The default is <c>true</c>.</value>
+        /// <see cref="WebViewControlSettings.IsIndexedDBEnabled" />
         [StringResourceCategory(Constants.CategoryBehavior)]
         [DefaultValue(false)]
         public bool IsIndexedDBEnabled
@@ -375,6 +407,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             set => SetValue(IsIndexedDBEnabledProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the use of JavaScript is allowed.
+        /// </summary>
+        /// <value>true if JavaScript is allowed in the <see cref="WebView" />; otherwise, false. The default is true.</value>
+        /// <see cref="WebViewControlSettings.IsJavaScriptEnabled" />
         [StringResourceCategory(Constants.CategoryBehavior)]
         [DefaultValue(false)]
         public bool IsJavaScriptEnabled
@@ -383,6 +420,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             set => SetValue(IsJavaScriptEnabledProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether <see cref="WebView.ScriptNotify" /> is allowed.
+        /// </summary>
+        /// <value>Whether <see cref="WebView.ScriptNotify" /> is allowed.</value>
+        /// <see cref="WebViewControlSettings.IsScriptNotifyAllowed" />
         [StringResourceCategory(Constants.CategoryBehavior)]
         [DefaultValue(false)]
         public bool IsScriptNotifyAllowed
@@ -391,6 +433,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             set => SetValue(IsScriptNotifyAllowedProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is web view visible.
+        /// </summary>
+        /// <value><see langword="true" /> if this instance is web view visible; otherwise, <see langword="false" />.</value>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsWebViewVisible
@@ -413,6 +459,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="WebViewControlProcess" /> that the control is hosted in.
+        /// </summary>
+        /// <value>The <see cref="WebViewControlProcess" /> that the control is hosted in.</value>
         [Browsable(false)]
         public WebViewControlProcess Process
         {
@@ -424,6 +474,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
+        /// <summary>
+        /// Gets a <see cref="WebViewControlSettings" /> object that contains properties to enable or disable <see cref="WebView"/> features.
+        /// </summary>
+        /// <value>A <see cref="WebViewControlSettings" /> object that contains properties to enable or disable <see cref="WebView"/> features.</value>
+        /// <seealso cref="WebViewControlSettings.IsScriptNotifyAllowed" />
+        /// <seealso cref="WebViewControlSettings.IsJavaScriptEnabled" />
+        /// <seealso cref="WebViewControlSettings.IsIndexedDBEnabled" />
+        /// <remarks>Use the <see cref="WebViewControlSettings" /> object to enable or disable the use of JavaScript, ScriptNotify, and IndexedDB in the <see cref="WebView"/>.</remarks>
         [Browsable(false)]
         public WebViewControlSettings Settings
         {
@@ -435,12 +493,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
+        /// <summary>
+        /// Gets or sets the Uniform Resource Identifier (URI) source of the HTML content to display in the <see cref="WebView"/>.
+        /// </summary>
+        /// <value>The Uniform Resource Identifier (URI) source of the HTML content to display in the <see cref="WebView"/>.</value>
         public Uri Source
         {
             get => (Uri)GetValue(SourceProperty);
             set => SetValue(SourceProperty, value);
         }
 
+        /// <summary>
+        /// Gets the version of EDGEHTML.DLL used by <see cref="WebView"/>.
+        /// </summary>
+        /// <value>The version of EDGEHTML.DLL used by <see cref="WebView"/>.</value>
         [Browsable(false)]
         public Version Version
         {
@@ -454,6 +520,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         private bool WebViewControlInitialized => _webViewControl != null;
 
+        /// <summary>
+        /// Closes the <see cref="T:Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewHost" />.
+        /// </summary>
+        /// <seealso cref="M:System.IDisposable.Dispose" />
         public override void Close()
         {
             // TODO: Guard IsDisposed
@@ -465,6 +535,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _process = null;
         }
 
+        /// <summary>
+        /// Gets the deferred permission request with the specified <see cref="WebViewControlPermissionRequest.Id" />.
+        /// </summary>
+        /// <param name="id">The <see cref="WebViewControlPermissionRequest.Id" /> of the deferred permission request.</param>
+        /// <returns><see cref="WebViewControlDeferredPermissionRequest" /> The deferred permission request with the specified <see cref="WebViewControlPermissionRequest.Id" />, or null if no permission request with the specified <see cref="WebViewControlPermissionRequest.Id" /> was found.</returns>
         public WebViewControlDeferredPermissionRequest GetDeferredPermissionRequestById(uint id)
         {
             VerifyAccess();
@@ -472,6 +547,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             return _webViewControl?.GetDeferredPermissionRequestById(id);
         }
 
+        /// <summary>
+        /// Navigates the <see cref="WebView"/> to the previous page in the navigation history.
+        /// </summary>
+        /// <returns><c>true</c> if the <see cref="WebView"/> navigation to the previous page in the navigation history is successful; otherwise, <c>false</c>.</returns>
         public bool GoBack()
         {
             VerifyAccess();
@@ -479,6 +558,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             return _webViewControl?.GoBack() ?? false;
         }
 
+        /// <summary>
+        /// Navigates the <see cref="WebView"/> to the next page in the navigation history.
+        /// </summary>
+        /// <returns><c>true</c> if the <see cref="WebView"/> navigation to the next page in the navigation history is successful; otherwise, <c>false</c>.</returns>
         public bool GoForward()
         {
             VerifyAccess();
@@ -486,7 +569,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             return _webViewControl?.GoForward() ?? false;
         }
 
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="Windows.Web.UI.Interop.WebViewControl"/> is not yet initialized.</exception>
+        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebView"/> is not yet initialized.</exception>
         public object InvokeScript(string scriptName)
         {
             VerifyAccess();
@@ -494,7 +577,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             return _webViewControl?.InvokeScript(scriptName);
         }
 
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="Windows.Web.UI.Interop.WebViewControl"/> is not yet initialized.</exception>
+        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebView"/> is not yet initialized.</exception>
         public object InvokeScript(string scriptName, params string[] arguments)
         {
             VerifyAccess();
@@ -502,7 +585,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             return _webViewControl?.InvokeScript(scriptName, arguments);
         }
 
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="Windows.Web.UI.Interop.WebViewControl"/> is not yet initialized.</exception>
+        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebView"/> is not yet initialized.</exception>
         public object InvokeScript(string scriptName, IEnumerable<string> arguments)
         {
             VerifyAccess();
@@ -510,7 +593,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             return _webViewControl?.InvokeScript(scriptName, arguments);
         }
 
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="Windows.Web.UI.Interop.WebViewControl"/> is not yet initialized.</exception>
+        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebView"/> is not yet initialized.</exception>
         public Task<string> InvokeScriptAsync(string scriptName)
         {
             VerifyAccess();
@@ -518,7 +601,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             return _webViewControl?.InvokeScriptAsync(scriptName);
         }
 
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="Windows.Web.UI.Interop.WebViewControl"/> is not yet initialized.</exception>
+        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebView"/> is not yet initialized.</exception>
         public Task<string> InvokeScriptAsync(string scriptName, params string[] arguments)
         {
             VerifyAccess();
@@ -526,7 +609,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             return _webViewControl?.InvokeScriptAsync(scriptName, arguments);
         }
 
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="Windows.Web.UI.Interop.WebViewControl"/> is not yet initialized.</exception>
+        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebView"/> is not yet initialized.</exception>
         public Task<string> InvokeScriptAsync(string scriptName, IEnumerable<string> arguments)
         {
             VerifyAccess();
@@ -546,9 +629,19 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <exception cref="UriFormatException">
-        ///                 In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <see cref="T:System.FormatException" />, instead.
-        ///               <paramref name="source" /> is empty.-or- The scheme specified in <paramref name="source" /> is not correctly formed. See <see cref="M:System.Uri.CheckSchemeName(System.String)" />.-or-
-        ///               <paramref name="source" /> contains too many slashes.-or- The password specified in <paramref name="source" /> is not valid.-or- The host name specified in <paramref name="source" /> is not valid.-or- The file name specified in <paramref name="source" /> is not valid. -or- The user name specified in <paramref name="source" /> is not valid.-or- The host or authority name specified in <paramref name="source" /> cannot be terminated by backslashes.-or- The port number specified in <paramref name="source" /> is not valid or cannot be parsed.-or- The length of <paramref name="source" /> exceeds 65519 characters.-or- The length of the scheme specified in <paramref name="source" /> exceeds 1023 characters.-or- There is an invalid character sequence in <paramref name="source" />.-or- The MS-DOS path specified in <paramref name="source" /> must start with c:\\.</exception>
+        /// <paramref name="source" /> is empty, or
+        /// the scheme specified in <paramref name="source" /> is not correctly formed (see <see cref="M:System.Uri.CheckSchemeName(System.String)" />, or
+        /// <paramref name="source" /> contains too many slashes, or
+        /// the password specified in <paramref name="source" /> is not valid, or
+        /// the host name specified in <paramref name="source" /> is not valid, or
+        /// the file name specified in <paramref name="source" /> is not valid, or
+        /// the user name specified in <paramref name="source" /> is not valid, or
+        /// the host or authority name specified in <paramref name="source" /> cannot be terminated by backslashes, or
+        /// the port number specified in <paramref name="source" /> is not valid or cannot be parsed, or
+        /// the length of <paramref name="source" /> exceeds 65519 characters, or
+        /// the length of the scheme specified in <paramref name="source" /> exceeds 1023 characters, or
+        /// there is an invalid character sequence in <paramref name="source" />, or
+        /// the MS-DOS path specified in <paramref name="source" /> must start with c:\\.</exception>
         public void Navigate(string source)
         {
             VerifyAccess();
@@ -556,6 +649,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl?.Navigate(source);
         }
 
+        /// <summary>
+        /// Loads the HTML content at the specified Uniform Resource Identifier (URI).
+        /// </summary>
+        /// <param name="source">The Uniform Resource Identifier (URI) to load.</param>
+        /// <seealso cref="Uri" />
+        /// <see cref="Navigate(Uri)" /> is asynchronous. Use the <see cref="NavigationCompleted" /> event to detect when
+        /// navigation has completed.
         public void Navigate(Uri source)
         {
             VerifyAccess();
@@ -576,6 +676,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl?.NavigateToString(text);
         }
 
+        /// <summary>
+        /// Reloads the current <see cref="Source" /> in the <see cref="WebView"/>.
+        /// </summary>
+        /// <remarks>If the current source was loaded via <see cref="Navigate(Uri)" />, this method reloads the file without forced cache validation by sending a <c>Pragma:no-cache</c> header to the server.</remarks>
         public void Refresh()
         {
             VerifyAccess();
@@ -583,6 +687,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl?.Refresh();
         }
 
+        /// <summary>
+        /// Halts the current <see cref="WebView"/> navigation or download.
+        /// </summary>
         public void Stop()
         {
             VerifyAccess();

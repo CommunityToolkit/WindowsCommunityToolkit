@@ -12,6 +12,7 @@
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
+    /// <remarks>Copy of <seealso cref="Windows.Web.WebErrorStatus" /></remarks>
     public enum WebErrorStatus
     {
         Unknown = 0,

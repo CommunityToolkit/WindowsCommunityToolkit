@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates whether the use of IndexedDB is allowed.
+        /// Gets or sets a value indicating whether the use of IndexedDB is allowed.
         /// </summary>
         /// <value><c>true</c> if IndexedDB is allowed; otherwise, <c>false</c>. The default is <c>true</c>.</value>
         // ReSharper disable InconsistentNaming
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates whether the use of JavaScript is allowed.
+        /// Gets or sets a value indicating whether the use of JavaScript is allowed.
         /// </summary>
         /// <value> true if JavaScript is allowed in the <see cref="IWebView"/>; otherwise, false. The default is true.</value>
         public bool IsJavaScriptEnabled
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Gets or sets whether <see cref="IWebView.ScriptNotify" /> is allowed.
+        /// Gets or sets a value indicating whether <see cref="IWebView.ScriptNotify" /> is allowed.
         /// </summary>
         /// <value>Whether <see cref="IWebView.ScriptNotify" /> is allowed.</value>
         public bool IsScriptNotifyAllowed

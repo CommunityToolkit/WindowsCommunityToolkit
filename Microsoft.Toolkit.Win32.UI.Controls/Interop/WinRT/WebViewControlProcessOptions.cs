@@ -14,18 +14,36 @@ using System;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
+    /// <summary>
+    /// A proxy for <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/>.
+    /// </summary>
     public class WebViewControlProcessOptions
     {
+        /// <summary>
+        /// Gets or sets the enterprise identifier for apps that are WIP-enabled.
+        /// </summary>
+        /// <value>The enterprise identifier.</value>
         public string EnterpriseId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the private network client server capability.
+        /// </summary>
+        /// <value>The private network client server capability.</value>
         public WebViewControlProcessCapabilityState PrivateNetworkClientServerCapability { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebViewControlProcessOptions"/> class.
+        /// </summary>
         public WebViewControlProcessOptions()
         {
             EnterpriseId = string.Empty;
             PrivateNetworkClientServerCapability = WebViewControlProcessCapabilityState.Default;
         }
 
+        /// <summary>
+        /// Converts this instance to a <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> instance.
+        /// </summary>
+        /// <returns>A <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> instance.</returns>
         internal Windows.Web.UI.Interop.WebViewControlProcessOptions ToWinRtWebViewControlProcessOptions()
         {
             var retval = new Windows.Web.UI.Interop.WebViewControlProcessOptions();
