@@ -42,13 +42,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             DefaultOrientationComboBox.SelectedIndex = 0;
         }
 
-        public async void OnXamlRendered(FrameworkElement control)
+        public void OnXamlRendered(FrameworkElement control)
         {
             var listView = control.FindChildByName("PrintSampleListView") as ListView;
             if (listView == null)
             {
-                var dialog = new MessageDialog("Could not find the listview called 'PrintSampleListView'.");
-                await dialog.ShowAsync();
+                customPrintTemplate = null;
                 return;
             }
 
@@ -60,8 +59,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             catch (Exception)
             {
-                var dialog = new MessageDialog("Could not load the data template resource called 'CustomPrintTemplate'.");
-                await dialog.ShowAsync();
+                customPrintTemplate = null;
             }
         }
 
@@ -141,8 +139,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions, true);
         }
 
-        private void CustomPrint_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void CustomPrint_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            if (customPrintTemplate == null)
+            {
+                var dialog = new MessageDialog("Could not find the data template resource called 'CustomPrintTemplate' under the listview called 'PrintSampleListView'.", "Incomplete XAML");
+                await dialog.ShowAsync();
+                return;
+            }
+
             Shell.Current.DisplayWaitRing = true;
 
             // Provide an invisible container
