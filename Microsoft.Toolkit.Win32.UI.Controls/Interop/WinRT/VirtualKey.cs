@@ -12,6 +12,8 @@
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
+    /// <inheritdoc cref="Windows.System.VirtualKey" />
+    /// <remarks>Copy of <seealso cref="Windows.System.VirtualKey"/>. Copy here to avoid exposing WinRT type.</remarks>
     public enum VirtualKey
     {
         None = 0,
