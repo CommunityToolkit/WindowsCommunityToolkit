@@ -72,7 +72,19 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                 OSVersionHelper.ThrowIfBeforeWindows10RS4();
             }
 
-            Initialize();
+            try
+            {
+                Initialize();
+            }
+            catch (TypeLoadException)
+            {
+                // Some types are exposed that the designer tries to reflect over, throwing TypeLoadException
+                // We're okay to ignore this if we're not in design mode
+                if (!DesignMode)
+                {
+                    throw;
+                }
+            }
         }
 
         private void CheckInitialized()
