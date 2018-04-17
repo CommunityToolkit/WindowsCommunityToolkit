@@ -15,6 +15,7 @@ using System.Text;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls
 {
+    // TODO: Place within WebBrowserUriTypeConverter
     internal static class UriHelper
     {
         private const int MAX_PATH_LENGTH = 2048;
