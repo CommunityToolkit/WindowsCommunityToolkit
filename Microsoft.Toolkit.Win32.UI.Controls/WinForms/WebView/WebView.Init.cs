@@ -67,6 +67,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                 throw new InvalidOperationException();
             }
 
+            if (!DesignMode)
+            {
+                OSVersionHelper.ThrowIfBeforeWindows10RS4();
+            }
+
             Initialize();
         }
 
