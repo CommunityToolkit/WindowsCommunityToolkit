@@ -23,6 +23,8 @@
     <Reference Include="System.Xaml" />
     <Reference Include="Windows">
       <!-- Need Metadata contract 6.0 or later -->
+      <!-- First introduced in 17110: Insider Preview (Fast) -->
+      <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17110.0\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17110.0\Windows.winmd</HintPath>
       <!-- 17134: Insider Preview (Fast), Spring Creators (RS4) -->
       <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17134.0\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17134.0\Windows.winmd</HintPath>
       <!-- 17643: Insider Skip Ahead -->
