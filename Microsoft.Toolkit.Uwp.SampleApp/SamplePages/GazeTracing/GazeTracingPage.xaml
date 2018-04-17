@@ -25,7 +25,27 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-            <ItemsControl ItemTemplate="{StaticResource ItemsControlItemTemplate1}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding GazeHistory}" ItemsPanel="{StaticResource ItemsPanelTemplate1}"/>
+            <StackPanel>
+                <RichTextBlock Margin="20,10,20,20" Foreground="{StaticResource Brush-Grey-03}">
+                    <Paragraph>Use the controls below to select various visuals, then see how gaze tracing works. For example, try tracing the Square or Circle. Then, try to trace the same shape with gaze on the blank page.</Paragraph>
+                </RichTextBlock>
+                <Pivot HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
+                    <PivotItem Header="Blank" />
+                    <PivotItem Header="Square">
+                        <Rectangle Width="500" Height="500" Stroke="Black" StrokeThickness="5" />
+                    </PivotItem>
+                    <PivotItem Header="Circle">
+                        <Ellipse Width="500" Height="500" Stroke="Black" StrokeThickness="5" />
+                    </PivotItem>
+                    <PivotItem Header="Owl">
+                        <Image Width="500" Height="500" Source="/Assets/Photos/Owl.jpg" />
+                    </PivotItem>
+                    <PivotItem Header="Big Four">
+                        <Image Width="500" Height="500" Source="/Assets/Photos/BigFourSummerHeat.jpg" />
+                    </PivotItem>
+                </Pivot>
+            </StackPanel>
+            <ItemsControl ItemTemplate="{StaticResource ItemsControlItemTemplate1}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding GazeHistory}" ItemsPanel="{StaticResource ItemsPanelTemplate1}" />
         </Grid>
     </Grid>
 </Page>
