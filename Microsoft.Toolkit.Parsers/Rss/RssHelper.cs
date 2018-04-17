@@ -128,7 +128,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
         /// Get item string value for xelement and element name.
         /// </summary>
         /// <param name="item">XElement item.</param>
-        /// <param name="elementName">Name of eleement.</param>
+        /// <param name="elementName">Name of element.</param>
         /// <returns>Safe string.</returns>
         public static string GetSafeElementString(this XElement item, string elementName)
         {
@@ -138,6 +138,36 @@ namespace Microsoft.Toolkit.Parsers.Rss
             }
 
             return GetSafeElementString(item, elementName, item.GetDefaultNamespace());
+        }
+
+        /// <summary>
+        /// Get item string values for xelement and element name.
+        /// </summary>
+        /// <param name="item">XElement item.</param>
+        /// <param name="elementName">Name of the element.</param>
+        /// <returns>Safe list of string values.</returns>
+        public static IEnumerable<string> GetSafeElementsString(this XElement item, string elementName)
+        {
+            return GetSafeElementsString(item, elementName, item.GetDefaultNamespace());
+        }
+
+        /// <summary>
+        /// Get item string values for xelement, element name and namespace.
+        /// </summary>
+        /// <param name="item">XELement item.</param>
+        /// <param name="elementName">Name of element.</param>
+        /// <param name="xNamespace">XNamespace namespace.</param>
+        /// <returns>Safe list of string values.</returns>
+        public static IEnumerable<string> GetSafeElementsString(this XElement item, string elementName, XNamespace xNamespace)
+        {
+            if (item != null)
+            {
+                IEnumerable<XElement> values = item.Elements(xNamespace + elementName);
+                return values.Where(f => !string.IsNullOrEmpty(f.Value))
+                    .Select(f => f.Value);
+            }
+
+            return Enumerable.Empty<string>();
         }
 
         /// <summary>

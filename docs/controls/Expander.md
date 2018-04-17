@@ -85,7 +85,7 @@ For instance to remove the header entirely from the Expander:
     </Style>
   </Page.Resources>
 
-  <controls:Expander HeaderStyle="{StaticResource NoExpanderHeaderStyle} IsExpanded="True">
+  <controls:Expander HeaderStyle="{StaticResource NoExpanderHeaderStyle}" IsExpanded="True">
     <TextBlock Text="My Content"/>
   </controls:Expander>
 ```

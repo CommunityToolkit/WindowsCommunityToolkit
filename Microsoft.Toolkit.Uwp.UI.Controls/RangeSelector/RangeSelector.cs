@@ -61,11 +61,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty RangeMaxProperty = DependencyProperty.Register(nameof(RangeMax), typeof(double), typeof(RangeSelector), new PropertyMetadata(1.0, RangeMaxChangedCallback));
 
         /// <summary>
-        /// Identifies the IsTouchOptimized dependency property.
-        /// </summary>
-        public static readonly DependencyProperty IsTouchOptimizedProperty = DependencyProperty.Register(nameof(IsTouchOptimized), typeof(bool), typeof(RangeSelector), new PropertyMetadata(false, IsTouchOptimizedChangedCallback));
-
-        /// <summary>
         /// Identifies the StepFrequency dependency property.
         /// </summary>
         public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultStepFrequency));
@@ -180,11 +175,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             VisualStateManager.GoToState(this, IsEnabled ? "Normal" : "Disabled", false);
 
             IsEnabledChanged += RangeSelector_IsEnabledChanged;
-
-            if (IsTouchOptimized)
-            {
-                ArrangeForTouch();
-            }
 
             base.OnApplyTemplate();
         }
@@ -595,36 +585,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the control is optimized for touch use.
-        /// </summary>
-        /// <value>
-        /// The value for touch optimization.
-        /// </value>
-        public bool IsTouchOptimized
-        {
-            get
-            {
-                return (bool)GetValue(IsTouchOptimizedProperty);
-            }
-
-            set
-            {
-                SetValue(IsTouchOptimizedProperty, value);
-            }
-        }
-
-        private static void IsTouchOptimizedChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var rangeSelector = d as RangeSelector;
-            if (rangeSelector == null)
-            {
-                return;
-            }
-
-            rangeSelector.ArrangeForTouch();
-        }
-
-        /// <summary>
         /// Gets or sets the value part of a value range that steps should be created for.
         /// </summary>
         /// <value>
@@ -668,65 +628,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else
             {
                 return newValue;
-            }
-        }
-
-        private void ArrangeForTouch()
-        {
-            if (_containerCanvas == null)
-            {
-                return;
-            }
-
-            if (IsTouchOptimized)
-            {
-                if (_controlGrid != null)
-                {
-                    _controlGrid.Height = 44;
-                }
-
-                if (_outOfRangeContentContainer != null)
-                {
-                    _outOfRangeContentContainer.Height = 44;
-                }
-
-                if (_minThumb != null)
-                {
-                    _minThumb.Width = _minThumb.Height = 44;
-                    _minThumb.Margin = new Thickness(-20, 0, 0, 0);
-                }
-
-                if (_maxThumb != null)
-                {
-                    _maxThumb.Width = _maxThumb.Height = 44;
-                    _maxThumb.Margin = new Thickness(-20, 0, 0, 0);
-                }
-            }
-            else
-            {
-                if (_controlGrid != null)
-                {
-                    _controlGrid.Height = 24;
-                }
-
-                if (_outOfRangeContentContainer != null)
-                {
-                    _outOfRangeContentContainer.Height = 24;
-                }
-
-                if (_minThumb != null)
-                {
-                    _minThumb.Width = 8;
-                    _minThumb.Height = 24;
-                    _minThumb.Margin = new Thickness(-8, 0, 0, 0);
-                }
-
-                if (_maxThumb != null)
-                {
-                    _maxThumb.Width = 8;
-                    _maxThumb.Height = 24;
-                    _maxThumb.Margin = new Thickness(-8, 0, 0, 0);
-                }
             }
         }
 
