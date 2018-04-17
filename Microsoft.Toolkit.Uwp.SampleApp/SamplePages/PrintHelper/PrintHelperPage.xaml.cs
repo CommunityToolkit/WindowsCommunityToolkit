@@ -42,11 +42,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             DefaultOrientationComboBox.SelectedIndex = 0;
         }
 
-        public void OnXamlRendered(FrameworkElement control)
+        public async void OnXamlRendered(FrameworkElement control)
         {
             var listView = control.FindChildByName("PrintSampleListView") as ListView;
+            if (listView == null)
+            {
+                var dialog = new MessageDialog("Could not find the listview called 'PrintSampleListView'.");
+                await dialog.ShowAsync();
+                return;
+            }
+
             listView.ItemsSource = PrintSampleItems;
-            customPrintTemplate = listView.Resources["CustomPrintTemplate"] as DataTemplate;
+
+            try
+            {
+                customPrintTemplate = listView.Resources["CustomPrintTemplate"] as DataTemplate;
+            }
+            catch (Exception)
+            {
+                var dialog = new MessageDialog("Could not load the data template resource called 'CustomPrintTemplate'.");
+                await dialog.ShowAsync();
+            }
         }
 
         internal List<PrintSampleItem> PrintSampleItems
