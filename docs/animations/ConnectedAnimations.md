@@ -13,8 +13,6 @@ The Connected Animations XAML Attached Properties enable connected animations to
 
 ## Syntax
 
-**XAML**
-
 ```xaml
 <Page ...
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"/>

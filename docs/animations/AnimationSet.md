@@ -11,8 +11,6 @@ The AnimationSet class defines an object for storing and managing Storyboard and
 
 ## Syntax
 
-**XAML**
-
 ```xaml
 <Page ...
      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
@@ -26,8 +24,6 @@ The AnimationSet class defines an object for storing and managing Storyboard and
     </interactivity:BehaviorCollection>
 </interactivity:Interaction.Behaviors> 
 ```
-
-**C#**
 
 ```csharp
 var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);

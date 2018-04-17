@@ -11,8 +11,6 @@ The [Fade animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp
 
 ## Syntax
 
-**XAML**
-
 ```xaml
 <Page ...
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
@@ -27,8 +25,6 @@ The [Fade animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp
             AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```
-
-**C#**
 
 ```csharp
 MyUIElement.Fade(value: 0.5f, duration: 2500, delay: 250, easingType: EasingType.Default).Start();

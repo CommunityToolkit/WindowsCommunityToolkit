@@ -11,8 +11,6 @@ The [Scale animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uw
 
 ## Syntax
 
-**XAML**
-
 ```xaml
 <Page ...
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
@@ -26,8 +24,6 @@ The [Scale animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uw
                      AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```
-
-**C#**
 
 ```csharp
 MyUIElement.Scale(scaleX: 2, scaleY: 2, centerX: 0, centerY: 0, duration: 2500, delay: 250, easingType: EasingType.Default).Start();

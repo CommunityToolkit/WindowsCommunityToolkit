@@ -11,8 +11,6 @@ The [Rotate animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.u
 
 ## Syntax
 
-**XAML**
-
 ```xaml
 <Page ...
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
@@ -30,8 +28,6 @@ The [Rotate animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.u
   </behaviors:Rotate>
 </interactivity:Interaction.Behaviors>
 ```
-
-**C#**
 
 ```csharp
 MyUIElement.Rotate(value: 0.5f, centerX: 0.0f, centerY: 0.0f, duration: 2500, delay: 250, easingType: EasingType.Default).Start();

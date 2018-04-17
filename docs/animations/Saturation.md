@@ -11,8 +11,6 @@ The [Saturation animation](https://docs.microsoft.com/dotnet/api/microsoft.toolk
 
 ## Syntax
 
-**XAML**
-
 ```xaml
 <Page ...
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
@@ -27,8 +25,6 @@ The [Saturation animation](https://docs.microsoft.com/dotnet/api/microsoft.toolk
            AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```
-
-**C#**
 
 ```csharp
 MyUIElement.Saturation(value: 0.5, duration: 500, delay: 250).Start();

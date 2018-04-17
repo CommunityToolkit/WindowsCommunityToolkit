@@ -13,8 +13,6 @@ These XAML elements enable developer to specify composition animations directly 
 
 ## Syntax
 
-**XAML**
-
 ```xaml
 <Page ...
      xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"/>

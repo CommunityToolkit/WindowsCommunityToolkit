@@ -20,7 +20,6 @@ If the tooltip is allowed on the Menu control when clicking Alt a tooltip with t
 ## Syntax
 
 ```xaml
-
 <controls:Menu>
     <controls:MenuItem Name="FileMenu"
         controls:Menu.InputGestureText="Alt+F"
@@ -37,7 +36,6 @@ If the tooltip is allowed on the Menu control when clicking Alt a tooltip with t
         </MenuFlyoutSubItem>
     </controls:MenuItem>
 </controls:Menu>
-
 ```
 
 ## Sample Output

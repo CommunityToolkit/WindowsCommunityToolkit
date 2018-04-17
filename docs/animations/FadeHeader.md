@@ -11,8 +11,6 @@ The [FadeHeader](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.
 
 ## Syntax
 
-**XAML**
-
 ***Implicit usage***: Automatically detects the Header element by finding the ListViewBase (note: GridView uses ListViewBase)
 
 ```xaml
@@ -48,8 +46,6 @@ The [FadeHeader](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.
     </ListView.Header>
 </ListView>
 ```
-
-**C#**
 
 ***Implicit usage***:
 

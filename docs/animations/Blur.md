@@ -11,8 +11,6 @@ The [Blur animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp
 
 ## Syntax
 
-**XAML**
-
 ```xaml
 <Page ...
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
@@ -27,8 +25,6 @@ The [Blur animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp
             AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```
-
-**C#**
 
 ```csharp
 MyUIElement.Blur(value: 5, duration: 2500, delay: 250).Start();

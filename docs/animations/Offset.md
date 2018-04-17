@@ -11,8 +11,6 @@ The [Offset animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.u
 
 ## Syntax
 
-**XAML**
-
 ```xaml
 <Page ...
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
@@ -28,8 +26,6 @@ The [Offset animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.u
             AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```
-
-**C#**
 
 ```csharp
 MyUIElement.Offset(offsetX: 25, offsetY: 25, duration: 2500, delay: 250, easingType: EasingType.Default).Start();

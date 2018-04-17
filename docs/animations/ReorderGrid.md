@@ -11,16 +11,12 @@ The [ReorderGridAnimation class](https://docs.microsoft.com/dotnet/api/microsoft
 
 ## Syntax
 
-**XAML**
-
 ```xaml
 <Page ...
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"/>
 <GridView x:Name="MyGridView"
           animations:ReorderGridAnimation.Duration="250"/>
 ```
-
-**C#**
 
 ```csharp
 MyGridView.SetValue(ReorderGridAnimation.DurationProperty, 250);

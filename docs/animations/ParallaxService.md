@@ -14,8 +14,6 @@ The [ParallaxService class](https://docs.microsoft.com/dotnet/api/microsoft.tool
 
 ## Syntax
 
-**XAML**
-
 ```xaml
 <Page ...
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"/>
@@ -26,8 +24,6 @@ The [ParallaxService class](https://docs.microsoft.com/dotnet/api/microsoft.tool
     <!-- Other Controls -->
 </ScrollViewer>
 ```
-
-**C#**
 
 ```csharp
 ParallaxService.SetHorizontalMultiplier(MyUIElement, 0.5)

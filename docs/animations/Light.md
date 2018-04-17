@@ -14,8 +14,6 @@ Heavy usage of effects may have a negative impact on the performance of your app
 
 ## Syntax
 
-**XAML**
-
 ```xaml
 <Page ...
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
@@ -31,8 +29,6 @@ Heavy usage of effects may have a negative impact on the performance of your app
            Color="Red"/>
 </interactivity:Interaction.Behaviors>
 ```
-
-**C#**
 
 ```csharp
 MyUIElement.Light(distance: 5, duration: 2500, delay: 250, color: Colors.Red).Start();
