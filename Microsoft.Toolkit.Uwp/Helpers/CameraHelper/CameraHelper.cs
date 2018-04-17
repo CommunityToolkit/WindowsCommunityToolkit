@@ -53,10 +53,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         /// <summary>
         /// Initializes Media Capture settings and starts video capture using Frame Reader.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task<CameraHelperResult> InitializeAndStartCapture(MediaFrameSourceGroup group)
+        /// <returns>Result of the async operation.<see cref="CameraHelperResult"/></returns>
+        public async Task<CameraHelperResult> InitializeAndStartCaptureAsync(MediaFrameSourceGroup group)
         {
-            await Cleanup();
+            await CleanupAsync();
             _group = group;
             var result = await InitMediaCaptureAsync();
 
@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
             if (_group == null)
             {
                 // try to get the first available camera
-                _group = await FrameSourceGroupsHelper.GetFirstAvailableFrameSourceGroup();
+                _group = await FrameSourceGroupsHelper.GetFirstAvailableFrameSourceGroupAsync();
             }
 
             // if there is no camera available, we can't proceed.
@@ -147,7 +147,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
                 result.Message = "Failed to initialize media capture: " + ex.Message;
                 result.Status = false;
                 Debug.WriteLine(result.Message);
-                await Cleanup();
+                await CleanupAsync();
                 return result;
             }
 
@@ -157,6 +157,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         /// <summary>
         /// Stops reading from the frame reader, disposes of the reader and updates the button state.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         private async Task StopReaderAsync()
         {
             if (_frameReader != null)
@@ -200,7 +201,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         /// Clean up and dispose resources
         /// </summary>
         /// <returns>>A <see cref="Task"/> representing the asynchronous operation.></returns>
-        public async Task Cleanup()
+        public async Task CleanupAsync()
         {
             await StopReaderAsync();
 

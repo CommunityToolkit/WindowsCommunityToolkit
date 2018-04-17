@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         /// Returns all available Frame Source Groups on the device.
         /// </summary>
         /// <returns>A a list of MediaFrameSourceGroup objects <see cref="Task"/> representing the asynchronous operation.</returns>
-        public static async Task<IReadOnlyList<MediaFrameSourceGroup>> GetAllAvailableFrameSourceGroups()
+        public static async Task<IReadOnlyList<MediaFrameSourceGroup>> GetAllAvailableFrameSourceGroupsAsync()
         {
             try
             {
@@ -54,11 +54,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         /// Returns first available Frame Source Group.
         /// </summary>
         /// <returns>>A MediaFrameSourceGroup<see cref="Task"/> representing the asynchronous operation.</returns>
-        public static async Task<MediaFrameSourceGroup> GetFirstAvailableFrameSourceGroup()
+        public static async Task<MediaFrameSourceGroup> GetFirstAvailableFrameSourceGroupAsync()
         {
             if (_frameSourceGroups == null)
             {
-               _frameSourceGroups = await GetAllAvailableFrameSourceGroups();
+               _frameSourceGroups = await GetAllAvailableFrameSourceGroupsAsync();
             }
 
             var defaultGroup = _frameSourceGroups.FirstOrDefault(g => g.SourceInfos.Any(s => s.SourceKind == MediaFrameSourceKind.Color &&

@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async Task InitFrameSourcesAsync()
         {
-            var frameSourceGroups = await FrameSourceGroupsHelper.GetAllAvailableFrameSourceGroups();
+            var frameSourceGroups = await FrameSourceGroupsHelper.GetAllAvailableFrameSourceGroupsAsync();
 
             if (frameSourceGroups?.Count > 0)
             {
@@ -124,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     _cameraHelper.VideoFrameArrived += CameraHelper_VideoFrameArrived;
                 }
 
-                var result = await _cameraHelper.InitializeAndStartCapture(selectedGroup);
+                var result = await _cameraHelper.InitializeAndStartCaptureAsync(selectedGroup);
 
                 if (result.Status)
                 {
@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (_cameraHelper != null)
             {
-                await _cameraHelper.Cleanup();
+                await _cameraHelper.CleanupAsync();
             }
 
             if (_mediaPlayer != null)
