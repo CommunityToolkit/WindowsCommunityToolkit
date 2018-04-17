@@ -60,6 +60,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string About { get; set; }
 
+        public string Category { get; set; }
+
         private string _codeUrl;
 
         public string CodeUrl

@@ -1,0 +1,11 @@
+{
+    "Name":  "TextToolbar",
+    "Type":  "TextToolbarPage",
+    "About":  "A Toolbar for Editing Text attached to a RichEditBox. It can format RTF and Markdown, or use a Custom Formatter, and specify your own Formatter with Buttons and Actions.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar",
+    "XamlCodeFile":  "TextToolbar.bind",
+    "CodeFile":  "TextToolbarCode.code",
+    "Icon":  "/SamplePages/TextToolbar/TextToolbar.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/TextToolbar.md",
+    "Category":  "Controls"
+}

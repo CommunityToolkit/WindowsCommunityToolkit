@@ -1,0 +1,11 @@
+{
+    "Name":  "Fade",
+    "Type":  "FadeBehaviorPage",
+    "About":  "Opacity of XAML elements using composition",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
+    "CodeFile":  "FadeBehaviorCode.code",
+    "XamlCodeFile":  "FadeBehaviorXaml.bind",
+    "Icon":  "/SamplePages/Fade/FadeBehavior.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/Fade.md",
+    "Category":  "Animations"
+}

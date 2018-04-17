@@ -1,0 +1,11 @@
+{
+    "Name":  "LiveTile",
+    "Type":  "LiveTilePage",
+    "About":  "This shows how to update a Live Tile with a rich Adaptive notification.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
+    "CodeFile":  "LiveTileCode.code",
+    "JavaScriptCodeFile":  "LiveTileCodeJavaScript.bind",
+    "Icon":  "/SamplePages/LiveTile/LiveTile.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/notifications/NotificationsOverview.md",
+    "Category":  "Notifications"
+}

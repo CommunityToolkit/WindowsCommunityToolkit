@@ -1,0 +1,10 @@
+{
+    "Name":  "Object Storage",
+    "Type":  "ObjectStoragePage",
+    "About":  "The Object Storage helper allows you to easily read and save objects in your application, both locally or on every device (roaming).",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/ObjectStorage",
+    "CodeFile":  "ObjectStorageCode.code",
+    "Icon":  "/SamplePages/Object Storage/ObjectStorage.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/ObjectStorage.md",
+    "Category":  "Helpers"
+}

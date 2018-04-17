@@ -1,0 +1,12 @@
+{
+    "Name":  "Blur",
+    "Type":  "BlurBehaviorPage",
+    "About":  "Blur XAML elements using composition",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
+    "CodeFile":  "BlurBehaviorCode.code",
+    "XamlCodeFile":  "BlurBehaviorXaml.bind",
+    "Icon":  "/SamplePages/Blur/blurBehavior.png",
+    "BadgeUpdateVersionRequired":  "Anniversary Update required",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/Blur.md",
+    "Category":  "Animations"
+}

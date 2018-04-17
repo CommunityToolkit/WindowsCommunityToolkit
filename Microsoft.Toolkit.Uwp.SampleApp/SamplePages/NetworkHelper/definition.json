@@ -1,0 +1,10 @@
+{
+    "Name":  "NetworkHelper",
+    "Type":  "NetworkHelperPage",
+    "About":  "The NetworkHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Connectivity/Network",
+    "CodeFile":  "NetworkHelperCode.code",
+    "Icon":  "/SamplePages/NetworkHelper/NetworkHelper.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/NetworkHelper.md",
+    "Category":  "Helpers"
+}

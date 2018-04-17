@@ -1,0 +1,11 @@
+{
+    "Name":  "Visual Extensions",
+    "Type":  "VisualExtensionsPage",
+    "About":  "Attached properties to modify object visual properties through XAML",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/Visual",
+    "XamlCodeFile":  "VisualExtensionsCode.bind",
+    "Icon":  "/SamplePages/Visual Extensions/VisualExtensions.png",
+    "BadgeUpdateVersionRequired":  "Creators Update required",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/VisualExtensions.md",
+    "Category":  "Extensions"
+}

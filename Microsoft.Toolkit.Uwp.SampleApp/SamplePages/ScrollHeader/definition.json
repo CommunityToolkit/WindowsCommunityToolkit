@@ -1,0 +1,10 @@
+{
+    "Name":  "ScrollHeader",
+    "Type":  "ScrollHeaderPage",
+    "About":  "A UI control that works as a ListView or GridView header control with quick return, sticky and fade behavior.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ScrollHeader",
+    "XamlCodeFile":  "ScrollHeaderCode.bind",
+    "Icon":  "/SamplePages/ScrollHeader/ScrollHeader.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/ScrollHeader.md",
+    "Category":  "Controls"
+}

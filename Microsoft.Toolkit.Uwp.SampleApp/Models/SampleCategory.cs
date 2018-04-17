@@ -10,14 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Collections.Generic;
+
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public class SampleCategory
     {
         public string Name { get; set; }
 
-        public Sample[] Samples { get; set; }
-
-        public string Icon { get; set; }
+        public List<Sample> Samples { get; set; } = new List<Sample>();
     }
 }

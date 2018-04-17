@@ -1,0 +1,10 @@
+{
+    "Name":  "RangeSelector",
+    "Type":  "RangeSelectorPage",
+    "About":  "The RangeSelector is a \"double slider\" control for range values.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RangeSelector",
+    "XamlCodeFile":  "RangeSelectorCode.bind",
+    "Icon":  "/SamplePages/RangeSelector/RangeSelector.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/RangeSelector.md",
+    "Category":  "Controls"
+}

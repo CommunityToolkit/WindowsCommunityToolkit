@@ -1,0 +1,10 @@
+{
+    "Name":  "FrameworkElementExtensions",
+    "Type":  "FrameworkElementExtensionsPage",
+    "About":  "Extensions for all the FrameworkElement controls.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/FrameworkElement",
+    "XamlCodeFile":  "FrameworkElementExtensionsCode.bind",
+    "Icon":  "/Assets/Helpers.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/FrameworkElementExtensions.md",
+    "Category":  "Extensions"
+}

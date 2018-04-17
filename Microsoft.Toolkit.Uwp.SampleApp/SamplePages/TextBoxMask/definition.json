@@ -1,0 +1,10 @@
+{
+    "Name":  "TextBoxMask",
+    "Type":  "TextBoxMaskPage",
+    "About":  "TextBox Mask property allows a user to more easily enter fixed width text in TextBox control where you would like them to enter the data in a certain format",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/TextBoxMask",
+    "XamlCodeFile":  "TextBoxMask.bind",
+    "Icon":  "/SamplePages/TextBoxMask/TextBoxMask.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/TextBoxMask.md",
+    "Category":  "Extensions"
+}

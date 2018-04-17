@@ -1,0 +1,10 @@
+{
+    "Name":  "AdvancedCollectionView",
+    "Type":  "AdvancedCollectionViewPage",
+    "About":  "Allows you to easily sort and filter your collections before displaying them.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/AdvancedCollectionView",
+    "CodeFile":  "AdvancedCollectionView.code",
+    "Icon":  "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/AdvancedCollectionView.md",
+    "Category":  "Helpers"
+}

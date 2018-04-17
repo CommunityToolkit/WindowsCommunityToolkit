@@ -1,0 +1,11 @@
+{
+    "Name":  "PullToRefreshListView",
+    "Type":  "PullToRefreshListViewPage",
+    "About":  "PullToRefreshListView is derived from the built in ListView in the Universal Windows Platform. It enables the popular Pull To Refresh pattern.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/PullToRefreshListView",
+    "CodeFile":  "PullToRefreshListViewCode.code",
+    "XamlCodeFile":  "PullToRefreshListViewXaml.bind",
+    "Icon":  "/SamplePages/PullToRefreshListView/PullToRefreshListView.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/PullToRefreshListview.md",
+    "Category":  "Controls"
+}

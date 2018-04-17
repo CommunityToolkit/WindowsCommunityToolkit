@@ -98,13 +98,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 var category = await Samples.GetCategoryBySample(_currentSample);
                 if (category != null)
                 {
-                    samples = category.Samples;
+                    samples = category.Samples.ToArray();
                 }
             }
 
             if (samples == null)
             {
-                samples = (await Samples.GetCategoriesAsync()).FirstOrDefault()?.Samples;
+                samples = (await Samples.GetCategoriesAsync()).FirstOrDefault()?.Samples?.ToArray();
             }
 
             if (samples == null)
@@ -383,7 +383,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 }
                 else
                 {
-                    ShowSamplePicker(category.Samples);
+                    ShowSamplePicker(category.Samples.ToArray());
                 }
             }
         }

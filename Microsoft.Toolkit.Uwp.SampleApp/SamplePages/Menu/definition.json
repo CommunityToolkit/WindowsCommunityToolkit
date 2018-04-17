@@ -1,0 +1,10 @@
+{
+    "Name":  "Menu",
+    "Type":  "MenuPage",
+    "About":  "Represents a Windows menu control that enables you to hierarchically organize elements associated with commands and event handlers.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Menu",
+    "XamlCodeFile":  "Menu.bind",
+    "Icon":  "/SamplePages/Menu/Menu.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/Menu.md",
+    "Category":  "Controls"
+}

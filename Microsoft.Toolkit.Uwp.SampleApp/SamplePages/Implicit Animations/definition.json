@@ -1,0 +1,11 @@
+{
+    "Name":  "Implicit Animations",
+    "Type":  "ImplicitAnimationsPage",
+    "About":  "Attached properties to enable Implicit animations (including Show and Hide animations) through XAML",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
+    "Icon":  "/SamplePages/Implicit Animations/ImplicitAnimations.png",
+    "XamlCodeFile":  "ImplicitAnimationsCode.bind",
+    "BadgeUpdateVersionRequired":  "Creators Update required",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/ImplicitAnimations.md",
+    "Category":  "Animations"
+}

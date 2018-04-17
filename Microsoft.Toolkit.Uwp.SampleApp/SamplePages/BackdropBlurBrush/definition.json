@@ -1,0 +1,12 @@
+{
+    "Name":  "BackdropBlurBrush",
+    "Type":  "BackdropBlurBrushPage",
+    "About":  "Brush which fills the contents with a blurred version of whatever\u0027s behind it.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Brushes/BackdropBlurBrush.cs",
+    "XamlCodeFile":  "BackdropBlurBrushXaml.bind",
+    "Icon":  "/SamplePages/BackdropBlurBrush/BackdropBlurBrush.png",
+    "BadgeUpdateVersionRequired":  "Creators Update required",
+    "ApiCheck":  "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropBlurBrush.md",
+    "Category":  "Brushes"
+}

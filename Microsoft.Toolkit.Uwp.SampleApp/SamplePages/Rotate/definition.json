@@ -1,0 +1,11 @@
+{
+    "Name":  "Rotate",
+    "Type":  "RotateBehaviorPage",
+    "About":  "Rotation on XAML elements using composition",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
+    "CodeFile":  "RotateBehaviorCode.code",
+    "XamlCodeFile":  "RotateBehaviorXaml.bind",
+    "Icon":  "/SamplePages/Rotate/rotateBehavior.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/Rotate.md",
+    "Category":  "Animations"
+}

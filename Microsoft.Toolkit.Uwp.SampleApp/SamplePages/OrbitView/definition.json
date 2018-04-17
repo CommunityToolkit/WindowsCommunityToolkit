@@ -1,0 +1,10 @@
+{
+    "Name":  "OrbitView",
+    "Type":  "OrbitViewPage",
+    "About":  "The OrbitView Control positions items in a circle around a center element and supports orbits and anchors.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/OrbitView",
+    "XamlCodeFile":  "OrbitViewXaml.bind",
+    "Icon":  "/SamplePages/OrbitView/OrbitView.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/OrbitView.md",
+    "Category":  "Controls"
+}

@@ -1,0 +1,12 @@
+{
+    "Name":  "ImageBlendBrush",
+    "Type":  "ImageBlendBrushPage",
+    "About":  "Brush which applies a blending effect a given image from whatever\u0027s behind it.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Brushes/ImageBlendBrush.cs",
+    "XamlCodeFile":  "ImageBlendBrushXaml.bind",
+    "Icon":  "/SamplePages/ImageBlendBrush/ImageBlendBrush.png",
+    "BadgeUpdateVersionRequired":  "Creators Update required",
+    "ApiCheck":  "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/ImageBlendBrush.md",
+    "Category":  "Brushes"
+}

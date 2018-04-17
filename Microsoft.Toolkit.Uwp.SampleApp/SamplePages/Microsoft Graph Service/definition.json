@@ -1,0 +1,10 @@
+{
+    "Name":  "Microsoft Graph Service",
+    "Type":  "MicrosoftGraphPage",
+    "About":  "The Microsoft Graph service allows you to connect to Microsoft Graph Office 365 API.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftGraph",
+    "CodeFile":  "MicrosoftGraphCode.code",
+    "Icon":  "/SamplePages/Microsoft Graph Service/OfficeLogo.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/services/MicrosoftGraph.md",
+    "Category":  "Services"
+}
