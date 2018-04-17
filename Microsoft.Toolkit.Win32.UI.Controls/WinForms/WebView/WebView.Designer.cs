@@ -58,21 +58,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
         }
 
-        public override void Initialize(IComponent component)
-        {
-            // we do this before base.Init because we want to force loading winmd and perform environment check
-            try
-            {
-                OSVersionHelper.ThrowIfBeforeWindows10RS4();
-            }
-            catch (NotSupportedException e)
-            {
-                DisplayError(e);
-            }
-
-            base.Initialize(component);
-        }
-
         public override void InitializeNewComponent(IDictionary defaultValues)
         {
             base.InitializeNewComponent(defaultValues);
