@@ -40,7 +40,7 @@ void GazePointer::OnPageUnloaded(Object^ sender, RoutedEventArgs^ e)
 	//}
 }
 
-static DependencyProperty^ GazeTargetItemProperty = DependencyProperty::RegisterAttached("GazeTargetItem", GazeTargetItem::typeid, UIElement::typeid, ref new PropertyMetadata(nullptr));
+static DependencyProperty^ GazeTargetItemProperty = DependencyProperty::RegisterAttached("GazeTargetItem", GazeTargetItem::typeid, GazePointer::typeid, ref new PropertyMetadata(nullptr));
 
 
 GazePointer::GazePointer(UIElement^ root)
