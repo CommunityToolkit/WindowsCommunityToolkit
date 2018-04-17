@@ -58,6 +58,7 @@ ref struct GazeTargetItem sealed
             switch (ElementState)
             {
             case GazePointerState::Dwell:
+            case GazePointerState::Fixation:
                 RaiseProgressEvent(GazeProgressState::Progressing);
                 break;
 
@@ -69,7 +70,7 @@ ref struct GazeTargetItem sealed
 
             _notifiedPointerState = ElementState;
         }
-        else if (ElementState == GazePointerState::Dwell)
+        else if (ElementState == GazePointerState::Dwell || ElementState == GazePointerState::Fixation)
         {
             if (RepeatCount <= MaxRepeatCount)
             {
@@ -84,33 +85,13 @@ ref struct GazeTargetItem sealed
 
 private:
 
-    void RaiseProgressEvent(GazeProgressState state)
-    {
-        switch (state)
-        {
-        case GazeProgressState::Idle:
-            if (_notifiedProgressState != state)
-            {
-                Debug::WriteLine(L"Now in Idle state");
-            }
-            break;
-        case GazeProgressState::Progressing:
-            Debug::WriteLine(L"Now progressing %f", ((double)(ElapsedTime - _prevStateTime)) / (_nextStateTime - _prevStateTime));
-            break;
-        case GazeProgressState::Complete:
-            if (_notifiedProgressState != state)
-            {
-                Debug::WriteLine(L"Now complete");
-            }
-        }
-
-        _notifiedProgressState = state;
-    }
+    void RaiseProgressEvent(GazeProgressState state);
 
     GazePointerState _notifiedPointerState = GazePointerState::Exit;
     int64 _prevStateTime;
     int64 _nextStateTime;
     GazeProgressState _notifiedProgressState = GazeProgressState::Idle;
+    Popup^ _feedbackPopup;
 };
 
 END_NAMESPACE_GAZE_INPUT

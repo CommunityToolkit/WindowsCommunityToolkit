@@ -376,23 +376,6 @@ void GazePointer::GotoState(UIElement^ control, GazePointerState state)
 
 	// TODO: Implement proper support for visual states
 	// VisualStateManager::GoToState(dynamic_cast<Control^>(control), stateName, true);
-
-	auto realControl = dynamic_cast<Control^>(control);
-	if (realControl != nullptr)
-	{
-		switch (state)
-		{
-		case GazePointerState::Fixation:
-			VisualStateManager::GoToState(realControl, "PointerOver", true);
-			break;
-		case GazePointerState::Dwell:
-			VisualStateManager::GoToState(realControl, "Pressed", true);
-			break;
-		case GazePointerState::Exit:
-			VisualStateManager::GoToState(realControl, "Normal", true);
-			break;
-		}
-	}
 }
 
 void GazePointer::InvokeTarget(UIElement ^target)

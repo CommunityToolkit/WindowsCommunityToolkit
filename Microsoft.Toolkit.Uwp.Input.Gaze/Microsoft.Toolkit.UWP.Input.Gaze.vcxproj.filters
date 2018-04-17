@@ -61,6 +61,9 @@
     <ClCompile Include="GazePointerEvent.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="GazeFeedbackPopupFactory.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -115,6 +118,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="GazeProgressState.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazeFeedbackPopupFactory.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
