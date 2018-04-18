@@ -798,22 +798,38 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             {
                 if (dependencyPropertyChangedEventArgs.Property.Name == nameof(Source))
                 {
-                    wv.Navigate(dependencyPropertyChangedEventArgs.NewValue as Uri);
+                    Verify.IsTrue(wv.WebViewControlInitialized);
+                    if (wv.WebViewControlInitialized)
+                    {
+                        wv.Navigate(dependencyPropertyChangedEventArgs.NewValue as Uri);
+                    }
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsIndexedDBEnabled))
                 {
                     Verify.IsTrue(wv.WebViewControlInitialized);
-                    wv._webViewControl.Settings.IsIndexedDBEnabled = (bool)dependencyPropertyChangedEventArgs.NewValue;
+                    if (wv.WebViewControlInitialized)
+                    {
+                        wv._webViewControl.Settings.IsIndexedDBEnabled =
+                            (bool) dependencyPropertyChangedEventArgs.NewValue;
+                    }
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsJavaScriptEnabled))
                 {
                     Verify.IsTrue(wv.WebViewControlInitialized);
-                    wv._webViewControl.Settings.IsJavaScriptEnabled = (bool)dependencyPropertyChangedEventArgs.NewValue;
+                    if (wv.WebViewControlInitialized)
+                    {
+                        wv._webViewControl.Settings.IsJavaScriptEnabled =
+                            (bool) dependencyPropertyChangedEventArgs.NewValue;
+                    }
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsScriptNotifyAllowed))
                 {
                     Verify.IsTrue(wv.WebViewControlInitialized);
-                    wv._webViewControl.Settings.IsScriptNotifyAllowed = (bool)dependencyPropertyChangedEventArgs.NewValue;
+                    if (wv.WebViewControlInitialized)
+                    {
+                        wv._webViewControl.Settings.IsScriptNotifyAllowed =
+                            (bool) dependencyPropertyChangedEventArgs.NewValue;
+                    }
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsPrivateNetworkClientServerCapabilityEnabled))
                 {
