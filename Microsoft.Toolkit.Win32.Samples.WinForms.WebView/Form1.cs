@@ -26,155 +26,10 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.WebView
             InitializeComponent();
         }
 
-        private void alertToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // Make sure what we need is set
-            webView1.IsIndexedDBEnabled = false;
-            webView1.IsJavaScriptEnabled = true;
-            webView1.IsScriptNotifyAllowed = true;
-
-            // URI needs to be in the app content URI's section of the package manifest. Since Winforms, not sure
-            // We can use NavigateToString to get this to work
-            var c = @"
-<html>
-  <head>
-    <title>Alert Intercept</title>
-  </head>
-  <body>
-    <button type=""button"" OnClick=""window.alert('Hello World!');"">Click</button>
-  </body>
-</html>
-";
-            void WebView1_NavigationCompleted(object s, WebViewNavigationCompletedEventArgs a)
-            {
-                webView1.InvokeScriptAsync(
-                    "eval",
-                    "window.alert = function(msg) { window.external.notify(msg); };");
-            }
-
-            webView1.NavigationCompleted += WebView1_NavigationCompleted;
-            webView1.NavigateToString(c);
-        }
-
-
-
-        private void geolocationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // Make sure what we need is set
-            webView1.IsIndexedDBEnabled = false;
-            webView1.IsJavaScriptEnabled = true;
-            webView1.IsScriptNotifyAllowed = true;
-            webView1.Source = new Uri("https://codepen.io/rjmurillo/pen/MVaKbJ");
-        }
-
-        private void goBackToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            webView1.GoBack();
-        }
-
-        private void goForwardToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            webView1.GoForward();
-        }
-
-        private void openToolStripMenuItem_Click(object sender, EventArgs args)
-        {
-            // From https://stackoverflow.com/questions/5427020/prompt-dialog-in-windows-forms
-            string ShowDialog(string text, string caption)
-            {
-                var prompt = new Form()
-                {
-                    Width = 500,
-                    Height = 150,
-                    FormBorderStyle = FormBorderStyle.FixedDialog,
-                    Text = caption,
-                    StartPosition = FormStartPosition.CenterScreen
-                };
-                var textLabel = new Label() {Left = 50, Top = 20, Text = text};
-                var textBox = new TextBox() {Left = 50, Top = 50, Width = 400};
-                var confirmation = new Button()
-                {
-                    Text = "Ok",
-                    Left = 350,
-                    Width = 100,
-                    Top = 70,
-                    DialogResult = DialogResult.OK
-                };
-                confirmation.Click += (s, e) => { prompt.Close(); };
-                prompt.Controls.Add(textBox);
-                prompt.Controls.Add(confirmation);
-                prompt.Controls.Add(textLabel);
-                prompt.AcceptButton = confirmation;
-
-                return prompt.ShowDialog(this) == DialogResult.OK ? textBox.Text : "";
-            }
-
-            var inputUri = ShowDialog("URL", "URL");
-            var uri = (Uri) new WebBrowserUriTypeConverter().ConvertFromString(inputUri);
-            webView1.IsIndexedDBEnabled = true;
-            webView1.IsScriptNotifyAllowed = true;
-            webView1.IsJavaScriptEnabled = true;
-
-            webView1.Navigate(uri);
-        }
-
-        private void pointerLockToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            webView1.IsJavaScriptEnabled = true;
-            webView1.Navigate(new Uri("https://mdn.github.io/dom-examples/pointer-lock/", UriKind.Absolute));
-        }
-
-        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            webView1.Refresh();
-        }
-
-        private void screenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            webView1.IsIndexedDBEnabled = false;
-            webView1.IsJavaScriptEnabled = true;
-            webView1.IsScriptNotifyAllowed = false;
-            webView1.Navigate(new Uri("http://blogs.sitepointstatic.com/examples/tech/full-screen/index2.html"));
-        }
-
-        private void scriptNotifyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            webView1.IsScriptNotifyAllowed = true;
-            webView1.IsJavaScriptEnabled = true;
-            webView1.IsIndexedDBEnabled = false;
-            // URI needs to be in the app content URI's section of the package manifest. Since Winforms, not sure
-            //webView1.Navigate(new Uri("https://codepen.io/rjmurillo/pen/QmNjQV", UriKind.Absolute));
-
-            // We can use NavigateToString to get this to work
-            var c = @"
-<html>
-  <head>
-    <title>OnScriptNotify</title>
-  </head>
-  <body>
-    <button type=""button"" OnClick=""window.external.notify('Hello World!');"">Click</button>
-  </body>
-</html>
-";
-            webView1.NavigateToString(c);
-        }
-
-        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            webView1.Stop();
-        }
-
-        private void webNotificationsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            webView1.IsJavaScriptEnabled = true;
-            webView1.Navigate(new Uri("https://davidwalsh.name/demo/notifications-api.php", UriKind.Absolute));
-        }
-
         private void webView1_ContainsFullScreenElementChanged(object sender, object e)
         {
             void EnterFullScreen()
             {
-                menuStrip1.Visible = false;
                 WindowState = FormWindowState.Normal;
                 FormBorderStyle = FormBorderStyle.None;
                 WindowState = FormWindowState.Maximized;
@@ -182,7 +37,6 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.WebView
 
             void LeaveFullScreen()
             {
-                menuStrip1.Visible = true;
                 FormBorderStyle = FormBorderStyle.Sizable;
                 WindowState = FormWindowState.Normal;
             }
@@ -202,6 +56,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.WebView
 
         private void webView1_NavigationCompleted(object sender, WebViewNavigationCompletedEventArgs e)
         {
+            url.Text = e.Uri.ToString();
             Text = webView1.DocumentTitle;
             if (!e.IsSuccess)
             {
@@ -212,6 +67,8 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.WebView
 
         private void webView1_NavigationStarting(object sender, WebViewControlNavigationStartingEventArgs e)
         {
+            Text = "Navigating " + e.Uri.ToString();
+            url.Text = e.Uri.ToString();
         }
 
         private void webView1_PermissionRequested(object sender, WebViewControlPermissionRequestedEventArgs e)
@@ -250,6 +107,31 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.WebView
         private void webView1_ScriptNotify(object sender, WebViewControlScriptNotifyEventArgs e)
         {
             MessageBox.Show(e.Value, e.Uri?.ToString() ?? string.Empty);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            webView1?.GoBack();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            webView1?.GoForward();
+        }
+
+        private void Go_Click(object sender, EventArgs e)
+        {
+            var result = (Uri)new WebBrowserUriTypeConverter().ConvertFromString(url.Text);
+            webView1.Source = result;
+        }
+
+        private void url_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && webView1 != null)
+            {
+                var result = (Uri)new WebBrowserUriTypeConverter().ConvertFromString(url.Text);
+                webView1.Source = result;
+            }
         }
     }
 }
