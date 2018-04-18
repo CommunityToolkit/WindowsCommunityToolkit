@@ -504,11 +504,12 @@ void GazePointer::RaiseGazePointerEvent(UIElement^ target, GazePointerState stat
 	//    Debug::WriteLine(L"GPE: 0x%08x -> %s, %d", target != nullptr ? target->GetHashCode() : 0, PointerStates[(int)state], elapsedTime);
 	//}
 
+    auto control = safe_cast<Control^>(target);
 	auto gazeElement = target != nullptr ? GazeApi::GetGazeElement(target) : nullptr;
 
 	if (gazeElement != nullptr)
 	{
-		gazeElement->RaiseGazePointerEvent(this, gpea);
+		gazeElement->RaiseStateChanged(control, gpea);
 	}
 
 	if (state == GazePointerState::Dwell)
@@ -518,7 +519,7 @@ void GazePointer::RaiseGazePointerEvent(UIElement^ target, GazePointerState stat
 		if (gazeElement != nullptr)
 		{
 			auto args = ref new GazeInvokedRoutedEventArgs();
-			gazeElement->RaiseInvoked(this, args);
+			gazeElement->RaiseInvoked(control, args);
 			handled = args->Handled;
 		}
 

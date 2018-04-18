@@ -58,9 +58,6 @@
     <ClCompile Include="GazeTargetItem.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="GazePointerEvent.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="GazeFeedbackPopupFactory.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -112,9 +109,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="GazeIsInvokableDelegate.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="GazePointerEvent.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="GazeProgressState.h">

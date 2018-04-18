@@ -221,7 +221,6 @@
     <ClInclude Include="GazeInvokeTargetDelegate.h" />
     <ClInclude Include="GazeIsInvokableDelegate.h" />
     <ClInclude Include="GazePointer.h" />
-    <ClInclude Include="GazePointerEvent.h" />
     <ClInclude Include="GazePointerEventArgs.h" />
     <ClInclude Include="GazePointerState.h" />
     <ClInclude Include="GazeProgressState.h" />
@@ -242,7 +241,6 @@
     <ClCompile Include="GazeInvokedRoutedEventArgs.cpp" />
     <ClCompile Include="GazeIsInvokableDelegate.cpp" />
     <ClCompile Include="GazePointer.cpp" />
-    <ClCompile Include="GazePointerEvent.cpp" />
     <ClCompile Include="GazePointerEventArgs.cpp" />
     <ClCompile Include="GazePointerState.cpp" />
     <ClCompile Include="GazeSettingsHelper.cpp" />

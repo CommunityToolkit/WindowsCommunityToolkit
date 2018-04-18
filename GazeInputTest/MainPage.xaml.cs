@@ -28,7 +28,7 @@ namespace GazeInputTest
             ShowCursor.IsChecked = GazeApi.GetIsGazeCursorVisible(this);
         }
 
-        private void OnGazePointerEvent(GazePointer sender, GazePointerEventArgs ea)
+        private void OnStateChanged(object sender, GazePointerEventArgs ea)
         {
             Dwell.Content = ea.PointerState.ToString();
         }
