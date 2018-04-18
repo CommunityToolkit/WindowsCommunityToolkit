@@ -23,24 +23,23 @@ Unless specified otherwise in this article, the documentation for the [WebViewCo
 
 ## Prerequisites
 
-> [!div class="checklist"]
-> * UWP Community Toolkit (version TBD).
-> * Visual Studio 2017.
-> * .NET Framework 4.7 or a later release.
-> * Windows 10 Insider Preview Build 17110 or a later release.
-> * Windows SDK Insider Preview Build 17110 or a later release.
+:heavy_check_mark: UWP Community Toolkit (version TBD).
+:heavy_check_mark: Visual Studio 2017.
+:heavy_check_mark:: .NET Framework 4.7 or a later release.
+:heavy_check_mark: Windows 10 Insider Preview Build 17110 or a later release.
+:heavy_check_mark: Windows SDK Insider Preview Build 17110 or a later release.
 
 ## Feature limitations
 
 When compared to the UWP **WebView** control, the **WebView** controls for WPF and Windows Forms have these limitations:
 
-:heavy_minus_sign: Navigating from or saving to streams is not supported.
+:no_entry: Navigating from or saving to streams.
 
-:heavy_minus_sign: Navigating to relative URIs or resources within your application.
+:no_entry: Navigating to relative URIs or resources within your application.
 
-:heavy_minus_sign: Navigating to files on disk.
+:no_entry: Navigating to files on disk.
 
-:heavy_minus_sign: These Microsoft Edge features: Service workers, Push Messages, and WebVR.
+:no_entry: These Microsoft Edge features: Service workers, Push Messages, and WebVR.
 
 
 ## Add the WebView control to the Visual Studio Toolbox
