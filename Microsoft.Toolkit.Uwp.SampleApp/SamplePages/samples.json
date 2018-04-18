@@ -863,12 +863,13 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Input.Gaze/",
         "XamlCodeFile": "GazeInteractionXaml.bind",
         "Icon": "/SamplePages/Gaze/Gaze.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/gaze/Gaze.md",
         "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
       },
       {
         "Name": "GazeTracing",
         "Type": "GazeTracingPage",
-        "About": "Shows how you can easily enable your apps to interact with eye gaze.",
+        "About": "Shows how to use the Windows 10 API for eye trackers",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Input.Gaze/",
         "XamlCodeFile": "GazeTracingXaml.bind",
         "Icon": "/SamplePages/Gaze/Gaze.png",
