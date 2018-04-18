@@ -295,9 +295,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                     EnsureInitialized();
                     if (WebViewControlInitialized)
                     {
-                        // During initialization if there is no Source set a navigation to "about:blank" will occur
                         if (Initializing && value != null)
                         {
+                            // During initialization if there is no Source set a navigation to "about:blank" will occur
+                            _webViewControl.Source = value;
+                        }
+                        else if (Initialized)
+                        {
+                            // After the control is initialized send all values, regardless of if they are null
                             _webViewControl.Source = value;
                         }
                     }
