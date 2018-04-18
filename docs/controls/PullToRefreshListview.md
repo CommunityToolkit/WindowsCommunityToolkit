@@ -49,9 +49,9 @@ be raised and the *RefreshIntentCanceledCommand*, if any, will be executed.
 [PullToRefreshListView Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PullToRefreshListView)
 
 ## <a name="refreshcontainer"></a> Moving to RefreshContainer
-The (soon to be released) 1803 version of Windows now includes its own implementation of [pull-to-refresh](https://docs.microsoft.com/en-us/windows/uwp/design/controls-and-patterns/pull-to-refresh) controls, having [RefreshContainer](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.refreshcontainer) as the main control.
+The 1803 version of Windows now includes its own implementation of [pull-to-refresh](https://docs.microsoft.com/en-us/windows/uwp/design/controls-and-patterns/pull-to-refresh) controls, having [RefreshContainer](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.refreshcontainer) as the main control.
 
-The PullToRefreshListView and the RefreshContainer share the same concepts and provide mostly the same functionality, with the caveats that the RefreshContainer works only with a touch interface and it's not as customizable as the PullToRefreshListView.
+The PullToRefreshListView and the RefreshContainer share the same concepts and provide mostly the same functionality, with the caveat that the RefreshContainer works only with a touch interface.
 
 ### What developers need to know to move to RefreshContainer?
 
@@ -64,7 +64,7 @@ To notify that your refresh code has completed, you can mark the deferral as com
 Being a touch-only control, it's recommended that you also have a refresh button for users without a touch interface. You can trigger the RefreshRequested event by calling the RefreshContainer's RequestRefresh method.
 
 ### Making the transition even easier
-Starting with v3 of the UWP Community Toolkit, the PullToRefreshListView provides a new property called **UseRefreshContainerWhenPossible**. Setting the value to true will force the PullToRefreshListView to use a template based on the RefreshContainer when running on the 1803 version of Windows and above, and the regular template otherwise.
+Starting with v3.0 of the UWP Community Toolkit, the PullToRefreshListView provides a new property called **UseRefreshContainerWhenPossible**. Setting the value to true will force the PullToRefreshListView to use a template based on the RefreshContainer when running on the 1803 version of Windows and above, and the regular template otherwise.
 
 Using this property will enable you to take advantage of the RefreshContainer on devices that support it, while providing an experience based on PullToRefreshListView on devices that have not yet updated to the 1803 version of Windows. Make sure to test the experience on multiple OS releases and plan to fully transition to the RefreshContainer as the PullToRefreshListView will be removed from the UWP Community Toolkit in a future major release.
 
