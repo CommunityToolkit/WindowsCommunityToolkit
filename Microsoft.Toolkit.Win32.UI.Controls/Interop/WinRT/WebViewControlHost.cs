@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <summary>
         /// Occurs when a frame in the <see cref="WebViewControlHost"/> finished navigating to new content.
         /// </summary>
-        public event EventHandler<WebViewNavigationCompletedEventArgs> FrameNavigationCompleted = (sender, args) => { };
+        public event EventHandler<WebViewControlNavigationCompletedEventArgs> FrameNavigationCompleted = (sender, args) => { };
 
         // ReSharper restore InconsistentNaming
 
@@ -134,7 +134,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <summary>
         /// Occurs when the <see cref="WebViewControlHost"/> control finished navigating to new content.
         /// </summary>
-        public event EventHandler<WebViewNavigationCompletedEventArgs> NavigationCompleted = (sender, args) => { };
+        public event EventHandler<WebViewControlNavigationCompletedEventArgs> NavigationCompleted = (sender, args) => { };
 
         /// <summary>
         /// Occurs before the <see cref="WebViewControlHost"/> navigates to new content.
@@ -749,7 +749,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         private void OnFrameDOMContentLoaded(IWebViewControl sender, Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs args) => OnFrameDOMContentLoaded(args);
 
-        private void OnFrameNavigationCompleted(WebViewNavigationCompletedEventArgs args)
+        private void OnFrameNavigationCompleted(WebViewControlNavigationCompletedEventArgs args)
         {
             var handler = FrameNavigationCompleted;
             if (handler != null)
@@ -758,7 +758,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnFrameNavigationCompleted(IWebViewControl sender, WebViewControlNavigationCompletedEventArgs args)
+        private void OnFrameNavigationCompleted(IWebViewControl sender, Windows.Web.UI.WebViewControlNavigationCompletedEventArgs args)
         {
             // TODO: Need to handle frame navigation like NavigationCompleted?
             OnFrameNavigationCompleted(args);
@@ -797,7 +797,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         private void OnMoveFocusRequested(WebViewControl sender, Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs args) => OnMoveFocusRequested(args);
 
-        private void OnNavigationCompleted(WebViewNavigationCompletedEventArgs args)
+        private void OnNavigationCompleted(WebViewControlNavigationCompletedEventArgs args)
         {
             // We could have used
             // if (NavigationCompleted != null) NavigationCompleted(this, args);
@@ -812,7 +812,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnNavigationCompleted(IWebViewControl sender, WebViewControlNavigationCompletedEventArgs args)
+        private void OnNavigationCompleted(IWebViewControl sender, Windows.Web.UI.WebViewControlNavigationCompletedEventArgs args)
         {
             // When Source set to null or navigating to stream/string, we navigate to "about:blank" internally.
             if (NavigatingToAboutBlank)
@@ -820,7 +820,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 Verify.Implies(NavigatingToAboutBlank, Source == null || Source == WebViewDefaults.AboutBlankUri);
 
                 // Make sure we pass null in the event args
-                var a = new WebViewNavigationCompletedEventArgs(args, null);
+                var a = new WebViewControlNavigationCompletedEventArgs(args, null);
                 OnNavigationCompleted(a);
             }
             else

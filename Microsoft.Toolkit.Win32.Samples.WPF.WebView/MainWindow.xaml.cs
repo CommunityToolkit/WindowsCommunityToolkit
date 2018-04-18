@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WPF.WebView
             }
         }
 
-        private void WebView1_OnNavigationCompleted(object sender, WebViewNavigationCompletedEventArgs e)
+        private void WebView1_OnNavigationCompleted(object sender, WebViewControlNavigationCompletedEventArgs e)
         {
             Url.Text = e.Uri.ToString();
             Title = WebView1.DocumentTitle;

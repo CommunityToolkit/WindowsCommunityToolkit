@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.WebView
             this.webView1.Source = new System.Uri("https://www.bing.com", System.UriKind.Absolute);
             this.webView1.TabIndex = 3;
             this.webView1.ContainsFullScreenElementChanged += new System.EventHandler<object>(this.webView1_ContainsFullScreenElementChanged);
-            this.webView1.NavigationCompleted += new System.EventHandler<Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewNavigationCompletedEventArgs>(this.webView1_NavigationCompleted);
+            this.webView1.NavigationCompleted += new System.EventHandler<Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlNavigationCompletedEventArgs>(this.webView1_NavigationCompleted);
             this.webView1.NavigationStarting += new System.EventHandler<Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlNavigationStartingEventArgs>(this.webView1_NavigationStarting);
             this.webView1.PermissionRequested += new System.EventHandler<Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlPermissionRequestedEventArgs>(this.webView1_PermissionRequested);
             this.webView1.ScriptNotify += new System.EventHandler<Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlScriptNotifyEventArgs>(this.webView1_ScriptNotify);

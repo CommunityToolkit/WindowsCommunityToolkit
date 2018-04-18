@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// </summary>
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewFrameNavigationCompleted)]
-        public event EventHandler<WebViewNavigationCompletedEventArgs> FrameNavigationCompleted = (sender, args) => { };
+        public event EventHandler<WebViewControlNavigationCompletedEventArgs> FrameNavigationCompleted = (sender, args) => { };
 
         /// <summary>
         /// Occurs when a frame in the <see cref="WebView"/> navigates to new content.
@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// </summary>
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewNavigationCompleted)]
-        public event EventHandler<WebViewNavigationCompletedEventArgs> NavigationCompleted = (sender, args) => { };
+        public event EventHandler<WebViewControlNavigationCompletedEventArgs> NavigationCompleted = (sender, args) => { };
 
         /// <summary>
         /// Occurs before the <see cref="WebView"/> navigates to new content.
@@ -234,7 +234,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
         }
 
-        private void OnFrameNavigationCompleted(object sender, WebViewNavigationCompletedEventArgs args)
+        private void OnFrameNavigationCompleted(object sender, WebViewControlNavigationCompletedEventArgs args)
         {
             var handler = FrameNavigationCompleted;
             if (handler != null)
@@ -270,7 +270,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
         }
 
-        private void OnNavigationCompleted(object sender, WebViewNavigationCompletedEventArgs args)
+        private void OnNavigationCompleted(object sender, WebViewControlNavigationCompletedEventArgs args)
         {
             // We could have used
             // if (NavigationCompleted != null) NavigationCompleted(this, args);

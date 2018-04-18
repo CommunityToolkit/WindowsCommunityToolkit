@@ -21,16 +21,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     /// <seealso cref="System.EventArgs" />
     /// <seealso cref="Windows.Web.UI.WebViewControlNavigationCompletedEventArgs"/>
-    public sealed class WebViewNavigationCompletedEventArgs : EventArgs
+    public sealed class WebViewControlNavigationCompletedEventArgs : EventArgs
     {
-        internal WebViewNavigationCompletedEventArgs(Windows.Web.UI.WebViewControlNavigationCompletedEventArgs args)
+        internal WebViewControlNavigationCompletedEventArgs(Windows.Web.UI.WebViewControlNavigationCompletedEventArgs args)
         {
             IsSuccess = args.IsSuccess;
             Uri = args.Uri;
             WebErrorStatus = (WebErrorStatus)args.WebErrorStatus;
         }
 
-        internal WebViewNavigationCompletedEventArgs(Windows.Web.UI.WebViewControlNavigationCompletedEventArgs args, Uri uri)
+        internal WebViewControlNavigationCompletedEventArgs(Windows.Web.UI.WebViewControlNavigationCompletedEventArgs args, Uri uri)
         : this(args)
         {
             Uri = uri;
@@ -49,22 +49,22 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public Uri Uri { get; }
 
         /// <summary>
-        /// Gets the reason the navigation was suncessful.
+        /// Gets the reason the navigation was successful.
         /// </summary>
         /// <value>The web error status.</value>
         /// <seealso cref="IsSuccess"/>
         public WebErrorStatus WebErrorStatus { get; }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="Windows.Web.UI.WebViewControlNavigationCompletedEventArgs"/> to <see cref="WebViewNavigationCompletedEventArgs"/>.
+        /// Performs an implicit conversion from <see cref="Windows.Web.UI.WebViewControlNavigationCompletedEventArgs"/> to <see cref="WebViewControlNavigationCompletedEventArgs"/>.
         /// </summary>
         /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlNavigationCompletedEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewNavigationCompletedEventArgs(
+        public static implicit operator WebViewControlNavigationCompletedEventArgs(
             Windows.Web.UI.WebViewControlNavigationCompletedEventArgs args)
         {
-            return new WebViewNavigationCompletedEventArgs(args);
+            return new WebViewControlNavigationCompletedEventArgs(args);
         }
     }
 }

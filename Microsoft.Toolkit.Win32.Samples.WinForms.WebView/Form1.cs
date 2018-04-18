@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.WebView
             }
         }
 
-        private void webView1_NavigationCompleted(object sender, WebViewNavigationCompletedEventArgs e)
+        private void webView1_NavigationCompleted(object sender, WebViewControlNavigationCompletedEventArgs e)
         {
             url.Text = e.Uri.ToString();
             Text = webView1.DocumentTitle;

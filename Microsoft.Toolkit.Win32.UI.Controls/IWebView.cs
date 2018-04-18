@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <summary>
         /// Occurs when a frame in the <see cref="IWebView"/> finished navigating to new content.
         /// </summary>
-        event EventHandler<WebViewNavigationCompletedEventArgs> FrameNavigationCompleted;
+        event EventHandler<WebViewControlNavigationCompletedEventArgs> FrameNavigationCompleted;
 
         /// <summary>
         /// Occurs when a frame in the <see cref="IWebView"/> navigates to new content.
@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <summary>
         /// Occurs when the <see cref="IWebView"/> control finished navigating to new content.
         /// </summary>
-        event EventHandler<WebViewNavigationCompletedEventArgs> NavigationCompleted;
+        event EventHandler<WebViewControlNavigationCompletedEventArgs> NavigationCompleted;
 
         /// <summary>
         /// Occurs before the <see cref="IWebView"/> navigates to new content.

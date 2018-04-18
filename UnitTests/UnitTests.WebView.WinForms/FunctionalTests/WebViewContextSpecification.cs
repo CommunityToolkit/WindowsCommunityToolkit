@@ -172,7 +172,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             Application.DoEvents();
         }
 
-        private void OnNavigationCompleted(object o, WebViewNavigationCompletedEventArgs a)
+        private void OnNavigationCompleted(object o, WebViewControlNavigationCompletedEventArgs a)
         {
             WriteLine($"{WebView.GetType().Name}.{nameof(WebView.NavigationCompleted)}: Uri: {a.Uri?.ToString() ?? string.Empty}, Success: {a.IsSuccess}, Error: {a.WebErrorStatus}");
             Application.DoEvents();
