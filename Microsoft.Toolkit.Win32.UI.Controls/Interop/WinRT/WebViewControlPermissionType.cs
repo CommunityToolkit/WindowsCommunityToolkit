@@ -12,6 +12,11 @@
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
+    /// <summary>
+    /// Defines constants that specify the state of a <see cref="IWebView.PermissionRequested"/> event.
+    /// </summary>
+    /// <remarks>Copy from <see cref="Windows.Web.UI.WebViewControlPermissionType"/> to avoid requirement to link Windows.winmd</remarks>
+    /// <seealso cref="Windows.Web.UI.WebViewControlPermissionType"/>
     public enum WebViewControlPermissionType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Geolocation")]

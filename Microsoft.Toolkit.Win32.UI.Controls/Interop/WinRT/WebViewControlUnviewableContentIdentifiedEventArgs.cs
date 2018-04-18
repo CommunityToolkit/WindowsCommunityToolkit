@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <summary>
     /// CProvides data for the <see cref="IWebView.UnviewableContentIdentified" /> event. This class cannot be inherited.
     /// </summary>
+    /// <remarks>Copy from <see cref="Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
     /// <seealso cref="System.EventArgs" />
     /// <seealso cref="Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unviewable")]

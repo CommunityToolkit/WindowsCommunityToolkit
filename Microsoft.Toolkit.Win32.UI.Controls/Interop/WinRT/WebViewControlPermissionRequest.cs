@@ -16,9 +16,13 @@ using System.Security;
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
     /// <summary>
-    /// A proxy for <seealso cref="Windows.Web.UI.WebViewControlPermissionRequest"/>. This class cannot be inherited.
+    /// Represents a request for permissions in an <see cref="IWebView"/>. This class cannot be inherited.
     /// </summary>
-    /// <remarks>For more info, see the <seealso cref="IWebView.PermissionRequested"/> event.</remarks>
+    /// <remarks>
+    /// <p>Copy from <see cref="Windows.Web.UI.WebViewControlPermissionRequest"/> to avoid requirement to link Windows.winmd.</p>
+    /// <p>For more info, see the <seealso cref="IWebView.PermissionRequested"/> event.</p>
+    /// </remarks>
+    /// <seealso cref="IWebView.PermissionRequested"/>
     public sealed class WebViewControlPermissionRequest
     {
         [SecurityCritical]
@@ -29,15 +33,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             _permissionRequest = permissionRequest ?? throw new ArgumentNullException(nameof(permissionRequest));
         }
 
-        private WebViewControlPermissionRequest()
-        {
-        }
-
         /// <summary>
         /// Gets the identifier for the permission request.
         /// </summary>
         /// <value>The permission request identifier.</value>
-        public uint Id => _permissionRequest?.Id ?? 0;
+        public uint Id => _permissionRequest?.Id ?? 0U;
 
         /// <summary>
         /// Gets the type of the permission that's requested.
@@ -63,11 +63,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <param name="permissionRequest">The permission request.</param>
         /// <returns>The result of the conversion.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlPermissionRequest(
-            Windows.Web.UI.WebViewControlPermissionRequest permissionRequest)
-        {
-            return new WebViewControlPermissionRequest(permissionRequest);
-        }
+        public static implicit operator WebViewControlPermissionRequest(Windows.Web.UI.WebViewControlPermissionRequest permissionRequest) => new WebViewControlPermissionRequest(permissionRequest);
 
         /// <summary>
         /// Grants the requested permission.

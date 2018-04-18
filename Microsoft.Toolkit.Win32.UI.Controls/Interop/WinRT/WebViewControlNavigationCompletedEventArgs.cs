@@ -19,6 +19,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <summary>
     /// Provides data for the <see cref="IWebView.NavigationCompleted"/> and <see cref="IWebView.FrameNavigationCompleted"/> events. This class cannot be inherited.
     /// </summary>
+    /// <remarks>Copy from <see cref="Windows.Web.UI.WebViewControlNavigationCompletedEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
     /// <seealso cref="System.EventArgs" />
     /// <seealso cref="Windows.Web.UI.WebViewControlNavigationCompletedEventArgs"/>
     public sealed class WebViewControlNavigationCompletedEventArgs : EventArgs
@@ -61,10 +62,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlNavigationCompletedEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlNavigationCompletedEventArgs(
-            Windows.Web.UI.WebViewControlNavigationCompletedEventArgs args)
-        {
-            return new WebViewControlNavigationCompletedEventArgs(args);
-        }
+        public static implicit operator WebViewControlNavigationCompletedEventArgs(Windows.Web.UI.WebViewControlNavigationCompletedEventArgs args) => new WebViewControlNavigationCompletedEventArgs(args);
     }
 }

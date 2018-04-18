@@ -15,6 +15,12 @@ using System.Security;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
+    /// <summary>
+    /// Provides data for the <see cref="IWebView.NavigationStarting"/> and <see cref="IWebView.FrameNavigationStarting"/> events. This class cannot be inherited.
+    /// </summary>
+    /// <remarks>Copy from <see cref="Windows.Web.UI.WebViewControlNavigationStartingEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
+    /// <seealso cref="System.EventArgs" />
+    /// <seealso cref="Windows.Web.UI.WebViewControlNavigationStartingEventArgs"/>
     public sealed class WebViewControlNavigationStartingEventArgs : EventArgs
     {
         [SecurityCritical]
@@ -34,6 +40,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             Uri = uri;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to cancel the <see cref="IWebView"/> navigation.
+        /// </summary>
+        /// <value><see langword="true" /> if cancel; otherwise, <see langword="false" />.</value>
         public bool Cancel
         {
             [SecurityCritical]
@@ -42,13 +52,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             set => _args.Cancel = value;
         }
 
+        /// <summary>
+        /// Gets the Uniform Resource Identifier (URI) of the content the <see cref="IWebView"/> is loading.
+        /// </summary>
+        /// <value>The Uniform Resource Identifier (URI) of the content the <see cref="IWebView"/> is loading.</value>
         public Uri Uri { get; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlNavigationStartingEventArgs(
-            Windows.Web.UI.WebViewControlNavigationStartingEventArgs args)
-        {
-            return new WebViewControlNavigationStartingEventArgs(args);
-        }
+        public static implicit operator WebViewControlNavigationStartingEventArgs(Windows.Web.UI.WebViewControlNavigationStartingEventArgs args) => new WebViewControlNavigationStartingEventArgs(args);
     }
 }

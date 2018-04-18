@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <summary>
     /// Provides data for the <see cref="IWebView.UnsupportedUriSchemeIdentified" /> event. This class cannot be inherited.
     /// </summary>
+    /// <remarks>Copy from <see cref="Windows.Web.UI.WebViewControlUnsupportedUriSchemeIdentifiedEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
     /// <seealso cref="System.EventArgs" />
     /// <seealso cref="Windows.Web.UI.WebViewControlUnsupportedUriSchemeIdentifiedEventArgs"/>
     public sealed class WebViewControlUnsupportedUriSchemeIdentifiedEventArgs : EventArgs
@@ -52,7 +53,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlUnsupportedUriSchemeIdentifiedEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlUnsupportedUriSchemeIdentifiedEventArgs(Windows.Web.UI.WebViewControlUnsupportedUriSchemeIdentifiedEventArgs args) =>
-            new WebViewControlUnsupportedUriSchemeIdentifiedEventArgs(args);
+        public static implicit operator WebViewControlUnsupportedUriSchemeIdentifiedEventArgs(Windows.Web.UI.WebViewControlUnsupportedUriSchemeIdentifiedEventArgs args) => new WebViewControlUnsupportedUriSchemeIdentifiedEventArgs(args);
     }
 }
