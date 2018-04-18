@@ -79,7 +79,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         internal event EventHandler<WebViewControlContentLoadingEventArgs> FrameContentLoading = (sender, args) => { };
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM")]
-
         // ReSharper disable InconsistentNaming
         internal event EventHandler<WebViewControlDOMContentLoadedEventArgs> FrameDOMContentLoaded = (sender, args) => { };
         // ReSharper restore InconsistentNaming
@@ -112,6 +111,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unviewable")]
         internal event EventHandler<WebViewControlUnviewableContentIdentifiedEventArgs> UnviewableContentIdentified = (sender, args) => { };
+
+        internal static bool IsSupported => OSVersionHelper.IsWindows10RS4OrGreater
+                                            && OSVersionHelper.IsWorkstation
+                                            && OSVersionHelper.EdgeExists;
 
         internal bool CanGoBack
         {
@@ -196,7 +199,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         internal Windows.Web.UI.Interop.WebViewControlProcess Process { get; private set; }
-
         internal Windows.Web.UI.WebViewControlSettings Settings
         {
             get

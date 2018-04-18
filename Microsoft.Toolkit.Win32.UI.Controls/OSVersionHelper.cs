@@ -87,9 +87,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <summary>
         /// Gets a value indicating whether the current OS is Windows 10 RS4 or greater
         /// </summary>
-        private static bool IsWindows10RS4OrGreater => Windows10Release >= Win10Release.SpringCreators;
+        internal static bool IsWindows10RS4OrGreater => Windows10Release >= Win10Release.SpringCreators;
 
-        private static bool IsWorkstation { get; } = !IsServer();
+        internal static bool IsWorkstation { get; } = !IsServer();
 
         internal static bool UseWindowsInformationProtectionApi
         {

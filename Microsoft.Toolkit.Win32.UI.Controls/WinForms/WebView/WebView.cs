@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
@@ -59,6 +58,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         {
             Paint += OnWebViewPaint;
         }
+
+        /// <summary>
+        /// Gets a value indicating whether <see cref="WebView"/> is supported in this environment.
+        /// </summary>
+        /// <value><see langword="true" /> if this instance is supported; otherwise, <see langword="false" />.</value>
+        public static bool IsSupported => WebViewControlHost.IsSupported;
 
         /// <summary>
         /// Gets a value indicating whether [contains full screen element].

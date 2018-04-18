@@ -300,6 +300,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unviewable")]
         public event EventHandler<WebViewControlUnviewableContentIdentifiedEventArgs> UnviewableContentIdentified = (sender, args) => { };
 
+
+        /// <summary>
+        /// Gets a value indicating whether <see cref="WebView"/> is supported in this environment.
+        /// </summary>
+        /// <value><see langword="true" /> if this instance is supported; otherwise, <see langword="false" />.</value>
+        public static bool IsSupported => WebViewControlHost.IsSupported;
+
         /// <summary>
         /// Gets a value indicating whether there is at least one page in the backward navigation history.
         /// </summary>
