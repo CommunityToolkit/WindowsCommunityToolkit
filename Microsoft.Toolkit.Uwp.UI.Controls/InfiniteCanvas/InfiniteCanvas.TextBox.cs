@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// InfiniteCanvas is an advanced control that supports Ink, Text, Format Text, Zoom in/out, Redo, Undo
+    /// InfiniteCanvas is a canvas that supports Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export canvas data, Import canvas data.
     /// </summary>
     public partial class InfiniteCanvas
     {
@@ -28,13 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private TextDrawable SelectedTextDrawable => _drawingSurfaceRenderer.GetSelectedTextDrawable();
 
-        private int TextFontSize
-        {
-            get
-            {
-                return string.IsNullOrWhiteSpace(_canvasTextBoxFontSizeTextBox.Text) || !Regex.IsMatch(_canvasTextBoxFontSizeTextBox.Text, "^[0-9]*$") ? 22 : int.Parse(_canvasTextBoxFontSizeTextBox.Text);
-            }
-        }
+        private int TextFontSize => string.IsNullOrWhiteSpace(_canvasTextBoxFontSizeTextBox.Text) || !Regex.IsMatch(_canvasTextBoxFontSizeTextBox.Text, "^[0-9]*$") ? 22 : int.Parse(_canvasTextBoxFontSizeTextBox.Text);
 
         private void InkScrollViewer_PreviewKeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
@@ -162,6 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     Canvas.SetTop(_canvasTextBox, SelectedTextDrawable.Bounds.Y);
                     _canvasTextBoxColorPicker.Color = SelectedTextDrawable.TextColor;
                     _canvasTextBox.UpdateFontSize(SelectedTextDrawable.FontSize);
+                    _canvasTextBoxFontSizeTextBox.Text = SelectedTextDrawable.FontSize.ToString();
                     _canvasTextBox.UpdateFontStyle(SelectedTextDrawable.IsItalic);
                     _canvasTextBox.UpdateFontWeight(SelectedTextDrawable.IsBold);
 

@@ -9,11 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="InfiniteCanvas\InfiniteCanvas.xaml" />
-  </ItemGroup>
-
-
-  <ItemGroup>
 
     <PackageReference Include="ColorCode.UWP" Version="2.0.3" />
     <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.3" />
