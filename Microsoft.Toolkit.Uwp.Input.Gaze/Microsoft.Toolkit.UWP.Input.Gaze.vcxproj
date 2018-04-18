@@ -218,8 +218,6 @@
     <ClInclude Include="GazeFeedbackPopupFactory.h" />
     <ClInclude Include="GazeHistoryItem.h" />
     <ClInclude Include="GazeInvokedRoutedEventArgs.h" />
-    <ClInclude Include="GazeInvokeTargetDelegate.h" />
-    <ClInclude Include="GazeIsInvokableDelegate.h" />
     <ClInclude Include="GazePointer.h" />
     <ClInclude Include="GazePointerEventArgs.h" />
     <ClInclude Include="GazePointerState.h" />
@@ -237,9 +235,7 @@
     <ClCompile Include="GazeElement.cpp" />
     <ClCompile Include="GazeFeedbackPopupFactory.cpp" />
     <ClCompile Include="GazeHistoryItem.cpp" />
-    <ClCompile Include="GazeInvokdeTargetDelegate.cpp" />
     <ClCompile Include="GazeInvokedRoutedEventArgs.cpp" />
-    <ClCompile Include="GazeIsInvokableDelegate.cpp" />
     <ClCompile Include="GazePointer.cpp" />
     <ClCompile Include="GazePointerEventArgs.cpp" />
     <ClCompile Include="GazePointerState.cpp" />

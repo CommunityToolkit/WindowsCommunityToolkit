@@ -6,8 +6,6 @@
 
 #include "IGazeFilter.h"
 #include "GazeCursor.h"
-#include "GazeIsInvokableDelegate.h"
-#include "GazeInvokeTargetDelegate.h"
 #include "GazePointerState.h"
 
 using namespace Platform;
@@ -42,30 +40,6 @@ public:
     virtual ~GazePointer();
 
     void LoadSettings(ValueSet^ settings);
-
-    property GazeIsInvokableDelegate^ IsInvokableImpl
-    {
-        GazeIsInvokableDelegate^ get()
-        {
-            return _isInvokableImpl;
-        }
-        void set(GazeIsInvokableDelegate^ value)
-        {
-            _isInvokableImpl = value;
-        }
-    }
-
-    property GazeInvokeTargetDelegate^ InvokeTargetImpl
-    {
-        GazeInvokeTargetDelegate^ get()
-        {
-            return _invokeTargetImpl;
-        }
-        void set(GazeInvokeTargetDelegate^ value)
-        {
-            _invokeTargetImpl = value;
-        }
-    }
 
     void InvokeTarget(UIElement^ target);
     void Reset();
@@ -166,8 +140,6 @@ private:
     GazeInputSourcePreview^             _gazeInputSource;
     EventRegistrationToken              _gazeMovedToken;
     CoreDispatcher^                     _coreDispatcher;
-    GazeIsInvokableDelegate^            _isInvokableImpl;
-    GazeInvokeTargetDelegate^           _invokeTargetImpl;
 
 	int _defaultFixation = DEFAULT_FIXATION_DELAY;
 	int _defaultDwell = DEFAULT_DWELL_DELAY;
