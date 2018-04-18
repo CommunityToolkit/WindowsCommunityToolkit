@@ -102,7 +102,7 @@ private:
 
     void    CheckIfExiting(long long curTimestamp);
     void    GotoState(UIElement^ control, GazePointerState state);
-    void    RaiseGazePointerEvent(UIElement^ target, GazePointerState state, int elapsedTime);
+    void    RaiseGazePointerEvent(UIElement^ target, GazePointerState state, int64 elapsedTime);
 
     void OnGazeMoved(
         GazeInputSourcePreview^ provider,

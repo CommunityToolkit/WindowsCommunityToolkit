@@ -473,7 +473,7 @@ wchar_t *PointerStates[] = {
     L"DwellRepeat"
 };
 
-void GazePointer::RaiseGazePointerEvent(UIElement^ target, GazePointerState state, int elapsedTime)
+void GazePointer::RaiseGazePointerEvent(UIElement^ target, GazePointerState state, int64 elapsedTime)
 {
     //assert(target != _rootElement);
     auto gpea = ref new GazePointerEventArgs(target, state, elapsedTime);

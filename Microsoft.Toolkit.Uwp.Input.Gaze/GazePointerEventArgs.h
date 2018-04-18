@@ -25,10 +25,10 @@ public ref struct GazePointerEventArgs sealed
 {
     property UIElement^ HitTarget;
     property GazePointerState PointerState;
-    property int ElapsedTime;
+    property int64 ElapsedTime;
     property TimeSpan ElapsedTimeSpan { TimeSpan get() { return *new TimeSpan{ 10 * ElapsedTime }; } }
 
-    GazePointerEventArgs(UIElement^ target, GazePointerState state, int elapsedTime)
+    GazePointerEventArgs(UIElement^ target, GazePointerState state, int64 elapsedTime)
     {
         HitTarget = target;
         PointerState = state;
