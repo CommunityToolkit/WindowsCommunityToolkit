@@ -778,6 +778,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Debug.Indent();
             Debug.WriteLine($"oldBounds={{x={x} y={y} width={width} height={height} clientWidth={clientWidth} clientHeight={clientHeight}}}");
 #endif
+            // TODO: Update bounds here to ensure correct draw position?
             // HACK: looks like the vertical pos is counted twice, giving a gap
             y = 0;
 
@@ -800,7 +801,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         protected override void UpdateBounds(Rect bounds)
         {
-            // TODO: Update bounds here to ensure correct draw position?
             // TODO: Determine if the coordinates are already transformed for high dpi clients
             var clientWidth = bounds.Width - (bounds.Right - bounds.Left);
             var clientHeight = bounds.Width - (bounds.Bottom - bounds.Top);
