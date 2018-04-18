@@ -12,6 +12,8 @@
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
+    /// <remarks>Copy from <see cref="Windows.Web.UI.Interop.WebViewControlAcceleratorKeyRoutingStage"/> to avoid requirement to link Windows.winmd</remarks>
+    /// <seealso cref="Windows.Web.UI.Interop.WebViewControlAcceleratorKeyRoutingStage"/>
     public enum WebViewControlAcceleratorKeyRoutingStage
     {
         Tunneling,

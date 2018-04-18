@@ -15,6 +15,11 @@ using System.Security;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
+    /// <summary>
+    /// Provides data for the <see cref="IWebView.ContentLoading"/> and <see cref="IWebView.FrameContentLoading"/> events. This class cannot be inherited.
+    /// </summary>
+    /// <remarks>Copy from <see cref="Windows.Web.UI.WebViewControlContentLoadingEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
+    /// <seealso cref="Windows.Web.UI.WebViewControlContentLoadingEventArgs"/>
     public sealed class WebViewControlContentLoadingEventArgs : EventArgs
     {
         [SecurityCritical]
@@ -26,12 +31,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             _args = args;
         }
 
+        /// <summary>
+        /// Gets the Uniform Resource Identifier (URI) of the content the <see cref="IWebView"/> is loading.
+        /// </summary>
         public Uri Uri
         {
             [SecurityCritical]
             get { return _args.Uri; }
         }
 
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="Windows.Web.UI.WebViewControlContentLoadingEventArgs"/> to <see cref="WebViewControlContentLoadingEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlContentLoadingEventArgs"/> instance containing the event data.</param>
+        /// <returns>The result of the conversion.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
         [SecurityCritical]
         public static implicit operator WebViewControlContentLoadingEventArgs(

@@ -12,7 +12,8 @@
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
-    /// <remarks>Copy of <seealso cref="Windows.Web.WebErrorStatus" /></remarks>
+    /// <remarks>Copy from <see cref="Windows.Web.WebErrorStatus"/> to avoid requirement to link Windows.winmd</remarks>
+    /// <seealso cref="Windows.Web.WebErrorStatus"/>
     public enum WebErrorStatus
     {
         Unknown = 0,

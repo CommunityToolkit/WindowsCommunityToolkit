@@ -12,6 +12,8 @@
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
+    /// <remarks>Copy from <see cref="Windows.UI.Core.CoreAcceleratorKeyEventType"/> to avoid requirement to link Windows.winmd</remarks>
+    /// <seealso cref="Windows.UI.Core.CoreAcceleratorKeyEventType"/>
     public enum CoreAcceleratorKeyEventType
     {
         KeyDown,

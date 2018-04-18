@@ -16,8 +16,11 @@ using System.Security;
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
     /// <summary>
-    /// A proxy for <see cref="Windows.Web.UI.WebViewControlDeferredPermissionRequest"/> class.
+    /// Represents a deferred request for permissions in an <see cref="IWebView"/>. This class cannot be inherited.
     /// </summary>
+    /// <remarks>Copy from <see cref="Windows.Web.UI.WebViewControlDeferredPermissionRequest"/> to avoid requirement to link Windows.winmd</remarks>
+    /// <seealso cref="Windows.Web.UI.WebViewControlDeferredPermissionRequest"/>
+
     public sealed class WebViewControlDeferredPermissionRequest
     {
         [SecurityCritical]
