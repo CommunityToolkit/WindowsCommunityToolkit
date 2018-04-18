@@ -134,7 +134,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.UWP.Input.Gaze\Microsoft.Toolkit.Uwp.Input.Gaze.vcxproj">
       <Project>{a5e98964-45b1-442d-a07a-298a3221d81e}</Project>
-      <Name>Microsoft.Toolkit.UWP.Input.Gaze</Name>
+      <Name>Microsoft.Toolkit.Uwp.Input.Gaze</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

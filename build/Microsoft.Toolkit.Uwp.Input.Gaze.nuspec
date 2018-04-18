@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Microsoft.Toolkit.Uwp.Input.Gaze</id>
+    <version>$version$</version>
+    <title>UWP Community Toolkit Eye Gaze Library</title>
+    <authors>Microsoft</authors>
+    <owners>microsoft, nugetuwptoolkit</owners>
+    <iconUrl>https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png</iconUrl>
+    <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
+    <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>TODO</description>
+    <releaseNotes>TODO</releaseNotes>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>UWP Toolkit Windows Eye Gaze</tags>
+  </metadata>
+
+  <files>
+      <!-- WinMd and IntelliSense files -->
+      <file src="..\Microsoft.Toolkit.Uwp.Input.Gaze\Output\Win32\Release\Microsoft.Toolkit.Uwp.Input.Gaze.winmd" target="lib\uap10.0"/>
+      <file src="..\Microsoft.Toolkit.Uwp.Input.Gaze\Output\Win32\Release\Microsoft.Toolkit.Uwp.Input.Gaze.xml" target="lib\uap10.0"/>
+
+      <!-- DLLs and resources -->
+      <file src="..\Microsoft.Toolkit.Uwp.Input.Gaze\Output\ARM\Release\Microsoft.Toolkit.Uwp.Input.Gaze.dll" target="runtimes\win10-arm\native"/>
+      <file src="..\Microsoft.Toolkit.Uwp.Input.Gaze\Output\ARM\Release\Microsoft.Toolkit.Uwp.Input.Gaze.pri" target="runtimes\win10-arm\native"/>
+
+      <file src="..\Microsoft.Toolkit.Uwp.Input.Gaze\Output\x64\Release\Microsoft.Toolkit.Uwp.Input.Gaze.dll" target="runtimes\win10-x64\native"/>
+      <file src="..\Microsoft.Toolkit.Uwp.Input.Gaze\Output\x64\Release\Microsoft.Toolkit.Uwp.Input.Gaze.pri" target="runtimes\win10-x64\native"/>
+
+      <file src="..\Microsoft.Toolkit.Uwp.Input.Gaze\Output\Win32\Release\Microsoft.Toolkit.Uwp.Input.Gaze.dll" target="runtimes\win10-x86\native"/>
+      <file src="..\Microsoft.Toolkit.Uwp.Input.Gaze\Output\Win32\Release\Microsoft.Toolkit.Uwp.Input.Gaze.pri" target="runtimes\win10-x86\native"/>
+
+      <file src="..\Microsoft.Toolkit.Uwp.Input.Gaze\Microsoft.Toolkit.Uwp.Input.Gaze.targets" target="build\native"/>
+  </files>
+</package>
