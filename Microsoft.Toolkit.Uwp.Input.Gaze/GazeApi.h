@@ -66,7 +66,7 @@ public:
 
 internal:
     static property DependencyProperty^ GazePointerProperty { DependencyProperty^ get(); };
-    static const TimeSpan s_nonTimeSpan;
+    static TimeSpan UnsetTimeSpan;
 };
 
 END_NAMESPACE_GAZE_INPUT
