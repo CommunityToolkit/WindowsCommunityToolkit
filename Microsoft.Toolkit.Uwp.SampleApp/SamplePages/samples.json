@@ -127,6 +127,7 @@
         "XamlCodeFile": "PullToRefreshListViewXaml.bind",
         "Icon": "/SamplePages/PullToRefreshListView/PullToRefreshListView.png",
         "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The PullToRefreshListView will be removed in a future major release. Please use the RefreshContainer control available in the 1803 version of Windows.",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/PullToRefreshListview.md"
       },
       {
