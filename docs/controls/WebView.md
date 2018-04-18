@@ -253,14 +253,8 @@ private void webView_ContainsFullScreenElementChanged(object sender, object args
 You can use the [NewWindowRequested](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.newwindowrequested) event to handle cases where hosted web content requests a new window, such as a popup window. You can use another **WebView** control to display the contents of the requested window.
 <!-- Cannot get this event to fire -->
 
-Handle the [PermissionRequested](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.permissionrequested) event to enable web features that require special capabilities. These currently include geolocation, IndexedDB storage, and user audio and video (for example, from a microphone or webcam). If your app accesses user location or user media, you still are required to declare this capability in the app manifest. For example, an app that uses geolocation needs the following capability declarations at minimum in Package.appxmanifest:
+Handle the [PermissionRequested](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.permissionrequested) event to enable web features that require special capabilities. These currently include geolocation, IndexedDB storage, and user audio and video (for example, from a microphone or webcam).
 
-```xml
-  <Capabilities>
-    <Capability Name="internetClient" />
-    <DeviceCapability Name="location" />
-  </Capabilities>
-```
 <!-- This behaves differently than UWP: The sandbox process Win32WebViewHost.exe is a system application and has all capabilities listed in its manifest. Since WinForms/WPF do not have their own identities, they use the identity and permissions of the sandbox application.
 The PermissionRequested event is fired when a permission is reqested each time. If the application is the first to request permissions from the sandbox, the user will receive two prompts: one from the application, one from the system for the sandbox. -->
 
