@@ -20,7 +20,7 @@ BEGIN_NAMESPACE_GAZE_INPUT
 const TimeSpan GazeApi::s_nonTimeSpan = { -123456 };
 
 
-static DependencyProperty^ s_gazePointerProperty = DependencyProperty::RegisterAttached("_GazePointer", GazePointer::typeid, Page::typeid, ref new PropertyMetadata(nullptr));
+static DependencyProperty^ s_gazePointerProperty = DependencyProperty::RegisterAttached("_GazePointer", GazePointer::typeid, GazeApi::typeid, ref new PropertyMetadata(nullptr));
 
 DependencyProperty^ GazeApi::GazePointerProperty::get() { return s_gazePointerProperty; }
 
@@ -53,23 +53,23 @@ static void OnGazeCursorRadiusChanged(DependencyObject^ ob, DependencyPropertyCh
     auto gazePointer = safe_cast<GazePointer^>(ob->GetValue(GazeApi::GazePointerProperty));
     if (gazePointer != nullptr)
     {
-        gazePointer->CursorRadius = safe_cast<bool>(args->NewValue);
+        gazePointer->CursorRadius = safe_cast<int>(args->NewValue);
     }
 }
 
-static DependencyProperty^ s_isGazeEnabledProperty = DependencyProperty::RegisterAttached("IsGazeEnabled", bool::typeid, Page::typeid,
+static DependencyProperty^ s_isGazeEnabledProperty = DependencyProperty::RegisterAttached("IsGazeEnabled", bool::typeid, GazeApi::typeid,
     ref new PropertyMetadata(false, ref new PropertyChangedCallback(&OnIsGazeEnabledChanged)));
-static DependencyProperty^ s_isGazeCursorVisibleProperty = DependencyProperty::RegisterAttached("IsGazeCursorVisible", bool::typeid, Page::typeid,
+static DependencyProperty^ s_isGazeCursorVisibleProperty = DependencyProperty::RegisterAttached("IsGazeCursorVisible", bool::typeid, GazeApi::typeid,
     ref new PropertyMetadata(true, ref new PropertyChangedCallback(&OnIsGazeCursorVisibleChanged)));
-static DependencyProperty^ s_gazeCursorRadiusProperty = DependencyProperty::RegisterAttached("GazeCursorRadius", int::typeid, Page::typeid,
+static DependencyProperty^ s_gazeCursorRadiusProperty = DependencyProperty::RegisterAttached("GazeCursorRadius", int::typeid, GazeApi::typeid,
     ref new PropertyMetadata(6, ref new PropertyChangedCallback(&OnGazeCursorRadiusChanged)));
-static DependencyProperty^ s_gazeElementProperty = DependencyProperty::RegisterAttached("GazeElement", GazeElement::typeid, UIElement::typeid, ref new PropertyMetadata(nullptr));
-static DependencyProperty^ s_fixationProperty = DependencyProperty::RegisterAttached("Fixation", TimeSpan::typeid, UIElement::typeid, ref new PropertyMetadata(GazeApi::s_nonTimeSpan));
-static DependencyProperty^ s_dwellProperty = DependencyProperty::RegisterAttached("Dwell", TimeSpan::typeid, UIElement::typeid, ref new PropertyMetadata(GazeApi::s_nonTimeSpan));
-static DependencyProperty^ s_dwellRepeatProperty = DependencyProperty::RegisterAttached("DwellRepeat", TimeSpan::typeid, UIElement::typeid, ref new PropertyMetadata(GazeApi::s_nonTimeSpan));
-static DependencyProperty^ s_enterProperty = DependencyProperty::RegisterAttached("Enter", TimeSpan::typeid, UIElement::typeid, ref new PropertyMetadata(GazeApi::s_nonTimeSpan));
-static DependencyProperty^ s_exitProperty = DependencyProperty::RegisterAttached("Exit", TimeSpan::typeid, UIElement::typeid, ref new PropertyMetadata(GazeApi::s_nonTimeSpan));
-static DependencyProperty^ s_maxRepeatCountProperty = DependencyProperty::RegisterAttached("MaxRepeatCount", int::typeid, UIElement::typeid, ref new PropertyMetadata(safe_cast<Object^>(0)));
+static DependencyProperty^ s_gazeElementProperty = DependencyProperty::RegisterAttached("GazeElement", GazeElement::typeid, GazeApi::typeid, ref new PropertyMetadata(nullptr));
+static DependencyProperty^ s_fixationProperty = DependencyProperty::RegisterAttached("Fixation", TimeSpan::typeid, GazeApi::typeid, ref new PropertyMetadata(GazeApi::s_nonTimeSpan));
+static DependencyProperty^ s_dwellProperty = DependencyProperty::RegisterAttached("Dwell", TimeSpan::typeid, GazeApi::typeid, ref new PropertyMetadata(GazeApi::s_nonTimeSpan));
+static DependencyProperty^ s_dwellRepeatProperty = DependencyProperty::RegisterAttached("DwellRepeat", TimeSpan::typeid, GazeApi::typeid, ref new PropertyMetadata(GazeApi::s_nonTimeSpan));
+static DependencyProperty^ s_enterProperty = DependencyProperty::RegisterAttached("Enter", TimeSpan::typeid, GazeApi::typeid, ref new PropertyMetadata(GazeApi::s_nonTimeSpan));
+static DependencyProperty^ s_exitProperty = DependencyProperty::RegisterAttached("Exit", TimeSpan::typeid, GazeApi::typeid, ref new PropertyMetadata(GazeApi::s_nonTimeSpan));
+static DependencyProperty^ s_maxRepeatCountProperty = DependencyProperty::RegisterAttached("MaxRepeatCount", int::typeid, GazeApi::typeid, ref new PropertyMetadata(safe_cast<Object^>(0)));
 
 DependencyProperty^ GazeApi::IsGazeEnabledProperty::get() { return s_isGazeEnabledProperty; }
 DependencyProperty^ GazeApi::IsGazeCursorVisibleProperty::get() { return s_isGazeCursorVisibleProperty; }

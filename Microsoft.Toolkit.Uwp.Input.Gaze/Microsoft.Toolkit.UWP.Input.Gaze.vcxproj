@@ -103,18 +103,21 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
+    <OutDir>$(SolutionDir)$(MSBuildProjectName)\Output\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <GenerateManifest>false</GenerateManifest>
+    <OutDir>$(SolutionDir)$(MSBuildProjectName)\Output\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <GenerateManifest>false</GenerateManifest>
+    <OutDir>$(SolutionDir)$(MSBuildProjectName)\Output\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -212,6 +215,7 @@
     <ClInclude Include="GazeApi.h" />
     <ClInclude Include="GazeCursor.h" />
     <ClInclude Include="GazeElement.h" />
+    <ClInclude Include="GazeFeedbackPopupFactory.h" />
     <ClInclude Include="GazeHistoryItem.h" />
     <ClInclude Include="GazeInvokedRoutedEventArgs.h" />
     <ClInclude Include="GazeInvokeTargetDelegate.h" />
@@ -220,6 +224,7 @@
     <ClInclude Include="GazePointerEvent.h" />
     <ClInclude Include="GazePointerEventArgs.h" />
     <ClInclude Include="GazePointerState.h" />
+    <ClInclude Include="GazeProgressState.h" />
     <ClInclude Include="GazeSettingsHelper.h" />
     <ClInclude Include="GazeStats.h" />
     <ClInclude Include="GazeTargetItem.h" />
@@ -231,6 +236,7 @@
     <ClCompile Include="GazeApi.cpp" />
     <ClCompile Include="GazeCursor.cpp" />
     <ClCompile Include="GazeElement.cpp" />
+    <ClCompile Include="GazeFeedbackPopupFactory.cpp" />
     <ClCompile Include="GazeHistoryItem.cpp" />
     <ClCompile Include="GazeInvokdeTargetDelegate.cpp" />
     <ClCompile Include="GazeInvokedRoutedEventArgs.cpp" />

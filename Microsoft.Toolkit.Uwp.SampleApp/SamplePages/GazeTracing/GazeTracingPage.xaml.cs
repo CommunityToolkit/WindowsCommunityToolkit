@@ -10,9 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.UI.Extensions;
-using System;
 using System.Collections.ObjectModel;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Devices.Input.Preview;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -49,6 +48,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             gazeInputSourcePreview.GazeMoved += GazeInputSourcePreview_GazeMoved;
         }
 
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            if (control.FindChildByName("Points") is ItemsControl itemsControl)
+            {
+                itemsControl.ItemsSource = GazeHistory;
+            }
+        }
+
         private void UpdateGazeHistory(GazePointPreview pt)
         {
             if (!pt.EyeGazePosition.HasValue)
@@ -77,15 +84,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             foreach (var pt in points)
             {
                 UpdateGazeHistory(pt);
-            }
-        }
-
-        public void OnXamlRendered(FrameworkElement control)
-        {
-            var itemsControl = control.FindChildByName("Points") as ItemsControl;
-            if (itemsControl != null)
-            {
-                itemsControl.ItemsSource = GazeHistory;
             }
         }
     }

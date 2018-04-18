@@ -17,16 +17,12 @@
       <RowDefinition/>
       <RowDefinition/>
       <RowDefinition/>
-      <RowDefinition/>
-      <RowDefinition/>
-      <RowDefinition/>
     </Grid.RowDefinitions>
     <Button x:Name="Button1" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button1_Click">Button</Button>
     <TextBlock x:Name="TextBlock_Button1" Grid.Row="0" Grid.Column="1" />
     <ToggleButton x:Name="ToggleButton1" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Checked="ToggleButton1_Checked">Toggle Button</ToggleButton>
     <TextBlock x:Name="TextBlock_ToggleButton1" Grid.Row="1" Grid.Column="1" />
     <ToggleSwitch x:Name="ToggleSwitch1" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">Toggle Switch</ToggleSwitch>
-    <TextBox x:Name="TextBox1" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="Sample Text - Change Me!" />
-    <CheckBox x:Name="CheckBox1" Grid.Row="4" Grid.Column="0" Content="Check Me!"/>
+    <CheckBox x:Name="CheckBox1" Grid.Row="3" Grid.Column="0" Content="Check Me!"/>
   </Grid>
 </Page>

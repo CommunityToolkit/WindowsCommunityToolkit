@@ -69,7 +69,7 @@ public:
         void set(Point value)
         {
             _originalCursorPosition = value;
-            _origSignalCursor->Margin = Thickness(value.X, value.Y, 0, 0);
+            _origSignalCursor->Margin = Thickness(value.X - CursorRadius, value.Y - CursorRadius, 0, 0);
         }
     }
 
