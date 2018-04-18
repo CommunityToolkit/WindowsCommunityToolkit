@@ -23,8 +23,8 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 ref struct GazeTargetItem sealed
 {
-    property int ElapsedTime;
-    property int NextStateTime;
+    property int64 ElapsedTime;
+    property int64 NextStateTime;
     property int64 LastTimestamp;
     property GazePointerState ElementState;
     property UIElement^ TargetElement;
