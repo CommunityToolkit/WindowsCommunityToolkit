@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         }
 
         private static bool _alreadyInBlock = false;
-        protected UI.Controls.WinForms.WebView WebView { get; set; }
+        protected Controls.WinForms.WebView WebView { get; set; }
 
         protected override void Cleanup()
         {

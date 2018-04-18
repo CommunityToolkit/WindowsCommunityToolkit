@@ -14,7 +14,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -54,8 +53,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     {
         private static readonly Hashtable InvalidatorMap = new Hashtable();
 
-        private delegate void PropertyInvalidator(WebView webViewHost);
-
         private static readonly DependencyProperty IsIndexedDBEnabledProperty = DependencyProperty.Register(
             nameof(IsIndexedDBEnabled),
             typeof(bool),
@@ -67,6 +64,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             typeof(bool),
             typeof(WebView),
             new PropertyMetadata(WebViewDefaults.IsJavaScriptEnabled, PropertyChangedCallback));
+
+        private static readonly DependencyProperty IsPrivateNetworkClientServerCapabilityEnabledProperty = DependencyProperty.Register(
+            nameof(IsPrivateNetworkClientServerCapabilityEnabled),
+            typeof(bool),
+            typeof(WebView),
+            new PropertyMetadata(WebViewDefaults.IsPrivateNetworkEnabled, PropertyChangedCallback)
+            );
 
         private static readonly DependencyProperty IsScriptNotifyAllowedProperty = DependencyProperty.Register(
             nameof(IsScriptNotifyAllowed),
@@ -82,14 +86,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             typeof(WebView),
             new PropertyMetadata(WebViewDefaults.AboutBlankUri, PropertyChangedCallback));
 
-        private static readonly DependencyProperty IsPrivateNetworkClientServerCapabilityEnabledProperty = DependencyProperty.Register(
-            nameof(IsPrivateNetworkClientServerCapabilityEnabled),
-            typeof(bool),
-            typeof(WebView),
-            new PropertyMetadata(WebViewDefaults.IsPrivateNetworkEnabled, PropertyChangedCallback)
-            );
-
         private WebViewControlProcess _process;
+
         private WebViewControlHost _webViewControl;
 
         [SecuritySafeCritical]
@@ -132,56 +130,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 #pragma warning restore 1065
         }
 
-        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            base.OnPropertyChanged(e);
-
-            var property = e.Property;
-
-            // Look up the property in our map and call the appropriate method to push down
-            // the changed value to the hosted control
-            if (property != null && InvalidatorMap.ContainsKey(property))
-            {
-                var invalidator = (PropertyInvalidator)InvalidatorMap[property];
-                Verify.IsNotNull(invalidator);
-                invalidator(this);
-            }
-        }
-
-        private static void OnIsEnabledInvalidated(WebView webView)
-        {
-            Verify.IsNotNull(webView);
-            Verify.IsNotNull(webView._webViewControl);
-            if (webView?._webViewControl != null)
-            {
-                // TODO: Is there an equivalent for Win32WebViewHost?
-            }
-        }
-
-        private static void OnVisibilityInvalidated(WebView webView)
-        {
-            Verify.IsNotNull(webView);
-            Verify.IsNotNull(webView._webViewControl);
-
-            if (webView?._webViewControl != null)
-            {
-                switch (webView.Visibility)
-                {
-                    case Visibility.Visible:
-                        webView._webViewControl.IsVisible = true;
-                        break;
-                    case Visibility.Hidden:
-                        webView._webViewControl.IsVisible = false;
-                        break;
-                    case Visibility.Collapsed:
-                        webView._webViewControl.IsVisible = false;
-
-                        // TODO: Update bounds to set PreferredSize?
-                        break;
-                }
-            }
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="WebView"/> class.
         /// </summary>
@@ -191,6 +139,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             // TODO: Check whether browser is disabled
             // TODO: Handle case (OnLoad) for handling POPUP windows
         }
+
+        internal WebView(WebViewControlHost webViewControl)
+            : this()
+        {
+            _webViewControl = webViewControl ?? throw new ArgumentNullException(nameof(webViewControl));
+            _process = webViewControl.Process;
+        }
+
+        private delegate void PropertyInvalidator(WebView webViewHost);
 
         /// <summary>
         /// An event that is triggered when the accelerator key is pressed.
@@ -228,8 +185,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         [StringResourceDescription(Constants.DescriptionWebViewFrameContentLoading)]
         public event EventHandler<WebViewControlContentLoadingEventArgs> FrameContentLoading = (sender, args) => { };
 
-        // ReSharper restore InconsistentNaming
-
         /// <summary>
         /// Occurs when a frame in the <see cref="WebView"/> finished parsing its current content.
         /// </summary>
@@ -240,14 +195,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         // ReSharper disable InconsistentNaming
         public event EventHandler<WebViewControlDOMContentLoadedEventArgs> FrameDOMContentLoaded = (sender, args) => { };
 
+        // ReSharper restore InconsistentNaming
         /// <summary>
         /// Occurs when a frame in the <see cref="WebView"/> finished navigating to new content.
         /// </summary>
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewFrameNavigationCompleted)]
         public event EventHandler<WebViewControlNavigationCompletedEventArgs> FrameNavigationCompleted = (sender, args) => { };
-
-        // ReSharper restore InconsistentNaming
 
         /// <summary>
         /// Occurs when a frame in the <see cref="WebView"/> navigates to new content.
@@ -256,6 +210,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         [StringResourceDescription(Constants.DescriptionWebViewFrameNavigationStarting)]
         public event EventHandler<WebViewControlNavigationStartingEventArgs> FrameNavigationStarting = (sender, args) => { };
 
+        // ReSharper restore InconsistentNaming
         /// <summary>
         /// Occurs periodically while the <see cref="WebView"/> executes JavaScript, letting you halt the script.
         /// </summary>
@@ -427,6 +382,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             set => SetValue(IsJavaScriptEnabledProperty, value);
         }
 
+        [StringResourceCategory(Constants.CategoryBehavior)]
+        [DefaultValue(WebViewDefaults.IsPrivateNetworkEnabled)]
+        public bool IsPrivateNetworkClientServerCapabilityEnabled
+        {
+            get => (bool)GetValue(IsPrivateNetworkClientServerCapabilityEnabledProperty);
+            set => SetValue(IsPrivateNetworkClientServerCapabilityEnabledProperty, value);
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="WebView.ScriptNotify" /> is allowed.
         /// </summary>
@@ -438,14 +401,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
             get => (bool)GetValue(IsScriptNotifyAllowedProperty);
             set => SetValue(IsScriptNotifyAllowedProperty, value);
-        }
-
-        [StringResourceCategory(Constants.CategoryBehavior)]
-        [DefaultValue(WebViewDefaults.IsPrivateNetworkEnabled)]
-        public bool IsPrivateNetworkClientServerCapabilityEnabled
-        {
-            get => (bool)GetValue(IsPrivateNetworkClientServerCapabilityEnabledProperty);
-            set => SetValue(IsPrivateNetworkClientServerCapabilityEnabledProperty, value);
         }
 
         /// <summary>
@@ -714,30 +669,35 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         protected override void Initialize()
         {
-            Verify.IsNull(_process);
-
             OSVersionHelper.ThrowIfBeforeWindows10RS4();
 
-            var privateNetworkEnabled = !Dispatcher.CheckAccess()
-                ? Dispatcher.Invoke(() => IsPrivateNetworkClientServerCapabilityEnabled)
-                : IsPrivateNetworkClientServerCapabilityEnabled;
-
-            _process = new WebViewControlProcess(new WebViewControlProcessOptions
+            if (_process == null)
             {
-                PrivateNetworkClientServerCapability = privateNetworkEnabled
-                                                        ? WebViewControlProcessCapabilityState.Enabled
-                                                        : WebViewControlProcessCapabilityState.Disabled
-            });
+                var privateNetworkEnabled = !Dispatcher.CheckAccess()
+                    ? Dispatcher.Invoke(() => IsPrivateNetworkClientServerCapabilityEnabled)
+                    : IsPrivateNetworkClientServerCapabilityEnabled;
+
+                _process = new WebViewControlProcess(new WebViewControlProcessOptions
+                {
+                    PrivateNetworkClientServerCapability = privateNetworkEnabled
+                        ? WebViewControlProcessCapabilityState.Enabled
+                        : WebViewControlProcessCapabilityState.Disabled
+                });
+            }
 
             // TODO: Attach WebView to existing process
             Dispatcher.InvokeAsync(async () =>
             {
                 Verify.IsNotNull(_process);
 
-                var handle = ChildWindow.Handle;
-                var bounds = new Windows.Foundation.Rect(0, 0, RenderSize.Width, RenderSize.Height);
+                if (_webViewControl == null)
+                {
+                    var handle = ChildWindow.Handle;
+                    var bounds = new Windows.Foundation.Rect(0, 0, RenderSize.Width, RenderSize.Height);
 
-                _webViewControl = await _process.CreateWebViewControlHostAsync(handle, bounds).ConfigureAwait(false);
+                    _webViewControl = await _process.CreateWebViewControlHostAsync(handle, bounds).ConfigureAwait(false);
+                }
+
                 Verify.IsNotNull(_webViewControl);
 
                 DestroyWindowCore(ChildWindow);
@@ -771,32 +731,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             });
         }
 
-        private void UpdateBounds(int x, int y, int width, int height, int clientWidth, int clientHeight)
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-#if DEBUG_LAYOUT
-            Debug.WriteLine($"{Name}::{nameof(UpdateBounds)}");
-            Debug.Indent();
-            Debug.WriteLine($"oldBounds={{x={x} y={y} width={width} height={height} clientWidth={clientWidth} clientHeight={clientHeight}}}");
-#endif
-            // TODO: Update bounds here to ensure correct draw position?
-            // HACK: looks like the vertical pos is counted twice, giving a gap
-            y = 0;
+            base.OnPropertyChanged(e);
 
-#if DEBUG_LAYOUT
-            Debug.WriteLine($"newBounds={{x={x} y={y} width={width} height={height} clientWidth={clientWidth} clientHeight={clientHeight}}}");
-#endif
+            var property = e.Property;
 
-            VerifyAccess();
-            var rect = new Windows.Foundation.Rect(
-                new Point(x, y),
-                new Size(width, height));
-            Verify.IsNotNull(_webViewControl);
-            _webViewControl?.UpdateBounds(rect);
-
-#if DEBUG_LAYOUT
-            Debug.Unindent();
-#endif
-
+            // Look up the property in our map and call the appropriate method to push down
+            // the changed value to the hosted control
+            if (property != null && InvalidatorMap.ContainsKey(property))
+            {
+                var invalidator = (PropertyInvalidator)InvalidatorMap[property];
+                Verify.IsNotNull(invalidator);
+                invalidator(this);
+            }
         }
 
         protected override void UpdateBounds(Rect bounds)
@@ -806,6 +754,42 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             var clientHeight = bounds.Width - (bounds.Bottom - bounds.Top);
 
             UpdateBounds((int)bounds.X, (int)bounds.Y, (int)bounds.Width, (int)bounds.Height, (int)clientWidth, (int)clientHeight);
+        }
+
+        private static void OnIsEnabledInvalidated(WebView webView)
+        {
+            Verify.IsNotNull(webView);
+            Verify.IsNotNull(webView._webViewControl);
+            if (webView?._webViewControl != null)
+            {
+                // TODO: Is there an equivalent for Win32WebViewHost?
+            }
+        }
+
+        private static void OnVisibilityInvalidated(WebView webView)
+        {
+            Verify.IsNotNull(webView);
+            Verify.IsNotNull(webView._webViewControl);
+
+            if (webView?._webViewControl != null)
+            {
+                switch (webView.Visibility)
+                {
+                    case Visibility.Visible:
+                        webView._webViewControl.IsVisible = true;
+                        break;
+
+                    case Visibility.Hidden:
+                        webView._webViewControl.IsVisible = false;
+                        break;
+
+                    case Visibility.Collapsed:
+                        webView._webViewControl.IsVisible = false;
+
+                        // TODO: Update bounds to set PreferredSize?
+                        break;
+                }
+            }
         }
 
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
@@ -1072,6 +1056,33 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl.UnsafeContentWarningDisplaying -= OnUnsafeContentWarningDisplaying;
             _webViewControl.UnsupportedUriSchemeIdentified -= OnUnsupportedUriSchemeIdentified;
             _webViewControl.UnviewableContentIdentified -= OnUnviewableContentIdentified;
+        }
+
+        private void UpdateBounds(int x, int y, int width, int height, int clientWidth, int clientHeight)
+        {
+#if DEBUG_LAYOUT
+            Debug.WriteLine($"{Name}::{nameof(UpdateBounds)}");
+            Debug.Indent();
+            Debug.WriteLine($"oldBounds={{x={x} y={y} width={width} height={height} clientWidth={clientWidth} clientHeight={clientHeight}}}");
+#endif
+            // TODO: Update bounds here to ensure correct draw position?
+            // HACK: looks like the vertical pos is counted twice, giving a gap
+            y = 0;
+
+#if DEBUG_LAYOUT
+            Debug.WriteLine($"newBounds={{x={x} y={y} width={width} height={height} clientWidth={clientWidth} clientHeight={clientHeight}}}");
+#endif
+
+            VerifyAccess();
+            var rect = new Windows.Foundation.Rect(
+                new Point(x, y),
+                new Size(width, height));
+            Verify.IsNotNull(_webViewControl);
+            _webViewControl?.UpdateBounds(rect);
+
+#if DEBUG_LAYOUT
+            Debug.Unindent();
+#endif
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             Form.SuspendLayout();
             WebViewControlProcessOptions = webViewControlProcessOptions;
             WebViewControlProcess = new WebViewControlProcess(WebViewControlProcessOptions);
-            WebView = new UI.Controls.WinForms.WebView(WebViewControlProcess.CreateWebViewControlHost(Form.Handle, Form.ClientRectangle));
+            WebView = (Controls.WinForms.WebView)WebViewControlProcess.CreateWebView(Form.Handle, Form.ClientRectangle);
             Form.Controls.Add(WebView);
             Form.ResumeLayout(false);
             Form.PerformLayout();

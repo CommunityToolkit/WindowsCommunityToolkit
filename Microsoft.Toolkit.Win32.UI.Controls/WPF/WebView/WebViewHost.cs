@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-#define DEBUG_FOCUS
 using System;
 using System.Collections;
 using System.Diagnostics;
