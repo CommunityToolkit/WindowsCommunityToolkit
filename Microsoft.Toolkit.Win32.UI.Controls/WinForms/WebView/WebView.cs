@@ -44,10 +44,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
     [PermissionSet(SecurityAction.InheritanceDemand, Name = Constants.SecurityPermissionSetName)]
     public sealed partial class WebView : Control, IWebView, ISupportInitialize
     {
-        private bool _delayedIsIndexDbEnabled = true;
-        private bool _delayedIsJavaScriptEnabled = true;
-        private bool _delayedIsScriptNotifyAllowed = true;
-        private bool _delayedPrivateNetworkEnabled = false;
+        private bool _delayedIsIndexDbEnabled = WebViewDefaults.IsIndexedDBEnabled;
+        private bool _delayedIsJavaScriptEnabled = WebViewDefaults.IsJavaScriptEnabled;
+        private bool _delayedIsScriptNotifyAllowed = WebViewDefaults.IsScriptNotifyEnabled;
+        private bool _delayedPrivateNetworkEnabled = WebViewDefaults.IsPrivateNetworkEnabled;
         private Uri _delayedSource;
         private WebViewControlHost _webViewControl;
 
@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         /// <inheritdoc/>
         [StringResourceCategory(Constants.CategoryBehavior)]
-        [DefaultValue(false)]
+        [DefaultValue(WebViewDefaults.IsIndexedDBEnabled)]
         public bool IsIndexedDBEnabled
         {
             get
@@ -147,7 +147,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// </summary>
         /// <value><c>true</c> if the use of JavaScript is allowed; otherwise, <c>false</c>.</value>
         [StringResourceCategory(Constants.CategoryBehavior)]
-        [DefaultValue(false)]
+        [DefaultValue(WebViewDefaults.IsJavaScriptEnabled)]
         public bool IsJavaScriptEnabled
         {
             get
@@ -180,7 +180,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// </summary>
         /// <value><c>true</c> if <see cref="ScriptNotify"/> is allowed; otherwise, <c>false</c>.</value>
         [StringResourceCategory(Constants.CategoryBehavior)]
-        [DefaultValue(false)]
+        [DefaultValue(WebViewDefaults.IsScriptNotifyEnabled)]
         public bool IsScriptNotifyAllowed
         {
             get
@@ -209,7 +209,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         }
 
         [StringResourceCategory(Constants.CategoryBehavior)]
-        [DefaultValue(false)]
+        [DefaultValue(WebViewDefaults.IsPrivateNetworkEnabled)]
         public bool IsPrivateNetworkClientServerCapabilityEnabled
         {
             get

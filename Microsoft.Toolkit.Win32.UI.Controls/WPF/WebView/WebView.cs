@@ -60,19 +60,19 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             nameof(IsIndexedDBEnabled),
             typeof(bool),
             typeof(WebView),
-            new PropertyMetadata(true, PropertyChangedCallback));
+            new PropertyMetadata(WebViewDefaults.IsIndexedDBEnabled, PropertyChangedCallback));
 
         private static readonly DependencyProperty IsJavaScriptEnabledProperty = DependencyProperty.Register(
             nameof(IsJavaScriptEnabled),
             typeof(bool),
             typeof(WebView),
-            new PropertyMetadata(true, PropertyChangedCallback));
+            new PropertyMetadata(WebViewDefaults.IsJavaScriptEnabled, PropertyChangedCallback));
 
         private static readonly DependencyProperty IsScriptNotifyAllowedProperty = DependencyProperty.Register(
             nameof(IsScriptNotifyAllowed),
             typeof(bool),
             typeof(WebView),
-            new PropertyMetadata(true, PropertyChangedCallback));
+            new PropertyMetadata(WebViewDefaults.IsScriptNotifyEnabled, PropertyChangedCallback));
 
         private static readonly bool IsWebPermissionRestricted = !Security.CallerAndAppDomainHaveUnrestrictedWebBrowserPermission();
 
@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             nameof(IsPrivateNetworkClientServerCapabilityEnabled),
             typeof(bool),
             typeof(WebView),
-            new PropertyMetadata(false, PropertyChangedCallback)
+            new PropertyMetadata(WebViewDefaults.IsPrivateNetworkEnabled, PropertyChangedCallback)
             );
 
         private WebViewControlProcess _process;
@@ -407,7 +407,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <value><c>true</c> if IndexedDB is allowed; otherwise, <c>false</c>. The default is <c>true</c>.</value>
         /// <see cref="WebViewControlSettings.IsIndexedDBEnabled" />
         [StringResourceCategory(Constants.CategoryBehavior)]
-        [DefaultValue(false)]
+        [DefaultValue(WebViewDefaults.IsIndexedDBEnabled)]
         public bool IsIndexedDBEnabled
         {
             get => (bool)GetValue(IsIndexedDBEnabledProperty);
@@ -420,7 +420,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <value>true if JavaScript is allowed in the <see cref="WebView" />; otherwise, false. The default is true.</value>
         /// <see cref="WebViewControlSettings.IsJavaScriptEnabled" />
         [StringResourceCategory(Constants.CategoryBehavior)]
-        [DefaultValue(false)]
+        [DefaultValue(WebViewDefaults.IsJavaScriptEnabled)]
         public bool IsJavaScriptEnabled
         {
             get => (bool)GetValue(IsJavaScriptEnabledProperty);
@@ -433,7 +433,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <value>Whether <see cref="WebView.ScriptNotify" /> is allowed.</value>
         /// <see cref="WebViewControlSettings.IsScriptNotifyAllowed" />
         [StringResourceCategory(Constants.CategoryBehavior)]
-        [DefaultValue(false)]
+        [DefaultValue(WebViewDefaults.IsScriptNotifyEnabled)]
         public bool IsScriptNotifyAllowed
         {
             get => (bool)GetValue(IsScriptNotifyAllowedProperty);
@@ -441,7 +441,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         [StringResourceCategory(Constants.CategoryBehavior)]
-        [DefaultValue(false)]
+        [DefaultValue(WebViewDefaults.IsPrivateNetworkEnabled)]
         public bool IsPrivateNetworkClientServerCapabilityEnabled
         {
             get => (bool)GetValue(IsPrivateNetworkClientServerCapabilityEnabledProperty);

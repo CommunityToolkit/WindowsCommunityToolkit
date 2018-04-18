@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.ComponentModel;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Microsoft.Toolkit.Win32.UI.Controls.Test.WebView.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
@@ -35,19 +36,25 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         [TestMethod]
         public void IndexDBEnabled()
         {
-            WebView.IsIndexedDBEnabled.ShouldBeTrue();
+            WebView.IsIndexedDBEnabled.ShouldEqual(WebViewDefaults.IsIndexedDBEnabled);
         }
 
         [TestMethod]
         public void JavaScriptEnabled()
         {
-            WebView.IsJavaScriptEnabled.ShouldBeTrue();
+            WebView.IsJavaScriptEnabled.ShouldEqual(WebViewDefaults.IsJavaScriptEnabled);
         }
 
         [TestMethod]
-        public void ScriptNotifyEnabled()
+        public void ScriptNotifyDisabled()
         {
-            WebView.IsScriptNotifyAllowed.ShouldBeTrue();
+            WebView.IsScriptNotifyAllowed.ShouldEqual(WebViewDefaults.IsScriptNotifyEnabled);
+        }
+
+        [TestMethod]
+        public void PrivateNetworkDisabled()
+        {
+            WebView.IsPrivateNetworkClientServerCapabilityEnabled.ShouldEqual(WebViewDefaults.IsPrivateNetworkEnabled);
         }
 
         protected override void Cleanup()
