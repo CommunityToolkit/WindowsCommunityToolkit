@@ -18,14 +18,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
     // Navigation Journaling
     public partial class WebView
     {
+        /// <inheritdoc />
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool CanGoBack => _webViewControl?.CanGoBack ?? false;
-
+        /// <inheritdoc />
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool CanGoForward => _webViewControl?.CanGoForward ?? false;
 
+        /// <inheritdoc />
         public bool GoBack()
         {
             var retval = true;
@@ -46,6 +48,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             return retval;
         }
 
+        /// <inheritdoc />
         public bool GoForward()
         {
             var retval = true;
@@ -66,6 +69,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             return retval;
         }
 
+        /// <inheritdoc cref="IWebView.Refresh" />
         public override void Refresh()
         {
             try
@@ -81,6 +85,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
         }
 
+        /// <inheritdoc />
         public void Stop()
         {
             try

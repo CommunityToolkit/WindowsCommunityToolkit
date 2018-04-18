@@ -30,8 +30,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
     {
         public event EventHandler<WebViewControlAcceleratorKeyPressedEventArgs> AcceleratorKeyPressed = (sender, args) => { };
 
+        /// <inheritdoc />
         /// <summary>
-        /// Occurs when the status of whether the <see cref="WebView"/> current contains a full screen element or not changes.
+        /// Occurs when the status of whether the <see cref="T:Microsoft.Toolkit.Win32.UI.Controls.WinForms.WebView" /> current contains a full screen element or not changes.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         [StringResourceCategory(Constants.CategoryAction)]
@@ -39,7 +40,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         public event EventHandler<object> ContainsFullScreenElementChanged = (sender, args) => { };
 
         /// <summary>
-        /// Occurs when the <see cref="WebView"/> has started loading new content.
+        /// Occurs when the <see cref="WebView" /> has started loading new content.
         /// </summary>
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewContentLoading)]

@@ -12,8 +12,10 @@
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
+    /// <summary>Specifies the set of possible accelerator key events that can invoke a callback.</summary>
     /// <remarks>Copy from <see cref="Windows.UI.Core.CoreAcceleratorKeyEventType"/> to avoid requirement to link Windows.winmd</remarks>
     /// <seealso cref="Windows.UI.Core.CoreAcceleratorKeyEventType"/>
+#pragma warning disable 1591
     public enum CoreAcceleratorKeyEventType
     {
         KeyDown,
@@ -26,4 +28,5 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         SystemDeadCharacter,
         UnicodeCharacter,
     }
+#pragma warning restore 1591
 }

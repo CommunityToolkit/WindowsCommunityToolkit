@@ -16,7 +16,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <seealso cref="Windows.Web.UI.Interop.WebViewControlAcceleratorKeyRoutingStage"/>
     public enum WebViewControlAcceleratorKeyRoutingStage
     {
+#pragma warning disable 1591
         Tunneling,
         Bubbling,
+#pragma warning restore 1591
     }
 }

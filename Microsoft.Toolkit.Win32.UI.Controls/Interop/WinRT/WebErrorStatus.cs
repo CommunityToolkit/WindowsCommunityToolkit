@@ -16,6 +16,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <seealso cref="Windows.Web.WebErrorStatus"/>
     public enum WebErrorStatus
     {
+#pragma warning disable 1591
         Unknown = 0,
         CertificateCommonNameIsIncorrect = 1,
         CertificateExpired = 2,
@@ -72,5 +73,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         ServiceUnavailable = 503,
         GatewayTimeout = 504,
         HttpVersionNotSupported = 505,
+#pragma warning restore 1591
     }
 }

@@ -141,8 +141,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         event EventHandler<WebViewControlUnsupportedUriSchemeIdentifiedEventArgs> UnsupportedUriSchemeIdentified;
 
         /// <summary>
-        /// Occurs when <see cref="IWebView" /> attempts to download an unsupported file.
+        /// Occurs when <see cref="IWebView" /> attempts to navigate to a content type it cannot render. Like other navigation events, it is only triggered by top level navigations.
         /// </summary>
+        /// <remarks>
+        /// Event is triggered as soon as the content that can be identified is unsupported. For HTTP(s) content, this is right after the headers have been received.
+        /// </remarks>
         event EventHandler<WebViewControlUnviewableContentIdentifiedEventArgs> UnviewableContentIdentified;
 
         /// <summary>

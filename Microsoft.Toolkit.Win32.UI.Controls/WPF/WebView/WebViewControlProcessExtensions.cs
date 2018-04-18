@@ -17,7 +17,7 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
-    public static class WebViewControlProcessExtensions
+    internal static class WebViewControlProcessExtensions
     {
         /// <summary>
         /// Creates a <see cref="WebViewControlHost"/> within the context of <paramref name="process"/>.
