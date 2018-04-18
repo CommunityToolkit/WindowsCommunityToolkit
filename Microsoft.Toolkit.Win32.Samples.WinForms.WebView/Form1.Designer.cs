@@ -123,10 +123,11 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.WebView
             this.url.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.url.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.AllUrl;
             this.url.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.url.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.url.Location = new System.Drawing.Point(60, 0);
             this.url.Margin = new System.Windows.Forms.Padding(0);
             this.url.Name = "url";
-            this.url.Size = new System.Drawing.Size(671, 20);
+            this.url.Size = new System.Drawing.Size(671, 32);
             this.url.TabIndex = 5;
             this.url.KeyUp += new System.Windows.Forms.KeyEventHandler(this.url_KeyUp);
             // 
