@@ -65,124 +65,55 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             Dispose(false);
         }
 
-        public event EventHandler<WebViewControlAcceleratorKeyPressedEventArgs> AcceleratorKeyPressed = (sender, args) => { };
+        internal event EventHandler<WebViewControlAcceleratorKeyPressedEventArgs> AcceleratorKeyPressed = (sender, args) => { };
 
-        /// <summary>
-        /// Occurs when the status of whether the <see cref="WebViewControlHost"/> current contains a full screen element or not changes.
-        /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
-        public event EventHandler<object> ContainsFullScreenElementChanged = (sender, args) => { };
+        internal event EventHandler<object> ContainsFullScreenElementChanged = (sender, args) => { };
 
-        /// <summary>
-        /// Occurs when the <see cref="WebViewControlHost"/> has started loading new content.
-        /// </summary>
-        public event EventHandler<WebViewControlContentLoadingEventArgs> ContentLoading = (sender, args) => { };
+        internal event EventHandler<WebViewControlContentLoadingEventArgs> ContentLoading = (sender, args) => { };
 
-        /// <summary>
-        /// Occurs when the <see cref="WebViewControlHost"/> finished parsing the current content.
-        /// </summary>
         // ReSharper disable InconsistentNaming
-        public event EventHandler<WebViewControlDOMContentLoadedEventArgs> DOMContentLoaded = (sender, args) => { };
-
-        /// <summary>
-        /// Occurs when a frame in the <see cref="WebViewControlHost"/> has started loading new content.
-        /// </summary>
-        public event EventHandler<WebViewControlContentLoadingEventArgs> FrameContentLoading = (sender, args) => { };
-
+        internal event EventHandler<WebViewControlDOMContentLoadedEventArgs> DOMContentLoaded = (sender, args) => { };
         // ReSharper restore InconsistentNaming
 
-        /// <summary>
-        /// Occurs when a frame in the <see cref="WebViewControlHost"/> finished parsing its current content.
-        /// </summary>
+        internal event EventHandler<WebViewControlContentLoadingEventArgs> FrameContentLoading = (sender, args) => { };
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM")]
 
         // ReSharper disable InconsistentNaming
-        public event EventHandler<WebViewControlDOMContentLoadedEventArgs> FrameDOMContentLoaded = (sender, args) => { };
-
-        /// <summary>
-        /// Occurs when a frame in the <see cref="WebViewControlHost"/> finished navigating to new content.
-        /// </summary>
-        public event EventHandler<WebViewControlNavigationCompletedEventArgs> FrameNavigationCompleted = (sender, args) => { };
-
+        internal event EventHandler<WebViewControlDOMContentLoadedEventArgs> FrameDOMContentLoaded = (sender, args) => { };
         // ReSharper restore InconsistentNaming
 
-        /// <summary>
-        /// Occurs when a frame in the <see cref="WebViewControlHost"/> navigates to new content.
-        /// </summary>
-        public event EventHandler<WebViewControlNavigationStartingEventArgs> FrameNavigationStarting = (sender, args) => { };
+        internal event EventHandler<WebViewControlNavigationCompletedEventArgs> FrameNavigationCompleted = (sender, args) => { };
 
-        /// <summary>
-        /// Occurs periodically while the <see cref="WebViewControlHost"/> executes JavaScript, letting you halt the script.
-        /// </summary>
-        /// <remarks>
-        /// Your app might appear unresponsive while scripts are running. This event provides an opportunity to interrupt a long-running
-        /// script. To determine how long the script has been running, check the <see cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs.ExecutionTime"/>
-        /// property of the <see cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/> object. To halt the script, set the event args
-        /// <see cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs.StopPageScriptExecution"/> property to true. The halted script will
-        /// not execute again unless it is reloaded during a subsequent <see cref="WebViewControlHost"/> navigation.
-        /// </remarks>
-        /// <seealso cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/>
-        /// <seealso cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs.ExecutionTime"/>
-        /// <seealso cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs.StopPageScriptExecution"/>
-        public event EventHandler<WebViewControlLongRunningScriptDetectedEventArgs> LongRunningScriptDetected = (sender, args) => { };
+        internal event EventHandler<WebViewControlNavigationStartingEventArgs> FrameNavigationStarting = (sender, args) => { };
 
-        /// <summary>
-        /// Occurs when a focus move is requested.
-        /// </summary>
-        public event EventHandler<WebViewControlMoveFocusRequestedEventArgs> MoveFocusRequested = (sender, args) => { };
+        internal event EventHandler<WebViewControlLongRunningScriptDetectedEventArgs> LongRunningScriptDetected = (sender, args) => { };
 
-        /// <summary>
-        /// Occurs when the <see cref="WebViewControlHost"/> control finished navigating to new content.
-        /// </summary>
-        public event EventHandler<WebViewControlNavigationCompletedEventArgs> NavigationCompleted = (sender, args) => { };
+        internal event EventHandler<WebViewControlMoveFocusRequestedEventArgs> MoveFocusRequested = (sender, args) => { };
 
-        /// <summary>
-        /// Occurs before the <see cref="WebViewControlHost"/> navigates to new content.
-        /// </summary>
-        public event EventHandler<WebViewControlNavigationStartingEventArgs> NavigationStarting = (sender, args) => { };
+        internal event EventHandler<WebViewControlNavigationCompletedEventArgs> NavigationCompleted = (sender, args) => { };
 
-        /// <summary>eds
-        /// Occurs when an action is performed that causes content to be opened in a new window.
-        /// </summary>
-        public event EventHandler<WebViewControlNewWindowRequestedEventArgs> NewWindowRequested = (sender, args) => { };
+        internal event EventHandler<WebViewControlNavigationStartingEventArgs> NavigationStarting = (sender, args) => { };
 
-        /// <summary>
-        /// Occurs when an action in a <see cref="WebViewControlHost"/> requires that permission be granted.
-        /// </summary>
-        /// <remarks>
-        /// The types of permission that can be requested are defined in the <see cref="Windows.Web.UI.WebViewControlPermissionType"/> enumeration.
-        ///
-        /// If you don't handle the <see cref="PermissionRequested"/> event, the <see cref="WebViewControlHost"/> denies permission by default.
-        ///
-        /// When you handle a permission request in <see cref="WebViewControlHost"/>, you get a <see cref="Windows.Web.UI.WebViewControlPermissionRequest"/> object as
-        /// the value of the <see cref="M:WebViewControlPermissionRequestedEventArgs.PermissionRequest"/> property. You can call Allow to grant the request,
-        /// Deny to deny the request, or Defer to defer the request until a later time.
-        /// </remarks>
-        public event EventHandler<WebViewControlPermissionRequestedEventArgs> PermissionRequested = (sender, args) => { };
+        internal event EventHandler<WebViewControlNewWindowRequestedEventArgs> NewWindowRequested = (sender, args) => { };
 
-        /// <summary>
-        /// Occurs when the content contained in the <see cref="WebViewControlHost"/> control passes a string to the application by using JavaScript.
-        /// </summary>
-        public event EventHandler<WebViewControlScriptNotifyEventArgs> ScriptNotify = (sender, args) => { };
+        internal event EventHandler<WebViewControlPermissionRequestedEventArgs> PermissionRequested = (sender, args) => { };
 
-        /// <summary>
-        /// Occurs when <see cref="WebViewControlHost"/> shows a warning page for content that was reported as unsafe by SmartScreen filter.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
-        public event EventHandler<object> UnsafeContentWarningDisplaying = (sender, args) => { };
+        internal event EventHandler<WebViewControlScriptNotifyEventArgs> ScriptNotify = (sender, args) => { };
 
-        /// <summary>
-        /// Occurs when an attempt is made to navigate to a <see cref="Source"/> using a scheme that <see cref="WebViewControlHost"/> does not support.
-        /// </summary>
-        public event EventHandler<WebViewControlUnsupportedUriSchemeIdentifiedEventArgs> UnsupportedUriSchemeIdentified = (sender, args) => { };
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Microsoft.Design",
+            "CA1009:DeclareEventHandlersCorrectly",
+            Justification = "WinRT type does not derive from EventArgs. Signature kept to maintain compatability")]
+        internal event EventHandler<object> UnsafeContentWarningDisplaying = (sender, args) => { };
 
-        /// <summary>
-        /// Occurs when <see cref="WebViewControlHost"/> attempts to download an unsupported file.
-        /// </summary>
+        internal event EventHandler<WebViewControlUnsupportedUriSchemeIdentifiedEventArgs> UnsupportedUriSchemeIdentified = (sender, args) => { };
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unviewable")]
-        public event EventHandler<WebViewControlUnviewableContentIdentifiedEventArgs> UnviewableContentIdentified = (sender, args) => { };
+        internal event EventHandler<WebViewControlUnviewableContentIdentifiedEventArgs> UnviewableContentIdentified = (sender, args) => { };
 
-        public bool CanGoBack
+        internal bool CanGoBack
         {
             get
             {
@@ -198,7 +129,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        public bool CanGoForward
+        internal bool CanGoForward
         {
             get
             {
@@ -214,7 +145,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        public bool ContainsFullScreenElement
+        internal bool ContainsFullScreenElement
         {
             get
             {
@@ -230,7 +161,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        public string DocumentTitle
+        internal string DocumentTitle
         {
             get
             {
@@ -241,11 +172,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        public bool IsDisposed { get; private set; }
+        private bool IsDisposed { get; set; }
 
-        public bool IsDisposing { get; private set; }
+        private bool IsDisposing { get; set; }
 
-        public bool IsVisible
+        internal bool IsVisible
         {
             get
             {
@@ -264,19 +195,19 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        public Windows.Web.UI.Interop.WebViewControlProcess Process { get; private set; }
+        internal Windows.Web.UI.Interop.WebViewControlProcess Process { get; private set; }
 
-        public WebViewControlSettings Settings
+        internal Windows.Web.UI.WebViewControlSettings Settings
         {
             get
             {
                 Verify.IsFalse(IsDisposed);
                 Verify.IsNotNull(_webViewControl);
-                return new WebViewControlSettings(_webViewControl?.Settings);
+                return _webViewControl?.Settings;
             }
         }
 
-        public Uri Source
+        internal Uri Source
         {
             get
             {
@@ -319,7 +250,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// Gets the version of EDGEHTML.DLL used by the control.
         /// </summary>
         /// <value>The version of EDGEHTML.DLL used by the control.</value>
-        public Version Version
+        internal Version Version
         {
             get
             {
@@ -339,7 +270,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        internal Guid LastNavigation
+        private Guid LastNavigation
         {
             get;
             [SecurityCritical]
@@ -348,14 +279,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         // Indicates whether we are navigating to "about:blank" internally because Source is set to null or navigating to string
         // Set is SecurityCritical because it is involved in making security decisions
-        internal bool NavigatingToAboutBlank
+        private bool NavigatingToAboutBlank
         {
             get;
             [SecurityCritical]
             set;
         }
 
-        public void Close()
+        internal void Close()
         {
             var webViewControlAlreadyClosed = _webViewControlClosed;
             _webViewControlClosed = true;
@@ -381,7 +312,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             GC.SuppressFinalize(this);
         }
 
-        public WebViewControlDeferredPermissionRequest GetDeferredPermissionRequestById(uint id)
+        internal WebViewControlDeferredPermissionRequest GetDeferredPermissionRequestById(uint id)
         {
             Verify.IsFalse(IsDisposed);
             Verify.IsNotNull(_webViewControl);
@@ -394,7 +325,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             return retval;
         }
 
-        public bool GoBack()
+        internal bool GoBack()
         {
             Verify.IsFalse(IsDisposed);
             Verify.IsNotNull(_webViewControl);
@@ -417,7 +348,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             return retval;
         }
 
-        public bool GoForward()
+        internal bool GoForward()
         {
             Verify.IsFalse(IsDisposed);
             Verify.IsNotNull(_webViewControl);
@@ -441,25 +372,24 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
-        public object InvokeScript(string scriptName) => InvokeScriptAsync(scriptName).GetAwaiter().GetResult();
+        internal object InvokeScript(string scriptName) => InvokeScriptAsync(scriptName).GetAwaiter().GetResult();
 
         /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
-        public object InvokeScript(string scriptName, params string[] arguments) =>
+        internal object InvokeScript(string scriptName, params string[] arguments) =>
             InvokeScriptAsync(scriptName, arguments).GetAwaiter().GetResult();
 
         /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
-        public object InvokeScript(string scriptName, IEnumerable<string> arguments) =>
-            InvokeScriptAsync(scriptName, arguments).GetAwaiter().GetResult();
+        internal object InvokeScript(string scriptName, IEnumerable<string> arguments) => InvokeScriptAsync(scriptName, arguments).GetAwaiter().GetResult();
 
         /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
-        public Task<string> InvokeScriptAsync(string scriptName) => InvokeScriptAsync(scriptName, null);
+        internal Task<string> InvokeScriptAsync(string scriptName) => InvokeScriptAsync(scriptName, null);
 
         /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
-        public Task<string> InvokeScriptAsync(string scriptName, params string[] arguments) => InvokeScriptAsync(scriptName, (IEnumerable<string>)arguments);
+        internal Task<string> InvokeScriptAsync(string scriptName, params string[] arguments) => InvokeScriptAsync(scriptName, (IEnumerable<string>)arguments);
 
         /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scriptName"/> is <see langword="null"/></exception>
-        public Task<string> InvokeScriptAsync(string scriptName, IEnumerable<string> arguments)
+        internal Task<string> InvokeScriptAsync(string scriptName, IEnumerable<string> arguments)
         {
             Verify.IsFalse(IsDisposed);
             Verify.IsNotNull(_webViewControl);
@@ -470,45 +400,33 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 throw new ArgumentNullException(nameof(scriptName));
             }
 
-            // TODO: Error message
+            // Cannot invoke script
             if (_webViewControl == null)
             {
+                // TODO: Error message
                 throw new InvalidOperationException();
             }
 
             // Protect against the cross domain scripting attacks
-            // If it is our internal navigation to blank for navigating to null or load string or before navigation has happened, Source will be null
+            // If it is our internal navigation to about:blank for navigating to null or load string or before navigation has happened, Source will be null
             var currentSource = Source;
             if (currentSource != null)
             {
                 Security.DemandWebPermission(currentSource);
             }
 
-            if (_webViewControl != null)
-            {
-                return _webViewControl.InvokeScriptAsync(scriptName, arguments).AsTask();
-            }
-
-            // TODO: Message
-            // Cannot invoke script
-            throw new InvalidOperationException();
+            return _webViewControl
+                    .InvokeScriptAsync(scriptName, arguments)
+                    .AsTask();
         }
 
-        /// <summary>
-        /// Moves the focus.
-        /// </summary>
-        /// <param name="reason">The reason.</param>
-        public void MoveFocus(WebViewControlMoveFocusReason reason)
+        internal void MoveFocus(WebViewControlMoveFocusReason reason)
         {
             _webViewControl?.MoveFocus((Windows.Web.UI.Interop.WebViewControlMoveFocusReason)reason);
         }
 
-        /// <summary>
-        /// Loads the document at the location indicated by the specified <see cref="Source"/> into the <see cref="WebViewControlHost"/> control, replacing the previous document.
-        /// </summary>
-        /// <param name="source">A <see cref="Source"/> representing the URL of the document to load.</param>
         /// <exception cref="ArgumentException">The provided <paramref name="source"/> is a relative URI.</exception>
-        public void Navigate(Uri source)
+        internal void Navigate(Uri source)
         {
             Verify.IsNotNull(_webViewControl);
 
@@ -567,7 +485,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         ///                 In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <see cref="T:System.FormatException" />, instead.
         ///               <paramref name="source" /> is empty.-or- The scheme specified in <paramref name="source" /> is not correctly formed. See <see cref="M:System.Uri.CheckSchemeName(System.String)" />.-or-
         ///               <paramref name="source" /> contains too many slashes.-or- The password specified in <paramref name="source" /> is not valid.-or- The host name specified in <paramref name="source" /> is not valid.-or- The file name specified in <paramref name="source" /> is not valid. -or- The user name specified in <paramref name="source" /> is not valid.-or- The host or authority name specified in <paramref name="source" /> cannot be terminated by backslashes.-or- The port number specified in <paramref name="source" /> is not valid or cannot be parsed.-or- The length of <paramref name="source" /> exceeds 65519 characters.-or- The length of the scheme specified in <paramref name="source" /> exceeds 1023 characters.-or- There is an invalid character sequence in <paramref name="source" />.-or- The MS-DOS path specified in <paramref name="source" /> must start with c:\\.</exception>
-        public void Navigate(string source)
+        internal void Navigate(string source)
         {
             if (string.IsNullOrEmpty(source))
             {
@@ -586,12 +504,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        /// <summary>
-        /// Loads the specified HTML content as a new document.
-        /// </summary>
-        /// <param name="text">The HTML content to display in the control.</param>
         /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null"/></exception>
-        public void NavigateToString(string text)
+        internal void NavigateToString(string text)
         {
             if (string.IsNullOrEmpty(text))
             {
@@ -601,7 +515,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             _webViewControl?.NavigateToString(text);
         }
 
-        public void Refresh()
+        internal void Refresh()
         {
             try
             {
@@ -616,7 +530,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        public void Stop()
+        internal void Stop()
         {
             try
             {
@@ -631,13 +545,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-
-        /// <summary>
-        /// Updates the location and size of the web view.
-        /// </summary>
-        /// <param name="bounds">A <see cref="Rect"/> containing numerical values that represent the location and size of the control.</param>
-        /// <remarks>Sets the <seealso cref="WebViewControl.Bounds"/> property.</remarks>
-        public void UpdateBounds(Rect bounds)
+        // We don't expose the Bounds property because of issues with placement of Core window
+        internal void UpdateBounds(Rect bounds)
         {
             if (_webViewControl != null)
             {
@@ -646,7 +555,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         [SecurityCritical] // Resets NavigatingToAboutBlank which is used in security decisions
-        internal void CleanInternalState()
+        private void CleanInternalState()
         {
             NavigatingToAboutBlank = false;
         }
@@ -1054,5 +963,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
             Process.ProcessExited -= OnProcessExited;
         }
+
+        // TODO: Expose Bounds
     }
 }
