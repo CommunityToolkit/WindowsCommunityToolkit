@@ -16,7 +16,6 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Release\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisRuleSet>F:\src\GitHub\rjmurillo\UWPCommunityToolkit\Toolkit.ruleset</CodeAnalysisRuleSet>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>false</Optimize>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
