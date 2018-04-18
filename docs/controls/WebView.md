@@ -101,11 +101,11 @@ The **WebView** control also receives keyboard input focus and participates in t
 
 <!-- This is goofy right now with the way we are nesting windows -->
 
-:pencil2: In a Windows Forms app, access tab sequence info via the  [TabIndex](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.tabindex) and [TabStop](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.tabstop) properties. The tab sequence includes all elements in the web view content that can receive input focus.
+* In a Windows Forms app, access tab sequence info via the  [TabIndex](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.tabindex) and [TabStop](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.tabstop) properties. The tab sequence includes all elements in the web view content that can receive input focus.
 
-:pencil2:Use the [Focus](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.focus) method to programmatically set input focus, and handle the `GotFocus` and `LostFocus` events to be notified of input focus changes.
+* Use the [Focus](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.focus) method to programmatically set input focus, and handle the `GotFocus` and `LostFocus` events to be notified of input focus changes.
 
-:pencil2: Handle keyboard input via the `KeyDown`, `KeyUp` events and mouse-related events.
+* Handle keyboard input via the `KeyDown`, `KeyUp` events and mouse-related events.
 
 <!-- There does not appear to be TabIndex, TabStop, and MouseClick members for the WPF version of this control. -->
 
@@ -132,13 +132,13 @@ webView1.Navigate("http://www.contoso.com");
 
 The **WebView** control provides several events that you can use to respond to navigation and content loading states. The events occur in the following order for the root web view content:
 
-:one: [NavigationStarting](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.navigationstarting)
+1. [NavigationStarting](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.navigationstarting)
 
-:two: [ContentLoading](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.contentloading)
+2. [ContentLoading](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.contentloading)
 
-:three: [DOMContentLoaded](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.domcontentloaded)
+3. [DOMContentLoaded](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.domcontentloaded)
 
-:four: [NavigationCompleted](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.navigationcompleted)
+4. [NavigationCompleted](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.navigationcompleted)
 
 The **NavigationStarting** event is raised before the web view navigates to new content. You can cancel navigation in a handler for this event by setting the ``WebViewNavigationStartingEventArgs.Cancel`` property to true.
 
@@ -203,13 +203,13 @@ private void webView1_NavigationCompleted(WebView sender, WebViewNavigationCompl
 ```
 
 Similar events occur in the same order for each **iframe** in the web view content:
-:one: The [FrameNavigationStarting](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.framenavigationstarting) event is raised before a frame in the web view navigates to new content.
+1. The [FrameNavigationStarting](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.framenavigationstarting) event is raised before a frame in the web view navigates to new content.
 
-:two: The [FrameContentLoading](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.framecontentloading) event is raised when a frame in the web view has started loading new content.
+2. The [FrameContentLoading](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.framecontentloading) event is raised when a frame in the web view has started loading new content.
 
-:three: The [FrameDOMContentLoaded](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.framedomcontentloaded) event is raised when a frame in the web view has finished parsing its current HTML content.
+3. The [FrameDOMContentLoaded](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.framedomcontentloaded) event is raised when a frame in the web view has finished parsing its current HTML content.
 
-:four: The [FrameNavigationCompleted](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.framenavigationcompleted) event is raised when a frame in the web view has finished loading its content.
+4. The [FrameNavigationCompleted](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.framenavigationcompleted) event is raised when a frame in the web view has finished loading its content.
 
 ## Respond to potential problems
 
