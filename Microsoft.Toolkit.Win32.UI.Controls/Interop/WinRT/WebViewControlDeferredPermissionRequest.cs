@@ -47,20 +47,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public Uri Uri => _webViewControlDeferredPermissionRequest.Uri;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlDeferredPermissionRequest(
-      Windows.Web.UI.WebViewControlDeferredPermissionRequest webViewControlDeferredPermissionRequest)
-        {
-            return new WebViewControlDeferredPermissionRequest(webViewControlDeferredPermissionRequest);
-        }
+        public static implicit operator WebViewControlDeferredPermissionRequest(Windows.Web.UI.WebViewControlDeferredPermissionRequest webViewControlDeferredPermissionRequest) => new WebViewControlDeferredPermissionRequest(webViewControlDeferredPermissionRequest);
 
         /// <summary>
         /// Grants the requested permission.
         /// </summary>
+        [SecurityCritical]
         public void Allow() => _webViewControlDeferredPermissionRequest.Allow();
 
         /// <summary>
         /// Denies the requested permission.
         /// </summary>
+        [SecurityCritical]
         public void Deny() => _webViewControlDeferredPermissionRequest.Deny();
     }
 }

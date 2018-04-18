@@ -12,6 +12,7 @@
 
 using System;
 using System.IO;
+using System.Security;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 using Windows.Foundation.Metadata;
 using Windows.Security.EnterpriseData;
@@ -22,6 +23,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
     {
         private const string ContractName = "Windows.Foundation.UniversalApiContract";
 
+        [SecurityCritical]
         static OSVersionHelper()
         {
             if (IsSince(WindowsVersions.Win10))
@@ -80,21 +82,28 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             Server2016 // 10.0
         }
 
-        public static bool EdgeExists { get; } = File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "edgehtml.dll"));
+        internal static bool EdgeExists { get; } = File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "edgehtml.dll"));
 
         /// <summary>
-        /// Windows 10 RS4 (1803, build 17133)
+        /// Gets a value indicating whether the current OS is Windows 10 RS4 or greater
         /// </summary>
-        public static bool IsWindows10RS4OrGreater => Windows10Release >= Win10Release.SpringCreators;
+        private static bool IsWindows10RS4OrGreater => Windows10Release >= Win10Release.SpringCreators;
 
-        public static bool IsWorkstation { get; } = !IsServer();
+        private static bool IsWorkstation { get; } = !IsServer();
 
-        public static bool UseWindowsInformationProtectionApi => Windows10Release >= Win10Release.Anniversary && ProtectionPolicyManager.IsProtectionEnabled;
+        internal static bool UseWindowsInformationProtectionApi
+        {
+            [SecurityCritical]
+            get => Windows10Release >= Win10Release.Anniversary && ProtectionPolicyManager.IsProtectionEnabled;
+        }
 
         private static Win10Release Windows10Release { get; }
 
-        /// <exception cref="NotSupportedException">Not running correct OS or OS Version.</exception>
-        public static void ThrowIfBeforeWindows10RS4()
+        /// <summary>
+        /// Checks if OS is Windows 10, RS4 or later, is a workstation, and Edge exists.
+        /// </summary>
+        /// <exception cref="NotSupportedException">Not running correct OS or OS Version, or Edge does not exist.</exception>
+        internal static void ThrowIfBeforeWindows10RS4()
         {
             if (IsWindows10RS4OrGreater && IsWorkstation && EdgeExists)
             {
@@ -104,8 +113,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             throw new NotSupportedException(DesignerUI.NotSup_Win10RS4);
         }
 
+        [SecurityCritical]
         private static bool IsApiContractPresent(ushort majorVersion) => ApiInformation.IsApiContractPresent(ContractName, majorVersion);
 
+        [SecurityCritical]
         private static bool IsServer()
         {
             // RtlGetVersion does not return ProductType
@@ -114,6 +125,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
                    || versionInfo.ProductType == 3; // VER_NT_SERVER
         }
 
+        [SecurityCritical]
         private static bool IsSince(WindowsVersions version)
         {
             int major;
