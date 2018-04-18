@@ -40,7 +40,7 @@ void GazePointer::OnPageUnloaded(Object^ sender, RoutedEventArgs^ e)
 	//}
 }
 
-static DependencyProperty^ GazeTargetItemProperty = DependencyProperty::RegisterAttached("GazeTargetItem", GazeTargetItem::typeid, UIElement::typeid, ref new PropertyMetadata(nullptr));
+static DependencyProperty^ GazeTargetItemProperty = DependencyProperty::RegisterAttached("GazeTargetItem", GazeTargetItem::typeid, GazePointer::typeid, ref new PropertyMetadata(nullptr));
 
 
 GazePointer::GazePointer(UIElement^ root)
@@ -376,23 +376,6 @@ void GazePointer::GotoState(UIElement^ control, GazePointerState state)
 
 	// TODO: Implement proper support for visual states
 	// VisualStateManager::GoToState(dynamic_cast<Control^>(control), stateName, true);
-
-	auto realControl = dynamic_cast<Control^>(control);
-	if (realControl != nullptr)
-	{
-		switch (state)
-		{
-		case GazePointerState::Fixation:
-			VisualStateManager::GoToState(realControl, "PointerOver", true);
-			break;
-		case GazePointerState::Dwell:
-			VisualStateManager::GoToState(realControl, "Pressed", true);
-			break;
-		case GazePointerState::Exit:
-			VisualStateManager::GoToState(realControl, "Normal", true);
-			break;
-		}
-	}
 }
 
 void GazePointer::InvokeTarget(UIElement ^target)
@@ -469,8 +452,10 @@ void GazePointer::CheckIfExiting(long long curTimestamp)
 		long long idleDuration = curTimestamp - targetItem->LastTimestamp;
 		if (targetItem->ElementState != GazePointerState::PreEnter && idleDuration > exitDelay)
 		{
+            targetItem->ElementState = GazePointerState::PreEnter;
 			GotoState(targetElement, GazePointerState::Exit);
 			RaiseGazePointerEvent(targetElement, GazePointerState::Exit, targetItem->ElapsedTime);
+            targetItem->GiveFeedback();
 
 			_activeHitTargetTimes->RemoveAt(index);
 
@@ -583,6 +568,8 @@ void GazePointer::ProcessGazePoint(long long timestamp, Point position)
 
 	if (targetItem->ElapsedTime > targetItem->NextStateTime)
 	{
+		auto prevStateTime = targetItem->NextStateTime;
+
 		// prevent targetItem from ever actually transitioning into the DwellRepeat state so as
 		// to continuously emit the DwellRepeat event
 		if (nextState != GazePointerState::DwellRepeat)
@@ -598,9 +585,6 @@ void GazePointer::ProcessGazePoint(long long timestamp, Point position)
 				GetElementStateDelay(targetItem->TargetElement, GazePointerState::Fixation);
 		}
 
-		GotoState(targetItem->TargetElement, targetItem->ElementState);
-		RaiseGazePointerEvent(targetItem->TargetElement, targetItem->ElementState, targetItem->ElapsedTime);
-
 		if (targetItem->ElementState == GazePointerState::Dwell)
 		{
 			targetItem->RepeatCount++;
@@ -609,7 +593,13 @@ void GazePointer::ProcessGazePoint(long long timestamp, Point position)
 				targetItem->NextStateTime = MAXINT;
 			}
 		}
+
+		GotoState(targetItem->TargetElement, targetItem->ElementState);
+
+		RaiseGazePointerEvent(targetItem->TargetElement, targetItem->ElementState, targetItem->ElapsedTime);
 	}
+
+	targetItem->GiveFeedback();
 
 	_eyesOffTimer->Start();
 	_lastTimestamp = fa->Timestamp;
