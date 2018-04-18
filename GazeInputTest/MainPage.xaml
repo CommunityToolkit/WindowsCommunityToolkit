@@ -22,7 +22,7 @@
         <ToggleButton Grid.Row="0" Grid.Column="0" x:Name="ShowCursor" Checked="ShowCursor_Toggle" Unchecked="ShowCursor_Toggle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">Show Cursor</ToggleButton>
         <Button       Grid.Row="0" Grid.Column="1" x:Name="Dwell" Click="Dwell_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Eyes Here">
             <gaze:GazeApi.GazeElement>
-                <gaze:GazeElement GazePointerEvent="OnGazePointerEvent"/>
+                <gaze:GazeElement StateChanged="OnStateChanged"/>
             </gaze:GazeApi.GazeElement>
         </Button>
         <Button Grid.Row="1" Grid.Column="1" x:Name="HowButton" Content="0: Idle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="OnLegacyInvoked" gaze:GazeApi.MaxRepeatCount="4">

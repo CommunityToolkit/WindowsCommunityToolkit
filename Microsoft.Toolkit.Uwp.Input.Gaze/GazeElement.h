@@ -6,7 +6,7 @@
 
 #include "IGazeFilter.h"
 #include "GazeCursor.h"
-#include "GazePointerEvent.h"
+#include "GazePointerEventArgs.h"
 #include "GazeInvokedRoutedEventArgs.h"
 
 using namespace Platform;
@@ -18,9 +18,8 @@ using namespace Windows::Devices::HumanInterfaceDevice;
 using namespace Windows::UI::Core;
 using namespace Windows::Devices::Input::Preview;
 
-namespace Shapes = Windows::UI::Xaml::Shapes;
-
 BEGIN_NAMESPACE_GAZE_INPUT
+
 
 public ref class GazeElement sealed : public DependencyObject
 {
@@ -34,10 +33,10 @@ public:
     property bool HasAttention { bool get() { return safe_cast<bool>(GetValue(s_hasAttentionProperty)); } void set(bool value) { SetValue(s_hasAttentionProperty, value); } }
     property double InvokeProgress { double get() { return safe_cast<double>(GetValue(s_invokeProgressProperty)); } void set(double value) { SetValue(s_invokeProgressProperty, value); } }
 
-    event GazePointerEvent^ GazePointerEvent;
+    event EventHandler<GazePointerEventArgs^>^ StateChanged;
     event EventHandler<GazeInvokedRoutedEventArgs^>^ Invoked;
 
-    void RaiseGazePointerEvent(GazePointer^ sender, GazePointerEventArgs^ args) { GazePointerEvent(sender, args); }
+    void RaiseStateChanged(Object^ sender, GazePointerEventArgs^ args) { StateChanged(sender, args); }
 
     void RaiseInvoked(Object^ sender, GazeInvokedRoutedEventArgs^ args)
     {

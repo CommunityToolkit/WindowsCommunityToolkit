@@ -58,19 +58,23 @@ void GazeTargetItem::RaiseProgressEvent(GazeProgressState state)
             auto control = safe_cast<Control^>(TargetElement);
 
             auto transform = control->TransformToVisual(_feedbackPopup);
-            auto bounds = transform->TransformBounds(*ref new Rect(*ref new Point(0, 0), *ref new Size(control->ActualWidth, control->ActualHeight)));
+            auto bounds = transform->TransformBounds(*ref new Rect(*ref new Point(0, 0), 
+                *ref new Size(safe_cast<float>(control->ActualWidth), safe_cast<float>(control->ActualHeight))));
             auto rectangle = safe_cast<Rectangle^>(_feedbackPopup->Child);
 
             if (state == GazeProgressState::Progressing)
             {
                 auto progress = ((double)(ElapsedTime - _prevStateTime)) / (_nextStateTime - _prevStateTime);
 
-                rectangle->Stroke = ProgressingBrush;
-                rectangle->Width = (1 - progress) * bounds.Width;
-                rectangle->Height = (1 - progress) * bounds.Height;
+                if (0 <= progress && progress < 1)
+                {
+                    rectangle->Stroke = ProgressingBrush;
+                    rectangle->Width = (1 - progress) * bounds.Width;
+                    rectangle->Height = (1 - progress) * bounds.Height;
 
-                _feedbackPopup->HorizontalOffset = bounds.Left + progress * bounds.Width / 2; ;
-                _feedbackPopup->VerticalOffset = bounds.Top + progress * bounds.Height / 2; ;
+                    _feedbackPopup->HorizontalOffset = bounds.Left + progress * bounds.Width / 2;
+                    _feedbackPopup->VerticalOffset = bounds.Top + progress * bounds.Height / 2;
+                }
             }
             else
             {
