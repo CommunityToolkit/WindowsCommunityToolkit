@@ -49,6 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Canvas _mainContainer;
         private ScrollViewer _infiniteCanvasScrollViewer;
         private StackPanel _canvasToolbarContainer;
+        private FontIcon _fontColorIcon;
 
         /// <summary>
         /// Gets or sets the width of the canvas, default value is the max value 2097152
@@ -176,6 +177,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _inkCanvas = (InkCanvas)GetTemplateChild("DrawingInkCanvas");
             _undoButton = (Button)GetTemplateChild("UndoButton");
             _redoButton = (Button)GetTemplateChild("RedoButton");
+            _fontColorIcon = (FontIcon)GetTemplateChild("FontColorIcon");
 
             UnRegisterEvents();
             RegisterEvents();

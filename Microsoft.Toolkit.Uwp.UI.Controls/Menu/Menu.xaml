@@ -36,7 +36,6 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:MenuItem">
                     <Button x:Name="FlyoutButton"
-                            Padding="{TemplateBinding Padding}"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
@@ -48,7 +47,8 @@
                             FontStyle="{TemplateBinding FontStyle}"
                             FontWeight="{TemplateBinding FontWeight}"
                             Foreground="{TemplateBinding Foreground}"
-                            IsTabStop="False">
+                            IsTabStop="False"
+                            Padding="{TemplateBinding Padding}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">

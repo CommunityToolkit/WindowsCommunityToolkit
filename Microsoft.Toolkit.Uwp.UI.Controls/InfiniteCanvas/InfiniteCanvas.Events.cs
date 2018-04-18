@@ -97,7 +97,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void InkScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            ClearTextBoxValue();
             ReDrawCanvas();
         }
 
@@ -120,7 +119,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (!e.IsIntermediate)
             {
-                ClearTextBoxValue();
                 ReDrawCanvas();
             }
         }

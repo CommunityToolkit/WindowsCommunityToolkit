@@ -10,10 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -26,7 +28,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private TextDrawable SelectedTextDrawable => _drawingSurfaceRenderer.GetSelectedTextDrawable();
 
-        private int TextFontSize => string.IsNullOrWhiteSpace(_canvasTextBoxFontSizeTextBox.Text) ? 22 : int.Parse(_canvasTextBoxFontSizeTextBox.Text);
+        private int TextFontSize
+        {
+            get
+            {
+                return string.IsNullOrWhiteSpace(_canvasTextBoxFontSizeTextBox.Text) || !Regex.IsMatch(_canvasTextBoxFontSizeTextBox.Text, "^[0-9]*$") ? 22 : int.Parse(_canvasTextBoxFontSizeTextBox.Text);
+            }
+        }
 
         private void InkScrollViewer_PreviewKeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
@@ -91,6 +99,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _drawingSurfaceRenderer.ExecuteUpdateTextBoxColor(_canvasTextBoxColorPicker.Color);
                 ReDrawCanvas();
             }
+
+            _fontColorIcon.Foreground = new SolidColorBrush(_canvasTextBoxColorPicker.Color);
         }
 
         private void CanvasTextBox_TextChanged(object sender, string text)
