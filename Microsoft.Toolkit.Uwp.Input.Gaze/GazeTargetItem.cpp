@@ -65,12 +65,15 @@ void GazeTargetItem::RaiseProgressEvent(GazeProgressState state)
             {
                 auto progress = ((double)(ElapsedTime - _prevStateTime)) / (_nextStateTime - _prevStateTime);
 
-                rectangle->Stroke = ProgressingBrush;
-                rectangle->Width = (1 - progress) * bounds.Width;
-                rectangle->Height = (1 - progress) * bounds.Height;
+                if (0 <= progress && progress < 1)
+                {
+                    rectangle->Stroke = ProgressingBrush;
+                    rectangle->Width = (1 - progress) * bounds.Width;
+                    rectangle->Height = (1 - progress) * bounds.Height;
 
-                _feedbackPopup->HorizontalOffset = bounds.Left + progress * bounds.Width / 2; ;
-                _feedbackPopup->VerticalOffset = bounds.Top + progress * bounds.Height / 2; ;
+                    _feedbackPopup->HorizontalOffset = bounds.Left + progress * bounds.Width / 2;
+                    _feedbackPopup->VerticalOffset = bounds.Top + progress * bounds.Height / 2;
+                }
             }
             else
             {
