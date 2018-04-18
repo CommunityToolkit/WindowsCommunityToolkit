@@ -29,6 +29,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
 
             WebView.NavigationCompleted += (o, e) =>
             {
+                if (e.Uri == null) return;
+
                 _navigationCount++;
 
                 WriteLine($"NavCompleted: {e.Uri}");
