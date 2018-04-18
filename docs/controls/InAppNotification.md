@@ -84,6 +84,17 @@ ExampleInAppNotification.Dismiss();
 If you want to fully customize the in-app notification, you will see that the Dismiss button is still visible.
 To hide it, simply set the property to `ShowDismissButton="False"`.
 
+### StackMode
+
+By default, each time you display an in-app notification using the same control, each notification will replace the previous one.
+You can change this behavior with one of these values:
+
+| StackMode properties | Description |
+| -- | -- |
+| `Replace` | Default mode, replace previous notification |
+| `QueueBehind` | Store every notifications to show, when you dismiss a notification the remaining ones will be displayed successively |
+| `StackInFront` | Store every notifications to show, when you show a notification it will be displayed in priority (in the reverse order of `QueueBehind` mode) |
+
 ## Events
 
 ### Opening
