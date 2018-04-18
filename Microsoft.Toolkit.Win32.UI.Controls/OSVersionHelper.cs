@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             }
         }
 
-        internal enum Win10Release
+        private enum Win10Release
         {
             Unknown = 0,
             Threshold1 = 1507,   // 10240
@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             SpringCreators = 1803 // 17134 Redstone 4
         }
 
-        internal enum WindowsVersions
+        private enum WindowsVersions
         {
             Win7,
             Server2008R2, // 6.1
