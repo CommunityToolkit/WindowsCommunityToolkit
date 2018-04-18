@@ -10,6 +10,12 @@
     <Title>UWP Community Toolkit Win32 Controls</Title>
     <Description>This library provides XAML user controls for Win32. It is part of the UWP Community Toolkit.</Description>
     <PackageTags>WebView Win32 WPF WindowsForms</PackageTags>
+
+    <!-- Need Metadata contract 6.0 or later -->
+    <!-- First introduced in 17110: Insider Preview (Fast) -->
+    <TargetPlatformMinVersion>10.0.17110.0</TargetPlatformMinVersion>
+    <!-- Most people will have RTM 17134: Insider Preview (Fast), Spring Creators (RS4) -->
+    <TargetPlatformVersion>10.0.17134.0</TargetPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,16 +27,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
-    <Reference Include="Windows">
-      <!-- Need Metadata contract 6.0 or later -->
-      <!-- First introduced in 17110: Insider Preview (Fast) -->
-      <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17110.0\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17110.0\Windows.winmd</HintPath>
-      <!-- 17134: Insider Preview (Fast), Spring Creators (RS4) -->
-      <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17134.0\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17134.0\Windows.winmd</HintPath>
-      <!-- 17643: Insider Skip Ahead -->
-      <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17643.0\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17643.0\Windows.winmd</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="WindowsBase" />
     <PackageReference Include="System.Runtime.WindowsRuntime" PrivateAssets="All">
       <Version>4.0.0</Version>
