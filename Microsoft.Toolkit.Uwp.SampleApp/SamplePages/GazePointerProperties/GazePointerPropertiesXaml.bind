@@ -3,9 +3,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:gaze="using:Microsoft.Toolkit.Uwp.Input.Gaze"  
+    
     mc:Ignorable="d"
     
+    xmlns:gaze="using:Microsoft.Toolkit.Uwp.Input.Gaze" 
+    gaze:GazeApi.IsGazeEnabled="@[IsGazeEnabled:Bool:True]"        
+    gaze:GazeApi.IsGazeCursorVisible="@[IsGazeCursorVisible:Bool:True]"       
+    gaze:GazeApi.GazeCursorRadius="@[GazeCursorRadius:Slider:5:5-50]@"
+       
     >
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -17,37 +22,84 @@
 
     <Grid Grid.Row="1">
       <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" ></RowDefinition>
-            <RowDefinition Height="Auto" ></RowDefinition>
-            <RowDefinition Height="Auto" ></RowDefinition>
-            <RowDefinition Height="Auto" ></RowDefinition>
-            <RowDefinition Height="Auto" ></RowDefinition>
-            <RowDefinition Height="Auto" ></RowDefinition>
-            <RowDefinition Height="Auto" ></RowDefinition>
-            <RowDefinition Height="Auto" ></RowDefinition>
-            <RowDefinition Height="Auto" ></RowDefinition>
-            <RowDefinition Height="Auto" ></RowDefinition>
+        <RowDefinition />
+        <RowDefinition Height="Auto" ></RowDefinition>
+        <RowDefinition Height="Auto" ></RowDefinition>
+        <RowDefinition Height="Auto" ></RowDefinition>
+        <RowDefinition Height="Auto" ></RowDefinition>
+        <RowDefinition Height="Auto" ></RowDefinition>
+        <RowDefinition Height="Auto" ></RowDefinition>
+        <RowDefinition Height="Auto" ></RowDefinition>
+        <RowDefinition Height="Auto" ></RowDefinition>
+        <RowDefinition Height="Auto" ></RowDefinition>
+      </Grid.RowDefinitions>
+
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="2*" ></RowDefinition>
+          <RowDefinition Height="1*" ></RowDefinition>
         </Grid.RowDefinitions>
 
+        <Button x:Name="TargetButtonA" Width="100" Height="100" HorizontalAlignment="Center" Visibility="Collapsed"
+                    
+                   
+                    />
 
-      <ToggleButton Width="100" Height="100" Margin="20" HorizontalAlignment="Center"  gaze:GazeApi.Dwell="@[Dwell:TimeSpan:800:100-5000]"/>
+        <ToggleButton x:Name="TargetButton" HorizontalAlignment="Center"
+                    
+                    Width="@[ButtonSize:Slider:100:10-300]"
+                    Height="@[ButtonSize]"
+                    gaze:GazeApi.Enter="@[Enter:TimeSpan:50:50-200]@"
+                    gaze:GazeApi.Fixation="@[Fixation:TimeSpan:400:50-1000]@"
+                    gaze:GazeApi.Dwell="@[Dwell:TimeSpan:800:100-5000]@"
+                    gaze:GazeApi.DwellRepeat="@[DwellRepeat:TimeSpan:1600:50-10000]@"
+                    gaze:GazeApi.MaxRepeatCount="@[MaxRepeatCount:Slider:0:0-20]@"
+                   
+                    />
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1" Height="50">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="1*"/>
+          </Grid.ColumnDefinitions>
+          <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="1">
+            <Rectangle x:Name="EnterRec" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FFB6EC89" Visibility="Collapsed"/>
+            <TextBlock Text="ENTER" TextWrapping="Wrap" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="21,12,21,11"/>
+          </Grid>
+          <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="2">
+            <Rectangle x:Name="FixationRec" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FF6ACE17" Visibility="Collapsed"/>
+            <TextBlock Text="FIXATION" TextWrapping="Wrap" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,12,7,11"/>
+          </Grid>
+          <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="3">
+            <Rectangle x:Name="DwellRec" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FF1790CE" Visibility="Collapsed"/>
+            <TextBlock Text="DWELL" TextWrapping="Wrap" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="19,12,19,11"/>
+          </Grid>
+          <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="4">
+            <Rectangle x:Name="RepeatRec" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FF175ACE" Visibility="Collapsed"/>
+            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
+              <TextBlock Text="REPEAT" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"  />
+              <TextBlock x:Name="DwellCountText" Text=" 10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
+            </StackPanel>
+          </Grid>
+          <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="5">
+            <Rectangle x:Name="ExitRec" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FFCE1F17" Visibility="Collapsed"/>
+            <TextBlock Text="EXIT" TextWrapping="Wrap" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="31,12,31,11"/>
+          </Grid>
 
-      <TextBlock Text="Dwell time: @[Dwell]" Grid.Row="1" Margin="10"></TextBlock>
-      
-      <TextBlock Text="@[Enter:TimeSpan:50:50-200]" Grid.Row="2" Margin="10"></TextBlock>
-      <TextBlock Text="@[Fixation:TimeSpan:400:50-1000]" Grid.Row="3"></TextBlock>
-      
-      <TextBlock Text="@[Repeat:TimeSpan:1600:50-2000]" Grid.Row="4"></TextBlock>
-      <TextBlock Text="@[RepeatMax:Slider:0:0-20]" Grid.Row="5"></TextBlock>
 
-      <TextBlock Text="@[CursorRadius:DoubleSlider:0:0-10]" Grid.Row="7"></TextBlock>
-      
-      <TextBlock Text="@[IsGazeEnabled:Bool:True]" Grid.Row="9"></TextBlock>
+        </Grid>
 
 
+
+      </Grid>
 
 
     </Grid>
 
   </Grid>
+
 </Page>
