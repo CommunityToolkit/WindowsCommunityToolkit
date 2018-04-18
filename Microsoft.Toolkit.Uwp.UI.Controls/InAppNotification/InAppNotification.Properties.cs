@@ -45,6 +45,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(HorizontalOffset), typeof(double), typeof(InAppNotification), new PropertyMetadata(0));
 
         /// <summary>
+        /// Identifies the <see cref="StackMode"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty StackModeProperty =
+            DependencyProperty.Register(nameof(StackMode), typeof(StackMode), typeof(InAppNotification), new PropertyMetadata(StackMode.Replace));
+
+        /// <summary>
         /// Gets or sets a value indicating whether to show the Dismiss button of the control.
         /// </summary>
         public bool ShowDismissButton
@@ -78,6 +84,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (double)GetValue(HorizontalOffsetProperty); }
             set { SetValue(HorizontalOffsetProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating the stack mode of the notifications.
+        /// </summary>
+        public StackMode StackMode
+        {
+            get { return (StackMode)GetValue(StackModeProperty); }
+            set { SetValue(StackModeProperty, value); }
         }
 
         private static void OnShowDismissButtonChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
