@@ -523,9 +523,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 if (source == null)
                 {
                     NavigatingToAboutBlank = true;
-
-                    // TODO: Make this read only static
-                    source = new Uri("about:blank");
+                    source = WebViewDefaults.AboutBlankUri;
                 }
                 else
                 {
@@ -573,7 +571,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         {
             if (string.IsNullOrEmpty(source))
             {
-                source = "about:blank";
+                source = WebViewDefaults.AboutBlank;
             }
 
             if (Uri.TryCreate(source, UriKind.Absolute, out Uri result))
@@ -717,7 +715,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             // When Source set to null or navigating to stream/string, we navigate to "about:blank" internally.
             if (NavigatingToAboutBlank)
             {
-                Verify.Implies(NavigatingToAboutBlank, Source == null || Source == new Uri("about:blank"));
+                Verify.Implies(NavigatingToAboutBlank, Source == null || Source == WebViewDefaults.AboutBlankUri);
 
                 // Make sure we pass null in the event args
                 var a = new WebViewControlDOMContentLoadedEventArgs((Uri)null);
@@ -819,7 +817,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             // When Source set to null or navigating to stream/string, we navigate to "about:blank" internally.
             if (NavigatingToAboutBlank)
             {
-                Verify.Implies(NavigatingToAboutBlank, Source == null || Source == new Uri("about:blank"));
+                Verify.Implies(NavigatingToAboutBlank, Source == null || Source == WebViewDefaults.AboutBlankUri);
 
                 // Make sure we pass null in the event args
                 var a = new WebViewNavigationCompletedEventArgs(args, null);

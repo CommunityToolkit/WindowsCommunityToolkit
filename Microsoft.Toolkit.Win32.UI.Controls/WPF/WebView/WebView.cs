@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             nameof(Source),
             typeof(Uri),
             typeof(WebView),
-            new PropertyMetadata(new Uri("about:blank"), PropertyChangedCallback));
+            new PropertyMetadata(WebViewDefaults.AboutBlankUri, PropertyChangedCallback));
 
         private static readonly DependencyProperty IsPrivateNetworkClientServerCapabilityEnabledProperty = DependencyProperty.Register(
             nameof(IsPrivateNetworkClientServerCapabilityEnabled),

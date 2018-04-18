@@ -13,6 +13,7 @@
 using System;
 using System.Security;
 using System.Security.Permissions;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Microsoft.Toolkit.Win32.UI.Controls.Test.WebView.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -85,7 +86,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             {
                 base.Given();
                 base.When();
-                base.NavigateAndWaitForFormClose(new Uri("about:blank"));
+                base.NavigateAndWaitForFormClose(TestConstants.Uris.AboutBlank);
             }
 
 
