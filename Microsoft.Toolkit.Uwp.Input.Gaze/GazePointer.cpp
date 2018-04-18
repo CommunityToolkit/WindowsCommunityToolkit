@@ -164,7 +164,7 @@ TimeSpan GazePointer::GetDefaultPropertyValue(GazePointerState state)
     case GazePointerState::DwellRepeat: return *new TimeSpan{ 10 * _defaultRepeat };
     case GazePointerState::Enter: return *new TimeSpan{ 10 * _defaultEnter };
     case GazePointerState::Exit: return *new TimeSpan{ 10 * _defaultExit };
-    default: return GazeApi::s_nonTimeSpan;
+    default: throw ref new NotImplementedException();
     }
 }
 
@@ -182,24 +182,22 @@ void GazePointer::SetElementStateDelay(UIElement ^element, GazePointerState rele
 
 int GazePointer::GetElementStateDelay(UIElement ^element, GazePointerState pointerState)
 {
-    TimeSpan delay;
-
     auto property = GetProperty(pointerState);
 
-    DependencyObject^ elementWalker = element;
-    do
+    DependencyObject^ walker = element;
+    Object^ valueAtWalker = walker->GetValue(property);
+
+    while (GazeApi::UnsetTimeSpan.Equals(valueAtWalker) && walker != nullptr)
     {
-        if (elementWalker == nullptr)
+        walker = VisualTreeHelper::GetParent(walker);
+
+        if (walker != nullptr)
         {
-            delay = GetDefaultPropertyValue(pointerState);
+            valueAtWalker = walker->GetValue(property);
         }
-        else
-        {
-            auto ob = elementWalker->GetValue(property);
-            delay = safe_cast<TimeSpan>(ob);
-            elementWalker = VisualTreeHelper::GetParent(elementWalker);
-        }
-    } while (delay.Duration == GazeApi::s_nonTimeSpan.Duration);
+    }
+
+    auto delay = GazeApi::UnsetTimeSpan.Equals(valueAtWalker) ? GetDefaultPropertyValue(pointerState) : safe_cast<TimeSpan>(valueAtWalker);
 
     auto ticks = safe_cast<int>(delay.Duration / 10);
     switch (pointerState)
