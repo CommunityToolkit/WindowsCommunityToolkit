@@ -32,7 +32,7 @@ The Gaze interaction currently supports the following features:
 A few eye gaze related concepts are useful to explain:
 
 * **Saccaddes.** A saccade is movement of the eyes from one fixation point to another. Our eyes alternate between fixations and saccades.
-* **Fixation.**  Fixation is the maintaining of gaze on a single location for a relatively short amount of time (roughly around 200ms). This happens after a saccadic motion when the eye rests upon an object and it comes into shart focus. 
+* **Fixation.**  Fixation is the maintaining of gaze on a single location for a relatively short amount of time (roughly around 200ms). This happens after a saccadic motion when the eye rests upon an object and it comes into shart focus.
 * **Dwell.** This is concious fixation for a duration greater than the fixation time. This time duration is application dependent.
 * **Enter/Exit** These are states and properties specific to this API to help manage gaze related interaction and refer to the time elapsed since the first recorded gaze sample and the last recorded gaze sample on a particular control (Button, ToggleButton etc.)
 
@@ -169,7 +169,7 @@ Whether the page is enabled for the gaze based interaction, the visibility and s
 
 ## API Source Code
 
-* [control/helper name source code](source-code-link)
+* [control/helper name source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Input.Gaze)
 
 ## Related Topics
 
