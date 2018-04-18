@@ -158,6 +158,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_resizeDirection == GridResizeDirection.Columns)
             {
+                System.Diagnostics.Debug.WriteLine($"Previous: {Resizable.DesiredSize.Width}; Future: {GetGridWidthAfterResize(horizontalChange)}");
                 if (HorizontalMove(horizontalChange))
                 {
                     return;
