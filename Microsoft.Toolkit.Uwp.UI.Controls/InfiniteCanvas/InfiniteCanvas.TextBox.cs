@@ -154,11 +154,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     Canvas.SetLeft(_canvasTextBox, SelectedTextDrawable.Bounds.X);
                     Canvas.SetTop(_canvasTextBox, SelectedTextDrawable.Bounds.Y);
-                    _canvasTextBoxColorPicker.Color = SelectedTextDrawable.TextColor;
                     _canvasTextBox.UpdateFontSize(SelectedTextDrawable.FontSize);
-                    _canvasTextBoxFontSizeTextBox.Text = SelectedTextDrawable.FontSize.ToString();
                     _canvasTextBox.UpdateFontStyle(SelectedTextDrawable.IsItalic);
                     _canvasTextBox.UpdateFontWeight(SelectedTextDrawable.IsBold);
+
+                    // Updating toolbar
+                    _canvasTextBoxColorPicker.Color = SelectedTextDrawable.TextColor;
+                    _canvasTextBoxFontSizeTextBox.Text = SelectedTextDrawable.FontSize.ToString();
+                    _canvasTextBoxBoldButton.IsChecked = SelectedTextDrawable.IsBold;
+                    _canvasTextBoxItlaicButton.IsChecked = SelectedTextDrawable.IsBold;
 
                     return;
                 }
