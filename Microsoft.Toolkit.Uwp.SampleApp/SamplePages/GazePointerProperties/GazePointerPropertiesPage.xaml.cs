@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 if (gazeButtonControl != null)
                 {
                     gazeButtonControl.Invoked += OnGazeInvoked;
-                    gazeButtonControl.GazePointerEvent += OnGazePointerEvent;
+                    gazeButtonControl.StateChanged += GazeButtonControl_StateChanged;
                 }
             }
         }
@@ -76,8 +76,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
 
         }
-    
-        private void OnGazePointerEvent(GazePointer sender, GazePointerEventArgs ea)
+
+        private void GazeButtonControl_StateChanged(object sender, GazePointerEventArgs ea)
         {
 
             if (ea.PointerState == GazePointerState.Enter)
