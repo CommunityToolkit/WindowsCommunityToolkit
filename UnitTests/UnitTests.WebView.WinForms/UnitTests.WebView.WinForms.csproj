@@ -49,6 +49,7 @@
     <Compile Include="FunctionalTests\Close\CloseTests.cs" />
     <Compile Include="FunctionalTests\ControlProcess\EnterpriseIdTests.cs" />
     <Compile Include="FunctionalTests\Ctor\DesignerPropertySettingsTests.cs" />
+    <Compile Include="FunctionalTests\Ctor\MultipleWebViews.cs" />
     <Compile Include="FunctionalTests\Ctor\WebViewControlProcessCreateWebViewAsyncTests.cs" />
     <Compile Include="FunctionalTests\DocumentTitle\DocumentTitleTests.cs" />
     <Compile Include="FunctionalTests\FullScreen\FullScreenTests.cs" />
