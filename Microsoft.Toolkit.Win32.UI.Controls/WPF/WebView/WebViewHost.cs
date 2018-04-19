@@ -60,8 +60,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 #endif
         }
 
-        private delegate void PropertyInvalidator(WebViewHost webViewHost);
-
         /// <summary>
         /// Gets the child window.
         /// </summary>
