@@ -402,10 +402,13 @@ and when clicked will go to the Linked Page.
 
 MarkdownTextBlock also supports Reference based links.
 
->\[\!\[image]\[1]]\[2]
->
->\[1]\:https\://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png
->\[2]\:https\://docs.microsoft.com/windows/uwpcommunitytoolkit/
+```
+[![image][1]][2]
+
+[1]:https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png
+[2]:https://docs.microsoft.com/windows/uwpcommunitytoolkit/
+
+```
 
 will render into 
 
