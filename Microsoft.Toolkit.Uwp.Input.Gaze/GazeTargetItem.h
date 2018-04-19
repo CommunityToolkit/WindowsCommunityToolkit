@@ -23,7 +23,17 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 ref struct GazeTargetItem sealed
 {
-    property int64 ElapsedTime;
+    property int64 ElapsedTime
+    {
+        int64 get() { assert(_elapsedTime1 == _elapsedTime2); return _elapsedTime1; }
+        void set(int64 value)
+        {
+            assert(_elapsedTime1 == _elapsedTime2);
+            Debug::WriteLine(L"  e %ld -> %ld", _elapsedTime1, value);
+            _elapsedTime1 = value;
+            _elapsedTime2 = value;
+        }
+    }
     property int64 NextStateTime;
     property int64 LastTimestamp;
     property GazePointerState ElementState;
@@ -85,6 +95,8 @@ ref struct GazeTargetItem sealed
 
 private:
 
+    int64 _elapsedTime1;
+
     void RaiseProgressEvent(GazeProgressState state);
 
     GazePointerState _notifiedPointerState = GazePointerState::Exit;
@@ -92,6 +104,8 @@ private:
     int64 _nextStateTime;
     GazeProgressState _notifiedProgressState = GazeProgressState::Idle;
     Popup^ _feedbackPopup;
+
+    int64 _elapsedTime2;
 };
 
 END_NAMESPACE_GAZE_INPUT

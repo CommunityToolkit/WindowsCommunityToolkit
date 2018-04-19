@@ -27,25 +27,39 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 void GazePointer::OnPageUnloaded(Object^ sender, RoutedEventArgs^ e)
 {
-    _isShuttingDown = true;
-    IsCursorVisible = false;
+    auto index = 0;
+    while (index < _pages->Size && _pages->GetAt(index) != sender)
+    {
+        index++;
+    }
+    if (index < _pages->Size)
+    {
+        _pages->RemoveAt(index);
+    }
 
-    auto page = safe_cast<Page^>(_rootElement);
-    page->Unloaded -= _unloadedToken;
-    page->ClearValue(GazeApi::GazePointerProperty);
+    if (_pages->Size == 0)
+    {
+        _isShuttingDown = true;
+        IsCursorVisible = false;
 
-    //if (_gazeInputSource != nullptr)
-    //{
-    //    _gazeInputSource->GazeMoved -= _gazeMovedToken;
-    //}
+        auto page = safe_cast<Page^>(sender);
+        //page->Unloaded -= _unloadedToken;
+        page->ClearValue(GazeApi::GazePointerProperty);
+
+        //if (_gazeInputSource != nullptr)
+        //{
+        //    _gazeInputSource->GazeMoved -= _gazeMovedToken;
+        //}
+    }
 }
 
 static DependencyProperty^ GazeTargetItemProperty = DependencyProperty::RegisterAttached("GazeTargetItem", GazeTargetItem::typeid, GazePointer::typeid, ref new PropertyMetadata(nullptr));
 
+static int s_instanceCount;
 
-GazePointer::GazePointer(UIElement^ root)
+GazePointer::GazePointer()
 {
-    _rootElement = root;
+    _instanceNo = ++s_instanceCount;
     _coreDispatcher = CoreWindow::GetForCurrentThread()->Dispatcher;
 
     // Default to not filtering sample data
@@ -66,6 +80,8 @@ GazePointer::GazePointer(UIElement^ root)
 
 GazePointer::~GazePointer()
 {
+    Debug::WriteLine(L"~GazePointer instance %d", _instanceNo);
+
     if (_gazeInputSource != nullptr)
     {
         _gazeInputSource->GazeEntered -= _gazeEnteredToken;
@@ -218,6 +234,8 @@ int GazePointer::GetElementStateDelay(UIElement ^element, GazePointerState point
 
 void GazePointer::Reset()
 {
+    Debug::WriteLine(L"GazePointer::Reset");
+
     _activeHitTargetTimes->Clear();
     _gazeHistory->Clear();
 
@@ -240,16 +258,19 @@ bool GazePointer::IsInvokable(UIElement^ element)
 
 UIElement^ GazePointer::GetHitTarget(Point gazePoint)
 {
-    auto targets = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, _rootElement, false);
-    for each (auto target in targets)
+    for each (auto rootElement in _pages)
     {
-        if (IsInvokable(target))
+        auto targets = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, rootElement, false);
+        for each (auto target in targets)
         {
-            return target;
+            if (IsInvokable(target))
+            {
+                return target;
+            }
         }
     }
     // TODO : Check if the location is offscreen
-    return _rootElement;
+    return _pages->GetAt(0);
 }
 
 GazeTargetItem^ GazePointer::GetOrCreateGazeTargetItem(UIElement^ element)
@@ -282,8 +303,46 @@ GazeTargetItem^ GazePointer::GetGazeTargetItem(UIElement^ element)
     return target;
 }
 
+static void AssertHistoryValid(Vector<GazeHistoryItem^>^ gazeHistory,
+    Vector<GazeTargetItem^>^ activeHitTargetTimes)
+{
+    Debug::WriteLine(L"History length = %d, target count = %d", gazeHistory->Size, activeHitTargetTimes->Size);
+    auto sums = new int64[activeHitTargetTimes->Size];
+
+    for (auto i = 0; i < activeHitTargetTimes->Size; i++)
+    {
+        sums[i] = 0;
+    }
+
+    for (auto i = 0; i < gazeHistory->Size; i++)
+    {
+        auto historyItem = gazeHistory->GetAt(i);
+
+        auto j = 0;
+        while (activeHitTargetTimes->GetAt(j)->TargetElement != historyItem->HitTarget)
+        {
+            j++;
+        }
+
+        sums[j] += historyItem->Duration;
+    }
+
+    Debug::WriteLine(L"Sums:");
+    for (auto i = 0; i < activeHitTargetTimes->Size; i++)
+    {
+        auto target = activeHitTargetTimes->GetAt(i);
+        Debug::WriteLine(L"%ld vs %ld", sums[i], target->ElapsedTime);
+        assert(sums[i] == target->ElapsedTime);
+    }
+
+    delete[] sums;
+}
+
 UIElement^ GazePointer::ResolveHitTarget(Point gazePoint, long long timestamp)
 {
+    Debug::WriteLine(L"Top of ResolveHitTarget, instance = %d, thread = %ld", _instanceNo, GetCurrentThreadId());
+    AssertHistoryValid(_gazeHistory, _activeHitTargetTimes);
+
     // TODO: The existance of a GazeTargetItem should be used to indicate that
     // the target item is invokable. The method of invokation should be stored
     // within the GazeTargetItem when it is created and not recalculated when
@@ -301,16 +360,12 @@ UIElement^ GazePointer::ResolveHitTarget(Point gazePoint, long long timestamp)
     auto target = GetOrCreateGazeTargetItem(historyItem->HitTarget);
     target->LastTimestamp = timestamp;
 
-
-    // just append to the list and return if the list is empty
-    if (_gazeHistory->Size == 0)
-    {
-        _gazeHistory->Append(historyItem);
-        return historyItem->HitTarget;
-    }
+    Debug::WriteLine(L"ResolveHitTarget found target");
+    AssertHistoryValid(_gazeHistory, _activeHitTargetTimes);
 
     // find elapsed time since we got the last hit target
-    historyItem->Duration = (int)(timestamp - _gazeHistory->GetAt(_gazeHistory->Size - 1)->Timestamp);
+    assert(_gazeHistory->Size == 0 || _gazeHistory->GetAt(_gazeHistory->Size - 1)->Timestamp == _lastTimestamp);
+    historyItem->Duration = timestamp - _lastTimestamp;
     if (historyItem->Duration > MAX_SINGLE_SAMPLE_DURATION)
     {
         historyItem->Duration = MAX_SINGLE_SAMPLE_DURATION;
@@ -320,22 +375,33 @@ UIElement^ GazePointer::ResolveHitTarget(Point gazePoint, long long timestamp)
     // update the time this particular hit target has accumulated
     target->ElapsedTime += historyItem->Duration;
 
+    Debug::WriteLine(L"Added in duration of %ld", historyItem->Duration);
+    AssertHistoryValid(_gazeHistory, _activeHitTargetTimes);
 
     // drop the oldest samples from the list until we have samples only 
     // within the window we are monitoring
     //
     // historyItem is the last item we just appended a few lines above. 
-    while (historyItem->Timestamp - _gazeHistory->GetAt(0)->Timestamp > _maxHistoryTime)
+    for (auto evOldest = _gazeHistory->GetAt(0);
+        historyItem->Timestamp - evOldest->Timestamp > _maxHistoryTime;
+        evOldest = _gazeHistory->GetAt(0))
     {
-        auto evOldest = _gazeHistory->GetAt(0);
         _gazeHistory->RemoveAt(0);
 
-        assert(GetGazeTargetItem(evOldest->HitTarget)->ElapsedTime - evOldest->Duration >= 0);
+        Debug::WriteLine(L"Pruning aged value %ld", evOldest->Duration);
 
         // subtract the duration obtained from the oldest sample in _gazeHistory
         auto targetItem = GetGazeTargetItem(evOldest->HitTarget);
+        assert(targetItem->ElapsedTime - evOldest->Duration >= 0);
         targetItem->ElapsedTime -= evOldest->Duration;
     }
+
+    Debug::WriteLine(L"After pruning");
+    AssertHistoryValid(_gazeHistory, _activeHitTargetTimes);
+
+    _lastTimestamp = timestamp;
+
+    Debug::WriteLine(L"Bottom of ResolveHitTarget, instance = %d, thread = %ld", _instanceNo, GetCurrentThreadId());
 
     // Return the most recent hit target 
     // Intuition would tell us that we should return NOT the most recent
@@ -427,12 +493,15 @@ void GazePointer::OnEyesOff(Object ^sender, Object ^ea)
 {
     _eyesOffTimer->Stop();
 
+
     CheckIfExiting(_lastTimestamp + EyesOffDelay);
     RaiseGazePointerEvent(nullptr, GazePointerState::Enter, (int)EyesOffDelay);
 }
 
 void GazePointer::CheckIfExiting(long long curTimestamp)
 {
+    Debug::WriteLine(L"Checking exiting on instance = %d, thread = %ld", _instanceNo, GetCurrentThreadId());
+
     for (unsigned int index = 0; index < _activeHitTargetTimes->Size; index++)
     {
         auto targetItem = _activeHitTargetTimes->GetAt(index);
@@ -442,6 +511,10 @@ void GazePointer::CheckIfExiting(long long curTimestamp)
         long long idleDuration = curTimestamp - targetItem->LastTimestamp;
         if (targetItem->ElementState != GazePointerState::PreEnter && idleDuration > exitDelay)
         {
+            Debug::WriteLine(L"Found an exiting control");
+
+            AssertHistoryValid(_gazeHistory, _activeHitTargetTimes);
+
             targetItem->ElementState = GazePointerState::PreEnter;
             GotoState(targetElement, GazePointerState::Exit);
             RaiseGazePointerEvent(targetElement, GazePointerState::Exit, targetItem->ElapsedTime);
@@ -455,6 +528,7 @@ void GazePointer::CheckIfExiting(long long curTimestamp)
                 auto hitTarget = _gazeHistory->GetAt(i)->HitTarget;
                 if (hitTarget == targetElement)
                 {
+                    Debug::WriteLine(L"Purging history at %d", i);
                     _gazeHistory->RemoveAt(i);
                 }
                 else
@@ -462,12 +536,18 @@ void GazePointer::CheckIfExiting(long long curTimestamp)
                     i++;
                 }
             }
+            
+            AssertHistoryValid(_gazeHistory, _activeHitTargetTimes);
+
+            Debug::WriteLine(L"Pruned one on instance = %d, thread = %ld", _instanceNo, GetCurrentThreadId());
 
             // return because only one element can be exited at a time and at this point
             // we have done everything that we can do
             return;
         }
     }
+
+    Debug::WriteLine(L"Pruned nothing on instance = %d, thread = %ld", _instanceNo, GetCurrentThreadId());
 }
 
 wchar_t *PointerStates[] = {
@@ -530,15 +610,22 @@ void GazePointer::OnGazeMoved(GazeInputSourcePreview^ provider, GazeMovedPreview
 {
     if (!_isShuttingDown)
     {
-        auto intermediatePoints = args->GetIntermediatePoints();
-        for each(auto point in intermediatePoints)
+        _coreDispatcher->RunAsync(CoreDispatcherPriority::Normal, ref new DispatchedHandler([=]()
         {
-            auto position = point->EyeGazePosition;
-            if (position != nullptr)
+            auto intermediatePoints = args->GetIntermediatePoints();
+            for each(auto point in intermediatePoints)
             {
-                ProcessGazePoint(point->Timestamp, position->Value);
+                auto position = point->EyeGazePosition;
+                if (position != nullptr)
+                {
+                    ProcessGazePoint(point->Timestamp, position->Value);
+                }
+                else
+                {
+                    Debug::WriteLine(L"Null position eaten at %ld", point->Timestamp);
+                }
             }
-        }
+        }));
     }
 }
 

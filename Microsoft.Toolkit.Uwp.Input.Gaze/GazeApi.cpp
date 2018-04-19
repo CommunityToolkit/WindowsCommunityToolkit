@@ -8,6 +8,7 @@
 
 using namespace std;
 using namespace Platform;
+using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
 using namespace Windows::Graphics::Display;
 using namespace Windows::UI;
@@ -23,12 +24,24 @@ static DependencyProperty^ s_gazePointerProperty = DependencyProperty::RegisterA
 
 DependencyProperty^ GazeApi::GazePointerProperty::get() { return s_gazePointerProperty; }
 
+static void OnLoaded(Object^ sender, RoutedEventArgs^ args)
+{
+
+}
+
 static void OnIsGazeEnabledChanged(DependencyObject^ ob, DependencyPropertyChangedEventArgs^ args)
 {
     auto isGazeEnabled = safe_cast<bool>(args->NewValue);
     if (isGazeEnabled)
     {
         auto page = safe_cast<Page^>(ob);
+        Debug::WriteLine(L"Gaze initializing for page, ActualWidth=%f, ActualHeight=%f", page->ActualWidth, page->ActualHeight);
+        page->Loaded += ref new  RoutedEventHandler([=](Object^ sender, RoutedEventArgs^ args)
+        {
+            Debug::WriteLine(L"Loaded called on page, now ActualWidth=%f", page->ActualWidth);
+        });
+
+        Debug::WriteLine(L"Attaching to page with ActualWidth=%f", page->ActualWidth);
 
         auto gazePointer = GazeApi::GetGazePointer(page);
     }
@@ -103,6 +116,7 @@ void GazeApi::SetEnter(UIElement^ element, TimeSpan span) { element->SetValue(s_
 void GazeApi::SetExit(UIElement^ element, TimeSpan span) { element->SetValue(s_exitProperty, span); }
 void GazeApi::SetMaxRepeatCount(UIElement^ element, int value) { element->SetValue(s_maxRepeatCountProperty, value); }
 
+static GazePointer^ s_gazePointer;
 
 GazePointer^ GazeApi::GetGazePointer(Page^ page)
 {
@@ -110,8 +124,14 @@ GazePointer^ GazeApi::GetGazePointer(Page^ page)
 
     if (gazePointer == nullptr)
     {
-        gazePointer = ref new GazePointer(page);
+        if (s_gazePointer == nullptr)
+        {
+            s_gazePointer = ref new GazePointer();
+        }
+        gazePointer = s_gazePointer;
         page->SetValue(GazePointerProperty, gazePointer);
+
+        gazePointer->AddPage(page);
 
         gazePointer->_unloadedToken = page->Unloaded += ref new RoutedEventHandler(gazePointer, &GazePointer::OnPageUnloaded);
 

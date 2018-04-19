@@ -80,9 +80,11 @@ public:
 
 internal:
 
-	GazePointer(UIElement^ root);
+	GazePointer();
     void OnPageUnloaded(Object^ sender, RoutedEventArgs^ args);
     EventRegistrationToken _unloadedToken;
+
+    void AddPage(Page^ page) { _pages->InsertAt(0, page); }
 
 private:
 
@@ -119,8 +121,6 @@ private:
     void    OnEyesOff(Object ^sender, Object ^ea);
 
 private:
-    UIElement ^                         _rootElement;
-
     int64                               _eyesOffDelay;
 
     GazeCursor^                         _gazeCursor;
@@ -153,6 +153,8 @@ private:
 	int _defaultRepeat = DEFAULT_REPEAT_DELAY;
 	int _defaultEnter = DEFAULT_ENTER_EXIT_DELAY;
 	int _defaultExit = DEFAULT_ENTER_EXIT_DELAY;
+    int _instanceNo;
+    Vector<Page^>^ _pages = ref new Vector<Page^>();
 };
 
 END_NAMESPACE_GAZE_INPUT
