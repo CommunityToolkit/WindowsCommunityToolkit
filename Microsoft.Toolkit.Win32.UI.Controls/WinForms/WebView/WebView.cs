@@ -237,7 +237,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// Gets or sets a value indicating whether this instance is private network client server capability enabled.
         /// </summary>
         /// <value><see langword="true" /> if this instance is private network client server capability enabled; otherwise, <see langword="false" />.</value>
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="InvalidOperationException">Value cannot be set once the control is initialized.</exception>
         [StringResourceCategory(Constants.CategoryBehavior)]
         [DefaultValue(WebViewDefaults.IsPrivateNetworkEnabled)]
         public bool IsPrivateNetworkClientServerCapabilityEnabled
