@@ -1,0 +1,11 @@
+{
+    "Name":  "WeatherLiveTileAndToast",
+    "Type":  "WeatherLiveTileAndToastPage",
+    "About":  "This shows how to send a Weather Live Tile and Toast notification, displaying the forecast.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
+    "CodeFile":  "WeatherLiveTileAndToastCode.code",
+    "JavaScriptCodeFile":  "WeatherLiveTileAndToastCodeJavaScript.bind",
+    "Icon":  "/SamplePages/WeatherLiveTileAndToast/WeatherLiveTileAndToast.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/notifications/NotificationsOverview.md",
+    "Category":  "Notifications"
+}

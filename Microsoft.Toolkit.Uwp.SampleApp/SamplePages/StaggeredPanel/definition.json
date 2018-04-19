@@ -1,0 +1,10 @@
+{
+    "Name":  "StaggeredPanel",
+    "Type":  "StaggeredPanelPage",
+    "About":  "Allows items to be displayed with a specified header.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/StaggeredPanel",
+    "XamlCodeFile":  "StaggeredPanel.bind",
+    "Icon":  "/SamplePages/StaggeredPanel/StaggeredPanel.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/StaggeredPanel.md",
+    "Category":  "Controls"
+}

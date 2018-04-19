@@ -1,0 +1,8 @@
+{
+    "Name": "RSS Parser",
+    "Category": "Parsers",
+    "Type": "RssParserPage",
+    "About": "The RSS Parser allows you to parse an RSS content String into RSS Schema.",
+    "Icon": "/Assets/Helpers.png",
+    "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/parsers/RssParser.md"
+} 

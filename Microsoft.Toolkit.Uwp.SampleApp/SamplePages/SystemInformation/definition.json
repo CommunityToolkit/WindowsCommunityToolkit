@@ -1,0 +1,10 @@
+{
+    "Name":  "SystemInformation",
+    "Type":  "SystemInformationPage",
+    "About":  "The SystemInformation class provides easy access to some of system/app/device information",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs",
+    "CodeFile":  "SystemInformationCode.code",
+    "Icon":  "/SamplePages/SystemInformation/SystemInformation.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/SystemInformation.md",
+    "Category":  "Helpers"
+}

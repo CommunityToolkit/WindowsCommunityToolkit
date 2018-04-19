@@ -1,0 +1,10 @@
+{
+    "Name":  "HeaderedTextBlock",
+    "Type":  "HeaderedTextBlockPage",
+    "About":  "The HeaderedTextBlock control is designed to provide a header for read only text. This control is useful for displaying read only forms.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HeaderedTextBlock",
+    "XamlCodeFile":  "HeaderedTextBlockCode.bind",
+    "Icon":  "/SamplePages/HeaderedTextBlock/HeaderedTextBlock.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/HeaderedTextBlock.md",
+    "Category":  "Controls"
+}

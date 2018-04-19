@@ -1,0 +1,10 @@
+{
+    "Name":  "Microsoft Translator Service",
+    "Type":  "MicrosoftTranslatorPage",
+    "About":  "The Microsoft Translator Service allows you to translate text into many languages.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftTranslator",
+    "CodeFile":  "MicrosoftTranslatorCode.code",
+    "Icon":  "/SamplePages/Microsoft Translator Service/TranslatorService.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/services/MicrosoftTranslator.md",
+    "Category":  "Services"
+}

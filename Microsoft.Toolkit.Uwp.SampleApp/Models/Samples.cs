@@ -12,11 +12,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
+using Windows.ApplicationModel;
+using Windows.Storage;
+using Windows.Storage.Search;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -56,14 +60,50 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             await _semaphore.WaitAsync();
             if (_samplesCategories == null)
             {
-                List<SampleCategory> allCategories;
-                using (var jsonStream = await StreamHelper.GetPackagedFileStreamAsync("SamplePages/samples.json"))
+                // Get our ordered list of categories to start us off
+                List<SampleCategory> allCategories = new List<SampleCategory>();
+                using (var jsonStream = await StreamHelper.GetPackagedFileStreamAsync("categories.json"))
                 {
                     var jsonString = await jsonStream.ReadTextAsync();
                     allCategories = JsonConvert.DeserializeObject<List<SampleCategory>>(jsonString);
                 }
 
-                // Check API
+                // Search for all 'definition.json' files
+                var query = new QueryOptions(CommonFileQuery.DefaultQuery, new string[] { ".json" })
+                {
+                    FolderDepth = FolderDepth.Deep
+                };
+
+                StorageFolder install = Package.Current.InstalledLocation;
+                var pages = await install.GetFolderAsync("SamplePages");
+                var search = pages.CreateFileQueryWithOptions(query);
+
+                // Load each sample and add it to our dictionary based on the sample's category
+                foreach (var file in await search.GetFilesAsync())
+                {
+                    if (file.Name.ToLower() == "definition.json")
+                    {
+                        using (var jsonStream = await file.OpenAsync(FileAccessMode.Read))
+                        {
+                            var jsonString = await jsonStream.ReadTextAsync();
+                            var sample = JsonConvert.DeserializeObject<Sample>(jsonString);
+                            var cat = allCategories.FirstOrDefault(c => c.Name == sample.Category);
+                            if (cat != null)
+                            {
+                                cat.Samples.Add(sample);
+                            }
+                            else
+                            {
+#if DEBUG
+                                // Category doesn't exist, make sure it matches the ones in 'categories.json'
+                                Debugger.Break();
+#endif
+                            }
+                        }
+                    }
+                }
+
+                // Check API for each sample and add to category
                 var supportedCategories = new List<SampleCategory>();
                 foreach (var category in allCategories)
                 {
@@ -81,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     if (finalSamples.Count > 0)
                     {
                         supportedCategories.Add(category);
-                        category.Samples = finalSamples.OrderBy(s => s.Name).ToArray();
+                        category.Samples = finalSamples.OrderBy(s => s.Name).ToList();
                     }
                 }
 

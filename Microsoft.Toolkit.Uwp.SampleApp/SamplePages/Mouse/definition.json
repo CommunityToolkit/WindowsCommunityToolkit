@@ -1,0 +1,10 @@
+{
+    "Name":  "Mouse",
+    "Type":  "MouseCursorPage",
+    "About":  "Mouse.Cursor attached property enables you to easily change the mouse cursor over specific Framework elements.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/Mouse",
+    "XamlCodeFile":  "MouseCursorPage.bind",
+    "Icon":  "/SamplePages/Mouse/MouseCursor.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/MouseCursor.md",
+    "Category":  "Extensions"
+}

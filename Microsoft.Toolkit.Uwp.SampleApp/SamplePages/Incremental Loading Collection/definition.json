@@ -1,0 +1,10 @@
+{
+    "Name":  "Incremental Loading Collection",
+    "Type":  "IncrementalLoadingCollectionPage",
+    "About":  "Allows to create collections that can be loaded incrementally, as user requests more items in the view. This type of collections can be bound to controls like GridView and ListView.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection",
+    "CodeFile":  "IncrementalLoadingCollectionCode.code",
+    "Icon":  "/SamplePages/Incremental Loading Collection/icon.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/IncrementalLoadingCollection.md",
+    "Category":  "Helpers"
+}

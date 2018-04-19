@@ -1,0 +1,10 @@
+{
+    "Name":  "RadialProgressBar",
+    "Type":  "RadialProgressBarPage",
+    "About":  "The radial progress bar displays progress as a circle getting filled.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RadialProgressBar",
+    "XamlCodeFile":  "RadialProgressBarCode.bind",
+    "Icon":  "/SamplePages/RadialProgressBar/RadialProgressBar.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/RadialProgressBar.md",
+    "Category":  "Controls"
+}

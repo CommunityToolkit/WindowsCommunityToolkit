@@ -8,6 +8,8 @@ This document describes how to add a new sample page for a new control you want 
 ## 1. Add Sample page and .bind template
 First you need to create a Xaml page in the folder /SamplePages/YourControl.  This will be the logical page used to by the app to navigate to the sample and containe code.
 
+If providing a code sample, name your `CodeFile` with an extension ending in `.code`.  See more on sample definitions below.
+
 If providing 'live' XAML, a .bind file is loaded and dynamically fed to the XamlReader.Load method to convert into actual controls.  This changes a few things about how samples need to be written (detailed below), but allows developers to actually change the sample and see the results live.
 
 This not only gives us a killer sample app, but it also means that all our samples are also self-validating.  There can't be a typo in the sample text given in the sample app anymore, as otherwise the sample won't work and should be caught during testing of said sample.
@@ -83,9 +85,11 @@ Value="@[Value:Slider:0:0-180]@"
 ```
 
 ## 3. Have a *'Shallow Copy'* of your example in the sample page
-Even though the sample page content is ignored and the dynamic template injected, for the XamlReader to access some classes, a reference to the item is sometimes needed in the hosting app for it to be accessible.  (I assume it's an optimization thing.)  
+See [Issue #1961](https://github.com/Microsoft/UWPCommunityToolkit/issues/1961).  Ideally, your auxiliary components should have the `[Bindable]` attribute.
 
-Therefore, for any new control/extension, you should still have a simplified snippet of it contained in the sample page compiled/loaded by the app.  You should remove names, events, and properties (unless extensions) from these so the namespace isn't accidently polluted.  If you re-use the same control, you don't have to include it twice.
+Even though the sample page content is ignored and the dynamic template injected, for the XamlReader to access some classes, a reference to the item is sometimes needed in the hosting app for it to be accessible.  (This is so it can generate the required XamlTypeInfo metadata.)
+
+Therefore, for any new control/extension, you *may* need a simplified snippet of it contained in the sample page compiled/loaded by the app.  You should remove names, events, and properties (unless extensions) from these so the namespace isn't accidently polluted.  If you re-use the same control, you don't have to include it twice.
 
 
 ## 4. For Events/Resource Templates: Have your sample page implement the **IXamlRendererListener** interface
@@ -100,6 +104,8 @@ if (markdownText != null)
 ```
 
 You'll have to register all events and grab **control.Resources** for templates from this method as the regular sample page XAML isn't used and you can't hook in an event from the dynamic XAML, it must be done via code by finding the element here.
+
+Be sure to also check for `null` values in other places (buttons/events) where you may use these referenced controls.  Your example should fail silently in the case of failure as this method will be called frequently as the user stops typing and the sample tries to update automatically.
 
 
 ## 5. For Interactive Buttons: Use **Shell.Current.RegisterNewCommand**
@@ -129,29 +135,23 @@ if (resources?.ContainsKey("ThingStyle") == true)
 Now, the sample page content in the app is ignored, but you can override that behavior by adding a `<Grid x:Name="XamlRoot"/>` element to the page.  If this element is found, it will serve as the host to the dynamic .bind content instead.  In this manner you can have a status/warning message outside of the control of the developer in the XAML sample tab.
 
 
-# Update Samples.json
-After creating your page and the binding text, you just need to reference it in the /SamplePages/samples.json file.
-Select the category where you want your page to be listed and add the following information:
+# Create a definition.json
+After creating your page and the binding text, you just need to create a sample definition within your sample directory e.g. `/SamplePages/YourControl/definition.json` file.
+
+Add the following information:
 
 ## Basic Structure
 
 ```json
-[
-  {
-    "Name": "Panel controls",
-    "Icon": "Icons/Layouts.png",
-    "Samples": [
-      {
-        "Name": "AdaptiveGridView",
-        "Type": "AdaptiveGridViewPage",
-        "About": "The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the total display available space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically. The number and the width of items are calculated based on the screen resolution in order to fully leverage the available screen space. The property ItemsHeight define the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a new column.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar",
-        "XamlCodeFile": "AdaptiveGridViewCode.bind",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/AdaptiveGridView.md"
-      }
-    ]
-  }
-]
+{
+    "Name": "AdaptiveGridView",
+    "Category": "Controls",
+    "Type": "AdaptiveGridViewPage",
+    "About": "The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the total display available space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically. The number and the width of items are calculated based on the screen resolution in order to fully leverage the available screen space. The property ItemsHeight define the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a new column.",
+    "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar",
+    "XamlCodeFile": "AdaptiveGridViewCode.bind",
+    "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/AdaptiveGridView.md"
+}
 ```
 
 ## Thumbnail Images

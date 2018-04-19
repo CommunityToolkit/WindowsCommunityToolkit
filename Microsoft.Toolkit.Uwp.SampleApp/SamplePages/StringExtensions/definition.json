@@ -1,0 +1,9 @@
+{
+    "Name":  "StringExtensions",
+    "Type":  "StringExtensionsPage",
+    "About":  "String Extensions to validate strings",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit/Extensions",
+    "Icon":  "/Assets/Helpers.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/StringExtensions.md",
+    "Category":  "Extensions"
+}

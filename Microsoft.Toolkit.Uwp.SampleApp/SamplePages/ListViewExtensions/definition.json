@@ -1,0 +1,10 @@
+{
+    "Name":  "ListViewExtensions",
+    "Type":  "ListViewExtensionsPage",
+    "About":  "Extensions for all controls that inherit from ListViewBase like ListView.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ListViewExtensions",
+    "XamlCodeFile":  "ListViewExtensionsCode.bind",
+    "Icon":  "/Assets/Helpers.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/extensions/ListViewExtensions.md",
+    "Category":  "Extensions"
+}

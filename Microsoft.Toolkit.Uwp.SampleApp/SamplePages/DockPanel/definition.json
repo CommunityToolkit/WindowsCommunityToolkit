@@ -1,0 +1,10 @@
+{
+    "Name":  "DockPanel",
+    "Type":  "DockPanelPage",
+    "About":  "Defines an area where you can arrange child elements either horizontally or vertically, relative to each other.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DockPanel",
+    "XamlCodeFile":  "DockPanel.bind",
+    "Icon":  "/SamplePages/DockPanel/DockPanel.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/DockPanel.md",
+    "Category":  "Controls"
+}

@@ -1,0 +1,10 @@
+{
+    "Name":  "RadialGauge",
+    "Type":  "RadialGaugePage",
+    "About":  "The radial gauge displays a value within a range, using a needle on a circular face.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RadialGauge",
+    "XamlCodeFile":  "RadialGaugeCode.bind",
+    "Icon":  "/SamplePages/RadialGauge/RadialGauge.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/RadialGauge.md",
+    "Category":  "Controls"
+}

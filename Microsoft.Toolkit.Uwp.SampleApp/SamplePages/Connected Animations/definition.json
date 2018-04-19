@@ -1,0 +1,12 @@
+{
+    "Name":  "Connected Animations",
+    "Type":  "ConnectedAnimationsPage",
+    "About":  "Attached properties to enable Connected animations through XAML",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/ConnectedAnimations",
+    "XamlCodeFile":  "ConnectedAnimationsCode.bind",
+    "DisableXamlEditorRendering":  true,
+    "Icon":  "/SamplePages/Connected Animations/ConnectedAnimations.png",
+    "BadgeUpdateVersionRequired":  "Creators Update required",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/ConnectedAnimations.md",
+    "Category":  "Animations"
+}

@@ -1,0 +1,12 @@
+{
+    "Name":  "HamburgerMenu",
+    "Type":  "HamburgerMenuPage",
+    "About":  "The HamburgerMenu is deprecated and will be removed in a future major release. Please use the NavigationView available in the Fall Creators Update.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu",
+    "XamlCodeFile":  "HamburgerMenuCode.bind",
+    "Icon":  "/SamplePages/HamburgerMenu/HamburgerMenu.png",
+    "BadgeUpdateVersionRequired":  "DEPRECATED",
+    "DeprecatedWarning":  "The HamburgerMenu is deprecated and will be removed in a future major release. Please use the NavigationView available in the Fall Creators Update.",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/HamburgerMenu.md",
+    "Category":  "Controls"
+}

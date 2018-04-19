@@ -1,0 +1,10 @@
+{
+    "Name":  "ImageEx",
+    "Type":  "ImageExPage",
+    "About":  "Images are downloaded asynchronously showing a load indicator. Source images are then stored in the App local cache to preserve resources and load time.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx",
+    "XamlCodeFile":  "ImageExCode.bind",
+    "Icon":  "/SamplePages/ImageEx/ImageEx.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/ImageEx.md",
+    "Category":  "Controls"
+}

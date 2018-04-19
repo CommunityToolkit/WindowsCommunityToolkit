@@ -1,0 +1,12 @@
+{
+    "Name":  "BackdropSepiaBrush",
+    "Type":  "BackdropSepiaBrushPage",
+    "About":  "Brush which applies a Sepia effect to whatever\u0027s behind it.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Brushes/BackdropSepiaBrush.cs",
+    "XamlCodeFile":  "BackdropSepiaBrushXaml.bind",
+    "Icon":  "/SamplePages/BackdropSepiaBrush/BackdropSepiaBrush.png",
+    "BadgeUpdateVersionRequired":  "Creators Update required",
+    "ApiCheck":  "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/BackdropSepiaBrush.md",
+    "Category":  "Brushes"
+}

@@ -1,0 +1,10 @@
+{
+    "Name":  "HeaderedContentControl",
+    "Type":  "HeaderedContentControlPage",
+    "About":  "Allows content to be displayed with a specified header.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HeaderedContentControl",
+    "XamlCodeFile":  "HeaderedContentControlXaml.bind",
+    "Icon":  "/SamplePages/HeaderedContentControl/HeaderedContentControl.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/HeaderedContentControl.md",
+    "Category":  "Controls"
+}

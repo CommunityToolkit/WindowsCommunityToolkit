@@ -1,0 +1,11 @@
+{
+    "Name":  "ReorderGridAnimation",
+    "Type":  "ReorderGridPage",
+    "About":  "Animates items of a grid when the size changes",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
+    "XamlCodeFile":  "ReorderGrid.bind",
+    "Icon":  "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
+    "BadgeUpdateVersionRequired":  "Anniversary Update required",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/ReorderGrid.md",
+    "Category":  "Animations"
+}

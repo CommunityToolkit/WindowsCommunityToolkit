@@ -1,0 +1,12 @@
+{
+    "Name":  "RadialGradientBrush",
+    "Type":  "RadialGradientBrushPage",
+    "About":  "A composition brush which creates a radial gradient effect.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Brushes/RadialGradientBrush.cs",
+    "XamlCodeFile":  "RadialGradientBrushXaml.bind",
+    "Icon":  "/SamplePages/RadialGradientBrush/RadialGradientBrush.png",
+    "BadgeUpdateVersionRequired":  "Creators Update required",
+    "ApiCheck":  "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/brushes/RadialGradientBrush.md",
+    "Category":  "Brushes"
+}

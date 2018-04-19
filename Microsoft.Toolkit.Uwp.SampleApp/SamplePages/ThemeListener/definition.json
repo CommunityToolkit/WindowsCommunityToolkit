@@ -1,0 +1,8 @@
+{
+    "Name":  "ThemeListener",
+    "Type":  "ThemeListenerPage",
+    "About":  "The ThemeListener allows you to keep track of changes to the System Theme.",
+    "Icon":  "/Assets/Helpers.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/ThemeListener.md",
+    "Category":  "Helpers"
+}

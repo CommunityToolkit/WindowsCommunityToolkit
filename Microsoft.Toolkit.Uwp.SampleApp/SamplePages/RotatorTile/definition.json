@@ -1,0 +1,10 @@
+{
+    "Name":  "RotatorTile",
+    "Type":  "RotatorTilePage",
+    "About":  "RotatorTile is an ItemsControl that rotates through a set of items one-by-one. It enables you to show multiple items of data in a live-tile like way.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RotatorTile",
+    "XamlCodeFile":  "RotatorTileCode.bind",
+    "Icon":  "/SamplePages/RotatorTile/RotatorTile.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/RotatorTile.md",
+    "Category":  "Controls"
+}

@@ -1,0 +1,12 @@
+{
+    "Name":  "Saturation",
+    "Type":  "SaturationBehaviorPage",
+    "About":  "Saturate XAML elements using composition",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
+    "CodeFile":  "SaturationBehaviorCode.code",
+    "XamlCodeFile":  "SaturationBehaviorXaml.bind",
+    "Icon":  "/SamplePages/Saturation/saturationBehavior.png",
+    "BadgeUpdateVersionRequired":  "Anniversary Update required",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/animations/Saturation.md",
+    "Category":  "Animations"
+}

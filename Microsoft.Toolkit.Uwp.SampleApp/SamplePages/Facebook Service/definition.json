@@ -1,0 +1,10 @@
+{
+    "Name":  "Facebook Service",
+    "Type":  "FacebookPage",
+    "About":  "The Facebook Service allows you to retrieve or publish data to Facebook graph.",
+    "CodeUrl":  "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Facebook",
+    "CodeFile":  "FacebookCode.code",
+    "Icon":  "/SamplePages/Facebook Service/FacebookLogo.png",
+    "DocumentationUrl":  "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/services/Facebook.md",
+    "Category":  "Services"
+}
