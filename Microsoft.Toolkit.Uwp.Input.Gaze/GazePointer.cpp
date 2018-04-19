@@ -59,7 +59,6 @@ static int s_instanceCount;
 
 GazePointer::GazePointer()
 {
-    _instanceNo = ++s_instanceCount;
     _coreDispatcher = CoreWindow::GetForCurrentThread()->Dispatcher;
 
     // Default to not filtering sample data
@@ -80,8 +79,6 @@ GazePointer::GazePointer()
 
 GazePointer::~GazePointer()
 {
-    Debug::WriteLine(L"~GazePointer instance %d", _instanceNo);
-
     if (_gazeInputSource != nullptr)
     {
         _gazeInputSource->GazeEntered -= _gazeEnteredToken;
@@ -340,7 +337,6 @@ static void AssertHistoryValid(Vector<GazeHistoryItem^>^ gazeHistory,
 
 UIElement^ GazePointer::ResolveHitTarget(Point gazePoint, long long timestamp)
 {
-    Debug::WriteLine(L"Top of ResolveHitTarget, instance = %d, thread = %ld", _instanceNo, GetCurrentThreadId());
     AssertHistoryValid(_gazeHistory, _activeHitTargetTimes);
 
     // TODO: The existance of a GazeTargetItem should be used to indicate that
@@ -400,8 +396,6 @@ UIElement^ GazePointer::ResolveHitTarget(Point gazePoint, long long timestamp)
     AssertHistoryValid(_gazeHistory, _activeHitTargetTimes);
 
     _lastTimestamp = timestamp;
-
-    Debug::WriteLine(L"Bottom of ResolveHitTarget, instance = %d, thread = %ld", _instanceNo, GetCurrentThreadId());
 
     // Return the most recent hit target 
     // Intuition would tell us that we should return NOT the most recent
@@ -500,8 +494,6 @@ void GazePointer::OnEyesOff(Object ^sender, Object ^ea)
 
 void GazePointer::CheckIfExiting(long long curTimestamp)
 {
-    Debug::WriteLine(L"Checking exiting on instance = %d, thread = %ld", _instanceNo, GetCurrentThreadId());
-
     for (unsigned int index = 0; index < _activeHitTargetTimes->Size; index++)
     {
         auto targetItem = _activeHitTargetTimes->GetAt(index);
@@ -539,15 +531,11 @@ void GazePointer::CheckIfExiting(long long curTimestamp)
             
             AssertHistoryValid(_gazeHistory, _activeHitTargetTimes);
 
-            Debug::WriteLine(L"Pruned one on instance = %d, thread = %ld", _instanceNo, GetCurrentThreadId());
-
             // return because only one element can be exited at a time and at this point
             // we have done everything that we can do
             return;
         }
     }
-
-    Debug::WriteLine(L"Pruned nothing on instance = %d, thread = %ld", _instanceNo, GetCurrentThreadId());
 }
 
 wchar_t *PointerStates[] = {

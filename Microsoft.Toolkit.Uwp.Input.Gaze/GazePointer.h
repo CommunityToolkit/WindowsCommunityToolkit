@@ -121,6 +121,8 @@ private:
     void    OnEyesOff(Object ^sender, Object ^ea);
 
 private:
+    Vector<Page^>^ _pages = ref new Vector<Page^>();
+
     int64                               _eyesOffDelay;
 
     GazeCursor^                         _gazeCursor;
@@ -153,8 +155,6 @@ private:
 	int _defaultRepeat = DEFAULT_REPEAT_DELAY;
 	int _defaultEnter = DEFAULT_ENTER_EXIT_DELAY;
 	int _defaultExit = DEFAULT_ENTER_EXIT_DELAY;
-    int _instanceNo;
-    Vector<Page^>^ _pages = ref new Vector<Page^>();
 };
 
 END_NAMESPACE_GAZE_INPUT

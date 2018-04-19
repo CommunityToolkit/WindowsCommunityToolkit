@@ -24,21 +24,7 @@ ref struct GazeHistoryItem
 {
     property UIElement^ HitTarget;
     property int64 Timestamp;
-    property int64 Duration
-    {
-        int64 get() { assert(_duration1 == _duration2); return _duration1; }
-        void set(int64 value)
-        {
-            assert(_duration1 == _duration2);
-            Debug::WriteLine(L" h %ld -> %ld", _duration1, value);
-            _duration1 = value;
-            _duration2 = value;
-        }
-    }
-
-private:
-    int64 _duration1;
-    int64 _duration2;
+    property int64 Duration;
 };
 
 END_NAMESPACE_GAZE_INPUT
