@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.Services;
 using Microsoft.Toolkit.Uwp.Services.OneDrive;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -22,6 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public class OneDriveDataTemplateSelector : DataTemplateSelector
     {
+        #pragma warning disable CS0618 // Type or member is obsolete
         /// <summary>
         /// Gets or sets the File DataTemplate
         /// </summary>
@@ -39,8 +39,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
-            var oneDriveItem = item as OneDriveStorageItem;
-            if (oneDriveItem != null)
+            if (item is OneDriveStorageItem oneDriveItem)
             {
                 if (oneDriveItem.IsFile())
                 {
@@ -60,5 +59,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             return FolderTemplate;
         }
+        #pragma warning restore CS0618 // Type or member is obsolete
     }
 }

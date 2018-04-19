@@ -39,6 +39,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         public ToastBindingGeneric BindingGeneric { get; set; }
 
+        /// <summary>
+        /// Gets or sets a binding for shoulder tap notifications, which integrate with My People. See the My People documentation for more info. New in Fall Creators Update.
+        /// </summary>
+        public ToastBindingShoulderTap BindingShoulderTap { get; set; }
+
         internal Element_ToastVisual ConvertToElement()
         {
             var visual = new Element_ToastVisual()
@@ -48,10 +53,20 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 AddImageQuery = AddImageQuery
             };
 
+            if (BindingGeneric == null)
+            {
+                throw new NullReferenceException("BindingGeneric must be initialized");
+            }
+
             Element_ToastBinding binding = BindingGeneric.ConvertToElement();
 
             // TODO: If a BaseUri wasn't provided, we can potentially optimize the payload size by calculating the best BaseUri
             visual.Bindings.Add(binding);
+
+            if (BindingShoulderTap != null)
+            {
+                visual.Bindings.Add(BindingShoulderTap.ConvertToElement());
+            }
 
             return visual;
         }

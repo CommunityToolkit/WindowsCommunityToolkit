@@ -15,6 +15,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -22,17 +23,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The <see cref="Expander"/> control allows user to show/hide content based on a boolean state
     /// </summary>
-    [TemplateVisualState(Name = StateContentExpanded, GroupName = ExpandedGroupStateContent)]
-    [TemplateVisualState(Name = StateContentCollapsed, GroupName = ExpandedGroupStateContent)]
     [TemplateVisualState(Name = StateContentLeftDirection, GroupName = ExpandDirectionGroupStateContent)]
     [TemplateVisualState(Name = StateContentDownDirection, GroupName = ExpandDirectionGroupStateContent)]
     [TemplateVisualState(Name = StateContentRightDirection, GroupName = ExpandDirectionGroupStateContent)]
     [TemplateVisualState(Name = StateContentUpDirection, GroupName = ExpandDirectionGroupStateContent)]
+    [TemplateVisualState(Name = StateContentVisibleLeft, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentVisibleDown, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentVisibleRight, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentVisibleUp, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentCollapsedLeft, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentCollapsedDown, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentCollapsedRight, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
+    [TemplateVisualState(Name = StateContentCollapsedUp, GroupName = DisplayModeAndDirectionStatesGroupStateContent)]
     [TemplatePart(Name = RootGridPart, Type = typeof(Grid))]
     [TemplatePart(Name = ExpanderToggleButtonPart, Type = typeof(ToggleButton))]
     [TemplatePart(Name = LayoutTransformerPart, Type = typeof(LayoutTransformControl))]
+    [TemplatePart(Name = ContentOverlayPart, Type = typeof(ContentPresenter))]
     [ContentProperty(Name = "Content")]
-    public partial class Expander : ContentControl
+    public partial class Expander : HeaderedContentControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Expander"/> class.
@@ -47,15 +55,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            if (IsExpanded)
-            {
-                VisualStateManager.GoToState(this, StateContentExpanded, false);
-            }
-            else
-            {
-                VisualStateManager.GoToState(this, StateContentCollapsed, false);
-            }
-
             var button = (ToggleButton)GetTemplateChild(ExpanderToggleButtonPart);
 
             if (button != null)
@@ -64,7 +63,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 button.KeyDown += ExpanderToggleButtonPart_KeyDown;
             }
 
-            OnExpandDirectionChanged();
+            OnExpandDirectionChanged(false);
+            OnDisplayModeOrIsExpandedChanged(false);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Collapsed?.Invoke(this, args);
         }
 
-        private void ExpanderToggleButtonPart_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void ExpanderToggleButtonPart_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key != VirtualKey.Enter)
             {
@@ -106,20 +106,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ExpandControl()
         {
-            VisualStateManager.GoToState(this, StateContentExpanded, true);
+            OnDisplayModeOrIsExpandedChanged();
             OnExpanded(EventArgs.Empty);
         }
 
         private void CollapseControl()
         {
-            VisualStateManager.GoToState(this, StateContentCollapsed, true);
+            OnDisplayModeOrIsExpandedChanged();
             OnCollapsed(EventArgs.Empty);
         }
 
         /// <summary>
         /// Called when the ExpandDirection on Expander changes
         /// </summary>
-        public void OnExpandDirectionChanged()
+        private void OnExpandDirectionChanged(bool useTransitions = true)
         {
             var button = (ToggleButton)GetTemplateChild(ExpanderToggleButtonPart);
 
@@ -128,23 +128,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
+            UpdateDisplayModeOrExpanderDirection(useTransitions);
+
             switch (ExpandDirection)
             {
                 case ExpandDirection.Left:
-                    VisualStateManager.GoToState(this, StateContentLeftDirection, true);
-                    VisualStateManager.GoToState(button, StateContentLeftDirection, true);
+                    VisualStateManager.GoToState(button, StateContentLeftDirection, useTransitions);
                     break;
                 case ExpandDirection.Down:
-                    VisualStateManager.GoToState(this, StateContentDownDirection, true);
-                    VisualStateManager.GoToState(button, StateContentDownDirection, true);
+                    VisualStateManager.GoToState(button, StateContentDownDirection, useTransitions);
                     break;
                 case ExpandDirection.Right:
-                    VisualStateManager.GoToState(this, StateContentRightDirection, true);
-                    VisualStateManager.GoToState(button, StateContentRightDirection, true);
+                    VisualStateManager.GoToState(button, StateContentRightDirection, useTransitions);
                     break;
                 case ExpandDirection.Up:
-                    VisualStateManager.GoToState(this, StateContentUpDirection, true);
-                    VisualStateManager.GoToState(button, StateContentUpDirection, true);
+                    VisualStateManager.GoToState(button, StateContentUpDirection, useTransitions);
                     break;
             }
 
@@ -154,6 +152,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 VisualStateManager.GoToState(button, "Checked", true);
             }
+        }
+
+        private void OnDisplayModeOrIsExpandedChanged(bool useTransitions = true)
+        {
+            UpdateDisplayModeOrExpanderDirection(useTransitions);
+        }
+
+        private void UpdateDisplayModeOrExpanderDirection(bool useTransitions = true)
+        {
+            string visualState = null;
+
+            switch (ExpandDirection)
+            {
+                case ExpandDirection.Left:
+                    visualState = GetDisplayModeVisualState(StateContentCollapsedLeft, StateContentVisibleLeft);
+                    break;
+                case ExpandDirection.Down:
+                    visualState = GetDisplayModeVisualState(StateContentCollapsedDown, StateContentVisibleDown);
+                    break;
+                case ExpandDirection.Right:
+                    visualState = GetDisplayModeVisualState(StateContentCollapsedRight, StateContentVisibleRight);
+                    break;
+                case ExpandDirection.Up:
+                    visualState = GetDisplayModeVisualState(StateContentCollapsedUp, StateContentVisibleUp);
+                    break;
+            }
+
+            if (!string.IsNullOrWhiteSpace(visualState))
+            {
+                VisualStateManager.GoToState(this, visualState, useTransitions);
+            }
+        }
+
+        private string GetDisplayModeVisualState(string collapsedState, string visibleState)
+        {
+            return IsExpanded ? visibleState : collapsedState;
         }
     }
 }

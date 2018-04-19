@@ -252,8 +252,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 sb.Children.Add(anim);
             }
 
-            sb.Completed += (a, b) =>
+            sb.Completed += async (a, b) =>
             {
+                if (_currentElement != null)
+                {
+                    _currentElement.DataContext = _nextElement.DataContext;
+                }
+
+                // make sure DataContext on _currentElement has had a chance to update the binding
+                // avoids flicker on rotation
+                await System.Threading.Tasks.Task.Delay(50);
+
                 // Reset back and swap images, getting the next image ready
                 sb.Stop();
                 if (_translate != null)
@@ -261,9 +270,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     UpdateTranslateXY();
                 }
 
-                if (_currentElement != null && _nextElement != null)
+                if (_nextElement != null)
                 {
-                    _currentElement.DataContext = _nextElement.DataContext;
                     _nextElement.DataContext = GetNext(); // Preload the next tile
                 }
             };

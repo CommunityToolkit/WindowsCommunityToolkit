@@ -18,12 +18,54 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// WrapPanel is a panel that position child control vertically or horizontally based on the orientation and when max width/ max height is recieved a new row(in case of horizontal) or column (in case of vertical) is created to fit new controls.
+    /// WrapPanel is a panel that position child control vertically or horizontally based on the orientation and when max width / max height is reached a new row (in case of horizontal) or column (in case of vertical) is created to fit new controls.
     /// </summary>
     public partial class WrapPanel : Panel
     {
         /// <summary>
-        /// Gets or sets the orientation of the WrapPanel, Horizontal or vertical means that child controls will be added horizontally until the width of the panel can't fit more control then a new row is added to fit new horizontal added child controls, vertical means that child will be added vertically until the height of the panel is recieved then a new column is added
+        /// Gets or sets a uniform Horizontal distance (in pixels) between items when <see cref="Orientation"/> is set to Horizontal,
+        /// or between columns of items when <see cref="Orientation"/> is set to Vertical.
+        /// </summary>
+        public double HorizontalSpacing
+        {
+            get { return (double)GetValue(HorizontalSpacingProperty); }
+            set { SetValue(HorizontalSpacingProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="HorizontalSpacing"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HorizontalSpacingProperty =
+            DependencyProperty.Register(
+                nameof(HorizontalSpacing),
+                typeof(double),
+                typeof(WrapPanel),
+                new PropertyMetadata(0d, LayoutPropertyChanged));
+
+        /// <summary>
+        /// Gets or sets a uniform Vertical distance (in pixels) between items when <see cref="Orientation"/> is set to Vertical,
+        /// or between rows of items when <see cref="Orientation"/> is set to Horizontal.
+        /// </summary>
+        public double VerticalSpacing
+        {
+            get { return (double)GetValue(VerticalSpacingProperty); }
+            set { SetValue(VerticalSpacingProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="VerticalSpacing"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty VerticalSpacingProperty =
+            DependencyProperty.Register(
+                nameof(VerticalSpacing),
+                typeof(double),
+                typeof(WrapPanel),
+                new PropertyMetadata(0d, LayoutPropertyChanged));
+
+        /// <summary>
+        /// Gets or sets the orientation of the WrapPanel.
+        /// Horizontal means that child controls will be added horizontally until the width of the panel is reached, then a new row is added to add new child controls.
+        /// Vertical means that children will be added vertically until the height of the panel is reached, then a new column is added.
         /// </summary>
         public Orientation Orientation
         {
@@ -36,33 +78,63 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty OrientationProperty =
             DependencyProperty.Register(
-                "Orientation",
+                nameof(Orientation),
                 typeof(Orientation),
                 typeof(WrapPanel),
-                new PropertyMetadata(Orientation.Horizontal, OrientationPropertyChanged));
+                new PropertyMetadata(Orientation.Horizontal, LayoutPropertyChanged));
 
-        private static void OrientationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Gets or sets the distance between the border and its child object.
+        /// </summary>
+        /// <returns>
+        /// The dimensions of the space between the border and its child as a Thickness value.
+        /// Thickness is a structure that stores dimension values using pixel measures.
+        /// </returns>
+        public Thickness Padding
         {
-            var wrapPanel = d as WrapPanel;
-            wrapPanel?.InvalidateMeasure();
-            wrapPanel?.InvalidateArrange();
+            get { return (Thickness)GetValue(PaddingProperty); }
+            set { SetValue(PaddingProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the Padding dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="Padding"/> dependency property.</returns>
+        public static readonly DependencyProperty PaddingProperty =
+            DependencyProperty.Register(
+                nameof(Padding),
+                typeof(Thickness),
+                typeof(WrapPanel),
+                new PropertyMetadata(default(Thickness), LayoutPropertyChanged));
+
+        private static void LayoutPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is WrapPanel wp)
+            {
+                wp.InvalidateMeasure();
+                wp.InvalidateArrange();
+            }
         }
 
         /// <inheritdoc />
         protected override Size MeasureOverride(Size availableSize)
         {
+            availableSize.Width = availableSize.Width - Padding.Left - Padding.Right;
+            availableSize.Height = availableSize.Height - Padding.Top - Padding.Bottom;
             var totalMeasure = UvMeasure.Zero;
             var parentMeasure = new UvMeasure(Orientation, availableSize.Width, availableSize.Height);
+            var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
             var lineMeasure = UvMeasure.Zero;
+
             foreach (var child in Children)
             {
                 child.Measure(availableSize);
 
                 var currentMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
 
-                if (parentMeasure.U > currentMeasure.U + lineMeasure.U)
+                if (parentMeasure.U >= currentMeasure.U + lineMeasure.U + spacingMeasure.U)
                 {
-                    lineMeasure.U += currentMeasure.U;
+                    lineMeasure.U += currentMeasure.U + spacingMeasure.U;
                     lineMeasure.V = Math.Max(lineMeasure.V, currentMeasure.V);
                 }
                 else
@@ -70,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // new line should be added
                     // to get the max U to provide it correctly to ui width ex: ---| or -----|
                     totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
-                    totalMeasure.V += lineMeasure.V;
+                    totalMeasure.V += lineMeasure.V + spacingMeasure.V;
 
                     // if the next new row still can handle more controls
                     if (parentMeasure.U > currentMeasure.U)
@@ -109,17 +181,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override Size ArrangeOverride(Size finalSize)
         {
             var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
-            var position = UvMeasure.Zero;
+            var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
+            var paddingStart = new UvMeasure(Orientation, Padding.Left, Padding.Top);
+            var paddingEnd = new UvMeasure(Orientation, Padding.Right, Padding.Bottom);
+            var position = new UvMeasure(Orientation, Padding.Left, Padding.Top);
 
             double currentV = 0;
             foreach (var child in Children)
             {
                 var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
-                if ((desiredMeasure.U + position.U) > parentMeasure.U)
+                if ((desiredMeasure.U + position.U + paddingEnd.U) > parentMeasure.U)
                 {
                     // next row!
-                    position.U = 0;
-                    position.V += currentV;
+                    position.U = paddingStart.U;
+                    position.V += currentV + spacingMeasure.V;
                     currentV = 0;
                 }
 
@@ -134,7 +209,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // adjust the location for the next items
-                position.U += desiredMeasure.U;
+                position.U += desiredMeasure.U + spacingMeasure.U;
                 currentV = Math.Max(desiredMeasure.V, currentV);
             }
 

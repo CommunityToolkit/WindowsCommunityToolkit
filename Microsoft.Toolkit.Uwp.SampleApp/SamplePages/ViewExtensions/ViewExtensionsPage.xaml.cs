@@ -37,17 +37,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             base.OnNavigatedFrom(e);
 
             // Reset app back to normal.
-            StatusBar.SetIsVisible(this, false);
+            StatusBarExtensions.SetIsVisible(this, false);
 
-            ApplicationView.SetTitle(this, string.Empty);
+            ApplicationViewExtensions.SetTitle(this, string.Empty);
 
             var lightGreyBrush = (Color)Application.Current.Resources["Grey-04"];
             var brandColor = (Color)Application.Current.Resources["Brand-Color"];
 
-            TitleBar.SetButtonBackgroundColor(this, brandColor);
-            TitleBar.SetButtonForegroundColor(this, lightGreyBrush);
-            TitleBar.SetBackgroundColor(this, brandColor);
-            TitleBar.SetForegroundColor(this, lightGreyBrush);
+            TitleBarExtensions.SetButtonBackgroundColor(this, brandColor);
+            TitleBarExtensions.SetButtonForegroundColor(this, lightGreyBrush);
+            TitleBarExtensions.SetBackgroundColor(this, brandColor);
+            TitleBarExtensions.SetForegroundColor(this, lightGreyBrush);
         }
     }
 }

@@ -139,6 +139,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets the collection of inline text elements within a Windows.UI.Xaml.Controls.TextBlock.
+        /// </summary>
+        /// <returns>
+        /// A collection that holds all inline text elements from the Windows.UI.Xaml.Controls.TextBlock. The default is an empty collection.</returns>
+        public InlineCollectionWrapper Inlines { get; } = new InlineCollectionWrapper();
+
+        /// <summary>
         /// Gets or sets the orientation.
         /// </summary>
         public Orientation Orientation

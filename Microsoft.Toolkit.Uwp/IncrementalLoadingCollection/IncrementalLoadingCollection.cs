@@ -196,10 +196,10 @@ namespace Microsoft.Toolkit.Uwp
             => LoadMoreItemsAsync(count, new CancellationToken(false)).AsAsyncOperation();
 
         /// <summary>
-        /// Clears the collection and reloads data from the source
+        /// Clears the collection and triggers/forces a reload of the first page
         /// </summary>
         /// <returns>This method does not return a result</returns>
-        public async Task RefreshAsync()
+        public Task RefreshAsync()
         {
             if (IsLoading)
             {
@@ -207,11 +207,19 @@ namespace Microsoft.Toolkit.Uwp
             }
             else
             {
+                var previousCount = Count;
                 Clear();
                 CurrentPageIndex = 0;
                 HasMoreItems = true;
-                await LoadMoreItemsAsync(1);
+
+                if (previousCount == 0)
+                {
+                    // When the list was empty before clearing, the automatic reload isn't fired, so force a reload.
+                    return LoadMoreItemsAsync(0).AsTask();
+                }
             }
+
+            return Task.CompletedTask;
         }
 
         /// <summary>

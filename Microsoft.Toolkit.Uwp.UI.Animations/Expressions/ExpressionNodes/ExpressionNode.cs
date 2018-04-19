@@ -200,15 +200,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             }
             else if (typeof(T) == typeof(ColorNode))
             {
-                newNode = new Vector4Node() as T;
+                newNode = new ColorNode() as T;
             }
             else if (typeof(T) == typeof(QuaternionNode))
             {
-                newNode = new Vector4Node() as T;
+                newNode = new QuaternionNode() as T;
             }
             else if (typeof(T) == typeof(Matrix3x2Node))
             {
-                newNode = new Matrix4x4Node() as T;
+                newNode = new Matrix3x2Node() as T;
             }
             else if (typeof(T) == typeof(Matrix4x4Node))
             {

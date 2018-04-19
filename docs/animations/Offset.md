@@ -1,7 +1,6 @@
 ---
 title: Offset animation behavior
 author: nmetulev
-ms.date: 08/20/2017
 description: The Offset animation behavior gets the number of pixels, from the origin of the associated control, then offsets the control.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, offset animation
 ---
@@ -25,6 +24,7 @@ The Offset animation is used to move the control from one place to another. Offs
             OffsetY="25.0"
             Duration="2500" 
             Delay="250" 
+            EasingType="Linear"
             AutomaticallyStart="True"/>
 </interactivity:Interaction.Behaviors>
 ```
@@ -41,7 +41,6 @@ await MyUIElement.Offset(offsetX: 25, offsetY: 25, duration: 2500, delay: 250, e
 ![Offset Behavior animation](../resources/images/Animations/Offset/Sample-Output.gif)
 
 ## Properties
-
 
 ### EasingType
 
@@ -61,19 +60,19 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
 
-***Note:** EasingType is used only when AnimationSet.UseComposition == false*
-
 ## Examples
 
 - You can just call `Offset()` set the control in the orginal position
 
     **Sample Code**
+
     ```csharp
     await MyUIElement.Offset().Start();
     ```
 - Use await to create a continous movement
 
     **Sample Code**
+
     ```csharp
     public async void OffsetAsync()
     {
@@ -83,12 +82,15 @@ You can change the way how the animation interpolates between keyframes by defin
         await MyUIElement.Offset(duration: 1000).StartAsync();
     }
     ```
+
     **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/Offset/Use-Case-1.gif)
-- Use this to create chaining animations with other animations. Visit the [AnimationSet](\AnimationSet.md) documentation for more information.
+
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](AnimationSet.md) documentation for more information.
 
     **Sample Code**
+
     ```csharp
     var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
     anim.SetDurationForAll(2500);
@@ -96,6 +98,7 @@ You can change the way how the animation interpolates between keyframes by defin
     anim.Completed += animation_completed;
     anim.Start();
     ```
+
     **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
@@ -114,5 +117,3 @@ You can change the way how the animation interpolates between keyframes by defin
 ## API
 
 * [Offset source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors/Offset.cs)
-
-

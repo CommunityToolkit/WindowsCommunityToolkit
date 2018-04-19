@@ -9,7 +9,7 @@
         <DataTemplate x:Key="PhotoTemplate">
             <Grid Width="{Binding Width}"
                   Height="{Binding Height}"
-                  Margin="3">
+                  Margin="0">
                 <Image HorizontalAlignment="Center"
                        Stretch="UniformToFill">
                     <Image.Source>
@@ -30,16 +30,22 @@
                 </Border>
             </Grid>
         </DataTemplate>
+        <Style TargetType="ListViewItem">
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
     </Page.Resources>
 
     <Grid Padding="48">
         <ListView Name="WrapPanelContainer"
-                      Margin="2"
-                      IsItemClickEnabled="True"
-                      ItemTemplate="{StaticResource PhotoTemplate}">
+                  IsItemClickEnabled="True"
+                  ItemTemplate="{StaticResource PhotoTemplate}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <controls:WrapPanel Background="LightGray" />
+                    <controls:WrapPanel Background="LightGray"
+                                        Padding="@[Padding:Thickness:0,0,0,0]@"
+                                        VerticalSpacing="@[VerticalSpacing:Slider:5:0-200]@"
+                                        HorizontalSpacing="@[HorizontalSpacing:Slider:5:0-200]@"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ListView>

@@ -63,7 +63,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                           select p).Skip(pageIndex * pageSize).Take(pageSize);
 
             // Simulates a longer request...
-            await Task.Delay(1000);
+            // Make sure the list is still in order after a refresh,
+            // even if the first page takes longer to load
+            if (pageIndex == 0)
+            {
+                await Task.Delay(2000);
+            }
+            else
+            {
+                await Task.Delay(1000);
+            }
 
             return result;
         }

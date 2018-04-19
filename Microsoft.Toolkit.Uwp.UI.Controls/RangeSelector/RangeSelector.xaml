@@ -3,30 +3,30 @@
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Style TargetType="controls:RangeSelector">
-        <Setter Property="Background" Value="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" />
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SliderTrackFill}"/>
+        <Setter Property="BorderThickness" Value="{ThemeResource SliderBorderThemeThickness}"/>
+        <Setter Property="Foreground" Value="{ThemeResource SliderTrackValueFill}"/>
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:RangeSelector">
                     <Grid x:Name="ControlGrid" Height="24" >
                         <Grid.Resources>
-                            <Style x:Key="SliderThumbStyle"
-                                   TargetType="Thumb">
-                                <Setter Property="UseSystemFocusVisuals" Value="True" />
-                                <Setter Property="BorderThickness" Value="0" />
-                                <Setter Property="Background" Value="{ThemeResource SystemControlForegroundAccentBrush}" />                              
+                            <Style x:Key="SliderThumbStyle" TargetType="Thumb">
+                                <Setter Property="UseSystemFocusVisuals" Value="True"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Background" Value="{ThemeResource SliderThumbBackground}"/>
+                                <Setter Property="Height" Value="24"/>
+                                <Setter Property="Width" Value="8"/>
+                                <Setter Property="FocusVisualMargin" Value="-14,-6,-14,-6"/>
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="Thumb">
-                                            <Grid Background="Transparent">
-                                                <Border Width="8"
-                                                    Height="24"                                                    
-                                                    HorizontalAlignment="Center"
-                                                    Background="{TemplateBinding Background}"
-                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                                    CornerRadius="4" />
-                                            </Grid>
+                                            <Border Background="{TemplateBinding Background}" 
+                                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                                    CornerRadius="4"/>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -34,14 +34,13 @@
                         </Grid.Resources>
 
                         <Border x:Name="OutOfRangeContentContainer"                                 
-                                Margin="12,0"
                                 Background="Transparent">
                             <Rectangle x:Name="BackgroundElement"
                                        Height="2"
                                        Fill="{TemplateBinding Background}" />
                         </Border>
                         <Canvas x:Name="ContainerCanvas"
-                                Margin="12,0"
+                                Margin="0,0,8,0"
                                 Background="Transparent">
                             <Rectangle x:Name="ActiveRectangle"                                                                     
                                        Height="2"
@@ -49,13 +48,11 @@
                                        Fill="{TemplateBinding Foreground}" />
                             <Thumb x:Name="MinThumb"
                                    AutomationProperties.Name="Min thumb"
-                                   Background="{TemplateBinding Foreground}"
                                    IsTabStop="True" 
                                    Style="{StaticResource SliderThumbStyle}"
                                    TabIndex="0" />
                             <Thumb x:Name="MaxThumb"
                                    AutomationProperties.Name="Max thumb"
-                                   Background="{TemplateBinding Foreground}"
                                    IsTabStop="True"
                                    Style="{StaticResource SliderThumbStyle}"
                                    TabIndex="1" />

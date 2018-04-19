@@ -1,14 +1,13 @@
 ---
 title: AnimationSet class
 author: Vijay-Nirmal
-ms.date: 09/01/2017
 description: The AnimationSet class defines an object for storing and managing Storyboard and CompositionAnimations for an element
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, animationset, animationset class
 ---
 
 # AnimationSet
 
-The AnimationSet class defines an object for storing and managing Storyboard and CompositionAnimations for an element. AnimationSet includes [Blur](\Blur.md), [Fade](\Fade.md), [Light](\Light.md), [Offset](\Offset.md), [Rotate](\Rotate.md), [Saturation](\Saturation.md) and [Scale](\Scale.md) animations. AnimationSet animations is applied to all the XAML elements in its parent control/panel. AnimationSet animations doesn't affect the functionality of the control.
+The AnimationSet class defines an object for storing and managing Storyboard and CompositionAnimations for an element. AnimationSet includes [Blur](Blur.md), [Fade](Fade.md), [Light](Light.md), [Offset](Offset.md), [Rotate](Rotate.md), [Saturation](Saturation.md) and [Scale](Scale.md) animations. AnimationSet animations is applied to all the XAML elements in its parent control/panel. AnimationSet animations doesn't affect the functionality of the control.
 
 ## Syntax
 
@@ -43,8 +42,6 @@ anim.Start();
 
 ## Properties
 
-
-
 ### EasingType
 
 You can change the way how the animation interpolates between keyframes by defining the EasingType.
@@ -63,14 +60,12 @@ You can change the way how the animation interpolates between keyframes by defin
 | Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
 | Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
 
-***Note:** EasingType is used only when AnimationSet.UseComposition == false*  
-***Note:** Blur, Light and Saturation animation don't support easing*
-
 ## Examples
 
 - AnimationSet has endless possibility. Here is an example of creating popup effect
 
     **Sample Code**
+
     ```csharp
     FrameworkElement preElement = null;
     private void MyUIElement_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -97,6 +92,7 @@ You can change the way how the animation interpolates between keyframes by defin
 - Use `Then()` to create a successive animation
 
     **Sample Code**
+
     ```csharp
     MyUIElement.Blur(value: 10).Fade(value: 0.5f)
             .Then()
@@ -104,6 +100,7 @@ You can change the way how the animation interpolates between keyframes by defin
             .SetDurationForAll(2500)
             .Start();
     ```
+
     **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/AnimationSet/Use-Case-2.gif)

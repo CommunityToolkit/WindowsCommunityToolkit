@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Services.Bing
     /// <summary>
     /// Implementation of the Bing result class.
     /// </summary>
-    public class BingResult : SchemaBase
+    public class BingResult : Parsers.SchemaBase
     {
         /// <summary>
         /// Gets or sets title of the search result.

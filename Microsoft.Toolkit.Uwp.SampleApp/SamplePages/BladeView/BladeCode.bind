@@ -8,7 +8,7 @@
 
     <Page.Resources>
         <Style x:Key="BladeStyle" TargetType="controls:BladeItem">
-            <Setter Property="Title" Value="Default Blade" />
+            <Setter Property="Header" Value="Default Blade" />
             <Setter Property="Width" Value="400" />
             <Setter Property="IsOpen" Value="True" />
             <Setter Property="Background" Value="White" />
@@ -25,7 +25,7 @@
                             BladeMode="@[BladeMode:Enum:BladeMode.Normal]"
                             AutoCollapseCountThreshold="@[AutoCollapseCountThreshold:String:4]">
             <controls:BladeItem x:Name="FirstBlade"
-								                Title="Test"
+								                Header="Test"
 								                Style="{StaticResource BladeStyle}"
                                 TitleBarVisibility="Collapsed">
                 <StackPanel Margin="24">
@@ -51,7 +51,7 @@
             </controls:BladeItem>
             
             <controls:BladeItem x:Name="SecondBlade" 
-                                Title="Default blade"
+                                Header="Default blade"
                                 IsOpen="False"
 								                Style="{StaticResource BladeStyle}">
                 <TextBlock Margin="24"
@@ -62,11 +62,15 @@
             </controls:BladeItem>
           
             <controls:BladeItem x:Name="ThirdBlade" 
-                                Title="Custom title bar"
+                                Header="Custom title bar"
 								                Style="{StaticResource BladeStyle}"
                                 IsOpen="False"
-                                TitleBarBackground="@[Titlebar Background:Brush:CornflowerBlue]"
-                                TitleBarForeground="White">
+                                TitleBarBackground="@[Titlebar Background:Brush:CornflowerBlue]">
+              <controls:BladeItem.HeaderTemplate>
+                  <DataTemplate>
+                      <TextBlock Text="{Binding}" Foreground="White"/>
+                  </DataTemplate>
+              </controls:BladeItem.HeaderTemplate>
                 <TextBlock Margin="24"
 						               HorizontalAlignment="Center"
                            VerticalAlignment="Center"
@@ -75,7 +79,7 @@
             </controls:BladeItem>
             
             <controls:BladeItem x:Name="FourthBlade" 
-                                Title="Custom close button color"
+                                Header="Custom close button color"
 								                Style="{StaticResource BladeStyle}"
                                 CloseButtonBackground="@[Close Button Background:Brush:CornflowerBlue]"
                                 CloseButtonForeground="White"

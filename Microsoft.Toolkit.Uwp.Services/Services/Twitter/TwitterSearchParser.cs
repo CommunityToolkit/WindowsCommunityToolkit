@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// <summary>
     /// Twitter Search Parser.
     /// </summary>
-    public class TwitterSearchParser : IParser<Tweet>
+    public class TwitterSearchParser : Parsers.IParser<Tweet>
     {
         /// <summary>
         /// Parse string into strong typed list.

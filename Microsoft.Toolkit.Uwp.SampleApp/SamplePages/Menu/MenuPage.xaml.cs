@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
 
-            Shell.Current.RegisterNewCommand("Add Item to file menu", (sender, args) =>
+            Shell.Current.RegisterNewCommand("Append Item to file menu", (sender, args) =>
             {
                 if (fileMenu != null)
                 {
@@ -51,6 +51,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     };
 
                     fileMenu.Items.Add(flyoutItem);
+                }
+            });
+
+            Shell.Current.RegisterNewCommand("Prepend Item to file menu", (sender, args) =>
+            {
+                if (fileMenu != null)
+                {
+                    var flyoutItem = new MenuFlyoutItem
+                    {
+                        Text = "Click to remove"
+                    };
+
+                    flyoutItem.Click += (a, b) =>
+                    {
+                        fileMenu.Items.Remove(flyoutItem);
+                    };
+
+                    fileMenu.Items.Insert(0, flyoutItem);
                 }
             });
         }
