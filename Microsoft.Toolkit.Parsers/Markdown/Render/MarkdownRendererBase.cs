@@ -230,6 +230,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
                 if (inline is ImageInline imageInline)
                 {
                     // this is an image, create Image.
+                    if (!string.IsNullOrEmpty(imageInline.ReferenceId))
+                    {
+                        imageInline.ResolveReference(Document);
+                    }
+
+                    imageInline.Url = element.Url;
                     RenderImage(imageInline, context);
                     return;
                 }

@@ -241,7 +241,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             var inlineCollection = localContext.InlineCollection;
 
             var placeholder = InternalRenderTextRun(new TextRunInline { Text = element.Text, Type = MarkdownInlineType.TextRun }, context);
-            var resolvedImage = await ImageResolver.ResolveImageAsync(element.Url, element.Tooltip);
+            var resolvedImage = await ImageResolver.ResolveImageAsync(element.RenderUrl, element.Tooltip);
 
             // if image can not be resolved we have to return
             if (resolvedImage == null)
