@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <param name="actual">The second generic type data to compare.  This is the actual value.</param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void AreEqual<T>(T expected, T actual)
+        internal static void AreEqual<T>(T expected, T actual)
         {
             if (expected == null)
             {
@@ -59,10 +59,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// </summary>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void Fail()
-        {
-            Fail(null);
-        }
+        internal static void Fail() => Fail(null);
 
         /// <summary>
         /// This line should never be executed.  The assertion always fails.
@@ -70,10 +67,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <param name="message">The message to display if this function is executed.</param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void Fail(string message)
-        {
-            Break(message);
-        }
+        internal static void Fail(string message) => Break(message);
 
         /// <summary>
         /// Verifies that if the specified condition is true, then so is the result.
@@ -86,7 +80,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// </param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void Implies(bool condition, bool result)
+        internal static void Implies(bool condition, bool result)
         {
             if (condition && !result)
             {
@@ -102,7 +96,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// </param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void IsApartmentState(ApartmentState expectedState)
+        internal static void IsApartmentState(ApartmentState expectedState)
         {
             if (Thread.CurrentThread.GetApartmentState() != expectedState)
             {
@@ -116,7 +110,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <param name="condition">The expression that should be <c>false</c>.</param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void IsFalse(bool condition)
+        internal static void IsFalse(bool condition)
         {
             IsFalse(condition, null);
         }
@@ -128,7 +122,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <param name="message">The message to display if the condition is <c>true</c>.</param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void IsFalse(bool condition, string message)
+        internal static void IsFalse(bool condition, string message)
         {
             if (condition)
             {
@@ -141,20 +135,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// </summary>
         /// <param name="value">The string to verify.</param>
         [Conditional("DEBUG")]
-        public static void IsNeitherNullNorEmpty(string value)
-        {
-            IsFalse(string.IsNullOrEmpty(value));
-        }
+        internal static void IsNeitherNullNorEmpty(string value) => IsFalse(string.IsNullOrEmpty(value));
 
         /// <summary>
         /// Verifies that a string has content.  I.e. it is not null and it is not purely whitespace.
         /// </summary>
         /// <param name="value">The string to verify.</param>
         [Conditional("DEBUG")]
-        public static void IsNeitherNullNorWhitespace(string value)
-        {
-            IsFalse(string.IsNullOrWhiteSpace(value));
-        }
+        internal static void IsNeitherNullNorWhitespace(string value) => IsFalse(string.IsNullOrWhiteSpace(value));
 
         /// <summary>
         /// Verifies the specified value is not null.  The assertion fails if it is.
@@ -163,7 +151,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <param name="value">The value to check for nullness.</param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void IsNotNull<T>(T value)
+        internal static void IsNotNull<T>(T value)
             where T : class
         {
             if (value == null)
@@ -173,7 +161,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         }
 
         [Conditional("DEBUG")]
-        public static void IsNotOnMainThread()
+        internal static void IsNotOnMainThread()
         {
             if (System.Windows.Application.Current.Dispatcher.CheckAccess())
             {
@@ -186,7 +174,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// </summary>
         /// <param name="item">The item to verify is null.</param>
         [Conditional("DEBUG")]
-        public static void IsNull<T>(T item)
+        internal static void IsNull<T>(T item)
             where T : class
         {
             if (item != null)
@@ -201,10 +189,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <param name="condition">A condition that is expected to be <c>true</c>.</param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void IsTrue(bool condition)
-        {
-            IsTrue(condition, null);
-        }
+        internal static void IsTrue(bool condition) => IsTrue(condition, null);
 
         /// <summary>
         /// Verifies that the specified condition is true.  The assertion fails if it is not.
@@ -213,7 +198,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <param name="message">The message to write in case the condition is <c>false</c>.</param>
         /// <remarks>This breaks into the debugger in the case of a failed assertion.</remarks>
         [Conditional("DEBUG")]
-        public static void IsTrue(bool condition, string message)
+        internal static void IsTrue(bool condition, string message)
         {
             if (!condition)
             {

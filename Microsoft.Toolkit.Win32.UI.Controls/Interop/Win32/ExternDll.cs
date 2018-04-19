@@ -14,8 +14,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
 {
     internal static class ExternDll
     {
-        public const string Kernel32 = "kernel32.dll";
-        public const string User32 = "user32.dll";
-        public const string Ntdll = "ntdll.dll";
+        internal const string Kernel32 = "kernel32.dll";
+        internal const string User32 = "user32.dll";
+        internal const string Ntdll = "ntdll.dll";
     }
 }
