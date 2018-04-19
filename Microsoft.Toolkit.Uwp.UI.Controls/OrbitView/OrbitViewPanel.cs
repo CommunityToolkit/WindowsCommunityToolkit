@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var angle = 2 * Math.PI / Children.Count;
 
-            var minDistance = 100;
+            var minDistance = 80;
             var maxDistance = Math.Max(minDistance, (Math.Min(finalSize.Width, finalSize.Height) - OrbitView.MaxItemSize) / 2);
 
             var elementsProperties = new List<OrbitViewElementProperties>();
