@@ -5,9 +5,9 @@
     <Style TargetType="local:OrbitView">
         <Setter Property="IsFocusEngagementEnabled" Value="True" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
-        <Setter Property="AnchorColor" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-        <Setter Property="OrbitColor" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="AnchorColor" Value="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" />
+        <Setter Property="OrbitColor" Value="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundChromeBlackHighBrush}" />
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighBrush}" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
