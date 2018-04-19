@@ -39,7 +39,6 @@ GazeCursor::GazeCursor()
     //_gazeCanvas->Children->Append(_origSignalCursor);
 
     _gazePopup->Child = _gazeCanvas;
-    _gazePopup->IsOpen = IsCursorVisible;
 }
 
 void GazeCursor::CursorRadius::set(int value)
@@ -57,9 +56,19 @@ void GazeCursor::IsCursorVisible::set(bool value)
     _isCursorVisible = value;
     if (_gazePopup != nullptr)
     {
-        _gazePopup->IsOpen = _isCursorVisible;
+        _gazePopup->IsOpen = _isCursorVisible && _isGazeEntered;
     }
 }
+
+void GazeCursor::IsGazeEntered::set(bool value)
+{
+    _isGazeEntered = value;
+    if (_gazePopup != nullptr)
+    {
+        _gazePopup->IsOpen = _isCursorVisible && _isGazeEntered;
+    }
+}
+
 void GazeCursor::LoadSettings(ValueSet^ settings)
 {
     if (settings->HasKey("GazeCursor.CursorRadius"))

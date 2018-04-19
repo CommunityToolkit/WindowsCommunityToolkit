@@ -68,7 +68,9 @@ GazePointer::~GazePointer()
 {
     if (_gazeInputSource != nullptr)
     {
+        _gazeInputSource->GazeEntered -= _gazeEnteredToken;
         _gazeInputSource->GazeMoved -= _gazeMovedToken;
+        _gazeInputSource->GazeExited -= _gazeExitedToken;
     }
 }
 
@@ -137,8 +139,12 @@ void GazePointer::InitializeGazeInputSource()
     _gazeInputSource = GazeInputSourcePreview::GetForCurrentView();
     if (_gazeInputSource != nullptr)
     {
+        _gazeEnteredToken = _gazeInputSource->GazeEntered += ref new TypedEventHandler<
+            GazeInputSourcePreview^, GazeEnteredPreviewEventArgs^>(this, &GazePointer::OnGazeEntered);
         _gazeMovedToken = _gazeInputSource->GazeMoved += ref new TypedEventHandler<
             GazeInputSourcePreview^, GazeMovedPreviewEventArgs^>(this, &GazePointer::OnGazeMoved);
+        _gazeExitedToken = _gazeInputSource->GazeExited += ref new TypedEventHandler<
+            GazeInputSourcePreview^, GazeExitedPreviewEventArgs^>(this, &GazePointer::OnGazeExited);
     }
 }
 
@@ -514,6 +520,12 @@ void GazePointer::RaiseGazePointerEvent(UIElement^ target, GazePointerState stat
     }
 }
 
+void GazePointer::OnGazeEntered(GazeInputSourcePreview^ provider, GazeEnteredPreviewEventArgs^ args)
+{
+    Debug::WriteLine(L"Entered at %ld", args->CurrentPoint->Timestamp);
+    _gazeCursor->IsGazeEntered = true;
+}
+
 void GazePointer::OnGazeMoved(GazeInputSourcePreview^ provider, GazeMovedPreviewEventArgs^ args)
 {
     if (!_isShuttingDown)
@@ -528,6 +540,12 @@ void GazePointer::OnGazeMoved(GazeInputSourcePreview^ provider, GazeMovedPreview
             }
         }
     }
+}
+
+void GazePointer::OnGazeExited(GazeInputSourcePreview^ provider, GazeExitedPreviewEventArgs^ args)
+{
+    Debug::WriteLine(L"Exited at %ld", args->CurrentPoint->Timestamp);
+    _gazeCursor->IsGazeEntered = false;
 }
 
 void GazePointer::ProcessGazePoint(long long timestamp, Point position)

@@ -45,6 +45,12 @@ public:
         void set(bool value);
     }
 
+    property bool IsGazeEntered
+    {
+        bool get() { return _isGazeEntered; }
+        void set(bool value);
+    }
+
     property Point Position
     {
         Point get()
@@ -86,6 +92,7 @@ private:
     Point               _originalCursorPosition = {};
     int                 _cursorRadius = DEFAULT_CURSOR_RADIUS;
     bool                _isCursorVisible = DEFAULT_CURSOR_VISIBILITY;
+    bool _isGazeEntered;
 
 };
 
