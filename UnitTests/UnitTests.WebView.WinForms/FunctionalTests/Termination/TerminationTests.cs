@@ -10,15 +10,32 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.ComponentModel;
+using Microsoft.Toolkit.Win32.UI.Controls.Test.WebView.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Should;
+
+using System.ComponentModel;
+using System.Threading;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTests.Termination
 {
     [TestClass]
     public class TerminationTests : BlockTestStartEndContextSpecification
     {
+        private bool _processExitedEventFired;
+        private ManualResetEvent _mre;
+
+        protected override void Given()
+        {
+            // Perform check to see if we can run before we get too far
+            Assert.That.OSBuildShouldBeAtLeast(TestConstants.Windows10Builds.InsiderFast17650);
+
+            base.Given();
+
+            _mre = new ManualResetEvent(false);
+        }
+
         protected override void CreateWebView()
         {
             WebView = new UI.Controls.WinForms.WebView();
@@ -27,6 +44,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
 
             WebView.ShouldNotBeNull();
             WebView.Process.ShouldNotBeNull();
+            WebView.Process.ProcessId.ShouldNotEqual(0U);
+
+            WebView.Process.ProcessExited += (o, e) =>
+            {
+                _processExitedEventFired = true;
+                _mre.Set();
+            };
         }
 
         protected override void When()
@@ -35,10 +59,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         }
 
         [TestMethod]
-        [Ignore("Causes fault; test never completes")]
         public void TheTerminatedProcessShouldNoLongerHaveAProcessId()
         {
-            WebView.Process.ShouldBeNull();
+            WebView.Process.ProcessId.ShouldEqual(0U);
+        }
+
+        [TestMethod]
+        public void TheProcessExitedEventWasRaised()
+        {
+            _mre.WaitOne(TestConstants.Timeouts.Short);
+            _processExitedEventFired.ShouldBeTrue();
         }
     }
 }

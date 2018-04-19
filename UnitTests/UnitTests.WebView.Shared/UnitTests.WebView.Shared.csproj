@@ -34,6 +34,8 @@
     <Reference Include="System.Management" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OperatingSystemAssertions.cs" />
+    <Compile Include="TestConstants.Builds.cs" />
     <Compile Include="TestConstants.Uris.cs" />
     <Compile Include="ContextSpecification.cs" />
     <Compile Include="HttpRequestUriEqualityComparer.cs" />
@@ -49,6 +51,12 @@
     <PackageReference Include="MSTest.TestFramework">
       <Version>1.2.1</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Microsoft.Toolkit.Win32.UI.Controls.csproj">
+      <Project>{78d8b77b-2a55-4037-bcc9-b47806039d23}</Project>
+      <Name>Microsoft.Toolkit.Win32.UI.Controls</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="Pack">
