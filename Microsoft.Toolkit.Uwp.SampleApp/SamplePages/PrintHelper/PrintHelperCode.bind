@@ -1,10 +1,8 @@
 // Create a new PrintHelperOptions instance
 var defaultPrintHelperOptions = new PrintHelperOptions();
  
-//Add options that you want to be displayed on the print dialog
+// Configure options that you want to be displayed on the print dialog
 defaultPrintHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation);
- 
-//Set preselected settings
 defaultPrintHelperOptions.Orientation = PrintOrientation.Landscape;
 
 // Create a new PrintHelper instance
@@ -14,6 +12,18 @@ var printHelper = new PrintHelper(container, defaultPrintHelperOptions);
 
 // Add controls that you want to print
 printHelper.AddFrameworkElementToPrint(await PrepareWebViewForPrintingAsync());
+
+// And/Or create pages programmatically
+var grid = new Grid();
+grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+var header = new TextBlock { Text = "This is the header", Margin = new Thickness(0, 0, 0, 20) };
+Grid.SetRow(header, 0);
+grid.Children.Add(header);
+var content = await PrepareWebViewForPrintingAsync();
+Grid.SetRow(content, 1);
+grid.Children.Add(content);
+printHelper.AddFrameworkElementToPrint(grid);
 
 // Connect to relevant events
 printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
