@@ -39,9 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private readonly bool _liveShapingEnabled;
 
-        private IEnumerable _source;
-
-        private IList _sourceList;
+        private IList _source;
 
         private Predicate<object> _filter;
 
@@ -66,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="source">source IEnumerable</param>
         /// <param name="isLiveShaping">Denotes whether or not this ACV should re-filter/re-sort if a PropertyChanged is raised for an observed property.</param>
-        public AdvancedCollectionView(IEnumerable source, bool isLiveShaping = false)
+        public AdvancedCollectionView(IList source, bool isLiveShaping = false)
         {
             _liveShapingEnabled = isLiveShaping;
             _view = new List<object>();
@@ -79,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Gets or sets the source
         /// </summary>
-        public IEnumerable Source
+        public IList Source
         {
             get
             {
@@ -101,7 +99,6 @@ namespace Microsoft.Toolkit.Uwp.UI
 
                 _source = value;
                 AttachPropertyChangedHandler(_source);
-                _sourceList = value as IList;
 
                 _sourceWeakEventListener?.Detach();
 
@@ -159,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 throw new NotSupportedException("Collection is read-only.");
             }
 
-            _sourceList.Add(item);
+            _source.Add(item);
         }
 
         /// <inheritdoc />
@@ -170,7 +167,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 throw new NotSupportedException("Collection is read-only.");
             }
 
-            _sourceList.Clear();
+            _source.Clear();
         }
 
         /// <inheritdoc />
@@ -187,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 throw new NotSupportedException("Collection is read-only.");
             }
 
-            _sourceList.Remove(item);
+            _source.Remove(item);
             return true;
         }
 
@@ -195,7 +192,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         public int Count => _view.Count;
 
         /// <inheritdoc />
-        public bool IsReadOnly => _sourceList == null || _sourceList.IsReadOnly;
+        public bool IsReadOnly => _source == null || _source.IsReadOnly;
 
         /// <inheritdoc />
         public int IndexOf(object item) => _view.IndexOf(item);
@@ -208,7 +205,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 throw new NotSupportedException("Collection is read-only.");
             }
 
-            _sourceList.Insert(index, item);
+            _source.Insert(index, item);
         }
 
         /// <summary>
@@ -475,7 +472,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
                 else if (viewIndex == -1 && filterResult.Value)
                 {
-                    var index = _sourceList.IndexOf(item);
+                    var index = _source.IndexOf(item);
                     HandleItemAdded(index, item);
                 }
             }
@@ -551,9 +548,9 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             var viewHash = new HashSet<object>(_view);
             var viewIndex = 0;
-            for (var index = 0; index < _sourceList.Count; index++)
+            for (var index = 0; index < _source.Count; index++)
             {
-                var item = _sourceList[index];
+                var item = _source[index];
                 if (viewHash.Contains(item))
                 {
                     viewIndex++;
@@ -662,7 +659,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
             else if (_filter != null)
             {
-                if (_sourceList == null)
+                if (_source == null)
                 {
                     HandleSourceChanged();
                     return false;
@@ -672,7 +669,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 {
                     newViewIndex = 0;
                 }
-                else if (newStartingIndex == _sourceList.Count - 1)
+                else if (newStartingIndex == _source.Count - 1)
                 {
                     newViewIndex = _view.Count - 1;
                 }
@@ -682,7 +679,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
                 else
                 {
-                    for (int i = 0, j = 0; i < _sourceList.Count; i++)
+                    for (int i = 0, j = 0; i < _source.Count; i++)
                     {
                         if (i == newStartingIndex)
                         {
@@ -690,7 +687,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                             break;
                         }
 
-                        if (_view[j] == _sourceList[i])
+                        if (_view[j] == _source[i])
                         {
                             j++;
                         }
