@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         private static IReadOnlyList<MediaFrameSourceGroup> _frameSourceGroups;
 
         /// <summary>
-        /// Returns all available Frame Source Groups on the device.
+        /// Returns all available Frame Source Groups.
         /// </summary>
         /// <returns>A a list of MediaFrameSourceGroup objects <see cref="Task"/> representing the asynchronous operation.</returns>
         public static async Task<IReadOnlyList<MediaFrameSourceGroup>> GetAllAvailableFrameSourceGroupsAsync()

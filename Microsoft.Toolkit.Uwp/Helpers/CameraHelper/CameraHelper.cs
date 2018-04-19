@@ -11,22 +11,18 @@
 // ******************************************************************
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Media;
 using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
-using Windows.Media.MediaProperties;
 
 namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
 {
     /// <summary>
     /// Camera Helper class to capture frames from available camera sources.
     /// </summary>
-    public class CameraHelper
+    public class CameraHelper : IDisposable
     {
         private MediaCapture _mediaCapture;
         private MediaFrameReader _frameReader;
@@ -56,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         /// <returns>Result of the async operation.<see cref="CameraHelperResult"/></returns>
         public async Task<CameraHelperResult> InitializeAndStartCaptureAsync(MediaFrameSourceGroup group)
         {
-            await CleanupAsync();
+            await Cleanup();
             _group = group;
             var result = await InitMediaCaptureAsync();
 
@@ -147,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
                 result.Message = "Failed to initialize media capture: " + ex.Message;
                 result.Status = false;
                 Debug.WriteLine(result.Message);
-                await CleanupAsync();
+                await Cleanup();
                 return result;
             }
 
@@ -198,10 +194,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         }
 
         /// <summary>
-        /// Clean up and dispose resources
+        /// Dispose resources.
         /// </summary>
-        /// <returns>>A <see cref="Task"/> representing the asynchronous operation.></returns>
-        public async Task CleanupAsync()
+        public async void Dispose()
+        {
+            await Cleanup();
+        }
+
+        private async Task Cleanup()
         {
             await StopReaderAsync();
 
