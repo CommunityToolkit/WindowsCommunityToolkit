@@ -15,19 +15,34 @@ using System.Security;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
-  public sealed class WebViewControlMoveFocusRequestedEventArgs : EventArgs
-  {
-    [SecurityCritical]
-    private readonly Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs _args;
-
-    internal WebViewControlMoveFocusRequestedEventArgs(Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs args)
+    /// <summary>
+    /// Provides data for the <see cref="IWebView.MoveFocusRequested"/> event. This class cannot be inherited.
+    /// </summary>
+    /// <remarks>Copy from <see cref="Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
+    /// <seealso cref="EventArgs" />
+    /// <seealso cref="Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs"/>
+    public sealed class WebViewControlMoveFocusRequestedEventArgs : EventArgs
     {
-      _args = args ?? throw new ArgumentNullException(nameof(args));
-    }
+        [SecurityCritical]
+        private readonly Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs _args;
 
-    public WebViewControlMoveFocusReason Reason => (WebViewControlMoveFocusReason)_args.Reason;
+        internal WebViewControlMoveFocusRequestedEventArgs(Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs args)
+        {
+            _args = args ?? throw new ArgumentNullException(nameof(args));
+        }
 
+        /// <summary>
+        /// Gets or sets the move focus reason.
+        /// </summary>
+        /// <value><see cref="WebViewControlMoveFocusReason"/> The move focus reason</value>
+        public WebViewControlMoveFocusReason Reason => (WebViewControlMoveFocusReason)_args.Reason;
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs"/> to <see cref="WebViewControlMoveFocusRequestedEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs"/> instance containing the event data.</param>
+        /// <returns>The result of the conversion.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
         public static implicit operator WebViewControlMoveFocusRequestedEventArgs(Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs args) => new WebViewControlMoveFocusRequestedEventArgs(args);
-  }
+    }
 }

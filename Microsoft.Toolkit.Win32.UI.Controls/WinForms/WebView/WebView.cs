@@ -83,10 +83,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         }
 
         /// <summary>
-        /// Gets a value indicating whether [design mode].
+        /// Gets a value indicating whether the <see cref="WebView"/> is currently in design mode.
         /// </summary>
-        /// <value><see langword="true" /> if [design mode]; otherwise, <see langword="false" />.</value>
-        /// <inheritdoc cref="Control.DesignMode" />
+        /// <value><see langword="true"/> if the <see cref="WebView"/> is currently in design mode; otherwise, <see langword="false"/>.</value>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool DesignMode => IsInDesignMode();
@@ -233,11 +232,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets or sets a value indicating whether this instance is private network client server capability enabled.
         /// </summary>
         /// <value><see langword="true" /> if this instance is private network client server capability enabled; otherwise, <see langword="false" />.</value>
-        /// <exception cref="InvalidOperationException">Value cannot be set once the control is initialized.</exception>
+        /// <exception cref="T:System.InvalidOperationException">Value cannot be set once the control is initialized.</exception>
         [StringResourceCategory(Constants.CategoryBehavior)]
         [DefaultValue(WebViewDefaults.IsPrivateNetworkEnabled)]
         public bool IsPrivateNetworkClientServerCapabilityEnabled
@@ -374,86 +374,33 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// <returns>A <see cref="WebViewControlDeferredPermissionRequest" /> object of the specified <paramref name="id" />.</returns>
         public WebViewControlDeferredPermissionRequest GetDeferredPermissionRequestById(uint id) => _webViewControl?.GetDeferredPermissionRequestById(id);
 
-        /// <summary>
-        /// Invokes the script.
-        /// </summary>
-        /// <param name="scriptName">Name of the script.</param>
-        /// <returns>System.Object.</returns>
-        /// <exception cref="InvalidOperationException">When the underlying &lt;
-        /// <see cref="WebViewControl" /> is not yet initialized.</exception>
         /// <inheritdoc />
+        public string InvokeScript(string scriptName) => _webViewControl?.InvokeScript(scriptName);
 
-        public object InvokeScript(string scriptName) => _webViewControl?.InvokeScript(scriptName);
-
-        /// <summary>
-        /// Invokes the script.
-        /// </summary>
-        /// <param name="scriptName">Name of the script.</param>
-        /// <param name="arguments">The arguments.</param>
-        /// <returns>System.Object.</returns>
-        /// <exception cref="InvalidOperationException">When the underlying &lt;&amp;&lt;
-        /// <see cref="WebViewControl" /> is not yet initialized.</exception>
         /// <inheritdoc />
+        public string InvokeScript(string scriptName, params string[] arguments) => _webViewControl?.InvokeScript(scriptName, arguments);
 
-        public object InvokeScript(string scriptName, params string[] arguments) => _webViewControl?.InvokeScript(scriptName, arguments);
+        /// <inheritdoc />
+        public string InvokeScript(string scriptName, IEnumerable<string> arguments) => _webViewControl?.InvokeScript(scriptName, arguments);
 
-        /// <summary>
-        /// Invokes the script.
-        /// </summary>
-        /// <param name="scriptName">Name of the script.</param>
-        /// <param name="arguments">The arguments.</param>
-        /// <returns>System.Object.</returns>
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl" /> is not yet initialized.</exception>
-        public object InvokeScript(string scriptName, IEnumerable<string> arguments) => _webViewControl?.InvokeScript(scriptName, arguments);
-
-        /// <summary>
-        /// Invokes the script asynchronous.
-        /// </summary>
-        /// <param name="scriptName">Name of the script.</param>
-        /// <returns>Task&lt;System.String&gt;.</returns>
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl" /> is not yet initialized.</exception>
+        /// <inheritdoc />
         public Task<string> InvokeScriptAsync(string scriptName) => _webViewControl?.InvokeScriptAsync(scriptName);
 
-        /// <summary>
-        /// Invokes the script asynchronous.
-        /// </summary>
-        /// <param name="scriptName">Name of the script.</param>
-        /// <param name="arguments">The arguments.</param>
-        /// <returns>Task&lt;System.String&gt;.</returns>
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl" /> is not yet initialized.</exception>
+        /// <inheritdoc />
         public Task<string> InvokeScriptAsync(string scriptName, params string[] arguments) =>
             _webViewControl?.InvokeScriptAsync(scriptName, arguments);
 
-        /// <summary>
-        /// Invokes the script asynchronous.
-        /// </summary>
-        /// <param name="scriptName">Name of the script.</param>
-        /// <param name="arguments">The arguments.</param>
-        /// <returns>Task&lt;System.String&gt;.</returns>
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl" /> is not yet initialized.</exception>
+        /// <inheritdoc />
         public Task<string> InvokeScriptAsync(string scriptName, IEnumerable<string> arguments)
         => _webViewControl?.InvokeScriptAsync(scriptName, arguments);
 
-        /// <summary>
-        /// Moves the focus.
-        /// </summary>
-        /// <param name="reason">The reason.</param>
+        /// <inheritdoc />
         public void MoveFocus(WebViewControlMoveFocusReason reason) => _webViewControl?.MoveFocus(reason);
 
-        /// <summary>
-        /// Loads the document at the location indicated by the specified <see cref="Source" /> into the <see cref="WebView" /> control, replacing the previous document.
-        /// </summary>
-        /// <param name="source">A <see cref="Source" /> representing the URL of the document to load.</param>
-        /// <exception cref="ArgumentException">The provided source is a relative URI.</exception>
+        /// <inheritdoc />
         public void Navigate(Uri source) => _webViewControl?.Navigate(source);
 
-        /// <summary>
-        /// Navigates the specified source.
-        /// </summary>
-        /// <param name="source">The source.</param>
-        /// <exception cref="UriFormatException">In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <see cref="T:System.FormatException" />, instead.
-        /// <paramref name="source" /> is empty.-or- The scheme specified in <paramref name="source" /> is not correctly formed. See <see cref="M:System.Uri.CheckSchemeName(System.String)" />.-or-
-        /// <paramref name="source" /> contains too many slashes.-or- The password specified in <paramref name="source" /> is not valid.-or- The host name specified in <paramref name="source" /> is not valid.-or- The file name specified in <paramref name="source" /> is not valid. -or- The user name specified in <paramref name="source" /> is not valid.-or- The host or authority name specified in <paramref name="source" /> cannot be terminated by backslashes.-or- The port number specified in <paramref name="source" /> is not valid or cannot be parsed.-or- The length of <paramref name="source" /> exceeds 65519 characters.-or- The length of the scheme specified in <paramref name="source" /> exceeds 1023 characters.-or- There is an invalid character sequence in <paramref name="source" />.-or- The MS-DOS path specified in <paramref name="source" /> must start with c:\\.</exception>
+        /// <inheritdoc />
         public void Navigate(string source)
         {
             Verify.IsFalse(IsDisposed);
@@ -461,10 +408,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             _webViewControl?.Navigate(source);
         }
 
-        /// <summary>
-        /// Loads the specified HTML content as a new document.
-        /// </summary>
-        /// <param name="text">The HTML content to display in the control.</param>
+        /// <inheritdoc />
         public void NavigateToString(string text) => _webViewControl?.NavigateToString(text);
 
         /// <summary>

@@ -31,11 +31,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         {
             _args = args ?? throw new ArgumentNullException(nameof(args));
         }
+
         /// <summary>
         /// Gets the Uniform Resource Identifier (URI) of the content the <see cref="IWebView"/> attempted to load.
         /// </summary>
         /// <value>The URI.</value>
         public Uri Uri => _args.Uri;
+
         /// <summary>
         /// Gets the Uniform Resource Identifier (URI) of the page that contains the link to the unviewable content.
         /// </summary>

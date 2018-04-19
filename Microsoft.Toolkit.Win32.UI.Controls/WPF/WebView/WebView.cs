@@ -47,8 +47,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// This class is an implementation of <see cref="IWebView"/> for WPF. This class cannot be inherited.
     /// </summary>
-    /// <seealso cref="Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewHost" />
-    /// <seealso cref="Microsoft.Toolkit.Win32.UI.Controls.IWebView" />
+    /// <seealso cref="WebViewHost" />
+    /// <seealso cref="IWebView" />
     public sealed class WebView : WebViewHost, IWebView
     {
         private static readonly Hashtable InvalidatorMap = new Hashtable();
@@ -196,6 +196,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public event EventHandler<WebViewControlDOMContentLoadedEventArgs> FrameDOMContentLoaded = (sender, args) => { };
 
         // ReSharper restore InconsistentNaming
+
         /// <summary>
         /// Occurs when a frame in the <see cref="WebView"/> finished navigating to new content.
         /// </summary>
@@ -211,6 +212,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public event EventHandler<WebViewControlNavigationStartingEventArgs> FrameNavigationStarting = (sender, args) => { };
 
         // ReSharper restore InconsistentNaming
+
         /// <summary>
         /// Occurs periodically while the <see cref="WebView"/> executes JavaScript, letting you halt the script.
         /// </summary>
@@ -389,6 +391,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             set => SetValue(IsJavaScriptEnabledProperty, value);
         }
 
+        /// <inheritdoc />
         [StringResourceCategory(Constants.CategoryBehavior)]
         [DefaultValue(WebViewDefaults.IsPrivateNetworkEnabled)]
         public bool IsPrivateNetworkClientServerCapabilityEnabled
@@ -546,31 +549,31 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             return _webViewControl?.GoForward() ?? false;
         }
 
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebView"/> is not yet initialized.</exception>
-        public object InvokeScript(string scriptName)
+        /// <inheritdoc />
+        public string InvokeScript(string scriptName)
         {
             VerifyAccess();
             Verify.IsNotNull(_webViewControl);
             return _webViewControl?.InvokeScript(scriptName);
         }
 
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebView"/> is not yet initialized.</exception>
-        public object InvokeScript(string scriptName, params string[] arguments)
+        /// <inheritdoc />
+        public string InvokeScript(string scriptName, params string[] arguments)
         {
             VerifyAccess();
             Verify.IsNotNull(_webViewControl);
             return _webViewControl?.InvokeScript(scriptName, arguments);
         }
 
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebView"/> is not yet initialized.</exception>
-        public object InvokeScript(string scriptName, IEnumerable<string> arguments)
+        /// <inheritdoc />
+        public string InvokeScript(string scriptName, IEnumerable<string> arguments)
         {
             VerifyAccess();
             Verify.IsNotNull(_webViewControl);
             return _webViewControl?.InvokeScript(scriptName, arguments);
         }
 
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebView"/> is not yet initialized.</exception>
+        /// <inheritdoc />
         public Task<string> InvokeScriptAsync(string scriptName)
         {
             VerifyAccess();
@@ -578,7 +581,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             return _webViewControl?.InvokeScriptAsync(scriptName);
         }
 
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebView"/> is not yet initialized.</exception>
+        /// <inheritdoc />
         public Task<string> InvokeScriptAsync(string scriptName, params string[] arguments)
         {
             VerifyAccess();
@@ -586,7 +589,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             return _webViewControl?.InvokeScriptAsync(scriptName, arguments);
         }
 
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebView"/> is not yet initialized.</exception>
+        /// <inheritdoc />
         public Task<string> InvokeScriptAsync(string scriptName, IEnumerable<string> arguments)
         {
             VerifyAccess();
@@ -594,10 +597,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             return _webViewControl?.InvokeScriptAsync(scriptName, arguments);
         }
 
-        /// <summary>
-        /// Moves the focus.
-        /// </summary>
-        /// <param name="reason">The reason.</param>
+        /// <inheritdoc />
         public void MoveFocus(WebViewControlMoveFocusReason reason)
         {
             VerifyAccess();
@@ -605,20 +605,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl?.MoveFocus(reason);
         }
 
-        /// <exception cref="UriFormatException">
-        /// <paramref name="source" /> is empty, or
-        /// the scheme specified in <paramref name="source" /> is not correctly formed (see <see cref="M:System.Uri.CheckSchemeName(System.String)" />, or
-        /// <paramref name="source" /> contains too many slashes, or
-        /// the password specified in <paramref name="source" /> is not valid, or
-        /// the host name specified in <paramref name="source" /> is not valid, or
-        /// the file name specified in <paramref name="source" /> is not valid, or
-        /// the user name specified in <paramref name="source" /> is not valid, or
-        /// the host or authority name specified in <paramref name="source" /> cannot be terminated by backslashes, or
-        /// the port number specified in <paramref name="source" /> is not valid or cannot be parsed, or
-        /// the length of <paramref name="source" /> exceeds 65519 characters, or
-        /// the length of the scheme specified in <paramref name="source" /> exceeds 1023 characters, or
-        /// there is an invalid character sequence in <paramref name="source" />, or
-        /// the MS-DOS path specified in <paramref name="source" /> must start with c:\\.</exception>
+        /// <inheritdoc />
         public void Navigate(string source)
         {
             VerifyAccess();
@@ -626,13 +613,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl?.Navigate(source);
         }
 
-        /// <summary>
-        /// Loads the HTML content at the specified Uniform Resource Identifier (URI).
-        /// </summary>
-        /// <param name="source">The Uniform Resource Identifier (URI) to load.</param>
-        /// <seealso cref="Uri" />
-        /// <see cref="Navigate(Uri)" /> is asynchronous. Use the <see cref="NavigationCompleted" /> event to detect when
-        /// navigation has completed.
+        /// <inheritdoc />
         public void Navigate(Uri source)
         {
             VerifyAccess();
@@ -642,10 +623,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl?.Navigate(source);
         }
 
-        /// <summary>
-        /// Loads the specified HTML content as a new document.
-        /// </summary>
-        /// <param name="text">The HTML content to display in the control.</param>
+        /// <inheritdoc />
         public void NavigateToString(string text)
         {
             VerifyAccess();
@@ -653,10 +631,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl?.NavigateToString(text);
         }
 
-        /// <summary>
-        /// Reloads the current <see cref="Source" /> in the <see cref="WebView"/>.
-        /// </summary>
-        /// <remarks>If the current source was loaded via <see cref="Navigate(Uri)" />, this method reloads the file without forced cache validation by sending a <c>Pragma:no-cache</c> header to the server.</remarks>
+        /// <inheritdoc />
         public void Refresh()
         {
             VerifyAccess();
@@ -664,9 +639,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl?.Refresh();
         }
 
-        /// <summary>
-        /// Halts the current <see cref="WebView"/> navigation or download.
-        /// </summary>
+        /// <inheritdoc />
         public void Stop()
         {
             VerifyAccess();
@@ -674,6 +647,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl?.Stop();
         }
 
+        /// <inheritdoc />
         protected override void Initialize()
         {
             OSVersionHelper.ThrowIfBeforeWindows10RS4();
@@ -692,7 +666,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 });
             }
 
-            // TODO: Attach WebView to existing process
             Dispatcher.InvokeAsync(async () =>
             {
                 Verify.IsNotNull(_process);
@@ -738,6 +711,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             });
         }
 
+        /// <inheritdoc />
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
@@ -754,6 +728,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
+        /// <inheritdoc />
         protected override void UpdateBounds(Rect bounds)
         {
             // TODO: Determine if the coordinates are already transformed for high dpi clients
@@ -817,7 +792,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                     if (wv.WebViewControlInitialized)
                     {
                         wv._webViewControl.Settings.IsIndexedDBEnabled =
-                            (bool) dependencyPropertyChangedEventArgs.NewValue;
+                            (bool)dependencyPropertyChangedEventArgs.NewValue;
                     }
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsJavaScriptEnabled))
@@ -826,7 +801,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                     if (wv.WebViewControlInitialized)
                     {
                         wv._webViewControl.Settings.IsJavaScriptEnabled =
-                            (bool) dependencyPropertyChangedEventArgs.NewValue;
+                            (bool)dependencyPropertyChangedEventArgs.NewValue;
                     }
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsScriptNotifyAllowed))
@@ -835,7 +810,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                     if (wv.WebViewControlInitialized)
                     {
                         wv._webViewControl.Settings.IsScriptNotifyAllowed =
-                            (bool) dependencyPropertyChangedEventArgs.NewValue;
+                            (bool)dependencyPropertyChangedEventArgs.NewValue;
                     }
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsPrivateNetworkClientServerCapabilityEnabled))

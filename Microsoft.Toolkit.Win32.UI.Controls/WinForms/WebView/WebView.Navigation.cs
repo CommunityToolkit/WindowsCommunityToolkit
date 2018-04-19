@@ -22,6 +22,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool CanGoBack => _webViewControl?.CanGoBack ?? false;
+
         /// <inheritdoc />
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]

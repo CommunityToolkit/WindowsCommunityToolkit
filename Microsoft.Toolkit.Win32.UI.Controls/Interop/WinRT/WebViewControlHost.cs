@@ -374,14 +374,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
-        internal object InvokeScript(string scriptName) => InvokeScriptAsync(scriptName).GetAwaiter().GetResult();
+        internal string InvokeScript(string scriptName) => InvokeScript(scriptName, null);
 
         /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
-        internal object InvokeScript(string scriptName, params string[] arguments) =>
-            InvokeScriptAsync(scriptName, arguments).GetAwaiter().GetResult();
+        internal string InvokeScript(string scriptName, params string[] arguments) => InvokeScript(scriptName, (IEnumerable<string>)arguments);
 
         /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
-        internal object InvokeScript(string scriptName, IEnumerable<string> arguments) => InvokeScriptAsync(scriptName, arguments).GetAwaiter().GetResult();
+        internal string InvokeScript(string scriptName, IEnumerable<string> arguments) => InvokeScriptAsync(scriptName, arguments).GetAwaiter().GetResult();
 
         /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
         internal Task<string> InvokeScriptAsync(string scriptName) => InvokeScriptAsync(scriptName, null);

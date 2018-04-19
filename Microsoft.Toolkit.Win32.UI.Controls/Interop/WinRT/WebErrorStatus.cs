@@ -12,6 +12,7 @@
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
+    /// <summary>Defines errors encountered during operations involving web services, such as authentication, proxy configuration, and destination URIs.</summary>
     /// <remarks>Copy from <see cref="Windows.Web.WebErrorStatus"/> to avoid requirement to link Windows.winmd</remarks>
     /// <seealso cref="Windows.Web.WebErrorStatus"/>
     public enum WebErrorStatus

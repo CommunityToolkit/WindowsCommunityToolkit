@@ -13,7 +13,6 @@
 using System;
 using System.Drawing;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
@@ -26,17 +25,22 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// <param name="bounds">A <see cref="Rectangle"/> containing numerical values that represent the location and size of the control.</param>
         /// <seealso cref="WebViewControlHost.UpdateBounds"/>
         /// <exception cref="ArgumentNullException"><paramref name="host"/> is <see langword="null"/>.</exception>
-        /// <remarks><paramref name="bounds" /> is translated into a <seealso cref="Windows.Foundation.Rect"/>.</remarks>
+        /// <remarks><paramref name="bounds" /> is translated into a <seealso cref="Windows.Foundation.Rect(double, double, double, double)"/>.</remarks>
         internal static void UpdateBounds(this WebViewControlHost host, Rectangle bounds)
         {
-            Rect CreateBounds()
+            Windows.Foundation.Rect CreateBounds()
             {
-                return new Rect(
-                    new Windows.Foundation.Point(bounds.X, bounds.Y),
-                    new Windows.Foundation.Size(bounds.Width, bounds.Height));
+                return new Windows.Foundation.Rect(
+                    bounds.X,
+                    bounds.Y,
+                    bounds.Width,
+                    bounds.Height);
             }
 
-            if (host is null) throw new ArgumentNullException(nameof(host));
+            if (host is null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
 
             host.UpdateBounds(CreateBounds());
         }

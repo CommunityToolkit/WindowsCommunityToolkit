@@ -46,8 +46,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         public Uri Uri => _webViewControlDeferredPermissionRequest.Uri;
 
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="Windows.Web.UI.WebViewControlDeferredPermissionRequest"/> to <see cref="WebViewControlDeferredPermissionRequest"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlDeferredPermissionRequest"/> instance containing the event data.</param>
+        /// <returns>The result of the conversion.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlDeferredPermissionRequest(Windows.Web.UI.WebViewControlDeferredPermissionRequest webViewControlDeferredPermissionRequest) => new WebViewControlDeferredPermissionRequest(webViewControlDeferredPermissionRequest);
+        public static implicit operator WebViewControlDeferredPermissionRequest(Windows.Web.UI.WebViewControlDeferredPermissionRequest args) => new WebViewControlDeferredPermissionRequest(args);
 
         /// <summary>
         /// Grants the requested permission.

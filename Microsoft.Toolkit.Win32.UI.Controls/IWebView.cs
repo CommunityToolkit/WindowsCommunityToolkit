@@ -191,6 +191,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// </summary>
         /// <value><see langword="true" /> if this instance is private network client server capability enabled; otherwise, <see langword="false" />.</value>
         /// <remarks>Value can be set prior to the component being initialized.</remarks>
+        /// <see cref="WebViewControlProcessOptions.PrivateNetworkClientServerCapability"/>
         bool IsPrivateNetworkClientServerCapabilityEnabled { get; set; }
 
         /// <summary>
@@ -259,31 +260,31 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// Executes the specified script function from the currently loaded HTML, with no arguments, as a synchronous action.
         /// </summary>
         /// <param name="scriptName">Name of the script function to invoke.</param>
-        /// <returns>When this method returns, the <see cref="object" /> result of the script invocation.</returns>
+        /// <returns>When this method returns, the <see cref="string" /> result of the script invocation.</returns>
         /// <remarks>To prevent malicious code from exploiting your app, be sure to call this method to invoke only scripts that you trust.</remarks>
-        object InvokeScript(string scriptName);
+        string InvokeScript(string scriptName);
 
         /// <summary>
         /// Executes the specified script function from the currently loaded HTML, with no arguments, as a synchronous action.
         /// </summary>
         /// <param name="scriptName">Name of the script function to invoke.</param>
         /// <param name="arguments">A string array that packages arguments to the script function.</param>
-        /// <returns>When this method returns, the <see cref="object"/> result of the script invocation.</returns>
+        /// <returns>When this method returns, the <see cref="string"/> result of the script invocation.</returns>
         /// <remarks>
         /// To prevent malicious code from exploiting your app, be sure to call this method to invoke only scripts that you trust.
         /// </remarks>
-        object InvokeScript(string scriptName, params string[] arguments);
+        string InvokeScript(string scriptName, params string[] arguments);
 
         /// <summary>
         /// Executes the specified script function from the currently loaded HTML, with no arguments, as a synchronous action.
         /// </summary>
         /// <param name="scriptName">Name of the script function to invoke.</param>
         /// <param name="arguments">A string array that packages arguments to the script function.</param>
-        /// <returns>When this method returns, the <see cref="object"/> result of the script invocation.</returns>
+        /// <returns>When this method returns, the <see cref="string"/> result of the script invocation.</returns>
         /// <remarks>
         /// To prevent malicious code from exploiting your app, be sure to call this method to invoke only scripts that you trust.
         /// </remarks>
-        object InvokeScript(string scriptName, IEnumerable<string> arguments);
+        string InvokeScript(string scriptName, IEnumerable<string> arguments);
 
         /// <summary>
         /// Executes the specified script function from the currently loaded HTML, with no arguments, as an asynchronous action.
