@@ -31,8 +31,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         /// <summary>
         /// Gets or sets message indicating information when camera helper initialization is not successful
         /// </summary>
-        public string Message { get => message; set => message = value; }
-
-        private string message = string.Empty;
+        public string Message { get; set; } = string.Empty;
     }
 }
