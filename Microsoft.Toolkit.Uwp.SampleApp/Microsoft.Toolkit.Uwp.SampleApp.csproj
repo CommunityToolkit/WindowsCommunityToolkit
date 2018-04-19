@@ -308,6 +308,7 @@
     <Content Include="SamplePages\DropShadowPanel\Trex.png" />
     <Content Include="SamplePages\DropShadowPanel\Unicorn.png" />
     <Content Include="SamplePages\GazeInteraction\GazeInteraction.png" />
+    <Content Include="SamplePages\GazePointerProperties\GazePointerProperties.png" />
     <Content Include="SamplePages\GazeTracing\GazeTracing.png" />
     <Content Include="SamplePages\GridSplitter\GridSplitter.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
@@ -497,6 +498,7 @@
     <Content Include="SamplePages\PrintHelper\PrintHelperXaml.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\GazePointerProperties\GazePointerPropertiesXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -565,6 +567,9 @@
     <Compile Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsPage.xaml.cs" />
     <Compile Include="SamplePages\GazeInteraction\GazeInteractionPage.xaml.cs">
       <DependentUpon>GazeInteractionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\GazePointerProperties\GazePointerPropertiesPage.xaml.cs">
+      <DependentUpon>GazePointerPropertiesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\GazeTracing\GazeTracingPage.xaml.cs">
       <DependentUpon>GazeTracingPage.xaml</DependentUpon>
@@ -925,6 +930,10 @@
     <Content Include="SamplePages\GazeInteraction\GazeInteractionXaml.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Page Include="SamplePages\GazePointerProperties\GazePointerPropertiesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\GazeTracing\GazeTracingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

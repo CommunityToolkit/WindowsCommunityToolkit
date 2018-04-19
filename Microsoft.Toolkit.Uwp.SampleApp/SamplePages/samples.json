@@ -868,6 +868,14 @@
         "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
       },
       {
+        "Name": "GazePointerProperties",
+        "Type": "GazePointerPropertiesPage",
+        "About": "Demonstrate the properties and events of the GazePointer library",
+        "XamlCodeFile": "GazePointerPropertiesXaml.bind",
+        "Icon": "/SamplePages/GazePointerProperties/GazePointerProperties.png",
+        "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
+      },
+      {
         "Name": "GazeTracing",
         "Type": "GazeTracingPage",
         "About": "Shows how to use the Windows 10 API for eye trackers",
