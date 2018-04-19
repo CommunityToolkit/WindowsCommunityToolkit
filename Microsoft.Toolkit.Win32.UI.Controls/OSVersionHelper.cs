@@ -158,6 +158,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
                     break;
 
                 default:
+                    // TODO: Move message to RESX
                     throw new ArgumentException("Unrecognized Windows version", nameof(version));
             }
 
