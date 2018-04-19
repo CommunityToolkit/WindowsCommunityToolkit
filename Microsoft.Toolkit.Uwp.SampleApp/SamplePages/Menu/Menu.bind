@@ -137,8 +137,7 @@
     <controls:Menu AllowTooltip="@[AllowTooltip:Bool:False]"
                    Orientation="@[Orientation:Enum:Orientation.Horizontal]"
                    TooltipPlacement="@[TooltipPlacement:Enum:PlacementMode.Bottom]">
-      <controls:MenuItem Name="FileMenu"
-                         controls:Menu.InputGestureText="Alt+F"
+      <controls:MenuItem controls:Menu.InputGestureText="Alt+F"
                          Header="^File">
         <MenuFlyoutSubItem Text="New" Margin="0,8,0,0">
           <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
@@ -153,15 +152,14 @@
                         CommandParameter="Select File"
                         Text="Open" />
         <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+S"
-                        Command="{StaticResource NewProject}"
+                        Command="{StaticResource GenericCommand}"
+                        CommandParameter="File Saved"
                         Icon="Save"
                         Text="Save">
-          <MenuFlyoutItem.KeyboardAccelerators>
-            <KeyboardAccelerator Modifiers="Control" Key="S" />
-          </MenuFlyoutItem.KeyboardAccelerators>
         </MenuFlyoutItem>
         <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+S"
-                        Command="{StaticResource NewProject}"
+                        Command="{StaticResource GenericCommand}"
+                        CommandParameter="File(s) Saved"
                         Icon="SaveLocal"
                         Text="Save as" />
         <MenuFlyoutSeparator />
@@ -179,20 +177,34 @@
                         Margin="0,0,0,8" />
       </controls:MenuItem>
 
-      <controls:MenuItem controls:Menu.InputGestureText="Alt+E" Header="^Edit" />
+      <controls:MenuItem controls:Menu.InputGestureText="Alt+E" Header="^Edit">
+        <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+X"
+                        Command="{StaticResource GenericCommand}"
+                        CommandParameter="Cut"
+                        Text="Cut"
+                        Icon="Cut" />
+        <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+C"
+                        Command="{StaticResource GenericCommand}"
+                        CommandParameter="Copied"
+                        Text="Copy"
+                        Icon="Copy" />
+        <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+V"
+                        Command="{StaticResource GenericCommand}"
+                        CommandParameter="Pasted"
+                        Text="Paste"
+                        Icon="Paste" />
+      </controls:MenuItem>
 
-      <controls:MenuItem controls:Menu.InputGestureText="Alt+V" Header="^View" />
+      <controls:MenuItem  Name="FileMenu" controls:Menu.InputGestureText="Alt+V" Header="^View" />
 
-      <controls:MenuItem controls:Menu.InputGestureText="Alt+H" Header="Help">
-        <MenuFlyoutItem Text="About"/>
+      <controls:MenuItem controls:Menu.InputGestureText="Alt+H" Header="^Help">
+        <MenuFlyoutItem Text="About" Icon="Help" />
       </controls:MenuItem>
     </controls:Menu>
 
     <StackPanel Grid.Row="1">
       <TextBlock Text="Press Alt to set focus on Classic Menu" />
       <TextBlock Text="Hold Alt to underline shortcut character. In code, ^ is used before the character you want highlighted" />
-      
-      
       <TextBlock Text="To open File menu click Alt+F" />
       <TextBlock Text="Create new project shortcut: Ctrl+Shift+N" />
       <TextBlock Text="Create new file shortcut: Ctrl+N" />
