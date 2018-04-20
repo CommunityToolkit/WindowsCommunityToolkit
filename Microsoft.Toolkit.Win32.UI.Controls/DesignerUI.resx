@@ -150,11 +150,56 @@
   <data name="CatSettings" xml:space="preserve">
     <value>Settings</value>
   </data>
-  <data name="InvalidOp_Immutable" xml:space="preserve">
-    <value>Value cannot be changed once the WebView has been initialized.</value>
+  <data name="E_CANNOT_CHANGE_AFTER_INIT" xml:space="preserve">
+    <value>The code in your application is attempting to change a member after the control is completely initialized.</value>
+    <comment>A member has been invoked after the control is already initialized</comment>
   </data>
-  <data name="NotSup_Win10RS4" xml:space="preserve">
-    <value>WebView is only supported on Windows 10 and Redstone 4 or later.</value>
+  <data name="E_CLICKONCE_PARTIAL_TRUST" xml:space="preserve">
+    <value>Unable to initialize a WebView control in a ClickOnce application. See Release notes: https://go.microsoft.com/fwlink/?linkid=872619</value>
+    <comment>ClickOnce uses AppLaunch.exe to host partial-trust applications (and we don't support partial trust)</comment>
+  </data>
+  <data name="E_NOTSUPPORTED_OS_RS4" xml:space="preserve">
+    <value>Unable to initialize the WebView control because the system is running a version of Windows that doesn’t support this control. The WebView control runs only on Windows (&lt;Official RS4 release name here&gt;) or greater.</value>
+    <comment>WebView requires RS4 or later</comment>
+  </data>
+  <data name="E_UNRECOGNIZED_OS" xml:space="preserve">
+    <value>The system is running a version of Windows that doesn't support this control.</value>
+    <comment>OS version check received an OS combination it did not understand</comment>
+  </data>
+  <data name="E_WEBVIEW_ALREADY_INITIALIZED" xml:space="preserve">
+    <value>The code in your application is attempting to initialize a WebView control that is already initialized.</value>
+    <comment>Caller attempted to call BeginInit after calling EndInit</comment>
+  </data>
+  <data name="E_WEBVIEW_ALREADY_INITIALIZING" xml:space="preserve">
+    <value>The code in your application is attempting to initialize a WebView control that is already in the process of being initialized by a previous call to the ISupportInitialize.BeginInit() method.</value>
+    <comment>Caller attempted to call BeginInit after calling BeginInit</comment>
+  </data>
+  <data name="E_WEBVIEW_CANNOT_INVOKE_BEFORE_INIT" xml:space="preserve">
+    <value>The code in your application is attempting to use a member of the WebView control before the control is completely initialized.</value>
+    <comment>A WebView member has been invoked before the control has been initialized</comment>
+  </data>
+  <data name="E_WEBVIEW_INVALID_URI" xml:space="preserve">
+    <value>The code in your application sets the Source property or calls the Navigate method by using an invalid URI.</value>
+    <comment>Navigate called with a value that cannot be converted to Uri</comment>
+  </data>
+  <data name="E_WEBVIEW_NOT_ABSOLUTE_URI" xml:space="preserve">
+    <value>The code in your application sets the Source property or calls the Navigate method by using a URI that doesn’t have the format of an absolute URI.</value>
+    <comment>Source property or Navigate target invoked with a value that is not a proper absolute Uri</comment>
+  </data>
+  <data name="E_WEBVIEW_NOT_INITIALIZED" xml:space="preserve">
+    <value>The WebView control is not initialized.</value>
+  </data>
+  <data name="E_WEBVIEW_NOT_INITIALIZING" xml:space="preserve">
+    <value>Unable to initialize the WebView control because the code in your application calls the IsSupportInitialize.EndInit() method without first calling the ISupportInitialize.BeginInit() method</value>
+    <comment>Caller attempted to finalize initialization of the control with EndInit with out requesting it be initialized with BeginInit</comment>
+  </data>
+  <data name="E_WEB_BROWSER_DISABLED" xml:space="preserve">
+    <value>Unable to initialize the WebView control because the Edge Web browser has been disabled by the group or location admin policy of your system.</value>
+    <comment>Browser disabled by admin local or group policy object</comment>
+  </data>
+  <data name="E_WEB_PERMISSION_RESTRICTED" xml:space="preserve">
+    <value>Unable to initialize a WebView control in a ClickOnce application or from an application that is opened in certain types of Web browsers. See Release notes: https://go.microsoft.com/fwlink/?linkid=872619</value>
+    <comment>Could be hosted in browser, as an internet zone XBAP, or standalone ClickOnce</comment>
   </data>
   <data name="WebViewContainsFullScreenElementChangedDesc" xml:space="preserve">
     <value>Occurs when the status of WebView contains a full screen element.</value>

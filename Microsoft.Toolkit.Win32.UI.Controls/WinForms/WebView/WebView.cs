@@ -262,7 +262,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                     if (WebViewControlInitialized
                         && _webViewControl.Process.IsPrivateNetworkClientServerCapabilityEnabled != _delayedPrivateNetworkEnabled)
                     {
-                        throw new InvalidOperationException(DesignerUI.InvalidOp_Immutable);
+                        throw new InvalidOperationException(DesignerUI.E_CANNOT_CHANGE_AFTER_INIT);
                     }
                 }
             }

@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
                 return;
             }
 
-            throw new NotSupportedException(DesignerUI.NotSup_Win10RS4);
+            throw new NotSupportedException(DesignerUI.E_NOTSUPPORTED_OS_RS4);
         }
 
         [SecurityCritical]

@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             if (!Controls.WinForms.WebView.IsSupported)
             {
                 // Test cannot execute because we're on the wrong OS
-                Assert.Inconclusive(DesignerUI.NotSup_Win10RS4);
+                Assert.Inconclusive(DesignerUI.E_NOTSUPPORTED_OS_RS4);
             }
 
             CreateWebView();

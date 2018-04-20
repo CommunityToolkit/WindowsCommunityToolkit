@@ -100,10 +100,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 // Could also be a standalone ClickOnce application
 
                 // Either way, we don't currently support this
-
-                // TODO: Message
                 // ReSharper disable ThrowExceptionInUnexpectedLocation
-                throw new InvalidOperationException();
+                throw new NotSupportedException(DesignerUI.E_WEB_PERMISSION_RESTRICTED);
 
                 // ReSharper restore ThrowExceptionInUnexpectedLocation
             }
@@ -113,9 +111,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             if (string.Compare(hostProcessName, "AppLaunch.exe", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 // Not currently supported
-
-                // TODO: Message
-                throw new InvalidOperationException();
+                throw new NotSupportedException(DesignerUI.E_CLICKONCE_PARTIAL_TRUST);
             }
 
             // Haven't tested with MTA
@@ -703,7 +699,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                     Verify.IsFalse(wv.WebViewControlInitialized);
                     if (wv.WebViewControlInitialized)
                     {
-                        throw new InvalidOperationException(DesignerUI.InvalidOp_Immutable);
+                        throw new InvalidOperationException(DesignerUI.E_CANNOT_CHANGE_AFTER_INIT);
                     }
                 }
             }

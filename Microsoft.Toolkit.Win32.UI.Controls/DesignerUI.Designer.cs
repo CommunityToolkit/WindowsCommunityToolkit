@@ -160,20 +160,119 @@ namespace Microsoft.Toolkit.Win32.UI.Controls {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Value cannot be changed once the WebView has been initialized..
+        ///   Looks up a localized string similar to The code in your application is attempting to change a member after the control is completely initialized..
         /// </summary>
-        internal static string InvalidOp_Immutable {
+        internal static string E_CANNOT_CHANGE_AFTER_INIT {
             get {
-                return ResourceManager.GetString("InvalidOp_Immutable", resourceCulture);
+                return ResourceManager.GetString("E_CANNOT_CHANGE_AFTER_INIT", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to WebView is only supported on Windows 10 and Redstone 4 or later..
+        ///   Looks up a localized string similar to Unable to initialize a WebView control in a ClickOnce application. See Release notes: https://go.microsoft.com/fwlink/?linkid=872619.
         /// </summary>
-        internal static string NotSup_Win10RS4 {
+        internal static string E_CLICKONCE_PARTIAL_TRUST {
             get {
-                return ResourceManager.GetString("NotSup_Win10RS4", resourceCulture);
+                return ResourceManager.GetString("E_CLICKONCE_PARTIAL_TRUST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to initialize the WebView control because the system is running a version of Windows that doesn’t support this control. The WebView control runs only on Windows (&lt;Official RS4 release name here&gt;) or greater..
+        /// </summary>
+        internal static string E_NOTSUPPORTED_OS_RS4 {
+            get {
+                return ResourceManager.GetString("E_NOTSUPPORTED_OS_RS4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The system is running a version of Windows that doesn&apos;t support this control..
+        /// </summary>
+        internal static string E_UNRECOGNIZED_OS {
+            get {
+                return ResourceManager.GetString("E_UNRECOGNIZED_OS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to initialize the WebView control because the Edge Web browser has been disabled by the group or location admin policy of your system..
+        /// </summary>
+        internal static string E_WEB_BROWSER_DISABLED {
+            get {
+                return ResourceManager.GetString("E_WEB_BROWSER_DISABLED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to initialize a WebView control in a ClickOnce application or from an application that is opened in certain types of Web browsers. See Release notes: https://go.microsoft.com/fwlink/?linkid=872619.
+        /// </summary>
+        internal static string E_WEB_PERMISSION_RESTRICTED {
+            get {
+                return ResourceManager.GetString("E_WEB_PERMISSION_RESTRICTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The code in your application is attempting to initialize a WebView control that is already initialized..
+        /// </summary>
+        internal static string E_WEBVIEW_ALREADY_INITIALIZED {
+            get {
+                return ResourceManager.GetString("E_WEBVIEW_ALREADY_INITIALIZED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The code in your application is attempting to initialize a WebView control that is already in the process of being initialized by a previous call to the ISupportInitialize.BeginInit() method..
+        /// </summary>
+        internal static string E_WEBVIEW_ALREADY_INITIALIZING {
+            get {
+                return ResourceManager.GetString("E_WEBVIEW_ALREADY_INITIALIZING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The code in your application is attempting to use a member of the WebView control before the control is completely initialized..
+        /// </summary>
+        internal static string E_WEBVIEW_CANNOT_INVOKE_BEFORE_INIT {
+            get {
+                return ResourceManager.GetString("E_WEBVIEW_CANNOT_INVOKE_BEFORE_INIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The code in your application sets the Source property or calls the Navigate method by using an invalid URI..
+        /// </summary>
+        internal static string E_WEBVIEW_INVALID_URI {
+            get {
+                return ResourceManager.GetString("E_WEBVIEW_INVALID_URI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The code in your application sets the Source property or calls the Navigate method by using a URI that doesn’t have the format of an absolute URI..
+        /// </summary>
+        internal static string E_WEBVIEW_NOT_ABSOLUTE_URI {
+            get {
+                return ResourceManager.GetString("E_WEBVIEW_NOT_ABSOLUTE_URI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The WebView control is not initialized..
+        /// </summary>
+        internal static string E_WEBVIEW_NOT_INITIALIZED {
+            get {
+                return ResourceManager.GetString("E_WEBVIEW_NOT_INITIALIZED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to initialize the WebView control because the code in your application calls the IsSupportInitialize.EndInit() method without first calling the ISupportInitialize.BeginInit() method.
+        /// </summary>
+        internal static string E_WEBVIEW_NOT_INITIALIZING {
+            get {
+                return ResourceManager.GetString("E_WEBVIEW_NOT_INITIALIZING", resourceCulture);
             }
         }
         

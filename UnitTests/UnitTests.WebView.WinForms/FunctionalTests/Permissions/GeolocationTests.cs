@@ -28,12 +28,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
 //<div id=""out""></div>
 //<script>
 //var output = document.getElementById('out');
-//if ('geolocation' in navigator) {  
+//if ('geolocation' in navigator) {
 //  navigator.geolocation.getCurrentPosition(function(position) {
 //    var lat = position.coords.latitude;
 //    var long = position.coords.longitude;
-    
-//    output.innerHTML = 'Latitude is ' + lat + '<br />Longitude is ' + long + '<br />';    
+
+//    output.innerHTML = 'Latitude is ' + lat + '<br />Longitude is ' + long + '<br />';
 //  });
 //} else {
 //  output.innerHTML = '<b>Geolocation is not supported by your browser</b>';

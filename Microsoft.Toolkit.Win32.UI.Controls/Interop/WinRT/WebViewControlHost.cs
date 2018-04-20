@@ -268,7 +268,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 }
 
                 // Reuse the message, close enough
-                throw new InvalidOperationException(DesignerUI.NotSup_Win10RS4);
+                throw new InvalidOperationException(DesignerUI.E_NOTSUPPORTED_OS_RS4);
             }
         }
 
@@ -405,7 +405,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             if (_webViewControl == null)
             {
                 // TODO: Error message
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(DesignerUI.E_WEBVIEW_CANNOT_INVOKE_BEFORE_INIT);
             }
 
             // Protect against the cross domain scripting attacks
@@ -452,8 +452,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 // Absolute URI only. Not sure what the host would be if using relative
                 if (!source.IsAbsoluteUri)
                 {
-                    // TODO: Error message
-                    throw new ArgumentException();
+                    throw new ArgumentException(DesignerUI.E_WEBVIEW_NOT_ABSOLUTE_URI, nameof(source));
                 }
 
                 // TODO: Handle POPUP window
@@ -499,9 +498,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
             else
             {
-                // TODO: Message
                 // Unrecognized URI
-                throw new ArgumentException();
+                throw new ArgumentException(DesignerUI.E_WEBVIEW_INVALID_URI);
             }
         }
 

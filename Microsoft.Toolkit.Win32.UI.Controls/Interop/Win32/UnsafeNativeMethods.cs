@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
             var buffer = new StringBuilder((int)Win32Value.MAX_PATH);
             while (true)
             {
-                var size = IntGetModuleFileName(hModule, buffer, buffer.Capacity);
+                Devar size = IntGetModuleFileName(hModule, buffer, buffer.Capacity);
                 if (size == 0)
                 {
                     throw new Win32Exception();

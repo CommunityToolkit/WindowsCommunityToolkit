@@ -43,16 +43,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         {
             if (Initialized)
             {
-                // TODO: Message
                 // Cannot initialize WebView since it is already completely initialized
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(DesignerUI.E_WEBVIEW_ALREADY_INITIALIZED);
             }
 
             if (Initializing)
             {
-                // TODO: Message
                 // Cannot initialize WebView since it is already being initialized
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(DesignerUI.E_WEBVIEW_ALREADY_INITIALIZING);
             }
 
             _initializationState = InitializationState.IsInitializing;
@@ -62,9 +60,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         {
             if (!Initializing)
             {
-                // TODO: Message
                 // Cannot complete WebView initialization that is not being initialized
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(DesignerUI.E_WEBVIEW_NOT_INITIALIZING);
             }
 
             if (!DesignMode)
@@ -91,9 +88,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         {
             if (!Initialized)
             {
-                // TODO: Message
                 // Initialization incomplete
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(DesignerUI.E_WEBVIEW_NOT_INITIALIZED);
             }
         }
 
