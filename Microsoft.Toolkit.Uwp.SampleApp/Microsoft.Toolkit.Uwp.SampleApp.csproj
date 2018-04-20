@@ -496,6 +496,9 @@
     </Content>
     <Content Include="SamplePages\CameraPreview\CameraPreviewCode.bind" />
     <Content Include="SamplePages\CameraHelper\CameraHelperCode.bind" />
+    <Content Include="SamplePages\PrintHelper\PrintHelperXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
