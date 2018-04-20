@@ -28,7 +28,11 @@ To connect with Microsoft Graph, you'll need a work/school account or a Microsof
 1. Go to the [Microsoft Application Registration Portal.](https://apps.dev.microsoft.com/)
 2. When prompted, sign in with your account credentials.
 3. Find My applications and click Add an app.
-4. Enter your app's name and click Create application.
+4. Enter your app's name.
+5. Check "Let us help you get started" and click "Create".
+6. Select "Mobile and Desktop App" as the kind of app.
+7. Click "Windows Desktop (.NET) Start Guided Setup".
+8. Complete the guided setup flow.
 
 After you've completed these steps, an application ID is created for your app and displayed on your new app's properties page.
 
