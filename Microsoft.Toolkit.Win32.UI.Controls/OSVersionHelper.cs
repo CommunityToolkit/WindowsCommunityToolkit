@@ -159,7 +159,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
 
                 default:
                     // TODO: Move message to RESX
-                    throw new ArgumentException("Unrecognized Windows version", nameof(version));
+                    throw new ArgumentException(DesignerUI.E_UNRECOGNIZED_OS, nameof(version));
             }
 
             // After 8.1 apps without manifest or are not manifested for 8.1/10 return 6.2.
