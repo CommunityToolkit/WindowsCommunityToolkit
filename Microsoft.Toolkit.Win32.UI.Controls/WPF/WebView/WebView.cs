@@ -90,6 +90,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         private WebViewControlHost _webViewControl;
 
+        // Initialization flag for ISupportInitialize
+        private InitializationState _initializationState;
+
         [SecuritySafeCritical]
         [SuppressMessage("Microsoft.Design", "CA1065")]
         static WebView()
@@ -126,6 +129,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 #pragma warning restore 1065
         }
 
+        private bool WebViewInitialized => _initializationState == InitializationState.IsInitialized;
+
+        private bool WebViewInitializing => _initializationState == InitializationState.IsInitializing;
+
+        private bool WebViewControlInitialized => _webViewControl != null;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="WebView"/> class.
         /// </summary>
@@ -141,6 +150,51 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
             _webViewControl = webViewControl ?? throw new ArgumentNullException(nameof(webViewControl));
             _process = webViewControl.Process;
+        }
+
+        /// <inheritdoc />
+        public override void BeginInit()
+        {
+            if (WebViewInitialized)
+            {
+                // Cannot initialize WebView since it is already completely initialized
+                throw new InvalidOperationException(DesignerUI.E_WEBVIEW_ALREADY_INITIALIZED);
+            }
+
+            if (WebViewInitializing)
+            {
+                // Cannot initialize WebView since it is already being initialized
+                throw new InvalidOperationException(DesignerUI.E_WEBVIEW_ALREADY_INITIALIZING);
+            }
+
+            _initializationState = InitializationState.IsInitializing;
+
+            base.BeginInit();
+        }
+
+        /// <inheritdoc />
+        public override void EndInit()
+        {
+            if (!WebViewInitializing)
+            {
+                // Cannot complete WebView initialization that is not being initialized
+                throw new InvalidOperationException(DesignerUI.E_WEBVIEW_NOT_INITIALIZING);
+            }
+
+            Initialize();
+
+            base.EndInit();
+        }
+
+        // Ensures this class is initialized. Initialization involves using ISupportInitialize methods
+        private void EnsureInitialized()
+        {
+            // If not already initialized and not already initializing
+            if (!WebViewInitialized && !WebViewInitializing)
+            {
+                BeginInit();
+                EndInit();
+            }
         }
 
         private delegate void PropertyInvalidator(WebView webViewHost);
@@ -393,8 +447,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
-        private bool WebViewControlInitialized => _webViewControl != null;
-
         /// <inheritdoc cref="IWebView.Close" />
         public override void Close()
         {
@@ -502,7 +554,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Verify.IsNotNull(_webViewControl);
 
             // TODO: Support for pack://
-            _webViewControl?.Navigate(source);
+            Source = source;
         }
 
         /// <inheritdoc />
@@ -533,6 +585,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         protected override void Initialize()
         {
             OSVersionHelper.ThrowIfBeforeWindows10RS4();
+
+            Verify.AreEqual(_initializationState, InitializationState.IsInitializing);
 
             if (_process == null)
             {
