@@ -8,6 +8,7 @@
 
 using namespace std;
 using namespace Platform;
+using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
 using namespace Windows::Graphics::Display;
 using namespace Windows::UI;
@@ -103,6 +104,7 @@ void GazeApi::SetEnter(UIElement^ element, TimeSpan span) { element->SetValue(s_
 void GazeApi::SetExit(UIElement^ element, TimeSpan span) { element->SetValue(s_exitProperty, span); }
 void GazeApi::SetMaxRepeatCount(UIElement^ element, int value) { element->SetValue(s_maxRepeatCountProperty, value); }
 
+static GazePointer^ s_gazePointer;
 
 GazePointer^ GazeApi::GetGazePointer(Page^ page)
 {
@@ -110,8 +112,14 @@ GazePointer^ GazeApi::GetGazePointer(Page^ page)
 
     if (gazePointer == nullptr)
     {
-        gazePointer = ref new GazePointer(page);
+        if (s_gazePointer == nullptr)
+        {
+            s_gazePointer = ref new GazePointer();
+        }
+        gazePointer = s_gazePointer;
         page->SetValue(GazePointerProperty, gazePointer);
+
+        gazePointer->AddPage(page);
 
         gazePointer->_unloadedToken = page->Unloaded += ref new RoutedEventHandler(gazePointer, &GazePointer::OnPageUnloaded);
 

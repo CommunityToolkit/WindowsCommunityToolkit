@@ -24,7 +24,7 @@ ref struct GazeHistoryItem
 {
     property UIElement^ HitTarget;
     property int64 Timestamp;
-    property int Duration;
+    property int64 Duration;
 };
 
 END_NAMESPACE_GAZE_INPUT

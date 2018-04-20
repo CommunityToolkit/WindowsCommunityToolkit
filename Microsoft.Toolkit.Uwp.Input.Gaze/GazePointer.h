@@ -80,9 +80,11 @@ public:
 
 internal:
 
-	GazePointer(UIElement^ root);
+	GazePointer();
     void OnPageUnloaded(Object^ sender, RoutedEventArgs^ args);
     EventRegistrationToken _unloadedToken;
+
+    void AddPage(Page^ page) { _pages->InsertAt(0, page); }
 
 private:
 
@@ -119,7 +121,7 @@ private:
     void    OnEyesOff(Object ^sender, Object ^ea);
 
 private:
-    UIElement ^                         _rootElement;
+    Vector<Page^>^ _pages = ref new Vector<Page^>();
 
     int64                               _eyesOffDelay;
 
