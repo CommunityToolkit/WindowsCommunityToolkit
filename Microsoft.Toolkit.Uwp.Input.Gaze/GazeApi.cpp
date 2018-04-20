@@ -24,24 +24,12 @@ static DependencyProperty^ s_gazePointerProperty = DependencyProperty::RegisterA
 
 DependencyProperty^ GazeApi::GazePointerProperty::get() { return s_gazePointerProperty; }
 
-static void OnLoaded(Object^ sender, RoutedEventArgs^ args)
-{
-
-}
-
 static void OnIsGazeEnabledChanged(DependencyObject^ ob, DependencyPropertyChangedEventArgs^ args)
 {
     auto isGazeEnabled = safe_cast<bool>(args->NewValue);
     if (isGazeEnabled)
     {
         auto page = safe_cast<Page^>(ob);
-        Debug::WriteLine(L"Gaze initializing for page, ActualWidth=%f, ActualHeight=%f", page->ActualWidth, page->ActualHeight);
-        page->Loaded += ref new  RoutedEventHandler([=](Object^ sender, RoutedEventArgs^ args)
-        {
-            Debug::WriteLine(L"Loaded called on page, now ActualWidth=%f", page->ActualWidth);
-        });
-
-        Debug::WriteLine(L"Attaching to page with ActualWidth=%f", page->ActualWidth);
 
         auto gazePointer = GazeApi::GetGazePointer(page);
     }
