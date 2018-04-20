@@ -44,7 +44,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Failed to get frame sources. Error: {ex.Message}");
             }
 
             return _frameSourceGroups;
@@ -64,10 +63,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
             var defaultGroup = _frameSourceGroups.FirstOrDefault(g => g.SourceInfos.Any(s => s.SourceKind == MediaFrameSourceKind.Color &&
                                                                              (s.MediaStreamType == MediaStreamType.VideoPreview
                                                                              || s.MediaStreamType == MediaStreamType.VideoRecord)));
-            if (defaultGroup == null)
-            {
-                Debug.WriteLine("No camera available");
-            }
 
             return defaultGroup;
         }

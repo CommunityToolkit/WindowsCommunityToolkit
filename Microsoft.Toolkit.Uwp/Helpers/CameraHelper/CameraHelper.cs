@@ -61,7 +61,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
                 _frameReader = await _mediaCapture.CreateFrameReaderAsync(_frameSource);
                 _frameReader.AcquisitionMode = MediaFrameReaderAcquisitionMode.Realtime;
                 _frameReader.FrameArrived += Reader_FrameArrived;
-                Debug.WriteLine($"Frame Reader created on source: {_frameSource.Info.Id}");
 
                 if (_frameReader == null)
                 {
@@ -70,8 +69,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
                 }
                 else
                 {
-                    MediaFrameReaderStartStatus statusResult = await _frameReader.StartAsync();
-                    Debug.WriteLine($"Start reader with result: {statusResult}");
+                    MediaFrameReaderStartStatus statusResult = await _frameReader.StartAsync();                    
                     if (statusResult != MediaFrameReaderStartStatus.Success)
                     {
                         result.Status = false;
@@ -134,7 +132,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
                 {
                     result.Message = "No preview stream available";
                     result.Status = false;
-                    Debug.WriteLine(result.Message);
                     return result;
                 }
             }
@@ -142,7 +139,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
             {
                 result.Message = "Failed to initialize media capture: " + ex.Message;
                 result.Status = false;
-                Debug.WriteLine(result.Message);
                 await Cleanup();
                 return result;
             }
@@ -162,8 +158,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
                 _frameReader.FrameArrived -= Reader_FrameArrived;
                 _frameReader.Dispose();
                 _frameReader = null;
-
-                Debug.WriteLine("Frame Reader stopped.");
             }
         }
 
@@ -181,7 +175,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
             {
                 if (frame == null)
                 {
-                    Debug.WriteLine("Frame is null");
                     return;
                 }
 
