@@ -88,6 +88,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 _graphCurrentFolder = _graphRootFolder = await OneDriveService.Instance.RootFolderForMeAsync();
                 OneDriveItemsList.ItemsSource = await _graphRootFolder.GetItemsAsync(20);
+                OneDriveItemsList.Visibility = Visibility.Visible;
 
                 succeeded = true;
             }

@@ -390,7 +390,7 @@
                                   Content="" 
                                   Click="ClientIdExpandButton_Click" HorizontalAlignment="Stretch" />
                             <TextBlock Grid.Column="1" 
-                                       Text="Choose an Authentication Provider" 
+                                       Text="Sign in or out of the OneDrive service"
                                        HorizontalAlignment="Left" 
                                        VerticalAlignment="Center" 
                                        Margin="12,6" 
