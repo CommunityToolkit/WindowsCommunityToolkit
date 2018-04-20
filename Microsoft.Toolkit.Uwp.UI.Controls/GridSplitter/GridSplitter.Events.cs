@@ -247,6 +247,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return true;
             }
 
+            if (horizontalChange < 0)
+            {
+                foreach (var column in Resizable.ColumnDefinitions)
+                {
+                    if (column.ActualWidth == column.MinWidth)
+                    {
+                        return true;
+                    }
+                }
+            }
+
             // if current column has fixed width then resize it
             if (!IsStarColumn(CurrentColumn))
             {
