@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             repeatRec = control.FindChildByName("RepeatRec") as Rectangle;
             exitRec = control.FindChildByName("ExitRec") as Rectangle;
 
-            var buttonControl = control.FindChildByName("TargetButton") as ToggleButton;
+            var buttonControl = control.FindChildByName("TargetButton") as Button;
 
             if (buttonControl != null)
             {
@@ -84,6 +84,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 enterRec.Visibility = Visibility.Visible;
                 dwellCountText.Visibility = Visibility.Collapsed;
+                dwellCountText.Text = "";
                 dwellCount = 0;
                 exitRec.Visibility = Visibility.Collapsed;
             }
@@ -100,10 +101,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 else
                 {
-                    repeatRec.Visibility = Visibility.Visible;
-                    dwellCount += 1;
+                    repeatRec.Visibility = Visibility.Visible;                    
                     dwellCountText.Text = dwellCount.ToString();
                     dwellCountText.Visibility = Visibility.Visible;
+                    dwellCount += 1;
                 }
             }
             if (ea.PointerState == GazePointerState.Exit)

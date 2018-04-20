@@ -14,51 +14,31 @@
     >
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" ></RowDefinition>
-      <RowDefinition></RowDefinition>
-    </Grid.RowDefinitions>
-
-
-    <Grid Grid.Row="1">
-      <Grid.RowDefinitions>
-        <RowDefinition />
-        <RowDefinition Height="Auto" ></RowDefinition>
-        <RowDefinition Height="Auto" ></RowDefinition>
-        <RowDefinition Height="Auto" ></RowDefinition>
-        <RowDefinition Height="Auto" ></RowDefinition>
-        <RowDefinition Height="Auto" ></RowDefinition>
-        <RowDefinition Height="Auto" ></RowDefinition>
-        <RowDefinition Height="Auto" ></RowDefinition>
-        <RowDefinition Height="Auto" ></RowDefinition>
-        <RowDefinition Height="Auto" ></RowDefinition>
-      </Grid.RowDefinitions>
-
-      <Grid>
+     
         <Grid.RowDefinitions>
           <RowDefinition Height="2*" ></RowDefinition>
-          <RowDefinition Height="1*" ></RowDefinition>
+          <RowDefinition Height="Auto" ></RowDefinition>
         </Grid.RowDefinitions>
-
-        <Button x:Name="TargetButtonA" Width="100" Height="100" HorizontalAlignment="Center" Visibility="Collapsed"
-                    
-                   
-                    />
-
-        <ToggleButton x:Name="TargetButton" HorizontalAlignment="Center"
+     
+        <Button x:Name="TargetButton" HorizontalAlignment="Center" BorderBrush="#7FFFFFFF"
                     
                     Width="@[ButtonSize:Slider:100:10-300]"
                     Height="@[ButtonSize]"
                     gaze:GazeApi.Enter="@[Enter:TimeSpan:50:50-200]@"
                     gaze:GazeApi.Fixation="@[Fixation:TimeSpan:400:50-1000]@"
                     gaze:GazeApi.Dwell="@[Dwell:TimeSpan:800:100-5000]@"
+                    Tag="@[DwellRepeatDelay:TimeSpan:0:0-5000]@"  
                     gaze:GazeApi.DwellRepeat="@[DwellRepeat:TimeSpan:1600:50-10000]@"
                     gaze:GazeApi.MaxRepeatCount="@[MaxRepeatCount:Slider:0:0-20]@"
                    
                     />
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1" Height="50">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="50" ></RowDefinition>           
+          </Grid.RowDefinitions>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
@@ -68,38 +48,32 @@
           </Grid.ColumnDefinitions>
           <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="1">
             <Rectangle x:Name="EnterRec" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FFB6EC89" Visibility="Collapsed"/>
-            <TextBlock Text="ENTER" TextWrapping="Wrap" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="21,12,21,11"/>
+            <TextBlock Text="ENTER" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
           </Grid>
           <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="2">
             <Rectangle x:Name="FixationRec" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FF6ACE17" Visibility="Collapsed"/>
-            <TextBlock Text="FIXATION" TextWrapping="Wrap" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,12,7,11"/>
+            <TextBlock Text="FIXATION" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
           </Grid>
           <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="3">
             <Rectangle x:Name="DwellRec" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FF1790CE" Visibility="Collapsed"/>
-            <TextBlock Text="DWELL" TextWrapping="Wrap" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="19,12,19,11"/>
+            <TextBlock Text="DWELL"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
           </Grid>
           <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="4">
+            <TextBlock Text="Repeat&#x0d;Delay"   FontSize="16" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center"/>
+          </Grid>
+          <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="5">
             <Rectangle x:Name="RepeatRec" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FF175ACE" Visibility="Collapsed"/>
             <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
               <TextBlock Text="REPEAT" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"  />
-              <TextBlock x:Name="DwellCountText" Text=" 10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
+              <TextBlock x:Name="DwellCountText" Text="10" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Visibility="Collapsed" />
             </StackPanel>
           </Grid>
-          <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="5">
+          <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="6">
             <Rectangle x:Name="ExitRec" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FFCE1F17" Visibility="Collapsed"/>
-            <TextBlock Text="EXIT" TextWrapping="Wrap" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="31,12,31,11"/>
+            <TextBlock Text="EXIT" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
           </Grid>
-
-
         </Grid>
 
-
-
       </Grid>
-
-
-    </Grid>
-
-  </Grid>
 
 </Page>
