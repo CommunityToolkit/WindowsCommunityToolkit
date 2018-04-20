@@ -10,18 +10,24 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.Services.Core
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Generic interface that all deployed service providers implement.
+    /// Base class that contains options of notification
     /// </summary>
-    /// <typeparam name="T">Reference to underlying data service provider.</typeparam>
-    /// <typeparam name="U">Strongly-typed schema for data returned in list query.</typeparam>
-    /// <typeparam name="V">Configuration type specifying query parameters.</typeparam>
-    [Obsolete("This interface is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public interface IDataService<T, U, V> : Toolkit.Services.Core.IDataService<T, U, V>
+    internal class NotificationOptions
     {
+        /// <summary>
+        /// Gets or sets duration of the stacked notification
+        /// </summary>
+        public int Duration { get; set; }
+
+        /// <summary>
+        /// Gets or sets Content of the notification
+        /// Could be either a <see cref="string"/> or a <see cref="UIElement"/> or a <see cref="DataTemplate"/>
+        /// </summary>
+        public object Content { get; set; }
     }
 }

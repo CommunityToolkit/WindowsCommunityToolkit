@@ -17,6 +17,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Collections;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 

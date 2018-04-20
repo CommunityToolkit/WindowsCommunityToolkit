@@ -183,6 +183,8 @@ Starting with v2.1 of the UWP Community Toolkit, the HamburgerMenu provides a ne
 
 Using this property will enable you to take advantage of the NavigationView on devices that supported the NavigationView, while providing an experience based on HamburgerMenu on devices that have not yet updated to the Fall Creators Update. Make sure to test the experience on multiple OS releases and plan to fully transition to the NavigationView as the HamburgerMenu will be removed from the UWP Community Toolkit in a future major release.
 
+Version 3.0 of the UWP Community Toolkit adds another related property called **UseNavigationViewSettingsWhenPossible**. When this and UseNavigationViewWhenPossible are both set to true, the control will attempt to detect any of the OptionsItems that represent settings and map this to the built in Settings item in the NavigationView. If the control fails to detect the correct item, you can tell it which item to use by setting the Tag property of the OPtionsItem to the value "setting".
+
 > [!NOTE]
 The **ItemClick** and **OptionsItemClick** events will continue to work but the EventArgs will be null when **UseNavigationViewWhenPossible** is set to true. There is a new event called **ItemInvoked** that should be used instead. This new event will include information about the clicked item and whether it is an item or options item. This event also works if UseNavigationViewWhenPossible is set to false. 
 

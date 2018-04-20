@@ -40,14 +40,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(Mode), typeof(ScrollHeaderMode), typeof(ScrollHeader), new PropertyMetadata(ScrollHeaderMode.None, OnModeChanged));
 
         /// <summary>
-        /// Identifies the <see cref="TargetListViewBase"/> property.
-        /// </summary>
-#pragma warning disable CS0618 // Type or member is obsolete
-        public static readonly DependencyProperty TargetListViewBaseProperty =
-            DependencyProperty.Register(nameof(TargetListViewBase), typeof(Windows.UI.Xaml.Controls.ListViewBase), typeof(ScrollHeader), new PropertyMetadata(null, OnTargetChanged));
-#pragma warning restore CS0618 // Type or member is obsolete
-
-        /// <summary>
         /// Gets or sets a value indicating whether the current mode.
         /// Default is none.
         /// </summary>
@@ -55,16 +47,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (ScrollHeaderMode)GetValue(ModeProperty); }
             set { SetValue(ModeProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the container this header belongs to
-        /// </summary>
-        [Obsolete("This property has been deprecated and isn't required.")]
-        public Windows.UI.Xaml.Controls.ListViewBase TargetListViewBase
-        {
-            get { return (Windows.UI.Xaml.Controls.ListViewBase)GetValue(TargetListViewBaseProperty); }
-            set { SetValue(TargetListViewBaseProperty, value); }
         }
 
         /// <summary>

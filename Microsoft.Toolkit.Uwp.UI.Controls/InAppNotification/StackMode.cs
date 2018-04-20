@@ -10,30 +10,26 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-
-namespace Microsoft.Toolkit.Services.Core
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// StringValue attribute.
+    /// The Stack mode of an in-app notification.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field)]
-    [Obsolete("This class is being deprecated. Please use the counterpart in Microsoft.Toolkit.Parsers.Core.")]
-    public sealed class StringValueAttribute : Attribute
+    public enum StackMode
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="StringValueAttribute"/> class.
-        /// Constructor accepting string value.
+        /// Each notification will replace the previous one
         /// </summary>
-        /// <param name="value">String value</param>
-        public StringValueAttribute(string value)
-        {
-            Value = value;
-        }
+        Replace,
 
         /// <summary>
-        /// Gets property for string value.
+        /// Opening a notification will display it immediately, remaining notifications will appear when a notification is dismissed
         /// </summary>
-        public string Value { get; }
+        StackInFront,
+
+        /// <summary>
+        /// Dismissing a notification will show the next one in the queue
+        /// </summary>
+        QueueBehind
     }
 }
