@@ -80,9 +80,11 @@ public:
 
 internal:
 
-	GazePointer(UIElement^ root);
+	GazePointer();
     void OnPageUnloaded(Object^ sender, RoutedEventArgs^ args);
     EventRegistrationToken _unloadedToken;
+
+    void AddPage(Page^ page) { _pages->InsertAt(0, page); }
 
 private:
 
@@ -104,17 +106,22 @@ private:
     void    GotoState(UIElement^ control, GazePointerState state);
     void    RaiseGazePointerEvent(UIElement^ target, GazePointerState state, int64 elapsedTime);
 
+    void OnGazeEntered(
+        GazeInputSourcePreview^ provider,
+        GazeEnteredPreviewEventArgs^ args);
     void OnGazeMoved(
         GazeInputSourcePreview^ provider,
         GazeMovedPreviewEventArgs^ args);
+    void OnGazeExited(
+        GazeInputSourcePreview^ provider,
+        GazeExitedPreviewEventArgs^ args);
 
     void ProcessGazePoint(long long timestamp, Point position);
 
     void    OnEyesOff(Object ^sender, Object ^ea);
 
-
 private:
-    UIElement ^                         _rootElement;
+    Vector<Page^>^ _pages = ref new Vector<Page^>();
 
     int64                               _eyesOffDelay;
 
@@ -138,7 +145,9 @@ private:
     long long                           _lastTimestamp;
 
     GazeInputSourcePreview^             _gazeInputSource;
+    EventRegistrationToken              _gazeEnteredToken;
     EventRegistrationToken              _gazeMovedToken;
+    EventRegistrationToken              _gazeExitedToken;
     CoreDispatcher^                     _coreDispatcher;
 
 	int _defaultFixation = DEFAULT_FIXATION_DELAY;

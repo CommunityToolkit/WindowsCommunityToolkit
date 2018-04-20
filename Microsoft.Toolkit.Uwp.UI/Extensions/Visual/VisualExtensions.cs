@@ -101,8 +101,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 else if (count == 3)
                 {
                     vector = new Vector3(
-                        float.Parse(values[0], CultureInfo.InvariantCulture), 
-                        float.Parse(values[1], CultureInfo.InvariantCulture), 
+                        float.Parse(values[0], CultureInfo.InvariantCulture),
+                        float.Parse(values[1], CultureInfo.InvariantCulture),
                         float.Parse(values[2], CultureInfo.InvariantCulture));
                 }
                 else
@@ -149,9 +149,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 else if (count == 4)
                 {
                     vector = new Vector4(
-                        float.Parse(values[0], CultureInfo.InvariantCulture), 
-                        float.Parse(values[1], CultureInfo.InvariantCulture), 
-                        float.Parse(values[2], CultureInfo.InvariantCulture), 
+                        float.Parse(values[0], CultureInfo.InvariantCulture),
+                        float.Parse(values[1], CultureInfo.InvariantCulture),
+                        float.Parse(values[2], CultureInfo.InvariantCulture),
                         float.Parse(values[3], CultureInfo.InvariantCulture));
                 }
                 else

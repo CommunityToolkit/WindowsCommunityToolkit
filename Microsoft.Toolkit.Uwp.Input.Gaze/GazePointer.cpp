@@ -27,25 +27,38 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 void GazePointer::OnPageUnloaded(Object^ sender, RoutedEventArgs^ e)
 {
-    _isShuttingDown = true;
-    IsCursorVisible = false;
+    auto index = 0;
+    while (index < _pages->Size && _pages->GetAt(index) != sender)
+    {
+        index++;
+    }
+    if (index < _pages->Size)
+    {
+        _pages->RemoveAt(index);
+    }
 
-    auto page = safe_cast<Page^>(_rootElement);
-    page->Unloaded -= _unloadedToken;
-    page->ClearValue(GazeApi::GazePointerProperty);
+    if (_pages->Size == 0)
+    {
+        _isShuttingDown = true;
+        IsCursorVisible = false;
 
-    //if (_gazeInputSource != nullptr)
-    //{
-    //    _gazeInputSource->GazeMoved -= _gazeMovedToken;
-    //}
+        auto page = safe_cast<Page^>(sender);
+        //page->Unloaded -= _unloadedToken;
+        page->ClearValue(GazeApi::GazePointerProperty);
+
+        //if (_gazeInputSource != nullptr)
+        //{
+        //    _gazeInputSource->GazeMoved -= _gazeMovedToken;
+        //}
+    }
 }
 
 static DependencyProperty^ GazeTargetItemProperty = DependencyProperty::RegisterAttached("GazeTargetItem", GazeTargetItem::typeid, GazePointer::typeid, ref new PropertyMetadata(nullptr));
 
+static int s_instanceCount;
 
-GazePointer::GazePointer(UIElement^ root)
+GazePointer::GazePointer()
 {
-    _rootElement = root;
     _coreDispatcher = CoreWindow::GetForCurrentThread()->Dispatcher;
 
     // Default to not filtering sample data
@@ -68,7 +81,9 @@ GazePointer::~GazePointer()
 {
     if (_gazeInputSource != nullptr)
     {
+        _gazeInputSource->GazeEntered -= _gazeEnteredToken;
         _gazeInputSource->GazeMoved -= _gazeMovedToken;
+        _gazeInputSource->GazeExited -= _gazeExitedToken;
     }
 }
 
@@ -137,8 +152,12 @@ void GazePointer::InitializeGazeInputSource()
     _gazeInputSource = GazeInputSourcePreview::GetForCurrentView();
     if (_gazeInputSource != nullptr)
     {
+        _gazeEnteredToken = _gazeInputSource->GazeEntered += ref new TypedEventHandler<
+            GazeInputSourcePreview^, GazeEnteredPreviewEventArgs^>(this, &GazePointer::OnGazeEntered);
         _gazeMovedToken = _gazeInputSource->GazeMoved += ref new TypedEventHandler<
             GazeInputSourcePreview^, GazeMovedPreviewEventArgs^>(this, &GazePointer::OnGazeMoved);
+        _gazeExitedToken = _gazeInputSource->GazeExited += ref new TypedEventHandler<
+            GazeInputSourcePreview^, GazeExitedPreviewEventArgs^>(this, &GazePointer::OnGazeExited);
     }
 }
 
@@ -234,16 +253,19 @@ bool GazePointer::IsInvokable(UIElement^ element)
 
 UIElement^ GazePointer::GetHitTarget(Point gazePoint)
 {
-    auto targets = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, _rootElement, false);
-    for each (auto target in targets)
+    for each (auto rootElement in _pages)
     {
-        if (IsInvokable(target))
+        auto targets = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, rootElement, false);
+        for each (auto target in targets)
         {
-            return target;
+            if (IsInvokable(target))
+            {
+                return target;
+            }
         }
     }
     // TODO : Check if the location is offscreen
-    return _rootElement;
+    return _pages->GetAt(0);
 }
 
 GazeTargetItem^ GazePointer::GetOrCreateGazeTargetItem(UIElement^ element)
@@ -295,16 +317,8 @@ UIElement^ GazePointer::ResolveHitTarget(Point gazePoint, long long timestamp)
     auto target = GetOrCreateGazeTargetItem(historyItem->HitTarget);
     target->LastTimestamp = timestamp;
 
-
-    // just append to the list and return if the list is empty
-    if (_gazeHistory->Size == 0)
-    {
-        _gazeHistory->Append(historyItem);
-        return historyItem->HitTarget;
-    }
-
     // find elapsed time since we got the last hit target
-    historyItem->Duration = (int)(timestamp - _gazeHistory->GetAt(_gazeHistory->Size - 1)->Timestamp);
+    historyItem->Duration = timestamp - _lastTimestamp;
     if (historyItem->Duration > MAX_SINGLE_SAMPLE_DURATION)
     {
         historyItem->Duration = MAX_SINGLE_SAMPLE_DURATION;
@@ -314,22 +328,23 @@ UIElement^ GazePointer::ResolveHitTarget(Point gazePoint, long long timestamp)
     // update the time this particular hit target has accumulated
     target->ElapsedTime += historyItem->Duration;
 
-
     // drop the oldest samples from the list until we have samples only 
     // within the window we are monitoring
     //
     // historyItem is the last item we just appended a few lines above. 
-    while (historyItem->Timestamp - _gazeHistory->GetAt(0)->Timestamp > _maxHistoryTime)
+    for (auto evOldest = _gazeHistory->GetAt(0);
+        historyItem->Timestamp - evOldest->Timestamp > _maxHistoryTime;
+        evOldest = _gazeHistory->GetAt(0))
     {
-        auto evOldest = _gazeHistory->GetAt(0);
         _gazeHistory->RemoveAt(0);
-
-        assert(GetGazeTargetItem(evOldest->HitTarget)->ElapsedTime - evOldest->Duration >= 0);
 
         // subtract the duration obtained from the oldest sample in _gazeHistory
         auto targetItem = GetGazeTargetItem(evOldest->HitTarget);
+        assert(targetItem->ElapsedTime - evOldest->Duration >= 0);
         targetItem->ElapsedTime -= evOldest->Duration;
     }
+
+    _lastTimestamp = timestamp;
 
     // Return the most recent hit target 
     // Intuition would tell us that we should return NOT the most recent
@@ -456,7 +471,7 @@ void GazePointer::CheckIfExiting(long long curTimestamp)
                     i++;
                 }
             }
-
+            
             // return because only one element can be exited at a time and at this point
             // we have done everything that we can do
             return;
@@ -514,6 +529,12 @@ void GazePointer::RaiseGazePointerEvent(UIElement^ target, GazePointerState stat
     }
 }
 
+void GazePointer::OnGazeEntered(GazeInputSourcePreview^ provider, GazeEnteredPreviewEventArgs^ args)
+{
+    Debug::WriteLine(L"Entered at %ld", args->CurrentPoint->Timestamp);
+    _gazeCursor->IsGazeEntered = true;
+}
+
 void GazePointer::OnGazeMoved(GazeInputSourcePreview^ provider, GazeMovedPreviewEventArgs^ args)
 {
     if (!_isShuttingDown)
@@ -526,8 +547,18 @@ void GazePointer::OnGazeMoved(GazeInputSourcePreview^ provider, GazeMovedPreview
             {
                 ProcessGazePoint(point->Timestamp, position->Value);
             }
+            else
+            {
+                Debug::WriteLine(L"Null position eaten at %ld", point->Timestamp);
+            }
         }
     }
+}
+
+void GazePointer::OnGazeExited(GazeInputSourcePreview^ provider, GazeExitedPreviewEventArgs^ args)
+{
+    Debug::WriteLine(L"Exited at %ld", args->CurrentPoint->Timestamp);
+    _gazeCursor->IsGazeEntered = false;
 }
 
 void GazePointer::ProcessGazePoint(long long timestamp, Point position)

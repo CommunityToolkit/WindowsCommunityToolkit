@@ -201,14 +201,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnImageOpened(object sender, RoutedEventArgs e)
         {
-            ImageOpened?.Invoke(this, e);
             ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
             VisualStateManager.GoToState(this, LoadedState, true);
         }
 
         private void OnImageFailed(object sender, ExceptionRoutedEventArgs e)
         {
-            ImageFailed?.Invoke(this, e);
             ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(new Exception(e.ErrorMessage)));
             VisualStateManager.GoToState(this, FailedState, true);
         }
