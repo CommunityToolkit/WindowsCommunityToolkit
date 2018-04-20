@@ -36,6 +36,14 @@ After you've completed these steps, an application ID is created for your app an
 
 Before your app can make requests to OneDrive, it needs a user to authenticate and authorize the application to have access to their data. Microsoft Graph, OneDrive, and SharePoint support using a standard OAuth2 or Open ID Connect authorization flow. Requests to Microsoft Graph are authenticated using bearer tokens obtained from one of these flows.
 
+#### Manifest capabilities for authentication
+
+You will need to add:
+
+< Capability Name="privateNetworkClientServer" />
+
+to your application manifest to enable AAD authentication. Capabilities in the manifest are described in more detail in this document [Capability](https://docs.microsoft.com/en-us/uwp/schemas/appxpackage/appxmanifestschema/element-capability)
+
 Authentication, sign-in and permission scopes are discussed in more detail in this document, [Authorization and sign-in for OneDrive in Microsoft Graph](https://docs.microsoft.com/en-us/onedrive/developer/rest-api/getting-started/graph-oauth)
 
 ### Testing access to the OneDrive API

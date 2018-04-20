@@ -114,3 +114,6 @@ using (var stream = (await file.StorageItemPlatformService.GetThumbnailAsync(Too
     // Use a helper method to display the images on the xaml view
     await OneDriveSampleHelpers.DisplayThumbnail(stream, "thumbnail");
 }
+
+// Manifest entries for AAD Authentication
+<Capability Name="privateNetworkClientServer" />
