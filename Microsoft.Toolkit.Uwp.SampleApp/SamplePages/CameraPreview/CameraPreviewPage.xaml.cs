@@ -22,7 +22,7 @@ using Windows.UI.Xaml.Navigation;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// CameraPreviewPage
     /// </summary>
     public sealed partial class CameraPreviewPage : Page
     {
@@ -39,11 +39,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
 
-            _softwareBitmapSource = new SoftwareBitmapSource();
-            CurrentVideoFrameImage.Source = _softwareBitmapSource;
+            Shell.Current.RegisterNewCommand("Capture Current Frame", CaptureButton_Click);
 
-            CameraPreviewControl.VideoFrameArrived += CameraPreviewControl_VideoFrameArrived;
-            CameraPreviewControl.SoftwareBitmapArrived += CameraPreviewControl_SoftwareBitmapArrived;
+            _softwareBitmapSource = new SoftwareBitmapSource();
+            CurrentFrameImage.Source = _softwareBitmapSource;
 
             Application.Current.Suspending += Application_Suspending;
         }

@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Camera Control to preview video. Can subscribe to video frames, software bitmap when they arrive.
     /// </summary>
-    public sealed class CameraVideoPreview : Control, IDisposable
+    public sealed class CameraPreview : Control, IDisposable
     {
         private CameraHelper _cameraHelper;
         private MediaPlayer _mediaPlayer;
@@ -37,11 +37,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private TextBlock _videoPreviewErrorTextBlock;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CameraVideoPreview"/> class.
+        /// Initializes a new instance of the <see cref="CameraPreview"/> class.
         /// </summary>
-        public CameraVideoPreview()
+        public CameraPreview()
         {
-            this.DefaultStyleKey = typeof(CameraVideoPreview);
+            this.DefaultStyleKey = typeof(CameraPreview);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            this.Unloaded += CameraVideoPreview_Unloaded;
+            this.Unloaded += CameraPreview_Unloaded;
 
             _frameSourceGroupCombo = (ComboBox)this.GetTemplateChild("FrameSourceGroupCombo");
             _mediaPlayerElementControl = (MediaPlayerElement)this.GetTemplateChild("MediaPlayerElementControl");          
@@ -143,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void CameraVideoPreview_Unloaded(object sender, RoutedEventArgs e)
+        private void CameraPreview_Unloaded(object sender, RoutedEventArgs e)
         {
             Dispose();
         }

@@ -8,8 +8,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">    
     <StackPanel Orientation="Vertical" Margin="20">
-        <controls:CameraVideoPreview x:Name="CameraPreviewControl"></controls:CameraVideoPreview>
-        <Button x:Name="CaptureButton" Content="Capture Video Frame" Margin="0,10" Click="CaptureButton_Click"></Button>
-        <Image x:Name="CurrentVideoFrameImage" MinWidth="300" Width="400" HorizontalAlignment="Left"></Image>
+        <controls:CameraPreview x:Name="CameraPreviewControl" 
+                                     VideoFrameArrived="CameraPreviewControl_VideoFrameArrived"
+                                     SoftwareBitmapArrived="CameraPreviewControl_SoftwareBitmapArrived"></controls:CameraPreview>
+        <TextBlock x:Name="ImageHeader" Text="Image" ></TextBlock>
+        <Image x:Name="CurrentFrameImage" MinWidth="300" Width="400" HorizontalAlignment="Left"></Image>
     </StackPanel>
 </Page>

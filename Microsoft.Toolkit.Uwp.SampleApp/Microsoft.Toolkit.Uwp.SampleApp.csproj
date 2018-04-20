@@ -294,6 +294,7 @@
     <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrush.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
     <Content Include="SamplePages\CameraPreview\Camera.png" />
+    <Content Include="SamplePages\CameraHelper\Camera.png" />
     <Content Include="SamplePages\Connected Animations\ConnectedAnimations.png" />
     <Content Include="SamplePages\DispatcherHelper\DispatchHelper.png" />
     <Content Include="SamplePages\DockPanel\DockPanel.png" />
@@ -493,6 +494,8 @@
     <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrushXaml.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\CameraPreview\CameraPreviewCode.bind" />
+    <Content Include="SamplePages\CameraHelper\CameraHelperCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -545,6 +548,9 @@
     <Compile Include="Common\IXamlRenderListener.cs" />
     <Compile Include="SamplePages\CameraPreview\CameraPreviewPage.xaml.cs">
       <DependentUpon>CameraPreviewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\CameraHelper\CameraHelperPage.xaml.cs">
+      <DependentUpon>CameraHelperPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Connected Animations\ConnectedAnimationsPage.xaml.cs">
       <DependentUpon>ConnectedAnimationsPage.xaml</DependentUpon>
@@ -868,12 +874,13 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\CameraPreview\CameraPreviewPage.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Content Include="SamplePages\CameraPreview\CameraPreviewCode.bind">
       <SubType>Designer</SubType>
-    </Content>
+    </Page>
+    <Page Include="SamplePages\CameraHelper\CameraHelperPage.xaml">      
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>   
     <Page Include="SamplePages\Carousel\CarouselPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

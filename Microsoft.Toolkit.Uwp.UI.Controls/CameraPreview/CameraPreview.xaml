@@ -7,10 +7,10 @@
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Foreground" Value="Red"/>
     </Style>
-    <Style TargetType="local:CameraVideoPreview" >
+    <Style TargetType="local:CameraPreview" >
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="local:CameraVideoPreview">
+                <ControlTemplate TargetType="local:CameraPreview">
                     <Grid Background="{TemplateBinding Background}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>

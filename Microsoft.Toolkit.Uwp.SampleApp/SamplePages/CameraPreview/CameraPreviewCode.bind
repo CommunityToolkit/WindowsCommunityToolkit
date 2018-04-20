@@ -1,32 +1,40 @@
-﻿// Creates a Camera Helper and gets video frames from an available frame source.
-using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
+﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"      
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">    
+    <StackPanel Orientation="Vertical">
+		<controls:CameraPreview x:Name="CameraPreviewControl" 
+                                     VideoFrameArrived="CameraPreviewControl_VideoFrameArrived"
+                                     SoftwareBitmapArrived="CameraPreviewControl_SoftwareBitmapArrived">
+		</controls:CameraPreview>  
+		<Image x:Name="CurrentFrameImage" MinWidth="300" Width="400" HorizontalAlignment="Left"></Image>		
+    </StackPanel>
+</Page>
 
-var frameSourceGroup = await FrameSourceGroupsHelper.GetFirstAvailableFrameSourceGroupAsync();
-if (frameSourceGroup != null)
+var softwareBitmapSource = new SoftwareBitmapSource();
+CurrentFrameImage.Source = softwareBitmapSource;
+
+// Register for VideoFrameArrived to get video frames 
+private void CameraPreviewControl_VideoFrameArrived(object sender, VideoFrame e)
 {
-  CameraHelper cameraHelper = new CameraHelper();
-  var result = await _cameraHelper.InitializeAndStartCaptureAsync(frameSourceGroup);
-
-  // Camera Initialization and Capture failed for some reason
-  if(result.Status == false)
-  {
-	// log the error
-	var errorMessage = result.Message;
-  }
-
-  // Subscribe to the video frame as they arrive
-  cameraHelper.VideoFrameArrived += CameraHelper_VideoFrameArrived;
+    VideoFrame videoFrame = e;
 }
-else
-{
-  // No frame source available.
-}
 
-private void CameraHelper_VideoFrameArrived(object sender, VideoFrameEventArgs e)
+// Register for SoftwareBitmapArrived to get software bitmaps and bind it to the Xaml Image control
+private void CameraPreviewControl_SoftwareBitmapArrived(object sender, SoftwareBitmap e)
 {
-  // Gets the current video frame
-  VideoFrame currentVideoFrame  = e.VideoFrame;
+    SoftwareBitmap softwareBitmap = e;
+	var targetSoftwareBitmap = softwareBitmap;
 
-  // Gets the software bitmap image
-  SoftwareBitmap softwareBitmap = e.SoftwareBitmap;
+    if (softwareBitmap != null)
+    {
+        if (softwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 || softwareBitmap.BitmapAlphaMode == BitmapAlphaMode.Straight)
+        {
+            targetSoftwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+        }
+
+        await softwareBitmapSource.SetBitmapAsync(targetSoftwareBitmap);
+    }
 }
