@@ -69,8 +69,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             nameof(IsPrivateNetworkClientServerCapabilityEnabled),
             typeof(bool),
             typeof(WebView),
-            new PropertyMetadata(WebViewDefaults.IsPrivateNetworkEnabled, PropertyChangedCallback)
-            );
+            new PropertyMetadata(WebViewDefaults.IsPrivateNetworkEnabled, PropertyChangedCallback));
 
         private static readonly DependencyProperty IsScriptNotifyAllowedProperty = DependencyProperty.Register(
             nameof(IsScriptNotifyAllowed),
@@ -188,7 +187,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Occurs when a frame in the <see cref="WebView"/> finished parsing its current content.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM")]
+        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM", Justification = "Name is the same as the WinRT type")]
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewFrameDomContentLoaded)]
 
@@ -284,7 +283,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Occurs when <see cref="WebView"/> shows a warning page for content that was reported as unsafe by SmartScreen filter.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
+        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "WinRT type signature does not have argument that inhertits from EventArgs")]
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewUnsafeContentWarningDisplaying)]
         public event EventHandler<object> UnsafeContentWarningDisplaying = (sender, args) => { };
@@ -299,7 +298,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Occurs when <see cref="WebView"/> attempts to download an unsupported file.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unviewable")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unviewable", Justification = "Unviewable is in WinRT type")]
         public event EventHandler<WebViewControlUnviewableContentIdentifiedEventArgs> UnviewableContentIdentified = (sender, args) => { };
 
 

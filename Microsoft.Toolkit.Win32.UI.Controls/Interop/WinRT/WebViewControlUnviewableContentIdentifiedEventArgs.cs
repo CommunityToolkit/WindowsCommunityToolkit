@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <remarks>Copy from <see cref="Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
     /// <seealso cref="System.EventArgs" />
     /// <seealso cref="Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unviewable")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unviewable", Justification = "Same as WinRT type")]
     public sealed class WebViewControlUnviewableContentIdentifiedEventArgs : EventArgs
     {
         [SecurityCritical]
