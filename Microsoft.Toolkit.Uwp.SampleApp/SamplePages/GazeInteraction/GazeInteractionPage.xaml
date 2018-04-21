@@ -2,29 +2,105 @@
     x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.GazeInteractionPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:gaze="using:Microsoft.Toolkit.Uwp.Input.Gaze"
-    gaze:GazeApi.IsGazeEnabled="True"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:gaze="using:Microsoft.Toolkit.Uwp.Input.Gaze" 
+    gaze:GazeApi.IsGazeEnabled="True"        
+    gaze:GazeApi.IsGazeCursorVisible="True"       
+    gaze:GazeApi.GazeCursorRadius="20"
     mc:Ignorable="d">
+    <Page.Resources>
+        <local:TimeSpanConverter x:Key="ConvertTimeToMilliSecs"/>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="2*" ></RowDefinition>
+            <RowDefinition Height="1*" ></RowDefinition>
         </Grid.RowDefinitions>
-        <Button x:Name="Button1" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button1_Click">Button</Button>
-        <TextBlock x:Name="TextBlock_Button1" Grid.Row="0" Grid.Column="1" />
-        <ToggleButton x:Name="ToggleButton1" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Checked="ToggleButton1_Checked">Toggle Button</ToggleButton>
-        <TextBlock x:Name="TextBlock_ToggleButton1" Grid.Row="1" Grid.Column="1" />
-        <ToggleSwitch x:Name="ToggleSwitch1" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">Toggle Switch</ToggleSwitch>
-        <CheckBox x:Name="CheckBox1" Grid.Row="3" Grid.Column="0" Content="Check Me!"/>
+
+        <Grid x:Name="XamlRoot"/>
+       
+        <Grid Grid.Row="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" ></RowDefinition>
+                <RowDefinition Height="50" ></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <Grid HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle Height="1" Stroke="Black" VerticalAlignment="Center"/>
+                <TextBlock HorizontalAlignment="Center" Text="{Binding PropertyDescriptor.Expando.Enter.Value, Converter={StaticResource ConvertTimeToMilliSecs}}"  VerticalAlignment="Center" Grid.Column="1" Margin="5,0"/>
+                <Rectangle Height="1" Stroke="Black" VerticalAlignment="Center" Grid.Column="2"/>
+            </Grid>
+            <Grid HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Row="0" Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle Height="1" Stroke="Black" VerticalAlignment="Center"/>
+                <TextBlock HorizontalAlignment="Center" Text="{Binding PropertyDescriptor.Expando.Fixation.Value, Converter={StaticResource ConvertTimeToMilliSecs}}" VerticalAlignment="Center" Grid.Column="1" Margin="5,0"/>
+                <Rectangle Height="1" Stroke="Black" VerticalAlignment="Center" Grid.Column="2"/>
+            </Grid>
+            <Grid HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Row="0" Grid.Column="3" BorderBrush="Black" BorderThickness="1,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="19*"/>
+                    <ColumnDefinition Width="62*"/>
+                    <ColumnDefinition Width="19*"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle Height="1" Stroke="Black" VerticalAlignment="Center"/>
+                <TextBlock HorizontalAlignment="Center" Text="{Binding PropertyDescriptor.Expando.Dwell.Value, Converter={StaticResource ConvertTimeToMilliSecs}}"  VerticalAlignment="Center" Grid.Column="1" Margin="5,0"/>
+                <Rectangle Height="1" Stroke="Black" VerticalAlignment="Center" Grid.Column="2"/>
+            </Grid>
+            <Grid HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Row="0" Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle Height="1" Stroke="Black" VerticalAlignment="Center"/>
+                <TextBlock HorizontalAlignment="Center" Text="{Binding PropertyDescriptor.Expando.DwellRepeatDelay.Value, Converter={StaticResource ConvertTimeToMilliSecs}}"  VerticalAlignment="Center" Grid.Column="1" Margin="5,0"/>
+                <Rectangle Height="1" Stroke="Black" VerticalAlignment="Center" Grid.Column="2"/>
+            </Grid>
+            <Grid HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Row="0" Grid.Column="5" BorderBrush="Black" BorderThickness="1,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle Height="1" Stroke="Black" VerticalAlignment="Center"/>
+                <TextBlock HorizontalAlignment="Center" Text="{Binding PropertyDescriptor.Expando.DwellRepeat.Value, Converter={StaticResource ConvertTimeToMilliSecs}}"  VerticalAlignment="Center" Grid.Column="1" Margin="5,0"/>
+                <Rectangle Height="1" Stroke="Black" VerticalAlignment="Center" Grid.Column="2"/>
+            </Grid>
+            <Grid HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Row="0" Grid.Column="6" BorderBrush="Black" BorderThickness="1,0,1,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle Height="1" Stroke="Black" VerticalAlignment="Center"/>
+                <TextBlock HorizontalAlignment="Center" Text="{Binding PropertyDescriptor.Expando.Enter.Value, Converter={StaticResource ConvertTimeToMilliSecs}}"  VerticalAlignment="Center" Grid.Column="1" Margin="5,0"/>
+                <Rectangle Height="1" Stroke="Black" VerticalAlignment="Center" Grid.Column="2"/>
+            </Grid>
+
+
+        </Grid>
     </Grid>
 </Page>
