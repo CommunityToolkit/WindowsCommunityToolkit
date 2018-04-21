@@ -856,23 +856,14 @@
   {
     "Name": "Gaze",
     "Icon": "Icons/DeveloperTools.png",
-    "Samples": [
+    "Samples": [     
       {
         "Name": "GazeInteraction",
         "Type": "GazeInteractionPage",
-        "About": "Shows how you can easily enable your apps to interact with eye gaze.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Input.Gaze/",
+        "About": "Demonstrate the properties and events of the GazePointer library",
         "XamlCodeFile": "GazeInteractionXaml.bind",
         "Icon": "/SamplePages/GazeInteraction/GazeInteraction.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/gaze/Gaze.md",
-        "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
-      },
-      {
-        "Name": "GazePointerProperties",
-        "Type": "GazePointerPropertiesPage",
-        "About": "Demonstrate the properties and events of the GazePointer library",
-        "XamlCodeFile": "GazePointerPropertiesXaml.bind",
-        "Icon": "/SamplePages/GazePointerProperties/GazePointerProperties.png",
         "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
       },
       {

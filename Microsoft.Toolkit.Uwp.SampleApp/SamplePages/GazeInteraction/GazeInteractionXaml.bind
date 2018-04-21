@@ -1,28 +1,79 @@
-﻿<Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.GazeInteractionPage"
+﻿<Page   
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.Gaze"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    
+    mc:Ignorable="d"
+    
+    xmlns:gaze="using:Microsoft.Toolkit.Uwp.Input.Gaze" 
+    gaze:GazeApi.IsGazeEnabled="@[IsGazeEnabled:Bool:True]"        
+    gaze:GazeApi.IsGazeCursorVisible="@[IsGazeCursorVisible:Bool:True]"       
+    gaze:GazeApi.GazeCursorRadius="@[GazeCursorRadius:Slider:5:5-50]@"
+       
+    >
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition/>
-      <ColumnDefinition/>
-    </Grid.ColumnDefinitions>
-    <Grid.RowDefinitions>
-      <RowDefinition/>
-      <RowDefinition/>
-      <RowDefinition/>
-      <RowDefinition/>
-    </Grid.RowDefinitions>
-    <Button x:Name="Button1" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button1_Click">Button</Button>
-    <TextBlock x:Name="TextBlock_Button1" Grid.Row="0" Grid.Column="1" />
-    <ToggleButton x:Name="ToggleButton1" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Checked="ToggleButton1_Checked">Toggle Button</ToggleButton>
-    <TextBlock x:Name="TextBlock_ToggleButton1" Grid.Row="1" Grid.Column="1" />
-    <ToggleSwitch x:Name="ToggleSwitch1" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">Toggle Switch</ToggleSwitch>
-    <CheckBox x:Name="CheckBox1" Grid.Row="3" Grid.Column="0" Content="Check Me!"/>
-  </Grid>
+     
+        <Grid.RowDefinitions>
+          <RowDefinition Height="2*" ></RowDefinition>
+          <RowDefinition Height="Auto" ></RowDefinition>
+        </Grid.RowDefinitions>
+     
+        <Button x:Name="TargetButton" HorizontalAlignment="Center" BorderBrush="#7FFFFFFF"
+                    
+                    Width="@[ButtonSize:Slider:100:10-300]"
+                    Height="@[ButtonSize]"
+                    gaze:GazeApi.Enter="@[Enter:TimeSpan:50:50-200]@"
+                    gaze:GazeApi.Fixation="@[Fixation:TimeSpan:400:50-1000]@"
+                    gaze:GazeApi.Dwell="@[Dwell:TimeSpan:800:100-5000]@"
+                    Tag="@[DwellRepeatDelay:TimeSpan:0:0-5000]@"  
+                    gaze:GazeApi.DwellRepeat="@[DwellRepeat:TimeSpan:1600:50-10000]@"
+                    gaze:GazeApi.MaxRepeatCount="@[MaxRepeatCount:Slider:0:0-20]@"
+                   
+                    />
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="50" ></RowDefinition>           
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="1*"/>
+          </Grid.ColumnDefinitions>
+          <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="1">
+            <Rectangle x:Name="EnterRec" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FFB6EC89" Visibility="Collapsed"/>
+            <TextBlock Text="ENTER" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Grid>
+          <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="2">
+            <Rectangle x:Name="FixationRec" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FF6ACE17" Visibility="Collapsed"/>
+            <TextBlock Text="FIXATION" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Grid>
+          <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="3">
+            <Rectangle x:Name="DwellRec" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FF1790CE" Visibility="Collapsed"/>
+            <TextBlock Text="DWELL"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Grid>
+          <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="4">
+            <TextBlock Text="Repeat&#x0d;Delay"   FontSize="16" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center"/>
+          </Grid>
+          <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="5">
+            <Rectangle x:Name="RepeatRec" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FF175ACE" Visibility="Collapsed"/>
+            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
+              <TextBlock Text="REPEAT" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"  />
+              <TextBlock x:Name="DwellCountText" Text="10" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Visibility="Collapsed" />
+            </StackPanel>
+          </Grid>
+          <Grid BorderBrush="Black" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Column="6">
+            <Rectangle x:Name="ExitRec" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#FFCE1F17" Visibility="Collapsed"/>
+            <TextBlock Text="EXIT" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Grid>
+        </Grid>
+
+      </Grid>
+
 </Page>
