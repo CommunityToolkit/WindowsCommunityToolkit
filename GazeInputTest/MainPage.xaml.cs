@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Uwp.Input.Gaze;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -58,6 +59,16 @@ namespace GazeInputTest
         {
             clickCount++;
             HowButton.Content = string.Format("{0}: Accessible click", clickCount);
+            e.Handled = true;
+        }
+
+        private void OnInvokeProgress(object sender, GazeProgressEventArgs e)
+        {
+            if (e.State == GazeProgressState.Progressing)
+            {
+                ProgressShow.Value = (100.0 * e.ElapsedTicks) / e.TriggerTicks;
+            }
+            ProgressShow.IsIndeterminate = e.State == GazeProgressState.Complete;
             e.Handled = true;
         }
     }
