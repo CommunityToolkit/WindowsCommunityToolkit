@@ -31,9 +31,6 @@ public:
     static property DependencyProperty^ HasAttentionProperty { DependencyProperty^ get() { return s_hasAttentionProperty; } }
     static property DependencyProperty^ InvokeProgressProperty { DependencyProperty^ get() { return s_invokeProgressProperty; } }
 
-    property bool HasAttention { bool get() { return safe_cast<bool>(GetValue(s_hasAttentionProperty)); } void set(bool value) { SetValue(s_hasAttentionProperty, value); } }
-    property double InvokeProgress { double get() { return safe_cast<double>(GetValue(s_invokeProgressProperty)); } void set(double value) { SetValue(s_invokeProgressProperty, value); } }
-
     event EventHandler<GazePointerEventArgs^>^ StateChanged;
     event EventHandler<GazeInvokedRoutedEventArgs^>^ Invoked;
 	event EventHandler<GazeProgressEventArgs^>^ ProgressFeedback;
