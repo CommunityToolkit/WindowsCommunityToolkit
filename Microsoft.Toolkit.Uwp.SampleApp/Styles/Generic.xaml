@@ -962,4 +962,10 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="AboutPageHeader" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
 </ResourceDictionary>

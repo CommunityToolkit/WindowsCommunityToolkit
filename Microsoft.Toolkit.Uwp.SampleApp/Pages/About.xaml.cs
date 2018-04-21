@@ -112,9 +112,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
             Shell.Current.SetTitles("About");
 
-            var packageVersion = Package.Current.Id.Version;
-            Version.Text = $"Version {packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
-
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
             var t = Init();
@@ -153,21 +150,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
             foreach (var child in InnerGrid.Children)
             {
-                if (child is ItemsControl itemsControl)
-                {
-                    foreach (var childOfChild in itemsControl.Items)
-                    {
-                        Implicit.GetShowAnimations((UIElement)childOfChild).Add(new OpacityAnimation()
-                        {
-                            From = 0,
-                            To = 1,
-                            Duration = TimeSpan.FromMilliseconds(300),
-                            Delay = TimeSpan.FromMilliseconds(counter++ * delay),
-                            SetInitialValueBeforeDelay = true
-                        });
-                    }
-                }
-                else
+                if (child is ItemsControl itemsControl == false)
                 {
                     Implicit.GetShowAnimations(child).Add(new OpacityAnimation()
                     {
@@ -228,7 +211,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
                 using (var jsonStream = await StreamHelper.GetPackagedFileStreamAsync("landingPageLinks.json"))
                 {
                     var jsonString = await jsonStream.ReadTextAsync();
-                    LandingPageLinks = JsonConvert.DeserializeObject<LandingPageLinks>(jsonString);
+                    var links = JsonConvert.DeserializeObject<LandingPageLinks>(jsonString);
+                    var packageVersion = Package.Current.Id.Version;
+
+                    var resource = links.Resources.FirstOrDefault(item => item.ID == "app");
+                    if (resource != null)
+                    {
+                        resource.Links[0].Title = $"Version {packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
+                    }
+
+                    LandingPageLinks = links;
                 }
 
                 var samples = new List<Sample>();
@@ -243,33 +235,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
                 }
 
                 NewSamples = samples;
-            }
-
-            foreach (var section in LandingPageLinks.Resources.Reverse())
-            {
-                var stackPanel = new StackPanel()
-                {
-                    MinWidth = 267,
-                    Margin = new Thickness(0, 0, 0, 48)
-                };
-
-                stackPanel.Children.Add(
-                    new TextBlock()
-                    {
-                        FontSize = 20,
-                        FontFamily = new Windows.UI.Xaml.Media.FontFamily("Segoe UI"),
-                        Text = section.Title
-                    });
-
-                stackPanel.Children.Add(
-                    new ItemsControl()
-                    {
-                        Margin = new Thickness(0, 16, 0, 0),
-                        ItemsSource = section.Links,
-                        ItemTemplate = Resources["LinkTemplate"] as DataTemplate
-                    });
-
-                ResourcesSection.Items.Insert(0, stackPanel);
             }
         }
 

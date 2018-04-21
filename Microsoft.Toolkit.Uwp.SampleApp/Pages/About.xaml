@@ -109,22 +109,34 @@
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="84"></RowDefinition>
-                            <RowDefinition Height="48"></RowDefinition>
-                            <RowDefinition Height="84"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="50"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="AUto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="36"></RowDefinition>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="1" Grid.Column="1" TextAlignment="Center" FontSize="36" FontFamily="Segoe UI" FontWeight="Light">Get Started</TextBlock>
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="1">
+                            <TextBlock
+                                FontSize="36"
+                                FontFamily="Segoe UI"
+                                FontWeight="Bold"
+                                Text="Get Started" />
+                            <TextBlock
+                                TextWrapping="Wrap"
+                                FontSize="14"
+                                Text="The UWP Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10." />
+                        </StackPanel>
 
                         <Grid Grid.Row="3" Grid.Column="1" animations:Implicit.Animations="{StaticResource ImplicitOffset}">
                             <StackPanel>
-                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">Recent Activity</TextBlock>
+                                <TextBlock Style="{StaticResource AboutPageHeader}">Recent Activity</TextBlock>
 
                                 <Grid Margin="0,16,0,0">
                                     <TextBlock Text="None"
@@ -150,12 +162,12 @@
                                       animations:Implicit.Animations="{StaticResource ImplicitOffset}">
 
                             <StackPanel x:Name="WhatNewPanel" Margin="0,0,0,48" animations:Implicit.Animations="{StaticResource ImplicitOffset}">
-                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal" Text="{x:Bind LandingPageLinks.NewSectionTitle, Mode=OneWay}"></TextBlock>
+                                <TextBlock Style="{StaticResource AboutPageHeader}" Text="{x:Bind LandingPageLinks.NewSectionTitle, Mode=OneWay}" />
                                 <ItemsControl x:Name="WhatNewItemsControl" Margin="0,16,0,0" ItemsSource="{x:Bind NewSamples, Mode=OneWay}" ItemTemplate="{StaticResource NewSampleTemplate}"></ItemsControl>
                             </StackPanel>
 
                             <StackPanel x:Name="ReleaseNotesPanel" animations:Implicit.Animations="{StaticResource ImplicitOffset}">
-                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">Release Notes</TextBlock>
+                                <TextBlock Style="{StaticResource AboutPageHeader}">Release Notes</TextBlock>
                                 <ItemsControl Margin="0,16,0,0" ItemsSource="{x:Bind GitHubReleases, Mode=OneWay}" ItemTemplate="{StaticResource ReleaseNoteTemplate}"></ItemsControl>
                             </StackPanel>
                         </ItemsControl>
@@ -163,24 +175,27 @@
                         <ItemsControl x:Name="ResourcesSection"
                                       Grid.Row="5"
                                       Grid.Column="1"
+                                      ItemsSource="{x:Bind LandingPageLinks.Resources, Mode=OneWay}"
                                       ItemsPanel="{StaticResource ItemsWrapGridHorizontalTemplate}"
                                       animations:Implicit.Animations="{StaticResource ImplicitOffset}">
-
-                            <StackPanel MinWidth="267" Margin="0,0,0,48" animations:Implicit.Animations="{StaticResource ImplicitOffset}">
-                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">About the App</TextBlock>
-                                <ItemsControl Margin="0,16,0,0">
-                                    <TextBlock x:Name="Version" FontSize="12" Margin="0,0,0,10"></TextBlock>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="http://www.newtonsoft.com/json" Click="Link_Clicked">
-                                        <TextBlock>Newtonsoft Json (Dependency)</TextBlock>
-                                    </HyperlinkButton>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://github.com/WilliamABradley/ColorCode-Universal" Click="Link_Clicked">
-                                        <TextBlock>ColorCode-Universal (Dependency)</TextBlock>
-                                    </HyperlinkButton>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://unsplash.com/photos/105m46GatAg" Click="Link_Clicked">
-                                        <TextBlock>Background photo by @apertism</TextBlock>
-                                    </HyperlinkButton>
-                                </ItemsControl>
-                            </StackPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="sampleapp:LandingPageResource">
+                                    <StackPanel MinWidth="267" Margin="0,0,0,48" animations:Implicit.Animations="{StaticResource ImplicitOffset}">
+                                        <TextBlock Style="{StaticResource AboutPageHeader}" Text="{x:Bind Title}" />
+                                        <ItemsControl
+                                            ItemsSource="{x:Bind Links}"
+                                            Margin="0,16,0,0">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate x:DataType="sampleapp:LandingPageLink">
+                                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="{x:Bind Url}" Click="Link_Clicked">
+                                                        <TextBlock Text="{x:Bind Title}" />
+                                                    </HyperlinkButton>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
                         </ItemsControl>
 
                         <Border x:Name="Seperator"

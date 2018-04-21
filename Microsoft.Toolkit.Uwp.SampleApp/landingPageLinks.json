@@ -63,6 +63,28 @@
           "url": "https://github.com/telerik/ui-for-uwp"
         }
       ]
+    },
+    {
+      "title": "About the App",
+      "id": "app",
+      "links": [
+        {
+          "title": "Version",
+          "url": "http://aka.ms/uwptoolkit"
+        },
+        {
+          "title": "Newtonsoft Json (Dependency)",
+          "url": "http://www.newtonsoft.com/json"
+        },
+        {
+          "title": "ColorCode-Universal (Dependency)",
+          "url": "https://github.com/WilliamABradley/ColorCode-Universal"
+        },
+        {
+          "title": "Background photo by @apertism",
+          "url": "https://unsplash.com/photos/105m46GatAg"
+        }
+      ]
     }
   ]
 }
