@@ -274,20 +274,28 @@ UIElement^ GazePointer::GetHitTarget(Point gazePoint)
     for each (auto rootElement in _roots)
     {
         auto targets = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, rootElement, false);
+        UIElement^ invokable = nullptr;
         for each (auto target in targets)
         {
-            if (GazeApi::GetIsGazeEnabled(target) != GazeEnablement::Disabled)
+            if (invokable == nullptr && IsInvokable(target))
             {
-                if (IsInvokable(target))
-                {
-                    return target;
-                }
+                invokable = target;
             }
-            else
+
+            switch (GazeApi::GetIsGazeEnabled(target))
             {
+            case GazeEnablement::Enabled:
+                if (invokable != nullptr)
+                {
+                    return invokable;
+                }
+                break;
+
+            case GazeEnablement::Disabled:
                 return s_missedTarget;
             }
         }
+        assert(invokable == nullptr);
     }
     // TODO : Check if the location is offscreen
     return s_missedTarget;
