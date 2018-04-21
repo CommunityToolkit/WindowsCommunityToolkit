@@ -65,7 +65,7 @@ public:
 	static GazePointer^ GetGazePointer(Page^ page);
 
 internal:
-    static property DependencyProperty^ GazePointerProperty { DependencyProperty^ get(); };
+
     static TimeSpan UnsetTimeSpan;
 };
 

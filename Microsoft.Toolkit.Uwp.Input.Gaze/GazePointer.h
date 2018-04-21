@@ -80,11 +80,16 @@ public:
 
 internal:
 
-	GazePointer();
+    static property GazePointer^ Instance{ GazePointer^ get(); }
     void OnPageUnloaded(Object^ sender, RoutedEventArgs^ args);
     EventRegistrationToken _unloadedToken;
 
-    void AddPage(Page^ page) { _pages->InsertAt(0, page); }
+    void AddRoot(FrameworkElement^ element);
+    void RemoveRoot(FrameworkElement^ element);
+
+private:
+
+    GazePointer();
 
 private:
 
@@ -94,6 +99,7 @@ private:
 
     void    InitializeHistogram();
     void    InitializeGazeInputSource();
+    void    DeinitializeGazeInputSource();
 
     GazeTargetItem^     GetOrCreateGazeTargetItem(UIElement^ target);
     GazeTargetItem^     GetGazeTargetItem(UIElement^ target);
@@ -121,7 +127,7 @@ private:
     void    OnEyesOff(Object ^sender, Object ^ea);
 
 private:
-    Vector<Page^>^ _pages = ref new Vector<Page^>();
+    Vector<FrameworkElement^>^ _roots = ref new Vector<FrameworkElement^>();
 
     int64                               _eyesOffDelay;
 

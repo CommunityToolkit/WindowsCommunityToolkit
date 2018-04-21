@@ -25,6 +25,43 @@ using namespace Windows::UI::Xaml::Automation::Provider;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
+GazePointer^ GazePointer::Instance::get()
+{
+    static auto value = ref new GazePointer();
+    return value;
+}
+
+void GazePointer::AddRoot(FrameworkElement^ element)
+{
+    _roots->InsertAt(0, element);
+
+    if (_roots->Size == 1)
+    {
+        _isShuttingDown = false;
+        InitializeGazeInputSource();
+    }
+}
+
+void GazePointer::RemoveRoot(FrameworkElement^ element)
+{
+    auto index = 0;
+    while (index < _roots->Size && _roots->GetAt(index) != element)
+    {
+        index++;
+    }
+    if (index < _roots->Size)
+    {
+        _roots->RemoveAt(index);
+    }
+
+    if (_roots->Size == 0)
+    {
+        _isShuttingDown = true;
+        DeinitializeGazeInputSource();
+    }
+}
+
+/*
 void GazePointer::OnPageUnloaded(Object^ sender, RoutedEventArgs^ e)
 {
     auto index = 0;
@@ -52,6 +89,7 @@ void GazePointer::OnPageUnloaded(Object^ sender, RoutedEventArgs^ e)
         //}
     }
 }
+*/
 
 static DependencyProperty^ GazeTargetItemProperty = DependencyProperty::RegisterAttached("GazeTargetItem", GazeTargetItem::typeid, GazePointer::typeid, ref new PropertyMetadata(nullptr));
 
@@ -74,7 +112,6 @@ GazePointer::GazePointer()
     EyesOffDelay = GAZE_IDLE_TIME;
 
     InitializeHistogram();
-    InitializeGazeInputSource();
 }
 
 GazePointer::~GazePointer()
@@ -158,6 +195,16 @@ void GazePointer::InitializeGazeInputSource()
             GazeInputSourcePreview^, GazeMovedPreviewEventArgs^>(this, &GazePointer::OnGazeMoved);
         _gazeExitedToken = _gazeInputSource->GazeExited += ref new TypedEventHandler<
             GazeInputSourcePreview^, GazeExitedPreviewEventArgs^>(this, &GazePointer::OnGazeExited);
+    }
+}
+
+void GazePointer::DeinitializeGazeInputSource()
+{
+    if (_gazeInputSource != nullptr)
+    {
+        _gazeInputSource->GazeEntered -= _gazeEnteredToken;
+        _gazeInputSource->GazeMoved -= _gazeMovedToken;
+        _gazeInputSource->GazeExited -= _gazeExitedToken;
     }
 }
 
@@ -253,7 +300,7 @@ bool GazePointer::IsInvokable(UIElement^ element)
 
 UIElement^ GazePointer::GetHitTarget(Point gazePoint)
 {
-    for each (auto rootElement in _pages)
+    for each (auto rootElement in _roots)
     {
         auto targets = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, rootElement, false);
         for each (auto target in targets)
@@ -265,7 +312,8 @@ UIElement^ GazePointer::GetHitTarget(Point gazePoint)
         }
     }
     // TODO : Check if the location is offscreen
-    return _pages->GetAt(0);
+    static auto backstop = ref new Page();
+    return backstop;
 }
 
 GazeTargetItem^ GazePointer::GetOrCreateGazeTargetItem(UIElement^ element)
