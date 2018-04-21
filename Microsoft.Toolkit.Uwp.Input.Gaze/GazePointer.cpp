@@ -578,6 +578,7 @@ void GazePointer::OnGazeMoved(GazeInputSourcePreview^ provider, GazeMovedPreview
             auto position = point->EyeGazePosition;
             if (position != nullptr)
             {
+                _gazeCursor->IsGazeEntered = true;
                 ProcessGazePoint(point->Timestamp, position->Value);
             }
             else
