@@ -42,7 +42,7 @@
                                          SamplePickerItemClick="HamburgerMenu_SamplePickerItemClick"
                                          OptionsItemClick="HamburgerMenu_OnOptionsItemClick"
                                          OptionsItemTemplate="{StaticResource HorizontalOptionTemplate}"
-                                         PaneBackground="{ThemeResource Menu-Background}"
+                                         PaneBackground="{ThemeResource Background-NavigationBar}"
                                          PaneForeground="{ThemeResource SystemBaseHighColor}"
                                          Style="{StaticResource HorizontalHamburgerMenu}">
 

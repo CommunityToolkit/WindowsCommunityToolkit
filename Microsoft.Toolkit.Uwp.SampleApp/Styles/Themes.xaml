@@ -54,18 +54,18 @@
                              Color="White" />
             <SolidColorBrush x:Key="Brush-Blue-01"
                          Color="{StaticResource Blue-01}" />
-            <SolidColorBrush x:Key="Separator-01"
+            <SolidColorBrush x:Key="Border-AboutPage-Horizontal"
                              Color="#33000000" />
-            <SolidColorBrush x:Key="Separator-02"
+            <SolidColorBrush x:Key="Border-AboutPage-Vertical"
                              Color="#19000000" />
-            <SolidColorBrush x:Key="Separator-03"
-                             Color="#48000000" />
-            <SolidColorBrush x:Key="Background-01"
+            <SolidColorBrush x:Key="Background-AboutPage-Main"
                              Color="#FFF3F5F5" />
-            <SolidColorBrush x:Key="Background-02"
+            <SolidColorBrush x:Key="Background-AboutPage-SidePane"
                              Color="#D4F3F3F3" />
-            <SolidColorBrush x:Key="Menu-Background"
+            <SolidColorBrush x:Key="Background-NavigationBar"
                              Color="White" />
+            <SolidColorBrush x:Key="Border-NavigationBar"
+                             Color="#48000000" />
             <SolidColorBrush x:Key="Menu-DropDown-Background"
                              Color="#F3F3F3F3" />
             <SolidColorBrush x:Key="Commands-Background"
@@ -88,10 +88,6 @@
                              Color="#11000000" />
             <SolidColorBrush x:Key="Brush-Sample-HeaderBacking"
                              Color="#11000000" />
-            <SolidColorBrush x:Key="Brush-Sample-HostAcrylic"
-                             Color="Transparent" />
-            <SolidColorBrush x:Key="Brush-Sample-AppAcrylic"
-                             Color="Transparent" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <!-- Colors -->
@@ -130,18 +126,18 @@
                              Color="{ThemeResource Grey-05}" />
             <SolidColorBrush x:Key="Brush-Blue-01"
                          Color="{StaticResource Blue-01}" />
-            <SolidColorBrush x:Key="Separator-01"
+            <SolidColorBrush x:Key="Border-AboutPage-Horizontal"
                              Color="#33FFFFFF" />
-            <SolidColorBrush x:Key="Separator-02"
+            <SolidColorBrush x:Key="Border-AboutPage-Vertical"
                              Color="#19FFFFFF" />
-            <SolidColorBrush x:Key="Separator-03"
-                             Color="#48FFFFFF" />
-            <SolidColorBrush x:Key="Background-01"
+            <SolidColorBrush x:Key="Background-AboutPage-Main"
                              Color="#FF262626" />
-            <SolidColorBrush x:Key="Background-02"
+            <SolidColorBrush x:Key="Background-AboutPage-SidePane"
                              Color="#D4000000" />
-            <SolidColorBrush x:Key="Menu-Background"
-                             Color="#FF171717" />
+            <SolidColorBrush x:Key="Background-NavigationBar"
+                             Color="#FF161616" />
+            <SolidColorBrush x:Key="Border-NavigationBar"
+                             Color="#1AFFFFFF" />
             <SolidColorBrush x:Key="Menu-DropDown-Background"
                              Color="#FF282828" />
             <SolidColorBrush x:Key="Commands-Background"
@@ -164,10 +160,6 @@
                              Color="#4C000000" />
             <SolidColorBrush x:Key="Brush-Sample-HeaderBacking"
                              Color="#88000000" />
-            <SolidColorBrush x:Key="Brush-Sample-HostAcrylic"
-                             Color="Transparent" />
-            <SolidColorBrush x:Key="Brush-Sample-AppAcrylic"
-                             Color="Transparent" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

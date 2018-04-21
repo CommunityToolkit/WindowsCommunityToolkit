@@ -244,7 +244,7 @@
                                 </ContentControl>
                             </Button>
 
-                            <Border Background="{ThemeResource Separator-03}" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="4"></Border>
+                            <Border Background="{ThemeResource Border-NavigationBar}" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="4"></Border>
                         </Grid>
 
                         <Canvas Background="Transparent"

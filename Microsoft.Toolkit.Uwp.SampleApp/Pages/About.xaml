@@ -82,7 +82,7 @@
 
                 <Border Grid.Column="1"
                         x:Name="RightBorder"
-                        Background="{ThemeResource Background-02}"
+                        Background="{ThemeResource Background-AboutPage-SidePane}"
                         extensions:VisualEx.NormalizedCenterPoint="0, 0.5, 0">
                     <animations:Implicit.ShowAnimations>
                         <animations:ScaleAnimation From="0, 1, 0" To="1" Duration="0:0:0.3"></animations:ScaleAnimation>
@@ -92,9 +92,9 @@
                     </animations:Implicit.HideAnimations>
                 </Border>
 
-                <Border Background="{ThemeResource Background-01}"></Border>
+                <Border Background="{ThemeResource Background-AboutPage-Main}"></Border>
 
-                <Border Background="{ThemeResource Separator-02}" Width="1" HorizontalAlignment="Right"></Border>
+                <Border Background="{ThemeResource Border-AboutPage-Vertical}" Width="1" HorizontalAlignment="Right"></Border>
 
                 <ScrollViewer x:Name="Scroller" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
                     <Grid x:Name="InnerGrid" HorizontalAlignment="Center" animations:Implicit.Animations="{StaticResource ImplicitOffset}">
@@ -187,13 +187,13 @@
                                 Grid.Row="4"
                                 Grid.Column="4"
                                 BorderThickness="0,1,0,0"
-                                BorderBrush="{ThemeResource Separator-01}"
+                                BorderBrush="{ThemeResource Border-AboutPage-Horizontal}"
                                 Margin="0,48"
                                 animations:Implicit.Animations="{StaticResource ImplicitOffset}"></Border>
                         <Border Grid.Row="4"
                                 Grid.Column="1"
                                 BorderThickness="0,1,0,0"
-                                BorderBrush="{ThemeResource Separator-01}"
+                                BorderBrush="{ThemeResource Border-AboutPage-Horizontal}"
                                 Margin="0,48"
                                 animations:Implicit.Animations="{StaticResource ImplicitOffset}"></Border>
 

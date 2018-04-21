@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Styles
             {
                 AddAcrylic(new ThemeAcrylic
                 {
-                    Name = "Background-02",
+                    Name = "Background-AboutPage-SidePane",
                     DarkAcrylic = new AcrylicBrush
                     {
                         TintColor = VisualHelpers.ColorFromHex("#FF333333"),
