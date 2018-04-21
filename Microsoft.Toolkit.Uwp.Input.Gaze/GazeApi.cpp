@@ -39,7 +39,7 @@ static void OnGazeCursorRadiusChanged(DependencyObject^ ob, DependencyPropertyCh
 }
 
 static DependencyProperty^ s_isGazeEnabledProperty = DependencyProperty::RegisterAttached("IsGazeEnabled", bool::typeid, GazeApi::typeid,
-    ref new PropertyMetadata(false, ref new PropertyChangedCallback(&OnIsGazeEnabledChanged)));
+    ref new PropertyMetadata(true, ref new PropertyChangedCallback(&OnIsGazeEnabledChanged)));
 static DependencyProperty^ s_isGazeCursorVisibleProperty = DependencyProperty::RegisterAttached("IsGazeCursorVisible", bool::typeid, GazeApi::typeid,
     ref new PropertyMetadata(true, ref new PropertyChangedCallback(&OnIsGazeCursorVisibleChanged)));
 static DependencyProperty^ s_gazeCursorRadiusProperty = DependencyProperty::RegisterAttached("GazeCursorRadius", int::typeid, GazeApi::typeid,
@@ -63,9 +63,9 @@ DependencyProperty^ GazeApi::EnterProperty::get() { return s_enterProperty; }
 DependencyProperty^ GazeApi::ExitProperty::get() { return s_exitProperty; }
 DependencyProperty^ GazeApi::MaxRepeatCountProperty::get() { return s_maxRepeatCountProperty; }
 
-bool GazeApi::GetIsGazeEnabled(Page^ page) { return safe_cast<bool>(page->GetValue(s_isGazeEnabledProperty)); }
-bool GazeApi::GetIsGazeCursorVisible(Page^ page) { return safe_cast<bool>(page->GetValue(s_isGazeCursorVisibleProperty)); }
-int GazeApi::GetGazeCursorRadius(Page^ page) { return safe_cast<int>(page->GetValue(s_gazeCursorRadiusProperty)); }
+bool GazeApi::GetIsGazeEnabled(UIElement^ element) { return safe_cast<bool>(element->GetValue(s_isGazeEnabledProperty)); }
+bool GazeApi::GetIsGazeCursorVisible(UIElement^ element) { return safe_cast<bool>(element->GetValue(s_isGazeCursorVisibleProperty)); }
+int GazeApi::GetGazeCursorRadius(UIElement^ element) { return safe_cast<int>(element->GetValue(s_gazeCursorRadiusProperty)); }
 GazeElement^ GazeApi::GetGazeElement(UIElement^ element) { return safe_cast<GazeElement^>(element->GetValue(s_gazeElementProperty)); }
 TimeSpan GazeApi::GetFixation(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_fixationProperty)); }
 TimeSpan GazeApi::GetDwell(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_dwellProperty)); }
@@ -74,9 +74,9 @@ TimeSpan GazeApi::GetEnter(UIElement^ element) { return safe_cast<TimeSpan>(elem
 TimeSpan GazeApi::GetExit(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_exitProperty)); }
 int GazeApi::GetMaxRepeatCount(UIElement^ element) { return safe_cast<int>(element->GetValue(s_maxRepeatCountProperty)); }
 
-void GazeApi::SetIsGazeEnabled(Page^ page, bool value) { page->SetValue(s_isGazeEnabledProperty, value); }
-void GazeApi::SetIsGazeCursorVisible(Page^ page, bool value) { page->SetValue(s_isGazeCursorVisibleProperty, value); }
-void GazeApi::SetGazeCursorRadius(Page^ page, int value) { page->SetValue(s_gazeCursorRadiusProperty, value); }
+void GazeApi::SetIsGazeEnabled(UIElement^ element, bool value) { element->SetValue(s_isGazeEnabledProperty, value); }
+void GazeApi::SetIsGazeCursorVisible(UIElement^ element, bool value) { element->SetValue(s_isGazeCursorVisibleProperty, value); }
+void GazeApi::SetGazeCursorRadius(UIElement^ element, int value) { element->SetValue(s_gazeCursorRadiusProperty, value); }
 void GazeApi::SetGazeElement(UIElement^ element, GazeElement^ value) { element->SetValue(s_gazeElementProperty, value); }
 void GazeApi::SetFixation(UIElement^ element, TimeSpan span) { element->SetValue(s_fixationProperty, span); }
 void GazeApi::SetDwell(UIElement^ element, TimeSpan span) { element->SetValue(s_dwellProperty, span); }

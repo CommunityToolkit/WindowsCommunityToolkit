@@ -93,8 +93,6 @@ void GazePointer::OnPageUnloaded(Object^ sender, RoutedEventArgs^ e)
 
 static DependencyProperty^ GazeTargetItemProperty = DependencyProperty::RegisterAttached("GazeTargetItem", GazeTargetItem::typeid, GazePointer::typeid, ref new PropertyMetadata(nullptr));
 
-static int s_instanceCount;
-
 GazePointer::GazePointer()
 {
     _coreDispatcher = CoreWindow::GetForCurrentThread()->Dispatcher;
@@ -300,20 +298,28 @@ bool GazePointer::IsInvokable(UIElement^ element)
 
 UIElement^ GazePointer::GetHitTarget(Point gazePoint)
 {
-    for each (auto rootElement in _roots)
+	static auto s_missedTarget = ref new Page();
+	
+	for each (auto rootElement in _roots)
     {
         auto targets = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, rootElement, false);
         for each (auto target in targets)
         {
-            if (IsInvokable(target))
-            {
-                return target;
-            }
+			if (GazeApi::GetIsGazeEnabled(target))
+			{
+				if (IsInvokable(target))
+				{
+					return target;
+				}
+			}
+			else
+			{
+				return s_missedTarget;
+			}
         }
     }
     // TODO : Check if the location is offscreen
-    static auto backstop = ref new Page();
-    return backstop;
+    return s_missedTarget;
 }
 
 GazeTargetItem^ GazePointer::GetOrCreateGazeTargetItem(UIElement^ element)
