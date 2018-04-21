@@ -31,38 +31,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Styles
 
             if (VisualHelpers.SupportsFluentAcrylic)
             {
-                var backingGrey = VisualHelpers.ColorFromHex("#FF111111");
-
                 AddAcrylic(new ThemeAcrylic
                 {
-                    Name = "Background-01",
+                    Name = "Background-02",
                     DarkAcrylic = new AcrylicBrush
                     {
-                        TintColor = backingGrey,
+                        TintColor = VisualHelpers.ColorFromHex("#FF333333"),
                         TintOpacity = 0.8,
                         BackgroundSource = AcrylicBackgroundSource.Backdrop
                     },
                     LightAcrylic = new AcrylicBrush
                     {
                         TintColor = Colors.White,
-                        TintOpacity = 0.7,
-                        BackgroundSource = AcrylicBackgroundSource.Backdrop,
-                    }
-                });
-
-                AddAcrylic(new ThemeAcrylic
-                {
-                    Name = "Background-02",
-                    DarkAcrylic = new AcrylicBrush
-                    {
-                        TintColor = Colors.Black,
-                        TintOpacity = 0.5,
-                        BackgroundSource = AcrylicBackgroundSource.Backdrop
-                    },
-                    LightAcrylic = new AcrylicBrush
-                    {
-                        TintColor = Colors.White,
-                        TintOpacity = 0.5,
+                        TintOpacity = 0.8,
                         BackgroundSource = AcrylicBackgroundSource.Backdrop,
                     }
                 });
@@ -72,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Styles
                     Names = new[] { "Brush-SampleInfo-Background", "Commands-Background" },
                     DarkAcrylic = new AcrylicBrush
                     {
-                        TintColor = backingGrey,
+                        TintColor = VisualHelpers.ColorFromHex("#FF111111"),
                         TintOpacity = 0.7,
                         BackgroundSource = AcrylicBackgroundSource.Backdrop
                     },

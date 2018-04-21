@@ -61,7 +61,7 @@
             <SolidColorBrush x:Key="Separator-03"
                              Color="#48000000" />
             <SolidColorBrush x:Key="Background-01"
-                             Color="#F4FFFFFF" />
+                             Color="#FFF3F5F5" />
             <SolidColorBrush x:Key="Background-02"
                              Color="#D4F3F3F3" />
             <SolidColorBrush x:Key="Menu-Background"
@@ -137,7 +137,7 @@
             <SolidColorBrush x:Key="Separator-03"
                              Color="#48FFFFFF" />
             <SolidColorBrush x:Key="Background-01"
-                             Color="Black" />
+                             Color="#FF262626" />
             <SolidColorBrush x:Key="Background-02"
                              Color="#D4000000" />
             <SolidColorBrush x:Key="Menu-Background"
