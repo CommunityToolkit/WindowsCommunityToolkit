@@ -4,6 +4,7 @@
 #include "pch.h"
 #include "GazeApi.h"
 #include "GazePointer.h"
+#include "GazePointerProxy.h"
 #include "GazeElement.h"
 
 using namespace std;
@@ -20,45 +21,25 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 TimeSpan GazeApi::UnsetTimeSpan = { -1 };
 
-static DependencyProperty^ s_gazePointerProperty = DependencyProperty::RegisterAttached("_GazePointer", GazePointer::typeid, GazeApi::typeid, ref new PropertyMetadata(nullptr));
-
-DependencyProperty^ GazeApi::GazePointerProperty::get() { return s_gazePointerProperty; }
-
 static void OnIsGazeEnabledChanged(DependencyObject^ ob, DependencyPropertyChangedEventArgs^ args)
 {
-    auto isGazeEnabled = safe_cast<bool>(args->NewValue);
-    if (isGazeEnabled)
-    {
-        auto page = safe_cast<Page^>(ob);
-
-        auto gazePointer = GazeApi::GetGazePointer(page);
-    }
-    else
-    {
-        // TODO: Turn off GazePointer
-    }
+    auto element = safe_cast<FrameworkElement^>(ob);
+    auto isGazeEnabled = safe_cast<GazeEnablement>(args->NewValue);
+    GazePointerProxy::SetGazeEnabled(element, isGazeEnabled);
 }
 
 static void OnIsGazeCursorVisibleChanged(DependencyObject^ ob, DependencyPropertyChangedEventArgs^ args)
 {
-    auto gazePointer = safe_cast<GazePointer^>(ob->GetValue(GazeApi::GazePointerProperty));
-    if (gazePointer != nullptr)
-    {
-        gazePointer->IsCursorVisible = safe_cast<bool>(args->NewValue);
-    }
+    GazePointer::Instance->IsCursorVisible = safe_cast<bool>(args->NewValue);
 }
 
 static void OnGazeCursorRadiusChanged(DependencyObject^ ob, DependencyPropertyChangedEventArgs^ args)
 {
-    auto gazePointer = safe_cast<GazePointer^>(ob->GetValue(GazeApi::GazePointerProperty));
-    if (gazePointer != nullptr)
-    {
-        gazePointer->CursorRadius = safe_cast<int>(args->NewValue);
-    }
+    GazePointer::Instance->CursorRadius = safe_cast<int>(args->NewValue);
 }
 
-static DependencyProperty^ s_isGazeEnabledProperty = DependencyProperty::RegisterAttached("IsGazeEnabled", bool::typeid, GazeApi::typeid,
-    ref new PropertyMetadata(false, ref new PropertyChangedCallback(&OnIsGazeEnabledChanged)));
+static DependencyProperty^ s_isGazeEnabledProperty = DependencyProperty::RegisterAttached("IsGazeEnabled", GazeEnablement::typeid, GazeApi::typeid,
+    ref new PropertyMetadata(GazeEnablement::Inherited, ref new PropertyChangedCallback(&OnIsGazeEnabledChanged)));
 static DependencyProperty^ s_isGazeCursorVisibleProperty = DependencyProperty::RegisterAttached("IsGazeCursorVisible", bool::typeid, GazeApi::typeid,
     ref new PropertyMetadata(true, ref new PropertyChangedCallback(&OnIsGazeCursorVisibleChanged)));
 static DependencyProperty^ s_gazeCursorRadiusProperty = DependencyProperty::RegisterAttached("GazeCursorRadius", int::typeid, GazeApi::typeid,
@@ -82,9 +63,9 @@ DependencyProperty^ GazeApi::EnterProperty::get() { return s_enterProperty; }
 DependencyProperty^ GazeApi::ExitProperty::get() { return s_exitProperty; }
 DependencyProperty^ GazeApi::MaxRepeatCountProperty::get() { return s_maxRepeatCountProperty; }
 
-bool GazeApi::GetIsGazeEnabled(Page^ page) { return safe_cast<bool>(page->GetValue(s_isGazeEnabledProperty)); }
-bool GazeApi::GetIsGazeCursorVisible(Page^ page) { return safe_cast<bool>(page->GetValue(s_isGazeCursorVisibleProperty)); }
-int GazeApi::GetGazeCursorRadius(Page^ page) { return safe_cast<int>(page->GetValue(s_gazeCursorRadiusProperty)); }
+GazeEnablement GazeApi::GetIsGazeEnabled(UIElement^ element) { return safe_cast<GazeEnablement>(element->GetValue(s_isGazeEnabledProperty)); }
+bool GazeApi::GetIsGazeCursorVisible(UIElement^ element) { return safe_cast<bool>(element->GetValue(s_isGazeCursorVisibleProperty)); }
+int GazeApi::GetGazeCursorRadius(UIElement^ element) { return safe_cast<int>(element->GetValue(s_gazeCursorRadiusProperty)); }
 GazeElement^ GazeApi::GetGazeElement(UIElement^ element) { return safe_cast<GazeElement^>(element->GetValue(s_gazeElementProperty)); }
 TimeSpan GazeApi::GetFixation(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_fixationProperty)); }
 TimeSpan GazeApi::GetDwell(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_dwellProperty)); }
@@ -93,9 +74,9 @@ TimeSpan GazeApi::GetEnter(UIElement^ element) { return safe_cast<TimeSpan>(elem
 TimeSpan GazeApi::GetExit(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_exitProperty)); }
 int GazeApi::GetMaxRepeatCount(UIElement^ element) { return safe_cast<int>(element->GetValue(s_maxRepeatCountProperty)); }
 
-void GazeApi::SetIsGazeEnabled(Page^ page, bool value) { page->SetValue(s_isGazeEnabledProperty, value); }
-void GazeApi::SetIsGazeCursorVisible(Page^ page, bool value) { page->SetValue(s_isGazeCursorVisibleProperty, value); }
-void GazeApi::SetGazeCursorRadius(Page^ page, int value) { page->SetValue(s_gazeCursorRadiusProperty, value); }
+void GazeApi::SetIsGazeEnabled(UIElement^ element, GazeEnablement value) { element->SetValue(s_isGazeEnabledProperty, value); }
+void GazeApi::SetIsGazeCursorVisible(UIElement^ element, bool value) { element->SetValue(s_isGazeCursorVisibleProperty, value); }
+void GazeApi::SetGazeCursorRadius(UIElement^ element, int value) { element->SetValue(s_gazeCursorRadiusProperty, value); }
 void GazeApi::SetGazeElement(UIElement^ element, GazeElement^ value) { element->SetValue(s_gazeElementProperty, value); }
 void GazeApi::SetFixation(UIElement^ element, TimeSpan span) { element->SetValue(s_fixationProperty, span); }
 void GazeApi::SetDwell(UIElement^ element, TimeSpan span) { element->SetValue(s_dwellProperty, span); }
@@ -104,30 +85,9 @@ void GazeApi::SetEnter(UIElement^ element, TimeSpan span) { element->SetValue(s_
 void GazeApi::SetExit(UIElement^ element, TimeSpan span) { element->SetValue(s_exitProperty, span); }
 void GazeApi::SetMaxRepeatCount(UIElement^ element, int value) { element->SetValue(s_maxRepeatCountProperty, value); }
 
-static GazePointer^ s_gazePointer;
-
 GazePointer^ GazeApi::GetGazePointer(Page^ page)
 {
-    auto gazePointer = safe_cast<GazePointer^>(page->GetValue(GazePointerProperty));
-
-    if (gazePointer == nullptr)
-    {
-        if (s_gazePointer == nullptr)
-        {
-            s_gazePointer = ref new GazePointer();
-        }
-        gazePointer = s_gazePointer;
-        page->SetValue(GazePointerProperty, gazePointer);
-
-        gazePointer->AddPage(page);
-
-        gazePointer->_unloadedToken = page->Unloaded += ref new RoutedEventHandler(gazePointer, &GazePointer::OnPageUnloaded);
-
-        gazePointer->IsCursorVisible = safe_cast<bool>(page->GetValue(GazeApi::IsGazeCursorVisibleProperty));
-        gazePointer->CursorRadius = GazeApi::GetGazeCursorRadius(page);
-    }
-
-    return gazePointer;
+    return GazePointer::Instance;
 }
 
 END_NAMESPACE_GAZE_INPUT

@@ -8,6 +8,7 @@
 #include "GazeCursor.h"
 #include "GazePointerEventArgs.h"
 #include "GazeInvokedRoutedEventArgs.h"
+#include "GazeProgressEventArgs.h"
 
 using namespace Platform;
 using namespace Platform::Collections;
@@ -35,6 +36,7 @@ public:
 
     event EventHandler<GazePointerEventArgs^>^ StateChanged;
     event EventHandler<GazeInvokedRoutedEventArgs^>^ Invoked;
+	event EventHandler<GazeProgressEventArgs^>^ ProgressFeedback;
 
     void RaiseStateChanged(Object^ sender, GazePointerEventArgs^ args) { StateChanged(sender, args); }
 
@@ -42,6 +44,13 @@ public:
     {
         Invoked(sender, args);
     }
+
+	bool RaiseProgressFeedback(Object^ sender, GazeProgressState state, int64 elapsedTime, int64 triggerTime)
+	{
+		auto args = ref new GazeProgressEventArgs(state, elapsedTime, triggerTime);
+		ProgressFeedback(sender, args);
+		return args->Handled;
+	}
 };
 
 END_NAMESPACE_GAZE_INPUT

@@ -215,12 +215,15 @@
     <ClInclude Include="GazeApi.h" />
     <ClInclude Include="GazeCursor.h" />
     <ClInclude Include="GazeElement.h" />
+    <ClInclude Include="GazeEnablement.h" />
     <ClInclude Include="GazeFeedbackPopupFactory.h" />
     <ClInclude Include="GazeHistoryItem.h" />
     <ClInclude Include="GazeInvokedRoutedEventArgs.h" />
     <ClInclude Include="GazePointer.h" />
     <ClInclude Include="GazePointerEventArgs.h" />
+    <ClInclude Include="GazePointerProxy.h" />
     <ClInclude Include="GazePointerState.h" />
+    <ClInclude Include="GazeProgressEventArgs.h" />
     <ClInclude Include="GazeProgressState.h" />
     <ClInclude Include="GazeSettingsHelper.h" />
     <ClInclude Include="GazeStats.h" />
@@ -238,6 +241,7 @@
     <ClCompile Include="GazeInvokedRoutedEventArgs.cpp" />
     <ClCompile Include="GazePointer.cpp" />
     <ClCompile Include="GazePointerEventArgs.cpp" />
+    <ClCompile Include="GazePointerProxy.cpp" />
     <ClCompile Include="GazePointerState.cpp" />
     <ClCompile Include="GazeSettingsHelper.cpp" />
     <ClCompile Include="GazeStats.cpp" />

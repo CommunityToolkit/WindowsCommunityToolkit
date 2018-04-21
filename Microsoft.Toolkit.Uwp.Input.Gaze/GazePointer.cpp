@@ -25,37 +25,44 @@ using namespace Windows::UI::Xaml::Automation::Provider;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-void GazePointer::OnPageUnloaded(Object^ sender, RoutedEventArgs^ e)
+GazePointer^ GazePointer::Instance::get()
+{
+    static auto value = ref new GazePointer();
+    return value;
+}
+
+void GazePointer::AddRoot(FrameworkElement^ element)
+{
+    _roots->InsertAt(0, element);
+
+    if (_roots->Size == 1)
+    {
+        _isShuttingDown = false;
+        InitializeGazeInputSource();
+    }
+}
+
+void GazePointer::RemoveRoot(FrameworkElement^ element)
 {
     auto index = 0;
-    while (index < _pages->Size && _pages->GetAt(index) != sender)
+    while (index < _roots->Size && _roots->GetAt(index) != element)
     {
         index++;
     }
-    if (index < _pages->Size)
+    if (index < _roots->Size)
     {
-        _pages->RemoveAt(index);
+        _roots->RemoveAt(index);
     }
 
-    if (_pages->Size == 0)
+    if (_roots->Size == 0)
     {
         _isShuttingDown = true;
-        IsCursorVisible = false;
-
-        auto page = safe_cast<Page^>(sender);
-        //page->Unloaded -= _unloadedToken;
-        page->ClearValue(GazeApi::GazePointerProperty);
-
-        //if (_gazeInputSource != nullptr)
-        //{
-        //    _gazeInputSource->GazeMoved -= _gazeMovedToken;
-        //}
+        _gazeCursor->IsGazeEntered = false;
+        DeinitializeGazeInputSource();
     }
 }
 
 static DependencyProperty^ GazeTargetItemProperty = DependencyProperty::RegisterAttached("GazeTargetItem", GazeTargetItem::typeid, GazePointer::typeid, ref new PropertyMetadata(nullptr));
-
-static int s_instanceCount;
 
 GazePointer::GazePointer()
 {
@@ -74,7 +81,6 @@ GazePointer::GazePointer()
     EyesOffDelay = GAZE_IDLE_TIME;
 
     InitializeHistogram();
-    InitializeGazeInputSource();
 }
 
 GazePointer::~GazePointer()
@@ -158,6 +164,16 @@ void GazePointer::InitializeGazeInputSource()
             GazeInputSourcePreview^, GazeMovedPreviewEventArgs^>(this, &GazePointer::OnGazeMoved);
         _gazeExitedToken = _gazeInputSource->GazeExited += ref new TypedEventHandler<
             GazeInputSourcePreview^, GazeExitedPreviewEventArgs^>(this, &GazePointer::OnGazeExited);
+    }
+}
+
+void GazePointer::DeinitializeGazeInputSource()
+{
+    if (_gazeInputSource != nullptr)
+    {
+        _gazeInputSource->GazeEntered -= _gazeEnteredToken;
+        _gazeInputSource->GazeMoved -= _gazeMovedToken;
+        _gazeInputSource->GazeExited -= _gazeExitedToken;
     }
 }
 
@@ -253,19 +269,36 @@ bool GazePointer::IsInvokable(UIElement^ element)
 
 UIElement^ GazePointer::GetHitTarget(Point gazePoint)
 {
-    for each (auto rootElement in _pages)
+    static auto s_missedTarget = ref new Page();
+
+    for each (auto rootElement in _roots)
     {
         auto targets = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, rootElement, false);
+        UIElement^ invokable = nullptr;
         for each (auto target in targets)
         {
-            if (IsInvokable(target))
+            if (invokable == nullptr && IsInvokable(target))
             {
-                return target;
+                invokable = target;
+            }
+
+            switch (GazeApi::GetIsGazeEnabled(target))
+            {
+            case GazeEnablement::Enabled:
+                if (invokable != nullptr)
+                {
+                    return invokable;
+                }
+                break;
+
+            case GazeEnablement::Disabled:
+                return s_missedTarget;
             }
         }
+        assert(invokable == nullptr);
     }
     // TODO : Check if the location is offscreen
-    return _pages->GetAt(0);
+    return s_missedTarget;
 }
 
 GazeTargetItem^ GazePointer::GetOrCreateGazeTargetItem(UIElement^ element)
@@ -326,7 +359,7 @@ UIElement^ GazePointer::ResolveHitTarget(Point gazePoint, long long timestamp)
     _gazeHistory->Append(historyItem);
 
     // update the time this particular hit target has accumulated
-    target->ElapsedTime += historyItem->Duration;
+    target->DetailedTime += historyItem->Duration;
 
     // drop the oldest samples from the list until we have samples only 
     // within the window we are monitoring
@@ -340,8 +373,12 @@ UIElement^ GazePointer::ResolveHitTarget(Point gazePoint, long long timestamp)
 
         // subtract the duration obtained from the oldest sample in _gazeHistory
         auto targetItem = GetGazeTargetItem(evOldest->HitTarget);
-        assert(targetItem->ElapsedTime - evOldest->Duration >= 0);
-        targetItem->ElapsedTime -= evOldest->Duration;
+        assert(targetItem->DetailedTime - evOldest->Duration >= 0);
+        targetItem->DetailedTime -= evOldest->Duration;
+		if (targetItem->ElementState != GazePointerState::PreEnter)
+		{
+			targetItem->OverflowTime += evOldest->Duration;
+		}
     }
 
     _lastTimestamp = timestamp;
@@ -471,7 +508,7 @@ void GazePointer::CheckIfExiting(long long curTimestamp)
                     i++;
                 }
             }
-            
+
             // return because only one element can be exited at a time and at this point
             // we have done everything that we can do
             return;
@@ -545,6 +582,7 @@ void GazePointer::OnGazeMoved(GazeInputSourcePreview^ provider, GazeMovedPreview
             auto position = point->EyeGazePosition;
             if (position != nullptr)
             {
+                _gazeCursor->IsGazeEntered = true;
                 ProcessGazePoint(point->Timestamp, position->Value);
             }
             else
