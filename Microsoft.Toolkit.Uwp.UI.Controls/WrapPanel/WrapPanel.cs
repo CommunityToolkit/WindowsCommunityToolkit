@@ -132,7 +132,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 var currentMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
 
-                if (parentMeasure.U > currentMeasure.U + lineMeasure.U + spacingMeasure.U)
+                if (parentMeasure.U >= currentMeasure.U + lineMeasure.U + spacingMeasure.U)
                 {
                     lineMeasure.U += currentMeasure.U + spacingMeasure.U;
                     lineMeasure.V = Math.Max(lineMeasure.V, currentMeasure.V);

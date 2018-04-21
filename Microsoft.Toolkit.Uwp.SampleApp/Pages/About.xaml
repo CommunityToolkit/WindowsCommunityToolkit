@@ -65,7 +65,7 @@
         </ItemsPanelTemplate>
     </Page.Resources>
 
-    <Grid x:Name="Root" Visibility="Collapsed" extensions:VisualEx.NormalizedCenterPoint="0.5">
+    <Grid x:Name="Root" Visibility="Collapsed" extensions:VisualExtensions.NormalizedCenterPoint="0.5">
         <controls:DropShadowPanel x:Name="DropShadow"
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Stretch"
@@ -83,7 +83,7 @@
                 <Border Grid.Column="1"
                         x:Name="RightBorder"
                         Background="{ThemeResource Background-AboutPage-SidePane}"
-                        extensions:VisualEx.NormalizedCenterPoint="0, 0.5, 0">
+                        extensions:VisualExtensions.NormalizedCenterPoint="0, 0.5, 0">
                     <animations:Implicit.ShowAnimations>
                         <animations:ScaleAnimation From="0, 1, 0" To="1" Duration="0:0:0.3"></animations:ScaleAnimation>
                     </animations:Implicit.ShowAnimations>

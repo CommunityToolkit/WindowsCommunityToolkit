@@ -505,13 +505,13 @@
                         Background="Transparent">
             <Grid Width="120"
                       Height="80"
-                      extensions:VisualEx.CenterPoint="40,60,0">
+                      extensions:VisualExtensions.CenterPoint="40,60,0">
                 <toolkitControls:DropShadowPanel HorizontalContentAlignment="Stretch"
                                               VerticalContentAlignment="Stretch"
                                               BlurRadius="30"
                                               ShadowOpacity="0.6"
                                                      OffsetY="3"
-                                              extensions:VisualEx.Opacity="0"
+                                              extensions:VisualExtensions.Opacity="0"
                                               Visibility="Collapsed">
                     <Border></Border>
                 </toolkitControls:DropShadowPanel>

@@ -16,7 +16,7 @@
               Background="Red"
               Canvas.Top="100"
               Canvas.Left="100"
-              extensions:VisualEx.CenterPoint="50,50,0">
+              extensions:VisualExtensions.CenterPoint="50,50,0">
 
         <animations:Implicit.ShowAnimations>
           <animations:TranslationAnimation Duration="0:0:1" From="0, -200, 0" To="0" ></animations:TranslationAnimation>

@@ -1,23 +1,17 @@
 ﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.PrintHelperPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <Page.Resources>
-        <converters:StringFormatConverter x:Key="StringFormatConverter" />
-    </Page.Resources>
 
     <Grid>
         <Grid x:Name="RootGrid"
               HorizontalAlignment="Center"
               VerticalAlignment="Center">
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -25,56 +19,44 @@
             <Grid x:Name="Container"
                   Grid.RowSpan="2"
                   Opacity="0" />
+            <Grid x:Name="CustomPrintContainer"
+                  Opacity="0" />
             <Grid x:Name="DirectPrintContainer">
-                <StackPanel x:Name="PrintableContent"
-                            Margin="50,20"
-                            Orientation="Vertical">
-                    <Image Width="200"
-                           Source="/Assets/Photos/BigFourSummerHeat.jpg"
-                           Stretch="Fill" />
-                    <TextBlock FontSize="20"
-                               Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-                               TextWrapping="Wrap" />
-                    <TextBlock FontSize="18"
-                               Text="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-                               TextWrapping="Wrap" />
-                    <TextBlock FontSize="18"
-                               Text="It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
-                               TextWrapping="Wrap" />
-                    <TextBlock FontSize="18"
-                               Text="It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-                               TextWrapping="Wrap" />
-                    <TextBlock FontSize="14"
-                               FontStyle="Italic"
-                               Text="From http://www.lipsum.com/"
-                               TextWrapping="Wrap" />
-                </StackPanel>
+                <Grid x:Name="PrintableContent">
+                    <Grid x:Name="XamlRoot" />
+                </Grid>
             </Grid>
             <StackPanel Grid.Row="1"
-                        Margin="20"
-                        HorizontalAlignment="Center"
+                        Margin="20 20 20 5"
+                        HorizontalAlignment="Left"
                         Orientation="Horizontal">
-                <Button Click="Print_Click"
-                        Content="Print Me!" />
-                <Button Margin="10,0,0,0"
-                        Click="DirectPrint_Click"
-                        Content="Direct Print Me!" />
+                <TextBlock VerticalAlignment="Center">Orientation field in print dialog</TextBlock>
+                <ToggleSwitch Margin="10,0,0,0"
+                              Name="ShowOrientationSwitch"
+                              OnContent="Show"
+                              OffContent="Hide" />
             </StackPanel>
-            <TextBlock Grid.Row="2" HorizontalAlignment="Center">Direct Print will print the content without removing it from the visual tree (in place).</TextBlock>
-            <StackPanel Grid.Row="3"
-                        Margin="20"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal">
-                <CheckBox Margin="10,0,0,0" Name="ShowOrientationCheckBox">Show orientation in print dialog</CheckBox>
-            </StackPanel>
-            <StackPanel Grid.Row="4"
-                        Margin="20"
-                        HorizontalAlignment="Center"
+            <StackPanel Grid.Row="2"
+                        Margin="20 5 20 20"
+                        HorizontalAlignment="Left"
                         Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center">Default orientation setting</TextBlock>
-                <ComboBox Margin="10,0,0,0" Name="DefaultOrientationComboBox">
+                <ComboBox Margin="10,0,0,0"
+                          Name="DefaultOrientationComboBox">
                 </ComboBox>
             </StackPanel>
+            <TextBlock Grid.Row="3"
+                       Margin="20 20 20 10"
+                       TextWrapping="Wrap">
+                <Run FontWeight="SemiBold">Print</Run>
+                <Run> will wrap the content in a print page with margins.</Run>
+                <LineBreak />
+                <Run FontWeight="SemiBold">Direct Print</Run>
+                <Run> will print the content without removing it from the visual tree.</Run>
+                <LineBreak />
+                <Run FontWeight="SemiBold">Custom Print</Run>
+                <Run> will create print pages in code-behind, with static header, paging, layout changes, and page numbering.</Run>
+            </TextBlock>
         </Grid>
     </Grid>
 </Page>

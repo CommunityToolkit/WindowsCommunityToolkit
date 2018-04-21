@@ -6,11 +6,11 @@
       xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      extensions:StatusBar.IsVisible="False"
-      extensions:TitleBar.BackgroundColor="{StaticResource Brand-Color}"
-      extensions:TitleBar.ButtonBackgroundColor="{StaticResource Brand-Color}"
-      extensions:TitleBar.ButtonForegroundColor="{StaticResource Titlebar-Foreground}"
-      extensions:TitleBar.ForegroundColor="{StaticResource Titlebar-Foreground}"
+      extensions:StatusBarExtensions.IsVisible="False"
+      extensions:TitleBarExtensions.BackgroundColor="{StaticResource Brand-Color}"
+      extensions:TitleBarExtensions.ButtonBackgroundColor="{StaticResource Brand-Color}"
+      extensions:TitleBarExtensions.ButtonForegroundColor="{StaticResource Titlebar-Foreground}"
+      extensions:TitleBarExtensions.ForegroundColor="{StaticResource Titlebar-Foreground}"
       mc:Ignorable="d">
     <Page.Resources>
 

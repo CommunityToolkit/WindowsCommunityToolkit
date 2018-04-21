@@ -118,6 +118,47 @@ printHelperOptions.Orientation = PrintOrientation.Landscape;
 await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions);
 ```
 
+Print a list with each item on a separate page with static header and page number:
+
+```csharp
+// Create a new PrintHelper instance
+// "container" is a XAML panel that will be used to get the list of printable controls.
+var printHelper = new PrintHelper(container);
+
+var pageNumber = 0;
+
+foreach (var item in PrintSampleItems)
+{
+    var grid = new Grid();
+    grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+    grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+    grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+
+    // Static header
+    var header = new TextBlock { Text = "UWP Community Toolkit Sample App - Print Helper - Custom Print", Margin = new Thickness(0, 0, 0, 20) };
+    Grid.SetRow(header, 0);
+    grid.Children.Add(header);
+
+    // Main content with layout from data template
+    var cont = new ContentControl();
+    cont.ContentTemplate = Resources["CustomPrintTemplate"] as DataTemplate;
+    cont.DataContext = item;
+    Grid.SetRow(cont, 1);
+    grid.Children.Add(cont);
+
+    // Footer with page number
+    pageNumber++;
+    var footer = new TextBlock { Text = string.Format("page {0}", pageNumber), Margin = new Thickness(0, 20, 0, 0) };
+    Grid.SetRow(footer, 2);
+    grid.Children.Add(footer);
+
+    printHelper.AddFrameworkElementToPrint(grid);
+}
+
+// Start printing process
+await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions);
+```
+
 ## Requirements (Windows 10 Device Family)
 
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
