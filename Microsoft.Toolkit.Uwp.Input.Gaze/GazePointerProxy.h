@@ -1,6 +1,8 @@
 #pragma once
 #include "pch.h"
 
+#include "GazeEnablement.h"
+
 BEGIN_NAMESPACE_GAZE_INPUT
 
 ref class GazePointerProxy sealed
@@ -11,16 +13,16 @@ public:
 
 internal:
 
-    static void SetGazeEnabled(FrameworkElement^ element, bool value);
+    static void SetGazeEnabled(FrameworkElement^ element, GazeEnablement value);
 
 private:
 
     GazePointerProxy(FrameworkElement^ element);
 
-    property bool IsEnabled
+    property GazeEnablement IsEnabled
     {
-        bool get() { return _isEnabled; }
-        void set(bool value);
+        GazeEnablement get() { return _isEnabled; }
+        void set(GazeEnablement value);
     }
 
     void OnPageLoaded(Object^ sender, RoutedEventArgs^ args);
@@ -33,7 +35,7 @@ private:
     EventRegistrationToken _loadedToken;
     EventRegistrationToken _unloadedToken;
     bool _isLoaded;
-    bool _isEnabled;
+    GazeEnablement _isEnabled;
 };
 
 END_NAMESPACE_GAZE_INPUT

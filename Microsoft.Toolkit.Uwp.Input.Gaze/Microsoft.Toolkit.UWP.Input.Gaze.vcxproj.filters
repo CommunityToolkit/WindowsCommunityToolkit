@@ -111,5 +111,8 @@
     <ClInclude Include="GazePointerProxy.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="GazeEnablement.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

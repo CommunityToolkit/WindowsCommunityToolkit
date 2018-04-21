@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:gaze="using:Microsoft.Toolkit.Uwp.Input.Gaze"
-    gaze:GazeApi.IsGazeEnabled="True"
+    gaze:GazeApi.IsGazeEnabled="Enabled"
     mc:Ignorable="d" Margin="0,40,0,-40">
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">

@@ -57,39 +57,10 @@ void GazePointer::RemoveRoot(FrameworkElement^ element)
     if (_roots->Size == 0)
     {
         _isShuttingDown = true;
+        _gazeCursor->IsGazeEntered = false;
         DeinitializeGazeInputSource();
     }
 }
-
-/*
-void GazePointer::OnPageUnloaded(Object^ sender, RoutedEventArgs^ e)
-{
-    auto index = 0;
-    while (index < _pages->Size && _pages->GetAt(index) != sender)
-    {
-        index++;
-    }
-    if (index < _pages->Size)
-    {
-        _pages->RemoveAt(index);
-    }
-
-    if (_pages->Size == 0)
-    {
-        _isShuttingDown = true;
-        IsCursorVisible = false;
-
-        auto page = safe_cast<Page^>(sender);
-        //page->Unloaded -= _unloadedToken;
-        page->ClearValue(GazeApi::GazePointerProperty);
-
-        //if (_gazeInputSource != nullptr)
-        //{
-        //    _gazeInputSource->GazeMoved -= _gazeMovedToken;
-        //}
-    }
-}
-*/
 
 static DependencyProperty^ GazeTargetItemProperty = DependencyProperty::RegisterAttached("GazeTargetItem", GazeTargetItem::typeid, GazePointer::typeid, ref new PropertyMetadata(nullptr));
 
@@ -298,24 +269,24 @@ bool GazePointer::IsInvokable(UIElement^ element)
 
 UIElement^ GazePointer::GetHitTarget(Point gazePoint)
 {
-	static auto s_missedTarget = ref new Page();
-	
-	for each (auto rootElement in _roots)
+    static auto s_missedTarget = ref new Page();
+
+    for each (auto rootElement in _roots)
     {
         auto targets = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, rootElement, false);
         for each (auto target in targets)
         {
-			if (GazeApi::GetIsGazeEnabled(target))
-			{
-				if (IsInvokable(target))
-				{
-					return target;
-				}
-			}
-			else
-			{
-				return s_missedTarget;
-			}
+            if (GazeApi::GetIsGazeEnabled(target) != GazeEnablement::Disabled)
+            {
+                if (IsInvokable(target))
+                {
+                    return target;
+                }
+            }
+            else
+            {
+                return s_missedTarget;
+            }
         }
     }
     // TODO : Check if the location is offscreen
@@ -525,7 +496,7 @@ void GazePointer::CheckIfExiting(long long curTimestamp)
                     i++;
                 }
             }
-            
+
             // return because only one element can be exited at a time and at this point
             // we have done everything that we can do
             return;

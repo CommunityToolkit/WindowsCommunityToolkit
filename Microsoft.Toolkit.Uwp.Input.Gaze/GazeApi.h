@@ -6,6 +6,7 @@
 
 #include "IGazeFilter.h"
 #include "GazeCursor.h"
+#include "GazeEnablement.h"
 
 using namespace Platform;
 using namespace Platform::Collections;
@@ -40,7 +41,7 @@ public:
 
 	static property DependencyProperty^ MaxRepeatCountProperty { DependencyProperty^ get(); }
 
-    static bool GetIsGazeEnabled(UIElement^ element);
+    static GazeEnablement GetIsGazeEnabled(UIElement^ element);
     static bool GetIsGazeCursorVisible(UIElement^ element);
 	static int GetGazeCursorRadius(UIElement^ element);
     static GazeElement^ GetGazeElement(UIElement^ element);
@@ -51,7 +52,7 @@ public:
     static TimeSpan GetExit(UIElement^ element);
 	static int GetMaxRepeatCount(UIElement^ element);
 
-    static void SetIsGazeEnabled(UIElement^ element, bool value);
+    static void SetIsGazeEnabled(UIElement^ element, GazeEnablement value);
     static void SetIsGazeCursorVisible(UIElement^ element, bool value);
 	static void SetGazeCursorRadius(UIElement^ element, int value);
     static void SetGazeElement(UIElement^ element, GazeElement^ value);
