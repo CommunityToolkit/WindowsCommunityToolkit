@@ -173,7 +173,6 @@
                                     <FontIcon Margin="16,12"
                                                   FontFamily="Segoe MDL2 Assets"
                                                   FontSize="16"
-                                                  Foreground="{TemplateBinding PaneForeground}"
                                                   Glyph="&#xE721;" />
                                     <animations:Implicit.ShowAnimations>
                                         <animations:OpacityAnimation From="0" To="0.6" Duration="0:0:0.3"></animations:OpacityAnimation>
