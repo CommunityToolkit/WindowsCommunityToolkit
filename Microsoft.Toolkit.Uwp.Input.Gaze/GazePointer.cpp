@@ -359,7 +359,7 @@ UIElement^ GazePointer::ResolveHitTarget(Point gazePoint, long long timestamp)
     _gazeHistory->Append(historyItem);
 
     // update the time this particular hit target has accumulated
-    target->ElapsedTime += historyItem->Duration;
+    target->DetailedTime += historyItem->Duration;
 
     // drop the oldest samples from the list until we have samples only 
     // within the window we are monitoring
@@ -373,8 +373,12 @@ UIElement^ GazePointer::ResolveHitTarget(Point gazePoint, long long timestamp)
 
         // subtract the duration obtained from the oldest sample in _gazeHistory
         auto targetItem = GetGazeTargetItem(evOldest->HitTarget);
-        assert(targetItem->ElapsedTime - evOldest->Duration >= 0);
-        targetItem->ElapsedTime -= evOldest->Duration;
+        assert(targetItem->DetailedTime - evOldest->Duration >= 0);
+        targetItem->DetailedTime -= evOldest->Duration;
+		if (targetItem->ElementState != GazePointerState::PreEnter)
+		{
+			targetItem->OverflowTime += evOldest->Duration;
+		}
     }
 
     _lastTimestamp = timestamp;
