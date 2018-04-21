@@ -17,7 +17,7 @@
           x:Name="RadialProgressBarControl"
           Grid.Column="1"
           Value="@[Value:Slider:0:0-100]"
-          Foreground="@[Foreground:Brush:FireBrick]"
+          Foreground="@[Foreground:Brush:Firebrick]"
           Thickness="@[Thickness:Slider:4:4-20]"
           Minimum="0"
           Maximum="100"

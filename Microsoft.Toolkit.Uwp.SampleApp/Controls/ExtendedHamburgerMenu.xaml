@@ -73,7 +73,7 @@
                                 <toolkitControls:DropShadowPanel VerticalContentAlignment="Stretch"
                                                                      HorizontalContentAlignment="Stretch"
                                                                      ShadowOpacity="0.7"
-                                                                     Color="{ThemeResource Color-Alt}"
+                                                                     Color="Black"
                                                                      BlurRadius="10"
                                                                      VerticalAlignment="Bottom"
                                                                      Margin="0,0,0,-3">
@@ -261,7 +261,7 @@
                                     <toolkitControls:DropShadowPanel VerticalContentAlignment="Stretch"
                                                                          HorizontalContentAlignment="Stretch"
                                                                          ShadowOpacity="0.6"
-                                                                         Color="{ThemeResource Color-Alt}"
+                                                                         Color="Black"
                                                                          OffsetY="6"
                                                                          BlurRadius="60">
                                         <Border Background="{ThemeResource Menu-DropDown-Background}"

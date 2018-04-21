@@ -149,7 +149,7 @@
             <SolidColorBrush x:Key="DocumentationForeground"
                              Color="White" />
             <SolidColorBrush x:Key="BackingTint"
-                             Color="#33FFFFFF" />
+                             Color="#33000000" />
             <SolidColorBrush x:Key="SampleIconBacking"
                              Color="#E6E6E6" />
             <SolidColorBrush x:Key="ExceptionNotification-IconForeground"
