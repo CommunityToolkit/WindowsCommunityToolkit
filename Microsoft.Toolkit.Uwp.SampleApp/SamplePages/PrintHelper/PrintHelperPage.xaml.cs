@@ -40,6 +40,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 PrintOrientation.Landscape
             };
             DefaultOrientationComboBox.SelectedIndex = 0;
+
+            SampleController.Current.RegisterNewCommand("Print", Print_Click);
+            SampleController.Current.RegisterNewCommand("Direct Print", DirectPrint_Click);
+            SampleController.Current.RegisterNewCommand("Custom Print", CustomPrint_Click);
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -83,15 +87,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     }
                 };
             }
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            SampleController.Current.RegisterNewCommand("Print", Print_Click);
-            SampleController.Current.RegisterNewCommand("Direct Print", DirectPrint_Click);
-            SampleController.Current.RegisterNewCommand("Custom Print", CustomPrint_Click);
         }
 
         private async void Print_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)

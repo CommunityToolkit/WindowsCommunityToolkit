@@ -105,11 +105,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
 
             RefreshProperties();
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
 
             SampleController.Current.RegisterNewCommand("Reset launch count", (sender, args) =>
             {

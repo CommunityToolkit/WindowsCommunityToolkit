@@ -24,10 +24,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public StringExtensionsPage()
         {
             this.InitializeComponent();
-        }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
             SampleController.Current.RegisterNewCommand("Is Valid Email?", (s, a) =>
             {
                 IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsEmail());

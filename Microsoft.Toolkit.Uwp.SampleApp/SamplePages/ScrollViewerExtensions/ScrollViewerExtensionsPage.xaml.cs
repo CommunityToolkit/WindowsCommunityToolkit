@@ -27,6 +27,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public ScrollViewerExtensionsPage()
         {
             InitializeComponent();
+
+            // Reset items when revisiting sample.
+            _items = new ObservableCollection<Item>();
+
+            for (var i = 0; i < 1000; i++)
+            {
+                _items.Add(new Item() { Title = "Item " + i });
+            }
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -35,19 +43,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (listView != null)
             {
                 listView.ItemsSource = _items;
-            }
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            // Reset items when revisiting sample.
-            _items = new ObservableCollection<Item>();
-
-            for (var i = 0; i < 1000; i++)
-            {
-                _items.Add(new Item() { Title = "Item " + i });
             }
         }
     }
