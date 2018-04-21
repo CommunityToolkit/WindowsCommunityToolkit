@@ -11,6 +11,10 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using Microsoft.Toolkit.Uwp.UI.Animations.Behaviors;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Xaml.Interactivity;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -19,19 +23,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// A page that shows how to use the light behavior.
     /// </summary>
-    public sealed partial class LightBehaviorPage : Page
+    public sealed partial class LightBehaviorPage : IXamlRenderListener
     {
+        private Light _lightBehavior;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LightBehaviorPage"/> class.
         /// </summary>
         public LightBehaviorPage()
         {
             this.InitializeComponent();
-            Load();
-        }
 
-        private void Load()
-        {
             if (!AnimationExtensions.IsLightingSupported)
             {
                 WarningText.Visibility = Visibility.Visible;
@@ -39,6 +41,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             else
             {
                 NoCreatorUpdateWarningText.Visibility = Visibility.Visible;
+            }
+
+            SampleController.Current.RegisterNewCommand("Apply", (s, e) =>
+            {
+                _lightBehavior?.StartAnimation();
+            });
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            if (control.FindChildByName("EffectElement") is FrameworkElement element)
+            {
+                var behaviors = Interaction.GetBehaviors(element);
+                _lightBehavior = behaviors.FirstOrDefault(item => item is Light) as Light;
             }
         }
     }

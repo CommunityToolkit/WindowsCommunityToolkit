@@ -9,18 +9,14 @@
     mc:Ignorable="d">
   <Grid>
     <Border Background="Gray" Width="200" Height="200">
-      <Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/ToolkitLogo.png" Height="100" Width="100">
+      <Image x:Name="EffectElement" Source="ms-appx:///Assets/ToolkitLogo.png" Height="100" Width="100">
         <interactivity:Interaction.Behaviors>
           <behaviors:Fade x:Name="Fade"
               Value="@[Value:DoubleSlider:0.0:0.0-1.0]"
               Duration="@[Duration:DoubleSlider:1000.0:0.0-5000.0]"
               Delay="@[Delay:DoubleSlider:0.0:0.0-5000.0]"
-<<<<<<< HEAD
-              AutomaticallyStart="@[AutomaticallyStart:Bool:True]" />
-=======
               EasingType="@[EasingType:Enum:EasingType.Linear]"
-              AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
->>>>>>> master
+              AutomaticallyStart="@[AutomaticallyStart:Bool:True]" />
         </interactivity:Interaction.Behaviors>
       </Image>
     </Border>

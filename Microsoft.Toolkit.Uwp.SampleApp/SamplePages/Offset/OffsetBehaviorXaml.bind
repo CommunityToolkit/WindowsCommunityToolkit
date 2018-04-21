@@ -11,7 +11,7 @@
 
   <Grid>
     <Border Background="Gray" Width="200" Height="200">
-      <Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/ToolkitLogo.png" Height="100" Width="100" >
+      <Image x:Name="EffectElement" Source="ms-appx:///Assets/ToolkitLogo.png" Height="100" Width="100">
         <interactivity:Interaction.Behaviors>
           <behaviors:Offset x:Name="Offset"
               OffsetX="@[OffsetX:DoubleSlider:0.0:0.0-500.0]"
@@ -19,18 +19,9 @@
               Duration="@[Duration:DoubleSlider:1000:0-5000]"
               Delay="@[Delay:DoubleSlider:0:0-5000]"
               EasingType="@[EasingType:Enum:EasingType.Linear]"
-              AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
+              AutomaticallyStart="@[AutomaticallyStart:Bool:True]" />
         </interactivity:Interaction.Behaviors>
       </Image>
     </Border>
-    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
-      <Button Content="Apply" Margin="10">
-        <interactivity:Interaction.Behaviors>
-          <core:EventTriggerBehavior EventName="Click">
-            <core:CallMethodAction TargetObject="{Binding ElementName=Offset}" MethodName="StartAnimation"/>
-          </core:EventTriggerBehavior>
-        </interactivity:Interaction.Behaviors>
-      </Button>
-    </StackPanel>
   </Grid>
 </Page>

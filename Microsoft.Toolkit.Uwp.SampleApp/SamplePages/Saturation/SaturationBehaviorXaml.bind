@@ -10,7 +10,7 @@
     mc:Ignorable="d">
 
   <Grid>
-    <Image x:Name="MyImage"
+    <Image x:Name="EffectElement"
            Source="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg">
       <interactivity:Interaction.Behaviors>
         <behaviors:Saturation x:Name="SaturationBehavior"
@@ -18,17 +18,8 @@
                         Duration="@[Duration:DoubleSlider:3000.0:0.0-10000.0]"
                         Delay="@[Delay:DoubleSlider:0.0:0.0-5000.0]"
                         EasingType="@[EasingType:Enum:EasingType.Linear]"
-                        AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
+                        AutomaticallyStart="@[AutomaticallyStart:Bool:True]" />
       </interactivity:Interaction.Behaviors>
     </Image>
-    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
-      <Button Content="Apply" Margin="10">
-        <interactivity:Interaction.Behaviors>
-          <core:EventTriggerBehavior EventName="Click">
-            <core:CallMethodAction TargetObject="{Binding ElementName=SaturationBehavior}" MethodName="StartAnimation"/>
-          </core:EventTriggerBehavior>
-        </interactivity:Interaction.Behaviors>
-      </Button>
-    </StackPanel>
   </Grid>
 </Page>

@@ -17,12 +17,8 @@
                         Value="@[Value:DoubleSlider:1.0:0.0-10.0]"
                         Duration="@[Duration:DoubleSlider:3000.0:0.0-10000.0]"
                         Delay="@[Delay:DoubleSlider:0.0:0.0-5000.0]"
-<<<<<<< HEAD
-                        AutomaticallyStart="@[AutomaticallyStart:Bool:True]" />
-=======
                         EasingType="@[EasingType:Enum:EasingType.Linear]"
-                        AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
->>>>>>> master
+                        AutomaticallyStart="@[AutomaticallyStart:Bool:True]" />
       </interactivity:Interaction.Behaviors>
     </Border>
   </Grid>
