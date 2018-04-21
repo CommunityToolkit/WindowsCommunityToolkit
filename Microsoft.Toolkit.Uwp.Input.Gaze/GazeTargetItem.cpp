@@ -4,6 +4,7 @@
 #include "pch.h"
 #include "GazeTargetItem.h"
 #include "GazeFeedbackPopupFactory.h"
+#include "GazeElement.h"
 
 using namespace std;
 using namespace Platform;
@@ -28,27 +29,17 @@ void GazeTargetItem::RaiseProgressEvent(GazeProgressState state)
         return;
     }
 
-    switch (state)
-    {
-    case GazeProgressState::Idle:
-        if (_notifiedProgressState != state)
-        {
-            Debug::WriteLine(L"Now in Idle state");
-        }
-        break;
-    case GazeProgressState::Progressing:
-        Debug::WriteLine(L"Now progressing %f", ((double)(ElapsedTime - _prevStateTime)) / (_nextStateTime - _prevStateTime));
-        break;
-    case GazeProgressState::Complete:
-        if (_notifiedProgressState != state)
-        {
-            Debug::WriteLine(L"Now complete");
-        }
-    }
-
     if (_notifiedProgressState != state || state == GazeProgressState::Progressing)
     {
-        if (state != GazeProgressState::Idle)
+		auto handled = false;
+
+		auto gazeElement = GazeApi::GetGazeElement(TargetElement);
+		if (gazeElement != nullptr)
+		{
+			handled = gazeElement->RaiseProgressFeedback(TargetElement, state, ElapsedTime - _prevStateTime, _nextStateTime - _prevStateTime);
+		}
+
+        if (!handled && state != GazeProgressState::Idle)
         {
             if (_feedbackPopup == nullptr)
             {
