@@ -185,7 +185,7 @@
                                                     VerticalAlignment="Center"
                                                     IsTabStop="False"
                                                     QueryIcon="Find"
-                                                    extensions:VisualEx.NormalizedCenterPoint="0.95, 0.5, 0"
+                                                    extensions:VisualExtensions.NormalizedCenterPoint="0.95, 0.5, 0"
                                                     Visibility="Collapsed">
                                     <animations:Implicit.ShowAnimations>
                                         <animations:ScaleAnimation From="0,1,1" To="1" Duration="0:0:0.3"></animations:ScaleAnimation>
@@ -231,7 +231,7 @@
                                                     ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
                                                     Foreground="{TemplateBinding PaneForeground}"
                                                     Background="{ThemeResource Brush-Main}"
-                                                    extensions:VisualEx.NormalizedCenterPoint="0.5"
+                                                    extensions:VisualExtensions.NormalizedCenterPoint="0.5"
                                                     IsTabStop="False">
                                     <animations:Implicit.ShowAnimations>
                                         <animations:OpacityAnimation Duration="0:0:0.3" To="0.6"></animations:OpacityAnimation>
@@ -255,7 +255,7 @@
                             <Grid x:Name="MoreInfoContent"
                                       Width="260"
                                       Height="320"
-                                      extensions:VisualEx.NormalizedCenterPoint="0.5">
+                                      extensions:VisualExtensions.NormalizedCenterPoint="0.5">
                                 <Grid VerticalAlignment="Top">
 
                                     <toolkitControls:DropShadowPanel VerticalContentAlignment="Stretch"

@@ -89,9 +89,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
 
-            Shell.Current.RegisterNewCommand("Print", Print_Click);
-            Shell.Current.RegisterNewCommand("Direct Print", DirectPrint_Click);
-            Shell.Current.RegisterNewCommand("Custom Print", CustomPrint_Click);
+            SampleController.Current.RegisterNewCommand("Print", Print_Click);
+            SampleController.Current.RegisterNewCommand("Direct Print", DirectPrint_Click);
+            SampleController.Current.RegisterNewCommand("Custom Print", CustomPrint_Click);
         }
 
         private async void Print_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -148,7 +148,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             // Provide an invisible container
             _printHelper = new PrintHelper(CustomPrintContainer);
