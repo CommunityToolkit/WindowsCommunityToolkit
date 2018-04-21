@@ -92,6 +92,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             Current = this;
             Shell.Current.ThemeChanged += Current_ThemeChanged;
 
+            ThemePicker.SelectedIndex = (int)Shell.Current.GetCurrentTheme();
+            ThemePicker.SelectionChanged += ThemePicker_SelectionChanged;
+
             DocumentationTextblock.RequestedTheme = Shell.Current.GetCurrentTheme();
             DocumentationTextblock.SetRenderer<SampleAppMarkdownRenderer>();
 
@@ -142,6 +145,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     ExceptionNotification.Show(ex.Message, 3000);
                 }
             }));
+        }
+
+        public async Task RefreshXamlRenderAsync()
+        {
+            if (CurrentSample != null)
+            {
+                var code = string.Empty;
+                if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
+                {
+                    code = CurrentSample.BindedXamlCode;
+                }
+                else
+                {
+                    code = CurrentSample.UpdatedXamlCode;
+                }
+
+                if (!string.IsNullOrWhiteSpace(code))
+                {
+                    await UpdateXamlRenderAsync(code);
+                }
+            }
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -268,28 +292,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (!CanChangePaneState)
             {
                 SampleTitleBar.Children.Remove(NarrowInfoButton);
+                PaneStates.States.Clear();
                 WindowStates.States.Clear();
-            }
-        }
-
-        public async Task RefreshXamlRenderAsync()
-        {
-            if (CurrentSample != null)
-            {
-                var code = string.Empty;
-                if (InfoAreaPivot.SelectedItem == PropertiesPivotItem)
-                {
-                    code = CurrentSample.BindedXamlCode;
-                }
-                else
-                {
-                    code = CurrentSample.UpdatedXamlCode;
-                }
-
-                if (!string.IsNullOrWhiteSpace(code))
-                {
-                    await UpdateXamlRenderAsync(code);
-                }
             }
         }
 
@@ -585,7 +589,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void ThemePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Shell.Current.SetCurrentTheme((ElementTheme)ThemePicker.SelectedIndex);
+            try
+            {
+                Shell.Current.SetCurrentTheme((ElementTheme)ThemePicker.SelectedIndex);
+            }
+            catch (Exception ex)
+            {
+                ExceptionNotification.Show(ex.Message);
+            }
         }
     }
 }

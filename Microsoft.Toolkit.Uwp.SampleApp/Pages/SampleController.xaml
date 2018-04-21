@@ -76,7 +76,7 @@
                         IsOn="{x:Bind UseBackground, Mode=TwoWay}" />
 
                         <TextBlock Text="Theme" VerticalAlignment="Center" Margin="0,0,10,0" />
-                        <ComboBox x:Name="ThemePicker" SelectedIndex="0" SelectionChanged="ThemePicker_SelectionChanged">
+                        <ComboBox x:Name="ThemePicker">
                             <ComboBoxItem Content="System" />
                             <ComboBoxItem Content="Light" />
                             <ComboBoxItem Content="Dark" />
@@ -133,7 +133,7 @@
 
                 <controls:DropShadowPanel
                 Grid.Row="1"
-                Color="{ThemeResource Color-Alt}"
+                Color="Black"
                 ShadowOpacity="0.2"
                 BlurRadius="40"
                 HorizontalContentAlignment="Stretch"

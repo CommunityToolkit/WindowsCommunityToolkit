@@ -104,7 +104,7 @@
             <SolidColorBrush x:Key="SystemControlHighlightAccentBrush"
                          Color="{StaticResource Brand-Color}" />
             <SolidColorBrush x:Key="Brush-Brand-Color"
-                         Color="White" />
+                         Color="#CCFFFFFF" />
             <!-- UI Elements -->
             <SolidColorBrush x:Key="SliderThumbBackground"
                              Color="White" />
