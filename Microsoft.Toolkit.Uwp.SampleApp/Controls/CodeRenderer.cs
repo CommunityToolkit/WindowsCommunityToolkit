@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         public CodeRenderer()
         {
             DefaultStyleKey = typeof(CodeRenderer);
-            _theme = Shell.Current.GetCurrentTheme();
+            _theme = Shell.Current.GetActualTheme();
             Shell.Current.ThemeChanged += Current_ThemeChanged;
         }
 
@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private void Current_ThemeChanged(object sender, Models.ThemeChangedArgs e)
         {
-            _theme = e.Theme;
+            _theme = Shell.Current.GetActualTheme();
             try
             {
                 _rendered = false;
