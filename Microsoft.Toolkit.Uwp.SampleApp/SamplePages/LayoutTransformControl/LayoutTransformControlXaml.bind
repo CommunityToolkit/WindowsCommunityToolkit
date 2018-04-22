@@ -7,10 +7,7 @@
     mc:Ignorable="d">
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <controls:LayoutTransformControl Background="{StaticResource Brush-Grey-01}"
-                                     HorizontalAlignment="Center"
-                                     VerticalAlignment="Center"
-                                     RenderTransformOrigin="0.5,0.5">
+    <controls:LayoutTransformControl>
       <controls:LayoutTransformControl.Transform>
         <TransformGroup>
           <RotateTransform Angle="@[Angle:DoubleSlider:0:-180.0-180.0]" />
@@ -23,6 +20,7 @@
 
       <Border HorizontalAlignment="Center"
               VerticalAlignment="Center"
+              Background="#FF333333"
               BorderBrush="Red"
               BorderThickness="5">
         <Grid>
