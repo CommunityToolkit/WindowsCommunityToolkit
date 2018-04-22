@@ -7,13 +7,15 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, LayoutTransformCo
 
 # LayoutTransformControl
 
-The [LayoutTransformControl](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.controls.layouttransformcontrol) is a control that apply Matrix transformations on any `FrameworkElement` of your application.
+The [LayoutTransformControl](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.ui.controls.layouttransformcontrol) is a control that applies Matrix transformations on any `FrameworkElement` of your application.
 
 The transformations that can be applied are one of the following:
 
 * Rotation
 * Scale
 * Skew
+* Matrix
+* Or a group of transformations (`TransformGroup`)
 
 ## Syntax
 
@@ -64,7 +66,7 @@ The transformations that can be applied are one of the following:
 ## Related Topics
 
 - [Expander](Expander.md)
-- [TransformGroup](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.transformgroup)
-- [RotateTransform](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.rotatetransform)
-- [ScaleTransform](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.scaletransform)
-- [SkewTransform](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.skewtransform)
+- [TransformGroup](https://docs.microsoft.com/uwp/api/windows.ui.xaml.media.transformgroup)
+- [RotateTransform](https://docs.microsoft.com/uwp/api/windows.ui.xaml.media.rotatetransform)
+- [ScaleTransform](https://docs.microsoft.com/uwp/api/windows.ui.xaml.media.scaletransform)
+- [SkewTransform](https://docs.microsoft.com/uwp/api/windows.ui.xaml.media.skewtransform)
