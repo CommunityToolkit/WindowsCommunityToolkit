@@ -11,11 +11,11 @@ The [LayoutTransformControl](https://docs.microsoft.com/en-us/dotnet/api/microso
 
 The transformations that can be applied are one of the following:
 
-* Rotation
-* Scale
-* Skew
-* Matrix
-* Or a group of transformations (`TransformGroup`)
+* [RotateTransform](https://docs.microsoft.com/uwp/api/windows.ui.xaml.media.rotatetransform)
+* [ScaleTransform](https://docs.microsoft.com/uwp/api/windows.ui.xaml.media.scaletransform)
+* [SkewTransform](https://docs.microsoft.com/uwp/api/windows.ui.xaml.media.skewtransform)
+* [MatrixTransform](https://docs.microsoft.com/uwp/api/windows.ui.xaml.media.matrixtransform)
+* [TransformGroup](https://docs.microsoft.com/uwp/api/windows.ui.xaml.media.transformgroup)
 
 ## Syntax
 
@@ -66,6 +66,7 @@ The transformations that can be applied are one of the following:
 ## Related Topics
 
 - [Expander](Expander.md)
+- [MatrixTransform](https://docs.microsoft.com/uwp/api/windows.ui.xaml.media.matrixtransform)
 - [TransformGroup](https://docs.microsoft.com/uwp/api/windows.ui.xaml.media.transformgroup)
 - [RotateTransform](https://docs.microsoft.com/uwp/api/windows.ui.xaml.media.rotatetransform)
 - [ScaleTransform](https://docs.microsoft.com/uwp/api/windows.ui.xaml.media.scaletransform)
