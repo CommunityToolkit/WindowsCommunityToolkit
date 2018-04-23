@@ -22,6 +22,7 @@ using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Microsoft.Toolkit.Win32.UI.Controls.WinForms;
@@ -93,6 +94,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         // Initialization flag for ISupportInitialize
         private InitializationState _initializationState;
 
+        private ManualResetEvent _initializationComplete;
+
         [SecuritySafeCritical]
         [SuppressMessage("Microsoft.Design", "CA1065")]
         static WebView()
@@ -143,6 +146,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
             // TODO: Check whether browser is disabled
             // TODO: Handle case (OnLoad) for handling POPUP windows
+
+            _initializationComplete = new ManualResetEvent(false);
         }
 
         internal WebView(WebViewControlHost webViewControl)
@@ -180,8 +185,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 // Cannot complete WebView initialization that is not being initialized
                 throw new InvalidOperationException(DesignerUI.E_WEBVIEW_NOT_INITIALIZING);
             }
-
-            Initialize();
 
             base.EndInit();
         }
@@ -542,16 +545,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <inheritdoc />
         public void Navigate(string source)
         {
-            VerifyAccess();
-            Verify.IsNotNull(_webViewControl);
-            _webViewControl?.Navigate(source);
+            Navigate(UriHelper.StringToUri(source));
         }
 
         /// <inheritdoc />
         public void Navigate(Uri source)
         {
             VerifyAccess();
-            Verify.IsNotNull(_webViewControl);
 
             // TODO: Support for pack://
             Source = source;
@@ -561,8 +561,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public void NavigateToString(string text)
         {
             VerifyAccess();
-            Verify.IsNotNull(_webViewControl);
-            _webViewControl?.NavigateToString(text);
+
+            Dispatcher.InvokeAsync(() =>
+            {
+                _initializationComplete.WaitOne();
+                Verify.IsNotNull(_webViewControl);
+                _webViewControl.NavigateToString(text);
+            }, DispatcherPriority.Background);
         }
 
         /// <inheritdoc />
@@ -644,7 +649,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 _webViewControl.Settings.IsJavaScriptEnabled = javaScriptEnabled;
                 _webViewControl.Settings.IsIndexedDBEnabled = indexDBEnabled;
                 _webViewControl.Settings.IsScriptNotifyAllowed = scriptNotifyAllowed;
-            });
+
+                _initializationComplete.Set();
+            }, DispatcherPriority.Loaded);
         }
 
         /// <inheritdoc />
@@ -719,7 +726,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                     Verify.IsTrue(wv.WebViewControlInitialized);
                     if (wv.WebViewControlInitialized)
                     {
-                        wv.Navigate(dependencyPropertyChangedEventArgs.NewValue as Uri);
+                        wv._webViewControl.Navigate(dependencyPropertyChangedEventArgs.NewValue as Uri);
                     }
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsIndexedDBEnabled))
