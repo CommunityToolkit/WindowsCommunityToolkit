@@ -21,8 +21,9 @@ namespace Shapes = Windows::UI::Xaml::Shapes;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-ref struct GazeTargetItem sealed
+ref struct GazeTargetItem
 {
+internal:
 	property int64 DetailedTime;
 	property int64 OverflowTime;
 	property int64 ElapsedTime { int64 get() { return DetailedTime + OverflowTime; } }
@@ -37,6 +38,12 @@ ref struct GazeTargetItem sealed
 	{
 		TargetElement = target;
 	}
+
+    static GazeTargetItem^ GetOrCreate(UIElement^ element);
+
+    virtual void Invoke() = 0;
+
+    virtual property bool IsInvokable { bool get() { return true; } }
 
 	void Reset(int nextStateTime)
 	{

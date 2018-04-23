@@ -41,7 +41,6 @@ public:
 
     void LoadSettings(ValueSet^ settings);
 
-    void InvokeTarget(UIElement^ target);
     void Reset();
     void SetElementStateDelay(UIElement ^element, GazePointerState pointerState, int stateDelay);
     int GetElementStateDelay(UIElement^ element, GazePointerState pointerState);
@@ -101,16 +100,13 @@ private:
     void    InitializeGazeInputSource();
     void    DeinitializeGazeInputSource();
 
-    GazeTargetItem^     GetOrCreateGazeTargetItem(UIElement^ target);
-    GazeTargetItem^     GetGazeTargetItem(UIElement^ target);
-    UIElement^          GetHitTarget(Point gazePoint);
-    UIElement^          ResolveHitTarget(Point gazePoint, long long timestamp);
-
-    bool    IsInvokable(UIElement^ target);
+    void ActivateGazeTargetItem(GazeTargetItem^ target);
+    GazeTargetItem^          GetHitTarget(Point gazePoint);
+    GazeTargetItem^          ResolveHitTarget(Point gazePoint, long long timestamp);
 
     void    CheckIfExiting(long long curTimestamp);
     void    GotoState(UIElement^ control, GazePointerState state);
-    void    RaiseGazePointerEvent(UIElement^ target, GazePointerState state, int64 elapsedTime);
+    void    RaiseGazePointerEvent(GazeTargetItem^ target, GazePointerState state, int64 elapsedTime);
 
     void OnGazeEntered(
         GazeInputSourcePreview^ provider,
