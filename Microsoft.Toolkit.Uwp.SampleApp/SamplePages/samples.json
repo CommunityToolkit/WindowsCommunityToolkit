@@ -280,7 +280,7 @@
         "About": "Allows to easily preview video from available camera frame source groups and also get realtime video frames/ software bitmaps from the selected source.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/CameraPreview",
         "CodeFile": "CameraPreviewCode.bind",
-        "Icon": "/SamplePages/CameraPreview/Camera.png",
+        "Icon": "/SamplePages/CameraPreview/CameraPreview.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/CameraPreview.md"
       }
     ]
@@ -624,7 +624,7 @@
         "About": "Allows to easily get camera frame sources available for media capture to preview video and get real time video frames/software bitmaps.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/CameraHelper/CameraHelper.cs",
         "CodeFile": "CameraHelperCode.bind",
-        "Icon": "/SamplePages/CameraHelper/Camera.png",
+        "Icon": "/SamplePages/CameraHelper/CameraHelper.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/CameraHelper.md"
       }
     ]
