@@ -1,22 +1,20 @@
-﻿using Microsoft.Toolkit.Uwp.Input.Gaze;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using Microsoft.Toolkit.Uwp.Input.Gaze;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -26,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class GazeInteractionPage : IXamlRenderListener
     {
         private GazeElement gazeButtonControl;
-        
+
         private Rectangle enterRec;
         private Rectangle fixationRec;
         private Rectangle dwellRec;
@@ -73,25 +71,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void OnGazeInvoked(object sender, GazeInvokedRoutedEventArgs e)
         {
-
-
         }
 
         private void GazeButtonControl_StateChanged(object sender, GazePointerEventArgs ea)
         {
-
             if (ea.PointerState == GazePointerState.Enter)
             {
                 enterRec.Visibility = Visibility.Visible;
                 dwellCountText.Visibility = Visibility.Collapsed;
-                dwellCountText.Text = "";
+                dwellCountText.Text = string.Empty;
                 dwellCount = 0;
                 exitRec.Visibility = Visibility.Collapsed;
             }
+
             if (ea.PointerState == GazePointerState.Fixation)
             {
                 fixationRec.Visibility = Visibility.Visible;
             }
+
             if (ea.PointerState == GazePointerState.Dwell)
             {
                 if (dwellCount == 0)
@@ -101,12 +98,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 else
                 {
-                    repeatRec.Visibility = Visibility.Visible;                    
+                    repeatRec.Visibility = Visibility.Visible;
                     dwellCountText.Text = dwellCount.ToString();
                     dwellCountText.Visibility = Visibility.Visible;
                     dwellCount += 1;
                 }
             }
+
             if (ea.PointerState == GazePointerState.Exit)
             {
                 exitRec.Visibility = Visibility.Visible;
@@ -116,8 +114,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 dwellRec.Visibility = Visibility.Collapsed;
                 repeatRec.Visibility = Visibility.Collapsed;
             }
-
         }
-
     }
 }
