@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         internal static InlineParseResult Parse(string markdown, int start, int end)
         {
             int refstart = 0;
-            int refend = 0;
+
             // Expect a '!' character.
             if (start >= end || markdown[start] != '!')
             {
@@ -240,7 +240,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
             // Everything is cool when you're part of a team.
             RenderUrl = reference.Url;
-            Tooltip = reference.Tooltip;
             ReferenceId = null;
         }
 
