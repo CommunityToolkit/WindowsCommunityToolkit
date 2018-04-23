@@ -17,5 +17,5 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Microsoft.Toolkit.Win32.Samples.WinForms.WebView")]
-[assembly: AssemblyDescription("Microsoft.Toolkit.Win32.Samples.WinForms.WebView.dll")]
+[assembly: AssemblyDescription("Microsoft.Toolkit.Win32.Samples.WinForms.WebView.exe")]
 
