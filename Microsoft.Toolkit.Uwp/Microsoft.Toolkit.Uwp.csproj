@@ -6,7 +6,6 @@
     <Description>This package includes code only helpers such as Colors conversion tool, Storage file handling, a Stream helper class, etc.</Description>
     <PackageTags>UWP Toolkit Windows</PackageTags>
     <UseUwpMetaPackage>true</UseUwpMetaPackage>
-    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
 

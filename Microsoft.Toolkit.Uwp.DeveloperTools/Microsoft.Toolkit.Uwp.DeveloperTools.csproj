@@ -6,7 +6,6 @@
     <Description>This library provides XAML user controls and services to help developer building their app. It is part of the UWP Community Toolkit.</Description>
     <PackageTags>UWP Toolkit Windows Controls XAML Developer Tools Accessibility</PackageTags>
     <UseUwpMetaPackage>true</UseUwpMetaPackage>
-    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
   
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />

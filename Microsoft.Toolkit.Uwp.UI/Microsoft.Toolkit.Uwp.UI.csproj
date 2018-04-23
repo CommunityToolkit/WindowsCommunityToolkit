@@ -8,7 +8,6 @@
 
     <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
     <UseWindowsMobileSdk>true</UseWindowsMobileSdk>
-    <Configurations>Debug;Release;OneDrive</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
