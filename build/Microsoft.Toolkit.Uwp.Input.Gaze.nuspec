@@ -10,10 +10,10 @@
     <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>TODO</description>
-    <releaseNotes>TODO</releaseNotes>
+    <description>A library to integrate gaze interactions using eye trackers into UWP applications</description>
+    <releaseNotes>Preview Release</releaseNotes>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
-    <tags>UWP Toolkit Windows Eye Gaze</tags>
+    <tags>UWP Toolkit Windows Eye Gaze EyeTracker </tags>
   </metadata>
 
   <files>

@@ -206,7 +206,7 @@ void GazeTargetItem::RaiseProgressEvent(GazeProgressState state)
     {
         auto handled = false;
 
-        auto gazeElement = GazeApi::GetGazeElement(TargetElement);
+        auto gazeElement = GazeInput::GetGazeElement(TargetElement);
         if (gazeElement != nullptr)
         {
             handled = gazeElement->RaiseProgressFeedback(TargetElement, state, ElapsedTime - _prevStateTime, _nextStateTime - _prevStateTime);

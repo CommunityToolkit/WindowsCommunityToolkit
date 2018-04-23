@@ -31,9 +31,6 @@
     <ClCompile Include="GazeSettingsHelper.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="GazeApi.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="GazeElement.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -58,6 +55,9 @@
     <ClCompile Include="GazePointerProxy.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="GazeInput.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -79,9 +79,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="GazeSettingsHelper.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="GazeApi.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="GazeElement.h">
@@ -115,6 +112,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="GazeProgressEventArgs.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazeInput.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
