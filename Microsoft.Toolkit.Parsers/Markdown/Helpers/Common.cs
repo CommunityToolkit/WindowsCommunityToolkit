@@ -526,17 +526,15 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
             }
 
             // Check the scheme is allowed.
-            bool schemeIsAllowed = false;
             foreach (var scheme in HyperlinkInline.KnownSchemes)
             {
-                if (url.StartsWith(scheme))
+                if (result.Scheme.Equals(scheme))
                 {
-                    schemeIsAllowed = true;
-                    break;
+                    return true;
                 }
             }
 
-            return schemeIsAllowed;
+            return false;
         }
     }
 }
