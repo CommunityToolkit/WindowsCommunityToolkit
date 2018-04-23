@@ -218,8 +218,15 @@ if(-Not $SkipToolPackageRestore.IsPresent) {
 }
 
 # Start Cake
-Write-Host "Running build script..."
 $path = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $Script = "$path/build.cake"
+
+Write-Host "Bootstrapping Cake..."
+Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" --bootstrap"
+if ($LASTEXITCODE -ne 0) {
+    throw "An error occured while bootstrapping Cake."
+}
+
+Write-Host "Running build script..."
 Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" -verbosity=`"$Verbosity`" $UseMono $UseDryRun $UseExperimental $ScriptArgs"
 exit $LASTEXITCODE

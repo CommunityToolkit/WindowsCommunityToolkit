@@ -1,3 +1,5 @@
+#module "Cake.Longpath.Module"
+
 #addin "Cake.FileHelpers"
 #addin "Cake.Powershell"
 
