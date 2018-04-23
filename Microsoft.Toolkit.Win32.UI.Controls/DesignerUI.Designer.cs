@@ -160,7 +160,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The code in your application is attempting to change a member after the control is completely initialized..
+        ///   Looks up a localized string similar to The code in your application is attempting to set a property of the WebView control that is read-only because the control has already begun initializing. Your code can modify this property before it calls the ISupportInitialize.BeginInit method, but not after..
         /// </summary>
         internal static string E_CANNOT_CHANGE_AFTER_INIT {
             get {

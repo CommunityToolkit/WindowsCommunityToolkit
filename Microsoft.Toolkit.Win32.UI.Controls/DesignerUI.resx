@@ -151,7 +151,7 @@
     <value>Settings</value>
   </data>
   <data name="E_CANNOT_CHANGE_AFTER_INIT" xml:space="preserve">
-    <value>The code in your application is attempting to change a member after the control is completely initialized.</value>
+    <value>The code in your application is attempting to set a property of the WebView control that is read-only because the control has already begun initializing. Your code can modify this property before it calls the ISupportInitialize.BeginInit method, but not after.</value>
     <comment>A member has been invoked after the control is already initialized</comment>
   </data>
   <data name="E_CLICKONCE_PARTIAL_TRUST" xml:space="preserve">
