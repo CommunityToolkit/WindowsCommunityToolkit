@@ -88,7 +88,7 @@ ref class NonInvokeGazeTargetItem sealed : GazeTargetItem
 private:
 
     NonInvokeGazeTargetItem()
-        : GazeTargetItem(nullptr)
+        : GazeTargetItem(ref new Page())
     {
     }
 
@@ -139,6 +139,8 @@ internal:
     }
 };
 
+GazeTargetItem^ GazeTargetItem::NonInvokable::get() { return NonInvokeGazeTargetItem::Instance; }
+
 GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
 {
     GazeTargetItem^ item;
@@ -185,9 +187,8 @@ GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
                     }
                 }
             }
-
-            element->SetValue(GazeTargetItemProperty, item);
         }
+        element->SetValue(GazeTargetItemProperty, item);
     }
 
     return item;

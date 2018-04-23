@@ -253,8 +253,6 @@ void GazePointer::Reset()
 
 GazeTargetItem^ GazePointer::GetHitTarget(Point gazePoint)
 {
-    static auto s_missedTarget = GazeTargetItem::GetOrCreate(ref new Page());
-
     for each (auto rootElement in _roots)
     {
         auto targets = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, rootElement, false);
@@ -280,13 +278,13 @@ GazeTargetItem^ GazePointer::GetHitTarget(Point gazePoint)
                 break;
 
             case GazeEnablement::Disabled:
-                return s_missedTarget;
+                return GazeTargetItem::NonInvokable;
             }
         }
         assert(invokable == nullptr);
     }
     // TODO : Check if the location is offscreen
-    return s_missedTarget;
+    return GazeTargetItem::NonInvokable;
 }
 
 void GazePointer::ActivateGazeTargetItem(GazeTargetItem^ target)
@@ -314,13 +312,14 @@ GazeTargetItem^ GazePointer::ResolveHitTarget(Point gazePoint, long long timesta
     // create GazeHistoryItem to deal with this sample
     auto target = GetHitTarget(gazePoint);
     auto historyItem = ref new GazeHistoryItem();
-    historyItem->HitTarget = target->TargetElement;
+    historyItem->HitTarget = target;
     historyItem->Timestamp = timestamp;
     historyItem->Duration = 0;
     assert(historyItem->HitTarget != nullptr);
 
     // create new GazeTargetItem with a (default) total elapsed time of zero if one does not exist already.
     // this ensures that there will always be an entry for target elements in the code below.
+    ActivateGazeTargetItem(target);
     target->LastTimestamp = timestamp;
 
     // find elapsed time since we got the last hit target
@@ -345,7 +344,7 @@ GazeTargetItem^ GazePointer::ResolveHitTarget(Point gazePoint, long long timesta
         _gazeHistory->RemoveAt(0);
 
         // subtract the duration obtained from the oldest sample in _gazeHistory
-        auto targetItem = GazeTargetItem::GetOrCreate(evOldest->HitTarget);
+        auto targetItem = evOldest->HitTarget;
         assert(targetItem->DetailedTime - evOldest->Duration >= 0);
         targetItem->DetailedTime -= evOldest->Duration;
 		if (targetItem->ElementState != GazePointerState::PreEnter)
@@ -424,7 +423,7 @@ void GazePointer::CheckIfExiting(long long curTimestamp)
             for (unsigned i = 0; i < _gazeHistory->Size; )
             {
                 auto hitTarget = _gazeHistory->GetAt(i)->HitTarget;
-                if (hitTarget == targetElement)
+                if (hitTarget->TargetElement == targetElement)
                 {
                     _gazeHistory->RemoveAt(i);
                 }
@@ -452,7 +451,7 @@ wchar_t *PointerStates[] = {
 
 void GazePointer::RaiseGazePointerEvent(GazeTargetItem^ target, GazePointerState state, int64 elapsedTime)
 {
-    auto control = safe_cast<Control^>(target->TargetElement);
+    auto control = target != nullptr ? safe_cast<Control^>(target->TargetElement) : nullptr;
     //assert(target != _rootElement);
     auto gpea = ref new GazePointerEventArgs(control, state, elapsedTime);
     //auto buttonObj = dynamic_cast<Button ^>(target);

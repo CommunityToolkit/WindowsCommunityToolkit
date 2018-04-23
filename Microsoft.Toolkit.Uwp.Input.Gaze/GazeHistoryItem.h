@@ -20,9 +20,11 @@ namespace Shapes = Windows::UI::Xaml::Shapes;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
+ref class GazeTargetItem;
+
 ref struct GazeHistoryItem
 {
-    property UIElement^ HitTarget;
+    property GazeTargetItem^ HitTarget;
     property int64 Timestamp;
     property int64 Duration;
 };

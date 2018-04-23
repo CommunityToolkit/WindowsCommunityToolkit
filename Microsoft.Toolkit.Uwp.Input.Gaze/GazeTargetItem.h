@@ -24,6 +24,8 @@ BEGIN_NAMESPACE_GAZE_INPUT
 ref struct GazeTargetItem
 {
 internal:
+    static property GazeTargetItem^ NonInvokable{ GazeTargetItem^ get(); }
+
 	property int64 DetailedTime;
 	property int64 OverflowTime;
 	property int64 ElapsedTime { int64 get() { return DetailedTime + OverflowTime; } }
