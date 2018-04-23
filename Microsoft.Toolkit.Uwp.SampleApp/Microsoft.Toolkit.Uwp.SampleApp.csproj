@@ -443,6 +443,7 @@
     <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.bind" />
     <Content Include="SamplePages\RadialProgressBar\RadialProgressBarCode.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockCode.bind" />
+    <Content Include="SamplePages\OneDrive Service\OneDriveCode.bind" />
     <Content Include="SamplePages\Analytics\AnalyticsCode.bind" />
     <Content Include="SamplePages\Blur\BlurBehaviorCode.bind" />
     <Content Include="SamplePages\Blur\BlurBehaviorXaml.bind" />
@@ -490,7 +491,6 @@
     <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrushXaml.bind">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="SamplePages\OneDrive Service\OneDriveCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
