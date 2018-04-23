@@ -16,9 +16,6 @@ using namespace Windows::UI::Xaml::Automation::Peers;
 using namespace Windows::UI::Xaml::Hosting;
 using namespace Windows::UI::Xaml::Media;
 
-static Brush^ ProgressingBrush = ref new SolidColorBrush(Colors::Green);
-static Brush^ CompleteBrush = ref new SolidColorBrush(Colors::Red);
-
 BEGIN_NAMESPACE_GAZE_INPUT
 
 void GazeTargetItem::RaiseProgressEvent(GazeProgressState state)
@@ -59,7 +56,7 @@ void GazeTargetItem::RaiseProgressEvent(GazeProgressState state)
 
                 if (0 <= progress && progress < 1)
                 {
-                    rectangle->Stroke = ProgressingBrush;
+                    rectangle->Stroke = GazeApi::GazeFeedbackProgressBrush;
                     rectangle->Width = (1 - progress) * bounds.Width;
                     rectangle->Height = (1 - progress) * bounds.Height;
 
@@ -69,7 +66,7 @@ void GazeTargetItem::RaiseProgressEvent(GazeProgressState state)
             }
             else
             {
-                rectangle->Stroke = CompleteBrush;
+                rectangle->Stroke = GazeApi::GazeFeedbackCompleteBrush;
                 rectangle->Width = bounds.Width;
                 rectangle->Height = bounds.Height;
 

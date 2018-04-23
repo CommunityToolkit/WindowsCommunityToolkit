@@ -7,8 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:gaze="using:Microsoft.Toolkit.Uwp.Input.Gaze"
     gaze:GazeApi.IsGazeEnabled="Enabled"
-    mc:Ignorable="d" Margin="0,40,0,-40">
-    
+    mc:Ignorable="d">
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <Grid.RowDefinitions>
@@ -30,5 +30,17 @@
                 <gaze:GazeElement Invoked="OnGazeInvoked"/>
             </gaze:GazeApi.GazeElement>
         </Button>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <ToggleButton Grid.Row="0" Content="Click" gaze:GazeApi.Dwell="0:0:2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <gaze:GazeApi.GazeElement>
+                    <gaze:GazeElement ProgressFeedback="OnInvokeProgress" />
+                </gaze:GazeApi.GazeElement>
+            </ToggleButton>
+            <ProgressBar Grid.Row="1" x:Name="ProgressShow" Maximum="100" />
+        </Grid>
     </Grid>
 </Page>
