@@ -44,7 +44,7 @@ void GazePointer::AddRoot(FrameworkElement^ element)
 
 void GazePointer::RemoveRoot(FrameworkElement^ element)
 {
-    auto index = 0;
+    unsigned int index = 0;
     while (index < _roots->Size && _roots->GetAt(index) != element)
     {
         index++;
