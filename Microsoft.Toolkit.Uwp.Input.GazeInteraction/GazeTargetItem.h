@@ -5,7 +5,7 @@
 #pragma warning(disable:4453)
 
 #include "GazePointerState.h"
-#include "GazeApi.h"
+#include "GazeInput.h"
 #include "GazeProgressState.h"
 
 using namespace Platform;
@@ -45,7 +45,7 @@ ref struct GazeTargetItem sealed
 		OverflowTime = 0;
 		NextStateTime = nextStateTime;
 		RepeatCount = 0;
-		MaxRepeatCount = GazeApi::GetMaxRepeatCount(TargetElement);
+		MaxRepeatCount = GazeInput::GetMaxRepeatCount(TargetElement);
 	}
 
 	void GiveFeedback()

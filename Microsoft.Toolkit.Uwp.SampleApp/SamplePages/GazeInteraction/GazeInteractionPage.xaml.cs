@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.Input.Gaze;
+﻿using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Generic;
@@ -55,12 +55,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             if (buttonControl != null)
             {
-                gazeButtonControl = GazeApi.GetGazeElement(buttonControl);
+                gazeButtonControl = GazeInput.GetGazeElement(buttonControl);
 
                 if (gazeButtonControl == null)
                 {
                     gazeButtonControl = new GazeElement();
-                    GazeApi.SetGazeElement(buttonControl, gazeButtonControl);
+                    GazeInput.SetGazeElement(buttonControl, gazeButtonControl);
                 }
 
                 if (gazeButtonControl != null)

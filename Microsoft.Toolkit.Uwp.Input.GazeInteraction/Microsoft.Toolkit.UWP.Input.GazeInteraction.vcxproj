@@ -29,7 +29,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{a5e98964-45b1-442d-a07a-298a3221d81e}</ProjectGuid>
     <Keyword>WindowsRuntimeComponent</Keyword>
-    <RootNamespace>Microsoft.Toolkit.Uwp.Input.Gaze</RootNamespace>
+    <RootNamespace>Microsoft.Toolkit.Uwp.Input.GazeInteraction</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <AppContainerApplication>true</AppContainerApplication>
@@ -37,7 +37,7 @@
     <WindowsTargetPlatformVersion>10.0.17125.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformMinVersion>10.0.17125.0</WindowsTargetPlatformMinVersion>
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
-    <ProjectName>Microsoft.Toolkit.Uwp.Input.Gaze</ProjectName>
+    <ProjectName>Microsoft.Toolkit.Uwp.Input.GazeInteraction</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -212,7 +212,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="GazeApi.h" />
+    <ClInclude Include="GazeInput.h" />
     <ClInclude Include="GazeCursor.h" />
     <ClInclude Include="GazeElement.h" />
     <ClInclude Include="GazeEnablement.h" />
@@ -233,7 +233,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GazeApi.cpp" />
+    <ClCompile Include="GazeInput.cpp" />
     <ClCompile Include="GazeCursor.cpp" />
     <ClCompile Include="GazeElement.cpp" />
     <ClCompile Include="GazeFeedbackPopupFactory.cpp" />

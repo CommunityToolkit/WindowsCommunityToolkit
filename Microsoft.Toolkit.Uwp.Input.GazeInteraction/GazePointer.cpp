@@ -3,7 +3,7 @@
 
 #include "pch.h"
 #include "GazePointer.h"
-#include "GazeApi.h"
+#include "GazeInput.h"
 #include "GazeTargetItem.h"
 #include "GazeHistoryItem.h"
 #include "GazePointerEventArgs.h"
@@ -181,11 +181,11 @@ static DependencyProperty^ GetProperty(GazePointerState state)
 {
     switch (state)
     {
-    case GazePointerState::Fixation: return GazeApi::FixationProperty;
-    case GazePointerState::Dwell: return GazeApi::DwellProperty;
-    case GazePointerState::DwellRepeat: return GazeApi::DwellRepeatProperty;
-    case GazePointerState::Enter: return GazeApi::EnterProperty;
-    case GazePointerState::Exit: return GazeApi::ExitProperty;
+    case GazePointerState::Fixation: return GazeInput::FixationProperty;
+    case GazePointerState::Dwell: return GazeInput::DwellProperty;
+    case GazePointerState::DwellRepeat: return GazeInput::DwellRepeatProperty;
+    case GazePointerState::Enter: return GazeInput::EnterProperty;
+    case GazePointerState::Exit: return GazeInput::ExitProperty;
     default: return nullptr;
     }
 }
@@ -222,7 +222,7 @@ int GazePointer::GetElementStateDelay(UIElement ^element, GazePointerState point
     DependencyObject^ walker = element;
     Object^ valueAtWalker = walker->GetValue(property);
 
-    while (GazeApi::UnsetTimeSpan.Equals(valueAtWalker) && walker != nullptr)
+    while (GazeInput::UnsetTimeSpan.Equals(valueAtWalker) && walker != nullptr)
     {
         walker = VisualTreeHelper::GetParent(walker);
 
@@ -232,7 +232,7 @@ int GazePointer::GetElementStateDelay(UIElement ^element, GazePointerState point
         }
     }
 
-    auto delay = GazeApi::UnsetTimeSpan.Equals(valueAtWalker) ? GetDefaultPropertyValue(pointerState) : safe_cast<TimeSpan>(valueAtWalker);
+    auto delay = GazeInput::UnsetTimeSpan.Equals(valueAtWalker) ? GetDefaultPropertyValue(pointerState) : safe_cast<TimeSpan>(valueAtWalker);
 
     auto ticks = safe_cast<int>(delay.Duration / 10);
     switch (pointerState)
@@ -282,7 +282,7 @@ UIElement^ GazePointer::GetHitTarget(Point gazePoint)
                 invokable = target;
             }
 
-            switch (GazeApi::GetIsGazeEnabled(target))
+            switch (GazeInput::GetIsGazeEnabled(target))
             {
             case GazeEnablement::Enabled:
                 if (invokable != nullptr)
@@ -541,7 +541,7 @@ void GazePointer::RaiseGazePointerEvent(UIElement^ target, GazePointerState stat
     //}
 
     auto control = safe_cast<Control^>(target);
-    auto gazeElement = target != nullptr ? GazeApi::GetGazeElement(target) : nullptr;
+    auto gazeElement = target != nullptr ? GazeInput::GetGazeElement(target) : nullptr;
 
     if (gazeElement != nullptr)
     {

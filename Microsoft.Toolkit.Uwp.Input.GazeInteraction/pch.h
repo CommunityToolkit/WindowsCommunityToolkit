@@ -35,5 +35,5 @@ public:
     }
 };
 
-#define BEGIN_NAMESPACE_GAZE_INPUT namespace Microsoft { namespace Toolkit { namespace Uwp { namespace Input { namespace Gaze {
+#define BEGIN_NAMESPACE_GAZE_INPUT namespace Microsoft { namespace Toolkit { namespace Uwp { namespace Input { namespace GazeInteraction {
 #define END_NAMESPACE_GAZE_INPUT } } } } }

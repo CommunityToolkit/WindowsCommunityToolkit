@@ -24,12 +24,12 @@ BEGIN_NAMESPACE_GAZE_INPUT
 ref class GazeElement;
 ref class GazePointer;
 
-public ref class GazeApi sealed
+public ref class GazeInput sealed
 {
 public:
     static property DependencyProperty^ IsGazeEnabledProperty { DependencyProperty^ get(); }
-    static property DependencyProperty^ IsGazeCursorVisibleProperty { DependencyProperty^ get(); }
-	static property DependencyProperty^ GazeCursorRadiusProperty { DependencyProperty^ get(); }
+    static property DependencyProperty^ IsCursorVisibleProperty { DependencyProperty^ get(); }
+	static property DependencyProperty^ CursorRadiusProperty { DependencyProperty^ get(); }
 
     static property DependencyProperty^ GazeElementProperty { DependencyProperty^ get(); }
 
@@ -42,8 +42,8 @@ public:
 	static property DependencyProperty^ MaxRepeatCountProperty { DependencyProperty^ get(); }
 
     static GazeEnablement GetIsGazeEnabled(UIElement^ element);
-    static bool GetIsGazeCursorVisible(UIElement^ element);
-	static int GetGazeCursorRadius(UIElement^ element);
+    static bool GetIsCursorVisible(UIElement^ element);
+	static int GetCursorRadius(UIElement^ element);
     static GazeElement^ GetGazeElement(UIElement^ element);
     static TimeSpan GetFixation(UIElement^ element);
     static TimeSpan GetDwell(UIElement^ element);
@@ -53,8 +53,8 @@ public:
 	static int GetMaxRepeatCount(UIElement^ element);
 
     static void SetIsGazeEnabled(UIElement^ element, GazeEnablement value);
-    static void SetIsGazeCursorVisible(UIElement^ element, bool value);
-	static void SetGazeCursorRadius(UIElement^ element, int value);
+    static void SetIsCursorVisible(UIElement^ element, bool value);
+	static void SetCursorRadius(UIElement^ element, int value);
     static void SetGazeElement(UIElement^ element, GazeElement^ value);
     static void SetFixation(UIElement^ element, TimeSpan span);
     static void SetDwell(UIElement^ element, TimeSpan span);
