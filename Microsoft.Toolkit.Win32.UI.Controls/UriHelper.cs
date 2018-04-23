@@ -12,6 +12,7 @@
 
 using System;
 using System.Text;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls
 {
@@ -35,6 +36,22 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
                     uri.IsAbsoluteUri ? UriComponents.AbsoluteUri : UriComponents.SerializationInfoString,
                     UriFormat.SafeUnescaped),
                 MAX_URL_LENGTH).ToString();
+        }
+
+        internal static Uri StringToUri(string source)
+        {
+            if (string.IsNullOrEmpty(source))
+            {
+                source = WebViewDefaults.AboutBlank;
+            }
+
+            if (Uri.TryCreate(source, UriKind.Absolute, out Uri result))
+            {
+                return result;
+            }
+
+            // Unrecognized URI
+            throw new ArgumentException(DesignerUI.E_WEBVIEW_INVALID_URI);
         }
     }
 }

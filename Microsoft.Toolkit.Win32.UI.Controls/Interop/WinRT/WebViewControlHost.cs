@@ -487,20 +487,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         ///               <paramref name="source" /> contains too many slashes.-or- The password specified in <paramref name="source" /> is not valid.-or- The host name specified in <paramref name="source" /> is not valid.-or- The file name specified in <paramref name="source" /> is not valid. -or- The user name specified in <paramref name="source" /> is not valid.-or- The host or authority name specified in <paramref name="source" /> cannot be terminated by backslashes.-or- The port number specified in <paramref name="source" /> is not valid or cannot be parsed.-or- The length of <paramref name="source" /> exceeds 65519 characters.-or- The length of the scheme specified in <paramref name="source" /> exceeds 1023 characters.-or- There is an invalid character sequence in <paramref name="source" />.-or- The MS-DOS path specified in <paramref name="source" /> must start with c:\\.</exception>
         internal void Navigate(string source)
         {
-            if (string.IsNullOrEmpty(source))
-            {
-                source = WebViewDefaults.AboutBlank;
-            }
-
-            if (Uri.TryCreate(source, UriKind.Absolute, out Uri result))
-            {
-                Navigate(result);
-            }
-            else
-            {
-                // Unrecognized URI
-                throw new ArgumentException(DesignerUI.E_WEBVIEW_INVALID_URI);
-            }
+            Navigate(UriHelper.StringToUri(source));
         }
 
         /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null"/></exception>
