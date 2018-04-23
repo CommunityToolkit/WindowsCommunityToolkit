@@ -17,18 +17,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.Controls.ScrollViewer"/>
     /// </summary>
-    public partial class ScrollViewerEx
+    public partial class ScrollViewerExtensions
     {
 #pragma warning disable CS0419 // Ambiguous reference in cref attribute
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for binding a <see cref="Windows.UI.Xaml.Thickness"/> for the horizontal <see cref="Windows.UI.Xaml.Controls.Primitives.ScrollBar"/> of a <see cref="Windows.UI.Xaml.Controls.ScrollViewer"/>
         /// </summary>
-        public static readonly DependencyProperty HorizontalScrollBarMarginProperty = DependencyProperty.RegisterAttached("HorizontalScrollBarMargin", typeof(Thickness), typeof(ScrollViewerEx), new PropertyMetadata(null, OnHorizontalScrollBarMarginPropertyChanged));
+        public static readonly DependencyProperty HorizontalScrollBarMarginProperty = DependencyProperty.RegisterAttached("HorizontalScrollBarMargin", typeof(Thickness), typeof(ScrollViewerExtensions), new PropertyMetadata(null, OnHorizontalScrollBarMarginPropertyChanged));
 
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for binding a <see cref="Windows.UI.Xaml.Thickness"/> for the vertical <see cref="Windows.UI.Xaml.Controls.Primitives.ScrollBar"/> of a <see cref="Windows.UI.Xaml.Controls.ScrollViewer"/>
         /// </summary>
-        public static readonly DependencyProperty VerticalScrollBarMarginProperty = DependencyProperty.RegisterAttached("VerticalScrollBarMargin", typeof(Thickness), typeof(ScrollViewerEx), new PropertyMetadata(null, OnVerticalScrollBarMarginPropertyChanged));
+        public static readonly DependencyProperty VerticalScrollBarMarginProperty = DependencyProperty.RegisterAttached("VerticalScrollBarMargin", typeof(Thickness), typeof(ScrollViewerExtensions), new PropertyMetadata(null, OnVerticalScrollBarMarginPropertyChanged));
 
         /// <summary>
         /// Gets the <see cref="Windows.UI.Xaml.Thickness"/> associated with the specified vertical <see cref="Windows.UI.Xaml.Controls.Primitives.ScrollBar"/> of a <see cref="Windows.UI.Xaml.Controls.ScrollViewer"/>
