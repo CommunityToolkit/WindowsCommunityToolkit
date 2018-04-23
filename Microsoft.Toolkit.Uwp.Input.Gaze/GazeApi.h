@@ -41,6 +41,9 @@ public:
 
 	static property DependencyProperty^ MaxRepeatCountProperty { DependencyProperty^ get(); }
 
+    static property Brush^ GazeFeedbackProgressBrush { Brush^ get(); void set(Brush^ value); }
+    static property Brush^ GazeFeedbackCompleteBrush { Brush^ get(); void set(Brush^ value); }
+
     static GazeEnablement GetIsGazeEnabled(UIElement^ element);
     static bool GetIsGazeCursorVisible(UIElement^ element);
 	static int GetGazeCursorRadius(UIElement^ element);
