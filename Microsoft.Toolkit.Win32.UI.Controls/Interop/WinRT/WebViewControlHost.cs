@@ -404,7 +404,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             // Cannot invoke script
             if (_webViewControl == null)
             {
-                // TODO: Error message
                 throw new InvalidOperationException(DesignerUI.E_WEBVIEW_CANNOT_INVOKE_BEFORE_INIT);
             }
 
