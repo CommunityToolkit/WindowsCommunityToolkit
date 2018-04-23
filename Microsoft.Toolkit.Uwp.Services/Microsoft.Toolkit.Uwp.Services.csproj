@@ -13,7 +13,6 @@
 
     <PackageReference Include="Microsoft.Graph" Version="1.6.2" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="3.13.7" />
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="5.4.1" />
     <PackageReference Include="winsdkfb" Version="0.12.20161020.4" />
 
     <!-- This is here to prevent a conflict in certain circumstances -->
