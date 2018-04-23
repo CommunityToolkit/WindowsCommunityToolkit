@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+using System.Diagnostics;
 using Windows.Web.UI.Interop;
 using WebViewControlDeferredPermissionRequest = Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlDeferredPermissionRequest;
 using WebViewControlMoveFocusReason = Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlMoveFocusReason;
