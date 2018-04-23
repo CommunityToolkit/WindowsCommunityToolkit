@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.WebView
 
         private void webView1_NavigationCompleted(object sender, WebViewControlNavigationCompletedEventArgs e)
         {
-            url.Text = e.Uri.ToString();
+            url.Text = e.Uri?.ToString() ?? string.Empty;
             Text = webView1.DocumentTitle;
             if (!e.IsSuccess)
             {
@@ -67,8 +67,8 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.WebView
 
         private void webView1_NavigationStarting(object sender, WebViewControlNavigationStartingEventArgs e)
         {
-            Text = "Navigating " + e.Uri.ToString();
-            url.Text = e.Uri.ToString();
+            Text = "Navigating " + e.Uri?.ToString() ?? string.Empty;
+            url.Text = e.Uri?.ToString() ?? string.Empty;
         }
 
         private void webView1_PermissionRequested(object sender, WebViewControlPermissionRequestedEventArgs e)

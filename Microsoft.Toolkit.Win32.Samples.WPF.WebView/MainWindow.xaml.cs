@@ -74,18 +74,18 @@ namespace Microsoft.Toolkit.Win32.Samples.WPF.WebView
 
         private void WebView1_OnNavigationCompleted(object sender, WebViewControlNavigationCompletedEventArgs e)
         {
-            Url.Text = e.Uri.ToString();
+            Url.Text = e.Uri?.ToString() ?? string.Empty;
             Title = WebView1.DocumentTitle;
             if (!e.IsSuccess)
             {
-                MessageBox.Show($"Could not navigate to {e.Uri}", $"Error: {e.WebErrorStatus}", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Could not navigate to {e.Uri?.ToString() ?? "NULL"}", $"Error: {e.WebErrorStatus}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void WebView1_OnNavigationStarting(object sender, WebViewControlNavigationStartingEventArgs e)
         {
-            Title = "Navigating " + e.Uri.ToString();
-            Url.Text = e.Uri.ToString();
+            Title = $"Navigating {e.Uri?.ToString() ?? string.Empty}";
+            Url.Text = e.Uri?.ToString() ?? string.Empty;
         }
 
         private void WebView1_OnPermissionRequested(object sender, WebViewControlPermissionRequestedEventArgs e)
