@@ -46,6 +46,8 @@
                                        Height="2"
                                        VerticalAlignment="Center"
                                        Fill="{TemplateBinding Foreground}" />
+                            <Canvas x:Name="TickCanvas" 
+                                    Background="Transparent" />
                             <Thumb x:Name="MinThumb"
                                    AutomationProperties.Name="Min thumb"
                                    IsTabStop="True" 

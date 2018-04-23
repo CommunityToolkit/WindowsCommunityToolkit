@@ -18,6 +18,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -35,10 +36,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "MaxThumb", Type = typeof(Thumb))]
     [TemplatePart(Name = "ContainerCanvas", Type = typeof(Canvas))]
     [TemplatePart(Name = "ControlGrid", Type = typeof(Grid))]
+    [TemplatePart(Name = "TickCanvas", Type = typeof(Canvas))]
     public class RangeSelector : Control
     {
         private const double Epsilon = 0.01;
         private const double DefaultStepFrequency = 1;
+        private const double DefaultTickFrequency = 0;
 
         /// <summary>
         /// Identifies the Minimum dependency property.
@@ -65,12 +68,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultStepFrequency));
 
+        /// <summary>
+        /// Identifies the TickFrequency dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TickFrequencyProperty = DependencyProperty.Register(nameof(TickFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultTickFrequency, TickFrequencyChangedCallback));
+
+        /// <summary>
+        /// Identifies the TickPlacement dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TickPlacementProperty = DependencyProperty.Register(nameof(TickPlacement), typeof(TickPlacement), typeof(RangeSelector), new PropertyMetadata(TickPlacement.Inline, TickPlacementChangedCallback));
+
+        /// <summary>
+        /// Identifies the TickOffset dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TickOffsetProperty = DependencyProperty.Register(nameof(TickOffset), typeof(double), typeof(RangeSelector), new PropertyMetadata(0.0, TickOffsetChangedCallback));
+
+        /// <summary>
+        /// Identifies the SnapsTo dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SnapsToProperty = DependencyProperty.Register(nameof(SnapsTo), typeof(SliderSnapsTo), typeof(RangeSelector), new PropertyMetadata(SliderSnapsTo.StepValues));
+
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
         private Thumb _minThumb;
         private Thumb _maxThumb;
         private Canvas _containerCanvas;
         private Grid _controlGrid;
+        private Canvas _tickCanvas;
         private double _oldValue;
         private bool _valuesAssigned;
         private bool _minSet;
@@ -145,6 +169,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _maxThumb = GetTemplateChild("MaxThumb") as Thumb;
             _containerCanvas = GetTemplateChild("ContainerCanvas") as Canvas;
             _controlGrid = GetTemplateChild("ControlGrid") as Grid;
+            _tickCanvas = GetTemplateChild("TickCanvas") as Canvas;
 
             if (_minThumb != null)
             {
@@ -299,6 +324,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void ContainerCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             SyncThumbs();
+            DrawTicks();
         }
 
         private void VerifyValues()
@@ -603,19 +629,192 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the interval value at which ticks should be created.
+        /// </summary>
+        /// <value>
+        /// The value for tick frequency.
+        /// </value>
+        public double TickFrequency
+        {
+            get
+            {
+                return (double)GetValue(TickFrequencyProperty);
+            }
+
+            set
+            {
+                SetValue(TickFrequencyProperty, value);
+            }
+        }
+
+        private static void TickFrequencyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var rangeSelector = d as RangeSelector;
+            if (rangeSelector == null)
+            {
+                return;
+            }
+
+            rangeSelector.DrawTicks();
+        }
+
+        /// <summary>
+        /// Gets or sets the value for tick placement position.
+        /// </summary>
+        /// <value>
+        /// The value for tick placement.
+        /// </value>
+        public TickPlacement TickPlacement
+        {
+            get
+            {
+                return (TickPlacement)GetValue(TickPlacementProperty);
+            }
+
+            set
+            {
+                SetValue(TickPlacementProperty, value);
+            }
+        }
+
+        private static void TickPlacementChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var rangeSelector = d as RangeSelector;
+            if (rangeSelector == null)
+            {
+                return;
+            }
+
+            rangeSelector.DrawTicks();
+        }
+
+        /// <summary>
+        /// Gets or sets the value for tick offset.
+        /// </summary>
+        /// <value>
+        /// The value for tick offset.
+        /// </value>
+        public double TickOffset
+        {
+            get
+            {
+                return (double)GetValue(TickOffsetProperty);
+            }
+
+            set
+            {
+                SetValue(TickOffsetProperty, value);
+            }
+        }
+
+        private static void TickOffsetChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var rangeSelector = d as RangeSelector;
+            if (rangeSelector == null)
+            {
+                return;
+            }
+
+            rangeSelector.DrawTicks();
+        }
+
+        /// <summary>
+        /// Gets or sets the value for snapping to steps or tick frequency.
+        /// </summary>
+        /// <value>
+        /// The value for snapping to ticks or steps.
+        /// </value>
+        public SliderSnapsTo SnapsTo
+        {
+            get
+            {
+                return (SliderSnapsTo)GetValue(SnapsToProperty);
+            }
+
+            set
+            {
+                SetValue(SnapsToProperty, value);
+            }
+        }
+
+        private void DrawTicks()
+        {
+            if (_tickCanvas == null)
+            {
+                return;
+            }
+
+            _tickCanvas.Children.Clear();
+
+            if (TickPlacement == TickPlacement.None)
+            {
+                return;
+            }
+
+            double tickMargin = 3;
+            double tickHeight = 4;
+            double tickActualStep = _containerCanvas.ActualWidth / (Maximum - Minimum);
+            double relativeTopForInlineTicks = (_containerCanvas.ActualHeight / 2) - (tickHeight / 2);
+            double relativeTopForTopTicks = (_containerCanvas.ActualHeight / 2) - (tickMargin + tickHeight);
+            double relativeTopForBottomTicks = (_containerCanvas.ActualHeight / 2) + tickMargin;
+
+            double appliedTickFrequency = Math.Max(TickFrequency, 20 / tickActualStep);
+
+            for (double i = Minimum + TickOffset; i <= Maximum - Minimum; i += appliedTickFrequency)
+            {
+                double relativeLeft = i * tickActualStep;
+
+                if (TickPlacement == TickPlacement.Inline)
+                {
+                    Border tick = TickBorder((Brush)Resources["ApplicationPageBackgroundThemeBrush"]);
+                    Canvas.SetTop(tick, relativeTopForInlineTicks);
+                    Canvas.SetLeft(tick, relativeLeft);
+                    _tickCanvas.Children.Add(tick);
+                }
+
+                if (TickPlacement == TickPlacement.TopLeft || TickPlacement == TickPlacement.Outside)
+                {
+                    Border tick = TickBorder(Background);
+                    Canvas.SetTop(tick, relativeTopForTopTicks);
+                    Canvas.SetLeft(tick, relativeLeft);
+                    _tickCanvas.Children.Add(tick);
+                }
+
+                if (TickPlacement == TickPlacement.BottomRight || TickPlacement == TickPlacement.Outside)
+                {
+                    Border tick = TickBorder(Background);
+                    Canvas.SetTop(tick, relativeTopForBottomTicks);
+                    Canvas.SetLeft(tick, relativeLeft);
+                    _tickCanvas.Children.Add(tick);
+                }
+            }
+        }
+
+        private Border TickBorder(Brush tickBrush)
+        {
+            return new Border()
+            {
+                Background = tickBrush,
+                Height = 4,
+                Width = 1
+            };
+        }
+
         private void RangeMinToStepFrequency()
         {
-            RangeMin = MoveToStepFrequency(RangeMin);
+            RangeMin = MoveToStepOrTickFrequency(RangeMin);
         }
 
         private void RangeMaxToStepFrequency()
         {
-            RangeMax = MoveToStepFrequency(RangeMax);
+            RangeMax = MoveToStepOrTickFrequency(RangeMax);
         }
 
-        private double MoveToStepFrequency(double rangeValue)
+        private double MoveToStepOrTickFrequency(double rangeValue)
         {
-            double newValue = Minimum + (((int)Math.Round((rangeValue - Minimum) / StepFrequency)) * StepFrequency);
+            double appliedFrequency = (SnapsTo == SliderSnapsTo.StepValues) ? StepFrequency : TickFrequency;
+            double newValue = Minimum + (((int)Math.Round((rangeValue - Minimum) / appliedFrequency)) * appliedFrequency);
 
             if (newValue < Minimum)
             {
