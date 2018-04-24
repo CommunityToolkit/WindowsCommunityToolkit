@@ -21,24 +21,24 @@
         </Grid.ColumnDefinitions>
         <ToggleButton Grid.Row="0" Grid.Column="0" x:Name="ShowCursor" Checked="ShowCursor_Toggle" Unchecked="ShowCursor_Toggle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">Show Cursor</ToggleButton>
         <Button       Grid.Row="0" Grid.Column="1" x:Name="Dwell" Click="Dwell_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Eyes Here">
-            <g:GazeApi.GazeElement>
+            <g:GazeInput.GazeElement>
                 <g:GazeElement StateChanged="OnStateChanged"/>
-            </g:GazeApi.GazeElement>
+            </g:GazeInput.GazeElement>
         </Button>
-        <Button Grid.Row="1" Grid.Column="1" x:Name="HowButton" Content="0: Idle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="OnLegacyInvoked" g:GazeApi.MaxRepeatCount="4">
-            <g:GazeApi.GazeElement>
+        <Button Grid.Row="1" Grid.Column="1" x:Name="HowButton" Content="0: Idle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="OnLegacyInvoked" g:GazeInput.MaxRepeatCount="4">
+            <g:GazeInput.GazeElement>
                 <g:GazeElement Invoked="OnGazeInvoked"/>
-            </g:GazeApi.GazeElement>
+            </g:GazeInput.GazeElement>
         </Button>
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="5*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <ToggleButton Grid.Row="0" Content="Click" gaze:GazeApi.Dwell="0:0:2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <g:GazeApi.GazeElement>
+            <ToggleButton Grid.Row="0" Content="Click" g:GazeInput.Dwell="0:0:2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <g:GazeInput.GazeElement>
                     <g:GazeElement ProgressFeedback="OnInvokeProgress" />
-                </g:GazeApi.GazeElement>
+                </g:GazeInput.GazeElement>
             </ToggleButton>
             <ProgressBar Grid.Row="1" x:Name="ProgressShow" Maximum="100" />
         </Grid>

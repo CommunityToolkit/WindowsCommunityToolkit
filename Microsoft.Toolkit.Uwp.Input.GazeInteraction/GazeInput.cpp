@@ -16,8 +16,33 @@ using namespace Windows::UI;
 using namespace Windows::UI::ViewManagement;
 using namespace Windows::UI::Xaml::Automation::Peers;
 using namespace Windows::UI::Xaml::Hosting;
+using namespace Windows::UI::Xaml::Media;
 
 BEGIN_NAMESPACE_GAZE_INPUT
+
+static Brush^ s_progressBrush = ref new SolidColorBrush(Colors::Green);
+
+Brush^ GazeInput::GazeFeedbackProgressBrush::get()
+{
+    return s_progressBrush;
+}
+
+void GazeInput::GazeFeedbackCompleteBrush::set(Brush^ value)
+{
+    s_progressBrush = value;
+}
+
+static Brush^ s_completeBrush = ref new SolidColorBrush(Colors::Red);
+
+Brush^ GazeInput::GazeFeedbackCompleteBrush::get()
+{
+    return s_completeBrush;
+}
+
+void GazeInput::GazeFeedbackProgressBrush::set(Brush^ value)
+{
+    s_completeBrush = value;
+}
 
 TimeSpan GazeInput::UnsetTimeSpan = { -1 };
 

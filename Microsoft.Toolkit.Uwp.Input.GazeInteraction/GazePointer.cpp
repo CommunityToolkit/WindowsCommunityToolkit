@@ -465,7 +465,7 @@ void GazePointer::RaiseGazePointerEvent(GazeTargetItem^ target, GazePointerState
     //    Debug::WriteLine(L"GPE: 0x%08x -> %s, %d", target != nullptr ? target->GetHashCode() : 0, PointerStates[(int)state], elapsedTime);
     //}
 
-    auto gazeElement = target != nullptr ? GazeInput::GetGazeElement(target) : nullptr;
+    auto gazeElement = target != nullptr ? GazeInput::GetGazeElement(control) : nullptr;
 
     if (gazeElement != nullptr)
     {

@@ -232,7 +232,7 @@ void GazeTargetItem::RaiseProgressEvent(GazeProgressState state)
 
                 if (0 <= progress && progress < 1)
                 {
-                    rectangle->Stroke = GazeApi::GazeFeedbackProgressBrush;
+                    rectangle->Stroke = GazeInput::GazeFeedbackProgressBrush;
                     rectangle->Width = (1 - progress) * bounds.Width;
                     rectangle->Height = (1 - progress) * bounds.Height;
 
@@ -242,7 +242,7 @@ void GazeTargetItem::RaiseProgressEvent(GazeProgressState state)
             }
             else
             {
-                rectangle->Stroke = GazeApi::GazeFeedbackCompleteBrush;
+                rectangle->Stroke = GazeInput::GazeFeedbackCompleteBrush;
                 rectangle->Width = bounds.Width;
                 rectangle->Height = bounds.Height;
 

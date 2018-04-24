@@ -7,7 +7,7 @@
     mc:Ignorable="d"
     
     xmlns:g="using:Microsoft.Toolkit.Uwp.Input.GazeInteraction" 
-    g:GazeInput.IsEnabled="@[IsGazeEnabled:Enum:GazeApi.GazeEnablement.Enabled]"
+    g:GazeInput.IsGazeEnabled="@[IsGazeEnabled:Enum:GazeInput.GazeEnablement.Enabled]"
     g:GazeInput.IsCursorVisible="@[IsCursorVisible:Bool:True]"
     g:GazeInput.CursorRadius="@[CursorRadius:Slider:5:5-50]@"
        
