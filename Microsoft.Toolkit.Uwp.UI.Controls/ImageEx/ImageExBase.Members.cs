@@ -62,18 +62,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Event raised if the image failed loading.
         /// </summary>
-        [Obsolete("This event is obsolete; use ImageExFailed event instead")]
-        public event ExceptionRoutedEventHandler ImageFailed;
-
-        /// <summary>
-        /// Event raised when the image is successfully loaded and opened.
-        /// </summary>
-        [Obsolete("This event is obsolete; use ImageExOpened event instead")]
-        public event RoutedEventHandler ImageOpened;
-
-        /// <summary>
-        /// Event raised if the image failed loading.
-        /// </summary>
         public event ImageExFailedEventHandler ImageExFailed;
 
         /// <summary>

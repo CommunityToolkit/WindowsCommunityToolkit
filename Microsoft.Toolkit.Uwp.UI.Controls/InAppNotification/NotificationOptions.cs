@@ -10,16 +10,24 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.Services
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Base class for data providers in this library.
+    /// Base class that contains options of notification
     /// </summary>
-    /// <typeparam name="TConfig">Query configuration type for given provider.</typeparam>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public abstract class DataProviderBase<TConfig> : Toolkit.Services.DataProviderBase<TConfig>
+    internal class NotificationOptions
     {
+        /// <summary>
+        /// Gets or sets duration of the stacked notification
+        /// </summary>
+        public int Duration { get; set; }
+
+        /// <summary>
+        /// Gets or sets Content of the notification
+        /// Could be either a <see cref="string"/> or a <see cref="UIElement"/> or a <see cref="DataTemplate"/>
+        /// </summary>
+        public object Content { get; set; }
     }
 }

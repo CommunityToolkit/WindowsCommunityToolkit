@@ -91,6 +91,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register("UseNavigationViewWhenPossible", typeof(bool), typeof(HamburgerMenu), new PropertyMetadata(false, OnUseNavigationViewWhenPossibleChanged));
 
         /// <summary>
+        /// Identifies the <see cref="UseNavigationViewSettingsWhenPossible"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty UseNavigationViewSettingsWhenPossibleProperty = DependencyProperty.Register("UseNavigationViewSettingsWhenPossible", typeof(bool), typeof(HamburgerMenu), new PropertyMetadata(false));
+
+        /// <summary>
         /// Gets or sets the width of the pane when it's fully expanded.
         /// </summary>
         public double OpenPaneLength
@@ -226,6 +231,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (bool)GetValue(UseNavigationViewWhenPossibleProperty); }
             set { SetValue(UseNavigationViewWhenPossibleProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the HamburgerMenu should try and automatically detect if any of the OptionsItems represent settings. If they do, the IsSettingsEnabled property of the NavigationView control will be set and the detected item invoked appropriately. (Fall Creators Update and above)
+        /// If an item is not detected automatically, the detection can be triggered by adding a Tag property with the value "setting" to the appropriate OptionsItem.
+        /// This property is ignored if UseNavigationViewWhenPossible is false.
+        /// </summary>
+        public bool UseNavigationViewSettingsWhenPossible
+        {
+            get { return (bool)GetValue(UseNavigationViewSettingsWhenPossibleProperty); }
+            set { SetValue(UseNavigationViewSettingsWhenPossibleProperty, value); }
         }
 
         private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

@@ -321,6 +321,7 @@
     <Content Include="SamplePages\Implicit Animations\ImplicitAnimations.png" />
     <Content Include="SamplePages\InAppNotification\InAppNotification.png" />
     <Content Include="SamplePages\Incremental Loading Collection\icon.png" />
+    <Content Include="SamplePages\LayoutTransformControl\LayoutTransformControl.png" />
     <Content Include="SamplePages\Light\LightBehavior.png" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInLogo.png" />
     <Content Include="Assets\Helpers.png" />
@@ -495,6 +496,10 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\UniformGrid\UniformGrid.code" />
+    <Content Include="SamplePages\LayoutTransformControl\LayoutTransformControlXaml.bind" />
+    <Content Include="SamplePages\PrintHelper\PrintHelperXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -582,6 +587,9 @@
     </Compile>
     <Compile Include="SamplePages\InAppNotification\InAppNotificationPage.xaml.cs">
       <DependentUpon>InAppNotificationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\LayoutTransformControl\LayoutTransformControlPage.xaml.cs">
+      <DependentUpon>LayoutTransformControlPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ListViewExtensions\ListViewExtensionsPage.xaml.cs">
       <DependentUpon>ListViewExtensionsPage.xaml</DependentUpon>
@@ -935,6 +943,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\InAppNotification\InAppNotificationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\LayoutTransformControl\LayoutTransformControlPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

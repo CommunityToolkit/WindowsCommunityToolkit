@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Gets public singleton property.
         /// </summary>
-        public static FileCache Instance => _instance ?? (_instance = new FileCache() { MaintainContext = false });
+        public static FileCache Instance => _instance ?? (_instance = new FileCache());
 
         /// <summary>
         /// Cache specific hooks to process items from HTTP response
