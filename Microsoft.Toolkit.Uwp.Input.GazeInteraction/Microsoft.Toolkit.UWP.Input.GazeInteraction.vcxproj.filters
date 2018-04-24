@@ -16,9 +16,6 @@
     <ClCompile Include="GazeCursor.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="GazePointer.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="GazeStats.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -43,9 +40,6 @@
     <ClCompile Include="GazePointerEventArgs.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="GazePointerState.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="GazeTargetItem.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -56,6 +50,12 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="GazeInput.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GazePointer.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="PointerState.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -93,9 +93,6 @@
     <ClInclude Include="GazePointerEventArgs.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="GazePointerState.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="GazeTargetItem.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -115,6 +112,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="GazeInput.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PointerState.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

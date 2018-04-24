@@ -29,7 +29,7 @@
                     g:GazeInput.Dwell="@[Dwell:TimeSpan:800:100-5000]@"
                     Tag="@[DwellRepeatDelay:TimeSpan:0:0-5000]@"
                     g:GazeInput.DwellRepeat="@[DwellRepeat:TimeSpan:1600:50-10000]@"
-                    g:GazeInput.MaxRepeatCount="@[MaxRepeatCount:Slider:0:0-20]@"
+                    g:GazeInput.MaxDwellRepeatCount="@[MaxRepeatCount:Slider:0:0-20]@"
                    
                     />
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1">
