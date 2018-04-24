@@ -46,7 +46,7 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Rectangle Height="1" Stroke="Black" VerticalAlignment="Center"/>
-                <TextBlock HorizontalAlignment="Center" Text="{Binding PropertyDescriptor.Expando.Enter.Value, Converter={StaticResource ConvertTimeToMilliSecs}}"  VerticalAlignment="Center" Grid.Column="1" Margin="5,0"/>
+                <TextBlock HorizontalAlignment="Center" Text="{Binding PropertyDescriptor.Expando.Threshold.Value, Converter={StaticResource ConvertTimeToMilliSecs}}"  VerticalAlignment="Center" Grid.Column="1" Margin="5,0"/>
                 <Rectangle Height="1" Stroke="Black" VerticalAlignment="Center" Grid.Column="2"/>
             </Grid>
             <Grid HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch" Width="100" Grid.Row="0" Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0">
@@ -96,7 +96,7 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Rectangle Height="1" Stroke="Black" VerticalAlignment="Center"/>
-                <TextBlock HorizontalAlignment="Center" Text="{Binding PropertyDescriptor.Expando.Enter.Value, Converter={StaticResource ConvertTimeToMilliSecs}}"  VerticalAlignment="Center" Grid.Column="1" Margin="5,0"/>
+                <TextBlock HorizontalAlignment="Center" Text="{Binding PropertyDescriptor.Expando.Threshold.Value, Converter={StaticResource ConvertTimeToMilliSecs}}"  VerticalAlignment="Center" Grid.Column="1" Margin="5,0"/>
                 <Rectangle Height="1" Stroke="Black" VerticalAlignment="Center" Grid.Column="2"/>
             </Grid>
 

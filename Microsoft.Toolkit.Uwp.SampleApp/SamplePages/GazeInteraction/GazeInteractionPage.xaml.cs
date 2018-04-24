@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         private GazeElement gazeButtonControl;
 
-        private Rectangle enterRec;
+        private Rectangle thresholdRec;
         private Rectangle fixationRec;
         private Rectangle dwellRec;
         private Rectangle repeatRec;
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             dwellCountText = control.FindChildByName("DwellCountText") as TextBlock;
 
-            enterRec = control.FindChildByName("EnterRec") as Rectangle;
+            thresholdRec = control.FindChildByName("EnterRec") as Rectangle;
             fixationRec = control.FindChildByName("FixationRec") as Rectangle;
             dwellRec = control.FindChildByName("DwellRec") as Rectangle;
             repeatRec = control.FindChildByName("RepeatRec") as Rectangle;
@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (ea.PointerState == PointerState.Enter)
             {
-                enterRec.Visibility = Visibility.Visible;
+                thresholdRec.Visibility = Visibility.Visible;
                 dwellCountText.Visibility = Visibility.Collapsed;
                 dwellCountText.Text = string.Empty;
                 dwellCount = 0;
@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 exitRec.Visibility = Visibility.Visible;
 
-                enterRec.Visibility = Visibility.Collapsed;
+                thresholdRec.Visibility = Visibility.Collapsed;
                 fixationRec.Visibility = Visibility.Collapsed;
                 dwellRec.Visibility = Visibility.Collapsed;
                 repeatRec.Visibility = Visibility.Collapsed;

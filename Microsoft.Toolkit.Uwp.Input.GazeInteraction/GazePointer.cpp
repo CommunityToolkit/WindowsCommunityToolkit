@@ -113,14 +113,9 @@ void GazePointer::LoadSettings(ValueSet^ settings)
         _defaultRepeat = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.RepeatDelay")));
     }
 
-    if (settings->HasKey("GazePointer.EnterExitDelay"))
+    if (settings->HasKey("GazePointer.ThresholdDelay"))
     {
-        _defaultEnter = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.EnterExitDelay")));
-    }
-
-    if (settings->HasKey("GazePointer.EnterExitDelay"))
-    {
-        _defaultExit = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.EnterExitDelay")));
+        _defaultThreshold = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.ThresholdDelay")));
     }
 
     // TODO need to set fixation and dwell for all elements
@@ -182,8 +177,8 @@ static DependencyProperty^ GetProperty(PointerState state)
     case PointerState::Fixation: return GazeInput::FixationProperty;
     case PointerState::Dwell: return GazeInput::DwellProperty;
     case PointerState::DwellRepeat: return GazeInput::DwellRepeatProperty;
-    case PointerState::Enter: return GazeInput::EnterProperty;
-    case PointerState::Exit: return GazeInput::ExitProperty;
+    case PointerState::Enter: return GazeInput::ThresholdProperty;
+    case PointerState::Exit: return GazeInput::ThresholdProperty;
     default: return nullptr;
     }
 }
@@ -195,8 +190,8 @@ TimeSpan GazePointer::GetDefaultPropertyValue(PointerState state)
     case PointerState::Fixation: return _defaultFixation;
     case PointerState::Dwell: return _defaultDwell;
     case PointerState::DwellRepeat: return _defaultRepeat;
-    case PointerState::Enter: return _defaultEnter;
-    case PointerState::Exit: return _defaultExit;
+    case PointerState::Enter: return _defaultThreshold;
+    case PointerState::Exit: return _defaultThreshold;
     default: throw ref new NotImplementedException();
     }
 }

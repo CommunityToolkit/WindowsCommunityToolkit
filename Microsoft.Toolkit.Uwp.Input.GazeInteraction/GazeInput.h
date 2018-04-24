@@ -36,8 +36,7 @@ public:
     static property DependencyProperty^ FixationProperty { DependencyProperty^ get(); }
     static property DependencyProperty^ DwellProperty { DependencyProperty^ get(); }
     static property DependencyProperty^ DwellRepeatProperty { DependencyProperty^ get(); }
-    static property DependencyProperty^ EnterProperty { DependencyProperty^ get(); }
-    static property DependencyProperty^ ExitProperty { DependencyProperty^ get(); }
+    static property DependencyProperty^ ThresholdProperty { DependencyProperty^ get(); }
 
 	static property DependencyProperty^ MaxDwellRepeatCountProperty { DependencyProperty^ get(); }
 
@@ -46,25 +45,23 @@ public:
 
     static GazeEnablement GetIsGazeEnabled(UIElement^ element);
     static bool GetIsCursorVisible(UIElement^ element);
-	static int GetCursorRadius(UIElement^ element);
+	  static int GetCursorRadius(UIElement^ element);
     static GazeElement^ GetGazeElement(UIElement^ element);
     static TimeSpan GetFixation(UIElement^ element);
     static TimeSpan GetDwell(UIElement^ element);
     static TimeSpan GetDwellRepeat(UIElement^ element);
-    static TimeSpan GetEnter(UIElement^ element);
-    static TimeSpan GetExit(UIElement^ element);
-	static int GetMaxDwellRepeatCount(UIElement^ element);
+    static TimeSpan GetThreshold(UIElement^ element);
+	  static int GetMaxDwellRepeatCount(UIElement^ element);
 
     static void SetIsGazeEnabled(UIElement^ element, GazeEnablement value);
     static void SetIsCursorVisible(UIElement^ element, bool value);
-	static void SetCursorRadius(UIElement^ element, int value);
+	  static void SetCursorRadius(UIElement^ element, int value);
     static void SetGazeElement(UIElement^ element, GazeElement^ value);
     static void SetFixation(UIElement^ element, TimeSpan span);
     static void SetDwell(UIElement^ element, TimeSpan span);
     static void SetDwellRepeat(UIElement^ element, TimeSpan span);
-    static void SetEnter(UIElement^ element, TimeSpan span);
-    static void SetExit(UIElement^ element, TimeSpan span);
-	static void SetMaxDwellRepeatCount(UIElement^ element, int value);
+    static void SetThreshold(UIElement^ element, TimeSpan span);
+	  static void SetMaxDwellRepeatCount(UIElement^ element, int value);
 
 	static GazePointer^ GetGazePointer(Page^ page);
 
