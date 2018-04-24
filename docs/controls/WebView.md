@@ -309,6 +309,16 @@ Scripts in the web view content can use **window.external.notify** with a string
 
 You can use the [Settings](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.settings) property (of type [WebViewControlSettings](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrolsettings) to control whether JavaScript and IndexedDB are enabled. For example, if you use a web view to display strictly static content, you might want to disable JavaScript for best performance.
 
- 
+ ## Requirements
 
- 
+| Device family | Windows 10 Insider Preview (introduced v10.0.17110.0)   |
+| -- | -- |
+| Namespace | Microsoft.Toolkit.Win32.UI.Controls.WinForms, Microsoft.Toolkit.Win32.UI.Controls.WPF |
+| NuGet package | [Microsoft.Toolkit.Win32.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Win32.UI.Controls/) |
+
+
+
+## API Source Code
+
+- [WinForms.WebView](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Win32.UI.Controls/WinForms/WebView)
+- [WPF.WebView](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Win32.UI.Controls/WPF/WebView) 
