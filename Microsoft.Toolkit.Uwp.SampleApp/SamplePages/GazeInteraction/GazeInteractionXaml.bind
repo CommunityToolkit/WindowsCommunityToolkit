@@ -24,7 +24,7 @@
                     
                     Width="@[ButtonSize:Slider:100:10-300]"
                     Height="@[ButtonSize]"
-                    g:GazeInput.Enter="@[Enter:TimeSpan:50:50-200]@"
+                    g:GazeInput.Threshold="@[Threshold:TimeSpan:50:50-200]@"
                     g:GazeInput.Fixation="@[Fixation:TimeSpan:400:50-1000]@"
                     g:GazeInput.Dwell="@[Dwell:TimeSpan:800:100-5000]@"
                     Tag="@[DwellRepeatDelay:TimeSpan:0:0-5000]@"

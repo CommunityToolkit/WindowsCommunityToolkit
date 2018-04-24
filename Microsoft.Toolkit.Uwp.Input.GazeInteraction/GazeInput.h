@@ -36,8 +36,7 @@ public:
     static property DependencyProperty^ FixationProperty { DependencyProperty^ get(); }
     static property DependencyProperty^ DwellProperty { DependencyProperty^ get(); }
     static property DependencyProperty^ DwellRepeatProperty { DependencyProperty^ get(); }
-    static property DependencyProperty^ EnterProperty { DependencyProperty^ get(); }
-    static property DependencyProperty^ ExitProperty { DependencyProperty^ get(); }
+    static property DependencyProperty^ ThresholdProperty { DependencyProperty^ get(); }
 
 	static property DependencyProperty^ MaxRepeatCountProperty { DependencyProperty^ get(); }
 
@@ -51,8 +50,7 @@ public:
     static TimeSpan GetFixation(UIElement^ element);
     static TimeSpan GetDwell(UIElement^ element);
     static TimeSpan GetDwellRepeat(UIElement^ element);
-    static TimeSpan GetEnter(UIElement^ element);
-    static TimeSpan GetExit(UIElement^ element);
+    static TimeSpan GetThreshold(UIElement^ element);
 	static int GetMaxRepeatCount(UIElement^ element);
 
     static void SetIsGazeEnabled(UIElement^ element, GazeEnablement value);
@@ -62,8 +60,7 @@ public:
     static void SetFixation(UIElement^ element, TimeSpan span);
     static void SetDwell(UIElement^ element, TimeSpan span);
     static void SetDwellRepeat(UIElement^ element, TimeSpan span);
-    static void SetEnter(UIElement^ element, TimeSpan span);
-    static void SetExit(UIElement^ element, TimeSpan span);
+    static void SetThreshold(UIElement^ element, TimeSpan span);
 	static void SetMaxRepeatCount(UIElement^ element, int value);
 
 	static GazePointer^ GetGazePointer(Page^ page);

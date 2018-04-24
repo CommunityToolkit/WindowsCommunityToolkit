@@ -25,7 +25,7 @@ BEGIN_NAMESPACE_GAZE_INPUT
 const TimeSpan DEFAULT_FIXATION_DELAY = TimeSpanFromMicroseconds(400000);
 const TimeSpan DEFAULT_DWELL_DELAY = TimeSpanFromMicroseconds(800000);
 const TimeSpan DEFAULT_REPEAT_DELAY = TimeSpanFromMicroseconds(1600000);
-const TimeSpan DEFAULT_ENTER_EXIT_DELAY = TimeSpanFromMicroseconds(50000);
+const TimeSpan DEFAULT_THRESHOLD_DELAY = TimeSpanFromMicroseconds(50000);
 const TimeSpan DEFAULT_MAX_HISTORY_DURATION = TimeSpanFromMicroseconds(3000000);
 const TimeSpan MAX_SINGLE_SAMPLE_DURATION = TimeSpanFromMicroseconds(100000);
 
@@ -155,8 +155,7 @@ private:
     TimeSpan _defaultFixation = DEFAULT_FIXATION_DELAY;
     TimeSpan _defaultDwell = DEFAULT_DWELL_DELAY;
     TimeSpan _defaultRepeat = DEFAULT_REPEAT_DELAY;
-    TimeSpan _defaultEnter = DEFAULT_ENTER_EXIT_DELAY;
-    TimeSpan _defaultExit = DEFAULT_ENTER_EXIT_DELAY;
+    TimeSpan _defaultThreshold = DEFAULT_THRESHOLD_DELAY;
 };
 
 END_NAMESPACE_GAZE_INPUT
