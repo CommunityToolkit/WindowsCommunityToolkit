@@ -31,8 +31,6 @@ Unless specified otherwise in this article, the documentation for the [WebViewCo
 
 :heavy_check_mark: Windows 10 Insider Preview Build 17110 or a later release.
 
-:heavy_check_mark: Windows SDK Insider Preview Build 17110 or a later release.
-
 ## Feature limitations
 
 When compared to the UWP **WebView** control, the **WebView** controls for WPF and Windows Forms have these limitations:
