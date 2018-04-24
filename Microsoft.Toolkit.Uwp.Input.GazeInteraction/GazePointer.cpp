@@ -174,11 +174,11 @@ static DependencyProperty^ GetProperty(PointerState state)
 {
     switch (state)
     {
-    case PointerState::Fixation: return GazeInput::FixationProperty;
-    case PointerState::Dwell: return GazeInput::DwellProperty;
-    case PointerState::DwellRepeat: return GazeInput::DwellRepeatProperty;
-    case PointerState::Enter: return GazeInput::ThresholdProperty;
-    case PointerState::Exit: return GazeInput::ThresholdProperty;
+    case PointerState::Fixation: return GazeInput::FixationDurationProperty;
+    case PointerState::Dwell: return GazeInput::DwellDurationProperty;
+    case PointerState::DwellRepeat: return GazeInput::DwellRepeatDurationProperty;
+    case PointerState::Enter: return GazeInput::ThresholdDurationProperty;
+    case PointerState::Exit: return GazeInput::ThresholdDurationProperty;
     default: return nullptr;
     }
 }

@@ -70,40 +70,40 @@ static DependencyProperty^ s_isCursorVisibleProperty = DependencyProperty::Regis
 static DependencyProperty^ s_cursorRadiusProperty = DependencyProperty::RegisterAttached("CursorRadius", int::typeid, GazeInput::typeid,
     ref new PropertyMetadata(6, ref new PropertyChangedCallback(&OnCursorRadiusChanged)));
 static DependencyProperty^ s_gazeElementProperty = DependencyProperty::RegisterAttached("GazeElement", GazeElement::typeid, GazeInput::typeid, ref new PropertyMetadata(nullptr));
-static DependencyProperty^ s_fixationProperty = DependencyProperty::RegisterAttached("Fixation", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
-static DependencyProperty^ s_dwellProperty = DependencyProperty::RegisterAttached("Dwell", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
-static DependencyProperty^ s_dwellRepeatProperty = DependencyProperty::RegisterAttached("DwellRepeat", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
-static DependencyProperty^ s_thresholdProperty = DependencyProperty::RegisterAttached("Threshold", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
+static DependencyProperty^ s_fixationDurationProperty = DependencyProperty::RegisterAttached("FixationDuration", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
+static DependencyProperty^ s_dwellDurationProperty = DependencyProperty::RegisterAttached("DwellDuration", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
+static DependencyProperty^ s_dwellRepeatDurationProperty = DependencyProperty::RegisterAttached("DwellRepeatDuration", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
+static DependencyProperty^ s_thresholdDurationProperty = DependencyProperty::RegisterAttached("ThresholdDuration", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
 static DependencyProperty^ s_maxRepeatCountProperty = DependencyProperty::RegisterAttached("MaxDwellRepeatCount", int::typeid, GazeInput::typeid, ref new PropertyMetadata(safe_cast<Object^>(0)));
 
 DependencyProperty^ GazeInput::IsGazeEnabledProperty::get() { return s_isGazeEnabledProperty; }
 DependencyProperty^ GazeInput::IsCursorVisibleProperty::get() { return s_isCursorVisibleProperty; }
 DependencyProperty^ GazeInput::CursorRadiusProperty::get() { return s_cursorRadiusProperty; }
 DependencyProperty^ GazeInput::GazeElementProperty::get() { return s_gazeElementProperty; }
-DependencyProperty^ GazeInput::FixationProperty::get() { return s_fixationProperty; }
-DependencyProperty^ GazeInput::DwellProperty::get() { return s_dwellProperty; }
-DependencyProperty^ GazeInput::DwellRepeatProperty::get() { return s_dwellRepeatProperty; }
-DependencyProperty^ GazeInput::ThresholdProperty::get() { return s_thresholdProperty; }
+DependencyProperty^ GazeInput::FixationDurationProperty::get() { return s_fixationDurationProperty; }
+DependencyProperty^ GazeInput::DwellDurationProperty::get() { return s_dwellDurationProperty; }
+DependencyProperty^ GazeInput::DwellRepeatDurationProperty::get() { return s_dwellRepeatDurationProperty; }
+DependencyProperty^ GazeInput::ThresholdDurationProperty::get() { return s_thresholdDurationProperty; }
 DependencyProperty^ GazeInput::MaxDwellRepeatCountProperty::get() { return s_maxRepeatCountProperty; }
 
 GazeEnablement GazeInput::GetIsGazeEnabled(UIElement^ element) { return safe_cast<GazeEnablement>(element->GetValue(s_isGazeEnabledProperty)); }
 bool GazeInput::GetIsCursorVisible(UIElement^ element) { return safe_cast<bool>(element->GetValue(s_isCursorVisibleProperty)); }
 int GazeInput::GetCursorRadius(UIElement^ element) { return safe_cast<int>(element->GetValue(s_cursorRadiusProperty)); }
 GazeElement^ GazeInput::GetGazeElement(UIElement^ element) { return safe_cast<GazeElement^>(element->GetValue(s_gazeElementProperty)); }
-TimeSpan GazeInput::GetFixation(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_fixationProperty)); }
-TimeSpan GazeInput::GetDwell(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_dwellProperty)); }
-TimeSpan GazeInput::GetDwellRepeat(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_dwellRepeatProperty)); }
-TimeSpan GazeInput::GetThreshold(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_thresholdProperty)); }
+TimeSpan GazeInput::GetFixationDuration(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_fixationDurationProperty)); }
+TimeSpan GazeInput::GetDwellDuration(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_dwellDurationProperty)); }
+TimeSpan GazeInput::GetDwellRepeatDuration(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_dwellRepeatDurationProperty)); }
+TimeSpan GazeInput::GetThresholdDuration(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_thresholdDurationProperty)); }
 int GazeInput::GetMaxDwellRepeatCount(UIElement^ element) { return safe_cast<int>(element->GetValue(s_maxRepeatCountProperty)); }
 
 void GazeInput::SetIsGazeEnabled(UIElement^ element, GazeEnablement value) { element->SetValue(s_isGazeEnabledProperty, value); }
 void GazeInput::SetIsCursorVisible(UIElement^ element, bool value) { element->SetValue(s_isCursorVisibleProperty, value); }
 void GazeInput::SetCursorRadius(UIElement^ element, int value) { element->SetValue(s_cursorRadiusProperty, value); }
 void GazeInput::SetGazeElement(UIElement^ element, GazeElement^ value) { element->SetValue(s_gazeElementProperty, value); }
-void GazeInput::SetFixation(UIElement^ element, TimeSpan span) { element->SetValue(s_fixationProperty, span); }
-void GazeInput::SetDwell(UIElement^ element, TimeSpan span) { element->SetValue(s_dwellProperty, span); }
-void GazeInput::SetDwellRepeat(UIElement^ element, TimeSpan span) { element->SetValue(s_dwellRepeatProperty, span); }
-void GazeInput::SetThreshold(UIElement^ element, TimeSpan span) { element->SetValue(s_thresholdProperty, span); }
+void GazeInput::SetFixationDuration(UIElement^ element, TimeSpan span) { element->SetValue(s_fixationDurationProperty, span); }
+void GazeInput::SetDwellDuration(UIElement^ element, TimeSpan span) { element->SetValue(s_dwellDurationProperty, span); }
+void GazeInput::SetDwellRepeatDuration(UIElement^ element, TimeSpan span) { element->SetValue(s_dwellRepeatDurationProperty, span); }
+void GazeInput::SetThresholdDuration(UIElement^ element, TimeSpan span) { element->SetValue(s_thresholdDurationProperty, span); }
 void GazeInput::SetMaxDwellRepeatCount(UIElement^ element, int value) { element->SetValue(s_maxRepeatCountProperty, value); }
 
 GazePointer^ GazeInput::GetGazePointer(Page^ page)

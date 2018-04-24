@@ -35,7 +35,7 @@
                 <RowDefinition Height="5*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <ToggleButton Grid.Row="0" Content="Click" g:GazeInput.Dwell="0:0:2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <ToggleButton Grid.Row="0" Content="Click" g:GazeInput.DwellDuration="0:0:2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <g:GazeInput.GazeElement>
                     <g:GazeElement ProgressFeedback="OnInvokeProgress" />
                 </g:GazeInput.GazeElement>
