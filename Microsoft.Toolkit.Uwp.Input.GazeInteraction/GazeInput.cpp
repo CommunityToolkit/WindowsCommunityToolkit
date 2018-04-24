@@ -72,6 +72,7 @@ static DependencyProperty^ s_cursorRadiusProperty = DependencyProperty::Register
 static DependencyProperty^ s_gazeElementProperty = DependencyProperty::RegisterAttached("GazeElement", GazeElement::typeid, GazeInput::typeid, ref new PropertyMetadata(nullptr));
 static DependencyProperty^ s_fixationProperty = DependencyProperty::RegisterAttached("Fixation", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
 static DependencyProperty^ s_dwellProperty = DependencyProperty::RegisterAttached("Dwell", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
+static DependencyProperty^ s_repeatDelayProperty = DependencyProperty::RegisterAttached("RepeatDelay", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
 static DependencyProperty^ s_dwellRepeatProperty = DependencyProperty::RegisterAttached("DwellRepeat", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
 static DependencyProperty^ s_thresholdProperty = DependencyProperty::RegisterAttached("Threshold", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
 static DependencyProperty^ s_maxRepeatCountProperty = DependencyProperty::RegisterAttached("MaxRepeatCount", int::typeid, GazeInput::typeid, ref new PropertyMetadata(safe_cast<Object^>(0)));
@@ -82,6 +83,7 @@ DependencyProperty^ GazeInput::CursorRadiusProperty::get() { return s_cursorRadi
 DependencyProperty^ GazeInput::GazeElementProperty::get() { return s_gazeElementProperty; }
 DependencyProperty^ GazeInput::FixationProperty::get() { return s_fixationProperty; }
 DependencyProperty^ GazeInput::DwellProperty::get() { return s_dwellProperty; }
+DependencyProperty^ GazeInput::RepeatDelayProperty::get() { return s_repeatDelayProperty; }
 DependencyProperty^ GazeInput::DwellRepeatProperty::get() { return s_dwellRepeatProperty; }
 DependencyProperty^ GazeInput::ThresholdProperty::get() { return s_thresholdProperty; }
 DependencyProperty^ GazeInput::MaxRepeatCountProperty::get() { return s_maxRepeatCountProperty; }
@@ -92,6 +94,7 @@ int GazeInput::GetCursorRadius(UIElement^ element) { return safe_cast<int>(eleme
 GazeElement^ GazeInput::GetGazeElement(UIElement^ element) { return safe_cast<GazeElement^>(element->GetValue(s_gazeElementProperty)); }
 TimeSpan GazeInput::GetFixation(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_fixationProperty)); }
 TimeSpan GazeInput::GetDwell(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_dwellProperty)); }
+TimeSpan GazeInput::GetRepeatDelay(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_repeatDelayProperty)); }
 TimeSpan GazeInput::GetDwellRepeat(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_dwellRepeatProperty)); }
 TimeSpan GazeInput::GetThreshold(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_thresholdProperty)); }
 int GazeInput::GetMaxRepeatCount(UIElement^ element) { return safe_cast<int>(element->GetValue(s_maxRepeatCountProperty)); }
@@ -102,6 +105,7 @@ void GazeInput::SetCursorRadius(UIElement^ element, int value) { element->SetVal
 void GazeInput::SetGazeElement(UIElement^ element, GazeElement^ value) { element->SetValue(s_gazeElementProperty, value); }
 void GazeInput::SetFixation(UIElement^ element, TimeSpan span) { element->SetValue(s_fixationProperty, span); }
 void GazeInput::SetDwell(UIElement^ element, TimeSpan span) { element->SetValue(s_dwellProperty, span); }
+void GazeInput::SetRepeatDelay(UIElement^ element, TimeSpan span) { element->SetValue(s_repeatDelayProperty, span); }
 void GazeInput::SetDwellRepeat(UIElement^ element, TimeSpan span) { element->SetValue(s_dwellRepeatProperty, span); }
 void GazeInput::SetThreshold(UIElement^ element, TimeSpan span) { element->SetValue(s_thresholdProperty, span); }
 void GazeInput::SetMaxRepeatCount(UIElement^ element, int value) { element->SetValue(s_maxRepeatCountProperty, value); }

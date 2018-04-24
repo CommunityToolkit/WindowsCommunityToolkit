@@ -35,6 +35,7 @@ public:
 
     static property DependencyProperty^ FixationProperty { DependencyProperty^ get(); }
     static property DependencyProperty^ DwellProperty { DependencyProperty^ get(); }
+    static property DependencyProperty^ RepeatDelayProperty { DependencyProperty^ get(); }
     static property DependencyProperty^ DwellRepeatProperty { DependencyProperty^ get(); }
     static property DependencyProperty^ ThresholdProperty { DependencyProperty^ get(); }
 
@@ -49,6 +50,7 @@ public:
     static GazeElement^ GetGazeElement(UIElement^ element);
     static TimeSpan GetFixation(UIElement^ element);
     static TimeSpan GetDwell(UIElement^ element);
+    static TimeSpan GetRepeatDelay(UIElement^ element);
     static TimeSpan GetDwellRepeat(UIElement^ element);
     static TimeSpan GetThreshold(UIElement^ element);
 	static int GetMaxRepeatCount(UIElement^ element);
@@ -59,6 +61,7 @@ public:
     static void SetGazeElement(UIElement^ element, GazeElement^ value);
     static void SetFixation(UIElement^ element, TimeSpan span);
     static void SetDwell(UIElement^ element, TimeSpan span);
+    static void SetRepeatDelay(UIElement^ element, TimeSpan span);
     static void SetDwellRepeat(UIElement^ element, TimeSpan span);
     static void SetThreshold(UIElement^ element, TimeSpan span);
 	static void SetMaxRepeatCount(UIElement^ element, int value);
