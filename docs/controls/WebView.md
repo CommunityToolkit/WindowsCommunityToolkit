@@ -45,6 +45,8 @@ When compared to the UWP **WebView** control, the **WebView** controls for WPF a
 
 :no_entry: These Microsoft Edge features: Service workers and Push Messages.
 
+> [!IMPORTANT]
+When using WebView in a Windows Forms project, you must use .NET Framework 4.7 and [configure your Windows Forms app for high DPI support](https://docs.microsoft.com/en-us/dotnet/framework/winforms/high-dpi-support-in-windows-forms).
 
 ## Add the WebView control to the Visual Studio Toolbox
 
@@ -75,6 +77,8 @@ First, open the Visual Studio **Toolbox**, then right-click anywhere in the tool
    The **WebView** control appears in the **Common XAML Controls** section of the **Toolbox**.
 
    In **Solution Explorer**, the **Microsoft.Toolkit.Win32.UI.Controls.dll** file appears in the **References** list.
+
+
 
 ## Modify the appearance of a WebView
 
