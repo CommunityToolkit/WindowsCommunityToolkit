@@ -25,8 +25,8 @@ ref class GazeTargetItem;
 ref struct GazeHistoryItem
 {
     property GazeTargetItem^ HitTarget;
-    property int64 Timestamp;
-    property int64 Duration;
+    property TimeSpan Timestamp;
+    property TimeSpan Duration;
 };
 
 END_NAMESPACE_GAZE_INPUT

@@ -42,7 +42,7 @@ public:
         Invoked(sender, args);
     }
 
-	bool RaiseProgressFeedback(Object^ sender, GazeProgressState state, int64 elapsedTime, int64 triggerTime)
+	bool RaiseProgressFeedback(Object^ sender, GazeProgressState state, TimeSpan elapsedTime, TimeSpan triggerTime)
 	{
 		auto args = ref new GazeProgressEventArgs(state, elapsedTime, triggerTime);
 		ProgressFeedback(sender, args);

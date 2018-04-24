@@ -12,9 +12,9 @@ BEGIN_NAMESPACE_GAZE_INPUT
 public ref struct GazeEventArgs sealed
 {
     property Point Location;
-    property int64 Timestamp;
+    property TimeSpan Timestamp;
 
-    GazeEventArgs(Point location, int64 timestamp)
+    GazeEventArgs(Point location, TimeSpan timestamp)
     {
         Location = location;
         Timestamp = timestamp;
