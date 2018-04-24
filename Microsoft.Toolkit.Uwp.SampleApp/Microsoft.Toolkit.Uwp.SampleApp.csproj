@@ -495,7 +495,6 @@
     <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrushXaml.bind">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="SamplePages\UniformGrid\UniformGrid.code" />
     <Content Include="SamplePages\LayoutTransformControl\LayoutTransformControlXaml.bind" />
     <Content Include="SamplePages\PrintHelper\PrintHelperXaml.bind">
       <SubType>Designer</SubType>
@@ -530,7 +529,6 @@
     <Compile Include="Models\LandingPageLinks.cs" />
     <Compile Include="Models\LandingPageResource.cs" />
     <Compile Include="Models\LandingPageLink.cs" />
-    <Compile Include="SamplePages\UniformGrid\Helpers\CalendarHelper.cs" />
     <Compile Include="SamplePages\UniformGrid\UniformGridPage.xaml.cs">
       <DependentUpon>UniformGridPage.xaml</DependentUpon>
     </Compile>

@@ -37,7 +37,6 @@
         "About": "Presents items in a evenly-spaced set of rows or columns to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/UniformGrid",
         "XamlCodeFile": "UniformGridXaml.bind",
-        "CodeFile": "UniformGrid.code",
         "Icon": "/SamplePages/UniformGrid/UniformGrid.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/UniformGrid.md"
       },

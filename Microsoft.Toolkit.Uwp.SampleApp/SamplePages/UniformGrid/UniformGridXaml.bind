@@ -4,85 +4,21 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.UniformGrid.Helpers"
     mc:Ignorable="d">
 
-  <Page.Resources>  
-    <SolidColorBrush x:Key="WeekdayBrush" Color="{ThemeResource SystemAltHighColor}"/>
-    <SolidColorBrush x:Key="WeekendBrush" Color="{ThemeResource SystemBaseLowColor}"/>
-    
-    <converters:BoolToObjectConverter x:Key="WeekendColorConverter" TrueValue="{StaticResource WeekendBrush}" FalseValue="{StaticResource WeekdayBrush}"/>
-    <converters:StringFormatConverter x:Key="StringFormatConverter"/>
-      
-    <DataTemplate x:Key="CalendarDayTemplate">
-      <controls:DropShadowPanel BlurRadius="8"
-                                ShadowOpacity="0.05"
-                                OffsetX="8"
-                                OffsetY="8"
-                                Color="{ThemeResource SystemBaseHighColor}"
-                                HorizontalContentAlignment="Stretch">
-        <Border Background="{Binding IsWeekend, Converter={StaticResource WeekendColorConverter}}"
-                BorderBrush="LightGray"
-                BorderThickness="1">
-          <TextBlock Text="{Binding Day}" Margin="12" FontSize="12"/>
-        </Border>
-      </controls:DropShadowPanel>
-    </DataTemplate>
-    
-    <local:CalendarHelper x:Key="CalendarHelper"
-                        ChosenMonth="@[Month:Enum:Month.January]"
-                        ChosenYear="@[Year:Slider:2018:2010-2030]"/>
-  </Page.Resources>
-
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
-        DataContext="{StaticResource CalendarHelper}" 
-        Padding="24">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="12"/>
-      <RowDefinition Height="*"/>
-      <RowDefinition Height="Auto"/>
-    </Grid.RowDefinitions>
-    
-    <Grid Grid.Row="0" Padding="2">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*"/>
-        <ColumnDefinition Width="Auto"/>
-      </Grid.ColumnDefinitions>
-      
-      <TextBlock Text="{Binding ChosenMonth}" FontSize="48"/>
-      <TextBlock Text="{Binding ChosenYear}" FontSize="48" Grid.Column="1"
-                 HorizontalAlignment="Right"/>
-    </Grid>
-    
-    <GridView ItemsSource="{Binding CalendarDays}"
-              ItemTemplate="{StaticResource CalendarDayTemplate}"
-              SelectedItem="{Binding SelectedDate, Mode=TwoWay}"
-              Grid.Row="2">
-      <GridView.ItemsPanel>
-        <ItemsPanelTemplate>
-          <controls:UniformGrid Columns="7"
-                                FirstColumn="{Binding MonthStartOffset}">
-            <controls:UniformGrid.ColumnDefinitions>
-              <ColumnDefinition controls:UniformGrid.Column="0" Width="0.75*"/>
-              <ColumnDefinition controls:UniformGrid.Column="6" Width="0.75*"/>
-            </controls:UniformGrid.ColumnDefinitions>
-          </controls:UniformGrid>
-        </ItemsPanelTemplate>
-      </GridView.ItemsPanel>
-      <GridView.ItemContainerStyle>
-        <Style TargetType="GridViewItem">
-          <Setter Property="Margin" Value="4"/>
-          <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-          <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-        </Style>
-      </GridView.ItemContainerStyle>
-    </GridView>
-
-    <TextBlock Grid.Row="3" Padding="4">
-      <Run FontWeight="Bold">Selected Date: </Run>
-      <Run Text="{Binding SelectedDate.Date, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:dddd, MMMM d, yyyy}'}"/>
-    </TextBlock>
-  </Grid>
+  <controls:UniformGrid FirstColumn="1">
+    <Border Background="AliceBlue" 
+            Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" 
+            Grid.ColumnSpan="2"><TextBlock Text="1"/></Border>
+    <Border Background="Cornsilk"><TextBlock Text="2"/></Border>
+    <Border Background="DarkSalmon"><TextBlock Text="3"/></Border>
+    <Border Background="Gainsboro"><TextBlock Text="4"/></Border>
+    <Border Background="LightBlue"><TextBlock Text="5"/></Border>
+    <Border Background="MediumAquamarine"><TextBlock Text="6"/></Border>
+    <Border Background="MistyRose"><TextBlock Text="7"/></Border>
+    <Border Background="LightCyan"><TextBlock Text="8"/></Border>
+    <Border Background="Salmon"><TextBlock Text="9"/></Border>
+    <Border Background="Goldenrod"><TextBlock Text="10"/></Border>
+    <Border Background="Pink"><TextBlock Text="11"/></Border>
+  </controls:UniformGrid>
 </Page>
