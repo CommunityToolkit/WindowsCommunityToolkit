@@ -80,8 +80,6 @@ First, open the Visual Studio **Toolbox**, then right-click anywhere in the tool
 
 To constrain the display area, set the `Width` and `Height` properties.
 
-To specify a color to use as the web page background when the HTML content does not specify a color, set the `DefaultBackColor` property.
-
 This table contains links to each of these members.
 
 | Member | Windows Forms WebView | WPF WebView |
@@ -96,27 +94,6 @@ You can get the title of the HTML document currently displayed in the **WebView*
 ## Input events and tab order
 
 You can use the [InvokeScriptAsync](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.invokescriptasync) method with the JavaScript **eval** function to use the HTML event handlers, and use **window.external.notify** from the HTML event handlers to notify the application using the [ScriptNotify](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.scriptnotify) event.
-
-The **WebView** control also receives keyboard input focus and participates in the tab sequence. Access this information via the following members:
-
-<!-- This is goofy right now with the way we are nesting windows -->
-
-* In a Windows Forms app, access tab sequence info via the  [TabIndex](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.tabindex) and [TabStop](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.tabstop) properties. The tab sequence includes all elements in the web view content that can receive input focus.
-
-* Use the [Focus](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.focus) method to programmatically set input focus, and handle the `GotFocus` and `LostFocus` events to be notified of input focus changes.
-
-* Handle keyboard input via the `KeyDown`, `KeyUp` events and mouse-related events.
-
-<!-- There does not appear to be TabIndex, TabStop, and MouseClick members for the WPF version of this control. -->
-
-This table contains links to some of the members described in this section.
-
-| Member | Windows Forms WebView | WPF WebView |
-|-------|-------------|---|
-|GotFocus event |[GotFocus](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.gotfocus)|[GotFocus](https://docs.microsoft.com/dotnet/api/system.windows.uielement.gotfocus)|
-|LostFocus event|[LostFocus](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.lostfocus)|[LostFocus](https://docs.microsoft.com/dotnet/api/system.windows.uielement.lostfocus)|
-|KeyDown event |[KeyDown](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.keydown)|[KeyDown](https://docs.microsoft.com/dotnet/api/system.windows.uielement.keydown)|
-|KeyUp event|[KeyUp](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.keyup)|[KeyUp](https://docs.microsoft.com/dotnet/api/system.windows.uielement.keyup?view=netframework-4.7.2)|
 
 ## Navigate to content
 
