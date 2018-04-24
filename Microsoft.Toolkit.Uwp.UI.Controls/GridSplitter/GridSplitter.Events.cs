@@ -170,17 +170,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 //System.Diagnostics.Debug.WriteLine($"Previous: {size.Width}; Future: {GetGridWidthAfterResize(horizontalChange)}; Grid Parent: {GetElementWidth((FrameworkElement)Resizable.Parent as UIElement)}");
 
                 LogColumnStates();
-                SaveProperties(Resizable.ColumnDefinitions);
                 if (HorizontalMove(horizontalChange))
                 {
-                    SaveProperties(Resizable.ColumnDefinitions);
                     LogColumnStates();
                     return;
-                }
-
-                foreach (var column in Resizable.ColumnDefinitions)
-                {
-                    SaveProperties(column);
                 }
 
                 LogColumnStates();
