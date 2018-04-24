@@ -4,7 +4,7 @@
 #pragma once
 #pragma warning(disable:4453)
 
-#include "GazePointerState.h"
+#include "PointerState.h"
 #include "GazeInput.h"
 #include "GazeProgressState.h"
 
@@ -31,10 +31,10 @@ internal:
 	property TimeSpan ElapsedTime { TimeSpan get() { return DetailedTime + OverflowTime; } }
 	property TimeSpan NextStateTime;
 	property TimeSpan LastTimestamp;
-	property GazePointerState ElementState;
+	property PointerState ElementState;
 	property UIElement^ TargetElement;
 	property int RepeatCount;
-	property int MaxRepeatCount;
+	property int MaxDwellRepeatCount;
 
 	GazeTargetItem(UIElement^ target)
 	{
@@ -49,12 +49,12 @@ internal:
 
 	void Reset(TimeSpan nextStateTime)
 	{
-		ElementState = GazePointerState::PreEnter;
+		ElementState = PointerState::PreEnter;
 		DetailedTime = TimeSpanZero;
 		OverflowTime = TimeSpanZero;
 		NextStateTime = nextStateTime;
 		RepeatCount = 0;
-		MaxRepeatCount = GazeInput::GetMaxRepeatCount(TargetElement);
+		MaxDwellRepeatCount = GazeInput::GetMaxDwellRepeatCount(TargetElement);
 	}
 
 	void GiveFeedback()
@@ -69,22 +69,22 @@ internal:
 		{
 			switch (ElementState)
 			{
-			case GazePointerState::Dwell:
-			case GazePointerState::Fixation:
+			case PointerState::Dwell:
+			case PointerState::Fixation:
 				RaiseProgressEvent(GazeProgressState::Progressing);
 				break;
 
-			case GazePointerState::Exit:
-			case GazePointerState::PreEnter:
+			case PointerState::Exit:
+			case PointerState::PreEnter:
 				RaiseProgressEvent(GazeProgressState::Idle);
 				break;
 			}
 
 			_notifiedPointerState = ElementState;
 		}
-		else if (ElementState == GazePointerState::Dwell || ElementState == GazePointerState::Fixation)
+		else if (ElementState == PointerState::Dwell || ElementState == PointerState::Fixation)
 		{
-			if (RepeatCount <= MaxRepeatCount)
+			if (RepeatCount <= MaxDwellRepeatCount)
 			{
 				RaiseProgressEvent(GazeProgressState::Progressing);
 			}
@@ -99,7 +99,7 @@ private:
 
 	void RaiseProgressEvent(GazeProgressState state);
 
-	GazePointerState _notifiedPointerState = GazePointerState::Exit;
+	PointerState _notifiedPointerState = PointerState::Exit;
 	TimeSpan _prevStateTime;
 	TimeSpan _nextStateTime;
 	GazeProgressState _notifiedProgressState = GazeProgressState::Idle;

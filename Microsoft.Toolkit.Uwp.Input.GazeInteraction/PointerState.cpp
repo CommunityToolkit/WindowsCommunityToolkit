@@ -2,7 +2,7 @@
 //See LICENSE in the project root for license information.
 
 #include "pch.h"
-#include "GazePointerState.h"
+#include "PointerState.h"
 
 using namespace std;
 using namespace Platform;

@@ -75,7 +75,7 @@ static DependencyProperty^ s_dwellProperty = DependencyProperty::RegisterAttache
 static DependencyProperty^ s_dwellRepeatProperty = DependencyProperty::RegisterAttached("DwellRepeat", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
 static DependencyProperty^ s_enterProperty = DependencyProperty::RegisterAttached("Enter", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
 static DependencyProperty^ s_exitProperty = DependencyProperty::RegisterAttached("Exit", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
-static DependencyProperty^ s_maxRepeatCountProperty = DependencyProperty::RegisterAttached("MaxRepeatCount", int::typeid, GazeInput::typeid, ref new PropertyMetadata(safe_cast<Object^>(0)));
+static DependencyProperty^ s_maxDwellRepeatCountProperty = DependencyProperty::RegisterAttached("MaxDwellRepeatCount", int::typeid, GazeInput::typeid, ref new PropertyMetadata(safe_cast<Object^>(0)));
 
 DependencyProperty^ GazeInput::IsGazeEnabledProperty::get() { return s_isGazeEnabledProperty; }
 DependencyProperty^ GazeInput::IsCursorVisibleProperty::get() { return s_isCursorVisibleProperty; }
@@ -86,7 +86,7 @@ DependencyProperty^ GazeInput::DwellProperty::get() { return s_dwellProperty; }
 DependencyProperty^ GazeInput::DwellRepeatProperty::get() { return s_dwellRepeatProperty; }
 DependencyProperty^ GazeInput::EnterProperty::get() { return s_enterProperty; }
 DependencyProperty^ GazeInput::ExitProperty::get() { return s_exitProperty; }
-DependencyProperty^ GazeInput::MaxRepeatCountProperty::get() { return s_maxRepeatCountProperty; }
+DependencyProperty^ GazeInput::MaxDwellRepeatCountProperty::get() { return s_maxDwellRepeatCountProperty; }
 
 GazeEnablement GazeInput::GetIsGazeEnabled(UIElement^ element) { return safe_cast<GazeEnablement>(element->GetValue(s_isGazeEnabledProperty)); }
 bool GazeInput::GetIsCursorVisible(UIElement^ element) { return safe_cast<bool>(element->GetValue(s_isCursorVisibleProperty)); }
@@ -97,7 +97,7 @@ TimeSpan GazeInput::GetDwell(UIElement^ element) { return safe_cast<TimeSpan>(el
 TimeSpan GazeInput::GetDwellRepeat(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_dwellRepeatProperty)); }
 TimeSpan GazeInput::GetEnter(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_enterProperty)); }
 TimeSpan GazeInput::GetExit(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_exitProperty)); }
-int GazeInput::GetMaxRepeatCount(UIElement^ element) { return safe_cast<int>(element->GetValue(s_maxRepeatCountProperty)); }
+int GazeInput::GetMaxDwellRepeatCount(UIElement^ element) { return safe_cast<int>(element->GetValue(s_maxDwellRepeatCountProperty)); }
 
 void GazeInput::SetIsGazeEnabled(UIElement^ element, GazeEnablement value) { element->SetValue(s_isGazeEnabledProperty, value); }
 void GazeInput::SetIsCursorVisible(UIElement^ element, bool value) { element->SetValue(s_isCursorVisibleProperty, value); }
@@ -108,7 +108,7 @@ void GazeInput::SetDwell(UIElement^ element, TimeSpan span) { element->SetValue(
 void GazeInput::SetDwellRepeat(UIElement^ element, TimeSpan span) { element->SetValue(s_dwellRepeatProperty, span); }
 void GazeInput::SetEnter(UIElement^ element, TimeSpan span) { element->SetValue(s_enterProperty, span); }
 void GazeInput::SetExit(UIElement^ element, TimeSpan span) { element->SetValue(s_exitProperty, span); }
-void GazeInput::SetMaxRepeatCount(UIElement^ element, int value) { element->SetValue(s_maxRepeatCountProperty, value); }
+void GazeInput::SetMaxDwellRepeatCount(UIElement^ element, int value) { element->SetValue(s_maxDwellRepeatCountProperty, value); }
 
 GazePointer^ GazeInput::GetGazePointer(Page^ page)
 {

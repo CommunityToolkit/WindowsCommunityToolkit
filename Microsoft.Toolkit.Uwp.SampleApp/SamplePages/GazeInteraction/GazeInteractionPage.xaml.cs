@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void GazeButtonControl_StateChanged(object sender, GazePointerEventArgs ea)
         {
-            if (ea.PointerState == GazePointerState.Enter)
+            if (ea.PointerState == PointerState.Enter)
             {
                 enterRec.Visibility = Visibility.Visible;
                 dwellCountText.Visibility = Visibility.Collapsed;
@@ -84,12 +84,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 exitRec.Visibility = Visibility.Collapsed;
             }
 
-            if (ea.PointerState == GazePointerState.Fixation)
+            if (ea.PointerState == PointerState.Fixation)
             {
                 fixationRec.Visibility = Visibility.Visible;
             }
 
-            if (ea.PointerState == GazePointerState.Dwell)
+            if (ea.PointerState == PointerState.Dwell)
             {
                 if (dwellCount == 0)
                 {
@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             }
 
-            if (ea.PointerState == GazePointerState.Exit)
+            if (ea.PointerState == PointerState.Exit)
             {
                 exitRec.Visibility = Visibility.Visible;
 

@@ -39,7 +39,7 @@ public:
     static property DependencyProperty^ EnterProperty { DependencyProperty^ get(); }
     static property DependencyProperty^ ExitProperty { DependencyProperty^ get(); }
 
-	static property DependencyProperty^ MaxRepeatCountProperty { DependencyProperty^ get(); }
+	static property DependencyProperty^ MaxDwellRepeatCountProperty { DependencyProperty^ get(); }
 
     static property Brush^ GazeFeedbackProgressBrush { Brush^ get(); void set(Brush^ value); }
     static property Brush^ GazeFeedbackCompleteBrush { Brush^ get(); void set(Brush^ value); }
@@ -53,7 +53,7 @@ public:
     static TimeSpan GetDwellRepeat(UIElement^ element);
     static TimeSpan GetEnter(UIElement^ element);
     static TimeSpan GetExit(UIElement^ element);
-	static int GetMaxRepeatCount(UIElement^ element);
+	static int GetMaxDwellRepeatCount(UIElement^ element);
 
     static void SetIsGazeEnabled(UIElement^ element, GazeEnablement value);
     static void SetIsCursorVisible(UIElement^ element, bool value);
@@ -64,7 +64,7 @@ public:
     static void SetDwellRepeat(UIElement^ element, TimeSpan span);
     static void SetEnter(UIElement^ element, TimeSpan span);
     static void SetExit(UIElement^ element, TimeSpan span);
-	static void SetMaxRepeatCount(UIElement^ element, int value);
+	static void SetMaxDwellRepeatCount(UIElement^ element, int value);
 
 	static GazePointer^ GetGazePointer(Page^ page);
 

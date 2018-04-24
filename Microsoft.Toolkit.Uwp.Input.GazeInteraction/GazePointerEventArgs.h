@@ -6,7 +6,7 @@
 
 #include "IGazeFilter.h"
 #include "GazeCursor.h"
-#include "GazePointerState.h"
+#include "PointerState.h"
 
 using namespace Platform;
 using namespace Platform::Collections;
@@ -24,11 +24,11 @@ BEGIN_NAMESPACE_GAZE_INPUT
 public ref struct GazePointerEventArgs sealed
 {
     property UIElement^ HitTarget;
-    property GazePointerState PointerState;
+    property PointerState PointerState;
     property TimeSpan ElapsedTime;
     property TimeSpan ElapsedTimeSpan { TimeSpan get() { return ElapsedTime; } }
 
-    GazePointerEventArgs(UIElement^ target, GazePointerState state, TimeSpan elapsedTime)
+    GazePointerEventArgs(UIElement^ target, GazeInteraction::PointerState state, TimeSpan elapsedTime)
     {
         HitTarget = target;
         PointerState = state;
