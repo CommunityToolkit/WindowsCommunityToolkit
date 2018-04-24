@@ -290,7 +290,7 @@ You can use the [Settings](https://docs.microsoft.com/uwp/api/windows.web.ui.int
 
  ## Requirements
 
-| Device family | Windows 10 Insider Preview (introduced v10.0.17110.0)   |
+| Device family | .NET 4.7, 10.0.17110.0 or higher |
 | -- | -- |
 | Namespace | Microsoft.Toolkit.Win32.UI.Controls.WinForms, Microsoft.Toolkit.Win32.UI.Controls.WPF |
 | NuGet package | [Microsoft.Toolkit.Win32.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Win32.UI.Controls/) |
