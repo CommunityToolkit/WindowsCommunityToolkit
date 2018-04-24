@@ -24,11 +24,11 @@
                     
                     Width="@[ButtonSize:Slider:100:10-300]"
                     Height="@[ButtonSize]"
-                    g:GazeInput.Threshold="@[Threshold:TimeSpan:50:50-200]@"
-                    g:GazeInput.Fixation="@[Fixation:TimeSpan:400:50-1000]@"
-                    g:GazeInput.Dwell="@[Dwell:TimeSpan:800:100-5000]@"
+                    g:GazeInput.ThresholdDuration="@[ThresholdDuration:TimeSpan:50:50-200]@"
+                    g:GazeInput.FixationDuration="@[FixationDuration:TimeSpan:400:50-1000]@"
+                    g:GazeInput.DwellDuration="@[DwellDuration:TimeSpan:800:100-5000]@"
                     Tag="@[DwellRepeatDelay:TimeSpan:0:0-5000]@"
-                    g:GazeInput.DwellRepeat="@[DwellRepeat:TimeSpan:1600:50-10000]@"
+                    g:GazeInput.DwellRepeatDuration="@[DwellRepeatDuration:TimeSpan:1600:50-10000]@"
                     g:GazeInput.MaxDwellRepeatCount="@[MaxRepeatCount:Slider:0:0-20]@"
                    
                     />
