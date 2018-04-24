@@ -6,7 +6,7 @@
 #include "GazeInput.h"
 #include "GazeTargetItem.h"
 #include "GazeHistoryItem.h"
-#include "GazePointerEventArgs.h"
+#include "StateChangedEventArgs.h"
 #include "GazeElement.h"
 #include <xstddef>
 #include <varargs.h>
@@ -459,7 +459,7 @@ void GazePointer::RaiseGazePointerEvent(GazeTargetItem^ target, PointerState sta
 {
     auto control = target != nullptr ? safe_cast<Control^>(target->TargetElement) : nullptr;
     //assert(target != _rootElement);
-    auto gpea = ref new GazePointerEventArgs(control, state, elapsedTime);
+    auto gpea = ref new StateChangedEventArgs(control, state, elapsedTime);
     //auto buttonObj = dynamic_cast<Button ^>(target);
     //if (buttonObj && buttonObj->Content)
     //{
@@ -531,7 +531,7 @@ void GazePointer::OnGazeExited(GazeInputSourcePreview^ provider, GazeExitedPrevi
 
 void GazePointer::ProcessGazePoint(TimeSpan timestamp, Point position)
 {
-    auto ea = ref new GazeEventArgs(position, timestamp);
+    auto ea = ref new GazeFilterArgs(position, timestamp);
 
     auto fa = Filter->Update(ea);
     _gazeCursor->Position = fa->Location;

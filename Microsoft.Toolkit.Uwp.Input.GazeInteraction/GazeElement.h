@@ -6,7 +6,7 @@
 
 #include "IGazeFilter.h"
 #include "GazeCursor.h"
-#include "GazePointerEventArgs.h"
+#include "StateChangedEventArgs.h"
 #include "GazeInvokedRoutedEventArgs.h"
 #include "GazeProgressEventArgs.h"
 
@@ -31,11 +31,11 @@ public:
     static property DependencyProperty^ HasAttentionProperty { DependencyProperty^ get() { return s_hasAttentionProperty; } }
     static property DependencyProperty^ InvokeProgressProperty { DependencyProperty^ get() { return s_invokeProgressProperty; } }
 
-    event EventHandler<GazePointerEventArgs^>^ StateChanged;
+    event EventHandler<StateChangedEventArgs^>^ StateChanged;
     event EventHandler<GazeInvokedRoutedEventArgs^>^ Invoked;
 	event EventHandler<GazeProgressEventArgs^>^ ProgressFeedback;
 
-    void RaiseStateChanged(Object^ sender, GazePointerEventArgs^ args) { StateChanged(sender, args); }
+    void RaiseStateChanged(Object^ sender, StateChangedEventArgs^ args) { StateChanged(sender, args); }
 
     void RaiseInvoked(Object^ sender, GazeInvokedRoutedEventArgs^ args)
     {

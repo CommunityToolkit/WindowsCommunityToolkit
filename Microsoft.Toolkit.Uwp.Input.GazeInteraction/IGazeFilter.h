@@ -9,12 +9,12 @@ using namespace Windows::Foundation::Collections;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-public ref struct GazeEventArgs sealed
+public ref struct GazeFilterArgs sealed
 {
     property Point Location;
     property TimeSpan Timestamp;
 
-    GazeEventArgs(Point location, TimeSpan timestamp)
+    GazeFilterArgs(Point location, TimeSpan timestamp)
     {
         Location = location;
         Timestamp = timestamp;
@@ -25,7 +25,7 @@ public ref struct GazeEventArgs sealed
 // and returns filtered output
 public interface class IGazeFilter
 {
-    GazeEventArgs^ Update(GazeEventArgs^ args);
+    GazeFilterArgs^ Update(GazeFilterArgs^ args);
     void LoadSettings(ValueSet^ settings);
 };
 
@@ -35,7 +35,7 @@ public interface class IGazeFilter
 public ref class NullFilter sealed : public IGazeFilter
 {
 public:
-    virtual inline GazeEventArgs^ Update(GazeEventArgs^ args)
+    virtual inline GazeFilterArgs^ Update(GazeFilterArgs^ args)
     {
         return args;
     }

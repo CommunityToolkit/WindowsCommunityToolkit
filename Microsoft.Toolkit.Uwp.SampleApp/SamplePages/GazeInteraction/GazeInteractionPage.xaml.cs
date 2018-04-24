@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
         }
 
-        private void GazeButtonControl_StateChanged(object sender, GazePointerEventArgs ea)
+        private void GazeButtonControl_StateChanged(object sender, StateChangedEventArgs ea)
         {
             if (ea.PointerState == PointerState.Enter)
             {

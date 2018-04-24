@@ -2,7 +2,7 @@
 //See LICENSE in the project root for license information.
 
 #include "pch.h"
-#include "GazePointerEventArgs.h"
+#include "StateChangedEventArgs.h"
 
 using namespace std;
 using namespace Platform;
