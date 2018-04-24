@@ -6,7 +6,7 @@
 
 #include "IGazeFilter.h"
 #include "GazeCursor.h"
-#include "GazePointerState.h"
+#include "PointerState.h"
 
 using namespace Platform;
 using namespace Platform::Collections;
@@ -43,9 +43,9 @@ public:
     void LoadSettings(ValueSet^ settings);
 
     void Reset();
-    void SetElementStateDelay(UIElement ^element, GazePointerState pointerState, TimeSpan stateDelay);
+    void SetElementStateDelay(UIElement ^element, PointerState pointerState, TimeSpan stateDelay);
     TimeSpan GetElementStateDelay(UIElement ^element, DependencyProperty^ property, TimeSpan defaultValue);
-    TimeSpan GetElementStateDelay(UIElement^ element, GazePointerState pointerState);
+    TimeSpan GetElementStateDelay(UIElement^ element, PointerState pointerState);
 
     // Provide a configurable delay for when the EyesOffDelay event is fired
     // GOTCHA: this value requires that _eyesOffTimer is instantiated so that it
@@ -96,7 +96,7 @@ private:
 
     bool _isShuttingDown;
 
-    TimeSpan GetDefaultPropertyValue(GazePointerState state);
+    TimeSpan GetDefaultPropertyValue(PointerState state);
 
     void    InitializeHistogram();
     void    InitializeGazeInputSource();
@@ -107,8 +107,8 @@ private:
     GazeTargetItem^          ResolveHitTarget(Point gazePoint, TimeSpan timestamp);
 
     void    CheckIfExiting(TimeSpan curTimestamp);
-    void    GotoState(UIElement^ control, GazePointerState state);
-    void    RaiseGazePointerEvent(GazeTargetItem^ target, GazePointerState state, TimeSpan elapsedTime);
+    void    GotoState(UIElement^ control, PointerState state);
+    void    RaiseGazePointerEvent(GazeTargetItem^ target, PointerState state, TimeSpan elapsedTime);
 
     void OnGazeEntered(
         GazeInputSourcePreview^ provider,

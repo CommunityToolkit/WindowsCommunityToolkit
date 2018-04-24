@@ -222,7 +222,7 @@
     <ClInclude Include="GazePointer.h" />
     <ClInclude Include="GazePointerEventArgs.h" />
     <ClInclude Include="GazePointerProxy.h" />
-    <ClInclude Include="GazePointerState.h" />
+    <ClInclude Include="PointerState.h" />
     <ClInclude Include="GazeProgressEventArgs.h" />
     <ClInclude Include="GazeProgressState.h" />
     <ClInclude Include="GazeSettingsHelper.h" />
@@ -242,7 +242,7 @@
     <ClCompile Include="GazePointer.cpp" />
     <ClCompile Include="GazePointerEventArgs.cpp" />
     <ClCompile Include="GazePointerProxy.cpp" />
-    <ClCompile Include="GazePointerState.cpp" />
+    <ClCompile Include="PointerState.cpp" />
     <ClCompile Include="GazeSettingsHelper.cpp" />
     <ClCompile Include="GazeStats.cpp" />
     <ClCompile Include="GazeTargetItem.cpp" />
