@@ -60,7 +60,7 @@
 ## [StaggeredPanel](controls/StaggeredPanel.md)
 ## [TextToolbar](controls/TextToolbar.md)
 ## [TileControl](controls/TileControl.md)
-## [WebView](controls/WebView.md)
+## [WebView (win32)](controls/WebView.md)
 ## [WrapPanel](controls/WrapPanel.md)
 
 # Developer tools
