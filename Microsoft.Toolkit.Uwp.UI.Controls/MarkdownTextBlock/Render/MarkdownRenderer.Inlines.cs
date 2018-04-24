@@ -252,7 +252,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             var image = new Image();
             var imageContainer = new InlineUIContainer() { Child = image };
 
-            LinkRegister.RegisterNewHyperLink(image, element.Url);
+            bool ishyperlink = false;
+            if (element.RenderUrl != element.Url)
+            {
+                ishyperlink = true;
+            }
+            LinkRegister.RegisterNewHyperLink(image, element.Url, ishyperlink);
 
             image.Source = resolvedImage;
             image.HorizontalAlignment = HorizontalAlignment.Left;
