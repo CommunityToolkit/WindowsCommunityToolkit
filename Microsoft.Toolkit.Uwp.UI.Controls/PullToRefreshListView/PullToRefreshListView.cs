@@ -140,7 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ControlTemplate _previousTemplateUsed;
         private RefreshContainer _refreshContainer;
 
-        private bool _usingRefreshContainer => IsRefreshContainerSupported && UseRefreshContainerWhenPossible;
+        private bool UsingRefreshContainer => IsRefreshContainerSupported && UseRefreshContainerWhenPossible;
 
         /// <summary>
         /// Gets or sets a value indicating whether the HamburgerMenu should use the NavigationView when possible (Fall Creators Update and above)
@@ -213,7 +213,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
             }
 
-            if (_usingRefreshContainer)
+            _root = null;
+            _refreshIndicatorBorder = null;
+            _refreshIndicatorTransform = null;
+            _scroller = null;
+            _contentTransform = null;
+            _headerTransform = null;
+            _footerTransform = null;
+            _scrollerContent = null;
+            _defaultIndicatorContent = null;
+            _pullAndReleaseIndicatorContent = null;
+            _scrollerVerticalScrollBar = null;
+
+            if (UsingRefreshContainer)
             {
                 OnApplyRefreshContainerTemplate();
             }
