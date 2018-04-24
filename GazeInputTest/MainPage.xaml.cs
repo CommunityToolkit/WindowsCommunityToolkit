@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.Input.Gaze;
+using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -26,7 +26,7 @@ namespace GazeInputTest
         {
             this.InitializeComponent();
 
-            ShowCursor.IsChecked = GazeApi.GetIsGazeCursorVisible(this);
+            ShowCursor.IsChecked = GazeInput.GetIsCursorVisible(this);
         }
 
         private void OnStateChanged(object sender, GazePointerEventArgs ea)
@@ -43,7 +43,7 @@ namespace GazeInputTest
         {
             if (ShowCursor.IsChecked.HasValue)
             {
-                GazeApi.SetIsGazeCursorVisible(this, ShowCursor.IsChecked.Value);
+                GazeInput.SetIsCursorVisible(this, ShowCursor.IsChecked.Value);
             }
         }
 

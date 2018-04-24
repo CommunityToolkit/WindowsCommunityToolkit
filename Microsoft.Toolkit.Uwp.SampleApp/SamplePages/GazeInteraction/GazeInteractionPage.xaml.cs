@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.Input.Gaze;
+using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -53,12 +53,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             if (buttonControl != null)
             {
-                gazeButtonControl = GazeApi.GetGazeElement(buttonControl);
+                gazeButtonControl = GazeInput.GetGazeElement(buttonControl);
 
                 if (gazeButtonControl == null)
                 {
                     gazeButtonControl = new GazeElement();
-                    GazeApi.SetGazeElement(buttonControl, gazeButtonControl);
+                    GazeInput.SetGazeElement(buttonControl, gazeButtonControl);
                 }
 
                 if (gazeButtonControl != null)

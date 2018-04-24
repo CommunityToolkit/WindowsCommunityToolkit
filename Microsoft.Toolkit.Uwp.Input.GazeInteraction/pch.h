@@ -50,5 +50,5 @@ inline static TimeSpan TimeSpanFromMicroseconds(uint64 milliseconds) { return Ti
 inline static TimeSpan TimeSpanFromMicroseconds(int64 milliseconds) { return TimeSpan{ 10 * milliseconds }; }
 inline static TimeSpan TimeSpanFromMicroseconds(int milliseconds) { return TimeSpan{ 10 * milliseconds }; }
 
-#define BEGIN_NAMESPACE_GAZE_INPUT namespace Microsoft { namespace Toolkit { namespace Uwp { namespace Input { namespace Gaze {
+#define BEGIN_NAMESPACE_GAZE_INPUT namespace Microsoft { namespace Toolkit { namespace Uwp { namespace Input { namespace GazeInteraction {
 #define END_NAMESPACE_GAZE_INPUT } } } } }

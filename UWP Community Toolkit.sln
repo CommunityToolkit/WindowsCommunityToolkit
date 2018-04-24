@@ -67,7 +67,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Parsers", "Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj", "{42CA4935-54BE-42EA-AC19-992378C08DE6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Microsoft.Toolkit.Uwp.Input.Gaze", "Microsoft.Toolkit.UWP.Input.Gaze\Microsoft.Toolkit.Uwp.Input.Gaze.vcxproj", "{A5E98964-45B1-442D-A07A-298A3221D81E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Microsoft.Toolkit.Uwp.Input.GazeInteraction", "Microsoft.Toolkit.UWP.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.vcxproj", "{A5E98964-45B1-442D-A07A-298A3221D81E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GazeInputTest", "GazeInputTest\GazeInputTest.csproj", "{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}"
 EndProject

@@ -5,10 +5,10 @@
     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:gaze="using:Microsoft.Toolkit.Uwp.Input.Gaze" 
-    gaze:GazeApi.IsGazeEnabled="Enabled"        
-    gaze:GazeApi.IsGazeCursorVisible="True"       
-    gaze:GazeApi.GazeCursorRadius="20"
+    xmlns:g="using:Microsoft.Toolkit.Uwp.Input.GazeInteraction" 
+    g:GazeInput.IsGazeEnabled="Enabled"        
+    g:GazeInput.IsCursorVisible="True"       
+    g:GazeInput.CursorRadius="20"
     mc:Ignorable="d">
     <Page.Resources>
         <local:TimeSpanConverter x:Key="ConvertTimeToMilliSecs"/>
