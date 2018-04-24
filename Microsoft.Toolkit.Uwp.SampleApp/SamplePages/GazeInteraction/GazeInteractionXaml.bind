@@ -24,13 +24,13 @@
                     
                     Width="@[ButtonSize:Slider:100:10-300]"
                     Height="@[ButtonSize]"
-                    g:GazeInput.ThresholdDuration="@[ThresholdDuration:TimeSpan:50:50-200]@"
-                    g:GazeInput.FixationDuration="@[FixationDuration:TimeSpan:400:50-1000]@"
-                    g:GazeInput.DwellDuration="@[DwellDuration:TimeSpan:800:100-5000]@"
-                    Tag="@[DwellRepeatDelay:TimeSpan:0:0-5000]@"
-                    g:GazeInput.DwellRepeatDuration="@[DwellRepeatDuration:TimeSpan:1600:50-10000]@"
-                    g:GazeInput.MaxDwellRepeatCount="@[MaxRepeatCount:Slider:0:0-20]@"
-                   
+                    g:GazeInput.ThresholdDuration="@[ThresholdDuration:TimeSpan:50:1-5000]@"
+                    g:GazeInput.FixationDuration="@[FixationDuration:TimeSpan:350:1-5000]@"
+                    g:GazeInput.DwellDuration="@[DwellDuration:TimeSpan:400:1-5000]@"
+                    g:GazeInput.RepeatDelayDuration="@[RepeatDelayDuration:TimeSpan:400:1-5000]@"
+                    g:GazeInput.DwellRepeatDuration="@[DwellRepeatDuration:TimeSpan:400:1-5000]@"
+                    g:GazeInput.MaxDwellRepeatCount="@[MaxDwellRepeatCount:Slider:0:0-20]@"
+
                     />
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1">
           <Grid.RowDefinitions>

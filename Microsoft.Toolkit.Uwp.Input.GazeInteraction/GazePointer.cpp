@@ -108,6 +108,11 @@ void GazePointer::LoadSettings(ValueSet^ settings)
         _defaultDwell = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.DwellDelay")));
     }
 
+    if (settings->HasKey("GazePointer.DwellDelay"))
+    {
+        _defaultDwellRepeatDelay = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.DwellRepeatDelay")));
+    }
+
     if (settings->HasKey("GazePointer.RepeatDelay"))
     {
         _defaultRepeat = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.RepeatDelay")));
@@ -207,10 +212,8 @@ void GazePointer::SetElementStateDelay(UIElement ^element, PointerState relevant
     _maxHistoryTime = 2 * max(dwellTime, repeatTime);
 }
 
-TimeSpan GazePointer::GetElementStateDelay(UIElement ^element, PointerState pointerState)
+TimeSpan GazePointer::GetElementStateDelay(UIElement ^element, DependencyProperty^ property, TimeSpan defaultValue)
 {
-    auto property = GetProperty(pointerState);
-
     DependencyObject^ walker = element;
     Object^ valueAtWalker = walker->GetValue(property);
 
@@ -224,7 +227,16 @@ TimeSpan GazePointer::GetElementStateDelay(UIElement ^element, PointerState poin
         }
     }
 
-    auto ticks = GazeInput::UnsetTimeSpan.Equals(valueAtWalker) ? GetDefaultPropertyValue(pointerState) : safe_cast<TimeSpan>(valueAtWalker);
+    auto ticks = GazeInput::UnsetTimeSpan.Equals(valueAtWalker) ? defaultValue : safe_cast<TimeSpan>(valueAtWalker);
+
+    return ticks;
+}
+
+TimeSpan GazePointer::GetElementStateDelay(UIElement ^element, PointerState pointerState)
+{
+    auto property = GetProperty(pointerState);
+    auto defaultValue = GetDefaultPropertyValue(pointerState);
+    auto ticks = GetElementStateDelay(element, property, defaultValue);
 
     switch (pointerState)
     {
@@ -233,6 +245,7 @@ TimeSpan GazePointer::GetElementStateDelay(UIElement ^element, PointerState poin
         _maxHistoryTime = max(_maxHistoryTime, 2 * ticks);
         break;
     }
+
     return ticks;
 }
 
@@ -546,13 +559,17 @@ void GazePointer::ProcessGazePoint(TimeSpan timestamp, Point position)
         {
             targetItem->ElementState = nextState;
             nextState = static_cast<PointerState>(static_cast<int>(nextState) + 1);     // nextState++
-            targetItem->NextStateTime = GetElementStateDelay(targetItem->TargetElement, nextState);
+            targetItem->NextStateTime += GetElementStateDelay(targetItem->TargetElement, nextState);
+
+            if (targetItem->ElementState == PointerState::Dwell)
+            {
+                targetItem->NextStateTime += GetElementStateDelay(targetItem->TargetElement, GazeInput::DwellRepeatDurationProperty, _defaultDwellRepeatDelay);
+            }
         }
         else
         {
             // move the NextStateTime by one dwell period, while continuing to stay in Dwell state
-            targetItem->NextStateTime += GetElementStateDelay(targetItem->TargetElement, PointerState::Dwell) -
-                GetElementStateDelay(targetItem->TargetElement, PointerState::Fixation);
+            targetItem->NextStateTime += GetElementStateDelay(targetItem->TargetElement, PointerState::DwellRepeat);
         }
 
         if (targetItem->ElementState == PointerState::Dwell)
