@@ -222,7 +222,7 @@ The web view control cannot host arbitrary file types. When an attempt is made t
 
 Similarly, the [UnsupportedUriSchemeIdentified](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.unsupportedurischemeidentified) event occurs when a URI scheme that's not supported is invoked in the web content, such as fbconnect:// or mailto://. You can handle this event to provide custom behavior instead of allowing the default system launcher to launch the URI.
 
-The [UnsafeContentWarningDisplayingevent](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.unsafecontentwarningdisplaying) event occurs when the web view shows a warning page for content that was reported as unsafe by the SmartScreen Filter. If the user chooses to continue the navigation, subsequent navigation to the page will not display the warning nor fire the event.
+The [UnsafeContentWarningDisplayingEvent](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.unsafecontentwarningdisplaying) event occurs when the web view shows a warning page for content that was reported as unsafe by the SmartScreen Filter. If the user chooses to continue the navigation, subsequent navigation to the page will not display the warning nor fire the event.
 
 ## Handle special cases for web view content
 
