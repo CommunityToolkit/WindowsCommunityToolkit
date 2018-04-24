@@ -76,8 +76,6 @@ First, open the Visual Studio **Toolbox**, then right-click anywhere in the tool
 
    In **Solution Explorer**, the **Microsoft.Toolkit.Win32.UI.Controls.dll** file appears in the **References** list.
 
-
-
 ## Modify the appearance of a WebView
 
 To constrain the display area, set the `Width` and `Height` properties.
@@ -182,6 +180,7 @@ private void webView1_NavigationCompleted(WebView sender, WebViewNavigationCompl
 ```
 
 Similar events occur in the same order for each **iframe** in the web view content:
+
 1. The [FrameNavigationStarting](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.framenavigationstarting) event is raised before a frame in the web view navigates to new content.
 
 2. The [FrameContentLoading](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.framecontentloading) event is raised when a frame in the web view has started loading new content.
@@ -237,7 +236,6 @@ Handle the [PermissionRequested](https://docs.microsoft.com/uwp/api/windows.web.
 <!-- This behaves differently than UWP: The sandbox process Win32WebViewHost.exe is a system application and has all capabilities listed in its manifest. Since WinForms/WPF do not have their own identities, they use the identity and permissions of the sandbox application.
 The PermissionRequested event is fired when a permission is reqested each time. If the application is the first to request permissions from the sandbox, the user will receive two prompts: one from the application, one from the system for the sandbox. -->
 
-
 In addition to the app handling the [PermissionRequested](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.permissionrequested) event, the user will have to approve standard system dialogs for apps requesting location or media capabilities in order for these features to be enabled.
 
 Here is an example of how an app would enable geolocation in a map from Bing:
@@ -265,6 +263,7 @@ You can interact with the content of the web view by using the [InvokeScriptAsyn
 To invoke JavaScript inside the web view content, use the [InvokeScriptAsync](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.invokescriptasync) method. The invoked script can return only string values.
 
 For example, if the content of a web view named `webView1` contains a function named `setDate` that takes 3 parameters, you can invoke it like this.
+
 ```csharp
 string[] args = {"January", "1", "2000"};
 string returnValue = await webView1.InvokeScriptAsync("setDate", args);
@@ -295,9 +294,7 @@ You can use the [Settings](https://docs.microsoft.com/uwp/api/windows.web.ui.int
 | Namespace | Microsoft.Toolkit.Win32.UI.Controls.WinForms, Microsoft.Toolkit.Win32.UI.Controls.WPF |
 | NuGet package | [Microsoft.Toolkit.Win32.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Win32.UI.Controls/) |
 
-
-
 ## API Source Code
 
 - [WinForms.WebView](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Win32.UI.Controls/WinForms/WebView)
-- [WPF.WebView](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Win32.UI.Controls/WPF/WebView) 
+- [WPF.WebView](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Win32.UI.Controls/WPF/WebView)
