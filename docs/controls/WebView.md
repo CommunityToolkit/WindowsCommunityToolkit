@@ -43,7 +43,7 @@ When compared to the UWP **WebView** control, the **WebView** controls for WPF a
 
 :no_entry: Navigating to files on disk.
 
-:no_entry: These Microsoft Edge features: Service workers, Push Messages, and WebVR.
+:no_entry: These Microsoft Edge features: Service workers and Push Messages.
 
 
 ## Add the WebView control to the Visual Studio Toolbox
