@@ -22,14 +22,14 @@ namespace Shapes = Windows::UI::Xaml::Shapes;
 BEGIN_NAMESPACE_GAZE_INPUT
 
 // units in microseconds
-const int DEFAULT_FIXATION_DELAY = 400000;
-const int DEFAULT_DWELL_DELAY = 800000;
-const int DEFAULT_REPEAT_DELAY = 1600000;
-const int DEFAULT_ENTER_EXIT_DELAY = 50000;
-const int DEFAULT_MAX_HISTORY_DURATION = 3000000;
-const int MAX_SINGLE_SAMPLE_DURATION = 100000;
+const TimeSpan DEFAULT_FIXATION_DELAY = TimeSpanFromMicroseconds(400000);
+const TimeSpan DEFAULT_DWELL_DELAY = TimeSpanFromMicroseconds(800000);
+const TimeSpan DEFAULT_REPEAT_DELAY = TimeSpanFromMicroseconds(1600000);
+const TimeSpan DEFAULT_ENTER_EXIT_DELAY = TimeSpanFromMicroseconds(50000);
+const TimeSpan DEFAULT_MAX_HISTORY_DURATION = TimeSpanFromMicroseconds(3000000);
+const TimeSpan MAX_SINGLE_SAMPLE_DURATION = TimeSpanFromMicroseconds(100000);
 
-const int GAZE_IDLE_TIME = 2500000;
+const TimeSpan GAZE_IDLE_TIME{ 25000000 };
 
 ref struct GazeTargetItem;
 ref struct GazeHistoryItem;
@@ -42,22 +42,22 @@ public:
     void LoadSettings(ValueSet^ settings);
 
     void Reset();
-    void SetElementStateDelay(UIElement ^element, GazePointerState pointerState, int stateDelay);
-    int GetElementStateDelay(UIElement^ element, GazePointerState pointerState);
+    void SetElementStateDelay(UIElement ^element, GazePointerState pointerState, TimeSpan stateDelay);
+    TimeSpan GetElementStateDelay(UIElement^ element, GazePointerState pointerState);
 
     // Provide a configurable delay for when the EyesOffDelay event is fired
     // GOTCHA: this value requires that _eyesOffTimer is instantiated so that it
     // can update the timer interval 
-    property int64 EyesOffDelay
+    property TimeSpan EyesOffDelay
     {
-        int64 get() { return _eyesOffDelay; }
-        void set(int64 value)
+        TimeSpan get() { return _eyesOffDelay; }
+        void set(TimeSpan value)
         {
             _eyesOffDelay = value;
 
             // convert GAZE_IDLE_TIME units (microseconds) to 100-nanosecond units used
             // by TimeSpan struct
-            _eyesOffTimer->Interval = TimeSpan{ EyesOffDelay * 10 };
+            _eyesOffTimer->Interval = EyesOffDelay;
         }
     }
 
@@ -102,11 +102,11 @@ private:
 
     void ActivateGazeTargetItem(GazeTargetItem^ target);
     GazeTargetItem^          GetHitTarget(Point gazePoint);
-    GazeTargetItem^          ResolveHitTarget(Point gazePoint, long long timestamp);
+    GazeTargetItem^          ResolveHitTarget(Point gazePoint, TimeSpan timestamp);
 
-    void    CheckIfExiting(long long curTimestamp);
+    void    CheckIfExiting(TimeSpan curTimestamp);
     void    GotoState(UIElement^ control, GazePointerState state);
-    void    RaiseGazePointerEvent(GazeTargetItem^ target, GazePointerState state, int64 elapsedTime);
+    void    RaiseGazePointerEvent(GazeTargetItem^ target, GazePointerState state, TimeSpan elapsedTime);
 
     void OnGazeEntered(
         GazeInputSourcePreview^ provider,
@@ -118,14 +118,14 @@ private:
         GazeInputSourcePreview^ provider,
         GazeExitedPreviewEventArgs^ args);
 
-    void ProcessGazePoint(long long timestamp, Point position);
+    void ProcessGazePoint(TimeSpan timestamp, Point position);
 
     void    OnEyesOff(Object ^sender, Object ^ea);
 
 private:
     Vector<FrameworkElement^>^ _roots = ref new Vector<FrameworkElement^>();
 
-    int64                               _eyesOffDelay;
+    TimeSpan                               _eyesOffDelay;
 
     GazeCursor^                         _gazeCursor;
     DispatcherTimer^                    _eyesOffTimer;
@@ -140,11 +140,11 @@ private:
 
     // A vector to track the history of observed gaze targets
     Vector<GazeHistoryItem^>^           _gazeHistory;
-    int64                               _maxHistoryTime;
+    TimeSpan                               _maxHistoryTime;
 
     // Used to determine if exit events need to be fired by adding GAZE_IDLE_TIME to the last 
     // saved timestamp
-    long long                           _lastTimestamp;
+    TimeSpan                           _lastTimestamp;
 
     GazeInputSourcePreview^             _gazeInputSource;
     EventRegistrationToken              _gazeEnteredToken;
@@ -152,11 +152,11 @@ private:
     EventRegistrationToken              _gazeExitedToken;
     CoreDispatcher^                     _coreDispatcher;
 
-	int _defaultFixation = DEFAULT_FIXATION_DELAY;
-	int _defaultDwell = DEFAULT_DWELL_DELAY;
-	int _defaultRepeat = DEFAULT_REPEAT_DELAY;
-	int _defaultEnter = DEFAULT_ENTER_EXIT_DELAY;
-	int _defaultExit = DEFAULT_ENTER_EXIT_DELAY;
+    TimeSpan _defaultFixation = DEFAULT_FIXATION_DELAY;
+    TimeSpan _defaultDwell = DEFAULT_DWELL_DELAY;
+    TimeSpan _defaultRepeat = DEFAULT_REPEAT_DELAY;
+    TimeSpan _defaultEnter = DEFAULT_ENTER_EXIT_DELAY;
+    TimeSpan _defaultExit = DEFAULT_ENTER_EXIT_DELAY;
 };
 
 END_NAMESPACE_GAZE_INPUT

@@ -228,7 +228,7 @@ void GazeTargetItem::RaiseProgressEvent(GazeProgressState state)
 
             if (state == GazeProgressState::Progressing)
             {
-                auto progress = ((double)(ElapsedTime - _prevStateTime)) / (_nextStateTime - _prevStateTime);
+                auto progress = ((double)(ElapsedTime - _prevStateTime).Duration) / (_nextStateTime - _prevStateTime).Duration;
 
                 if (0 <= progress && progress < 1)
                 {

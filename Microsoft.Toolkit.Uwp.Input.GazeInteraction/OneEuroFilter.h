@@ -56,7 +56,7 @@ private:
     float  Alpha(float rate, float cutoff);
 
 private:
-    long long       _lastTimestamp;
+    TimeSpan       _lastTimestamp;
     LowpassFilter^  _pointFilter;
     LowpassFilter^  _deltaFilter;
 

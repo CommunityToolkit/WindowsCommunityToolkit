@@ -26,11 +26,11 @@ ref struct GazeTargetItem
 internal:
     static property GazeTargetItem^ NonInvokable{ GazeTargetItem^ get(); }
 
-	property int64 DetailedTime;
-	property int64 OverflowTime;
-	property int64 ElapsedTime { int64 get() { return DetailedTime + OverflowTime; } }
-	property int64 NextStateTime;
-	property int64 LastTimestamp;
+	property TimeSpan DetailedTime;
+	property TimeSpan OverflowTime;
+	property TimeSpan ElapsedTime { TimeSpan get() { return DetailedTime + OverflowTime; } }
+	property TimeSpan NextStateTime;
+	property TimeSpan LastTimestamp;
 	property GazePointerState ElementState;
 	property UIElement^ TargetElement;
 	property int RepeatCount;
@@ -47,11 +47,11 @@ internal:
 
     virtual property bool IsInvokable { bool get() { return true; } }
 
-	void Reset(int nextStateTime)
+	void Reset(TimeSpan nextStateTime)
 	{
 		ElementState = GazePointerState::PreEnter;
-		DetailedTime = 0;
-		OverflowTime = 0;
+		DetailedTime = TimeSpanZero;
+		OverflowTime = TimeSpanZero;
 		NextStateTime = nextStateTime;
 		RepeatCount = 0;
 		MaxRepeatCount = GazeInput::GetMaxRepeatCount(TargetElement);
@@ -100,8 +100,8 @@ private:
 	void RaiseProgressEvent(GazeProgressState state);
 
 	GazePointerState _notifiedPointerState = GazePointerState::Exit;
-	int64 _prevStateTime;
-	int64 _nextStateTime;
+	TimeSpan _prevStateTime;
+	TimeSpan _nextStateTime;
 	GazeProgressState _notifiedProgressState = GazeProgressState::Idle;
 	Popup^ _feedbackPopup;
 };

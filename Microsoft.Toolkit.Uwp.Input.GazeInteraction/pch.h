@@ -35,5 +35,20 @@ public:
     }
 };
 
+inline static TimeSpan operator + (const TimeSpan& lhs, const TimeSpan& rhs) { return TimeSpan{ lhs.Duration + rhs.Duration }; }
+inline static TimeSpan operator - (const TimeSpan& lhs, const TimeSpan& rhs) { return TimeSpan{ lhs.Duration - rhs.Duration }; }
+inline static TimeSpan operator * (int lhs, const TimeSpan& rhs) { return TimeSpan{ lhs*rhs.Duration }; }
+inline static bool operator < (const TimeSpan& lhs, const TimeSpan& rhs) { return lhs.Duration < rhs.Duration; }
+inline static bool operator <= (const TimeSpan& lhs, const TimeSpan& rhs) { return lhs.Duration <= rhs.Duration; }
+inline static bool operator > (const TimeSpan& lhs, const TimeSpan& rhs) { return lhs.Duration > rhs.Duration; }
+inline static bool operator >= (const TimeSpan& lhs, const TimeSpan& rhs) { return lhs.Duration >= rhs.Duration; }
+inline static bool operator == (const TimeSpan& lhs, const TimeSpan& rhs) { return lhs.Duration == rhs.Duration; }
+inline static bool operator != (const TimeSpan& lhs, const TimeSpan& rhs) { return lhs.Duration != rhs.Duration; }
+
+static TimeSpan TimeSpanZero{ 0 };
+inline static TimeSpan TimeSpanFromMicroseconds(uint64 milliseconds) { return TimeSpan{ (int64)(10 * milliseconds) }; }
+inline static TimeSpan TimeSpanFromMicroseconds(int64 milliseconds) { return TimeSpan{ 10 * milliseconds }; }
+inline static TimeSpan TimeSpanFromMicroseconds(int milliseconds) { return TimeSpan{ 10 * milliseconds }; }
+
 #define BEGIN_NAMESPACE_GAZE_INPUT namespace Microsoft { namespace Toolkit { namespace Uwp { namespace Input { namespace GazeInteraction {
 #define END_NAMESPACE_GAZE_INPUT } } } } }
