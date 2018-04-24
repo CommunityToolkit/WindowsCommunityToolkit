@@ -28,14 +28,14 @@ OneEuroFilter::OneEuroFilter(float cutoff, float beta)
     VelocityCutoff = ONEEUROFILTER_DEFAULT_VELOCITY_CUTOFF;
 }
 
-GazeEventArgs^ OneEuroFilter::Update(GazeEventArgs^ args)
+GazeFilterArgs^ OneEuroFilter::Update(GazeFilterArgs^ args)
 {
     if (_lastTimestamp == TimeSpanZero)
     {
         _lastTimestamp = args->Timestamp;
         _pointFilter = ref new LowpassFilter(args->Location);
         _deltaFilter = ref new LowpassFilter(Point());
-        return ref new GazeEventArgs(args->Location, args->Timestamp);
+        return ref new GazeFilterArgs(args->Location, args->Timestamp);
     }
 
     Point gazePoint = args->Location;
@@ -83,7 +83,7 @@ GazeEventArgs^ OneEuroFilter::Update(GazeEventArgs^ args)
     Point filteredPoint = _pointFilter->Update(gazePoint, distanceAlpha);
 
     // compute the new args
-    auto fa = ref new GazeEventArgs(filteredPoint, args->Timestamp);
+    auto fa = ref new GazeFilterArgs(filteredPoint, args->Timestamp);
     return fa;
 }
 

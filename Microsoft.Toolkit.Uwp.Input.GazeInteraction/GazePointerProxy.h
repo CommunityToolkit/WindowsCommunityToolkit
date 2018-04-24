@@ -5,7 +5,7 @@
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-ref class GazePointerProxy sealed
+private ref class GazePointerProxy sealed
 {
 public:
 

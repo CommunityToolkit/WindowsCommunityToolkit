@@ -44,7 +44,7 @@ public ref class OneEuroFilter sealed : public IGazeFilter
 public:
     OneEuroFilter();
     OneEuroFilter(float cutoff, float beta);
-    virtual GazeEventArgs^ Update(GazeEventArgs^ args);
+    virtual GazeFilterArgs^ Update(GazeFilterArgs^ args);
     virtual void LoadSettings(ValueSet^ settings);
 
 public:

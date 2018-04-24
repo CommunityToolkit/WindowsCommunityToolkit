@@ -21,14 +21,14 @@ namespace Shapes = Windows::UI::Xaml::Shapes;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-public ref struct GazePointerEventArgs sealed
+public ref struct StateChangedEventArgs sealed
 {
     property UIElement^ HitTarget;
     property PointerState PointerState;
     property TimeSpan ElapsedTime;
     property TimeSpan ElapsedTimeSpan { TimeSpan get() { return ElapsedTime; } }
 
-    GazePointerEventArgs(UIElement^ target, GazeInteraction::PointerState state, TimeSpan elapsedTime)
+    StateChangedEventArgs(UIElement^ target, GazeInteraction::PointerState state, TimeSpan elapsedTime)
     {
         HitTarget = target;
         PointerState = state;
