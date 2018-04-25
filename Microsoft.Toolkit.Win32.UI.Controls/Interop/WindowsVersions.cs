@@ -1,4 +1,4 @@
-// ******************************************************************
+﻿// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -10,15 +10,17 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
+namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
 {
-    internal static class ExternDll
+    internal enum WindowsVersions
     {
-        internal const string Kernel32 = "kernel32.dll";
-        internal const string User32 = "user32.dll";
-        internal const string Ntdll = "ntdll.dll";
-        internal const string Gdi32 = "gdi32.dll";
-        internal const string EdgeHtml = "edgehtml.dll";
-        internal const string ShCore = "shcore.dll";
+        Win7,
+        Server2008R2,   // 6.1
+        Win8,
+        Server2012,     // 6.2
+        Win81,
+        Server2012R2,   // 6.3
+        Win10,
+        Server2016,     // 10.0
     }
 }

@@ -13,6 +13,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Security;
 using System.Text;
 
@@ -21,7 +22,36 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
     // Some native methods are shimmed through public versions that handle converting failures into thrown exceptions.
     internal static class NativeMethods
     {
+        public const int LOGPIXELSX = 88;
+        public const int LOGPIXELSY = 90;
+
+        public const int DPI_AWARENESS_CONTEXT_UNAWARE = -1;
+        public const int DPI_AWARENESS_CONTEXT_SYSTEM_AWARE = -2;
+        public const int DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE = -3;
+        public const int DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 = -4;
+
         public static HandleRef NullHandleRef = new HandleRef(null, IntPtr.Zero);
+
+        // Critical: P-Invoke
+        // Available in Windows 10 version RS1 and above.
+        [SecurityCritical]
+        [DllImport(ExternDll.User32)]
+        [ResourceExposure(ResourceScope.None)]
+        public static extern bool AreDpiAwarenessContextsEqual(int dpiContextA, int dpiContextB);
+
+        // Critical: P-Invoke
+        // Available in Windows 10 version RS1 and above.
+        [SecurityCritical]
+        [DllImport(ExternDll.User32)]
+        [ResourceExposure(ResourceScope.None)]
+        public static extern int GetThreadDpiAwarenessContext();
+
+        // Critical: P-Invoke
+        // for Windows 10 version RS2 and above
+        [SecurityCritical]
+        [DllImport(ExternDll.User32, SetLastError = true)]
+        [ResourceExposure(ResourceScope.None)]
+        public static extern bool SetProcessDpiAwarenessContext(int dpiFlag);
 
         [SecurityCritical]
         [DllImport(ExternDll.User32, ExactSpelling = true, CharSet = CharSet.Auto)]

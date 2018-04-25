@@ -23,6 +23,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Microsoft.Toolkit.Win32.UI.Controls.WinForms;
@@ -294,7 +295,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unviewable", Justification = "Unviewable is in WinRT type")]
         public event EventHandler<WebViewControlUnviewableContentIdentifiedEventArgs> UnviewableContentIdentified = (sender, args) => { };
 
-
         /// <summary>
         /// Gets a value indicating whether <see cref="WebView"/> is supported in this environment.
         /// </summary>
@@ -562,12 +562,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
             VerifyAccess();
 
-            Dispatcher.InvokeAsync(() =>
-            {
-                _initializationComplete.WaitOne();
-                Verify.IsNotNull(_webViewControl);
-                _webViewControl.NavigateToString(text);
-            }, DispatcherPriority.Background);
+            Dispatcher.InvokeAsync(
+                () =>
+                {
+                    _initializationComplete.WaitOne();
+                    Verify.IsNotNull(_webViewControl);
+                    _webViewControl.NavigateToString(text);
+                },
+                DispatcherPriority.Background);
         }
 
         /// <inheritdoc />
@@ -591,6 +593,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
             OSVersionHelper.ThrowIfBeforeWindows10RS4();
 
+            DpiHelper.SetPerMonitorDpiAwareness();
+
             Verify.AreEqual(_initializationState, InitializationState.IsInitializing);
 
             if (_process == null)
@@ -607,51 +611,56 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 });
             }
 
-            Dispatcher.InvokeAsync(async () =>
-            {
-                Verify.IsNotNull(_process);
-
-                if (_webViewControl == null)
+            Dispatcher.InvokeAsync(
+                async () =>
                 {
-                    var handle = ChildWindow.Handle;
-                    var bounds = new Windows.Foundation.Rect(0, 0, RenderSize.Width, RenderSize.Height);
+                    Verify.IsNotNull(_process);
 
-                    _webViewControl = await _process.CreateWebViewControlHostAsync(handle, bounds).ConfigureAwait(false);
-                }
+                    if (_webViewControl == null)
+                    {
+                        var handle = ChildWindow.Handle;
+                        var bounds = new Windows.Foundation.Rect(0, 0, RenderSize.Width, RenderSize.Height);
 
-                Verify.IsNotNull(_webViewControl);
+                        _webViewControl = await _process.CreateWebViewControlHostAsync(handle, bounds).ConfigureAwait(false);
+                    }
 
-                DestroyWindowCore(ChildWindow);
+                    Verify.IsNotNull(_webViewControl);
 
-                SubscribeEvents();
-                _webViewControl.IsVisible = true;
+                    UpdateSize(RenderSize);
 
-                Uri source;
-                bool javaScriptEnabled;
-                bool indexDBEnabled;
-                bool scriptNotifyAllowed;
-                if (!Dispatcher.CheckAccess())
-                {
-                    source = Dispatcher.Invoke(() => Source);
-                    javaScriptEnabled = Dispatcher.Invoke(() => IsJavaScriptEnabled);
-                    indexDBEnabled = Dispatcher.Invoke(() => IsIndexedDBEnabled);
-                    scriptNotifyAllowed = Dispatcher.Invoke(() => IsScriptNotifyAllowed);
-                }
-                else
-                {
-                    source = Source;
-                    javaScriptEnabled = IsJavaScriptEnabled;
-                    indexDBEnabled = IsIndexedDBEnabled;
-                    scriptNotifyAllowed = IsScriptNotifyAllowed;
-                }
+                    DestroyWindowCore(ChildWindow);
 
-                _webViewControl.Source = source;
-                _webViewControl.Settings.IsJavaScriptEnabled = javaScriptEnabled;
-                _webViewControl.Settings.IsIndexedDBEnabled = indexDBEnabled;
-                _webViewControl.Settings.IsScriptNotifyAllowed = scriptNotifyAllowed;
+                    SubscribeEvents();
+                    _webViewControl.IsVisible = true;
 
-                _initializationComplete.Set();
-            }, DispatcherPriority.Loaded);
+                    Uri source;
+                    bool javaScriptEnabled;
+                    bool indexDBEnabled;
+                    bool scriptNotifyAllowed;
+                    if (!Dispatcher.CheckAccess())
+                    {
+                        source = Dispatcher.Invoke(() => Source);
+                        javaScriptEnabled = Dispatcher.Invoke(() => IsJavaScriptEnabled);
+                        indexDBEnabled = Dispatcher.Invoke(() => IsIndexedDBEnabled);
+                        scriptNotifyAllowed = Dispatcher.Invoke(() => IsScriptNotifyAllowed);
+                    }
+                    else
+                    {
+                        source = Source;
+                        javaScriptEnabled = IsJavaScriptEnabled;
+                        indexDBEnabled = IsIndexedDBEnabled;
+                        scriptNotifyAllowed = IsScriptNotifyAllowed;
+                    }
+
+                    _webViewControl.Source = source;
+                    _webViewControl.Settings.IsJavaScriptEnabled = javaScriptEnabled;
+                    _webViewControl.Settings.IsIndexedDBEnabled = indexDBEnabled;
+                    _webViewControl.Settings.IsScriptNotifyAllowed = scriptNotifyAllowed;
+
+                    _initializationState = InitializationState.IsInitialized;
+                    _initializationComplete.Set();
+                },
+                DispatcherPriority.Loaded);
         }
 
         /// <inheritdoc />
@@ -674,11 +683,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <inheritdoc />
         protected override void UpdateBounds(Rect bounds)
         {
-            // TODO: Determine if the coordinates are already transformed for high dpi clients
-            var clientWidth = bounds.Width - (bounds.Right - bounds.Left);
-            var clientHeight = bounds.Width - (bounds.Bottom - bounds.Top);
-
-            UpdateBounds((int)bounds.X, (int)bounds.Y, (int)bounds.Width, (int)bounds.Height, (int)clientWidth, (int)clientHeight);
+            UpdateBounds((int)bounds.X, (int)bounds.Y, (int)bounds.Width, (int)bounds.Height);
         }
 
         private static void OnIsEnabledInvalidated(WebView webView)
@@ -908,12 +913,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
-        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var rect = new Rect(VisualOffset.X, VisualOffset.Y, e.NewSize.Width, e.NewSize.Height);
-            UpdateBounds(rect);
-        }
-
         private void OnUnsafeContentWarningDisplaying(object sender, object args)
         {
             var handler = UnsafeContentWarningDisplaying;
@@ -943,7 +942,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         private void SubscribeEvents()
         {
-            SizeChanged += OnSizeChanged;
             Verify.IsNotNull(_webViewControl);
             if (_webViewControl == null)
             {
@@ -972,7 +970,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         private void UnsubscribeEvents()
         {
-            SizeChanged -= OnSizeChanged;
             Verify.IsNotNull(_webViewControl);
             if (_webViewControl == null)
             {
@@ -999,27 +996,34 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl.UnviewableContentIdentified -= OnUnviewableContentIdentified;
         }
 
-        private void UpdateBounds(int x, int y, int width, int height, int clientWidth, int clientHeight)
+        private void UpdateBounds(int x, int y, int width, int height)
         {
 #if DEBUG_LAYOUT
             Debug.WriteLine($"{Name}::{nameof(UpdateBounds)}");
             Debug.Indent();
-            Debug.WriteLine($"oldBounds={{x={x} y={y} width={width} height={height} clientWidth={clientWidth} clientHeight={clientHeight}}}");
+            Debug.WriteLine($"oldBounds={{x={x} y={y} width={width} height={height}}}");
 #endif
-            // TODO: Update bounds here to ensure correct draw position?
+            // Update bounds here to ensure correct draw position
+            if (IsScalingRequired)
+            {
+                width = DpiHelper.LogicalToDeviceUnits(width, DeviceDpi);
+                height = DpiHelper.LogicalToDeviceUnits(height, DeviceDpi);
+            }
+
             // HACK: looks like the vertical pos is counted twice, giving a gap
             y = 0;
 
 #if DEBUG_LAYOUT
-            Debug.WriteLine($"newBounds={{x={x} y={y} width={width} height={height} clientWidth={clientWidth} clientHeight={clientHeight}}}");
+            Debug.WriteLine($"newBounds={{x={x} y={y} width={width} height={height}}}");
 #endif
+            if (WebViewControlInitialized)
+            {
+                var rect = new Windows.Foundation.Rect(
+                    new Point(x, y),
+                    new Size(width, height));
 
-            VerifyAccess();
-            var rect = new Windows.Foundation.Rect(
-                new Point(x, y),
-                new Size(width, height));
-            Verify.IsNotNull(_webViewControl);
-            _webViewControl?.UpdateBounds(rect);
+                _webViewControl?.UpdateBounds(rect);
+            }
 
 #if DEBUG_LAYOUT
             Debug.Unindent();

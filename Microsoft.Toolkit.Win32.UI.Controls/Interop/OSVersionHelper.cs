@@ -17,7 +17,7 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 using Windows.Foundation.Metadata;
 using Windows.Security.EnterpriseData;
 
-namespace Microsoft.Toolkit.Win32.UI.Controls
+namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
 {
     internal static class OSVersionHelper
     {
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             {
                 if (IsApiContractPresent(6))
                 {
-                    Windows10Release = Win10Release.SpringCreators;
+                    Windows10Release = Win10Release.April;
                 }
                 else if (IsApiContractPresent(5))
                 {
@@ -59,35 +59,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             }
         }
 
-        private enum Win10Release
-        {
-            Unknown = 0,
-            Threshold1 = 1507,   // 10240
-            Threshold2 = 1511,   // 10586
-            Anniversary = 1607,  // 14393 Redstone 1
-            Creators = 1703,     // 15063 Redstone 2
-            FallCreators = 1709, // 16299 Redstone 3
-            SpringCreators = 1803 // 17134 Redstone 4
-        }
+        internal static bool IsWindowsNt { get; } = Environment.OSVersion.Platform == PlatformID.Win32NT;
 
-        private enum WindowsVersions
-        {
-            Win7,
-            Server2008R2, // 6.1
-            Win8,
-            Server2012, // 6.2
-            Win81,
-            Server2012R2, // 6.3
-            Win10,
-            Server2016 // 10.0
-        }
+        internal static bool EdgeExists { get; } = File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), ExternDll.EdgeHtml));
 
-        internal static bool EdgeExists { get; } = File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "edgehtml.dll"));
+        internal static bool IsWindows10 { get; } = IsWindowsNt && IsSince(WindowsVersions.Win10);
 
         /// <summary>
         /// Gets a value indicating whether the current OS is Windows 10 RS4 or greater
         /// </summary>
-        internal static bool IsWindows10RS4OrGreater => Windows10Release >= Win10Release.SpringCreators;
+        internal static bool IsWindows10RS4OrGreater => Windows10Release >= Win10Release.April;
 
         internal static bool IsWorkstation { get; } = !IsServer();
 
@@ -97,7 +78,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             get => Windows10Release >= Win10Release.Anniversary && ProtectionPolicyManager.IsProtectionEnabled;
         }
 
-        private static Win10Release Windows10Release { get; }
+        internal static Win10Release Windows10Release { get; }
 
         /// <summary>
         /// Checks if OS is Windows 10, RS4 or later, is a workstation, and Edge exists.
@@ -126,7 +107,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         }
 
         [SecurityCritical]
-        private static bool IsSince(WindowsVersions version)
+        internal static bool IsSince(WindowsVersions version)
         {
             int major;
             int minor;

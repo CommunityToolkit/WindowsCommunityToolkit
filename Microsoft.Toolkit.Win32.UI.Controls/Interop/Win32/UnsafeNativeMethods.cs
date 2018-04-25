@@ -13,6 +13,7 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Security;
 using System.Text;
 
@@ -20,6 +21,38 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
 {
     internal static class UnsafeNativeMethods
     {
+        // Critical: P-Invokes
+        [SecurityCritical]
+        [DllImport(ExternDll.ShCore, SetLastError = true)]
+        public static extern int GetProcessDpiAwareness(
+            IntPtr hprocess,
+            out PROCESS_DPI_AWARENESS value);
+
+        [DllImport(ExternDll.User32, ExactSpelling = true, EntryPoint = "GetDC", CharSet = CharSet.Auto)]
+        [ResourceExposure(ResourceScope.Process)]
+        private static extern IntPtr IntGetDC(HandleRef hWnd);
+
+        [ResourceExposure(ResourceScope.Process)]
+        [ResourceConsumption(ResourceScope.Process)]
+        public static IntPtr GetDC(HandleRef hWnd)
+        {
+            // REVIEW: We can leak this handle unless ReleaseDC is called
+            return IntGetDC(hWnd);
+        }
+
+        [DllImport(ExternDll.User32, ExactSpelling = true, EntryPoint = "ReleaseDC", CharSet = CharSet.Auto)]
+        [ResourceExposure(ResourceScope.None)]
+        private static extern int IntReleaseDC(HandleRef hWnd, HandleRef hDC);
+
+        public static int ReleaseDC(HandleRef hWnd, HandleRef hDC)
+        {
+            return IntReleaseDC(hWnd, hDC);
+        }
+
+        [DllImport(ExternDll.Gdi32, SetLastError = true, ExactSpelling = true, CharSet = CharSet.Auto)]
+        [ResourceExposure(ResourceScope.None)]
+        public static extern int GetDeviceCaps(HandleRef hDC, int nIndex);
+
         // Critical: P-Invokes
         [SecurityCritical]
         [DllImport(ExternDll.User32, CharSet = CharSet.Auto)]

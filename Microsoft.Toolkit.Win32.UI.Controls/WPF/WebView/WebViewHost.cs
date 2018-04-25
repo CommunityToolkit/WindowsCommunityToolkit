@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using System.Collections;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -20,6 +19,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
@@ -48,6 +48,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// </summary>
         protected WebViewHost()
         {
+            DpiHelper.Initialize();
+            DpiHelper.SetPerMonitorDpiAwareness();
+
+            // Get system DPI
+            DeviceDpi = DpiHelper.DeviceDpi;
+
+            DpiChanged += OnDpiChanged;
+            SizeChanged += OnSizeChanged;
+
 #if DEBUG_FOCUS
             GotFocus += (o, e) => { Debug.WriteLine($"GotFocus"); };
             GotKeyboardFocus += (o, e) => { Debug.WriteLine("GotKeyboardFocus"); };
@@ -65,6 +74,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// </summary>
         /// <value>The child window created during <see cref="Initialize"/>.</value>
         protected HandleRef ChildWindow { get; private set; }
+
+        /// <summary>
+        /// Gets the current DPI for this control
+        /// </summary>
+        /// <seealso cref="IsScalingRequired"/>
+        protected int DeviceDpi { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether scaling is required for the current DPI.
+        /// </summary>
+        /// <value><see langword="true"/> if scaling is required; otherwise, <see langword="false"/>.</value>
+        protected bool IsScalingRequired => DeviceDpi != DpiHelper.LogicalDpi;
 
         /// <summary>
         /// Gets the parent handle.
@@ -87,11 +108,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
             ParentHandle = hwndParent;
-
             NativeMethods.EnableMouseInPointer(true);
 
-            // TODO: There is a case where a process could have already been created
-            // TODO: Multiple WebViewControl instances
             if (ChildWindow.Handle == IntPtr.Zero)
             {
                 // Create a simple STATIC HWND
@@ -114,11 +132,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Initializes this instance.
-        /// </summary>
-        protected abstract void Initialize();
-
-        /// <summary>
         /// Destroys the hosted window.
         /// </summary>
         /// <param name="hwnd">A structure that contains the window handle.</param>
@@ -138,6 +151,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 if (disposing)
                 {
                     Close();
+                    DpiChanged -= OnDpiChanged;
+                    SizeChanged -= OnSizeChanged;
                 }
             }
             finally
@@ -147,19 +162,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Returns the size of the window represented by the <see cref="T:System.Windows.Interop.HwndHost" /> object, as requested by layout engine operations.
+        /// Initializes this instance.
         /// </summary>
-        /// <param name="constraint">The size of the <see cref="T:System.Windows.Interop.HwndHost" /> object.</param>
-        /// <returns>The size of the <see cref="T:System.Windows.Interop.HwndHost" /> object.</returns>
-        /// <remarks>The minimum size is 250 length and 250 width.</remarks>
-        protected override Size MeasureOverride(Size constraint)
-        {
-            base.MeasureOverride(constraint);
-
-            return new Size(
-                !double.IsPositiveInfinity(constraint.Width) ? constraint.Width : 250.0,
-                !double.IsPositiveInfinity(constraint.Height) ? constraint.Height : 250.0);
-        }
+        protected abstract void Initialize();
 
         /// <summary>
         /// Processes keyboard input at the keydown message level.
@@ -191,6 +196,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         protected abstract void UpdateBounds(Rect bounds);
 
         /// <summary>
+        /// Updates the size of the <see cref="WebViewHost"/> using the current visual offset for location.
+        /// </summary>
+        /// <param name="size">A <see cref="Size" /> containing numerical values that represent the size of the control.</param>
+        protected virtual void UpdateSize(Size size)
+        {
+            var rect = new Rect(
+                VisualOffset.X,
+                VisualOffset.Y,
+                size.Width,
+                size.Height);
+            UpdateBounds(rect);
+        }
+
+        /// <summary>
         /// When overridden in a derived class, accesses the window process (handle) of the hosted child window.
         /// </summary>
         /// <param name="hwnd">The window handle of the hosted window.</param>
@@ -201,9 +220,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <returns>The window handle of the child window.</returns>
         protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            Debug.WriteLine($"HWND: {hwnd}, msg: {msg} ({msg:x4}), wParam: {wParam}, lParam: {lParam}");
+            Debug.WriteLine($"HWND: {hwnd}, msg: {msg} (0x{msg:x4}), wParam: {wParam}, lParam: {lParam}");
 
-            return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
+            switch (msg)
+            {
+                // WM_DPICHANGED
+                // WM_DPICHANGED_BEFOREPARENT
+                // WM_DPICHANGED_AFTERPARENT
+                default:
+                    return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
+            }
         }
 
         private static void OnAccessKeyPressed(object sender, AccessKeyPressedEventArgs args)
@@ -214,6 +240,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
 
             args.Target = (UIElement)sender;
+        }
+
+        private void OnDpiChanged(object o, DpiChangedEventArgs e)
+        {
+#if DEBUG_LAYOUT
+            Debug.WriteLine("Old DPI: ({0}, {1}), New DPI: ({2}, {3})", e.OldDpi.DpiScaleX, e.OldDpi.DpiScaleY, e.NewDpi.DpiScaleX, e.NewDpi.DpiScaleY);
+#endif
+            Verify.AreEqual(DeviceDpi, e.OldDpi.PixelsPerInchX);
+            DeviceDpi = (int)e.NewDpi.PixelsPerInchX;
+        }
+
+        private void OnSizeChanged(object o, SizeChangedEventArgs e)
+        {
+            UpdateSize(e.NewSize);
         }
     }
 }

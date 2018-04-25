@@ -12,6 +12,7 @@
 
 using System;
 using System.ComponentModel;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using WebViewControlProcess = Windows.Web.UI.Interop.WebViewControlProcess;
 using WebViewControlProcessCapabilityState = Windows.Web.UI.Interop.WebViewControlProcessCapabilityState;
