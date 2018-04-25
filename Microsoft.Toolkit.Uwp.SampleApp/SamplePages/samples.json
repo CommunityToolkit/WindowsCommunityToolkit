@@ -871,6 +871,7 @@
         "Type": "GazeInteractionPage",
         "About": "Demonstrate the properties and events of the GazePointer library",
         "XamlCodeFile": "GazeInteractionXaml.bind",
+        "CodeFile": "GazeInteractionCode.bind",
         "Icon": "/SamplePages/GazeInteraction/GazeInteraction.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/gaze/Gaze.md",
         "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
