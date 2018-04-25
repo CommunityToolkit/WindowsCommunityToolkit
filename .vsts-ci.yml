@@ -1,4 +1,4 @@
-queue: "Hosted VS2017"
+queue: "Toolkit Private Pool"
 variables: 
   BuildConfiguration: Release
   
