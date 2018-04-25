@@ -138,6 +138,5 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecific
         {
             return GetPlatformSpecificAttribute(symbol) != null;
         }
-
     }
 }

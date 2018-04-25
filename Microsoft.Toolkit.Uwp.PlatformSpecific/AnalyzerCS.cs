@@ -152,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecific
             reports[line] = Diagnostic.Create(platform.Kind == PlatformKind.Uwp ? Analyzer.RuleVersion : Analyzer.RulePlatform, loc);
         }
 
-        private ISymbol GetTargetOfNode(SyntaxNode node, SemanticModel semanticModel)
+        public static ISymbol GetTargetOfNode(SyntaxNode node, SemanticModel semanticModel)
         {
             var parentKind = node.Parent.Kind();
 
@@ -218,7 +218,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecific
             return false;
         }
 
-        private IEnumerable<ISymbol> GetGuards(SyntaxNode node, SemanticModel semanticModel)
+        public static IEnumerable<ISymbol> GetGuards(SyntaxNode node, SemanticModel semanticModel)
         {
             foreach (var condition in GetConditions(node))
             {
@@ -247,7 +247,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecific
             }
         }
 
-        private IEnumerable<ExpressionSyntax> GetConditions(SyntaxNode node)
+        private static IEnumerable<ExpressionSyntax> GetConditions(SyntaxNode node)
         {
             var check = node.FirstAncestorOrSelf<IfStatementSyntax>();
 
