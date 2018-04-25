@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Collections.Generic;
 using System.Linq;
 using Windows.System;
 using Windows.UI.Core;
@@ -252,12 +253,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // if current column has fixed width then resize it
             if (!IsStarColumn(CurrentColumn))
             {
-                foreach (var column in columnsWithAutomaticWidth)
+                // Check if all automatic width columns will respect min and max width after resize
+                if (!AreValidColumnWidths(columnsWithAutomaticWidth, horizontalChange * -1))
                 {
-                    if (!IsValidColumnWidth(column, horizontalChange * -1))
-                    {
-                        return false;
-                    }
+                    return false;
                 }
 
                 // No need to check for the Column Min width because it is automatically respected
@@ -276,14 +275,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return false;
                 }
 
+                // Remove the Sibling as it will be checked during resize
                 columnsWithAutomaticWidth = columnsWithAutomaticWidth.Where(x => x != SiblingColumn);
 
-                foreach (var column in columnsWithAutomaticWidth)
+                // Check if all automatic width columns will respect min and max width after resize
+                if (!AreValidColumnWidths(columnsWithAutomaticWidth, horizontalChange))
                 {
-                    if (!IsValidColumnWidth(column, horizontalChange))
-                    {
-                        return false;
-                    }
+                    return false;
                 }
 
                 if (!SetColumnWidth(SiblingColumn, horizontalChange * -1, GridUnitType.Pixel))
@@ -324,6 +322,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return false;
+        }
+
+        private bool AreValidColumnWidths(IEnumerable<ColumnDefinition> columns, double horizontalChange)
+        {
+            foreach (var column in columns)
+            {
+                if (!IsValidColumnWidth(column, horizontalChange))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
