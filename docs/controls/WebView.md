@@ -23,7 +23,7 @@ Unless specified otherwise in this article, the documentation for the [WebViewCo
 
 ## Prerequisites
 
-:heavy_check_mark: UWP Community Toolkit (version TBD).
+:heavy_check_mark: UWP Community Toolkit.
 
 :heavy_check_mark: Visual Studio 2017.
 
@@ -35,16 +35,10 @@ Unless specified otherwise in this article, the documentation for the [WebViewCo
 
 ## Feature limitations
 
-When compared to the UWP **WebView** control, the **WebView** controls for WPF and Windows Forms have these limitations:
+When compared to the UWP **WebView** control, the current release of the WPF and Windows Forms **WebView** control has some limitations. For the complete list of these limitations, see [Known Issues of the WebView control for Windows Forms and WPF applications](controls/WebView-known.issues.md).
 
-:no_entry: Navigating from or saving to streams.
-
-:no_entry: Navigating to relative URIs or resources within your application.
-
-:no_entry: Navigating to files on disk.
-
-:no_entry: These Microsoft Edge features: Service workers, Push Messages, and WebVR.
-
+> [!NOTE]
+> We recommend that you do not add **WebView** controls to popup windows because support for that scenario will soon be disabled for security reasons.
 
 ## Add the WebView control to the Visual Studio Toolbox
 

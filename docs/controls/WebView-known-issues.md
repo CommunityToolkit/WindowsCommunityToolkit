@@ -105,7 +105,7 @@ The **WebView** control implements these events of the [IWebViewControl](https:/
 
 * You can't programmatically print information from a WebView control.
 
-* No way to programmatically refresh content with cache validation. By default, pages refresh without cache validation by sending a "Pragma:no-cache" header to the server.
+* There's no way to programmatically refresh content with cache validation. By default, pages refresh without cache validation by sending a "Pragma:no-cache" header to the server.
 
  
 
