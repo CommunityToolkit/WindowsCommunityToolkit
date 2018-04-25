@@ -34,9 +34,6 @@
     <ClCompile Include="GazeHistoryItem.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="GazeInvokedRoutedEventArgs.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="GazeTargetItem.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -56,6 +53,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="StateChangedEventArgs.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="DwellInvokedRoutedEventArgs.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -87,13 +87,7 @@
     <ClInclude Include="GazeHistoryItem.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="GazeInvokedRoutedEventArgs.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="GazeTargetItem.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="GazeProgressState.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="GazeFeedbackPopupFactory.h">
@@ -105,9 +99,6 @@
     <ClInclude Include="GazeEnablement.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="GazeProgressEventArgs.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="GazeInput.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -115,6 +106,15 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="StateChangedEventArgs.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DwellProgressState.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DwellInvokedRoutedEventArgs.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DwellProgressEventArgs.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
