@@ -7,8 +7,8 @@
 #include "IGazeFilter.h"
 #include "GazeCursor.h"
 #include "StateChangedEventArgs.h"
-#include "GazeInvokedRoutedEventArgs.h"
-#include "GazeProgressEventArgs.h"
+#include "DwellInvokedRoutedEventArgs.h"
+#include "DwellProgressEventArgs.h"
 
 using namespace Platform;
 using namespace Platform::Collections;
@@ -24,28 +24,22 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 public ref class GazeElement sealed : public DependencyObject
 {
-private:
-    static DependencyProperty^ const s_hasAttentionProperty;
-    static DependencyProperty^ const s_invokeProgressProperty;
 public:
-    static property DependencyProperty^ HasAttentionProperty { DependencyProperty^ get() { return s_hasAttentionProperty; } }
-    static property DependencyProperty^ InvokeProgressProperty { DependencyProperty^ get() { return s_invokeProgressProperty; } }
-
     event EventHandler<StateChangedEventArgs^>^ StateChanged;
-    event EventHandler<GazeInvokedRoutedEventArgs^>^ Invoked;
-	event EventHandler<GazeProgressEventArgs^>^ ProgressFeedback;
+    event EventHandler<DwellInvokedRoutedEventArgs^>^ Invoked;
+	event EventHandler<DwellProgressEventArgs^>^ DwellProgressFeedback;
 
     void RaiseStateChanged(Object^ sender, StateChangedEventArgs^ args) { StateChanged(sender, args); }
 
-    void RaiseInvoked(Object^ sender, GazeInvokedRoutedEventArgs^ args)
+    void RaiseInvoked(Object^ sender, DwellInvokedRoutedEventArgs^ args)
     {
         Invoked(sender, args);
     }
 
-	bool RaiseProgressFeedback(Object^ sender, GazeProgressState state, TimeSpan elapsedTime, TimeSpan triggerTime)
+	bool RaiseProgressFeedback(Object^ sender, DwellProgressState state, TimeSpan elapsedTime, TimeSpan triggerTime)
 	{
-		auto args = ref new GazeProgressEventArgs(state, elapsedTime, triggerTime);
-		ProgressFeedback(sender, args);
+		auto args = ref new DwellProgressEventArgs(state, elapsedTime, triggerTime);
+		DwellProgressFeedback(sender, args);
 		return args->Handled;
 	}
 };

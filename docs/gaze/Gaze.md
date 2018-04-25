@@ -38,9 +38,70 @@ A few eye gaze related concepts are useful to explain in order to better underst
 
 The GazeApi library enables dwell based gaze interaction on the page by reading the data from the eye tracker over the page invoking specific controls when the user's gaze dwells on a control for a specific time. The application can configure this time based on its usage scenario.
 
-## Quick Start
+## Properties
 
-### To enable gaze interaction on the whole page
+### <a name="pointerstate">PointerState</a>
+
+The low level gaze API delivers a stream of timestamped `[x,y]` coordinates for the user's gaze location on the screen. The gaze interaction library aggregates these samples over each control and converts the stream into gaze events. Corresponding to these events, are the following states:
+
+| Property | Type | Description |
+| -- | -- | -- |
+|Enter | enum | User's gaze has entered a control |
+|Fixation| enum | User eye's are focused on the control. |
+|Dwell | enum | User is conciously dwelling on the control with an intent to invoke, e.g. click a button|
+|RepeatDelay| enum | This is a small delay after Dwell. If the button is configured for repeated invocation, it will do so after the time period associated with this state has elapsed.|
+|DwellRepeat| enum | User is continuing to dwell on the control in order to invoke it repeatedly. |
+|Exit|enum|User's gaze is no longer on the control|
+
+### GazeInput properties
+
+Whether the page is enabled for the gaze based interaction, the visibility and size of the gaze cursor, and the timings associated with the states above can be configured using the properties below:
+
+| Property | Type | Description |
+| -- | -- | -- |
+| IsDeviceAvailable | bool | Returns whether an eye tracker is plugged in to the machine. When this property changes an `IsDeviceAvailableChanged` event is fired. |
+| IsGazeEnabled | enum | Gets or sets the status of gaze interaction over that particular XAML element.  There are three options: <br /> <ul> <li>**Enabled.**  Gaze interaction is enabled on this element and all its children </li> <li> **Disabled** Gaze interaction is disabled on this element and all its children <li> **Inherited** Gaze interaction status is inherited from the nearest ancestor </ul>| 
+| CursorVisible | bool | The gaze cursor shows where the user is looking at on the screen. This boolean property shows the gaze cursor when set to `true` and hides it when set to `false` |
+|CursorRadius|int|Gets or sets the size of the gaze cursor radius|
+| ThresholdDuration | TimeSpan | This duration controls when the PointerState moves to either the `Enter` state or the `Exit` state. When this duration has elapsed after the user's gaze first enters a control, the `PointerState` is set to `Enter`. And when this duration has elapsed after the user's gaze has left the control, the `PointerState` is set to `Exit`. In both cases, a `StateChanged` event is fired with the `PointerState` set to the corresponding value. The default is 50ms. |
+| FixationDuration | TimeSpan | Gets or sets the duration for the control to transition from the `Enter` state to the `Fixation` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `Fixation`. This event should be used to control the earliest visual feedback the application needs to provide to the user about the gaze location. The default is 400ms. **CHECK**|
+| DwellDuration | TimeSpan | Gets or sets the duration for the control to transition from the `Fixation` state to the `Dwell` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `Dwell`. The `Enter` and `Fixation` states are typicaly achieved too rapidly for the user to have much control over. In contrast `Dwell` is conscious event. This is the point at which the control is invoked, e.g. a button click. The application can modify this property to control when a gaze enabled UI element gets invoked after a user starts looking at it.
+| RepeatDelayDuration | TimeSpan | Gets or sets the duration for the control to transition from the `Dwell` state to the `RepeatDelay` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `RepeatDelay`. After this time has elapsed, the control enters  a 'repeat' mode, and the control will be repeatedly invoked as long as the user's gaze stays within the control area. |
+| DwellRepeatDuration | TimeSpan | Gets or sets the duration for the control to transition from the `RepeatDelay` state to the `DwellRepeat` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `DwellRepeat`. The control will be repeatedly invoked for every passage of this duration as long as the user's gaze stays within the control. |
+| MaxDwellRepeatCount | int | The maximum times the control will invoked repeatedly without the user's gaze having to leave and re-enter the control. The default value is zero which disables repeated invocation of a control. Developers can set a higher value to enable repeated invocation. |
+
+
+## GazeElement Events
+
+| Events | Description |
+| -- | -- |
+| StateChanged | This event is raised in response to each of the states associated with `PointerState` (except for the `DwellRepeat` state). An application can add a handler for this event to customize gaze related processing with respect to the various gaze pointer states mentioned above.|
+|DwellProgressFeedback| This event is fired to indicate progress towards a dwell event. An application can handle this event to either customize visual feedback and/or turn off the default animation for dwell by setting `DwellProgressEventArgs.Handled` to `true`|
+|Invoked|This event is fired when the library is about to invoke the control in response to a dwell event. An application can handle this even to perform custom processing before invocation, and/or suppress invocation by setting the `DwellInvokedRoutedEventArgs.Handled` to `true`
+
+### StateChangedEventArgs properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+|PointerState|GazePointerState|The `GazePointerState` associated with this event|
+|ElapsedTime|TimeSpan|The time the user has spent looking at the control to reach the specific pointer state above|
+
+### DwellInvokedRoutedEventArgs properties
+| Property | Type | Description |
+| -- | -- | -- |
+| Handled | bool | This parameter is passed to the `GazeElement.Invoked` event. If set to `true` the library will suppress invoking the control on a dwell event|
+
+
+<!-- Use <remarks> tag in C# to give more info about a propertie. For more info - https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/xmldoc/remarks -->
+
+
+<!-- Use <remarks> tag in C# to give more info about a method. For more info - https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/xmldoc/remarks -->
+
+<!-- Use <remarks> tag in C# to give more info about a event. For more info - https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/xmldoc/remarks -->
+
+## Examples
+
+#### To enable gaze interaction on the whole page
 
 Add the following lines to your Page element to enable the whole page for gaze interaction
 
@@ -79,7 +140,7 @@ In the above example, the button will be clicked when the user looks at the butt
 
 
 
-### To change the dwell time for a control
+#### To change the dwell time for a control
 
 The code below sets the Dwell period for the button to be 500ms. This means the button will be clicked after 500ms after the control enters Fixation state.
 (See [PointerState](#PointerState) for details)
@@ -88,66 +149,27 @@ The code below sets the Dwell period for the button to be 500ms. This means the 
     <Button Content="Click Me" gaze:GazeInput.Dwell="00:00:00.5">
 ```
 
-## Properties
+#### Animation
+The library provides a default animation of a shriniking rectangle over the control to indicate progress towards a dwell event. The style of animation can be controlled in two ways. 
+* If you wish to retain the animation style, but change the colors used:
+  * Change the `GazeInput.DwellFeedbackProgressBrush` property to change the color of the progress rectangle
+  * Change the `GazeInput.DwellFeedbackCompletedBrush` property to change the color of the completed brush
+* If you wish to completely disable the default animation, add an event handler for `DwellProgressFeedback` on `GazeElement` and set `Handled` to `True` as follows
 
-### <a name="pointerstate">PointerState</a>
+```xaml
+<Button Content="Click Me">
+    <g:GazeInput.GazeElement>
+        <g:GazeElement DwellProgressFeedback="OnInvokeProgress" />
+    </g:GazeInput.GazeElement>
+</Button>
+```
 
-The low level gaze API delivers a stream of timestamped `[x,y]` coordinates for the user's gaze location on the screen. The gaze interaction library aggregates these samples over each control and converts the stream into gaze events. Corresponding to these events, are the following states:
-
-| Property | Type | Description |
-| -- | -- | -- |
-|Enter | enum | User's gaze has entered a control |
-|Fixation| enum | User eye's are focused on the control. |
-|Dwell | enum | User is conciously dwelling on the control with an intent to invoke, e.g. click a button|
-|RepeatDelay| enum | This is a small delay after Dwell. If the button is configured for repeated invocation, it will do so after the time period associated with this state has elapsed.|
-|DwellRepeat| enum | User is continuing to dwell on the control in order to invoke it repeatedly. |
-|Exit|enum|User's gaze is no longer on the control|
-
-### GazeInput properties
-
-Whether the page is enabled for the gaze based interaction, the visibility and size of the gaze cursor, and the timings associated with the states above can be configured using the properties below:
-
-| Property | Type | Description |
-| -- | -- | -- |
-| IsGazeEnabled | enum | Gets or sets the status of gaze interaction over that particular XAML element.  There are three options: <br /> <ul> <li>**Enabled.**  Gaze interaction is enabled on this element and all its children </li> <li> **Disabled** Gaze interaction is disabled on this element and all its children <li> **Inherited** Gaze interaction status is inherited from the nearest ancestor </ul>| 
-| CursorVisible | bool | The gaze cursor shows where the user is looking at on the screen. This boolean property shows the gaze cursor when set to `true` and hides it when set to `false` |
-|CursorRadius|int|Gets or sets the size of the gaze cursor radius|
-| ThresholdDuration | TimeSpan | This duration controls when the PointerState moves to either the `Enter` state or the `Exit` state. When this duration has elapsed after the user's gaze first enters a control, the `PointerState` is set to `Enter`. And when this duration has elapsed after the user's gaze has left the control, the `PointerState` is set to `Exit`. In both cases, a `StateChanged` event is fired with the `PointerState` set to the corresponding value. The default is 50ms. |
-| FixationDuration | TimeSpan | Gets or sets the duration for the control to transition from the `Enter` state to the `Fixation` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `Fixation`. This event should be used to control the earliest visual feedback the application needs to provide to the user about the gaze location. The default is 400ms. **CHECK**|
-| DwellDuration | TimeSpan | Gets or sets the duration for the control to transition from the `Fixation` state to the `Dwell` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `Dwell`. The `Enter` and `Fixation` states are typicaly achieved too rapidly for the user to have much control over. In contrast `Dwell` is conscious event. This is the point at which the control is invoked, e.g. a button click. The application can modify this property to control when a gaze enabled UI element gets invoked after a user starts looking at it.
-| RepeatDelayDuration | TimeSpan | Gets or sets the duration for the control to transition from the `Dwell` state to the `RepeatDelay` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `RepeatDelay`. After this time has elapsed, the control enters  a 'repeat' mode, and the control will be repeatedly invoked as long as the user's gaze stays within the control area. |
-| DwellRepeatDuration | TimeSpan | Gets or sets the duration for the control to transition from the `RepeatDelay` state to the `DwellRepeat` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `DwellRepeat`. The control will be repeatedly invoked for every passage of this duration as long as the user's gaze stays within the control. |
-| MaxDwellRepeatCount | int | The maximum times the control will invoked repeatedly without the user's gaze having to leave and re-enter the control. The default value is zero which disables repeated invocation of a control. Developers can set a higher value to enable repeated invocation. |
-
-
-### GazeElement properties
-
-| Property | Type | Description |
-| -- | -- | -- |
-|HasAttention|bool|A property that gets or sets whether user attention is currently on the control in question|
-|InvokeProgress|double|A value between 0 and 1 that indicates the percent time elapsed towards the control being invoked. This property can be used to provide visual feedback to the user|
-
-## GazeElement Events
-
-| Events | Description |
-| -- | -- |
-| GazePointerEvent | This event is raised in response to each of the states associated with GazePointerState (except for the `DwellRepeat` state). An application can add a handler for this event to customize gaze related processing with respect to the various gaze pointer states mentioned above.|
-
-### StateChangedEvent properties
-
-| Property | Type | Description |
-| -- | -- | -- |
-|ElapsedTimeSpan|TimeSpan|The time the user has spent looking at the control to reach the specific pointer state above|
-|PointerState|GazePointerState|The `GazePointerState` associated with this event|
-
-<!-- Use <remarks> tag in C# to give more info about a propertie. For more info - https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/xmldoc/remarks -->
-
-
-<!-- Use <remarks> tag in C# to give more info about a method. For more info - https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/xmldoc/remarks -->
-
-<!-- Use <remarks> tag in C# to give more info about a event. For more info - https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/xmldoc/remarks -->
-
-## Examples
+```c#
+private void OnInvokeProgress(object sender, GazeProgressEventArgs e)
+{
+    e.Handled = true;
+}
+```
 
 <!-- All control/helper must at least have an example to show the use of Properties and Methods in your control/helper with the output -->
 <!-- Use <example> and <code> tags in C# to create a Propertie/method specific examples. For more info - https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/xmldoc/example -->

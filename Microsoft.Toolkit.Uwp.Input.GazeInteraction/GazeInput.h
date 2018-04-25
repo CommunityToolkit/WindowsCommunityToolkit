@@ -41,8 +41,8 @@ public:
 
 	static property DependencyProperty^ MaxDwellRepeatCountProperty { DependencyProperty^ get(); }
 
-    static property Brush^ GazeFeedbackProgressBrush { Brush^ get(); void set(Brush^ value); }
-    static property Brush^ GazeFeedbackCompleteBrush { Brush^ get(); void set(Brush^ value); }
+    static property Brush^ DwellFeedbackProgressBrush { Brush^ get(); void set(Brush^ value); }
+    static property Brush^ DwellFeedbackCompleteBrush { Brush^ get(); void set(Brush^ value); }
 
     static GazeEnablement GetIsGazeEnabled(UIElement^ element);
     static bool GetIsCursorVisible(UIElement^ element);

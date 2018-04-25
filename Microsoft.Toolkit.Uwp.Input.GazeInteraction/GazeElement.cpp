@@ -15,7 +15,5 @@ using namespace Windows::UI::Xaml::Hosting;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-DependencyProperty^ const GazeElement::s_hasAttentionProperty = DependencyProperty::Register("HasAttention", bool::typeid, GazeElement::typeid, ref new PropertyMetadata(false));
-DependencyProperty^ const GazeElement::s_invokeProgressProperty = DependencyProperty::Register("InvokeProgress", double::typeid, GazeElement::typeid, ref new PropertyMetadata(0.0));
 
 END_NAMESPACE_GAZE_INPUT

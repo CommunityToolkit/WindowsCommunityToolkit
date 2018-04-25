@@ -4,8 +4,7 @@
 #pragma once
 #pragma warning(disable:4453)
 
-#include "IGazeFilter.h"
-#include "GazeCursor.h"
+#include "DwellProgressState.h"
 
 using namespace Platform;
 using namespace Platform::Collections;
@@ -16,15 +15,20 @@ using namespace Windows::Devices::HumanInterfaceDevice;
 using namespace Windows::UI::Core;
 using namespace Windows::Devices::Input::Preview;
 
-namespace Shapes = Windows::UI::Xaml::Shapes;
-
 BEGIN_NAMESPACE_GAZE_INPUT
 
-public ref class GazeInvokedRoutedEventArgs : public RoutedEventArgs
+public ref class DwellProgressEventArgs : public RoutedEventArgs
 {
 public:
-
-    property bool Handled;
+	property DwellProgressState State;
+	property double Progress;
+	property bool Handled;
+internal:
+	DwellProgressEventArgs(DwellProgressState state, TimeSpan elapsedDuration, TimeSpan triggerDuration)
+	{
+		State = state;
+        Progress = ((double)elapsedDuration.Duration) / triggerDuration.Duration;
+	}
 };
 
 END_NAMESPACE_GAZE_INPUT

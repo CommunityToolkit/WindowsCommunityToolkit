@@ -515,7 +515,7 @@ void GazePointer::RaiseGazePointerEvent(GazeTargetItem^ target, PointerState sta
 
         if (gazeElement != nullptr)
         {
-            auto args = ref new GazeInvokedRoutedEventArgs();
+            auto args = ref new DwellInvokedRoutedEventArgs();
             gazeElement->RaiseInvoked(control, args);
             handled = args->Handled;
         }
@@ -594,7 +594,7 @@ void GazePointer::ProcessGazePoint(TimeSpan timestamp, Point position)
 
             if (targetItem->ElementState == PointerState::Dwell)
             {
-                targetItem->NextStateTime += GetElementStateDelay(targetItem->TargetElement, GazeInput::DwellRepeatDurationProperty, _defaultDwellRepeatDelay);
+                targetItem->NextStateTime += GetElementStateDelay(targetItem->TargetElement, GazeInput::RepeatDelayDurationProperty, _defaultDwellRepeatDelay);
             }
         }
         else

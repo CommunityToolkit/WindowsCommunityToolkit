@@ -194,7 +194,7 @@ GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
     return item;
 }
 
-void GazeTargetItem::RaiseProgressEvent(GazeProgressState state)
+void GazeTargetItem::RaiseProgressEvent(DwellProgressState state)
 {
     // TODO: We should eliminate non-invokable controls before we arrive here!
     if (dynamic_cast<Page^>(TargetElement) != nullptr)
@@ -202,7 +202,7 @@ void GazeTargetItem::RaiseProgressEvent(GazeProgressState state)
         return;
     }
 
-    if (_notifiedProgressState != state || state == GazeProgressState::Progressing)
+    if (_notifiedProgressState != state || state == DwellProgressState::Progressing)
     {
         auto handled = false;
 
@@ -212,7 +212,7 @@ void GazeTargetItem::RaiseProgressEvent(GazeProgressState state)
             handled = gazeElement->RaiseProgressFeedback(TargetElement, state, ElapsedTime - _prevStateTime, _nextStateTime - _prevStateTime);
         }
 
-        if (!handled && state != GazeProgressState::Idle)
+        if (!handled && state != DwellProgressState::Idle)
         {
             if (_feedbackPopup == nullptr)
             {
@@ -226,13 +226,13 @@ void GazeTargetItem::RaiseProgressEvent(GazeProgressState state)
                 *ref new Size(safe_cast<float>(control->ActualWidth), safe_cast<float>(control->ActualHeight))));
             auto rectangle = safe_cast<Rectangle^>(_feedbackPopup->Child);
 
-            if (state == GazeProgressState::Progressing)
+            if (state == DwellProgressState::Progressing)
             {
                 auto progress = ((double)(ElapsedTime - _prevStateTime).Duration) / (_nextStateTime - _prevStateTime).Duration;
 
                 if (0 <= progress && progress < 1)
                 {
-                    rectangle->Stroke = GazeInput::GazeFeedbackProgressBrush;
+                    rectangle->Stroke = GazeInput::DwellFeedbackProgressBrush;
                     rectangle->Width = (1 - progress) * bounds.Width;
                     rectangle->Height = (1 - progress) * bounds.Height;
 
@@ -242,7 +242,7 @@ void GazeTargetItem::RaiseProgressEvent(GazeProgressState state)
             }
             else
             {
-                rectangle->Stroke = GazeInput::GazeFeedbackCompleteBrush;
+                rectangle->Stroke = GazeInput::DwellFeedbackCompleteBrush;
                 rectangle->Width = bounds.Width;
                 rectangle->Height = bounds.Height;
 

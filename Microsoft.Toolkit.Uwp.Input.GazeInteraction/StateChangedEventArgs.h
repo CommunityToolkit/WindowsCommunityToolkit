@@ -26,7 +26,6 @@ public ref struct StateChangedEventArgs sealed
     property UIElement^ HitTarget;
     property PointerState PointerState;
     property TimeSpan ElapsedTime;
-    property TimeSpan ElapsedTimeSpan { TimeSpan get() { return ElapsedTime; } }
 
     StateChangedEventArgs(UIElement^ target, GazeInteraction::PointerState state, TimeSpan elapsedTime)
     {
