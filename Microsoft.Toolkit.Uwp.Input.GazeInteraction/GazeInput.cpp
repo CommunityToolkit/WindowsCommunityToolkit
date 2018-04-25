@@ -22,24 +22,24 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 static Brush^ s_progressBrush = ref new SolidColorBrush(Colors::Green);
 
-Brush^ GazeInput::GazeFeedbackProgressBrush::get()
+Brush^ GazeInput::DwellFeedbackProgressBrush::get()
 {
     return s_progressBrush;
 }
 
-void GazeInput::GazeFeedbackCompleteBrush::set(Brush^ value)
+void GazeInput::DwellFeedbackCompleteBrush::set(Brush^ value)
 {
     s_progressBrush = value;
 }
 
 static Brush^ s_completeBrush = ref new SolidColorBrush(Colors::Red);
 
-Brush^ GazeInput::GazeFeedbackCompleteBrush::get()
+Brush^ GazeInput::DwellFeedbackCompleteBrush::get()
 {
     return s_completeBrush;
 }
 
-void GazeInput::GazeFeedbackProgressBrush::set(Brush^ value)
+void GazeInput::DwellFeedbackProgressBrush::set(Brush^ value)
 {
     s_completeBrush = value;
 }
