@@ -27,6 +27,14 @@ namespace GazeInputTest
             this.InitializeComponent();
 
             ShowCursor.IsChecked = GazeInput.GetIsCursorVisible(this);
+
+            GazeInput.IsDeviceAvailableChanged += GazeInput_IsDeviceAvailableChanged;
+            GazeInput_IsDeviceAvailableChanged(null, null);
+        }
+
+        private void GazeInput_IsDeviceAvailableChanged(object sender, object e)
+        {
+            DeviceAvailable.Text = GazeInput.IsDeviceAvailable ? "Eye tracker device available" : "No eye tracker device available";
         }
 
         private void OnStateChanged(object sender, StateChangedEventArgs ea)

@@ -81,12 +81,16 @@ public:
 
 internal:
 
-    static property GazePointer^ Instance{ GazePointer^ get(); }
+    static property GazePointer^ Instance { GazePointer^ get(); }
     void OnPageUnloaded(Object^ sender, RoutedEventArgs^ args);
     EventRegistrationToken _unloadedToken;
 
     void AddRoot(FrameworkElement^ element);
     void RemoveRoot(FrameworkElement^ element);
+
+
+    property bool IsDeviceAvailable { bool get() { return _deviceCount != 0; }}
+    event EventHandler<Object^>^ IsDeviceAvailableChanged;
 
 private:
 
@@ -124,6 +128,9 @@ private:
 
     void    OnEyesOff(Object ^sender, Object ^ea);
 
+    void OnDeviceAdded(GazeDeviceWatcherPreview^ sender, GazeDeviceWatcherAddedPreviewEventArgs^ args);
+    void OnDeviceRemoved(GazeDeviceWatcherPreview^ sender, GazeDeviceWatcherRemovedPreviewEventArgs^ args);
+
 private:
     Vector<FrameworkElement^>^ _roots = ref new Vector<FrameworkElement^>();
 
@@ -153,6 +160,11 @@ private:
     EventRegistrationToken              _gazeMovedToken;
     EventRegistrationToken              _gazeExitedToken;
     CoreDispatcher^                     _coreDispatcher;
+
+    GazeDeviceWatcherPreview^ _watcher;
+    int _deviceCount;
+    EventRegistrationToken _deviceAddedToken;
+    EventRegistrationToken _deviceRemovedToken;
 
     TimeSpan _defaultFixation = DEFAULT_FIXATION_DELAY;
     TimeSpan _defaultDwell = DEFAULT_DWELL_DELAY;

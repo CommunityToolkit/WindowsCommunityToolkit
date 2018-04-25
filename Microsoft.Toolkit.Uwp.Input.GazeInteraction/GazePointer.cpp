@@ -79,10 +79,39 @@ GazePointer::GazePointer()
     EyesOffDelay = GAZE_IDLE_TIME;
 
     InitializeHistogram();
+
+    auto view = GazeInputSourcePreview::GetForCurrentView();
+    _watcher = view->CreateWatcher();
+    _watcher->Added += ref new TypedEventHandler<GazeDeviceWatcherPreview^, GazeDeviceWatcherAddedPreviewEventArgs^>(this, &GazePointer::OnDeviceAdded);
+    _watcher->Removed += ref new TypedEventHandler<GazeDeviceWatcherPreview^, GazeDeviceWatcherRemovedPreviewEventArgs^>(this, &GazePointer::OnDeviceRemoved);
+    _watcher->Start();
+}
+
+void GazePointer::OnDeviceAdded(GazeDeviceWatcherPreview^ sender, GazeDeviceWatcherAddedPreviewEventArgs^ args)
+{
+    _deviceCount++;
+
+    if (_deviceCount == 1)
+    {
+        IsDeviceAvailableChanged(nullptr, nullptr);
+    }
+}
+
+void GazePointer::OnDeviceRemoved(GazeDeviceWatcherPreview^ sender, GazeDeviceWatcherRemovedPreviewEventArgs^ args)
+{
+    _deviceCount--;
+
+    if (_deviceCount == 0)
+    {
+        IsDeviceAvailableChanged(nullptr, nullptr);
+    }
 }
 
 GazePointer::~GazePointer()
 {
+    _watcher->Added -= _deviceAddedToken;
+    _watcher->Removed -= _deviceRemovedToken;
+
     if (_gazeInputSource != nullptr)
     {
         _gazeInputSource->GazeEntered -= _gazeEnteredToken;
@@ -172,6 +201,8 @@ void GazePointer::DeinitializeGazeInputSource()
         _gazeInputSource->GazeEntered -= _gazeEnteredToken;
         _gazeInputSource->GazeMoved -= _gazeMovedToken;
         _gazeInputSource->GazeExited -= _gazeExitedToken;
+
+        _gazeInputSource = nullptr;
     }
 }
 

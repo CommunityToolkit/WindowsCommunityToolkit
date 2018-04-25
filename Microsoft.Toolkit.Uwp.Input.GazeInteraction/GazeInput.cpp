@@ -115,4 +115,19 @@ GazePointer^ GazeInput::GetGazePointer(Page^ page)
     return GazePointer::Instance;
 }
 
+bool GazeInput::IsDeviceAvailable::get()
+{
+    return GazePointer::Instance->IsDeviceAvailable; 
+}
+
+EventRegistrationToken GazeInput::IsDeviceAvailableChanged::add(EventHandler<Object^>^ handler)
+{ 
+    return GazePointer::Instance->IsDeviceAvailableChanged += handler; 
+}
+
+void GazeInput::IsDeviceAvailableChanged::remove(EventRegistrationToken token) 
+{ 
+    GazePointer::Instance->IsDeviceAvailableChanged -= token; 
+}
+
 END_NAMESPACE_GAZE_INPUT
