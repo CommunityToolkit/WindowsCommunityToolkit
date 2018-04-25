@@ -32,19 +32,33 @@
                             </Style>
                         </Grid.Resources>
 
-                        <Border x:Name="OutOfRangeContentContainer"                                 
-                                Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" x:Name="MinValueText" Text="Min"/>
+
+                        <Border x:Name="OutOfRangeContentContainer"
+                                Background="Transparent"
+                                Grid.Column="2">
                             <Rectangle x:Name="BackgroundElement"
                                        Height="2"
                                        Fill="{TemplateBinding Background}" />
                         </Border>
+
                         <Canvas x:Name="ContainerCanvas"
-                                Margin="0,0,8,0"
+                                Grid.Column="2"
                                 Background="Transparent">
-                            <Rectangle x:Name="ActiveRectangle"                                                                     
+                            <Rectangle x:Name="ActiveRectangle"
+                                       HorizontalAlignment="Stretch"
                                        Height="2"
                                        VerticalAlignment="Center"
                                        Fill="{TemplateBinding Foreground}" />
+                            <TextBlock x:Name="ToolTipText" Margin="-3,-20,0,0" Visibility="Collapsed"/>
                             <Thumb x:Name="MinThumb"
                                    AutomationProperties.Name="Min thumb"
                                    IsTabStop="True" 
@@ -56,6 +70,9 @@
                                    Style="{StaticResource SliderThumbStyle}"
                                    TabIndex="1" />
                         </Canvas>
+
+                        <TextBlock Grid.Column="4" x:Name="MaxValueText" Text="Max"/>
+
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
