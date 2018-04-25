@@ -74,7 +74,7 @@ namespace GazeInputTest
         {
             if (e.State == DwellProgressState.Progressing)
             {
-                ProgressShow.Value = (100.0 * e.ElapsedDuration) / e.TriggerDuration;
+                ProgressShow.Value = 100.0 * e.Progress;
             }
             ProgressShow.IsIndeterminate = e.State == DwellProgressState.Complete;
             e.Handled = true;
