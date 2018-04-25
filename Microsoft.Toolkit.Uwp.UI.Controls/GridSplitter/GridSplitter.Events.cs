@@ -87,15 +87,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (e.Key == VirtualKey.Left)
                 {
-                    LogColumnStates();
                     HorizontalMove(-step);
-                    LogColumnStates();
                 }
                 else if (e.Key == VirtualKey.Right)
                 {
-                    LogColumnStates();
                     HorizontalMove(step);
-                    LogColumnStates();
                 }
                 else
                 {
@@ -163,20 +159,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_resizeDirection == GridResizeDirection.Columns)
             {
-                //Resizable.Measure(new Windows.Foundation.Size(double.MaxValue, double.MaxValue));
-                //var size = Resizable.DesiredSize;
-                //Resizable.InvalidateArrange();
-                //Resizable.UpdateLayout();
-                //System.Diagnostics.Debug.WriteLine($"Previous: {size.Width}; Future: {GetGridWidthAfterResize(horizontalChange)}; Grid Parent: {GetElementWidth((FrameworkElement)Resizable.Parent as UIElement)}");
-
-                LogColumnStates();
                 if (HorizontalMove(horizontalChange))
                 {
-                    LogColumnStates();
                     return;
                 }
-
-                LogColumnStates();
             }
             else if (_resizeDirection == GridResizeDirection.Rows)
             {
@@ -253,61 +239,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             return false;
         }
-
-        private void LogColumnStates()
-        {
-            //foreach (var columndefinition in resizable.columndefinitions)
-            //{
-            //    string columnname = "other";
-            //    if (columndefinition == currentcolumn)
-            //    {
-            //        columnname = "current";
-            //    }
-            //    else if (columndefinition == siblingcolumn)
-            //    {
-            //        columnname = "sibling";
-            //    }
-
-            //    system.diagnostics.debug.writeline($"column {columnname}, size: {columndefinition.width}; hash: {columndefinition.gethashcode()}");
-            //}
-        }
-
-        private void SetInitialColumnSizes()
-        {
-            //foreach (var column in Resizable.ColumnDefinitions)
-            //{
-            //    columnWidths.Add(column.GetHashCode(), column.Width);
-            //    column.Width = new GridLength(column.ActualWidth, GridUnitType.Pixel);
-            //}
-
-            //Window.Current.SizeChanged += (sender, e) =>
-            //{
-            //    foreach (var column in Resizable.ColumnDefinitions)
-            //    {
-            //        column.Width = columnWidths[column.GetHashCode()];
-            //    }
-
-            //    Resizable.InvalidateArrange();
-            //    Resizable.UpdateLayout();
-
-            //    foreach (var column in Resizable.ColumnDefinitions)
-            //    {
-            //        columnWidths.Remove(column.GetHashCode());
-            //        columnWidths.Add(column.GetHashCode(), column.Width);
-            //        column.Width = new GridLength(column.ActualWidth, GridUnitType.Pixel);
-            //    }
-            //};
-        }
-
-        //private bool HorizontalMoveRefactor(double horizontalChange)
-        //{
-        //    if (CurrentColumn == null || SiblingColumn == null)
-        //    {
-        //        return true;
-        //    }
-
-
-        //}
 
         private bool HorizontalMove(double horizontalChange)
         {

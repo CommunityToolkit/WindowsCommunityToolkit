@@ -265,32 +265,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             return resizeBehavior;
         }
-
-        private double GetGridWidthAfterResize(double change)
-        {
-            // Backup column definition sizes
-            var columnWidths = new List<GridLength>();
-            foreach (var columnDefinition in Resizable.ColumnDefinitions)
-            {
-                columnWidths.Add(new GridLength(columnDefinition.Width.Value, columnDefinition.Width.GridUnitType));
-            }
-
-            // Resize
-            HorizontalMove(change);
-
-            // Get the size of the grid after resizing
-            Resizable.Measure(new Windows.Foundation.Size(double.MaxValue, double.MaxValue));
-            var size = Resizable.DesiredSize;
-            Resizable.InvalidateArrange();
-            Resizable.UpdateLayout();
-
-            // Restore column definition sizes
-            for (int i = 0; i < columnWidths.Count; i++)
-            {
-                Resizable.ColumnDefinitions[i].Width = columnWidths[i];
-            }
-
-            return size.Width;
-        }
     }
 }
