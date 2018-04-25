@@ -21,15 +21,15 @@ public ref class DwellProgressEventArgs : public RoutedEventArgs
 {
 public:
 	property DwellProgressState State;
-	property TimeSpan ElapsedTicks;
-	property TimeSpan TriggerTicks;
+	property TimeSpan ElapsedDuration;
+	property TimeSpan TriggerDuration;
 	property bool Handled;
 internal:
-	DwellProgressEventArgs(DwellProgressState state, TimeSpan elapsedTicks, TimeSpan triggerTicks)
+	DwellProgressEventArgs(DwellProgressState state, TimeSpan elapsedDuration, TimeSpan triggerDuration)
 	{
 		State = state;
-		ElapsedTicks = elapsedTicks;
-		TriggerTicks = triggerTicks;
+		ElapsedDuration = elapsedDuration;
+		TriggerDuration = triggerDuration;
 	}
 };
 

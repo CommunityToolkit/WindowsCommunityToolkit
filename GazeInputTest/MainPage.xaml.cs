@@ -63,20 +63,20 @@ namespace GazeInputTest
             HowButton.Content = string.Format("{0}: Legacy click", clickCount);
         }
 
-        private void OnGazeInvoked(object sender, GazeInvokedRoutedEventArgs e)
+        private void OnGazeInvoked(object sender, DwellInvokedRoutedEventArgs e)
         {
             clickCount++;
             HowButton.Content = string.Format("{0}: Accessible click", clickCount);
             e.Handled = true;
         }
 
-        private void OnInvokeProgress(object sender, GazeProgressEventArgs e)
+        private void OnInvokeProgress(object sender, DwellProgressEventArgs e)
         {
-            if (e.State == GazeProgressState.Progressing)
+            if (e.State == DwellProgressState.Progressing)
             {
-                ProgressShow.Value = (100.0 * e.ElapsedTicks) / e.TriggerTicks;
+                ProgressShow.Value = (100.0 * e.ElapsedDuration) / e.TriggerDuration;
             }
-            ProgressShow.IsIndeterminate = e.State == GazeProgressState.Complete;
+            ProgressShow.IsIndeterminate = e.State == DwellProgressState.Complete;
             e.Handled = true;
         }
     }
