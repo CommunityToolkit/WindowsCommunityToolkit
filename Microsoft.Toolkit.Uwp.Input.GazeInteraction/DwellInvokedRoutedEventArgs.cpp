@@ -2,7 +2,7 @@
 //See LICENSE in the project root for license information.
 
 #include "pch.h"
-#include "GazeInvokedRoutedEventArgs.h"
+#include "DwellInvokedRoutedEventArgs.h"
 
 using namespace std;
 using namespace Platform;

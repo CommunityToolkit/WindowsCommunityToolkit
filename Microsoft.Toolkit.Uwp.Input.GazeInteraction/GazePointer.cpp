@@ -515,7 +515,7 @@ void GazePointer::RaiseGazePointerEvent(GazeTargetItem^ target, PointerState sta
 
         if (gazeElement != nullptr)
         {
-            auto args = ref new GazeInvokedRoutedEventArgs();
+            auto args = ref new DwellInvokedRoutedEventArgs();
             gazeElement->RaiseInvoked(control, args);
             handled = args->Handled;
         }

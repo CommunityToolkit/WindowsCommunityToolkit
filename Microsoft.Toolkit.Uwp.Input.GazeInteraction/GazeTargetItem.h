@@ -6,7 +6,7 @@
 
 #include "PointerState.h"
 #include "GazeInput.h"
-#include "GazeProgressState.h"
+#include "DwellProgressState.h"
 
 using namespace Platform;
 using namespace Platform::Collections;
@@ -71,12 +71,12 @@ internal:
 			{
 			case PointerState::Dwell:
 			case PointerState::Fixation:
-				RaiseProgressEvent(GazeProgressState::Progressing);
+				RaiseProgressEvent(DwellProgressState::Progressing);
 				break;
 
 			case PointerState::Exit:
 			case PointerState::PreEnter:
-				RaiseProgressEvent(GazeProgressState::Idle);
+				RaiseProgressEvent(DwellProgressState::Idle);
 				break;
 			}
 
@@ -86,23 +86,23 @@ internal:
 		{
 			if (RepeatCount <= MaxDwellRepeatCount)
 			{
-				RaiseProgressEvent(GazeProgressState::Progressing);
+				RaiseProgressEvent(DwellProgressState::Progressing);
 			}
 			else
 			{
-				RaiseProgressEvent(GazeProgressState::Complete);
+				RaiseProgressEvent(DwellProgressState::Complete);
 			}
 		}
 	}
 
 private:
 
-	void RaiseProgressEvent(GazeProgressState state);
+	void RaiseProgressEvent(DwellProgressState state);
 
 	PointerState _notifiedPointerState = PointerState::Exit;
 	TimeSpan _prevStateTime;
 	TimeSpan _nextStateTime;
-	GazeProgressState _notifiedProgressState = GazeProgressState::Idle;
+	DwellProgressState _notifiedProgressState = DwellProgressState::Idle;
 	Popup^ _feedbackPopup;
 };
 

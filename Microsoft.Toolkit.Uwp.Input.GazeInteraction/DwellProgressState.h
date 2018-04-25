@@ -2,7 +2,7 @@
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-public enum class GazeProgressState
+public enum class DwellProgressState
 {
 	Idle,
 

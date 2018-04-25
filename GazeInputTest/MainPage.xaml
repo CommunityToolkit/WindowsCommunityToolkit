@@ -38,7 +38,7 @@
             </Grid.RowDefinitions>
             <ToggleButton Grid.Row="0" Content="Click" g:GazeInput.DwellDuration="0:0:2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <g:GazeInput.GazeElement>
-                    <g:GazeElement ProgressFeedback="OnInvokeProgress" />
+                    <g:GazeElement DwellProgressFeedback="OnInvokeProgress" />
                 </g:GazeInput.GazeElement>
             </ToggleButton>
             <ProgressBar Grid.Row="1" x:Name="ProgressShow" Maximum="100" />

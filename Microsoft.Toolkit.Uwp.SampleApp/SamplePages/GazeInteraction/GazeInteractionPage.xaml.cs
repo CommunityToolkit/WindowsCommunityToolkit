@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void OnGazeInvoked(object sender, GazeInvokedRoutedEventArgs e)
+        private void OnGazeInvoked(object sender, DwellInvokedRoutedEventArgs e)
         {
         }
 
