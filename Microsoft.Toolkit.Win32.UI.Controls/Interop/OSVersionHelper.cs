@@ -30,31 +30,31 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
             {
                 if (IsApiContractPresent(6))
                 {
-                    Windows10Release = Win10Release.April;
+                    Windows10Release = Windows10Release.April;
                 }
                 else if (IsApiContractPresent(5))
                 {
-                    Windows10Release = Win10Release.FallCreators;
+                    Windows10Release = Windows10Release.FallCreators;
                 }
                 else if (IsApiContractPresent(4))
                 {
-                    Windows10Release = Win10Release.Creators;
+                    Windows10Release = Windows10Release.Creators;
                 }
                 else if (IsApiContractPresent(3))
                 {
-                    Windows10Release = Win10Release.Anniversary;
+                    Windows10Release = Windows10Release.Anniversary;
                 }
                 else if (IsApiContractPresent(2))
                 {
-                    Windows10Release = Win10Release.Threshold2;
+                    Windows10Release = Windows10Release.Threshold2;
                 }
                 else if (IsApiContractPresent(1))
                 {
-                    Windows10Release = Win10Release.Threshold1;
+                    Windows10Release = Windows10Release.Threshold1;
                 }
                 else
                 {
-                    Windows10Release = Win10Release.Unknown;
+                    Windows10Release = Windows10Release.Unknown;
                 }
             }
         }
@@ -68,17 +68,17 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
         /// <summary>
         /// Gets a value indicating whether the current OS is Windows 10 RS4 or greater
         /// </summary>
-        internal static bool IsWindows10RS4OrGreater => Windows10Release >= Win10Release.April;
+        internal static bool IsWindows10RS4OrGreater => Windows10Release >= Windows10Release.April;
 
         internal static bool IsWorkstation { get; } = !IsServer();
 
         internal static bool UseWindowsInformationProtectionApi
         {
             [SecurityCritical]
-            get => Windows10Release >= Win10Release.Anniversary && ProtectionPolicyManager.IsProtectionEnabled;
+            get => Windows10Release >= Windows10Release.Anniversary && ProtectionPolicyManager.IsProtectionEnabled;
         }
 
-        internal static Win10Release Windows10Release { get; }
+        internal static Windows10Release Windows10Release { get; }
 
         /// <summary>
         /// Checks if OS is Windows 10, RS4 or later, is a workstation, and Edge exists.

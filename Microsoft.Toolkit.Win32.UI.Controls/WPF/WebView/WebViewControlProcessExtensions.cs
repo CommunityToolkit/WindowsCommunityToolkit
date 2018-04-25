@@ -10,12 +10,11 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-
 using System;
 using System.Security;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {

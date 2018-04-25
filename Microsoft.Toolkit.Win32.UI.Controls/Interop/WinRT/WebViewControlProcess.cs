@@ -19,7 +19,6 @@ using Windows.Web.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
-
     /// <summary>
     /// A proxy for <see cref="Windows.Web.UI.Interop.WebViewControlProcess"/>.
     /// </summary>

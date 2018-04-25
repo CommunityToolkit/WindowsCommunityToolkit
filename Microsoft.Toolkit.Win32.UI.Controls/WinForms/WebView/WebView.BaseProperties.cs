@@ -64,7 +64,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             set => throw new NotSupportedException();
         }
 
-
         /// <summary>
         /// Gets or sets the background image layout as defined in the <see cref="ImageLayout" /> enumeration.
         /// </summary>
@@ -144,7 +143,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         // Shadowed so we can put the attributes here to hide it in the designer
 
-
         /// <summary>
         /// Gets or sets the Input Method Editor (IME) mode of the control.
         /// </summary>
@@ -161,7 +159,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         // New so we can put the attributes here to hide it in the designer
 
-
         /// <summary>
         /// Gets or sets padding within the control.
         /// </summary>
@@ -175,7 +172,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             get => base.Padding;
             set => base.Padding = value;
         }
-
 
         /// <summary>
         /// Gets or sets a value indicating whether control's elements are aligned to support locales using right-to-left fonts.

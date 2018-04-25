@@ -15,7 +15,6 @@ using System.Security;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
-
     /// <summary>
     /// Provides data for the <see cref="IWebView.NavigationCompleted"/> and <see cref="IWebView.FrameNavigationCompleted"/> events. This class cannot be inherited.
     /// </summary>
