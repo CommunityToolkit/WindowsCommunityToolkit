@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
@@ -25,13 +26,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         private GazeElement gazeButtonControl;
 
-        private Rectangle thresholdRec;
-        private Rectangle fixationRec;
-        private Rectangle dwellRec;
-        private Rectangle repeatRec;
-        private Rectangle exitRec;
-        private TextBlock dwellCountText;
-
         private int dwellCount = 0;
 
         public GazeInteractionPage()
@@ -41,14 +35,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            dwellCountText = control.FindChildByName("DwellCountText") as TextBlock;
-
-            thresholdRec = control.FindChildByName("EnterRec") as Rectangle;
-            fixationRec = control.FindChildByName("FixationRec") as Rectangle;
-            dwellRec = control.FindChildByName("DwellRec") as Rectangle;
-            repeatRec = control.FindChildByName("RepeatRec") as Rectangle;
-            exitRec = control.FindChildByName("ExitRec") as Rectangle;
-
             var buttonControl = control.FindChildByName("TargetButton") as Button;
 
             if (buttonControl != null)
@@ -63,6 +49,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 if (gazeButtonControl != null)
                 {
+                    gazeButtonControl.DwellProgressFeedback += OnProgressFeedback;
                     gazeButtonControl.Invoked += OnGazeInvoked;
                     gazeButtonControl.StateChanged += GazeButtonControl_StateChanged;
                 }
@@ -73,46 +60,59 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
         }
 
+        private void OnProgressFeedback(object sender, DwellProgressEventArgs e)
+        {
+            DwellProgressBar.Maximum = 1.0;
+            DwellProgressBar.Value = e.Progress;
+            if (e.State == DwellProgressState.Complete)
+            {
+                DwellProgressBar.Value = 0;
+            }
+        }
+
+
         private void GazeButtonControl_StateChanged(object sender, StateChangedEventArgs ea)
         {
             if (ea.PointerState == PointerState.Enter)
             {
-                thresholdRec.Visibility = Visibility.Visible;
-                dwellCountText.Visibility = Visibility.Collapsed;
-                dwellCountText.Text = string.Empty;
+                EnterRec.Visibility = Visibility.Visible;
+                DwellCountText.Visibility = Visibility.Collapsed;
+                DwellCountText.Text = string.Empty;
                 dwellCount = 0;
-                exitRec.Visibility = Visibility.Collapsed;
+                ExitRec.Visibility = Visibility.Collapsed;
             }
 
             if (ea.PointerState == PointerState.Fixation)
             {
-                fixationRec.Visibility = Visibility.Visible;
+                FixationRec.Visibility = Visibility.Visible;
             }
 
             if (ea.PointerState == PointerState.Dwell)
             {
                 if (dwellCount == 0)
                 {
-                    dwellRec.Visibility = Visibility.Visible;
+                    DwellRec.Visibility = Visibility.Visible;
                     dwellCount = 1;
                 }
                 else
                 {
-                    repeatRec.Visibility = Visibility.Visible;
-                    dwellCountText.Text = dwellCount.ToString();
-                    dwellCountText.Visibility = Visibility.Visible;
+                    RepeatRec.Visibility = Visibility.Visible;
+                    DwellCountText.Text = dwellCount.ToString();
+                    DwellCountText.Visibility = Visibility.Visible;
                     dwellCount += 1;
                 }
             }
 
             if (ea.PointerState == PointerState.Exit)
             {
-                exitRec.Visibility = Visibility.Visible;
+                ExitRec.Visibility = Visibility.Visible;
 
-                thresholdRec.Visibility = Visibility.Collapsed;
-                fixationRec.Visibility = Visibility.Collapsed;
-                dwellRec.Visibility = Visibility.Collapsed;
-                repeatRec.Visibility = Visibility.Collapsed;
+                EnterRec.Visibility = Visibility.Collapsed;
+                FixationRec.Visibility = Visibility.Collapsed;
+                DwellRec.Visibility = Visibility.Collapsed;
+                RepeatRec.Visibility = Visibility.Collapsed;
+                DwellProgressBar.Value = 0;
+
             }
         }
     }
