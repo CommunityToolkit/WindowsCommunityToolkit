@@ -1,4 +1,4 @@
-//Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
+    //Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
 //See LICENSE in the project root for license information.
 
 #include "pch.h"
@@ -113,6 +113,21 @@ void GazeInput::SetMaxDwellRepeatCount(UIElement^ element, int value) { element-
 GazePointer^ GazeInput::GetGazePointer(Page^ page)
 {
     return GazePointer::Instance;
+}
+
+bool GazeInput::IsDeviceAvailable::get()
+{
+    return GazePointer::Instance->IsDeviceAvailable; 
+}
+
+EventRegistrationToken GazeInput::IsDeviceHandlerChanged::add(EventHandler<Object^>^ handler)
+{ 
+    return GazePointer::Instance->IsDeviceAvailableChanged += handler; 
+}
+
+void GazeInput::IsDeviceHandlerChanged::remove(EventRegistrationToken token) 
+{ 
+    GazePointer::Instance->IsDeviceAvailableChanged -= token; 
 }
 
 END_NAMESPACE_GAZE_INPUT
