@@ -10,17 +10,14 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace DifferencesGen
 {
@@ -58,7 +55,7 @@ namespace DifferencesGen
 
                 return;
             }
-            
+
             string folderPath = @"C:\Program Files (x86)\Windows Kits\10\References";
 
             string universalApiFile = "Windows.Foundation.UniversalApiContract.winmd";
@@ -72,11 +69,14 @@ namespace DifferencesGen
                 string path =
                     WindowsRuntimeMetadata.ResolveNamespace(eventArgs.NamespaceName, Enumerable.Empty<string>())
                         .FirstOrDefault();
-                if (path == null) return;
+                if (path == null)
+                {
+                    return;
+                }
 
                 eventArgs.ResolvedAssemblies.Add(Assembly.ReflectionOnlyLoadFrom(path));
             };
-            
+
             DirectoryInfo directoryInfo = new DirectoryInfo(folderPath);
 
             FileInfo[] files = directoryInfo.GetFiles(universalApiFile, SearchOption.AllDirectories);
@@ -163,12 +163,10 @@ namespace DifferencesGen
             string fileName = $"{assembly.FullName.Substring(0, pos)}.json";
 
             Dictionary<string, List<string>> types = new Dictionary<string, List<string>>();
-            
+
             foreach (var exportedType in assembly.ExportedTypes)
             {
                 List<string> members = new List<string>();
-
-                //var memberInfos = exportedType.FindMembers(MemberTypes.Method | MemberTypes.Property, BindingFlags.Public, null, null);
 
                 foreach (var methodInfo in exportedType.GetMethods())
                 {
@@ -177,7 +175,7 @@ namespace DifferencesGen
                         continue;
                     }
 
-                    if (methodInfo.Name.StartsWith("get_") || 
+                    if (methodInfo.Name.StartsWith("get_") ||
                         methodInfo.Name.StartsWith("set_") ||
                         methodInfo.Name.StartsWith("put_") ||
                         methodInfo.Name.StartsWith("add_") ||
