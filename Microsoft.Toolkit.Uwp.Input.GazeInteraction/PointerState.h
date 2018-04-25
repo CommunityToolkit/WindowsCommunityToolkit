@@ -20,7 +20,7 @@ namespace Shapes = Windows::UI::Xaml::Shapes;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-public enum class GazePointerState
+public enum class PointerState
 {
     Exit,
 

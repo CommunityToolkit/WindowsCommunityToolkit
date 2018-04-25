@@ -4,8 +4,7 @@
 #pragma once
 #pragma warning(disable:4453)
 
-#include "IGazeFilter.h"
-#include "GazeCursor.h"
+#include "GazeProgressState.h"
 
 using namespace Platform;
 using namespace Platform::Collections;
@@ -16,15 +15,22 @@ using namespace Windows::Devices::HumanInterfaceDevice;
 using namespace Windows::UI::Core;
 using namespace Windows::Devices::Input::Preview;
 
-namespace Shapes = Windows::UI::Xaml::Shapes;
-
 BEGIN_NAMESPACE_GAZE_INPUT
 
-ref struct GazeHistoryItem
+public ref class GazeProgressEventArgs : public RoutedEventArgs
 {
-    property UIElement^ HitTarget;
-    property int64 Timestamp;
-    property int64 Duration;
+public:
+	property GazeProgressState State;
+	property TimeSpan ElapsedTicks;
+	property TimeSpan TriggerTicks;
+	property bool Handled;
+internal:
+	GazeProgressEventArgs(GazeProgressState state, TimeSpan elapsedTicks, TimeSpan triggerTicks)
+	{
+		State = state;
+		ElapsedTicks = elapsedTicks;
+		TriggerTicks = triggerTicks;
+	}
 };
 
 END_NAMESPACE_GAZE_INPUT

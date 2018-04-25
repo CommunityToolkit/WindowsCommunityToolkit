@@ -321,6 +321,7 @@
     <Content Include="SamplePages\Implicit Animations\ImplicitAnimations.png" />
     <Content Include="SamplePages\InAppNotification\InAppNotification.png" />
     <Content Include="SamplePages\Incremental Loading Collection\icon.png" />
+    <Content Include="SamplePages\LayoutTransformControl\LayoutTransformControl.png" />
     <Content Include="SamplePages\Light\LightBehavior.png" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInLogo.png" />
     <Content Include="Assets\Helpers.png" />
@@ -493,11 +494,16 @@
     <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrushXaml.bind">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="SamplePages\GazeTracing\GazeTracingXaml.bind" />
+    <Content Include="SamplePages\LayoutTransformControl\LayoutTransformControlXaml.bind" />
+    <Content Include="SamplePages\GazeTracing\GazeTracingXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="SamplePages\PrintHelper\PrintHelperXaml.bind">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="SamplePages\GazeInteraction\GazeInteractionXaml.bind" />
+    <Content Include="SamplePages\GazeInteraction\GazeInteractionXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -587,6 +593,9 @@
     </Compile>
     <Compile Include="SamplePages\InAppNotification\InAppNotificationPage.xaml.cs">
       <DependentUpon>InAppNotificationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\LayoutTransformControl\LayoutTransformControlPage.xaml.cs">
+      <DependentUpon>LayoutTransformControlPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ListViewExtensions\ListViewExtensionsPage.xaml.cs">
       <DependentUpon>ListViewExtensionsPage.xaml</DependentUpon>
@@ -947,6 +956,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\LayoutTransformControl\LayoutTransformControlPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\MarkdownParser\MarkdownParserPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1253,9 +1266,9 @@
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
       <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit.UWP.Input.Gaze\Microsoft.Toolkit.Uwp.Input.Gaze.vcxproj">
+    <ProjectReference Include="..\Microsoft.Toolkit.UWP.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.vcxproj">
       <Project>{a5e98964-45b1-442d-a07a-298a3221d81e}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Input.Gaze</Name>
+      <Name>Microsoft.Toolkit.Uwp.Input.GazeInteraction</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Notifications\Microsoft.Toolkit.Uwp.Notifications.csproj">
       <Project>{97ee849b-403c-490e-80ed-d19d7cc153fd}</Project>

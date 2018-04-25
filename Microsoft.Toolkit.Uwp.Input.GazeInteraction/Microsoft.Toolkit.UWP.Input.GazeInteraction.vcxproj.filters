@@ -16,9 +16,6 @@
     <ClCompile Include="GazeCursor.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="GazePointer.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="GazeStats.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -31,9 +28,6 @@
     <ClCompile Include="GazeSettingsHelper.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="GazeApi.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="GazeElement.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -43,16 +37,25 @@
     <ClCompile Include="GazeInvokedRoutedEventArgs.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="GazePointerEventArgs.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="GazePointerState.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="GazeTargetItem.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="GazeFeedbackPopupFactory.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GazePointerProxy.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GazeInput.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GazePointer.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="PointerState.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="StateChangedEventArgs.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -78,9 +81,6 @@
     <ClInclude Include="GazeSettingsHelper.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="GazeApi.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="GazeElement.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -90,12 +90,6 @@
     <ClInclude Include="GazeInvokedRoutedEventArgs.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="GazePointerEventArgs.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="GazePointerState.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="GazeTargetItem.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -103,6 +97,24 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="GazeFeedbackPopupFactory.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazePointerProxy.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazeEnablement.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazeProgressEventArgs.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazeInput.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PointerState.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="StateChangedEventArgs.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

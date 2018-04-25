@@ -10,7 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.Input.Gaze;
+using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -25,10 +26,18 @@ namespace GazeInputTest
         {
             this.InitializeComponent();
 
-            ShowCursor.IsChecked = GazeApi.GetIsGazeCursorVisible(this);
+            ShowCursor.IsChecked = GazeInput.GetIsCursorVisible(this);
+
+            GazeInput.IsDeviceAvailableChanged += GazeInput_IsDeviceAvailableChanged;
+            GazeInput_IsDeviceAvailableChanged(null, null);
         }
 
-        private void OnStateChanged(object sender, GazePointerEventArgs ea)
+        private void GazeInput_IsDeviceAvailableChanged(object sender, object e)
+        {
+            DeviceAvailable.Text = GazeInput.IsDeviceAvailable ? "Eye tracker device available" : "No eye tracker device available";
+        }
+
+        private void OnStateChanged(object sender, StateChangedEventArgs ea)
         {
             Dwell.Content = ea.PointerState.ToString();
         }
@@ -42,7 +51,7 @@ namespace GazeInputTest
         {
             if (ShowCursor.IsChecked.HasValue)
             {
-                GazeApi.SetIsGazeCursorVisible(this, ShowCursor.IsChecked.Value);
+                GazeInput.SetIsCursorVisible(this, ShowCursor.IsChecked.Value);
             }
         }
 
@@ -58,6 +67,16 @@ namespace GazeInputTest
         {
             clickCount++;
             HowButton.Content = string.Format("{0}: Accessible click", clickCount);
+            e.Handled = true;
+        }
+
+        private void OnInvokeProgress(object sender, GazeProgressEventArgs e)
+        {
+            if (e.State == GazeProgressState.Progressing)
+            {
+                ProgressShow.Value = (100.0 * e.ElapsedTicks) / e.TriggerTicks;
+            }
+            ProgressShow.IsIndeterminate = e.State == GazeProgressState.Complete;
             e.Handled = true;
         }
     }

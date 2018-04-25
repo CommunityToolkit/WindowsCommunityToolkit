@@ -6,7 +6,6 @@
 
 #include "IGazeFilter.h"
 #include "GazeCursor.h"
-#include "GazePointerState.h"
 
 using namespace Platform;
 using namespace Platform::Collections;
@@ -21,19 +20,13 @@ namespace Shapes = Windows::UI::Xaml::Shapes;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-public ref struct GazePointerEventArgs sealed
-{
-    property UIElement^ HitTarget;
-    property GazePointerState PointerState;
-    property int64 ElapsedTime;
-    property TimeSpan ElapsedTimeSpan { TimeSpan get() { return *new TimeSpan{ 10 * ElapsedTime }; } }
+ref class GazeTargetItem;
 
-    GazePointerEventArgs(UIElement^ target, GazePointerState state, int64 elapsedTime)
-    {
-        HitTarget = target;
-        PointerState = state;
-        ElapsedTime = elapsedTime;
-    }
+ref struct GazeHistoryItem
+{
+    property GazeTargetItem^ HitTarget;
+    property TimeSpan Timestamp;
+    property TimeSpan Duration;
 };
 
 END_NAMESPACE_GAZE_INPUT

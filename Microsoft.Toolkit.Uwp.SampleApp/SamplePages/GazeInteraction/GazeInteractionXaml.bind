@@ -6,10 +6,10 @@
     
     mc:Ignorable="d"
     
-    xmlns:gaze="using:Microsoft.Toolkit.Uwp.Input.Gaze" 
-    gaze:GazeApi.IsGazeEnabled="@[IsGazeEnabled:Bool:True]"        
-    gaze:GazeApi.IsGazeCursorVisible="@[IsGazeCursorVisible:Bool:True]"       
-    gaze:GazeApi.GazeCursorRadius="@[GazeCursorRadius:Slider:5:5-50]@"
+    xmlns:g="using:Microsoft.Toolkit.Uwp.Input.GazeInteraction" 
+    g:GazeInput.IsGazeEnabled="@[IsGazeEnabled:Enum:GazeInput.GazeEnablement.Enabled]"
+    g:GazeInput.IsCursorVisible="@[IsCursorVisible:Bool:True]"
+    g:GazeInput.CursorRadius="@[CursorRadius:Slider:5:5-50]@"
        
     >
 
@@ -24,13 +24,13 @@
                     
                     Width="@[ButtonSize:Slider:100:10-300]"
                     Height="@[ButtonSize]"
-                    gaze:GazeApi.Enter="@[Enter:TimeSpan:50:50-200]@"
-                    gaze:GazeApi.Fixation="@[Fixation:TimeSpan:400:50-1000]@"
-                    gaze:GazeApi.Dwell="@[Dwell:TimeSpan:800:100-5000]@"
-                    Tag="@[DwellRepeatDelay:TimeSpan:0:0-5000]@"  
-                    gaze:GazeApi.DwellRepeat="@[DwellRepeat:TimeSpan:1600:50-10000]@"
-                    gaze:GazeApi.MaxRepeatCount="@[MaxRepeatCount:Slider:0:0-20]@"
-                   
+                    g:GazeInput.ThresholdDuration="@[ThresholdDuration:TimeSpan:50:1-5000]@"
+                    g:GazeInput.FixationDuration="@[FixationDuration:TimeSpan:350:1-5000]@"
+                    g:GazeInput.DwellDuration="@[DwellDuration:TimeSpan:400:1-5000]@"
+                    g:GazeInput.RepeatDelayDuration="@[RepeatDelayDuration:TimeSpan:400:1-5000]@"
+                    g:GazeInput.DwellRepeatDuration="@[DwellRepeatDuration:TimeSpan:400:1-5000]@"
+                    g:GazeInput.MaxDwellRepeatCount="@[MaxDwellRepeatCount:Slider:0:0-20]@"
+
                     />
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1">
           <Grid.RowDefinitions>

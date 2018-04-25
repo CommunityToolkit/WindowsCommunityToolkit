@@ -14,7 +14,7 @@ BEGIN_NAMESPACE_GAZE_INPUT
 OneEuroFilter::OneEuroFilter()
 {
 
-    _lastTimestamp = 0;
+    _lastTimestamp = TimeSpanZero;
     Beta = ONEEUROFILTER_DEFAULT_BETA;
     Cutoff = ONEEUROFILTER_DEFAULT_CUTOFF;
     VelocityCutoff = ONEEUROFILTER_DEFAULT_VELOCITY_CUTOFF;
@@ -22,20 +22,20 @@ OneEuroFilter::OneEuroFilter()
 
 OneEuroFilter::OneEuroFilter(float cutoff, float beta)
 {
-    _lastTimestamp = 0;
+    _lastTimestamp = TimeSpanZero;
     Beta = beta;
     Cutoff = cutoff;
     VelocityCutoff = ONEEUROFILTER_DEFAULT_VELOCITY_CUTOFF;
 }
 
-GazeEventArgs^ OneEuroFilter::Update(GazeEventArgs^ args)
+GazeFilterArgs^ OneEuroFilter::Update(GazeFilterArgs^ args)
 {
-    if (_lastTimestamp == 0)
+    if (_lastTimestamp == TimeSpanZero)
     {
         _lastTimestamp = args->Timestamp;
         _pointFilter = ref new LowpassFilter(args->Location);
         _deltaFilter = ref new LowpassFilter(Point());
-        return ref new GazeEventArgs(args->Location, args->Timestamp);
+        return ref new GazeFilterArgs(args->Location, args->Timestamp);
     }
 
     Point gazePoint = args->Location;
@@ -50,7 +50,7 @@ GazeEventArgs^ OneEuroFilter::Update(GazeEventArgs^ args)
     Point cutoff = Point(cf, cf);
 
     // determine sampling frequency based on last time stamp
-    float samplingFrequency = 1000000.0f / max(1, args->Timestamp - _lastTimestamp);
+    float samplingFrequency = 10000000.0f / max(1, (args->Timestamp - _lastTimestamp).Duration);
     _lastTimestamp = args->Timestamp;
 
     // calculate change in distance...
@@ -83,7 +83,7 @@ GazeEventArgs^ OneEuroFilter::Update(GazeEventArgs^ args)
     Point filteredPoint = _pointFilter->Update(gazePoint, distanceAlpha);
 
     // compute the new args
-    auto fa = ref new GazeEventArgs(filteredPoint, args->Timestamp);
+    auto fa = ref new GazeFilterArgs(filteredPoint, args->Timestamp);
     return fa;
 }
 
