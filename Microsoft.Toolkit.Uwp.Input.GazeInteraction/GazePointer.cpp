@@ -594,7 +594,7 @@ void GazePointer::ProcessGazePoint(TimeSpan timestamp, Point position)
 
             if (targetItem->ElementState == PointerState::Dwell)
             {
-                targetItem->NextStateTime += GetElementStateDelay(targetItem->TargetElement, GazeInput::DwellRepeatDurationProperty, _defaultDwellRepeatDelay);
+                targetItem->NextStateTime += GetElementStateDelay(targetItem->TargetElement, GazeInput::RepeatDelayDurationProperty, _defaultDwellRepeatDelay);
             }
         }
         else
