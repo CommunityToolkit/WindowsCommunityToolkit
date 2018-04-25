@@ -69,7 +69,7 @@ public:
 	static GazePointer^ GetGazePointer(Page^ page);
 
     static property bool IsDeviceAvailable { bool get(); }
-    static event EventHandler<Object^>^ IsDeviceHandlerChanged
+    static event EventHandler<Object^>^ IsDeviceAvailableChanged
     {
         EventRegistrationToken add(EventHandler<Object^>^ handler);
         void remove(EventRegistrationToken token);

@@ -120,12 +120,12 @@ bool GazeInput::IsDeviceAvailable::get()
     return GazePointer::Instance->IsDeviceAvailable; 
 }
 
-EventRegistrationToken GazeInput::IsDeviceHandlerChanged::add(EventHandler<Object^>^ handler)
+EventRegistrationToken GazeInput::IsDeviceAvailableChanged::add(EventHandler<Object^>^ handler)
 { 
     return GazePointer::Instance->IsDeviceAvailableChanged += handler; 
 }
 
-void GazeInput::IsDeviceHandlerChanged::remove(EventRegistrationToken token) 
+void GazeInput::IsDeviceAvailableChanged::remove(EventRegistrationToken token) 
 { 
     GazePointer::Instance->IsDeviceAvailableChanged -= token; 
 }

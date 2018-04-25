@@ -14,6 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -42,5 +43,6 @@
             </ToggleButton>
             <ProgressBar Grid.Row="1" x:Name="ProgressShow" Maximum="100" />
         </Grid>
+        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" x:Name="DeviceAvailable"  Text="Device availablility not yet detected"/>
     </Grid>
 </Page>
