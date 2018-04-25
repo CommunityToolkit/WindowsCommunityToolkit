@@ -179,10 +179,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     image.Tapped -= NewImagelink_Tapped;
                 }
-                else if (link is HyperlinkButton hyperlinkButton)
-                {
-                    hyperlinkButton.Tapped -= NewImagelink_Tapped;
-                }
             }
 
             // Clear everything that exists.
