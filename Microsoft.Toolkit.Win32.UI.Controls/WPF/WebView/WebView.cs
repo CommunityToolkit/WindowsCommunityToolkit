@@ -594,7 +594,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <inheritdoc />
         protected override void Initialize()
         {
-            OSVersionHelper.ThrowIfBeforeWindows10RS4();
+            OSVersionHelper.ThrowIfBeforeWindows10April2018();
 
             DpiHelper.SetPerMonitorDpiAwareness();
 

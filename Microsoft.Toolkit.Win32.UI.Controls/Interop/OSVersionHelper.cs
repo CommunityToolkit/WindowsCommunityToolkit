@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
             {
                 if (IsApiContractPresent(6))
                 {
-                    Windows10Release = Windows10Release.April;
+                    Windows10Release = Windows10Release.April2018;
                 }
                 else if (IsApiContractPresent(5))
                 {
@@ -66,9 +66,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
         internal static bool IsWindows10 { get; } = IsWindowsNt && IsSince(WindowsVersions.Win10);
 
         /// <summary>
-        /// Gets a value indicating whether the current OS is Windows 10 RS4 or greater
+        /// Gets a value indicating whether the current OS is Windows 10 April 2018 Update or greater
         /// </summary>
-        internal static bool IsWindows10RS4OrGreater => Windows10Release >= Windows10Release.April;
+        internal static bool IsWindows10April2018OrGreater => IsWindows10 && Windows10Release >= Windows10Release.April2018;
 
         internal static bool IsWorkstation { get; } = !IsServer();
 
@@ -81,12 +81,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
         internal static Windows10Release Windows10Release { get; }
 
         /// <summary>
-        /// Checks if OS is Windows 10, RS4 or later, is a workstation, and Edge exists.
+        /// Checks if OS is Windows 10 April 2018 or later, is a workstation, and Edge exists.
         /// </summary>
         /// <exception cref="NotSupportedException">Not running correct OS or OS Version, or Edge does not exist.</exception>
-        internal static void ThrowIfBeforeWindows10RS4()
+        internal static void ThrowIfBeforeWindows10April2018()
         {
-            if (IsWindows10RS4OrGreater && IsWorkstation && EdgeExists)
+            if (IsWindows10April2018OrGreater && IsWorkstation && EdgeExists)
             {
                 return;
             }

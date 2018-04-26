@@ -50,6 +50,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
         /// <summary>
         /// 10.0.17134.0 (Redstone 4)
         /// </summary>
-        April = 1803,
+        April2018 = 1803,
     }
 }

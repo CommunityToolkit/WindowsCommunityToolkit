@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unviewable", Justification ="This is the name from WinRT")]
         internal event EventHandler<WebViewControlUnviewableContentIdentifiedEventArgs> UnviewableContentIdentified = (sender, args) => { };
 
-        internal static bool IsSupported => OSVersionHelper.IsWindows10RS4OrGreater
+        internal static bool IsSupported => OSVersionHelper.IsWindows10April2018OrGreater
                                             && OSVersionHelper.IsWorkstation
                                             && OSVersionHelper.EdgeExists;
 

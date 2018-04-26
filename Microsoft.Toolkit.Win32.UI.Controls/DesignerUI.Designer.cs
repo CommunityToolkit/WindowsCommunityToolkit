@@ -178,7 +178,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to initialize the WebView control because the system is running a version of Windows that doesn’t support this control. The WebView control runs only on Windows 10 April update or later..
+        ///   Looks up a localized string similar to Unable to initialize the WebView control because the system is running a version of Windows that doesn’t support this control. The WebView control runs only on Windows 10 April 2018 Update or later..
         /// </summary>
         internal static string E_NOTSUPPORTED_OS_RS4 {
             get {
