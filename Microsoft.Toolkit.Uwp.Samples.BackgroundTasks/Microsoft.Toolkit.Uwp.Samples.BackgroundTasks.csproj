@@ -145,7 +145,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Target Name="Pack" >
+  <Target Name="Pack">
     <!-- No-op to avoid build error when packing solution from commandline -->
   </Target>
 </Project>
