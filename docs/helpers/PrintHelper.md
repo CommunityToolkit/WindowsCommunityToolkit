@@ -24,9 +24,6 @@ Several events are available to control the printing process:
 
 In addition, you can customize the printing dialog using the `PrintHelperOptions` class. To use it, create an instance of the class, add the options you'd like to display on the printing dialog and set the default options. Then, you can use it as a parameter in the `PrintHelper` class constructor to set them as the default for the instance, or send them as parameters to `ShowPrintUIAsync` to use them for a single print job.
 
-> [!IMPORTANT]
-Page breaks are not supported. Every control will be printed on a single page
-
 You can call `ShowPrintUIAsync` with a second parameter to determine that the list of controls to print should directly be taken from the content of the container passed to the PrintHelper constructor. In this mode you are responsible for the sizing and the layout.
 
 ## Syntax
