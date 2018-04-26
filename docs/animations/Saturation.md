@@ -7,11 +7,9 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, saturation animat
 
 # Saturation
 
-The Saturation animation selectively saturates a XAML element. Saturation animation is applied to all the XAML elements in its parent control/panel. Saturation animation doesn't affect the functionality of the control.
+The [Saturation animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationextensions.saturation) selectively saturates a XAML element. Saturation animation is applied to all the XAML elements in its parent control/panel. Saturation animation doesn't affect the functionality of the control.
 
 ## Syntax
-
-**XAML**
 
 ```xaml
 <Page ...
@@ -28,15 +26,29 @@ The Saturation animation selectively saturates a XAML element. Saturation animat
 </interactivity:Interaction.Behaviors>
 ```
 
-**C#**
-
 ```csharp
-ToolkitLogo.Saturation(value: 0, duration: 500, delay: 250);       
+MyUIElement.Saturation(value: 0.5, duration: 500, delay: 250).Start();
+await MyUIElement.Saturation(value: 0.5, duration: 500, delay: 250).StartAsync();  //Saturation animation can be awaited
 ```
 
 ## Sample Output
 
 ![Saturation Behavior animation](../resources/images/Animations/Saturation/Sample-Output.gif)
+
+## Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| Value | float | The value of saturation. 0 is desaturated, 1 is saturated. |
+| Duration | double | The duration in milliseconds |
+| Delay | double | The delay for the animation to begin |
+
+## Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| Saturation(AnimationSet, Double, Double, Double) | AnimationSet | Saturates the FrameworkElement |
+| Saturation(FrameworkElement, Double, Double, Double) | AnimationSet | Saturates the FrameworkElement |
 
 ## Examples
 
@@ -82,7 +94,7 @@ ToolkitLogo.Saturation(value: 0, duration: 500, delay: 250);
 
 ## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
+| Device family | Universal, 10.0.14393.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
@@ -91,3 +103,7 @@ ToolkitLogo.Saturation(value: 0, duration: 500, delay: 250);
 
 * [Saturation source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors/Saturation.cs)
 
+## Related Topics
+
+- [AnimationSet Class](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/animationset)
+- [SaturationEffect Class](http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_SaturationEffect.htm)

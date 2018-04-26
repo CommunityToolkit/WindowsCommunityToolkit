@@ -24,15 +24,50 @@ Several events are available to control the printing process:
 
 In addition, you can customize the printing dialog using the `PrintHelperOptions` class. To use it, create an instance of the class, add the options you'd like to display on the printing dialog and set the default options. Then, you can use it as a parameter in the `PrintHelper` class constructor to set them as the default for the instance, or send them as parameters to `ShowPrintUIAsync` to use them for a single print job.
 
-**Please note that page breaks are not supported. Every control will be printed on a single page**
+> [!IMPORTANT]
+Page breaks are not supported. Every control will be printed on a single page
 
-Since version 1.3, you can also call `ShowPrintUIAsync` with a second parameter to determine that the list of controls to print should directly be taken from the content of the container passed to the PrintHelper constructor.
-In this mode you are responsible for the sizing and the layout.
+You can call `ShowPrintUIAsync` with a second parameter to determine that the list of controls to print should directly be taken from the content of the container passed to the PrintHelper constructor. In this mode you are responsible for the sizing and the layout.
+
+## Syntax
+
+```csharp
+var printHelper = new PrintHelper(container);
+
+printHelper.AddFrameworkElementToPrint(frameworkElement);
+
+await printHelper.ShowPrintUIAsync("Title");
+```
+
+## Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| ApplicationContentMarginLeft | double | Gets or sets the percent of app's margin width |
+| ApplicationContentMarginTop | double | Gets or sets the percent of app's margin height |
+
+## Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| AddFrameworkElementToPrint(FrameworkElement) | void | Add an element to the list of printable elements |
+| ClearListOfPrintableFrameworkElements() | void | Empties the list of printable elements |
+| Dispose() | void | Release associated resources |
+| RemoveFrameworkElementToPrint(FrameworkElement) | void | Remove an element from the list of printable elements |
+| ShowPrintUIAsync(String, Boolean) | Task | Start the print task |
+
+## Events
+
+| Events | Description |
+| -- | -- |
+| OnPreviewPagesCreated | Event which is called after print preview pages are generated |
+| OnPrintCanceled | Event raised when print is cancelled by the user |
+| OnPrintFailed | Event raised when print failed |
+| OnPrintSucceeded | Event raised when print was successful |
 
 ## Example
 
 ```csharp
-
 // Create a new PrintHelper instance
 // "container" is a XAML panel that will be used to host printable control.
 // It needs to be in your visual tree but can be hidden with Opacity = 0
@@ -63,23 +98,20 @@ private async void PrintHelper_OnPrintFailed()
   var dialog = new MessageDialog("Printing failed.");
   await dialog.ShowAsync();
 }
-
 ```
 
-Direct print example:
+**Direct print example:**
 
 ```csharp
-
 // Create a new PrintHelper instance
 // "container" is a XAML panel that will be used to get the list of printable controls.
 var printHelper = new PrintHelper(container);
 
 // Start printing process
 await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", true);
-
 ```
 
-Using custom default settings:
+**Using custom default settings:**
 
 ```csharp
 // Create a new PrintHelperOptions instance
@@ -96,7 +128,7 @@ defaultPrintHelperOptions.Orientation = PrintOrientation.Landscape;
 var printHelper = new PrintHelper(container, defaultPrintHelperOptions);
 ```
 
-Using custom settings for one print job:
+**Using custom settings for one print job:**
 
 ```csharp
 // Create a new PrintHelper instance
@@ -117,7 +149,7 @@ printHelperOptions.Orientation = PrintOrientation.Landscape;
 await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions);
 ```
 
-Print a list with each item on a separate page with static header and page number:
+**Print a list with each item on a separate page with static header and page number:**
 
 ```csharp
 // Create a new PrintHelper instance
@@ -158,11 +190,13 @@ foreach (var item in PrintSampleItems)
 await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions);
 ```
 
-## Requirements (Windows 10 Device Family)
+## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
+| NuGet package | [Microsoft.Toolkit.Uwp](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
 
 ## API
+
 * [Print Helper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper/)
