@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -29,6 +30,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// </summary>
     /// <remarks>Requires unmanaged code permissions</remarks>
     [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
+    [ToolboxItem(false)]
+    [DesignTimeVisible(false)]
     public abstract class WebViewHost : HwndHost
     {
         static WebViewHost()
