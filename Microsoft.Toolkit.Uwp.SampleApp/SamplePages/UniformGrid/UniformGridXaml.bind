@@ -13,8 +13,8 @@
         Columns="@[Columns:Slider:0:0-5]">
     <Border Background="AliceBlue" 
             Grid.Row="1" Grid.Column="1" 
-            Grid.RowSpan="@[RowSpan:Slider:2:1-3]" 
-            Grid.ColumnSpan="@[ColumnSpan:Slider:2:1-3]"><TextBlock Text="1"/></Border>
+            Grid.RowSpan="@[Item 1 RowSpan:Slider:2:1-3]" 
+            Grid.ColumnSpan="@[Item 1 ColumnSpan:Slider:2:1-3]"><TextBlock Text="1"/></Border>
     <Border Background="Cornsilk"><TextBlock Text="2"/></Border>
     <Border Background="DarkSalmon"><TextBlock Text="3"/></Border>
     <Border Background="Gainsboro"><TextBlock Text="4"/></Border>

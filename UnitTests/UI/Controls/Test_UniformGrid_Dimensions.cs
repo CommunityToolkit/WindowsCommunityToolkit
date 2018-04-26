@@ -42,14 +42,14 @@ namespace UnitTests.UI.Controls
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
-            var children = grid.Children.Select(item => item as FrameworkElement);
+            var children = grid.Children.Select(item => item as FrameworkElement).ToArray();
 
             Assert.AreEqual(0, grid.Children.Count());
 
-            var dimensions = UniformGrid.GetDimensions(ref children, 0, 0, 0);
+            var dimensions = UniformGrid.GetDimensions(children, 0, 0, 0);
 
-            Assert.AreEqual(1, dimensions.rows);
-            Assert.AreEqual(1, dimensions.columns);
+            Assert.AreEqual(1, dimensions.Rows);
+            Assert.AreEqual(1, dimensions.Columns);
         }
 
         [TestCategory("UniformGrid")]
@@ -78,14 +78,14 @@ namespace UnitTests.UI.Controls
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
-            var children = grid.Children.Select(item => item as FrameworkElement);
+            var children = grid.Children.Select(item => item as FrameworkElement).ToArray();
 
             Assert.AreEqual(8, grid.Children.Count());
 
-            var dimensions = UniformGrid.GetDimensions(ref children, 0, 0, 0);
+            var dimensions = UniformGrid.GetDimensions(children, 0, 0, 0);
             
-            Assert.AreEqual(3, dimensions.rows);
-            Assert.AreEqual(3, dimensions.columns);
+            Assert.AreEqual(3, dimensions.Rows);
+            Assert.AreEqual(3, dimensions.Columns);
         }
 
         [TestCategory("UniformGrid")]
@@ -119,14 +119,14 @@ namespace UnitTests.UI.Controls
             Assert.AreEqual(8, grid.Children.Count());
 
             // TODO: We don't expose this piece of the UniformGrid, but want to test this here for now.
-            var visible = grid.Children.Where(item => item.Visibility != Visibility.Collapsed && item is FrameworkElement).Select(item => item as FrameworkElement);
+            var visible = grid.Children.Where(item => item.Visibility != Visibility.Collapsed && item is FrameworkElement).Select(item => item as FrameworkElement).ToArray();
 
             Assert.AreEqual(4, visible.Count());
 
-            var dimensions = UniformGrid.GetDimensions(ref visible, 0, 0, 0);
+            var dimensions = UniformGrid.GetDimensions(visible, 0, 0, 0);
 
-            Assert.AreEqual(2, dimensions.rows);
-            Assert.AreEqual(2, dimensions.columns);
+            Assert.AreEqual(2, dimensions.Rows);
+            Assert.AreEqual(2, dimensions.Columns);
         }
 
         [TestCategory("UniformGrid")]
@@ -155,14 +155,14 @@ namespace UnitTests.UI.Controls
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
-            var children = grid.Children.Select(item => item as FrameworkElement);
+            var children = grid.Children.Select(item => item as FrameworkElement).ToArray();
 
             Assert.AreEqual(8, grid.Children.Count());
 
-            var dimensions = UniformGrid.GetDimensions(ref children, 0, 0, 2);
+            var dimensions = UniformGrid.GetDimensions(children, 0, 0, 2);
 
-            Assert.AreEqual(4, dimensions.rows);
-            Assert.AreEqual(4, dimensions.columns);
+            Assert.AreEqual(4, dimensions.Rows);
+            Assert.AreEqual(4, dimensions.Columns);
         }
 
         [TestCategory("UniformGrid")]
@@ -191,14 +191,14 @@ namespace UnitTests.UI.Controls
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
-            var children = grid.Children.Select(item => item as FrameworkElement);
+            var children = grid.Children.Select(item => item as FrameworkElement).ToArray();
 
             Assert.AreEqual(8, grid.Children.Count());
 
-            var dimensions = UniformGrid.GetDimensions(ref children, 0, 0, 0);
+            var dimensions = UniformGrid.GetDimensions(children, 0, 0, 0);
 
-            Assert.AreEqual(4, dimensions.rows);
-            Assert.AreEqual(4, dimensions.columns);
+            Assert.AreEqual(4, dimensions.Rows);
+            Assert.AreEqual(4, dimensions.Columns);
         }
 
         [TestCategory("UniformGrid")]
@@ -226,16 +226,16 @@ namespace UnitTests.UI.Controls
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
-            var children = grid.Children.Select(item => item as FrameworkElement);
+            var children = grid.Children.Select(item => item as FrameworkElement).ToArray();
 
             Assert.AreEqual(7, grid.Children.Count());
             
             // columns == first column
             // In WPF, First Column is ignored and we have a 1x7 layout.
-            var dimensions = UniformGrid.GetDimensions(ref children, 0, 7, 7);
+            var dimensions = UniformGrid.GetDimensions(children, 0, 7, 7);
 
-            Assert.AreEqual(1, dimensions.rows, "Expected single row.");
-            Assert.AreEqual(7, dimensions.columns, "Expected seven columns.");
+            Assert.AreEqual(1, dimensions.Rows, "Expected single row.");
+            Assert.AreEqual(7, dimensions.Columns, "Expected seven columns.");
         }
     }
     #pragma warning restore SA1008 // Opening parenthesis must be spaced correctly

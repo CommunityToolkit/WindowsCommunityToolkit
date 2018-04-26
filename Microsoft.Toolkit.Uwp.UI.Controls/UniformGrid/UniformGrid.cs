@@ -34,25 +34,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Internal list we use to keep track of items that we don't have space to layout.
         private List<UIElement> _overflow = new List<UIElement>();
 
-        /// <summary>
-        /// Measure the controls before layout.
-        /// </summary>
-        /// <param name="availableSize">Size available from parent.</param>
-        /// <returns>Desired Size</returns>
+        /// <inheritdoc/>
         protected override Size MeasureOverride(Size availableSize)
         {
             // Get all Visible FrameworkElement Children
-            var visible = Children.Where(item => item.Visibility != Visibility.Collapsed && item is FrameworkElement).Select(item => item as FrameworkElement);
+            var visible = Children.Where(item => item.Visibility != Visibility.Collapsed && item is FrameworkElement).Select(item => item as FrameworkElement).ToArray();
 
-            var dim = GetDimensions(ref visible, Rows, Columns, FirstColumn);
+            (int Rows, int Columns) dim = GetDimensions(visible, Rows, Columns, FirstColumn);
 
             // Now that we know size, setup automatic rows/columns
             // to utilize Grid for UniformGrid behavior.
             // We also interleave any specified rows/columns with fixed sizes.
-            SetupRowDefinitions(dim.rows);
-            SetupColumnDefinitions(dim.columns);
+            SetupRowDefinitions(dim.Rows);
+            SetupColumnDefinitions(dim.Columns);
 
-            var spotref = new TakenSpotsReferenceHolder(dim.rows, dim.columns);
+            var spotref = new TakenSpotsReferenceHolder(dim.Rows, dim.Columns);
 
             // Figure out which children we should automatically layout and where available openings are.
             foreach (var child in visible)
@@ -84,13 +80,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Guard for 15063 as Grid Spacing only works on 16299+.
             if (_hasGridSpacing)
             {
-                columnSpacingSize = ColumnSpacing * (dim.columns - 1);
-                rowSpacingSize = RowSpacing * (dim.rows - 1);
+                columnSpacingSize = ColumnSpacing * (dim.Columns - 1);
+                rowSpacingSize = RowSpacing * (dim.Rows - 1);
             }
 
             Size childSize = new Size(
-                (availableSize.Width - columnSpacingSize) / dim.columns,
-                (availableSize.Height - rowSpacingSize) / dim.rows);
+                (availableSize.Width - columnSpacingSize) / dim.Columns,
+                (availableSize.Height - rowSpacingSize) / dim.Rows);
 
             double maxWidth = 0.0;
             double maxHeight = 0.0;
@@ -140,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Return our desired size based on the largest child we found, our dimensions, and spacing.
-            var desiredSize = new Size((maxWidth * (double)dim.columns) + columnSpacingSize, (maxHeight * (double)dim.rows) + rowSpacingSize);
+            var desiredSize = new Size((maxWidth * (double)dim.Columns) + columnSpacingSize, (maxHeight * (double)dim.Rows) + rowSpacingSize);
 
             // Required to perform regular grid measurement, but ignore result.
             base.MeasureOverride(desiredSize);
