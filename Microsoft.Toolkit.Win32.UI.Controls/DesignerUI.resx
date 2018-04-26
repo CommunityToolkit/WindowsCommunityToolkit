@@ -159,7 +159,7 @@
     <comment>ClickOnce uses AppLaunch.exe to host partial-trust applications (and we don't support partial trust)</comment>
   </data>
   <data name="E_NOTSUPPORTED_OS_RS4" xml:space="preserve">
-    <value>Unable to initialize the WebView control because the system is running a version of Windows that doesn’t support this control. The WebView control runs only on Windows (&lt;Official RS4 release name here&gt;) or greater.</value>
+    <value>Unable to initialize the WebView control because the system is running a version of Windows that doesn’t support this control. The WebView control runs only on Windows 10 April update or later.</value>
     <comment>WebView requires RS4 or later</comment>
   </data>
   <data name="E_UNRECOGNIZED_OS" xml:space="preserve">
