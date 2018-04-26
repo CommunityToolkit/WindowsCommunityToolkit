@@ -17,6 +17,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <seealso cref="Windows.Web.WebErrorStatus"/>
     public enum WebErrorStatus
     {
+#pragma warning disable SA1404 // Code analysis suppression must have justification
 #pragma warning disable 1591
         Unknown = 0,
         CertificateCommonNameIsIncorrect = 1,
@@ -75,5 +76,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         GatewayTimeout = 504,
         HttpVersionNotSupported = 505,
 #pragma warning restore 1591
+#pragma warning restore SA1404 // Code analysis suppression must have justification
     }
 }

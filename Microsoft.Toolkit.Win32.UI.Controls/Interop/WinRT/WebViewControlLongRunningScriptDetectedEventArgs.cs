@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// Gets or sets a value indicating whether a long-running script executing in a <see cref="IWebView"/> should halt.
         /// </summary>
         /// <value><see langword="true" /> if the long-running script should halt; otherwise, <see langword="false" />.</value>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "StopPage")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "StopPage", Justification = "Name from WinRT type")]
         public bool StopPageScriptExecution
         {
             get => _args.StopPageScriptExecution;
@@ -53,7 +53,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlLongRunningScriptDetectedEventArgs(Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs args) => new WebViewControlLongRunningScriptDetectedEventArgs(args);
+        public static implicit operator WebViewControlLongRunningScriptDetectedEventArgs(Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs args) => ToWebViewControlLongRunningScriptDetectedEventArgs(args);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlLongRunningScriptDetectedEventArgs"/> from <see cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/> instance containing the event data.</param>
+        /// <returns>WebViewControlLongRunningScriptDetectedEventArgs.</returns>
+        public static WebViewControlLongRunningScriptDetectedEventArgs
+            ToWebViewControlLongRunningScriptDetectedEventArgs(
+                Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs args) =>
+            new WebViewControlLongRunningScriptDetectedEventArgs(args);
     }
 }

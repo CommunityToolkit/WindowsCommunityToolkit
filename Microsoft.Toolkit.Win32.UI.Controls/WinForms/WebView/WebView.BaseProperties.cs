@@ -17,7 +17,8 @@ using System.Windows.Forms;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
-    public partial class WebView
+    /// <inheritdoc cref="Control" />
+    public partial class WebView : Control
     {
         /// <summary>
         /// Gets or sets a value indicating whether the control can accept data that the user drags onto it.
@@ -189,11 +190,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         }
 
         /// <summary>
-        /// This property is not supported by this control.
+        /// Gets or sets the text associated with this control.
         /// </summary>
         /// <value>The text displayed in the control.</value>
         /// <exception cref="NotSupportedException">The value of the <see cref="Text" /> property is modified.</exception>
-        /// <remarks>The <see cref="Text"/> property cannot be modified and is not visible in the designer.</remarks>
+        /// <remarks>The <see cref="Text" /> property cannot be modified and is not visible in the designer.</remarks>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]

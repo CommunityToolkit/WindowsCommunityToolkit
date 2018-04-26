@@ -23,7 +23,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         private const int MAX_SCHEME_LENGTH = 32;
         private const int MAX_URL_LENGTH = MAX_PATH_LENGTH + MAX_SCHEME_LENGTH + 3; /*=sizeof("://")*/
 
-        /// <exception cref="ArgumentNullException"><paramref name="uri"/> is <see langword="null"/></exception>
+        /// <summary>
+        /// Converts a Uniform Resource Identifier (URI) to string.
+        /// </summary>
+        /// <param name="uri">The Uniform Resource Identifier (URI).</param>
+        /// <returns>System.String.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="uri" /> is <see langword="null" /></exception>
+        /// <remarks>If the length of the URI exceeds 2048 characters, the first 2048 are returned.</remarks>
         internal static string UriToString(Uri uri)
         {
             if (uri == null)

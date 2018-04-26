@@ -32,9 +32,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Gets or sets the move focus reason.
+        /// Gets the move focus reason.
         /// </summary>
-        /// <value><see cref="WebViewControlMoveFocusReason"/> The move focus reason</value>
+        /// <value><see cref="WebViewControlMoveFocusReason" /> The move focus reason</value>
         public WebViewControlMoveFocusReason Reason => (WebViewControlMoveFocusReason)_args.Reason;
 
         /// <summary>
@@ -42,7 +42,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         /// <param name="args">The <see cref="Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlMoveFocusRequestedEventArgs(Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs args) => new WebViewControlMoveFocusRequestedEventArgs(args);
+        public static implicit operator WebViewControlMoveFocusRequestedEventArgs(Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs args) => ToWebViewControlMoveFocusRequestedEventArgs(args);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlMoveFocusRequestedEventArgs"/> from <see cref="Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs"/> instance containing the event data.</param>
+        /// <returns><see cref="WebViewControlMoveFocusRequestedEventArgs"/></returns>
+        public static WebViewControlMoveFocusRequestedEventArgs ToWebViewControlMoveFocusRequestedEventArgs(
+            Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs args) =>
+            new WebViewControlMoveFocusRequestedEventArgs(args);
     }
 }

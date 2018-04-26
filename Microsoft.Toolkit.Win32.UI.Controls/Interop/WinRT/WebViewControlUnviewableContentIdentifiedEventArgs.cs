@@ -55,7 +55,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlUnviewableContentIdentifiedEventArgs(Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs args) => new WebViewControlUnviewableContentIdentifiedEventArgs(args);
+        public static implicit operator WebViewControlUnviewableContentIdentifiedEventArgs(Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs args) => ToWebViewControlUnviewableContentIdentifiedEventArgs(args);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlUnviewableContentIdentifiedEventArgs"/> from <see cref="Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/> instance containing the event data.</param>
+        /// <returns><see cref="WebViewControlUnviewableContentIdentifiedEventArgs"/></returns>
+        public static WebViewControlUnviewableContentIdentifiedEventArgs
+            ToWebViewControlUnviewableContentIdentifiedEventArgs(
+                Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs args) =>
+            new WebViewControlUnviewableContentIdentifiedEventArgs(args);
     }
 }

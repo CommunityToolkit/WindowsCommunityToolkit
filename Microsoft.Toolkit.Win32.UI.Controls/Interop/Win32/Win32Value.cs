@@ -18,8 +18,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         public const uint INFOTIPSIZE = 1024;
         public const uint TRUE = 1;
         public const uint FALSE = 0;
-        public const uint sizeof_WCHAR = 2;
-        public const uint sizeof_CHAR = 1;
-        public const uint sizeof_BOOL = 4;
+        public const uint Sizeof_WCHAR = 2;
+        public const uint SizeofChar = 1;
+        public const uint SizeofBool = 4;
     }
 }

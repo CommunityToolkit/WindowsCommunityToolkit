@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public Uri Referrer => _args.Referrer;
 
         /// <summary>
-        /// Gets or sets a value that marks the routed event as handled.
+        /// Gets or sets a value indicating whether the routed event is handled.
         /// </summary>
         /// <value><see langword="true" /> if handled; otherwise, <see langword="false" />.</value>
         public bool Handled
@@ -58,7 +58,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlNewWindowRequestedEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlNewWindowRequestedEventArgs(Windows.Web.UI.WebViewControlNewWindowRequestedEventArgs args) => new WebViewControlNewWindowRequestedEventArgs(args);
+        public static implicit operator WebViewControlNewWindowRequestedEventArgs(Windows.Web.UI.WebViewControlNewWindowRequestedEventArgs args) => ToWebViewControlNewWindowRequestedEventArgs(args);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlNewWindowRequestedEventArgs"/> from <see cref="Windows.Web.UI.WebViewControlNewWindowRequestedEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlNewWindowRequestedEventArgs"/> instance containing the event data.</param>
+        /// <returns><see cref="WebViewControlNewWindowRequestedEventArgs"/></returns>
+        public static WebViewControlNewWindowRequestedEventArgs ToWebViewControlNewWindowRequestedEventArgs(
+            Windows.Web.UI.WebViewControlNewWindowRequestedEventArgs args) =>
+            new WebViewControlNewWindowRequestedEventArgs(args);
     }
 }

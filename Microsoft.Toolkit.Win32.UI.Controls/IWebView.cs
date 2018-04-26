@@ -367,13 +367,5 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Stop", Justification = "Method exposed in WinRT type")]
         void Stop();
-
-        // TODO: ObjectForScripting
-        // TODO: Refresh with option (e.g. bypass cache)
-        // TODO: Navigate with new window
-        // TODO: Navigate target frame
-        // TODO: Navigate with POST
-        // TODO: Navigate with headers
-        // TODO: Print
     }
 }

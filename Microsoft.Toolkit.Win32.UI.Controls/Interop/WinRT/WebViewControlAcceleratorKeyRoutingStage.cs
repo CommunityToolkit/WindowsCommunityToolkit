@@ -12,6 +12,7 @@
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
+    /// <summary>An enumeration that describes the accelerator key routing stage.</summary>
     /// <remarks>Copy from <see cref="Windows.Web.UI.Interop.WebViewControlAcceleratorKeyRoutingStage"/> to avoid requirement to link Windows.winmd</remarks>
     /// <seealso cref="Windows.Web.UI.Interop.WebViewControlAcceleratorKeyRoutingStage"/>
     public enum WebViewControlAcceleratorKeyRoutingStage

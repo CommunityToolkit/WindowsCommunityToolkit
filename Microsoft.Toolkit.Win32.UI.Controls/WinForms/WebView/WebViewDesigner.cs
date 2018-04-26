@@ -18,7 +18,8 @@ using System.Windows.Forms.Design;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
-    class WebViewDesigner : ControlDesigner
+    /// <inheritdoc />
+    internal class WebViewDesigner : ControlDesigner
     {
         public Uri Source
         {
@@ -28,7 +29,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         public bool IsScriptNotifyAllowed
         {
-            get => (bool) ShadowProperties[nameof(WebView.IsScriptNotifyAllowed)];
+            get => (bool)ShadowProperties[nameof(WebView.IsScriptNotifyAllowed)];
             set => ShadowProperties[nameof(WebView.IsScriptNotifyAllowed)] = value;
         }
 
@@ -46,7 +47,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         public bool IsPrivateNetworkClientServerCapabilityEnabled
         {
-            get => (bool) ShadowProperties[nameof(WebView.IsPrivateNetworkClientServerCapabilityEnabled)];
+            get => (bool)ShadowProperties[nameof(WebView.IsPrivateNetworkClientServerCapabilityEnabled)];
             set => ShadowProperties[nameof(WebView.IsPrivateNetworkClientServerCapabilityEnabled)] = value;
         }
 
@@ -75,6 +76,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                 webView.MinimumSize = new System.Drawing.Size(20, 20);
             }
         }
+
         protected override void PreFilterProperties(IDictionary properties)
         {
             base.PreFilterProperties(properties);

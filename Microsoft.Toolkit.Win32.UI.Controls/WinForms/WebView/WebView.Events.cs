@@ -26,15 +26,17 @@ using WebViewControlUnviewableContentIdentifiedEventArgs = Microsoft.Toolkit.Win
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
-    public partial class WebView
+    /// <inheritdoc cref="IWebView" />
+    public partial class WebView : IWebView
     {
+        /// <inheritdoc />
         public event EventHandler<WebViewControlAcceleratorKeyPressedEventArgs> AcceleratorKeyPressed = (sender, args) => { };
 
         /// <inheritdoc />
         /// <summary>
         /// Occurs when the status of whether the <see cref="T:Microsoft.Toolkit.Win32.UI.Controls.WinForms.WebView" /> current contains a full screen element or not changes.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Declaration of WinRT type")]
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewContainsFullScreenElement)]
         public event EventHandler<object> ContainsFullScreenElementChanged = (sender, args) => { };
@@ -67,7 +69,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// <summary>
         /// Occurs when a frame in the <see cref="WebView"/> finished parsing its current content.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM", Justification ="Name of WinRT type")]
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewFrameDomContentLoaded)]
 
@@ -161,7 +163,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// <summary>
         /// Occurs when <see cref="WebView"/> shows a warning page for content that was reported as unsafe by SmartScreen filter.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification ="Declaration of WinRT type")]
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewUnsafeContentWarningDisplaying)]
         public event EventHandler<object> UnsafeContentWarningDisplaying = (sender, args) => { };
@@ -176,7 +178,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// <summary>
         /// Occurs when <see cref="WebView"/> attempts to download an unsupported file.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unviewable")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unviewable", Justification ="Name from WinRT type")]
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewUnviewableContentIdentified)]
         public event EventHandler<WebViewControlUnviewableContentIdentifiedEventArgs> UnviewableContentIdentified = (sender, args) => { };

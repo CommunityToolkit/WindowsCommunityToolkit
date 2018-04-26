@@ -12,6 +12,9 @@
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
+    // Type is a copy. Information regarding the origination of the type is in summary comments
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
     /// <summary>
     /// Defines constants that specify the state of a <see cref="IWebView.PermissionRequested"/> event.
     /// </summary>
@@ -19,7 +22,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <seealso cref="Windows.Web.UI.WebViewControlPermissionType"/>
     public enum WebViewControlPermissionType
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Geolocation")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Geolocation", Justification = "Value from WinRT type")]
         Geolocation,
         UnlimitedIndexedDBQuota,
         Media,

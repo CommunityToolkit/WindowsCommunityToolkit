@@ -20,7 +20,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     /// <remarks>Copy from <see cref="Windows.Web.UI.WebViewControlDeferredPermissionRequest"/> to avoid requirement to link Windows.winmd</remarks>
     /// <seealso cref="Windows.Web.UI.WebViewControlDeferredPermissionRequest"/>
-
     public sealed class WebViewControlDeferredPermissionRequest
     {
         [SecurityCritical]
@@ -51,8 +50,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlDeferredPermissionRequest"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlDeferredPermissionRequest(Windows.Web.UI.WebViewControlDeferredPermissionRequest args) => new WebViewControlDeferredPermissionRequest(args);
+        public static implicit operator WebViewControlDeferredPermissionRequest(Windows.Web.UI.WebViewControlDeferredPermissionRequest args) => ToWebViewControlDeferredPermissionRequest(args);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlDeferredPermissionRequest"/> from <see cref="Windows.Web.UI.WebViewControlDeferredPermissionRequest"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlDeferredPermissionRequest"/> instance containing the deferred permission request.</param>
+        /// <returns><see cref="WebViewControlDeferredPermissionRequest"/>.</returns>
+        public static WebViewControlDeferredPermissionRequest ToWebViewControlDeferredPermissionRequest(Windows.Web.UI.WebViewControlDeferredPermissionRequest args) => new WebViewControlDeferredPermissionRequest(args);
 
         /// <summary>
         /// Grants the requested permission.

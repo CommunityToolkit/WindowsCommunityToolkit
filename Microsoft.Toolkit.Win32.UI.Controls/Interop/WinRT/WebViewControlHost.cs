@@ -22,6 +22,10 @@ using Windows.Web.UI.Interop;
 
 using Rect = Windows.Foundation.Rect;
 
+// Suppress document warnings as the items are internal and are used to propagate exception info up to consuming classes
+#pragma warning disable SA1604 // Element documentation must have summary
+#pragma warning disable SA1615 // Element return value must be documented
+
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
     /// <summary>
@@ -67,21 +71,25 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         internal event EventHandler<WebViewControlAcceleratorKeyPressedEventArgs> AcceleratorKeyPressed = (sender, args) => { };
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "This is the declaration from WinRT")]
         internal event EventHandler<object> ContainsFullScreenElementChanged = (sender, args) => { };
 
         internal event EventHandler<WebViewControlContentLoadingEventArgs> ContentLoading = (sender, args) => { };
 
+#pragma warning disable SA1515 // Single-line comment must be preceded by blank line
         // ReSharper disable InconsistentNaming
         internal event EventHandler<WebViewControlDOMContentLoadedEventArgs> DOMContentLoaded = (sender, args) => { };
+#pragma warning disable SA1512 // Single-line comments must not be followed by blank line
         // ReSharper restore InconsistentNaming
 
         internal event EventHandler<WebViewControlContentLoadingEventArgs> FrameContentLoading = (sender, args) => { };
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM", Justification = "This is the name from WinRT")]
         // ReSharper disable InconsistentNaming
         internal event EventHandler<WebViewControlDOMContentLoadedEventArgs> FrameDOMContentLoaded = (sender, args) => { };
         // ReSharper restore InconsistentNaming
+#pragma warning restore SA1515 // Single-line comment must be preceded by blank line
+#pragma warning restore SA1512 // Single-line comments must not be followed by blank line
 
         internal event EventHandler<WebViewControlNavigationCompletedEventArgs> FrameNavigationCompleted = (sender, args) => { };
 
@@ -104,12 +112,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         [System.Diagnostics.CodeAnalysis.SuppressMessage(
             "Microsoft.Design",
             "CA1009:DeclareEventHandlersCorrectly",
-            Justification = "WinRT type does not derive from EventArgs. Signature kept to maintain compatability")]
+            Justification = "WinRT type does not derive from EventArgs. Signature kept to maintain compatibility")]
         internal event EventHandler<object> UnsafeContentWarningDisplaying = (sender, args) => { };
 
         internal event EventHandler<WebViewControlUnsupportedUriSchemeIdentifiedEventArgs> UnsupportedUriSchemeIdentified = (sender, args) => { };
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unviewable")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unviewable", Justification ="This is the name from WinRT")]
         internal event EventHandler<WebViewControlUnviewableContentIdentifiedEventArgs> UnviewableContentIdentified = (sender, args) => { };
 
         internal static bool IsSupported => OSVersionHelper.IsWindows10RS4OrGreater
@@ -199,6 +207,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         internal Windows.Web.UI.Interop.WebViewControlProcess Process { get; private set; }
+
         internal Windows.Web.UI.WebViewControlSettings Settings
         {
             get

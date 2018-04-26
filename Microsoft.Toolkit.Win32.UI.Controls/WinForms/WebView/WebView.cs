@@ -66,10 +66,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// <value><see langword="true" /> if this instance is supported; otherwise, <see langword="false" />.</value>
         public static bool IsSupported => WebViewControlHost.IsSupported;
 
-        /// <summary>
-        /// Gets a value indicating whether [contains full screen element].
-        /// </summary>
-        /// <value><see langword="true" /> if [contains full screen element]; otherwise, <see langword="false" />.</value>
         /// <inheritdoc />
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]

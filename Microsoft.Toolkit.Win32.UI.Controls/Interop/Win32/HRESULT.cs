@@ -31,99 +31,99 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         // picked up by ToString through reflection.
 
         /// <summary>S_OK</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT S_OK = new HRESULT(0x00000000);
 
         /// <summary>S_FALSE</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT S_FALSE = new HRESULT(0x00000001);
 
         /// <summary>E_PENDING</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT E_PENDING = new HRESULT(0x8000000A);
 
         /// <summary>E_NOTIMPL</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT E_NOTIMPL = new HRESULT(0x80004001);
 
         /// <summary>E_NOINTERFACE</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT E_NOINTERFACE = new HRESULT(0x80004002);
 
         /// <summary>E_POINTER</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT E_POINTER = new HRESULT(0x80004003);
 
         /// <summary>E_ABORT</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT E_ABORT = new HRESULT(0x80004004);
 
         /// <summary>E_FAIL</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT E_FAIL = new HRESULT(0x80004005);
 
         /// <summary>E_UNEXPECTED</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT E_UNEXPECTED = new HRESULT(0x8000FFFF);
 
         /// <summary>STG_E_INVALIDFUNCTION</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT STG_E_INVALIDFUNCTION = new HRESULT(0x80030001);
 
         /// <summary>REGDB_E_CLASSNOTREG</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT REGDB_E_CLASSNOTREG = new HRESULT(0x80040154);
 
         /// <summary>DESTS_E_NO_MATCHING_ASSOC_HANDLER.  Win7 internal error code for Jump Lists.</summary>
         /// <remarks>There is no Assoc Handler for the given item registered by the specified application.</remarks>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT DESTS_E_NO_MATCHING_ASSOC_HANDLER = new HRESULT(0x80040F03);
 
         /// <summary>DESTS_E_NORECDOCS.  Win7 internal error code for Jump Lists.</summary>
         /// <remarks>The given item is excluded from the recent docs folder by the NoRecDocs bit on its registration.</remarks>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT DESTS_E_NORECDOCS = new HRESULT(0x80040F04);
 
         /// <summary>DESTS_E_NOTALLCLEARED.  Win7 internal error code for Jump Lists.</summary>
         /// <remarks>Not all of the items were successfully cleared</remarks>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT DESTS_E_NOTALLCLEARED = new HRESULT(0x80040F05);
 
         /// <summary>E_ACCESSDENIED</summary>
         /// <remarks>Win32Error ERROR_ACCESS_DENIED.</remarks>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT E_ACCESSDENIED = new HRESULT(0x80070005);
 
         /// <summary>E_OUTOFMEMORY</summary>
         /// <remarks>Win32Error ERROR_OUTOFMEMORY.</remarks>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT E_OUTOFMEMORY = new HRESULT(0x8007000E);
 
         /// <summary>E_INVALIDARG</summary>
         /// <remarks>Win32Error ERROR_INVALID_PARAMETER.</remarks>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT E_INVALIDARG = new HRESULT(0x80070057);
 
         /// <summary>INTSAFE_E_ARITHMETIC_OVERFLOW</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT INTSAFE_E_ARITHMETIC_OVERFLOW = new HRESULT(0x80070216);
 
         /// <summary>COR_E_OBJECTDISPOSED</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT COR_E_OBJECTDISPOSED = new HRESULT(0x80131622);
 
         /// <summary>WC_E_GREATERTHAN</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT WC_E_GREATERTHAN = new HRESULT(0xC00CEE23);
 
         /// <summary>WC_E_SYNTAX</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Justification = "May only be used in DEBUG builds")]
         public static readonly HRESULT WC_E_SYNTAX = new HRESULT(0xC00CEE2D);
 
         /// <summary>
-        /// Create an HRESULT from an integer value.
+        /// Initializes a new instance of the <see cref="HRESULT"/> struct.
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="i"><see cref="uint" /> containing HRESULT.</param>
         public HRESULT(uint i)
         {
             _value = i;
@@ -149,7 +149,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         }
 
         /// <summary>
-        /// retrieve HRESULT_FACILITY
+        /// Gets HRESULT_FACILITY
         /// </summary>
         public Facility Facility
         {
@@ -166,7 +166,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         }
 
         /// <summary>
-        /// retrieve HRESULT_CODE
+        /// Gets HRESULT_CODE
         /// </summary>
         public int Code
         {
@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         /// <summary>
         /// Get a string representation of this HRESULT.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Name of HRESULT</returns>
         public override string ToString()
         {
             // Use reflection to try to name this HRESULT.
@@ -198,7 +198,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
             //
             // CONSIDER: This data is static.  It could be cached
             // after first usage for fast lookup since the keys are unique.
-            //
             foreach (var publicStaticField in typeof(HRESULT).GetFields(BindingFlags.Static | BindingFlags.Public))
             {
                 if (publicStaticField.FieldType == typeof(HRESULT))
@@ -269,16 +268,28 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
             get { return (int)_value < 0; }
         }
 
+        /// <summary>
+        /// Convert the result of Win32 GetLastError() into a raised exception.
+        /// </summary>
+        [SecurityCritical]
+        public static void ThrowLastError()
+        {
+            ((HRESULT)Win32Error.GetLastError()).ThrowIfFailed();
+
+            // Only expecting to call this when we're expecting a failed GetLastError()
+            Verify.Fail();
+        }
+
+        // Critical: P-Invoke
+        [SecurityCritical]
         [SuppressMessage(
                 "Microsoft.Usage",
                 "CA2201:DoNotRaiseReservedExceptionTypes",
                 Justification = "Only recreating Exceptions that were already raised.")]
         [SuppressMessage(
-                "Microsoft.Security",
-                "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
-        [SuppressMessage(
                 "Microsoft.Globalization",
-                "CA1303:DoNotPassLiteralsAsLocalizedParameters")]
+                "CA1303:DoNotPassLiteralsAsLocalizedParameters",
+                Justification ="For DEBUG only")]
         public void ThrowIfFailed(string message = null)
         {
             if (Failed)
@@ -323,6 +334,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
                         case Facility.Win32:
                             e = CreateWin32Exception(Code, message);
                             break;
+
                         default:
                             e = new COMException(message, (int)_value);
                             break;
@@ -340,18 +352,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
 
                 throw e;
             }
-        }
-
-        /// <summary>
-        /// Convert the result of Win32 GetLastError() into a raised exception.
-        /// </summary>
-        [SecurityCritical]
-        public static void ThrowLastError()
-        {
-            ((HRESULT)Win32Error.GetLastError()).ThrowIfFailed();
-
-            // Only expecting to call this when we're expecting a failed GetLastError()
-            Verify.Fail();
         }
 
         [SecuritySafeCritical]

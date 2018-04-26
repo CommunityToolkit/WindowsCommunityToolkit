@@ -16,7 +16,7 @@ using System.Security;
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
     /// <summary>
-    ///Provides data for the <see cref="IWebView.DOMContentLoaded"/> and <see cref="IWebView.FrameDOMContentLoaded"/> events. This class cannot be inherited.
+    /// Provides data for the <see cref="IWebView.DOMContentLoaded"/> and <see cref="IWebView.FrameDOMContentLoaded"/> events. This class cannot be inherited.
     /// </summary>
     /// <remarks>Copy from <see cref="Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
     /// <seealso cref="Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/>
@@ -53,7 +53,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlDOMContentLoadedEventArgs(Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs args) => new WebViewControlDOMContentLoadedEventArgs(args);
+        public static implicit operator WebViewControlDOMContentLoadedEventArgs(Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs args) => ToWebViewControlDOMContentLoadedEventArgs(args);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlDOMContentLoadedEventArgs"/> from <see cref="Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/> instance containing the event data.</param>
+        /// <returns><see cref="WebViewControlDOMContentLoadedEventArgs"/>.</returns>
+        public static WebViewControlDOMContentLoadedEventArgs ToWebViewControlDOMContentLoadedEventArgs(
+            Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs args) =>
+            new WebViewControlDOMContentLoadedEventArgs(args);
     }
 }

@@ -30,7 +30,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         public const int DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE = -3;
         public const int DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 = -4;
 
+#pragma warning disable SA1401 // Fields must be private
         public static HandleRef NullHandleRef = new HandleRef(null, IntPtr.Zero);
+#pragma warning restore SA1401 // Fields must be private
 
         // Critical: P-Invoke
         // Available in Windows 10 version RS1 and above.
@@ -101,11 +103,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
             return osVersionInfo;
         }
 
-        /// <summary>
-        /// Enables the mouse to act as a pointer input device and send WM_POINTER messages.
-        /// </summary>
-        /// <param name="fEnable"><see langword="true"/> to turn on mouse input support</param>
-        /// <returns></returns>
+        // Enables the mouse to act as a pointer input device and send WM_POINTER messages.
         [SecurityCritical] // P-Invokes
         [DllImport(ExternDll.User32, SetLastError = true, EntryPoint = "EnableMouseInPointer")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -136,7 +134,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
 
         // Critical : P-Invokes
         [SecurityCritical]
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport(ExternDll.User32, SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "CreateWindowExW")]
         private static extern IntPtr _CreateWindowEx(
             WS_EX dwExStyle,
@@ -154,7 +151,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
 
         // Critical : Calls critical method
         [SecurityCritical]
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         public static IntPtr CreateWindowEx(
             WS_EX dwExStyle,
             string lpClassName,
@@ -199,27 +195,23 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
 
         // Critical : P-Invokes
         [SecurityCritical]
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport(ExternDll.User32, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DestroyWindow(IntPtr hwnd);
 
         // Critical : P-Invokes
         [SecurityCritical]
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport(ExternDll.User32)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsWindow(IntPtr hwnd);
 
         // Critical : P-Invokes
         [SecurityCritical]
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport(ExternDll.Kernel32, EntryPoint = "GetModuleFileName", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern int _GetModuleFileName(IntPtr hModule, StringBuilder lpFilename, int nSize);
 
         // Critical : Calls critical method
         [SecurityCritical]
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         public static string GetModuleFileName(IntPtr hModule)
         {
             var buffer = new StringBuilder((int)Win32Value.MAX_PATH);

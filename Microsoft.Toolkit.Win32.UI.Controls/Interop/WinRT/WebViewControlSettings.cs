@@ -67,7 +67,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         /// <param name="settings">The settings.</param>
         /// <returns>The result of the conversion.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlSettings(Windows.Web.UI.WebViewControlSettings settings) => new WebViewControlSettings(settings);
+        public static implicit operator WebViewControlSettings(Windows.Web.UI.WebViewControlSettings settings) => ToWebViewControlSettings(settings);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlSettings" /> from <see cref="Windows.Web.UI.WebViewControlSettings"/>.
+        /// </summary>
+        /// <param name="settings">The settings.</param>
+        /// <returns><see cref="WebViewControlSettings"/></returns>
+        public static WebViewControlSettings ToWebViewControlSettings(Windows.Web.UI.WebViewControlSettings settings) =>
+            new WebViewControlSettings(settings);
     }
 }

@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <summary>
         /// Occurs when the underlying WWAHost process exits.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification ="This is the declaration from WinRT")]
         public event EventHandler<object> ProcessExited = (sender, args) => { };
 
         /// <summary>
@@ -79,8 +79,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         /// <param name="process">The process.</param>
         /// <returns>The result of the conversion.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlProcess(Windows.Web.UI.Interop.WebViewControlProcess process) => new WebViewControlProcess(process);
+        public static implicit operator WebViewControlProcess(Windows.Web.UI.Interop.WebViewControlProcess process) => ToWebViewControlProcess(process);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlProcess"/> from <see cref="Windows.Web.UI.Interop.WebViewControlProcess"/>.
+        /// </summary>
+        /// <param name="process">The <see cref="Windows.Web.UI.Interop.WebViewControlProcess"/> instance.</param>
+        /// <returns><see cref="WebViewControlProcess"/></returns>
+        public static WebViewControlProcess ToWebViewControlProcess(
+            Windows.Web.UI.Interop.WebViewControlProcess process) => new WebViewControlProcess(process);
 
         /// <summary>
         /// Terminates the underlying WWAHost process.
@@ -112,7 +119,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             long hostWindowHandle,
             Rect bounds)
         {
-            Security.DemandUnamangedCode();
+            Security.DemandUnmanagedCode();
             if (hostWindowHandle == 0)
             {
                 throw new ArgumentNullException(nameof(hostWindowHandle));

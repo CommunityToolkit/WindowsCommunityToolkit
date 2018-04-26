@@ -16,6 +16,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <remarks>Copy from <see cref="Windows.System.VirtualKey"/> to avoid requirement to link Windows.winmd</remarks>
     /// <seealso cref="Windows.System.VirtualKey"/>
 #pragma warning disable 1591
+#pragma warning disable SA1404 // Code analysis suppression must have justification
     public enum VirtualKey
     {
         None = 0,
@@ -226,5 +227,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Thumbstick")]
         GamepadRightThumbstickLeft = 218,
     }
+#pragma warning restore SA1404 // Code analysis suppression must have justification
 #pragma warning restore 1591
 }
