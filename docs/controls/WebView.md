@@ -23,28 +23,17 @@ Unless specified otherwise in this article, the documentation for the [WebViewCo
 
 ## Prerequisites
 
-:heavy_check_mark: UWP Community Toolkit (version TBD).
-
 :heavy_check_mark: Visual Studio 2017.
-
-:heavy_check_mark: .NET Framework 4.7 or a later release.
 
 :heavy_check_mark: Windows 10 Insider Preview Build 17110 or a later release.
 
+:heavy_check_mark: .NET Framework 4.7 or a later release.
+
+:heavy_check_mark: Configure your application for high DPI support. To learn how, see [this section](#high-dpi) of the guide.
+
 ## Feature limitations
 
-When compared to the UWP **WebView** control, the **WebView** controls for WPF and Windows Forms have these limitations:
-
-:no_entry: Navigating from or saving to streams.
-
-:no_entry: Navigating to relative URIs or resources within your application.
-
-:no_entry: Navigating to files on disk.
-
-:no_entry: These Microsoft Edge features: Service workers and Push Messages.
-
-> [!IMPORTANT]
-When using WebView in a Windows Forms project, you must use .NET Framework 4.7 and [configure your Windows Forms app for high DPI support](https://docs.microsoft.com/en-us/dotnet/framework/winforms/high-dpi-support-in-windows-forms).
+When compared to the UWP **WebView** control, the current release of the WPF and Windows Forms **WebView** control has some limitations. For the complete list of these limitations, see [Known Issues of the WebView control for Windows Forms and WPF applications](controls/WebView-known.issues.md).
 
 ## Add the WebView control to the Visual Studio Toolbox
 
@@ -56,7 +45,9 @@ First, open the Visual Studio **Toolbox**, then right-click anywhere in the tool
 
 1. In the **.NET Framework Components** tab of the **Choose Toolbox Items** dialog box.
 
-2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** on your local drive.
+2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** in your NuGet package folder.
+
+   For help finding that folder, see [Managing the global packages, cache, and temp folders](https://docs.microsoft.com/nuget/consume-packages/managing-the-global-packages-and-cache-folders).
 
 3. Add that file to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
 
@@ -68,13 +59,53 @@ First, open the Visual Studio **Toolbox**, then right-click anywhere in the tool
 
 1. In the **WPF Components** tab of the **Choose Toolbox Items** dialog box.
 
-2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** on your local drive.
+2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** in your NuGet package folder.
+
+   For help finding that folder, see [Managing the global packages, cache, and temp folders](https://docs.microsoft.com/nuget/consume-packages/managing-the-global-packages-and-cache-folders).
 
 3. Add that file to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
 
    The **WebView** control appears in the **Common XAML Controls** section of the **Toolbox**.
 
    In **Solution Explorer**, the **Microsoft.Toolkit.Win32.UI.Controls.dll** file appears in the **References** list.
+
+After the **WebView** control appears in the Visual Studio Toolbox, you can drag it directly the designer. You can also create an instance of the **WebView** control in code, but we recommend that you do not add **WebView** controls to popup windows because support for that scenario will soon be disabled for security reasons.
+
+<a id="high-dpi" />
+
+## Enable the WebView control to appear properly on high DPI displays
+
+If users open your application on displays that have a high Dots Per Inch (DPI) displays, your WebView won't appear at the proper scale unless you configure your application first.
+
+### Configure a Windows Forms application
+
+For guidance, see [Configuring your Windows Forms app for high DPI support](https://docs.microsoft.com/dotnet/framework/winforms/high-dpi-support-in-windows-forms#configuring-your-windows-forms-app-for-high-dpi-support).
+
+### Configure a WPF application
+
+Add the following XML to your application manifest file:
+
+```XML
+<compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+    <application>
+      <!-- Windows 10 -->
+      <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />
+    </application>
+  </compatibility>
+```
+Add the following XML to your application configuration file:
+
+```XML
+<application xmlns="urn:schemas-microsoft-com:asm.v3">
+   <windowsSettings>
+     <!-- The combination of below two tags have the following effect :
+     1) Per-Monitor for >= Windows 10 Anniversary Update
+     2) System < Windows 10 Anniversary Update -->
+     <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitor</dpiAwareness>
+     <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true/PM</dpiAware>
+   </windowsSettings>
+ </application>
+```
 
 ## Modify the appearance of a WebView
 
