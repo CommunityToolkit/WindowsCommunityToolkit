@@ -40,10 +40,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         [Conditional("DEBUG")]
         internal static void AreEqual<T>(T expected, T actual)
         {
+#pragma warning disable RECS0017 // Possible compare of value type with 'null'
             if (expected == null)
+#pragma warning restore RECS0017 // Possible compare of value type with 'null'
             {
                 // Two nulls are considered equal, regardless of type semantics.
+#pragma warning disable RECS0017 // Possible compare of value type with 'null'
                 if (actual != null && !actual.Equals(expected))
+#pragma warning restore RECS0017 // Possible compare of value type with 'null'
                 {
                     Break();
                 }
@@ -172,6 +176,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <summary>
         /// Verifies that the specified object is null.  The assertion fails if it is not.
         /// </summary>
+        /// <typeparam name="T">The type of item to verify.</typeparam>
         /// <param name="item">The item to verify is null.</param>
         [Conditional("DEBUG")]
         internal static void IsNull<T>(T item)
@@ -231,7 +236,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         }
 
         [Conditional("DEBUG")]
+#pragma warning disable SA1300 // Element must begin with upper-case letter
         private static void _Break(string message)
+#pragma warning restore SA1300 // Element must begin with upper-case letter
         {
 #pragma warning disable RECS0110 // Condition is set by DEV_DEBUG compile constant
             if (AggressiveFailFast)

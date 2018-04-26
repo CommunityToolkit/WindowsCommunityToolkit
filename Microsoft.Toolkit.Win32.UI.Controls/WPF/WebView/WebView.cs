@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         private ManualResetEvent _initializationComplete;
 
         [SecuritySafeCritical]
-        [SuppressMessage("Microsoft.Design", "CA1065")]
+        [SuppressMessage("Microsoft.Design", "CA1065", Justification ="Exceptions thrown to fail as fast as possible.")]
         static WebView()
         {
 #pragma warning disable 1065
@@ -117,7 +117,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
 
             // ClickOnce uses AppLaunch.exe to host partial-trust applications
+#pragma warning disable SA1129 // Do not use default value type constructor
             var hostProcessName = Path.GetFileName(UnsafeNativeMethods.GetModuleFileName(new HandleRef()));
+#pragma warning restore SA1129 // Do not use default value type constructor
             if (string.Compare(hostProcessName, "AppLaunch.exe", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 // Not currently supported
@@ -149,7 +151,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
             // TODO: Check whether browser is disabled
             // TODO: Handle case (OnLoad) for handling POPUP windows
-
             _initializationComplete = new ManualResetEvent(false);
         }
 

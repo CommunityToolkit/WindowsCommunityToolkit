@@ -37,6 +37,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <value>The Uniform Resource Identifier (URI).</value>
         public Uri Uri => _args.Uri;
 
+        /// <summary>
+        /// Gets the string value passed to the app.
+        /// </summary>
+        /// <value>The string value passed to the app.</value>
         public string Value => _args.Value;
 
         /// <summary>
@@ -44,7 +48,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlScriptNotifyEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlScriptNotifyEventArgs(Windows.Web.UI.WebViewControlScriptNotifyEventArgs args) => new WebViewControlScriptNotifyEventArgs(args);
+        public static implicit operator WebViewControlScriptNotifyEventArgs(Windows.Web.UI.WebViewControlScriptNotifyEventArgs args) => ToWebViewControlScriptNotifyEventArgs(args);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlScriptNotifyEventArgs"/> from <see cref="Windows.Web.UI.WebViewControlScriptNotifyEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlScriptNotifyEventArgs"/> instance containing the event data.</param>
+        /// <returns><see cref="WebViewControlScriptNotifyEventArgs"/></returns>
+        public static WebViewControlScriptNotifyEventArgs ToWebViewControlScriptNotifyEventArgs(
+            Windows.Web.UI.WebViewControlScriptNotifyEventArgs args) => new WebViewControlScriptNotifyEventArgs(args);
     }
 }

@@ -20,7 +20,8 @@ using WebViewControlProcessOptions = Windows.Web.UI.Interop.WebViewControlProces
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
-    public partial class WebView
+    /// <inheritdoc cref="ISupportInitialize"/>
+    public partial class WebView : ISupportInitialize
     {
         // Initialization flag for ISupportInitialize
         private InitializationState _initializationState;

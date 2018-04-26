@@ -50,9 +50,6 @@
     <Compile Update="WinForms\WebView\WebView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="WinForms\WebView\WebView.Designer.cs">
-      <DependentUpon>WebView.cs</DependentUpon>
-    </Compile>
     <Compile Update="WinForms\WebView\WebView.Events.cs">
       <SubType>Component</SubType>
       <DependentUpon>WebView.cs</DependentUpon>

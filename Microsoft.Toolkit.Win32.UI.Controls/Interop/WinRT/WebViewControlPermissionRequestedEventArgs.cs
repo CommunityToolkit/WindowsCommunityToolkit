@@ -42,7 +42,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlPermissionRequestedEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlPermissionRequestedEventArgs(Windows.Web.UI.WebViewControlPermissionRequestedEventArgs args) => new WebViewControlPermissionRequestedEventArgs(args);
+        public static implicit operator WebViewControlPermissionRequestedEventArgs(Windows.Web.UI.WebViewControlPermissionRequestedEventArgs args) => ToWebViewControlPermissionRequestedEventArgs(args);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlPermissionRequestedEventArgs"/> from <see cref="Windows.Web.UI.WebViewControlPermissionRequestedEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlPermissionRequestedEventArgs"/> instance containing the event data.</param>
+        /// <returns><see cref="WebViewControlPermissionRequestedEventArgs"/></returns>
+        public static WebViewControlPermissionRequestedEventArgs ToWebViewControlPermissionRequestedEventArgs(
+            Windows.Web.UI.WebViewControlPermissionRequestedEventArgs args) =>
+            new WebViewControlPermissionRequestedEventArgs(args);
     }
 }

@@ -17,11 +17,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WebView.Shared
 {
     public static class OperatingSystemAssertions
     {
-        public static void OSBuildShouldBeAtLeast(this Assert _, int buildNumber) => AssertOSSince(buildNumber);
+#pragma warning disable RECS0154 // Parameter is never used
+        public static void OSBuildShouldBeAtLeast(this Assert _, int buildNumber) => AssertOperatingSystemSinceBuild(buildNumber);
+#pragma warning restore RECS0154 // Parameter is never used
 
-        public static void OSBuildShouldBeAtLeast(this Assert _, TestConstants.Windows10Builds build) => AssertOSSince((int)build);
+#pragma warning disable RECS0154 // Parameter is never used
+        public static void OSBuildShouldBeAtLeast(this Assert _, TestConstants.Windows10Builds build) => AssertOperatingSystemSinceBuild((int)build);
+#pragma warning restore RECS0154 // Parameter is never used
 
-        private static void AssertOSSince(int buildNumber)
+        private static void AssertOperatingSystemSinceBuild(int buildNumber)
         {
             var os = NativeMethods.RtlGetVersion();
             if (os.BuildNumber < buildNumber)

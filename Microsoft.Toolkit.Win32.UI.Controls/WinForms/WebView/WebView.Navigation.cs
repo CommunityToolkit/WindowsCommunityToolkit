@@ -16,7 +16,9 @@ using System.ComponentModel;
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
     // Navigation Journaling
-    public partial class WebView
+
+    /// <inheritdoc cref="IWebView" />
+    public partial class WebView : IWebView
     {
         /// <inheritdoc />
         [Browsable(false)]

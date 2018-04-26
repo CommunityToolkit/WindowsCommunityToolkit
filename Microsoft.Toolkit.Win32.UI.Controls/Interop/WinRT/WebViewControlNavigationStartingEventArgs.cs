@@ -58,7 +58,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <value>The Uniform Resource Identifier (URI) of the content the <see cref="IWebView"/> is loading.</value>
         public Uri Uri { get; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlNavigationStartingEventArgs(Windows.Web.UI.WebViewControlNavigationStartingEventArgs args) => new WebViewControlNavigationStartingEventArgs(args);
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="Windows.Web.UI.WebViewControlNavigationStartingEventArgs"/> to <see cref="WebViewControlNavigationStartingEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlNavigationStartingEventArgs"/> instance containing the event data.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator WebViewControlNavigationStartingEventArgs(Windows.Web.UI.WebViewControlNavigationStartingEventArgs args) => ToWebViewControlNavigationStartingEventArgs(args);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlNavigationStartingEventArgs"/> from <see cref="Windows.Web.UI.WebViewControlNavigationStartingEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlNavigationStartingEventArgs"/> instance containing the event data.</param>
+        /// <returns><see cref="WebViewControlNavigationStartingEventArgs"/>.</returns>
+        public static WebViewControlNavigationStartingEventArgs ToWebViewControlNavigationStartingEventArgs(
+            Windows.Web.UI.WebViewControlNavigationStartingEventArgs args) =>
+            new WebViewControlNavigationStartingEventArgs(args);
     }
 }

@@ -74,11 +74,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             }
         }
 
-        // Exception raised by a demand may contain security sensitive information
+        // Critical: Exception raised by a demand may contain security sensitive information
 
-        /// <exception cref="SecurityException">A caller higher in the call stack does not have the permission specified by the current instance.-or- A caller higher in the call stack has called <see cref="M:System.Security.CodeAccessPermission.Deny" /> on the current permission object. </exception>
+        /// <summary>
+        /// Demands <see cref="SecurityPermission"/> for <see cref="SecurityPermissionFlag.UnmanagedCode"/>
+        /// </summary>
+        /// <exception cref="SecurityException">A caller higher in the call stack does not have the permission specified by the current instance.-or- A caller higher in the call stack has called <see cref="M:System.Security.CodeAccessPermission.Deny" /> on the current permission object.</exception>
         [SecurityCritical]
-        internal static void DemandUnamangedCode()
+        internal static void DemandUnmanagedCode()
         {
             if (_unmanagedCodePermission == null)
             {
@@ -94,7 +97,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             CachedWebBrowserPermission.Demand();
         }
 
-        [SecurityCritical] // Exceptions raised by a demand may contain security sensitive information
+        // Critical: Exceptions raised by a demand may contain security sensitive information
+        [SecurityCritical]
         internal static void DemandWebPermission(Uri uri)
         {
             if (uri == null)

@@ -15,8 +15,12 @@ using System;
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
     /// <summary>
-    /// A proxy for <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/>.
+    /// This class contains options that can be set when creating a <see cref="IWebView"/> instance.
     /// </summary>
+    /// <remarks>
+    /// Copy from <see cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> to avoid requirement to link Windows.winmd.
+    /// </remarks>
+    /// <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/>
     public class WebViewControlProcessOptions
     {
         /// <summary>

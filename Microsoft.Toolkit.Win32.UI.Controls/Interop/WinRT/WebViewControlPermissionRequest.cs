@@ -60,10 +60,17 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <summary>
         /// Performs an implicit conversion from <see cref="Windows.Web.UI.WebViewControlPermissionRequest"/> to <see cref="WebViewControlPermissionRequest"/>.
         /// </summary>
-        /// <param name="permissionRequest">The permission request.</param>
+        /// <param name="args">The permission request.</param>
         /// <returns>The result of the conversion.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
-        public static implicit operator WebViewControlPermissionRequest(Windows.Web.UI.WebViewControlPermissionRequest permissionRequest) => new WebViewControlPermissionRequest(permissionRequest);
+        public static implicit operator WebViewControlPermissionRequest(Windows.Web.UI.WebViewControlPermissionRequest args) => ToWebViewControlPermissionRequest(args);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlPermissionRequest"/> from <see cref="Windows.Web.UI.WebViewControlPermissionRequest"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlPermissionRequest"/>.</param>
+        /// <returns><see cref="WebViewControlPermissionRequest"/></returns>
+        public static WebViewControlPermissionRequest ToWebViewControlPermissionRequest(
+            Windows.Web.UI.WebViewControlPermissionRequest args) => new WebViewControlPermissionRequest(args);
 
         /// <summary>
         /// Grants the requested permission.

@@ -12,6 +12,13 @@
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
+    // Type is a copy. Information regarding the origination of the type is in summary comments
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    /// <summary>
+    /// Represents the state of the <see cref="WebViewControlProcess"/>.
+    /// </summary>
+    /// <remarks>Copy from <see cref="Windows.Web.UI.Interop.WebViewControlProcessCapabilityState"/> to avoid requirement to link Windows.winmd</remarks>
+    /// <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessCapabilityState"/>
     public enum WebViewControlProcessCapabilityState
     {
         Default,

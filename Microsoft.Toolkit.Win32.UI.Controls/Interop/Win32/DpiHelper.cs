@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
         }
 
         /// <summary>
-        /// Get a value indicating enable processing of WM_DPICHANGED and related messages
+        /// Gets a value indicating whether to enable processing of WM_DPICHANGED and related messages
         /// </summary>
         internal static bool EnableDpiChangedMessageHandling
         {
@@ -94,7 +94,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
             get
             {
                 Initialize();
+#pragma warning disable RECS0018 // Comparison of floating point numbers with equality operator
                 return _deviceDpi != LogicalDpi;
+#pragma warning restore RECS0018 // Comparison of floating point numbers with equality operator
             }
         }
 
@@ -102,7 +104,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
         {
             get
             {
+#pragma warning disable RECS0018 // Comparison of floating point numbers with equality operator
                 if (_logicalToDeviceUnitsScalingFactor == 0d)
+#pragma warning restore RECS0018 // Comparison of floating point numbers with equality operator
                 {
                     Initialize();
                     _logicalToDeviceUnitsScalingFactor = _deviceDpi / LogicalDpi;

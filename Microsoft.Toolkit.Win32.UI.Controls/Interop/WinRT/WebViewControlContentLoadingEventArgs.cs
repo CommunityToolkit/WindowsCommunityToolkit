@@ -45,10 +45,19 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlContentLoadingEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
         [SecurityCritical]
         public static implicit operator WebViewControlContentLoadingEventArgs(
             Windows.Web.UI.WebViewControlContentLoadingEventArgs args)
+        {
+            return FromWebViewControlContentLoadingEventArgs(args);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlContentLoadingEventArgs"/> from <see cref="Windows.Web.UI.WebViewControlContentLoadingEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlContentLoadingEventArgs"/> instance containing the event data.</param>
+        /// <returns><see cref="WebViewControlContentLoadingEventArgs"/></returns>
+        public static WebViewControlContentLoadingEventArgs FromWebViewControlContentLoadingEventArgs(Windows.Web.UI.WebViewControlContentLoadingEventArgs args)
         {
             return new WebViewControlContentLoadingEventArgs(args);
         }
