@@ -98,6 +98,11 @@
                                      Header="Delegated Permission Scopes:" 
                                      Text="Calendars.Read Mail.Read Mail.Send" 
                                      Visibility="Collapsed" />
+                            <TextBox Margin="0,0,0,12" 
+                                     x:Name="LoginHint" 
+                                     Header="Login Hint:" 
+                                     Text="user@contoso.com" 
+                                     Visibility="Collapsed" />
                             <HyperlinkButton Margin="0,0,0,15"
                                              Content="Show me how to get this ID"
                                              NavigateUri="https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/MicrosoftGraph/" />

@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
+using Microsoft.Toolkit.Services.OneDrive;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -21,7 +21,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public class OneDriveDataTemplateSelector : DataTemplateSelector
     {
-        #pragma warning disable CS0618 // Type or member is obsolete
         /// <summary>
         /// Gets or sets the File DataTemplate
         /// </summary>
@@ -59,6 +58,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             return FolderTemplate;
         }
-        #pragma warning restore CS0618 // Type or member is obsolete
     }
 }
