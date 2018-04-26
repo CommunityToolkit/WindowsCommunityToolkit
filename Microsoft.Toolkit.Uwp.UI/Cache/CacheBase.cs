@@ -29,12 +29,6 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// <typeparam name="T">Generic type as supplied by consumer of the class</typeparam>
     public abstract class CacheBase<T>
     {
-        /// <summary>
-        /// Gets or sets a value indicating whether context should be maintained until type has been instantiated or not.
-        /// </summary>
-        [Obsolete("This property will be removed in future releases.")]
-        protected bool MaintainContext { get; set; }
-
         private class ConcurrentRequest
         {
             public Task<T> Task { get; set; }
