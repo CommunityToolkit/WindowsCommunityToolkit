@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Graphics.Imaging;
+using Windows.Media;
 using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
 
@@ -183,9 +185,19 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
 
                 var vmf = frame.VideoMediaFrame;
 
+                // Create a copy of software bitmap and dispose the Software Bitmap acquired from VideoFrameReference.
+                // If you access the SoftwareBitmap or Direct3DSurface objects provided by the VideoMediaFrame property of a MediaFrameReference, 
+                // the system creates a strong reference to these objects, which means that they will not be disposed when you call Dispose on the containing MediaFrameReference.
+                // You must explicitly call the Dispose method of the SoftwareBitmap or Direct3DSurface directly for the objects to be immediately disposed.
+                // See https://docs.microsoft.com/en-us/windows/uwp/audio-video-camera/process-media-frames-with-mediaframereader
+                var softwareBitmap = SoftwareBitmap.Copy(vmf.SoftwareBitmap);
+
                 EventHandler<FrameEventArgs> handler = FrameArrived;
-                var frameArgs = new FrameEventArgs() { VideoFrame = vmf.GetVideoFrame(), SoftwareBitmap = vmf.SoftwareBitmap };
+                var frameArgs = new FrameEventArgs() { VideoFrame = vmf.GetVideoFrame(), SoftwareBitmap = softwareBitmap };
                 handler?.Invoke(sender, frameArgs);
+
+                vmf.SoftwareBitmap.Dispose();
+                frame.Dispose();
             }
         }
 
