@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,36 +25,63 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
     /// </summary>
     public class CameraHelper : IDisposable
     {
+        private IReadOnlyList<MediaFrameSourceGroup> _frameSourceGroups;
         private MediaCapture _mediaCapture;
         private MediaFrameReader _frameReader;
         private MediaFrameSourceGroup _group;
         private MediaFrameSource _frameSource;
 
         /// <summary>
-        /// Gets the current MediaFrameSource
+        /// Gets the currently selected <see cref="MediaFrameSource"/>MediaFrameSource
         /// </summary>
         public MediaFrameSource FrameSource { get => _frameSource; }
 
         /// <summary>
-        /// Event raised when a new video frame arrives.
+        /// Gets FrameSourceGroups available for Media Capture
         /// </summary>
-        public event EventHandler<VideoFrameEventArgs> VideoFrameArrived;
+        public IReadOnlyList<MediaFrameSourceGroup> FrameSourceGroups { get => _frameSourceGroups; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CameraHelper"/> class.
+        /// Event raised when a new frame arrives.
         /// </summary>
-        public CameraHelper()
-        {
-        }
+        public event EventHandler<FrameEventArgs> FrameArrived;
 
         /// <summary>
         /// Initializes Media Capture settings and starts video capture using Frame Reader.
         /// </summary>
         /// <returns>Result of the async operation.<see cref="CameraHelperResult"/></returns>
-        public async Task<CameraHelperResult> InitializeAndStartCaptureAsync(MediaFrameSourceGroup group)
+        public async Task<CameraHelperResult> InitializeAndStartCaptureAsync(MediaFrameSourceGroup group = null)
         {
+            // new selection same as previously selected group, just return
+            if (group != null && _group == group)
+            {
+                return CameraHelperResult.Success;
+            }
+
             await Cleanup();
+
             _group = group;
+
+            if (_frameSourceGroups == null)
+            {
+                // Make sure you have the capability webcam enabled, otherwise it will return null
+                var groups = await MediaFrameSourceGroup.FindAllAsync();
+                _frameSourceGroups = groups.Where(g => g.SourceInfos.Any(s => s.SourceKind == MediaFrameSourceKind.Color &&
+                                                                            (s.MediaStreamType == MediaStreamType.VideoPreview
+                                                                            || s.MediaStreamType == MediaStreamType.VideoRecord))).ToList();
+            }
+
+            if (_group == null)
+            {
+                _group = _frameSourceGroups.FirstOrDefault();
+            }
+
+            // if there is no camera source available, we can't proceed.
+            if (_group == null)
+            {
+                return CameraHelperResult.NoFrameSourceGroupAvailable;
+            }
+
             var result = await InitMediaCaptureAsync();
 
             if (_frameSource != null)
@@ -64,16 +92,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
 
                 if (_frameReader == null)
                 {
-                    result.Status = false;
-                    result.Message = "Failed to create Frame Reader";
+                    result = CameraHelperResult.CreateFrameReaderFailed;
                 }
                 else
                 {
-                    MediaFrameReaderStartStatus statusResult = await _frameReader.StartAsync();                    
+                    MediaFrameReaderStartStatus statusResult = await _frameReader.StartAsync();
                     if (statusResult != MediaFrameReaderStartStatus.Success)
                     {
-                        result.Status = false;
-                        result.Message = $"Unable to start Frame Reader Reason: {statusResult}";
+                        result = CameraHelperResult.StartFrameReaderFailed;
                     }
                 }
             }
@@ -83,25 +109,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
 
         private async Task<CameraHelperResult> InitMediaCaptureAsync()
         {
-            CameraHelperResult result = new CameraHelperResult
-            {
-                Status = true
-            };
-
-            if (_group == null)
-            {
-                // try to get the first available camera
-                _group = await FrameSourceGroupsHelper.GetFirstAvailableFrameSourceGroupAsync();
-            }
-
-            // if there is no camera available, we can't proceed.
-            if (_group == null)
-            {
-                result.Message = "No camera source available";
-                result.Status = false;
-                return result;
-            }
-
             if (_mediaCapture == null)
             {
                 _mediaCapture = new MediaCapture();
@@ -110,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
             var settings = new MediaCaptureInitializationSettings()
             {
                 SourceGroup = _group,
-                SharingMode = MediaCaptureSharingMode.ExclusiveControl,
+                SharingMode = MediaCaptureSharingMode.SharedReadOnly,
                 MemoryPreference = MediaCaptureMemoryPreference.Cpu,
                 StreamingCaptureMode = StreamingCaptureMode.Video
             };
@@ -130,20 +137,16 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
 
                 if (_frameSource == null)
                 {
-                    result.Message = "No preview stream available";
-                    result.Status = false;
-                    return result;
+                    return CameraHelperResult.NoFrameSourceAvailable;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                result.Message = "Failed to initialize media capture: " + ex.Message;
-                result.Status = false;
                 await Cleanup();
-                return result;
+                return CameraHelperResult.InitializationFailed_UnknownError;
             }
 
-            return result;
+            return CameraHelperResult.Success;
         }
 
         /// <summary>
@@ -154,8 +157,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         {
             if (_frameReader != null)
             {
-                await _frameReader.StopAsync();
                 _frameReader.FrameArrived -= Reader_FrameArrived;
+                await _frameReader.StopAsync();
                 _frameReader.Dispose();
                 _frameReader = null;
             }
@@ -180,8 +183,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
 
                 var vmf = frame.VideoMediaFrame;
 
-                EventHandler<VideoFrameEventArgs> handler = VideoFrameArrived;
-                var frameArgs = new VideoFrameEventArgs() { VideoFrame = vmf.GetVideoFrame(), SoftwareBitmap = vmf.SoftwareBitmap };
+                EventHandler<FrameEventArgs> handler = FrameArrived;
+                var frameArgs = new FrameEventArgs() { VideoFrame = vmf.GetVideoFrame(), SoftwareBitmap = vmf.SoftwareBitmap };
                 handler?.Invoke(sender, frameArgs);
             }
         }

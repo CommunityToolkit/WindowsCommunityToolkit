@@ -19,18 +19,38 @@ using System.Threading.Tasks;
 namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
 {
     /// <summary>
-    /// Result class used by Camera Helper.
+    /// Enum indicating result of Camera Helper initialization.
     /// </summary>
-    public class CameraHelperResult
+    public enum CameraHelperResult
     {
         /// <summary>
-        /// Gets or sets a value indicating whether camera helper initialization was successful or not
+        /// Initialization is Successful
         /// </summary>
-        public bool Status { get; set; }
+        Success,
 
         /// <summary>
-        /// Gets or sets message indicating information when camera helper initialization is not successful
+        /// Initialization failed, Frame Reader Creation failed
         /// </summary>
-        public string Message { get; set; } = string.Empty;
+        CreateFrameReaderFailed,
+
+        /// <summary>
+        /// Initialization failed, Unable to start Frame Reader
+        /// </summary>
+        StartFrameReaderFailed,
+
+        /// <summary>
+        /// Initialization failed, Frame Source Group is null
+        /// </summary>
+        NoFrameSourceGroupAvailable,
+
+        /// <summary>
+        /// Initialization failed, Frame Source is null
+        /// </summary>
+        NoFrameSourceAvailable,
+
+        /// <summary>
+        /// Initialization failed due to an exception.
+        /// </summary>
+        InitializationFailed_UnknownError
     }
 }

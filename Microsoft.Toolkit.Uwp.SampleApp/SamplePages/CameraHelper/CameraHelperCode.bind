@@ -1,28 +1,21 @@
-﻿// Creates a Camera Helper and gets video frames from an available frame source.
+﻿// Creates a Camera Helper and subscribes to frames from an available frame source.
 using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
 
-var frameSourceGroup = await FrameSourceGroupsHelper.GetFirstAvailableFrameSourceGroupAsync();
-if (frameSourceGroup != null)
-{
   CameraHelper cameraHelper = new CameraHelper();
-  var result = await _cameraHelper.InitializeAndStartCaptureAsync(frameSourceGroup);
+  var result = await _cameraHelper.InitializeAndStartCaptureAsync();
 
   // Camera Initialization and Capture failed for some reason
-  if(result.Status == false)
+  if(result != CameraHelperResult.Success)
   {
-	// log the error
-	var errorMessage = result.Message;
+	// get error information
+	var errorMessage = result.ToString();
   }
 
-  // Subscribe to the video frame as they arrive
-  cameraHelper.VideoFrameArrived += CameraHelper_VideoFrameArrived;
-}
-else
-{
-  // No frame source available.
+  // Subscribe to get frames as they arrive
+  cameraHelper.FrameArrived += CameraHelper_FrameArrived;
 }
 
-private void CameraHelper_VideoFrameArrived(object sender, VideoFrameEventArgs e)
+private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
 {
   // Gets the current video frame
   VideoFrame currentVideoFrame  = e.VideoFrame;

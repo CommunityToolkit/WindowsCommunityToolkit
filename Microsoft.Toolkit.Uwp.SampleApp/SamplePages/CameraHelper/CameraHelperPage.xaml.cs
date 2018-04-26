@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
 using Windows.ApplicationModel;
@@ -46,10 +47,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
             _softwareBitmapSource = new SoftwareBitmapSource();
-            CurrentFrameImage.Source = _softwareBitmapSource;
-            FrameSourceGroupCombo.SelectionChanged += FrameSourceGroupCombo_SelectionChanged;
+            CurrentFrameImage.Source = _softwareBitmapSource;            
 
-            await InitFrameSourcesAsync();
+            await InitializeAsync();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -67,27 +67,30 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void CameraHelper_VideoFrameArrived(object sender, VideoFrameEventArgs e)
+        private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
         {
             _currentVideoFrame = e.VideoFrame;
             _softwareBitmap = e.SoftwareBitmap;
         }
 
-        private async Task InitFrameSourcesAsync()
+        private async Task InitializeAsync()
         {
-            var frameSourceGroups = await FrameSourceGroupsHelper.GetAllAvailableFrameSourceGroupsAsync();
-
-            if (frameSourceGroups?.Count > 0)
+            if (_cameraHelper == null)
             {
-                FrameSourceGroupCombo.ItemsSource = frameSourceGroups;
-            }
-            else
-            {
-                FrameSourceGroupCombo.ItemsSource = new List<object> { new { DisplayName = "No camera sources found." } };
-                CaptureButton.Visibility = Visibility.Collapsed;
+                _cameraHelper = new CameraHelper();
             }
 
-            FrameSourceGroupCombo.SelectedIndex = 0;
+            var result = await _cameraHelper.InitializeAndStartCaptureAsync();
+            if (result == CameraHelperResult.Success)
+            {
+                // Subscribe to the video frame as they arrive
+                _cameraHelper.FrameArrived += CameraHelper_FrameArrived;
+                FrameSourceGroupCombo.ItemsSource = _cameraHelper.FrameSourceGroups;
+                FrameSourceGroupCombo.SelectionChanged += FrameSourceGroupCombo_SelectionChanged;
+                FrameSourceGroupCombo.SelectedIndex = 0;
+            }
+
+            SetUIControls(result);
         }
 
         private async void FrameSourceGroupCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -95,28 +98,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var selectedGroup = FrameSourceGroupCombo.SelectedItem as MediaFrameSourceGroup;
             if (selectedGroup != null)
             {
-                if (_cameraHelper == null)
-                {
-                    _cameraHelper = new CameraHelper();
-
-                    // Subscribe to the video frame as they arrive
-                    _cameraHelper.VideoFrameArrived += CameraHelper_VideoFrameArrived;
-                }
-
                 var result = await _cameraHelper.InitializeAndStartCaptureAsync(selectedGroup);
-
-                if (!result.Status)
-                {
-                    _currentVideoFrame = null;
-                    _softwareBitmap = null;
-                }
-
-                CameraErrorTextBlock.Text = result.Message;
-                CameraErrorTextBlock.Visibility = result.Status ? Visibility.Collapsed : Visibility.Visible;
-
-                CaptureButton.IsEnabled = result.Status;
-                CurrentFrameImage.Opacity = result.Status ? 1 : 0.5;
+                SetUIControls(result);
             }
+        }
+
+        private void SetUIControls(CameraHelperResult result)
+        {
+            var success = result == CameraHelperResult.Success;
+            if (!success)
+            {
+                _currentVideoFrame = null;
+                _softwareBitmap = null;
+            }
+
+            CameraErrorTextBlock.Text = result.ToString();
+            CameraErrorTextBlock.Visibility = success ? Visibility.Collapsed : Visibility.Visible;
+
+            CaptureButton.IsEnabled = success;
+            CurrentFrameImage.Opacity = success ? 1 : 0.5;
         }
 
         private async void CaptureButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -136,10 +136,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void CleanUp()
         {
+            if (FrameSourceGroupCombo != null)
+            {
+                FrameSourceGroupCombo.SelectionChanged -= FrameSourceGroupCombo_SelectionChanged;
+            }
+
             if (_cameraHelper != null)
             {
                _cameraHelper.Dispose();
-            }
+               _cameraHelper = null;
+            }            
         }
     }
 }

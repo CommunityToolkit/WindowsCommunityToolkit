@@ -21,17 +21,18 @@ using Windows.Media;
 namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
 {
     /// <summary>
-    /// EventArgs to be used by <see cref="CameraHelper"/> VideoFrameArrived Event
+    /// EventArgs to be used by <see cref="CameraHelper"/> FrameArrived Event
     /// </summary>
-    public class VideoFrameEventArgs : EventArgs
+    public class FrameEventArgs : EventArgs
     {
         /// <summary>
-        /// Gets or sets Video Frame</summary>
-        public VideoFrame VideoFrame { get; set; }
+        /// Gets Video Frame
+        /// </summary>
+        public VideoFrame VideoFrame { get; internal set; }
 
         /// <summary>
-        /// Gets or sets SoftwareBitmap
+        /// Gets SoftwareBitmap
         /// </summary>
-        public SoftwareBitmap SoftwareBitmap { get; set; }
+        public SoftwareBitmap SoftwareBitmap { get; internal set; }
     }
 }

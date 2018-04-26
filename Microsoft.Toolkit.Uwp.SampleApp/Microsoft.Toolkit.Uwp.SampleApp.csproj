@@ -176,6 +176,7 @@
     <Content Include="Assets\People\vlad.png" />
     <Content Include="Assets\Photos\BigFourSummerHeat.jpg" />
     <Content Include="Assets\Photos\BisonBadlandsChillin.jpg" />
+    <Content Include="Assets\Photos\CameraSource.png" />
     <Content Include="Assets\Photos\ColumbiaRiverGorge.jpg" />
     <Content Include="Assets\Photos\GiantSlabInOregon.jpg" />
     <Content Include="Assets\Photos\GrandTetons.jpg" />
@@ -191,7 +192,6 @@
     <Content Include="Assets\Photos\OregonWineryNamaste.jpg" />
     <Content Include="Assets\Photos\Owl.jpg" />
     <Content Include="Assets\Photos\PaintedHillsPathway.jpg" />
-    <Content Include="Assets\Photos\PreviewUnavailable.png" />
     <Content Include="Assets\Photos\RunningDogPacificCity.jpg" />
     <Content Include="Assets\Photos\ShootingOnAutoOnTheDrone.jpg" />
     <Content Include="Assets\Photos\SmithnRockDownTheRiverView.jpg" />
@@ -293,8 +293,8 @@
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelper.png" />
     <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrush.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
-    <Content Include="SamplePages\CameraPreview\Camera.png" />
-    <Content Include="SamplePages\CameraHelper\Camera.png" />
+    <Content Include="SamplePages\CameraPreview\CameraPreview.png" />
+    <Content Include="SamplePages\CameraHelper\CameraHelper.png" />
     <Content Include="SamplePages\Connected Animations\ConnectedAnimations.png" />
     <Content Include="SamplePages\DispatcherHelper\DispatchHelper.png" />
     <Content Include="SamplePages\DockPanel\DockPanel.png" />
@@ -499,6 +499,7 @@
     <Content Include="SamplePages\PrintHelper\PrintHelperXaml.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\CameraPreview\CameraPreviewXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

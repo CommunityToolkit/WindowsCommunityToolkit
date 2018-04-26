@@ -279,6 +279,7 @@
         "Type": "CameraPreviewPage",
         "About": "Allows to easily preview video from available camera frame source groups and also get realtime video frames/ software bitmaps from the selected source.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/CameraPreview",
+        "XamlCodeFile": "CameraPreviewXaml.bind",
         "CodeFile": "CameraPreviewCode.bind",
         "Icon": "/SamplePages/CameraPreview/CameraPreview.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/CameraPreview.md"

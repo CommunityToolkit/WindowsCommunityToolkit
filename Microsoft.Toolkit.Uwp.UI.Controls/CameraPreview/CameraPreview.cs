@@ -21,6 +21,7 @@ using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -31,10 +32,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private CameraHelper _cameraHelper;
         private MediaPlayer _mediaPlayer;
-        private ComboBox _frameSourceGroupCombo;
         private MediaPlayerElement _mediaPlayerElementControl;
-        private TextBlock _videoPreviewText;
-        private TextBlock _videoPreviewErrorTextBlock;
+        private Button _toggleFrameSourceGroup;
+        private int _selectedSourceIndex = 0;
+
+        /// <summary>
+        /// Gets Frame Source Groups available for Camera Media Capture.
+        /// </summary>
+        public IReadOnlyList<MediaFrameSourceGroup> FrameSourceGroups { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CameraPreview"/> class.
@@ -45,44 +50,58 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Event raised when a new video frame arrives.
+        /// Event raised when a new frame arrives.
         /// </summary>
-        public event EventHandler<VideoFrame> VideoFrameArrived;
+        public event EventHandler<FrameEventArgs> FrameArrived;
 
         /// <summary>
-        /// Event raised when a new software bitmap arrives.
+        /// Gets or sets icon for Frame Source Group Button
         /// </summary>
-        public event EventHandler<SoftwareBitmap> SoftwareBitmapArrived;
+        public ImageSource FrameSourceGroupButtonIcon
+        {
+            get { return (ImageSource)GetValue(FrameSourceGroupButtonIconProperty); }
+            set { SetValue(FrameSourceGroupButtonIconProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for FrameSourceGroupButtonIcon.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty FrameSourceGroupButtonIconProperty =
+            DependencyProperty.Register("FrameSourceGroupButtonIcon", typeof(ImageSource), typeof(CameraPreview), new PropertyMetadata(null));
 
         protected async override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
-            this.Unloaded += CameraPreview_Unloaded;
+            if (_toggleFrameSourceGroup != null)
+            {
+                _toggleFrameSourceGroup.Click -= ToggleFrameSourceGroup_ClickAsync;
+            }
 
-            _frameSourceGroupCombo = (ComboBox)this.GetTemplateChild("FrameSourceGroupCombo");
-            _mediaPlayerElementControl = (MediaPlayerElement)this.GetTemplateChild("MediaPlayerElementControl");          
-            _videoPreviewText = (TextBlock)this.GetTemplateChild("VideoPreviewTextBlock");
-            _videoPreviewErrorTextBlock = (TextBlock)this.GetTemplateChild("VideoPreviewErrorTextBlock");
+            _mediaPlayerElementControl = (MediaPlayerElement)GetTemplateChild("MediaPlayerElementControl");
+            _toggleFrameSourceGroup = (Button)GetTemplateChild("FrameSourceGroupButton");
 
-            _frameSourceGroupCombo.SelectionChanged += FrameSourceGroupCombo_SelectionChanged;
+            if (_toggleFrameSourceGroup != null)
+            {
+                _toggleFrameSourceGroup.Click += ToggleFrameSourceGroup_ClickAsync;
+            }
 
-            await InitFrameSourcesAsync();
+            await InitializeAsync();
         }
 
-        private async Task InitFrameSourcesAsync()
+        private async Task InitializeAsync()
         {
-            var frameSourceGroups = await FrameSourceGroupsHelper.GetAllAvailableFrameSourceGroupsAsync();
+            if (_cameraHelper == null)
+            {
+                _cameraHelper = new CameraHelper();
+                var result = await _cameraHelper.InitializeAndStartCaptureAsync();
+                if (result == CameraHelperResult.Success)
+                {
+                    // Subscribe to the frames as they arrive
+                    _cameraHelper.FrameArrived += CameraHelper_FrameArrived;
+                    FrameSourceGroups = _cameraHelper.FrameSourceGroups;
+                }
 
-            if (frameSourceGroups?.Count > 0)
-            {
-                _frameSourceGroupCombo.ItemsSource = frameSourceGroups;
+                SetUIControls(result);
             }
-            else
-            {
-                _frameSourceGroupCombo.ItemsSource = new List<object> { new { DisplayName = "No camera sources found." } };
-            }
-            _frameSourceGroupCombo.SelectedIndex = 0;
         }
 
         private void SetMediaPlayerSource()
@@ -104,48 +123,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void CameraHelper_VideoFrameArrived(object sender, VideoFrameEventArgs e)
+        private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
         {
-            EventHandler<VideoFrame> vfHandler = VideoFrameArrived;
-            vfHandler?.Invoke(sender, e.VideoFrame);
-
-            EventHandler<SoftwareBitmap> sbHandler = SoftwareBitmapArrived;
-            sbHandler?.Invoke(sender, e.SoftwareBitmap);
+            EventHandler<FrameEventArgs> handler = FrameArrived;
+            handler?.Invoke(sender, e);
         }
 
-        private async void FrameSourceGroupCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void ToggleFrameSourceGroup_ClickAsync(object sender, RoutedEventArgs e)
         {
-            var selectedGroup = _frameSourceGroupCombo.SelectedItem as MediaFrameSourceGroup;
-            if (selectedGroup != null)
+            _selectedSourceIndex = _selectedSourceIndex < FrameSourceGroups.Count ? ++_selectedSourceIndex : 0;
+            var group = FrameSourceGroups[_selectedSourceIndex];
+            var result = await _cameraHelper.InitializeAndStartCaptureAsync(group);
+            SetUIControls(result);
+        }
+
+        private void SetUIControls(CameraHelperResult result)
+        {
+            var success = result == CameraHelperResult.Success;
+            if (success)
             {
-                if (_cameraHelper == null)
-                {
-                    _cameraHelper = new CameraHelper();
-
-                    // Subscribe to the video frame as they arrive
-                    _cameraHelper.VideoFrameArrived += CameraHelper_VideoFrameArrived;
-                }
-
-                var result = await _cameraHelper.InitializeAndStartCaptureAsync(selectedGroup);
-
-                if (result.Status)
-                {
-                    SetMediaPlayerSource();
-                }
-                else
-                {
-                    _mediaPlayerElementControl.SetMediaPlayer(null);
-                }
-
-                _videoPreviewErrorTextBlock.Text = result.Message;
-                _videoPreviewErrorTextBlock.Visibility = result.Status ? Visibility.Collapsed : Visibility.Visible;
-                _videoPreviewText.Visibility = !result.Status ? Visibility.Collapsed : Visibility.Visible;
+                SetMediaPlayerSource();
             }
-        }
+            else
+            {
+                _mediaPlayer.Dispose();
+                _mediaPlayer = null;
+                _mediaPlayerElementControl.SetMediaPlayer(null);
+            }
 
-        private void CameraPreview_Unloaded(object sender, RoutedEventArgs e)
-        {
-            Dispose();
+            _toggleFrameSourceGroup.IsEnabled = success;
         }
 
         /// <summary>
@@ -155,7 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_cameraHelper != null)
             {
-                _cameraHelper.VideoFrameArrived -= CameraHelper_VideoFrameArrived;
+                _cameraHelper.FrameArrived -= CameraHelper_FrameArrived;
                 _cameraHelper.Dispose();
                 _cameraHelper = null;
             }
@@ -165,7 +171,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _mediaPlayer.Dispose();
                 _mediaPlayer = null;
             }
-
         }
     }
 }

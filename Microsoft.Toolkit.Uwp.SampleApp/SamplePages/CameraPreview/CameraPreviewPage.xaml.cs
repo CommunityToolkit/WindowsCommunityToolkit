@@ -11,6 +11,9 @@
 // ******************************************************************
 
 using System;
+using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
 using Windows.Media;
@@ -24,26 +27,39 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// CameraPreviewPage
     /// </summary>
-    public sealed partial class CameraPreviewPage : Page
+    public sealed partial class CameraPreviewPage : Page, IXamlRenderListener
     {
         private VideoFrame _currentVideoFrame;
         private SoftwareBitmap _softwareBitmap;
         private SoftwareBitmapSource _softwareBitmapSource;
+        private CameraPreview _cameraPreviewControl;
+        private Image _imageControl;
 
         public CameraPreviewPage()
         {
             this.InitializeComponent();
         }
 
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            _cameraPreviewControl = control.FindDescendantByName("CameraPreviewControl") as CameraPreview;
+            if (_cameraPreviewControl != null)
+            {
+                _cameraPreviewControl.FrameArrived += CameraPreviewControl_FrameArrived;
+            }
+
+            _imageControl = control.FindDescendantByName("CurrentFrameImage") as Image;
+            if (_imageControl != null)
+            {
+                _softwareBitmapSource = new SoftwareBitmapSource();
+                _imageControl.Source = _softwareBitmapSource;                
+            }
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
             Shell.Current.RegisterNewCommand("Capture Current Frame", CaptureButton_Click);
-
-            _softwareBitmapSource = new SoftwareBitmapSource();
-            CurrentFrameImage.Source = _softwareBitmapSource;
-
             Application.Current.Suspending += Application_Suspending;
         }
 
@@ -62,14 +78,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void CameraPreviewControl_SoftwareBitmapArrived(object sender, SoftwareBitmap e)
+        private void CameraPreviewControl_FrameArrived(object sender, FrameEventArgs e)
         {
-            _softwareBitmap = e;
-        }
-
-        private void CameraPreviewControl_VideoFrameArrived(object sender, VideoFrame e)
-        {
-            _currentVideoFrame = e;
+            _currentVideoFrame = e.VideoFrame;
+            _softwareBitmap = e.SoftwareBitmap;
         }
 
         private async void CaptureButton_Click(object sender, RoutedEventArgs e)
@@ -89,9 +101,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void CleanUp()
         {
-            CameraPreviewControl.SoftwareBitmapArrived -= CameraPreviewControl_SoftwareBitmapArrived;
-            CameraPreviewControl.VideoFrameArrived -= CameraPreviewControl_VideoFrameArrived;
-            CameraPreviewControl.Dispose();
+            if (_cameraPreviewControl != null)
+            {
+                _cameraPreviewControl.FrameArrived -= CameraPreviewControl_FrameArrived;
+                _cameraPreviewControl.Dispose();
+            }
         }
     }
 }

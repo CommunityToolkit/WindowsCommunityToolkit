@@ -6,12 +6,5 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">    
-    <StackPanel Orientation="Vertical" Margin="20">
-        <controls:CameraPreview x:Name="CameraPreviewControl" 
-                                     VideoFrameArrived="CameraPreviewControl_VideoFrameArrived"
-                                     SoftwareBitmapArrived="CameraPreviewControl_SoftwareBitmapArrived"></controls:CameraPreview>
-        <TextBlock x:Name="ImageHeader" Text="Image" ></TextBlock>
-        <Image x:Name="CurrentFrameImage" MinWidth="300" Width="400" HorizontalAlignment="Left"></Image>
-    </StackPanel>
+    mc:Ignorable="d">
 </Page>
