@@ -23,28 +23,19 @@ Unless specified otherwise in this article, the documentation for the [WebViewCo
 
 ## Prerequisites
 
-:heavy_check_mark: UWP Community Toolkit (version TBD).
+:heavy_check_mark: UWP Community Toolkit version 3.0.0.
 
 :heavy_check_mark: Visual Studio 2017.
 
+:heavy_check_mark: Windows 10 Insider Preview Build 17110 or a later release.
+
 :heavy_check_mark: .NET Framework 4.7 or a later release.
 
-:heavy_check_mark: Windows 10 Insider Preview Build 17110 or a later release.
+:heavy_check_mark: When using WebView in a Windows Forms project, you must [configure your Windows Forms app for high DPI support](https://docs.microsoft.com/en-us/dotnet/framework/winforms/high-dpi-support-in-windows-forms).
 
 ## Feature limitations
 
-When compared to the UWP **WebView** control, the **WebView** controls for WPF and Windows Forms have these limitations:
-
-:no_entry: Navigating from or saving to streams.
-
-:no_entry: Navigating to relative URIs or resources within your application.
-
-:no_entry: Navigating to files on disk.
-
-:no_entry: These Microsoft Edge features: Service workers and Push Messages.
-
-> [!IMPORTANT]
-When using WebView in a Windows Forms project, you must use .NET Framework 4.7 and [configure your Windows Forms app for high DPI support](https://docs.microsoft.com/en-us/dotnet/framework/winforms/high-dpi-support-in-windows-forms).
+When compared to the UWP **WebView** control, the current release of the WPF and Windows Forms **WebView** control has some limitations. For the complete list of these limitations, see [Known Issues of the WebView control for Windows Forms and WPF applications](controls/WebView-known.issues.md).
 
 ## Add the WebView control to the Visual Studio Toolbox
 
@@ -56,7 +47,7 @@ First, open the Visual Studio **Toolbox**, then right-click anywhere in the tool
 
 1. In the **.NET Framework Components** tab of the **Choose Toolbox Items** dialog box.
 
-2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** on your local drive.
+2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** in your solution.
 
 3. Add that file to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
 
@@ -68,13 +59,15 @@ First, open the Visual Studio **Toolbox**, then right-click anywhere in the tool
 
 1. In the **WPF Components** tab of the **Choose Toolbox Items** dialog box.
 
-2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** on your local drive.
+2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** in your solution.
 
 3. Add that file to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
 
    The **WebView** control appears in the **Common XAML Controls** section of the **Toolbox**.
 
    In **Solution Explorer**, the **Microsoft.Toolkit.Win32.UI.Controls.dll** file appears in the **References** list.
+
+After the **WebView** control appears in the Visual Studio Toolbox, you can drag it directly the designer. You can also create an instance of the **WebView** control in code, but we recommend that you do not add **WebView** controls to popup windows because support for that scenario will soon be disabled for security reasons.
 
 ## Modify the appearance of a WebView
 
