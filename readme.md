@@ -43,7 +43,7 @@ Once you search you should see a list similar to the one below (versions may be 
 ## <a name="supported"></a> Supported SDKs
 * Creators Update (15063)
 * Fall Creators Update (16299)
-* 1803 (17133)
+* 1803 (17134)
 
 ## Features
 
