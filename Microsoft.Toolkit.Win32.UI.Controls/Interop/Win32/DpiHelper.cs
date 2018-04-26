@@ -122,8 +122,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
         public static bool SetPerMonitorDpiAwareness()
         {
             // Only works if we're on RS2 or later and have ComCtl v6
-            if (OSVersionHelper.IsWindows10
-                && OSVersionHelper.Windows10Release >= Windows10Release.Creators)
+            if (OSVersionHelper.IsWindows10CreatorsOrGreater)
             {
                 const int rs2AndAboveDpiFlag = NativeMethods.DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2;
                 return NativeMethods.SetProcessDpiAwarenessContext(rs2AndAboveDpiFlag);
@@ -136,8 +135,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
         {
             if (!_isInitialized)
             {
-                if (OSVersionHelper.IsWindows10
-                    && OSVersionHelper.Windows10Release >= Windows10Release.Anniversary)
+                if (OSVersionHelper.IsWindows10AnniversaryOrGreater)
                 {
                     // Primary screen DPI might be 96, but other screens may not be
                     _enableDpiChangedMessageHandling = true;

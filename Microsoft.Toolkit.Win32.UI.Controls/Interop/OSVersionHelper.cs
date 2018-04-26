@@ -66,9 +66,34 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
         internal static bool IsWindows10 { get; } = IsWindowsNt && IsSince(WindowsVersions.Win10);
 
         /// <summary>
-        /// Gets a value indicating whether the current OS is Windows 10 April 2018 Update or greater
+        /// Gets a value indicating whether the current OS is Windows 10 April 2018 Update (Redstone 4) or greater
         /// </summary>
         internal static bool IsWindows10April2018OrGreater => IsWindows10 && Windows10Release >= Windows10Release.April2018;
+
+        /// <summary>
+        /// Gets a value indicating whether the current OS is Windows 10 Fall Creators Update (Redstone 3) or greater
+        /// </summary>
+        internal static bool IsWindows10FallCreatorsOrGreater => IsWindows10 && Windows10Release >= Windows10Release.FallCreators;
+
+        /// <summary>
+        /// Gets a value indicating whether the current OS is Windows 10 Creators Update (Redstone 2) or greater
+        /// </summary>
+        internal static bool IsWindows10CreatorsOrGreater => IsWindows10 && Windows10Release >= Windows10Release.Creators;
+
+        /// <summary>
+        /// Gets a value indicating whether the current OS is Windows 10 Anniversary Update (Redstone 1) or greater
+        /// </summary>
+        internal static bool IsWindows10AnniversaryOrGreater => IsWindows10 && Windows10Release >= Windows10Release.Anniversary;
+
+        /// <summary>
+        /// Gets a value indicating whether the current OS is Windows 10 Threshold 2 or greater
+        /// </summary>
+        internal static bool IsWindows10Threshold2OrGreater => IsWindows10 && Windows10Release >= Windows10Release.Threshold2;
+
+        /// <summary>
+        /// Gets a value indicating whether the current OS is Windows 10 Threshold 1 or greater
+        /// </summary>
+        internal static bool IsWindows10Threshold1OrGreater => IsWindows10 && Windows10Release >= Windows10Release.Threshold1;
 
         internal static bool IsWorkstation { get; } = !IsServer();
 
