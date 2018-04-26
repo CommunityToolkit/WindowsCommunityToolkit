@@ -10,30 +10,21 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
+using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Services.Core
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// StringValue attribute.
+    /// A page that shows how to use the LayoutTransformControl control.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field)]
-    [Obsolete("This class is being deprecated. Please use the counterpart in Microsoft.Toolkit.Parsers.Core.")]
-    public sealed class StringValueAttribute : Attribute
+    public sealed partial class LayoutTransformControlPage : Page
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="StringValueAttribute"/> class.
-        /// Constructor accepting string value.
+        /// Initializes a new instance of the <see cref="LayoutTransformControlPage"/> class.
         /// </summary>
-        /// <param name="value">String value</param>
-        public StringValueAttribute(string value)
+        public LayoutTransformControlPage()
         {
-            Value = value;
+            InitializeComponent();
         }
-
-        /// <summary>
-        /// Gets property for string value.
-        /// </summary>
-        public string Value { get; }
     }
 }

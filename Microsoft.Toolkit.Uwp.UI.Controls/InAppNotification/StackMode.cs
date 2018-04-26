@@ -10,18 +10,26 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-
-namespace Microsoft.Toolkit.Uwp.Services.Core
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Generic interface that all deployed service providers implement.
+    /// The Stack mode of an in-app notification.
     /// </summary>
-    /// <typeparam name="T">Reference to underlying data service provider.</typeparam>
-    /// <typeparam name="U">Strongly-typed schema for data returned in list query.</typeparam>
-    /// <typeparam name="V">Configuration type specifying query parameters.</typeparam>
-    [Obsolete("This interface is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public interface IDataService<T, U, V> : Toolkit.Services.Core.IDataService<T, U, V>
+    public enum StackMode
     {
+        /// <summary>
+        /// Each notification will replace the previous one
+        /// </summary>
+        Replace,
+
+        /// <summary>
+        /// Opening a notification will display it immediately, remaining notifications will appear when a notification is dismissed
+        /// </summary>
+        StackInFront,
+
+        /// <summary>
+        /// Dismissing a notification will show the next one in the queue
+        /// </summary>
+        QueueBehind
     }
 }
