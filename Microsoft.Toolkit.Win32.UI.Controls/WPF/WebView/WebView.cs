@@ -52,6 +52,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// </summary>
     /// <seealso cref="WebViewHost" />
     /// <seealso cref="IWebView" />
+    [ToolboxItem(true)]
+    [DesignTimeVisible(true)]
     public sealed class WebView : WebViewHost, IWebView
     {
         private static readonly Hashtable InvalidatorMap = new Hashtable();
