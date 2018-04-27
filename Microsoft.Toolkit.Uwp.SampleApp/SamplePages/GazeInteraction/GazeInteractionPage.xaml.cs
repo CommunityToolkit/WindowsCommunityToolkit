@@ -34,7 +34,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         }
 
         public void OnXamlRendered(FrameworkElement control)
-        {
+        {                       
+            GazeInput.IsDeviceAvailableChanged += GazeInput_IsDeviceAvailableChanged;
+
+            WarnUserToPlugInDevice();
+
             var buttonControl = control.FindChildByName("TargetButton") as Button;
 
             if (buttonControl != null)
@@ -51,8 +55,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     gazeButtonControl.DwellProgressFeedback += OnProgressFeedback;
                     gazeButtonControl.Invoked += OnGazeInvoked;
-                    gazeButtonControl.StateChanged += GazeButtonControl_StateChanged;
+                    gazeButtonControl.StateChanged += GazeButtonControl_StateChanged;                    
                 }
+            }
+        }
+
+        private void GazeInput_IsDeviceAvailableChanged(object sender, object e)
+        {
+            WarnUserToPlugInDevice();   
+        }
+
+        private void WarnUserToPlugInDevice()
+        {
+            if (GazeInput.IsDeviceAvailable)
+            {
+                WarningText.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                WarningText.Visibility = Visibility.Visible;                
             }
         }
 
