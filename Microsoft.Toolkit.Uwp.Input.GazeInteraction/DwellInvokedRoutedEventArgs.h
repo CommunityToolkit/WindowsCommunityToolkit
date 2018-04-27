@@ -6,14 +6,15 @@
 BEGIN_NAMESPACE_GAZE_INPUT
 
 /// <summary>
-/// TODO: harishsk
+/// This parameter is passed to the GazeElement::Invoked event and allows 
+/// the application to prevent default invocation when the user dwells on a control
 /// </summary>
 public ref class DwellInvokedRoutedEventArgs : public RoutedEventArgs
 {
 public:
 
     /// <summary>
-    /// TODO: harishsk
+    /// The application should set this value to true to prevent invoking the control when the user dwells on a control
     /// </summary>
     property bool Handled;
 

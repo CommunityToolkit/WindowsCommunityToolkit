@@ -8,7 +8,7 @@ BEGIN_NAMESPACE_GAZE_INPUT
 using namespace Windows::Foundation::Collections;
 
 /// <summary>
-/// TODO: harishsk
+/// A helper class to read a ValueSet and retrieve relevant settings
 /// </summary>
 public ref class GazeSettingsHelper sealed
 {

@@ -9,17 +9,18 @@ using namespace Windows::Foundation::Collections;
 BEGIN_NAMESPACE_GAZE_INPUT
 
 /// <summary>
-/// TODO: harishsk
+/// This struct encapsulates the location and timestamp associated with the user's gaze 
+/// and is used as an input and output parameter for the IGazeFilter::Update method
 /// </summary>
 public ref struct GazeFilterArgs sealed
 {
     /// <summary>
-    /// TODO: harishsk
+    /// The current point in the gaze stream
     /// </summary>
     property Point Location {Point get() { return _location; }}
 
     /// <summary>
-    /// TODO: harishsk
+    /// The timestamp associated with the current point
     /// </summary>
     property TimeSpan Timestamp {TimeSpan get() { return _timestamp; }}
 

@@ -6,23 +6,23 @@
 BEGIN_NAMESPACE_GAZE_INPUT
 
 /// <summary>
-/// TODO: harishsk
+/// This enum indicates the current state of gaze interaction. 
 /// </summary>
 public enum class Interaction
 {
 
     /// <summary>
-    /// TODO: harishsk
+    /// The state of gaze interaction is inherited from the nearest parent
     /// </summary>
     Inherited,
 
     /// <summary>
-    /// TODO: harishsk
+    /// Gaze interaction is enabled
     /// </summary>
     Enabled,
 
     /// <summary>
-    /// TODO: harishsk
+    /// Gaze interaction is disabled
     /// </summary>
     Disabled
 };

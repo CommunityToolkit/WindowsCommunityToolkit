@@ -20,17 +20,17 @@ public ref class GazeElement sealed : public DependencyObject
 public:
 
     /// <summary>
-    /// TODO: harishsk
+    /// This event is fired when the state of the user's gaze on a control has changed
     /// </summary>
     event EventHandler<StateChangedEventArgs^>^ StateChanged;
 
     /// <summary>
-    /// TODO: harishsk
+    /// This event is fired when the user completed dwelling on a control and the control is about to be invoked by default. This event is fired to give the application an opportunity to prevent default invocation
     /// </summary>
     event EventHandler<DwellInvokedRoutedEventArgs^>^ Invoked;
 
     /// <summary>
-    /// TODO: harishsk
+    /// This event is fired to inform the application of the progress towards dwell
     /// </summary>
     event EventHandler<DwellProgressEventArgs^>^ DwellProgressFeedback;
 

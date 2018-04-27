@@ -10,22 +10,17 @@ using namespace Windows::UI::Xaml;
 BEGIN_NAMESPACE_GAZE_INPUT
 
 /// <summary>
-/// TODO: harishsk
+/// This parameter is passed to the StateChanged event.
 /// </summary>
 public ref struct StateChangedEventArgs sealed
 {
     /// <summary>
-    /// TODO: harishsk
-    /// </summary>
-    property UIElement^ HitTarget {UIElement^ get() { return _hitTarget; }}
-
-    /// <summary>
-    /// TODO: harishsk
+    /// The state of user's gaze with respect to a control
     /// </summary>
     property GazeInteraction::PointerState PointerState {GazeInteraction::PointerState get() { return _pointerState; }}
 
     /// <summary>
-    /// TODO: harishsk
+    /// Elapsed time since the last state
     /// </summary>
     property TimeSpan ElapsedTime {TimeSpan get() { return _elapsedTime; }}
 

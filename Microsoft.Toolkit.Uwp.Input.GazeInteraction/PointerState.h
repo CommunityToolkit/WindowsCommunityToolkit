@@ -6,12 +6,12 @@
 BEGIN_NAMESPACE_GAZE_INPUT
 
 /// <summary>
-/// TODO: harishsk
+/// This enum reflects the states that a user's gaze through while interacting with a control using their eyes.
 /// </summary>
 public enum class PointerState
 {
     /// <summary>
-    /// TODO: harishsk
+    /// User's gaze is no longer on the control
     /// </summary>
     Exit,
 
@@ -20,27 +20,27 @@ public enum class PointerState
     // immediate successors. 
 
     /// <summary>
-    /// TODO: harishsk
+    /// For internal use only
     /// </summary>
     PreEnter,
 
     /// <summary>
-    /// TODO: harishsk
+    /// User's gaze has entered a control
     /// </summary>
     Enter,
 
     /// <summary>
-    /// TODO: harishsk
+    /// User eye's are focused on the control
     /// </summary>
     Fixation,
 
     /// <summary>
-    /// TODO: harishsk
+    /// User is conciously dwelling on the control with an intent to invoke, e.g. click a button
     /// </summary>
     Dwell,
 
     /// <summary>
-    /// TODO: harishsk
+    /// User is continuing to dwell on the control for repeated invocation. (For internal use only)
     /// </summary>
     DwellRepeat
 };

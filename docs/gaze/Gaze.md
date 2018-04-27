@@ -84,6 +84,7 @@ Whether the page is enabled for the gaze based interaction, the visibility and s
 
 
 ## StateChangedEventArgs properties
+This parameter is passed to the `StateChanged` event which is fired when the `PointerState` changes.
 
 | Property | Type | Description |
 | -- | -- | -- |
@@ -93,7 +94,7 @@ Whether the page is enabled for the gaze based interaction, the visibility and s
 
 ## DwellProgressEventArgs properties
 
-This parameter is sent toi an event handling the DwellProgressFeedback event. 
+This parameter is sent toi an event handling the `DwellProgressFeedback` event. 
 
 | Property | Type | Description |
 | -- | -- | -- |
@@ -104,6 +105,7 @@ This parameter is sent toi an event handling the DwellProgressFeedback event.
 
 
 ## DwellInvokedRoutedEventArgs properties
+This parameter is passed to the GazeElement::Invoked event and allows  the application to prevent default invocation when the user dwells on a control
 | Property | Type | Description |
 | -- | -- | -- |
 | Handled | bool | This parameter is passed to the `GazeElement.Invoked` event. If set to `true` the library will suppress invoking the control on a dwell event|
