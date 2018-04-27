@@ -275,6 +275,15 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/StaggeredPanel.md"
       },
       {
+        "Name": "LayoutTransformControl",
+        "Type": "LayoutTransformControlPage",
+        "About": "Control that implements support for transformations as if applied by LayoutTransform.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/LayoutTransformControl",
+        "XamlCodeFile": "LayoutTransformControlXaml.bind",
+        "Icon": "/SamplePages/LayoutTransformControl/LayoutTransformControl.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/LayoutTransformControl.md"
+      },
+      {
         "Name": "CameraPreview",
         "Type": "CameraPreviewPage",
         "About": "Allows to easily preview video from available camera frame source groups and also get realtime video frames/ software bitmaps from the selected source.",

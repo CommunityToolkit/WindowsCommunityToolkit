@@ -66,6 +66,17 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <returns>Returns success or failure of login attempt.</returns>
         public override async Task<bool> LoginAsync()
         {
+            return await LoginAsync(string.Empty);
+        }
+
+        /// <summary>
+        /// Login the user from Azure AD and Get Microsoft Graph access token.
+        /// </summary>
+        /// <remarks>Need Sign in and read user profile scopes (User.Read)</remarks>
+        /// <param name="loginHint">UPN for user - avoids realm discovery prompt</param>
+        /// <returns>Returns success or failure of login attempt.</returns>
+        public async Task<bool> LoginAsync(string loginHint)
+        {
             IsConnected = false;
             if (!IsInitialized)
             {
@@ -80,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             }
             else
             {
-                accessToken = await Authentication.GetUserTokenV2Async(AppClientId);
+                accessToken = await Authentication.GetUserTokenV2Async(AppClientId, loginHint);
             }
 
             if (string.IsNullOrEmpty(accessToken))
