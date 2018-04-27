@@ -13,10 +13,10 @@ GazeCursor::GazeCursor()
     _isCursorVisible = DEFAULT_CURSOR_VISIBILITY;
 
     _gazePopup = ref new Popup();
-	_gazePopup->IsHitTestVisible = false;
+    _gazePopup->IsHitTestVisible = false;
 
     _gazeCanvas = ref new Canvas();
-	_gazeCanvas->IsHitTestVisible = false;
+    _gazeCanvas->IsHitTestVisible = false;
 
     _gazeCursor = ref new Shapes::Ellipse();
     _gazeCursor->Fill = ref new SolidColorBrush(Colors::IndianRed);
@@ -24,7 +24,7 @@ GazeCursor::GazeCursor()
     _gazeCursor->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Left;
     _gazeCursor->Width = 2 * CursorRadius;
     _gazeCursor->Height = 2 * CursorRadius;
-	_gazeCursor->IsHitTestVisible = false;
+    _gazeCursor->IsHitTestVisible = false;
 
     _origSignalCursor = ref new Shapes::Ellipse();
     _origSignalCursor->Fill = ref new SolidColorBrush(Colors::Green);
@@ -32,7 +32,7 @@ GazeCursor::GazeCursor()
     _origSignalCursor->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Left;
     _origSignalCursor->Width = 2 * CursorRadius;
     _origSignalCursor->Height = 2 * CursorRadius;
-	_origSignalCursor->IsHitTestVisible = false;
+    _origSignalCursor->IsHitTestVisible = false;
 
     _gazeRect = ref new Shapes::Rectangle();
     _gazeRect->IsHitTestVisible = false;

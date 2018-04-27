@@ -43,12 +43,12 @@ internal:
         Invoked(sender, args);
     }
 
-	bool RaiseProgressFeedback(Object^ sender, DwellProgressState state, TimeSpan elapsedTime, TimeSpan triggerTime)
-	{
-		auto args = ref new DwellProgressEventArgs(state, elapsedTime, triggerTime);
-		DwellProgressFeedback(sender, args);
-		return args->Handled;
-	}
+    bool RaiseProgressFeedback(Object^ sender, DwellProgressState state, TimeSpan elapsedTime, TimeSpan triggerTime)
+    {
+        auto args = ref new DwellProgressEventArgs(state, elapsedTime, triggerTime);
+        DwellProgressFeedback(sender, args);
+        return args->Handled;
+    }
 };
 
 END_NAMESPACE_GAZE_INPUT
