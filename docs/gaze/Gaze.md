@@ -9,7 +9,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, gaze
 
 Microsoft announced native support of eye trackers in [Windows 10 Fall Creators Update](https://blogs.msdn.microsoft.com/accessibility/2017/08/01/from-hack-to-product-microsoft-empowers-people-with-eye-control-for-windows-10/). In RS4, Microsoft added developer support by announcing an [eye gaze API](https://docs.microsoft.com/en-us/uwp/api/windows.devices.input.preview) to build UWP applications that can interact with eye gaze and eye trackers. .
 
-The GazeInteraction library is built on top of that API and provides developers helper classes to easily enable UWP applications to respond to eye gaze. The library abstracts away the complexity of dealing with raw gaze samples coming from the low level Windows API for eye-trackers.
+The GazeInteraction library is built on top of that API and provides developers classes to easily enable UWP applications to respond to eye gaze. The library abstracts away the complexity of dealing with raw gaze samples coming from the low level Windows API for eye-trackers.
 
 
 ## Prerequisites
@@ -37,15 +37,15 @@ The GazeInteraction library currently supports the following features:
 A few eye gaze related concepts are useful to explain in order to better understand the rest of the document:
 
 * **Saccade.** A saccade is movement of the eyes from one fixation point to another. Our eyes alternate between fixations and saccades.
-* **Fixation.**  Fixation is the maintaining of gaze on a single location for a relatively short amount of time (roughly around 200ms). This happens after a saccadic motion when the eye rests upon an object and it comes into sharp focus.
+* **Fixation.**  Fixation is the maintaining of gaze on a single location for a relatively short amount of time (roughly around 200ms). This happens after a saccade when the eye comes to rest upon an object and it comes into sharp focus.
 * **Dwell.** This is concious fixation by the user for a duration greater than the fixation time. This  mechanism is typically used to identify user intent when the user is using only their eyes as an input method. This time duration is application dependent.
 * **Enter/Exit.** These are states and properties specific to this API to help manage gaze related interaction and refer to the time elapsed since the first recorded gaze sample and the last recorded gaze sample on a particular control (Button, ToggleButton etc.)
 
-The GazeApi library enables dwell based gaze interaction on the page by reading the data from the eye tracker over the page invoking specific controls when the user's gaze dwells on a control for a specific time. The application can configure this time based on its usage scenario.
+The GazeInteraction library enables dwell based gaze interaction on the page by reading the data from the eye tracker over the page invoking specific controls when the user's gaze dwells on a control for a specific time. The application can configure this time based on its usage scenario.
 
 ## <a name="pointerstate">PointerState</a>
 
-The low level gaze API delivers a stream of timestamped `[x,y]` coordinates for the user's gaze location on the screen. The gaze interaction library aggregates these samples over each control and converts the stream into gaze events. Corresponding to these events, are the following states:
+The low level gaze API delivers a stream of timestamped coordinates for the user's gaze location on the screen. The gaze interaction library aggregates these samples over each control and converts the stream into gaze events. Corresponding to these events, are the following states:
 
 | Property | Type | Description |
 | -- | -- | -- |
@@ -65,8 +65,8 @@ Whether the page is enabled for the gaze based interaction, the visibility and s
 | Interaction | enum | Gets or sets the status of gaze interaction over that particular XAML element.  There are three options: <br /> <ul> <li>**Enabled.**  Gaze interaction is enabled on this element and all its children </li> <li> **Disabled** Gaze interaction is disabled on this element and all its children <li> **Inherited** Gaze interaction status is inherited from the nearest ancestor </ul>| 
 | CursorVisible | bool | The gaze cursor shows where the user is looking at on the screen. This boolean property shows the gaze cursor when set to `true` and hides it when set to `false` |
 |CursorRadius|int|Gets or sets the size of the gaze cursor radius|
-| ThresholdDuration | TimeSpan | This duration controls when the PointerState moves to either the `Enter` state or the `Exit` state. When this duration has elapsed after the user's gaze first enters a control, the `PointerState` is set to `Enter`. And when this duration has elapsed after the user's gaze has left the control, the `PointerState` is set to `Exit`. In both cases, a `StateChanged` event is fired with the `PointerState` set to the corresponding value. The default is 50ms. |
-| FixationDuration | TimeSpan | Gets or sets the duration for the control to transition from the `Enter` state to the `Fixation` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `Fixation`. This event should be used to control the earliest visual feedback the application needs to provide to the user about the gaze location. The default is 400ms. **CHECK**|
+| ThresholdDuration | TimeSpan | This duration controls when the PointerState moves to either the `Enter` state or the `Exit` state. When this duration has elapsed after the user's gaze first enters a control, the `PointerState` is set to `Enter`. And when this duration has elapsed after the user's gaze has left the control, the `PointerState` is set to `Exit`. In both cases, a `StateChanged` event is fired. The default is 50ms. |
+| FixationDuration | TimeSpan | Gets or sets the duration for the control to transition from the `Enter` state to the `Fixation` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `Fixation`. This event should be used to control the earliest visual feedback the application needs to provide to the user about the gaze location. The default is 350ms. |
 | DwellDuration | TimeSpan | Gets or sets the duration for the control to transition from the `Fixation` state to the `Dwell` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `Dwell`. The `Enter` and `Fixation` states are typicaly achieved too rapidly for the user to have much control over. In contrast `Dwell` is conscious event. This is the point at which the control is invoked, e.g. a button click. The application can modify this property to control when a gaze enabled UI element gets invoked after a user starts looking at it.
 | MaxDwellRepeatCount | int | The maximum times the control will invoked repeatedly without the user's gaze having to leave and re-enter the control. The default value is zero which disables repeated invocation of a control. Developers can set a higher value to enable repeated invocation. |
 | DwellRepeatDuration | TimeSpan | Gets or sets the duration of repeated dwell invocations, should the user continue to dwell on the control. The first repeat will occur after an additional delay specified by `RepeatDelayDuration`. Subsequent repeats happen after every period of `DwellRepeatDuration`. _A control is invoked repeatedly only if MaxDwellRepeatCount is set to greater than zero_. |
