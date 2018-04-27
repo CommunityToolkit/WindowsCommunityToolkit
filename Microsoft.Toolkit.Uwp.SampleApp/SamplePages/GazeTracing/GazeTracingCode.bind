@@ -20,7 +20,7 @@ public sealed partial class GazeTracingPage : IXamlRenderListener
 
     private void GazeInputSourcePreview_GazeMoved(GazeInputSourcePreview sender, GazeMovedPreviewEventArgs args)
     {
-		var point = args.CurrentPoint.EyeGazePosition;
+        var point = args.CurrentPoint.EyeGazePosition;
         if (!point.HasValue)
         {
             return;

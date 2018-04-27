@@ -20,15 +20,15 @@ BEGIN_NAMESPACE_GAZE_INPUT
 public ref class DwellProgressEventArgs : public RoutedEventArgs
 {
 public:
-	property DwellProgressState State;
-	property double Progress;
-	property bool Handled;
+    property DwellProgressState State;
+    property double Progress;
+    property bool Handled;
 internal:
-	DwellProgressEventArgs(DwellProgressState state, TimeSpan elapsedDuration, TimeSpan triggerDuration)
-	{
-		State = state;
+    DwellProgressEventArgs(DwellProgressState state, TimeSpan elapsedDuration, TimeSpan triggerDuration)
+    {
+        State = state;
         Progress = ((double)elapsedDuration.Duration) / triggerDuration.Duration;
-	}
+    }
 };
 
 END_NAMESPACE_GAZE_INPUT

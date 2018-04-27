@@ -27,7 +27,7 @@ public ref class GazeElement sealed : public DependencyObject
 public:
     event EventHandler<StateChangedEventArgs^>^ StateChanged;
     event EventHandler<DwellInvokedRoutedEventArgs^>^ Invoked;
-	event EventHandler<DwellProgressEventArgs^>^ DwellProgressFeedback;
+    event EventHandler<DwellProgressEventArgs^>^ DwellProgressFeedback;
 
     void RaiseStateChanged(Object^ sender, StateChangedEventArgs^ args) { StateChanged(sender, args); }
 
@@ -36,12 +36,12 @@ public:
         Invoked(sender, args);
     }
 
-	bool RaiseProgressFeedback(Object^ sender, DwellProgressState state, TimeSpan elapsedTime, TimeSpan triggerTime)
-	{
-		auto args = ref new DwellProgressEventArgs(state, elapsedTime, triggerTime);
-		DwellProgressFeedback(sender, args);
-		return args->Handled;
-	}
+    bool RaiseProgressFeedback(Object^ sender, DwellProgressState state, TimeSpan elapsedTime, TimeSpan triggerTime)
+    {
+        auto args = ref new DwellProgressEventArgs(state, elapsedTime, triggerTime);
+        DwellProgressFeedback(sender, args);
+        return args->Handled;
+    }
 };
 
 END_NAMESPACE_GAZE_INPUT

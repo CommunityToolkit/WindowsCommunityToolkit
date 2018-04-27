@@ -4,11 +4,11 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 public enum class DwellProgressState
 {
-	Idle,
+    Idle,
 
-	Progressing,
+    Progressing,
 
-	Complete
+    Complete
 };
 
 END_NAMESPACE_GAZE_INPUT
