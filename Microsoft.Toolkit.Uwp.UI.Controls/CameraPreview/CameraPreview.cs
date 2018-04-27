@@ -127,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void ToggleFrameSourceGroup_ClickAsync(object sender, RoutedEventArgs e)
         {
-            _selectedSourceIndex = _selectedSourceIndex < FrameSourceGroups.Count ? ++_selectedSourceIndex : 0;
+            _selectedSourceIndex = _selectedSourceIndex < (FrameSourceGroups.Count - 1) ? _selectedSourceIndex + 1 : 0;
             var group = FrameSourceGroups[_selectedSourceIndex];
             var result = await _cameraHelper.InitializeAndStartCaptureAsync(group);
             SetUIControls(result);
