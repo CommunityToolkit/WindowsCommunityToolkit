@@ -17,7 +17,7 @@ ref class GazeTargetItem;
 ref struct GazeHistoryItem;
 
 /// <summary>
-/// TODO: harishsk
+/// Class of singleton object coordinating gaze input.
 /// </summary>
 public ref class GazePointer sealed
 {
@@ -38,7 +38,7 @@ public:
     virtual ~GazePointer();
 
     /// <summary>
-    /// TODO: harishsk
+    /// Loads a settings collection into GazePointer.
     /// </summary>
     void LoadSettings(ValueSet^ settings);
 

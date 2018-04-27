@@ -15,7 +15,7 @@ public ref class GazeSettingsHelper sealed
 public:
 
     /// <summary>
-    /// TODO: harishsk
+    /// Retrieves settings as a ValueSet from a shared store.
     /// </summary>
     static Windows::Foundation::IAsyncAction^ RetrieveSharedSettings(ValueSet^ settings);
 

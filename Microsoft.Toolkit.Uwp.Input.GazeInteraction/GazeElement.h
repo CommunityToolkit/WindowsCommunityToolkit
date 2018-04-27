@@ -13,7 +13,7 @@ using namespace Windows::UI::Xaml;
 BEGIN_NAMESPACE_GAZE_INPUT
 
 /// <summary>
-/// TODO: harishsk
+/// Surrogate object attached to controls allowing subscription to per-control gaze events.
 /// </summary>
 public ref class GazeElement sealed : public DependencyObject
 {
