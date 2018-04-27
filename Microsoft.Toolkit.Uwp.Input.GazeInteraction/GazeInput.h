@@ -16,6 +16,7 @@ ref class GazePointer;
 /// <summary>
 /// Static class primarily providing access to attached properties controlling gaze behavior.
 /// </summary>
+[Windows::Foundation::Metadata::WebHostHidden]
 public ref class GazeInput sealed
 {
 public:
