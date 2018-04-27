@@ -14,7 +14,7 @@ const float ONEEUROFILTER_DEFAULT_BETA = 5.0f;
 const float ONEEUROFILTER_DEFAULT_CUTOFF = 0.1f;
 const float ONEEUROFILTER_DEFAULT_VELOCITY_CUTOFF = 1.0f;
 
-public ref class LowpassFilter sealed
+private ref class LowpassFilter sealed
 {
 public:
     LowpassFilter()
@@ -39,7 +39,7 @@ public:
     }
 };
 
-public ref class OneEuroFilter sealed : public IGazeFilter
+private ref class OneEuroFilter sealed : public IGazeFilter
 {
 public:
     OneEuroFilter();

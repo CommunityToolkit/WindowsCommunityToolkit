@@ -20,7 +20,7 @@ BEGIN_NAMESPACE_GAZE_INPUT
 const int DEFAULT_CURSOR_RADIUS = 5;
 const bool DEFAULT_CURSOR_VISIBILITY = true;
 
-ref class GazeCursor sealed
+private ref class GazeCursor sealed
 {
 public:
     static property GazeCursor^ Instance

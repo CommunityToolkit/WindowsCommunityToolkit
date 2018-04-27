@@ -9,16 +9,33 @@ using namespace Windows::Foundation::Collections;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
+/// <summary>
+/// TODO: harishsk
+/// </summary>
 public ref struct GazeFilterArgs sealed
 {
-    property Point Location;
-    property TimeSpan Timestamp;
+    /// <summary>
+    /// TODO: harishsk
+    /// </summary>
+    property Point Location {Point get() { return _location; }}
+
+    /// <summary>
+    /// TODO: harishsk
+    /// </summary>
+    property TimeSpan Timestamp {TimeSpan get() { return _timestamp; }}
+
+internal:
 
     GazeFilterArgs(Point location, TimeSpan timestamp)
     {
-        Location = location;
-        Timestamp = timestamp;
+        _location = location;
+        _timestamp = timestamp;
     }
+
+private:
+
+    Point _location;
+    TimeSpan _timestamp;
 };
 
 // Every filter must provide an Wpdate method which transforms sample data 

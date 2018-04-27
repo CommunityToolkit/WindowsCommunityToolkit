@@ -35,13 +35,20 @@ const TimeSpan GAZE_IDLE_TIME{ 25000000 };
 ref class GazeTargetItem;
 ref struct GazeHistoryItem;
 
+/// <summary>
+/// TODO: harishsk
+/// </summary>
 public ref class GazePointer sealed
 {
 public:
     virtual ~GazePointer();
 
+    /// <summary>
+    /// TODO: harishsk
+    /// </summary>
     void LoadSettings(ValueSet^ settings);
 
+internal:
     void Reset();
     void SetElementStateDelay(UIElement ^element, PointerState pointerState, TimeSpan stateDelay);
     TimeSpan GetElementStateDelay(UIElement ^element, DependencyProperty^ property, TimeSpan defaultValue);

@@ -6,10 +6,25 @@
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
+/// <summary>
+/// TODO: harishsk
+/// </summary>
 public enum class Interaction
 {
+
+    /// <summary>
+    /// TODO: harishsk
+    /// </summary>
     Inherited,
+
+    /// <summary>
+    /// TODO: harishsk
+    /// </summary>
     Enabled,
+
+    /// <summary>
+    /// TODO: harishsk
+    /// </summary>
     Disabled
 };
 

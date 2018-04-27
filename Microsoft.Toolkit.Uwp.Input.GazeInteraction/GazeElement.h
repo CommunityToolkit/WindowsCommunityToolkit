@@ -22,12 +22,29 @@ using namespace Windows::Devices::Input::Preview;
 BEGIN_NAMESPACE_GAZE_INPUT
 
 
+/// <summary>
+/// TODO: harishsk
+/// </summary>
 public ref class GazeElement sealed : public DependencyObject
 {
 public:
+
+    /// <summary>
+    /// TODO: harishsk
+    /// </summary>
     event EventHandler<StateChangedEventArgs^>^ StateChanged;
+
+    /// <summary>
+    /// TODO: harishsk
+    /// </summary>
     event EventHandler<DwellInvokedRoutedEventArgs^>^ Invoked;
+
+    /// <summary>
+    /// TODO: harishsk
+    /// </summary>
     event EventHandler<DwellProgressEventArgs^>^ DwellProgressFeedback;
+
+internal:
 
     void RaiseStateChanged(Object^ sender, StateChangedEventArgs^ args) { StateChanged(sender, args); }
 

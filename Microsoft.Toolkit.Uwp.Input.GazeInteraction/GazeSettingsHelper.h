@@ -7,11 +7,16 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 using namespace Windows::Foundation::Collections;
 
+/// <summary>
+/// TODO: harishsk
+/// </summary>
 public ref class GazeSettingsHelper sealed
 {
 public:
-    virtual ~GazeSettingsHelper();
 
+    /// <summary>
+    /// TODO: harishsk
+    /// </summary>
     static Windows::Foundation::IAsyncAction^ RetrieveSharedSettings(ValueSet^ settings);
 
 private:
