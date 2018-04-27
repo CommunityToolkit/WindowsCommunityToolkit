@@ -10,11 +10,12 @@ dev_langs:
 
 # Light
 
-The Light animation behavior performs a point light (A point source of light that emits light in all directions) in the middle of a given UIElement. You set the distance property of the light to determine how bright the light will be. The closer the light source, the darker the UI element will be. ***NOTE**:  Heavy usage of effects may have a negative impact on the performance of your application.* 
+The [Light animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationextensions.light) behavior performs a point light (A point source of light that emits light in all directions) in the middle of a given UIElement. You set the distance property of the light to determine how bright the light will be. The closer the light source, the darker the UI element will be. 
+
+> [!NOTE]
+Heavy usage of effects may have a negative impact on the performance of your application. 
 
 ## Syntax
-
-**XAML**
 
 ```xaml
 <Page ...
@@ -30,10 +31,7 @@ The Light animation behavior performs a point light (A point source of light tha
            AutomaticallyStart="True"
            Color="Red"/>
 </interactivity:Interaction.Behaviors>
-
 ```
-
-**C#**
 
 ```csharp
 MyUIElement.Light(distance: 5, duration: 2500, delay: 250, color: Colors.Red).Start();
@@ -50,11 +48,19 @@ Await MyUIElement.Light(distance:=5, duration:=2500, delay:=250, color:=Colors.R
 
 ## Properties
 
-### Distance
-The distance of the spotlight. 0 being the furthest.
+| Property | Type | Description |
+| -- | -- | -- |
+| Color | Brush | The color of the spot light |
+| Delay | double | The delay for the animation to begin |
+| Distance | double | The distance of the spotlight. 0 being the furthest. |
+| Duration | double | The duration in milliseconds |
 
-### Color
-The color of the spot light specified as a Brush
+## Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| Light(AnimationSet, Double, Double, Double) | AnimationSet | Animates a point light and it's distance |
+| Light(FrameworkElement, Double, Double, Double) | AnimationSet | Animates a point light and it's distance |
 
 ## Examples
 
@@ -62,7 +68,7 @@ The color of the spot light specified as a Brush
 - Use this to create chaining animations with other animations. Visit the [AnimationSet](AnimationSet.md) documentation for more information.
 
     **Sample Code**
-
+    
     ```csharp
     var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
     anim.SetDurationForAll(2500);
@@ -88,7 +94,7 @@ The color of the spot light specified as a Brush
 
 ## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
+| Device family | Universal, 10.0.14393.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
@@ -97,3 +103,6 @@ The color of the spot light specified as a Brush
 
 * [Light source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors/Light.cs)
 
+## Related Topics
+
+- [SceneLightingEffect Class](https://docs.microsoft.com/uwp/api/Windows.UI.Composition.Effects.SceneLightingEffect)

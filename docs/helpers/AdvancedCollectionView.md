@@ -10,14 +10,14 @@ dev_langs:
 
 # AdvancedCollectionView
 
-The AdvancedCollectionView is a collection view implementation that support filtering, sorting and incremental loading. It's meant to be used in a viewmodel. 
+The [AdvancedCollectionView](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.advancedcollectionview) is a collection view implementation that support filtering, sorting and incremental loading. It's meant to be used in a viewmodel. 
 
 ## Usage
 
-In your viewmodel instead of having a public [IEnumerable](https://docs.microsoft.com/en-us/dotnet/core/api/system.collections.generic.ienumerable-1) of some sort to be bound to an eg. [Listview](https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.Controls.ListView), create a public AdvancedCollectionView and pass your list in the constructor to it. If you've done that you can use the many useful features it provides:
+In your viewmodel instead of having a public [IEnumerable](https://docs.microsoft.com/dotnet/core/api/system.collections.generic.ienumerable-1) of some sort to be bound to an eg. [Listview](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Controls.ListView), create a public AdvancedCollectionView and pass your list in the constructor to it. If you've done that you can use the many useful features it provides:
 
 * sorting your list using the `SortDirection` helper: specify any number of property names to sort on with the direction desired
-* filtering your list using a [Predicate](https://docs.microsoft.com/en-us/dotnet/core/api/system.predicate-1): this will automatically filter your list only to the items that pass the check by the predicate provided
+* filtering your list using a [Predicate](https://docs.microsoft.com/dotnet/core/api/system.predicate-1): this will automatically filter your list only to the items that pass the check by the predicate provided
 * deferring notifications using the `NotificationDeferrer` helper: with a convenient _using_ pattern you can increase performance while doing large-scale modifications in your list by waiting with updates until you've completed your work
 * incremental loading: if your source collection supports the feature then AdvancedCollectionView will do as well (it simply forwards the calls)
 * live shaping: when constructing the `AdvancedCollectionView` you may specify that the collection use live shaping. This means that the collection will re-filter or re-sort if there are changes to the sort properties or filter properties that are specified using `ObserveFilterProperty`
@@ -25,8 +25,7 @@ In your viewmodel instead of having a public [IEnumerable](https://docs.microsof
 ## Example
 
 ```csharp
-// Be sure to include the using at the top of the file:
-//using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI;
 
 // Grab a sample type
 public class Person
@@ -76,8 +75,7 @@ person.Name = "Zaphod"; // Now a re-sort is triggered and person will be last in
 YourListView.ItemsSource = acv;
 ```
 ```vb
-' Be sure to include the using at the top of the file:
-'Imports Microsoft.Toolkit.Uwp.UI
+Imports Microsoft.Toolkit.Uwp.UI
 
 ' Grab a sample type
 Public Class Person
@@ -125,11 +123,62 @@ person.Name = "Zaphod" ' Now a re-sort is triggered and person will be last in t
 YourListView.ItemsSource = acv
 ```
 
+## Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| CanFilter | bool | Gets a value indicating whether this CollectionView can filter its items |
+| CanSort | bool | Gets a value indicating whether this CollectionView can sort its items |
+| CollectionGroups | IObservableVector<object> | Gets the groups in collection |
+| Count | int | Get the count of items |
+| CurrentItem | object | Gets or sets the current item |
+| CurrentPosition | int | Gets the position of current item |
+| Filter | Predicate<object> | Gets or sets the predicate used to filter the visible items |
+| HasMoreItems | bool | Gets a value indicating whether the source has more items |
+| IsCurrentAfterLast | bool | Gets a value indicating whether the current item is after the last visible item |
+| IsCurrentBeforeFirst | bool | Gets a value indicating whether the current item is before the first visible item |
+| IsReadOnly | bool | Get a value indicating whether this CollectionView is read only |
+| SortDescriptions | IList<[SortDescription](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.sortdescription)> | Gets SortDescriptions to sort the visible items |
+| Source | IEnumerable | Gets or sets the source |
+| SourceCollection | IEnumerable | Gets the source collection |
+| this[int] | int | Gets or sets the element at the specified index |
+
+## Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| Add(Object) | void | Add item |
+| Clear() | void | Clear item |
+| Contains(Object) | bool | Returns `true` if the given item contained in CollectionView |
+| B(float, string) | int | Description |
+| DeferRefresh() | IDisposable | Stops refreshing until it is disposed |
+| IndexOf(Object) | int | Return index of an item |
+| Insert(Int32, Object) | void | Insert an item in a particular place |
+| LoadMoreItemsAsync(UInt32) | IAsyncOperation<[LoadMoreItemsResult](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Data.LoadMoreItemsResult)> | Load more items from the source |
+| MoveCurrentTo(Object) | bool | Move current index to item. Returns success of operation |
+| MoveCurrentToFirst() | bool | Move current item to first item. Returns success of operation |
+| MoveCurrentToLast() | bool | Move current item to last item. Returns success of operation |
+| MoveCurrentToNext() | bool | Move current item to next item |
+| MoveCurrentToPosition(Int32) | bool | Moves selected item to position |
+| MoveCurrentToPrevious() | bool | Move current item to previous item |
+| Refresh() | void | Manually refresh the view |
+| Remove(Object) | bool | Remove item |
+| RemoveAt(Int32) | bool | Remove item with index |
+
+## Events
+
+| Events | Description |
+| -- | -- |
+| CurrentChanged | Current item changed event handler |
+| CurrentChanging | Current item changing event handler |
+| PropertyChanged | Occurs when a property value changes |
+| VectorChanged | Occurs when the vector changes |
+
 ## Remarks
 
 _What source can I use?_
 
-It's not necessary to use an eg. [ObservableCollection](https://docs.microsoft.com/en-us/dotnet/core/api/system.collections.objectmodel.observablecollection-1) to use the AdvancedCollectionView. It works as expected even when providing a simple [List](https://docs.microsoft.com/en-us/dotnet/core/api/system.collections.generic.list-1) in the constructor.
+It's not necessary to use an eg. [ObservableCollection](https://docs.microsoft.com/dotnet/core/api/system.collections.objectmodel.observablecollection-1) to use the AdvancedCollectionView. It works as expected even when providing a simple [List](https://docs.microsoft.com/dotnet/core/api/system.collections.generic.list-1) in the constructor.
 
 _Any performance guidelines?_
 
@@ -152,13 +201,17 @@ Using acv.DeferRefresh()
 End Using ' acv.Refresh() gets called here
 ```
 
-## Requirements (Windows 10 Device Family)
+## Sample Code
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+[AdvancedCollectionView sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/AdvancedCollectionView). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+
+## Requirements
+
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
 
 ## API
 
 * [AdvancedCollectionView source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/AdvancedCollectionView)
-

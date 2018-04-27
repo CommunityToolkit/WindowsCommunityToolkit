@@ -27,10 +27,50 @@ Several events are available to control the printing process:
 
 In addition, you can customize the printing dialog using the `PrintHelperOptions` class. To use it, create an instance of the class, add the options you'd like to display on the printing dialog and set the default options. Then, you can use it as a parameter in the `PrintHelper` class constructor to set them as the default for the instance, or send them as parameters to `ShowPrintUIAsync` to use them for a single print job.
 
-**Please note that page breaks are not supported. Every control will be printed on a single page**
+You can call `ShowPrintUIAsync` with a second parameter to determine that the list of controls to print should directly be taken from the content of the container passed to the PrintHelper constructor. In this mode you are responsible for the sizing and the layout.
 
-Since version 1.3, you can also call `ShowPrintUIAsync` with a second parameter to determine that the list of controls to print should directly be taken from the content of the container passed to the PrintHelper constructor.
-In this mode you are responsible for the sizing and the layout.
+## Syntax
+
+```csharp
+var printHelper = new PrintHelper(container);
+
+printHelper.AddFrameworkElementToPrint(frameworkElement);
+
+await printHelper.ShowPrintUIAsync("Title");
+```
+```vb
+Dim printHelper = New PrintHelper(container)
+
+printHelper.AddFrameworkElementToPrint(frameworkElement)
+
+Await printHelper.ShowPrintUIAsync("Title")
+```
+
+## Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| ApplicationContentMarginLeft | double | Gets or sets the percent of app's margin width |
+| ApplicationContentMarginTop | double | Gets or sets the percent of app's margin height |
+
+## Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| AddFrameworkElementToPrint(FrameworkElement) | void | Add an element to the list of printable elements |
+| ClearListOfPrintableFrameworkElements() | void | Empties the list of printable elements |
+| Dispose() | void | Release associated resources |
+| RemoveFrameworkElementToPrint(FrameworkElement) | void | Remove an element from the list of printable elements |
+| ShowPrintUIAsync(String, Boolean) | Task | Start the print task |
+
+## Events
+
+| Events | Description |
+| -- | -- |
+| OnPreviewPagesCreated | Event which is called after print preview pages are generated |
+| OnPrintCanceled | Event raised when print is cancelled by the user |
+| OnPrintFailed | Event raised when print failed |
+| OnPrintSucceeded | Event raised when print was successful |
 
 ## Example
 
@@ -97,7 +137,7 @@ Private Async Sub PrintHelper_OnPrintFailed()
 End Sub
 ```
 
-Direct print example:
+**Direct print example:**
 
 ```csharp
 // Create a new PrintHelper instance
@@ -116,7 +156,7 @@ Dim printHelper = New PrintHelper(container)
 Await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", True)
 ```
 
-Using custom default settings:
+**Using custom default settings:**
 
 ```csharp
 // Create a new PrintHelperOptions instance
@@ -147,7 +187,7 @@ defaultPrintHelperOptions.Orientation = PrintOrientation.Landscape
 Dim printHelper = New PrintHelper(container, defaultPrintHelperOptions)
 ```
 
-Using custom settings for one print job:
+**Using custom settings for one print job:**
 
 ```csharp
 // Create a new PrintHelper instance
@@ -186,11 +226,79 @@ printHelperOptions.Orientation = PrintOrientation.Landscape
 Await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions)
 ```
 
-## Requirements (Windows 10 Device Family)
+**Print a list with each item on a separate page with static header and page number:**
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+```csharp
+// Create a new PrintHelper instance
+// "container" is a XAML panel that will be used to get the list of printable controls.
+var printHelper = new PrintHelper(container);
+
+var pageNumber = 0;
+
+foreach (var item in PrintSampleItems)
+{
+    var grid = new Grid();
+    grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+    grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+    grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+
+    // Static header
+    var header = new TextBlock { Text = "UWP Community Toolkit Sample App - Print Helper - Custom Print", Margin = new Thickness(0, 0, 0, 20) };
+    Grid.SetRow(header, 0);
+    grid.Children.Add(header);
+
+    // Main content with layout from data template
+    var cont = new ContentControl();
+    cont.ContentTemplate = Resources["CustomPrintTemplate"] as DataTemplate;
+    cont.DataContext = item;
+    Grid.SetRow(cont, 1);
+    grid.Children.Add(cont);
+
+    // Footer with page number
+    pageNumber++;
+    var footer = new TextBlock { Text = string.Format("page {0}", pageNumber), Margin = new Thickness(0, 20, 0, 0) };
+    Grid.SetRow(footer, 2);
+    grid.Children.Add(footer);
+
+    printHelper.AddFrameworkElementToPrint(grid);
+}
+
+// Start printing process
+await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions);
+```
+```vb
+  Dim printHelper = New PrintHelper(container)
+  Dim pageNumber = 0
+  For Each item In PrintSampleItems
+      Dim grid = New Grid()
+      grid.RowDefinitions.Add(New RowDefinition() With {.Height = GridLength.Auto})
+      grid.RowDefinitions.Add(New RowDefinition() With {.Height = New GridLength(1, GridUnitType.Star)})
+      grid.RowDefinitions.Add(New RowDefinition() With {.Height = GridLength.Auto})
+      Dim header = New TextBlock With {.Text = "UWP Community Toolkit Sample App - Print Helper - Custom Print", .Margin = New Thickness(0, 0, 0, 20)}
+      Grid.SetRow(header, 0)
+      grid.Children.Add(header)
+      Dim cont = New ContentControl()
+      cont.ContentTemplate = TryCast(Resources("CustomPrintTemplate"), DataTemplate)
+      cont.DataContext = item
+      Grid.SetRow(cont, 1)
+      grid.Children.Add(cont)
+      pageNumber += 1
+      Dim footer = New TextBlock With {.Text = String.Format("page {0}", pageNumber), .Margin = New Thickness(0, 20, 0, 0)}
+      Grid.SetRow(footer, 2)
+      grid.Children.Add(footer)
+      printHelper.AddFrameworkElementToPrint(grid)
+  Next
+
+  Await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions)
+```
+
+## Requirements
+
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
+| NuGet package | [Microsoft.Toolkit.Uwp](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
 
 ## API
+
 * [Print Helper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper/)

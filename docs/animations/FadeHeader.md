@@ -10,11 +10,9 @@ dev_langs:
 
 # FadeHeader
 
-The FadeHeader fades a ListView or GridView Header UIElement when the user scrolls. The UIElement fades out to 0 opacity when the edge of the Header reaches the edge of the visible bounds of the ListElement.
+The [FadeHeader](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.animations.behaviors.fadeheaderbehavior) fades a ListView or GridView Header UIElement when the user scrolls. The UIElement fades out to 0 opacity when the edge of the Header reaches the edge of the visible bounds of the ListElement.
 
 ## Syntax
-
-**XAML**
 
 ***Implicit usage***: Automatically detects the Header element by finding the ListViewBase (note: GridView uses ListViewBase)
 
@@ -52,8 +50,6 @@ The FadeHeader fades a ListView or GridView Header UIElement when the user scrol
 </ListView>
 ```
 
-**C#**
-
 ***Implicit usage***:
 
 ```csharp
@@ -76,13 +72,19 @@ Microsoft.Xaml.Interactivity.Interaction.GetBehaviors(MyListView).Add(New FadeHe
 
 ![FadeHeader Behavior animation](../resources/images/Animations/FadeHeader/Sample-Output.gif)
 
+## Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| HeaderElement | UIElement | Gets or sets the target element for the Fading behavior |
+
 ## Sample Project
 
 [FadeHeader Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/FadeHeader). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
+| Device family | Universal, 10.0.14393.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
@@ -90,3 +92,7 @@ Microsoft.Xaml.Interactivity.Interaction.GetBehaviors(MyListView).Add(New FadeHe
 ## API
 
 * [FadeHeader source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors/FadeHeaderBehavior.cs)
+
+## Related Topics
+
+- [ListViewBase Header](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.listviewbase#Windows_UI_Xaml_Controls_ListViewBase_Header)

@@ -10,104 +10,101 @@ dev_langs:
 
 # BladeView XAML Control 
 
-The BladeView provides a container to host blades as extra detail pages in, for example, a master-detail scenario. The control is based on how the Azure Portal works. 
+The [BladeView Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.bladeview) provides a container to host [BladeItem](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.bladeitem) as extra detail pages in, for example, a master-detail scenario. The control is based on how the Azure Portal works.
 
 ## Syntax
 
 ```xaml
+<Page ...
+     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"/>
+
 <controls:BladeView>
-    <controls:BladeItem IsOpen="True"
-        TitleBarVisibility="Collapsed">
-
-        <StackPanel Margin="8">
-            <ToggleButton Width="180"
-                Height="100"
-                Margin="0, 20, 0, 0"
-                IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=DefaultBlade}"
-                Content="Default blade" />
-        </StackPanel>
+    <controls:BladeItem IsOpen="True" TitleBarVisibility="Collapsed">
+        <!-- BladeItem content -->
     </controls:BladeItem>
 
-    <controls:BladeItem x:Name="DefaultBlade" 
-        Header="A blade"
-        IsOpen="False">
-
-        <TextBlock HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Style="{StaticResource SubtitleTextBlockStyle}"
-            Text="This is a blade with all settings set to default." />
+    <controls:BladeItem x:Name="DefaultBlade" Header="A blade" IsOpen="False">
+        <!-- BladeItem content -->
     </controls:BladeItem>
 </controls:BladeView>
 ```
 
-## Blade modes
+## Sample Output
 
-You can customize your BladeView control by setting the `BladeMode` property.
-If you want blade items to stay unchanged (based on their respective width and height), you will choose the default mode (BladeMode.Normal).
-Otherwise, you can extend each blade items to fill the entire container (example: Grid, StackPanel, etc..). To do that, you'll have to choose the Fullscreen mode (BladeMode.Fullscreen).
+![BladeView animation](../resources/images/Controls/BladeView.gif)
 
-```csharp
-public enum BladeMode
-{
-    /// <summary>
-    /// Default mode : each blade will take the specified Width and Height
-    /// </summary>
-    Normal,
+## Properties
 
-    /// <summary>
-    /// Fullscreen mode : each blade will take the entire Width and Height of the UI control container (cf <see cref="BladeView"/>)
-    /// </summary>
-    Fullscreen
-}
-```
-```vb
-Public Enum BladeMode
-    ''' <summary>
-    ''' Default mode : each blade will take the specified Width and Height
-    ''' </summary>
-    Normal
+### BladeView Properties
 
-    ''' <summary>
-    ''' Fullscreen mode : each blade will take the entire Width and Height of the UI control container (cf <see cref="BladeView"/>)
-    ''' </summary>
-    Fullscreen
-End Enum
-```
+| Property | Type | Description |
+| -- | -- | -- |
+| ActiveBlades | IList<[BladeItem](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.bladeitem)> | Description |
+| AutoCollapseCountThreshold | int | Gets or sets a value indicating what the overflow amount should be to start auto collapsing blade items |
+| BladeMode | [BladeMode](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.blademode) | Gets or sets a value indicating whether blade mode (ex: whether blades are full screen or not) |
 
-Here is an example of a BladeView where the `BladeMode` property is binded to a value in the code-behind.
+### BladeItem Properties
 
-```xaml
-<controls:BladeView x:Name="BladeView"
-    Padding="0"
-    HorizontalAlignment="Stretch"
-    VerticalAlignment="Stretch"
-    BladeMode="{Binding BladeMode}">
-</controls:BladeView>
-```
+| Property | Type | Description |
+| -- | -- | -- |
+| CloseButtonBackground | Brush | Gets or sets the background color of the default close button in the title bar |
+| CloseButtonForeground | Brush | Gets or sets the foreground color of the close button |
+| IsOpen | bool | Gets or sets a value indicating whether this blade is opened |
+| Title | string | Gets or sets the title to appear in the title bar |
+| TitleBarBackground | Brush | Gets or sets the background color of the title bar |
+| TitleBarForeground | Brush | Gets or sets the titlebar foreground color |
+| TitleBarVisibility | Visibility | Gets or sets the visibility of the title bar for this blade |
 
-## AutoCollapseCountThreshold
+## Events
 
-If you want to use the BladeView for handling a flow of actions, you can use the `AutoCollapseCountThreshold` property to tell it to start auto collapsing BladeItems after a certain threshold count has been reached. This will also help keep a clean, uncluttered screen real estate.
+### BladeView Events
 
-For example; if you set `AutoCollapseCountThreshold` to 3, the BladeView will start counting all BladeItems that are open in the BladeView and have their `TitleBarVisibility` property set to Visible. When the n+1 BladeItem, in our case the 4th one, is being added, the BladeView will auto collapse all n BladeItems except for the last one. All additional BladeItems that are added afterwards will trigger the same effect; collapse all BladeItems except for the last open one.
+| Events | Description |
+| -- | -- |
+| BladeClosed | Fires whenever a BladeItem is closed |
+| BladeOpened | Fires whenever a BladeItem is opened |
 
-## Example Image
+### BladeItem Events
 
-![BladeView animation](../resources/images/Controls-BladeView.gif "BladeView")
+| Events | Description |
+| -- | -- |
+| VisibilityChanged | Fires when the blade is opened or closed |
 
-## Example Code
+## Examples
 
-[BladeView Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BladeView)
+- If you want to use the BladeView for handling a flow of actions, you can use the `AutoCollapseCountThreshold` property to tell it to start auto collapsing BladeItems after a certain threshold count has been reached. This will also help keep a clean, uncluttered screen real estate.
+
+    For example: if you set `AutoCollapseCountThreshold` to 3, the BladeView will start counting all BladeItems that are open in the BladeView and have their `TitleBarVisibility` property set to Visible. When the n+1 BladeItem, in our case the 4th one, is being added, the BladeView will auto collapse all n BladeItems except for the last one. All additional BladeItems that are added afterwards will trigger the same effect; collapse all BladeItems except for the last open one.
+
+    *Sample Code*
+    
+    ```xaml
+    <controls:BladeView AutoCollapseCountThreshold="3">
+        <controls:BladeItem>
+            <!-- BladeItem content -->
+        </controls:BladeItem>
+        <controls:BladeItem>
+            <!-- BladeItem content -->
+        </controls:BladeItem>
+        .....
+        .....
+    </controls:BladeView>
+    ```
+
+## Sample Code
+
+[BladeView Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BladeView). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 
 [BladeView XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeView/BladeView.xaml) is the XAML template used in the toolkit for the default styling.
 
-## Requirements (Windows 10 Device Family)
+## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
-| --- | --- |
+| Device family | Universal, 10.0.14393.0 or higher |
+| -- | -- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Controls/) |
 
 ## API
 

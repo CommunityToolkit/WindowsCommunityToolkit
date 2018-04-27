@@ -59,7 +59,6 @@ When you register your app in the [Azure Management Portal](http://manage.window
 |Resource to Add|Microsoft Graph|
 |Delegate Permissions |Sign in and read user profile, Read user mail and Send mail, Read user calendars|
 
-
 ## Syntax
 
 ### Sign in with an Office 365 account
@@ -107,7 +106,7 @@ MicrosoftGraphUserFields[] selectedFields =
 };
 
 var user =await MicrosoftGraphService.Instance.User.GetProfileAsync(selectedFields);
-UserPanel.DataContext = user;     
+UserPanel.DataContext = user;
 
 // Retrieve the user's photo 
 using (IRandomAccessStream photoStream = await MicrosoftGraphService.Instance.User.GetPhotoAsync())
@@ -179,7 +178,7 @@ MessagesList.ItemsSource = messages;
 messages = await MicrosoftGraphService.Instance.User.Message.NextPageEmailsAsync();
 if (messages == null)
 {
-	 // no more messages
+     // no more messages
 }
 
 // Send a message
@@ -277,19 +276,17 @@ If events Is Nothing Then
 End If
 ```
 
-### Example
-[MicrosoftGraph Service Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Microsoft%20Graph%20Service)
+## Sample Code
 
-### Requirements (Windows 10 Device Family)
+[MicrosoftGraph Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Microsoft%20Graph%20Service). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
-| [Device family](https://msdn.microsoft.com/windows/uwp/get-started/universal-application-platform-guide) | Universal, 10.0.14393.0 or higher |
+### Requirements
+
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Services |
+| NuGet package | [Microsoft.Toolkit.Uwp.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.Services/) |
 
 ### API
+
 * [MicrosoftGraph Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftGraph)
-
-### NuGet Packages Required
-
-Microsoft.Toolkit.Uwp.Services
-See the [NuGet Packages page](../Nuget-Packages.md) for complete list.

@@ -47,23 +47,17 @@ Dim language = Await TranslatorService.Instance.DetectLanguageAsync("Hello every
 Dim translatedText = Await TranslatorService.Instance.TranslateAsync("Hello everyone!", "it")
 ```
 
-## Example
+## Sample Code
 
-[Microsoft Translator Service Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Microsoft%20Translator%20Service)
+[Microsoft Translator Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Microsoft%20Translator%20Service). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
-## Requirements (Windows 10 Device Family)
+## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Services |
+| NuGet package | [Microsoft.Toolkit.Uwp.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.Services/) |
 
 ## API
 
 * [Microsoft Translator Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftTranslator)
-
-
-## NuGet Packages Required
-
-**Microsoft.Toolkit.Uwp.Services**
-
-See the [NuGet Packages page](../Nuget-Packages.md) for complete list.

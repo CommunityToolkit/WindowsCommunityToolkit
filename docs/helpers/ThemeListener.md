@@ -38,7 +38,7 @@ End Sub
 
 | Property | Type | Description |
 | -- | -- | -- |
-| CurrentTheme | ApplicationTheme | Gets or sets the Current Theme. |
+| CurrentTheme | [ApplicationTheme](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.ApplicationTheme) | Gets or sets the Current Theme. |
 | CurrentThemeName | string | Gets the Name of the Current Theme. |
 | IsHighContrast | bool | Gets or sets a value indicating whether the current theme is high contrast. |
 
@@ -54,9 +54,9 @@ End Sub
 
 You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
-## Requirements (Windows 10 Device Family)
+## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/)  |

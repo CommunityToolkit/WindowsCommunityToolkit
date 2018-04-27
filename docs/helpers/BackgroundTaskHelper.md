@@ -10,14 +10,39 @@ dev_langs:
 
 # Background Task Helper
 
-The **Background Task Helper** helps users interacting with background tasks in an easier manner. 
+The [Background Task Helper](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.helpers.backgroundtaskhelper) helps users interacting with background tasks in an easier manner. 
+
+## Syntax
+
+```csharp
+using Microsoft.Toolkit.Uwp;
+
+BackgroundTaskRegistration registered = BackgroundTaskHelper.Register(typeof(BackgroundTaskClass), new TimeTrigger(15, true));
+BackgroundTaskRegistration registered = BackgroundTaskHelper.Register("TaskName", "TaskEntryPoint", new TimeTrigger(15, true));
+```
+
+## Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| GetBackgroundTask(String) | [IBackgroundTaskRegistration](https://docs.microsoft.com/uwp/api/Windows.ApplicationModel.Background.IBackgroundTaskRegistration) | Get the registered background task of the given type |
+| GetBackgroundTask(Type) | IBackgroundTaskRegistration | Get the registered background task of the given type |
+| IsBackgroundTaskRegistered(String) | bool | Check if a background task is registered |
+| IsBackgroundTaskRegistered(Type) | bool | Check if a background task is registered |
+| Register(String, IBackgroundTrigger, Boolean, Boolean, IBackgroundCondition[]) | [BackgroundTaskRegistration](https://docs.microsoft.com/uwp/api/Windows.ApplicationModel.Background.BackgroundTaskRegistration) | Registers under the Single Process Model |
+| Register(Type, IBackgroundTrigger, Boolean, Boolean, IBackgroundCondition[]) | BackgroundTaskRegistration | Register a background task with conditions |
+| Register(String, String, IBackgroundTrigger, Boolean, Boolean, IBackgroundCondition[]) | BackgroundTaskRegistration | Register a background task with conditions |
+| Unregister(String, Boolean) | void | Unregister a background task |
+| Unregister(Type, Boolean) | void | Unregister a background task |
+| Unregister(IBackgroundTaskRegistration, Boolean) | void | Unregister a background task |
 
 ## Example
 
 ### Using Multi-Process Model
 
 Using MPM (Multi-Process Model) is the classic way of using Background Task.
-To make it work, you will need : 
+
+To make it work, you will need :
 
 * To create Background Tasks in a Windows Runtime Component
 * To register the Background Tasks in the package manifest (appxmanifest file)
@@ -26,8 +51,8 @@ Once it is done, you can register your Background Tasks.
 
 ```csharp
 // Be sure to include the using at the top of the file:
-//using Microsoft.Toolkit.Uwp;
-//using Windows.ApplicationModel.Background;
+using Microsoft.Toolkit.Uwp;
+using Windows.ApplicationModel.Background;
 
 // Register a normal, seperate process, background task
 BackgroundTaskRegistration registered = BackgroundTaskHelper.Register("TaskName", "TaskEntryPoint", new TimeTrigger(15, true));
@@ -39,23 +64,21 @@ BackgroundTaskRegistration registered = BackgroundTaskHelper.Register(typeof(Bac
 BackgroundTaskRegistration registered = 
     BackgroundTaskHelper.Register(typeof(BackgroundTaskClass), 
                                     new TimeTrigger(15, true), 
-                                    false,
-                                    true, 
+                                    false, true, 
                                     new SystemCondition(SystemConditionType.InternetAvailable));
 
 // 2 or more conditions
 BackgroundTaskRegistration registered = 
     BackgroundTaskHelper.Register(typeof(BackgroundTaskClass), 
                                     new TimeTrigger(15, true), 
-                                    false,
-                                    true, 
+                                    false, true, 
                                     new SystemCondition(SystemConditionType.InternetAvailable), 
                                     new SystemCondition(SystemConditionType.UserPresent));
 ```
 ```vb
-' Be sure to include the using at the top of the file:
-'Imports Microsoft.Toolkit.Uwp
-'Imports Windows.ApplicationModel.Background
+' Be sure to include the Imports at the top of the file:
+Imports Microsoft.Toolkit.Uwp
+Imports Windows.ApplicationModel.Background
 
 ' Register a normal, seperate process, background task
 Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register("TaskName", "TaskEntryPoint", New TimeTrigger(15, True))
@@ -91,16 +114,16 @@ Once you have created the Background Task, you can register it by calling the `R
 
 ```csharp
 // Be sure to include the using at the top of the file:
-//using Microsoft.Toolkit.Uwp;
-//using Windows.ApplicationModel.Background;
+using Microsoft.Toolkit.Uwp;
+using Windows.ApplicationModel.Background;
 
 // Register a single process background task (Anniversary Update and later ONLY)
 BackgroundTaskRegistration registered = BackgroundTaskHelper.Register("Name of the Background Task", new TimeTrigger(15, true));
 ```
 ```vb
-' Be sure to include the using at the top of the file:
-'Imports Microsoft.Toolkit.Uwp
-'Imports Windows.ApplicationModel.Background
+' Be sure to include the imports at the top of the file:
+Imports Microsoft.Toolkit.Uwp
+Imports Windows.ApplicationModel.Background
 
 ' Register a single process background task (Anniversary Update and later ONLY)
 Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register("Name of the Background Task", New TimeTrigger(15, True))
@@ -110,10 +133,7 @@ The other difference between SPM and MPM is that in SPM, you have to handle your
 Here is an example of how to handle Background Tasks in SPM.
 
 ```csharp
-/// <summary>
-/// Event fired when a Background Task is activated (in Single Process Model)
-/// </summary>
-/// <param name="args">Arguments that describe the BackgroundTask activated</param>
+// Event fired when a Background Task is activated (in Single Process Model)
 protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
 {
     base.OnBackgroundActivated(args);
@@ -145,17 +165,17 @@ Protected Overrides Sub OnBackgroundActivated(ByVal args As BackgroundActivatedE
 End Sub
 ```
 
-### Resources
+## Sample Code
 
-You can find more examples in our [unit tests](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/UnitTests/Helpers/Test_BackgroundTaskHelper.cs)
+[Background Task Helper](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackgroundTaskHelper). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
-## Requirements (Windows 10 Device Family)
+## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
+| NuGet package | [Microsoft.Toolkit.Uwp](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
 
 ## API
 
 * [Background Task source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/BackgroundTaskHelper.cs)
-

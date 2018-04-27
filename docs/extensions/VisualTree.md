@@ -10,14 +10,11 @@ dev_langs:
 
 # Visual Tree Extensions
 
-The **VisualTree** extensions provide a collection of extensions methods for UI controls.
+The [VisualTree extensions](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.extensions.visualtree) provide a collection of extensions methods for UI controls.
 
-It provides [DependencyObject][1] extensions to aid in using the [VisualTreeHelper][2] class.
-The official [VisualTreeHelper][2] documentation best explains reasons for walking the Visual Tree.
+It provides [DependencyObject](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.DependencyObject) extensions to aid in using the [VisualTreeHelper](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Media.VisualTreeHelper) class. The official [VisualTreeHelper](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Media.VisualTreeHelper) documentation best explains reasons for walking the Visual Tree.
 
-See also [LogicalTree Extensions](LogicalTree.md).
-
-## Example
+## Syntax
 
 ```csharp
 // Include namespace to access extensions.
@@ -62,15 +59,27 @@ control = uiElement.FindAscendantByName("MyScrollViewer")
 control = uiElement.FindAscendant(Of ScrollViewer)()
 ```
 
-## Requirements (Windows 10 Device Family)
+## Methods
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| FindAscendant<T>(this DependencyObject) | T where T : DependencyObject | Find first visual ascendant control of a specified type |
+| FindAscendantByName(this DependencyObject, String) | FrameworkElement | Find visual ascendant `FrameworkElement` control using its name |
+| FindDescendant<T>(this DependencyObject) | T where T : DependencyObject | Find first descendant control of a specified type |
+| FindDescendantByName(this DependencyObject, String) | FrameworkElement | Find descendant `FrameworkElement` control using its name |
+| FindDescendants<T>(this DependencyObject) | IEnumerable<T> where T : DependencyObject | Find all descendant controls of the specified type |
+
+## Requirements
+
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
 
 ## API
 
 * [VisualTree extensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/VisualTree.cs)
 
-[1]:https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.DependencyObject
-[2]:https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.Media.VisualTreeHelper
+## Related Topics
+
+- [LogicalTree Extensions](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/extensions/logicaltree)
