@@ -8,7 +8,7 @@
     xmlns:g="using:Microsoft.Toolkit.Uwp.Input.GazeInteraction" 
     g:GazeInput.Interaction="Enabled"        
     g:GazeInput.IsCursorVisible="True"       
-    g:GazeInput.CursorRadius="20"
+    g:GazeInput.CursorRadius="20"    
     mc:Ignorable="d">
     <Page.Resources>
         <local:TimeSpanConverter x:Key="ConvertTimeToMilliSecs"/>
@@ -27,6 +27,7 @@
                 <RowDefinition Height="50" ></RowDefinition>
                 <RowDefinition Height="50" ></RowDefinition>
                 <RowDefinition Height="50" ></RowDefinition>
+                <RowDefinition Height="1*" ></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
@@ -133,6 +134,9 @@
             </Grid>
 
             <ProgressBar Visibility="Collapsed" BorderBrush="Black" BorderThickness="1" Background="White" x:Name="DwellProgressBar" Height="10" Minimum="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="6"/>
+
+            <TextBlock x:Name="WarningText" Text="Please attach eye tracking device" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="6" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Foreground="MediumBlue" Visibility="Collapsed"   />
+            
         </Grid>
     </Grid>
 </Page>
