@@ -505,6 +505,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\GazeInteraction\GazeInteractionCode.bind" />
+    <Content Include="SamplePages\GazeTracing\GazeTracingCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -1309,7 +1310,7 @@
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <_GenerateAppxManifestDependsOn>
       ModifyAppXPackageDebug;
       $(_GenerateAppxManifestDependsOn)

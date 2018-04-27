@@ -215,7 +215,7 @@
     <ClInclude Include="GazeInput.h" />
     <ClInclude Include="GazeCursor.h" />
     <ClInclude Include="GazeElement.h" />
-    <ClInclude Include="GazeEnablement.h" />
+    <ClInclude Include="Interaction.h" />
     <ClInclude Include="GazeFeedbackPopupFactory.h" />
     <ClInclude Include="GazeHistoryItem.h" />
     <ClInclude Include="DwellInvokedRoutedEventArgs.h" />

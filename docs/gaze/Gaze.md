@@ -50,9 +50,8 @@ The low level gaze API delivers a stream of timestamped `[x,y]` coordinates for 
 | Property | Type | Description |
 | -- | -- | -- |
 |Enter | enum | User's gaze has entered a control |
-|Fixation| enum | User eye's are focused on the control. |
+|Fixation | enum | User eye's are focused on the control. |
 |Dwell | enum | User is conciously dwelling on the control with an intent to invoke, e.g. click a button|
-|DwellRepeat| enum | This is a small delay after Dwell. If the button is configured for repeated invocation, it will do so after the time period associated with this state has elapsed.|
 |Exit|enum|User's gaze is no longer on the control|
 
 
@@ -63,15 +62,15 @@ Whether the page is enabled for the gaze based interaction, the visibility and s
 | Property | Type | Description |
 | -- | -- | -- |
 | IsDeviceAvailable | bool | Returns whether an eye tracker is plugged in to the machine. When this property changes an `IsDeviceAvailableChanged` event is fired. |
-| IsGazeEnabled | enum | Gets or sets the status of gaze interaction over that particular XAML element.  There are three options: <br /> <ul> <li>**Enabled.**  Gaze interaction is enabled on this element and all its children </li> <li> **Disabled** Gaze interaction is disabled on this element and all its children <li> **Inherited** Gaze interaction status is inherited from the nearest ancestor </ul>| 
+| Interaction | enum | Gets or sets the status of gaze interaction over that particular XAML element.  There are three options: <br /> <ul> <li>**Enabled.**  Gaze interaction is enabled on this element and all its children </li> <li> **Disabled** Gaze interaction is disabled on this element and all its children <li> **Inherited** Gaze interaction status is inherited from the nearest ancestor </ul>| 
 | CursorVisible | bool | The gaze cursor shows where the user is looking at on the screen. This boolean property shows the gaze cursor when set to `true` and hides it when set to `false` |
 |CursorRadius|int|Gets or sets the size of the gaze cursor radius|
 | ThresholdDuration | TimeSpan | This duration controls when the PointerState moves to either the `Enter` state or the `Exit` state. When this duration has elapsed after the user's gaze first enters a control, the `PointerState` is set to `Enter`. And when this duration has elapsed after the user's gaze has left the control, the `PointerState` is set to `Exit`. In both cases, a `StateChanged` event is fired with the `PointerState` set to the corresponding value. The default is 50ms. |
 | FixationDuration | TimeSpan | Gets or sets the duration for the control to transition from the `Enter` state to the `Fixation` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `Fixation`. This event should be used to control the earliest visual feedback the application needs to provide to the user about the gaze location. The default is 400ms. **CHECK**|
 | DwellDuration | TimeSpan | Gets or sets the duration for the control to transition from the `Fixation` state to the `Dwell` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `Dwell`. The `Enter` and `Fixation` states are typicaly achieved too rapidly for the user to have much control over. In contrast `Dwell` is conscious event. This is the point at which the control is invoked, e.g. a button click. The application can modify this property to control when a gaze enabled UI element gets invoked after a user starts looking at it.
-| RepeatDelayDuration | TimeSpan | Gets or sets the duration for the control to transition from the `Dwell` state to the `RepeatDelay` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `RepeatDelay`. After this time has elapsed, the control enters  a 'repeat' mode, and the control will be repeatedly invoked as long as the user's gaze stays within the control area. |
-| DwellRepeatDuration | TimeSpan | Gets or sets the duration for the control to transition from the `RepeatDelay` state to the `DwellRepeat` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `DwellRepeat`. The control will be repeatedly invoked for every passage of this duration as long as the user's gaze stays within the control. |
 | MaxDwellRepeatCount | int | The maximum times the control will invoked repeatedly without the user's gaze having to leave and re-enter the control. The default value is zero which disables repeated invocation of a control. Developers can set a higher value to enable repeated invocation. |
+| DwellRepeatDuration | TimeSpan | Gets or sets the duration of repeated dwell invocations, should the user continue to dwell on the control. The first repeat will occur after an additional delay specified by `RepeatDelayDuration`. Subsequent repeats happen after every period of `DwellRepeatDuration`. _A control is invoked repeatedly only if MaxDwellRepeatCount is set to greater than zero_. |
+| RepeatDelayDuration | TimeSpan | Gets or sets the additional duration for the first repeat to occur. This prevents  inadvertent repeated invocation. See above for details. |
 
 
 
@@ -125,7 +124,7 @@ Add the following lines to your Page element to enable the whole page for gaze i
 
 ```xaml
     xmlns:gaze="using:Microsoft.Toolkit.UWP.Input.GazeInteraction"
-    gaze:GazeInput.IsGazeEnabled="Enabled"
+    gaze:GazeInput.Interaction="Enabled"
 ```
 
 For e.g.
@@ -138,7 +137,7 @@ For e.g.
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:gaze="using:Microsoft.Toolkit.UWP.Input.GazeInteraction"
-    gaze:GazeInput.IsGazeEnabled="True"
+    gaze:GazeInput.Interaction="Enabled"
     mc:Ignorable="d">
 ```
 
@@ -149,7 +148,7 @@ Gaze interaction can also be enabled only on a portion of the page by adding the
 To enable only a subset of the page, e.g. just one Grid on the page,
 
 ```xaml
-    <Grid gaze:GazeInput.IsGazeEnabled="Enabled">
+    <Grid gaze:GazeInput.Interaction="Enabled">
         <Button Content="Click Me" />
     <Grid />
 ```

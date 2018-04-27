@@ -6,7 +6,7 @@
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-public enum class GazeEnablement
+public enum class Interaction
 {
     Inherited,
     Enabled,

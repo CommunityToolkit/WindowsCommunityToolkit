@@ -6,7 +6,7 @@
 
 #include "IGazeFilter.h"
 #include "GazeCursor.h"
-#include "GazeEnablement.h"
+#include "Interaction.h"
 
 using namespace Platform;
 using namespace Platform::Collections;
@@ -27,7 +27,7 @@ ref class GazePointer;
 public ref class GazeInput sealed
 {
 public:
-    static property DependencyProperty^ IsGazeEnabledProperty { DependencyProperty^ get(); }
+    static property DependencyProperty^ InteractionProperty { DependencyProperty^ get(); }
     static property DependencyProperty^ IsCursorVisibleProperty { DependencyProperty^ get(); }
 	static property DependencyProperty^ CursorRadiusProperty { DependencyProperty^ get(); }
 
@@ -44,9 +44,9 @@ public:
     static property Brush^ DwellFeedbackProgressBrush { Brush^ get(); void set(Brush^ value); }
     static property Brush^ DwellFeedbackCompleteBrush { Brush^ get(); void set(Brush^ value); }
 
-    static GazeEnablement GetIsGazeEnabled(UIElement^ element);
+    static Interaction GetInteraction(UIElement^ element);
     static bool GetIsCursorVisible(UIElement^ element);
-	  static int GetCursorRadius(UIElement^ element);
+	static int GetCursorRadius(UIElement^ element);
     static GazeElement^ GetGazeElement(UIElement^ element);
     static TimeSpan GetFixationDuration(UIElement^ element);
     static TimeSpan GetDwellDuration(UIElement^ element);
@@ -55,7 +55,7 @@ public:
     static TimeSpan GetThresholdDuration(UIElement^ element);
 	static int GetMaxDwellRepeatCount(UIElement^ element);
 
-    static void SetIsGazeEnabled(UIElement^ element, GazeEnablement value);
+    static void SetInteraction(UIElement^ element, Interaction value);
     static void SetIsCursorVisible(UIElement^ element, bool value);
 	static void SetCursorRadius(UIElement^ element, int value);
     static void SetGazeElement(UIElement^ element, GazeElement^ value);

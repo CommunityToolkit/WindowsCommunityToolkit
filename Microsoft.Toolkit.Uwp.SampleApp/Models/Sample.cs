@@ -655,7 +655,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             // Search in Microsoft.Toolkit.Uwp.Input.GazeInteraction
 
-            var gazeType = GazeEnablement.Enabled;
+            var gazeType = Interaction.Enabled;
 
             assembly = gazeType.GetType().GetTypeInfo().Assembly;
 

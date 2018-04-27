@@ -305,16 +305,16 @@ GazeTargetItem^ GazePointer::GetHitTarget(Point gazePoint)
                 }
             }
 
-            switch (GazeInput::GetIsGazeEnabled(target))
+            switch (GazeInput::GetInteraction(target))
             {
-            case GazeEnablement::Enabled:
+            case Interaction::Enabled:
                 if (invokable != nullptr)
                 {
                     return invokable;
                 }
                 break;
 
-            case GazeEnablement::Disabled:
+            case Interaction::Disabled:
                 return GazeTargetItem::NonInvokable;
             }
         }

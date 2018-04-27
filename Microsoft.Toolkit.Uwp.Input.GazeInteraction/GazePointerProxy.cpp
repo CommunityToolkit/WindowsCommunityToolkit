@@ -18,7 +18,7 @@ GazePointerProxy::GazePointerProxy(FrameworkElement^ element)
     _unloadedToken = element->Unloaded += ref new RoutedEventHandler(this, &GazePointerProxy::OnPageUnloaded);
 }
 
-void GazePointerProxy::SetGazeEnabled(FrameworkElement^ element, GazeEnablement value)
+void GazePointerProxy::SetGazeInteraction(FrameworkElement^ element, Interaction value)
 {
     auto proxy = safe_cast<GazePointerProxy^>(element->GetValue(GazePointerProxyProperty));
     if (proxy == nullptr)
@@ -30,7 +30,7 @@ void GazePointerProxy::SetGazeEnabled(FrameworkElement^ element, GazeEnablement 
     proxy->IsEnabled = value;
 }
 
-void GazePointerProxy::IsEnabled::set(GazeEnablement value)
+void GazePointerProxy::IsEnabled::set(Interaction value)
 {
     if (_isEnabled != value)
     {
@@ -38,7 +38,7 @@ void GazePointerProxy::IsEnabled::set(GazeEnablement value)
 
         if (_isLoaded)
         {
-            if (value == GazeEnablement::Enabled)
+            if (value == Interaction::Enabled)
             {
                 GazePointer::Instance->AddRoot(_element);
             }
@@ -56,7 +56,7 @@ void GazePointerProxy::OnPageLoaded(Object^ sender, RoutedEventArgs^ args)
 
     _isLoaded = true;
 
-    if (_isEnabled == GazeEnablement::Enabled)
+    if (_isEnabled == Interaction::Enabled)
     {
         GazePointer::Instance->AddRoot(_element);
     }
@@ -72,7 +72,7 @@ void GazePointerProxy::OnPageUnloaded(Object^ sender, RoutedEventArgs^ args)
 
     _isLoaded = false;
 
-    if (_isEnabled == GazeEnablement::Enabled)
+    if (_isEnabled == Interaction::Enabled)
     {
         GazePointer::Instance->RemoveRoot(_element);
     }

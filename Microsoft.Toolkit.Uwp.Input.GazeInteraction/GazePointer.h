@@ -32,7 +32,7 @@ const TimeSpan MAX_SINGLE_SAMPLE_DURATION = TimeSpanFromMicroseconds(100000);
 
 const TimeSpan GAZE_IDLE_TIME{ 25000000 };
 
-ref struct GazeTargetItem;
+ref class GazeTargetItem;
 ref struct GazeHistoryItem;
 
 public ref class GazePointer sealed
