@@ -3,25 +3,19 @@
 
 #pragma once
 
-#include "pch.h"
-
-using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
 using namespace Windows::UI;
-using namespace Windows::UI::Core;
-using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Controls::Primitives;
-using namespace Windows::UI::Xaml::Media;
-using namespace Windows::UI::Xaml::Shapes;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-const int DEFAULT_CURSOR_RADIUS = 5;
-const bool DEFAULT_CURSOR_VISIBILITY = true;
-
 private ref class GazeCursor sealed
 {
+private:
+    const int DEFAULT_CURSOR_RADIUS = 5;
+    const bool DEFAULT_CURSOR_VISIBILITY = true;
+
 public:
     static property GazeCursor^ Instance
     {

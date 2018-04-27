@@ -2,35 +2,16 @@
 //See LICENSE in the project root for license information.
 
 #pragma once
-#pragma warning(disable:4453)
 
-#include "IGazeFilter.h"
 #include "GazeCursor.h"
+#include "IGazeFilter.h"
 #include "PointerState.h"
 
-using namespace Platform;
 using namespace Platform::Collections;
-using namespace Windows::Foundation;
-using namespace Windows::Foundation::Collections;
-using namespace Windows::Devices::Enumeration;
-using namespace Windows::Devices::HumanInterfaceDevice;
-using namespace Windows::UI::Core;
 using namespace Windows::Devices::Input::Preview;
-
-namespace Shapes = Windows::UI::Xaml::Shapes;
+using namespace Windows::Foundation;
 
 BEGIN_NAMESPACE_GAZE_INPUT
-
-// units in microseconds
-const TimeSpan DEFAULT_FIXATION_DELAY = TimeSpanFromMicroseconds(350000);
-const TimeSpan DEFAULT_DWELL_DELAY = TimeSpanFromMicroseconds(400000);
-const TimeSpan DEFAULT_DWELL_REPEAT_DELAY = TimeSpanFromMicroseconds(400000);
-const TimeSpan DEFAULT_REPEAT_DELAY = TimeSpanFromMicroseconds(400000);
-const TimeSpan DEFAULT_THRESHOLD_DELAY = TimeSpanFromMicroseconds(50000);
-const TimeSpan DEFAULT_MAX_HISTORY_DURATION = TimeSpanFromMicroseconds(3000000);
-const TimeSpan MAX_SINGLE_SAMPLE_DURATION = TimeSpanFromMicroseconds(100000);
-
-const TimeSpan GAZE_IDLE_TIME{ 25000000 };
 
 ref class GazeTargetItem;
 ref struct GazeHistoryItem;
@@ -40,6 +21,19 @@ ref struct GazeHistoryItem;
 /// </summary>
 public ref class GazePointer sealed
 {
+private:
+
+    // units in microseconds
+    const TimeSpan DEFAULT_FIXATION_DELAY = TimeSpanFromMicroseconds(350000);
+    const TimeSpan DEFAULT_DWELL_DELAY = TimeSpanFromMicroseconds(400000);
+    const TimeSpan DEFAULT_DWELL_REPEAT_DELAY = TimeSpanFromMicroseconds(400000);
+    const TimeSpan DEFAULT_REPEAT_DELAY = TimeSpanFromMicroseconds(400000);
+    const TimeSpan DEFAULT_THRESHOLD_DELAY = TimeSpanFromMicroseconds(50000);
+    const TimeSpan DEFAULT_MAX_HISTORY_DURATION = TimeSpanFromMicroseconds(3000000);
+    const TimeSpan MAX_SINGLE_SAMPLE_DURATION = TimeSpanFromMicroseconds(100000);
+
+    const TimeSpan GAZE_IDLE_TIME{ 25000000 };
+
 public:
     virtual ~GazePointer();
 

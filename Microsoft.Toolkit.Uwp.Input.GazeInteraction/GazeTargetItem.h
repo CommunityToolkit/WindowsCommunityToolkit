@@ -2,22 +2,14 @@
 //See LICENSE in the project root for license information.
 
 #pragma once
-#pragma warning(disable:4453)
 
-#include "PointerState.h"
-#include "GazeInput.h"
 #include "DwellProgressState.h"
+#include "GazeInput.h"
+#include "PointerState.h"
 
-using namespace Platform;
-using namespace Platform::Collections;
 using namespace Windows::Foundation;
-using namespace Windows::Foundation::Collections;
-using namespace Windows::Devices::Enumeration;
-using namespace Windows::Devices::HumanInterfaceDevice;
-using namespace Windows::UI::Core;
-using namespace Windows::Devices::Input::Preview;
-
-namespace Shapes = Windows::UI::Xaml::Shapes;
+using namespace Windows::UI::Xaml;
+using namespace Windows::UI::Xaml::Controls::Primitives;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
