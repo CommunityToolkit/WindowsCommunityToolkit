@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 
-#include "GazeEnablement.h"
+#include "Interaction.h"
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
@@ -13,16 +13,16 @@ public:
 
 internal:
 
-    static void SetGazeEnabled(FrameworkElement^ element, GazeEnablement value);
+    static void SetGazeInteraction(FrameworkElement^ element, Interaction value);
 
 private:
 
     GazePointerProxy(FrameworkElement^ element);
 
-    property GazeEnablement IsEnabled
+    property Interaction IsEnabled
     {
-        GazeEnablement get() { return _isEnabled; }
-        void set(GazeEnablement value);
+        Interaction get() { return _isEnabled; }
+        void set(Interaction value);
     }
 
     void OnPageLoaded(Object^ sender, RoutedEventArgs^ args);
@@ -35,7 +35,7 @@ private:
     EventRegistrationToken _loadedToken;
     EventRegistrationToken _unloadedToken;
     bool _isLoaded;
-    GazeEnablement _isEnabled;
+    Interaction _isEnabled;
 };
 
 END_NAMESPACE_GAZE_INPUT

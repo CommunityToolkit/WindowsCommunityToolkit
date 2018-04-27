@@ -882,6 +882,7 @@
         "About": "Shows how to use the Windows 10 API for eye trackers",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Input.Gaze/",
         "XamlCodeFile": "GazeTracingXaml.bind",
+        "CodeFile": "GazeTracingCode.bind",
         "Icon": "/SamplePages/GazeTracing/GazeTracing.png",
         "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
       }

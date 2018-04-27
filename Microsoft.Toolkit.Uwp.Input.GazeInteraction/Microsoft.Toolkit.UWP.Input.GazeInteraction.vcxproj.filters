@@ -96,9 +96,6 @@
     <ClInclude Include="GazePointerProxy.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="GazeEnablement.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="GazeInput.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -115,6 +112,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="DwellProgressEventArgs.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Interaction.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
