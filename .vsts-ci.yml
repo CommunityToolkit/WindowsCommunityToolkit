@@ -1,4 +1,3 @@
-queue: "Toolkit Private Pool"
 variables: 
   BuildConfiguration: Release
   
