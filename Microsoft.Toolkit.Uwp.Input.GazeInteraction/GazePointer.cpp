@@ -2,26 +2,15 @@
 //See LICENSE in the project root for license information.
 
 #include "pch.h"
-#include "GazePointer.h"
-#include "GazeInput.h"
-#include "GazeTargetItem.h"
-#include "GazeHistoryItem.h"
-#include "StateChangedEventArgs.h"
-#include "GazeElement.h"
-#include <xstddef>
-#include <varargs.h>
-#include <strsafe.h>
 
-using namespace std;
+#include "GazePointer.h"
+
+#include "GazeElement.h"
+#include "GazeHistoryItem.h"
+#include "GazeTargetItem.h"
+#include "StateChangedEventArgs.h"
+
 using namespace Platform;
-using namespace Windows::Foundation::Collections;
-using namespace Windows::Graphics::Display;
-using namespace Windows::UI;
-using namespace Windows::UI::ViewManagement;
-using namespace Windows::UI::Xaml::Automation::Peers;
-using namespace Windows::UI::Xaml::Hosting;
-using namespace Windows::UI::Xaml::Automation;
-using namespace Windows::UI::Xaml::Automation::Provider;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
