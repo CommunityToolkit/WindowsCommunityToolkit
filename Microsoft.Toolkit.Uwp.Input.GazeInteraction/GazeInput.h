@@ -21,62 +21,62 @@ public ref class GazeInput sealed
 public:
 
     /// <summary>
-    /// TODO: harishsk
+    /// Identifyes the Interaction dependency property
     /// </summary>
     static property DependencyProperty^ InteractionProperty { DependencyProperty^ get(); }
 
     /// <summary>
-    /// TODO: harishsk
+    /// Identifyes the IsCursorVisible dependency property
     /// </summary>
     static property DependencyProperty^ IsCursorVisibleProperty { DependencyProperty^ get(); }
 
     /// <summary>
-    /// TODO: harishsk
+    /// Identifyes the CursorRadius dependency property
     /// </summary>
     static property DependencyProperty^ CursorRadiusProperty { DependencyProperty^ get(); }
 
     /// <summary>
-    /// TODO: harishsk
+    /// Identifyes the GazeElement dependency property
     /// </summary>
     static property DependencyProperty^ GazeElementProperty { DependencyProperty^ get(); }
 
     /// <summary>
-    /// TODO: harishsk
+    /// Identifyes the FixationDuration dependency property
     /// </summary>
     static property DependencyProperty^ FixationDurationProperty { DependencyProperty^ get(); }
 
     /// <summary>
-    /// TODO: harishsk
+    /// Identifies the DwellDuration dependency property
     /// </summary>
     static property DependencyProperty^ DwellDurationProperty { DependencyProperty^ get(); }
 
     /// <summary>
-    /// TODO: harishsk
+    /// Identifies the RepeatDelayDuration dependency property
     /// </summary>
     static property DependencyProperty^ RepeatDelayDurationProperty { DependencyProperty^ get(); }
 
     /// <summary>
-    /// TODO: harishsk
+    /// Identifies the DwellRepeatDuration dependency property
     /// </summary>
     static property DependencyProperty^ DwellRepeatDurationProperty { DependencyProperty^ get(); }
 
     /// <summary>
-    /// TODO: harishsk
+    /// Identifies the ThresholdDuration dependency property
     /// </summary>
     static property DependencyProperty^ ThresholdDurationProperty { DependencyProperty^ get(); }
 
     /// <summary>
-    /// TODO: harishsk
+    /// Identifies the MaxDwellRepeatCount dependency property
     /// </summary>
     static property DependencyProperty^ MaxDwellRepeatCountProperty { DependencyProperty^ get(); }
 
     /// <summary>
-    /// TODO: harishsk
+    /// Gets or sets the brush to use when displaying the default animation for dwell press
     /// </summary>
     static property Brush^ DwellFeedbackProgressBrush { Brush^ get(); void set(Brush^ value); }
 
     /// <summary>
-    /// TODO: harishsk
+    /// Gets or sets the brush to use when displaying the default animation for dwell complete
     /// </summary>
     static property Brush^ DwellFeedbackCompleteBrush { Brush^ get(); void set(Brush^ value); }
 
