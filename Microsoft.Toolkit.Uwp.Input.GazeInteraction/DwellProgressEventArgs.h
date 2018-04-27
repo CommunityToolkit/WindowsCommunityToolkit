@@ -42,7 +42,7 @@ public:
 internal:
 	DwellProgressEventArgs(DwellProgressState state, TimeSpan elapsedDuration, TimeSpan triggerDuration)
 	{
-		_state = state;
+        _state = state;
         _progress = ((double)elapsedDuration.Duration) / triggerDuration.Duration;
 	}
 private:
