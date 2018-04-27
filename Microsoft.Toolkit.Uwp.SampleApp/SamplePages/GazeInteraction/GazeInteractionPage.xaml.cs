@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         }
 
         public void OnXamlRendered(FrameworkElement control)
-        {                       
+        {
             GazeInput.IsDeviceAvailableChanged += GazeInput_IsDeviceAvailableChanged;
 
             WarnUserToPlugInDevice();
@@ -55,14 +55,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     gazeButtonControl.DwellProgressFeedback += OnProgressFeedback;
                     gazeButtonControl.Invoked += OnGazeInvoked;
-                    gazeButtonControl.StateChanged += GazeButtonControl_StateChanged;                    
+                    gazeButtonControl.StateChanged += GazeButtonControl_StateChanged;
                 }
             }
         }
 
         private void GazeInput_IsDeviceAvailableChanged(object sender, object e)
         {
-            WarnUserToPlugInDevice();   
+            WarnUserToPlugInDevice();
         }
 
         private void WarnUserToPlugInDevice()
@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             else
             {
-                WarningText.Visibility = Visibility.Visible;                
+                WarningText.Visibility = Visibility.Visible;
             }
         }
 
@@ -90,7 +90,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 DwellProgressBar.Value = 0;
             }
         }
-
 
         private void GazeButtonControl_StateChanged(object sender, StateChangedEventArgs ea)
         {
@@ -133,7 +132,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 DwellRec.Visibility = Visibility.Collapsed;
                 RepeatRec.Visibility = Visibility.Collapsed;
                 DwellProgressBar.Value = 0;
-
             }
         }
     }
