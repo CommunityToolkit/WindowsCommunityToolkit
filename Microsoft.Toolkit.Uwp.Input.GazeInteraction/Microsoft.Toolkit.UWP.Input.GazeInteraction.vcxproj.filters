@@ -28,12 +28,6 @@
     <ClCompile Include="GazeSettingsHelper.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="GazeElement.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="GazeHistoryItem.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="GazeTargetItem.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -47,15 +41,6 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="GazePointer.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="PointerState.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="StateChangedEventArgs.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="DwellInvokedRoutedEventArgs.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
