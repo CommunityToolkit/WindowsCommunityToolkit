@@ -33,6 +33,15 @@ await CoreApplication.MainView.Dispatcher.AwaitableRunAsync<T>( () =>
     
 });
 ```
+```vb
+DispatcherHelper.ExecuteOnUIThreadAsync(Of T)(Function()
+    ' Code to execute on main window's UI thread
+End Function)
+
+Await CoreApplication.MainView.Dispatcher.AwaitableRunAsync(Of T)(Function()
+
+End Function)
+``
 
 ## Methods
 

@@ -93,6 +93,17 @@ Toolbar.CustomButtons.Add(new ToolbarButton
 });
 Toolbar.CustomButtons.Add(new ToolbarSeparator { Position = 2 });
 ```
+```vb
+Dim button = Toolbar.GetDefaultButton(ButtonType.Headers)
+button.Visibility = Windows.UI.Xaml.Visibility.Collapsed
+Toolbar.CustomButtons.Add(New ToolbarButton With {
+                            .Name = "CustomButton",
+                            .Icon = New SymbolIcon(Symbol.ReportHacked),
+                            .Position = 1,
+                            .Activation = Sub(btn) Debug.WriteLine($"{btn.Name} Activated"),
+                            .ShortcutKey = Windows.System.VirtualKey.H})
+Toolbar.CustomButtons.Add(New ToolbarSeparator With {.Position = 2})
+```
 
 ## Sample Code
 

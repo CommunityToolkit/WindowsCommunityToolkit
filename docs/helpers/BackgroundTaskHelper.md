@@ -20,6 +20,12 @@ using Microsoft.Toolkit.Uwp;
 BackgroundTaskRegistration registered = BackgroundTaskHelper.Register(typeof(BackgroundTaskClass), new TimeTrigger(15, true));
 BackgroundTaskRegistration registered = BackgroundTaskHelper.Register("TaskName", "TaskEntryPoint", new TimeTrigger(15, true));
 ```
+```vb
+Imports Microsoft.Toolkit.Uwp
+
+Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register(GetType(BackgroundTaskClass), New TimeTrigger(15, True))
+Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register("TaskName", "TaskEntryPoint", New TimeTrigger(15, True))
+```
 
 ## Methods
 
