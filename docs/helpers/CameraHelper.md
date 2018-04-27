@@ -1,13 +1,15 @@
 ---
 title: CameraHelper
 author: skommireddi
-description: The CameraHelper provides helper methods to get camera frame sources which can be used to preview video, capture video frames and software bitmaps.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, CameraHelper, Camera, Frame Source, Video Frame
+description: The CameraHelper provides helper methods to easily use the available camera frame sources to preview video, capture video frames and software bitmaps.
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, CameraHelper, Camera, Frame Source, Video Frame, Software Bitmap
 ---
 
 # CameraHelper
 
-The **CameraHelper** provides helper methods to get camera frame sources which can be used to preview video, capture video frames and software bitmaps. The helper currently filters frame sources that support color video preview or video record streams. 
+The **CameraHelper** provides helper methods tto easily use the available camera frame sources to preview video, capture video frames and software bitmaps. The helper currently shows camera frame sources that support color video preview or video record streams. 
+
+> [!IMPORTANT] Make sure you have the webcam capability enabled for your app to access the device's camera.
 
 ## Syntax
 
@@ -15,33 +17,20 @@ The **CameraHelper** provides helper methods to get camera frame sources which c
 // Creates a Camera Helper and gets video frames from an available frame source.
 using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
 
-// Get all available camera frame source groups
-var frameSourceGroups = await FrameSourceGroupsHelper.GetAllAvailableFrameSourceGroupsAsync();
+CameraHelper cameraHelper = new CameraHelper();
+var result = await _cameraHelper.InitializeAndStartCaptureAsync();
 
-// Get first available camera frame source group
-var frameSourceGroup = await FrameSourceGroupsHelper.GetFirstAvailableFrameSourceGroupAsync();
-if (frameSourceGroup != null)
+// Camera Initialization and Capture failed for some reason
+if(result != CameraHelperResult.Success)
 {
-  // Initialize Camera Helper with selected frame source group
-  CameraHelper cameraHelper = new CameraHelper();
-  var result = await _cameraHelper.InitializeAndStartCaptureAsync(frameSourceGroup);
-
-  // Camera Initialization and Capture failed for some reason
-  if(result.Status == false)
-  {
-	// log the error
-	var errorMessage = result.Message;
-  }
-
-  // Subscribe to the video frames and software bitmaps as they arrive
-  cameraHelper.VideoFrameArrived += CameraHelper_VideoFrameArrived;
-}
-else
-{
-  // No frame source available.
+// get error information
+var errorMessage = result.ToString();
 }
 
-private void CameraHelper_VideoFrameArrived(object sender, VideoFrameEventArgs e)
+// Subscribe to get frames as they arrive
+cameraHelper.FrameArrived += CameraHelper_FrameArrived;
+
+private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
 {
   // Gets the current video frame
   VideoFrame currentVideoFrame  = e.VideoFrame;
@@ -51,7 +40,38 @@ private void CameraHelper_VideoFrameArrived(object sender, VideoFrameEventArgs e
 }
 ```
 
-## Example
+## Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| FrameSource| MediaFrameSource| Gets the currently selected camera MediaFrameSource|
+| FrameSourceGroups| IReadOnlyList<MediaFrameSourceGroup>| Gets a read only list of MediaFrameSourceGroups that support color video record or video preview streams.|
+
+## Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| InitializeAndStartCaptureAsync(MediaFrameSourceGroup group = null) | Task<CameraHelperResult>| Initializes Camera Media Capture settings and initializes Frame Reader to capture frames in real time. If no MediaFrameSourceGroup is provided, it selects the first available camera source to  use for media capture. 
+| Dispose() | void | Use this method to dispose resources |
+
+## Events
+
+| Events | Description |
+| -- | -- |
+| FrameArrived| Fires when a new frame arrives.|
+
+```csharp
+private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
+{
+  // Gets the current video frame
+  VideoFrame currentVideoFrame  = e.VideoFrame;
+
+  // Gets the software bitmap image
+  SoftwareBitmap softwareBitmap = e.SoftwareBitmap;
+}
+```
+
+## Sample Code
 
 [CameraHelper Sample Page]
 ((https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/CameraHelper))
@@ -61,10 +81,10 @@ private void CameraHelper_VideoFrameArrived(object sender, VideoFrameEventArgs e
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
+| NuGet package | [Microsoft.Toolkit.Uwp](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
 
+## API Source Code
 
-## API
-
-* [CameraHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/CameraHelper)
+- [CameraHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/CameraHelper)
 
 

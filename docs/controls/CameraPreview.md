@@ -1,36 +1,68 @@
 ---
 title: CameraPreview
 author: skommireddi
-description: The **CameraPreview** control allows to preview video in the MediaPlayerElement from available camera frame source groups. You can subscribe to real time video frames and software bitmaps as they arrive from the selected camera source. It currently filters out frame sources that support color video preview or video record streams for preview.
+description: The CameraPreview control allows to easily preview video in the MediaPlayerElement from available camera frame source groups. You can subscribe and get real time video frames and software bitmaps as they arrive from the selected camera source. It shows only frame sources that support color video preview or video record streams.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, CameraPreview, Camera, Preview, Video Frame, Software Bitmap
 ---
 
 # CameraPreview
 
-The **CameraPreview** control allows to easily preview video in the MediaPlayerElement from available camera frame source groups. You can subscribe and get real time video frames and software bitmaps as they arrive from the selected camera source. It currently filters frame sources that support color video preview or video record streams. 
- 
+The **CameraPreview** control allows to easily preview video in the MediaPlayerElement from available camera frame source groups. You can subscribe and get real time video frames and software bitmaps as they arrive from the selected camera source. It shows only frame sources that support color video preview or video record streams.
+
+> [!IMPORTANT] Make sure you have the webcam capability enabled for your app to access the device's camera.
+
 ## Syntax
 
 ```xaml
 <controls:CameraPreview x:Name="CameraPreviewControl" 
-                                     VideoFrameArrived="CameraPreviewControl_VideoFrameArrived"
-                                     SoftwareBitmapArrived="CameraPreviewControl_SoftwareBitmapArrived">
+	FrameSourceGroupButtonIcon="ms-appx:///Assets/Photos/CameraSource.png"
+	FrameArrived="CameraPreviewControl_FrameArrived"
+	PreviewFailed="CameraPreviewControl_PreviewFailed">
 </controls:CameraPreview>       
 ```
 
 ```csharp
-private void CameraPreviewControl_SoftwareBitmapArrived(object sender, SoftwareBitmap e)
+private void CameraPreviewControl_FrameArrived(object sender, FrameEventArgs e)
 {
-	var softwareBitmap = e;
+	var videoFrame = e.VideoFrame;
+	var softwareBitmap = e.SoftwareBitmap;
 }
-        
-private void CameraPreviewControl_VideoFrameArrived(object sender, VideoFrame e)
+
+private void CameraPreviewControl_PreviewFailed(object sender, FailedEventArgs e)
 {
-	var currentVideoFrame = e;
+	var errorMessage = e.Error;
 }
 ```
 
-## Example
+## Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| FrameSourceGroups | IReadOnlyList<MediaFrameSourceGroup> | Gets a read only list of MediaFrameSourceGroups that support color video record or video preview streams. |
+| FrameSourceGroupButtonIcon | ImageSource | You can customize the icon for Frame Source Group button. |
+
+
+## Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| Dispose() | void | Use this method to dispose the control and media resources. |
+
+## Events
+
+| Events | Description |
+| -- | -- |
+| FrameArrived | Fires when a new frame arrives.|
+| PreviewFailed | Fires when camera preview fails.|
+
+```csharp
+private void CameraPreviewControl_PreviewFailed(object sender, FailedEventArgs e)
+{
+	var errorMessage = e.Error;
+}
+```
+
+## Sample Code
 
 [CameraPreview Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/CameraPreview)
 
@@ -39,9 +71,10 @@ private void CameraPreviewControl_VideoFrameArrived(object sender, VideoFrame e)
 | [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Controls/) |
 
-## API
+## API Source Code
 
-* [CameraPreview source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/CameraPreview)
+- [CameraPreview source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/CameraPreview)
 
 

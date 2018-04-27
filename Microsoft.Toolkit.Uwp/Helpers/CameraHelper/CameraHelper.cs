@@ -24,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
 {
     /// <summary>
     /// Camera Helper class to capture frames from available camera sources.
+    /// Make sure you have the capability webcam enabled for your app to access the device's camera.
     /// </summary>
     public class CameraHelper : IDisposable
     {
@@ -39,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         public MediaFrameSource FrameSource { get => _frameSource; }
 
         /// <summary>
-        /// Gets FrameSourceGroups available for Media Capture
+        /// Gets a read only list of MediaFrameSourceGroups that support color video record or video preview streams.
         /// </summary>
         public IReadOnlyList<MediaFrameSourceGroup> FrameSourceGroups { get => _frameSourceGroups; }
 
@@ -49,7 +50,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         public event EventHandler<FrameEventArgs> FrameArrived;
 
         /// <summary>
-        /// Initializes Media Capture settings and starts video capture using Frame Reader.
+        /// Initializes Camera Media Capture settings and initializes Frame Reader to capture frames in real time. 
+        /// If no MediaFrameSourceGroup is provided, it selects the first available camera source to  use for media capture.
+        /// You could select a specific MediaFrameSourceGroup from the available sources using the CameraHelper FrameSourceGroups property.
         /// </summary>
         /// <returns>Result of the async operation.<see cref="CameraHelperResult"/></returns>
         public async Task<CameraHelperResult> InitializeAndStartCaptureAsync(MediaFrameSourceGroup group = null)
@@ -66,7 +69,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
 
             if (_frameSourceGroups == null)
             {
-                // Make sure you have the capability webcam enabled, otherwise it will return null
                 var groups = await MediaFrameSourceGroup.FindAllAsync();
                 _frameSourceGroups = groups.Where(g => g.SourceInfos.Any(s => s.SourceKind == MediaFrameSourceKind.Color &&
                                                                             (s.MediaStreamType == MediaStreamType.VideoPreview

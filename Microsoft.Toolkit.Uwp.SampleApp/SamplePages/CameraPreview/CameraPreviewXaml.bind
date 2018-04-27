@@ -5,8 +5,10 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">    
     <StackPanel Orientation="Vertical" Margin="20">
-		<controls:CameraPreview x:Name="CameraPreviewControl" FrameSourceGroupButtonIcon="ms-appx:///Assets/Photos/CameraSource.png">
-		</controls:CameraPreview>  		
+		<controls:CameraPreview x:Name="CameraPreviewControl" 
+			FrameSourceGroupButtonIcon="ms-appx:///Assets/Photos/CameraSource.png">
+		</controls:CameraPreview>
+		<TextBlock x:Name="ErrorMessage"></TextBlock>
         <Image x:Name="CurrentFrameImage" MinWidth="300" Width="400" HorizontalAlignment="Left"></Image>
     </StackPanel>
 </Page>

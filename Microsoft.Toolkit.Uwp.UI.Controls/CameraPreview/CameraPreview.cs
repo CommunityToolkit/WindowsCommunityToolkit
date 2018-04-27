@@ -14,21 +14,18 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
-using Windows.Graphics.Imaging;
-using Windows.Media;
 using Windows.Media.Capture.Frames;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// Camera Control to preview video. Can subscribe to video frames, software bitmap when they arrive.
     /// </summary>
-    public sealed class CameraPreview : Control, IDisposable
+    public partial class CameraPreview : Control, IDisposable
     {
         private CameraHelper _cameraHelper;
         private MediaPlayer _mediaPlayer;
@@ -48,24 +45,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             this.DefaultStyleKey = typeof(CameraPreview);
         }
-
-        /// <summary>
-        /// Event raised when a new frame arrives.
-        /// </summary>
-        public event EventHandler<FrameEventArgs> FrameArrived;
-
-        /// <summary>
-        /// Gets or sets icon for Frame Source Group Button
-        /// </summary>
-        public ImageSource FrameSourceGroupButtonIcon
-        {
-            get { return (ImageSource)GetValue(FrameSourceGroupButtonIconProperty); }
-            set { SetValue(FrameSourceGroupButtonIconProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for FrameSourceGroupButtonIcon.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty FrameSourceGroupButtonIconProperty =
-            DependencyProperty.Register("FrameSourceGroupButtonIcon", typeof(ImageSource), typeof(CameraPreview), new PropertyMetadata(null));
 
         protected async override void OnApplyTemplate()
         {
@@ -99,27 +78,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _cameraHelper.FrameArrived += CameraHelper_FrameArrived;
                     FrameSourceGroups = _cameraHelper.FrameSourceGroups;
                 }
+                else
+                {
+                    InvokePreviewFailed(result.ToString());
+                }
 
                 SetUIControls(result);
             }
         }
 
+        private void InvokePreviewFailed(string error)
+        {
+            EventHandler<PreviewFailedEventArgs> handler = PreviewFailed;
+            handler?.Invoke(this, new PreviewFailedEventArgs { Error = error });
+        }
+
         private void SetMediaPlayerSource()
         {
-            var frameSource = _cameraHelper?.FrameSource;
-            if (frameSource != null)
+            try
             {
-                if (_mediaPlayer == null)
+                var frameSource = _cameraHelper?.FrameSource;
+                if (frameSource != null)
                 {
-                    _mediaPlayer = new MediaPlayer
+                    if (_mediaPlayer == null)
                     {
-                        AutoPlay = true,
-                        RealTimePlayback = true
-                    };
-                }
+                        _mediaPlayer = new MediaPlayer
+                        {
+                            AutoPlay = true,
+                            RealTimePlayback = true
+                        };
+                    }
 
-                _mediaPlayer.Source = MediaSource.CreateFromMediaFrameSource(frameSource);
-                _mediaPlayerElementControl.SetMediaPlayer(_mediaPlayer);
+                    _mediaPlayer.Source = MediaSource.CreateFromMediaFrameSource(frameSource);
+                    _mediaPlayerElementControl.SetMediaPlayer(_mediaPlayer);
+                }
+            }
+            catch (Exception ex)
+            {
+                InvokePreviewFailed(ex.Message);
             }
         }
 

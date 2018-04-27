@@ -1,7 +1,25 @@
-﻿var softwareBitmapSource = new SoftwareBitmapSource();
+﻿// Make sure you have the capability webcam enabled for your app to access the device's camera.
+
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"      
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">    
+    <StackPanel Orientation="Vertical" Margin="20">
+		<controls:CameraPreview x:Name="CameraPreviewControl" 
+			FrameSourceGroupButtonIcon="ms-appx:///Assets/Photos/CameraSource.png">
+		</controls:CameraPreview>
+		<TextBlock x:Name="ErrorMessage"></TextBlock>
+        <Image x:Name="CurrentFrameImage" MinWidth="300" Width="400" HorizontalAlignment="Left"></Image>
+    </StackPanel>
+</Page>
+
+// Create a software bitmap source and set it to the Xaml Image control source.
+var softwareBitmapSource = new SoftwareBitmapSource();
 CurrentFrameImage.Source = softwareBitmapSource;
 
-// Register for FrameArrived to get video frames, software bitmaps. 
+// Register for FrameArrived to get real time video frames, software bitmaps. 
 private void CameraPreviewControl_FrameArrived(object sender, FrameEventArgs e)
 {
     VideoFrame videoFrame = e.VideoFrame;
@@ -17,4 +35,10 @@ private void CameraPreviewControl_FrameArrived(object sender, FrameEventArgs e)
 
         await softwareBitmapSource.SetBitmapAsync(targetSoftwareBitmap);
     }
+}
+
+// Register for PreviewFailed to get failure error information.
+private void CameraPreviewControl_PreviewFailed(object sender, PreviewFailedEventArgs e)
+{
+    ErrorMessage.Text = e.Error;
 }

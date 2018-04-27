@@ -34,6 +34,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private SoftwareBitmapSource _softwareBitmapSource;
         private CameraPreview _cameraPreviewControl;
         private Image _imageControl;
+        private TextBlock _errorMessageText;
 
         public CameraPreviewPage()
         {
@@ -46,14 +47,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (_cameraPreviewControl != null)
             {
                 _cameraPreviewControl.FrameArrived += CameraPreviewControl_FrameArrived;
+                _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
             }
 
             _imageControl = control.FindDescendantByName("CurrentFrameImage") as Image;
             if (_imageControl != null)
             {
                 _softwareBitmapSource = new SoftwareBitmapSource();
-                _imageControl.Source = _softwareBitmapSource;                
+                _imageControl.Source = _softwareBitmapSource;
             }
+
+            _errorMessageText = control.FindDescendantByName("ErrorMessage") as TextBlock;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -82,6 +86,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             _currentVideoFrame = e.VideoFrame;
             _softwareBitmap = e.SoftwareBitmap;
+        }
+
+        private void CameraPreviewControl_PreviewFailed(object sender, PreviewFailedEventArgs e)
+        {
+            _errorMessageText.Text = e.Error;
         }
 
         private async void CaptureButton_Click(object sender, RoutedEventArgs e)
