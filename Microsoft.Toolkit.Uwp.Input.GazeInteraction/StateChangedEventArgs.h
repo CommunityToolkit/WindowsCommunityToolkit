@@ -21,10 +21,24 @@ namespace Shapes = Windows::UI::Xaml::Shapes;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
+/// <summary>
+/// TODO: harishsk
+/// </summary>
 public ref struct StateChangedEventArgs sealed
 {
+    /// <summary>
+    /// TODO: harishsk
+    /// </summary>
     property UIElement^ HitTarget {UIElement^ get() { return _hitTarget; }}
+
+    /// <summary>
+    /// TODO: harishsk
+    /// </summary>
     property GazeInteraction::PointerState PointerState {GazeInteraction::PointerState get() { return _pointerState; }}
+
+    /// <summary>
+    /// TODO: harishsk
+    /// </summary>
     property TimeSpan ElapsedTime {TimeSpan get() { return _elapsedTime; }}
 
 internal:

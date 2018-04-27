@@ -22,7 +22,7 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 ref class GazeTargetItem;
 
-ref struct GazeHistoryItem
+private ref struct GazeHistoryItem
 {
     property GazeTargetItem^ HitTarget;
     property TimeSpan Timestamp;

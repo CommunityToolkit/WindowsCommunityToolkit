@@ -21,7 +21,7 @@ namespace Shapes = Windows::UI::Xaml::Shapes;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-ref class GazeTargetItem abstract
+private ref class GazeTargetItem abstract
 {
 internal:
     static property GazeTargetItem^ NonInvokable{ GazeTargetItem^ get(); }

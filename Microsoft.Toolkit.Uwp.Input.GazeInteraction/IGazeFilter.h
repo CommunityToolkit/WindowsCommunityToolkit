@@ -9,10 +9,22 @@ using namespace Windows::Foundation::Collections;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
+/// <summary>
+/// TODO: harishsk
+/// </summary>
 public ref struct GazeFilterArgs sealed
 {
+    /// <summary>
+    /// TODO: harishsk
+    /// </summary>
     property Point Location {Point get() { return _location; }}
+
+    /// <summary>
+    /// TODO: harishsk
+    /// </summary>
     property TimeSpan Timestamp {TimeSpan get() { return _timestamp; }}
+
+internal:
 
     GazeFilterArgs(Point location, TimeSpan timestamp)
     {

@@ -14,10 +14,6 @@ GazeSettingsHelper::GazeSettingsHelper()
 {
 }
 
-GazeSettingsHelper::~GazeSettingsHelper()
-{
-}
-
 Windows::Foundation::IAsyncAction^ GazeSettingsHelper::RetrieveSharedSettings(ValueSet^ settings)
 {
     return create_async([settings]{

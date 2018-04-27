@@ -8,7 +8,7 @@ using namespace Platform::Collections;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-ref class GazeStats sealed
+private ref class GazeStats sealed
 {
 public:
     GazeStats(int maxHistoryLen);
