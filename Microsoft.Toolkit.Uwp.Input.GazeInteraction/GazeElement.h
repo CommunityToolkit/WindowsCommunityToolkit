@@ -29,6 +29,8 @@ public:
     event EventHandler<DwellInvokedRoutedEventArgs^>^ Invoked;
 	event EventHandler<DwellProgressEventArgs^>^ DwellProgressFeedback;
 
+internal:
+
     void RaiseStateChanged(Object^ sender, StateChangedEventArgs^ args) { StateChanged(sender, args); }
 
     void RaiseInvoked(Object^ sender, DwellInvokedRoutedEventArgs^ args)

@@ -25,6 +25,12 @@ public ref class DwellInvokedRoutedEventArgs : public RoutedEventArgs
 public:
 
     property bool Handled;
+
+internal:
+
+    DwellInvokedRoutedEventArgs()
+    {
+    }
 };
 
 END_NAMESPACE_GAZE_INPUT

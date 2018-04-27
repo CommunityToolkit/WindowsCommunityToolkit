@@ -23,16 +23,23 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 public ref struct StateChangedEventArgs sealed
 {
-    property UIElement^ HitTarget;
-    property PointerState PointerState;
-    property TimeSpan ElapsedTime;
+    property UIElement^ HitTarget {UIElement^ get() { return _hitTarget; }}
+    property GazeInteraction::PointerState PointerState {GazeInteraction::PointerState get() { return _pointerState; }}
+    property TimeSpan ElapsedTime {TimeSpan get() { return _elapsedTime; }}
+
+internal:
 
     StateChangedEventArgs(UIElement^ target, GazeInteraction::PointerState state, TimeSpan elapsedTime)
     {
-        HitTarget = target;
-        PointerState = state;
-        ElapsedTime = elapsedTime;
+        _hitTarget = target;
+        _pointerState = state;
+        _elapsedTime = elapsedTime;
     }
+
+private:
+    UIElement ^ _hitTarget;
+    GazeInteraction::PointerState _pointerState;
+    TimeSpan _elapsedTime;
 };
 
 END_NAMESPACE_GAZE_INPUT
