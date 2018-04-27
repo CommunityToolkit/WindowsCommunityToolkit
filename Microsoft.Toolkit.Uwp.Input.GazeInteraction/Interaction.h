@@ -2,7 +2,6 @@
 //See LICENSE in the project root for license information.
 
 #pragma once
-#pragma warning(disable:4453)
 
 BEGIN_NAMESPACE_GAZE_INPUT
 

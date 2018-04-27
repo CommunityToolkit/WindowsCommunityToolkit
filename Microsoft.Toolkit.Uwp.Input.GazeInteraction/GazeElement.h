@@ -2,25 +2,15 @@
 //See LICENSE in the project root for license information.
 
 #pragma once
-#pragma warning(disable:4453)
 
-#include "IGazeFilter.h"
-#include "GazeCursor.h"
-#include "StateChangedEventArgs.h"
 #include "DwellInvokedRoutedEventArgs.h"
 #include "DwellProgressEventArgs.h"
+#include "StateChangedEventArgs.h"
 
-using namespace Platform;
-using namespace Platform::Collections;
 using namespace Windows::Foundation;
-using namespace Windows::Foundation::Collections;
-using namespace Windows::Devices::Enumeration;
-using namespace Windows::Devices::HumanInterfaceDevice;
-using namespace Windows::UI::Core;
-using namespace Windows::Devices::Input::Preview;
+using namespace Windows::UI::Xaml;
 
 BEGIN_NAMESPACE_GAZE_INPUT
-
 
 /// <summary>
 /// TODO: harishsk

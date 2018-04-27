@@ -2,7 +2,6 @@
 //See LICENSE in the project root for license information.
 
 #pragma once
-#include "pch.h"
 
 using namespace Platform::Collections;
 
