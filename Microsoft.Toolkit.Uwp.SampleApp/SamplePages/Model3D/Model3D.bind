@@ -11,7 +11,7 @@
     <controls:Model3D Height="400" 
                       Width="400" 
                       Source="ms-appx:///Assets/3D/poop.glb"
-                      AlphaInDegrees="@[AlphaInDegrees:DoubleSlider:90:0-360]@"
-                      BetaInDegrees="@[BetaInDegrees:DoubleSlider:90:0-360]@"></controls:Model3D>
+                      AlphaInDegrees="@[AlphaInDegrees:Slider:90:0-360]@"
+                      BetaInDegrees="@[BetaInDegrees:Slider:90:0-180]@"></controls:Model3D>
   </Grid>
 </Page>

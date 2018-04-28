@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _view.ScriptNotify += _view_ScriptNotify;
                 _view.NavigationCompleted += _view_NavigationCompleted;
-                _view.Navigate(new Uri("ms-appx-web:///Lib/Object3D/BabylonView.html"));
+                _view.Navigate(new Uri("ms-appx-web:///Microsoft.Toolkit.Uwp.UI.Controls/Model3D/BabylonView.html"));
             }
 
         }

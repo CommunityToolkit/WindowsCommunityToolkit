@@ -282,6 +282,15 @@
         "XamlCodeFile": "LayoutTransformControlXaml.bind",
         "Icon": "/SamplePages/LayoutTransformControl/LayoutTransformControl.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/LayoutTransformControl.md"
+      },
+      {
+        "Name": "Model3D",
+        "Type": "Model3DPage",
+        "About": "TODO",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Model3D",
+        "XamlCodeFile": "Model3D.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/Model3D.md"
       }
     ]
   },

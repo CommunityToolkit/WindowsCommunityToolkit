@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="Assets\3D\poop.glb" />
     <Content Include="Assets\NotificationAssets\Cloudy-Square.png" />
     <Content Include="Assets\NotificationAssets\Cloudy.png" />
     <Content Include="Assets\NotificationAssets\Drizzle-Square.png" />
@@ -497,7 +498,6 @@
     <Content Include="SamplePages\PrintHelper\PrintHelperXaml.bind">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Assets\3D\poop.glb" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
