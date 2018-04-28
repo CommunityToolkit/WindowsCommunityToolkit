@@ -8,6 +8,22 @@
 
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Model3D\babylon.glTFFileLoader.js" />
+    <None Remove="Model3D\BabylonView.html" />
+    <None Remove="Model3D\babylon_p.max.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Model3D\Model3D.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Model3D\babylon.glTFFileLoader.js" />
+    <Content Include="Model3D\BabylonView.html" />
+    <Content Include="Model3D\babylon_p.max.js" />
+  </ItemGroup>
+
 
   <ItemGroup>
 
@@ -20,6 +36,13 @@
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <None Update="Model3D\Model3D.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
   </ItemGroup>
   
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
