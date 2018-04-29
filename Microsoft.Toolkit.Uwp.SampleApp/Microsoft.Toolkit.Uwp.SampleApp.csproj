@@ -128,7 +128,7 @@
       <Version>1.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Graph">
-      <Version>1.6.2</Version>
+      <Version>1.8.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>1.1.0</Version>
@@ -329,7 +329,7 @@
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.png" />
     <Content Include="SamplePages\MasterDetailsView\OneDriveLogo.png" />
     <Content Include="SamplePages\Menu\Menu.png" />
-    <Content Include="SamplePages\Microsoft Graph Service\OfficeLogo.png" />
+    <Content Include="SamplePages\Microsoft Graph Service\mslogo.png" />
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
     <Content Include="SamplePages\NavigationViewStyles\NavigationViewStyles.png" />
