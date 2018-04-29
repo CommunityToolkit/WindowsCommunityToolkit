@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
@@ -38,6 +39,42 @@ namespace Microsoft.Toolkit.Services.OneDrive
             {
                 return _fileType;
             }
+        }
+
+        private string _thumbnail;
+
+        /// <summary>
+        /// Gets the smallest available thumbnail for the object
+        /// </summary>
+        public string Thumbnail
+        {
+            get
+            {
+                if (_thumbnail == null)
+                {
+                    GrabThumbnail();
+                }
+                return _thumbnail;
+            }
+        }
+
+        private void GrabThumbnail()
+        {
+            Task.Run(async () =>
+            {
+                try
+                {
+                    var set = await GetThumbnailSetAsync();
+                    if (set != null)
+                    {
+                        _thumbnail = set.Small ?? set.Medium ?? set.Large;
+                    }
+                }
+                catch (Exception)
+                {
+                    _thumbnail = string.Empty;
+                }
+            }).Wait();
         }
 
         /// <summary>

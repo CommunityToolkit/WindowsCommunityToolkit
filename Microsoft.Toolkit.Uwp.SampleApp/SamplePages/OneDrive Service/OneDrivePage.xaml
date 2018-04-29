@@ -162,7 +162,10 @@
                            HorizontalAlignment="Left" 
                            VerticalAlignment="Center">
                 <ToolTipService.ToolTip>
-                    <Image x:Name="ThumbNail" Source="{Binding ThumbNail}"/>
+                    <StackPanel>
+                        <Image x:Name="ThumbNail" Source="{Binding Thumbnail}"/>
+                        <TextBlock Text="{Binding  FormattedFileSize}"/>
+                    </StackPanel>
                 </ToolTipService.ToolTip>
                 </TextBlock>
                 <AppBarButton  Grid.Column="2"
