@@ -1,8 +1,11 @@
 ---
 title: Carousel XAML Control
 author: nmetulev
-description: The Carousel control inherites from ItemsControl, representing a nice and smooth carousel.
+description: The Carousel control inherits from ItemsControl, representing a nice and smooth carousel.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, carousel, xaml control, xaml
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Carousel XAML Control 

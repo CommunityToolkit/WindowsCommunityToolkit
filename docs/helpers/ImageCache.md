@@ -3,6 +3,9 @@ title: ImageCache
 author: nmetulev
 description: The ImageCache provides methods and tools to cache images in a temporary local folder.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ImageCache
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # ImageCache
@@ -21,10 +24,25 @@ ImageCache.Instance.MaxMemoryCacheCount = 100;
 var distantUri = new Uri("http://www.myserver.com/image.jpg");
 
 // Load a specific image from the cache. If the image is not in the cache, ImageCache will try to download and store it
-var bitmapImage = await ImageCache.Instance.GetFromCacheAsync(distantUri));
+var bitmapImage = await ImageCache.Instance.GetFromCacheAsync(distantUri);
 
 // Clear the cache. Please note that you can provide a parameter to define a timespan from now to select cache entries to delete.
 await ImageCache.Instance.ClearAsync();	
+```
+```vb
+' Set cache duration
+ImageCache.Instance.CacheDuration = TimeSpan.FromHours(24)
+
+' Enable in-memory caching
+ImageCache.Instance.MaxMemoryCacheCount = 100
+
+Dim distantUri = New Uri("http://www.myserver.com/image.jpg")
+
+' Load a specific image from the cache. If the image is not in the cache, ImageCache will try to download and store it
+Dim bitmapImage = Await ImageCache.Instance.GetFromCacheAsync(distantUri)
+
+' Clear the cache. Please note that you can provide a parameter to define a timespan from now to select cache entries to delete.
+Await ImageCache.Instance.ClearAsync()
 ```
 
 ## Properties

@@ -3,6 +3,9 @@ title: Streams Helper
 author: nmetulev
 description: There are several operations that apps need commonly to do against their APPX, or from the Internet that are not easy.  This helper class wraps up some of the most common operations we need in multiple apps.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Streams
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Streams Helper
@@ -40,15 +43,28 @@ There are several operations that apps need commonly to do against their APPX, o
 // Get access to a text file that was included in solution as Content | do not copy local
 using (var stream = await StreamHelper.GetPackagedFileStreamAsync("Assets/Sub/test.txt"))
 {
-// Read the contents as ASCII text
+    // Read the contents as ASCII text
     var readText = await stream.ReadTextAsync();
 }
 
-// Get access to a HTTP ressource
+// Get access to a HTTP resource
 using (var stream = await StreamHelper.GetHttpStreamAsync(new Uri("http://dev.windows.com")))
 {
     ...
 }
+```
+```vb
+' Get access to a text file that was included in solution as Content | do not copy local
+Using stream = Await StreamHelper.GetPackagedFileStreamAsync("Assets/Sub/test.txt")
+    '  Read the contents as ASCII text
+    Dim readText = Await stream.ReadTextAsync()
+    ...
+End Using
+
+' // Get access to a HTTP resource
+Using stream = Await StreamHelper.GetHttpStreamAsync(New Uri("http://dev.windows.com"))
+    ...
+End Using
 ```
 
 ## Sample Code
@@ -65,4 +81,3 @@ You can find more examples in our [unit tests](https://github.com/Microsoft/UWPC
 ## API Source Code
 
 * [Stream Helper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/StreamHelper.cs)
-

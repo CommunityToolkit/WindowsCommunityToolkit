@@ -3,6 +3,9 @@ title: Visual Tree Extensions
 author: nmetulev
 description: The VisualTree extensions provide a collection of extensions methods for UI controls. It provides DependencyObject extensions to aid in using the VisualTreeHelper class.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Visual Tree, extentions
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Visual Tree Extensions
@@ -15,7 +18,7 @@ It provides [DependencyObject](https://docs.microsoft.com/uwp/api/Windows.UI.Xam
 
 ```csharp
 // Include namespace to access extensions.
-using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 
 // Find visual descendant control using its name.
 var control = uiElement.FindDescendantByName("MyTextBox");
@@ -34,6 +37,26 @@ control = uiElement.FindAscendantByName("MyScrollViewer");
 
 // Find first visual ascendant control of a specified type.
 control = uiElement.FindAscendant<ScrollViewer>();
+```
+```vb
+' Include namespace to access extensions.
+Imports Microsoft.Toolkit.Uwp.UI.Extensions
+
+' Find visual descendant control using its name.
+Dim control = uiElement.FindDescendantByName("MyTextBox")
+
+' Find first visual descendant control of a specified type.
+control = uiElement.FindDescendant(Of ListView)()
+
+' Find all visual descendant controls of the specified type.
+For Each child In uiElement.FindDescendants(Of ListViewItem)()
+    ' ...
+Next
+
+' Find first visual ascendant control using its name.
+control = uiElement.FindAscendantByName("MyScrollViewer")
+' Find first visual ascendant control of a specified type.
+control = uiElement.FindAscendant(Of ScrollViewer)()
 ```
 
 ## Methods

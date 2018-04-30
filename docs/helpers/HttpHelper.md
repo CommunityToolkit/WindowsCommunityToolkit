@@ -3,6 +3,9 @@ title: HttpHelper
 author: nmetulev
 description: HttpHelper is a UWP Community Toolkit helper class used to assist in common http and networking scenarios.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelper
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # HttpHelper
@@ -10,15 +13,19 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelper
 > [!WARNING]
 (This API is obsolete and will be removed in the future. Please use [System.Net.Http.HttpClient](https://msdn.microsoft.com/library/system.net.http.httpclient(v=vs.110).aspx) or [Windows.Web.Http.HttpClient](https://docs.microsoft.com/uwp/api/Windows.Web.Http.HttpClient) directly)
 
-The [HttpHelper](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.httphelper)  
-represents an HTTP request message including headers.
+The [HttpHelper](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.httphelper) represents an HTTP request message including headers.
 
 ## Syntax
 
 ```csharp
-var request = new HttpHelperRequest(new Uri("URI"), HttpMethod.Post)
+var request = new HttpHelperRequest(new Uri("URI"), HttpMethod.Post);
 
-var response = await HttpHelper.Instance.SendRequestAsync(request)
+var response = await HttpHelper.Instance.SendRequestAsync(request);
+```
+```vb
+Private request = New HttpHelperRequest(New Uri("URI"), HttpMethod.Post)
+
+Private response = Await HttpHelper.Instance.SendRequestAsync(request)
 ```
 
 ## Properties
@@ -54,6 +61,13 @@ using (var request = new HttpHelperRequest(new Uri(twitterUrl), HttpMethod.Post)
         return await response.GetTextResultAsync();
     }
 }
+```
+```vb
+Using request = New HttpHelperRequest(New Uri(twitterUrl), HttpMethod.Post)
+    Using response = Await HttpHelper.Instance.SendRequestAsync(request)
+        Return Await response.GetTextResultAsync()
+    End Using
+End Using
 ```
 
 ## Requirements
