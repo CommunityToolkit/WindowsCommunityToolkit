@@ -22,7 +22,6 @@
     <IsWin32Project Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Win32'))</IsWin32Project>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
  
-    
     <UwpMetaPackageVersion>6.0.8</UwpMetaPackageVersion>
     <DefaultTargetPlatformVersion>17134</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>14393</DefaultTargetPlatformMinVersion>

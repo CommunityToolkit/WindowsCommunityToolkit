@@ -2,6 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/PullToRefreshListView/PullToRefreshListViewTemplate.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <Style TargetType="local:PullToRefreshListView">
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="TabNavigation" Value="Once" />
@@ -33,54 +37,6 @@
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="local:PullToRefreshListView">
-                    <Border x:Name="Root"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid>
-                            <Border x:Name="RefreshIndicator"
-                                    VerticalAlignment="Top">
-                                <Grid>
-                                    <ContentPresenter x:Name="PullAndReleaseIndicatorContent"
-                                                      HorizontalAlignment="Center"
-                                                      FontSize="20" />
-                                    <ContentPresenter Content="{TemplateBinding RefreshIndicatorContent}" />
-                                </Grid>
-                                <Border.RenderTransform>
-                                    <CompositeTransform x:Name="RefreshIndicatorTransform" />
-                                </Border.RenderTransform>
-                            </Border>
-                            <ScrollViewer x:Name="ScrollViewer"
-                                          AutomationProperties.AccessibilityView="Raw"
-                                          BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
-                                          HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                          HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-                                          IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
-                                          IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
-                                          IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
-                                          IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
-                                          IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
-                                          TabNavigation="{TemplateBinding TabNavigation}"
-                                          VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                                          VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-                                          ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                                <ItemsPresenter x:Name="ItemsPresenter"
-                                                Padding="{TemplateBinding Padding}"
-                                                Footer="{TemplateBinding Footer}"
-                                                FooterTemplate="{TemplateBinding FooterTemplate}"
-                                                FooterTransitions="{TemplateBinding FooterTransitions}"
-                                                Header="{TemplateBinding Header}"
-                                                HeaderTemplate="{TemplateBinding HeaderTemplate}"
-                                                HeaderTransitions="{TemplateBinding HeaderTransitions}" />
-                            </ScrollViewer>
-                        </Grid>
-
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Template" Value="{StaticResource PullToRefreshListViewTemplate}" />
     </Style>
 </ResourceDictionary>
