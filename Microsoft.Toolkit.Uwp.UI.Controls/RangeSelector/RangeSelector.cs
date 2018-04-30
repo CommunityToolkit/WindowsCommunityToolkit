@@ -200,12 +200,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UpdateMinimumDisplayText(Minimum, this);
             UpdateMaximumDisplayText(Maximum, this);
 
-            //  Measure our min/max text longest value so we can avoid the length of the scrolling reason shifting in size during use.
+            // Measure our min/max text longest value so we can avoid the length of the scrolling reason shifting in size during use.
             var tb = new TextBlock { Text = Maximum.ToString() };
             tb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
 
-            _minValueText.MinWidth = tb.ActualWidth;
-            _maxValueText.MinWidth = tb.ActualWidth;
+            if (_minValueText != null)
+            {
+                _minValueText.MinWidth = tb.ActualWidth;
+            }
+
+            if (_maxValueText != null)
+            {
+                _maxValueText.MinWidth = tb.ActualWidth;
+            }
 
             base.OnApplyTemplate();
         }
@@ -430,7 +437,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (newValue != oldValue)
             {
                 rangeSelector.SyncThumbs();
-                rangeSelector._minValueText.Text = newValue.ToString();
+
+                if (rangeSelector._minValueText != null)
+                {
+                    rangeSelector._minValueText.Text = newValue.ToString();
+                }
             }
         }
 
@@ -483,8 +494,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (newValue != oldValue)
             {
                 rangeSelector.SyncThumbs();
-                rangeSelector._maxValueText.Text = newValue.ToString();
-
+                if (rangeSelector._maxValueText != null)
+                {
+                    rangeSelector._maxValueText.Text = newValue.ToString();
+                }
             }
         }
 
@@ -638,6 +651,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void UpdateMinimumDisplayText(double newValue, RangeSelector rangeSelector)
         {
+            // Safety check in case the template is missing the _minValueText element
+            if (rangeSelector._minValueText == null)
+            {
+                return;
+            }
+
             if (rangeSelector.StepFrequency < 1)
             {
                 rangeSelector._minValueText.Text = string.Format("{0:0.00}", newValue);
@@ -650,6 +669,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void UpdateMaximumDisplayText(double newValue, RangeSelector rangeSelector)
         {
+            // Safety check in case the template is missing the _maxValueText element
+            if (rangeSelector._maxValueText == null)
+            {
+                return;
+            }
+
             if (rangeSelector.StepFrequency < 1)
             {
                 rangeSelector._maxValueText.Text = string.Format("{0:0.00}", newValue);
@@ -846,7 +871,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             RangeMin = DragThumb(_minThumb, 0, Canvas.GetLeft(_maxThumb), _absolutePosition);
 
-            UpdateToolTipText(this, _toolTipText, RangeMin);
+            if (_toolTipText != null)
+            {
+                UpdateToolTipText(this, _toolTipText, RangeMin);
+            }
         }
 
         private void MaxThumb_DragDelta(object sender, DragDeltaEventArgs e)
@@ -855,7 +883,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             RangeMax = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), DragWidth(), _absolutePosition);
 
-            UpdateToolTipText(this, _toolTipText, RangeMax);
+            if (_toolTipText != null)
+            {
+                UpdateToolTipText(this, _toolTipText, RangeMax);
+            }
         }
 
         private double DragThumb(Thumb thumb, double min, double max, double nextPos)
@@ -864,11 +895,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nextPos = Math.Min(max, nextPos);
 
             Canvas.SetLeft(thumb, nextPos);
-            var thumbCenter = nextPos + (thumb.Width / 2);
-            _toolTipText.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-            var ttWidth = _toolTipText.ActualWidth / 2;
 
-            Canvas.SetLeft(_toolTipText, thumbCenter - ttWidth);
+            if (_toolTipText != null)
+            {
+                var thumbCenter = nextPos + (thumb.Width / 2);
+                _toolTipText.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                var ttWidth = _toolTipText.ActualWidth / 2;
+
+                Canvas.SetLeft(_toolTipText, thumbCenter - ttWidth);
+            }
 
             return Minimum + ((nextPos / DragWidth()) * (Maximum - Minimum));
         }
@@ -880,11 +915,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Canvas.SetZIndex(_minThumb, 10);
             Canvas.SetZIndex(_maxThumb, 0);
             _oldValue = RangeMin;
-            _toolTipText.Visibility = Visibility.Visible;
-            var thumbCenter = _absolutePosition + (_minThumb.Width / 2);
-            _toolTipText.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-            var ttWidth = _toolTipText.ActualWidth / 2;
-            Canvas.SetLeft(_toolTipText, thumbCenter - ttWidth);
+
+            if (_toolTipText != null)
+            {
+                _toolTipText.Visibility = Visibility.Visible;
+                var thumbCenter = _absolutePosition + (_minThumb.Width / 2);
+                _toolTipText.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                var ttWidth = _toolTipText.ActualWidth / 2;
+                Canvas.SetLeft(_toolTipText, thumbCenter - ttWidth);
+            }
 
             VisualStateManager.GoToState(this, "MinPressed", true);
         }
@@ -896,11 +935,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Canvas.SetZIndex(_minThumb, 0);
             Canvas.SetZIndex(_maxThumb, 10);
             _oldValue = RangeMax;
-            _toolTipText.Visibility = Visibility.Visible;
-            var thumbCenter = _absolutePosition + (_maxThumb.Width / 2);
-            _toolTipText.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-            var ttWidth = _toolTipText.ActualWidth / 2;
-            Canvas.SetLeft(_toolTipText, thumbCenter - ttWidth);
+
+            if (_toolTipText != null) {
+                var thumbCenter = _absolutePosition + (_maxThumb.Width / 2);
+                _toolTipText.Visibility = Visibility.Visible;
+                _toolTipText.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                var ttWidth = _toolTipText.ActualWidth / 2;
+                Canvas.SetLeft(_toolTipText, thumbCenter - ttWidth);
+            }
 
             VisualStateManager.GoToState(this, "MaxPressed", true);
         }
@@ -911,7 +953,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ValueChanged?.Invoke(this, sender.Equals(_minThumb) ? new RangeChangedEventArgs(_oldValue, RangeMin, RangeSelectorProperty.MinimumValue) : new RangeChangedEventArgs(_oldValue, RangeMax, RangeSelectorProperty.MaximumValue));
             SyncThumbs();
 
-            _toolTipText.Visibility = Visibility.Collapsed;
+            if (_toolTipText != null)
+            {
+                _toolTipText.Visibility = Visibility.Collapsed;
+            }
 
             VisualStateManager.GoToState(this, "Normal", true);
         }

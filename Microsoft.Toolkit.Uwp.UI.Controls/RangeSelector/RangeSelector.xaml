@@ -2,6 +2,24 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
+    <Style x:Key="SliderThumbStyle" TargetType="Thumb">
+        <Setter Property="UseSystemFocusVisuals" Value="True"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="{ThemeResource SliderThumbBackground}"/>
+        <Setter Property="Height" Value="24"/>
+        <Setter Property="Width" Value="8"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Border Background="{TemplateBinding Background}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            CornerRadius="4"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="controls:RangeSelector">
         <Setter Property="Background" Value="{ThemeResource SliderTrackFill}"/>
         <Setter Property="BorderThickness" Value="{ThemeResource SliderBorderThemeThickness}"/>
@@ -12,26 +30,6 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:RangeSelector">
                     <Grid x:Name="ControlGrid" Height="24" >
-                        <Grid.Resources>
-                            <Style x:Key="SliderThumbStyle" TargetType="Thumb">
-                                <Setter Property="UseSystemFocusVisuals" Value="True"/>
-                                <Setter Property="BorderThickness" Value="0"/>
-                                <Setter Property="Background" Value="{ThemeResource SliderThumbBackground}"/>
-                                <Setter Property="Height" Value="24"/>
-                                <Setter Property="Width" Value="8"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Thumb">
-                                            <Border Background="{TemplateBinding Background}" 
-                                                    BorderThickness="{TemplateBinding BorderThickness}" 
-                                                    BorderBrush="{TemplateBinding BorderBrush}" 
-                                                    CornerRadius="4"/>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Grid.Resources>
-
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="12"/>
