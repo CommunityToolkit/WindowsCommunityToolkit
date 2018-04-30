@@ -21,9 +21,8 @@
     <IsUwpProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Uwp'))</IsUwpProject>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
  
-    
-    <UwpMetaPackageVersion>5.4.1</UwpMetaPackageVersion>
-    <DefaultTargetPlatformVersion>17125</DefaultTargetPlatformVersion>
+    <UwpMetaPackageVersion>6.0.8</UwpMetaPackageVersion>
+    <DefaultTargetPlatformVersion>17134</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>14393</DefaultTargetPlatformMinVersion>
   </PropertyGroup>
 
