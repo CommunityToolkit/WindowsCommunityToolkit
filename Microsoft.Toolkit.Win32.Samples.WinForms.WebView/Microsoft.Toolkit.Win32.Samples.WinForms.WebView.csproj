@@ -19,7 +19,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Microsoft.Toolkit.Win32.Samples.WinForms.WebView</RootNamespace>
     <AssemblyName>Microsoft.Toolkit.Win32.Samples.WinForms.WebView</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetPlatformVersion>10.0</TargetPlatformVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -38,6 +38,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

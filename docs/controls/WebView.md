@@ -27,7 +27,7 @@ Unless specified otherwise in this article, the documentation for the [WebViewCo
 
 :heavy_check_mark: Windows 10 Insider Preview Build 17110 or a later release.
 
-:heavy_check_mark: .NET Framework 4.7 or a later release.
+:heavy_check_mark: .NET Framework 4.6.2 or a later release.
 
 :heavy_check_mark: Configure your application for high DPI support. To learn how, see [this section](#high-dpi) of the guide.
 
