@@ -10,7 +10,7 @@ Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is pa
     <ExtrasImplicitPlatformPackageIsPrivate Condition=" '$(TargetFramework)' == 'native' ">true</ExtrasImplicitPlatformPackageIsPrivate>
   </PropertyGroup>
   
-  <ItemGroup Condition=" '$(TargetFramework)' == 'native' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native' ">
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.8" />
   </ItemGroup>
 
