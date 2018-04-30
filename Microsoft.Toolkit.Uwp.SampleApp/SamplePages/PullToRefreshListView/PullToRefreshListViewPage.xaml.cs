@@ -22,6 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class PullToRefreshListViewPage : IXamlRenderListener
     {
+#pragma warning disable CS0618
         private readonly ObservableCollection<Item> _items;
 
         public PullToRefreshListViewPage()
@@ -50,5 +51,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             AddItems();
         }
+#pragma warning restore CS0618
     }
 }
