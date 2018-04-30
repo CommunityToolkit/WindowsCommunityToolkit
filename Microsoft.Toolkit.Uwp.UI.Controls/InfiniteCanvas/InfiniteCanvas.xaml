@@ -70,11 +70,13 @@
                                         <Button.Content>
                                             <FontIcon x:Name="FontColorIcon"
                                                       FontFamily="Segoe MDL2 Assets"
+                                                      Foreground="Red"
                                                       Glyph="&#xE8D3;" />
                                         </Button.Content>
                                         <Button.Flyout>
                                             <Flyout Placement="Bottom">
-                                                <ColorPicker x:Name="CanvasTextBoxColorPicker" />
+                                                <ColorPicker x:Name="CanvasTextBoxColorPicker"
+                                                             Color="Red" />
                                             </Flyout>
                                         </Button.Flyout>
                                     </Button>
