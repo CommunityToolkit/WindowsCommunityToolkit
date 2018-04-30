@@ -16,14 +16,18 @@
     
     <Style TargetType="local:RadialGauge">
         <Setter Property="UseSystemFocusVisuals" Value="True"></Setter>
-        <Setter Property="Foreground" Value="{ThemeResource RadialGaugeForegroundBrush}"/>
+        <Setter Property="Foreground" Value="{ThemeResource RadialGaugeForegroundBrush}"/> 
+        <Setter Property="NeedleBrush" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="TrailBrush" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="TickBrush" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="ScaleTickBrush" Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:RadialGauge">
                     <Viewbox>
                         <Grid x:Name="PART_Container"
-                              Width="200"
-                              Height="200"
+                              Width="280"
+                              Height="280"
                               Background="Transparent">
 
                             <!--  Scale  -->
@@ -37,21 +41,36 @@
                                   StrokeThickness="{TemplateBinding ScaleWidth}" />
 
                             <!--  Value and Unit  -->
-                            <StackPanel HorizontalAlignment="Center"
-                                        VerticalAlignment="Bottom">
-                                <TextBlock Name="PART_ValueText"
-                                           Margin="0,0,0,2"
-                                           FontSize="20"
-                                           FontWeight="SemiBold"
-                                           Foreground="{TemplateBinding Foreground}"
-                                           Text="{TemplateBinding Value}"
-                                           TextAlignment="Center" />
-                                <TextBlock Margin="0"
-                                           FontSize="16"
-                                           Foreground="{ThemeResource RadialGaugeAccentBrush}"
-                                           Text="{TemplateBinding Unit}"
-                                           TextAlignment="Center" />
-                            </StackPanel>
+                            <Grid  HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Height="160"
+                                   Width="160">
+                                <local:DropShadowPanel BlurRadius="10">
+                                    <Rectangle
+                                            RadiusX="80"
+                                            RadiusY="80"
+                                            Height="160"
+                                            Width="160"
+                                            Fill="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+                                    </Rectangle>
+                                </local:DropShadowPanel>
+
+                                <StackPanel HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
+                                    <TextBlock Name="PART_ValueText"
+                                                       Margin="0,0,0,2"
+                                                       FontSize="20"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="{TemplateBinding Foreground}"
+                                                       Text="{TemplateBinding Value}"
+                                                       TextAlignment="Center" />
+                                    <TextBlock Margin="0"
+                                                       FontSize="16"
+                                                       Foreground="{ThemeResource RadialGaugeAccentBrush}"
+                                                       Text="{TemplateBinding Unit}"
+                                                       TextAlignment="Center" />
+                                </StackPanel>
+                            </Grid>
                         </Grid>
                     </Viewbox>
                 </ControlTemplate>
