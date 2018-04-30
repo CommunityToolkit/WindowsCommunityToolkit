@@ -24,7 +24,7 @@
   </Choose>
 
   <Choose>
-    <When Condition="'$(TargetFramework)' == 'net47'">
+    <When Condition="'$(IsWin32Project)' == 'true'">
       <PropertyGroup>
         <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == ''">10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
         <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == ''">10.0.$(DefaultTargetPlatformMinVersion).0</TargetPlatformMinVersion>
