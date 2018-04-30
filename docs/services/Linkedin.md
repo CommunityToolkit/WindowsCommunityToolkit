@@ -22,7 +22,6 @@ The **LinkedIn Service** allows you to retrieve or publish data to the LinkedIn 
 ## Syntax
 
 ```csharp
-
 // Initialize service - use overload if you need to supply additional permissions
 LinkedInService.Instance.Initialize(ClientId.Text, ClientSecret.Text, CallbackUri.Text);
 
@@ -37,26 +36,19 @@ await LinkedInService.Instance.GetUserProfileAsync();
 
 // Share message to LinkedIn (text should include a Url so LinkedIn can scrape preview information)
 await LinkedInService.Instance.ShareActivityAsync(ShareText.Text);
-
 ```
  
-## Example
+## Sample Code
 
-[LinkedIn Service Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/LinkedIn%20Service)
+[LinkedIn Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/LinkedIn%20Service). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
-## Requirements (Windows 10 Device Family)
+## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Services |
+| NuGet package | [Microsoft.Toolkit.Uwp.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.Services/) |
 
 ## API
 
 * [LinkedIn Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/LinkedIn)
-
-## NuGet Packages Required
-
-Microsoft.Toolkit.Uwp.Services
-
-See the [NuGet Packages page](../Nuget-Packages.md) for complete list.
-

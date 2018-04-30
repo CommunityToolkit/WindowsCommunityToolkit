@@ -58,7 +58,6 @@ Registering your applicatioin creates an App ID/Client and you can simply paste 
 ### Initialization
 
 ```csharp
-
 // Using the new converged authentication of the Microsoft Graph we can simply
 // call the Initialize method on the OneDriveService singleton when initializing
 // in UWP applications
@@ -67,14 +66,12 @@ Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveService.Instance.Initialize
      scopes, 
      null, 
      null);
-
 ```
 
 ### Defining scopes
 More information on scopes can be found in this document [Authentication scopes](https://docs.microsoft.com/en-us/onedrive/developer/rest-api/getting-started/msa-oauth#authentication-scopes)
 
 ```csharp
-
 // If the user hasn't selected a scope then set it to FilesReadAll
 if (scopes == null)
 {
@@ -83,7 +80,6 @@ if (scopes == null)
 ```
 
 ### Login
-
 ```csharp
 
 // Login
@@ -91,7 +87,6 @@ if (!await OneDriveService.Instance.LoginAsync())
 {
     throw new Exception("Unable to sign in");
 }
-
 ```
 
 ### Retrieve the root of your OneDrive
@@ -105,7 +100,6 @@ var folder = await OneDriveService.Instance.RootFolderForMeAsync();
 ### Retrieving files
 
 ```csharp
-
 // Once you have a reference to the Root Folder you can get a list of all items
 // List the Items from the current folder
 var OneDriveItems = await folder.GetItemsAsync();
@@ -115,13 +109,11 @@ do
     OneDriveItems = await folder.NextItemsAsync();   
 }
 while (OneDriveItems != null);
-
 ```
 
 ### Creating folders
 
 ```csharp
-
 // Then from there you can play with folders and files
 // Create Folder
 string newFolderName = await OneDriveSampleHelpers.InputTextDialogAsync("New Folder Name");
@@ -134,7 +126,6 @@ if (!string.IsNullOrEmpty(newFolderName))
 ### Navigating subfolders
 
 ```csharp
-
 var currentFolder = await _graphCurrentFolder.GetFolderAsync(item.Name);
 OneDriveItemsList.ItemsSource = await currentFolder.GetItemsAsync(20);
 _graphCurrentFolder = currentFolder;
@@ -143,7 +134,6 @@ _graphCurrentFolder = currentFolder;
 ### Moving, copying and renaming items
 
 ```csharp
-
 // OneDrive API treats all items the same whether file, folder, etc.
 // Move item
 await _onedriveStorageItem.MoveAsync(targetonedriveStorageFolder);
@@ -153,13 +143,11 @@ await _onedriveStorageItem.CopyAsync(targetonedriveStorageFolder);
 
 // Rename Folder
 await _onedriveStorageItem.RenameAsync("NewLevel3");
-
 ```
 
 ### Creating or uploading files less than 4MB
 
 ```csharp
-
 // Open the local file or create a local file if brand new
 var selectedFile = await OpenLocalFileAsync();
 if (selectedFile != null)
@@ -169,13 +157,11 @@ if (selectedFile != null)
         var fileCreated = await folder.StorageFolderPlatformService.CreateFileAsync(selectedFile.Name, CreationCollisionOption.GenerateUniqueName, localStream);
     }
 }
-
 ```
 
 ### Creating or uploading files - that exceed 4MB
 
 ```csharp
-
 var selectedFile = await OpenLocalFileAsync();
 if (selectedFile != null)
     {
@@ -188,12 +174,10 @@ if (selectedFile != null)
         }
     }
 }
-
 ```
 ### Downloading files
 
 ```csharp
-
 // Download a file and save the content in a local file
 // Convert the storage item to a storage file
 var oneDriveFile = (Toolkit.Services.OneDrive.OneDriveStorageFile)item;
@@ -202,39 +186,30 @@ using (var remoteStream = (await oneDriveFile.StorageFilePlatformService.OpenAsy
     // Use a helper method to open local filestream and write to it 
     await SaveToLocalFolder(remoteStream, oneDriveFile.Name);
 }
-
 ```
 
 ### Retrieving file thumbnails
 
 ```csharp
-
 var file = (Toolkit.Services.OneDrive.OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext;
 using (var stream = (await file.StorageItemPlatformService.GetThumbnailAsync(Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ThumbnailSize.Large)) as IRandomAccessStream)
 {
     // Use a helper method to display the images on the xaml view
     await OneDriveSampleHelpers.DisplayThumbnail(stream, "thumbnail");
 }
-
 ```
   
-## Example
+## Sample Code
 
-[OneDrive Service Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/OneDrive%20Service)
+[OneDrive Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/OneDrive%20Service). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
-## Requirements (Windows 10 Device Family)
+## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Services |
+| NuGet package | [Microsoft.Toolkit.Uwp.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.Services/) |
 
 ## API
 
 * [OneDrive Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/OneDrive)
-
-
-## NuGet Packages Required
-
-Microsoft.Toolkit.Uwp.Services
-
-See the [NuGet Packages page](../Nuget-Packages.md) for complete list.
