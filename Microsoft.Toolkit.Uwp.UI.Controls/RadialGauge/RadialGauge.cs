@@ -47,13 +47,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the Maximum dependency property.
         /// </summary>
         public static readonly DependencyProperty MaximumProperty =
-            DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(RadialGauge), new PropertyMetadata(100.0, OnScaleChanged));
+            DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(RadialGauge), new PropertyMetadata(240.0, OnScaleChanged));
 
         /// <summary>
         /// Identifies the optional StepSize property.
         /// </summary>
         public static readonly DependencyProperty StepSizeProperty =
-            DependencyProperty.Register(nameof(StepSize), typeof(double), typeof(RadialGauge), new PropertyMetadata(0.0));
+            DependencyProperty.Register(nameof(StepSize), typeof(double), typeof(RadialGauge), new PropertyMetadata(30.0));
 
         /// <summary>
         /// Identifies the <see cref="IsInteractive"/> property.
@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the ScaleWidth dependency property.
         /// </summary>
         public static readonly DependencyProperty ScaleWidthProperty =
-            DependencyProperty.Register(nameof(ScaleWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(26.0, OnScaleChanged));
+            DependencyProperty.Register(nameof(ScaleWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(4.0, OnScaleChanged));
 
         /// <summary>
         /// Identifies the NeedleBrush dependency property.
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the NeedleWidth dependency property.
         /// </summary>
         public static readonly DependencyProperty NeedleWidthProperty =
-            DependencyProperty.Register(nameof(NeedleWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(5d, OnFaceChanged));
+            DependencyProperty.Register(nameof(NeedleWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(4d, OnFaceChanged));
 
         /// <summary>
         /// Identifies the ScalePadding dependency property.
@@ -163,13 +163,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the TickWidth dependency property.
         /// </summary>
         public static readonly DependencyProperty TickWidthProperty =
-            DependencyProperty.Register(nameof(TickWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(5d, OnFaceChanged));
+            DependencyProperty.Register(nameof(TickWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(2d, OnFaceChanged));
 
         /// <summary>
         /// Identifies the TickLength dependency property.
         /// </summary>
         public static readonly DependencyProperty TickLengthProperty =
-            DependencyProperty.Register(nameof(TickLength), typeof(double), typeof(RadialGauge), new PropertyMetadata(18d, OnFaceChanged));
+            DependencyProperty.Register(nameof(TickLength), typeof(double), typeof(RadialGauge), new PropertyMetadata(10d, OnFaceChanged));
 
         /// <summary>
         /// Identifies the MinAngle dependency property.

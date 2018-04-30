@@ -22,8 +22,8 @@
                 <ControlTemplate TargetType="local:RadialGauge">
                     <Viewbox>
                         <Grid x:Name="PART_Container"
-                              Width="200"
-                              Height="200"
+                              Width="280"
+                              Height="280"
                               Background="Transparent">
 
                             <!--  Scale  -->
@@ -37,21 +37,28 @@
                                   StrokeThickness="{TemplateBinding ScaleWidth}" />
 
                             <!--  Value and Unit  -->
-                            <StackPanel HorizontalAlignment="Center"
-                                        VerticalAlignment="Bottom">
-                                <TextBlock Name="PART_ValueText"
-                                           Margin="0,0,0,2"
-                                           FontSize="20"
-                                           FontWeight="SemiBold"
-                                           Foreground="{TemplateBinding Foreground}"
-                                           Text="{TemplateBinding Value}"
-                                           TextAlignment="Center" />
-                                <TextBlock Margin="0"
-                                           FontSize="16"
-                                           Foreground="{ThemeResource RadialGaugeAccentBrush}"
-                                           Text="{TemplateBinding Unit}"
-                                           TextAlignment="Center" />
-                            </StackPanel>
+                            <Border HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    CornerRadius="80"
+                                    Height="160"
+                                    Width="160"
+                                    Background="Gray">
+                                <StackPanel HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
+                                    <TextBlock Name="PART_ValueText"
+                                               Margin="0,0,0,2"
+                                               FontSize="20"
+                                               FontWeight="SemiBold"
+                                               Foreground="{TemplateBinding Foreground}"
+                                               Text="{TemplateBinding Value}"
+                                               TextAlignment="Center" />
+                                    <TextBlock Margin="0"
+                                               FontSize="16"
+                                               Foreground="{ThemeResource RadialGaugeAccentBrush}"
+                                               Text="{TemplateBinding Unit}"
+                                               TextAlignment="Center" />
+                                </StackPanel>
+                            </Border>
                         </Grid>
                     </Viewbox>
                 </ControlTemplate>
