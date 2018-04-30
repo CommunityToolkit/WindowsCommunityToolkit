@@ -12,15 +12,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:CameraPreview">
                     <Grid Background="{TemplateBinding Background}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Button x:Name="FrameSourceGroupButton" Margin="0,10">
-                            <Image Source="{TemplateBinding FrameSourceGroupButtonIcon}" Width="25"></Image>
-                        </Button>
-                        <MediaPlayerElement x:Name="MediaPlayerElementControl" Grid.Row="1" MinWidth="300" Width="400" HorizontalAlignment="Left">
+                        <MediaPlayerElement x:Name="MediaPlayerElementControl" MinWidth="300" Width="400" HorizontalAlignment="Left">
                         </MediaPlayerElement>
+                        <Button x:Name="FrameSourceGroupButton" Background="Transparent" 
+                                VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10">
+                            <Image Source="{TemplateBinding FrameSourceGroupButtonIcon}" Width="20"></Image>
+                        </Button>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
