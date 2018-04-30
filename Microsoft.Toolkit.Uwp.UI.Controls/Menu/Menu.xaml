@@ -10,9 +10,9 @@
                   FallbackColor="{StaticResource SystemChromeMediumLowColor}" />
 
     <Style TargetType="MenuFlyoutPresenter" x:Key="MenuFlyoutStyle">
-        <Setter Property="Background" Value="{StaticResource SystemControlChromeWhiteAcrylicElementBrush}" />
+        <Setter Property="Background" Value="{StaticResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="{ThemeResource MenuFlyoutPresenterThemePadding}" />
         <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />

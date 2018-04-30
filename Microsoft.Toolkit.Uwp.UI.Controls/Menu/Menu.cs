@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Collections.Generic;
+using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -121,6 +122,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Loaded += Menu_Loaded;
             Unloaded += Menu_Unloaded;
+
+            if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.AcrylicBrush"))
+            {
+                Background = new Windows.UI.Xaml.Media.AcrylicBrush()
+                {
+                    BackgroundSource = Windows.UI.Xaml.Media.AcrylicBackgroundSource.Backdrop,
+                    TintColor = (Windows.UI.Color)Resources["SystemChromeWhiteColor"],
+                    TintOpacity = 0.8,
+                    FallbackColor = (Windows.UI.Color)Resources["SystemChromeMediumLowColor"]
+                };
+            }
 
             base.OnApplyTemplate();
         }
