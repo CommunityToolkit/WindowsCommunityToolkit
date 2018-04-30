@@ -138,7 +138,6 @@
     <Compile Include="Helpers\Test_ConnectionHelper.cs" />
     <Compile Include="Helpers\Test_ScreenUnitHelper.cs" />
     <Compile Include="Helpers\Test_StorageFileHelper.cs" />
-    <Compile Include="Helpers\Test_HttpHelper.cs" />
     <Compile Include="Helpers\Test_StorageHelper.cs" />
     <Compile Include="Helpers\Test_StreamHelper.cs" />
     <Compile Include="Helpers\Test_DeepLinkParser.cs" />
