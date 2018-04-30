@@ -56,6 +56,11 @@ When you register your app in the [Azure Management Portal](http://manage.window
 |Resource to Add|Microsoft Graph|
 |Delegate Permissions |Sign in and read user profile, Read user mail and Send mail, Read user calendars|
 
+### Testing access to the Graph API
+Using ADAL, v1 authentication, registering your application creates an App ID/Client and you can simply paste that into the Client Id field inside of the Microsoft Graph services page. 
+
+Using MSAL, v2 (default) authentication, you can use the same App ID to paste to the Client Id field.  You can also optionally provide different permission scopes and a login hint (suggested user name).
+
 
 ## Syntax
 
