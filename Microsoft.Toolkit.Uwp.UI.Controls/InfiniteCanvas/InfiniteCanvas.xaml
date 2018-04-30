@@ -30,10 +30,11 @@
                                     </InkToolbarCustomToolButton>
                                 </InkToolbar>
 
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Background="{ThemeResource SystemChromeMediumColor}"
+                                            Orientation="Horizontal">
                                     <Grid Width="2"
                                           Height="48"
-                                          Background="Black" />
+                                          Background="{ThemeResource SystemListMediumColor}" />
                                     <Button x:Name="EraseAllButton"
                                             Style="{StaticResource CanvasTextBoxButtonStyle}"
                                             ToolTipService.ToolTip="Erase All">
@@ -57,13 +58,14 @@
                                     </Button>
                                 </StackPanel>
                                 <StackPanel x:Name="CanvasTextBoxTools"
-                                            Background="#FFE6E6E6"
+                                            Background="{ThemeResource SystemChromeMediumColor}"
                                             Orientation="Horizontal"
                                             Visibility="Collapsed">
                                     <Grid Width="2"
                                           Height="48"
                                           Background="Black" />
-                                    <Button Style="{StaticResource CanvasTextBoxButtonStyle}"
+                                    <Button Padding="0,2,0,0"
+                                            Style="{StaticResource CanvasTextBoxButtonStyle}"
                                             ToolTipService.ToolTip="Text Color">
                                         <Button.Content>
                                             <FontIcon x:Name="FontColorIcon"
@@ -72,8 +74,7 @@
                                         </Button.Content>
                                         <Button.Flyout>
                                             <Flyout Placement="Bottom">
-                                                <ColorPicker x:Name="CanvasTextBoxColorPicker"
-                                                             Color="Black" />
+                                                <ColorPicker x:Name="CanvasTextBoxColorPicker" />
                                             </Flyout>
                                         </Button.Flyout>
                                     </Button>
@@ -155,13 +156,15 @@
            TargetType="ToggleButton">
         <Setter Property="Width" Value="48" />
         <Setter Property="Height" Value="48" />
-        <Setter Property="Background" Value="#FFE6E6E6" />
+        <Setter Property="Background" Value="{ThemeResource SystemChromeMediumColor}" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
     </Style>
     <Style x:Key="CanvasTextBoxButtonStyle"
            TargetType="Button">
         <Setter Property="Width" Value="48" />
         <Setter Property="Height" Value="48" />
-        <Setter Property="Background" Value="#FFE6E6E6" />
+        <Setter Property="Background" Value="{ThemeResource SystemChromeMediumColor}" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
     </Style>
 
     <Style x:Key="InfiniteCanvasTextBoxStyle"

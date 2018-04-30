@@ -12,6 +12,7 @@
 
 using System;
 using System.Linq;
+using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -20,6 +21,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal class InfiniteCanvasTextBox : Control
     {
+        private TextBox _editZone;
+
         public event EventHandler<string> TextChanged;
 
         public InfiniteCanvasTextBox()
@@ -27,13 +30,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DefaultStyleKey = typeof(InfiniteCanvasTextBox);
         }
 
-        private TextBox _editZone;
-
         protected override void OnApplyTemplate()
         {
             _editZone = (TextBox)GetTemplateChild("EditZone");
+            _editZone.TextChanged -= EditZone_TextChanged;
             _editZone.TextChanged += EditZone_TextChanged;
             _editZone.FontSize = FontSize;
+            _editZone.SelectionHighlightColorWhenNotFocused.Color = Color.FromArgb(
+                    1,
+                    _editZone.SelectionHighlightColor.Color.R,
+                    _editZone.SelectionHighlightColor.Color.G,
+                    _editZone.SelectionHighlightColor.Color.B);
+            _editZone.SelectionHighlightColorWhenNotFocused.Opacity = .1;
+
+            _editZone.SelectionHighlightColor.Color =
+                Color.FromArgb(
+                    1,
+                    _editZone.SelectionHighlightColor.Color.R,
+                    _editZone.SelectionHighlightColor.Color.G,
+                    _editZone.SelectionHighlightColor.Color.B);
+
+            _editZone.SelectionHighlightColor.Opacity = .1;
+
             base.OnApplyTemplate();
         }
 
@@ -66,6 +84,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public void SetText(string text)
         {
+            if (_editZone == null)
+            {
+                if (!ApplyTemplate())
+                {
+                    return;
+                }
+            }
+
             _editZone.Text = text;
             _editZone.SelectionStart = text.Length;
         }

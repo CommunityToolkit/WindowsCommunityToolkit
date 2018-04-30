@@ -12,10 +12,12 @@
 
 using System;
 using System.Threading.Tasks;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -43,6 +45,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var infiniteCanvas = (InfiniteCanvas)d;
             infiniteCanvas.SetZoomFactor();
+        }
+
+        /// <inheritdoc />
+        protected override void OnKeyDown(KeyRoutedEventArgs e)
+        {
+            var isCtrlDown = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+
+            if (!isCtrlDown)
+            {
+                return;
+            }
+
+            if (e.Key == VirtualKey.Z)
+            {
+                Undo();
+            }
+
+            if (e.Key == VirtualKey.Y)
+            {
+                Redo();
+            }
+
+            base.OnKeyDown(e);
         }
 
         private void InfiniteCanvas_Unloaded(object sender, RoutedEventArgs e)

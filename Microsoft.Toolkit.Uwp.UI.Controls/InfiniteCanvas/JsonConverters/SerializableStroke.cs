@@ -23,9 +23,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         [JsonIgnore]
         public List<InkPoint> FinalPointList { get; set; }
 
+        public InkDrawingAttributes DrawingAttributes { get; set; }
+
         public List<SerializablePoint> SerializableFinalPointList { get; set; }
 
-        public InkDrawingAttributes DrawingAttributes { get; set; }
+        public short? SerializableDrawingAttributesKind { get; set; }
+
+        public double? SerializableDrawingAttributesPencilProperties { get; set; }
 
         public Matrix3x2 PointTransform { get; set; }
 
@@ -43,6 +47,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 serializablePoint.Pressure = point.Pressure;
                 SerializableFinalPointList.Add(serializablePoint);
             }
+
+            if (DrawingAttributes != null)
+            {
+                SerializableDrawingAttributesKind = (short)DrawingAttributes.Kind;
+                SerializableDrawingAttributesPencilProperties = DrawingAttributes.PencilProperties?.Opacity;
+            }
         }
 
         [OnDeserialized]
@@ -56,7 +66,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             FinalPointList = finalPointList;
+
+            if (DrawingAttributes != null && SerializableDrawingAttributesKind.HasValue && SerializableDrawingAttributesKind == (short)InkDrawingAttributesKind.Pencil)
+            {
+                var pencilAttributes = InkDrawingAttributes.CreateForPencil();
+                pencilAttributes.Color = DrawingAttributes.Color;
+
+                // work around argument null exception.
+                pencilAttributes.FitToCurve = DrawingAttributes.FitToCurve;
+                pencilAttributes.IgnorePressure = DrawingAttributes.IgnorePressure;
+                pencilAttributes.IgnoreTilt = DrawingAttributes.IgnoreTilt;
+                pencilAttributes.Size = DrawingAttributes.Size;
+
+                if (SerializableDrawingAttributesPencilProperties.HasValue)
+                {
+                    pencilAttributes.PencilProperties.Opacity = SerializableDrawingAttributesPencilProperties.Value;
+                }
+
+                DrawingAttributes = pencilAttributes;
+            }
+
+            // Empty unused values
+            SerializableDrawingAttributesPencilProperties = null;
             SerializableFinalPointList = null;
+            SerializableDrawingAttributesKind = null;
         }
 
         [OnSerialized]
