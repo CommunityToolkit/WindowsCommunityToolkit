@@ -70,6 +70,16 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         {
             TokenForUser = null;
         }
+        /// <summary>
+        /// Get a Microsoft Graph access token using the v2.0 Endpoint
+        /// </summary>
+        /// <param name="appClientId">Application client Id</param>
+        /// <param name="loginHint">UPN</param>
+        /// <returns>An oauth2 access token.</returns>
+        internal async Task<string> GetUserTokenV2Async(string appClientId, string loginHint)
+        {
+            return await GetUserTokenV2Async(appClientId, null, null, loginHint);
+        }
 
         /// <summary>
         /// Get a Microsoft Graph access token using the v2.0 Endpoint.
@@ -77,8 +87,9 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <param name="appClientId">Application client ID</param>
         /// <param name="uiParent">UiParent instance - required for Android</param>
         /// <param name="redirectUri">Redirect Uri - required for Android</param>
+        /// <param name="loginHint">UPN</param>
         /// <returns>An oauth2 access token.</returns>
-        internal async Task<string> GetUserTokenV2Async(string appClientId, UIParent uiParent = null, string redirectUri = null)
+        internal async Task<string> GetUserTokenV2Async(string appClientId, UIParent uiParent = null, string redirectUri = null, string loginHint = null)
         {
             if (_identityClient == null)
             {
@@ -90,11 +101,17 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                 _identityClient.RedirectUri = redirectUri;
             }
 
+            var upnLoginHint = string.Empty;
+            if (!string.IsNullOrEmpty(loginHint))
+            {
+                upnLoginHint = loginHint;
+            }
+
             MSAL.AuthenticationResult authenticationResult = null;
 
             var user = _identityClient.Users.FirstOrDefault();
 
-            authenticationResult = user != null ? await _identityClient.AcquireTokenSilentAsync(DelegatedPermissionScopes, user) : await _identityClient.AcquireTokenAsync(DelegatedPermissionScopes, uiParent);
+            authenticationResult = user != null ? await _identityClient.AcquireTokenSilentAsync(DelegatedPermissionScopes, user) : await _identityClient.AcquireTokenAsync(DelegatedPermissionScopes, upnLoginHint, uiParent);
 
             return authenticationResult?.AccessToken;
         }

@@ -62,7 +62,6 @@ When you register your app in the [Azure Management Portal](http://manage.window
 ### Sign in with an Office 365 account
 
 ```csharp
-
 // Initialize the service
 if (!MicrosoftGraphService.Instance.Initialize(ClientId.Text))
 {
@@ -73,13 +72,11 @@ if (!await MicrosoftGraphService.Instance.LoginAsync())
 {
  return;
 }
-
 ```
 
 ### Get the connected user's info
 
 ```csharp
-
 // Retrieve user's info from Azure Active Directory
 var user = await MicrosoftGraphService.Instance.User.GetProfileAsync();
 UserPanel.DataContext = user;
@@ -113,7 +110,6 @@ using (IRandomAccessStream photoStream = await MicrosoftGraphService.Instance.Us
 
   this.Photo.Source = photo;
 }
-
 ```
 
 ### Retrieve/Send messages
@@ -152,8 +148,6 @@ await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, conten
 // You can also send a message in html format
 string content = GetHtmlMessage();
 await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, content, BodyType.Html, toRecipients);
-
-
 ```
 
 ### Retrieve calendar events
@@ -183,23 +177,19 @@ if (events == null)
 {
 	// no more events
 }
-
-
 ```
 
-### Example
-[MicrosoftGraph Service Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Microsoft%20Graph%20Service)
+## Sample Code
 
-### Requirements (Windows 10 Device Family)
+[MicrosoftGraph Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Microsoft%20Graph%20Service). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
-| [Device family](https://msdn.microsoft.com/windows/uwp/get-started/universal-application-platform-guide) | Universal, 10.0.14393.0 or higher |
+### Requirements
+
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Services |
+| NuGet package | [Microsoft.Toolkit.Uwp.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.Services/) |
 
 ### API
+
 * [MicrosoftGraph Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftGraph)
-
-### NuGet Packages Required
-
-Microsoft.Toolkit.Uwp.Services
-See the [NuGet Packages page](../Nuget-Packages.md) for complete list.
