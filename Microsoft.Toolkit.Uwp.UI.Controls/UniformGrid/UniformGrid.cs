@@ -127,6 +127,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         continue;
                     }
                 }
+                else if (GetRow(child) < 0 || GetRow(child) >= dim.Rows ||
+                         GetColumn(child) < 0 || GetColumn(child) >= dim.Columns)
+                {
+                    // A child is specifying a location, but that location is outside
+                    // of our grid space, so we should hide it instead.
+                    child.Measure(Size.Empty);
+
+                    _overflow.Add(child);
+
+                    continue;
+                }
 
                 // Get measurement for max child
                 child.Measure(childSize);
