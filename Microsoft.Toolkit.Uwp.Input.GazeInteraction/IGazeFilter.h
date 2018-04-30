@@ -12,7 +12,7 @@ BEGIN_NAMESPACE_GAZE_INPUT
 /// This struct encapsulates the location and timestamp associated with the user's gaze 
 /// and is used as an input and output parameter for the IGazeFilter::Update method
 /// </summary>
-public ref struct GazeFilterArgs sealed
+private ref struct GazeFilterArgs sealed
 {
     /// <summary>
     /// The current point in the gaze stream
@@ -40,7 +40,7 @@ private:
 
 // Every filter must provide an Wpdate method which transforms sample data 
 // and returns filtered output
-public interface class IGazeFilter
+private interface class IGazeFilter
 {
     GazeFilterArgs^ Update(GazeFilterArgs^ args);
     void LoadSettings(ValueSet^ settings);
@@ -49,7 +49,7 @@ public interface class IGazeFilter
 
 // Basic filter which performs no input filtering -- easy to
 // use as a default filter.
-public ref class NullFilter sealed : public IGazeFilter
+private ref class NullFilter sealed : public IGazeFilter
 {
 public:
     virtual inline GazeFilterArgs^ Update(GazeFilterArgs^ args)
