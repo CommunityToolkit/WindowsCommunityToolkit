@@ -26,7 +26,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class InfiniteCanvas
     {
         private Point _lastInputPoint;
-        private bool _isColorChanged;
 
         private TextDrawable SelectedTextDrawable => _drawingSurfaceRenderer.GetSelectedTextDrawable();
 
@@ -97,7 +96,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _fontColorIcon.Foreground = new SolidColorBrush(_canvasTextBoxColorPicker.Color);
-            _isColorChanged = true;
         }
 
         private void CanvasTextBox_TextChanged(object sender, string text)
@@ -133,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _canvasTextBox.GetEditZoneHeight(),
                 TextFontSize,
                 text,
-                _isColorChanged ? _canvasTextBoxColorPicker.Color : Colors.Black,
+                _canvasTextBoxColorPicker.Color,
                 _canvasTextBoxBoldButton.IsChecked ?? false,
                 _canvasTextBoxItlaicButton.IsChecked ?? false);
 

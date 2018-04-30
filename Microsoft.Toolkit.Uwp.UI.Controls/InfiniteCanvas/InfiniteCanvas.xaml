@@ -20,7 +20,7 @@
                                 <InkToolbar x:Name="InkCanvasToolBar"
                                             TargetInkCanvas="{Binding ElementName=DrawingInkCanvas}">
                                     <InkToolbarCustomToggleButton x:Name="EnableTouchInkingButton"
-                                                                  ToolTipService.ToolTip="Touck Inking">
+                                                                  ToolTipService.ToolTip="Touch Inking">
                                         <FontIcon FontFamily="Segoe MDL2 Assets"
                                                   Glyph="&#xED5F;" />
                                     </InkToolbarCustomToggleButton>
@@ -157,7 +157,7 @@
         <Setter Property="Width" Value="48" />
         <Setter Property="Height" Value="48" />
         <Setter Property="Background" Value="{ThemeResource SystemChromeMediumColor}" />
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+
     </Style>
     <Style x:Key="CanvasTextBoxButtonStyle"
            TargetType="Button">

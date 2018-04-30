@@ -46,10 +46,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                     var toRemove = _visibleList.ElementAt(i);
                                     ExecuteEraseInk(toRemove);
                                     ReDraw(viewPort);
+
+                                    return;
                                 }
                             }
-
-                            return;
                         }
                     }
                 }
