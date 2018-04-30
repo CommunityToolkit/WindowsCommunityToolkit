@@ -15,8 +15,8 @@
                         <MediaPlayerElement x:Name="MediaPlayerElementControl" MinWidth="300" Width="400" HorizontalAlignment="Left">
                         </MediaPlayerElement>
                         <Button x:Name="FrameSourceGroupButton" Background="Transparent" 
-                                VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10">
-                            <Image Source="{TemplateBinding FrameSourceGroupButtonIcon}" Width="20"></Image>
+                                VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5">
+                            <Image Source="{TemplateBinding FrameSourceGroupButtonIcon}" Width="25"></Image>
                         </Button>
                     </Grid>
                 </ControlTemplate>

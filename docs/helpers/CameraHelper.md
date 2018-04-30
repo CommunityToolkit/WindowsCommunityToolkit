@@ -7,7 +7,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, CameraHelper, Cam
 
 # CameraHelper
 
-The **CameraHelper** provides helper methods tto easily use the available camera frame sources to preview video, capture video frames and software bitmaps. The helper currently shows camera frame sources that support color video preview or video record streams. 
+The **CameraHelper** provides helper methods to easily use the available camera frame sources to preview video, capture video frames and software bitmaps. The helper currently shows camera frame sources that support color video preview or video record streams. 
 
 > [!IMPORTANT] Make sure you have the webcam capability enabled for your app to access the device's camera.
 
@@ -60,25 +60,15 @@ private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
 | -- | -- |
 | FrameArrived| Fires when a new frame arrives.|
 
-```csharp
-private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
-{
-  // Gets the current video frame
-  VideoFrame currentVideoFrame  = e.VideoFrame;
-
-  // Gets the software bitmap image
-  SoftwareBitmap softwareBitmap = e.SoftwareBitmap;
-}
-```
-
 ## Sample Code
 
-[CameraHelper Sample Page]
-((https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/CameraHelper))
+[CameraHelper Sample Page Source]
+((https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/CameraHelper)). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
-## Requirements (Windows 10 Device Family)
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+## Requirements
+
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
 | NuGet package | [Microsoft.Toolkit.Uwp](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
