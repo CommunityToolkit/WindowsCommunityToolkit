@@ -10,7 +10,7 @@
                 HorizontalAlignment="Center">
               <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="50"></ColumnDefinition>
-                  <ColumnDefinition Width="250"></ColumnDefinition>
+                  <ColumnDefinition Width="280"></ColumnDefinition>
                   <ColumnDefinition Width="50"></ColumnDefinition>
               </Grid.ColumnDefinitions>
               <controls:RadialGauge 
@@ -26,10 +26,8 @@
                   MinAngle="@[MinAngle:Slider:210:0-360]"
                   MaxAngle="@[MaxAngle:Slider:150:0-360]"
                   Unit="units"
-                  TickBrush="Gainsboro"
-                  ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                  NeedleWidth="@[NeedleWidth:Slider:5:1-10]" 
-                  TickLength="@[TickLength:Slider:18:0-30]" />
+                  NeedleWidth="@[NeedleWidth:Slider:4:1-10]" 
+                  TickLength="@[TickLength:Slider:10:0-30]" />
           </Grid>
       </Grid>
 </Page>
