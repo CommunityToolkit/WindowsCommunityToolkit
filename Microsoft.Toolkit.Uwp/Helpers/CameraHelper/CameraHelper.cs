@@ -144,6 +144,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
                     return CameraHelperResult.NoFrameSourceAvailable;
                 }
             }
+            catch (UnauthorizedAccessException)
+            {
+                await Cleanup();
+                return CameraHelperResult.CameraAccessDenied;
+            }
             catch (Exception)
             {
                 await Cleanup();

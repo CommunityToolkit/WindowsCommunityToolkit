@@ -49,6 +49,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         NoFrameSourceAvailable,
 
         /// <summary>
+        /// Access to camera is denied.
+        /// </summary>
+        CameraAccessDenied,
+
+        /// <summary>
         /// Initialization failed due to an exception.
         /// </summary>
         InitializationFailed_UnknownError

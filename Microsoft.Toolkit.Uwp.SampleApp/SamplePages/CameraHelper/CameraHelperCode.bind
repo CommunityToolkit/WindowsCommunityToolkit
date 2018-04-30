@@ -7,14 +7,16 @@ CameraHelper cameraHelper = new CameraHelper();
 var result = await _cameraHelper.InitializeAndStartCaptureAsync();
 
 // Camera Initialization and Capture failed for some reason
-if(result != CameraHelperResult.Success)
+if(result == CameraHelperResult.Success)
 {
-// get error information
-var errorMessage = result.ToString();
+  // Subscribe to get frames as they arrive
+  cameraHelper.FrameArrived += CameraHelper_FrameArrived;
 }
-
-// Subscribe to get frames as they arrive
-cameraHelper.FrameArrived += CameraHelper_FrameArrived;
+else
+{
+  // get error information
+  var errorMessage = result.ToString();
+}
 
 private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
 {

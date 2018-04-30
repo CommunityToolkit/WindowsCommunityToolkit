@@ -61,6 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_toggleFrameSourceGroup != null)
             {
                 _toggleFrameSourceGroup.Click += ToggleFrameSourceGroup_ClickAsync;
+                _toggleFrameSourceGroup.IsEnabled = false;
             }
 
             await InitializeAsync();
@@ -129,6 +130,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _selectedSourceIndex = _selectedSourceIndex < (FrameSourceGroups.Count - 1) ? _selectedSourceIndex + 1 : 0;
             var group = FrameSourceGroups[_selectedSourceIndex];
+            _toggleFrameSourceGroup.IsEnabled = false;
             var result = await _cameraHelper.InitializeAndStartCaptureAsync(group);
             SetUIControls(result);
         }
@@ -142,8 +144,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                _mediaPlayer.Dispose();
-                _mediaPlayer = null;
                 _mediaPlayerElementControl.SetMediaPlayer(null);
             }
 
