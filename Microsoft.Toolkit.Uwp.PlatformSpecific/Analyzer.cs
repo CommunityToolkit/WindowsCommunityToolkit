@@ -38,9 +38,9 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecific
         {
             Dictionary<string, List<NewMember>> apiAdditionsDictionary = new Dictionary<string, List<NewMember>>();
 
-            Assembly assembly = Application.Current.GetType().GetTypeInfo().Assembly;
+            Assembly assembly = typeof(Analyzer).GetTypeInfo().Assembly;
 
-            var resource = assembly.GetManifestResourceStream(resourceName);
+            var resource = assembly.GetManifestResourceStream("Microsoft.Toolkit.Uwp.PlatformSpecific." + resourceName);
 
             if (resource == null)
             {
