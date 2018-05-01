@@ -6,7 +6,6 @@ using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
 CameraHelper cameraHelper = new CameraHelper();
 var result = await _cameraHelper.InitializeAndStartCaptureAsync();
 
-// Camera Initialization and Capture failed for some reason
 if(result == CameraHelperResult.Success)
 {
   // Subscribe to get frames as they arrive
@@ -14,7 +13,7 @@ if(result == CameraHelperResult.Success)
 }
 else
 {
-  // get error information
+  // Get error information
   var errorMessage = result.ToString();
 }
 
