@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <paramref name="hostWindowHandle"/> is equal to <see cref="IntPtr.Zero"/>, or
         /// <paramref name="process"/> is <see langword="null" />.
         /// </exception>
-        public static IWebView CreateWebView(
+        internal static IWebView CreateWebView(
             this WebViewControlProcess process,
             IntPtr hostWindowHandle,
             Rect bounds)
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <paramref name="hostWindowHandle"/> is equal to <see cref="IntPtr.Zero"/>, or
         /// <paramref name="process"/> is <see langword="null" />.
         /// </exception>
-        public static async Task<IWebView> CreateWebViewAsync(
+        internal static async Task<IWebView> CreateWebViewAsync(
             this WebViewControlProcess process,
             IntPtr hostWindowHandle,
             Rect bounds)
