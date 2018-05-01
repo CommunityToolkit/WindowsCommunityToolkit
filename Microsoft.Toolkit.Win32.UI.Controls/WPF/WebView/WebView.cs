@@ -161,7 +161,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _process = webViewControl.Process;
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Starts the initialization process for this element.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// May occur if the element is already initialized or is already initializing.
+        /// </exception>
+        /// <inheritdoc cref="FrameworkElement.BeginInit" />
         public override void BeginInit()
         {
             if (WebViewInitialized)
@@ -181,7 +187,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             base.BeginInit();
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Indicates that the initialization process for the element is complete.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">May occur when <see cref="BeginInit"/> is not previously called.</exception>
+        /// <inheritdoc cref="FrameworkElement.EndInit" />
         public override void EndInit()
         {
             if (!WebViewInitializing)
@@ -666,6 +676,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 DispatcherPriority.Loaded);
         }
 
+        /// <summary>
+        /// Invoked whenever the effective value of any dependency property on this <see cref="T:System.Windows.FrameworkElement" /> has been updated. The specific dependency property that changed is reported in the arguments parameter. Overrides <see cref="M:System.Windows.DependencyObject.OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs)" />.
+        /// </summary>
+        /// <param name="e">The event data that describes the property that changed, as well as old and new values.</param>
         /// <inheritdoc />
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
