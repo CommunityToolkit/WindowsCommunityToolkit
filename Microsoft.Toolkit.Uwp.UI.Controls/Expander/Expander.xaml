@@ -557,7 +557,6 @@
                                             x:Name="PART_ContentOverlay"
                                             Content="{TemplateBinding ContentOverlay}"
                                             Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
-                                            MinHeight="120"
                                             HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Stretch"
                                             VerticalAlignment="Stretch"

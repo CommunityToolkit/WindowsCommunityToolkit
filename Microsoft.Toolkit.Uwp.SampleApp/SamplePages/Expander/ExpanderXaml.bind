@@ -9,7 +9,7 @@
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <ScrollViewer>
       <StackPanel Margin="20">
-        <controls:Expander x:Name="Expander1" VerticalAlignment="Top" Margin="0,0,0,10"
+        <controls:Expander x:Name="Expander1" VerticalAlignment="Top" Margin="0,0,0,10" Height="120"
                           Header="This is the header - expander 1"
                           HorizontalContentAlignment="Stretch"
                           IsExpanded="@[IsExpanded1:Bool:False]@"
