@@ -45,6 +45,7 @@ string Version = null;
 
 var inheritDoc = toolsDir + "/InheritDoc/tools/InheritDoc.exe";
 var inheritDocKey = "PJKUD6-T4H34O-MUGPCM-LN5JKD-FWUWG2-32AECA";
+var inheritDocExclude = "Foo.*";
 
 var name = "UWP Community Toolkit";
 var address = "https://developer.microsoft.com/en-us/windows/uwp-community-toolkit";
@@ -188,7 +189,7 @@ Task("InheritDoc")
 
 	NuGetInstall(new []{"InheritDoc"}, installSettings);
 
-	StartProcess(inheritDoc, "-k " + inheritDocKey + " -b \"" + baseDir + "\" -o");
+	StartProcess(inheritDoc, "-k " + inheritDocKey + " -b \"" + baseDir + "\" -o -x\"" + inheritDocExclude + "\"");
 });
 
 Task("Package")
