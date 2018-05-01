@@ -12,8 +12,7 @@
         </Style>
     </Page.Resources>
     <StackPanel Orientation="Vertical" Margin="20">
-		<controls:CameraPreview x:Name="CameraPreviewControl" 
-			FrameSourceGroupButtonIcon="ms-appx:///Assets/Photos/CameraSource.png">
+		<controls:CameraPreview x:Name="CameraPreviewControl">
 		</controls:CameraPreview>
 		<TextBlock x:Name="ErrorMessage" Style="{StaticResource ErrorMessageStyle}"></TextBlock>
         <Image x:Name="CurrentFrameImage" MinWidth="300" Width="400" HorizontalAlignment="Left"></Image>

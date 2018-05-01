@@ -26,18 +26,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class CameraPreview
     {
         /// <summary>
-        /// Using a DependencyProperty as the backing store for <see cref="FrameSourceGroupButtonIcon"/>.  This enables animation, styling, binding, etc...
+        /// Using a DependencyProperty as the backing store for <see cref="FrameSourceGroupButtonVisibility "/>.  This enables animation, styling, binding, etc...
         /// </summary>
-        public static readonly DependencyProperty FrameSourceGroupButtonIconProperty =
-            DependencyProperty.Register("FrameSourceGroupButtonIcon", typeof(ImageSource), typeof(CameraPreview), new PropertyMetadata(null));
+        public static readonly DependencyProperty FrameSourceGroupButtonVisibilityProperty =
+            DependencyProperty.Register("FrameSourceGroupButtonVisibility", typeof(Visibility), typeof(CameraPreview), new PropertyMetadata(Visibility.Visible));
 
         /// <summary>
-        /// Gets or sets icon for Frame Source Group Button
+        /// Gets or sets visibility of Frame Source Group Button
         /// </summary>
-        public ImageSource FrameSourceGroupButtonIcon
+        public Visibility FrameSourceGroupButtonVisibility
         {
-            get { return (ImageSource)GetValue(FrameSourceGroupButtonIconProperty); }
-            set { SetValue(FrameSourceGroupButtonIconProperty, value); }
+            get { return (Visibility)GetValue(FrameSourceGroupButtonVisibilityProperty); }
+            set { SetValue(FrameSourceGroupButtonVisibilityProperty, value); }
         }
 
     }

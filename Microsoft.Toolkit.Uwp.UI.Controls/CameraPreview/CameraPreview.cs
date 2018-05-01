@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_toggleFrameSourceGroup != null)
             {
                 _toggleFrameSourceGroup.Click += ToggleFrameSourceGroup_ClickAsync;
-                _toggleFrameSourceGroup.IsEnabled = false;
+                _toggleFrameSourceGroup.Visibility = Visibility.Collapsed;
             }
 
             await InitializeAsync();
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _selectedSourceIndex = _selectedSourceIndex < (FrameSourceGroups.Count - 1) ? _selectedSourceIndex + 1 : 0;
             var group = FrameSourceGroups[_selectedSourceIndex];
-            _toggleFrameSourceGroup.IsEnabled = false;
+            _toggleFrameSourceGroup.Visibility = Visibility.Collapsed;
             var result = await _cameraHelper.InitializeAndStartCaptureAsync(group);
             SetUIControls(result);
         }
@@ -147,7 +147,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _mediaPlayerElementControl.SetMediaPlayer(null);
             }
 
-            _toggleFrameSourceGroup.IsEnabled = success;
+            _toggleFrameSourceGroup.Visibility = ((FrameSourceGroupButtonVisibility == Visibility.Visible) &&
+                                                    FrameSourceGroups.Count > 1 && success)
+                                                    ? Visibility.Visible
+                                                    : Visibility.Collapsed;
         }
 
         /// <summary>
