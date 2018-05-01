@@ -11,7 +11,7 @@
     <Style TargetType="Border">
         <Setter Property="BorderThickness" Value="1,1,0,0" />
         <Setter Property="Padding" Value="16" />
-        <Setter Property="BorderBrush" Value="{StaticResource Brush-Grey-04}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlHighlightChromeHighBrush}" />
     </Style>
     
     <Style TargetType="TextBlock">
@@ -23,7 +23,7 @@
         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
         Margin="48"
         BorderThickness="0,0,1,1"
-        BorderBrush="{StaticResource Brush-Grey-04}"
+        BorderBrush="{ThemeResource SystemControlHighlightChromeHighBrush}"
         Height="500"
         VerticalAlignment="Top">
     <Grid.RowDefinitions>
