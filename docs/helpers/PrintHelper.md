@@ -3,6 +3,9 @@ title: Print Helper
 author: nmetulev
 description: The PrintHelper is a UWP Community Toolkit helper class that enables the rendering of a framework element per page for printing purposes
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, PrintHelper
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Print Helper
@@ -34,6 +37,13 @@ var printHelper = new PrintHelper(container);
 printHelper.AddFrameworkElementToPrint(frameworkElement);
 
 await printHelper.ShowPrintUIAsync("Title");
+```
+```vb
+Dim printHelper = New PrintHelper(container)
+
+printHelper.AddFrameworkElementToPrint(frameworkElement)
+
+Await printHelper.ShowPrintUIAsync("Title")
 ```
 
 ## Properties
@@ -96,6 +106,36 @@ private async void PrintHelper_OnPrintFailed()
   await dialog.ShowAsync();
 }
 ```
+```vb
+' Create a new PrintHelper instance
+' "container" is a XAML panel that will be used to host printable control. 
+' It needs to be in your visual tree but can be hidden with Opacity = 0
+Dim printHelper = New PrintHelper(container)
+  
+' Add controls that you want to print
+printHelper.AddFrameworkElementToPrint(Await PrepareWebViewForPrintingAsync())
+
+' Connect to relevant events
+printHelper.OnPrintFailed += PrintHelper_OnPrintFailed
+printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded
+
+' Start printing process
+Await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App")
+
+' Event handlers
+
+Private Async Sub PrintHelper_OnPrintSucceeded()
+    printHelper.Dispose()
+    Dim dialog = New MessageDialog("Printing done.")
+    Await dialog.ShowAsync()
+End Sub
+
+Private Async Sub PrintHelper_OnPrintFailed()
+    printHelper.Dispose()
+    Dim dialog = New MessageDialog("Printing failed.")
+    Await dialog.ShowAsync()
+End Sub
+```
 
 **Direct print example:**
 
@@ -106,6 +146,14 @@ var printHelper = new PrintHelper(container);
 
 // Start printing process
 await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", true);
+```
+```vb
+' Create a new PrintHelper instance
+' "container" is a XAML panel that will be used to get the list of printable controls. 
+Dim printHelper = New PrintHelper(container)
+
+' Start printing process
+Await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", True)
 ```
 
 **Using custom default settings:**
@@ -123,6 +171,20 @@ defaultPrintHelperOptions.Orientation = PrintOrientation.Landscape;
 // Create a new PrintHelper instance
 // "container" is a XAML panel that will be used to get the list of printable controls.
 var printHelper = new PrintHelper(container, defaultPrintHelperOptions);
+```
+```vb
+' Create a new PrintHelperOptions instance
+Dim defaultPrintHelperOptions = New PrintHelperOptions()
+
+' Add options that you want to be displayed on the print dialog
+defaultPrintHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation)
+
+' Set preselected settings
+defaultPrintHelperOptions.Orientation = PrintOrientation.Landscape
+
+' Create a new PrintHelper instance
+' "container" is a XAML panel that will be used to get the list of printable controls.
+Dim printHelper = New PrintHelper(container, defaultPrintHelperOptions)
 ```
 
 **Using custom settings for one print job:**
@@ -144,6 +206,24 @@ printHelperOptions.Orientation = PrintOrientation.Landscape;
 
 // Start printing process
 await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions);
+```
+```vb
+' Create a new PrintHelper instance
+' "container" is a XAML panel that will be used to get the list of printable controls.
+' "defaultPrintHelperOptions" is a PrintHelperOptions instance that will be used to get the default options for printing.
+Dim printHelper = New PrintHelper(container, defaultPrintHelperOptions)
+
+' Create a new PrintHelperOptions instance
+Dim printHelperOptions = New PrintHelperOptions()
+
+' Add options that you want to be displayed on the print dialog
+printHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation)
+
+' Set preselected settings
+printHelperOptions.Orientation = PrintOrientation.Landscape
+
+' Start printing process
+Await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions)
 ```
 
 **Print a list with each item on a separate page with static header and page number:**
@@ -185,6 +265,31 @@ foreach (var item in PrintSampleItems)
 
 // Start printing process
 await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions);
+```
+```vb
+  Dim printHelper = New PrintHelper(container)
+  Dim pageNumber = 0
+  For Each item In PrintSampleItems
+      Dim grid = New Grid()
+      grid.RowDefinitions.Add(New RowDefinition() With {.Height = GridLength.Auto})
+      grid.RowDefinitions.Add(New RowDefinition() With {.Height = New GridLength(1, GridUnitType.Star)})
+      grid.RowDefinitions.Add(New RowDefinition() With {.Height = GridLength.Auto})
+      Dim header = New TextBlock With {.Text = "UWP Community Toolkit Sample App - Print Helper - Custom Print", .Margin = New Thickness(0, 0, 0, 20)}
+      Grid.SetRow(header, 0)
+      grid.Children.Add(header)
+      Dim cont = New ContentControl()
+      cont.ContentTemplate = TryCast(Resources("CustomPrintTemplate"), DataTemplate)
+      cont.DataContext = item
+      Grid.SetRow(cont, 1)
+      grid.Children.Add(cont)
+      pageNumber += 1
+      Dim footer = New TextBlock With {.Text = String.Format("page {0}", pageNumber), .Margin = New Thickness(0, 20, 0, 0)}
+      Grid.SetRow(footer, 2)
+      grid.Children.Add(footer)
+      printHelper.AddFrameworkElementToPrint(grid)
+  Next
+
+  Await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions)
 ```
 
 ## Requirements

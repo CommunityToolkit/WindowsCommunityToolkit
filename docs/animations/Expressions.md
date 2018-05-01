@@ -96,7 +96,7 @@ A brief recap of ExpressionAnimations:
 
 - For more information on ExpressionAnimations, [please check our documentation](https://docs.microsoft.com/uwp/api/Windows.UI.Composition.ExpressionAnimation).
 
-ExpressionAnimations can create some very powerful and unique experiences, but can be a bit combersome to author. One of the big pain points with ExpressionAnimations is that the equation or mathematical relationship that defines the animation is written as a string, e.g.:
+ExpressionAnimations can create some very powerful and unique experiences, but can be a bit cumbersome to author. One of the big pain points with ExpressionAnimations is that the equation or mathematical relationship that defines the animation is written as a string, e.g.:
 
 ```csharp
 _parallaxExpression = compositor.CreateExpressionAnimation(
@@ -450,7 +450,7 @@ _visual.StartAnimation("Offset", newPosition);
 
 - Create a named parameter using the static methods off ExpressionValues.Constants class
 
-You can create a constant parameter via static Create\*Parameter() methods (e.g. ExpressionValues.Constants.CreateScalarParameter(“foo”, 7)). Note: setting the intial value as part of the creation is optional; you can always set the value of the parameter using ExpressionNode.Set\*Parameter(). Let’s expand the above example. In this case, let’s say we want to create a generic equation that can be reused for similar scenarios, but tailored by changing the value of constant(s). In the example below, we create the Expression that contains a Constant Parameter, using ExpressionValues.Constant.CreateConstantVector3(…). Before connecting it to a target, the Expression is tailored by setting the parameter using ExpressionNode.SetVector3Parameter(…).
+You can create a constant parameter via static Create\*Parameter() methods (e.g. ExpressionValues.Constants.CreateScalarParameter(“foo”, 7)). Note: setting the initial value as part of the creation is optional; you can always set the value of the parameter using ExpressionNode.Set\*Parameter(). Let’s expand the above example. In this case, let’s say we want to create a generic equation that can be reused for similar scenarios, but tailored by changing the value of constant(s). In the example below, we create the Expression that contains a Constant Parameter, using ExpressionValues.Constant.CreateConstantVector3(…). Before connecting it to a target, the Expression is tailored by setting the parameter using ExpressionNode.SetVector3Parameter(…).
 
 ```csharp
 var delta = new Vector3(50.0f);
@@ -584,7 +584,7 @@ deltaExpression.SetReferenceParameter("visual", _blueBall);
 _visualB.StartAnimation("Offset", deltaExpression);
 ```
 
-A real-world example that demonstrates the need for changing the value of a Parameter using diffferent constants would be using the index number of an itemized List as a Constant Parameter.
+A real-world example that demonstrates the need for changing the value of a Parameter using different constants would be using the index number of an itemized List as a Constant Parameter.
 
 We can extend this concept by imagining a real-world scenario in which a common equation is needed across many targets: list items. A list is typically comprised of homogeneous items, each with a unique ID indicating its position in the list. Each item needs to be behave very similarly, with slight differences based on its position. For this example, a single Expression could be designed that gives a consistent behavior across all items, but is customized by using the list item ID as a Constant Parameter. When connecting this Expression template to each list item, the ID Parameter is set using SetScalarParameter(…) with the ID of the current list item.
 

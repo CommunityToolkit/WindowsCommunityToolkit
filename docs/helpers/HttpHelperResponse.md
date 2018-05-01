@@ -3,6 +3,9 @@ title: HttpHelperResponse
 author: nmetulev
 description: HttpHelperResponse is a UWP Community Toolkit helper class used with the HttpHelper class to read http responses.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelperResponse
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # HttpHelperResponse
@@ -19,8 +22,12 @@ or [Windows.Web.Http.HttpResponseMessage](https://docs.microsoft.com/uwp/api/Win
 using (HttpHelperResponse response = await HttpHelper.Instance.SendRequestAsync(request))
 {
     await response.GetTextResultAsync();
-    response.Dispose();
 }
+```
+```vb
+Using response = Await HttpHelper.Instance.SendRequestAsync(request)
+    Await response.GetTextResultAsync()
+End Using
 ```
 
 ## Constructors
@@ -64,6 +71,13 @@ using (var request = new HttpHelperRequest(new Uri(twitterUrl), HttpMethod.Post)
         return await response.GetTextResultAsync();
     }
 }
+```
+```vb
+Using request = New HttpHelperRequest(New Uri(twitterUrl), HttpMethod.Post)
+    Using response = Await HttpHelper.Instance.SendRequestAsync(request)
+        Return Await response.GetTextResultAsync()
+    End Using
+End Using
 ```
 
 ## Requirements

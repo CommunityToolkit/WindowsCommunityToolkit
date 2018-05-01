@@ -3,6 +3,9 @@ title: ParallaxService
 author: nmetulev
 description: The ParallaxService class allows to create a parallax effect for items contained within an element that scrolls like a ScrollViewer or ListView.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, parallaxservice
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # ParallaxService
@@ -28,6 +31,10 @@ The [ParallaxService class](https://docs.microsoft.com/dotnet/api/microsoft.tool
 ```csharp
 ParallaxService.SetHorizontalMultiplier(MyUIElement, 0.5)
 ParallaxService.SetVerticalMultiplier(MyUIElement, 0.5)
+```
+```vb
+MyUIElement.SetValue(ParallaxService.VerticalMultiplierProperty, 0.5)
+MyUIElement.SetValue(ParallaxService.HorizontalMultiplierProperty, 0.5)
 ```
 
 ## Sample Output

@@ -3,6 +3,9 @@ title: RangeSelector XAML Control
 author: nmetulev
 description: The RangeSelector Control is a Double Slider control that allows the user to select a sub-range of values from a larger range of possible values.
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, RangeSelector, XAML Control, xaml, double slider
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # RangeSelector XAML Control
@@ -60,6 +63,17 @@ private void Selector_OnDragCompleted(object sender, DragCompletedEventArgs e)
 	ScrollViewer.HorizontalScrollMode = ScrollMode.Auto;
 	ScrollViewer.VerticalScrollMode = ScrollMode.Auto;
 }
+```
+```vb
+Private Sub Selector_OnDragStarted(ByVal sender As Object, ByVal e As DragStartedEventArgs)
+	ScrollViewer.HorizontalScrollMode = ScrollMode.Disabled
+	ScrollViewer.VerticalScrollMode = ScrollMode.Disabled
+End Sub
+
+Private Sub Selector_OnDragCompleted(ByVal sender As Object, ByVal e As DragCompletedEventArgs)
+	ScrollViewer.HorizontalScrollMode = ScrollMode.Auto
+	ScrollViewer.VerticalScrollMode = ScrollMode.Auto
+End Sub
 ```
 
 ## Sample Code

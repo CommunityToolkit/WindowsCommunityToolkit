@@ -3,6 +3,9 @@ title: AdvancedCollectionView
 author: nmetulev
 description: The AdvancedCollectionView is a collection view implementation that support filtering, sorting and incremental loading. It's meant to be used in a viewmodel. 
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, AdvancedCollectionView
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # AdvancedCollectionView
@@ -52,7 +55,6 @@ var oc = new ObservableCollection<Person>
 };
 
 // Set up the AdvancedCollectionView with live shaping enabled to filter and sort the original list
-
 var acv = new AdvancedCollectionView(oc, true);
 
 // Let's filter out the integers
@@ -72,6 +74,54 @@ person.Name = "Zaphod"; // Now a re-sort is triggered and person will be last in
 // AdvancedCollectionView can be bound to anything that uses collections. 
 YourListView.ItemsSource = acv;
 ```
+```vb
+Imports Microsoft.Toolkit.Uwp.UI
+
+' Grab a sample type
+Public Class Person
+    Public Property Name As String
+End Class
+
+' Set up the original list with a few sample items
+Dim oc = New ObservableCollection(Of Person) From {
+    New Person With {.Name = "Staff"},
+    New Person With {.Name = "42"},
+    New Person With {.Name = "Swan"},
+    New Person With {.Name = "Orchid"},
+    New Person With {.Name = "15"},
+    New Person With {.Name = "Flame"},
+    New Person With {.Name = "16"},
+    New Person With {.Name = "Arrow"},
+    New Person With {.Name = "Tempest"},
+    New Person With {.Name = "23"},
+    New Person With {.Name = "Pearl"},
+    New Person With {.Name = "Hydra"},
+    New Person With {.Name = "Lamp Post"},
+    New Person With {.Name = "4"},
+    New Person With {.Name = "Looking Glass"},
+    New Person With {.Name = "8"}
+}
+
+' Set up the AdvancedCollectionView with live shaping enabled to filter and sort the original list
+Dim acv = New AdvancedCollectionView(oc, True)
+
+' Let's filter out the integers
+Dim nul As Integer
+acv.Filter = Function(x) Not Integer.TryParse((CType(x, Person)).Name, nul)
+
+' And sort ascending by the property "Name"
+acv.SortDescriptions.Add(New SortDescription("Name", SortDirection.Ascending))
+
+' Let's add a Person to the observable collection
+Dim person = New Person With {.Name = "Aardvark"}
+oc.Add(person)
+
+' Our added person is now at the top of the list, but if we rename this person, we can trigger a re-sort
+person.Name = "Zaphod" ' Now a re-sort is triggered and person will be last in the list
+
+' AdvancedCollectionView can be bound to anything that uses collections.
+YourListView.ItemsSource = acv
+```
 
 ## Properties
 
@@ -83,7 +133,7 @@ YourListView.ItemsSource = acv;
 | Count | int | Get the count of items |
 | CurrentItem | object | Gets or sets the current item |
 | CurrentPosition | int | Gets the position of current item |
-| Filter | Predicate<object> | Gets or sets the predicate used to filter the visisble items |
+| Filter | Predicate<object> | Gets or sets the predicate used to filter the visible items |
 | HasMoreItems | bool | Gets a value indicating whether the source has more items |
 | IsCurrentAfterLast | bool | Gets a value indicating whether the current item is after the last visible item |
 | IsCurrentBeforeFirst | bool | Gets a value indicating whether the current item is before the first visible item |
@@ -102,7 +152,7 @@ YourListView.ItemsSource = acv;
 | Contains(Object) | bool | Returns `true` if the given item contained in CollectionView |
 | B(float, string) | int | Description |
 | DeferRefresh() | IDisposable | Stops refreshing until it is disposed |
-| IndexOf(Object) | int | Return idex of an item |
+| IndexOf(Object) | int | Return index of an item |
 | Insert(Int32, Object) | void | Insert an item in a particular place |
 | LoadMoreItemsAsync(UInt32) | IAsyncOperation<[LoadMoreItemsResult](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Data.LoadMoreItemsResult)> | Load more items from the source |
 | MoveCurrentTo(Object) | bool | Move current index to item. Returns success of operation |
@@ -142,6 +192,13 @@ using (acv.DeferRefresh())
         acv.Add(new Person { Name = "defer" });
     }
 } // acv.Refresh() gets called here
+```
+```vb
+Using acv.DeferRefresh()
+    For i = 0 To 500 - 1
+        acv.Add(New Person With {.Name = "defer"})
+    Next
+End Using ' acv.Refresh() gets called here
 ```
 
 ## Sample Code

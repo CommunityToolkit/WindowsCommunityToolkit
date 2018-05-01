@@ -55,6 +55,9 @@ Finally that the loading control appears, we must set the `IsLoading` property t
 ```csharp
 LoadingControl.IsLoading = true;
 ```
+```vb
+LoadingControl.IsLoading = true
+```
 
 ## Sample Code
 
@@ -74,4 +77,3 @@ LoadingControl.IsLoading = true;
 ## API
 
 * [Loading source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Loading)
-
