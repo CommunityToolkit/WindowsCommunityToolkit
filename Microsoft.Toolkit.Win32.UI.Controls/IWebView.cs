@@ -46,11 +46,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <summary>
         /// Occurs when the <see cref="IWebView"/> finished parsing the current content.
         /// </summary>
-        // ReSharper disable InconsistentNaming
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM", Justification = "Name from WinRT type")]
         event EventHandler<WebViewControlDOMContentLoadedEventArgs> DOMContentLoaded;
-
-        // ReSharper restore InconsistentNaming
 
         /// <summary>
         /// Occurs when a frame in the <see cref="IWebView"/> has started loading new content.
@@ -60,10 +57,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <summary>
         /// Occurs when a frame in the <see cref="IWebView"/> finished parsing its current content.
         /// </summary>
-        // ReSharper disable InconsistentNaming
         event EventHandler<WebViewControlDOMContentLoadedEventArgs> FrameDOMContentLoaded;
-
-        // ReSharper restore InconsistentNaming
 
         /// <summary>
         /// Occurs when a frame in the <see cref="IWebView"/> finished navigating to new content.

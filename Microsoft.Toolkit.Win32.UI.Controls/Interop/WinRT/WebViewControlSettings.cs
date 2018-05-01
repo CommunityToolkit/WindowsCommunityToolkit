@@ -33,10 +33,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// Gets or sets a value indicating whether the use of IndexedDB is allowed.
         /// </summary>
         /// <value><c>true</c> if IndexedDB is allowed; otherwise, <c>false</c>. The default is <c>true</c>.</value>
-        // ReSharper disable InconsistentNaming
         public bool IsIndexedDBEnabled
-
-        // ReSharper restore InconsistentNaming
         {
             get => _settings.IsIndexedDBEnabled;
             set => _settings.IsIndexedDBEnabled = value;

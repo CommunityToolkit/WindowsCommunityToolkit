@@ -76,20 +76,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         internal event EventHandler<WebViewControlContentLoadingEventArgs> ContentLoading = (sender, args) => { };
 
-#pragma warning disable SA1515 // Single-line comment must be preceded by blank line
-        // ReSharper disable InconsistentNaming
         internal event EventHandler<WebViewControlDOMContentLoadedEventArgs> DOMContentLoaded = (sender, args) => { };
-#pragma warning disable SA1512 // Single-line comments must not be followed by blank line
-        // ReSharper restore InconsistentNaming
 
         internal event EventHandler<WebViewControlContentLoadingEventArgs> FrameContentLoading = (sender, args) => { };
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM", Justification = "This is the name from WinRT")]
-        // ReSharper disable InconsistentNaming
+
         internal event EventHandler<WebViewControlDOMContentLoadedEventArgs> FrameDOMContentLoaded = (sender, args) => { };
-        // ReSharper restore InconsistentNaming
-#pragma warning restore SA1515 // Single-line comment must be preceded by blank line
-#pragma warning restore SA1512 // Single-line comments must not be followed by blank line
 
         internal event EventHandler<WebViewControlNavigationCompletedEventArgs> FrameNavigationCompleted = (sender, args) => { };
 

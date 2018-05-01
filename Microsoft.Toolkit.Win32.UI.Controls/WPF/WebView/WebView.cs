@@ -110,10 +110,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 // Could also be a standalone ClickOnce application
 
                 // Either way, we don't currently support this
-                // ReSharper disable ThrowExceptionInUnexpectedLocation
                 throw new NotSupportedException(DesignerUI.E_WEB_PERMISSION_RESTRICTED);
-
-                // ReSharper restore ThrowExceptionInUnexpectedLocation
             }
 
             // ClickOnce uses AppLaunch.exe to host partial-trust applications
@@ -233,8 +230,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <inheritdoc />
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewDomContentLoaded)]
-
-        // ReSharper disable InconsistentNaming
         public event EventHandler<WebViewControlDOMContentLoadedEventArgs> DOMContentLoaded = (sender, args) => { };
 
         /// <inheritdoc />

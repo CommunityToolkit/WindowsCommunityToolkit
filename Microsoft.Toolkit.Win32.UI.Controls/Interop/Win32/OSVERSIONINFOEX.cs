@@ -12,9 +12,6 @@
 
 using System.Runtime.InteropServices;
 
-// ReSharper disable InconsistentNaming
-// ReSharper disable FieldCanBeMadeReadOnly.Global
-// ReSharper disable MemberCanBePrivate.Global
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
 {
     [StructLayout(LayoutKind.Sequential)]

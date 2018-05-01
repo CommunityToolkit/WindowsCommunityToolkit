@@ -21,15 +21,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <remarks>Copy from <see cref="Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
     /// <seealso cref="Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/>
     /// <seealso cref="EventArgs"/>
-    // ReSharper disable InconsistentNaming
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
         "Microsoft.Naming",
         "CA1709:IdentifiersShouldBeCasedCorrectly",
         MessageId = "DOM",
         Justification = "Maintain consistency with WinRT type name")]
     public sealed class WebViewControlDOMContentLoadedEventArgs : EventArgs
-
-    // ReSharper restore InconsistentNaming
     {
         [SecurityCritical]
         internal WebViewControlDOMContentLoadedEventArgs(Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs args)
