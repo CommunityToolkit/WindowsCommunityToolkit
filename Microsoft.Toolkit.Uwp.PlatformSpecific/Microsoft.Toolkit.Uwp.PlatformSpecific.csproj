@@ -13,13 +13,13 @@
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 
   <ItemGroup>
-    <None Remove="Differences-4.0.0.0.json.gz" />
     <None Remove="Differences-5.0.0.0.json.gz" />
+    <None Remove="Differences-6.0.0.0.json.gz" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Differences-4.0.0.0.json.gz" />
     <EmbeddedResource Include="Differences-5.0.0.0.json.gz" />
+    <EmbeddedResource Include="Differences-6.0.0.0.json.gz" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,7 +27,7 @@
     <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
-  <Target Name="Pack" >
+  <Target Name="Pack">
     <!-- No-op to avoid build error when packing solution from commandline -->
   </Target>
 </Project>

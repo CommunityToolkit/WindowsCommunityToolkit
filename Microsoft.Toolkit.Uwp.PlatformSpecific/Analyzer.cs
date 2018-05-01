@@ -27,12 +27,12 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecific
         public static readonly DiagnosticDescriptor RulePlatform = new DiagnosticDescriptor("UWP001", "Platform-specific", "Platform-specific code", "Safety", DiagnosticSeverity.Warning, true);
         public static readonly DiagnosticDescriptor RuleVersion = new DiagnosticDescriptor("UWP002", "Version-specific", "Version-specific code", "Safety", DiagnosticSeverity.Warning, true);
 
-        public const string N1DifferencesRes = "Differences-4.0.0.0.json.gz";
-        public const string N0DifferencesRes = "Differences-5.0.0.0.json.gz";
+        public const string N1DifferencesRes = "Differences-5.0.0.0.json.gz";
+        public const string N0DifferencesRes = "Differences-6.0.0.0.json.gz";
 
-        public const string N2SDKVersion = "14393";
-        public const string N1SDKVersion = "15063";
-        public const string N0SDKVersion = "16299";
+        public const string N2SDKVersion = "15063";
+        public const string N1SDKVersion = "16299";
+        public const string N0SDKVersion = "17134";
 
         public static Dictionary<string, List<NewMember>> GetUniversalApiAdditions(string resourceName)
         {
@@ -44,9 +44,11 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecific
 
             if (resource == null)
             {
+                System.Diagnostics.Debug.WriteLine($"Resource {resourceName} not found.");
                 return apiAdditionsDictionary;
             }
 
+            System.Diagnostics.Debug.WriteLine($"Resource {resourceName} found.");
             Dictionary<string, List<string>> differencesDictionary = null;
 
             using (GZipStream decompressionStream = new GZipStream(resource, CompressionMode.Decompress))

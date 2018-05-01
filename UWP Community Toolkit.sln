@@ -73,6 +73,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DifferencesGen", "Microsoft
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.PlatformSpecific", "Microsoft.Toolkit.Uwp.PlatformSpecific\Microsoft.Toolkit.Uwp.PlatformSpecific.csproj", "{193F9869-F1B2-49C2-91E3-1DCD2598F12D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.PlatformSpecific.DemoAppCS", "Microsoft.Toolkit.Uwp.PlatformSpecific.DemoAppCS\Microsoft.Toolkit.Uwp.PlatformSpecific.DemoAppCS.csproj", "{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{982cc826-aacd-4855-9075-430bb6ce40a9}*SharedItemsImports = 13
@@ -446,6 +448,26 @@ Global
 		{193F9869-F1B2-49C2-91E3-1DCD2598F12D}.Release|x64.Build.0 = Release|Any CPU
 		{193F9869-F1B2-49C2-91E3-1DCD2598F12D}.Release|x86.ActiveCfg = Release|Any CPU
 		{193F9869-F1B2-49C2-91E3-1DCD2598F12D}.Release|x86.Build.0 = Release|Any CPU
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Debug|ARM.ActiveCfg = Debug|ARM
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Debug|ARM.Build.0 = Debug|ARM
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Debug|ARM.Deploy.0 = Debug|ARM
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Debug|x64.ActiveCfg = Debug|x64
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Debug|x64.Build.0 = Debug|x64
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Debug|x64.Deploy.0 = Debug|x64
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Debug|x86.ActiveCfg = Debug|x86
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Debug|x86.Build.0 = Debug|x86
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Debug|x86.Deploy.0 = Debug|x86
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Release|Any CPU.ActiveCfg = Release|x86
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Release|ARM.ActiveCfg = Release|ARM
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Release|ARM.Build.0 = Release|ARM
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Release|ARM.Deploy.0 = Release|ARM
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Release|x64.ActiveCfg = Release|x64
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Release|x64.Build.0 = Release|x64
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Release|x64.Deploy.0 = Release|x64
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Release|x86.ActiveCfg = Release|x86
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Release|x86.Build.0 = Release|x86
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -465,6 +487,7 @@ Global
 		{7AEFC959-ED7C-4D96-9E92-72609B40FBE0} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
 		{292D34E8-0F01-4FA8-951D-8232F75A88D5} = {2230BC0C-0E65-4C0E-A6BF-4EEB24342277}
 		{193F9869-F1B2-49C2-91E3-1DCD2598F12D} = {2230BC0C-0E65-4C0E-A6BF-4EEB24342277}
+		{4AB95613-E6EB-4C05-9ECF-1C9045E46B3C} = {2230BC0C-0E65-4C0E-A6BF-4EEB24342277}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5403B0C4-F244-4F73-A35C-FE664D0F4345}
