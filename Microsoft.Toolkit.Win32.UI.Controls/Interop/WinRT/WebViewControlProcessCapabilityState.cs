@@ -12,8 +12,6 @@
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
-    // Type is a copy. Information regarding the origination of the type is in summary comments
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     /// <summary>
     /// Represents the state of the <see cref="WebViewControlProcess"/>.
     /// </summary>
@@ -21,8 +19,19 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessCapabilityState"/>
     public enum WebViewControlProcessCapabilityState
     {
+        /// <summary>
+        /// The process is in an unknown state.
+        /// </summary>
         Default,
+
+        /// <summary>
+        /// The process is disabled.
+        /// </summary>
         Disabled,
+
+        /// <summary>
+        /// The process is enabled.
+        /// </summary>
         Enabled,
     }
 }
