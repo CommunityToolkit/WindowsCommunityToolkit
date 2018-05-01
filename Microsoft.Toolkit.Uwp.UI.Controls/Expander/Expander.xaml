@@ -275,7 +275,7 @@
         <Setter Property="Header" Value="Header" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="HeaderStyle" Value="{StaticResource HeaderToggleButtonStyle}" />
-        <Setter Property="Background" Value="{ThemeResource SystemControlHighlightChromeAltLowBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:Expander">
@@ -439,6 +439,7 @@
                                         <Setter Target="ColumnOne.Width" Value="*" />
                                         <Setter Target="ColumnTwo.Width" Value="Auto" />
                                         <Setter Target="PART_MainContent.RenderTransformOrigin" Value="1, 0.5" />
+                                        <Setter Target="PART_ExpanderToggleButton.Background" Value="{Binding ElementName=PART_MainContent, Path=Background}" />
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ContentPresenter"
@@ -458,6 +459,7 @@
                                 </VisualState>
                                 <VisualState x:Name="CollapsedDown">
                                     <VisualState.Setters>
+                                        <Setter Target="PART_ExpanderToggleButton.Background" Value="{Binding ElementName=PART_MainContent, Path=Background}" />
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ContentPresenter"
@@ -490,6 +492,7 @@
                                         <Setter Target="PART_ContentOverlay.(Grid.Column)" Value="1" />
                                         <Setter Target="PART_ContentOverlay.(Grid.ColumnSpan)" Value="1" />
                                         <Setter Target="RotateLayoutTransform.Angle" Value="-90" />
+                                        <Setter Target="PART_ExpanderToggleButton.Background" Value="{Binding ElementName=PART_MainContent, Path=Background}" />
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ContentPresenter"
@@ -525,6 +528,7 @@
                                         <Setter Target="RowTwo.Height" Value="Auto" />
                                         <Setter Target="RotateLayoutTransform.Angle" Value="0" />
                                         <Setter Target="PART_MainContent.RenderTransformOrigin" Value="0.5, 1" />
+                                        <Setter Target="PART_ExpanderToggleButton.Background" Value="{Binding ElementName=PART_MainContent, Path=Background}" />
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ContentPresenter"
@@ -556,7 +560,6 @@
                             <ContentControl Grid.Row="1" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="2"
                                             x:Name="PART_ContentOverlay"
                                             Content="{TemplateBinding ContentOverlay}"
-                                            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
                                             HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Stretch"
                                             VerticalAlignment="Stretch"
@@ -564,18 +567,6 @@
                                 <ContentControl.RenderTransform>
                                     <ScaleTransform />
                                 </ContentControl.RenderTransform>
-                                <!-- Override template to pass Background value to ContentPresenter -->
-                                <ContentControl.Template>
-                                    <ControlTemplate TargetType="ContentControl">
-                                        <ContentPresenter Content="{TemplateBinding Content}"
-                                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                                            Margin="{TemplateBinding Padding}"
-                                            ContentTransitions="{TemplateBinding ContentTransitions}"
-                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                            Background="{TemplateBinding Background}" />
-                                    </ControlTemplate>
-                                </ContentControl.Template>
                             </ContentControl>
                             <Grid Grid.Row="1" 
                                   Grid.RowSpan="1" 
@@ -587,8 +578,7 @@
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  VerticalContentAlignment="Stretch"
-                                                  Foreground="{ThemeResource SystemControlForegroundAltHighBrush}">
+                                                  VerticalContentAlignment="Stretch">
                                     <ContentPresenter.RenderTransform>
                                         <TranslateTransform Y="20"/>
                                     </ContentPresenter.RenderTransform>
