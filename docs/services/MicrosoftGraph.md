@@ -29,7 +29,11 @@ If you don't have one, you need to create an Office 365 Developer Site. There ar
  
 ### 2. Register you application in Azure Active Directory
 
-To authenticate your app, you need to register your app with Azure AD, and provide some details about your app. You can register your app manually by using the [Azure Management Portal](http://manage.windowsazure.com), or by using Visual Studio.
+To authenticate your app, you need to register your app with Azure AD, and provide some details about your app. 
+
+#### Register the App to use Azure AD v1 Endpoint
+
+You can register your app manually by using the [Azure Management Portal](http://portal.azure.com), or by using Visual Studio.
 
 To register your app manually, see [Manually register your app with Azure AD so it can access Office 365 APIs.](https://msdn.microsoft.com/en-us/office/office365/howto/add-common-consent-manually)
 
@@ -37,10 +41,10 @@ To register your app by using Visual Studio, see [Using Visual Studio to registe
 
 After you've registered your app, Azure AD will generate a client ID for your app. You'll need to use this client ID to get your access token.
 
-When you register your app in the [Azure Management Portal](http://manage.windowsazure.com), you will need to configure details about your application with the following steps:
+When you register your app in the [Azure Management Portal](http://portal.azure.com), you will need to configure details about your application with the following steps:
 
-1. Specify your application as a **Web application and/or web API**
-2. Specify the Redirect Uri as **http://localhost:8000**
+1. Specify your application as a **Native**
+2. Specify the Redirect Uri as **urn:ietf:wg:oauth:2.0:oob**
 3. Add Application: Choose **Microsoft Graph** API 
 4. Specify the permission levels the MicrosoftGraph Service requires from the Office 365 API (Microsoft Graph). Choose at least:
    * **Sign in and read user profile** to access user's profile.
@@ -51,11 +55,24 @@ When you register your app in the [Azure Management Portal](http://manage.window
  
 |Setting|Value|
 |----------|:-------------:|
-|Web application and/or web API|Yes|
-|Redirect Uri|http://localhost:8080|
+|Native application|Yes|
+|Redirect Uri|urn:ietf:wg:oauth:2.0:oob|
 |Resource to Add|Microsoft Graph|
-|Delegate Permissions |Sign in and read user profile, Read user mail and Send mail, Read user calendars|
+|Delegate Permissions |Sign in and read user profile, Read user mail, Send mail as a user, Read user calendars|
 
+#### Register the App to use Azure AD v2 Endpoint
+
+Go to the [App Registration Portal](https://apps.dev.microsoft.com) and click in the "Add an app" button.
+
+Enter the app name and click "create"
+
+Once the App is created, copy the Application Id to use it later.
+
+Next, add a Platform to the App clicking in "Add Platform" and select "Native Application" tile. 
+
+Scroll to the Microsoft Graph Permissions section (by default the User.Read permission is added). Add the following permissions: Sign in and read user profile, Read user mail, Send mail as a user, Read user calendars.
+
+Finally, save your changes.
 
 ## Syntax
 
