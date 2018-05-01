@@ -3,6 +3,9 @@ title: Object Storage
 author: nmetulev
 description: The Object Storage Helper will help you handle storage of generic objects within UWP applications, both locally and across all devices (roaming).
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Object Storage, local storage, roaming storage
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Object Storage
@@ -79,6 +82,42 @@ var o = new MyLargeObject
 };
 await helper.SaveFileAsync(keySimpleObject, o);
 ```
+```vb
+Dim helper = New LocalObjectStorageHelper()
+
+' Read simple objects
+Dim keySimpleObject As String = "simple"
+If helper.KeyExists(keySimpleObject) Then
+    Dim result As String = helper.Read(Of String)(keySimpleObject)
+End If
+
+' Read simple objects in a composite
+Dim keyCompositeObject As String = "composite"
+If helper.KeyExists(keyCompositeObject, keySimpleObject) Then
+    Dim result As String = helper.Read(Of String)(keyCompositeObject, keySimpleObject)
+End If
+
+' Save simple objects
+helper.Save(keySimpleObject, 47)
+
+' Save simple objects in a composite
+Dictionary(Of String, Object)() simpleObjects = New Dictionary(Of String, Object)()
+simpleObjects.add("simpleObjectValueOne", 47)
+simpleObjects.add("simpleObjectValueTwo", "hello!")
+helper.Save(keyCompositeObject, simpleObjects)
+
+' Read complex/large objects 
+Dim keyLargeObject As String = "large"
+If Await helper.FileExistsAsync(keyLargeObject) Then
+    Dim result = Await helper.ReadFileAsync(Of MyLargeObject)(keyLargeObject)
+End If
+
+' Save complex/large objects
+Dim o = New MyLargeObject With {
+    ...
+}
+Await helper.SaveFileAsync(keySimpleObject, o)
+```
 
 ### Roaming Storage
 
@@ -124,6 +163,42 @@ var o = new MyLargeObject
     ...
 };
 await helper.SaveFileAsync(keySimpleObject, o);
+```
+```vb
+Dim helper = New RoamingObjectStorageHelper()
+
+' Read simple objects
+Dim keySimpleObject As String = "simple"
+If helper.KeyExists(keySimpleObject) Then
+    Dim result As String = helper.Read(Of String)(keySimpleObject)
+End If
+
+' Read simple objects in a composite
+Dim keyCompositeObject As String = "composite"
+If helper.KeyExists(keyCompositeObject, keySimpleObject) Then
+    Dim result As String = helper.Read(Of String)(keyCompositeObject, keySimpleObject)
+End If
+
+' Save simple objects
+helper.Save(keySimpleObject, 47)
+
+' Save simple objects in a composite
+Dictionary(Of String, Object)() simpleObjects = New Dictionary(Of String, Object)()
+simpleObjects.add("simpleObjectValueOne", 47)
+simpleObjects.add("simpleObjectValueTwo", "hello!")
+helper.Save(keyCompositeObject, simpleObjects)
+
+' Read complex/large objects 
+Dim keyLargeObject As String = "large"
+If Await helper.FileExistsAsync(keyLargeObject) Then
+    Dim result = Await helper.ReadFileAsync(Of MyLargeObject)(keyLargeObject)
+End If
+
+' Save complex/large objects 
+Dim o = New MyLargeObject With {
+    ...
+}
+Await helper.SaveFileAsync(keySimpleObject, o)
 ```
 
 ## Sample Code

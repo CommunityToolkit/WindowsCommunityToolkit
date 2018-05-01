@@ -3,6 +3,9 @@ title: Background Task Helper
 author: nmetulev
 description: The Background Task Helper helps users interacting with background tasks in an easier manner. 
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Background Task Helper
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Background Task Helper
@@ -16,6 +19,12 @@ using Microsoft.Toolkit.Uwp;
 
 BackgroundTaskRegistration registered = BackgroundTaskHelper.Register(typeof(BackgroundTaskClass), new TimeTrigger(15, true));
 BackgroundTaskRegistration registered = BackgroundTaskHelper.Register("TaskName", "TaskEntryPoint", new TimeTrigger(15, true));
+```
+```vb
+Imports Microsoft.Toolkit.Uwp
+
+Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register(GetType(BackgroundTaskClass), New TimeTrigger(15, True))
+Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register("TaskName", "TaskEntryPoint", New TimeTrigger(15, True))
 ```
 
 ## Methods
@@ -72,6 +81,32 @@ BackgroundTaskRegistration registered =
                                     new SystemCondition(SystemConditionType.InternetAvailable), 
                                     new SystemCondition(SystemConditionType.UserPresent));
 ```
+```vb
+' Be sure to include the Imports at the top of the file:
+Imports Microsoft.Toolkit.Uwp
+Imports Windows.ApplicationModel.Background
+
+' Register a normal, seperate process, background task
+Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register("TaskName", "TaskEntryPoint", New TimeTrigger(15, True))
+
+' This can also be written using the overload of Register with Type parameter.
+Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register(GetType(BackgroundTaskClass), New TimeTrigger(15, True))
+
+' With condition
+Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register(GetType(BackgroundTaskClass),
+                                                                             New TimeTrigger(15, True),
+                                                                             False,
+                                                                             True,
+                                                                             New SystemCondition(SystemConditionType.InternetAvailable))
+
+' 2 or more conditions
+Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register(GetType(BackgroundTaskClass),
+                                                                             New TimeTrigger(15, True),
+                                                                             False,
+                                                                             True,
+                                                                             New SystemCondition(SystemConditionType.InternetAvailable),
+                                                                             New SystemCondition(SystemConditionType.UserPresent))
+```
 
 ### Using Single-Process Model
 
@@ -90,6 +125,14 @@ using Windows.ApplicationModel.Background;
 
 // Register a single process background task (Anniversary Update and later ONLY)
 BackgroundTaskRegistration registered = BackgroundTaskHelper.Register("Name of the Background Task", new TimeTrigger(15, true));
+```
+```vb
+' Be sure to include the imports at the top of the file:
+Imports Microsoft.Toolkit.Uwp
+Imports Windows.ApplicationModel.Background
+
+' Register a single process background task (Anniversary Update and later ONLY)
+Dim registered As BackgroundTaskRegistration = BackgroundTaskHelper.Register("Name of the Background Task", New TimeTrigger(15, True))
 ```
 
 The other difference between SPM and MPM is that in SPM, you have to handle your Background Tasks inside the `OnBackgroundActivated` event of `App.xaml.cs` class.
@@ -112,6 +155,20 @@ protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
 
     deferral.Complete();
 }
+```
+```vb
+Protected Overrides Sub OnBackgroundActivated(ByVal args As BackgroundActivatedEventArgs)
+    MyBase.OnBackgroundActivated(args)
+
+    Dim deferral = args.TaskInstance.GetDeferral()
+
+    Select Case args.TaskInstance.Task.Name
+        Case "Name of the Background Task"
+            New TestBackgroundTask().Run(args.TaskInstance)
+    End Select
+
+    deferral.Complete()
+End Sub
 ```
 
 ## Sample Code

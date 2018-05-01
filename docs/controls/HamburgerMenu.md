@@ -3,6 +3,9 @@ title: HamburgerMenu XAML Control
 author: nmetulev
 description: The Hamburger Menu Control provides an easy-to-use, side-bar menu which users can show or hide by using a Hamburger button
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HamburgerMenu, xaml control, xaml
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # HamburgerMenu XAML Control
@@ -152,6 +155,47 @@ namespace HamburgerSample
     }
 }
 ```
+```vb
+Public NotInheritable Class MainPage
+    Inherits Page
+
+    Sub New()
+        InitializeComponent()
+
+        hamburgerMenuControl.ItemsSource = MenuItem.GetMainItems()
+        hamburgerMenuControl.OptionsItemsSource = MenuItem.GetOptionsItems()
+    End Sub
+
+    Private Sub OnMenuItemClick(sender As Object, e As ItemClickEventArgs)
+        Dim menuItem = TryCast(e.ClickedItem, MenuItem)
+        contentFrame.Navigate(menuItem.PageType)
+    End Sub
+End Class
+
+Public Class MenuItem
+
+    Public Property Icon As Symbol
+
+    Public Property Name As String
+
+    Public Property PageType As Type
+
+    Public Shared Function GetMainItems() As List(Of MenuItem)
+        Dim items = New List(Of MenuItem)()
+        items.Add(New MenuItem() With {.Icon = Symbol.Accept, .Name = "MenuItem1", .PageType = GetType(Views.BlankPage1)})
+        items.Add(New MenuItem() With {.Icon = Symbol.Send, .Name = "MenuItem2", .PageType = GetType(Views.BlankPage1)})
+        items.Add(New MenuItem() With {.Icon = Symbol.Shop, .Name = "MenuItem3", .PageType = GetType(Views.BlankPage1)})
+        Return items
+    End Function
+
+    Public Shared Function GetOptionsItems() As List(Of MenuItem)
+        Dim items = New List(Of MenuItem)()
+        items.Add(New MenuItem() With {.Icon = Symbol.Setting, .Name = "OptionItem1", .PageType = GetType(Views.BlankPage1)})
+        Return items
+    End Function
+End Class
+
+```
 
 ## <a name="navview"></a> Moving to NavigationView
 The Windows 10 Fall Creators Update SDK now includes the [NavigationView](https://docs.microsoft.com/windows/uwp/controls-and-patterns/navigationview) control among other new controls and APIs. This is great news for the UWP Community Toolkit as it means that one of its most popular controls, the HamburgerMenu, has a comparable counterpart in the Windows SDK and it is very easy to transition to the NavigationView if you are already using the HamburgerMenu. 
@@ -176,6 +220,11 @@ The HamburgerMenu and NavigationView share the same concepts and provide the sam
         var settingsItem = HamburgerMenu.SettingsItem as NavigationViewItem;
         settingsItem.Content = "About";
         settingsItem.Icon = new FontIcon() { Glyph = "?" };
+        ```
+        ```vb
+        Dim settingsItem = TryCast(HamburgerMenu.SettingsItem, NavigationViewItem)
+        settingsItem.Content = "About"
+        settingsItem.Icon = New FontIcon() With {.Glyph = "?"}
         ```
 
     - Free-form content in the pane’s footer, by adding any content in the new *PaneFooter* property 

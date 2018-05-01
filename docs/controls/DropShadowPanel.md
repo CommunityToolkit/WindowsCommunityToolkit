@@ -17,8 +17,8 @@ The [DropShadowPanel Control](https://docs.microsoft.com/dotnet/api/microsoft.to
 
 <controls:DropShadowPanel BlurRadius="4.0" ShadowOpacity="0.70"
                           OffsetX="5.0" OffsetY="5.0" Color="Black">
-	<Image Width="200" Source="Unicorn.png" Stretch="Uniform"/>
-</controls:DropShadowPanel>       
+    <Image Width="200" Source="Unicorn.png" Stretch="Uniform"/>
+</controls:DropShadowPanel>
 ```
 
 ## Sample Output
@@ -49,7 +49,12 @@ The [DropShadowPanel Control](https://docs.microsoft.com/dotnet/api/microsoft.to
     if(!DropShadowPanel.IsSupported)
     {
         // Change something to counter the lack of drop shadow
-    }   
+    }
+    ```
+    ```vb
+    If Not DropShadowPanel.IsSupported Then
+        ' Change something to counter the lack of drop shadow
+    End If
     ```
 
 ## Default Template 
