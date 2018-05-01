@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
     /// <summary>
     /// Identifies dots per inch (dpi) awareness values.
     /// </summary>
-    public enum PROCESS_DPI_AWARENESS
+    internal enum PROCESS_DPI_AWARENESS
     {
         PROCESS_DPI_UNINITIALIZED = -1,
 
