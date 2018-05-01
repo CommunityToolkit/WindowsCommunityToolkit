@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>uap10.0</TargetFramework>
+    <Title>UWP Community Toolkit Platform Specific Analyzer</Title>
+    <Description>This library provides Platform Specific Analyzer service. It is part of the UWP Community Toolkit.</Description>
+    <PackageTags>UWP Toolkit Windows Platform Specific Analyzer</PackageTags>
+
+    <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
+    <UseWindowsMobileSdk>true</UseWindowsMobileSdk>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
+
+  <ItemGroup>
+    <None Remove="Differences-5.0.0.0.json.gz" />
+    <None Remove="Differences-6.0.0.0.json.gz" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Differences-5.0.0.0.json.gz" />
+    <EmbeddedResource Include="Differences-6.0.0.0.json.gz" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis" Version="2.7.0" />
+    <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+  <Target Name="Pack">
+    <!-- No-op to avoid build error when packing solution from commandline -->
+  </Target>
+</Project>
