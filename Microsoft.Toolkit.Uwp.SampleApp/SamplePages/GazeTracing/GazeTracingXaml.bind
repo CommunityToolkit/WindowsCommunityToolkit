@@ -28,7 +28,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
       <StackPanel>
         <RichTextBlock Margin="20,10,20,20" Foreground="{StaticResource Brush-Grey-03}">
-          <Paragraph>Use the controls below to select various visuals, then see how gaze tracing works. For example, try tracing the Square or Circle. Then, try to trace the same shape with gaze on the blank page.</Paragraph>
+          <Paragraph>Vision involves a number of complex cognitive processes and as a result our eye movement is sometimes different than you might expect. Use the controls below to select various visuals, then see how gaze tracing works. For example, try tracing the Square or Circle. Then, try to trace the same shape with gaze on the blank page.</Paragraph>
         </RichTextBlock>
         <Pivot HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
           <PivotItem Header="Blank" />
