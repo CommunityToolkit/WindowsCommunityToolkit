@@ -33,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public InAppNotificationPage()
         {
             InitializeComponent();
+            Load();
         }
 
         public void OnXamlRendered(FrameworkElement control)
