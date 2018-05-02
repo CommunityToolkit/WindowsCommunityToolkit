@@ -199,7 +199,7 @@ namespace UnitTests.UI.Controls
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
     <controls:UniformGrid x:Name=""UniformGrid"" Rows=""5"">
         <controls:UniformGrid.RowDefinitions>
-            <RowDefinition Height=""48"" controls:UniformGrid.Row=""2""/>
+            <RowDefinition Height=""48""/>
         </controls:UniformGrid.RowDefinitions>
         <Border/>
         <Border/>
@@ -222,7 +222,6 @@ namespace UnitTests.UI.Controls
             // We should find our first definition
             Assert.AreEqual(1, grid.RowDefinitions.Count, "Expected to find our row definition.");
             Assert.AreEqual(48, grid.RowDefinitions[0].Height.Value);
-            Assert.AreEqual(2, UniformGrid.GetRow(grid.RowDefinitions[0]));
 
             Assert.AreEqual(5, grid.Rows, "Rows not set to 5");
 
@@ -233,24 +232,18 @@ namespace UnitTests.UI.Controls
             Assert.AreEqual(5, grid.RowDefinitions.Count, "5 RowDefinitions weren't created.");
 
             // Our original definition should be at index 2
-            var rdo = grid.RowDefinitions[2];
+            var rdo = grid.RowDefinitions[0];
 
             // Did we mark that our row is special?
             Assert.AreEqual(false, UniformGrid.GetAutoLayout(rdo));
-            Assert.AreEqual(2, UniformGrid.GetRow(rdo));
 
             Assert.AreNotEqual(GridUnitType.Star, rdo.Height.GridUnitType);
 
             Assert.AreNotEqual(1.0, rdo.Height.Value);
 
             // Check that we filled in the other two.
-            for (int i = 0; i < grid.RowDefinitions.Count; i++)
+            for (int i = 1; i < grid.RowDefinitions.Count; i++)
             {
-                if (i == 2)
-                {
-                    continue;
-                }
-
                 var rd = grid.RowDefinitions[i];
 
                 // Check if we've setup our row to automatically layout
@@ -272,24 +265,18 @@ namespace UnitTests.UI.Controls
             Assert.AreEqual(5, grid.RowDefinitions.Count);
 
             // Our original definition should be at index 2
-            rdo = grid.RowDefinitions[2];
+            rdo = grid.RowDefinitions[0];
 
             // Did we mark that our row is special?
             Assert.AreEqual(false, UniformGrid.GetAutoLayout(rdo));
-            Assert.AreEqual(2, UniformGrid.GetRow(rdo));
 
             Assert.AreNotEqual(GridUnitType.Star, rdo.Height.GridUnitType);
 
             Assert.AreNotEqual(1.0, rdo.Height.Value);
 
             // Check that we filled in the other two.
-            for (int i = 0; i < grid.RowDefinitions.Count; i++)
+            for (int i = 1; i < grid.RowDefinitions.Count; i++)
             {
-                if (i == 2)
-                {
-                    continue;
-                }
-
                 var rd = grid.RowDefinitions[i];
 
                 // Check if we've setup our row to automatically layout
@@ -312,8 +299,11 @@ namespace UnitTests.UI.Controls
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
     <controls:UniformGrid x:Name=""UniformGrid"" Rows=""5"">
         <controls:UniformGrid.RowDefinitions>
-            <RowDefinition Height=""48"" controls:UniformGrid.Row=""2""/>
-            <RowDefinition Height=""128"" controls:UniformGrid.Row=""4""/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height=""48""/>
+            <RowDefinition/>
+            <RowDefinition Height=""128""/>
         </controls:UniformGrid.RowDefinitions>
         <Border/>
         <Border/>
@@ -334,11 +324,9 @@ namespace UnitTests.UI.Controls
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
             // We should find our first definition
-            Assert.AreEqual(2, grid.RowDefinitions.Count, "Expected to find two row definitions.");
-            Assert.AreEqual(48, grid.RowDefinitions[0].Height.Value);
-            Assert.AreEqual(2, UniformGrid.GetRow(grid.RowDefinitions[0]));
-            Assert.AreEqual(128, grid.RowDefinitions[1].Height.Value);
-            Assert.AreEqual(4, UniformGrid.GetRow(grid.RowDefinitions[1]));
+            Assert.AreEqual(5, grid.RowDefinitions.Count, "Expected to find two row definitions.");
+            Assert.AreEqual(48, grid.RowDefinitions[2].Height.Value);
+            Assert.AreEqual(128, grid.RowDefinitions[4].Height.Value);
 
             Assert.AreEqual(5, grid.Rows, "Rows not set to 5");
 
@@ -353,7 +341,6 @@ namespace UnitTests.UI.Controls
 
             // Did we mark that our row is special?
             Assert.AreEqual(false, UniformGrid.GetAutoLayout(rdo));
-            Assert.AreEqual(2, UniformGrid.GetRow(rdo));
 
             Assert.AreNotEqual(GridUnitType.Star, rdo.Height.GridUnitType);
 
@@ -364,7 +351,6 @@ namespace UnitTests.UI.Controls
 
             // Did we mark that our row is special?
             Assert.AreEqual(false, UniformGrid.GetAutoLayout(rdo2));
-            Assert.AreEqual(4, UniformGrid.GetRow(rdo2));
 
             Assert.AreNotEqual(GridUnitType.Star, rdo2.Height.GridUnitType);
 
@@ -381,7 +367,7 @@ namespace UnitTests.UI.Controls
                 var rd = grid.RowDefinitions[i];
 
                 // Check if we've setup our row to automatically layout
-                Assert.AreEqual(true, UniformGrid.GetAutoLayout(rd));
+                Assert.AreEqual(false, UniformGrid.GetAutoLayout(rd));
 
                 // We need to be using '*' layout for all our rows to be even.
                 Assert.AreEqual(GridUnitType.Star, rd.Height.GridUnitType);
@@ -403,7 +389,6 @@ namespace UnitTests.UI.Controls
 
             // Did we mark that our row is special?
             Assert.AreEqual(false, UniformGrid.GetAutoLayout(rdo));
-            Assert.AreEqual(2, UniformGrid.GetRow(rdo));
 
             Assert.AreNotEqual(GridUnitType.Star, rdo.Height.GridUnitType);
 
@@ -414,7 +399,6 @@ namespace UnitTests.UI.Controls
 
             // Did we mark that our row is special?
             Assert.AreEqual(false, UniformGrid.GetAutoLayout(rdo2));
-            Assert.AreEqual(4, UniformGrid.GetRow(rdo2));
 
             Assert.AreNotEqual(GridUnitType.Star, rdo2.Height.GridUnitType);
 
@@ -431,7 +415,7 @@ namespace UnitTests.UI.Controls
                 var rd = grid.RowDefinitions[i];
 
                 // Check if we've setup our row to automatically layout
-                Assert.AreEqual(true, UniformGrid.GetAutoLayout(rd));
+                Assert.AreEqual(false, UniformGrid.GetAutoLayout(rd));
 
                 // We need to be using '*' layout for all our rows to be even.
                 Assert.AreEqual(GridUnitType.Star, rd.Height.GridUnitType);
@@ -616,7 +600,9 @@ namespace UnitTests.UI.Controls
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
     <controls:UniformGrid x:Name=""UniformGrid"" Columns=""5"">
         <controls:UniformGrid.ColumnDefinitions>
-            <ColumnDefinition Width=""48"" controls:UniformGrid.Column=""2""/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width=""48""/>
         </controls:UniformGrid.ColumnDefinitions>
         <Border/>
         <Border/>
@@ -637,9 +623,8 @@ namespace UnitTests.UI.Controls
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
             // We should find our first definition
-            Assert.AreEqual(1, grid.ColumnDefinitions.Count, "Expected to find our Column definition.");
-            Assert.AreEqual(48, grid.ColumnDefinitions[0].Width.Value);
-            Assert.AreEqual(2, UniformGrid.GetColumn(grid.ColumnDefinitions[0]));
+            Assert.AreEqual(3, grid.ColumnDefinitions.Count, "Expected to find our Column definition.");
+            Assert.AreEqual(48, grid.ColumnDefinitions[2].Width.Value);
 
             Assert.AreEqual(5, grid.Columns, "Columns not set to 5");
 
@@ -653,25 +638,19 @@ namespace UnitTests.UI.Controls
             var rdo = grid.ColumnDefinitions[2];
 
             // Did we mark that our Column is special?
-            Assert.AreEqual(false, UniformGrid.GetAutoLayout(rdo));
-            Assert.AreEqual(2, UniformGrid.GetColumn(rdo));
+            Assert.AreEqual(false, UniformGrid.GetAutoLayout(rdo), "AutoLayout of 48 Width should be False.");
 
             Assert.AreNotEqual(GridUnitType.Star, rdo.Width.GridUnitType);
 
             Assert.AreNotEqual(1.0, rdo.Width.Value);
 
             // Check that we filled in the other two.
-            for (int i = 0; i < grid.ColumnDefinitions.Count; i++)
+            for (int i = 3; i < grid.ColumnDefinitions.Count; i++)
             {
-                if (i == 2)
-                {
-                    continue;
-                }
-
                 var rd = grid.ColumnDefinitions[i];
 
                 // Check if we've setup our Column to automatically layout
-                Assert.AreEqual(true, UniformGrid.GetAutoLayout(rd));
+                Assert.AreEqual(true, UniformGrid.GetAutoLayout(rd), "AutoLayout should be true. {0}", i);
 
                 // We need to be using '*' layout for all our Columns to be even.
                 Assert.AreEqual(GridUnitType.Star, rd.Width.GridUnitType);
@@ -692,25 +671,19 @@ namespace UnitTests.UI.Controls
             rdo = grid.ColumnDefinitions[2];
 
             // Did we mark that our Column is special?
-            Assert.AreEqual(false, UniformGrid.GetAutoLayout(rdo));
-            Assert.AreEqual(2, UniformGrid.GetColumn(rdo));
+            Assert.AreEqual(false, UniformGrid.GetAutoLayout(rdo), "AutoLayout Width 48 should be false 2nd time.");
 
             Assert.AreNotEqual(GridUnitType.Star, rdo.Width.GridUnitType);
 
             Assert.AreNotEqual(1.0, rdo.Width.Value);
 
             // Check that we filled in the other two.
-            for (int i = 0; i < grid.ColumnDefinitions.Count; i++)
+            for (int i = 3; i < grid.ColumnDefinitions.Count; i++)
             {
-                if (i == 2)
-                {
-                    continue;
-                }
-
                 var rd = grid.ColumnDefinitions[i];
 
                 // Check if we've setup our Column to automatically layout
-                Assert.AreEqual(true, UniformGrid.GetAutoLayout(rd));
+                Assert.AreEqual(true, UniformGrid.GetAutoLayout(rd), "AutoLayout should be true 2nd time. {0}", i);
 
                 // We need to be using '*' layout for all our Columns to be even.
                 Assert.AreEqual(GridUnitType.Star, rd.Width.GridUnitType);
@@ -730,7 +703,10 @@ namespace UnitTests.UI.Controls
     <controls:UniformGrid x:Name=""UniformGrid"" Columns=""5"">
         <controls:UniformGrid.ColumnDefinitions>
             <ColumnDefinition Width=""48""/>
-            <ColumnDefinition Width=""128"" controls:UniformGrid.Column=""4""/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width=""128""/>
         </controls:UniformGrid.ColumnDefinitions>
         <Border/>
         <Border/>
@@ -751,11 +727,9 @@ namespace UnitTests.UI.Controls
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
             // We should find our first definition
-            Assert.AreEqual(2, grid.ColumnDefinitions.Count, "Expected to find two Column definitions.");
+            Assert.AreEqual(5, grid.ColumnDefinitions.Count, "Expected to find two Column definitions.");
             Assert.AreEqual(48, grid.ColumnDefinitions[0].Width.Value);
-            Assert.AreEqual(0, UniformGrid.GetColumn(grid.ColumnDefinitions[0]));
-            Assert.AreEqual(128, grid.ColumnDefinitions[1].Width.Value);
-            Assert.AreEqual(4, UniformGrid.GetColumn(grid.ColumnDefinitions[1]));
+            Assert.AreEqual(128, grid.ColumnDefinitions[4].Width.Value);
 
             Assert.AreEqual(5, grid.Columns, "Columns not set to 5");
 
@@ -770,7 +744,6 @@ namespace UnitTests.UI.Controls
 
             // Did we mark that our Column is special?
             Assert.AreEqual(false, UniformGrid.GetAutoLayout(rdo));
-            Assert.AreEqual(0, UniformGrid.GetColumn(rdo));
 
             Assert.AreNotEqual(GridUnitType.Star, rdo.Width.GridUnitType);
 
@@ -781,24 +754,19 @@ namespace UnitTests.UI.Controls
 
             // Did we mark that our Column is special?
             Assert.AreEqual(false, UniformGrid.GetAutoLayout(rdo2));
-            Assert.AreEqual(4, UniformGrid.GetColumn(rdo2));
+            ////Assert.AreEqual(4, UniformGrid.GetColumn(rdo2));
 
             Assert.AreNotEqual(GridUnitType.Star, rdo2.Width.GridUnitType);
 
             Assert.AreNotEqual(1.0, rdo2.Width.Value);
 
             // Check that we filled in the other two.
-            for (int i = 0; i < grid.ColumnDefinitions.Count; i++)
+            for (int i = 1; i < grid.ColumnDefinitions.Count - 1; i++)
             {
-                if (i == 0 || i == 4)
-                {
-                    continue;
-                }
-
                 var rd = grid.ColumnDefinitions[i];
 
                 // Check if we've setup our Column to automatically layout
-                Assert.AreEqual(true, UniformGrid.GetAutoLayout(rd));
+                Assert.AreEqual(false, UniformGrid.GetAutoLayout(rd));
 
                 // We need to be using '*' layout for all our Columns to be even.
                 Assert.AreEqual(GridUnitType.Star, rd.Width.GridUnitType);
@@ -820,7 +788,6 @@ namespace UnitTests.UI.Controls
 
             // Did we mark that our Column is special?
             Assert.AreEqual(false, UniformGrid.GetAutoLayout(rdo));
-            Assert.AreEqual(0, UniformGrid.GetColumn(rdo));
 
             Assert.AreNotEqual(GridUnitType.Star, rdo.Width.GridUnitType);
 
@@ -831,24 +798,18 @@ namespace UnitTests.UI.Controls
 
             // Did we mark that our Column is special?
             Assert.AreEqual(false, UniformGrid.GetAutoLayout(rdo2));
-            Assert.AreEqual(4, UniformGrid.GetColumn(rdo2));
 
             Assert.AreNotEqual(GridUnitType.Star, rdo2.Width.GridUnitType);
 
             Assert.AreNotEqual(1.0, rdo2.Width.Value);
 
             // Check that we filled in the other two.
-            for (int i = 0; i < grid.ColumnDefinitions.Count; i++)
+            for (int i = 1; i < grid.ColumnDefinitions.Count - 1; i++)
             {
-                if (i == 0 || i == 4)
-                {
-                    continue;
-                }
-
                 var rd = grid.ColumnDefinitions[i];
 
                 // Check if we've setup our Column to automatically layout
-                Assert.AreEqual(true, UniformGrid.GetAutoLayout(rd));
+                Assert.AreEqual(false, UniformGrid.GetAutoLayout(rd));
 
                 // We need to be using '*' layout for all our Columns to be even.
                 Assert.AreEqual(GridUnitType.Star, rd.Width.GridUnitType);

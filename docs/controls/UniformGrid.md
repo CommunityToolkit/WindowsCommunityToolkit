@@ -108,17 +108,21 @@ In order to pin a child to the top-left position (0, 0), you must specify the `c
 >
 > This specific edge-case is only supported in Markup on 16299 and above for the required Markup Extension; otherwise, name the element and use code-behind to set the property.
 
-### Sized Rows and Columns
+### Override Rows and Columns
 
-While the UniformGrid doesn't require the specification of `RowDefinitions` or `ColumnDefinitions` this is now possible on the UWP UniformGrid.  You can use the `UniformGrid.Row` or `UniformGrid.Column` attached property to specify a single specific row or column to modify.  Any other columns or rows required by the layout will then be evenly spaced from the remaining available space.  The default sizing is `1*` if you want to use relative sizing for specific columns or rows.
+While the UniformGrid doesn't require the specification of `RowDefinitions` or `ColumnDefinitions`, you can override them in the UWP UniformGrid.  By specifying a set of definitions, you can change the layout sizes of items in the grid.  Any other columns or rows required by the layout will be added.
 
 ```xaml
     <controls:UniformGrid>
       <controls:UniformGrid.RowDefinitions>
-        <RowDefinition controls:UniformGrid.Row="1" Height="20"/>
+        <RowDefinition/>
+        <RowDefinition Height="20"/>
+        <RowDefinition/>
       </controls:UniformGrid.RowDefinitions>
       <controls:UniformGrid.ColumnDefinitions>
-        <ColumnDefinition controls:UniformGrid.Column="1" Width="20"/>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="20"/>
+        <ColumnDefinition/>
       </controls:UniformGrid.ColumnDefinitions>
       <Border Background="AliceBlue"><TextBlock Text="1"/></Border>
       <Border Background="Cornsilk"><TextBlock Text="2"/></Border>
@@ -166,8 +170,6 @@ Changing the `FlowDirection` or `Orientation` properties effect how `FirstColumn
 
 | Property | Type | Description |
 | -- | -- | -- |
-| Columns | int | `ColumnDefinition` attached property to specific a size for a specific column index.
-| Row | int | `RowDefinition` attached property to specific a size for a specific row index. |
 | AutoLayout | bool? | **DO NOT USE** - Internal property used to keep track of items that are fixed in position or need to automatically adjusted during layout. *Only set to `False` for the top-left edge case scenario described above for fixed child locations.* |
 
 ## Example Code

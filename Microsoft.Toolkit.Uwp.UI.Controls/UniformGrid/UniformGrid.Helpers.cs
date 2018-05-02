@@ -124,18 +124,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // underlying Grid layout for main arrange of UniformGrid.
         internal void SetupRowDefinitions(int rows)
         {
-            // Mark existing dev-defined definitions so we don't erase them.
+            // Mark initial definitions so we don't erase them.
             foreach (var rd in RowDefinitions)
             {
                 if (GetAutoLayout(rd) == null)
                 {
                     SetAutoLayout(rd, false);
-
-                    // If we don't have our attached property, assign it based on index.
-                    if (GetRow(rd) == 0)
-                    {
-                        SetRow(rd, RowDefinitions.IndexOf(rd));
-                    }
                 }
             }
 
@@ -150,14 +144,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
 
-                for (int r = 0; r < rows; r++)
+                for (int r = this.RowDefinitions.Count; r < rows; r++)
                 {
-                    if (!(this.RowDefinitions.Count >= r + 1 && GetRow(RowDefinitions[r]) == r))
-                    {
-                        var rd = new RowDefinition();
-                        SetAutoLayout(rd, true);
-                        this.RowDefinitions.Insert(r, rd);
-                    }
+                    var rd = new RowDefinition();
+                    SetAutoLayout(rd, true);
+                    this.RowDefinitions.Insert(r, rd);
                 }
             }
         }
@@ -166,17 +157,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // underlying Grid layout for main arrange of UniformGrid.
         internal void SetupColumnDefinitions(int columns)
         {
+            // Mark initial definitions so we don't erase them.
             foreach (var cd in ColumnDefinitions)
             {
                 if (GetAutoLayout(cd) == null)
                 {
                     SetAutoLayout(cd, false);
-
-                    // If we don't have our attached property, assign it based on index.
-                    if (GetColumn(cd) == 0)
-                    {
-                        SetColumn(cd, ColumnDefinitions.IndexOf(cd));
-                    }
                 }
             }
 
@@ -191,14 +177,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
 
-                for (int c = 0; c < columns; c++)
+                for (int c = ColumnDefinitions.Count; c < columns; c++)
                 {
-                    if (!(ColumnDefinitions.Count >= c + 1 && GetColumn(ColumnDefinitions[c]) == c))
-                    {
-                        var cd = new ColumnDefinition();
-                        SetAutoLayout(cd, true);
-                        ColumnDefinitions.Insert(c, cd);
-                    }
+                    var cd = new ColumnDefinition();
+                    SetAutoLayout(cd, true);
+                    ColumnDefinitions.Insert(c, cd);
                 }
             }
         }
