@@ -52,6 +52,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
+            var upn = LoginHint.Text;
             var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
             var endpointVersion = item.Tag.ToString() == "v2" ? AuthenticationModel.V2 : AuthenticationModel.V1;
 
@@ -74,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Login via Azure Active Directory
             try
             {
-                if (!await MicrosoftGraphService.Instance.LoginAsync())
+                if (!await MicrosoftGraphService.Instance.LoginAsync(upn))
                 {
                     var error = new MessageDialog("Unable to sign in to Office 365");
                     await error.ShowAsync();
@@ -306,6 +307,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (DelegatedPermissionScopes != null)
             {
                 DelegatedPermissionScopes.Visibility = item.Tag.ToString() == "v2" ? Visibility.Visible : Visibility.Collapsed;
+                LoginHint.Visibility = DelegatedPermissionScopes.Visibility;
             }
         }
     }
