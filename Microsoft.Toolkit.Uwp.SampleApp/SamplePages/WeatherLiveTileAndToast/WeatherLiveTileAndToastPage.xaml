@@ -4,7 +4,17 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:visualizer="using:NotificationsVisualizerLibrary"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style x:Key="Box-Header" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,-20,0,0" />
+        </Style>
+    </Page.Resources>
 
     <ScrollViewer>
         <StackPanel Margin="20">
@@ -34,34 +44,80 @@
             </RichTextBlock>
 
             <!--  Toast Preview  -->
-            <visualizer:PreviewToast x:Name="PreviewToastWeather"
+            <StackPanel
+                    HorizontalAlignment="Center"
+                    Padding="20"
+                    Background="{ThemeResource Brush-Grey-04}"
+                    Margin="10">
+                <TextBlock
+                        Text="TOAST"
+                        Style="{StaticResource Box-Header}" />
+                <visualizer:PreviewToast x:Name="PreviewToastWeather"
                                      MaxWidth="362"
-                                     Margin="0,20,0,0"
-                                     HorizontalAlignment="Left" />
+                                     HorizontalAlignment="Center" />
+            </StackPanel>
 
-            <StackPanel Margin="-2,10,-2,0">
-                <StackPanel.Resources>
-                    <Style TargetType="visualizer:PreviewTile">
-                        <Setter Property="Margin" Value="2" />
-                    </Style>
-                </StackPanel.Resources>
+            <TextBlock
+                Text="TILES"
+                HorizontalAlignment="Center"
+                FontSize="24"
+                FontWeight="Bold" />
 
-                <visualizer:PreviewTile x:Name="PreviewTileSmall"
+            <controls:WrapPanel
+                HorizontalAlignment="Center">
+
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Padding="20"
+                    Background="{ThemeResource Brush-Grey-04}"
+                    Margin="10">
+                    <TextBlock
+                        Text="SMALL"
+                        Style="{StaticResource Box-Header}" />
+                    <visualizer:PreviewTile x:Name="PreviewTileSmall"
                                         IsAnimationEnabled="False"
                                         TileSize="Small" />
+                </StackPanel>
 
-                <visualizer:PreviewTile x:Name="PreviewTileMedium"
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Padding="20"
+                    Background="{ThemeResource Brush-Grey-04}"
+                    Margin="10">
+                    <TextBlock
+                        Text="MEDIUM"
+                        Style="{StaticResource Box-Header}" />
+                    <visualizer:PreviewTile x:Name="PreviewTileMedium"
                                         IsAnimationEnabled="False"
                                         TileSize="Medium" />
+                </StackPanel>
 
-                <visualizer:PreviewTile x:Name="PreviewTileWide"
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Padding="20"
+                    Background="{ThemeResource Brush-Grey-04}"
+                    Margin="10">
+                    <TextBlock
+                        Text="WIDE"
+                        Style="{StaticResource Box-Header}" />
+                    <visualizer:PreviewTile x:Name="PreviewTileWide"
                                         IsAnimationEnabled="False"
                                         TileSize="Wide" />
+                </StackPanel>
 
-                <visualizer:PreviewTile x:Name="PreviewTileLarge"
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Padding="20"
+                    Background="{ThemeResource Brush-Grey-04}"
+                    Margin="10">
+                    <TextBlock
+                        Text="LARGE"
+                        Style="{StaticResource Box-Header}" />
+                    <visualizer:PreviewTile x:Name="PreviewTileLarge"
                                         IsAnimationEnabled="False"
                                         TileSize="Large" />
-            </StackPanel>
+                </StackPanel>
+            </controls:WrapPanel>
         </StackPanel>
     </ScrollViewer>
 </Page>
