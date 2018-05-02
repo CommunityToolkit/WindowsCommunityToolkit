@@ -1,3 +1,3 @@
 @ECHO OFF
-PowerShell.exe -file build.ps1
+PowerShell.exe -file "%~dp0build.ps1"
 PAUSE
