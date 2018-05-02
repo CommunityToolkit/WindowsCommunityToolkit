@@ -103,18 +103,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                                     textLangHead.Text,
                                     language
                                 },
+                                SelectedIndex = 0,
                                 MinWidth = 80
                             };
-
-                            if (DesiredLang == language)
-                            {
-                                combLangHead.SelectedItem = language;
-                                block.CurrentLanguage = language;
-                            }
-                            else
-                            {
-                                combLangHead.SelectedIndex = 0;
-                            }
 
                             headerGrid.Children.Add(combLangHead);
 
@@ -147,6 +138,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                                     }
                                 }
                             };
+
+                            if (DesiredLang == language)
+                            {
+                                combLangHead.SelectedItem = language;
+                                block.CurrentLanguage = language;
+                            }
                         }
                         else if (langHead is ComboBox combLangHead)
                         {
