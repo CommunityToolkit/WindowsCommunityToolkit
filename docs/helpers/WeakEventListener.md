@@ -2,7 +2,7 @@
 title: WeakEventListener
 author: nmetulev
 description: The WeakEventListener allows the owner to be garbage collected if its only remaining link is an event handler.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, WeakEventListener
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, WeakEventListener
 ---
 
 # WeakEventListener

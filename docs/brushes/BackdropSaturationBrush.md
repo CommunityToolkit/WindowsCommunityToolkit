@@ -2,7 +2,7 @@
 title: BackdropSaturationBrush
 author: michael-hawker
 description: The BackdropSaturationBrush is a Brush that applies a Saturation effect to whatever is behind it in the application.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, brush, backdrop, saturation
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, brush, backdrop, saturation
 ---
 
 # BackdropSaturationBrush
@@ -31,7 +31,7 @@ The [BackdropSaturationBrush](https://docs.microsoft.com/dotnet/api/microsoft.to
 
 ## Sample Code
 
-[BackdropSaturationBrush sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackdropSaturationBrush). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[BackdropSaturationBrush sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackdropSaturationBrush). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

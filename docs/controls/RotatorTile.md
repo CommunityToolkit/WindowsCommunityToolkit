@@ -2,7 +2,7 @@
 title: Rotator Tile Control
 author: nmetulev
 description: The RotatorTile Control is an ItemsControl that rotates through a set of items one-by-one. It enables you to show multiple items of data in a live-tile like way.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, RotatorTile Control, xaml control, xaml
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, RotatorTile Control, xaml control, xaml
 ---
 
 # RotatorTile XAML Control
@@ -40,7 +40,7 @@ The [Rotator Tile Control](https://docs.microsoft.com/dotnet/api/microsoft.toolk
 
 ## Sample Code
 
-[RotatorTile Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/RotatorTile). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[RotatorTile Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/RotatorTile). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 

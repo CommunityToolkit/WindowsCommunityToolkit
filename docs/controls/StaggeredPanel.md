@@ -2,7 +2,7 @@
 title: StaggeredPanel
 author: skendrot
 description: Arranges child elements into a staggered grid pattern.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, StaggeredPanel 
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, StaggeredPanel 
 ---
 
 # StaggeredPanel
@@ -40,7 +40,7 @@ The [StaggeredPanel](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolk
 
 ## Sample Code
 
-[StaggeredPanel Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/StaggeredPanel). You can see this in action in UWP Community Toolkit Sample App.
+[StaggeredPanel Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/StaggeredPanel). You can see this in action in the Windows Community Toolkit Sample App.
 
 ## Default Template
 

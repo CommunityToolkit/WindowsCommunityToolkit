@@ -1,8 +1,8 @@
 ---
 title: Blur animation behavior
 author: nmetulev
-description: The UWP Community Toolkit Blur animation behavior selectively blurs a XAML element by increasing or decreasing pixel size
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, blur, blur animation
+description: The Windows Community Toolkit Blur animation behavior selectively blurs a XAML element by increasing or decreasing pixel size
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, blur, blur animation
 dev_langs:
   - csharp
   - vb
@@ -105,7 +105,7 @@ Await MyUIElement.Blur(value:=5, duration:=2500, delay:=250).StartAsync()    ' B
 
 ## Sample Project
 
-[Blur Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Blur). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
+[Blur Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Blur). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
 
 ## Requirements
 

@@ -54,8 +54,8 @@
                         Text="Print" />
         <MenuFlyoutSeparator />
         <MenuFlyoutSubItem Text="Recent Files">
-          <MenuFlyoutItem Text="UWP ToolKit GridSplitter" />
-          <MenuFlyoutItem Text="UWP ToolKit WrapPanel" />
+          <MenuFlyoutItem Text="Windows Community ToolKit GridSplitter" />
+          <MenuFlyoutItem Text="Windows Community ToolKit WrapPanel" />
         </MenuFlyoutSubItem>
         <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+E"
                         Command="{StaticResource GenericCommand}"

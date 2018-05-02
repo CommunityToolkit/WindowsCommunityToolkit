@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
-    <Title>UWP Community Toolkit .NET Standard</Title>
+    <Title>Windows Community Toolkit .NET Standard</Title>
     <Description>This package includes .NET Standard code only helpers.</Description>
     <PackageTags>UWP Toolkit Windows</PackageTags>
 
