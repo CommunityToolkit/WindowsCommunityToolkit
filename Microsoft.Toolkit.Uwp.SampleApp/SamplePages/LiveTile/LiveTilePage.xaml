@@ -30,9 +30,7 @@
                 <Paragraph />
                 <Paragraph FontSize="12">
                     Check out
-                    <Hyperlink
-                        NavigateUri="http://www.microsoft.com/en-us/store/apps/notifications-visualizer/9nblggh5xsl1"
-                        Foreground="{ThemeResource Brush-Link-Normal}">Notifications Visualizer</Hyperlink>
+                    <Hyperlink NavigateUri="http://www.microsoft.com/en-us/store/apps/notifications-visualizer/9nblggh5xsl1">Notifications Visualizer</Hyperlink>
                     to learn more about Tile notifications.
                 </Paragraph>
             </RichTextBlock>
