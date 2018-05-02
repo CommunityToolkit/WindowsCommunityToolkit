@@ -296,6 +296,7 @@
     <Content Include="SamplePages\DispatcherHelper\DispatchHelper.png" />
     <Content Include="SamplePages\DockPanel\DockPanel.png" />
     <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
+    <Content Include="SamplePages\AADLogin\AADLogin.png" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
     <Content Include="SamplePages\FocusTracker\FocusTracker.png" />
@@ -496,6 +497,8 @@
     <Content Include="SamplePages\PrintHelper\PrintHelperXaml.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\AADLogin\AADLoginCode.bind" />
+    <Content Include="SamplePages\AADLogin\AADLoginXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -560,6 +563,9 @@
     </Compile>
     <Compile Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushPage.xaml.cs">
       <DependentUpon>BackdropBlurBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\AADLogin\AADLoginPage.xaml.cs">
+      <DependentUpon>AADLoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsPage.xaml.cs" />
     <Compile Include="SamplePages\ImageBlendBrush\ImageBlendBrushPage.xaml.cs">
@@ -903,6 +909,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\AADLogin\AADLoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,0 +1,27 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph">
+
+    <Style TargetType="controls:AADLogin">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:AADLogin">
+                    <StackPanel>
+                        <Button x:Name="btnMain" Background="Transparent">
+                            <Button.Content>
+                                <controls:ProfileCard 
+                                    DisplayMode="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=View}" 
+                                    DefaultImage="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=DefaultImage}" 
+                                    UserId="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentUserID}"  
+                                    GraphAccessToken ="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=GraphAccessToken}"
+                                    DefaultTitleText="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SignInDefaultText}" 
+                                    DefaultMailText="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SignInDefaultText}" />
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

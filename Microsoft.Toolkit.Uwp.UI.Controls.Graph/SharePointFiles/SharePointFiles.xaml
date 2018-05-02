@@ -1,0 +1,140 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph">
+
+    <local:DriveItemIconConverter x:Key="DriveItemIconConverter"/>
+    <local:FileSizeConverter x:Key="FileSizeConverter"/>
+
+    <Style x:Name="MetaLabel" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="10 5 10 0" />
+    </Style>
+    <Style x:Name="MetaValue" TargetType="TextBlock">
+        <Setter Property="Margin" Value="10 5" />
+    </Style>
+    <Style x:Name="MetaValueLink" TargetType="HyperlinkButton">
+        <Setter Property="Margin" Value="10 5" />
+    </Style>
+    <Style x:Name="MetaValueProfile" TargetType="local:ProfileCard">
+        <Setter Property="Margin" Value="10 5" />
+    </Style>
+    <Style x:Name="ToolbarButton" TargetType="Button">
+        <Setter Property="Height" Value="48" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style x:Name="ToolbarButtonImage" TargetType="Image">
+        <Setter Property="Stretch" Value="Uniform" />
+    </Style>
+    <Style TargetType="local:SharePointFiles" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:SharePointFiles">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="4*"/>
+                            <RowDefinition Height="3*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3" Margin="12 0 0 0">
+                            <Button Name="back" Visibility="Collapsed" Style="{StaticResource ToolbarButton}" AutomationProperties.Name="Back">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Back"/>
+                                    <TextBlock Text="Back" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Name="upload" Visibility="Collapsed" Style="{StaticResource ToolbarButton}" AutomationProperties.Name="Upload a new file">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Upload"/>
+                                    <TextBlock Text="Upload" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Name="share" Visibility="Collapsed" Style="{StaticResource ToolbarButton}" AutomationProperties.Name="Get share link">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Share"/>
+                                    <TextBlock Text="Share" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Name="download" Visibility="Collapsed" Style="{StaticResource ToolbarButton}" AutomationProperties.Name="Download selected file">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Download"/>
+                                    <TextBlock Text="Download" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Name="delete" Visibility="Collapsed" Style="{StaticResource ToolbarButton}" AutomationProperties.Name="Delete selected file">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Delete"/>
+                                    <TextBlock Text="Delete" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+
+                            <TextBlock Name="status" VerticalAlignment="Center"></TextBlock>
+                            <HyperlinkButton Name="error" Content="Errors adding files." VerticalAlignment="Center" Visibility="Collapsed" AutomationProperties.Name="Show error message"></HyperlinkButton>
+                            <Button Name="cancel" Visibility="Collapsed" Style="{StaticResource ToolbarButton}" AutomationProperties.Name="Cancel uploading">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Cancel"/>
+                                    <TextBlock Text="Cancel" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                        <ListView Name="list" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="3" IsItemClickEnabled="True" AutomationProperties.Name="List">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Height="60" Orientation="Horizontal" AutomationProperties.Name="{Binding Path=Name}">
+                                        <Image Source="{Binding Converter={StaticResource DriveItemIconConverter}}" Height="32" Width="32" Margin="0 10 10 10" />
+                                        <TextBlock Text="{Binding Path=Name}" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.Footer>
+                                <Button x:Name="hasMore"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=HasMore}"
+                                        Style="{StaticResource ToolbarButton}"
+                                        HorizontalAlignment="Stretch"
+                                        Width="Auto"
+                                        BorderThickness="0"
+                                        AutomationProperties.Name="Load more items">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Load More" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                                        <SymbolIcon Symbol="More" />
+                                    </StackPanel>
+                                </Button>
+                            </ListView.Footer>
+                        </ListView>
+
+                        <Grid Name="thumbnail" Grid.Row="1" Grid.Column="2" Visibility="Collapsed" Background="#B2B2B2" Padding="5">
+                            <Image Name="thumbnailImage" />
+                        </Grid>
+
+                        <ScrollViewer Name="details" Visibility="Collapsed" Background="#DDDDDD">
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource MetaLabel}">Name</TextBlock>
+                                <HyperlinkButton Style="{StaticResource MetaValueLink}" NavigateUri="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SelectedFile.WebUrl}">
+                                    <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SelectedFile.Name}" TextWrapping="Wrap" />
+                                </HyperlinkButton>
+                                <TextBlock Style="{StaticResource MetaLabel}">Size</TextBlock>
+                                <TextBlock Style="{StaticResource MetaValue}" Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FileSize, Converter={StaticResource FileSizeConverter}}" />
+                                <TextBlock Style="{StaticResource MetaLabel}">Last Modified</TextBlock>
+                                <TextBlock Style="{StaticResource MetaValue}" Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=LastModified}" />
+                                <TextBlock Style="{StaticResource MetaLabel}">Last Modified By</TextBlock>
+                                <local:ProfileCard
+                                    Style="{StaticResource MetaValueProfile}"
+                                    UserId="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SelectedFile.LastModifiedBy.User.Id}"
+                                    GraphAccessToken="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=GraphAccessToken}"
+                                    DisplayMode="LargeProfilePhotoLeft" />
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

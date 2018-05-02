@@ -1,0 +1,9 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard/ProfileCard.xaml" />
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Graph/AADLogin/AADLogin.xaml" />
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Graph/SharePointFiles/SharePointFiles.xaml" />
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Graph/PeoplePicker/PeoplePicker.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

@@ -861,5 +861,21 @@
         "Icon": "/SamplePages/Analytics/Analytics.png"
       }
     ]
+  },
+  {
+    "Name": "Graph",
+    "Icon": "Icons/Foundation.png",
+    "Samples": [
+      {
+        "Name": "AADLogin",
+        "Type": "AADLoginPage",
+        "About": "The AADLogin Control leverages existing .NET login libraries to support basic AAD sign-in processes for Microsoft Graph.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/AADLogin",
+        "XamlCodeFile": "AADLoginXaml.bind",
+        "CodeFile": "AADLoginCode.bind",
+        "Icon": "/SamplePages/AADLogin/AADLogin.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/AADLogin.md"
+      }
+    ]
   }
 ]
