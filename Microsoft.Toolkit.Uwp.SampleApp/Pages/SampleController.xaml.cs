@@ -38,54 +38,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
     {
         public static SampleController Current { get; private set; }
 
-        public Sample CurrentSample { get; private set; }
-
-        public ObservableCollection<SampleCommand> Commands { get; } = new ObservableCollection<SampleCommand>();
-
-        public bool DisplayWaitRing
-        {
-            set { waitRing.Visibility = value ? Visibility.Visible : Visibility.Collapsed; }
-        }
-
-        public PaneState SidePaneState
-        {
-            get => _paneState;
-            set
-            {
-                _paneState = value;
-                UpdateProperty();
-            }
-        }
-
-        public bool UseBackground
-        {
-            get
-            {
-                return _useBackground;
-            }
-
-            set
-            {
-                _useBackground = value;
-                UpdateProperty(nameof(UseBackground));
-            }
-        }
-
-        private Page SamplePage => SampleContent.Content as Page;
-
-        private XamlRenderService _xamlRenderer = new XamlRenderService();
-        private bool _lastRenderedProperties = true;
-        private bool _xamlCodeRendererSupported = false;
-
-        private bool _useBackground = false;
-
-        private PaneState _paneState;
-        private bool _hasDocumentation = true;
-        private bool _onlyDocumentation;
-        private string documentationPath;
-
-        private bool CanChangePaneState => _hasDocumentation && !_onlyDocumentation;
-
         public SampleController()
         {
             this.InitializeComponent();
@@ -519,8 +471,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private void ProcessSampleEditorTime()
         {
             if (CurrentSample != null &&
@@ -598,5 +548,55 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 ExceptionNotification.Show(ex.Message);
             }
         }
+
+        public Sample CurrentSample { get; private set; }
+
+        public ObservableCollection<SampleCommand> Commands { get; } = new ObservableCollection<SampleCommand>();
+
+        public bool DisplayWaitRing
+        {
+            set { waitRing.Visibility = value ? Visibility.Visible : Visibility.Collapsed; }
+        }
+
+        public PaneState SidePaneState
+        {
+            get => _paneState;
+            set
+            {
+                _paneState = value;
+                UpdateProperty();
+            }
+        }
+
+        public bool UseBackground
+        {
+            get
+            {
+                return _useBackground;
+            }
+
+            set
+            {
+                _useBackground = value;
+                UpdateProperty(nameof(UseBackground));
+            }
+        }
+
+        private Page SamplePage => SampleContent.Content as Page;
+
+        private bool CanChangePaneState => _hasDocumentation && !_onlyDocumentation;
+
+        private XamlRenderService _xamlRenderer = new XamlRenderService();
+        private bool _lastRenderedProperties = true;
+        private bool _xamlCodeRendererSupported = false;
+
+        private bool _useBackground = false;
+
+        private PaneState _paneState;
+        private bool _hasDocumentation = true;
+        private bool _onlyDocumentation;
+        private string documentationPath;
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
