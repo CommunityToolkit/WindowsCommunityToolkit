@@ -128,9 +128,12 @@
                                 FontFamily="Segoe UI"
                                 FontWeight="Bold"
                                 Text="Get Started" />
+
                             <TextBlock
                                 TextWrapping="Wrap"
                                 FontSize="14"
+                                Margin="0,20,0,0"
+                                Foreground="{ThemeResource Brush-Link-Normal}"
                                 Text="The UWP Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10." />
                         </StackPanel>
 

@@ -31,7 +31,7 @@
                                   ShadowOpacity="@[Opacity:DoubleSlider:1.0:0.0-1.0]"
                                   OffsetX="@[OffsetX:DoubleSlider:2.0:0.0-100.0]"
                                   OffsetY="@[OffsetY:DoubleSlider:2.0:0.0-100.0]"
-                                  Color="@[Color:Brush:Aqua]"
+                                  Color="@[Color:Brush:Black]"
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center">
           <TextBlock TextWrapping="Wrap">

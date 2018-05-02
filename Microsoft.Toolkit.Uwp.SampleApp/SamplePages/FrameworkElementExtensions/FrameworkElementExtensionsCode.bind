@@ -22,7 +22,7 @@
       <Rectangle Grid.Column="0"
                  Grid.Row="0"
                  extensions:FrameworkElementExtensions.EnableActualSizeBinding="True"
-                 Fill="{ThemeResource Brush-Brand-Color}"
+                 Fill="{StaticResource Brush-Brand-Color}"
                  Stroke="{ThemeResource Brush-Grey-04}"
                  x:Name="TargetObject"
                  StrokeThickness="1" />

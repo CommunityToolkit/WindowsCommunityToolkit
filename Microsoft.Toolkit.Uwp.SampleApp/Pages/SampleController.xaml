@@ -245,7 +245,7 @@
                             <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
                                                     Foreground="{ThemeResource DocumentationForeground}"
                                                     Background="Transparent"
-                                                    LinkForeground="{ThemeResource Brush-Brand-Color}"
+                                                    LinkForeground="{ThemeResource Brush-Link-Normal}"
                                                     ImageResolving="DocumentationTextblock_ImageResolving"
                                                     LinkClicked="DocumentationTextblock_OnLinkClicked"
                                                     IsFocusEngagementEnabled="False" />

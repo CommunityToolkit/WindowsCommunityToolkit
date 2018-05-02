@@ -18,7 +18,7 @@
     <!--  Styles  -->
     <Style x:Key="AboutHyperlinkButtonStyle" TargetType="HyperlinkButton">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{ThemeResource Brush-Brand-Color}" />
+        <Setter Property="Foreground" Value="{ThemeResource Brush-Link-Normal}" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="0" />

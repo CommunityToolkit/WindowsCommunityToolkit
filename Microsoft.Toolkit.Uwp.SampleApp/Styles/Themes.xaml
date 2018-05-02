@@ -4,6 +4,8 @@
     <!--  Branding  -->
     <Color x:Key="Brand-Color">#3750D1</Color>
 
+    <SolidColorBrush x:Key="Brush-Brand-Color" Color="{StaticResource Brand-Color}" />
+
     <!--  Colors  -->
     <Color x:Key="White">#FFFFFFFF</Color>
     <Color x:Key="Black">#FF000000</Color>
@@ -31,8 +33,8 @@
             <!-- Branding Colors -->
             <SolidColorBrush x:Key="SystemControlHighlightAccentBrush"
                          Color="{StaticResource Brand-Color}" />
-            <SolidColorBrush x:Key="Brush-Brand-Color"
-                         Color="{StaticResource Brand-Color}" />
+            <SolidColorBrush x:Key="Brush-Link-Normal"
+                         Color="#CC000000" />
             <!-- UI Elements -->
             <SolidColorBrush x:Key="SliderThumbBackground"
                              Color="Black" />
@@ -103,7 +105,7 @@
             <!-- Branding Colors -->
             <SolidColorBrush x:Key="SystemControlHighlightAccentBrush"
                          Color="{StaticResource Brand-Color}" />
-            <SolidColorBrush x:Key="Brush-Brand-Color"
+            <SolidColorBrush x:Key="Brush-Link-Normal"
                          Color="#CCFFFFFF" />
             <!-- UI Elements -->
             <SolidColorBrush x:Key="SliderThumbBackground"

@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.UI.Helpers;
+using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -29,14 +29,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Styles
             darkTheme = themes.ThemeDictionaries["Dark"] as ResourceDictionary;
             lightTheme = themes.ThemeDictionaries["Light"] as ResourceDictionary;
 
-            if (VisualHelpers.SupportsFluentAcrylic)
+            if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.AcrylicBrush"))
             {
                 AddAcrylic(new ThemeAcrylic
                 {
                     Name = "Background-AboutPage-SidePane",
                     DarkAcrylic = new AcrylicBrush
                     {
-                        TintColor = VisualHelpers.ColorFromHex("#FF333333"),
+                        TintColor = Helpers.ColorHelper.ToColor("#FF333333"),
                         TintOpacity = 0.8,
                         BackgroundSource = AcrylicBackgroundSource.Backdrop
                     },
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Styles
                     Names = new[] { "Brush-SampleInfo-Background", "Commands-Background" },
                     DarkAcrylic = new AcrylicBrush
                     {
-                        TintColor = VisualHelpers.ColorFromHex("#FF111111"),
+                        TintColor = Helpers.ColorHelper.ToColor("#FF111111"),
                         TintOpacity = 0.7,
                         BackgroundSource = AcrylicBackgroundSource.Backdrop
                     },
