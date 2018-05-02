@@ -21,7 +21,7 @@ using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Shapes;
 
 #include <strsafe.h>
-class Debug
+private class Debug
 {
 public:
     static void WriteLine(wchar_t *format, ...)

@@ -2,32 +2,39 @@
 //See LICENSE in the project root for license information.
 
 #pragma once
-#pragma warning(disable:4453)
 
-#include "IGazeFilter.h"
-#include "GazeCursor.h"
-#include "StateChangedEventArgs.h"
 #include "DwellInvokedRoutedEventArgs.h"
 #include "DwellProgressEventArgs.h"
+#include "StateChangedEventArgs.h"
 
-using namespace Platform;
-using namespace Platform::Collections;
 using namespace Windows::Foundation;
-using namespace Windows::Foundation::Collections;
-using namespace Windows::Devices::Enumeration;
-using namespace Windows::Devices::HumanInterfaceDevice;
-using namespace Windows::UI::Core;
-using namespace Windows::Devices::Input::Preview;
+using namespace Windows::UI::Xaml;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-
+/// <summary>
+/// Surrogate object attached to controls allowing subscription to per-control gaze events.
+/// </summary>
 public ref class GazeElement sealed : public DependencyObject
 {
 public:
+
+    /// <summary>
+    /// This event is fired when the state of the user's gaze on a control has changed
+    /// </summary>
     event EventHandler<StateChangedEventArgs^>^ StateChanged;
+
+    /// <summary>
+    /// This event is fired when the user completed dwelling on a control and the control is about to be invoked by default. This event is fired to give the application an opportunity to prevent default invocation
+    /// </summary>
     event EventHandler<DwellInvokedRoutedEventArgs^>^ Invoked;
+
+    /// <summary>
+    /// This event is fired to inform the application of the progress towards dwell
+    /// </summary>
     event EventHandler<DwellProgressEventArgs^>^ DwellProgressFeedback;
+
+internal:
 
     void RaiseStateChanged(Object^ sender, StateChangedEventArgs^ args) { StateChanged(sender, args); }
 

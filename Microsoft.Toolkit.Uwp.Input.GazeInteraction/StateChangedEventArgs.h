@@ -2,37 +2,41 @@
 //See LICENSE in the project root for license information.
 
 #pragma once
-#pragma warning(disable:4453)
 
-#include "IGazeFilter.h"
-#include "GazeCursor.h"
 #include "PointerState.h"
 
-using namespace Platform;
-using namespace Platform::Collections;
-using namespace Windows::Foundation;
-using namespace Windows::Foundation::Collections;
-using namespace Windows::Devices::Enumeration;
-using namespace Windows::Devices::HumanInterfaceDevice;
-using namespace Windows::UI::Core;
-using namespace Windows::Devices::Input::Preview;
-
-namespace Shapes = Windows::UI::Xaml::Shapes;
+using namespace Windows::UI::Xaml;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
+/// <summary>
+/// This parameter is passed to the StateChanged event.
+/// </summary>
 public ref struct StateChangedEventArgs sealed
 {
-    property UIElement^ HitTarget;
-    property PointerState PointerState;
-    property TimeSpan ElapsedTime;
+    /// <summary>
+    /// The state of user's gaze with respect to a control
+    /// </summary>
+    property GazeInteraction::PointerState PointerState {GazeInteraction::PointerState get() { return _pointerState; }}
+
+    /// <summary>
+    /// Elapsed time since the last state
+    /// </summary>
+    property TimeSpan ElapsedTime {TimeSpan get() { return _elapsedTime; }}
+
+internal:
 
     StateChangedEventArgs(UIElement^ target, GazeInteraction::PointerState state, TimeSpan elapsedTime)
     {
-        HitTarget = target;
-        PointerState = state;
-        ElapsedTime = elapsedTime;
+        _hitTarget = target;
+        _pointerState = state;
+        _elapsedTime = elapsedTime;
     }
+
+private:
+    UIElement ^ _hitTarget;
+    GazeInteraction::PointerState _pointerState;
+    TimeSpan _elapsedTime;
 };
 
 END_NAMESPACE_GAZE_INPUT

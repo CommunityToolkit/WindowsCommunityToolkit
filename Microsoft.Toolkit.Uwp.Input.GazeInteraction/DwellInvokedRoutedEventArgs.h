@@ -2,29 +2,27 @@
 //See LICENSE in the project root for license information.
 
 #pragma once
-#pragma warning(disable:4453)
-
-#include "IGazeFilter.h"
-#include "GazeCursor.h"
-
-using namespace Platform;
-using namespace Platform::Collections;
-using namespace Windows::Foundation;
-using namespace Windows::Foundation::Collections;
-using namespace Windows::Devices::Enumeration;
-using namespace Windows::Devices::HumanInterfaceDevice;
-using namespace Windows::UI::Core;
-using namespace Windows::Devices::Input::Preview;
-
-namespace Shapes = Windows::UI::Xaml::Shapes;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
+/// <summary>
+/// This parameter is passed to the GazeElement::Invoked event and allows 
+/// the application to prevent default invocation when the user dwells on a control
+/// </summary>
 public ref class DwellInvokedRoutedEventArgs : public RoutedEventArgs
 {
 public:
 
+    /// <summary>
+    /// The application should set this value to true to prevent invoking the control when the user dwells on a control
+    /// </summary>
     property bool Handled;
+
+internal:
+
+    DwellInvokedRoutedEventArgs()
+    {
+    }
 };
 
 END_NAMESPACE_GAZE_INPUT

@@ -3,18 +3,10 @@
 
 #include "pch.h"
 #include "GazeTargetItem.h"
-#include "GazeFeedbackPopupFactory.h"
-#include "GazeElement.h"
 
-using namespace std;
-using namespace Platform;
-using namespace Windows::Foundation::Collections;
-using namespace Windows::Graphics::Display;
-using namespace Windows::UI;
-using namespace Windows::UI::ViewManagement;
-using namespace Windows::UI::Xaml::Automation::Peers;
-using namespace Windows::UI::Xaml::Hosting;
-using namespace Windows::UI::Xaml::Media;
+#include "GazeElement.h"
+#include "GazeFeedbackPopupFactory.h"
+
 using namespace Windows::UI::Xaml::Automation;
 using namespace Windows::UI::Xaml::Automation::Provider;
 using namespace Windows::UI::Xaml::Automation::Peers;

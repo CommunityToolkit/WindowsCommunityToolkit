@@ -2,13 +2,12 @@
 //See LICENSE in the project root for license information.
 
 #pragma once
-#include "pch.h"
 
 using namespace Platform::Collections;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-public ref class GazeStats sealed
+private ref class GazeStats sealed
 {
 public:
     GazeStats(int maxHistoryLen);

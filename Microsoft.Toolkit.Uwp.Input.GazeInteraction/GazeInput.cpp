@@ -3,20 +3,14 @@
 
 #include "pch.h"
 #include "GazeInput.h"
+
+#include "GazeElement.h"
 #include "GazePointer.h"
 #include "GazePointerProxy.h"
-#include "GazeElement.h"
 
-using namespace std;
 using namespace Platform;
-using namespace Windows::Foundation;
-using namespace Windows::Foundation::Collections;
-using namespace Windows::Graphics::Display;
 using namespace Windows::UI;
-using namespace Windows::UI::ViewManagement;
-using namespace Windows::UI::Xaml::Automation::Peers;
-using namespace Windows::UI::Xaml::Hosting;
-using namespace Windows::UI::Xaml::Media;
+
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
@@ -27,7 +21,7 @@ Brush^ GazeInput::DwellFeedbackProgressBrush::get()
     return s_progressBrush;
 }
 
-void GazeInput::DwellFeedbackCompleteBrush::set(Brush^ value)
+void GazeInput::DwellFeedbackProgressBrush::set(Brush^ value)
 {
     s_progressBrush = value;
 }
@@ -39,7 +33,7 @@ Brush^ GazeInput::DwellFeedbackCompleteBrush::get()
     return s_completeBrush;
 }
 
-void GazeInput::DwellFeedbackProgressBrush::set(Brush^ value)
+void GazeInput::DwellFeedbackCompleteBrush::set(Brush^ value)
 {
     s_completeBrush = value;
 }

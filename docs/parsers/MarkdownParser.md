@@ -3,6 +3,9 @@ title: Markdown Parser
 author: williamabradley
 description: The Markdown Parser allows you to parse a Markdown String into a Markdown Document, and then Render it with a Markdown Renderer.
 keywords: uwp community toolkit, uwp toolkit, microsoft community toolkit, microsoft toolkit, markdown, markdown parsing, parser, markdown rendering
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Markdown Parser
@@ -13,8 +16,8 @@ The [MarkdownDocument](https://docs.microsoft.com/en-us/dotnet/api/microsoft.too
 
 ```csharp
 string md = "This is **Markdown**";
-MarkdownDocument Document = new MarkdownDocument();
-Document.Parse(md);
+MarkdownDocument document = new MarkdownDocument();
+document.Parse(md);
 
 // Takes note of all of the Top Level Headers.
 foreach (var element in document.Blocks)
@@ -24,6 +27,18 @@ foreach (var element in document.Blocks)
         Console.WriteLine($"Header: {header.ToString()}");
     }
 }
+```
+```vb
+Dim md As String = "This is **Markdown**"
+Dim document As MarkdownDocument = New MarkdownDocument()
+document.Parse(md)
+
+For Each element In document.Blocks
+    If TypeOf element Is HeaderBlock Then
+        Console.WriteLine($"Header: {element.ToString()}")
+    End If
+Next
+End Sub
 ```
 
 ## Classes

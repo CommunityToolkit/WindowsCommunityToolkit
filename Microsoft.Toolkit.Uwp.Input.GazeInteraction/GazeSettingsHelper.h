@@ -7,11 +7,16 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 using namespace Windows::Foundation::Collections;
 
+/// <summary>
+/// A helper class to read a ValueSet and retrieve relevant settings
+/// </summary>
 public ref class GazeSettingsHelper sealed
 {
 public:
-    virtual ~GazeSettingsHelper();
 
+    /// <summary>
+    /// Retrieves settings as a ValueSet from a shared store.
+    /// </summary>
     static Windows::Foundation::IAsyncAction^ RetrieveSharedSettings(ValueSet^ settings);
 
 private:

@@ -4,7 +4,7 @@ using namespace Windows::UI::Xaml::Controls::Primitives;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-ref class GazeFeedbackPopupFactory
+private ref class GazeFeedbackPopupFactory
 {
 public:
 

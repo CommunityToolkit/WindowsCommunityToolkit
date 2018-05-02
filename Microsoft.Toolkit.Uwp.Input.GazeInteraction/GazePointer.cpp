@@ -2,26 +2,15 @@
 //See LICENSE in the project root for license information.
 
 #include "pch.h"
-#include "GazePointer.h"
-#include "GazeInput.h"
-#include "GazeTargetItem.h"
-#include "GazeHistoryItem.h"
-#include "StateChangedEventArgs.h"
-#include "GazeElement.h"
-#include <xstddef>
-#include <varargs.h>
-#include <strsafe.h>
 
-using namespace std;
+#include "GazePointer.h"
+
+#include "GazeElement.h"
+#include "GazeHistoryItem.h"
+#include "GazeTargetItem.h"
+#include "StateChangedEventArgs.h"
+
 using namespace Platform;
-using namespace Windows::Foundation::Collections;
-using namespace Windows::Graphics::Display;
-using namespace Windows::UI;
-using namespace Windows::UI::ViewManagement;
-using namespace Windows::UI::Xaml::Automation::Peers;
-using namespace Windows::UI::Xaml::Hosting;
-using namespace Windows::UI::Xaml::Automation;
-using namespace Windows::UI::Xaml::Automation::Provider;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
@@ -80,8 +69,7 @@ GazePointer::GazePointer()
 
     InitializeHistogram();
 
-    auto view = GazeInputSourcePreview::GetForCurrentView();
-    _watcher = view->CreateWatcher();
+    _watcher = GazeInputSourcePreview::CreateWatcher();
     _watcher->Added += ref new TypedEventHandler<GazeDeviceWatcherPreview^, GazeDeviceWatcherAddedPreviewEventArgs^>(this, &GazePointer::OnDeviceAdded);
     _watcher->Removed += ref new TypedEventHandler<GazeDeviceWatcherPreview^, GazeDeviceWatcherRemovedPreviewEventArgs^>(this, &GazePointer::OnDeviceRemoved);
     _watcher->Start();
@@ -94,6 +82,8 @@ void GazePointer::OnDeviceAdded(GazeDeviceWatcherPreview^ sender, GazeDeviceWatc
     if (_deviceCount == 1)
     {
         IsDeviceAvailableChanged(nullptr, nullptr);
+
+        InitializeGazeInputSource();
     }
 }
 
@@ -182,15 +172,18 @@ void GazePointer::InitializeHistogram()
 
 void GazePointer::InitializeGazeInputSource()
 {
-    _gazeInputSource = GazeInputSourcePreview::GetForCurrentView();
-    if (_gazeInputSource != nullptr)
+    if (_gazeInputSource == nullptr && _roots->Size != 0 && _deviceCount != 0)
     {
-        _gazeEnteredToken = _gazeInputSource->GazeEntered += ref new TypedEventHandler<
-            GazeInputSourcePreview^, GazeEnteredPreviewEventArgs^>(this, &GazePointer::OnGazeEntered);
-        _gazeMovedToken = _gazeInputSource->GazeMoved += ref new TypedEventHandler<
-            GazeInputSourcePreview^, GazeMovedPreviewEventArgs^>(this, &GazePointer::OnGazeMoved);
-        _gazeExitedToken = _gazeInputSource->GazeExited += ref new TypedEventHandler<
-            GazeInputSourcePreview^, GazeExitedPreviewEventArgs^>(this, &GazePointer::OnGazeExited);
+        _gazeInputSource = GazeInputSourcePreview::GetForCurrentView();
+        if (_gazeInputSource != nullptr)
+        {
+            _gazeEnteredToken = _gazeInputSource->GazeEntered += ref new TypedEventHandler<
+                GazeInputSourcePreview^, GazeEnteredPreviewEventArgs^>(this, &GazePointer::OnGazeEntered);
+            _gazeMovedToken = _gazeInputSource->GazeMoved += ref new TypedEventHandler<
+                GazeInputSourcePreview^, GazeMovedPreviewEventArgs^>(this, &GazePointer::OnGazeMoved);
+            _gazeExitedToken = _gazeInputSource->GazeExited += ref new TypedEventHandler<
+                GazeInputSourcePreview^, GazeExitedPreviewEventArgs^>(this, &GazePointer::OnGazeExited);
+        }
     }
 }
 

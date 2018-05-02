@@ -2,37 +2,47 @@
 //See LICENSE in the project root for license information.
 
 #pragma once
-#pragma warning(disable:4453)
-
-#include "IGazeFilter.h"
-#include "GazeCursor.h"
-
-using namespace Platform;
-using namespace Platform::Collections;
-using namespace Windows::Foundation;
-using namespace Windows::Foundation::Collections;
-using namespace Windows::Devices::Enumeration;
-using namespace Windows::Devices::HumanInterfaceDevice;
-using namespace Windows::UI::Core;
-using namespace Windows::Devices::Input::Preview;
-
-namespace Shapes = Windows::UI::Xaml::Shapes;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
+/// <summary>
+/// This enum reflects the states that a user's gaze through while interacting with a control using their eyes.
+/// </summary>
 public enum class PointerState
 {
-    Exit,
+    /// <summary>
+    /// User's gaze is no longer on the control
+    /// </summary>
+    Exit = 0,
 
     // The order of the following elements is important because
     // they represent states that linearly transition to their
     // immediate successors. 
-    PreEnter,
-    Enter,
-    Fixation,
-    Dwell,
-    //FixationRepeat,
-    DwellRepeat
+
+    /// <summary>
+    /// For internal use only
+    /// </summary>
+    PreEnter = 1,
+
+    /// <summary>
+    /// User's gaze has entered a control
+    /// </summary>
+    Enter = 2,
+
+    /// <summary>
+    /// User eye's are focused on the control
+    /// </summary>
+    Fixation = 3,
+
+    /// <summary>
+    /// User is conciously dwelling on the control with an intent to invoke, e.g. click a button
+    /// </summary>
+    Dwell = 4,
+
+    /// <summary>
+    /// User is continuing to dwell on the control for repeated invocation. (For internal use only)
+    /// </summary>
+    DwellRepeat = 5
 };
 
 END_NAMESPACE_GAZE_INPUT
