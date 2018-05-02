@@ -871,7 +871,7 @@
       {
         "Name": "GazeInteraction",
         "Type": "GazeInteractionPage",
-        "About": "Demonstrate the properties and events of the GazePointer library",
+        "About": "Demonstrate the properties and events of the Gaze Interaction library",
         "XamlCodeFile": "GazeInteractionXaml.bind",
         "CodeFile": "GazeInteractionCode.bind",
         "Icon": "/SamplePages/GazeInteraction/GazeInteraction.png",
