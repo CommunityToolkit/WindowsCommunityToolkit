@@ -2,7 +2,7 @@
 title: Expander Control
 author: nmetulev
 description: The Expander Control provides an expandable container to host any content.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Expander, xaml Control, xaml
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Expander, xaml Control, xaml
 ---
 
 # Expander Control
@@ -98,7 +98,7 @@ For instance to remove the header entirely from the Expander:
 
 ## Sample Code
 
-[Expander Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Expander). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Expander Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Expander). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 

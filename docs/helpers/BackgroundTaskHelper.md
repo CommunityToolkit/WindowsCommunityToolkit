@@ -2,7 +2,7 @@
 title: Background Task Helper
 author: nmetulev
 description: The Background Task Helper helps users interacting with background tasks in an easier manner. 
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Background Task Helper
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Background Task Helper
 dev_langs:
   - csharp
   - vb
@@ -173,7 +173,7 @@ End Sub
 
 ## Sample Code
 
-[Background Task Helper](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackgroundTaskHelper). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Background Task Helper](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackgroundTaskHelper). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

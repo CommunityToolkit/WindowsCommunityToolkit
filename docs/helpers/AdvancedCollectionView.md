@@ -2,7 +2,7 @@
 title: AdvancedCollectionView
 author: nmetulev
 description: The AdvancedCollectionView is a collection view implementation that support filtering, sorting and incremental loading. It's meant to be used in a viewmodel. 
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, AdvancedCollectionView
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, AdvancedCollectionView
 dev_langs:
   - csharp
   - vb
@@ -203,7 +203,7 @@ End Using ' acv.Refresh() gets called here
 
 ## Sample Code
 
-[AdvancedCollectionView sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/AdvancedCollectionView). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[AdvancedCollectionView sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/AdvancedCollectionView). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

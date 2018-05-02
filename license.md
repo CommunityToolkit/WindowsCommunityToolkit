@@ -1,4 +1,4 @@
-# UWP Community Toolkit
+# Windows Community Toolkit
 
 Copyright (c) .NET Foundation and Contributors
 

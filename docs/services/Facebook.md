@@ -2,7 +2,7 @@
 title: Facebook Service 
 author: nmetulev
 description: The Facebook Service allows you to retrieve or publish data to the Facebook graph. Examples of the types of objects you can work with are Posts, Tagged Objects, and the primary user feed.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Facebook Service 
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Facebook Service 
 dev_langs:
   - csharp
   - vb
@@ -287,7 +287,7 @@ Class for connecting to Facebook
 
 ## Sample Code
 
-[Facebook Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Facebook%20Service). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Facebook Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Facebook%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

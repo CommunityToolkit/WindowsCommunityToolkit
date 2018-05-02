@@ -2,7 +2,7 @@
 title: Carousel XAML Control
 author: nmetulev
 description: The Carousel control inherits from ItemsControl, representing a nice and smooth carousel.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, carousel, xaml control, xaml
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, carousel, xaml control, xaml
 dev_langs:
   - csharp
   - vb
@@ -64,7 +64,7 @@ The `Carousel` control works fine with mouse, touch, mouse and keyboard as well.
 
 ## Sample Code
 
-[Carousel Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Carousel). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Carousel Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Carousel). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 

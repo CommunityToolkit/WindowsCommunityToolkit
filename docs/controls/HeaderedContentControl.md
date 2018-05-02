@@ -2,7 +2,7 @@
 title: HeaderedContentControl XAML Control
 author: skendrot
 description: The HeaderedContentControl allows content to be displayed with a specified header.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HeaderedContentControl, XAML Control, xaml
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, HeaderedContentControl, XAML Control, xaml
 ---
 
 # HeaderedContentControl XAML Control
@@ -65,7 +65,7 @@ Setting the `Background`, `BorderBrush` and `BorderThickness` properties will no
     ```
 
 ## Sample Code
-[HeaderedContentControl Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/HeaderedContentControl). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[HeaderedContentControl Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/HeaderedContentControl). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template
 
