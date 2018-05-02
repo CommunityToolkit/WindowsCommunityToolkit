@@ -56,6 +56,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     [DesignTimeVisible(true)]
     public sealed class WebView : WebViewHost, IWebView
     {
+        private const int InitializationBlockingTime = 200;
+
         private static readonly Hashtable InvalidatorMap = new Hashtable();
 
         private static readonly DependencyProperty IsIndexedDBEnabledProperty = DependencyProperty.Register(
@@ -92,7 +94,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         private WebViewControlProcess _process;
 
-        private WebViewControlHost _webViewControl;
+        private volatile WebViewControlHost _webViewControl;
 
         // Initialization flag for ISupportInitialize
         private InitializationState _initializationState;
@@ -138,7 +140,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         private bool WebViewInitializing => _initializationState == InitializationState.IsInitializing;
 
-        private bool WebViewControlInitialized => _webViewControl != null;
+        private bool WebViewControlInitialized => _webViewControl != null && WebViewInitialized;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WebView"/> class.
@@ -570,14 +572,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
             VerifyAccess();
 
-            Dispatcher.InvokeAsync(
-                () =>
-                {
-                    _initializationComplete.WaitOne();
-                    Verify.IsNotNull(_webViewControl);
-                    _webViewControl.NavigateToString(text);
-                },
-                DispatcherPriority.Background);
+            do
+            {
+                Dispatcher.CurrentDispatcher.DoEvents();
+            }
+            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
+
+            Verify.IsNotNull(_webViewControl);
+            _webViewControl.NavigateToString(text);
         }
 
         /// <inheritdoc />
@@ -668,7 +670,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                     _initializationState = InitializationState.IsInitialized;
                     _initializationComplete.Set();
                 },
-                DispatcherPriority.Loaded);
+                DispatcherPriority.Send);
         }
 
         /// <summary>
