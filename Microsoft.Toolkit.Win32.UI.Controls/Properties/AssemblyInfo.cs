@@ -19,9 +19,11 @@ using System.Security;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Microsoft.Toolkit.Win32.UI.Controls.dll")]
-[assembly: AssemblyDescription("Microsoft.Toolkit.Win32.UI.Controls.dll")]
-[assembly: AssemblyProduct("Microsoft.Toolkit.Win32.UI.Controls")]
+[assembly: AssemblyTitle("Windows Community Toolkit Controls for Windows Forms and WPF")]
+[assembly: AssemblyDescription("Wndows Forms and WPF controls for Windows Community Toolkit")]
+
+// Make sure this is the same in the VisualToolsManifest.xml file
+[assembly: AssemblyProduct("Windows Community Toolkit")]
 [assembly: AssemblyCopyright("\x00a9 Microsoft Corporation. All rights reserved.")]
 [assembly: AssemblyCompany("Microsoft Corporation")]
 

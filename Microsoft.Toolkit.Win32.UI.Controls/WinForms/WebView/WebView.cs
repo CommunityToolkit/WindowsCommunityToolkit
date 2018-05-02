@@ -40,6 +40,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
     [DefaultProperty(Constants.ComponentDefaultProperty)]
     [DefaultEvent(Constants.ComponentDefaultEvent)]
     [Docking(DockingBehavior.AutoDock)]
+    [Description("Embeds a view into your application that renders web content using the Microsoft Edge rendering engine")]
     [SecurityCritical]
     [PermissionSet(SecurityAction.InheritanceDemand, Name = Constants.SecurityPermissionSetName)]
     public sealed partial class WebView : Control, IWebView, ISupportInitialize

@@ -295,6 +295,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Embeds a view into your application that renders web content using the Microsoft Edge rendering engine..
+        /// </summary>
+        internal static string WebViewDesc {
+            get {
+                return ResourceManager.GetString("WebViewDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Occurs when WebView finished parsing the current content..
         /// </summary>
         internal static string WebViewDomContentLoadedDesc {

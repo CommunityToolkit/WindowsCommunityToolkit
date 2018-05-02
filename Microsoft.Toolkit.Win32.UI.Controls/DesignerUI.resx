@@ -207,6 +207,10 @@
   <data name="WebViewContentLoadingDesc" xml:space="preserve">
     <value>Occurs when WebView started loading new content.</value>
   </data>
+  <data name="WebViewDesc" xml:space="preserve">
+    <value>Embeds a view into your application that renders web content using the Microsoft Edge rendering engine.</value>
+    <comment>Used for AutoPop in toolbox</comment>
+  </data>
   <data name="WebViewDomContentLoadedDesc" xml:space="preserve">
     <value>Occurs when WebView finished parsing the current content.</value>
   </data>
