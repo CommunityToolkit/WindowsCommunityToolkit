@@ -110,20 +110,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(TickBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White), OnFaceChanged));
 
         /// <summary>
-        /// Identifies the ValueBrush dependency property.
-        /// </summary>
-        [Obsolete("This property has been deprecated. Use the Foreground property or the RadialGaugeForegroundBrush ThemeResource instead")]
-        public static readonly DependencyProperty ValueBrushProperty =
-            DependencyProperty.Register(nameof(ValueBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White), OnValueBrushChanged));
-
-        /// <summary>
-        /// Identifies the UnitBrush dependency property.
-        /// </summary>
-        [Obsolete("This property has been deprecated. Use the RadialGaugeAccentBrush ThemeResource instead")]
-        public static readonly DependencyProperty UnitBrushProperty =
-            DependencyProperty.Register(nameof(UnitBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White), OnUnitBrushChanged));
-
-        /// <summary>
         /// Identifies the ValueStringFormat dependency property.
         /// </summary>
         public static readonly DependencyProperty ValueStringFormatProperty =
@@ -345,26 +331,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (SolidColorBrush)GetValue(TickBrushProperty); }
             set { SetValue(TickBrushProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the brush for the displayed value.
-        /// </summary>
-        [Obsolete("This property has been depracated. Use the Foreground property or the RadialGaugeForegroundBrush ThemeResource instead")]
-        public Brush ValueBrush
-        {
-            get { return (Brush)GetValue(ValueBrushProperty); }
-            set { SetValue(ValueBrushProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the brush for the displayed unit measure.
-        /// </summary>
-        [Obsolete("This property has been depracated. Use the RadialGaugeAccentBrush ThemeResource instead")]
-        public Brush UnitBrush
-        {
-            get { return (Brush)GetValue(UnitBrushProperty); }
-            set { SetValue(UnitBrushProperty, value); }
         }
 
         /// <summary>
@@ -636,18 +602,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 OnFaceChanged(d);
             }
-        }
-
-        private static void OnValueBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var gauge = (RadialGauge)d;
-            gauge.Foreground = (Brush)e.NewValue;
-        }
-
-        private static void OnUnitBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var gauge = (RadialGauge)d;
-            gauge.Resources["RadialGaugeAccentBrush"] = (Brush)e.NewValue;
         }
 
         private static void OnFaceChanged(DependencyObject d)

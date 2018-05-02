@@ -27,7 +27,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 				b =>
 				{
                     b.AddCustomAttributes(nameof(ScrollHeader.Mode), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(ScrollHeader.TargetListViewBase), new CategoryAttribute(Properties.Resources.CategoryCommon));
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
 				}
 			);

@@ -121,11 +121,13 @@
       {
         "Name": "PullToRefreshListView",
         "Type": "PullToRefreshListViewPage",
-        "About": "PullToRefreshListView is derived from the built in ListView in the Universal Windows Platform. It enables the popular Pull To Refresh pattern.",
+        "About": "The PullToRefreshListView will be removed in a future major release. Please use the RefreshContainer control available in the 1803 version of Windows.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/PullToRefreshListView",
         "CodeFile": "PullToRefreshListViewCode.bind",
         "XamlCodeFile": "PullToRefreshListViewXaml.bind",
         "Icon": "/SamplePages/PullToRefreshListView/PullToRefreshListView.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The PullToRefreshListView will be removed in a future major release. Please use the RefreshContainer control available in the 1803 version of Windows.",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/PullToRefreshListview.md"
       },
       {
@@ -273,6 +275,15 @@
         "XamlCodeFile": "StaggeredPanel.bind",
         "Icon": "/SamplePages/StaggeredPanel/StaggeredPanel.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/StaggeredPanel.md"
+      },
+      {
+        "Name": "LayoutTransformControl",
+        "Type": "LayoutTransformControlPage",
+        "About": "Control that implements support for transformations as if applied by LayoutTransform.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/LayoutTransformControl",
+        "XamlCodeFile": "LayoutTransformControlXaml.bind",
+        "Icon": "/SamplePages/LayoutTransformControl/LayoutTransformControl.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/LayoutTransformControl.md"
       }
     ]
   },
@@ -587,6 +598,7 @@
         "About": "Allows to easily print XAML controls",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper",
         "CodeFile": "PrintHelperCode.bind",
+        "XamlCodeFile": "PrintHelperXaml.bind",
         "Icon": "/SamplePages/PrintHelper/PrintHelper.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/PrintHelper.md"
       },
@@ -849,6 +861,32 @@
         "About": "List of frameworks to help you track activity in your apps.",
         "CodeFile": "AnalyticsCode.bind",
         "Icon": "/SamplePages/Analytics/Analytics.png"
+      }
+    ]
+  },
+  {
+    "Name": "Gaze",
+    "Icon": "Icons/DeveloperTools.png",
+    "Samples": [     
+      {
+        "Name": "GazeInteraction",
+        "Type": "GazeInteractionPage",
+        "About": "Demonstrate the properties and events of the GazePointer library",
+        "XamlCodeFile": "GazeInteractionXaml.bind",
+        "CodeFile": "GazeInteractionCode.bind",
+        "Icon": "/SamplePages/GazeInteraction/GazeInteraction.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/gaze/Gaze.md",
+        "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
+      },
+      {
+        "Name": "GazeTracing",
+        "Type": "GazeTracingPage",
+        "About": "Shows how to use the Windows 10 API for eye trackers",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Input.Gaze/",
+        "XamlCodeFile": "GazeTracingXaml.bind",
+        "CodeFile": "GazeTracingCode.bind",
+        "Icon": "/SamplePages/GazeTracing/GazeTracing.png",
+        "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
       }
     ]
   }
