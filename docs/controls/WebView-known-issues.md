@@ -2,7 +2,7 @@
 title: Known Issues for WebView control for Windows Forms and WPF
 author: normesta
 description: This guide highlights known limitations with the current release of the WebView control for Windows Forms and WPF applications.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, WebView, Windows Forms, WPF, known issues, release notes
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, WebView, Windows Forms, WPF, known issues, release notes
 ---
 
 # Known Issues of the WebView control for Windows Forms and WPF applications

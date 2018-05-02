@@ -1,8 +1,8 @@
 ---
 title: WebView control for Windows Forms and WPF
 author: mcleans
-description: The UWP Community Toolkit provides a version of the UWP web view control that can be used in WPF and Windows Forms applications. This control embeds a view into your application that renders web content using the Microsoft Edge rendering engine.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, WebView, Windows Forms, WPF
+description: The Windows Community Toolkit provides a version of the UWP web view control that can be used in WPF and Windows Forms applications. This control embeds a view into your application that renders web content using the Microsoft Edge rendering engine.
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, WebView, Windows Forms, WPF
 ---
 
 # WebView controls for Windows Forms and WPF applications
