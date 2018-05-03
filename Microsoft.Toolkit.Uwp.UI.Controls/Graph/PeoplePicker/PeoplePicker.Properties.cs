@@ -1,88 +1,121 @@
-﻿using Microsoft.Graph;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using Microsoft.Graph;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
+    /// <summary>
+    /// Defines the properties for the <see cref="PeoplePicker"/> control.
+    /// </summary>
     public partial class PeoplePicker : Control
     {
-        //GraphAccessToken
+        /// <summary>
+        /// Identifies the <see cref="GraphAccessToken"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty GraphAccessTokenProperty =
             DependencyProperty.Register(
-                nameof(GraphAccessToken), typeof(string),
-                typeof(PeoplePicker), new PropertyMetadata("", GraphAccessTokenPropertyChanged)
-            );
+                nameof(GraphAccessToken),
+                typeof(string),
+                typeof(PeoplePicker),
+                new PropertyMetadata(string.Empty, GraphAccessTokenPropertyChanged));
 
-        // AllowMultiple
+        /// <summary>
+        /// Identifies the <see cref="AllowMultiple"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty AllowMultipleProperty =
             DependencyProperty.Register(
-                nameof(AllowMultiple), typeof(bool),
-                typeof(PeoplePicker), null
-            );
+                nameof(AllowMultiple),
+                typeof(bool),
+                typeof(PeoplePicker),
+                null);
 
-        // SearchResultLimit
+        /// <summary>
+        /// Identifies the <see cref="SearchResultLimit"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty SearchResultLimitProperty =
             DependencyProperty.Register(
-                nameof(SearchResultLimit), typeof(int),
-                typeof(PeoplePicker), null
-            );
+                nameof(SearchResultLimit),
+                typeof(int),
+                typeof(PeoplePicker),
+                null);
 
-        // PersonNotSelectedMessage
+        /// <summary>
+        /// Identifies the <see cref="PersonNotSelectedMessage"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty PersonNotSelectedMessageProperty =
             DependencyProperty.Register(
-                nameof(PersonNotSelectedMessage), typeof(string),
-                typeof(PeoplePicker), new PropertyMetadata("Select a person")
-            );
+                nameof(PersonNotSelectedMessage),
+                typeof(string),
+                typeof(PeoplePicker),
+                new PropertyMetadata("Select a person"));
 
-        // Selections
+        /// <summary>
+        /// Identifies the <see cref="Selections"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty SelectionsProperty =
             DependencyProperty.Register(
-                nameof(Selections), typeof(ObservableCollection<Person>),
-                typeof(PeoplePicker), null
-            );
+                nameof(Selections),
+                typeof(ObservableCollection<Person>),
+                typeof(PeoplePicker),
+                null);
 
-        // PeopleList
+        /// <summary>
+        /// Identifies the <see cref="SearchResultList"/> dependency property.
+        /// </summary>
         internal static readonly DependencyProperty SearchResultListProperty =
             DependencyProperty.Register(
-                nameof(SearchResultList), typeof(ObservableCollection<Person>),
-                typeof(PeoplePicker), null
-            );
+                nameof(SearchResultList),
+                typeof(ObservableCollection<Person>),
+                typeof(PeoplePicker),
+                null);
 
+        /// <summary>
+        /// Gets or sets the Graph access token
+        /// </summary>
         public string GraphAccessToken
         {
-            get => ((string)this.GetValue(GraphAccessTokenProperty))?.Trim();
-            set => this.SetValue(GraphAccessTokenProperty, value?.Trim());
+            get => ((string)GetValue(GraphAccessTokenProperty))?.Trim();
+            set => SetValue(GraphAccessTokenProperty, value?.Trim());
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether multiple people can be selected
+        /// </summary>
         public bool AllowMultiple
         {
-            get => (bool) this.GetValue(AllowMultipleProperty);
-            set => this.SetValue(AllowMultipleProperty, value);
+            get => (bool)GetValue(AllowMultipleProperty);
+            set => SetValue(AllowMultipleProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets the max person returned in the search results
+        /// </summary>
         public int SearchResultLimit
         {
-            get => (int) this.GetValue(SearchResultLimitProperty);
-            set => this.SetValue(SearchResultLimitProperty, value);
+            get => (int)GetValue(SearchResultLimitProperty);
+            set => SetValue(SearchResultLimitProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets the text to be displayed when no user is selected
+        /// </summary>
         public string PersonNotSelectedMessage
         {
-            get => (string) this.GetValue(PersonNotSelectedMessageProperty);
-            set => this.SetValue(PersonNotSelectedMessageProperty, value);
+            get => (string)GetValue(PersonNotSelectedMessageProperty);
+            set => SetValue(PersonNotSelectedMessageProperty, value);
         }
 
         public ObservableCollection<Person> Selections
         {
-            get => (ObservableCollection<Person>) this.GetValue(SelectionsProperty);
-            set => this.SetValue(SelectionsProperty, value);
+            get => (ObservableCollection<Person>)GetValue(SelectionsProperty);
+            set => SetValue(SelectionsProperty, value);
         }
 
         internal ObservableCollection<Person> SearchResultList
         {
-            get => (ObservableCollection<Person>) this.GetValue(SearchResultListProperty);
-            set => this.SetValue(SearchResultListProperty, value);
+            get => (ObservableCollection<Person>)GetValue(SearchResultListProperty);
+            set => SetValue(SearchResultListProperty, value);
         }
 
         internal GraphServiceClient GraphClient { get; set; }

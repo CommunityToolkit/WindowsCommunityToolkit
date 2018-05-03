@@ -1,14 +1,17 @@
-﻿using Microsoft.Graph;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.Graph;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
+    /// <summary>
+    /// Defines the events for the <see cref="PeoplePicker"/> control.
+    /// </summary>
     public partial class PeoplePicker : Control
     {
         private void ClearAndHideSearchResultListBox()
@@ -29,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             _loading.IsActive = true;
 
-            searchText = Regex.Replace(searchText, "[^0-9a-zA-Z .@]", "");
+            searchText = Regex.Replace(searchText, "[^0-9a-zA-Z .@]", string.Empty);
             int cursorPosition = textboxSender.SelectionStart;
             textboxSender.Text = searchText;
             textboxSender.SelectionStart = cursorPosition;
@@ -49,7 +52,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                     // Remove all selected items
                     foreach (Person selectedItem in Selections)
+                    {
                         searchResult.RemoveAll(u => u.UserPrincipalName == selectedItem.UserPrincipalName);
+                    }
 
                     SearchResultList = new ObservableCollection<Person>(SearchResultLimit > 0
                         ? searchResult.Take(SearchResultLimit).ToList()
@@ -73,7 +78,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private void SearchResultListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!((sender as ListBox)?.SelectedItem is Person person))
+            {
                 return;
+            }
+
             if (!AllowMultiple && Selections.Any())
             {
                 Selections.Clear();
@@ -83,8 +91,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 Selections.Add(person);
             }
+
             _selectionsCounter.Text = $"{Selections.Count} selected";
-            _searchBox.Text = "";
+            _searchBox.Text = string.Empty;
         }
 
         private void DeleteSelectionItem(object parameter)
