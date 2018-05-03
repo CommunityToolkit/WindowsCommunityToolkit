@@ -12,6 +12,10 @@
   <ItemGroup>
 
     <PackageReference Include="ColorCode.UWP" Version="2.0.3" />
+
+    <PackageReference Include="Microsoft.Graph" Version="1.6.2" />
+
+    <PackageReference Include="Microsoft.Identity.Client" Version="1.1.2-preview0008" />
     <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.3" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />

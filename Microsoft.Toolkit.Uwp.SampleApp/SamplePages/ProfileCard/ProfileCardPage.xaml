@@ -1,4 +1,4 @@
-﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.AADLoginPage"
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ProfileCardPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
@@ -10,6 +10,6 @@
     
     <!-- Shallow Copy -->
     <Grid>
-        <controls:AADLogin />
+        <controls:ProfileCard />
     </Grid>
 </Page>

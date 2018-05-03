@@ -7,7 +7,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     public class DriveItemIconConverter : IValueConverter
     {
         private static readonly string s_officeIcon = "https://static2.sharepointonline.com/files/fabric/assets/brand-icons/document/png/{0}_32x1_5.png";
-        private static readonly string s_localIcon = "ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Graph/Assets/{0}";
+        private static readonly string s_localIcon = "ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/Assets/{0}";
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {

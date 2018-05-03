@@ -281,6 +281,8 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
+    <Content Include="SamplePages\ProfileCard\ProfileCard.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
     <Content Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrush.png" />
@@ -348,6 +350,7 @@
     <Content Include="SamplePages\OrbitView\OrbitView.png" />
     <Content Include="SamplePages\Scale\ScaleBehavior.png" />
     <Content Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsCode.bind" />
+    <Content Include="SamplePages\SharePointFiles\SharePointFiles.png" />
     <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.png" />
     <Content Include="SamplePages\SystemInformation\SystemInformation.png" />
     <Content Include="SamplePages\TextBoxMask\TextBoxMask.png" />
@@ -498,7 +501,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\AADLogin\AADLoginCode.bind" />
-    <Content Include="SamplePages\AADLogin\AADLoginXaml.bind" />
+    <Content Include="SamplePages\ProfileCard\ProfileCardCode.bind" />
+    <Content Include="SamplePages\PeoplePicker\PeoplePickerCode.bind" />
+    <Content Include="SamplePages\SharePointFiles\SharePointFilesCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -530,6 +535,12 @@
     <Compile Include="Models\LandingPageResource.cs" />
     <Compile Include="Models\LandingPageLink.cs" />
     <Compile Include="Models\PropertyDescriptor\ThicknessPropertyOptions.cs" />
+    <Compile Include="SamplePages\PeoplePicker\PeoplePickerPage.xaml.cs">
+      <DependentUpon>PeoplePickerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ProfileCard\ProfileCardPage.xaml.cs">
+      <DependentUpon>ProfileCardPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
@@ -620,6 +631,9 @@
     </Compile>
     <Compile Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsPage.xaml.cs">
       <DependentUpon>ScrollViewerExtensionsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\SharePointFiles\SharePointFilesPage.xaml.cs">
+      <DependentUpon>SharePointFilesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml.cs">
       <DependentUpon>StaggeredPanelPage.xaml</DependentUpon>
@@ -860,6 +874,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\PeoplePicker\PeoplePickerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ProfileCard\ProfileCardPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -971,6 +993,10 @@
     <Page Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\SharePointFiles\SharePointFilesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml">
       <SubType>Designer</SubType>
