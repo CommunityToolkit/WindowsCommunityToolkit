@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(ClientId),
             typeof(string),
             typeof(AADLogin),
-            new PropertyMetadata(string.Empty));
+            new PropertyMetadata(string.Empty, OnPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="Scopes"/> dependency property.
@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(Scopes),
             typeof(string),
             typeof(AADLogin),
-            new PropertyMetadata(string.Empty));
+            new PropertyMetadata(string.Empty, OnPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="DefaultImage"/> dependency property.
