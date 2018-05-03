@@ -124,7 +124,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private int FileUploading
         {
-            get { return _fileUploading; }
+            get
+            {
+                return _fileUploading;
+            }
+
             set
             {
                 _fileUploading = value;
@@ -134,9 +138,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     _status.TextDecorations = Windows.UI.Text.TextDecorations.None;
                     _status.Foreground = new SolidColorBrush(Windows.UI.Colors.Black);
                     if (string.IsNullOrEmpty(_errorMessage))
+                    {
                         _status.Visibility = Visibility.Visible;
+                    }
                     else
+                    {
                         _status.Visibility = Visibility.Collapsed;
+                    }
+
                     _cancel.Visibility = Visibility.Visible;
                 }
                 else
@@ -149,7 +158,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private string ErrorMessage
         {
-            get { return _errorMessage; }
+            get
+            {
+                return _errorMessage;
+            }
+
             set
             {
                 _errorMessage = value;
@@ -161,7 +174,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 else
                 {
                     if (FileUploading > 0)
+                    {
                         _status.Visibility = Visibility.Visible;
+                    }
+
                     _error.Visibility = Visibility.Collapsed;
                 }
             }
@@ -169,14 +185,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private bool IsDetailPaneVisible
         {
-            get { return (bool)GetValue(IsDetailPaneVisibleProperty); }
+            get
+            {
+                return (bool)GetValue(IsDetailPaneVisibleProperty);
+            }
+
             set
             {
                 SetValue(IsDetailPaneVisibleProperty, value);
                 if (value)
+                {
                     ShowDetailsPane();
+                }
                 else
+                {
                     HideDetailsPane();
+                }
             }
         }
     }
