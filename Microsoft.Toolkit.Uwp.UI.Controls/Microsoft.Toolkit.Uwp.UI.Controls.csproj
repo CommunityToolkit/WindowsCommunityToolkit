@@ -8,6 +8,20 @@
 
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Graph\Assets\folder.svg" />
+    <None Remove="Graph\Assets\genericfile.png" />
+    <None Remove="Graph\Assets\person.png" />
+    <None Remove="Graph\Assets\photo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Graph\Assets\folder.svg" />
+    <Content Include="Graph\Assets\genericfile.png" />
+    <Content Include="Graph\Assets\person.png" />
+    <Content Include="Graph\Assets\photo.png" />
+  </ItemGroup>
+
 
   <ItemGroup>
 
