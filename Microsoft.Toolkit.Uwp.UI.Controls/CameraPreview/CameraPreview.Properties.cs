@@ -26,19 +26,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class CameraPreview
     {
         /// <summary>
-        /// Using a DependencyProperty as the backing store for <see cref="FrameSourceGroupButtonVisibility "/>.  This enables animation, styling, binding, etc...
+        /// Using a DependencyProperty as the backing store for <see cref="IsFrameSourceGroupButtonVisible "/>.  This enables animation, styling, binding, etc...
         /// </summary>
-        public static readonly DependencyProperty FrameSourceGroupButtonVisibilityProperty =
-            DependencyProperty.Register("FrameSourceGroupButtonVisibility", typeof(Visibility), typeof(CameraPreview), new PropertyMetadata(Visibility.Visible));
+        public static readonly DependencyProperty IsFrameSourceGroupButtonVisibleProperty =
+            DependencyProperty.Register("IsFrameSourceGroupButtonVisible", typeof(bool), typeof(CameraPreview), new PropertyMetadata(true, IsFrameSourceGroupButtonVisibleChanged));
 
         /// <summary>
-        /// Gets or sets visibility of Frame Source Group Button
+        /// Gets or sets a value indicating whether Frame Source Group Button is visible or not
         /// </summary>
-        public Visibility FrameSourceGroupButtonVisibility
+        public bool IsFrameSourceGroupButtonVisible
         {
-            get { return (Visibility)GetValue(FrameSourceGroupButtonVisibilityProperty); }
-            set { SetValue(FrameSourceGroupButtonVisibilityProperty, value); }
+            get { return (bool)GetValue(IsFrameSourceGroupButtonVisibleProperty); }
+            set { SetValue(IsFrameSourceGroupButtonVisibleProperty, value); }
         }
 
+        private static void IsFrameSourceGroupButtonVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var cameraPreview = d as CameraPreview;
+            if (cameraPreview._frameSourceGroupButton != null)
+            {
+                cameraPreview.SetFrameSourceGroupButtonVisibility();
+            }
+        }
     }
 }
