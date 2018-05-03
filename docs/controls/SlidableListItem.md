@@ -2,7 +2,7 @@
 title: SlidableListItem XAML Control
 author: nmetulev
 description: The SlidableListItem Control is a UI control that enables actions to be triggered by sliding the content left or right.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, SlidableListItem, XAML Control, xaml
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, SlidableListItem, XAML Control, xaml
 dev_langs:
   - csharp
   - vb
@@ -144,7 +144,7 @@ End Sub
 ```
 
 ## <a name="swipe"></a> Moving to SwipeControl
-The Windows 10 Fall Creators Update SDK now includes the [SwipeControl](https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/swipe) control among other new controls and APIs. This is great news for the UWP Community Toolkit as it means that one of its most popular controls has a comparable counterpart in the Windows SDK and it is very easy to transition to the SwipeControl if you are already using the SlidableListItem.
+The Windows 10 Fall Creators Update SDK now includes the [SwipeControl](https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/swipe) control among other new controls and APIs. This is great news for the Windows Community Toolkit as it means that one of its most popular controls has a comparable counterpart in the Windows SDK and it is very easy to transition to the SwipeControl if you are already using the SlidableListItem.
 
 The SlidableListItem and SwipeControl share the same concepts and provide the same functionality. In fact, the SwipeControl adds even more functionality and can be used in even more scenarios.
 
@@ -157,9 +157,9 @@ The SlidableListItem and SwipeControl share the same concepts and provide the sa
 * **SwipeItem:** The Fall Creators Update defines new objects to help define the swipe commands. Unlike the SlidableListItem where each command is defined through properties on the control itself, the SwipeControl accepts a collection of SwipeItems that define the commands. This is where you can specify properties such as background, foreground, icon, label, and invoked events.
 
 ### Making the transition easier
-Starting with v2.1 of the UWP Community Toolkit, the SwipeControl provides a new property called `UseSwipeControlWhenPossible`. Setting the value to true will force the SlidableListItem to use a template based on the SwipeControl when running on the Fall Creators Update and above, and the regular template otherwise.
+Starting with v2.1 of the Windows Community Toolkit, the SwipeControl provides a new property called `UseSwipeControlWhenPossible`. Setting the value to true will force the SlidableListItem to use a template based on the SwipeControl when running on the Fall Creators Update and above, and the regular template otherwise.
 
-Using this property will enable you to take advantage of the SwipeControl on devices that supported it, while providing an experience based on SlidableListItem on devices that have not yet updated to the Fall Creators Update. Make sure to test the experience on multiple OS releases and plan to fully transition to the SwipeControl as the SlidableListItem will be removed from the UWP Community Toolkit in a future major release.
+Using this property will enable you to take advantage of the SwipeControl on devices that supported it, while providing an experience based on SlidableListItem on devices that have not yet updated to the Fall Creators Update. Make sure to test the experience on multiple OS releases and plan to fully transition to the SwipeControl as the SlidableListItem will be removed from the Windows Community Toolkit in a future major release.
 
 There are several SlidableListItem properties that have no effect when the SlidableListItem is using the SwipeControl:
 
@@ -170,7 +170,7 @@ There are several SlidableListItem properties that have no effect when the Slida
 
 ## Sample Code
 
-[SlidableListItem Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/SlidableListItem). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[SlidableListItem Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/SlidableListItem). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 

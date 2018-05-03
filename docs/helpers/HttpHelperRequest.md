@@ -1,8 +1,8 @@
 ---
 title: HttpHelperRequest
 author: nmetulev
-description: HttpHelperRequest is a UWP Community Toolkit helper class used with the HttpHelper class to create http requests.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelperRequest
+description: HttpHelperRequest is a Windows Community Toolkit helper class used with the HttpHelper class to create http requests.
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, HttpHelperRequest
 dev_langs:
   - csharp
   - vb

@@ -19,6 +19,7 @@
     <IsDesignProject>$(MSBuildProjectName.Contains('.Design'))</IsDesignProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsUwpProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Uwp'))</IsUwpProject>
+    <IsWin32Project Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Win32'))</IsWin32Project>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
  
     <DefaultTargetPlatformVersion>17134</DefaultTargetPlatformVersion>
@@ -35,7 +36,7 @@
   </Choose>
 
   <Choose>
-    <When Condition="'$(IsUwpProject)' == 'true' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
+    <When Condition="('$(IsUwpProject)' == 'true' or '$(IsWin32Project)' == 'true') and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
       <PropertyGroup>
         <GenerateLibraryLayout>true</GenerateLibraryLayout>
       </PropertyGroup>

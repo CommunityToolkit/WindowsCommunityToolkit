@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
-    <Title>UWP Community Toolkit Devices</Title>
-    <Description>This library enables easier consumption of Devices / Peripherals connected to Windows device. It is part of the UWP Community Toolkit.</Description>
+    <Title>Windows Community Toolkit Devices</Title>
+    <Description>This library enables easier consumption of Devices / Peripherals connected to Windows device. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>UWP Toolkit Windows Devices Bluetooth BTLE Networking</PackageTags>
   </PropertyGroup>
 

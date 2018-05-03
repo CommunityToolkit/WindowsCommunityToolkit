@@ -21,7 +21,7 @@ Brush^ GazeInput::DwellFeedbackProgressBrush::get()
     return s_progressBrush;
 }
 
-void GazeInput::DwellFeedbackCompleteBrush::set(Brush^ value)
+void GazeInput::DwellFeedbackProgressBrush::set(Brush^ value)
 {
     s_progressBrush = value;
 }
@@ -33,7 +33,7 @@ Brush^ GazeInput::DwellFeedbackCompleteBrush::get()
     return s_completeBrush;
 }
 
-void GazeInput::DwellFeedbackProgressBrush::set(Brush^ value)
+void GazeInput::DwellFeedbackCompleteBrush::set(Brush^ value)
 {
     s_completeBrush = value;
 }

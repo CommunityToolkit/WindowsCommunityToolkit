@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive.Platform
             {
                 if (content.Size > OneDriveUploadConstants.SimpleUploadMaxSize)
                 {
-                    throw new ServiceException(new Error { Message = "The file size cannot exceed 4MB, use UploadFileAsync instead ", Code = "MaxSizeExceeded", ThrowSite = "UWP Community Toolkit" });
+                    throw new ServiceException(new Error { Message = "The file size cannot exceed 4MB, use UploadFileAsync instead ", Code = "MaxSizeExceeded", ThrowSite = "Windows Community Toolkit" });
                 }
 
                 streamContent = content.AsStreamForRead();
@@ -193,7 +193,7 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive.Platform
             var response = await _service.Provider.GraphProvider.HttpProvider.SendAsync(request).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
             {
-                throw new ServiceException(new Error { Message = "Could not create an UploadSession", Code = "NoUploadSession", ThrowSite = "UWP Community Toolkit" });
+                throw new ServiceException(new Error { Message = "Could not create an UploadSession", Code = "NoUploadSession", ThrowSite = "Windows Community Toolkit" });
             }
 
             _oneDriveStorageFolder.IsUploadCompleted = false;

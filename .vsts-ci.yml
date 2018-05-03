@@ -1,3 +1,7 @@
+trigger:
+- master
+- rel/*
+
 variables: 
   BuildConfiguration: Release
   
