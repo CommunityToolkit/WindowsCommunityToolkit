@@ -11,7 +11,9 @@
                     <StackPanel Background="White">
                         <StackPanel>
                             <Grid>
-                                <TextBox Name="SearchBox" Margin="0" />
+                                <TextBox Name="SearchBox"
+                                         Margin="0"
+                                         PlaceholderText="{Binding PersonNotSelectedMessage, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                                 <ProgressRing Name="Loading"
                                               HorizontalAlignment="Right"
                                               FlowDirection="LeftToRight"
@@ -24,20 +26,20 @@
                             <ListBox Name="SearchResultListBox"
                                      Canvas.ZIndex="100"
                                      Visibility="Collapsed"
-                                     ItemsSource="{Binding SearchResultList}"
+                                     ItemsSource="{Binding SearchResultList, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                      Background="AliceBlue">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <!--<TextBlock Text="{Binding UserPrincipalName}" />-->
                                         <controls:ProfileCard
                                             DisplayMode="LargeProfilePhotoLeft"
-                                            GraphAccessToken="{Binding ElementName=peoplePicker, Path=GraphAccessToken}"
+                                            GraphAccessToken="{Binding GraphAccessToken, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                             UserId="{Binding Id}" />
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
                             <StackPanel>
-                                <ListBox Name="SelectionsListBox" ItemsSource="{Binding Selections}">
+                                <ListBox Name="SelectionsListBox" ItemsSource="{Binding Selections, RelativeSource={RelativeSource Mode=TemplatedParent}}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>
@@ -50,16 +52,16 @@
                                                 <controls:ProfileCard
                                                     Grid.Column="0" Grid.Row="0"
                                                     DisplayMode="LargeProfilePhotoLeft"
-                                                    GraphAccessToken="{Binding ElementName=peoplePicker, Path=GraphAccessToken}"
+                                                    GraphAccessToken="{Binding GraphAccessToken, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                                     UserId="{Binding Id}" />
                                                 <TextBlock Grid.Column="1" Grid.Row="0" />
-                                                <Button Name=""  Grid.Column="2" Grid.Row="0"
+                                                <Button Grid.Column="2" Grid.Row="0"
                                                         Margin="0"
                                                         HorizontalAlignment="Right"
                                                         FlowDirection="LeftToRight"
                                                         Tag="{Binding UserPrincipalName}"
                                                         Width="48" Height="48"
-                                                        Command="{Binding DeleteItem}"
+                                                        Command="{Binding DeleteItem, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                                         CommandParameter="{Binding UserPrincipalName}"
                                                         Background="Transparent">
                                                     <SymbolIcon Symbol="Cancel" />

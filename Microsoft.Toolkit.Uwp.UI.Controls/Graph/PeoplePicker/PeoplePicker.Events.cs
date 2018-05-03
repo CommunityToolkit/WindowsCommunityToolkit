@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private void ClearAndHideSearchResultListBox()
         {
             SearchResultList.Clear();
-            SearchResultListBox.Visibility = Visibility.Collapsed;
+            _searchResultListBox.Visibility = Visibility.Collapsed;
         }
 
         private async void SearchBox_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 return;
             }
 
-            Loading.IsActive = true;
+            _loading.IsActive = true;
 
             searchText = Regex.Replace(searchText, "[^0-9a-zA-Z .@]", "");
             int cursorPosition = textboxSender.SelectionStart;
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     SearchResultList = new ObservableCollection<Person>(SearchResultLimit > 0
                         ? searchResult.Take(SearchResultLimit).ToList()
                         : searchResult);
-                    SearchResultListBox.Visibility = Visibility.Visible;
+                    _searchResultListBox.Visibility = Visibility.Visible;
                 }
                 else
                 {
@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
             finally
             {
-                Loading.IsActive = false;
+                _loading.IsActive = false;
             }
         }
 
@@ -83,8 +83,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 Selections.Add(person);
             }
-            SelectionsCounter.Text = $"{Selections.Count} selected";
-            SearchBox.Text = "";
+            _selectionsCounter.Text = $"{Selections.Count} selected";
+            _searchBox.Text = "";
         }
 
         private void DeleteSelectionItem(object parameter)
@@ -94,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (target != null)
             {
                 Selections.Remove(target);
-                SelectionsCounter.Text = $"{Selections.Count} selected";
+                _selectionsCounter.Text = $"{Selections.Count} selected";
             }
         }
     }

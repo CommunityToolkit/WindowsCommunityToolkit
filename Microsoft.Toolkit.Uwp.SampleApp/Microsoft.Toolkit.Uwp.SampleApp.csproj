@@ -505,6 +505,7 @@
     <Content Include="SamplePages\PeoplePicker\PeoplePickerCode.bind" />
     <Content Include="SamplePages\SharePointFiles\SharePointFilesCode.bind" />
     <Content Include="SamplePages\AADLogin\AADLoginXaml.bind" />
+    <Content Include="SamplePages\PeoplePicker\PeoplePickerXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

@@ -1,10 +1,5 @@
 ﻿using Microsoft.Graph;
-using Microsoft.Identity.Client;
-using System;
 using System.Collections.ObjectModel;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -15,35 +10,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public PeoplePicker()
         {
             DefaultStyleKey = typeof(PeoplePicker);
-            DataContext = this;
         }
 
-        private TextBox SearchBox;
-        private ProgressRing Loading;
-        private ListBox SearchResultListBox;
-        private TextBlock SelectionsCounter;
+        private TextBox _searchBox;
+        private ProgressRing _loading;
+        private ListBox _searchResultListBox;
+        private TextBlock _selectionsCounter;
 
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
-            SearchBox = GetTemplateChild("SearchBox") as TextBox;
-            Loading = GetTemplateChild("Loading") as ProgressRing;
-            SearchResultListBox = GetTemplateChild("SearchResultListBox") as ListBox;
-            SelectionsCounter = GetTemplateChild("SelectionsCounter") as TextBlock;
+            _searchBox = GetTemplateChild("SearchBox") as TextBox;
+            _loading = GetTemplateChild("Loading") as ProgressRing;
+            _searchResultListBox = GetTemplateChild("SearchResultListBox") as ListBox;
+            _selectionsCounter = GetTemplateChild("SelectionsCounter") as TextBlock;
 
             SearchResultList = new ObservableCollection<Person>();
             Selections = Selections ?? new ObservableCollection<Person>();
-            SelectionsCounter.Text = $"{Selections.Count} selected";
+            _selectionsCounter.Text = $"{Selections.Count} selected";
             if (!AllowMultiple)
-                SelectionsCounter.Visibility = Visibility.Collapsed;
+            {
+                _selectionsCounter.Visibility = Visibility.Collapsed;
+            }
 
-            SearchBox.PlaceholderText = string.IsNullOrWhiteSpace(PersonNotSelectedMessage)
-                ? "Select a person"
-                : PersonNotSelectedMessage;
-
-            SearchBox.TextChanged += SearchBox_OnTextChanged;
-            SearchResultListBox.SelectionChanged += SearchResultListBox_OnSelectionChanged;
+            _searchBox.TextChanged += SearchBox_OnTextChanged;
+            _searchResultListBox.SelectionChanged += SearchResultListBox_OnSelectionChanged;
         }
 
         private static void GraphAccessTokenPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -54,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void SignInCurrentUserAsync()
         {
-            GraphClient = Common.GetAuthenticatedClient(GraphAccessToken);
+            GraphClient = Common.GetAuthenticatedClient(GraphAccessToken?.Trim());
             if (GraphClient != null)
             {
                 var me = await GraphClient.Me.Request().GetAsync();
