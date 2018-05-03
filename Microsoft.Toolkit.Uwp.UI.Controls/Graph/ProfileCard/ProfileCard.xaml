@@ -47,7 +47,7 @@
                             <Border Style="{ThemeResource ProfileCardImageBorderStyle}">
                                 <Ellipse Style="{ThemeResource ProfileCardImageEllipseStyle}">
                                     <Ellipse.Fill>
-                                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Path=_userPhoto, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Path=UserPhoto, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                     </Ellipse.Fill>
                                 </Ellipse>
                             </Border>
@@ -60,7 +60,7 @@
                                     </Binding.Converter>
                                 </Binding>
                             </Grid.Visibility>
-                            <TextBlock Text="{Binding Path=_mail, RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalAlignment="Center" Padding="10 0 10 0"/>
+                            <TextBlock Text="{Binding Path=Mail, RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalAlignment="Center" Padding="10 0 10 0"/>
                         </Grid>
                         <StackPanel Style="{ThemeResource ProfileCardLargeProfileStackPanelStyle}">
                             <StackPanel.Visibility>
@@ -73,13 +73,13 @@
                             <Border Style="{ThemeResource ProfileCardImageBorderStyle}" Margin="0 0 15 0">
                                 <Ellipse Style="{ThemeResource ProfileCardImageEllipseStyle}">
                                     <Ellipse.Fill>
-                                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Path=_userPhoto, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Path=UserPhoto, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                     </Ellipse.Fill>
                                 </Ellipse>
                             </Border>
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Style="{ThemeResource ProfileCardLargeProfileTextBlockStyle}" Text="{Binding Path=_title, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                <TextBlock Text="{Binding Path=_secondaryMail, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                <TextBlock Style="{ThemeResource ProfileCardLargeProfileTextBlockStyle}" Text="{Binding Path=Title, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                <TextBlock Text="{Binding Path=SecondaryMail, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Style="{ThemeResource ProfileCardLargeProfileStackPanelStyle}">
@@ -91,13 +91,13 @@
                                 </Binding>
                             </StackPanel.Visibility>
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Style="{ThemeResource ProfileCardLargeProfileTextBlockStyle}" Text="{Binding Path=_title, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                <TextBlock Text="{Binding Path=_secondaryMail, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                <TextBlock Style="{ThemeResource ProfileCardLargeProfileTextBlockStyle}" Text="{Binding Path=Title, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                <TextBlock Text="{Binding Path=SecondaryMail, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                             </StackPanel>
                             <Border Style="{ThemeResource ProfileCardImageBorderStyle}" Margin="15 0 0 0">
                                 <Ellipse Style="{ThemeResource ProfileCardImageEllipseStyle}">
                                     <Ellipse.Fill>
-                                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Path=_userPhoto, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Path=UserPhoto, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                     </Ellipse.Fill>
                                 </Ellipse>
                             </Border>

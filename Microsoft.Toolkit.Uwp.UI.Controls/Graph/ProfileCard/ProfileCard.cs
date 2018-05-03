@@ -40,7 +40,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             var profileCardControl = d as ProfileCard;
             if (string.IsNullOrEmpty(profileCardControl.UserId))
-                profileCardControl._userPhoto = profileCardControl.DefaultImage;
+            {
+                profileCardControl.UserPhoto = profileCardControl.DefaultImage;
+            }
         }
 
         private async void FetchUserInfo()
@@ -53,12 +55,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 var graphClient = Common.GetAuthenticatedClient(GraphAccessToken);
                 var user = await graphClient.Users[UserId].Request().GetAsync();
-                _title = user.DisplayName;
-                _mail = user.Mail;
-                _secondaryMail = user.Mail;
-                if (string.IsNullOrEmpty(_mail))
+                Title = user.DisplayName;
+                Mail = user.Mail;
+                SecondaryMail = user.Mail;
+                if (string.IsNullOrEmpty(Mail))
                 {
-                    _userPhoto = DefaultImage ?? PersonPhoto;
+                    UserPhoto = DefaultImage ?? PersonPhoto;
                 }
                 else
                 {
@@ -67,21 +69,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         using (Stream photoStream = await graphClient.Users[UserId].Photo.Content.Request().GetAsync())
                         using (var ras = photoStream.AsRandomAccessStream())
                         {
-                            _userPhoto = new BitmapImage();
-                            await _userPhoto.SetSourceAsync(ras);
+                            UserPhoto = new BitmapImage();
+                            await UserPhoto.SetSourceAsync(ras);
                         }
                     }
-                    catch { _userPhoto = DefaultImage ?? PersonPhoto; }
+                    catch
+                    {
+                        UserPhoto = DefaultImage ?? PersonPhoto;
+                    }
                 }
             }
         }
 
         private void InitUserProfile()
         {
-            _userPhoto = DefaultImage ?? PersonPhoto;
-            _title = DefaultTitleText ?? "";
-            _mail = DefaultMailText ?? "";
-            _secondaryMail = DefaultSecondaryMailText ?? "";
+            UserPhoto = DefaultImage ?? PersonPhoto;
+            Title = DefaultTitleText ?? string.Empty;
+            Mail = DefaultMailText ?? string.Empty;
+            SecondaryMail = DefaultSecondaryMailText ?? string.Empty;
         }
     }
 }

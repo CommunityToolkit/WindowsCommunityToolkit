@@ -17,8 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(ClientId),
             typeof(string),
             typeof(AADLogin),
-            new PropertyMetadata(string.Empty)
-        );
+            new PropertyMetadata(string.Empty));
 
         /// <summary>
         /// Identifies the <see cref="Scopes"/> dependency property.
@@ -27,8 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(Scopes),
             typeof(string),
             typeof(AADLogin),
-            new PropertyMetadata(string.Empty)
-        );
+            new PropertyMetadata(string.Empty));
 
         /// <summary>
         /// Identifies the <see cref="DefaultImage"/> dependency property.
@@ -37,8 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(DefaultImage),
             typeof(BitmapImage),
             typeof(AADLogin),
-            new PropertyMetadata(null)
-        );
+            new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="View"/> dependency property.
@@ -47,8 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(View),
             typeof(ViewType),
             typeof(AADLogin),
-            new PropertyMetadata(ViewType.PictureOnly)
-        );
+            new PropertyMetadata(ViewType.PictureOnly));
 
         /// <summary>
         /// Identifies the <see cref="AllowSignInAsDifferentUser"/> dependency property.
@@ -57,8 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(AllowSignInAsDifferentUser),
             typeof(bool),
             typeof(AADLogin),
-            new PropertyMetadata(true)
-        );
+            new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="SignInDefaultText"/> dependency property.
@@ -67,8 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(SignInDefaultText),
             typeof(string),
             typeof(AADLogin),
-            new PropertyMetadata("Sign In")
-        );
+            new PropertyMetadata("Sign In"));
 
         /// <summary>
         /// Identifies the <see cref="SignOutDefaultText"/> dependency property.
@@ -77,8 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(SignOutDefaultText),
             typeof(string),
             typeof(AADLogin),
-            new PropertyMetadata("Sign Out")
-        );
+            new PropertyMetadata("Sign Out"));
 
         /// <summary>
         /// Identifies the <see cref="SignInAnotherUserDefaultText"/> dependency property.
@@ -87,25 +80,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(SignInAnotherUserDefaultText),
             typeof(string),
             typeof(AADLogin),
-            new PropertyMetadata("Sign in with another account")
-        );
+            new PropertyMetadata("Sign in with another account"));
 
-        internal static readonly DependencyProperty _graphAccessTokenProperty = DependencyProperty.Register(
-            nameof(_graphAccessToken),
+        internal static readonly DependencyProperty GraphAccessTokenProperty = DependencyProperty.Register(
+            nameof(GraphAccessToken),
             typeof(string),
             typeof(AADLogin),
-            new PropertyMetadata(null)
-        );
+            new PropertyMetadata(null));
 
-        internal static readonly DependencyProperty _currentUserIdProperty = DependencyProperty.Register(
-            nameof(_currentUserID),
+        internal static readonly DependencyProperty CurrentUserIdProperty = DependencyProperty.Register(
+            nameof(CurrentUserID),
             typeof(string),
             typeof(AADLogin),
-            new PropertyMetadata(null)
-        );
+            new PropertyMetadata(null));
 
         /// <summary>
-        /// 
+        /// Gets or sets a client id of the application is registered with the Azure AD v2.0 endpoint.
         /// </summary>
         public string ClientId
         {
@@ -113,6 +103,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 return (string)GetValue(ClientIdProperty);
             }
+
             set
             {
                 if (string.IsNullOrEmpty(ClientId))
@@ -121,12 +112,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     InitialPublicClientApplication();
                 }
                 else
+                {
                     throw new ArgumentException("The Client Id field only allow be set once.");
+                }
             }
         }
 
         /// <summary>
-        /// 
+        /// Gets or sets a value indicating which scopes will be requested, use comma to seperate the multiple values.
         /// </summary>
         public string Scopes
         {
@@ -134,6 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 return (string)GetValue(ScopesProperty);
             }
+
             set
             {
                 if (string.IsNullOrEmpty(Scopes))
@@ -142,7 +136,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     InitialPublicClientApplication();
                 }
                 else
+                {
                     throw new ArgumentException("The Scopes field only allow be set once.");
+                }
             }
         }
 
@@ -151,14 +147,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public BitmapImage DefaultImage
         {
-            get
-            {
-                return (BitmapImage)GetValue(DefaultImageProperty);
-            }
-            set
-            {
-                SetValue(DefaultImageProperty, value);
-            }
+            get { return (BitmapImage)GetValue(DefaultImageProperty); }
+            set { SetValue(DefaultImageProperty, value); }
         }
 
         /// <summary>
@@ -166,14 +156,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public ViewType View
         {
-            get
-            {
-                return (ViewType)GetValue(ViewProperty);
-            }
-            set
-            {
-                SetValue(ViewProperty, value);
-            }
+            get { return (ViewType)GetValue(ViewProperty); }
+            set { SetValue(ViewProperty, value); }
         }
 
         /// <summary>
@@ -181,83 +165,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public bool AllowSignInAsDifferentUser
         {
-            get
-            {
-                return (bool)GetValue(AllowSignInAsDifferentUserProperty);
-            }
-            set
-            {
-                SetValue(AllowSignInAsDifferentUserProperty, value);
-            }
+            get { return (bool)GetValue(AllowSignInAsDifferentUserProperty); }
+            set { SetValue(AllowSignInAsDifferentUserProperty, value); }
         }
 
         /// <summary>
-        /// 
+        /// Gets or sets a value for default sign-in text
         /// </summary>
         public string SignInDefaultText
         {
-            get
-            {
-                return (string)GetValue(SignInDefaultTextProperty);
-            }
-            set
-            {
-                SetValue(SignInDefaultTextProperty, value);
-            }
+            get { return (string)GetValue(SignInDefaultTextProperty); }
+            set { SetValue(SignInDefaultTextProperty, value); }
         }
 
         /// <summary>
-        /// 
+        /// Gets or sets a value for default sign-out text
         /// </summary>
         public string SignOutDefaultText
         {
-            get
-            {
-                return (string)GetValue(SignOutDefaultTextProperty);
-            }
-            set
-            {
-                SetValue(SignOutDefaultTextProperty, value);
-            }
+            get { return (string)GetValue(SignOutDefaultTextProperty); }
+            set { SetValue(SignOutDefaultTextProperty, value); }
         }
 
         /// <summary>
-        /// 
+        /// Gets or sets a value for default text of the Sign-in-with-another-account button
         /// </summary>
         public string SignInAnotherUserDefaultText
         {
-            get
-            {
-                return (string)GetValue(SignInAnotherUserDefaultTextProperty);
-            }
-            set
-            {
-                SetValue(SignInAnotherUserDefaultTextProperty, value);
-            }
+            get { return (string)GetValue(SignInAnotherUserDefaultTextProperty); }
+            set { SetValue(SignInAnotherUserDefaultTextProperty, value); }
         }
 
-        internal string _currentUserID
+        internal string CurrentUserID
         {
-            get
-            {
-                return (string)GetValue(_currentUserIdProperty);
-            }
-            private set
-            {
-                SetValue(_currentUserIdProperty, value);
-            }
+            get { return (string)GetValue(CurrentUserIdProperty); }
+            private set { SetValue(CurrentUserIdProperty, value); }
         }
 
-        internal string _graphAccessToken
+        internal string GraphAccessToken
         {
-            get
-            {
-                return (string)GetValue(_graphAccessTokenProperty);
-            }
-            private set
-            {
-                SetValue(_graphAccessTokenProperty, value);
-            }
+            get { return (string)GetValue(GraphAccessTokenProperty); }
+            private set { SetValue(GraphAccessTokenProperty, value); }
         }
     }
 }

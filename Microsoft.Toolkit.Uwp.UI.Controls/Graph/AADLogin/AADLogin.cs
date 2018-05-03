@@ -1,8 +1,6 @@
-﻿using Microsoft.Identity.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Identity.Client;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -17,6 +15,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private Button _mainButton = null;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AADLogin"/> class.
+        /// </summary>
         public AADLogin()
         {
             DefaultStyleKey = typeof(AADLogin);
@@ -36,15 +37,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 var btn = sender as Button;
 
-                if (string.IsNullOrEmpty(_currentUserID))
+                if (string.IsNullOrEmpty(CurrentUserID))
                 {
                     btn.IsEnabled = false;
-                    if (await SignInAsync()) btn.Flyout = GenerateMenuItems();
+                    if (await SignInAsync())
+                    {
+                        btn.Flyout = GenerateMenuItems();
+                    }
+
                     btn.IsEnabled = true;
                 }
             };
         }
 
+        /// <summary>
+        /// This method is used to prompt to login screen.
+        /// </summary>
+        /// <returns>True if sign in successfully, otherwise false</returns>
         public async Task<bool> SignInAsync()
         {
             if (!string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(Scopes))
@@ -55,15 +64,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 {
                     var graphClient = Common.GetAuthenticatedClient(token);
 
-                    _graphAccessToken = token;
+                    GraphAccessToken = token;
 
-                    _currentUserID = (await graphClient.Me.Request().GetAsync()).Id;
+                    CurrentUserID = (await graphClient.Me.Request().GetAsync()).Id;
 
                     OnSignInCompleted(new SignInEventArgs()
                     {
                         GraphClient = graphClient,
                         GraphAccessToken = token,
-                        CurrentSignInUserId = _currentUserID
+                        CurrentSignInUserId = CurrentUserID
                     });
 
                     return true;
@@ -73,6 +82,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             return false;
         }
 
+        /// <summary>
+        /// This method is used to sign out the currently signed on user
+        /// </summary>
         public void SignOut()
         {
             if (_identityClientApp.Users != null)
@@ -82,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     _identityClientApp.Remove(user);
                 }
 
-                _currentUserID = "";
+                CurrentUserID = string.Empty;
                 _mainButton.Flyout = null;
                 OnSignOutCompleted();
             }
@@ -99,41 +111,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async Task<string> GetTokenForUserAsync()
         {
-            string TokenForUser = null;
+            string tokenForUser = string.Empty;
 
             AuthenticationResult authResult;
             try
             {
                 authResult = await _identityClientApp.AcquireTokenSilentAsync(Scopes.Split(','), _identityClientApp.Users.First());
-                TokenForUser = authResult.AccessToken;
+                tokenForUser = authResult.AccessToken;
             }
             catch
             {
                 try
                 {
                     authResult = await _identityClientApp.AcquireTokenAsync(Scopes.Split(','));
-                    TokenForUser = authResult.AccessToken;
+                    tokenForUser = authResult.AccessToken;
                 }
                 catch
-                { }
+                {
+                }
             }
 
-            return TokenForUser;
+            return tokenForUser;
         }
 
         private async Task<string> GetTokenForAnotherUserAsync()
         {
-            string TokenForUser = null;
+            string tokenForUser = string.Empty;
 
             try
             {
                 AuthenticationResult authResult = await _identityClientApp.AcquireTokenAsync(Scopes.Split(','));
-                TokenForUser = authResult.AccessToken;
+                tokenForUser = authResult.AccessToken;
             }
             catch
-            { }
+            {
+            }
 
-            return TokenForUser;
+            return tokenForUser;
         }
 
         private MenuFlyout GenerateMenuItems()
@@ -151,14 +165,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     {
                         var graphClient = Common.GetAuthenticatedClient(token);
 
-                        _graphAccessToken = token;
-                        _currentUserID = (await graphClient.Me.Request().GetAsync()).Id;
+                        GraphAccessToken = token;
+                        CurrentUserID = (await graphClient.Me.Request().GetAsync()).Id;
 
                         OnSignInCompleted(new SignInEventArgs()
                         {
                             GraphClient = graphClient,
                             GraphAccessToken = token,
-                            CurrentSignInUserId = _currentUserID
+                            CurrentSignInUserId = CurrentUserID
                         });
                     }
                 };

@@ -4,14 +4,16 @@ using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
-    public class DisplayModeConverter : IValueConverter
+    internal class DisplayModeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value is ViewType && parameter != null)
             {
                 if (value.ToString() == parameter.ToString())
+                {
                     return Visibility.Visible;
+                }
             }
 
             return Visibility.Collapsed;

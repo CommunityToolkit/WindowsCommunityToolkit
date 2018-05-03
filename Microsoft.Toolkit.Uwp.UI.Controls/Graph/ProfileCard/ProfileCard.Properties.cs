@@ -16,8 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(GraphAccessToken),
             typeof(string),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty, OnGraphAccessTokenChanged)
-        );
+            new PropertyMetadata(string.Empty, OnGraphAccessTokenChanged));
 
         /// <summary>
         /// Identifies the <see cref="UserId"/> dependency property.
@@ -26,8 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(UserId),
             typeof(string),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty, OnUserIdPropertyChanged)
-        );
+            new PropertyMetadata(string.Empty, OnUserIdPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="DisplayMode"/> dependency property.
@@ -36,8 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(DisplayMode),
             typeof(ViewType),
             typeof(ProfileCard),
-            new PropertyMetadata(ViewType.PictureOnly, null)
-        );
+            new PropertyMetadata(ViewType.PictureOnly, null));
 
         /// <summary>
         /// Identifies the <see cref="DefaultImage"/> dependency property.
@@ -46,8 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(DefaultImage),
             typeof(BitmapImage),
             typeof(ProfileCard),
-            new PropertyMetadata(null, OnDefaultImageChanged)
-        );
+            new PropertyMetadata(null, OnDefaultImageChanged));
 
         /// <summary>
         /// Identifies the <see cref="DefaultTitleText"/> dependency property.
@@ -56,8 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(DefaultTitleText),
             typeof(string),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty)
-        );
+            new PropertyMetadata(string.Empty));
 
         /// <summary>
         /// Identifies the <see cref="DefaultSecondaryMailText"/> dependency property.
@@ -66,8 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(DefaultSecondaryMailText),
             typeof(string),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty)
-        );
+            new PropertyMetadata(string.Empty));
 
         /// <summary>
         /// Identifies the <see cref="DefaultMailText"/> dependency property.
@@ -76,50 +70,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(DefaultMailText),
             typeof(string),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty)
-        );
+            new PropertyMetadata(string.Empty));
 
-        internal static readonly DependencyProperty _titleProperty = DependencyProperty.Register(
-            nameof(_title),
+        internal static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
+            nameof(Title),
             typeof(string),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty)
-        );
+            new PropertyMetadata(string.Empty));
 
-        internal static readonly DependencyProperty _secondaryMailProperty = DependencyProperty.Register(
-            nameof(_secondaryMail),
+        internal static readonly DependencyProperty SecondaryMailProperty = DependencyProperty.Register(
+            nameof(SecondaryMail),
             typeof(string),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty)
-        );
+            new PropertyMetadata(string.Empty));
 
-        internal static readonly DependencyProperty _mailProperty = DependencyProperty.Register(
-            nameof(_mail),
+        internal static readonly DependencyProperty MailProperty = DependencyProperty.Register(
+            nameof(Mail),
             typeof(string),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty)
-        );
+            new PropertyMetadata(string.Empty));
 
-        internal static readonly DependencyProperty _userPhotoProperty = DependencyProperty.Register(
-            nameof(_userPhoto),
+        internal static readonly DependencyProperty UserPhotoProperty = DependencyProperty.Register(
+            nameof(UserPhoto),
             typeof(BitmapImage),
             typeof(ProfileCard),
-            new PropertyMetadata(null)
-        );
+            new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets graph access token.
         /// </summary>
         public string GraphAccessToken
         {
-            get
-            {
-                return (string)GetValue(GraphAccessTokenProperty);
-            }
-            set
-            {
-                SetValue(GraphAccessTokenProperty, value);
-            }
+            get { return (string)GetValue(GraphAccessTokenProperty); }
+            set { SetValue(GraphAccessTokenProperty, value); }
         }
 
         /// <summary>
@@ -127,14 +110,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public string UserId
         {
-            get
-            {
-                return (string)GetValue(UserIdProperty);
-            }
-            set
-            {
-                SetValue(UserIdProperty, value);
-            }
+            get { return (string)GetValue(UserIdProperty); }
+            set { SetValue(UserIdProperty, value); }
         }
 
         /// <summary>
@@ -142,14 +119,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public ViewType DisplayMode
         {
-            get
-            {
-                return (ViewType)GetValue(DisplayModeProperty);
-            }
-            set
-            {
-                SetValue(DisplayModeProperty, value);
-            }
+            get { return (ViewType)GetValue(DisplayModeProperty); }
+            set { SetValue(DisplayModeProperty, value); }
         }
 
         /// <summary>
@@ -157,14 +128,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public BitmapImage DefaultImage
         {
-            get
-            {
-                return (BitmapImage)GetValue(DefaultImageProperty);
-            }
-            set
-            {
-                SetValue(DefaultImageProperty, value);
-            }
+            get { return (BitmapImage)GetValue(DefaultImageProperty); }
+            set { SetValue(DefaultImageProperty, value); }
         }
 
         /// <summary>
@@ -172,14 +137,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public string DefaultTitleText
         {
-            get
-            {
-                return (string)GetValue(DefaultTitleTextProperty);
-            }
-            set
-            {
-                SetValue(DefaultTitleTextProperty, value);
-            }
+            get { return (string)GetValue(DefaultTitleTextProperty); }
+            set { SetValue(DefaultTitleTextProperty, value); }
         }
 
         /// <summary>
@@ -187,14 +146,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public string DefaultSecondaryMailText
         {
-            get
-            {
-                return (string)GetValue(DefaultSecondaryMailTextProperty);
-            }
-            set
-            {
-                SetValue(DefaultSecondaryMailTextProperty, value);
-            }
+            get { return (string)GetValue(DefaultSecondaryMailTextProperty); }
+            set { SetValue(DefaultSecondaryMailTextProperty, value); }
         }
 
         /// <summary>
@@ -202,62 +155,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public string DefaultMailText
         {
-            get
-            {
-                return (string)GetValue(DefaultMailTextProperty);
-            }
-            set
-            {
-                SetValue(DefaultMailTextProperty, value);
-            }
+            get { return (string)GetValue(DefaultMailTextProperty); }
+            set { SetValue(DefaultMailTextProperty, value); }
         }
 
-        internal string _title
+        internal string Title
         {
-            get
-            {
-                return (string)GetValue(_titleProperty);
-            }
-            private set
-            {
-                SetValue(_titleProperty, value);
-            }
+            get { return (string)GetValue(TitleProperty); }
+            private set { SetValue(TitleProperty, value); }
         }
 
-        internal string _secondaryMail
+        internal string SecondaryMail
         {
-            get
-            {
-                return (string)GetValue(_secondaryMailProperty);
-            }
-            private set
-            {
-                SetValue(_secondaryMailProperty, value);
-            }
+            get { return (string)GetValue(SecondaryMailProperty); }
+            private set { SetValue(SecondaryMailProperty, value); }
         }
 
-        internal string _mail
+        internal string Mail
         {
-            get
-            {
-                return (string)GetValue(_mailProperty);
-            }
-            private set
-            {
-                SetValue(_mailProperty, value);
-            }
+            get { return (string)GetValue(MailProperty); }
+            private set { SetValue(MailProperty, value); }
         }
 
-        internal BitmapImage _userPhoto
+        internal BitmapImage UserPhoto
         {
-            get
-            {
-                return (BitmapImage)GetValue(_userPhotoProperty);
-            }
-            private set
-            {
-                SetValue(_userPhotoProperty, value);
-            }
+            get { return (BitmapImage)GetValue(UserPhotoProperty); }
+            private set { SetValue(UserPhotoProperty, value); }
         }
     }
 }
