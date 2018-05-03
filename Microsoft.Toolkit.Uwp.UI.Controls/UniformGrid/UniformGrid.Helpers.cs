@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // returns the dimensions of the
         // grid we need to hold all elements.
         #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
-        internal static (int Rows, int Columns) GetDimensions(FrameworkElement[] visible, int rows, int cols, int firstColumn)
+        internal static (int rows, int columns) GetDimensions(FrameworkElement[] visible, int rows, int cols, int firstColumn)
         #pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
         {
             // If a dimension isn't specified, we need to figure out the other one (or both).

@@ -46,10 +46,10 @@ namespace UnitTests.UI.Controls
 
             Assert.AreEqual(0, grid.Children.Count());
 
-            var dimensions = UniformGrid.GetDimensions(children, 0, 0, 0);
+            var (rows, columns) = UniformGrid.GetDimensions(children, 0, 0, 0);
 
-            Assert.AreEqual(1, dimensions.Rows);
-            Assert.AreEqual(1, dimensions.Columns);
+            Assert.AreEqual(1, rows);
+            Assert.AreEqual(1, columns);
         }
 
         [TestCategory("UniformGrid")]
@@ -82,10 +82,10 @@ namespace UnitTests.UI.Controls
 
             Assert.AreEqual(8, grid.Children.Count());
 
-            var dimensions = UniformGrid.GetDimensions(children, 0, 0, 0);
+            var (rows, columns) = UniformGrid.GetDimensions(children, 0, 0, 0);
             
-            Assert.AreEqual(3, dimensions.Rows);
-            Assert.AreEqual(3, dimensions.Columns);
+            Assert.AreEqual(3, rows);
+            Assert.AreEqual(3, columns);
         }
 
         [TestCategory("UniformGrid")]
@@ -123,10 +123,10 @@ namespace UnitTests.UI.Controls
 
             Assert.AreEqual(4, visible.Count());
 
-            var dimensions = UniformGrid.GetDimensions(visible, 0, 0, 0);
+            var (rows, columns) = UniformGrid.GetDimensions(visible, 0, 0, 0);
 
-            Assert.AreEqual(2, dimensions.Rows);
-            Assert.AreEqual(2, dimensions.Columns);
+            Assert.AreEqual(2, rows);
+            Assert.AreEqual(2, columns);
         }
 
         [TestCategory("UniformGrid")]
@@ -159,10 +159,10 @@ namespace UnitTests.UI.Controls
 
             Assert.AreEqual(8, grid.Children.Count());
 
-            var dimensions = UniformGrid.GetDimensions(children, 0, 0, 2);
+            var (rows, columns) = UniformGrid.GetDimensions(children, 0, 0, 2);
 
-            Assert.AreEqual(4, dimensions.Rows);
-            Assert.AreEqual(4, dimensions.Columns);
+            Assert.AreEqual(4, rows);
+            Assert.AreEqual(4, columns);
         }
 
         [TestCategory("UniformGrid")]
@@ -195,10 +195,10 @@ namespace UnitTests.UI.Controls
 
             Assert.AreEqual(8, grid.Children.Count());
 
-            var dimensions = UniformGrid.GetDimensions(children, 0, 0, 0);
+            var (rows, columns) = UniformGrid.GetDimensions(children, 0, 0, 0);
 
-            Assert.AreEqual(4, dimensions.Rows);
-            Assert.AreEqual(4, dimensions.Columns);
+            Assert.AreEqual(4, rows);
+            Assert.AreEqual(4, columns);
         }
 
         [TestCategory("UniformGrid")]
@@ -232,10 +232,10 @@ namespace UnitTests.UI.Controls
             
             // columns == first column
             // In WPF, First Column is ignored and we have a 1x7 layout.
-            var dimensions = UniformGrid.GetDimensions(children, 0, 7, 7);
+            var (rows, columns) = UniformGrid.GetDimensions(children, 0, 7, 7);
 
-            Assert.AreEqual(1, dimensions.Rows, "Expected single row.");
-            Assert.AreEqual(7, dimensions.Columns, "Expected seven columns.");
+            Assert.AreEqual(1, rows, "Expected single row.");
+            Assert.AreEqual(7, columns, "Expected seven columns.");
         }
     }
     #pragma warning restore SA1008 // Opening parenthesis must be spaced correctly

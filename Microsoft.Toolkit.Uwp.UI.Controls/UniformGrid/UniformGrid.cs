@@ -40,15 +40,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Get all Visible FrameworkElement Children
             var visible = Children.Where(item => item.Visibility != Visibility.Collapsed && item is FrameworkElement).Select(item => item as FrameworkElement).ToArray();
 
-            (int Rows, int Columns) dim = GetDimensions(visible, Rows, Columns, FirstColumn);
+            var (rows, columns) = GetDimensions(visible, Rows, Columns, FirstColumn);
 
             // Now that we know size, setup automatic rows/columns
             // to utilize Grid for UniformGrid behavior.
             // We also interleave any specified rows/columns with fixed sizes.
-            SetupRowDefinitions(dim.Rows);
-            SetupColumnDefinitions(dim.Columns);
+            SetupRowDefinitions(rows);
+            SetupColumnDefinitions(columns);
 
-            var spotref = new TakenSpotsReferenceHolder(dim.Rows, dim.Columns);
+            var spotref = new TakenSpotsReferenceHolder(rows, columns);
 
             // Figure out which children we should automatically layout and where available openings are.
             foreach (var child in visible)
@@ -80,13 +80,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Guard for 15063 as Grid Spacing only works on 16299+.
             if (_hasGridSpacing)
             {
-                columnSpacingSize = ColumnSpacing * (dim.Columns - 1);
-                rowSpacingSize = RowSpacing * (dim.Rows - 1);
+                columnSpacingSize = ColumnSpacing * (columns - 1);
+                rowSpacingSize = RowSpacing * (rows - 1);
             }
 
             Size childSize = new Size(
-                (availableSize.Width - columnSpacingSize) / dim.Columns,
-                (availableSize.Height - rowSpacingSize) / dim.Rows);
+                (availableSize.Width - columnSpacingSize) / columns,
+                (availableSize.Height - rowSpacingSize) / rows);
 
             double maxWidth = 0.0;
             double maxHeight = 0.0;
@@ -101,10 +101,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (freespots.MoveNext())
                     {
-                        var loc = freespots.Current;
+                        #pragma warning disable SA1009 // Closing parenthesis must be followed by a space.
+                        var (row, column) = freespots.Current;
+                        #pragma warning restore SA1009 // Closing parenthesis must be followed by a space.
 
-                        SetRow(child, loc.row);
-                        SetColumn(child, loc.column);
+                        SetRow(child, row);
+                        SetColumn(child, column);
 
                         var rowspan = GetRowSpan(child);
                         var colspan = GetColumnSpan(child);
@@ -112,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if (rowspan > 1 || colspan > 1)
                         {
                             // TODO: Need to tie this into iterator
-                            spotref.SpotsTaken.Fill(true, loc.row, loc.column, GetColumnSpan(child), GetRowSpan(child)); // row, col, width, height
+                            spotref.SpotsTaken.Fill(true, row, column, GetColumnSpan(child), GetRowSpan(child)); // row, col, width, height
                         }
                     }
                     else
@@ -127,8 +129,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         continue;
                     }
                 }
-                else if (GetRow(child) < 0 || GetRow(child) >= dim.Rows ||
-                         GetColumn(child) < 0 || GetColumn(child) >= dim.Columns)
+                else if (GetRow(child) < 0 || GetRow(child) >= rows ||
+                         GetColumn(child) < 0 || GetColumn(child) >= columns)
                 {
                     // A child is specifying a location, but that location is outside
                     // of our grid space, so we should hide it instead.
@@ -147,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Return our desired size based on the largest child we found, our dimensions, and spacing.
-            var desiredSize = new Size((maxWidth * (double)dim.Columns) + columnSpacingSize, (maxHeight * (double)dim.Rows) + rowSpacingSize);
+            var desiredSize = new Size((maxWidth * (double)columns) + columnSpacingSize, (maxHeight * (double)rows) + rowSpacingSize);
 
             // Required to perform regular grid measurement, but ignore result.
             base.MeasureOverride(desiredSize);
