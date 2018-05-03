@@ -1,14 +1,10 @@
-trigger:
-- master
-- rel/*
-
 variables: 
   BuildConfiguration: Release
   
 steps:
 - task: BatchScript@1
   inputs:
-    filename: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\VsDevCmd.bat"
+    filename: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\Common7\\Tools\\VsDevCmd.bat"
     arguments: -no_logo
     modifyEnvironment: true
   displayName: Setup Environment Variables
@@ -19,11 +15,8 @@ steps:
     versionSpec: 4.6.2
 
 - powershell: |
-    .\build\build.ps1 -target=SignNuGet
+    .\build\build.ps1 -target=Build
   displayName: Build 
-  env:
-    SignClientSecret: $(SignClientSecret)
-    SignClientUser: $(SignClientUser)
     
 
 - task: PublishBuildArtifacts@1
