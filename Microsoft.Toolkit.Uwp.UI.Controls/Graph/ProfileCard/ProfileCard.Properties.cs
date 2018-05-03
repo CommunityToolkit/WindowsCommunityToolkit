@@ -115,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         }
 
         /// <summary>
-        /// Gets or sets the visual layout of the control. Default is PictureOnly. 
+        /// Gets or sets the visual layout of the control. Default is PictureOnly.
         /// </summary>
         public ViewType DisplayMode
         {

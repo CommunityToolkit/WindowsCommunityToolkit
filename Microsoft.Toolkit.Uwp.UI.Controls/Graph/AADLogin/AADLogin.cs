@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            base.ApplyTemplate();
+            ApplyTemplate();
 
             _mainButton = GetTemplateChild("btnMain") as Button;
 
