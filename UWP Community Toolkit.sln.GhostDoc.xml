@@ -17,7 +17,7 @@
   <HelpConfiguration name="HelpFile">
     <OutputPath>.\Help</OutputPath>
     <CleanupOutputPath>true</CleanupOutputPath>
-    <HelpFileName>UWP Community Toolkit</HelpFileName>
+    <HelpFileName>Windows Community Toolkit</HelpFileName>
     <HelpFileNamingMethod>MemberName</HelpFileNamingMethod>
     <ImageFolderPath />
     <Theme />

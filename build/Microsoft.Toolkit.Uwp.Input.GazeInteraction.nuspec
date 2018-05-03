@@ -3,7 +3,7 @@
   <metadata>
     <id>Microsoft.Toolkit.Uwp.Input.GazeInteraction</id>
     <version>$version$</version>
-    <title>UWP Community Toolkit Eye Gaze Library</title>
+    <title>Windows Community Toolkit Eye Gaze Library</title>
     <authors>Microsoft</authors>
     <owners>microsoft, nugetuwptoolkit</owners>
     <iconUrl>https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png</iconUrl>
