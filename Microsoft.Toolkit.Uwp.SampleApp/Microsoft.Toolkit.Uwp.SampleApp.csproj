@@ -504,6 +504,7 @@
     <Content Include="SamplePages\ProfileCard\ProfileCardCode.bind" />
     <Content Include="SamplePages\PeoplePicker\PeoplePickerCode.bind" />
     <Content Include="SamplePages\SharePointFiles\SharePointFilesCode.bind" />
+    <Content Include="SamplePages\AADLogin\AADLoginXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
