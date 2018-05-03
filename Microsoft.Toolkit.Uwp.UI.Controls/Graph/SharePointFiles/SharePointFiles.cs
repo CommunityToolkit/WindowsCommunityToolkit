@@ -21,6 +21,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
     public partial class SharePointFiles : Control
     {
+        private static async void GraphAccessTokenPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            SharePointFiles control = d as SharePointFiles;
+            control._graphClient = Common.GetAuthenticatedClient(control.GraphAccessToken);
+            if (!string.IsNullOrWhiteSpace(control.DriveUrl))
+            {
+                await control.InitDrive(control.DriveUrl);
+            }
+        }
+
+        private static async void DriveUrlPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            SharePointFiles control = d as SharePointFiles;
+            if (control._graphClient != null && !string.IsNullOrWhiteSpace(control.DriveUrl))
+            {
+                if (Uri.IsWellFormedUriString(control.DriveUrl, UriKind.Absolute))
+                {
+                    await control.InitDrive(control.DriveUrl);
+                }
+            }
+        }
+
+        /// <summary>
+        /// File is selected
+        /// </summary>
         public event EventHandler<FileSelectedEventArgs> FileSelected;
 
         private GraphServiceClient _graphClient;
@@ -121,24 +146,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         public async Task InitDrive(string driveUrl)
         {
-            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, driveUrl);
-            await _graphClient.AuthenticationProvider.AuthenticateRequestAsync(message);
-
-            HttpResponseMessage result = await _graphClient.HttpProvider.SendAsync(message);
-            if (result.StatusCode == HttpStatusCode.OK)
+            try
             {
-                string json = await result.Content.ReadAsStringAsync();
-                Drive drive = JsonConvert.DeserializeObject<Drive>(json);
-                if (drive != null)
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, driveUrl);
+                await _graphClient.AuthenticationProvider.AuthenticateRequestAsync(message);
+
+                HttpResponseMessage result = await _graphClient.HttpProvider.SendAsync(message);
+                if (result.StatusCode == HttpStatusCode.OK)
                 {
-                    _driveId = drive.Id;
-                    _driveItemPath.Clear();
-                    DriveItem rootDriveItem = await _graphClient.Drives[_driveId].Root.Request().GetAsync();
-                    _driveItemPath.Push(rootDriveItem.Id);
-                    await LoadFiles(rootDriveItem.Id);
-                    _back.Visibility = Visibility.Collapsed;
+                    string json = await result.Content.ReadAsStringAsync();
+                    Drive drive = JsonConvert.DeserializeObject<Drive>(json);
+                    if (drive != null)
+                    {
+                        _driveId = drive.Id;
+                        _driveItemPath.Clear();
+                        DriveItem rootDriveItem = await _graphClient.Drives[_driveId].Root.Request().GetAsync();
+                        _driveItemPath.Push(rootDriveItem.Id);
+                        await LoadFiles(rootDriveItem.Id);
+                        _back.Visibility = Visibility.Collapsed;
+                    }
                 }
             }
+            catch { }
         }
 
         public async Task LoadFiles(string driveItemId, int pageIndex = 0)
@@ -451,30 +480,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private static async void GraphAccessTokenPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            SharePointFiles control = d as SharePointFiles;
-            control._graphClient = Common.GetAuthenticatedClient(control.GraphAccessToken);
-            if (!string.IsNullOrEmpty(control.DriveUrl))
-            {
-                await control.InitDrive(control.DriveUrl);
-            }
-        }
-
-        private static async void DriveUrlPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            SharePointFiles control = d as SharePointFiles;
-            if (control._graphClient != null && !string.IsNullOrEmpty(control.DriveUrl))
-            {
-                await control.InitDrive(control.DriveUrl);
-            }
-        }
-
         private static void DetailPanePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             SharePointFiles control = d as SharePointFiles;
             if (control.IsDetailPaneVisible)
+            {
                 control.ShowDetailsPane();
+            }
         }
 
         private async void LoadMore_Click(object sender, RoutedEventArgs e)

@@ -1,8 +1,17 @@
-// XAML UIElement
-<Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/Square150x150Logo.png" Height="100" Width="100" >
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
 
-// C# - Fade can be applied to any UIElement. In this case it is an image called ToolkitLogo.
-using Microsoft.Toolkit.Uwp.UI.Animations;
-
-await ToolkitLogo.Fade(value: 0.5f, duration: 10, delay: 0).StartAsync();
-
+    <Grid>
+        <controls:SharePointFiles 
+            PageSize="@[PageSize:Slider:20:1-100]" 
+            GraphAccessToken="@[GraphAccessToken:String: ]"
+            DriveUrl="@[DriveUrl:String: ]"
+            DetailPane="@[DetailPane:Enum:DetailPaneDisplayMode.Side]"
+            />
+    </Grid>
+</Page>
