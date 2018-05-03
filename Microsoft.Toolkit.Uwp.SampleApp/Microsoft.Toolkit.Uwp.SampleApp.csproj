@@ -502,10 +502,10 @@
     </Content>
     <Content Include="SamplePages\AADLogin\AADLoginCode.bind" />
     <Content Include="SamplePages\PeoplePicker\PeoplePickerCode.bind" />
-    <Content Include="SamplePages\SharePointFiles\SharePointFilesCode.bind" />
+    <Content Include="SamplePages\SharePointFiles\SharePointFilesXaml.bind" />
     <Content Include="SamplePages\AADLogin\AADLoginXaml.bind" />
     <Content Include="SamplePages\PeoplePicker\PeoplePickerXaml.bind" />
-	<Content Include="SamplePages\ProfileCard\ProfileCardXaml.bind" />
+    <Content Include="SamplePages\ProfileCard\ProfileCardXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
