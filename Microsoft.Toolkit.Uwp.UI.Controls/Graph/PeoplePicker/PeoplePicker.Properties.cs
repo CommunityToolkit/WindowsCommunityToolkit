@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty PersonNotSelectedMessageProperty =
             DependencyProperty.Register(
                 nameof(PersonNotSelectedMessage), typeof(string),
-                typeof(PeoplePicker), null
+                typeof(PeoplePicker), new PropertyMetadata("Select a person")
             );
 
         // Selections

@@ -1,0 +1,15 @@
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
+      mc:Ignorable="d">
+
+    <Grid Padding="48">
+      <controls:PeoplePicker
+         GraphAccessToken="@[GraphAccessToken:String: ]@"
+         AllowMultiple="@[AllowMultiple:Bool:True]@"
+         SearchResultLimit="@[SearchResultLimit:Slider:5:1-20]@"
+         PersonNotSelectedMessage="@[PersonNotSelectedMessage:String:Select a person]@"/>
+    </Grid>
+</Page>

@@ -10,6 +10,6 @@
     
     <!-- Shallow Copy -->
     <Grid>
-        <controls:SharePointFiles />
+        <controls:SharePointFiles/>
     </Grid>
 </Page>
