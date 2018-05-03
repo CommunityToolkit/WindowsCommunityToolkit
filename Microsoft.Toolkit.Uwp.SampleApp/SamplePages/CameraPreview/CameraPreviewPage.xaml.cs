@@ -30,7 +30,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class CameraPreviewPage : Page, IXamlRenderListener
     {
         private VideoFrame _currentVideoFrame;
-        private SoftwareBitmap _softwareBitmap;
         private SoftwareBitmapSource _softwareBitmapSource;
         private CameraPreview _cameraPreviewControl;
         private Image _imageControl;
@@ -85,7 +84,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void CameraPreviewControl_FrameArrived(object sender, FrameEventArgs e)
         {
             _currentVideoFrame = e.VideoFrame;
-            _softwareBitmap = e.SoftwareBitmap;
         }
 
         private void CameraPreviewControl_PreviewFailed(object sender, PreviewFailedEventArgs e)
@@ -95,16 +93,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void CaptureButton_Click(object sender, RoutedEventArgs e)
         {
-            var targetSoftwareBitmap = _softwareBitmap;
+            var softwareBitmap = _currentVideoFrame.SoftwareBitmap;
 
-            if (_softwareBitmap != null)
+            if (softwareBitmap != null)
             {
-                if (_softwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 || _softwareBitmap.BitmapAlphaMode == BitmapAlphaMode.Straight)
+                if (softwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 || softwareBitmap.BitmapAlphaMode == BitmapAlphaMode.Straight)
                 {
-                    targetSoftwareBitmap = SoftwareBitmap.Convert(_softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+                    softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
                 }
 
-                await _softwareBitmapSource.SetBitmapAsync(targetSoftwareBitmap);
+                await _softwareBitmapSource.SetBitmapAsync(softwareBitmap);
             }
         }
 

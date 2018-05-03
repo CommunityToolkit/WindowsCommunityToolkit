@@ -29,10 +29,5 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         /// Gets Video Frame
         /// </summary>
         public VideoFrame VideoFrame { get; internal set; }
-
-        /// <summary>
-        /// Gets SoftwareBitmap
-        /// </summary>
-        public SoftwareBitmap SoftwareBitmap { get; internal set; }
     }
 }
