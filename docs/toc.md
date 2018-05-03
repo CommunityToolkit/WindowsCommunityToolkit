@@ -35,6 +35,7 @@
 ## [AdaptiveGridView](controls/AdaptiveGridView.md)
 ## [Blade](controls/BladeView.md)
 ## [Carousel](controls/Carousel.md)
+## [DataGrid](controls/DataGrid.md)
 ## [DockPanel](controls/DockPanel.md)
 ## [DropShadowPanel Control](controls/DropShadowPanel.md)
 ## [Expander Control](controls/Expander.md)
