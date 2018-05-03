@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             SharePointFiles control = d as SharePointFiles;
             control._graphClient = Common.GetAuthenticatedClient(control.GraphAccessToken);
-            if (!string.IsNullOrWhiteSpace(control.DriveUrl))
+            if (!string.IsNullOrEmpty(control.DriveUrl))
             {
                 await control.InitDrive(control.DriveUrl);
             }

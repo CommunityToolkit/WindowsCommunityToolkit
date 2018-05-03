@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void SignInCurrentUserAsync()
         {
-            GraphClient = Common.GetAuthenticatedClient(GraphAccessToken?.Trim());
+            GraphClient = Common.GetAuthenticatedClient(GraphAccessToken);
             if (GraphClient != null)
             {
                 var me = await GraphClient.Me.Request().GetAsync();

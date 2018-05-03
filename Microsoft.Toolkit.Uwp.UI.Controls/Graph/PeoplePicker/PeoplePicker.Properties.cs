@@ -51,8 +51,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         public string GraphAccessToken
         {
-            get => (string) this.GetValue(GraphAccessTokenProperty);
-            set => this.SetValue(GraphAccessTokenProperty, value);
+            get => ((string)this.GetValue(GraphAccessTokenProperty))?.Trim();
+            set => this.SetValue(GraphAccessTokenProperty, value?.Trim());
         }
 
         public bool AllowMultiple

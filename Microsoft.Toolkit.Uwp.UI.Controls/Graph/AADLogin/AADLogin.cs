@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private void InitialPublicClientApplication()
         {
-            if (!string.IsNullOrEmpty(ClientId.Trim()) && !string.IsNullOrEmpty(Scopes.Trim()))
+            if (!string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(Scopes))
             {
                 _identityClientApp = new PublicClientApplication(ClientId);
                 IsEnabled = true;
