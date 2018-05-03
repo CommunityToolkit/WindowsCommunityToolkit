@@ -1,8 +1,39 @@
-// XAML UIElement
-<Image x:Name="ToolkitLogo" Source="ms-appx:///Assets/Square150x150Logo.png" Height="100" Width="100" >
+/** XAML **/
+<controls:AADLogin x:Name="AADLoginControl" 
+	ClientId= "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+    Scopes= "User.Read,User.ReadBasic.All,Files.ReadWrite.All"
+    View="ViewType.PictureOnly"
+    AllowSignInAsDifferentUser="true"/>
+/>
 
-// C# - Fade can be applied to any UIElement. In this case it is an image called ToolkitLogo.
-using Microsoft.Toolkit.Uwp.UI.Animations;
+/** CSharp Code **/
+private AADLogin aadLoginControl;
 
-await ToolkitLogo.Fade(value: 0.5f, duration: 10, delay: 0).StartAsync();
+public AADLoginPage()
+{
+    InitializeComponent();
+}
 
+public void OnXamlRendered(FrameworkElement control)
+{
+    aadLoginControl = control.FindDescendantByName("AADLoginControl") as AADLogin;
+
+    if (aadLoginControl != null)
+    {
+        aadLoginControl.SignInCompleted += AadLoginControl_SignInCompleted;
+        aadLoginControl.SignOutCompleted += AadLoginControl_SignOutCompleted;
+    }
+}
+
+private void AadLoginControl_SignInCompleted(object sender, SignInEventArgs e)
+{
+    string graphAccessToken = e.GraphAccessToken;
+    GraphServiceClient graphServiceClient = e.GraphClient;
+
+    // TODO
+}
+
+private void AadLoginControl_SignOutCompleted(object sender, System.EventArgs e)
+{
+    // TODO
+}
