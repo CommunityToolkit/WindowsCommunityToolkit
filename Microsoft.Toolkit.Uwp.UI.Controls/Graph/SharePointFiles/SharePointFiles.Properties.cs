@@ -9,56 +9,66 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     {
         public static readonly DependencyProperty GraphAccessTokenProperty =
             DependencyProperty.Register(
-                nameof(GraphAccessToken), typeof(string),
-                typeof(SharePointFiles), new PropertyMetadata(string.Empty, GraphAccessTokenPropertyChanged)
-        );
+                nameof(GraphAccessToken),
+                typeof(string),
+                typeof(SharePointFiles),
+                new PropertyMetadata(string.Empty, GraphAccessTokenPropertyChanged));
 
         public static readonly DependencyProperty DriveUrlProperty =
             DependencyProperty.Register(
-                nameof(DriveUrl), typeof(string),
-                typeof(SharePointFiles), new PropertyMetadata(string.Empty, DriveUrlPropertyChanged)
-        );
+                nameof(DriveUrl),
+                typeof(string),
+                typeof(SharePointFiles),
+                new PropertyMetadata(string.Empty, DriveUrlPropertyChanged));
 
         public static readonly DependencyProperty DetailPaneProperty =
             DependencyProperty.Register(
-                nameof(DetailPane), typeof(DetailPaneDisplayMode),
-                typeof(SharePointFiles), new PropertyMetadata(DetailPaneDisplayMode.Disabled, DetailPanePropertyChanged)
-        );
+                nameof(DetailPane),
+                typeof(DetailPaneDisplayMode),
+                typeof(SharePointFiles),
+                new PropertyMetadata(DetailPaneDisplayMode.Disabled, DetailPanePropertyChanged));
 
         public static readonly DependencyProperty PageSizeProperty =
             DependencyProperty.Register(
-                nameof(PageSize), typeof(int),
-                typeof(SharePointFiles), new PropertyMetadata(20)
-        );
+                nameof(PageSize),
+                typeof(int),
+                typeof(SharePointFiles),
+                new PropertyMetadata(20));
 
         internal static readonly DependencyProperty HasMoreProperty =
             DependencyProperty.Register(
-                nameof(HasMore), typeof(bool),
-                typeof(SharePointFiles), new PropertyMetadata(false)
-        );
+                nameof(HasMore),
+                typeof(bool),
+                typeof(SharePointFiles),
+                new PropertyMetadata(false));
 
         internal static readonly DependencyProperty SelectedFileProperty =
             DependencyProperty.Register(
-                nameof(SelectedFile), typeof(DriveItem),
-                typeof(SharePointFiles), new PropertyMetadata(null)
-        );
+                nameof(SelectedFile),
+                typeof(DriveItem),
+                typeof(SharePointFiles),
+                new PropertyMetadata(null));
 
         internal static readonly DependencyProperty SizeProperty =
             DependencyProperty.Register(
-                nameof(FileSize), typeof(long),
-                typeof(SharePointFiles), new PropertyMetadata(0L)
-        );
+                nameof(FileSize),
+                typeof(long),
+                typeof(SharePointFiles),
+                new PropertyMetadata(0L));
 
         internal static readonly DependencyProperty LastModifiedProperty =
             DependencyProperty.Register(
-                nameof(LastModified), typeof(string),
-                typeof(SharePointFiles), null
-        );
+                nameof(LastModified),
+                typeof(string),
+                typeof(SharePointFiles),
+                null);
 
         private static readonly DependencyProperty IsDetailPaneVisibleProperty =
             DependencyProperty.Register(
-                nameof(IsDetailPaneVisible), typeof(bool),
-                typeof(SharePointFiles), new PropertyMetadata(false)
+                nameof(IsDetailPaneVisible),
+                typeof(bool),
+                typeof(SharePointFiles),
+                new PropertyMetadata(false)
         );
 
         private int _fileUploading;
