@@ -1,7 +1,7 @@
-UWP Community Toolkit
+Windows Community Toolkit
 ===========
 
-The UWP Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10.
+The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10.
 
 ## Build status
 | Target | Branch | Status | Recommended Nuget packages version |
@@ -10,13 +10,13 @@ The UWP Community Toolkit is a collection of helper functions, custom controls, 
 | Pre-release beta testing | master | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/master?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/master) | [![MyGet](https://img.shields.io/dotnet.myget/uwpcommunitytoolkit/vpre/Microsoft.Toolkit.Uwp.svg)](https://dotnet.myget.org/gallery/uwpcommunitytoolkit) |
 
 ## Getting started
-Please read the [getting Started with the UWP Toolkit](https://docs.microsoft.com/windows/uwpcommunitytoolkit/getting-started) page for more detailed information about using the toolkit.
+Please read the [getting Started with the Windows Community Toolkit](https://docs.microsoft.com/windows/uwpcommunitytoolkit/getting-started) page for more detailed information about using the toolkit.
 
 ## Documentation
 All documentation for the toolkit is hosted on [Microsoft Docs](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/). All API documentation can be found at the [.NET API Browser.](https://docs.microsoft.com/en-us/dotnet/api/?term=microsoft.toolkit)
 
-## UWP Community Toolkit Sample App
-Want to see the toolkit in action before jumping into the code?  Download and play with the [UWP Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
+## Windows Community Toolkit Sample App
+Want to see the toolkit in action before jumping into the code?  Download and play with the [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
 
 ## Nuget Packages
 NuGet is a standard package manager for .NET applications that is built into Visual Studio. From your open solution choose the *Tools* menu, *NuGet Package Manager*, *Manage NuGet packages for solution...* to open the UI.  Enter one of the package names below to search for it online.

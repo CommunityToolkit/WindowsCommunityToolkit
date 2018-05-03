@@ -2,7 +2,7 @@
 title: String Extensions
 author: avknaidu
 description: String extension methods from toolkit
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Extensions
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Extensions
 ---
 
 ### String Extensions

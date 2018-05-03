@@ -30,7 +30,7 @@ printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
 printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
 
 // Start printing process
-await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App");
+await printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App");
 
 // Event handlers
 

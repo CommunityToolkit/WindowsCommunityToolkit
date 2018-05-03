@@ -2,7 +2,7 @@
 title: MarkdownTextBlock XAML Control
 author: quinndamerell, deltakosh, tipa, haefele, avknaidu, nmetulev, shenchauhan, vijay-nirmal, pedrolamas, williamabradley
 description: The MarkdownTextBlock control provides full markdown parsing and rendering for Universal Windows Apps.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, MarkdownTextBlock, xaml, xaml control
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, MarkdownTextBlock, xaml, xaml control
 ---
 
 # MarkdownTextBlock XAML Control 
