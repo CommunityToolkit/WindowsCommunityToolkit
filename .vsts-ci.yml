@@ -18,6 +18,13 @@ steps:
   inputs:
     versionSpec: 4.6.2
 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: build
+    projects: build/setversion.csproj
+    arguments: -c $(BuildConfiguration)   
+  displayName: Set Version
+
 - powershell: |
     .\build\build.ps1 -target=SignNuGet
   displayName: Build 
