@@ -2,7 +2,10 @@
 title: Rotate animation behavior
 author: nmetulev
 description: The Rotate animation behavior allows users to modify and animate the control's rotation. 
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, rotate, rotate animation
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, rotate, rotate animation
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Rotate
@@ -30,8 +33,12 @@ The [Rotate animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.u
 ```
 
 ```csharp
-MyUIElement.Rotate(value: 0.5f, centerX: 0.0f, centerY: 0.0f, duration: 2500, delay: 250, easingType: EasingType.Default).Start();
-await MyUIElement.Rotate(value: 0.5f, centerX: 0.0f, centerY: 0.0f, duration: 2500, delay: 250, easingType: EasingType.Default).StartAsync();  //Rotate animation can be awaited
+MyUIElement.Rotate(value: 50.0f, centerX: 0.0f, centerY: 0.0f, duration: 2500, delay: 250, easingType: EasingType.Default).Start();
+await MyUIElement.Rotate(value: 50.0f, centerX: 0.0f, centerY: 0.0f, duration: 2500, delay: 250, easingType: EasingType.Default).StartAsync();  //Rotate animation can be awaited
+```
+```vb
+MyUIElement.Rotate(value:=50.0F, centerX:=0F, centerY:=0F, duration:=2500, delay:=250, easingType:=EasingType.[Default]).Start()
+Await MyUIElement.Rotate(value:=50.0F, centerX:=0F, centerY:=0F, duration:=2500, delay:=250, easingType:=EasingType.[Default]).StartAsync()  ' Rotate animation can be awaited
 ```
 
 ## Sample Output
@@ -87,6 +94,13 @@ You can change the way how the animation interpolates between keyframes by defin
     anim.Completed += animation_completed;
     anim.Start();
     ```
+    ```vb
+    Dim anim = MyUIElement.Rotate(30).Fade(0.5F).Blur(5)
+    anim.SetDurationForAll(2500)
+    anim.SetDelay(250)
+    AddHandler anim.Completed, AddressOf animation_completed
+    anim.Start()
+    ```
 
     **Sample Output**
 
@@ -94,7 +108,7 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ## Sample Project
 
-[Rotate Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Rotate). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Rotate Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Rotate). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

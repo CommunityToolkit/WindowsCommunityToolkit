@@ -2,7 +2,7 @@
 title: HeaderedItemsControl XAML Control
 author: skendrot
 description: The HeaderedItemsControl allows items to be displayed with a specified header.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HeaderedItemsControl, XAML Control, xaml
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, HeaderedItemsControl, XAML Control, xaml
 ---
 
 # HeaderedItemsControl XAML Control
@@ -68,7 +68,7 @@ Setting the `Background`, `BorderBrush` and `BorderThickness` properties will no
 
 ## Sample Code
 
-[HeaderedItemsControl Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/HeaderedItemsControl). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[HeaderedItemsControl Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/HeaderedItemsControl). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template
 

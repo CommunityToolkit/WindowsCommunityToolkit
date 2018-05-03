@@ -2,7 +2,10 @@
 title: Colors Helper
 author: nmetulev
 description: The Colors Helper lets users convert colors from text names, HTML hex, HSV, or HSL to Windows UI Colors
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Colors Helper
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Colors Helper
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Colors Helper
@@ -23,6 +26,19 @@ Windows.UI.Color myColor = ColorHelper.ToColor("#ff3a4ab0");
 
 // Given a color name, lets convert it to a Windows Color
 Windows.UI.Color redColor = "Red".ToColor();
+```
+```vb
+' Be sure to include the imports at the top of the file:
+Imports Microsoft.Toolkit.Uwp
+
+' Given an HTML color, lets convert it to a Windows Color
+Dim color As Windows.UI.Color = ColorHelper.ToColor("#3a4ab0")
+
+' Also works with an Alpha code
+Dim myColor As Windows.UI.Color = ColorHelper.ToColor("#ff3a4ab0")
+
+' Given a color name, lets convert it to a Windows Color
+Dim redColor As Windows.UI.Color = "Red".ToColor()
 ```
 
 ## Methods

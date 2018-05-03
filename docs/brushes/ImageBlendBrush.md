@@ -2,7 +2,7 @@
 title: ImageBlendBrush
 author: michael-hawker
 description: The ImageBlendBrush is a Brush that inverts whatever is behind it in the application.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, brush, backdrop, image, blend
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, brush, backdrop, image, blend
 ---
 
 # ImageBlendBrush
@@ -40,7 +40,7 @@ In addition, the `Hue`, `Saturation`, `Color`, and `Luminosity` modes require a 
 
 ## Sample Code
 
-[ImageBlendBrush sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ImageBlendBrush). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[ImageBlendBrush sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ImageBlendBrush). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

@@ -2,7 +2,7 @@
 title: MasterDetailsView XAML Control
 author: nmetulev
 description: The MasterDetailsView Control presents items in a master/details pattern.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, MasterDetailsView, XAML Control, xaml
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, MasterDetailsView, XAML Control, xaml
 ---
 
 # MasterDetailsView XAML Control 
@@ -50,7 +50,7 @@ The [MasterDetailsView Control](https://docs.microsoft.com/dotnet/api/microsoft.
 
 ## Sample Code
 
-[MasterDetailsView Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/MasterDetailsView). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[MasterDetailsView Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/MasterDetailsView). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 

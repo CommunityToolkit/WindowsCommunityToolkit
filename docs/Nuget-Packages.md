@@ -1,11 +1,11 @@
 ---
-title: UWP Community Toolkit Nuget Packages
+title: Windows Community Toolkit Nuget Packages
 author: nmetulev
-description: The UWP Community Toolkit is updated regularly with new controls, services, APIs, and more importantly, bug fixes. Make sure to regularly update your nuget packages
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, nuget, visual studio
+description: The Windows Community Toolkit is updated regularly with new controls, services, APIs, and more importantly, bug fixes. Make sure to regularly update your nuget packages
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, nuget, visual studio
 ---
 
-# UWP Community Toolkit Nuget Packages
+# Windows Community Toolkit Nuget Packages
 
 NuGet is a standard package manager for .Net applications that is built into Visual Studio. From your open solution choose the *Tools* menu, *NuGet Package Manager*, *Manage NuGet packages for solution...* to open the UI.  Enter one of the package names below to search for it online.
 
@@ -33,16 +33,16 @@ Searching in Visual Studio package manager you should see a list similar to the 
 
 ## Update Nuget Packages
 
-The UWP Community Toolkit is updated regularly with new controls, services, APIs, and more importantly, bug fixes. To make sure you are on the latest version, open your project in Visual Studio, choose the **Tools** menu, select **NuGet Package Manager** -> **Manage NuGet Packages for Solution...** and select the *Updates* tab. Select the package you want to update and click Instal to update to the latest version.
+The Windows Community Toolkit is updated regularly with new controls, services, APIs, and more importantly, bug fixes. To make sure you are on the latest version, open your project in Visual Studio, choose the **Tools** menu, select **NuGet Package Manager** -> **Manage NuGet Packages for Solution...** and select the *Updates* tab. Select the package you want to update and click Instal to update to the latest version.
 
 ## Getting Started
 
-Read the [getting Started with the UWP Community Toolkit](getting-started.md) for more instructions on using these NuGet Packages in your own projects. 
+Read the [getting Started with the Windows Community Toolkit](getting-started.md) for more instructions on using these NuGet Packages in your own projects. 
 
 ## Windows 10 Store App
 
-Want to see the controls and animations in action before jumping into the code?  We have published the [UWP Community Toolkit Sample App](http://aka.ms/uwptoolkitapp) to the Windows 10 store.  Download the app and play with the controls live to see what they do before ever writing a line of code.
+Want to see the controls and animations in action before jumping into the code?  We have published the [Windows Community Toolkit Sample App](http://aka.ms/uwptoolkitapp) to the Windows 10 store.  Download the app and play with the controls live to see what they do before ever writing a line of code.
 
 ## GitHub Repository
 
-Visit the [UWP Community Toolkit Github Repository](http://aka.ms/uwptoolkit) to see the current source code, what is coming next, and to clone the repository.  Community contributions are welcome!
+Visit the [Windows Community Toolkit Github Repository](http://aka.ms/uwptoolkit) to see the current source code, what is coming next, and to clone the repository.  Community contributions are welcome!

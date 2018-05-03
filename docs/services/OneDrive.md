@@ -2,7 +2,10 @@
 title: OneDrive Service
 author: tgoodhew
 description: The OneDrive Service provides a simple way to access resources on either OneDrive or OneDrive for Business (Office 365).
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, OneDrive
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, OneDrive
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # OneDrive Service
@@ -67,6 +70,12 @@ Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveService.Instance.Initialize
      null, 
      null);
 ```
+```vb
+' Using the new converged authentication of the Microsoft Graph we can simply
+' call the Initialize method on the OneDriveService singleton when initializing
+' in UWP applications
+Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveService.Instance.Initialize(appClientId, scopes, Nothing, Nothing)
+```
 
 ### Defining scopes
 More information on scopes can be found in this document [Authentication scopes](https://docs.microsoft.com/en-us/onedrive/developer/rest-api/getting-started/msa-oauth#authentication-scopes)
@@ -78,23 +87,34 @@ if (scopes == null)
     scopes = new string[] { MicrosoftGraphScope.FilesReadAll };
 }
 ```
+```vb
+' If the user hasn't selected a scope then set it to FilesReadAll
+If scopes Is Nothing Then
+    scopes = New String() {MicrosoftGraphScope.FilesReadAll}
+End If
+```
 
 ### Login
 ```csharp
-
 // Login
 if (!await OneDriveService.Instance.LoginAsync())
 {
     throw new Exception("Unable to sign in");
 }
 ```
+```vb
+' Login
+If Not Await OneDriveService.Instance.LoginAsync() Then
+    Throw New Exception("Unable to sign in")
+End If
 
 ### Retrieve the root of your OneDrive
 
 ```csharp
-
 var folder = await OneDriveService.Instance.RootFolderForMeAsync();
-
+```
+```vb
+Dim folder = Await OneDriveService.Instance.RootFolderForMeAsync()
 ```
 
 ### Retrieving files
@@ -105,10 +125,19 @@ var folder = await OneDriveService.Instance.RootFolderForMeAsync();
 var OneDriveItems = await folder.GetItemsAsync();
 do
 {
-	//Get the next page of items
-    OneDriveItems = await folder.NextItemsAsync();   
+    // Get the next page of items
+    OneDriveItems = await folder.NextItemsAsync();
 }
 while (OneDriveItems != null);
+```
+```vb
+' Once you have a reference to the Root Folder you can get a list of all items
+' List the Items from the current folder
+Dim OneDriveItems = Await folder.GetItemsAsync()
+Do
+    ' Get the next page of items
+    OneDriveItems = Await folder.NextItemsAsync()
+Loop While OneDriveItems IsNot Nothing
 ```
 
 ### Creating folders
@@ -122,6 +151,14 @@ if (!string.IsNullOrEmpty(newFolderName))
     await folder.StorageFolderPlatformService.CreateFolderAsync(newFolderName, CreationCollisionOption.GenerateUniqueName);
 }
 ```
+```vb
+' Then from there you can play with folders and files
+' Create Folder
+Dim newFolderName As String = Await OneDriveSampleHelpers.InputTextDialogAsync("New Folder Name")
+If Not String.IsNullOrEmpty(newFolderName) Then
+    Await folder.StorageFolderPlatformService.CreateFolderAsync(newFolderName, CreationCollisionOption.GenerateUniqueName)
+End If
+```
 
 ### Navigating subfolders
 
@@ -129,6 +166,11 @@ if (!string.IsNullOrEmpty(newFolderName))
 var currentFolder = await _graphCurrentFolder.GetFolderAsync(item.Name);
 OneDriveItemsList.ItemsSource = await currentFolder.GetItemsAsync(20);
 _graphCurrentFolder = currentFolder;
+```
+```vb
+Dim currentFolder = Await _graphCurrentFolder.GetFolderAsync(item.Name)
+OneDriveItemsList.ItemsSource = Await currentFolder.GetItemsAsync(20)
+_graphCurrentFolder = currentFolder
 ```
 
 ### Moving, copying and renaming items
@@ -144,6 +186,17 @@ await _onedriveStorageItem.CopyAsync(targetonedriveStorageFolder);
 // Rename Folder
 await _onedriveStorageItem.RenameAsync("NewLevel3");
 ```
+```vb
+' OneDrive API treats all items the same whether file, folder, etc.
+' Move Folder
+Await _onedriveStorageItem.MoveAsync(targetonedriveStorageFolder)
+
+' Copy Folder
+Await _onedriveStorageItem.CopyAsync(targetonedriveStorageFolder)
+
+' Rename Folder
+Await _onedriveStorageItem.RenameAsync("NewLevel3")
+```
 
 ### Creating or uploading files less than 4MB
 
@@ -157,6 +210,15 @@ if (selectedFile != null)
         var fileCreated = await folder.StorageFolderPlatformService.CreateFileAsync(selectedFile.Name, CreationCollisionOption.GenerateUniqueName, localStream);
     }
 }
+```
+```vb
+' Open the local file or create a local file if brand new
+Dim selectedFile = Await OpenLocalFileAsync()
+If selectedFile IsNot Nothing Then
+    Using localStream = Await selectedFile.OpenReadAsync()
+        Dim fileCreated = Await level3Folder.CreateFileAsync(selectedFile.Name, CreationCollisionOption.GenerateUniqueName, localStream)
+    End Using
+End If
 ```
 
 ### Creating or uploading files - that exceed 4MB
@@ -175,6 +237,18 @@ if (selectedFile != null)
     }
 }
 ```
+```vb
+Dim selectedFile = Await OpenLocalFileAsync()
+If selectedFile IsNot Nothing Then
+    Using localStream = Await selectedFile.OpenReadAsync()
+        Shell.Current.DisplayWaitRing = True
+
+        ' If the file exceed the Maximum size (ie 4MB)
+        Dim largeFileCreated = Await folder.StorageFolderPlatformService.UploadFileAsync(selectedFile.Name, localStream, CreationCollisionOption.GenerateUniqueName, 320 * 1024)
+    End Using
+End If
+```
+
 ### Downloading files
 
 ```csharp
@@ -187,6 +261,15 @@ using (var remoteStream = (await oneDriveFile.StorageFilePlatformService.OpenAsy
     await SaveToLocalFolder(remoteStream, oneDriveFile.Name);
 }
 ```
+```vb
+' Download a file and save the content in a local file
+' Convert the storage item to a storage file
+Dim oneDriveFile = CType(item, Toolkit.Services.OneDrive.OneDriveStorageFile)
+Using remoteStream = TryCast((Await oneDriveFile.StorageFilePlatformService.OpenAsync()), IRandomAccessStream)
+    ' Use a helper method to open local filestream and write to it
+    Await SaveToLocalFolder(remoteStream, oneDriveFile.Name)
+End Using
+```
 
 ### Retrieving file thumbnails
 
@@ -198,10 +281,17 @@ using (var stream = (await file.StorageItemPlatformService.GetThumbnailAsync(Too
     await OneDriveSampleHelpers.DisplayThumbnail(stream, "thumbnail");
 }
 ```
+```vb
+Dim file = CType((CType(e.OriginalSource, AppBarButton)).DataContext, Toolkit.Services.OneDrive.OneDriveStorageItem)
+Using stream = TryCast((Await file.StorageItemPlatformService.GetThumbnailAsync(Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ThumbnailSize.Large)), IRandomAccessStream)
+    ' Use a helper method to display the images on the xaml view
+    Await OneDriveSampleHelpers.DisplayThumbnail(stream, "thumbnail")
+End Using
+```
   
 ## Sample Code
 
-[OneDrive Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/OneDrive%20Service). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[OneDrive Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/OneDrive%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
