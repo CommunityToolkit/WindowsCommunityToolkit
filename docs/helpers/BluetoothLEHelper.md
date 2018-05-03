@@ -2,7 +2,7 @@
 title: BluetoothLEHelper
 author: nmetulev
 description: The BluetoothLEHelper class provides functionality to easily enumerate, connect to and interact with Bluetooth LE Peripherals. 
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, BluetoothLEHelper, bluetooth le, bluetooth
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, BluetoothLEHelper, bluetooth le, bluetooth
 dev_langs:
   - csharp
   - vb

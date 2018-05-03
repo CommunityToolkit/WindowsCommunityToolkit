@@ -2,7 +2,7 @@
 title: AnimationSet class
 author: Vijay-Nirmal
 description: The AnimationSet class defines an object for storing and managing Storyboard and CompositionAnimations for an element
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, animationset, animationset class
+keywords: windows 10, uwp, windows community toolkit, uwp toolkit, animationset, animationset class
 dev_langs:
   - csharp
   - vb

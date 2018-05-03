@@ -26,7 +26,7 @@ var signClientVersion = "0.9.0";
 
 var baseDir = MakeAbsolute(Directory("../")).ToString();
 var buildDir = baseDir + "/build";
-var Solution = baseDir + "/UWP Community Toolkit.sln";
+var Solution = baseDir + "/Windows Community Toolkit.sln";
 var toolsDir = buildDir + "/tools";
 
 var binDir = baseDir + "/bin";
@@ -47,7 +47,7 @@ var inheritDoc = toolsDir + "/InheritDoc/tools/InheritDoc.exe";
 var inheritDocKey = "PJKUD6-T4H34O-MUGPCM-LN5JKD-FWUWG2-32AECA";
 var inheritDocExclude = "Foo.*";
 
-var name = "UWP Community Toolkit";
+var name = "Windows Community Toolkit";
 var address = "https://developer.microsoft.com/en-us/windows/uwp-community-toolkit";
 
 //////////////////////////////////////////////////////////////////////

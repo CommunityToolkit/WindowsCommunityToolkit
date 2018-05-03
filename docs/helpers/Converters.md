@@ -2,7 +2,7 @@
 title: Converters
 author: nmetulev
 description: Commonly used converters that allow the data to be modified as it passes through the binding engine.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, BoolToObjectConverter, BoolToVisibilityConverter, CollectionVisibilityConverter, EmptyCollectionToObjectConverter, EmptyStringToObjectConverter, StringFormatConverter, StringVisibilityConverter
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, BoolToObjectConverter, BoolToVisibilityConverter, CollectionVisibilityConverter, EmptyCollectionToObjectConverter, EmptyStringToObjectConverter, StringFormatConverter, StringVisibilityConverter
 ---
 
 # Converters

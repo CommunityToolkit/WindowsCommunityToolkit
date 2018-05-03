@@ -2,7 +2,7 @@
 title: LinkedIn Service 
 author: nmetulev
 description: The LinkedIn Service allows you to retrieve or publish data to the LinkedIn graph. Examples of the types of objects you can work with are User profile data and sharing Activity.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, LinkedIn Service 
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, LinkedIn Service 
 dev_langs:
   - csharp
   - vb
@@ -56,7 +56,7 @@ Await LinkedInService.Instance.GetUserProfileAsync()
 Await LinkedInService.Instance.ShareActivityAsync(ShareText.Text)
 ```
 
-[LinkedIn Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/LinkedIn%20Service). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[LinkedIn Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/LinkedIn%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
