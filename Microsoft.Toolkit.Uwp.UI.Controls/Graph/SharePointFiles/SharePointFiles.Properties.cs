@@ -68,8 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 nameof(IsDetailPaneVisible),
                 typeof(bool),
                 typeof(SharePointFiles),
-                new PropertyMetadata(false)
-        );
+                new PropertyMetadata(false));
 
         private int _fileUploading;
         private string _errorMessage;

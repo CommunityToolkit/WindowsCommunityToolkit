@@ -191,7 +191,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     }
                 }
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         private async Task LoadFiles(string driveItemId, int pageIndex = 0)
@@ -244,8 +246,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         _list.SelectedIndex = 0;
                     }
                 }
-                catch (Exception e)
-                { }
+                catch (Exception)
+                {
+                }
             }
         }
 
@@ -269,7 +272,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     }
                 }
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         private async void Back_Click(object sender, RoutedEventArgs e)
@@ -434,7 +439,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             }
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
                 else
                 {

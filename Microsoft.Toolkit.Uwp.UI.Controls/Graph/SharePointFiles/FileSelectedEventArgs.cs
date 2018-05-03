@@ -1,5 +1,5 @@
-﻿using Microsoft.Graph;
-using System;
+﻿using System;
+using Microsoft.Graph;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
