@@ -124,8 +124,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void List_ItemClick(object sender, ItemClickEventArgs e)
         {
-            DriveItem driveItem = e.ClickedItem as DriveItem;
-            if (driveItem != null && driveItem.Folder != null)
+            if (e.ClickedItem is DriveItem driveItem && driveItem.Folder != null)
             {
                 _driveItemPath.Push(driveItem.Id);
                 _back.Visibility = Visibility.Visible;
@@ -330,8 +329,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void Share_Click(object sender, RoutedEventArgs e)
         {
-            DriveItem driveItem = _list.SelectedItem as DriveItem;
-            if (driveItem != null)
+            if (_list.SelectedItem is DriveItem driveItem)
             {
                 Permission link = await _graphClient.Drives[_driveId].Items[driveItem.Id].CreateLink("view", "organization").Request().PostAsync();
                 MessageDialog dialog = new MessageDialog(link.Link.WebUrl, "Shared link copied");
@@ -344,8 +342,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void Download_Click(object sender, RoutedEventArgs e)
         {
-            DriveItem driveItem = _list.SelectedItem as DriveItem;
-            if (driveItem != null)
+            if (_list.SelectedItem is DriveItem driveItem)
             {
                 FileSavePicker picker = new FileSavePicker();
                 picker.FileTypeChoices.Add("All Files", new List<string>() { driveItem.Name.Substring(driveItem.Name.LastIndexOf(".")) });
@@ -367,8 +364,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void Delete_Click(object sender, RoutedEventArgs e)
         {
-            DriveItem driveItem = _list.SelectedItem as DriveItem;
-            if (driveItem != null)
+            if (_list.SelectedItem is DriveItem driveItem)
             {
                 MessageDialog confirmDialog = new MessageDialog("Do you want to delete this file?");
                 confirmDialog.Commands.Add(new UICommand("OK", cmd => { }, commandId: 0));
@@ -390,8 +386,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void List_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DriveItem driveItem = _list.SelectedItem as DriveItem;
-            if (driveItem != null)
+            if (_list.SelectedItem is DriveItem driveItem)
             {
                 _cancelGetDetails.Cancel(false);
                 _cancelGetDetails.Dispose();
