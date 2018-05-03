@@ -2,7 +2,7 @@
 title: Streams Helper
 author: nmetulev
 description: There are several operations that apps need commonly to do against their APPX, or from the Internet that are not easy.  This helper class wraps up some of the most common operations we need in multiple apps.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Streams
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Streams
 dev_langs:
   - csharp
   - vb
