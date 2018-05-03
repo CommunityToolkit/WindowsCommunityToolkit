@@ -2,7 +2,10 @@
 title: NetworkHelper
 author: nmetulev
 description: he NetworkHelper class provides functionality to monitor changes in network connection and allows users to query for network information without additional lookups.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, NetworkHelper
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, NetworkHelper
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # NetworkHelper
@@ -61,24 +64,47 @@ if (NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
 // Get precise connection type
 switch(NetworkHelper.Instance.ConnectionInformation.ConnectionType)
 {
-	case ConnectionType.Ethernet:
-		// Ethernet
-		break;
-	case ConnectionType.WiFi:
-		// WiFi
-		break;
-	case ConnectionType.Data:
-		// Data
-		break;
-	case ConnectionType.Unknown:
-		// Unknown
-		break;
+    case ConnectionType.Ethernet:
+        // Ethernet
+        break;
+    case ConnectionType.WiFi:
+        // WiFi
+        break;
+    case ConnectionType.Data:
+        // Data
+        break;
+    case ConnectionType.Unknown:
+        // Unknown
+        break;
 }
+```
+```vb
+' Detect if Internet can be reached
+If NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable Then
+    ...
+End If
+
+' Detect if the connection is metered
+If NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection Then
+   ...
+End If
+
+' Get precise connection type
+Select Case NetworkHelper.Instance.ConnectionInformation.ConnectionType
+    Case ConnectionType.Ethernet
+        ' Ethernet
+    Case ConnectionType.WiFi
+        ' WiFi
+    Case ConnectionType.Data
+        ' Data
+    Case ConnectionType.Unknown
+        ' Unknown
+End Select
 ```
 
 ## Sample Code
 
-[NetworkHelper sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/NetworkHelper). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[NetworkHelper sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/NetworkHelper). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
