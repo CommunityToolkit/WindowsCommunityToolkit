@@ -881,7 +881,7 @@
         "Type": "ProfileCardPage",
         "About": "The ProfileCard Control is a simple way to display a user in multiple different formats and mixes of name/image/e-mail.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Graph/ProfileCard",
-        "CodeFile": "ProfileCardCode.bind",
+        "XamlCodeFile": "ProfileCardXaml.bind",
         "Icon": "/SamplePages/ProfileCard/ProfileCard.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/ProfileCard.md"
       },

@@ -10,23 +10,63 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Windows.UI.Xaml.Controls;
+using System;
+using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    /// <summary>
-    /// A page that shows how to use the opacity behavior.
-    /// </summary>
-    public sealed partial class ProfileCardPage : Page
+    public sealed partial class ProfileCardPage : IXamlRenderListener
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AADLoginPage"/> class.
-        /// </summary>
+        private ProfileCard profileCardControl;
+
         public ProfileCardPage()
         {
             InitializeComponent();
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            profileCardControl = control.FindDescendantByName("ProfileCardControl") as ProfileCard;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            Shell.Current.RegisterNewCommand("Change default image", async (sender, args) =>
+            {
+                if (profileCardControl != null)
+                {
+                    FileOpenPicker openPicker = new FileOpenPicker();
+                    openPicker.ViewMode = PickerViewMode.Thumbnail;
+                    openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+                    openPicker.FileTypeFilter.Add(".jpg");
+                    openPicker.FileTypeFilter.Add(".jpeg");
+                    openPicker.FileTypeFilter.Add(".png");
+
+                    // Open a stream for the selected file
+                    StorageFile file = await openPicker.PickSingleFileAsync();
+
+                    // Ensure a file was selected
+                    if (file != null)
+                    {
+                        using (IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read))
+                        {
+                            // Set the image source to the selected bitmap 
+                            var defaultImage = new BitmapImage();
+                            await defaultImage.SetSourceAsync(fileStream);
+                            profileCardControl.DefaultImage = defaultImage;
+                        }
+                    }
+                }
+            });
         }
     }
 }

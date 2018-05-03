@@ -14,9 +14,11 @@ using System;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
@@ -26,6 +28,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class AADLoginPage : IXamlRenderListener
     {
         private AADLogin aadLoginControl;
+        private string graphAccessToken;
+        private string userId;
 
         public AADLoginPage()
         {
@@ -74,19 +78,55 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     }
                 }
             });
+
+            Shell.Current.RegisterNewCommand("Copy GraphAccessToken to clipboard", async (sender, args) =>
+            {
+                if (aadLoginControl != null)
+                {
+                    if (string.IsNullOrEmpty(graphAccessToken))
+                    {
+                        var dialog = new MessageDialog("Please sign in firstly.");
+                        await dialog.ShowAsync();
+                    }
+                    else
+                    {
+                        DataPackage copyData = new DataPackage();
+                        copyData.SetText(graphAccessToken);
+                        Clipboard.SetContent(copyData);
+                    }
+                }
+            });
+
+            Shell.Current.RegisterNewCommand("Copy UserId to clipboard", async (sender, args) =>
+            {
+                if (aadLoginControl != null)
+                {
+                    if (string.IsNullOrEmpty(userId))
+                    {
+                        var dialog = new MessageDialog("Please sign in firstly.");
+                        await dialog.ShowAsync();
+                    }
+                    else
+                    {
+                        DataPackage copyData = new DataPackage();
+                        copyData.SetText(userId);
+                        Clipboard.SetContent(copyData);
+                    }
+                }
+            });
         }
 
         private void AadLoginControl_SignInCompleted(object sender, SignInEventArgs e)
         {
-            string graphAccessToken = e.GraphAccessToken;
+            graphAccessToken = e.GraphAccessToken;
+            userId = e.CurrentSignInUserId;
             GraphServiceClient graphServiceClient = e.GraphClient;
-
-            // TODO
         }
 
         private void AadLoginControl_SignOutCompleted(object sender, System.EventArgs e)
         {
-            // TODO
+            graphAccessToken = string.Empty;
+            userId = string.Empty;
         }
     }
 }
