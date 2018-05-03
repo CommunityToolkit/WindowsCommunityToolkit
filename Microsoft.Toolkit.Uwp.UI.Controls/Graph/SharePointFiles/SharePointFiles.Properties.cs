@@ -76,14 +76,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         public string GraphAccessToken
         {
-            get { return (string)GetValue(GraphAccessTokenProperty); }
-            set { SetValue(GraphAccessTokenProperty, value); }
+            get
+            {
+                return (string)GetValue(GraphAccessTokenProperty);
+            }
+
+            set
+            {
+                if (value != null)
+                {
+                    value = value.Trim();
+                }
+
+                SetValue(GraphAccessTokenProperty, value);
+            }
         }
 
         public string DriveUrl
         {
-            get { return (string)GetValue(DriveUrlProperty); }
-            set { SetValue(DriveUrlProperty, value); }
+            get
+            {
+                return (string)GetValue(DriveUrlProperty);
+            }
+
+            set
+            {
+                if (value != null)
+                {
+                    value = value.Trim();
+                }
+
+                SetValue(DriveUrlProperty, value);
+            }
         }
 
         public DetailPaneDisplayMode DetailPane
