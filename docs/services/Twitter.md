@@ -2,7 +2,10 @@
 title: Twitter Service
 author: nmetulev
 description: The Twitter Service allows users to retrieve or publish data to Twitter. 
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Twitter 
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Twitter 
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Twitter Service
@@ -99,6 +102,62 @@ await TwitterService.Instance.StartUserStreamAsync(async tweet =>
 // Stop receiving live tweets and events
 TwitterService.Instance.StopUserStream();
 ```
+```vb
+' Initialize service
+TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text)
+
+' Login to Twitter
+If Not Await TwitterService.Instance.LoginAsync() Then
+    Return
+End If
+
+' Get current user info
+Dim user = Await TwitterService.Instance.GetUserAsync()
+ProfileImage.DataContext = user
+
+' Get user time line
+ListView.ItemsSource = Await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50)
+
+' Post a tweet
+Await TwitterService.Instance.TweetStatusAsync(TweetText.Text)
+Dim status = New TwitterStatus With {
+    .Message = TweetText.Text,
+
+    ' Optional parameters defined by the Twitter "update" API (they may all be null or false)
+
+    .DisplayCoordinates = True,
+    .InReplyToStatusId = "@ValidAccount",
+    .Latitude = validLatitude,
+    .Longitude = validLongitude,
+    .PlaceId = "df51dec6f4ee2b2c",  ' As defined by Twitter
+    .PossiblySensitive = True,      ' As defined by Twitter (nudity, violence, or medical procedures)
+    .TrimUser = True
+}
+Await TwitterService.Instance.TweetStatusAsync(status)
+
+' Post a tweet with a picture
+Await TwitterService.Instance.TweetStatusAsync(TweetText.Text, stream)
+Await TwitterService.Instance.TweetStatusAsync(status, stream)
+
+' Search for a specific tag
+ListView.ItemsSource = Await TwitterService.Instance.SearchAsync(TagText.Text, 50)
+
+' Open a connection with the stream service in order to receive live tweets and events
+ListView.ItemsSource = _tweets
+Await TwitterService.Instance.StartUserStreamAsync(
+    Async Sub(tweet)
+        Await Dispatcher.RunAsync(
+        CoreDispatcherPriority.Normal,
+        Sub()
+            If tweet IsNot Nothing Then
+                _tweets.Insert(0, tweet)
+            End If
+        End Sub)
+    End Sub)
+
+' Stop receiving live tweets and events
+TwitterService.Instance.StopUserStream()
+```
 
 ## Posting to timeline fails to appear
 
@@ -108,7 +167,7 @@ If you are posting from your app and never seeing them show up in the timeline c
 
 ## Sample Code
 
-[Twitter Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Twitter%20Service). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Twitter Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Twitter%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

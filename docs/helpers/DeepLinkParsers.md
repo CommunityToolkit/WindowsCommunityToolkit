@@ -2,7 +2,10 @@
 title: DeepLinkParser
 author: nmetulev
 description: Provides a way to create, Dictionary<string,string> - inheriting object that provides an additional .Root property to pull the base path of the URI 
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, DeepLinkParser
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, DeepLinkParser
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # DeepLinkParser
@@ -45,6 +48,19 @@ if (e.PrelaunchActivated == false)
         }
 ...
 ```
+```vb
+If e.PrelaunchActivated = False Then
+    If rootFrame.Content Is Nothing Then
+        Dim parser = DeepLinkParser.Create(args)
+        If parser("username") = "John Doe" Then
+            ' do work here
+        End If
+
+        If parser.Root = "Signup" Then
+            rootFrame.Navigate(GetType(Signup))
+        End If
+...
+```
 
 ## CollectionFormingDeepLinkParser
 
@@ -54,7 +70,7 @@ The [CollectionFormingDeepLinkParser Class](https://docs.microsoft.com/dotnet/ap
 
 in OnLaunched of App.xaml.cs:
 
-```c#
+```csharp
 if (e.PrelaunchActivated == false)
 {
     if (rootFrame.Content == null)
@@ -69,6 +85,21 @@ if (e.PrelaunchActivated == false)
             var preferences = parser["pref"].Split(',');    // now a string[] of all 'pref' querystring values passed in URI
             rootFrame.Navigate(typeof(Signup));
         }
+...
+```
+```vb
+If e.PrelaunchActivated = False Then
+    If rootFrame.Content Is Nothing Then
+        Dim parser = CollectionFormingDeepLinkParser.Create(args)
+        If parser("username") = "John Doe" Then
+            ' do work here
+        End If
+
+        If parser.Root = "Signup" Then
+            Dim preferences = parser("pref").Split(","c) ' now a string[] of all 'pref' querystring values passed in URI
+            rootFrame.Navigate(GetType(Signup))
+        End If
+...
 ```
 
 Both of these are createable using a `.Create(IActivatedEventArgs)` method. Should you wish to create one in a different manner, the default constructor is `protected` so inheriting from either of these can provide extensibility.
@@ -81,17 +112,24 @@ The [QueryParameterCollection](https://docs.microsoft.com/dotnet/api/microsoft.t
 ### Example
 
 ```csharp
-var myUrl = http://microsoft.com/?user=fooUser&email=fooUser@outlook.com&firstName=John&lastName=Doe
+var myUrl = "http://microsoft.com/?user=fooUser&email=fooUser@outlook.com&firstName=John&lastName=Doe"
 var paramCollection = new QueryParameterCollection(myUrl);
 foreach (var pair in paramCollection)
 {
-	Console.WriteLine($"{pair.Key} - {pair.Value}");
+    Console.WriteLine($"{pair.Key} - {pair.Value}");
 }
+```
+```vb
+Dim myUrl = "http://microsoft.com/?user=fooUser&email=fooUser@outlook.com&firstName=John&lastName=Doe"
+Dim paramCollection = New QueryParameterCollection(myUrl)
+For Each pair In paramCollection
+    Console.WriteLine($"{pair.Key} - {pair.Value}")
+Next
 ```
 
 ### Output
 
-```csharp
+```
 user - fooUser
 email - fooUser@outlook.com
 firstname - John

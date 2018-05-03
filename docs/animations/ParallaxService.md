@@ -2,7 +2,10 @@
 title: ParallaxService
 author: nmetulev
 description: The ParallaxService class allows to create a parallax effect for items contained within an element that scrolls like a ScrollViewer or ListView.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, parallaxservice
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, parallaxservice
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # ParallaxService
@@ -29,6 +32,10 @@ The [ParallaxService class](https://docs.microsoft.com/dotnet/api/microsoft.tool
 ParallaxService.SetHorizontalMultiplier(MyUIElement, 0.5)
 ParallaxService.SetVerticalMultiplier(MyUIElement, 0.5)
 ```
+```vb
+MyUIElement.SetValue(ParallaxService.VerticalMultiplierProperty, 0.5)
+MyUIElement.SetValue(ParallaxService.HorizontalMultiplierProperty, 0.5)
+```
 
 ## Sample Output
 
@@ -52,7 +59,7 @@ ParallaxService.SetVerticalMultiplier(MyUIElement, 0.5)
 
 ## Sample Project
 
-[ParallaxService Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ParallaxService). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
+[ParallaxService Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ParallaxService). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
 
 ## <a name="parallaxview"></a> Moving to ParallaxView
 The Windows 10 Fall Creators Update SDK now includes the [ParallaxView](https://docs.microsoft.com/windows/uwp/style/parallax) control among other new controls and APIs. The ParallaxService and ParallaxView share the same concepts and provide the same functionality. In fact, the ParallaxView adds even more functionality and can be used in even more scenarios.

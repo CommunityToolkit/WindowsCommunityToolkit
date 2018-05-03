@@ -2,7 +2,7 @@
 title: Mouse.Cursor attached property
 author: martinsuchan
 description: Mouse.Cursor attached property enables you to easily change the mouse cursor over specific Framework elements.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Mouse, cursor, extensions
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Mouse, cursor, extensions
 ---
 
 # Mouse.Cursor attached property
@@ -51,7 +51,7 @@ Because the UWP framework does not support metadata on Attached Properties, spec
 
 ## Sample Code
 
-[Mouse Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Mouse). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Mouse Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Mouse). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

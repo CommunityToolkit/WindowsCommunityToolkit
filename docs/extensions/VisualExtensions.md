@@ -2,7 +2,7 @@
 title: Composition Visual Attached Properties
 author: nmetulev
 description: The Composition Visual Attached Properties allow Composition Visual Properties to be modified directly in XAML
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Visual, composition, xaml, attached property
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Visual, composition, xaml, attached property
 ---
 
 # Composition Visual Attached Properties
