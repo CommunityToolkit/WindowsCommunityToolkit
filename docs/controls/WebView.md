@@ -35,9 +35,6 @@ Unless specified otherwise in this article, the documentation for the [WebViewCo
 
 When compared to the UWP **WebView** control, the current release of the WPF and Windows Forms **WebView** control has some limitations. For the complete list of these limitations, see [Known Issues of the WebView control for Windows Forms and WPF applications](controls/WebView-known.issues.md).
 
-> [!NOTE]
-> We recommend that you do not add **WebView** controls to popup windows because support for that scenario will soon be disabled for security reasons.
-
 ## Add the WebView control to the Visual Studio Toolbox
 
 First, open the Visual Studio **Toolbox**, then right-click anywhere in the toolbox, and select the **Choose Items** option.
