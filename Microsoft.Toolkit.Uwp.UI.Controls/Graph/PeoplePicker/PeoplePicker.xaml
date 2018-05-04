@@ -1,9 +1,8 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
+                    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+                    xmlns:interactivity="using:Microsoft.Xaml.Interactivity">
 
     <Style TargetType="controls:PeoplePicker">
         <Setter Property="Template">
@@ -20,28 +19,28 @@
                                          AutomationProperties.Name="Keywords"
                                          PlaceholderText="{Binding PersonNotSelectedMessage, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                                 <ProgressRing Name="Loading"
+                                              Margin="0,0,30,0"
                                               HorizontalAlignment="Right"
-                                              FlowDirection="LeftToRight"
-                                              Margin="0 0 30 0"
-                                              IsActive="False"
                                               AutomationProperties.Name="Progress"
-                                              Canvas.ZIndex="10" />
+                                              Canvas.ZIndex="10"
+                                              FlowDirection="LeftToRight"
+                                              IsActive="False" />
                             </Grid>
                         </StackPanel>
                         <RelativePanel>
                             <ListBox Name="SearchResultListBox"
-                                     Canvas.ZIndex="100"
-                                     Visibility="Collapsed"
                                      AutomationProperties.Name="Search Results"
+                                     Background="AliceBlue"
+                                     Canvas.ZIndex="100"
                                      ItemsSource="{Binding SearchResultList, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                     Background="AliceBlue">
+                                     Visibility="Collapsed">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <!--<TextBlock Text="{Binding UserPrincipalName}" />-->
-                                        <controls:ProfileCard
-                                            DisplayMode="LargeProfilePhotoLeft"
-                                            GraphAccessToken="{Binding DataContext.GraphAccessToken, ElementName=tbGraphAccessToken}"
-                                            UserId="{Binding Id}" />
+                                        <controls:ProfileCard AutomationProperties.Name="{Binding DisplayName}"
+                                                              DisplayMode="LargeProfilePhotoLeft"
+                                                              GraphAccessToken="{Binding DataContext.GraphAccessToken, ElementName=tbGraphAccessToken}"
+                                                              UserId="{Binding Id}" />
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
@@ -51,26 +50,30 @@
                                          ItemsSource="{Binding Selections, RelativeSource={RelativeSource Mode=TemplatedParent}}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <Grid>
+                                            <Grid AutomationProperties.Name="{Binding DisplayName}">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <!--<TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding UserPrincipalName}" />-->
-                                                <controls:ProfileCard
-                                                    Grid.Column="0" Grid.Row="0"
-                                                    DisplayMode="LargeProfilePhotoLeft"
-                                                    GraphAccessToken="{Binding DataContext.GraphAccessToken, ElementName=tbGraphAccessToken}"
-                                                    UserId="{Binding Id}" />
-                                                <TextBlock Grid.Column="1" Grid.Row="0" />
-                                                <Button Grid.Column="2" Grid.Row="0"
+                                                <controls:ProfileCard Grid.Row="0"
+                                                                      Grid.Column="0"
+                                                                      DisplayMode="LargeProfilePhotoLeft"
+                                                                      GraphAccessToken="{Binding DataContext.GraphAccessToken, ElementName=tbGraphAccessToken}"
+                                                                      UserId="{Binding Id}" />
+                                                <TextBlock Grid.Row="0"
+                                                           Grid.Column="1" />
+                                                <Button Grid.Row="0"
+                                                        Grid.Column="2"
+                                                        Width="48"
+                                                        Height="48"
                                                         Margin="0"
                                                         HorizontalAlignment="Right"
+                                                        AutomationProperties.Name="Remove from selection"
+                                                        Background="Transparent"
                                                         FlowDirection="LeftToRight"
-                                                        Tag="{Binding UserPrincipalName}"
-                                                        Width="48" Height="48"
-                                                        Background="Transparent">
+                                                        Tag="{Binding UserPrincipalName}">
                                                     <interactivity:Interaction.Behaviors>
                                                         <core:EventTriggerBehavior EventName="Click">
                                                             <core:InvokeCommandAction Command="{Binding DataContext.DeleteItem, ElementName=tbGraphAccessToken}" />
