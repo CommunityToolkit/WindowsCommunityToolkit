@@ -32,6 +32,7 @@
 
     <Style TargetType="controls:ProfileCard">
         <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ProfileCard">
