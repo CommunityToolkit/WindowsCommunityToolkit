@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 var grid = new Grid()
                 {
-                    Margin = new Thickness(0, 0, -18, 0)
+                    Margin = new Thickness(0, 0, -38, 0)
                 };
 
                 grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -140,7 +140,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Shell.Current.RegisterNewCommand("Show notification with buttons (with DataTemplate)", (sender, args) =>
             {
                 _exampleVSCodeInAppNotification?.Dismiss();
-                SetCustomControlTemplate(); // Use the custom template without the Dismiss button. The DataTemplate will handle readd it.
+                SetCustomControlTemplate(); // Use the custom template without the Dismiss button. The DataTemplate will handle readding it.
 
                 object inAppNotificationWithButtonsTemplate = null;
                 bool? isTemplatePresent = _resources?.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplate);
