@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>f664c808-2b14-44e2-b2c2-0e7f5c370edd</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{3088c194-1660-4cdf-b724-1d4cd29741ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{3d051054-c757-4fd1-8f31-5a2912c88d15}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GazeCursor.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GazeStats.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="OneEuroFilter.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GazeSettingsHelper.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GazeTargetItem.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GazeFeedbackPopupFactory.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GazePointerProxy.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GazeInput.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GazePointer.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazeCursor.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazePointer.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazeStats.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="IGazeFilter.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="OneEuroFilter.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazeSettingsHelper.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazeElement.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazeHistoryItem.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazeTargetItem.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazeFeedbackPopupFactory.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazePointerProxy.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazeInput.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PointerState.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="StateChangedEventArgs.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DwellProgressState.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DwellInvokedRoutedEventArgs.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DwellProgressEventArgs.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Interaction.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

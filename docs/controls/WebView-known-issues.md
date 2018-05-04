@@ -2,7 +2,7 @@
 title: Known Issues for WebView control for Windows Forms and WPF
 author: normesta
 description: This guide highlights known limitations with the current release of the WebView control for Windows Forms and WPF applications.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, WebView, Windows Forms, WPF, known issues, release notes
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, WebView, Windows Forms, WPF, known issues, release notes
 ---
 
 # Known Issues of the WebView control for Windows Forms and WPF applications
@@ -37,11 +37,14 @@ The **WebView** control implements these events of the [IWebViewControl](https:/
 
 ## Rendering and layout
 
-* The **WebView** control doesn't appear at the correct scale when users move the host application between monitors that have different screen resolutions.
+* The [Control.Bounds](https://msdn.microsoft.com/library/system.windows.forms.control.bounds.aspx) property is not supported.
 
 * The **WebView** control doesn't appear as expected on some high-resolution displays.
 
-* The [Control.Bounds](https://msdn.microsoft.com/library/system.windows.forms.control.bounds.aspx) property is not supported.
+* The **WebView** control doesn't appear at the correct scale when users move the host application between monitors that have different screen resolutions.
+
+  To workaround this issue, see the [Enable the WebView control to appear properly on high DPI displays](WebView.md#high-dpi) section of the [WebView](WebView.md) guide.
+
 
 ## Performance
 
@@ -55,7 +58,9 @@ The **WebView** control implements these events of the [IWebViewControl](https:/
 
   That's because a browser has partial trust to the system while WebView controls have full-trust.
 
-* **WebView** controls won't appear if the Win32WebViewHost application is disabled in the location settings of the user's system.
+* Content in the **WebView** can be blocked even if the user responds to a system prompt by providing permission to the control.
+
+  This can happen if the Win32WebViewHost application is disabled in the location settings of the user's system. Users can open those settings and enable the Win32WebViewHost application to resolve the issue.
 
 * **WebView** controls won't function as expected in a WPF-based ClickOnce application.
 
@@ -73,7 +78,11 @@ The **WebView** control implements these events of the [IWebViewControl](https:/
 
 ## Paths and strings
 
-* You can use only fully qualified paths to resources in members of the **WebView** control that accept string paths. **WebView** controls don't recognize the File:// or ms-appx:/// prefixes so they can't read from the file system or the package (if you've created a package for your application).
+* You can use only absolute URIs to resources in members of the **WebView** control that accept string paths.
+
+* **WebView** controls don't recognize the ms-appx:/// prefix, so they can't read from the package (if you've created a package for your application).
+
+* **WebView** controls don't recognize the File:// prefix. If you want to read a file into a **WebView** control, add code to your application that reads the content of the file. Then, serialize that content into a string, and call the ``NavigateToString(String)`` method of the **WebView** control.
 
 * **WebView** controls don't support URI's that are not encoded in UTF-8. Characters between UTF-16 and UTF-32 aren't supported.
 
@@ -87,13 +96,13 @@ The **WebView** control implements these events of the [IWebViewControl](https:/
 
 * Service workers can't run in a **WebView** control.
 
-* Your code can't instantiate more than one instance of a **WebView** in the same application.
+* Your code can't instantiate more than one instance of a **WebView** in the same Win32WebViewHost process.
 
 ## WebView browser
 
 * The [WebBrower.ObjectForScripting](https://msdn.microsoft.com/library/system.windows.controls.webbrowser.objectforscripting.aspx) property is not supported.
 
-  Instead, use the [WebBrowser.InokeScript](https://msdn.microsoft.com/library/cc491132.aspx) method.
+  Instead, use the [WebViewControl.InvokeScriptAsync](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.invokescriptasync) method.
 
 * You can't programmatically navigate by using a new window.
 

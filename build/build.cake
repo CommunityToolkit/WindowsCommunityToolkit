@@ -1,3 +1,5 @@
+#module "Cake.Longpath.Module"
+
 #addin "Cake.FileHelpers"
 #addin "Cake.Powershell"
 
@@ -24,7 +26,7 @@ var signClientVersion = "0.9.0";
 
 var baseDir = MakeAbsolute(Directory("../")).ToString();
 var buildDir = baseDir + "/build";
-var Solution = baseDir + "/UWP Community Toolkit.sln";
+var Solution = baseDir + "/Windows Community Toolkit.sln";
 var toolsDir = buildDir + "/tools";
 
 var binDir = baseDir + "/bin";
@@ -41,7 +43,11 @@ var stylerFile = baseDir + "/settings.xamlstyler";
 var versionClient = toolsDir + "/nerdbank.gitversioning/tools/Get-Version.ps1";
 string Version = null;
 
-var name = "UWP Community Toolkit";
+var inheritDoc = toolsDir + "/InheritDoc/tools/InheritDoc.exe";
+var inheritDocKey = "PJKUD6-T4H34O-MUGPCM-LN5JKD-FWUWG2-32AECA";
+var inheritDocExclude = "Foo.*";
+
+var name = "Windows Community Toolkit";
 var address = "https://developer.microsoft.com/en-us/windows/uwp-community-toolkit";
 
 //////////////////////////////////////////////////////////////////////
@@ -56,7 +62,7 @@ void VerifyHeaders(bool Replace)
     Func<IFileSystemInfo, bool> exclude_objDir =
         fileSystemInfo => !fileSystemInfo.Path.Segments.Contains("obj");
 
-    var files = GetFiles(baseDir + "/**/*.cs", exclude_objDir).Where(file => 
+    var files = GetFiles(baseDir + "/**/*.cs", exclude_objDir).Where(file =>
     {
         var path = file.ToString();
         return !(path.EndsWith(".g.cs") || path.EndsWith(".i.cs") || System.IO.Path.GetFileName(path).Contains("TemporaryGeneratedFile"));
@@ -132,7 +138,7 @@ Task("Version")
         Version = gitVersioningVersion,
         OutputDirectory = toolsDir
     };
-    
+
     NuGetInstall(new []{"nerdbank.gitversioning"}, installSettings);
 
     Information("\nRetrieving version...");
@@ -166,12 +172,33 @@ Task("Build")
     .SetConfiguration("Release")
     .WithTarget("Build")
     .WithProperty("GenerateLibraryLayout", "true");
-	
+
 	MSBuild(Solution, buildSettings);
-	
-	// Invoke the pack target in the end	
-    buildSettings = new MSBuildSettings
-    {
+});
+
+Task("InheritDoc")
+	.Description("Updates <inheritdoc /> tags from base classes, interfaces, and similar methods")
+	.IsDependentOn("Build")
+	.Does(() =>
+{
+	Information("\nDownloading InheritDoc...");
+	var installSettings = new NuGetInstallSettings {
+		ExcludeVersion = true,
+		OutputDirectory = toolsDir
+	};
+
+	NuGetInstall(new []{"InheritDoc"}, installSettings);
+
+	StartProcess(inheritDoc, "-k " + inheritDocKey + " -b \"" + baseDir + "\" -o -x\"" + inheritDocExclude + "\"");
+});
+
+Task("Package")
+	.Description("Pack the NuPkg")
+	.IsDependentOn("InheritDoc")
+	.Does(() =>
+{
+	// Invoke the pack target in the end
+    var buildSettings = new MSBuildSettings {
         MaxCpuCount = 0
     }
     .SetConfiguration("Release")
@@ -180,11 +207,39 @@ Task("Build")
 	.WithProperty("PackageOutputPath", nupkgDir);
 
     MSBuild(Solution, buildSettings);
+
+    // Build and pack C++ packages
+    buildSettings = new MSBuildSettings
+    {
+        MaxCpuCount = 0
+    }
+    .SetConfiguration("Native");
+
+    buildSettings.SetPlatformTarget(PlatformTarget.ARM);
+    MSBuild(Solution, buildSettings);
+
+    buildSettings.SetPlatformTarget(PlatformTarget.x64);
+    MSBuild(Solution, buildSettings);
+
+    buildSettings.SetPlatformTarget(PlatformTarget.x86);
+    MSBuild(Solution, buildSettings);
+
+    var nuGetPackSettings = new NuGetPackSettings
+	{
+		OutputDirectory = nupkgDir,
+        Version = Version
+	};
+
+    var nuspecs = GetFiles("./*.nuspec");
+    foreach (var nuspec in nuspecs)
+    {
+        NuGetPack(nuspec, nuGetPackSettings);
+    }
 });
 
 Task("SignNuGet")
     .Description("Sign the NuGet packages with the Code Signing service")
-    .IsDependentOn("Build")
+    .IsDependentOn("Package")
     .Does(() =>
 {
     if(!string.IsNullOrWhiteSpace(signClientSecret))
@@ -197,8 +252,8 @@ Task("SignNuGet")
         };
         NuGetInstall(new []{"SignClient"}, installSettings);
 
-        var packages = GetFiles(nupkgDir + "/*.nupkg"); 
-        Information("\n Signing " + packages.Count() + " Packages");      
+        var packages = GetFiles(nupkgDir + "/*.nupkg");
+        Information("\n Signing " + packages.Count() + " Packages");
         foreach(var package in packages)
         {
             Information("\nSubmitting " + package + " for signing...");
@@ -219,7 +274,7 @@ Task("SignNuGet")
             {
                 throw new InvalidOperationException("Signing failed!");
             }
-           
+
             Information("\nFinished signing " + package);
         }
     }
@@ -234,7 +289,7 @@ Task("SignNuGet")
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-    .IsDependentOn("Build");
+    .IsDependentOn("Package");
 
 Task("UpdateHeaders")
     .Description("Updates the headers in *.cs files")
@@ -252,7 +307,7 @@ Task("StyleXaml")
         ExcludeVersion  = true,
         OutputDirectory = toolsDir
     };
-    
+
     NuGetInstall(new []{"xamlstyler.console"}, installSettings);
 
     Func<IFileSystemInfo, bool> exclude_objDir =
@@ -265,6 +320,8 @@ Task("StyleXaml")
         StartProcess(styler, "-f \"" + file + "\" -c \"" + stylerFile + "\"");
     }
 });
+
+
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION

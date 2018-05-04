@@ -1,8 +1,8 @@
 ---
 title: WebView control for Windows Forms and WPF
 author: mcleans
-description: The UWP Community Toolkit provides a version of the UWP web view control that can be used in WPF and Windows Forms applications. This control embeds a view into your application that renders web content using the Microsoft Edge rendering engine.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, WebView, Windows Forms, WPF
+description: The Windows Community Toolkit provides a version of the UWP web view control that can be used in WPF and Windows Forms applications. This control embeds a view into your application that renders web content using the Microsoft Edge rendering engine.
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, WebView, Windows Forms, WPF
 ---
 
 # WebView controls for Windows Forms and WPF applications
@@ -23,15 +23,13 @@ Unless specified otherwise in this article, the documentation for the [WebViewCo
 
 ## Prerequisites
 
-:heavy_check_mark: UWP Community Toolkit.
-
 :heavy_check_mark: Visual Studio 2017.
-
-:heavy_check_mark: .NET Framework 4.7 or a later release.
 
 :heavy_check_mark: Windows 10 Insider Preview Build 17110 or a later release.
 
-:heavy_check_mark: Windows SDK Insider Preview Build 17110 or a later release.
+:heavy_check_mark: .NET Framework 4.6.2 or a later release.
+
+:heavy_check_mark: Configure your application for high DPI support. To learn how, see [this section](#high-dpi) of the guide.
 
 ## Feature limitations
 
@@ -50,7 +48,9 @@ First, open the Visual Studio **Toolbox**, then right-click anywhere in the tool
 
 1. In the **.NET Framework Components** tab of the **Choose Toolbox Items** dialog box.
 
-2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** on your local drive.
+2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** in your NuGet package folder.
+
+   For help finding that folder, see [Managing the global packages, cache, and temp folders](https://docs.microsoft.com/nuget/consume-packages/managing-the-global-packages-and-cache-folders).
 
 3. Add that file to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
 
@@ -62,7 +62,9 @@ First, open the Visual Studio **Toolbox**, then right-click anywhere in the tool
 
 1. In the **WPF Components** tab of the **Choose Toolbox Items** dialog box.
 
-2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** on your local drive.
+2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** in your NuGet package folder.
+
+   For help finding that folder, see [Managing the global packages, cache, and temp folders](https://docs.microsoft.com/nuget/consume-packages/managing-the-global-packages-and-cache-folders).
 
 3. Add that file to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
 
@@ -70,11 +72,47 @@ First, open the Visual Studio **Toolbox**, then right-click anywhere in the tool
 
    In **Solution Explorer**, the **Microsoft.Toolkit.Win32.UI.Controls.dll** file appears in the **References** list.
 
+After the **WebView** control appears in the Visual Studio Toolbox, you can drag it directly the designer. You can also create an instance of the **WebView** control in code, but we recommend that you do not add **WebView** controls to popup windows because support for that scenario will soon be disabled for security reasons.
+
+<a id="high-dpi" />
+
+## Enable the WebView control to appear properly on high DPI displays
+
+If users open your application on displays that have a high Dots Per Inch (DPI) displays, your WebView won't appear at the proper scale unless you configure your application first.
+
+### Configure a Windows Forms application
+
+For guidance, see [Configuring your Windows Forms app for high DPI support](https://docs.microsoft.com/dotnet/framework/winforms/high-dpi-support-in-windows-forms#configuring-your-windows-forms-app-for-high-dpi-support).
+
+### Configure a WPF application
+
+Add the following XML to your application manifest file:
+
+```XML
+<compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+    <application>
+      <!-- Windows 10 -->
+      <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />
+    </application>
+  </compatibility>
+```
+Add the following XML to your application configuration file:
+
+```XML
+<application xmlns="urn:schemas-microsoft-com:asm.v3">
+   <windowsSettings>
+     <!-- The combination of below two tags have the following effect :
+     1) Per-Monitor for >= Windows 10 Anniversary Update
+     2) System < Windows 10 Anniversary Update -->
+     <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitor</dpiAwareness>
+     <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true/PM</dpiAware>
+   </windowsSettings>
+ </application>
+```
+
 ## Modify the appearance of a WebView
 
 To constrain the display area, set the `Width` and `Height` properties.
-
-To specify a color to use as the web page background when the HTML content does not specify a color, set the `DefaultBackColor` property.
 
 This table contains links to each of these members.
 
@@ -90,27 +128,6 @@ You can get the title of the HTML document currently displayed in the **WebView*
 ## Input events and tab order
 
 You can use the [InvokeScriptAsync](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.invokescriptasync) method with the JavaScript **eval** function to use the HTML event handlers, and use **window.external.notify** from the HTML event handlers to notify the application using the [ScriptNotify](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.scriptnotify) event.
-
-The **WebView** control also receives keyboard input focus and participates in the tab sequence. Access this information via the following members:
-
-<!-- This is goofy right now with the way we are nesting windows -->
-
-* In a Windows Forms app, access tab sequence info via the  [TabIndex](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.tabindex) and [TabStop](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.tabstop) properties. The tab sequence includes all elements in the web view content that can receive input focus.
-
-* Use the [Focus](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.focus) method to programmatically set input focus, and handle the `GotFocus` and `LostFocus` events to be notified of input focus changes.
-
-* Handle keyboard input via the `KeyDown`, `KeyUp` events and mouse-related events.
-
-<!-- There does not appear to be TabIndex, TabStop, and MouseClick members for the WPF version of this control. -->
-
-This table contains links to some of the members described in this section.
-
-| Member | Windows Forms WebView | WPF WebView |
-|-------|-------------|---|
-|GotFocus event |[GotFocus](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.gotfocus)|[GotFocus](https://docs.microsoft.com/dotnet/api/system.windows.uielement.gotfocus)|
-|LostFocus event|[LostFocus](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.lostfocus)|[LostFocus](https://docs.microsoft.com/dotnet/api/system.windows.uielement.lostfocus)|
-|KeyDown event |[KeyDown](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.keydown)|[KeyDown](https://docs.microsoft.com/dotnet/api/system.windows.uielement.keydown)|
-|KeyUp event|[KeyUp](https://docs.microsoft.com/dotnet/api/system.windows.forms.control.keyup)|[KeyUp](https://docs.microsoft.com/dotnet/api/system.windows.uielement.keyup?view=netframework-4.7.2)|
 
 ## Navigate to content
 
@@ -197,6 +214,7 @@ private void webView1_NavigationCompleted(WebView sender, WebViewNavigationCompl
 ```
 
 Similar events occur in the same order for each **iframe** in the web view content:
+
 1. The [FrameNavigationStarting](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.framenavigationstarting) event is raised before a frame in the web view navigates to new content.
 
 2. The [FrameContentLoading](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.framecontentloading) event is raised when a frame in the web view has started loading new content.
@@ -216,7 +234,7 @@ The web view control cannot host arbitrary file types. When an attempt is made t
 
 Similarly, the [UnsupportedUriSchemeIdentified](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.unsupportedurischemeidentified) event occurs when a URI scheme that's not supported is invoked in the web content, such as fbconnect:// or mailto://. You can handle this event to provide custom behavior instead of allowing the default system launcher to launch the URI.
 
-The [UnsafeContentWarningDisplayingevent](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.unsafecontentwarningdisplaying) event occurs when the web view shows a warning page for content that was reported as unsafe by the SmartScreen Filter. If the user chooses to continue the navigation, subsequent navigation to the page will not display the warning nor fire the event.
+The [UnsafeContentWarningDisplayingEvent](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.unsafecontentwarningdisplaying) event occurs when the web view shows a warning page for content that was reported as unsafe by the SmartScreen Filter. If the user chooses to continue the navigation, subsequent navigation to the page will not display the warning nor fire the event.
 
 ## Handle special cases for web view content
 
@@ -252,7 +270,6 @@ Handle the [PermissionRequested](https://docs.microsoft.com/uwp/api/windows.web.
 <!-- This behaves differently than UWP: The sandbox process Win32WebViewHost.exe is a system application and has all capabilities listed in its manifest. Since WinForms/WPF do not have their own identities, they use the identity and permissions of the sandbox application.
 The PermissionRequested event is fired when a permission is reqested each time. If the application is the first to request permissions from the sandbox, the user will receive two prompts: one from the application, one from the system for the sandbox. -->
 
-
 In addition to the app handling the [PermissionRequested](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.permissionrequested) event, the user will have to approve standard system dialogs for apps requesting location or media capabilities in order for these features to be enabled.
 
 Here is an example of how an app would enable geolocation in a map from Bing:
@@ -280,6 +297,7 @@ You can interact with the content of the web view by using the [InvokeScriptAsyn
 To invoke JavaScript inside the web view content, use the [InvokeScriptAsync](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.invokescriptasync) method. The invoked script can return only string values.
 
 For example, if the content of a web view named `webView1` contains a function named `setDate` that takes 3 parameters, you can invoke it like this.
+
 ```csharp
 string[] args = {"January", "1", "2000"};
 string returnValue = await webView1.InvokeScriptAsync("setDate", args);
@@ -303,6 +321,14 @@ Scripts in the web view content can use **window.external.notify** with a string
 
 You can use the [Settings](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.settings) property (of type [WebViewControlSettings](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrolsettings) to control whether JavaScript and IndexedDB are enabled. For example, if you use a web view to display strictly static content, you might want to disable JavaScript for best performance.
 
- 
+ ## Requirements
 
- 
+| Device family | .NET 4.7, 10.0.17110.0 or higher |
+| -- | -- |
+| Namespace | Microsoft.Toolkit.Win32.UI.Controls.WinForms, Microsoft.Toolkit.Win32.UI.Controls.WPF |
+| NuGet package | [Microsoft.Toolkit.Win32.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Win32.UI.Controls/) |
+
+## API Source Code
+
+- [WinForms.WebView](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Win32.UI.Controls/WinForms/WebView)
+- [WPF.WebView](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Win32.UI.Controls/WPF/WebView)
