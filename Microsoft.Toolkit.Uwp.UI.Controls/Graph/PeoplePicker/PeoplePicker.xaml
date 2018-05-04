@@ -5,10 +5,13 @@
                     xmlns:interactivity="using:Microsoft.Xaml.Interactivity">
 
     <Style TargetType="controls:PeoplePicker">
+        <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:PeoplePicker">
-                    <StackPanel Background="White">
+                    <StackPanel>
                         <StackPanel>
                             <Grid>
                                 <TextBox Name="tbGraphAccessToken"
@@ -30,7 +33,6 @@
                         <RelativePanel>
                             <ListBox Name="SearchResultListBox"
                                      AutomationProperties.Name="Search Results"
-                                     Background="AliceBlue"
                                      Canvas.ZIndex="100"
                                      ItemsSource="{Binding SearchResultList, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                      Visibility="Collapsed">
