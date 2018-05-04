@@ -11,23 +11,24 @@
 // ******************************************************************
 
 using System;
-using System.Diagnostics;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
+using Microsoft.Toolkit.Services.OneDrive;
+using Microsoft.Toolkit.Services.Services.MicrosoftGraph;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using static Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveEnums;
 
 #pragma warning disable SA1118
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class OneDrivePage : Page
     {
-        private Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveStorageFolder _rootFolder = null;
-        private Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveStorageFolder _currentFolder = null;
+        private OneDriveStorageFolder _graphRootFolder = null;
+        private OneDriveStorageFolder _graphCurrentFolder = null;
 
         public OneDrivePage()
         {
@@ -37,9 +38,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             FilesBox.Visibility = Visibility.Collapsed;
             menuButton.Visibility = Visibility.Collapsed;
             BackButton.Visibility = Visibility.Collapsed;
+
+            this.Loaded += OneDrivePage_Loaded;
         }
 
-        private async Task SigninAsync(int indexProvider, string appClientId)
+        private void OneDrivePage_Loaded(object sender, RoutedEventArgs e)
+        {
+            foreach (var p in typeof(MicrosoftGraphScope).GetFields())
+            {
+                if (string.CompareOrdinal(p.GetValue(null) as string, 0, "Files", 0, 5) == 0)
+                {
+                    DelegatedPermissions.Items.Add(p.GetValue(null));
+                }
+            }
+
+            DelegatedPermissions.SelectedIndex = DelegatedPermissions.Items.IndexOf(MicrosoftGraphScope.FilesReadAll);
+
+            DelegatedPermissions.ScrollIntoView(MicrosoftGraphScope.FilesReadAll);
+        }
+
+        private async Task SigninAsync(string appClientId)
         {
             if (!await Tools.CheckInternetConnectionAsync())
             {
@@ -51,27 +69,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             try
             {
-                // OnlineId
-                if (indexProvider == 0)
+                // Converged app authentication
+                // Get the selected Delegated Permissions
+                var scopes = DelegatedPermissions.SelectedItems as string[];
+
+                // If the user hasn't selected a scope then set it to FilesReadAll
+                if (scopes == null)
                 {
-                    OneDriveService.Instance.Initialize();
+                    scopes = new string[] { MicrosoftGraphScope.FilesReadAll };
                 }
-                else if (indexProvider == 1)
-                {
-                    OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msa, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
-                }
-                else if (indexProvider == 2)
-                {
-                    OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Adal);
-                }
+
+                Services.OneDrive.OneDriveService.Instance.Initialize(appClientId, scopes, null, null);
 
                 if (!await OneDriveService.Instance.LoginAsync())
                 {
                     throw new Exception("Unable to sign in");
                 }
 
-                _currentFolder = _rootFolder = await OneDriveService.Instance.RootFolderAsync();
-                OneDriveItemsList.ItemsSource = _rootFolder.GetItemsAsync();
+                _graphCurrentFolder = _graphRootFolder = await OneDriveService.Instance.RootFolderForMeAsync();
+                OneDriveItemsList.ItemsSource = await _graphRootFolder.GetItemsAsync(20);
+                OneDriveItemsList.Visibility = Visibility.Visible;
+
                 succeeded = true;
             }
             catch (ServiceException serviceEx)
@@ -116,7 +134,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             try
             {
-                await SigninAsync(_indexProvider, ClientId.Text);
+                await SigninAsync(ClientId.Text);
             }
             catch (Exception ex)
             {
@@ -127,6 +145,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private async void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
             await OneDriveService.Instance.LogoutAsync();
+
             OneDriveItemsList.Visibility = Visibility.Collapsed;
             FilesBox.Visibility = Visibility.Collapsed;
             LogOutButton.Visibility = Visibility.Collapsed;
@@ -178,7 +197,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Shell.Current.DisplayWaitRing = true;
             try
             {
-                OneDriveItemsList.ItemsSource = await _currentFolder.GetItemsAsync(top);
+                OneDriveItemsList.ItemsSource = await _graphCurrentFolder.GetItemsAsync(top);
             }
             catch (ServiceException ex)
             {
@@ -212,9 +231,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Shell.Current.DisplayWaitRing = true;
                 try
                 {
-                    var currentFolder = await _currentFolder.GetFolderAsync(item.Name);
-                    OneDriveItemsList.ItemsSource = currentFolder.GetItemsAsync();
-                    _currentFolder = currentFolder;
+                    var currentFolder = await _graphCurrentFolder.GetFolderAsync(item.Name);
+                    OneDriveItemsList.ItemsSource = await currentFolder.GetItemsAsync(20);
+                    _graphCurrentFolder = currentFolder;
                 }
                 catch (ServiceException ex)
                 {
@@ -229,23 +248,54 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async Task NavigateBackAsync()
         {
-            if (_currentFolder != null)
+            if (_graphCurrentFolder != null)
             {
                 OneDriveStorageFolder currentFolder = null;
                 Shell.Current.DisplayWaitRing = true;
                 try
                 {
-                    if (!string.IsNullOrEmpty(_currentFolder.Path))
+                    if (!string.IsNullOrEmpty(_graphCurrentFolder.Path))
                     {
-                        currentFolder = await _rootFolder.GetFolderAsync(_currentFolder.Path);
+                        currentFolder = await _graphRootFolder.GetFolderAsync(_graphCurrentFolder.Path);
                     }
                     else
                     {
-                        currentFolder = _rootFolder;
+                        currentFolder = _graphRootFolder;
                     }
 
-                    OneDriveItemsList.ItemsSource = currentFolder.GetItemsAsync();
-                    _currentFolder = currentFolder;
+                    OneDriveItemsList.ItemsSource = currentFolder.GetItemsAsync(10);
+                    _graphCurrentFolder = currentFolder;
+                }
+                catch (ServiceException ex)
+                {
+                    await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(ex);
+                }
+                finally
+                {
+                    Shell.Current.DisplayWaitRing = false;
+                }
+            }
+        }
+
+        private async Task NavigateBackGraphAsync()
+        {
+            if (_graphCurrentFolder != null)
+            {
+                OneDriveStorageFolder currentFolder = null;
+                Shell.Current.DisplayWaitRing = true;
+                try
+                {
+                    if (!string.IsNullOrEmpty(_graphCurrentFolder.Path))
+                    {
+                        currentFolder = await _graphRootFolder.GetFolderAsync(_graphCurrentFolder.Path);
+                    }
+                    else
+                    {
+                        currentFolder = _graphRootFolder;
+                    }
+
+                    OneDriveItemsList.ItemsSource = await currentFolder.GetItemsAsync(20);
+                    _graphCurrentFolder = currentFolder;
                 }
                 catch (ServiceException ex)
                 {
@@ -260,31 +310,31 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            await NavigateBackAsync();
+            await NavigateBackGraphAsync();
         }
 
         private async void NewFolderButton_Click(object sender, RoutedEventArgs e)
         {
-            await OneDriveSampleHelpers.NewFolderAsync(_currentFolder);
-            OneDriveItemsList.ItemsSource = _currentFolder.GetItemsAsync();
+            await OneDriveSampleHelpers.NewFolderAsync(_graphCurrentFolder);
+            OneDriveItemsList.ItemsSource = await _graphCurrentFolder.GetItemsAsync(20);
         }
 
         private async void UploadSimpleFileButton_Click(object sender, RoutedEventArgs e)
         {
-            await OneDriveSampleHelpers.UploadSimpleFileAsync(_currentFolder);
-            OneDriveItemsList.ItemsSource = _currentFolder.GetItemsAsync();
+            await OneDriveSampleHelpers.UploadSimpleFileAsync(_graphCurrentFolder);
+            OneDriveItemsList.ItemsSource = await _graphCurrentFolder.GetItemsAsync(20);
         }
 
         private async void UploadLargeFileButton_Click(object sender, RoutedEventArgs e)
         {
-            await OneDriveSampleHelpers.UploadLargeFileAsync(_currentFolder);
-            OneDriveItemsList.ItemsSource = _currentFolder.GetItemsAsync();
+            await OneDriveSampleHelpers.UploadLargeFileAsync(_graphCurrentFolder);
+            OneDriveItemsList.ItemsSource = await _graphCurrentFolder.GetItemsAsync(20);
         }
 
         private async void RenameButton_Click(object sender, RoutedEventArgs e)
         {
-           await OneDriveSampleHelpers.RenameAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
-           OneDriveItemsList.ItemsSource = _currentFolder.GetItemsAsync();
+            await OneDriveSampleHelpers.RenameAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
+            OneDriveItemsList.ItemsSource = await _graphCurrentFolder.GetItemsAsync(20);
         }
 
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -292,7 +342,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             await DeleteAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
         }
 
-        private async Task DeleteAsync(OneDriveStorageItem itemToDelete)
+        private async Task DeleteAsync(Toolkit.Services.OneDrive.OneDriveStorageItem itemToDelete)
         {
             MessageDialog messageDialog = new MessageDialog($"Are you sure you want to delete '{itemToDelete.Name}'", "Delete");
             messageDialog.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(async (cmd) =>
@@ -301,7 +351,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 try
                 {
                     await itemToDelete.DeleteAsync();
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { OneDriveItemsList.ItemsSource = _currentFolder.GetItemsAsync();  });
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, (DispatchedHandler)(async () => { OneDriveItemsList.ItemsSource = await this._graphCurrentFolder.GetItemsAsync(20); }));
                 }
                 catch (ServiceException ex)
                 {
@@ -325,30 +375,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             await OneDriveSampleHelpers.DownloadAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext);
         }
 
-        private int _indexProvider = 0;
-
-        private async void CboProvider_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            _indexProvider = CboProvider.SelectedIndex;
-            var visibility = Visibility.Visible;
-
-            if (_indexProvider == 0)
-            {
-                await SigninAsync(_indexProvider, null);
-                visibility = Visibility.Collapsed;
-            }
-
-            ClientIdHelper.Visibility = ConnectButton.Visibility = ClientId.Visibility = visibility;
-        }
-
         private async void CopyToButton_Click(object sender, RoutedEventArgs e)
         {
-            await OneDriveSampleHelpers.CopyToAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _rootFolder);
+            await OneDriveSampleHelpers.CopyToAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _graphRootFolder);
         }
 
         private async void MoveButton_Click(object sender, RoutedEventArgs e)
         {
-            await OneDriveSampleHelpers.MoveToAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _rootFolder);
+            await OneDriveSampleHelpers.MoveToAsync((OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext, _graphRootFolder);
         }
 
         private async void ThumbnailButton_Click(object sender, RoutedEventArgs e)
@@ -356,8 +390,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             try
             {
                 Shell.Current.DisplayWaitRing = true;
+
                 var file = (OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext;
-                using (var stream = await file.GetThumbnailAsync(ThumbnailSize.Large))
+                using (var stream = (await file.StorageItemPlatformService.GetThumbnailAsync(Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ThumbnailSize.Large)) as IRandomAccessStream)
                 {
                     await OneDriveSampleHelpers.DisplayThumbnail(stream, "thumbnail");
                 }

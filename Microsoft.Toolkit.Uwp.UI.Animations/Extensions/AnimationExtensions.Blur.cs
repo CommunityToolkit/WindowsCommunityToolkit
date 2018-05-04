@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// A check should always be made to IsBlurSupported prior to calling Blur,
         /// since older operating systems will not support blurs.
         /// </remarks>
-        /// <seealso cref="Blur(FrameworkElement, double, double, double)"/>
+        /// <seealso cref="Blur(FrameworkElement, double, double, double, EasingType)"/>
         public static bool IsBlurSupported =>
             ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
@@ -47,6 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="value">The blur amount.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay. (ignored if duration == 0)</param>
+        /// <param name="easingType">The easing function</param>
         /// <returns>
         /// An Animation Set.
         /// </returns>
@@ -55,7 +56,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             this FrameworkElement associatedObject,
             double value = 0d,
             double duration = 500d,
-            double delay = 0d)
+            double delay = 0d,
+            EasingType easingType = EasingType.Default)
         {
             if (associatedObject == null)
             {
@@ -63,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Blur(value, duration, delay);
+            return animationSet.Blur(value, duration, delay, easingType);
         }
 
         /// <summary>
@@ -73,6 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="value">The blur amount.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay. (ignored if duration == 0)</param>
+        /// <param name="easingType">The easing function</param>
         /// <returns>
         /// An Animation Set.
         /// </returns>
@@ -81,9 +84,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             this AnimationSet animationSet,
             double value = 0d,
             double duration = 500d,
-            double delay = 0d)
+            double delay = 0d,
+            EasingType easingType = EasingType.Default)
         {
-            return BlurEffect.EffectAnimation(animationSet, value, duration, delay);
+            return BlurEffect.EffectAnimation(animationSet, value, duration, delay, easingType);
         }
     }
 }

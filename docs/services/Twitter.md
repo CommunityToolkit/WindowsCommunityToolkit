@@ -1,9 +1,11 @@
 ---
 title: Twitter Service
 author: nmetulev
-ms.date: 08/20/2017
 description: The Twitter Service allows users to retrieve or publish data to Twitter. 
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Twitter 
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Twitter 
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Twitter Service
@@ -29,16 +31,17 @@ Copy this from the *Keys and Access Tokens* tab on your application page.
 
 In the code section below the GetUserTimeLineAsync method returns some Tweet objects.  The Tweet class returns some basic information along with the tweet text itself.
 
-- **CreatedAt**	(string)         – The date and time of the Tweet formatted by Twitter
-- **Text**		(string)         – The text of the Tweet
-- **Id**		(string)         – The Twitter status identifier
-- **GeoData**   (TwitterGeoData) - A class containing the latitude and longitude of the Tweet
-- **User**      (TwitterUser)    - A class containing the user ID, Name, ScreenName, and ProfileImageUrl
+| Property | Type | Description |
+| -- | -- | -- |
+| **CreatedAt** | string | The date and time of the Tweet formatted by Twitter |
+| **Text** | string | The text of the Tweet |
+| **Id** | string | The Twitter status identifier |
+| **GeoData** | TwitterGeoData | A class containing the latitude and longitude of the Tweet |
+| **User** | TwitterUser | A class containing the user ID, Name, ScreenName, and ProfileImageUrl |
 
 ## Syntax
 
 ```csharp
-
 // Initialize service
 TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text);
 
@@ -98,12 +101,63 @@ await TwitterService.Instance.StartUserStreamAsync(async tweet =>
 
 // Stop receiving live tweets and events
 TwitterService.Instance.StopUserStream();
-
 ```
+```vb
+' Initialize service
+TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text)
 
-## Example
+' Login to Twitter
+If Not Await TwitterService.Instance.LoginAsync() Then
+    Return
+End If
 
-[Twitter Service Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Twitter%20Service)
+' Get current user info
+Dim user = Await TwitterService.Instance.GetUserAsync()
+ProfileImage.DataContext = user
+
+' Get user time line
+ListView.ItemsSource = Await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50)
+
+' Post a tweet
+Await TwitterService.Instance.TweetStatusAsync(TweetText.Text)
+Dim status = New TwitterStatus With {
+    .Message = TweetText.Text,
+
+    ' Optional parameters defined by the Twitter "update" API (they may all be null or false)
+
+    .DisplayCoordinates = True,
+    .InReplyToStatusId = "@ValidAccount",
+    .Latitude = validLatitude,
+    .Longitude = validLongitude,
+    .PlaceId = "df51dec6f4ee2b2c",  ' As defined by Twitter
+    .PossiblySensitive = True,      ' As defined by Twitter (nudity, violence, or medical procedures)
+    .TrimUser = True
+}
+Await TwitterService.Instance.TweetStatusAsync(status)
+
+' Post a tweet with a picture
+Await TwitterService.Instance.TweetStatusAsync(TweetText.Text, stream)
+Await TwitterService.Instance.TweetStatusAsync(status, stream)
+
+' Search for a specific tag
+ListView.ItemsSource = Await TwitterService.Instance.SearchAsync(TagText.Text, 50)
+
+' Open a connection with the stream service in order to receive live tweets and events
+ListView.ItemsSource = _tweets
+Await TwitterService.Instance.StartUserStreamAsync(
+    Async Sub(tweet)
+        Await Dispatcher.RunAsync(
+        CoreDispatcherPriority.Normal,
+        Sub()
+            If tweet IsNot Nothing Then
+                _tweets.Insert(0, tweet)
+            End If
+        End Sub)
+    End Sub)
+
+' Stop receiving live tweets and events
+TwitterService.Instance.StopUserStream()
+```
 
 ## Posting to timeline fails to appear
 
@@ -111,18 +165,17 @@ Twitter app models allows for read only applications.  If the app is tagged as R
 
 If you are posting from your app and never seeing them show up in the timeline check the *Permissions* tab on the app page.  You want to ensure that you have *Read and Write* checked on that tab.
 
-## Requirements (Windows 10 Device Family)
+## Sample Code
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+[Twitter Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Twitter%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+
+## Requirements
+
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Services |
+| NuGet package | [Microsoft.Toolkit.Uwp.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.Services/) |
 
 ## API
 
 * [Twitter Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Twitter)
-
-## NuGet Packages Required
-
-Microsoft.Toolkit.Uwp.Services
-
-See the [NuGet Packages page](../Nuget-Packages.md) for complete list.

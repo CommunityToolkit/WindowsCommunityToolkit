@@ -1,0 +1,27 @@
+variables: 
+  BuildConfiguration: Release
+  
+steps:
+- task: BatchScript@1
+  inputs:
+    filename: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\Common7\\Tools\\VsDevCmd.bat"
+    arguments: -no_logo
+    modifyEnvironment: true
+  displayName: Setup Environment Variables
+
+- task: NuGetToolInstaller@0
+  displayName: Use NuGet 4.6.2
+  inputs:
+    versionSpec: 4.6.2
+
+- powershell: |
+    .\build\build.ps1 -target=Build
+  displayName: Build 
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish Package Artifacts
+  inputs:
+    pathToPublish: .\bin\nupkg
+    artifactType: container
+    artifactName: Packages
+  condition: eq(variables['system.pullrequest.isfork'], false)

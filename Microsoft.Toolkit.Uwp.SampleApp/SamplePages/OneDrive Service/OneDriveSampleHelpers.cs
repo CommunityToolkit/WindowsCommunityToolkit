@@ -14,7 +14,7 @@ using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
+using Microsoft.Toolkit.Services.OneDrive;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
@@ -28,15 +28,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         public static async Task<string> InputTextDialogAsync(string title)
         {
-            TextBox inputTextBox = new TextBox();
-            inputTextBox.AcceptsReturn = false;
-            inputTextBox.Height = 32;
-            ContentDialog dialog = new ContentDialog();
-            dialog.Content = inputTextBox;
-            dialog.Title = title;
-            dialog.IsSecondaryButtonEnabled = true;
-            dialog.PrimaryButtonText = "Ok";
-            dialog.SecondaryButtonText = "Cancel";
+            TextBox inputTextBox = new TextBox { AcceptsReturn = false, Height = 32 };
+
+            ContentDialog dialog = new ContentDialog
+            {
+                Content = inputTextBox,
+                Title = title,
+                IsSecondaryButtonEnabled = true,
+                PrimaryButtonText = "Ok",
+                SecondaryButtonText = "Cancel"
+            };
+
             if (await dialog.ShowAsync() == ContentDialogResult.Primary)
             {
                 return inputTextBox.Text;
@@ -107,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     string newFolderName = await OneDriveSampleHelpers.InputTextDialogAsync("New Folder Name");
                     if (!string.IsNullOrEmpty(newFolderName))
                     {
-                        await folder.CreateFolderAsync(newFolderName);
+                        await folder.StorageFolderPlatformService.CreateFolderAsync(newFolderName, CreationCollisionOption.GenerateUniqueName);
                     }
                 }
                 catch (ServiceException ex)
@@ -132,7 +134,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 Shell.Current.DisplayWaitRing = true;
                 var oneDriveFile = (OneDriveStorageFile)item;
-                using (var remoteStream = await oneDriveFile.OpenAsync())
+                using (var remoteStream = (await oneDriveFile.StorageFilePlatformService.OpenAsync()) as IRandomAccessStream)
                 {
                     await SaveToLocalFolder(remoteStream, oneDriveFile.Name);
                 }
@@ -185,7 +187,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     {
                         using (var localStream = await selectedFile.OpenReadAsync())
                         {
-                            var fileCreated = await folder.CreateFileAsync(selectedFile.Name, CreationCollisionOption.GenerateUniqueName, localStream);
+                            var fileCreated = await folder.StorageFolderPlatformService.CreateFileAsync(selectedFile.Name, CreationCollisionOption.GenerateUniqueName, localStream);
                         }
                     }
                 }
@@ -228,7 +230,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                             Shell.Current.DisplayWaitRing = true;
 
                             // If the file exceed the Maximum size (ie 4MB)
-                            var largeFileCreated = await folder.UploadFileAsync(selectedFile.Name, localStream, CreationCollisionOption.GenerateUniqueName, 320 * 1024);
+                            var largeFileCreated = await folder.StorageFolderPlatformService.UploadFileAsync(selectedFile.Name, localStream, CreationCollisionOption.GenerateUniqueName, 320 * 1024);
                         }
                     }
                 }
@@ -334,14 +336,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             FoldersPickerControl folderPicker = new FoldersPickerControl(await rootFolder.GetFoldersAsync(100), rootFolder);
 
-            ContentDialog dialog = new ContentDialog();
-            dialog.Content = folderPicker;
-            dialog.Title = title;
-            dialog.PrimaryButtonText = "Ok";
+            ContentDialog dialog = new ContentDialog
+            {
+                Content = folderPicker,
+                Title = title,
+                PrimaryButtonText = "Ok"
+            };
 
             if (await dialog.ShowAsync() == ContentDialogResult.Primary)
             {
-                return folderPicker.SelectedFolder;
+                return folderPicker.SelectedGraphFolder;
             }
             else
             {
@@ -351,9 +355,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public static async Task<StorageFolder> OpenFolderAsync()
         {
-            FolderPicker folderPicker = new FolderPicker();
-            folderPicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-            folderPicker.ViewMode = PickerViewMode.Thumbnail;
+            FolderPicker folderPicker = new FolderPicker
+            {
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
+                ViewMode = PickerViewMode.Thumbnail
+            };
+
             return await folderPicker.PickSingleFolderAsync();
         }
 
@@ -363,10 +370,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// <returns>a StorageFile representing the file to upload</returns>
         public static async Task<StorageFile> OpenLocalFileAsync()
         {
-            FileOpenPicker picker = new FileOpenPicker();
-            picker.ViewMode = PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-            picker.CommitButtonText = "Upload";
+            FileOpenPicker picker = new FileOpenPicker
+            {
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
+                ViewMode = PickerViewMode.Thumbnail,
+                CommitButtonText = "Upload"
+            };
+
             picker.FileTypeFilter.Add("*");
 
             return await picker.PickSingleFileAsync();

@@ -172,6 +172,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             converter = new TimeSpanConverter();
 
                             break;
+                        case PropertyKind.Thickness:
+                            var thicknessTextBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
+
+                            controlToAdd = thicknessTextBox;
+                            dependencyProperty = TextBox.TextProperty;
+                            converter = new ThicknessConverter();
+                            break;
                         default:
                             var textBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
 
@@ -187,6 +194,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                         Mode = BindingMode.TwoWay,
                         Converter = converter
                     };
+
+                    // Make textboxes instantly respond to text rather than waiting for lost focus.
+                    if (controlToAdd is TextBox)
+                    {
+                        binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                    }
 
                     controlToAdd.SetBinding(dependencyProperty, binding);
                     controlToAdd.Margin = new Thickness(0, 5, 0, 20);
