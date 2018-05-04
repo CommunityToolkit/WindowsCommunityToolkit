@@ -2,7 +2,7 @@
 title: Twitter Service
 author: nmetulev
 description: The Twitter Service allows users to retrieve or publish data to Twitter. 
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Twitter 
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Twitter 
 dev_langs:
   - csharp
   - vb
@@ -167,7 +167,7 @@ If you are posting from your app and never seeing them show up in the timeline c
 
 ## Sample Code
 
-[Twitter Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Twitter%20Service). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Twitter Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Twitter%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

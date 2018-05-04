@@ -2,7 +2,7 @@
 title: RadialGauge XAML Control
 author: nmetulev
 description: The Radial Gauge Control displays a value in a certain range using a needle on a circular face.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Radial Gauge, RadialGauge, xaml control, xaml
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Radial Gauge, RadialGauge, xaml control, xaml
 ---
 
 # RadialGauge XAML Control
@@ -76,7 +76,7 @@ This table shows the resources used by the [RadialGauge](https://docs.microsoft.
 
 ## Sample Code
 
-[RadialGauge Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/RadialGauge). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[RadialGauge Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/RadialGauge). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 

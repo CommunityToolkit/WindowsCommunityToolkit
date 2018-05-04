@@ -2,7 +2,7 @@
 title: OneDrive Service
 author: tgoodhew
 description: The OneDrive Service provides a simple way to access resources on either OneDrive or OneDrive for Business (Office 365).
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, OneDrive
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, OneDrive
 dev_langs:
   - csharp
   - vb
@@ -291,7 +291,7 @@ End Using
   
 ## Sample Code
 
-[OneDrive Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/OneDrive%20Service). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[OneDrive Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/OneDrive%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

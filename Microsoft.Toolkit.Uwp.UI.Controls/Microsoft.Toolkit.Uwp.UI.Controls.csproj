@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
-    <Title>UWP Community Toolkit Controls</Title>
-    <Description>This library provides XAML user controls. It is part of the UWP Community Toolkit.</Description>
+    <Title>Windows Community Toolkit Controls</Title>
+    <Description>This library provides XAML user controls. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>UWP Toolkit Windows Controls XAML Hamburger Range WrapPanel Adaptive Markdown</PackageTags>
 
   </PropertyGroup>

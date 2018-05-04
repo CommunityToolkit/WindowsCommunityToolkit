@@ -1,6 +1,6 @@
-# Contributing to UWP Community Toolkit
+# Contributing to the Windows Community Toolkit
 
-The foundation of **UWP Community Toolkit** is simplicity. 
+The foundation of the **Windows Community Toolkit** is simplicity. 
 
 A developer should be able to quickly and easily learn to use the API. 
 

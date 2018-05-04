@@ -1,6 +1,6 @@
 <FileList>
   <File Reference="Microsoft.Toolkit.Uwp.UI.Controls.dll">
-    <ToolboxItems VSCategory="UWP Community Toolkit" BlendCategory="UWP Community Toolkit">
+    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.AdaptiveGridView" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.BladeItem" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.BladeView" />
