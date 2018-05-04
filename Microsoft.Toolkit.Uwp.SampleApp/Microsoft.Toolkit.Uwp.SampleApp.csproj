@@ -293,7 +293,6 @@
     <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrush.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
     <Content Include="SamplePages\Connected Animations\ConnectedAnimations.png" />
-    <Content Include="SamplePages\DataGrid\DataGrid.png" />
     <Content Include="SamplePages\DispatcherHelper\DispatchHelper.png" />
     <Content Include="SamplePages\DockPanel\DockPanel.png" />
     <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
@@ -497,7 +496,6 @@
     <Content Include="SamplePages\PrintHelper\PrintHelperXaml.bind">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="SamplePages\DataGrid\DataGridCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
