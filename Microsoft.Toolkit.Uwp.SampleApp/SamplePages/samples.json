@@ -890,7 +890,6 @@
         "Type": "PeoplePickerPage",
         "About": "The PeoplePicker Control is a simple control that allows for selection of one or more users from an organizational AD.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Graph/PeoplePicker",
-        "CodeFile": "PeoplePickerCode.bind",
         "XamlCodeFile": "PeoplePickerXaml.bind",
         "Icon": "/SamplePages/PeoplePicker/PeoplePicker.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/PeoplePicker.md"
@@ -900,6 +899,7 @@
         "Type": "SharePointFilesPage",
         "About": "The SharePointFiles Control displays a simple list of SharePoint Files.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Graph/SharePointFiles",
+        "CodeFile": "SharePointFilesCode.bind",
         "XamlCodeFile": "SharePointFilesXaml.bind",
         "Icon": "/SamplePages/SharePointFiles/SharePointFiles.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/SharePointFiles.md"
