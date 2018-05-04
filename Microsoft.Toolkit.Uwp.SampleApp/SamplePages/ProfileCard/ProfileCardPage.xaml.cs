@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     {
                         using (IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read))
                         {
-                            // Set the image source to the selected bitmap 
+                            // Set the image source to the selected bitmap
                             var defaultImage = new BitmapImage();
                             await defaultImage.SetSourceAsync(fileStream);
                             profileCardControl.DefaultImage = defaultImage;

@@ -26,7 +26,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <param name="args">Property Changed Args</param>
         private static void OnPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args) => (obj as AADLogin).InitialPublicClientApplication();
 
-
         private void OnSignInCompleted(SignInEventArgs e)
         {
             SignInCompleted?.Invoke(this, e);

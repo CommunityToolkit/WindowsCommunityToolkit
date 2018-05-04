@@ -30,14 +30,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <summary>
         /// Defines the method that determines whether the command can execute in its current state.
         /// </summary>
-        /// <param name="parameter">Data used by the command. If the command does not require data 
-        /// to be passed, this object can be set to a null reference</param>
+        /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to a null reference</param>
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         public bool CanExecute(object parameter)
         {
             return true;
         }
 
+        /// <summary>
+        /// Event handler to check if the command could be executed.
+        /// </summary>
         public event EventHandler CanExecuteChanged;
 
         /// <summary>

@@ -10,9 +10,9 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using System;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private Button _btnConvert;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AADLoginPage"/> class.
+        /// Initializes a new instance of the <see cref="SharePointFilesPage"/> class.
         /// </summary>
         public SharePointFilesPage()
         {
@@ -50,6 +50,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 _btnConvert.Click += ConvertButton_Click;
             }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            Shell.Current.RegisterNewCommand("Convert Drive URL", (sender, args) =>
+            {
+                if (_sharePointFilesControl != null && _convertPanel != null)
+                {
+                    if (_sharePointFilesControl.Visibility == Visibility.Collapsed)
+                    {
+                        _sharePointFilesControl.Visibility = Visibility.Visible;
+                        _convertPanel.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        _sharePointFilesControl.Visibility = Visibility.Collapsed;
+                        _convertPanel.Visibility = Visibility.Visible;
+                    }
+                }
+            });
         }
 
         private async void ConvertButton_Click(object sender, RoutedEventArgs e)
@@ -70,28 +92,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _sharePointFilesControl.Visibility = Visibility.Visible;
                 _convertPanel.Visibility = Visibility.Collapsed;
             }
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            Shell.Current.RegisterNewCommand("Convert Drive URL", async (sender, args) =>
-            {
-                if (_sharePointFilesControl != null && _convertPanel != null)
-                {
-                    if (_sharePointFilesControl.Visibility == Visibility.Collapsed)
-                    {
-                        _sharePointFilesControl.Visibility = Visibility.Visible;
-                        _convertPanel.Visibility = Visibility.Collapsed;
-                    }
-                    else
-                    {
-                        _sharePointFilesControl.Visibility = Visibility.Collapsed;
-                        _convertPanel.Visibility = Visibility.Visible;
-                    }
-                }
-            });
         }
     }
 }

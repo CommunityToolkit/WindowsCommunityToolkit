@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     ClearAndHideSearchResultListBox();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             finally

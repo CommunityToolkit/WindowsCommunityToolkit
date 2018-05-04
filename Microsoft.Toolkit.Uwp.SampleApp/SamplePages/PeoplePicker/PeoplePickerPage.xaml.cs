@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class PeoplePickerPage : Page
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AADLoginPage"/> class.
+        /// Initializes a new instance of the <see cref="PeoplePickerPage"/> class.
         /// </summary>
         public PeoplePickerPage()
         {

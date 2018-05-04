@@ -107,6 +107,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             set => SetValue(PersonNotSelectedMessageProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets the selected person list.
+        /// </summary>
         public ObservableCollection<Person> Selections
         {
             get => (ObservableCollection<Person>)GetValue(SelectionsProperty);
@@ -122,6 +125,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         internal GraphServiceClient GraphClient { get; set; }
 
         private ICommand _deleteItemCommand;
+
+        /// <summary>
+        /// Gets the command to delete the selected item.
+        /// </summary>
         public ICommand DeleteItemCommand
         {
             get
