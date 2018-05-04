@@ -17,7 +17,6 @@ steps:
 - powershell: |
     .\build\build.ps1 -target=Build
   displayName: Build 
-    
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Package Artifacts
@@ -25,4 +24,4 @@ steps:
     pathToPublish: .\bin\nupkg
     artifactType: container
     artifactName: Packages
-  condition: always()
+  condition: eq(variables['system.pullrequest.isfork'], false)
