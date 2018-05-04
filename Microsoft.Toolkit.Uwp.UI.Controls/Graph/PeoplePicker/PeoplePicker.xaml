@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    x:Name="peoplePicker">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style TargetType="controls:PeoplePicker">
         <Setter Property="Template">
@@ -11,6 +10,9 @@
                     <StackPanel Background="White">
                         <StackPanel>
                             <Grid>
+                                <TextBox Name="tbGraphAccessToken"
+                                         Margin="0"
+                                         DataContext="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                                 <TextBox Name="SearchBox"
                                          Margin="0"
                                          PlaceholderText="{Binding PersonNotSelectedMessage, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
@@ -33,7 +35,7 @@
                                         <!--<TextBlock Text="{Binding UserPrincipalName}" />-->
                                         <controls:ProfileCard
                                             DisplayMode="LargeProfilePhotoLeft"
-                                            GraphAccessToken="{Binding GraphAccessToken, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                            GraphAccessToken="{Binding DataContext.GraphAccessToken, ElementName=tbGraphAccessToken}"
                                             UserId="{Binding Id}" />
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -52,7 +54,7 @@
                                                 <controls:ProfileCard
                                                     Grid.Column="0" Grid.Row="0"
                                                     DisplayMode="LargeProfilePhotoLeft"
-                                                    GraphAccessToken="{Binding GraphAccessToken, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                    GraphAccessToken="{Binding DataContext.GraphAccessToken, ElementName=tbGraphAccessToken}"
                                                     UserId="{Binding Id}" />
                                                 <TextBlock Grid.Column="1" Grid.Row="0" />
                                                 <Button Grid.Column="2" Grid.Row="0"
@@ -61,7 +63,7 @@
                                                         FlowDirection="LeftToRight"
                                                         Tag="{Binding UserPrincipalName}"
                                                         Width="48" Height="48"
-                                                        Command="{Binding DeleteItem, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                        Command="{Binding DataContext.DeleteItem, ElementName=tbGraphAccessToken}"
                                                         CommandParameter="{Binding UserPrincipalName}"
                                                         Background="Transparent">
                                                     <SymbolIcon Symbol="Cancel" />

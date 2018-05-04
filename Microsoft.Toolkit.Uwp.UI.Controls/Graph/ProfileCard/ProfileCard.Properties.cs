@@ -101,8 +101,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public string GraphAccessToken
         {
-            get { return ((string)GetValue(GraphAccessTokenProperty)).Trim(); }
-            set { SetValue(GraphAccessTokenProperty, value); }
+            get { return ((string)GetValue(GraphAccessTokenProperty))?.Trim(); }
+            set { SetValue(GraphAccessTokenProperty, value?.Trim()); }
         }
 
         /// <summary>
@@ -110,8 +110,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public string UserId
         {
-            get { return ((string)GetValue(UserIdProperty)).Trim(); }
-            set { SetValue(UserIdProperty, value); }
+            get { return ((string)GetValue(UserIdProperty))?.Trim(); }
+            set { SetValue(UserIdProperty, value?.Trim()); }
         }
 
         /// <summary>
@@ -137,8 +137,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public string DefaultTitleText
         {
-            get { return (string)GetValue(DefaultTitleTextProperty); }
-            set { SetValue(DefaultTitleTextProperty, value); }
+            get { return ((string)GetValue(DefaultTitleTextProperty))?.Trim(); }
+            set { SetValue(DefaultTitleTextProperty, value?.Trim()); }
         }
 
         /// <summary>
@@ -146,8 +146,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public string DefaultSecondaryMailText
         {
-            get { return (string)GetValue(DefaultSecondaryMailTextProperty); }
-            set { SetValue(DefaultSecondaryMailTextProperty, value); }
+            get { return ((string)GetValue(DefaultSecondaryMailTextProperty))?.Trim(); }
+            set { SetValue(DefaultSecondaryMailTextProperty, value?.Trim()); }
         }
 
         /// <summary>
@@ -155,8 +155,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public string DefaultMailText
         {
-            get { return (string)GetValue(DefaultMailTextProperty); }
-            set { SetValue(DefaultMailTextProperty, value); }
+            get { return ((string)GetValue(DefaultMailTextProperty))?.Trim(); }
+            set { SetValue(DefaultMailTextProperty, value?.Trim()); }
         }
 
         internal string Title

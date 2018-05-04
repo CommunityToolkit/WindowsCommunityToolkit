@@ -1,6 +1,4 @@
-﻿using Microsoft.Graph;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,6 +7,8 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Graph;
+using Newtonsoft.Json;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -19,30 +19,11 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
+    /// <summary>
+    /// The SharePointFiles Control displays a simple list of SharePoint Files.
+    /// </summary>
     public partial class SharePointFiles : Control
     {
-        private static async void GraphAccessTokenPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            SharePointFiles control = d as SharePointFiles;
-            control._graphClient = Common.GetAuthenticatedClient(control.GraphAccessToken);
-            if (!string.IsNullOrWhiteSpace(control.DriveUrl))
-            {
-                await control.InitDrive(control.DriveUrl);
-            }
-        }
-
-        private static async void DriveUrlPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            SharePointFiles control = d as SharePointFiles;
-            if (control._graphClient != null && !string.IsNullOrWhiteSpace(control.DriveUrl))
-            {
-                if (Uri.IsWellFormedUriString(control.DriveUrl, UriKind.Absolute))
-                {
-                    await control.InitDrive(control.DriveUrl);
-                }
-            }
-        }
-
         /// <summary>
         /// File is selected
         /// </summary>
@@ -70,11 +51,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private ScrollViewer _details;
         private TextBlock _status;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SharePointFiles"/> class.
+        /// </summary>
         public SharePointFiles()
         {
             DefaultStyleKey = typeof(SharePointFiles);
         }
 
+        private static async void GraphAccessTokenPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            SharePointFiles control = d as SharePointFiles;
+            control._graphClient = Common.GetAuthenticatedClient(control.GraphAccessToken);
+            if (!string.IsNullOrEmpty(control.DriveUrl))
+            {
+                await control.InitDrive(control.DriveUrl);
+            }
+        }
+
+        private static async void DriveUrlPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            SharePointFiles control = d as SharePointFiles;
+            if (control._graphClient != null && !string.IsNullOrWhiteSpace(control.DriveUrl))
+            {
+                if (Uri.IsWellFormedUriString(control.DriveUrl, UriKind.Absolute))
+                {
+                    await control.InitDrive(control.DriveUrl);
+                }
+            }
+        }
+
+        private static void DetailPanePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            SharePointFiles control = d as SharePointFiles;
+            if (control.IsDetailPaneVisible)
+            {
+                control.ShowDetailsPane();
+            }
+        }
+
+        /// <summary>
+        /// Called when applying the control template.
+        /// </summary>
         protected override void OnApplyTemplate()
         {
             _list = GetTemplateChild("list") as ListView;
@@ -90,8 +108,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             _thumbnailImage = GetTemplateChild("thumbnailImage") as Windows.UI.Xaml.Controls.Image;
             _details = GetTemplateChild("details") as ScrollViewer;
             _status = GetTemplateChild("status") as TextBlock;
-            _list.SelectionChanged += list_SelectionChanged;
-            _list.ItemClick += _list_ItemClick;
+            _list.SelectionChanged += List_SelectionChanged;
+            _list.ItemClick += List_ItemClick;
             _back.Click += Back_Click;
             _upload.Click += Upload_Click;
             _share.Click += Share_Click;
@@ -100,13 +118,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             _error.Click += Error_Click;
             _cancel.Click += Cancel_Click;
             _hasMore.Click += LoadMore_Click;
+
             base.OnApplyTemplate();
         }
 
-        private async void _list_ItemClick(object sender, ItemClickEventArgs e)
+        private async void List_ItemClick(object sender, ItemClickEventArgs e)
         {
-            DriveItem driveItem = e.ClickedItem as DriveItem;
-            if (driveItem != null && driveItem.Folder != null)
+            if (e.ClickedItem is DriveItem driveItem && driveItem.Folder != null)
             {
                 _driveItemPath.Push(driveItem.Id);
                 _back.Visibility = Visibility.Visible;
@@ -114,6 +132,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
+        /// <summary>
+        /// Retrieves an appropriate Drive URL from a SharePoint document library root URL
+        /// </summary>
+        /// <param name="rawDocLibUrl">Raw URL for SharePoint document library</param>
+        /// <returns>Drive URL</returns>
         public async Task<string> GetDriveUrlFromSharePointUrl(string rawDocLibUrl)
         {
             if (string.IsNullOrEmpty(rawDocLibUrl))
@@ -144,7 +167,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             return _graphClient.Drives[drive.Id].RequestUrl;
         }
 
-        public async Task InitDrive(string driveUrl)
+        private async Task InitDrive(string driveUrl)
         {
             try
             {
@@ -167,10 +190,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     }
                 }
             }
-            catch { }
+            catch
+            {
+            }
         }
 
-        public async Task LoadFiles(string driveItemId, int pageIndex = 0)
+        private async Task LoadFiles(string driveItemId, int pageIndex = 0)
         {
             if (!string.IsNullOrEmpty(_driveId))
             {
@@ -193,6 +218,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         {
                             _list.Items.Add(file);
                         }
+
                         _nextPageRequest = files.NextPageRequest;
                         HasMore = _nextPageRequest != null;
                         _upload.Visibility = Visibility.Collapsed;
@@ -213,17 +239,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             _upload.Visibility = Visibility.Visible;
                         }
                     }
+
                     if (_list.Items.Count > 0)
                     {
                         _list.SelectedIndex = 0;
                     }
                 }
-                catch (Exception e)
-                { }
+                catch (Exception)
+                {
+                }
             }
         }
 
-        public async Task LoadNextPage()
+        private async Task LoadNextPage()
         {
             try
             {
@@ -237,12 +265,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         {
                             _list.Items.Add(item);
                         }
+
                         _nextPageRequest = items.NextPageRequest;
                         HasMore = _nextPageRequest != null;
                     }
                 }
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         private async void Back_Click(object sender, RoutedEventArgs e)
@@ -259,13 +290,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 {
                     _back.Visibility = Visibility.Collapsed;
                 }
+
                 await LoadFiles(parentItemId);
             }
         }
 
         private async void Upload_Click(object sender, RoutedEventArgs e)
         {
-            ErrorMessage = "";
+            ErrorMessage = string.Empty;
             FileOpenPicker picker = new FileOpenPicker();
             picker.FileTypeFilter.Add("*");
             StorageFile file = await picker.PickSingleFileAsync();
@@ -277,6 +309,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     if (inputStream.Length < 1024 * 1024 * 4)
                     {
                         FileUploading++;
+
                         try
                         {
                             await _graphClient.Drives[_driveId].Items[driveItemId].ItemWithPath(file.Name).Content.Request().PutAsync<DriveItem>(inputStream, _cancelUpload.Token);
@@ -287,6 +320,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             FileUploading--;
                             ErrorMessage = ex.Message;
                         }
+
                         await LoadFiles(driveItemId);
                     }
                 }
@@ -295,8 +329,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void Share_Click(object sender, RoutedEventArgs e)
         {
-            DriveItem driveItem = _list.SelectedItem as DriveItem;
-            if (driveItem != null)
+            if (_list.SelectedItem is DriveItem driveItem)
             {
                 Permission link = await _graphClient.Drives[_driveId].Items[driveItem.Id].CreateLink("view", "organization").Request().PostAsync();
                 MessageDialog dialog = new MessageDialog(link.Link.WebUrl, "Shared link copied");
@@ -309,8 +342,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void Download_Click(object sender, RoutedEventArgs e)
         {
-            DriveItem driveItem = _list.SelectedItem as DriveItem;
-            if (driveItem != null)
+            if (_list.SelectedItem is DriveItem driveItem)
             {
                 FileSavePicker picker = new FileSavePicker();
                 picker.FileTypeChoices.Add("All Files", new List<string>() { driveItem.Name.Substring(driveItem.Name.LastIndexOf(".")) });
@@ -332,8 +364,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void Delete_Click(object sender, RoutedEventArgs e)
         {
-            DriveItem driveItem = _list.SelectedItem as DriveItem;
-            if (driveItem != null)
+            if (_list.SelectedItem is DriveItem driveItem)
             {
                 MessageDialog confirmDialog = new MessageDialog("Do you want to delete this file?");
                 confirmDialog.Commands.Add(new UICommand("OK", cmd => { }, commandId: 0));
@@ -353,10 +384,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private async void list_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void List_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DriveItem driveItem = _list.SelectedItem as DriveItem;
-            if (driveItem != null)
+            if (_list.SelectedItem is DriveItem driveItem)
             {
                 _cancelGetDetails.Cancel(false);
                 _cancelGetDetails.Dispose();
@@ -372,6 +402,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         {
                             FileSelected.Invoke(this, new FileSelectedEventArgs() { FileSelected = driveItem });
                         }
+
                         _thumbnailImage.Source = null;
                         _download.Visibility = Visibility.Visible;
                         _share.Visibility = Visibility.Collapsed;
@@ -389,6 +420,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                                     break;
                                 }
                             }
+
                             IsDetailPaneVisible = true;
                             Task<IDriveItemThumbnailsCollectionPage> taskThumbnails = _graphClient.Drives[_driveId].Items[driveItem.Id].Thumbnails.Request().GetAsync(_cancelGetDetails.Token);
                             IDriveItemThumbnailsCollectionPage thumbnails = await taskThumbnails;
@@ -396,11 +428,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             {
                                 ThumbnailSet thumbnailsSet = thumbnails.FirstOrDefault();
                                 if (thumbnailsSet != null)
+                                {
                                     _thumbnailImage.Source = new BitmapImage(new Uri(thumbnailsSet.Large.Url));
+                                }
                             }
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
                 else
                 {
@@ -423,7 +459,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             _thumbnail.Visibility = Visibility.Collapsed;
             _details.Visibility = Visibility.Collapsed;
             if (_driveItemPath.Count <= 1)
+            {
                 _back.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void ShowDetailsPane()
@@ -434,7 +472,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 case DetailPaneDisplayMode.Side:
                     if (_driveItemPath.Count <= 1)
+                    {
                         _back.Visibility = Visibility.Collapsed;
+                    }
+
                     _list.Visibility = Visibility.Visible;
                     _list.SetValue(Grid.RowSpanProperty, 3);
                     _list.SetValue(Grid.ColumnSpanProperty, 2);
@@ -449,7 +490,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     break;
                 case DetailPaneDisplayMode.Bottom:
                     if (_driveItemPath.Count <= 1)
+                    {
                         _back.Visibility = Visibility.Collapsed;
+                    }
+
                     _list.Visibility = Visibility.Visible;
                     _list.SetValue(Grid.RowSpanProperty, 2);
                     _list.SetValue(Grid.ColumnSpanProperty, 3);
@@ -477,15 +521,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 default:
                     HideDetailsPane();
                     break;
-            }
-        }
-
-        private static void DetailPanePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            SharePointFiles control = d as SharePointFiles;
-            if (control.IsDetailPaneVisible)
-            {
-                control.ShowDetailsPane();
             }
         }
 

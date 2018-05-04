@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private static void OnDefaultImageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var profileCardControl = d as ProfileCard;
-            if (string.IsNullOrEmpty(profileCardControl.UserId.Trim()))
+            if (string.IsNullOrEmpty(profileCardControl.UserId))
             {
                 profileCardControl.UserPhoto = profileCardControl.DefaultImage;
             }
@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void FetchUserInfo()
         {
-            if (string.IsNullOrEmpty(GraphAccessToken.Trim()) || string.IsNullOrEmpty(UserId.Trim()))
+            if (string.IsNullOrEmpty(GraphAccessToken) || string.IsNullOrEmpty(UserId))
             {
                 InitUserProfile();
             }

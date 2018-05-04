@@ -6,8 +6,12 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid>
-        <controls:SharePointFiles 
+    <Grid Padding="10">
+      <StackPanel x:Name="ConvertPanel" Visibility="Collapsed">
+        <TextBox x:Name="tbDocLibURL" PlaceholderText="Enter SharePoint Document Library URL"/>
+        <Button x:Name="btnConvert" Margin="0 10 0 0">Convert and Save Drive URL to Clipboard</Button>
+      </StackPanel>
+      <controls:SharePointFiles x:Name="SharePointFilesControl"
             PageSize="@[PageSize:Slider:20:1-100]" 
             GraphAccessToken="@[GraphAccessToken:String: ]"
             DriveUrl="@[DriveUrl:String: ]"

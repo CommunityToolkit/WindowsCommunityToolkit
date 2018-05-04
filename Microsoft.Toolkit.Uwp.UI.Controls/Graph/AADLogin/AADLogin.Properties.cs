@@ -101,14 +101,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             get
             {
-                return (string)GetValue(ClientIdProperty);
+                return ((string)GetValue(ClientIdProperty))?.Trim();
             }
 
             set
             {
                 if (string.IsNullOrEmpty(ClientId))
                 {
-                    SetValue(ClientIdProperty, value);
+                    SetValue(ClientIdProperty, value?.Trim());
                     InitialPublicClientApplication();
                 }
                 else
@@ -125,14 +125,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             get
             {
-                return (string)GetValue(ScopesProperty);
+                return ((string)GetValue(ScopesProperty))?.Trim();
             }
 
             set
             {
                 if (string.IsNullOrEmpty(Scopes))
                 {
-                    SetValue(ScopesProperty, value);
+                    SetValue(ScopesProperty, value?.Trim());
                     InitialPublicClientApplication();
                 }
                 else

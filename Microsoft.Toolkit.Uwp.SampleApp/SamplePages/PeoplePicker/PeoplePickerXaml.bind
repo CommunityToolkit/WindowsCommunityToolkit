@@ -5,7 +5,7 @@
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
       mc:Ignorable="d">
 
-    <Grid Padding="48">
+    <Grid Padding="10">
       <controls:PeoplePicker
          GraphAccessToken="@[GraphAccessToken:String: ]@"
          AllowMultiple="@[AllowMultiple:Bool:True]@"
