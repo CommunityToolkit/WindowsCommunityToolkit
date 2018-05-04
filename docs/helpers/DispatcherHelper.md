@@ -2,7 +2,10 @@
 title: DispatcherHelper
 author: nmetulev
 description: The DispatcherHelper class enables easy interaction with CoreDispatcher, mainly in the case of executing a block of code on the UI thread from a non-UI thread.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, DispatcherHelper
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, DispatcherHelper
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # DispatcherHelper
@@ -30,6 +33,15 @@ await CoreApplication.MainView.Dispatcher.AwaitableRunAsync<T>( () =>
     
 });
 ```
+```vb
+DispatcherHelper.ExecuteOnUIThreadAsync(Of T)(Function()
+    ' Code to execute on main window's UI thread
+End Function)
+
+Await CoreApplication.MainView.Dispatcher.AwaitableRunAsync(Of T)(Function()
+
+End Function)
+``
 
 ## Methods
 
@@ -67,6 +79,22 @@ returnedFromUIThread = await CoreApplication.MainView.Dispatcher.AwaitableRunAsy
     NormalTextBlock.Text = "Updated from a random thread with extension method!";
     return 1;
 });
+```
+```vb
+' Executing from a non-UI thread with helper method
+Dim returnedFromUIThread As Integer = Await DispatcherHelper.ExecuteOnUIThreadAsync(Of Integer)(Function()
+    ' Code to execute on main window's UI thread
+    NormalTextBlock.Text = "Updated from a random thread!"
+    Return 1
+End Function)
+
+' returnedFromUIThread now is 1, execution can go on from the non-UI thread
+
+' Or update it manually via the Extension method for CoreDispatcher
+returnedFromUIThread = Await CoreApplication.MainView.Dispatcher.AwaitableRunAsync(Of Integer)(Function()
+    NormalTextBlock.Text = "Updated from a random thread with extension method!"
+    Return 1
+End Function)
 ```
 
 ## Requirements

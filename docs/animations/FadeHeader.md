@@ -2,7 +2,10 @@
 title: FadeHeader Behavior
 author: nmetulev
 description: The FadeHeader Behavior fades a ListView or GridView Header UIElement when the user scrolls.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, fadeheader, fadeheader behavior
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, fadeheader, fadeheader behavior
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # FadeHeader
@@ -52,11 +55,17 @@ The [FadeHeader](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.
 ```csharp
 Microsoft.Xaml.Interactivity.Interaction.GetBehaviors(MyListView).Add(new FadeHeaderBehavior());
 ```
+```vb
+Microsoft.Xaml.Interactivity.Interaction.GetBehaviors(MyListView).Add(New FadeHeaderBehavior())
+```
 
 ***Explicit usage***:
 
 ```csharp
 Microsoft.Xaml.Interactivity.Interaction.GetBehaviors(MyListView).Add(new FadeHeaderBehavior { HeaderElement = MyHeaderGrid });
+```
+```vb
+Microsoft.Xaml.Interactivity.Interaction.GetBehaviors(MyListView).Add(New FadeHeaderBehavior With {.HeaderElement = MyHeaderGrid})
 ```
 
 ## Sample Output
@@ -71,7 +80,7 @@ Microsoft.Xaml.Interactivity.Interaction.GetBehaviors(MyListView).Add(new FadeHe
 
 ## Sample Project
 
-[FadeHeader Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/FadeHeader). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[FadeHeader Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/FadeHeader). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

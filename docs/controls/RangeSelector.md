@@ -2,7 +2,10 @@
 title: RangeSelector XAML Control
 author: nmetulev
 description: The RangeSelector Control is a Double Slider control that allows the user to select a sub-range of values from a larger range of possible values.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, RangeSelector, XAML Control, xaml, double slider
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, RangeSelector, XAML Control, xaml, double slider
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # RangeSelector XAML Control
@@ -61,10 +64,21 @@ private void Selector_OnDragCompleted(object sender, DragCompletedEventArgs e)
 	ScrollViewer.VerticalScrollMode = ScrollMode.Auto;
 }
 ```
+```vb
+Private Sub Selector_OnDragStarted(ByVal sender As Object, ByVal e As DragStartedEventArgs)
+	ScrollViewer.HorizontalScrollMode = ScrollMode.Disabled
+	ScrollViewer.VerticalScrollMode = ScrollMode.Disabled
+End Sub
+
+Private Sub Selector_OnDragCompleted(ByVal sender As Object, ByVal e As DragCompletedEventArgs)
+	ScrollViewer.HorizontalScrollMode = ScrollMode.Auto
+	ScrollViewer.VerticalScrollMode = ScrollMode.Auto
+End Sub
+```
 
 ## Sample Code
 
-[RangeSelector Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/RangeSelector). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[RangeSelector Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/RangeSelector). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 

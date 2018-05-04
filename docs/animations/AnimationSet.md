@@ -2,7 +2,10 @@
 title: AnimationSet class
 author: Vijay-Nirmal
 description: The AnimationSet class defines an object for storing and managing Storyboard and CompositionAnimations for an element
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, animationset, animationset class
+keywords: windows 10, uwp, windows community toolkit, uwp toolkit, animationset, animationset class
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # AnimationSet
@@ -15,7 +18,7 @@ The AnimationSet class defines an object for storing and managing Storyboard and
 <Page ...
      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"/>
- 
+
 <interactivity:Interaction.Behaviors>
     <interactivity:BehaviorCollection>
         <behaviors:Blur Value="10" Duration="2500" AutomaticallyStart="True"/>
@@ -30,6 +33,12 @@ var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.
 anim.SetDurationForAll(2500);
 anim.SetDelay(250);
 anim.Start();
+```
+```vb
+Dim anim = MyUIElement.Light(5).Offset(offsetX:=100, offsetY:=100).Saturation(0.5).Scale(scaleX:=2, scaleY:=2)
+anim.SetDurationForAll(2500)
+anim.SetDelay(250)
+anim.Start()
 ```
 
 ## Sample Output
@@ -107,7 +116,7 @@ You can change the way how the animation interpolates between keyframes by defin
         preElement.Blur(value: 0).Fade(value: 1).Scale(centerX: 100, centerY: 100, easingType: EasingType.Sine)
                 .SetDurationForAll(500)
                 .Start();
-    }                
+    }
 
     private void MyUIElement_PointerExited(object sender, PointerRoutedEventArgs e)
     {
@@ -119,6 +128,19 @@ You can change the way how the animation interpolates between keyframes by defin
         }
     }
     ```
+    ```vb
+    Private Sub MyUIElement_PointerEntered(ByVal sender As Object, ByVal e As PointerRoutedEventArgs)
+        preElement = TryCast(sender, FrameworkElement)
+        preElement.Blur(value:=0).Fade(value:=1).Scale(centerX:=100, centerY:=100, easingType:=EasingType.Sine).SetDurationForAll(500).Start()
+    End Sub
+
+    Private Sub MyUIElement_PointerExited(ByVal sender As Object, ByVal e As PointerRoutedEventArgs)
+        If preElement IsNot Nothing Then
+            preElement.Blur(value:=0).Fade(value:=0.1F).Scale(scaleX:=0.5F, scaleY:=0.5F, centerX:=100, centerY:=100, easingType:=EasingType.Sine).SetDurationForAll(500).Start()
+        End If
+    End Sub
+    ```
+
     **Sample Output**
 
     ![Use Case 1 Output](../resources/images/Animations/AnimationSet/Use-Case-1.gif)
@@ -128,10 +150,19 @@ You can change the way how the animation interpolates between keyframes by defin
 
     ```csharp
     MyUIElement.Blur(value: 10).Fade(value: 0.5f)
-            .Then()
-            .Fade(value: 1).Scale(scaleX: 2, scaleY: 2, centerX: 100, centerY: 100, easingType: EasingType.Sine)
-            .SetDurationForAll(2500)
-            .Start();
+               .Then()
+               .Fade(value: 1).Scale(scaleX: 2, scaleY: 2, centerX: 100, centerY: 100, easingType: EasingType.Sine)
+               .SetDurationForAll(2500)
+               .Start();
+    ```
+    ```vb
+    MyUIElement.Blur(value:=10) _
+               .Fade(value:=0.5F) _
+               .[Then]() _
+               .Fade(value:=1) _
+               .Scale(scaleX:=2, scaleY:=2, centerX:=100, centerY:=100, easingType:=EasingType.Sine) _
+               .SetDurationForAll(2500) _
+               .Start()
     ```
 
     **Sample Output**

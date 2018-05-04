@@ -2,7 +2,7 @@
 title: OrbitView XAML Control
 author: nmetulev
 description: The OrbitView is an ItemsControl where all items are arranged in circle around a center element
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, OrbitView, xaml control, xaml
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, OrbitView, xaml control, xaml
 ---
 
 # OrbitView XAML Control
@@ -130,7 +130,7 @@ The following sample demonstrates how to add OrbitView Control.
 
 ## Sample Code
 
-[Carousel Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/OrbitView). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Carousel Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/OrbitView). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 

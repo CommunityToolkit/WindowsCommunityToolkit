@@ -2,7 +2,10 @@
 title: Scale animation behavior
 author: nmetulev
 description: The Scale animation behavior allows you to change a control's scale by increasing or decreasing the control through animation. 
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, scale animation, scale
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, scale animation, scale
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Scale
@@ -13,7 +16,7 @@ The [Scale animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uw
 
 ```xaml
 <Page ...
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"/>
 
 <interactivity:Interaction.Behaviors>
@@ -27,6 +30,9 @@ The [Scale animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uw
 
 ```csharp
 MyUIElement.Scale(scaleX: 2, scaleY: 2, centerX: 0, centerY: 0, duration: 2500, delay: 250, easingType: EasingType.Default).Start();
+```
+```vb
+MyUIElement.Scale(scaleX:=2, scaleY:=2, centerX:=0, centerY:=0, duration:=2500, delay:=250, easingType:=EasingType.[Default]).Start()
 ```
 
 ## Sample Output
@@ -90,6 +96,20 @@ You can change the way how the animation interpolates between keyframes by defin
         lastTapped.Scale(scaleX: 2, scaleY: 2, centerX: 50, centerY: 50).Start();
     }
     ```
+    ```vb
+    Private lastTapped As UIElement = Nothing
+
+    Private Sub MyUIElement_Tapped(ByVal sender As Object, ByVal e As TappedRoutedEventArgs)
+        If lastTapped IsNot Nothing Then
+            lastTapped.Scale(centerX:=50, centerY:=50).Start()
+            Canvas.SetZIndex(lastTapped, 0)
+        End If
+
+        lastTapped = TryCast(sender, UIElement)
+        Canvas.SetZIndex(lastTapped, 1)
+        lastTapped.Scale(scaleX:=2, scaleY:=2, centerX:=50, centerY:=50).Start()
+    End Sub
+    ```
     **Sample Output**
 
     ![Use Case 1 Output](../resources/images/Animations/Scale/Sample-Output.gif)
@@ -105,6 +125,13 @@ You can change the way how the animation interpolates between keyframes by defin
     anim.Completed += animation_completed;
     anim.Start();
     ```
+    ```vb
+    Dim anim = MyUIElement.Light(5).Offset(offsetX:=100, offsetY:=100).Saturation(0.5).Scale(scaleX:=2, scaleY:=2)
+    anim.SetDurationForAll(2500)
+    anim.SetDelay(250)
+    AddHandler anim.Completed, AddressOf animation_completed
+    anim.Start()
+    ```
 
     **Sample Output**
 
@@ -112,7 +139,7 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ## Sample Project
 
-[Scale Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Scale). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Scale Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Scale). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

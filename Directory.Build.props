@@ -25,6 +25,8 @@
     <UwpMetaPackageVersion>5.4.1</UwpMetaPackageVersion>
     <DefaultTargetPlatformVersion>16299</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>14393</DefaultTargetPlatformMinVersion>
+	
+	  <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
   </PropertyGroup>
 
   <Choose>

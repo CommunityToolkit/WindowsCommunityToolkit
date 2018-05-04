@@ -2,7 +2,7 @@
 title: ListViewExtensions
 author: nmetulev
 description: ListViewExtensions extensions provide a lightweight way to extend every control that inherits the ListViewBase class with attached properties.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ListViewBase, extensions
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, ListViewBase, extensions
 ---
 
 # ListViewExtensions
@@ -120,7 +120,7 @@ The [ContainerContentChanging](https://docs.microsoft.com/uwp/api/windows.ui.xam
 
 ## Sample Code
 
-[ListViewExtensions](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ListViewExtensions). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[ListViewExtensions](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ListViewExtensions). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

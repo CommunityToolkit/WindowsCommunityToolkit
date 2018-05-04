@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Microsoft.Toolkit.Uwp.SampleApp.App">
-      <uap:VisualElements DisplayName="UWP Community Toolkit Sample App" Square150x150Logo="Assets\UWPCommunityToolkitSampleAppMedTile.png" Square44x44Logo="Assets\UWPCommunityToolkitSampleAppAppList.png" Description="This app demonstrates the controls, services and APIs available in the UWP Community Toolkit. The toolkit is available as NuGet package for your C# or VB.NET projects. Source code of the toolkit and the sample app is available on GitHub." BackgroundColor="#3750D1">
+      <uap:VisualElements DisplayName="Windows Community Toolkit Sample App" Square150x150Logo="Assets\UWPCommunityToolkitSampleAppMedTile.png" Square44x44Logo="Assets\UWPCommunityToolkitSampleAppAppList.png" Description="This app demonstrates the controls, services and APIs available in the Windows Community Toolkit. The toolkit is available as NuGet package for your C# or VB.NET projects. Source code of the toolkit and the sample app is available on GitHub." BackgroundColor="#3750D1">
         <uap:LockScreen Notification="badge" BadgeLogo="Assets\UWPCommunityToolkitSampleAppBadgeLogo.png" />
         <uap:DefaultTile Wide310x150Logo="Assets\UWPCommunityToolkitSampleAppWideTile.png" Square310x310Logo="Assets\UWPCommunityToolkitSampleAppLargeTile.png" Square71x71Logo="Assets\UWPCommunityToolkitSampleAppSmallTile.png">
           <uap:ShowNameOnTiles>
@@ -29,7 +29,7 @@
       <Extensions>
         <uap:Extension Category="windows.protocol">
           <uap:Protocol Name="uwpct">
-            <uap:DisplayName>UWP Community Toolkit</uap:DisplayName>
+            <uap:DisplayName>Windows Community Toolkit</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
         <Extension Category="windows.backgroundTasks" EntryPoint="Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.TestBackgroundTask">
