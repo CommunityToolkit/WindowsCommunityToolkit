@@ -7,8 +7,6 @@
            TargetType="Border">
         <Setter Property="Width" Value="80" />
         <Setter Property="Height" Value="80" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="Gray" />
     </Style>
 
     <Style x:Key="ProfileCardImageEllipseStyle"
@@ -33,6 +31,8 @@
     <Style TargetType="controls:ProfileCard">
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ProfileCard">
