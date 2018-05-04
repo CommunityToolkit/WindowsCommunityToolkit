@@ -101,8 +101,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public string GraphAccessToken
         {
-            get { return (string)GetValue(GraphAccessTokenProperty); }
-            set { SetValue(GraphAccessTokenProperty, value.Trim()); }
+            get { return ((string)GetValue(GraphAccessTokenProperty)).Trim(); }
+            set { SetValue(GraphAccessTokenProperty, value); }
         }
 
         /// <summary>
@@ -110,8 +110,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public string UserId
         {
-            get { return (string)GetValue(UserIdProperty); }
-            set { SetValue(UserIdProperty, value.Trim()); }
+            get { return ((string)GetValue(UserIdProperty)).Trim(); }
+            set { SetValue(UserIdProperty, value); }
         }
 
         /// <summary>

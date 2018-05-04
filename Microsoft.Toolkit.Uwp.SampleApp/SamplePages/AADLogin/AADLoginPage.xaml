@@ -7,8 +7,10 @@
       mc:Ignorable="d">
     
     <!-- Shallow Copy -->
-    <Grid VerticalAlignment="Center"
-                HorizontalAlignment="Center">
-        <controls:AADLogin x:Name="AADLoginControl" />
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid VerticalAlignment="Center"
+          HorizontalAlignment="Center">
+            <controls:AADLogin x:Name="AADLoginControl" />
+        </Grid>
     </Grid>
 </Page>
