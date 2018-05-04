@@ -3,6 +3,8 @@
       xmlns:commands="using:Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
@@ -163,7 +165,9 @@
                         Icon="SaveLocal"
                         Text="Save as" />
         <MenuFlyoutSeparator />
-        <MenuFlyoutItem Text="Page Setup" />
+        <MenuFlyoutItem Text="Page Setup"
+                        Command="{StaticResource GenericCommand}"
+                        CommandParameter="Page Setup!"/>
         <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+P"
                         Command="{StaticResource GenericCommand}"
                         CommandParameter="Page is Printed!!"
@@ -195,10 +199,22 @@
                         Icon="Paste" />
       </controls:MenuItem>
 
-      <controls:MenuItem  Name="FileMenu" controls:Menu.InputGestureText="Alt+V" Header="^View" />
+      <controls:MenuItem  Name="FileMenu"
+                          controls:Menu.InputGestureText="Alt+V"
+                          Header="^View">
+        <interactivity:Interaction.Behaviors>
+          <core:EventTriggerBehavior EventName="Tapped">
+              <core:InvokeCommandAction Command="{StaticResource GenericCommand}" CommandParameter="View Tapped" />
+          </core:EventTriggerBehavior>
+        </interactivity:Interaction.Behaviors>
+      
+      </controls:MenuItem>
 
       <controls:MenuItem controls:Menu.InputGestureText="Alt+H" Header="^Help">
-        <MenuFlyoutItem Text="About" Icon="Help" />
+        <MenuFlyoutItem Text="About"
+                        Icon="Help" 
+                        Command="{StaticResource GenericCommand}"
+                        CommandParameter="Windows Community Toolkit"/>
       </controls:MenuItem>
     </controls:Menu>
 

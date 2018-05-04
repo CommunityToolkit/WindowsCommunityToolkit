@@ -345,6 +345,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ShowMenuRepositioned(double menuWidth, double menuHeight)
         {
+            if (!IsEnabled || MenuFlyout.Items.Count == 0)
+            {
+                return;
+            }
+
             _menuFlyoutRepositioned = true;
             Point location;
             if (MenuFlyout.Placement == FlyoutPlacementMode.Bottom)
@@ -370,7 +375,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void ShowMenu()
         {
-            if (!IsEnabled)
+            if (!IsEnabled || MenuFlyout.Items.Count == 0)
             {
                 return;
             }
