@@ -59,6 +59,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         public WebView()
         {
             Paint += OnWebViewPaint;
+            Layout += OnWebViewLayout;
         }
 
         /// <summary>
@@ -431,51 +432,26 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
         }
 
-        /// <summary>
-        /// Handles the <see cref="E:ClientSizeChanged" /> event.
-        /// </summary>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected override void OnClientSizeChanged(EventArgs e)
-        {
-            base.OnClientSizeChanged(e);
-            UpdateBounds();
-        }
-
-        /// <summary>
-        /// Handles the <see cref="E:DockChanged" /> event.
-        /// </summary>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected override void OnDockChanged(EventArgs e)
-        {
-            base.OnDockChanged(e);
-            UpdateBounds();
-        }
-
-        /// <summary>
-        /// Handles the <see cref="E:LocationChanged" /> event.
-        /// </summary>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected override void OnLocationChanged(EventArgs e)
-        {
-            base.OnLocationChanged(e);
-            UpdateBounds();
-        }
-
-        /// <summary>
-        /// Handles the <see cref="E:SizeChanged" /> event.
-        /// </summary>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        protected override void OnSizeChanged(EventArgs e)
-        {
-            base.OnSizeChanged(e);
-            UpdateBounds();
-        }
-
         private bool IsInDesignMode()
         {
             var wpfDesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
             var formsDesignMode = System.Diagnostics.Process.GetCurrentProcess().ProcessName == "devenv";
             return wpfDesignMode || formsDesignMode;
+        }
+
+        // Ensures the WebViewControl's size stays in sync
+        private void OnWebViewLayout(object sender, LayoutEventArgs e)
+        {
+            // This event is raised once at startup with the AffectedControl and AffectedProperty properties
+            // on the LayoutEventArgs as null.
+            if (e.AffectedControl != null && e.AffectedProperty != null)
+            {
+                // Ensure that the affected property is the Bounds property to the control
+                if (e.AffectedProperty == nameof(Bounds))
+                {
+                    UpdateBounds(Bounds);
+                }
+            }
         }
 
         private void OnWebViewPaint(object sender, PaintEventArgs e)
@@ -494,20 +470,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
         }
 
-        private new void UpdateBounds()
+        private void UpdateBounds(Rectangle bounds)
         {
-            try
-            {
-#if DEBUG_LAYOUT
-                Debug.WriteLine("RECT:   X: {0}, Y: {1}, Height: {2}, Width: {3}", ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Height, ClientRectangle.Width);
-#endif
-
-                _webViewControl?.UpdateBounds(ClientRectangle);
-            }
-            finally
-            {
-                base.UpdateBounds();
-            }
+            _webViewControl?.UpdateBounds(bounds);
         }
     }
 }
