@@ -46,8 +46,3 @@ For the complete list of issues and limitations in this release of the **WebView
 
 ### Markdown
 * parser combines quotes with any white space in between - [see issue for details](https://github.com/Microsoft/UWPCommunityToolkit/issues/1761)
-
-
-## Notifications
-
-The Notifications packages do not work with C++ and Javascrpt projects and throw an exception - [see issue for details](https://github.com/Microsoft/UWPCommunityToolkit/issues/1760)

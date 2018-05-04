@@ -41,9 +41,9 @@ Once you search you should see a list similar to the one below (versions may be 
 | Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app | 
 
 ## <a name="supported"></a> Supported SDKs
-* Anniversary Update (14393)
 * Creators Update (15063)
 * Fall Creators Update (16299)
+* 1803 (17134)
 
 ## Features
 
