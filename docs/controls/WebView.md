@@ -54,25 +54,13 @@ First, open the Visual Studio **Toolbox**, then right-click anywhere in the tool
 
 3. Add that file to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
 
-   The **WebView** control appears in the **Common XAML Controls** section of the **Toolbox**.
+   The **WebView** control appears in the **All Windows Forms** section of the **Toolbox**.
 
    In **Solution Explorer**, the **Microsoft.Toolkit.Win32.UI.Controls.dll** file appears in the **References** list.
 
 ### For WPF applications
 
-1. In the **WPF Components** tab of the **Choose Toolbox Items** dialog box.
-
-2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** in your NuGet package folder.
-
-   For help finding that folder, see [Managing the global packages, cache, and temp folders](https://docs.microsoft.com/nuget/consume-packages/managing-the-global-packages-and-cache-folders).
-
-3. Add that file to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
-
-   The **WebView** control appears in the **Common XAML Controls** section of the **Toolbox**.
-
-   In **Solution Explorer**, the **Microsoft.Toolkit.Win32.UI.Controls.dll** file appears in the **References** list.
-
-After the **WebView** control appears in the Visual Studio Toolbox, you can drag it directly the designer. You can also create an instance of the **WebView** control in code, but we recommend that you do not add **WebView** controls to popup windows because support for that scenario will soon be disabled for security reasons.
+The **WebView** control appears in the **Windows Community Toolkit** section of the **Toolbox** in Visual Studio or Blend and you can drag it directly the designer. You can also create an instance of the **WebView** control in code, but we recommend that you do not add **WebView** controls to popup windows because support for that scenario will soon be disabled for security reasons.
 
 <a id="high-dpi" />
 
