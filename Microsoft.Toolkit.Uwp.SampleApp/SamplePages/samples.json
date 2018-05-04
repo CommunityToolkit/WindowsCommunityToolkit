@@ -871,11 +871,11 @@
       {
         "Name": "GazeInteraction",
         "Type": "GazeInteractionPage",
-        "About": "Demonstrate the properties and events of the GazePointer library",
+        "About": "Demonstrate the properties and events of the Gaze Interaction library",
         "XamlCodeFile": "GazeInteractionXaml.bind",
         "CodeFile": "GazeInteractionCode.bind",
         "Icon": "/SamplePages/GazeInteraction/GazeInteraction.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/gaze/Gaze.md",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/gaze/GazeInteractionLibrary.md",
         "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
       },
       {

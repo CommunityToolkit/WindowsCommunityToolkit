@@ -2,7 +2,7 @@
 title: Bing Service
 author: nmetulev
 description: The Bing Service allows you to retrieve Bing results. Bing can return web and news results in your language, images, and videos for many countries around the world.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, bing
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, bing
 dev_langs:
   - csharp
   - vb
@@ -116,7 +116,7 @@ ListView.ItemsSource = Await BingService.Instance.RequestAsync(searchConfig, 50)
 
 ## Sample Code
 
-[Bing Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Bing%20Service). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Bing Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Bing%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

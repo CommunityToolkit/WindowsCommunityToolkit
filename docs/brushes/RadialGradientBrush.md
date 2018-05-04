@@ -2,7 +2,7 @@
 title: RadialGradientBrush
 author: michael-hawker
 description: The RadialGradientBrush fills an area with a radial gradient. A focal point defines the beginning of the gradient, and a circle defines the end point of the gradient. 
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, brush, radial gradient, gradient
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, brush, radial gradient, gradient
 ---
 
 # RadialGradientBrush
@@ -61,7 +61,7 @@ The Animation or Binding of *GradientStop* `Offset` and `Color` properties is no
 
 ## Sample Code
 
-[RadialGradientBrush sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/RadialGradientBrush). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[RadialGradientBrush sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/RadialGradientBrush). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

@@ -2,7 +2,7 @@
 title: Scale animation behavior
 author: nmetulev
 description: The Scale animation behavior allows you to change a control's scale by increasing or decreasing the control through animation. 
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, scale animation, scale
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, scale animation, scale
 dev_langs:
   - csharp
   - vb
@@ -139,7 +139,7 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ## Sample Project
 
-[Scale Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Scale). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Scale Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Scale). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

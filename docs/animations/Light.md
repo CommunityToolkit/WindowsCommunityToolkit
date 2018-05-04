@@ -2,7 +2,7 @@
 title: Light animation behavior
 author: nmetulev
 description: The Light animation behavior performs a point light in the middle of a given UIElement. 
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, light, light animation
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, light, light animation
 dev_langs:
   - csharp
   - vb
@@ -90,7 +90,7 @@ Await MyUIElement.Light(distance:=5, duration:=2500, delay:=250, color:=Colors.R
 
 ## Sample Project
 
-[Light Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Light). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
+[Light Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Light). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
 
 ## Requirements
 

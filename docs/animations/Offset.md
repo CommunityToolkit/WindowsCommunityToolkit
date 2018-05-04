@@ -2,7 +2,7 @@
 title: Offset animation behavior
 author: nmetulev
 description: The Offset animation behavior gets the number of pixels, from the origin of the associated control, then offsets the control.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, offset animation
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, offset animation
 dev_langs:
   - csharp
   - vb
@@ -141,7 +141,7 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ## Sample Project
 
-[Offset Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Offset). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Offset Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Offset). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

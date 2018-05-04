@@ -2,7 +2,7 @@
 title: Saturation animation behavior
 author: nmetulev
 description: The Saturation animation behavior selectively saturates a XAML element.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, saturation animation, saturation
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, saturation animation, saturation
 dev_langs:
   - csharp
   - vb
@@ -112,7 +112,7 @@ ToolkitLogo.Saturation(value:=0, duration:=500, delay:=250)
 
 ## Sample Project
 
-[Saturation Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Saturation). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Saturation Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Saturation). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
