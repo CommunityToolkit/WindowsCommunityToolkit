@@ -4,6 +4,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph">
 
     <Style TargetType="controls:AADLogin">
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:AADLogin">
