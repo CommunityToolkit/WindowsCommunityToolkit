@@ -70,12 +70,9 @@
                                                         FlowDirection="LeftToRight"
                                                         Tag="{Binding UserPrincipalName}"
                                                         Width="48" Height="48"
-                                                        Background="Transparent">
-                                                    <interactivity:Interaction.Behaviors>
-                                                        <core:EventTriggerBehavior EventName="Click">
-                                                            <core:InvokeCommandAction Command="{Binding DataContext.DeleteItem, ElementName=tbGraphAccessToken}" />
-                                                        </core:EventTriggerBehavior>
-                                                    </interactivity:Interaction.Behaviors>
+                                                        Background="Transparent"
+                                                        Command="{Binding DataContext.DeleteItemCommand, ElementName=tbGraphAccessToken}"
+                                                        CommandParameter="{Binding Id}">
                                                     <SymbolIcon Symbol="Cancel" />
                                                 </Button>
                                             </Grid>
