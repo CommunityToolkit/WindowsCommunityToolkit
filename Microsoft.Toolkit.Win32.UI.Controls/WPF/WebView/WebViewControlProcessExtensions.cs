@@ -14,11 +14,16 @@ using System;
 using System.Security;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
-    internal static class WebViewControlProcessExtensions
+    /// <summary>
+    /// Extends the funcionality of <see cref="WebViewControlProcess"/> for WPF.
+    /// </summary>
+    public static class WebViewControlProcessExtensions
     {
         /// <summary>
         /// Creates a <see cref="IWebView"/> within the context of <paramref name="process"/>.
@@ -31,7 +36,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <paramref name="hostWindowHandle"/> is equal to <see cref="IntPtr.Zero"/>, or
         /// <paramref name="process"/> is <see langword="null" />.
         /// </exception>
-        internal static IWebView CreateWebView(
+        public static IWebView CreateWebView(
             this WebViewControlProcess process,
             IntPtr hostWindowHandle,
             Rect bounds)
@@ -50,6 +55,33 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
+        /// Creates a <see cref="IWebView"/> within the context of <paramref name="process"/> using the <paramref name="visual"/> to create a HWND and within the specified <paramref name="bounds"/>.
+        /// </summary>
+        /// <param name="process">An instance of <see cref="WebViewControlProcess" />.</param>
+        /// <param name="visual">A <see cref="Visual"/> instance in which to create a HWND.</param>
+        /// <param name="bounds">A <see cref="Rect" /> containing numerical values that represent the location and size of the control.</param>
+        /// <returns>An <see cref="IWebView"/> instance.</returns>
+        public static IWebView CreateWebView(this WebViewControlProcess process, Visual visual, Rect bounds)
+        {
+            return visual.Dispatcher.Invoke(() => process.CreateWebViewAsync(visual, bounds).GetAwaiter().GetResult());
+        }
+
+        /// <summary>
+        /// Creates a <see cref="IWebView"/> within the context of <paramref name="process"/> using the <paramref name="visual"/> to create a HWND.
+        /// </summary>
+        /// <param name="process">An instance of <see cref="WebViewControlProcess" />.</param>
+        /// <param name="visual">A <see cref="Visual"/> instance in which to create a HWND.</param>
+        /// <returns>An <see cref="IWebView"/> instance.</returns>
+        /// <remarks>
+        /// The bounds to draw the <see cref="WebView"/> are determined by the height and width of the <paramref name="visual"/>.
+        /// </remarks>
+        /// <seealso cref="CreateWebViewAsync(WebViewControlProcess,IntPtr,Rect)"/>
+        public static IWebView CreateWebView(this WebViewControlProcess process, Visual visual)
+        {
+            return visual.Dispatcher.Invoke(() => process.CreateWebViewAsync(visual).GetAwaiter().GetResult());
+        }
+
+        /// <summary>
         /// Creates a <see cref="IWebView"/> within the context of <paramref name="process"/>.
         /// </summary>
         /// <param name="process">An instance of <see cref="WebViewControlProcess" />.</param>
@@ -60,7 +92,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <paramref name="hostWindowHandle"/> is equal to <see cref="IntPtr.Zero"/>, or
         /// <paramref name="process"/> is <see langword="null" />.
         /// </exception>
-        internal static async Task<IWebView> CreateWebViewAsync(
+        public static async Task<IWebView> CreateWebViewAsync(
             this WebViewControlProcess process,
             IntPtr hostWindowHandle,
             Rect bounds)
@@ -76,6 +108,63 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
 
             return new WebView(await process.CreateWebViewControlHostAsync(hostWindowHandle, bounds).ConfigureAwait(false));
+        }
+
+        /// <summary>
+        /// Creates a <see cref="IWebView"/> within the context of <paramref name="process"/> using the <paramref name="visual"/> to create a HWND and within the specified <paramref name="bounds"/>.
+        /// </summary>
+        /// <param name="process">An instance of <see cref="WebViewControlProcess" />.</param>
+        /// <param name="visual">A <see cref="Visual"/> instance in which to create a HWND.</param>
+        /// <param name="bounds">A <see cref="Rect" /> containing numerical values that represent the location and size of the control.</param>
+        /// <returns>An asynchronous operation that completes with a <see cref="IWebView"/>.</returns>
+        public static async Task<IWebView> CreateWebViewAsync(this WebViewControlProcess process, Visual visual, Rect bounds)
+        {
+            HwndSource sourceHwnd;
+            if (!visual.Dispatcher.CheckAccess())
+            {
+                sourceHwnd = visual.Dispatcher.Invoke(() => (HwndSource)PresentationSource.FromVisual(visual));
+            }
+            else
+            {
+                sourceHwnd = (HwndSource)PresentationSource.FromVisual(visual);
+            }
+
+            Verify.IsNotNull(sourceHwnd);
+
+            var webViewControlHost = await process.CreateWebViewControlHostAsync(sourceHwnd?.Handle ?? IntPtr.Zero, bounds);
+
+            return !visual.Dispatcher.CheckAccess()
+                ? visual.Dispatcher.Invoke(() => new WebView(webViewControlHost))
+                : new WebView(webViewControlHost);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="IWebView"/> within the context of <paramref name="process"/> using the <paramref name="visual"/> to create a HWND.
+        /// </summary>
+        /// <param name="process">An instance of <see cref="WebViewControlProcess" />.</param>
+        /// <param name="visual">A <see cref="Visual"/> instance in which to create a HWND.</param>
+        /// <returns>An asynchronous operation that completes with a <see cref="IWebView"/>.</returns>
+        /// <remarks>
+        /// The bounds to draw the <see cref="WebView"/> are determined by the height and width of the <paramref name="visual"/>.
+        /// </remarks>
+        /// <seealso cref="CreateWebViewAsync(WebViewControlProcess,IntPtr,Rect)"/>
+        public static Task<IWebView> CreateWebViewAsync(this WebViewControlProcess process, Visual visual)
+        {
+            double width;
+            double height;
+
+            if (!visual.Dispatcher.CheckAccess())
+            {
+                width = visual.Dispatcher.Invoke(() => (double)visual.GetValue(FrameworkElement.ActualWidthProperty));
+                height = visual.Dispatcher.Invoke(() => (double)visual.GetValue(FrameworkElement.ActualHeightProperty));
+            }
+            else
+            {
+                width = (double)visual.GetValue(FrameworkElement.ActualWidthProperty);
+                height = (double)visual.GetValue(FrameworkElement.ActualHeightProperty);
+            }
+
+            return process.CreateWebViewAsync(visual, new Rect(new Size(height, width)));
         }
 
         [SecuritySafeCritical]
