@@ -197,6 +197,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async Task LoadFiles(string driveItemId, int pageIndex = 0)
         {
+            IsDetailPaneVisible = false;
             if (!string.IsNullOrEmpty(_driveId))
             {
                 try

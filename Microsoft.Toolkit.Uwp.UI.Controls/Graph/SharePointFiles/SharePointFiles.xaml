@@ -110,11 +110,11 @@
                             </ListView.Footer>
                         </ListView>
 
-                        <Grid Name="thumbnail" Grid.Row="1" Grid.Column="2" Visibility="Collapsed" Background="#B2B2B2" Padding="5">
+                        <Grid Name="thumbnail" Grid.Row="1" Grid.Column="2" Visibility="Collapsed" Background="{ThemeResource SystemBaseMediumColor}" Padding="5">
                             <Image Name="thumbnailImage" />
                         </Grid>
 
-                        <ScrollViewer Name="details" Visibility="Collapsed" Background="#DDDDDD">
+                        <ScrollViewer Name="details" Visibility="Collapsed" Background="{ThemeResource SystemBaseLowColor}">
                             <StackPanel>
                                 <TextBlock Style="{StaticResource MetaLabel}">Name</TextBlock>
                                 <HyperlinkButton Style="{StaticResource MetaValueLink}" NavigateUri="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SelectedFile.WebUrl}">

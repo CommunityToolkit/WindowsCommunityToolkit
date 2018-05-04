@@ -5,8 +5,14 @@ using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
+    /// <summary>
+    /// The SharePointFiles Control displays a simple list of SharePoint Files.
+    /// </summary>
     public partial class SharePointFiles : Control
     {
+        /// <summary>
+        /// Token to access Microsoft Graph API
+        /// </summary>
         public static readonly DependencyProperty GraphAccessTokenProperty =
             DependencyProperty.Register(
                 nameof(GraphAccessToken),
@@ -14,6 +20,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 typeof(SharePointFiles),
                 new PropertyMetadata(string.Empty, GraphAccessTokenPropertyChanged));
 
+        /// <summary>
+        /// Url of OneDrive to display
+        /// </summary>
         public static readonly DependencyProperty DriveUrlProperty =
             DependencyProperty.Register(
                 nameof(DriveUrl),
@@ -21,6 +30,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 typeof(SharePointFiles),
                 new PropertyMetadata(string.Empty, DriveUrlPropertyChanged));
 
+        /// <summary>
+        /// How DetailPane shows
+        /// </summary>
         public static readonly DependencyProperty DetailPaneProperty =
             DependencyProperty.Register(
                 nameof(DetailPane),
@@ -28,6 +40,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 typeof(SharePointFiles),
                 new PropertyMetadata(DetailPaneDisplayMode.Disabled, DetailPanePropertyChanged));
 
+        /// <summary>
+        /// Page size of each request
+        /// </summary>
         public static readonly DependencyProperty PageSizeProperty =
             DependencyProperty.Register(
                 nameof(PageSize),
@@ -73,24 +88,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private int _fileUploading;
         private string _errorMessage;
 
+        /// <summary>
+        /// Gets or sets token to access Microsoft Graph API
+        /// </summary>
         public string GraphAccessToken
         {
             get { return ((string)GetValue(GraphAccessTokenProperty))?.Trim(); }
             set { SetValue(GraphAccessTokenProperty, value?.Trim()); }
         }
 
+        /// <summary>
+        /// Gets or sets url of OneDrive to display
+        /// </summary>
         public string DriveUrl
         {
             get { return ((string)GetValue(DriveUrlProperty))?.Trim(); }
             set { SetValue(DriveUrlProperty, value?.Trim()); }
         }
 
+        /// <summary>
+        /// Gets or sets how DetailPane shows
+        /// </summary>
         public DetailPaneDisplayMode DetailPane
         {
             get { return (DetailPaneDisplayMode)GetValue(DetailPaneProperty); }
             set { SetValue(DetailPaneProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets page size of each request
+        /// </summary>
         public int PageSize
         {
             get { return (int)GetValue(PageSizeProperty); }
