@@ -72,13 +72,10 @@
                                                         HorizontalAlignment="Right"
                                                         AutomationProperties.Name="Remove from selection"
                                                         Background="Transparent"
+                                                        Command="{Binding DataContext.DeleteItemCommand, ElementName=tbGraphAccessToken}"
+                                                        CommandParameter="{Binding Id}"
                                                         FlowDirection="LeftToRight"
                                                         Tag="{Binding UserPrincipalName}">
-                                                    <interactivity:Interaction.Behaviors>
-                                                        <core:EventTriggerBehavior EventName="Click">
-                                                            <core:InvokeCommandAction Command="{Binding DataContext.DeleteItem, ElementName=tbGraphAccessToken}" />
-                                                        </core:EventTriggerBehavior>
-                                                    </interactivity:Interaction.Behaviors>
                                                     <SymbolIcon Symbol="Cancel" />
                                                 </Button>
                                             </Grid>

@@ -96,10 +96,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             _searchBox.Text = string.Empty;
         }
 
-        private void DeleteSelectionItem(object parameter)
+        private void DeleteSelectedItem(object parameter)
         {
-            var upn = parameter as string;
-            Person target = Selections.FirstOrDefault(u => u.UserPrincipalName == upn);
+            var userId = parameter as string;
+            Person target = Selections.FirstOrDefault(u => u.Id == userId);
             if (target != null)
             {
                 Selections.Remove(target);

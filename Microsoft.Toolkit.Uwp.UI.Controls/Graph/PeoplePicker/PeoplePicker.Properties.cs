@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Microsoft.Graph;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -120,6 +121,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         internal GraphServiceClient GraphClient { get; set; }
 
-        internal DelegateCommand DeleteItem => new DelegateCommand(DeleteSelectionItem);
+        private ICommand _deleteItemCommand;
+        public ICommand DeleteItemCommand
+        {
+            get
+            {
+                if (_deleteItemCommand == null)
+                {
+                    _deleteItemCommand = new DelegateCommand(DeleteSelectedItem);
+                }
+
+                return _deleteItemCommand;
+            }
+        }
     }
 }
