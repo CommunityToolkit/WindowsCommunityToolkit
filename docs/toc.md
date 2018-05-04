@@ -45,6 +45,7 @@
 ## [HeaderedTextBlock](controls/HeaderedTextBlock.md)
 ## [ImageEx](controls/ImageEx.md)
 ## [InAppNotification](controls/InAppNotification.md)
+## [LayoutTransformControl](controls/LayoutTransformControl.md)
 ## [Loading](controls/Loading.md)
 ## [MarkdownTextBlock](controls/MarkdownTextBlock.md)
 ## [MasterDetailsView](controls/MasterDetailsView.md)
@@ -60,7 +61,7 @@
 ## [StaggeredPanel](controls/StaggeredPanel.md)
 ## [TextToolbar](controls/TextToolbar.md)
 ## [TileControl](controls/TileControl.md)
-## [WebView (win32)](controls/WebView.md)
+## [WebView (Win32)](controls/WebView.md)
 ## [WrapPanel](controls/WrapPanel.md)
 
 # Developer tools
@@ -105,6 +106,9 @@
 ## [SystemInformation](helpers/SystemInformation.md)
 ## [ThemeListener](helpers/ThemeListener.md)
 ## [WeakEventListener](helpers/WeakEventListener.md)
+
+# Gaze
+## [Gaze Interaction](gaze/GazeInteractionLibrary.md)
 
 # Notifications
 ## [Notifications Overview](notifications/NotificationsOverview.md)

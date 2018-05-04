@@ -7,6 +7,9 @@ keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp
 
 # WebView controls for Windows Forms and WPF applications
 
+> [!NOTE]
+This Control is in preview
+
 The **WebView** control shows web content in your Windows Forms or WPF desktop application.
 
 ![Web View Samples](../resources/images/Controls/WebView/web-view-samples.png)
