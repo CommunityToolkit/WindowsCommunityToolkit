@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Identity.Client;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
@@ -33,6 +34,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             _mainButton = GetTemplateChild("btnMain") as Button;
 
+            AutomationProperties.SetName(_mainButton, SignInDefaultText);
+
             _mainButton.Click += async (object sender, RoutedEventArgs e) =>
             {
                 var btn = sender as Button;
@@ -42,6 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     btn.IsEnabled = false;
                     if (await SignInAsync())
                     {
+                        AutomationProperties.SetName(_mainButton, string.Empty);
                         btn.Flyout = GenerateMenuItems();
                     }
 
@@ -98,6 +102,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 _mainButton.Flyout = null;
                 OnSignOutCompleted();
             }
+
+            AutomationProperties.SetName(_mainButton, SignInDefaultText);
         }
 
         private void InitialPublicClientApplication()
@@ -158,6 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 MenuFlyoutItem signinanotherItem = new MenuFlyoutItem();
                 signinanotherItem.Text = SignInAnotherUserDefaultText;
+                AutomationProperties.SetName(signinanotherItem, SignInAnotherUserDefaultText);
                 signinanotherItem.Click += async (object sender, RoutedEventArgs e) =>
                 {
                     var token = await GetTokenForAnotherUserAsync();
@@ -181,6 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             MenuFlyoutItem signoutItem = new MenuFlyoutItem();
             signoutItem.Text = SignOutDefaultText;
+            AutomationProperties.SetName(signoutItem, SignOutDefaultText);
             signoutItem.Click += (object sender, RoutedEventArgs e) => SignOut();
             menuFlyout.Items.Add(signoutItem);
 
