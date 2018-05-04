@@ -47,13 +47,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the Maximum dependency property.
         /// </summary>
         public static readonly DependencyProperty MaximumProperty =
-            DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(RadialGauge), new PropertyMetadata(240.0, OnScaleChanged));
+            DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(RadialGauge), new PropertyMetadata(100.0, OnScaleChanged));
 
         /// <summary>
         /// Identifies the optional StepSize property.
         /// </summary>
         public static readonly DependencyProperty StepSizeProperty =
-            DependencyProperty.Register(nameof(StepSize), typeof(double), typeof(RadialGauge), new PropertyMetadata(30.0));
+            DependencyProperty.Register(nameof(StepSize), typeof(double), typeof(RadialGauge), new PropertyMetadata(0.0));
 
         /// <summary>
         /// Identifies the <see cref="IsInteractive"/> property.
