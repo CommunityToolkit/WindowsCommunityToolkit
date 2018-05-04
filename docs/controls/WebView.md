@@ -308,7 +308,7 @@ You can use the [Settings](https://docs.microsoft.com/uwp/api/windows.web.ui.int
 
 ## Requirements
 
-| Device family | .NET 4.6.2, 10.0.17110.0 or higher |
+| Device family | .NET 4.6.2, Windows 10 (introduced v10.0.17110.0) |
 | -- | -- |
 | Namespace | Microsoft.Toolkit.Win32.UI.Controls.WinForms, Microsoft.Toolkit.Win32.UI.Controls.WPF |
 | NuGet package | [Microsoft.Toolkit.Win32.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Win32.UI.Controls/) |
