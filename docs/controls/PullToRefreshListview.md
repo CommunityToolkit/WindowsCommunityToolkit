@@ -90,9 +90,9 @@ To notify that your refresh code has completed, you can mark the deferral as com
 Being a touch-only control, it's recommended that you also have a refresh button for users without a touch interface. You can trigger the RefreshRequested event by calling the RefreshContainer's RequestRefresh method.
 
 ### Making the transition even easier
-Starting with v3.0 of the UWP Community Toolkit, the PullToRefreshListView provides a new property called **UseRefreshContainerWhenPossible**. Setting the value to true will force the PullToRefreshListView to use a template based on the RefreshContainer when running on the 1803 version of Windows and above, and the regular template otherwise.
+Starting with v3.0 of the Windows Community Toolkit, the PullToRefreshListView provides a new property called **UseRefreshContainerWhenPossible**. Setting the value to true will force the PullToRefreshListView to use a template based on the RefreshContainer when running on the 1803 version of Windows and above, and the regular template otherwise.
 
-Using this property will enable you to take advantage of the RefreshContainer on devices that support it, while providing an experience based on PullToRefreshListView on devices that have not yet updated to the 1803 version of Windows. Make sure to test the experience on multiple OS releases and plan to fully transition to the RefreshContainer as the PullToRefreshListView will be removed from the UWP Community Toolkit in a future major release.
+Using this property will enable you to take advantage of the RefreshContainer on devices that support it, while providing an experience based on PullToRefreshListView on devices that have not yet updated to the 1803 version of Windows. Make sure to test the experience on multiple OS releases and plan to fully transition to the RefreshContainer as the PullToRefreshListView will be removed from the Windows Community Toolkit in a future major release.
 
 > [!NOTE]
 When using the RefreshContainer, the RefreshIntentCanceled and the PullProgressChanged events are not invoked. In addition, the RefreshIntentCanceledCommand is not executed.

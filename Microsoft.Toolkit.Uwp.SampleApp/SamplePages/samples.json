@@ -875,7 +875,7 @@
         "XamlCodeFile": "GazeInteractionXaml.bind",
         "CodeFile": "GazeInteractionCode.bind",
         "Icon": "/SamplePages/GazeInteraction/GazeInteraction.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/gaze/Gaze.md",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/gaze/GazeInteractionLibrary.md",
         "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
       },
       {
