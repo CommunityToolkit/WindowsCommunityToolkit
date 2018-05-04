@@ -4,7 +4,10 @@ using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
-    public class DriveItemIconConverter : IValueConverter
+    /// <summary>
+    /// Get icon of DriveItem
+    /// </summary>
+    internal class DriveItemIconConverter : IValueConverter
     {
         private static readonly string OfficeIcon = "https://static2.sharepointonline.com/files/fabric/assets/brand-icons/document/png/{0}_32x1_5.png";
         private static readonly string LocalIcon = "ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/Graph/Assets/{0}";
