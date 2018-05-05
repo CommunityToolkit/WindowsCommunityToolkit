@@ -96,6 +96,8 @@ The **WebView** control implements these events of the [IWebViewControl](https:/
 
 * Service workers can't run in a **WebView** control.
 
+* Your code can't instantiate more than one instance of a **WebView** in the same Win32WebViewHost process.
+
 ## WebView browser
 
 * The [WebBrower.ObjectForScripting](https://msdn.microsoft.com/library/system.windows.controls.webbrowser.objectforscripting.aspx) property is not supported.
