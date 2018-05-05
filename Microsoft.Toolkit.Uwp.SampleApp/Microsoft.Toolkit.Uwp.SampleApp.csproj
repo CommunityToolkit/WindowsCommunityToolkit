@@ -122,7 +122,7 @@
       <Version>5.4.1</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
-      <Version>0.5.0-alpha</Version>
+      <Version>0.6.0-alpha</Version>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers">
       <Version>1.0.2</Version>
