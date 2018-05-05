@@ -105,10 +105,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string DATAGRID_elementBottomRightCornerHeaderName = "BottomRightCorner";
         private const string DATAGRID_elementVerticalScrollBarName = "VerticalScrollBar";
 
-        private const bool DATAGRID_defaultAutoGenerateColumns = false;
-        private const bool DATAGRID_defaultCanUserReorderColumns = false;
-        private const bool DATAGRID_defaultCanUserResizeColumns = false;
+        private const bool DATAGRID_defaultAutoGenerateColumns = true;
+        private const bool DATAGRID_defaultCanUserReorderColumns = true;
+        private const bool DATAGRID_defaultCanUserResizeColumns = true;
         private const bool DATAGRID_defaultCanUserSortColumns = true;
+        private const DataGridGridLinesVisibility DATAGRID_defaultGridLinesVisibility = DataGridGridLinesVisibility.None;
+        private const DataGridHeadersVisibility DATAGRID_defaultHeadersVisibility = DataGridHeadersVisibility.Column;
         private const DataGridRowDetailsVisibilityMode DATAGRID_defaultRowDetailsVisibility = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
         private const DataGridSelectionMode DATAGRID_defaultSelectionMode = DataGridSelectionMode.Extended;
         private const ScrollBarVisibility DATAGRID_defaultScrollBarVisibility = ScrollBarVisibility.Auto;
@@ -929,7 +931,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 "GridLinesVisibility",
                 typeof(DataGridGridLinesVisibility),
                 typeof(DataGrid),
-                new PropertyMetadata(DataGridGridLinesVisibility.All, OnGridLinesVisibilityPropertyChanged));
+                new PropertyMetadata(DATAGRID_defaultGridLinesVisibility, OnGridLinesVisibilityPropertyChanged));
 
         /// <summary>
         /// GridLinesProperty property changed handler.
@@ -963,7 +965,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 "HeadersVisibility",
                 typeof(DataGridHeadersVisibility),
                 typeof(DataGrid),
-                new PropertyMetadata(DataGridHeadersVisibility.Column, OnHeadersVisibilityPropertyChanged));
+                new PropertyMetadata(DATAGRID_defaultHeadersVisibility, OnHeadersVisibilityPropertyChanged));
 
         /// <summary>
         /// HeadersVisibilityProperty property changed handler.

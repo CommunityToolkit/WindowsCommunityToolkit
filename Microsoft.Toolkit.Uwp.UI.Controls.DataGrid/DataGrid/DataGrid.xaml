@@ -17,17 +17,14 @@
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Default">
-            <SolidColorBrush x:Key="DraggedBrush" Color="#AD4B4B4B"/>
             <SolidColorBrush x:Key="InvalidBrush" Color="#FFFF00"/>
             <StaticResource x:Key="ScrollBarsSeparatorBackground" ResourceKey="SystemControlPageBackgroundChromeLowBrush" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="HighContrast">
-            <SolidColorBrush x:Key="DraggedBrush" Color="#AD4B4B4B"/>
             <SolidColorBrush x:Key="InvalidBrush" Color="#FFFF00"/>
             <StaticResource x:Key="ScrollBarsSeparatorBackground" ResourceKey="SystemControlPageBackgroundChromeLowBrush" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
-            <SolidColorBrush x:Key="DraggedBrush" Color="#ADB4B4B4"/>
             <SolidColorBrush x:Key="InvalidBrush" Color="#C50500"/>
             <SolidColorBrush x:Key="ScrollBarsSeparatorBackground" Color="{StaticResource SystemChromeMediumColor}" Opacity="0.9" />
         </ResourceDictionary>
@@ -55,8 +52,6 @@
     <x:String x:Key="ScrollBarsSeparatorContractFinalKeyframe">00:00:02.1</x:String>
     <x:String x:Key="ScrollerViewScrollControllersNoTouchDuration">00:00:00.5</x:String>
 
-    <x:Double x:Key="DraggedOpacity">1.0</x:Double>
-    
     <x:Double x:Key="ListAccentLowOpacity">0.6</x:Double>
     <x:Double x:Key="ListAccentMediumOpacity">0.8</x:Double>
     <!--<x:Double x:Key="ListAccentHighOpacity">0.9</x:Double>-->
@@ -66,8 +61,7 @@
     <StaticResource x:Key="DataGridColumnHeaderBackgroundBrush" ResourceKey="SystemControlBackgroundAltHighBrush"/>
     <StaticResource x:Key="DataGridColumnHeaderHoveredBackgroundColor" ResourceKey="SystemListLowColor"/>
     <StaticResource x:Key="DataGridColumnHeaderPressedBackgroundColor" ResourceKey="SystemListMediumColor"/>
-    <StaticResource x:Key="DataGridColumnHeaderDraggedBackgroundBrush" ResourceKey="DraggedBrush"/>
-    <StaticResource x:Key="DataGridColumnHeaderDraggedBackgroundOpacity" ResourceKey="DraggedOpacity"/>
+    <StaticResource x:Key="DataGridColumnHeaderDraggedBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumLowBrush"/>
     <StaticResource x:Key="DataGridColumnHeaderPointerOverBrush" ResourceKey="SystemControlHighlightListLowBrush"/>
     <StaticResource x:Key="DataGridColumnHeaderPressedBrush" ResourceKey="SystemControlHighlightListMediumBrush"/>
     <StaticResource x:Key="DataGridRowBackgroundBrush" ResourceKey="SystemControlTransparentBrush"/>
@@ -100,15 +94,6 @@
     <Style TargetType="local:DataGrid">
         <Setter Property="RowBackground" Value="{ThemeResource DataGridRowBackgroundBrush}"/>
         <Setter Property="AlternatingRowBackground" Value="{ThemeResource DataGridRowBackgroundBrush}"/>
-        <Setter Property="HeadersVisibility" Value="Column"/>
-        <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="SelectionMode" Value="Extended"/>
-        <Setter Property="CanUserReorderColumns" Value="True"/>
-        <Setter Property="CanUserResizeColumns" Value="True"/>
-        <Setter Property="CanUserSortColumns" Value="True"/>
-        <Setter Property="AutoGenerateColumns" Value="True"/>
-        <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
         <Setter Property="DragIndicatorStyle">
             <Setter.Value>
                 <Style TargetType="ContentControl">
@@ -138,7 +123,7 @@
                                     </VisualStateManager.VisualStateGroups>
 
                                     <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
-                                        Margin="{TemplateBinding Padding}" Opacity="{ThemeResource DataGridColumnHeaderDraggedBackgroundOpacity}">
+                                        Margin="{TemplateBinding Padding}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition MinWidth="32" Width="Auto"/>
@@ -175,7 +160,6 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="GridLinesVisibility" Value="Vertical"/>
         <Setter Property="HorizontalGridLinesBrush" Value="{ThemeResource GridLinesBrush}"/>
         <Setter Property="UseSystemFocusVisuals" Value="False"/>
         <Setter Property="IsTabStop" Value="True"/>
