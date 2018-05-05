@@ -14,6 +14,15 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/TextToolbar.md"
       },
       {
+        "Name": "DataGrid",
+        "Type": "DataGridPage",
+        "About": "Control that presents data in a customizable table of rows and columns.",
+        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/harinikmsft/datagrid/Microsoft.Toolkit.Uwp.UI.Controls.DataGrid",
+        "XamlCodeFile": "DataGridCode.bind",
+        "Icon": "/SamplePages/DataGrid/DataGrid.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/DataGrid.md"
+      },
+      {
         "Name": "Carousel",
         "Type": "CarouselPage",
         "About": "Presents items in a carousel control. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
