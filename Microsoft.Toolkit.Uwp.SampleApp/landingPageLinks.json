@@ -3,7 +3,7 @@
   "new-samples": [ "StaggeredPanel", "RadialGradientBrush", "Markdown Parser", "NavigationViewStyles", "StringExtensions" ],
   "resources": [
     {
-      "title": "UWP Community Toolkit",
+      "title": "Toolkit",
       "links": [
         {
           "title": "GitHub Repository",

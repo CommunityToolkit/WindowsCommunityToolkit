@@ -2,7 +2,7 @@
 title: HyperlinkExtensions
 author: nmetulev
 description: The HyperlinkExtensions allows for a Hyperlink element to invoke the execute method on a bound ICommand instance when clicked.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Hyperlink, extensions
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Hyperlink, extensions
 ---
 
 # HyperlinkExtensions

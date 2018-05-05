@@ -2,7 +2,7 @@
 title: Rotate animation behavior
 author: nmetulev
 description: The Rotate animation behavior allows users to modify and animate the control's rotation. 
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, rotate, rotate animation
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, rotate, rotate animation
 dev_langs:
   - csharp
   - vb
@@ -108,7 +108,7 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ## Sample Project
 
-[Rotate Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Rotate). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Rotate Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Rotate). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

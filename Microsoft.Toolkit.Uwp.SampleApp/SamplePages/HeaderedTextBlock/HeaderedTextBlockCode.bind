@@ -5,12 +5,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
-
-  <Grid>
-    <controls:HeaderedTextBlock
-        Header="@[Header:String:Name]"
-        Text="@[Text:String:UWP Toolkit]"
-        Orientation="@[Orientation:Enum:Orientation.Vertical]"
-        Margin="20,10,0,0" />
-  </Grid>
+  
+    <Grid>
+        <controls:HeaderedTextBlock 
+            Header="@[Header:String:Name]"
+            Text="@[Text:String:Windows Community Toolkit]"
+            Orientation="@[Orientation:Enum:Orientation.Vertical]"
+            Margin="20,10,0,0" />
+    </Grid>
 </Page>

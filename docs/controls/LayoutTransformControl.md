@@ -2,7 +2,7 @@
 title: LayoutTransformControl
 author: odonno
 description: The LayoutTransformControl is a control that support transformations on FrameworkElement as if applied by LayoutTransform.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, LayoutTransformControl, RenderTransform, RotateTransform, ScaleTransform, SkewTransform 
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, LayoutTransformControl, RenderTransform, RotateTransform, ScaleTransform, SkewTransform 
 ---
 
 # LayoutTransformControl
@@ -50,7 +50,7 @@ The transformations that can be applied are one of the following:
 
 ## Sample Code
 
-[LayoutTransformControl Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/LayoutTransformControl). You can see this in action in UWP Community Toolkit Sample App.
+[LayoutTransformControl Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/LayoutTransformControl). You can see this in action in the Windows Community Toolkit Sample App.
 
 ## Requirements
 

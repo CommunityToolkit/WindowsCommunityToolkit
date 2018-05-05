@@ -1,8 +1,8 @@
 ---
 title: HttpHelper
 author: nmetulev
-description: HttpHelper is a UWP Community Toolkit helper class used to assist in common http and networking scenarios.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, HttpHelper
+description: HttpHelper is a Windows Community Toolkit helper class used to assist in common http and networking scenarios.
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, HttpHelper
 dev_langs:
   - csharp
   - vb

@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 printHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation);
             }
 
-            await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions);
+            await _printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", printHelperOptions);
         }
 
         private async void DirectPrint_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -131,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 printHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation);
             }
 
-            await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions, true);
+            await _printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", printHelperOptions, true);
         }
 
         private async void CustomPrint_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -158,7 +158,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
                 // Static header
-                var header = new TextBlock { Text = "UWP Community Toolkit Sample App - Print Helper - Custom Print", Margin = new Thickness(0, 0, 0, 20) };
+                var header = new TextBlock { Text = "Windows Community Toolkit Sample App - Print Helper - Custom Print", Margin = new Thickness(0, 0, 0, 20) };
                 Grid.SetRow(header, 0);
                 grid.Children.Add(header);
 
@@ -190,7 +190,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 printHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation);
             }
 
-            _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions);
+            _printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", printHelperOptions);
         }
 
         private void ReleasePrintHelper()

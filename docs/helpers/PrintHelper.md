@@ -1,8 +1,8 @@
 ---
 title: Print Helper
 author: nmetulev
-description: The PrintHelper is a UWP Community Toolkit helper class that enables the rendering of a framework element per page for printing purposes
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, PrintHelper
+description: The PrintHelper is a Windows Community Toolkit helper class that enables the rendering of a framework element per page for printing purposes
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, PrintHelper
 dev_langs:
   - csharp
   - vb
@@ -95,7 +95,7 @@ printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
 printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
 
 // Start printing process
-await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App");
+await printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App");
 
 // Event handlers
 
@@ -127,7 +127,7 @@ printHelper.OnPrintFailed += PrintHelper_OnPrintFailed
 printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded
 
 ' Start printing process
-Await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App")
+Await printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App")
 
 ' Event handlers
 
@@ -152,7 +152,7 @@ End Sub
 var printHelper = new PrintHelper(container);
 
 // Start printing process
-await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", true);
+await printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", true);
 ```
 ```vb
 ' Create a new PrintHelper instance
@@ -160,7 +160,7 @@ await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", true);
 Dim printHelper = New PrintHelper(container)
 
 ' Start printing process
-Await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", True)
+Await printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", True)
 ```
 
 **Using custom default settings:**
@@ -212,7 +212,7 @@ printHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation);
 printHelperOptions.Orientation = PrintOrientation.Landscape;
 
 // Start printing process
-await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions);
+await _printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", printHelperOptions);
 ```
 ```vb
 ' Create a new PrintHelper instance
@@ -230,7 +230,7 @@ printHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation)
 printHelperOptions.Orientation = PrintOrientation.Landscape
 
 ' Start printing process
-Await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions)
+Await _printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", printHelperOptions)
 ```
 
 **Print a list with each item on a separate page with static header and page number:**
@@ -250,7 +250,7 @@ foreach (var item in PrintSampleItems)
     grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
     // Static header
-    var header = new TextBlock { Text = "UWP Community Toolkit Sample App - Print Helper - Custom Print", Margin = new Thickness(0, 0, 0, 20) };
+    var header = new TextBlock { Text = "Windows Community Toolkit Sample App - Print Helper - Custom Print", Margin = new Thickness(0, 0, 0, 20) };
     Grid.SetRow(header, 0);
     grid.Children.Add(header);
 
@@ -271,7 +271,7 @@ foreach (var item in PrintSampleItems)
 }
 
 // Start printing process
-await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions);
+await printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", printHelperOptions);
 ```
 ```vb
   Dim printHelper = New PrintHelper(container)
@@ -281,7 +281,7 @@ await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelp
       grid.RowDefinitions.Add(New RowDefinition() With {.Height = GridLength.Auto})
       grid.RowDefinitions.Add(New RowDefinition() With {.Height = New GridLength(1, GridUnitType.Star)})
       grid.RowDefinitions.Add(New RowDefinition() With {.Height = GridLength.Auto})
-      Dim header = New TextBlock With {.Text = "UWP Community Toolkit Sample App - Print Helper - Custom Print", .Margin = New Thickness(0, 0, 0, 20)}
+      Dim header = New TextBlock With {.Text = "Windows Community Toolkit Sample App - Print Helper - Custom Print", .Margin = New Thickness(0, 0, 0, 20)}
       Grid.SetRow(header, 0)
       grid.Children.Add(header)
       Dim cont = New ContentControl()
@@ -296,7 +296,7 @@ await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelp
       printHelper.AddFrameworkElementToPrint(grid)
   Next
 
-  Await printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions)
+  Await printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", printHelperOptions)
 ```
 
 ## Requirements
