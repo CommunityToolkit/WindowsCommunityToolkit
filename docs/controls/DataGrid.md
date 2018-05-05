@@ -5,9 +5,12 @@ description: The DataGrid Control presents data in a customizable table of rows 
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, DataGrid, xaml control, xaml
 ---
 
+> [!NOTE] 
+This control is in preview and can be found as a prerelease package. The control could change between now and the final release
+
 # DataGrid XAML control
 
-The DataGrid control you know and love from Silverlight and WPF is now available for Windows10.
+The DataGrid control you know and love from Silverlight and WPF is now available for Windows10. This control presents data in a customizable table of rows and columns.
 
 ![DataGrid control](../resources/images/Controls/DataGrid/DataGrid.gif)
 
