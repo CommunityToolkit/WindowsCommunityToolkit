@@ -37,15 +37,15 @@ Nuget Package(s):
 Package Version(s): 
 
 Windows 10 Build Number:
-- [ ] Anniversary Update (14393) 
 - [ ] Creators Update (15063)
 - [ ] Fall Creators Update (16299)
+- [ ] April 2018 Update (17134)
 - [ ] Insider Build (build number: )
 
 App min and target version:
-- [ ] Anniversary Update (14393) 
 - [ ] Creators Update (15063)
 - [ ] Fall Creators Update (16299)
+- [ ] April 2018 Update (17134)
 - [ ] Insider Build (xxxxx)
 
 Device form factor:

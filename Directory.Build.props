@@ -22,10 +22,8 @@
     <IsWin32Project Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Win32'))</IsWin32Project>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
  
-    <UwpMetaPackageVersion>6.0.8</UwpMetaPackageVersion>
     <DefaultTargetPlatformVersion>17134</DefaultTargetPlatformVersion>
-    <DefaultTargetPlatformMinVersion>14393</DefaultTargetPlatformMinVersion>
-	
+    <DefaultTargetPlatformMinVersion>15063</DefaultTargetPlatformMinVersion>
 	  <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
   </PropertyGroup>
 
@@ -42,17 +40,13 @@
       <PropertyGroup>
         <GenerateLibraryLayout>true</GenerateLibraryLayout>
       </PropertyGroup>
-      
-      <ItemGroup>
-        <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.9" PrivateAssets="all" />
-      </ItemGroup>
     </When>
   </Choose>
 
   <Choose>
     <When Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
       <ItemGroup>
-        <PackageReference Include="SourceLink.Create.CommandLine" Version="2.2.0" PrivateAssets="All" />
+        <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.0" PrivateAssets="All" />
       </ItemGroup>
     </When>
   </Choose>

@@ -10,7 +10,6 @@
       </PropertyGroup>
 
       <ItemGroup>
-        <PackageReference Condition="'$(UseUwpMetaPackage)' == 'true'" Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="$(UwpMetaPackageVersion)" />
 
         <SDKReference Condition="'$(UseWindowsDesktopSdk)' == 'true' " Include="WindowsDesktop, Version=$(TargetPlatformVersion)">
           <Name>Windows Desktop Extensions for the UWP</Name>
