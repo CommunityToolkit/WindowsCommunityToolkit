@@ -2,7 +2,10 @@
 title: Incremental Loading Collection Helpers
 author: nmetulev
 description: The IncrementalLoadingCollection helpers greatly simplify the definition and usage of collections whose items can be loaded incrementally only when needed by the view
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, IncrementalLoadingCollection
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, IncrementalLoadingCollection
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Incremental Loading Collection Helpers
@@ -11,10 +14,32 @@ The **IncrementalLoadingCollection** helpers greatly simplify the definition and
 
 | Helper | Purpose |
 | --- | --- |
-|IIncrementalSource | An interface that represents a data source whose items can be loaded incrementally. |
-|IncrementalLoadingCollection | An extension of [ObservableCollection](https://msdn.microsoft.com/library/ms668604.aspx) such that its items are loaded only when needed. |
+|[IIncrementalSource](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.iincrementalsource-1) | An interface that represents a data source whose items can be loaded incrementally. |
+|[IncrementalLoadingCollection](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.incrementalloadingcollection-2) | An extension of [ObservableCollection](https://msdn.microsoft.com/library/ms668604.aspx) such that its items are loaded only when needed. |
+
+## IncrementalLoadingCollection Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| CurrentPageIndex | int | Gets or sets a value indicating The zero-based index of the current items page |
+| HasMoreItems | bool | Gets a value indicating whether the collection contains more items to retrieve |
+| IsLoading | bool | Gets a value indicating whether new items are being loaded |
+| ItemsPerPage | int | Gets a value indicating how many items that must be retrieved for each incremental call |
+| OnEndLoading | [Action](https://msdn.microsoft.com/library/system.action(v=vs.110).aspx) | Gets or sets an Action that is called when a retrieval operation ends |
+| OnError | Action<Exception> | Gets or sets an Action that is called if an error occours during data retrieval. The actual Exception is passed as an argument |
+| OnStartLoading | Action | Gets or sets an Action that is called when a retrieval operation begins |
+
+## IncrementalLoadingCollection Methods
+
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| LoadDataAsync(CancellationToken) | Task<IEnumerable<IType>> | Actually performs the incremental loading |
+| LoadMoreItemsAsync(UInt32) | IAsyncOperation<LoadMoreItemsResult> | Initializes incremental loading from the view |
+| Refresh() | void | Clears the collection and resets the page index which triggers an automatic reload of the first page |
+| RefreshAsync() | Task | Clears the collection and reloads data from the source |
 
 ## Example
+
 `IIncrementalSource` allows to define the data source:
 
 ```csharp
@@ -55,6 +80,39 @@ public class PeopleSource : IIncrementalSource<Person>
     }
 }
 ```
+```vb
+' Be sure to include the using at the top of the file:
+'Imports Microsoft.Toolkit.Uwp
+
+Public Class Person
+
+    Public Property Name As String
+End Class
+
+Public Class PeopleSource
+    Implements IIncrementalSource(Of Person)
+
+    Private ReadOnly people As List(Of Person)
+
+    Public Sub New()
+        ' Creates an example collection.
+        people = New List(Of Person)()
+        For i As Integer = 1 To 200
+            Dim p = New Person With {.Name = "Person " & i}
+            people.Add(p)
+        Next
+    End Sub
+
+    Public Async Function GetPagedItemsAsync(pageIndex As Integer, pageSize As Integer, Optional cancellationToken As CancellationToken = Nothing) As Task(Of IEnumerable(Of Person)) Implements Microsoft.Toolkit.Collections.IIncrementalSource(Of Person).GetPagedItemsAsync
+        ' Gets items from the collection according to pageIndex and pageSize parameters.
+        Dim result = (From p In people Select p).Skip(pageIndex * pageSize).Take(pageSize)
+
+        ' Simulates a longer request...
+        Await Task.Delay(1000)
+        Return result
+    End Function
+End Class
+```
 
 The *GetPagedItemsAsync* method is invoked everytime the view need to show more items.
 
@@ -64,25 +122,18 @@ The *GetPagedItemsAsync* method is invoked everytime the view need to show more 
 var collection = new IncrementalLoadingCollection<PeopleSource, Person>();
 PeopleListView.ItemsSource = collection;
 ```
+```vb
+Dim collection = New IncrementalLoadingCollection(Of PeopleSource, Person)()
+PeopleListView.ItemsSource = collection
+```
 
-The **IncrementalLoadingCollection** constructor accepts the following arguments:
+## Requirements
 
-| Name | Description | Type |
-| --- | --- | --- |
-| source | An implementation of the **IIncrementalSource** interface that contains the logic to actually load data incrementally. If the source isn't provided to the constructor, it is created automatically. | IIncrementalSource |  
-| itemsPerPage | The number of items to retrieve for each call. Default is 20. | [Integer](https://msdn.microsoft.com/library/windows/apps/System.Int32) |  
-| onStartLoading | (optional) An Action that is called when a retrieval operation begins. | [Action](https://msdn.microsoft.com/library/system.action.aspx) |  
-| onEndLoading | (optional) An Action that is called when a retrieval operation ends. | [Action](https://msdn.microsoft.com/library/system.action.aspx) |  
-| onError | (optional) An Action that is called if an error occours during data retrieval. | [Action](https://msdn.microsoft.com/library/system.action.aspx) |  
-
-## Requirements (Windows 10 Device Family)
-
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
+| NuGet package | [Microsoft.Toolkit.Uwp](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
 
 ## API
 
 * [IncrementalLoadingCollection source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection)
-
-

@@ -26,6 +26,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design.Common
         /// <summary>
         /// Basic Controls category.
         /// </summary>
-        public const string Toolkit = "UWP Community Toolkit";
+        public const string Toolkit = "Windows Community Toolkit";
     }
 }

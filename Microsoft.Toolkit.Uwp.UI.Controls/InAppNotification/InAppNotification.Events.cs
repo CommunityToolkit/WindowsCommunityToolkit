@@ -31,12 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event EventHandler Opened;
 
         /// <summary>
-        /// Event raised when the notification is dismissed
-        /// </summary>
-        [Obsolete("Use Closed event instead.")]
-        public event EventHandler Dismissed;
-
-        /// <summary>
         /// Event raised when the notification is closing
         /// </summary>
         public event InAppNotificationClosingEventHandler Closing;
@@ -67,7 +61,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void DismissAnimationTimer_Tick(object sender, object e)
         {
             _animationTimer.Stop();
-            Dismissed?.Invoke(this, EventArgs.Empty);
             Closed?.Invoke(this, new InAppNotificationClosedEventArgs(_lastDismissKind));
             _animationTimer.Tick -= DismissAnimationTimer_Tick;
         }
