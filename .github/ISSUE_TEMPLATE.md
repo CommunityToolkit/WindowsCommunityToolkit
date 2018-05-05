@@ -39,13 +39,13 @@ Package Version(s):
 Windows 10 Build Number:
 - [ ] Creators Update (15063)
 - [ ] Fall Creators Update (16299)
-- [ ] 1803 (17134)
+- [ ] April 2018 Update (17134)
 - [ ] Insider Build (build number: )
 
 App min and target version:
 - [ ] Creators Update (15063)
 - [ ] Fall Creators Update (16299)
-- [ ] 1803 (17134)
+- [ ] April 2018 Update (17134)
 - [ ] Insider Build (xxxxx)
 
 Device form factor:
