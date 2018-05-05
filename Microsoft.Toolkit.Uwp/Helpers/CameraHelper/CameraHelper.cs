@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Devices.Enumeration;
 using Windows.Graphics.Imaging;
 using Windows.Media;
 using Windows.Media.Capture;
@@ -69,10 +70,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
 
             if (_frameSourceGroups == null)
             {
+                var videoDevices = await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture);
                 var groups = await MediaFrameSourceGroup.FindAllAsync();
+
+                // Filter out color video preview and video record type sources and remove duplicates video devices.
                 _frameSourceGroups = groups.Where(g => g.SourceInfos.Any(s => s.SourceKind == MediaFrameSourceKind.Color &&
-                                                                            (s.MediaStreamType == MediaStreamType.VideoPreview
-                                                                            || s.MediaStreamType == MediaStreamType.VideoRecord))).ToList();
+                                                                            (s.MediaStreamType == MediaStreamType.VideoPreview || s.MediaStreamType == MediaStreamType.VideoRecord))
+                                                                            && g.SourceInfos.All(sourceInfo => videoDevices.Any(vd => vd.Id == sourceInfo.DeviceInformation.Id))).ToList();
             }
 
             if (_group == null)
