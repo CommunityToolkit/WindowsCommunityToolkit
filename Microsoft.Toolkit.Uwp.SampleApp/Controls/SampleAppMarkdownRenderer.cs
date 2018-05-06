@@ -84,7 +84,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 collection.RemoveAt(lastIndex);
 
                 // Combine Code Blocks if a Different Language.
-                if (prevIndex >= 0 && collection[prevIndex] is StackPanel prevPanel && prevPanel.Tag is CustCodeBlock block && !block.Languages.ContainsKey(language))
+                if (language != "XAML"
+                    && prevIndex >= 0
+                    && collection[prevIndex] is StackPanel prevPanel
+                    && prevPanel.Tag is CustCodeBlock block
+                    && !block.Languages.ContainsKey("XAML") // Prevent combining of XAML Code Blocks.
+                    && !block.Languages.ContainsKey(language))
                 {
                     // Add New Lang to Existing Block
                     block.Languages.Add(language, (viewer, element.Text));
