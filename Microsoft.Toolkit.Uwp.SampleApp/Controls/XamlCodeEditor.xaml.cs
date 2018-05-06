@@ -33,7 +33,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         {
             this.InitializeComponent();
             XamlCodeRenderer.RequestedTheme = Shell.Current.GetActualTheme();
-            Shell.Current.ThemeChanged += Current_ThemeChanged;
+            Shell.Current.ThemeChanged += (s, e) =>
+            {
+                XamlCodeRenderer.RequestedTheme = Shell.Current.GetActualTheme();
+            };
         }
 
         public async Task ResetPosition()
@@ -67,11 +70,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         public void ResetTimer()
         {
             TimeSampleEditedFirst = TimeSampleEditedLast = DateTime.MinValue;
-        }
-
-        private void Current_ThemeChanged(object sender, Models.ThemeChangedArgs e)
-        {
-            XamlCodeRenderer.RequestedTheme = Shell.Current.GetActualTheme();
         }
 
         private void XamlCodeRenderer_Loading(object sender, RoutedEventArgs e)
