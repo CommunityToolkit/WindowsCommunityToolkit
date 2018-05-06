@@ -35,6 +35,7 @@
 ## [AdaptiveGridView](controls/AdaptiveGridView.md)
 ## [Blade](controls/BladeView.md)
 ## [Carousel](controls/Carousel.md)
+## [DataGrid (preview)](controls/DataGrid.md)
 ## [DockPanel](controls/DockPanel.md)
 ## [DropShadowPanel Control](controls/DropShadowPanel.md)
 ## [Expander Control](controls/Expander.md)
@@ -45,6 +46,7 @@
 ## [HeaderedTextBlock](controls/HeaderedTextBlock.md)
 ## [ImageEx](controls/ImageEx.md)
 ## [InAppNotification](controls/InAppNotification.md)
+## [LayoutTransformControl](controls/LayoutTransformControl.md)
 ## [Loading](controls/Loading.md)
 ## [MarkdownTextBlock](controls/MarkdownTextBlock.md)
 ## [MasterDetailsView](controls/MasterDetailsView.md)
@@ -76,12 +78,14 @@
 ## [Mouse Cursor](extensions/MouseCursor.md)
 ## [NavigationView Styles](extensions/NavigationView.md)
 ## [ScrollViewerExtensions](extensions/ScrollViewerExtensions.md)
+## [StringExtensions](extensions/StringExtensions.md)
 ## [SurfaceDialTextboxHelper](extensions/SurfaceDialTextboxHelper.md)
 ## [TextBoxMask](extensions/TextBoxMask.md)
 ## [TextBoxRegex](extensions/TextBoxRegex.md)
 ## [ViewExtensions](extensions/ViewExtensions.md)
 ## [Visual Tree](extensions/VisualTree.md)
 ## [WebViewExtensions](extensions/WebViewExtensions.md)
+
 
 # Helpers
 ## [AdvancedCollectionView](helpers/AdvancedCollectionView.md)
@@ -118,8 +122,11 @@
 ## [Facebook Service](services/Facebook.md)
 ## [LinkedIn Service](services/Linkedin.md)
 ## [Microsoft Graph Service](services/MicrosoftGraph.md)
+### [GraphLogin (WinForms)](services/GraphLogin.md)
 ## [Microsoft Translator Service](services/MicrosoftTranslator.md)
 ## [OneDrive Service](services/OneDrive.md)
 ## [Twitter Service](services/Twitter.md)
+
+# [GazeInteractionLibrary](gaze/GazeInteractionLibrary.md)
 
 # [Known Issues](knownissues.md)
