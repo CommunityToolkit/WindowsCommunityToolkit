@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.Toolkit.Extensions;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
@@ -98,8 +99,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             int previousStartOfLine = start;
             int previousEndOfLine = start;
 
-            bool comingOutOfNest = false;
-
             // Go line by line.
             while (startOfLine < end)
             {
@@ -161,12 +160,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         if (realStartOfLine > 0)
                         {
                             lastline = markdown.Substring(previousRealtStartOfLine, previousEndOfLine - previousRealtStartOfLine);
-                            lastIndentation = lastline.Occurrences(">");
+                            lastIndentation = lastline.Count(c => c == '>');
                         }
 
                         var currentEndOfLine = Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out _);
                         var currentline = markdown.Substring(realStartOfLine, currentEndOfLine - realStartOfLine);
-                        var currentIndentation = currentline.Occurrences(">");
+                        var currentIndentation = currentline.Count(c => c == '>');
                         var firstChar = markdown[realStartOfLine];
 
                         // This is a quote that doesn't start with a Quote marker, but carries on from the last line.
@@ -185,18 +184,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         // But it doesn't matter if this is not the start of a new paragraph.
                         if (lastIndentation > 1)
                         {
-                            if (firstChar != '\r' && currentIndentation >= lastIndentation)
-                            {
-                                if (currentIndentation < lastIndentation)
-                                {
-                                    comingOutOfNest = true;
-                                }
-
-                                break;
-                            }
-                            else
+                            if (currentIndentation < lastIndentation)
                             {
                                 actualEnd = currentEndOfLine;
+                                break;
                             }
                         }
 

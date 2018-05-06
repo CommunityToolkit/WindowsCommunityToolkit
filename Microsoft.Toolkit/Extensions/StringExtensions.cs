@@ -96,31 +96,6 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Finds the number of occurrences of a substring exists inside of a string.
-        /// </summary>
-        /// <param name="searchString">String to search through</param>
-        /// <param name="toFind">Substring to find</param>
-        /// <returns>Number of times the substring occurs</returns>
-        public static int Occurrences(this string searchString, string toFind)
-        {
-            int total = 0;
-            var ch = toFind.ToCharArray();
-
-            for (int y = 0; y < ch.Length; y++)
-            {
-                foreach (char a in searchString)
-                {
-                    if (a == ch[y])
-                    {
-                        total += 1;
-                    }
-                }
-            }
-
-            return total;
-        }
-
-        /// <summary>
         /// Converts object into string.
         /// </summary>
         /// <param name="value">Object value.</param>
