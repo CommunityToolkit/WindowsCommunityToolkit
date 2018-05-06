@@ -2,7 +2,7 @@
 title: NavigationView Styles
 author: michael-hawker
 description: Visual Studio Code Style and Behaviors for the NavigationView control.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, NavigationView, VSCode, Visual Studio Code
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, NavigationView, VSCode, Visual Studio Code
 ---
 
 # NavigationView Styles
@@ -55,7 +55,7 @@ You need to include the toolkit extensions namespace, add the style dictionary t
 
 ## Sample Code
 
-[NavigationView Styles Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/NavigationViewStyles). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[NavigationView Styles Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/NavigationViewStyles). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

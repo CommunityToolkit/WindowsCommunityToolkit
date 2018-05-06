@@ -48,8 +48,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                     b.AddCustomAttributes(nameof(RadialGauge.TrailBrush), new CategoryAttribute(Properties.Resources.CategoryBrush));
                     b.AddCustomAttributes(nameof(RadialGauge.ScaleBrush), new CategoryAttribute(Properties.Resources.CategoryBrush));
                     b.AddCustomAttributes(nameof(RadialGauge.TickBrush), new CategoryAttribute(Properties.Resources.CategoryBrush));
-                    b.AddCustomAttributes(nameof(RadialGauge.ValueBrush), new CategoryAttribute(Properties.Resources.CategoryBrush));
-                    b.AddCustomAttributes(nameof(RadialGauge.UnitBrush), new CategoryAttribute(Properties.Resources.CategoryBrush));
                     b.AddCustomAttributes(nameof(RadialGauge.ValueStringFormat), new CategoryAttribute(Properties.Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(RadialGauge.TickSpacing), new CategoryAttribute(Properties.Resources.CategoryAppearance));
                     b.AddCustomAttributes(nameof(RadialGauge.NeedleLength), new CategoryAttribute(Properties.Resources.CategoryAppearance));
