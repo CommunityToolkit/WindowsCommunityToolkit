@@ -13,6 +13,8 @@
 
     <PackageReference Include="ColorCode.UWP" Version="2.0.3" />
     <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.3" />
+
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
   </ItemGroup>
