@@ -62,6 +62,7 @@
 ## [StaggeredPanel](controls/StaggeredPanel.md)
 ## [TextToolbar](controls/TextToolbar.md)
 ## [TileControl](controls/TileControl.md)
+## [UniformGrid](controls/UniformGrid.md)
 ## [WebView (win32)](controls/WebView.md)
 ## [WrapPanel](controls/WrapPanel.md)
 
@@ -70,6 +71,7 @@
 ## [FocusTracker](developer-tools/FocusTracker.md)
 
 # Extensions
+## [ArrayExtensions](extensions/ArrayExtensions.md)
 ## [Composition Visual Layer Extensions](extensions/VisualExtensions.md)
 ## [FrameworkElementExtensions](extensions/FrameworkElementExtensions.md)
 ## [HyperlinkExtensions](extensions/HyperlinkExtensions.md)
@@ -77,6 +79,7 @@
 ## [Logical Tree](extensions/LogicalTree.md)
 ## [Mouse Cursor](extensions/MouseCursor.md)
 ## [NavigationView Styles](extensions/NavigationView.md)
+## [NullableBoolMarkup](extensions/NullableBoolMarkup.md)
 ## [ScrollViewerExtensions](extensions/ScrollViewerExtensions.md)
 ## [StringExtensions](extensions/StringExtensions.md)
 ## [SurfaceDialTextboxHelper](extensions/SurfaceDialTextboxHelper.md)
