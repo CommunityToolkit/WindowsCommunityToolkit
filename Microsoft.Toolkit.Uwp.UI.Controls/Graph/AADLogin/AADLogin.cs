@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Identity.Client;
@@ -63,6 +64,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                     btn.IsEnabled = true;
                 }
+                else
+                {
+                    btn.Flyout = GenerateMenuItems();
+                }
             };
         }
 
@@ -84,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                     CurrentUserID = (await graphClient.Me.Request().GetAsync()).Id;
 
-                    OnSignInCompleted(new SignInEventArgs()
+                    SignInCompleted?.Invoke(this, new SignInEventArgs()
                     {
                         GraphClient = graphClient,
                         GraphAccessToken = token,
@@ -112,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                 CurrentUserID = string.Empty;
                 _mainButton.Flyout = null;
-                OnSignOutCompleted();
+                SignOutCompleted?.Invoke(this, EventArgs.Empty);
             }
 
             AutomationProperties.SetName(_mainButton, SignInDefaultText);
@@ -187,7 +192,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         GraphAccessToken = token;
                         CurrentUserID = (await graphClient.Me.Request().GetAsync()).Id;
 
-                        OnSignInCompleted(new SignInEventArgs()
+                        SignInCompleted?.Invoke(this, new SignInEventArgs()
                         {
                             GraphClient = graphClient,
                             GraphAccessToken = token,
