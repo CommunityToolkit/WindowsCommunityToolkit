@@ -17,9 +17,9 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
     /// <summary>
-    /// Defines the events for the <see cref="AADLogin"/> control.
+    /// Defines the events for the <see cref="AadLogin"/> control.
     /// </summary>
-    public partial class AADLogin : Control
+    public partial class AadLogin : Control
     {
         /// <summary>
         /// Occurs when the user is logged in.
@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         /// <param name="obj">AADLogin</param>
         /// <param name="args">Property Changed Args</param>
-        private static void OnPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args) => (obj as AADLogin).InitialPublicClientApplication();
+        private static void OnPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args) => (obj as AadLogin).InitialPublicClientApplication();
 
         private void OnSignInCompleted(SignInEventArgs e)
         {

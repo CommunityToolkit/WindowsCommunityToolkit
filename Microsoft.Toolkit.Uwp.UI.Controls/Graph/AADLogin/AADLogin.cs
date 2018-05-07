@@ -22,18 +22,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// The AAD Login Control leverages MSAL libraries to support basic AAD sign-in processes for Microsoft Graph and beyond.
     /// </summary>
-    public partial class AADLogin : Control
+    public partial class AadLogin : Control
     {
         private static PublicClientApplication _identityClientApp = null;
 
         private Button _mainButton = null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AADLogin"/> class.
+        /// Initializes a new instance of the <see cref="AadLogin"/> class.
         /// </summary>
-        public AADLogin()
+        public AadLogin()
         {
-            DefaultStyleKey = typeof(AADLogin);
+            DefaultStyleKey = typeof(AadLogin);
             IsEnabled = false;
         }
 

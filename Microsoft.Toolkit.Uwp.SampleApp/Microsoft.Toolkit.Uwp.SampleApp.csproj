@@ -298,7 +298,7 @@
     <Content Include="SamplePages\DispatcherHelper\DispatchHelper.png" />
     <Content Include="SamplePages\DockPanel\DockPanel.png" />
     <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
-    <Content Include="SamplePages\AADLogin\AADLogin.png" />
+    <Content Include="SamplePages\AadLogin\AadLogin.png" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
     <Content Include="SamplePages\FocusTracker\FocusTracker.png" />
@@ -500,9 +500,9 @@
     <Content Include="SamplePages\PrintHelper\PrintHelperXaml.bind">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="SamplePages\AADLogin\AADLoginCode.bind" />
+    <Content Include="SamplePages\AadLogin\AadLoginCode.bind" />
     <Content Include="SamplePages\SharePointFiles\SharePointFilesXaml.bind" />
-    <Content Include="SamplePages\AADLogin\AADLoginXaml.bind" />
+    <Content Include="SamplePages\AadLogin\AADLoginXaml.bind" />
     <Content Include="SamplePages\PeoplePicker\PeoplePickerXaml.bind" />
     <Content Include="SamplePages\ProfileCard\ProfileCardXaml.bind" />
     <Content Include="SamplePages\SharePointFiles\SharePointFilesCode.bind" />
@@ -577,8 +577,8 @@
     <Compile Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushPage.xaml.cs">
       <DependentUpon>BackdropBlurBrushPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\AADLogin\AADLoginPage.xaml.cs">
-      <DependentUpon>AADLoginPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\AadLogin\AadLoginPage.xaml.cs">
+      <DependentUpon>AadLoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsPage.xaml.cs" />
     <Compile Include="SamplePages\ImageBlendBrush\ImageBlendBrushPage.xaml.cs">
@@ -936,7 +936,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\AADLogin\AADLoginPage.xaml">
+    <Page Include="SamplePages\AadLogin\AadLoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

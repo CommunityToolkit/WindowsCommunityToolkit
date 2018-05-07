@@ -8,8 +8,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid VerticalAlignment="Center"
               HorizontalAlignment="Center">
-            <controls:AADLogin
-              x:Name="AADLoginControl"
+            <controls:AadLogin x:Name="AadLoginControl"
                 ClientId= "@[ClientId:String:aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee]"
                 Scopes= "@[Scopes:String:User.Read,User.ReadBasic.All,Files.ReadWrite.All]"
                 View="@[View:Enum:ViewType.PictureOnly]"
