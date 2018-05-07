@@ -18,9 +18,9 @@ using Windows.UI.Xaml.Media.Imaging;
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
     /// <summary>
-    /// Defines the properties for the <see cref="AADLogin"/> control.
+    /// Defines the properties for the <see cref="AadLogin"/> control.
     /// </summary>
-    public partial class AADLogin : Control
+    public partial class AadLogin : Control
     {
         /// <summary>
         /// Identifies the <see cref="ClientId"/> dependency property.
@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register(
             nameof(ClientId),
             typeof(string),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata(string.Empty, OnPropertyChanged));
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty ScopesProperty = DependencyProperty.Register(
             nameof(Scopes),
             typeof(string),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata(string.Empty, OnPropertyChanged));
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty DefaultImageProperty = DependencyProperty.Register(
             nameof(DefaultImage),
             typeof(BitmapImage),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata(null));
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty ViewProperty = DependencyProperty.Register(
             nameof(View),
             typeof(ViewType),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata(ViewType.PictureOnly));
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty AllowSignInAsDifferentUserProperty = DependencyProperty.Register(
             nameof(AllowSignInAsDifferentUser),
             typeof(bool),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata(true));
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty SignInDefaultTextProperty = DependencyProperty.Register(
             nameof(SignInDefaultText),
             typeof(string),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata("Sign In"));
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty SignOutDefaultTextProperty = DependencyProperty.Register(
             nameof(SignOutDefaultText),
             typeof(string),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata("Sign Out"));
 
         /// <summary>
@@ -91,19 +91,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty SignInAnotherUserDefaultTextProperty = DependencyProperty.Register(
             nameof(SignInAnotherUserDefaultText),
             typeof(string),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata("Sign in with another account"));
 
-        internal static readonly DependencyProperty GraphAccessTokenProperty = DependencyProperty.Register(
+        /// <summary>
+        /// Identifies the <see cref="GraphAccessToken"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty GraphAccessTokenProperty = DependencyProperty.Register(
             nameof(GraphAccessToken),
             typeof(string),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata(null));
 
-        internal static readonly DependencyProperty CurrentUserIdProperty = DependencyProperty.Register(
+        /// <summary>
+        /// Identifies the <see cref="CurrentUserID"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty CurrentUserIdProperty = DependencyProperty.Register(
             nameof(CurrentUserID),
             typeof(string),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata(null));
 
         /// <summary>
@@ -121,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 if (string.IsNullOrEmpty(ClientId))
                 {
                     SetValue(ClientIdProperty, value?.Trim());
-                    InitialPublicClientApplication();
+                    InitializePublicClientApplication();
                 }
                 else
                 {
@@ -145,7 +151,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 if (string.IsNullOrEmpty(Scopes))
                 {
                     SetValue(ScopesProperty, value?.Trim());
-                    InitialPublicClientApplication();
+                    InitializePublicClientApplication();
                 }
                 else
                 {
@@ -182,7 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         }
 
         /// <summary>
-        /// Gets or sets a value for default sign-in text
+        /// Gets or sets a value for default sign-in text.
         /// </summary>
         public string SignInDefaultText
         {
@@ -191,7 +197,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         }
 
         /// <summary>
-        /// Gets or sets a value for default sign-out text
+        /// Gets or sets a value for default sign-out text.
         /// </summary>
         public string SignOutDefaultText
         {
@@ -200,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         }
 
         /// <summary>
-        /// Gets or sets a value for default text of the Sign-in-with-another-account button
+        /// Gets or sets a value for default text of the Sign-in-with-another-account button.
         /// </summary>
         public string SignInAnotherUserDefaultText
         {
@@ -208,13 +214,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             set { SetValue(SignInAnotherUserDefaultTextProperty, value); }
         }
 
-        internal string CurrentUserID
+        /// <summary>
+        /// Gets the unique identifier for current signed in user.
+        /// </summary>
+        public string CurrentUserID
         {
             get { return (string)GetValue(CurrentUserIdProperty); }
             private set { SetValue(CurrentUserIdProperty, value); }
         }
 
-        internal string GraphAccessToken
+        /// <summary>
+        /// Gets a value for the access token after signing in.
+        /// </summary>
+        public string GraphAccessToken
         {
             get { return (string)GetValue(GraphAccessTokenProperty); }
             private set { SetValue(GraphAccessTokenProperty, value); }

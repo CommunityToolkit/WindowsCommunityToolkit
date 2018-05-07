@@ -7,10 +7,7 @@
       mc:Ignorable="d">
     
     <!-- Shallow Copy -->
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid HorizontalAlignment="Center" 
-              VerticalAlignment="Center">
-            <controls:ProfileCard x:Name="ProfileCardControl" />
-        </Grid>
+    <Grid>
+        <controls:ProfileCard />
     </Grid>
 </Page>

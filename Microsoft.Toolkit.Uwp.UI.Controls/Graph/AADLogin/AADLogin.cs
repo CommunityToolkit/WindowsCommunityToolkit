@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Identity.Client;
@@ -22,18 +23,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// The AAD Login Control leverages MSAL libraries to support basic AAD sign-in processes for Microsoft Graph and beyond.
     /// </summary>
-    public partial class AADLogin : Control
+    public partial class AadLogin : Control
     {
         private static PublicClientApplication _identityClientApp = null;
 
         private Button _mainButton = null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AADLogin"/> class.
+        /// Initializes a new instance of the <see cref="AadLogin"/> class.
         /// </summary>
-        public AADLogin()
+        public AadLogin()
         {
-            DefaultStyleKey = typeof(AADLogin);
+            DefaultStyleKey = typeof(AadLogin);
             IsEnabled = false;
         }
 
@@ -44,26 +45,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             ApplyTemplate();
 
-            _mainButton = GetTemplateChild("btnMain") as Button;
-
-            AutomationProperties.SetName(_mainButton, SignInDefaultText);
-
-            _mainButton.Click += async (object sender, RoutedEventArgs e) =>
+            if (GetTemplateChild("btnMain") is Button _mainButton)
             {
-                var btn = sender as Button;
+                AutomationProperties.SetName(_mainButton, SignInDefaultText);
 
-                if (string.IsNullOrEmpty(CurrentUserID))
+                _mainButton.Click += async (object sender, RoutedEventArgs e) =>
                 {
-                    btn.IsEnabled = false;
-                    if (await SignInAsync())
+                    var btn = sender as Button;
+
+                    if (string.IsNullOrEmpty(CurrentUserID))
                     {
-                        AutomationProperties.SetName(_mainButton, string.Empty);
+                        btn.IsEnabled = false;
+                        if (await SignInAsync())
+                        {
+                            AutomationProperties.SetName(_mainButton, string.Empty);
+                            btn.Flyout = GenerateMenuItems();
+                        }
+
+                        btn.IsEnabled = true;
+                    }
+                    else
+                    {
                         btn.Flyout = GenerateMenuItems();
                     }
-
-                    btn.IsEnabled = true;
-                }
-            };
+                };
+            }
         }
 
         /// <summary>
@@ -84,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                     CurrentUserID = (await graphClient.Me.Request().GetAsync()).Id;
 
-                    OnSignInCompleted(new SignInEventArgs()
+                    SignInCompleted?.Invoke(this, new SignInEventArgs()
                     {
                         GraphClient = graphClient,
                         GraphAccessToken = token,
@@ -112,13 +118,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                 CurrentUserID = string.Empty;
                 _mainButton.Flyout = null;
-                OnSignOutCompleted();
+                SignOutCompleted?.Invoke(this, EventArgs.Empty);
             }
 
             AutomationProperties.SetName(_mainButton, SignInDefaultText);
         }
 
-        private void InitialPublicClientApplication()
+        private void InitializePublicClientApplication()
         {
             if (!string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(Scopes))
             {
@@ -139,20 +145,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
             catch
             {
-                try
-                {
-                    authResult = await _identityClientApp.AcquireTokenAsync(Scopes.Split(','));
-                    tokenForUser = authResult.AccessToken;
-                }
-                catch
-                {
-                }
+                tokenForUser = await GetTokenWithPromptAsync();
             }
 
             return tokenForUser;
         }
 
-        private async Task<string> GetTokenForAnotherUserAsync()
+        private async Task<string> GetTokenWithPromptAsync()
         {
             string tokenForUser = string.Empty;
 
@@ -179,7 +178,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 AutomationProperties.SetName(signinanotherItem, SignInAnotherUserDefaultText);
                 signinanotherItem.Click += async (object sender, RoutedEventArgs e) =>
                 {
-                    var token = await GetTokenForAnotherUserAsync();
+                    var token = await GetTokenWithPromptAsync();
                     if (!string.IsNullOrEmpty(token))
                     {
                         var graphClient = Common.GetAuthenticatedClient(token);
@@ -187,7 +186,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         GraphAccessToken = token;
                         CurrentUserID = (await graphClient.Me.Request().GetAsync()).Id;
 
-                        OnSignInCompleted(new SignInEventArgs()
+                        SignInCompleted?.Invoke(this, new SignInEventArgs()
                         {
                             GraphClient = graphClient,
                             GraphAccessToken = token,

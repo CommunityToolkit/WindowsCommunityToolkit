@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Graph;
 using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
@@ -25,26 +24,18 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class AADLoginPage : IXamlRenderListener
+    public sealed partial class AadLoginPage : IXamlRenderListener
     {
-        private AADLogin aadLoginControl;
-        private string graphAccessToken;
-        private string userId;
+        private AadLogin _aadLoginControl;
 
-        public AADLoginPage()
+        public AadLoginPage()
         {
             InitializeComponent();
         }
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            aadLoginControl = control.FindDescendantByName("AADLoginControl") as AADLogin;
-
-            if (aadLoginControl != null)
-            {
-                aadLoginControl.SignInCompleted += AadLoginControl_SignInCompleted;
-                aadLoginControl.SignOutCompleted += AadLoginControl_SignOutCompleted;
-            }
+            _aadLoginControl = control.FindDescendantByName("AadLoginControl") as AadLogin;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -53,14 +44,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             Shell.Current.RegisterNewCommand("Change default image", async (sender, args) =>
             {
-                if (aadLoginControl != null)
+                if (_aadLoginControl != null)
                 {
-                    FileOpenPicker openPicker = new FileOpenPicker();
+                    var openPicker = new FileOpenPicker();
                     openPicker.ViewMode = PickerViewMode.Thumbnail;
                     openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
                     openPicker.FileTypeFilter.Add(".jpg");
                     openPicker.FileTypeFilter.Add(".jpeg");
                     openPicker.FileTypeFilter.Add(".png");
+                    openPicker.FileTypeFilter.Add(".gif");
+                    openPicker.FileTypeFilter.Add(".bmp");
 
                     // Open a stream for the selected file
                     StorageFile file = await openPicker.PickSingleFileAsync();
@@ -73,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                             // Set the image source to the selected bitmap
                             var defaultImage = new BitmapImage();
                             await defaultImage.SetSourceAsync(fileStream);
-                            aadLoginControl.DefaultImage = defaultImage;
+                            _aadLoginControl.DefaultImage = defaultImage;
                         }
                     }
                 }
@@ -81,17 +74,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             Shell.Current.RegisterNewCommand("Copy GraphAccessToken to clipboard", async (sender, args) =>
             {
-                if (aadLoginControl != null)
+                if (_aadLoginControl != null)
                 {
-                    if (string.IsNullOrEmpty(graphAccessToken))
+                    if (string.IsNullOrEmpty(_aadLoginControl.GraphAccessToken))
                     {
-                        var dialog = new MessageDialog("Please sign in firstly.");
+                        var dialog = new MessageDialog("Please click the profile button to login first.");
                         await dialog.ShowAsync();
                     }
                     else
                     {
                         DataPackage copyData = new DataPackage();
-                        copyData.SetText(graphAccessToken);
+                        copyData.SetText(_aadLoginControl.GraphAccessToken);
                         Clipboard.SetContent(copyData);
                     }
                 }
@@ -99,34 +92,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             Shell.Current.RegisterNewCommand("Copy UserId to clipboard", async (sender, args) =>
             {
-                if (aadLoginControl != null)
+                if (_aadLoginControl != null)
                 {
-                    if (string.IsNullOrEmpty(userId))
+                    if (string.IsNullOrEmpty(_aadLoginControl.CurrentUserID))
                     {
-                        var dialog = new MessageDialog("Please sign in firstly.");
+                        var dialog = new MessageDialog("Please click the profile button to login first.");
                         await dialog.ShowAsync();
                     }
                     else
                     {
                         DataPackage copyData = new DataPackage();
-                        copyData.SetText(userId);
+                        copyData.SetText(_aadLoginControl.CurrentUserID);
                         Clipboard.SetContent(copyData);
                     }
                 }
             });
-        }
-
-        private void AadLoginControl_SignInCompleted(object sender, SignInEventArgs e)
-        {
-            graphAccessToken = e.GraphAccessToken;
-            userId = e.CurrentSignInUserId;
-            GraphServiceClient graphServiceClient = e.GraphClient;
-        }
-
-        private void AadLoginControl_SignOutCompleted(object sender, System.EventArgs e)
-        {
-            graphAccessToken = string.Empty;
-            userId = string.Empty;
         }
     }
 }

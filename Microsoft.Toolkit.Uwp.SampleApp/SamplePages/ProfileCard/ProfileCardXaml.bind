@@ -5,14 +5,13 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-      <Grid HorizontalAlignment="Center" 
-            VerticalAlignment="Center">
-          <controls:ProfileCard 
-            x:Name="ProfileCardControl"
-            UserId="@[UserId:String: ]"
-            GraphAccessToken="@[GraphAccessToken:String: ]" 
-            DisplayMode="@[DisplayMode:Enum:ViewType.PictureOnly]"/>
-      </Grid>
-    </Grid>
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <controls:ProfileCard
+      x:Name="ProfileCardControl"
+      UserId="@[UserId:String: ]"
+      GraphAccessToken="@[GraphAccessToken:String: ]"
+      DisplayMode="@[DisplayMode:Enum:ViewType.PictureOnly]"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center" />
+  </Grid>
 </Page>

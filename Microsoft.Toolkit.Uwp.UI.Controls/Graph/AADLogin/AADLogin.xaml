@@ -3,11 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph">
 
-    <Style TargetType="controls:AADLogin">
+    <Style TargetType="controls:AadLogin">
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:AADLogin">
+                <ControlTemplate TargetType="controls:AadLogin">
                     <StackPanel>
                         <Button x:Name="btnMain" Background="Transparent">
                             <Button.Content>
@@ -15,7 +15,7 @@
                                     DisplayMode="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=View}" 
                                     DefaultImage="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=DefaultImage}" 
                                     UserId="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentUserID}"  
-                                    GraphAccessToken ="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=GraphAccessToken}"
+                                    GraphAccessToken="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=GraphAccessToken}"
                                     DefaultTitleText="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SignInDefaultText}" 
                                     DefaultMailText="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SignInDefaultText}" />
                             </Button.Content>

@@ -1,34 +1,16 @@
-/** XAML **/
-<controls:AADLogin x:Name="AADLoginControl" 
-	ClientId= "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
-    Scopes= "User.Read,User.ReadBasic.All,Files.ReadWrite.All"
-    View="ViewType.PictureOnly"
-    AllowSignInAsDifferentUser="true"/>
-/>
-
-/** CSharp Code **/
-private AADLogin aadLoginControl;
-
-public AADLoginPage()
+protected override void OnNavigatedTo(NavigationEventArgs e)
 {
-    InitializeComponent();
-}
+	base.OnNavigatedTo(e);
 
-public void OnXamlRendered(FrameworkElement control)
-{
-    aadLoginControl = control.FindDescendantByName("AADLoginControl") as AADLogin;
-
-    if (aadLoginControl != null)
-    {
-        aadLoginControl.SignInCompleted += AadLoginControl_SignInCompleted;
-        aadLoginControl.SignOutCompleted += AadLoginControl_SignOutCompleted;
-    }
+	AadLoginControl.SignInCompleted += AadLoginControl_SignInCompleted;
+	AadLoginControl.SignOutCompleted += AadLoginControl_SignOutCompleted;
 }
 
 private void AadLoginControl_SignInCompleted(object sender, SignInEventArgs e)
 {
     string graphAccessToken = e.GraphAccessToken;
-    GraphServiceClient graphServiceClient = e.GraphClient;
+	string userId = e.CurrentSignInUserId;
+	GraphServiceClient graphServiceClient = e.GraphClient;
 
     // TODO
 }
