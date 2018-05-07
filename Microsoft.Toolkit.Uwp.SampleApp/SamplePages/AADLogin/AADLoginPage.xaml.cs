@@ -27,8 +27,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class AadLoginPage : IXamlRenderListener
     {
         private AadLogin _aadLoginControl;
-        private string _graphAccessToken;
-        private string _userId;
 
         public AadLoginPage()
         {
@@ -38,11 +36,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public void OnXamlRendered(FrameworkElement control)
         {
             _aadLoginControl = control.FindDescendantByName("AadLoginControl") as AadLogin;
-            if (_aadLoginControl != null)
-            {
-                _aadLoginControl.SignInCompleted += AadLoginControl_SignInCompleted;
-                _aadLoginControl.SignOutCompleted += AadLoginControl_SignOutCompleted;
-            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -83,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 if (_aadLoginControl != null)
                 {
-                    if (string.IsNullOrEmpty(_graphAccessToken))
+                    if (string.IsNullOrEmpty(_aadLoginControl.GraphAccessToken))
                     {
                         var dialog = new MessageDialog("Please click the profile button to login first.");
                         await dialog.ShowAsync();
@@ -91,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     else
                     {
                         DataPackage copyData = new DataPackage();
-                        copyData.SetText(_graphAccessToken);
+                        copyData.SetText(_aadLoginControl.GraphAccessToken);
                         Clipboard.SetContent(copyData);
                     }
                 }
@@ -101,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 if (_aadLoginControl != null)
                 {
-                    if (string.IsNullOrEmpty(_userId))
+                    if (string.IsNullOrEmpty(_aadLoginControl.CurrentUserID))
                     {
                         var dialog = new MessageDialog("Please click the profile button to login first.");
                         await dialog.ShowAsync();
@@ -109,23 +102,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     else
                     {
                         DataPackage copyData = new DataPackage();
-                        copyData.SetText(_userId);
+                        copyData.SetText(_aadLoginControl.CurrentUserID);
                         Clipboard.SetContent(copyData);
                     }
                 }
             });
-        }
-
-        private void AadLoginControl_SignInCompleted(object sender, SignInEventArgs e)
-        {
-            _graphAccessToken = e.GraphAccessToken;
-            _userId = e.CurrentSignInUserId;
-        }
-
-        private void AadLoginControl_SignOutCompleted(object sender, EventArgs e)
-        {
-            _graphAccessToken = string.Empty;
-            _userId = string.Empty;
         }
     }
 }
