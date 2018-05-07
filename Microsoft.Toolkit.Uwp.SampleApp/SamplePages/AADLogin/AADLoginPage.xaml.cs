@@ -55,12 +55,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 if (aadLoginControl != null)
                 {
-                    FileOpenPicker openPicker = new FileOpenPicker();
+                    var openPicker = new FileOpenPicker();
                     openPicker.ViewMode = PickerViewMode.Thumbnail;
                     openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
                     openPicker.FileTypeFilter.Add(".jpg");
                     openPicker.FileTypeFilter.Add(".jpeg");
                     openPicker.FileTypeFilter.Add(".png");
+                    openPicker.FileTypeFilter.Add(".gif");
+                    openPicker.FileTypeFilter.Add(".bmp");
 
                     // Open a stream for the selected file
                     StorageFile file = await openPicker.PickSingleFileAsync();
