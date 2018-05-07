@@ -502,7 +502,7 @@
     </Content>
     <Content Include="SamplePages\AadLogin\AadLoginCode.bind" />
     <Content Include="SamplePages\SharePointFiles\SharePointFilesXaml.bind" />
-    <Content Include="SamplePages\AadLogin\AADLoginXaml.bind" />
+    <Content Include="SamplePages\AadLogin\AadLoginXaml.bind" />
     <Content Include="SamplePages\PeoplePicker\PeoplePickerXaml.bind" />
     <Content Include="SamplePages\ProfileCard\ProfileCardXaml.bind" />
     <Content Include="SamplePages\SharePointFiles\SharePointFilesCode.bind" />
