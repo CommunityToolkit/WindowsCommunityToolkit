@@ -116,6 +116,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
+        private static void GraphAccessTokenPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as PeoplePicker;
+            control?.SignInCurrentUserAsync();
+        }
+
         private static void AllowMultiplePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as PeoplePicker;

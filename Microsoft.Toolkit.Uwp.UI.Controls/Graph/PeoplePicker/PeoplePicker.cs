@@ -71,12 +71,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             _searchResultListBox.SelectionChanged += SearchResultListBox_OnSelectionChanged;
         }
 
-        private static void GraphAccessTokenPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var control = d as PeoplePicker;
-            control?.SignInCurrentUserAsync();
-        }
-
         private async void SignInCurrentUserAsync()
         {
             GraphClient = Common.GetAuthenticatedClient(GraphAccessToken);
