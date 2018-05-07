@@ -103,8 +103,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 Selections.Add(person);
             }
-
-            _selectionsCounter.Text = $"{Selections.Count} selected";
             _searchBox.Text = string.Empty;
         }
 
@@ -115,7 +113,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (target != null)
             {
                 Selections.Remove(target);
-                _selectionsCounter.Text = $"{Selections.Count} selected";
+            }
+        }
+
+        private static void AllowMultiplePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as PeoplePicker;
+            if (!control.AllowMultiple)
+            {
+                control.Selections.Clear();
+                control._searchBox.Text = string.Empty;
             }
         }
     }

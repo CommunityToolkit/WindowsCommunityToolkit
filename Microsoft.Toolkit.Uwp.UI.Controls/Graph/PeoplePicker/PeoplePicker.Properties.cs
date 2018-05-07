@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 nameof(AllowMultiple),
                 typeof(bool),
                 typeof(PeoplePicker),
-                null);
+                new PropertyMetadata(true, AllowMultiplePropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="SearchResultLimit"/> dependency property.
@@ -54,11 +54,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 null);
 
         /// <summary>
-        /// Identifies the <see cref="PersonNotSelectedMessage"/> dependency property.
+        /// Identifies the <see cref="PlaceholderText"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty PersonNotSelectedMessageProperty =
+        public static readonly DependencyProperty PlaceholderTextProperty =
             DependencyProperty.Register(
-                nameof(PersonNotSelectedMessage),
+                nameof(PlaceholderText),
                 typeof(string),
                 typeof(PeoplePicker),
                 new PropertyMetadata("Select a person"));
@@ -113,10 +113,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <summary>
         /// Gets or sets the text to be displayed when no user is selected
         /// </summary>
-        public string PersonNotSelectedMessage
+        public string PlaceholderText
         {
-            get => (string)GetValue(PersonNotSelectedMessageProperty);
-            set => SetValue(PersonNotSelectedMessageProperty, value);
+            get => (string)GetValue(PlaceholderTextProperty);
+            set => SetValue(PlaceholderTextProperty, value);
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         internal GraphServiceClient GraphClient { get; set; }
 
-        private ICommand _deleteItemCommand;
+        private ICommand _deleteItemCommand; 
 
         /// <summary>
         /// Gets the command to delete the selected item.

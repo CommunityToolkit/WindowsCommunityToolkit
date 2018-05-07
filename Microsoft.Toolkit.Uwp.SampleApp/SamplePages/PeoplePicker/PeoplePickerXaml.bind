@@ -10,6 +10,6 @@
          GraphAccessToken="@[GraphAccessToken:String: ]@"
          AllowMultiple="@[AllowMultiple:Bool:True]@"
          SearchResultLimit="@[SearchResultLimit:Slider:5:1-20]@"
-         PersonNotSelectedMessage="@[PersonNotSelectedMessage:String:Select a person]@"/>
+         PlaceholderText="@[PlaceholderText:String:Select a person]@"/>
     </Grid>
 </Page>

@@ -20,8 +20,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// The PeoplePicker Control is a simple control that allows for selection of one or more users from an organizational AD.
     /// </summary>
+    [TemplatePart(Name = GraphAccessTokenPartName, Type = typeof(TextBox))]
+    [TemplatePart(Name = SearchBoxPartName, Type = typeof(TextBox))]
+    [TemplatePart(Name = LoadingPartName, Type = typeof(ProgressRing))]
+    [TemplatePart(Name = SearchResultListBoxPartName, Type = typeof(ListBox))]
+    [TemplatePart(Name = SelectionsListBoxPartName, Type = typeof(ListBox))]
+    [TemplatePart(Name = SelectionsCounterPartName, Type = typeof(TextBlock))]
     public partial class PeoplePicker : Control
     {
+        private const string GraphAccessTokenPartName = "tbGraphAccessToken";
+        private const string SearchBoxPartName = "SearchBox";
+        private const string LoadingPartName = "Loading";
+        private const string SearchResultListBoxPartName = "SearchResultListBox";
+        private const string SelectionsListBoxPartName = "SelectionsListBox";
+        private const string SelectionsCounterPartName = "SelectionsCounter";
+
         private TextBox _searchBox;
         private ProgressRing _loading;
         private ListBox _searchResultListBox;
@@ -49,7 +62,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             SearchResultList = new ObservableCollection<Person>();
             Selections = Selections ?? new ObservableCollection<Person>();
-            _selectionsCounter.Text = $"{Selections.Count} selected";
             if (!AllowMultiple)
             {
                 _selectionsCounter.Visibility = Visibility.Collapsed;

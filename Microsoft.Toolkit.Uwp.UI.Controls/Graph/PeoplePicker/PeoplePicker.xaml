@@ -20,7 +20,7 @@
                                 <TextBox Name="SearchBox"
                                          Margin="0"
                                          AutomationProperties.Name="Keywords"
-                                         PlaceholderText="{Binding PersonNotSelectedMessage, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                         PlaceholderText="{Binding PlaceholderText, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                                 <ProgressRing Name="Loading"
                                               Margin="0,0,30,0"
                                               HorizontalAlignment="Right"
@@ -38,7 +38,6 @@
                                      Visibility="Collapsed">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <!--<TextBlock Text="{Binding UserPrincipalName}" />-->
                                         <controls:ProfileCard AutomationProperties.Name="{Binding DisplayName}"
                                                               DisplayMode="LargeProfilePhotoLeft"
                                                               GraphAccessToken="{Binding DataContext.GraphAccessToken, ElementName=tbGraphAccessToken}"
@@ -58,7 +57,6 @@
                                                     <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
-                                                <!--<TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding UserPrincipalName}" />-->
                                                 <controls:ProfileCard Grid.Row="0"
                                                                       Grid.Column="0"
                                                                       DisplayMode="LargeProfilePhotoLeft"
@@ -92,8 +90,11 @@
                             </StackPanel>
                         </RelativePanel>
                         <TextBlock Name="SelectionsCounter"
-                                   AutomationProperties.Name="Selections Counter"
-                                   Visibility="Visible" />
+                                   Visibility="Visible"
+                                   AutomationProperties.Name="Selections Counter">
+                            <Run><Binding Path="DataContext.Selections.Count" ElementName="tbGraphAccessToken"></Binding></Run>
+                            <Run> selected</Run>
+                        </TextBlock>
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
