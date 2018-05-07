@@ -94,13 +94,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             typeof(AadLogin),
             new PropertyMetadata("Sign in with another account"));
 
-        internal static readonly DependencyProperty GraphAccessTokenProperty = DependencyProperty.Register(
+        /// <summary>
+        /// Identifies the <see cref="GraphAccessToken"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty GraphAccessTokenProperty = DependencyProperty.Register(
             nameof(GraphAccessToken),
             typeof(string),
             typeof(AadLogin),
             new PropertyMetadata(null));
 
-        internal static readonly DependencyProperty CurrentUserIdProperty = DependencyProperty.Register(
+        /// <summary>
+        /// Identifies the <see cref="CurrentUserID"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty CurrentUserIdProperty = DependencyProperty.Register(
             nameof(CurrentUserID),
             typeof(string),
             typeof(AadLogin),
@@ -182,7 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         }
 
         /// <summary>
-        /// Gets or sets a value for default sign-in text
+        /// Gets or sets a value for default sign-in text.
         /// </summary>
         public string SignInDefaultText
         {
@@ -191,7 +197,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         }
 
         /// <summary>
-        /// Gets or sets a value for default sign-out text
+        /// Gets or sets a value for default sign-out text.
         /// </summary>
         public string SignOutDefaultText
         {
@@ -200,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         }
 
         /// <summary>
-        /// Gets or sets a value for default text of the Sign-in-with-another-account button
+        /// Gets or sets a value for default text of the Sign-in-with-another-account button.
         /// </summary>
         public string SignInAnotherUserDefaultText
         {
@@ -208,13 +214,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             set { SetValue(SignInAnotherUserDefaultTextProperty, value); }
         }
 
-        internal string CurrentUserID
+        /// <summary>
+        /// Gets the unique identifier for current signed in user.
+        /// </summary>
+        public string CurrentUserID
         {
             get { return (string)GetValue(CurrentUserIdProperty); }
             private set { SetValue(CurrentUserIdProperty, value); }
         }
 
-        internal string GraphAccessToken
+        /// <summary>
+        /// Gets a value for the access token after signing in.
+        /// </summary>
+        public string GraphAccessToken
         {
             get { return (string)GetValue(GraphAccessTokenProperty); }
             private set { SetValue(GraphAccessTokenProperty, value); }
