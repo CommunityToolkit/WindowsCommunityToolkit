@@ -28,6 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// The SharePointFiles Control displays a simple list of SharePoint Files.
     /// </summary>
+    [TemplatePart(Name = "list", Type = typeof(ListView))]
     public partial class SharePointFileList : Control
     {
         /// <summary>
@@ -70,6 +71,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         protected override void OnApplyTemplate()
         {
             _list = GetTemplateChild("list") as ListView;
+            if (_list != null)
+            {
+                _list.SelectionChanged += List_SelectionChanged;
+                _list.ItemClick += List_ItemClick;
+            }
+
             _back = GetTemplateChild("back") as Button;
             _upload = GetTemplateChild("upload") as Button;
             _share = GetTemplateChild("share") as Button;
@@ -81,11 +88,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             _thumbnail = GetTemplateChild("thumbnail") as Grid;
             _details = GetTemplateChild("details") as ScrollViewer;
             _status = GetTemplateChild("status") as TextBlock;
-            if (_list != null)
-            {
-                _list.SelectionChanged += List_SelectionChanged;
-                _list.ItemClick += List_ItemClick;
-            }
 
             base.OnApplyTemplate();
         }
