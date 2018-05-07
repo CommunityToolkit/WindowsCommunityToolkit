@@ -946,6 +946,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 row.EnsureGridLines();
                 row.InvalidateHorizontalArrange();
             }
+
+            foreach (DataGridRowGroupHeader rowGroupHeader in dataGrid.GetAllRowGroupHeaders())
+            {
+                rowGroupHeader.EnsureGridLine();
+            }
         }
 
         /// <summary>
@@ -1077,6 +1082,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 foreach (DataGridRow row in dataGrid.GetAllRows())
                 {
                     row.EnsureGridLines();
+                }
+
+                foreach (DataGridRowGroupHeader rowGroupHeader in dataGrid.GetAllRowGroupHeaders())
+                {
+                    rowGroupHeader.EnsureGridLine();
                 }
             }
         }

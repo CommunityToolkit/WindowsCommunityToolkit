@@ -1214,11 +1214,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        internal void ResetGridLine()
-        {
-            _bottomGridLine = null;
-        }
-
         // Sets AreDetailsVisible on the row and animates if necessary
         internal void SetDetailsVisibilityInternal(
             Visibility visibility,

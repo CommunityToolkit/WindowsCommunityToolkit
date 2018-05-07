@@ -12,8 +12,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.Automation.Peers;
@@ -1378,6 +1376,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (row != null)
                     {
                         yield return row;
+                    }
+                }
+            }
+        }
+
+        private IEnumerable<DataGridRowGroupHeader> GetAllRowGroupHeaders()
+        {
+            if (_rowsPresenter != null)
+            {
+                foreach (UIElement element in _rowsPresenter.Children)
+                {
+                    DataGridRowGroupHeader rowGroupHeader = element as DataGridRowGroupHeader;
+                    if (rowGroupHeader != null)
+                    {
+                        yield return rowGroupHeader;
                     }
                 }
             }

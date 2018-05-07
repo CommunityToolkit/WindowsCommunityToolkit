@@ -952,37 +952,35 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <!--<Rectangle Grid.Column="1" Grid.ColumnSpan="5" Fill="Transparent" Height="0"/>-->
-                        <Rectangle x:Name="IndentSpacer" Grid.Column="1" Grid.Row="1"/>
-                        <ToggleButton x:Name="ExpanderButton" Grid.Column="2" Grid.Row="1" Height="12" Width="12" Template="{StaticResource ToggleButtonTemplate}"
+                        <Rectangle x:Name="IndentSpacer" Grid.Column="1"/>
+                        <ToggleButton x:Name="ExpanderButton" Grid.Column="2" Height="12" Width="12" Template="{StaticResource ToggleButtonTemplate}"
                             IsTabStop="False" Margin="12,0,0,0" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}"/>
 
-                        <StackPanel Grid.Column="3" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
+                        <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
                             <TextBlock x:Name="PropertyNameElement" Margin="4,0,0,0" Visibility="{TemplateBinding PropertyNameVisibility}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{TemplateBinding Foreground}"/>
                             <TextBlock x:Name="PropertyValueElement" Margin="4,0,0,0" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{TemplateBinding Foreground}"/>
                             <TextBlock x:Name="ItemCountElement" Margin="4,0,0,0" Visibility="{TemplateBinding ItemCountVisibility}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{TemplateBinding Foreground}"/>
                         </StackPanel>
 
-                        <Rectangle Grid.Column="1" Grid.ColumnSpan="5" Fill="Transparent" Height="0" Grid.Row="2"/>
-
                         <!--
-                        <Rectangle x:Name="CurrencyVisual" Grid.Column="1" Grid.ColumnSpan="5" Grid.RowSpan="3"
+                        <Rectangle x:Name="CurrencyVisual" Grid.Column="1" Grid.ColumnSpan="4"
                             Stroke="{ThemeResource DataGridCellFocusVisualPrimaryBrush}" StrokeThickness="1" Fill="Transparent"
                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False" Opacity="0"/>
                         -->
-                        <Grid x:Name="FocusVisual" Grid.Column="1" Grid.ColumnSpan="5" Grid.RowSpan="3" IsHitTestVisible="False" Opacity="0">
+                        <Grid x:Name="FocusVisual" Grid.Column="1" Grid.ColumnSpan="4" IsHitTestVisible="False" Opacity="0">
                             <Rectangle Stroke="{ThemeResource DataGridCellFocusVisualPrimaryBrush}" StrokeThickness="2" Fill="Transparent"
                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False"/>
                             <Rectangle Stroke="{ThemeResource DataGridCellFocusVisualSecondaryBrush}" StrokeThickness="1" Fill="Transparent"
                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False" Margin="2"/>
                         </Grid>
 
-                        <localprimitives:DataGridRowHeader x:Name="RowHeader" Grid.RowSpan="3" localprimitives:DataGridFrozenGrid.IsFrozen="True"/>
+                        <localprimitives:DataGridRowHeader x:Name="RowHeader" Grid.RowSpan="2" localprimitives:DataGridFrozenGrid.IsFrozen="True"/>
+
+                        <Rectangle x:Name="BottomGridLine" Grid.Column="1" Grid.ColumnSpan="4" Height="1" Grid.Row="1"/>
 
                     </localprimitives:DataGridFrozenGrid>
                 </ControlTemplate>

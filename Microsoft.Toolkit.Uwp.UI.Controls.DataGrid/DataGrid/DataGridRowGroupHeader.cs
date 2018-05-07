@@ -27,6 +27,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -35,6 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     [TemplatePart(Name = DataGridRow.DATAGRIDROW_elementRoot, Type = typeof(Panel))]
     [TemplatePart(Name = DataGridRow.DATAGRIDROW_elementRowHeader, Type = typeof(DataGridRowHeader))]
+    [TemplatePart(Name = DATAGRIDROWGROUPHEADER_bottomGridLine, Type = typeof(Rectangle))]
     [TemplatePart(Name = DATAGRIDROWGROUPHEADER_expanderButton, Type = typeof(ToggleButton))]
     [TemplatePart(Name = DATAGRIDROWGROUPHEADER_indentSpacer, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = DATAGRIDROWGROUPHEADER_itemCountElement, Type = typeof(TextBlock))]
@@ -43,6 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [StyleTypedProperty(Property = "HeaderStyle", StyleTargetType = typeof(DataGridRowHeader))]
     public class DataGridRowGroupHeader : Control
     {
+        private const string DATAGRIDROWGROUPHEADER_bottomGridLine = "BottomGridLine";
         private const string DATAGRIDROWGROUPHEADER_expanderButton = "ExpanderButton";
         private const string DATAGRIDROWGROUPHEADER_indentSpacer = "IndentSpacer";
         private const string DATAGRIDROWGROUPHEADER_itemCountElement = "ItemCountElement";
@@ -50,6 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string DATAGRIDROWGROUPHEADER_propertyValueElement = "PropertyValueElement";
 
         private bool _areIsCheckedHandlersSuspended;
+        private Rectangle _bottomGridLine;
         private ToggleButton _expanderButton;
         private FrameworkElement _indentSpacer;
         private TextBlock _itemCountElement;
@@ -561,6 +565,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _expanderButton.Unchecked -= ExpanderButton_Unchecked;
             }
 
+            _bottomGridLine = GetTemplateChild(DATAGRIDROWGROUPHEADER_bottomGridLine) as Rectangle;
+
             _expanderButton = GetTemplateChild(DATAGRIDROWGROUPHEADER_expanderButton) as ToggleButton;
             if (_expanderButton != null)
             {
@@ -586,6 +592,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _propertyNameElement = GetTemplateChild(DATAGRIDROWGROUPHEADER_propertyNameElement) as TextBlock;
             _propertyValueElement = GetTemplateChild(DATAGRIDROWGROUPHEADER_propertyValueElement) as TextBlock;
             UpdateTitleElements();
+            EnsureGridLine();
         }
 
         /// <summary>
@@ -707,6 +714,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void DataGridRowGroupHeader_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             UpdateIsPressed(false);
+        }
+
+        internal void EnsureGridLine()
+        {
+            if (this.OwningGrid != null && _bottomGridLine != null)
+            {
+                Visibility newVisibility = this.OwningGrid.GridLinesVisibility == DataGridGridLinesVisibility.Horizontal || this.OwningGrid.GridLinesVisibility == DataGridGridLinesVisibility.All
+                    ? Visibility.Visible : Visibility.Collapsed;
+
+                if (newVisibility != _bottomGridLine.Visibility)
+                {
+                    _bottomGridLine.Visibility = newVisibility;
+                }
+
+                _bottomGridLine.Fill = this.OwningGrid.HorizontalGridLinesBrush;
+            }
         }
 
         private void UpdateIsPointerOver(bool isPointerOver)
