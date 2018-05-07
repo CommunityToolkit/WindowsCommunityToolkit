@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 if (string.IsNullOrEmpty(ClientId))
                 {
                     SetValue(ClientIdProperty, value?.Trim());
-                    InitialPublicClientApplication();
+                    InitializePublicClientApplication();
                 }
                 else
                 {
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 if (string.IsNullOrEmpty(Scopes))
                 {
                     SetValue(ScopesProperty, value?.Trim());
-                    InitialPublicClientApplication();
+                    InitializePublicClientApplication();
                 }
                 else
                 {

@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             AutomationProperties.SetName(_mainButton, SignInDefaultText);
         }
 
-        private void InitialPublicClientApplication()
+        private void InitializePublicClientApplication()
         {
             if (!string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(Scopes))
             {

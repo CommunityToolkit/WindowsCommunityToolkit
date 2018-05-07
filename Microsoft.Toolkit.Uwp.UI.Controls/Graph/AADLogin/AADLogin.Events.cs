@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         /// <param name="obj">AADLogin</param>
         /// <param name="args">Property Changed Args</param>
-        private static void OnPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args) => (obj as AadLogin).InitialPublicClientApplication();
+        private static void OnPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args) => (obj as AadLogin).InitializePublicClientApplication();
 
         private void OnSignInCompleted(SignInEventArgs e)
         {
