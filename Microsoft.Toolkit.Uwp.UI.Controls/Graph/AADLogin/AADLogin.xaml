@@ -15,7 +15,7 @@
                                     DisplayMode="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=View}" 
                                     DefaultImage="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=DefaultImage}" 
                                     UserId="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentUserID}"  
-                                    GraphAccessToken ="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=GraphAccessToken}"
+                                    GraphAccessToken="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=GraphAccessToken}"
                                     DefaultTitleText="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SignInDefaultText}" 
                                     DefaultMailText="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SignInDefaultText}" />
                             </Button.Content>
