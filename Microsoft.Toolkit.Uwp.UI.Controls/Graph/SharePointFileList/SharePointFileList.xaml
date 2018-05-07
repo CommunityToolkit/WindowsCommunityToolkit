@@ -31,10 +31,10 @@
            TargetType="Image">
         <Setter Property="Stretch" Value="Uniform" />
     </Style>
-    <Style TargetType="local:SharePointFiles">
+    <Style TargetType="local:SharePointFileList">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="local:SharePointFiles">
+                <ControlTemplate TargetType="local:SharePointFileList">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="60" />
@@ -54,6 +54,7 @@
                                     Orientation="Horizontal">
                             <Button Name="back"
                                     AutomationProperties.Name="Back"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=BackCommand}"
                                     Style="{StaticResource ToolbarButton}"
                                     Visibility="Collapsed">
                                 <StackPanel Orientation="Horizontal">
@@ -65,6 +66,7 @@
                             </Button>
                             <Button Name="upload"
                                     AutomationProperties.Name="Upload a new file"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=UploadCommand}"
                                     Style="{StaticResource ToolbarButton}"
                                     Visibility="Collapsed">
                                 <StackPanel Orientation="Horizontal">
@@ -76,6 +78,7 @@
                             </Button>
                             <Button Name="share"
                                     AutomationProperties.Name="Get share link"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ShareCommand}"
                                     Style="{StaticResource ToolbarButton}"
                                     Visibility="Collapsed">
                                 <StackPanel Orientation="Horizontal">
@@ -87,6 +90,7 @@
                             </Button>
                             <Button Name="download"
                                     AutomationProperties.Name="Download selected file"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=DownloadCommand}"
                                     Style="{StaticResource ToolbarButton}"
                                     Visibility="Collapsed">
                                 <StackPanel Orientation="Horizontal">
@@ -98,6 +102,7 @@
                             </Button>
                             <Button Name="delete"
                                     AutomationProperties.Name="Delete selected file"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=DeleteCommand}"
                                     Style="{StaticResource ToolbarButton}"
                                     Visibility="Collapsed">
                                 <StackPanel Orientation="Horizontal">
@@ -113,10 +118,12 @@
                             <HyperlinkButton Name="error"
                                              VerticalAlignment="Center"
                                              AutomationProperties.Name="Show error message"
+                                             Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ShowErrorDetailsCommand}"
                                              Content="Errors adding files."
                                              Visibility="Collapsed" />
                             <Button Name="cancel"
                                     AutomationProperties.Name="Cancel uploading"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CancelCommand}"
                                     Style="{StaticResource ToolbarButton}"
                                     Visibility="Collapsed">
                                 <StackPanel Orientation="Horizontal">
@@ -153,6 +160,7 @@
                                         HorizontalAlignment="Stretch"
                                         AutomationProperties.Name="Load more items"
                                         BorderThickness="0"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=LoadMoreCommand}"
                                         Style="{StaticResource ToolbarButton}"
                                         Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=HasMore}">
                                     <StackPanel Orientation="Horizontal">
@@ -171,7 +179,7 @@
                               Padding="5"
                               Background="{ThemeResource SystemBaseMediumColor}"
                               Visibility="Collapsed">
-                            <Image Name="thumbnailImage" />
+                            <Image Source="{TemplateBinding ThumbnailImageSource}" />
                         </Grid>
 
                         <ScrollViewer Name="details"
@@ -189,7 +197,7 @@
                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FileSize, Converter={StaticResource FileSizeConverter}}" />
                                 <TextBlock Style="{StaticResource MetaLabel}">Last Modified</TextBlock>
                                 <TextBlock Style="{StaticResource MetaValue}"
-                                           Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=LastModified}" />
+                                           Text="{TemplateBinding LastModified}" />
                                 <TextBlock Style="{StaticResource MetaLabel}">Last Modified By</TextBlock>
                                 <local:ProfileCard DisplayMode="LargeProfilePhotoLeft"
                                                    GraphAccessToken="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=GraphAccessToken}"

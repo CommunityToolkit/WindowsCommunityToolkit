@@ -895,14 +895,14 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/PeoplePicker.md"
       },
       {
-        "Name": "SharePointFiles",
-        "Type": "SharePointFilesPage",
-        "About": "The SharePointFiles Control displays a simple list of SharePoint Files.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Graph/SharePointFiles",
-        "CodeFile": "SharePointFilesCode.bind",
-        "XamlCodeFile": "SharePointFilesXaml.bind",
-        "Icon": "/SamplePages/SharePointFiles/SharePointFiles.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/SharePointFiles.md"
+        "Name": "SharePointFileList",
+        "Type": "SharePointFileListPage",
+        "About": "The SharePointFileList Control displays a simple list of SharePoint Files.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Graph/SharePointFileList",
+        "CodeFile": "SharePointFileListCode.bind",
+        "XamlCodeFile": "SharePointFileListXaml.bind",
+        "Icon": "/SamplePages/SharePointFileList/SharePointFileList.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/SharePointFileList.md"
       }
     ]
   }

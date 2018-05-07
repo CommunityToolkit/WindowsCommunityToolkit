@@ -18,11 +18,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// Arguments relating to a file selected event of SharePointFiles control
     /// </summary>
-    public class FileSelectedEventArgs : EventArgs
+    public class FileSelectedEventArgs
     {
         /// <summary>
-        /// Gets or sets selected file
+        /// Gets selected file
         /// </summary>
-        public DriveItem FileSelected { get; set; }
+        public DriveItem FileSelected { get; private set; }
+
+        internal FileSelectedEventArgs(DriveItem fileSelected)
+        {
+            FileSelected = fileSelected;
+        }
     }
 }

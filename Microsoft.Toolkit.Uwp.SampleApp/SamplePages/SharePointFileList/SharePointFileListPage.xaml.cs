@@ -24,24 +24,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// A page that shows how to use the opacity behavior.
     /// </summary>
-    public sealed partial class SharePointFilesPage : Page, IXamlRenderListener
+    public sealed partial class SharePointFileListPage : Page, IXamlRenderListener
     {
-        private SharePointFiles _sharePointFilesControl;
+        private SharePointFileList _sharePointFilesControl;
         private StackPanel _convertPanel;
         private TextBox _tbDocLibURL;
         private Button _btnConvert;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SharePointFilesPage"/> class.
+        /// Initializes a new instance of the <see cref="SharePointFileListPage"/> class.
         /// </summary>
-        public SharePointFilesPage()
+        public SharePointFileListPage()
         {
             InitializeComponent();
         }
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            _sharePointFilesControl = control.FindDescendantByName("SharePointFilesControl") as SharePointFiles;
+            _sharePointFilesControl = control.FindDescendantByName("SharePointFileListControl") as SharePointFileList;
             _convertPanel = control.FindDescendantByName("ConvertPanel") as StackPanel;
             _tbDocLibURL = control.FindDescendantByName("tbDocLibURL") as TextBox;
             _btnConvert = control.FindDescendantByName("btnConvert") as Button;
@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     return;
                 }
 
-                string driveURL = await _sharePointFilesControl.GetDriveUrlFromSharePointUrl(_tbDocLibURL.Text);
+                string driveURL = await _sharePointFilesControl.GetDriveUrlFromSharePointUrlAsync(_tbDocLibURL.Text);
                 DataPackage copyData = new DataPackage();
                 copyData.SetText(driveURL);
                 Clipboard.SetContent(copyData);

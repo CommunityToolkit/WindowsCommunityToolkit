@@ -1,3 +1,0 @@
-string sharepointDocumentLibraryUrl = "https://TENANT.sharepoint.com/sites/SITENAME/LIBRARY";
-SharePointFiles sharepointFilesControl = new SharePointFiles { GraphAccessToken = "GRAPH_TOKEN" };
-string driveURL = await sharepointFilesControl.GetDriveUrlFromSharePointUrl(sharepointDocumentLibraryUrl);

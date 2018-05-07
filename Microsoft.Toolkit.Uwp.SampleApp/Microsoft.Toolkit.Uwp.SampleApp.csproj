@@ -350,7 +350,7 @@
     <Content Include="SamplePages\OrbitView\OrbitView.png" />
     <Content Include="SamplePages\Scale\ScaleBehavior.png" />
     <Content Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsCode.bind" />
-    <Content Include="SamplePages\SharePointFiles\SharePointFiles.png" />
+    <Content Include="SamplePages\SharePointFileList\SharePointFileList.png" />
     <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.png" />
     <Content Include="SamplePages\SystemInformation\SystemInformation.png" />
     <Content Include="SamplePages\TextBoxMask\TextBoxMask.png" />
@@ -501,11 +501,11 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\AADLogin\AADLoginCode.bind" />
-    <Content Include="SamplePages\SharePointFiles\SharePointFilesXaml.bind" />
+    <Content Include="SamplePages\SharePointFileList\SharePointFileListXaml.bind" />
     <Content Include="SamplePages\AADLogin\AADLoginXaml.bind" />
     <Content Include="SamplePages\PeoplePicker\PeoplePickerXaml.bind" />
     <Content Include="SamplePages\ProfileCard\ProfileCardXaml.bind" />
-    <Content Include="SamplePages\SharePointFiles\SharePointFilesCode.bind" />
+    <Content Include="SamplePages\SharePointFileList\SharePointFileListCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -634,8 +634,8 @@
     <Compile Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsPage.xaml.cs">
       <DependentUpon>ScrollViewerExtensionsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\SharePointFiles\SharePointFilesPage.xaml.cs">
-      <DependentUpon>SharePointFilesPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\SharePointFileList\SharePointFileListPage.xaml.cs">
+      <DependentUpon>SharePointFileListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml.cs">
       <DependentUpon>StaggeredPanelPage.xaml</DependentUpon>
@@ -996,7 +996,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\SharePointFiles\SharePointFilesPage.xaml">
+    <Page Include="SamplePages\SharePointFileList\SharePointFileListPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
