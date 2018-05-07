@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class ProfileCardPage : IXamlRenderListener
     {
-        private ProfileCard profileCardControl;
+        private ProfileCard _profileCardControl;
 
         public ProfileCardPage()
         {
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            profileCardControl = control.FindDescendantByName("ProfileCardControl") as ProfileCard;
+            _profileCardControl = control.FindDescendantByName("ProfileCardControl") as ProfileCard;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             Shell.Current.RegisterNewCommand("Change default image", async (sender, args) =>
             {
-                if (profileCardControl != null)
+                if (_profileCardControl != null)
                 {
                     FileOpenPicker openPicker = new FileOpenPicker();
                     openPicker.ViewMode = PickerViewMode.Thumbnail;
@@ -50,6 +50,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     openPicker.FileTypeFilter.Add(".jpg");
                     openPicker.FileTypeFilter.Add(".jpeg");
                     openPicker.FileTypeFilter.Add(".png");
+                    openPicker.FileTypeFilter.Add(".gif");
+                    openPicker.FileTypeFilter.Add(".bmp");
 
                     // Open a stream for the selected file
                     StorageFile file = await openPicker.PickSingleFileAsync();
@@ -62,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                             // Set the image source to the selected bitmap
                             var defaultImage = new BitmapImage();
                             await defaultImage.SetSourceAsync(fileStream);
-                            profileCardControl.DefaultImage = defaultImage;
+                            _profileCardControl.DefaultImage = defaultImage;
                         }
                     }
                 }
