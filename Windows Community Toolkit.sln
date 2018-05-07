@@ -65,7 +65,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Uwp.UI.Co
 		{E9FAABFB-D726-42C1-83C1-CB46A29FEA81} = {E9FAABFB-D726-42C1-83C1-CB46A29FEA81}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Parsers", "Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj", "{42CA4935-54BE-42EA-AC19-992378C08DE6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Parsers", "Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj", "{42CA4935-54BE-42EA-AC19-992378C08DE6}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
