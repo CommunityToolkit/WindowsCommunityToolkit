@@ -9,8 +9,8 @@
         <controls:AadLogin x:Name="AadLoginControl"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"
-                           ClientId= "@[ClientId:String:aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee]"
-                           Scopes= "@[Scopes:String:User.Read,User.ReadBasic.All,Files.ReadWrite.All]"
+                           ClientId="@[ClientId:String:aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee]"
+                           Scopes="@[Scopes:String:User.Read,User.ReadBasic.All,Files.ReadWrite.All]"
                            View="@[View:Enum:ViewType.PictureOnly]"
                            AllowSignInAsDifferentUser="@[AllowSignInAsDifferentUser:Bool:true]" />
     </Grid>

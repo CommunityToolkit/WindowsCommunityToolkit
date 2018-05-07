@@ -1,17 +1,9 @@
-using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
-
-private AadLogin _aadLoginControl;
-
 protected override void OnNavigatedTo(NavigationEventArgs e)
 {
 	base.OnNavigatedTo(e);
 
-	_aadLoginControl = control.FindDescendantByName("AadLoginControl") as AadLogin;
-    if (_aadLoginControl != null)
-    {
-        _aadLoginControl.SignInCompleted += AadLoginControl_SignInCompleted;
-        _aadLoginControl.SignOutCompleted += AadLoginControl_SignOutCompleted;
-    }
+	AadLoginControl.SignInCompleted += AadLoginControl_SignInCompleted;
+	AadLoginControl.SignOutCompleted += AadLoginControl_SignOutCompleted;
 }
 
 private void AadLoginControl_SignInCompleted(object sender, SignInEventArgs e)
