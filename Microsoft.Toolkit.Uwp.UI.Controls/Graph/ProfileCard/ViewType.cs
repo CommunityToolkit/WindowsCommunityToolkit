@@ -13,7 +13,7 @@
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
     /// <summary>
-    /// The view type.
+    /// The visual layout of the <see cref="ProfileCard"/> control. Default is PictureOnly.
     /// </summary>
     public enum ViewType
     {
