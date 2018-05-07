@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Graph;
 using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
@@ -28,8 +27,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class AadLoginPage : IXamlRenderListener
     {
         private AadLogin _aadLoginControl;
-        private string graphAccessToken;
-        private string userId;
+        private string _graphAccessToken;
+        private string _userId;
 
         public AadLoginPage()
         {
@@ -84,15 +83,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 if (_aadLoginControl != null)
                 {
-                    if (string.IsNullOrEmpty(graphAccessToken))
+                    if (string.IsNullOrEmpty(_graphAccessToken))
                     {
-                        var dialog = new MessageDialog("Please sign in firstly.");
+                        var dialog = new MessageDialog("Please click the profile button to login first.");
                         await dialog.ShowAsync();
                     }
                     else
                     {
                         DataPackage copyData = new DataPackage();
-                        copyData.SetText(graphAccessToken);
+                        copyData.SetText(_graphAccessToken);
                         Clipboard.SetContent(copyData);
                     }
                 }
@@ -102,15 +101,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 if (_aadLoginControl != null)
                 {
-                    if (string.IsNullOrEmpty(userId))
+                    if (string.IsNullOrEmpty(_userId))
                     {
-                        var dialog = new MessageDialog("Please sign in firstly.");
+                        var dialog = new MessageDialog("Please click the profile button to login first.");
                         await dialog.ShowAsync();
                     }
                     else
                     {
                         DataPackage copyData = new DataPackage();
-                        copyData.SetText(userId);
+                        copyData.SetText(_userId);
                         Clipboard.SetContent(copyData);
                     }
                 }
@@ -119,15 +118,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void AadLoginControl_SignInCompleted(object sender, SignInEventArgs e)
         {
-            graphAccessToken = e.GraphAccessToken;
-            userId = e.CurrentSignInUserId;
-            GraphServiceClient graphServiceClient = e.GraphClient;
+            _graphAccessToken = e.GraphAccessToken;
+            _userId = e.CurrentSignInUserId;
         }
 
         private void AadLoginControl_SignOutCompleted(object sender, EventArgs e)
         {
-            graphAccessToken = string.Empty;
-            userId = string.Empty;
+            _graphAccessToken = string.Empty;
+            _userId = string.Empty;
         }
     }
 }

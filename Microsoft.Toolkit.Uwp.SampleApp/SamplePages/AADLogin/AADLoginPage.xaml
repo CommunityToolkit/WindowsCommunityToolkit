@@ -5,14 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    
+
     <!-- Shallow Copy -->
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid VerticalAlignment="Center"
-          HorizontalAlignment="Center">
-            <controls:AadLogin 
-                SignInCompleted="AadLoginControl_SignInCompleted" 
-                SignOutCompleted="AadLoginControl_SignOutCompleted" />
-        </Grid>
+    <Grid>
+        <controls:AadLogin />
     </Grid>
 </Page>
