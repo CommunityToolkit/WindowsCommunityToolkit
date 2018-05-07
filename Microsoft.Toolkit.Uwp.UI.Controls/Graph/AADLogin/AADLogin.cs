@@ -144,20 +144,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
             catch
             {
-                try
-                {
-                    authResult = await _identityClientApp.AcquireTokenAsync(Scopes.Split(','));
-                    tokenForUser = authResult.AccessToken;
-                }
-                catch
-                {
-                }
+                tokenForUser = await GetTokenWithPromptAsync();
             }
 
             return tokenForUser;
         }
 
-        private async Task<string> GetTokenForAnotherUserAsync()
+        private async Task<string> GetTokenWithPromptAsync()
         {
             string tokenForUser = string.Empty;
 
@@ -184,7 +177,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 AutomationProperties.SetName(signinanotherItem, SignInAnotherUserDefaultText);
                 signinanotherItem.Click += async (object sender, RoutedEventArgs e) =>
                 {
-                    var token = await GetTokenForAnotherUserAsync();
+                    var token = await GetTokenWithPromptAsync();
                     if (!string.IsNullOrEmpty(token))
                     {
                         var graphClient = Common.GetAuthenticatedClient(token);
