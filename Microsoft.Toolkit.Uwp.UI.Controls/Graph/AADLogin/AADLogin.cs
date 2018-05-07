@@ -45,30 +45,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             ApplyTemplate();
 
-            _mainButton = GetTemplateChild("btnMain") as Button;
-
-            AutomationProperties.SetName(_mainButton, SignInDefaultText);
-
-            _mainButton.Click += async (object sender, RoutedEventArgs e) =>
+            if (GetTemplateChild("btnMain") is Button _mainButton)
             {
-                var btn = sender as Button;
+                AutomationProperties.SetName(_mainButton, SignInDefaultText);
 
-                if (string.IsNullOrEmpty(CurrentUserID))
+                _mainButton.Click += async (object sender, RoutedEventArgs e) =>
                 {
-                    btn.IsEnabled = false;
-                    if (await SignInAsync())
+                    var btn = sender as Button;
+
+                    if (string.IsNullOrEmpty(CurrentUserID))
                     {
-                        AutomationProperties.SetName(_mainButton, string.Empty);
+                        btn.IsEnabled = false;
+                        if (await SignInAsync())
+                        {
+                            AutomationProperties.SetName(_mainButton, string.Empty);
+                            btn.Flyout = GenerateMenuItems();
+                        }
+
+                        btn.IsEnabled = true;
+                    }
+                    else
+                    {
                         btn.Flyout = GenerateMenuItems();
                     }
-
-                    btn.IsEnabled = true;
-                }
-                else
-                {
-                    btn.Flyout = GenerateMenuItems();
-                }
-            };
+                };
+            }
         }
 
         /// <summary>
