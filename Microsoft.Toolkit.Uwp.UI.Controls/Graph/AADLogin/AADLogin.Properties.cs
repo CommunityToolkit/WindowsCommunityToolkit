@@ -18,9 +18,9 @@ using Windows.UI.Xaml.Media.Imaging;
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
     /// <summary>
-    /// Defines the properties for the <see cref="AADLogin"/> control.
+    /// Defines the properties for the <see cref="AadLogin"/> control.
     /// </summary>
-    public partial class AADLogin : Control
+    public partial class AadLogin : Control
     {
         /// <summary>
         /// Identifies the <see cref="ClientId"/> dependency property.
@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register(
             nameof(ClientId),
             typeof(string),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata(string.Empty, OnPropertyChanged));
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty ScopesProperty = DependencyProperty.Register(
             nameof(Scopes),
             typeof(string),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata(string.Empty, OnPropertyChanged));
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty DefaultImageProperty = DependencyProperty.Register(
             nameof(DefaultImage),
             typeof(BitmapImage),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata(null));
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty ViewProperty = DependencyProperty.Register(
             nameof(View),
             typeof(ViewType),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata(ViewType.PictureOnly));
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty AllowSignInAsDifferentUserProperty = DependencyProperty.Register(
             nameof(AllowSignInAsDifferentUser),
             typeof(bool),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata(true));
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty SignInDefaultTextProperty = DependencyProperty.Register(
             nameof(SignInDefaultText),
             typeof(string),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata("Sign In"));
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty SignOutDefaultTextProperty = DependencyProperty.Register(
             nameof(SignOutDefaultText),
             typeof(string),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata("Sign Out"));
 
         /// <summary>
@@ -91,19 +91,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty SignInAnotherUserDefaultTextProperty = DependencyProperty.Register(
             nameof(SignInAnotherUserDefaultText),
             typeof(string),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata("Sign in with another account"));
 
         internal static readonly DependencyProperty GraphAccessTokenProperty = DependencyProperty.Register(
             nameof(GraphAccessToken),
             typeof(string),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata(null));
 
         internal static readonly DependencyProperty CurrentUserIdProperty = DependencyProperty.Register(
             nameof(CurrentUserID),
             typeof(string),
-            typeof(AADLogin),
+            typeof(AadLogin),
             new PropertyMetadata(null));
 
         /// <summary>

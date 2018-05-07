@@ -1,4 +1,4 @@
-﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.AADLoginPage"
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.AadLoginPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
@@ -10,7 +10,9 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid VerticalAlignment="Center"
           HorizontalAlignment="Center">
-            <controls:AADLogin x:Name="AADLoginControl" />
+            <controls:AadLogin 
+                SignInCompleted="AadLoginControl_SignInCompleted" 
+                SignOutCompleted="AadLoginControl_SignOutCompleted" />
         </Grid>
     </Grid>
 </Page>
