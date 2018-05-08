@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// The SharePointFiles Control displays a simple list of SharePoint Files.
     /// </summary>
-    public partial class SharePointFileList : Control
+    public partial class SharePointFileList
     {
         /// <summary>
         /// Token to access Microsoft Graph API
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata(string.Empty, DriveUrlPropertyChanged));
 
         /// <summary>
-        /// How DetailPane shows
+        /// How details of a file shows
         /// </summary>
         public static readonly DependencyProperty DetailPaneProperty =
             DependencyProperty.Register(
@@ -434,27 +434,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             set
             {
                 _fileUploading = value;
-                if (value > 0)
-                {
-                    _status.Text = string.Format(UploadingFilesMessageTemplate, value);
-                    _status.TextDecorations = Windows.UI.Text.TextDecorations.None;
-                    _status.Foreground = new SolidColorBrush(Windows.UI.Colors.Black);
-                    if (string.IsNullOrEmpty(_errorMessage))
-                    {
-                        _status.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        _status.Visibility = Visibility.Collapsed;
-                    }
-
-                    _cancel.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    _status.Visibility = Visibility.Collapsed;
-                    _cancel.Visibility = Visibility.Collapsed;
-                }
             }
         }
 
@@ -468,20 +447,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             set
             {
                 _errorMessage = value;
-                if (!string.IsNullOrEmpty(value))
-                {
-                    _error.Visibility = Visibility.Visible;
-                    _status.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    if (FileUploading > 0)
-                    {
-                        _status.Visibility = Visibility.Visible;
-                    }
-
-                    _error.Visibility = Visibility.Collapsed;
-                }
             }
         }
 
@@ -495,15 +460,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             set
             {
                 SetValue(IsDetailPaneVisibleProperty, value);
-                if (value)
-                {
-                    ShowDetailsPane();
-                }
-                else
-                {
-                    HideDetailsPane();
-                }
             }
         }
+
+
+
+        internal Visibility BackButtonVisibility
+        {
+            get { return (Visibility)GetValue(BackButtonVisibilityProperty); }
+            set { SetValue(BackButtonVisibilityProperty, value); }
+        }
+
+        internal static readonly DependencyProperty BackButtonVisibilityProperty =
+            DependencyProperty.Register(nameof(BackButtonVisibility), typeof(Visibility), typeof(SharePointFileList), new PropertyMetadata(Visibility.Collapsed));
+
     }
 }

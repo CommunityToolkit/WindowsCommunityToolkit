@@ -28,7 +28,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// The SharePointFiles Control displays a simple list of SharePoint Files.
     /// </summary>
-    [TemplatePart(Name = "list", Type = typeof(ListView))]
+    [TemplatePart(Name = FileList, Type = typeof(ListView))]
+    [TemplateVisualState(Name = UploadStatusNotUploading, GroupName = UploadStatus)]
+    [TemplateVisualState(Name = UploadStatusUploading, GroupName = UploadStatus)]
+    [TemplateVisualState(Name = UploadStatusError, GroupName = UploadStatus)]
+    [TemplateVisualState(Name = DetailPaneStatesHide, GroupName = DetailPaneStates)]
+    [TemplateVisualState(Name = DetailPaneStatesSide, GroupName = DetailPaneStates)]
+    [TemplateVisualState(Name = DetailPaneStatesBottom, GroupName = DetailPaneStates)]
+    [TemplateVisualState(Name = DetailPaneStatesFull, GroupName = DetailPaneStates)]
+    [TemplateVisualState(Name = NavStatesFolderReadonly, GroupName = NavStates)]
+    [TemplateVisualState(Name = NavStatesFolderEdit, GroupName = NavStates)]
+    [TemplateVisualState(Name = NavStatesFileReadonly, GroupName = NavStates)]
+    [TemplateVisualState(Name = NavStatesFileEdit, GroupName = NavStates)]
     public partial class SharePointFileList : Control
     {
         /// <summary>
@@ -45,17 +56,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private CancellationTokenSource _cancelGetDetails = new CancellationTokenSource();
 
         private ListView _list;
-        private Button _back;
-        private Button _upload;
-        private Button _share;
-        private Button _download;
-        private Button _delete;
-        private HyperlinkButton _error;
-        private Button _cancel;
-        private Button _hasMore;
-        private Grid _thumbnail;
-        private ScrollViewer _details;
-        private TextBlock _status;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SharePointFileList"/> class.
@@ -70,24 +70,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            _list = GetTemplateChild("list") as ListView;
+            _list = GetTemplateChild(FileList) as ListView;
             if (_list != null)
             {
                 _list.SelectionChanged += List_SelectionChanged;
                 _list.ItemClick += List_ItemClick;
             }
-
-            _back = GetTemplateChild("back") as Button;
-            _upload = GetTemplateChild("upload") as Button;
-            _share = GetTemplateChild("share") as Button;
-            _download = GetTemplateChild("download") as Button;
-            _delete = GetTemplateChild("delete") as Button;
-            _error = GetTemplateChild("error") as HyperlinkButton;
-            _cancel = GetTemplateChild("cancel") as Button;
-            _hasMore = GetTemplateChild("hasMore") as Button;
-            _thumbnail = GetTemplateChild("thumbnail") as Grid;
-            _details = GetTemplateChild("details") as ScrollViewer;
-            _status = GetTemplateChild("status") as TextBlock;
 
             base.OnApplyTemplate();
         }
@@ -146,7 +134,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         DriveItem rootDriveItem = await _graphClient.Drives[_driveId].Root.Request().GetAsync();
                         _driveItemPath.Push(rootDriveItem.Id);
                         await LoadFilesAsync(rootDriveItem.Id);
-                        _back.Visibility = Visibility.Collapsed;
+                        BackButtonVisibility = Visibility.Collapsed;
                     }
                 }
             }
@@ -158,6 +146,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private async Task LoadFilesAsync(string driveItemId, int pageIndex = 0)
         {
             IsDetailPaneVisible = false;
+            HideDetailsPane();
             if (!string.IsNullOrEmpty(_driveId))
             {
                 try
@@ -166,9 +155,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     _cancelLoadFile.Dispose();
                     _cancelLoadFile = new CancellationTokenSource();
                     _list.Items.Clear();
-                    _download.Visibility = Visibility.Collapsed;
-                    _share.Visibility = Visibility.Collapsed;
-                    _delete.Visibility = Visibility.Collapsed;
+                    VisualStateManager.GoToState(this, NavStatesFolderReadonly, false);
                     QueryOption queryOption = new QueryOption("$top", PageSize.ToString());
                     Task<IDriveItemChildrenCollectionPage> taskFiles = _graphClient.Drives[_driveId].Items[driveItemId].Children.Request(new List<Option> { queryOption }).GetAsync(_cancelLoadFile.Token);
                     IDriveItemChildrenCollectionPage files = await taskFiles;
@@ -182,7 +169,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                         _nextPageRequest = files.NextPageRequest;
                         HasMore = _nextPageRequest != null;
-                        _upload.Visibility = Visibility.Collapsed;
+                        VisualStateManager.GoToState(this, NavStatesFolderReadonly, false);
                         if (_driveItemPath.Count > 1)
                         {
                             IDriveItemPermissionsCollectionPage permissions = await _graphClient.Drives[_driveId].Items[driveItemId].Permissions.Request().GetAsync();
@@ -190,14 +177,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             {
                                 if (permission.Roles.Contains("write") || permission.Roles.Contains("owner"))
                                 {
-                                    _upload.Visibility = Visibility.Visible;
+                                    VisualStateManager.GoToState(this, NavStatesFolderEdit, false);
                                     break;
                                 }
                             }
                         }
                         else
                         {
-                            _upload.Visibility = Visibility.Visible;
+                            VisualStateManager.GoToState(this, NavStatesFolderEdit, false);
                         }
                     }
 
@@ -239,70 +226,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private void HideDetailsPane()
         {
-            _list.Visibility = Visibility.Visible;
-            _list.SetValue(Grid.RowSpanProperty, 3);
-            _list.SetValue(Grid.ColumnSpanProperty, 3);
-            _thumbnail.Visibility = Visibility.Collapsed;
-            _details.Visibility = Visibility.Collapsed;
+            VisualStateManager.GoToState(this, DetailPaneStatesHide, false);
             if (_driveItemPath.Count <= 1)
             {
-                _back.Visibility = Visibility.Collapsed;
+                BackButtonVisibility = Visibility.Collapsed;
             }
         }
 
         private void ShowDetailsPane()
         {
-            _thumbnail.Visibility = Visibility.Visible;
-            _details.Visibility = Visibility.Visible;
             switch (DetailPane)
             {
                 case DetailPaneDisplayMode.Side:
                     if (_driveItemPath.Count <= 1)
                     {
-                        _back.Visibility = Visibility.Collapsed;
+                        BackButtonVisibility = Visibility.Collapsed;
                     }
-
-                    _list.Visibility = Visibility.Visible;
-                    _list.SetValue(Grid.RowSpanProperty, 3);
-                    _list.SetValue(Grid.ColumnSpanProperty, 2);
-                    _thumbnail.SetValue(Grid.RowProperty, 1);
-                    _thumbnail.SetValue(Grid.RowSpanProperty, 1);
-                    _thumbnail.SetValue(Grid.ColumnProperty, 2);
-                    _thumbnail.SetValue(Grid.ColumnSpanProperty, 1);
-                    _details.SetValue(Grid.RowProperty, 2);
-                    _details.SetValue(Grid.RowSpanProperty, 2);
-                    _details.SetValue(Grid.ColumnProperty, 2);
-                    _details.SetValue(Grid.ColumnSpanProperty, 1);
+                    VisualStateManager.GoToState(this, DetailPaneStatesSide, false);
                     break;
                 case DetailPaneDisplayMode.Bottom:
                     if (_driveItemPath.Count <= 1)
                     {
-                        _back.Visibility = Visibility.Collapsed;
+                        BackButtonVisibility = Visibility.Collapsed;
                     }
-
-                    _list.Visibility = Visibility.Visible;
-                    _list.SetValue(Grid.RowSpanProperty, 2);
-                    _list.SetValue(Grid.ColumnSpanProperty, 3);
-                    _thumbnail.SetValue(Grid.RowProperty, 3);
-                    _thumbnail.SetValue(Grid.RowSpanProperty, 1);
-                    _thumbnail.SetValue(Grid.ColumnProperty, 0);
-                    _thumbnail.SetValue(Grid.ColumnSpanProperty, 1);
-                    _details.SetValue(Grid.RowProperty, 3);
-                    _details.SetValue(Grid.RowSpanProperty, 1);
-                    _details.SetValue(Grid.ColumnProperty, 1);
-                    _details.SetValue(Grid.ColumnSpanProperty, 2);
+                    VisualStateManager.GoToState(this, DetailPaneStatesBottom, false);
                     break;
                 case DetailPaneDisplayMode.Full:
-                    _back.Visibility = Visibility.Visible;
-                    _list.Visibility = Visibility.Collapsed;
-                    _thumbnail.SetValue(Grid.RowProperty, 1);
-                    _thumbnail.SetValue(Grid.RowSpanProperty, 3);
-                    _thumbnail.SetValue(Grid.ColumnProperty, 0);
-                    _thumbnail.SetValue(Grid.ColumnSpanProperty, 1);
-                    _details.SetValue(Grid.RowProperty, 1);
-                    _details.SetValue(Grid.RowSpanProperty, 3);
-                    _details.SetValue(Grid.ColumnProperty, 1);
-                    _details.SetValue(Grid.ColumnSpanProperty, 2);
+                    BackButtonVisibility = Visibility.Visible;
+                    VisualStateManager.GoToState(this, DetailPaneStatesFull, false);
                     break;
                 default:
                     HideDetailsPane();

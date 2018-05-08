@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// The SharePointFiles Control displays a simple list of SharePoint Files.
     /// </summary>
-    public partial class SharePointFileList : Control
+    public partial class SharePointFileList
     {
         private static async void GraphAccessTokenPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -65,8 +65,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void BackCommandAction()
         {
-            if (DetailPane == DetailPaneDisplayMode.Full && _thumbnail.Visibility == Visibility.Visible)
+            if (DetailPane == DetailPaneDisplayMode.Full && IsDetailPaneVisible)
             {
+                IsDetailPaneVisible = false;
                 HideDetailsPane();
             }
             else if (_driveItemPath.Count > 1)
@@ -75,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 string parentItemId = _driveItemPath.Peek();
                 if (_driveItemPath.Count == 1)
                 {
-                    _back.Visibility = Visibility.Collapsed;
+                    BackButtonVisibility = Visibility.Collapsed;
                 }
 
                 await LoadFilesAsync(parentItemId);
@@ -96,16 +97,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     if (inputStream.Length < 1024 * 1024 * 4)
                     {
                         FileUploading++;
-
+                        VisualStateManager.GoToState(this, UploadStatusUploading, false);
                         try
                         {
                             await _graphClient.Drives[_driveId].Items[driveItemId].ItemWithPath(file.Name).Content.Request().PutAsync<DriveItem>(inputStream, _cancelUpload.Token);
+                            VisualStateManager.GoToState(this, UploadStatusNotUploading, false);
                             FileUploading--;
                         }
                         catch (Exception ex)
                         {
                             FileUploading--;
                             ErrorMessage = ex.Message;
+                            VisualStateManager.GoToState(this, UploadStatusError, false);
                         }
 
                         await LoadFilesAsync(driveItemId);
@@ -209,9 +212,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         }
 
                         ThumbnailImageSource = null;
-                        _download.Visibility = Visibility.Visible;
-                        _share.Visibility = Visibility.Collapsed;
-                        _delete.Visibility = Visibility.Collapsed;
+                        VisualStateManager.GoToState(this, NavStatesFileReadonly, false);
                         Task<IDriveItemPermissionsCollectionPage> taskPermissions = _graphClient.Drives[_driveId].Items[driveItem.Id].Permissions.Request().GetAsync(_cancelGetDetails.Token);
                         IDriveItemPermissionsCollectionPage permissions = await taskPermissions;
                         if (!taskPermissions.IsCanceled)
@@ -220,8 +221,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             {
                                 if (permission.Roles.Contains("write") || permission.Roles.Contains("owner"))
                                 {
-                                    _share.Visibility = Visibility.Visible;
-                                    _delete.Visibility = Visibility.Visible;
+                                    VisualStateManager.GoToState(this, NavStatesFileEdit, false);
                                     break;
                                 }
                             }
@@ -248,10 +248,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     SelectedFile = null;
                     FileSize = 0;
                     LastModified = string.Empty;
-                    _download.Visibility = Visibility.Collapsed;
-                    _share.Visibility = Visibility.Collapsed;
-                    _delete.Visibility = Visibility.Collapsed;
+                    VisualStateManager.GoToState(this, NavStatesFolderReadonly, false);
                     IsDetailPaneVisible = false;
+                    HideDetailsPane();
                 }
             }
         }
@@ -261,7 +260,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (e.ClickedItem is DriveItem driveItem && driveItem.Folder != null)
             {
                 _driveItemPath.Push(driveItem.Id);
-                _back.Visibility = Visibility.Visible;
+                BackButtonVisibility = Visibility.Visible;
                 await LoadFilesAsync(driveItem.Id);
             }
         }
