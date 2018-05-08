@@ -23,12 +23,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// The AAD Login Control leverages MSAL libraries to support basic AAD sign-in processes for Microsoft Graph and beyond.
     /// </summary>
-    [TemplatePart(Name = "btnMain", Type = typeof(Button))]
-    public partial class AadLogin : Control
+    [TemplatePart(Name = "RootGrid", Type = typeof(Grid))]
+    [TemplatePart(Name = "ContentPresenter", Type = typeof(ContentPresenter))]
+    public partial class AadLogin : Button
     {
         private static PublicClientApplication _identityClientApp = null;
-
-        private Button _mainButton = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AadLogin"/> class.
@@ -46,33 +45,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             ApplyTemplate();
 
-            _mainButton = GetTemplateChild("btnMain") as Button;
+            AutomationProperties.SetName(this, SignInDefaultText);
 
-            if (_mainButton != null)
+            Click += async (object sender, RoutedEventArgs e) =>
             {
-                AutomationProperties.SetName(_mainButton, SignInDefaultText);
-
-                _mainButton.Click += async (object sender, RoutedEventArgs e) =>
+                if (string.IsNullOrEmpty(CurrentUserID))
                 {
-                    var btn = sender as Button;
-
-                    if (string.IsNullOrEmpty(CurrentUserID))
+                    IsEnabled = false;
+                    if (await SignInAsync())
                     {
-                        btn.IsEnabled = false;
-                        if (await SignInAsync())
-                        {
-                            AutomationProperties.SetName(_mainButton, string.Empty);
-                            btn.Flyout = GenerateMenuItems();
-                        }
+                        AutomationProperties.SetName(this, string.Empty);
+                        Flyout = GenerateMenuItems();
+                    }
 
-                        btn.IsEnabled = true;
-                    }
-                    else
-                    {
-                        btn.Flyout = GenerateMenuItems();
-                    }
-                };
-            }
+                    IsEnabled = true;
+                }
+                else
+                {
+                    Flyout = GenerateMenuItems();
+                }
+            };
         }
 
         /// <summary>
@@ -121,18 +113,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                 CurrentUserID = string.Empty;
 
-                if (_mainButton != null)
-                {
-                    _mainButton.Flyout = null;
-                }
+                this.Flyout = null;
 
                 SignOutCompleted?.Invoke(this, EventArgs.Empty);
             }
 
-            if (_mainButton != null)
-            {
-                AutomationProperties.SetName(_mainButton, SignInDefaultText);
-            }
+            AutomationProperties.SetName(this, SignInDefaultText);
         }
 
         private void InitializePublicClientApplication()

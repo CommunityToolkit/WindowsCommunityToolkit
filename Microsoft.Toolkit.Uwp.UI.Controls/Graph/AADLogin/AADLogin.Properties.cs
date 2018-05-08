@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// Defines the properties for the <see cref="AadLogin"/> control.
     /// </summary>
-    public partial class AadLogin : Control
+    public partial class AadLogin : Button
     {
         /// <summary>
         /// Identifies the <see cref="ClientId"/> dependency property.
