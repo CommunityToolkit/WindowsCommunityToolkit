@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph">
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters">
 
     <Style x:Key="ProfileCardImageBorderStyle"
            TargetType="Border">
@@ -61,7 +62,7 @@
                                     </Binding.Converter>
                                 </Binding>
                             </Grid.Visibility>
-                            <TextBlock Text="{Binding Path=Mail, RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalAlignment="Center" Padding="10 0 10 0"/>
+                            <TextBlock Text="{TemplateBinding Mail}" VerticalAlignment="Center" Padding="10 0 10 0"/>
                         </Grid>
                         <StackPanel Style="{ThemeResource ProfileCardLargeProfileStackPanelStyle}">
                             <StackPanel.Visibility>
@@ -79,8 +80,16 @@
                                 </Ellipse>
                             </Border>
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Style="{ThemeResource ProfileCardLargeProfileTextBlockStyle}" Text="{Binding Path=Title, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                <TextBlock Text="{Binding Path=SecondaryMail, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                <TextBlock Style="{ThemeResource ProfileCardLargeProfileTextBlockStyle}" Text="{TemplateBinding Title}"/>
+                                <TextBlock Text="{TemplateBinding SecondaryMail}">
+                                    <TextBlock.Visibility>
+                                        <Binding Path="SecondaryMail" RelativeSource="{RelativeSource Mode=TemplatedParent}">
+                                            <Binding.Converter>
+                                                <converters:StringVisibilityConverter />
+                                            </Binding.Converter>
+                                        </Binding>
+                                    </TextBlock.Visibility>
+                                </TextBlock>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Style="{ThemeResource ProfileCardLargeProfileStackPanelStyle}">
@@ -92,8 +101,16 @@
                                 </Binding>
                             </StackPanel.Visibility>
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Style="{ThemeResource ProfileCardLargeProfileTextBlockStyle}" Text="{Binding Path=Title, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                <TextBlock Text="{Binding Path=SecondaryMail, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                <TextBlock Style="{ThemeResource ProfileCardLargeProfileTextBlockStyle}" Text="{TemplateBinding Title}"/>
+                                <TextBlock Text="{TemplateBinding SecondaryMail}">
+                                    <TextBlock.Visibility>
+                                        <Binding Path="SecondaryMail" RelativeSource="{RelativeSource Mode=TemplatedParent}">
+                                            <Binding.Converter>
+                                                <converters:StringVisibilityConverter />
+                                            </Binding.Converter>
+                                        </Binding>
+                                    </TextBlock.Visibility>
+                                </TextBlock>
                             </StackPanel>
                             <Border Style="{ThemeResource ProfileCardImageBorderStyle}" Margin="15 0 0 0">
                                 <Ellipse Style="{ThemeResource ProfileCardImageEllipseStyle}">

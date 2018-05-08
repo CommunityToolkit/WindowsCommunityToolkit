@@ -23,6 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// The AAD Login Control leverages MSAL libraries to support basic AAD sign-in processes for Microsoft Graph and beyond.
     /// </summary>
+    [TemplatePart(Name = "btnMain", Type = typeof(Button))]
     public partial class AadLogin : Control
     {
         private static PublicClientApplication _identityClientApp = null;
@@ -45,7 +46,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             ApplyTemplate();
 
-            if (GetTemplateChild("btnMain") is Button _mainButton)
+            _mainButton = GetTemplateChild("btnMain") as Button;
+
+            if (_mainButton != null)
             {
                 AutomationProperties.SetName(_mainButton, SignInDefaultText);
 
@@ -117,11 +120,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 }
 
                 CurrentUserID = string.Empty;
-                _mainButton.Flyout = null;
+
+                if (_mainButton != null)
+                {
+                    _mainButton.Flyout = null;
+                }
+
                 SignOutCompleted?.Invoke(this, EventArgs.Empty);
             }
 
-            AutomationProperties.SetName(_mainButton, SignInDefaultText);
+            if (_mainButton != null)
+            {
+                AutomationProperties.SetName(_mainButton, SignInDefaultText);
+            }
         }
 
         private void InitializePublicClientApplication()
