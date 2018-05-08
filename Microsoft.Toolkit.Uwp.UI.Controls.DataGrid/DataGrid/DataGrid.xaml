@@ -32,6 +32,8 @@
 
     <SolidColorBrush x:Key="SystemControlGridLinesBaseMediumLowBrush" Color="{StaticResource SystemBaseMediumLowColor}" Opacity="0.4"/>
     <SolidColorBrush x:Key="SystemControlRowGroupHeaderBackgroundMediumBrush" Color="{StaticResource SystemChromeMediumColor}"/>
+    <SolidColorBrush x:Key="DataGridCurrencyVisualPrimaryBrush" Color="Transparent"/>
+
     <x:String x:Key="SortIconAscending">&#xE74A;</x:String>
     <x:String x:Key="SortIconDescending">&#xE74B;</x:String>
     <!--<x:String x:Key="SortIconAscending">&#xEE68;</x:String>
@@ -64,6 +66,7 @@
     <StaticResource x:Key="DataGridColumnHeaderDraggedBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumLowBrush"/>
     <StaticResource x:Key="DataGridColumnHeaderPointerOverBrush" ResourceKey="SystemControlHighlightListLowBrush"/>
     <StaticResource x:Key="DataGridColumnHeaderPressedBrush" ResourceKey="SystemControlHighlightListMediumBrush"/>
+    <StaticResource x:Key="DataGridDetailsPresenterBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumLowBrush"/>
     <StaticResource x:Key="DataGridRowBackgroundBrush" ResourceKey="SystemControlTransparentBrush"/>
     <StaticResource x:Key="DataGridRowSelectedBackgroundColor" ResourceKey="SystemAccentColor"/>
     <StaticResource x:Key="DataGridRowSelectedBackgroundOpacity" ResourceKey="ListAccentLowOpacity"/>
@@ -438,17 +441,13 @@
                                 <VisualState x:Name="Regular"/>
                                 <VisualState x:Name="Current">
                                     <Storyboard>
-                                        <!--
                                         <DoubleAnimation Storyboard.TargetName="CurrencyVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0"/>
-                                        -->
                                         <DoubleAnimation Storyboard.TargetName="FocusVisual" Storyboard.TargetProperty="Opacity" To="0" Duration="0"/>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CurrentWithFocus">
                                     <Storyboard>
-                                        <!--
                                         <DoubleAnimation Storyboard.TargetName="CurrencyVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0"/>
-                                        -->
                                         <DoubleAnimation Storyboard.TargetName="FocusVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0"/>
                                     </Storyboard>
                                 </VisualState>
@@ -468,10 +467,8 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <!--
-                        <Rectangle x:Name="CurrencyVisual" Stroke="{ThemeResource DataGridCellFocusVisualPrimaryBrush}" StrokeThickness="1" Fill="Transparent"
+                        <Rectangle x:Name="CurrencyVisual" Stroke="{ThemeResource DataGridCurrencyVisualPrimaryBrush}" StrokeThickness="1" Fill="Transparent"
                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False" Opacity="0"/>
-                        -->
                         <Grid x:Name="FocusVisual" IsHitTestVisible="False" Opacity="0">
                             <Rectangle Stroke="{ThemeResource DataGridCellFocusVisualPrimaryBrush}" StrokeThickness="2" Fill="Transparent"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False"/>
@@ -670,9 +667,9 @@
                         <Rectangle x:Name="BackgroundRectangle" Grid.ColumnSpan="2" Fill="{ThemeResource SystemControlTransparentBrush}"/>
                         <Rectangle x:Name="InvalidVisualElement" Grid.ColumnSpan="2" Opacity="0" Fill="{ThemeResource DataGridRowInvalidBrush}"/>
 
-                        <localprimitives:DataGridRowHeader Grid.RowSpan="3" x:Name="RowHeader" localprimitives:DataGridFrozenGrid.IsFrozen="True"/>
-                        <localprimitives:DataGridCellsPresenter Grid.Column="1" x:Name="CellsPresenter" localprimitives:DataGridFrozenGrid.IsFrozen="True" MinHeight="32"/>
-                        <localprimitives:DataGridDetailsPresenter Grid.Row="1" Grid.Column="1" x:Name="DetailsPresenter"/>
+                        <localprimitives:DataGridRowHeader x:Name="RowHeader" Grid.RowSpan="3" localprimitives:DataGridFrozenGrid.IsFrozen="True"/>
+                        <localprimitives:DataGridCellsPresenter x:Name="CellsPresenter" Grid.Column="1" localprimitives:DataGridFrozenGrid.IsFrozen="True" MinHeight="32"/>
+                        <localprimitives:DataGridDetailsPresenter x:Name="DetailsPresenter" Grid.Row="1" Grid.Column="1" Background="{ThemeResource DataGridDetailsPresenterBackgroundBrush}"/>
                         <Rectangle Grid.Row="2" Grid.Column="1" x:Name="BottomGridLine" HorizontalAlignment="Stretch" Height="1"/>
                     </localprimitives:DataGridFrozenGrid>
                 </ControlTemplate>
@@ -889,17 +886,13 @@
                                 <VisualState x:Name="Regular"/>
                                 <VisualState x:Name="Current">
                                     <Storyboard>
-                                        <!--
                                         <DoubleAnimation Storyboard.TargetName="CurrencyVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0"/>
-                                        -->
                                         <DoubleAnimation Storyboard.TargetName="FocusVisual" Storyboard.TargetProperty="Opacity" To="0" Duration="0"/>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CurrentWithFocus">
                                     <Storyboard>
-                                        <!--
                                         <DoubleAnimation Storyboard.TargetName="CurrencyVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0"/>
-                                        -->
                                         <DoubleAnimation Storyboard.TargetName="FocusVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0"/>
                                     </Storyboard>
                                 </VisualState>
@@ -966,12 +959,10 @@
                             <TextBlock x:Name="ItemCountElement" Margin="4,0,0,0" Visibility="{TemplateBinding ItemCountVisibility}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{TemplateBinding Foreground}"/>
                         </StackPanel>
 
-                        <!--
-                        <Rectangle x:Name="CurrencyVisual" Grid.Column="1" Grid.ColumnSpan="4"
-                            Stroke="{ThemeResource DataGridCellFocusVisualPrimaryBrush}" StrokeThickness="1" Fill="Transparent"
+                        <Rectangle x:Name="CurrencyVisual" Grid.ColumnSpan="5"
+                            Stroke="{ThemeResource DataGridCurrencyVisualPrimaryBrush}" StrokeThickness="1" Fill="Transparent"
                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False" Opacity="0"/>
-                        -->
-                        <Grid x:Name="FocusVisual" Grid.Column="1" Grid.ColumnSpan="4" IsHitTestVisible="False" Opacity="0">
+                        <Grid x:Name="FocusVisual" Grid.ColumnSpan="5" IsHitTestVisible="False" Opacity="0">
                             <Rectangle Stroke="{ThemeResource DataGridCellFocusVisualPrimaryBrush}" StrokeThickness="2" Fill="Transparent"
                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False"/>
                             <Rectangle Stroke="{ThemeResource DataGridCellFocusVisualSecondaryBrush}" StrokeThickness="1" Fill="Transparent"
@@ -980,7 +971,7 @@
 
                         <localprimitives:DataGridRowHeader x:Name="RowHeader" Grid.RowSpan="2" localprimitives:DataGridFrozenGrid.IsFrozen="True"/>
 
-                        <Rectangle x:Name="BottomGridLine" Grid.Column="1" Grid.ColumnSpan="4" Height="1" Grid.Row="1"/>
+                        <Rectangle x:Name="BottomGridLine" Grid.ColumnSpan="5" Height="1" Grid.Row="1"/>
 
                     </localprimitives:DataGridFrozenGrid>
                 </ControlTemplate>

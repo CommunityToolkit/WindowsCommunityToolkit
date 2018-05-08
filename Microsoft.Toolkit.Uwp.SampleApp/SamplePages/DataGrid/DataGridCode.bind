@@ -64,6 +64,7 @@
         VerticalScrollBarVisibility="Visible"
         AlternatingRowBackground="@[AlternatingRowBackground:Brush:Transparent]"
         AreRowDetailsFrozen="@[AreRowDetailsFrozen:Bool:False]"
+        AreRowGroupHeadersFrozen="@[AreRowGroupHeadersFrozen:Bool:True]"
         AutoGenerateColumns="False"
         CanUserSortColumns="@[CanUserSortColumns:Bool:False]"
         CanUserReorderColumns="@[CanUserReorderColumns:Bool:True]"

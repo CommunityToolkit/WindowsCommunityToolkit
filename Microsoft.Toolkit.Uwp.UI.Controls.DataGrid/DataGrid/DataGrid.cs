@@ -5380,11 +5380,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ApplyDisplayedRowsState(this.DisplayData.FirstScrollingSlot, this.DisplayData.LastScrollingSlot);
                 if (this.CurrentColumnIndex != -1 && this.IsSlotVisible(this.CurrentSlot))
                 {
-                    DataGridRow row = this.DisplayData.GetDisplayedElement(this.CurrentSlot) as DataGridRow;
-                    if (row != null)
-                    {
-                        row.Cells[this.CurrentColumnIndex].ApplyCellState(true /*animate*/);
-                    }
+                    UpdateCurrentState(this.DisplayData.GetDisplayedElement(this.CurrentSlot), this.CurrentColumnIndex, true /*applyCellState*/);
                 }
             }
 
