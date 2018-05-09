@@ -9,7 +9,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
             <TextBox PlaceholderText="Enter String" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="InputTextBox" MinWidth="300" TextChanged="OnTextChanged" />
             <TextBlock x:Name="IsValidEmail" Padding="0,5"/>
             <TextBlock x:Name="IsValidNumber" Padding="0,5"/>
