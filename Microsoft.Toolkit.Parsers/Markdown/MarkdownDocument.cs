@@ -177,19 +177,15 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                             }
                         }
 
-                        // This must be the end of the blockquote.  End the current paragraph, if any.
-                        actualEnd = previousEndOfLine;
-
                         // Collapse down a level of quotes if the current indentation is greater than the last indentation.
-                        // Only if the last indentation is greater than 1.
-                        if (lastIndentation > 1)
+                        // Only if the last indentation is greater than 1, and the current indentation is greater than 0
+                        if (lastIndentation > 1 && currentIndentation > 0 && currentIndentation < lastIndentation)
                         {
-                            if (currentIndentation < lastIndentation)
-                            {
-                                actualEnd = currentEndOfLine;
-                                break;
-                            }
+                            break;
                         }
+
+                        // This must be the end of the blockquote.  End the current paragraph, if any.
+                        actualEnd = realStartOfLine;
 
                         if (paragraphText.Length > 0)
                         {
