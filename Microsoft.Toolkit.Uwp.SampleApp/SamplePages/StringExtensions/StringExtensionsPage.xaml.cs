@@ -23,15 +23,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public StringExtensionsPage()
         {
             this.InitializeComponent();
+            ValidateCurrentText();
         }
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            IsValidEmail.Text = $"IsEmail(): {InputTextBox.Text.IsEmail()}";
-            IsValidNumber.Text = $"IsNumeric(): {InputTextBox.Text.IsNumeric()}";
-            IsValidDecimal.Text = $"IsDecimal(): {InputTextBox.Text.IsDecimal()}";
-            IsValidString.Text = $"IsCharacterString(): {InputTextBox.Text.IsCharacterString()}";
-            IsValidPhoneNumber.Text = $"IsPhoneNumber(): {InputTextBox.Text.IsPhoneNumber()}";
+            ValidateCurrentText();
+        }
+
+        private void ValidateCurrentText()
+        {
+            IsValidEmail.Text = $"IsEmail() = {InputTextBox.Text.IsEmail()}";
+            IsValidNumber.Text = $"IsNumeric() = {InputTextBox.Text.IsNumeric()}";
+            IsValidDecimal.Text = $"IsDecimal() = {InputTextBox.Text.IsDecimal()}";
+            IsValidString.Text = $"IsCharacterString() = {InputTextBox.Text.IsCharacterString()}";
+            IsValidPhoneNumber.Text = $"IsPhoneNumber() = {InputTextBox.Text.IsPhoneNumber()}";
         }
     }
 }
