@@ -10,8 +10,12 @@
 
     <Grid>
         <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBox PlaceholderText="Enter String" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="InputTextBox" MinWidth="300" />
-            <TextBlock x:Name="IsValid" Padding="0,5"/>
+            <TextBox PlaceholderText="Enter String" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="InputTextBox" MinWidth="300" TextChanged="OnTextChanged" />
+            <TextBlock x:Name="IsValidEmail" Padding="0,5"/>
+            <TextBlock x:Name="IsValidNumber" Padding="0,5"/>
+            <TextBlock x:Name="IsValidDecimal" Padding="0,5"/>
+            <TextBlock x:Name="IsValidString" Padding="0,5"/>
+            <TextBlock x:Name="IsValidPhoneNumber" Padding="0,5"/>
         </StackPanel>
     </Grid>
 </Page>

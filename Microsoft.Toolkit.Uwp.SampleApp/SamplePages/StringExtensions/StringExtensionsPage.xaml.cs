@@ -12,7 +12,6 @@
 
 using Microsoft.Toolkit.Extensions;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -26,32 +25,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            Shell.Current.RegisterNewCommand("Is Valid Email?", (s, a) =>
-            {
-                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsEmail());
-            });
-
-            Shell.Current.RegisterNewCommand("Is Valid Number?", (s, a) =>
-            {
-                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsNumeric());
-            });
-
-            Shell.Current.RegisterNewCommand("Is Valid Decimal?", (s, a) =>
-            {
-                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsDecimal());
-            });
-
-            Shell.Current.RegisterNewCommand("Is Valid String?", (s, a) =>
-            {
-                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsCharacterString());
-            });
-
-            Shell.Current.RegisterNewCommand("Is Valid PhoneNumber?", (s, a) =>
-            {
-                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsPhoneNumber());
-            });
+            IsValidEmail.Text = $"IsEmail(): {InputTextBox.Text.IsEmail()}";
+            IsValidNumber.Text = $"IsNumeric(): {InputTextBox.Text.IsNumeric()}";
+            IsValidDecimal.Text = $"IsDecimal(): {InputTextBox.Text.IsDecimal()}";
+            IsValidString.Text = $"IsCharacterString(): {InputTextBox.Text.IsCharacterString()}";
+            IsValidPhoneNumber.Text = $"IsPhoneNumber(): {InputTextBox.Text.IsPhoneNumber()}";
         }
     }
 }
