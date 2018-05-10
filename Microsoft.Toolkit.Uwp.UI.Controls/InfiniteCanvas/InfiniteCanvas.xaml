@@ -156,7 +156,7 @@
         <Setter Property="Width" Value="48" />
         <Setter Property="Height" Value="48" />
         <Setter Property="Background" Value="{ThemeResource SystemChromeMediumColor}" />
-
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
     </Style>
     <Style x:Key="CanvasTextBoxButtonStyle"
            TargetType="Button">
