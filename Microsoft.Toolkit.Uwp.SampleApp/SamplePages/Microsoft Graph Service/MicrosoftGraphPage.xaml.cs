@@ -17,10 +17,13 @@ using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
 using Windows.Storage.Streams;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Documents;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
@@ -98,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             var popup = new ContentDialog
             {
-                Content = "Go to http://aka.ms/devicelogin and enter the following code : " + MicrosoftGraphService.Instance.UserCode,
+                Content = CreatePopupContent(),
                 Title = "Pending authentication...",
                 CloseButtonText = "Cancel"
             };
@@ -379,6 +382,44 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 DelegatedPermissionScopes.Visibility = item.Tag.ToString() == "v2" ? Visibility.Visible : Visibility.Collapsed;
                 LoginHint.Visibility = DelegatedPermissionScopes.Visibility;
             }
+        }
+
+        private StackPanel CreatePopupContent()
+        {
+            var textStart = new TextBlock() { Text = "Go to " };
+            var textEnd = new TextBlock() { Text = " and enter the following code :" };
+
+            var link = new HyperlinkButton()
+            {
+                Content = "http://aka.ms/devicelogin",
+                NavigateUri = new Uri("http://aka.ms/devicelogin", UriKind.Absolute),
+                VerticalAlignment = VerticalAlignment.Top,
+                VerticalContentAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(5, 0, 0, 0),
+                Padding = new Thickness(0)
+            };
+
+            var codeContentTb = new StackPanel { Orientation = Orientation.Horizontal };
+            codeContentTb.Children.Add(textStart);
+            codeContentTb.Children.Add(link);
+            codeContentTb.Children.Add(textEnd);
+
+            var codeTb = new TextBox()
+            {
+                IsReadOnly = true,
+                Text = MicrosoftGraphService.Instance.UserCode,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                FontSize = 25,
+                Background = new SolidColorBrush() { Color = Colors.Transparent },
+                BorderThickness = new Thickness(0)
+            };
+
+            var stack = new StackPanel { HorizontalAlignment = HorizontalAlignment.Stretch };
+            stack.Children.Add(codeContentTb);
+            stack.Children.Add(codeTb);
+
+            return stack;
         }
     }
 }
