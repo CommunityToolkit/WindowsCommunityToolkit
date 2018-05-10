@@ -11,44 +11,24 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:PeoplePicker">
-                    <StackPanel>
-                        <StackPanel>
-                            <Grid>
-                                <TextBox Name="tbGraphAccessToken"
-                                         Margin="0"
-                                         DataContext="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" />
-                                <TextBox Name="SearchBox"
-                                         Margin="0"
-                                         AutomationProperties.Name="Keywords"
-                                         PlaceholderText="{Binding PlaceholderText, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
-                                <ProgressRing Name="Loading"
-                                              Margin="0,0,30,0"
-                                              HorizontalAlignment="Right"
-                                              AutomationProperties.Name="Progress"
-                                              Canvas.ZIndex="10"
-                                              FlowDirection="LeftToRight"
-                                              IsActive="False" />
-                            </Grid>
-                        </StackPanel>
-                        <RelativePanel>
-                            <ListBox Name="SearchResultListBox"
-                                     AutomationProperties.Name="Search Results"
-                                     Canvas.ZIndex="100"
-                                     ItemsSource="{Binding SearchResultList, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                     Visibility="Collapsed">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <controls:ProfileCard AutomationProperties.Name="{Binding DisplayName}"
-                                                              DisplayMode="LargeProfilePhotoLeft"
-                                                              GraphAccessToken="{Binding DataContext.GraphAccessToken, ElementName=tbGraphAccessToken}"
-                                                              UserId="{Binding Id}" />
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
+                    <StackPanel Name="PeoplePickerContainer" DataContext="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                        <Grid>
+                            <TextBox Name="SearchBox"
+                                     Margin="0"
+                                     AutomationProperties.Name="Keywords"
+                                     PlaceholderText="{TemplateBinding PlaceholderText}" />
+                            <ProgressRing Name="Loading"
+                                          Margin="0,0,30,0"
+                                          HorizontalAlignment="Right"
+                                          AutomationProperties.Name="Progress"
+                                          FlowDirection="LeftToRight"
+                                          IsActive="False" />
+                        </Grid>
+                        <Grid>
                             <StackPanel>
                                 <ListBox Name="SelectionsListBox"
                                          AutomationProperties.Name="Selections"
-                                         ItemsSource="{Binding Selections, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                         ItemsSource="{TemplateBinding Selections}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <Grid AutomationProperties.Name="{Binding DisplayName}">
@@ -60,7 +40,7 @@
                                                 <controls:ProfileCard Grid.Row="0"
                                                                       Grid.Column="0"
                                                                       DisplayMode="LargeProfilePhotoLeft"
-                                                                      GraphAccessToken="{Binding DataContext.GraphAccessToken, ElementName=tbGraphAccessToken}"
+                                                                      GraphAccessToken="{Binding DataContext.GraphAccessToken, ElementName=PeoplePickerContainer}"
                                                                       UserId="{Binding Id}" />
                                                 <TextBlock Grid.Row="0"
                                                            Grid.Column="1" />
@@ -72,7 +52,7 @@
                                                         HorizontalAlignment="Right"
                                                         AutomationProperties.Name="Remove from selection"
                                                         Background="Transparent"
-                                                        Command="{Binding DataContext.DeleteItemCommand, ElementName=tbGraphAccessToken}"
+                                                        Command="{Binding DataContext.DeleteItemCommand, ElementName=PeoplePickerContainer}"
                                                         CommandParameter="{Binding Id}"
                                                         FlowDirection="LeftToRight"
                                                         Tag="{Binding UserPrincipalName}">
@@ -87,14 +67,27 @@
                                         </Style>
                                     </ListBox.ItemContainerStyle>
                                 </ListBox>
+                                <TextBlock Name="SelectionsCounter"
+                                           Visibility="Visible"
+                                           AutomationProperties.Name="Selections Counter">
+                                    <Run><Binding Path="Selections.Count"></Binding></Run>
+                                    <Run> selected</Run>
+                                </TextBlock>
                             </StackPanel>
-                        </RelativePanel>
-                        <TextBlock Name="SelectionsCounter"
-                                   Visibility="Visible"
-                                   AutomationProperties.Name="Selections Counter">
-                            <Run><Binding Path="DataContext.Selections.Count" ElementName="tbGraphAccessToken"></Binding></Run>
-                            <Run> selected</Run>
-                        </TextBlock>
+                            <ListBox Name="SearchResultListBox"
+                                     AutomationProperties.Name="Search Results"
+                                     ItemsSource="{TemplateBinding SearchResultList}"
+                                     Visibility="Collapsed">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <controls:ProfileCard AutomationProperties.Name="{Binding DisplayName}"
+                                                              DisplayMode="LargeProfilePhotoLeft"
+                                                              GraphAccessToken="{Binding DataContext.GraphAccessToken, ElementName=PeoplePickerContainer}"
+                                                              UserId="{Binding Id}" />
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Grid>
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
