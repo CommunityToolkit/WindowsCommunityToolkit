@@ -110,6 +110,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void EraseAllButton_Click(object sender, RoutedEventArgs e)
         {
+            _canvasTextBox.Visibility = Visibility.Collapsed;
+            ClearTextBoxValue();
             _drawingSurfaceRenderer.ClearAll(ViewPort);
         }
 

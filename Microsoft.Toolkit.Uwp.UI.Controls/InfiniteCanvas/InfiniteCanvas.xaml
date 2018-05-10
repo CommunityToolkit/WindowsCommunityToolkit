@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Style TargetType="local:InfiniteCanvas">
@@ -100,8 +99,6 @@
                                     <TextBox x:Name="CanvasTextBoxFontSizeTextBox"
                                              Width="64"
                                              Height="32"
-                                             extensions:TextBoxRegex.Regex="^[0-9]*$"
-                                             extensions:TextBoxRegex.ValidationMode="Forced"
                                              InputScope="Number"
                                              MaxLength="3"
                                              Text="22"

@@ -25,11 +25,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class InfiniteCanvas
     {
+        private const int DefaultFontValue = 22;
         private Point _lastInputPoint;
 
         private TextDrawable SelectedTextDrawable => _drawingSurfaceRenderer.GetSelectedTextDrawable();
 
-        private int TextFontSize => string.IsNullOrWhiteSpace(_canvasTextBoxFontSizeTextBox.Text) || !Regex.IsMatch(_canvasTextBoxFontSizeTextBox.Text, "^[0-9]*$") ? 22 : int.Parse(_canvasTextBoxFontSizeTextBox.Text);
+        private int _lastValidTextFontSizeValue = DefaultFontValue;
+
+        private int TextFontSize
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(_canvasTextBoxFontSizeTextBox.Text) &&
+                    Regex.IsMatch(_canvasTextBoxFontSizeTextBox.Text, "^[0-9]*$"))
+                {
+                    var fontSize = int.Parse(_canvasTextBoxFontSizeTextBox.Text);
+                    _lastValidTextFontSizeValue = fontSize;
+                }
+
+                return _lastValidTextFontSizeValue;
+            }
+        }
 
         private void InkScrollViewer_PreviewKeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
@@ -57,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (SelectedTextDrawable != null)
             {
                 _drawingSurfaceRenderer.ExecuteUpdateTextBoxWeight(_canvasTextBoxBoldButton.IsChecked ?? false);
-                _canvasTextBox.UpdateFontStyle(SelectedTextDrawable.IsBold);
+                _canvasTextBox.UpdateFontWeight(SelectedTextDrawable.IsBold);
                 ReDrawCanvas();
             }
         }
