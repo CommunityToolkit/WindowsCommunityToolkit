@@ -139,7 +139,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             checkBoxElement.IsEnabled = isEnabled;
             checkBoxElement.IsHitTestVisible = false;
             checkBoxElement.IsTabStop = false;
-            checkBoxElement.UseSystemFocusVisuals = false;
             ConfigureCheckBox(checkBoxElement);
             return checkBoxElement;
         }
@@ -255,6 +254,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             checkBox.HorizontalAlignment = HorizontalAlignment.Left;
             checkBox.VerticalAlignment = VerticalAlignment.Center;
             checkBox.IsThreeState = this.IsThreeState;
+            checkBox.UseSystemFocusVisuals = false;
             if (this.Binding != null)
             {
                 checkBox.SetBinding(this.BindingTarget, this.Binding);

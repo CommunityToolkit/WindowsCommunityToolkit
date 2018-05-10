@@ -22,6 +22,7 @@ using System.Reflection;
 using Microsoft.Toolkit.Uwp.UI.Data.Utilities;
 using Microsoft.Toolkit.Uwp.UI.Utilities;
 using Microsoft.Toolkit.Uwp.Utilities;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
@@ -39,6 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
         private bool _scrollForCurrentChanged;
         private DataGridSelectionAction _selectionActionForCurrentChanged;
         private WeakEventListener<DataGridDataConnection, object, NotifyCollectionChangedEventArgs> _weakCollectionChangedListener;
+        private WeakEventListener<DataGridDataConnection, object, IVectorChangedEventArgs> _weakVectorChangedListener;
         private WeakEventListener<DataGridDataConnection, object, CurrentChangingEventArgs> _weakCurrentChangingListener;
         private WeakEventListener<DataGridDataConnection, object, object> _weakCurrentChangedListener;
 #if FEATURE_ICOLLECTIONVIEW_SORT
@@ -689,11 +691,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 
         internal void UnWireEvents(IEnumerable value)
         {
-            INotifyCollectionChanged notifyingDataSource = value as INotifyCollectionChanged;
-            if (notifyingDataSource != null && _weakCollectionChangedListener != null)
+            INotifyCollectionChanged notifyingDataSource1 = value as INotifyCollectionChanged;
+            if (notifyingDataSource1 != null && _weakCollectionChangedListener != null)
             {
                 _weakCollectionChangedListener.Detach();
                 _weakCollectionChangedListener = null;
+            }
+
+            IObservableVector<object> notifyingDataSource2 = value as IObservableVector<object>;
+            if (notifyingDataSource2 != null && _weakVectorChangedListener != null)
+            {
+                _weakVectorChangedListener.Detach();
+                _weakVectorChangedListener = null;
             }
 
 #if FEATURE_ICOLLECTIONVIEW_SORT
@@ -724,13 +733,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 
         internal void WireEvents(IEnumerable value)
         {
-            INotifyCollectionChanged notifyingDataSource = value as INotifyCollectionChanged;
-            if (notifyingDataSource != null)
+            INotifyCollectionChanged notifyingDataSource1 = value as INotifyCollectionChanged;
+            if (notifyingDataSource1 != null)
             {
                 _weakCollectionChangedListener = new WeakEventListener<DataGridDataConnection, object, NotifyCollectionChangedEventArgs>(this);
                 _weakCollectionChangedListener.OnEventAction = (instance, source, eventArgs) => instance.NotifyingDataSource_CollectionChanged(source, eventArgs);
-                _weakCollectionChangedListener.OnDetachAction = (weakEventListener) => notifyingDataSource.CollectionChanged -= weakEventListener.OnEvent;
-                notifyingDataSource.CollectionChanged += _weakCollectionChangedListener.OnEvent;
+                _weakCollectionChangedListener.OnDetachAction = (weakEventListener) => notifyingDataSource1.CollectionChanged -= weakEventListener.OnEvent;
+                notifyingDataSource1.CollectionChanged += _weakCollectionChangedListener.OnEvent;
+            }
+            else
+            {
+                IObservableVector<object> notifyingDataSource2 = value as IObservableVector<object>;
+                if (notifyingDataSource2 != null)
+                {
+                    _weakVectorChangedListener = new WeakEventListener<DataGridDataConnection, object, IVectorChangedEventArgs>(this);
+                    _weakVectorChangedListener.OnEventAction = (instance, source, eventArgs) => instance.NotifyingDataSource_VectorChanged(source as IObservableVector<object>, eventArgs);
+                    _weakVectorChangedListener.OnDetachAction = (weakEventListener) => notifyingDataSource2.VectorChanged -= _weakVectorChangedListener.OnEvent;
+                    notifyingDataSource2.VectorChanged += _weakVectorChangedListener.OnEvent;
+                }
             }
 
 #if FEATURE_ICOLLECTIONVIEW_SORT
@@ -854,20 +874,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
             {
                 case NotifyCollectionChangedAction.Add:
                     Debug.Assert(e.NewItems != null, "Unexpected NotifyCollectionChangedAction.Add notification");
-                    if (ShouldAutoGenerateColumns)
-                    {
-                        // The columns are also affected (not just rows) in this case, so reset everything
-                        _owner.InitializeElements(false /*recycleRows*/);
-                    }
-                    else if (!this.IsGrouping)
-                    {
-                        // If we're grouping then we handle this through the CollectionViewGroup notifications
-                        // According to WPF, Add is a single item operation.
-                        Debug.Assert(e.NewItems.Count == 1, "Expected NewItems.Count equals 1.");
-                        _owner.InsertRowAt(e.NewStartingIndex);
-                    }
-
+                    Debug.Assert(this.ShouldAutoGenerateColumns || this.IsGrouping || e.NewItems.Count == 1, "Expected NewItems.Count equals 1.");
+                    NotifyingDataSource_Add(e.NewStartingIndex);
                     break;
+
                 case NotifyCollectionChangedAction.Remove:
                     IList removedItems = e.OldItems;
                     if (removedItems == null || e.OldStartingIndex < 0)
@@ -878,9 +888,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 
                     if (!this.IsGrouping)
                     {
-                        // If we're grouping then we handle this through the CollectionViewGroup notifications
-                        // According to WPF, Remove is a single item operation.
-                        foreach (object item in e.OldItems)
+                        // If we're grouping then we handle this through the CollectionViewGroup notifications.
+                        // Remove is a single item operation.
+                        foreach (object item in removedItems)
                         {
                             Debug.Assert(item != null, "Expected non-null item.");
                             _owner.RemoveRowAt(e.OldStartingIndex, item);
@@ -888,26 +898,80 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                     }
 
                     break;
+
                 case NotifyCollectionChangedAction.Replace:
                     throw new NotSupportedException();
 
                 case NotifyCollectionChangedAction.Reset:
-                    // Did the data type change during the reset?  If not, we can recycle
-                    // the existing rows instead of having to clear them all.  We still need to clear our cached
-                    // values for DataType and DataProperties, though, because the collection has been reset.
-                    Type previousDataType = _dataType;
-                    _dataType = null;
-                    if (previousDataType != this.DataType)
+                    NotifyingDataSource_Reset();
+                    break;
+            }
+        }
+
+        private void NotifyingDataSource_VectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs e)
+        {
+            if (_owner.LoadingOrUnloadingRow)
+            {
+                throw DataGridError.DataGrid.CannotChangeItemsWhenLoadingRows();
+            }
+
+            int index = (int)e.Index;
+
+            switch (e.CollectionChange)
+            {
+                case CollectionChange.ItemChanged:
+                    throw new NotSupportedException();
+
+                case CollectionChange.ItemInserted:
+                    NotifyingDataSource_Add(index);
+                    break;
+
+                case CollectionChange.ItemRemoved:
+                    if (!this.IsGrouping)
                     {
-                        ClearDataProperties();
-                        _owner.InitializeElements(false /*recycleRows*/);
-                    }
-                    else
-                    {
-                        _owner.InitializeElements(!ShouldAutoGenerateColumns /*recycleRows*/);
+                        // If we're grouping then we handle this through the CollectionViewGroup notifications.
+                        // Remove is a single item operation.
+                        _owner.RemoveRowAt(index, sender[index]);
                     }
 
                     break;
+
+                case CollectionChange.Reset:
+                    NotifyingDataSource_Reset();
+                    break;
+            }
+        }
+
+        private void NotifyingDataSource_Add(int index)
+        {
+            if (this.ShouldAutoGenerateColumns)
+            {
+                // The columns are also affected (not just rows) in this case, so reset everything.
+                _owner.InitializeElements(false /*recycleRows*/);
+            }
+            else if (!this.IsGrouping)
+            {
+                // If we're grouping then we handle this through the CollectionViewGroup notifications.
+                // Add is a single item operation.
+                _owner.InsertRowAt(index);
+            }
+        }
+
+        private void NotifyingDataSource_Reset()
+        {
+            // Did the data type change during the reset?  If not, we can recycle
+            // the existing rows instead of having to clear them all.  We still need to clear our cached
+            // values for DataType and DataProperties, though, because the collection has been reset.
+            Type previousDataType = _dataType;
+            _dataType = null;
+            if (previousDataType != this.DataType)
+            {
+                ClearDataProperties();
+                _owner.InitializeElements(false /*recycleRows*/);
+            }
+            else
+            {
+                _owner.InitializeElements(!this.ShouldAutoGenerateColumns /*recycleRows*/);
             }
         }
 

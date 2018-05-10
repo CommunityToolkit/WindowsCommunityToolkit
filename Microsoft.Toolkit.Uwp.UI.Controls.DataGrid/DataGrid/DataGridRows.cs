@@ -2538,21 +2538,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (groupItems != null && !_groupsVectorChangedListenersTable.ContainsKey(groupItems))
             {
-                WeakEventListener<DataGrid, object, IVectorChangedEventArgs> weakCollectionChangedListener = new WeakEventListener<DataGrid, object, IVectorChangedEventArgs>(this);
-                weakCollectionChangedListener.OnEventAction = (instance, source, eventArgs) => instance.CollectionViewGroupItems_VectorChanged(source as IObservableVector<object>, eventArgs);
-                weakCollectionChangedListener.OnDetachAction = (weakEventListener) => groupItems.VectorChanged -= weakCollectionChangedListener.OnEvent;
-                groupItems.VectorChanged += weakCollectionChangedListener.OnEvent;
+                WeakEventListener<DataGrid, object, IVectorChangedEventArgs> weakVectorChangedListener = new WeakEventListener<DataGrid, object, IVectorChangedEventArgs>(this);
+                weakVectorChangedListener.OnEventAction = (instance, source, eventArgs) => instance.CollectionViewGroupItems_VectorChanged(source as IObservableVector<object>, eventArgs);
+                weakVectorChangedListener.OnDetachAction = (weakEventListener) => groupItems.VectorChanged -= weakVectorChangedListener.OnEvent;
+                groupItems.VectorChanged += weakVectorChangedListener.OnEvent;
 
-                _groupsVectorChangedListenersTable.Add(groupItems, weakCollectionChangedListener);
+                _groupsVectorChangedListenersTable.Add(groupItems, weakVectorChangedListener);
             }
         }
 
         private void UnhookVectorChangedListenerFromGroup(IObservableVector<object> groupItems, bool removeFromTable)
         {
-            WeakEventListener<DataGrid, object, IVectorChangedEventArgs> weakCollectionChangedListener;
-            if (groupItems != null && _groupsVectorChangedListenersTable.TryGetValue(groupItems, out weakCollectionChangedListener))
+            WeakEventListener<DataGrid, object, IVectorChangedEventArgs> weakVectorChangedListener;
+            if (groupItems != null && _groupsVectorChangedListenersTable.TryGetValue(groupItems, out weakVectorChangedListener))
             {
-                weakCollectionChangedListener.Detach();
+                weakVectorChangedListener.Detach();
                 if (removeFromTable)
                 {
                     _groupsVectorChangedListenersTable.Remove(groupItems);

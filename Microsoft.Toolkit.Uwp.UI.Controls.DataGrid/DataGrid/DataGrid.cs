@@ -242,7 +242,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Dictionary<INotifyDataErrorInfo, string> _validationItems;
         private List<ValidationResult> _validationResults;
         private byte _verticalScrollChangesIgnored;
-        private IObservableVector<object> /*INotifyCollectionChanged*/ _topLevelGroup;
+#if FEATURE_ICOLLECTIONVIEW_GROUP
+        private INotifyCollectionChanged _topLevelGroup;
+#else
+        private IObservableVector<object> _topLevelGroup;
+#endif
 #if FEATURE_VALIDATION_SUMMARY
         private ValidationSummaryItem _selectedValidationSummaryItem;
 #endif
@@ -1280,7 +1284,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // Wrap an IEnumerable in an ICollectionView if it's not already one.
                 bool setDefaultSelection = false;
-                IEnumerable newItemsSource = (IEnumerable)e.NewValue;
+                IEnumerable newItemsSource = e.NewValue as IEnumerable;
                 if (newItemsSource != null && !(newItemsSource is ICollectionView))
                 {
                     dataGrid.DataConnection.DataSource = DataGridDataConnection.CreateView(newItemsSource);
@@ -4634,8 +4638,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (this.EditingRow == null || this.EditingRow.Slot != this.CurrentSlot)
             {
-                // This check was added to safeguard against an LCV bug where the collection changed currency
-                // during a CommitNew operation but failed to raise a CurrentChanged event. See SL bug 90874.
+                // This check was added to safeguard against a ListCollectionView bug where the collection changed currency
+                // during a CommitNew operation but failed to raise a CurrentChanged event.
                 return false;
             }
 
