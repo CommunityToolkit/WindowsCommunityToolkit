@@ -200,7 +200,6 @@
                                            Text="{TemplateBinding LastModified}" />
                                 <TextBlock Style="{StaticResource MetaLabel}">Last Modified By</TextBlock>
                                 <local:ProfileCard DisplayMode="LargeProfilePhotoLeft"
-                                                   GraphAccessToken="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=GraphAccessToken}"
                                                    Style="{StaticResource MetaValueProfile}"
                                                    UserId="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SelectedFile.LastModifiedBy.User.Id}" />
                             </StackPanel>

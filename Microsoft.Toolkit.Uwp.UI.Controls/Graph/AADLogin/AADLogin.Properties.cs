@@ -23,22 +23,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     public partial class AadLogin : Button
     {
         /// <summary>
-        /// Identifies the <see cref="ClientId"/> dependency property.
+        /// Gets required delegated permissions for the <see cref="AadLogin"/> control
         /// </summary>
-        public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register(
-            nameof(ClientId),
-            typeof(string),
-            typeof(AadLogin),
-            new PropertyMetadata(string.Empty, OnPropertyChanged));
-
-        /// <summary>
-        /// Identifies the <see cref="Scopes"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ScopesProperty = DependencyProperty.Register(
-            nameof(Scopes),
-            typeof(string),
-            typeof(AadLogin),
-            new PropertyMetadata(string.Empty, OnPropertyChanged));
+        public static string[] RequiredDelegatedPermissions
+        {
+            get
+            {
+                return new string[] { "User.Read" };
+            }
+        }
 
         /// <summary>
         /// Identifies the <see cref="DefaultImage"/> dependency property.
@@ -95,15 +88,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             new PropertyMetadata("Sign in with another account"));
 
         /// <summary>
-        /// Identifies the <see cref="GraphAccessToken"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty GraphAccessTokenProperty = DependencyProperty.Register(
-            nameof(GraphAccessToken),
-            typeof(string),
-            typeof(AadLogin),
-            new PropertyMetadata(null));
-
-        /// <summary>
         /// Identifies the <see cref="CurrentUserID"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty CurrentUserIdProperty = DependencyProperty.Register(
@@ -111,54 +95,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             typeof(string),
             typeof(AadLogin),
             new PropertyMetadata(null));
-
-        /// <summary>
-        /// Gets or sets a client id of the application is registered with the Azure AD v2.0 endpoint.
-        /// </summary>
-        public string ClientId
-        {
-            get
-            {
-                return ((string)GetValue(ClientIdProperty))?.Trim();
-            }
-
-            set
-            {
-                if (string.IsNullOrEmpty(ClientId))
-                {
-                    SetValue(ClientIdProperty, value?.Trim());
-                    InitializePublicClientApplication();
-                }
-                else
-                {
-                    throw new ArgumentException("The Client Id field only allow be set once.");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating which scopes will be requested, use comma to seperate the multiple values.
-        /// </summary>
-        public string Scopes
-        {
-            get
-            {
-                return ((string)GetValue(ScopesProperty))?.Trim();
-            }
-
-            set
-            {
-                if (string.IsNullOrEmpty(Scopes))
-                {
-                    SetValue(ScopesProperty, value?.Trim());
-                    InitializePublicClientApplication();
-                }
-                else
-                {
-                    throw new ArgumentException("The Scopes field only allow be set once.");
-                }
-            }
-        }
 
         /// <summary>
         /// Gets or sets the default user photo
@@ -221,15 +157,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             get { return (string)GetValue(CurrentUserIdProperty); }
             private set { SetValue(CurrentUserIdProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets a value for the access token after signing in.
-        /// </summary>
-        public string GraphAccessToken
-        {
-            get { return (string)GetValue(GraphAccessTokenProperty); }
-            private set { SetValue(GraphAccessTokenProperty, value); }
         }
     }
 }

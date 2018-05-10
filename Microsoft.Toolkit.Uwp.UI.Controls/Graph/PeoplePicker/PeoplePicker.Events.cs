@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Microsoft.Graph;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -51,11 +52,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             try
             {
+                Task<GraphServiceClient> graphClient = AadAuthenticationManager.Instance.GetGraphServiceClientAsync();
+
                 var options = new List<QueryOption>
                 {
                     new QueryOption("$search", searchText)
                 };
-                IUserPeopleCollectionPage peopleList = await GraphClient.Me.People.Request(options).GetAsync();
+                IUserPeopleCollectionPage peopleList = await (await graphClient).Me.People.Request(options).GetAsync();
 
                 if (peopleList.Any())
                 {

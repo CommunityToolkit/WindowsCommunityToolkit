@@ -78,12 +78,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (_sharePointFilesControl != null && _tbDocLibURL != null && _convertPanel != null)
             {
-                if (string.IsNullOrEmpty(_sharePointFilesControl.GraphAccessToken))
-                {
-                    await new MessageDialog("Please set the GraphAccessToken in the properties panel first.").ShowAsync();
-                    return;
-                }
-
                 string driveURL = await _sharePointFilesControl.GetDriveUrlFromSharePointUrlAsync(_tbDocLibURL.Text);
                 DataPackage copyData = new DataPackage();
                 copyData.SetText(driveURL);

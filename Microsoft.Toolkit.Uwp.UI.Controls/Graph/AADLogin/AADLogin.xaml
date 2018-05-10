@@ -4,7 +4,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph">
 
     <Style TargetType="controls:AadLogin">
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Background" Value="{ThemeResource ButtonBackground}"/>
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}"/>
         <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}"/>
@@ -74,8 +74,7 @@
                                 <controls:ProfileCard 
                                     DisplayMode="{TemplateBinding View}" 
                                     DefaultImage="{TemplateBinding DefaultImage}" 
-                                    UserId="{TemplateBinding CurrentUserID}"  
-                                    GraphAccessToken="{TemplateBinding GraphAccessToken}"
+                                    UserId="{TemplateBinding CurrentUserID}"
                                     DefaultTitleText="{TemplateBinding SignInDefaultText}" 
                                     DefaultMailText="{TemplateBinding SignInDefaultText}" />
                             </ContentPresenter.Content>

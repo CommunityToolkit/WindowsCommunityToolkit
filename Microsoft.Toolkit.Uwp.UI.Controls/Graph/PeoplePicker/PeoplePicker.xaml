@@ -40,7 +40,6 @@
                                     <DataTemplate>
                                         <controls:ProfileCard AutomationProperties.Name="{Binding DisplayName}"
                                                               DisplayMode="LargeProfilePhotoLeft"
-                                                              GraphAccessToken="{Binding DataContext.GraphAccessToken, ElementName=tbGraphAccessToken}"
                                                               UserId="{Binding Id}" />
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -60,7 +59,6 @@
                                                 <controls:ProfileCard Grid.Row="0"
                                                                       Grid.Column="0"
                                                                       DisplayMode="LargeProfilePhotoLeft"
-                                                                      GraphAccessToken="{Binding DataContext.GraphAccessToken, ElementName=tbGraphAccessToken}"
                                                                       UserId="{Binding Id}" />
                                                 <TextBlock Grid.Row="0"
                                                            Grid.Column="1" />

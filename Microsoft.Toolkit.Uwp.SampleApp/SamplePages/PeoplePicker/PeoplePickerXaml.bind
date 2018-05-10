@@ -2,14 +2,17 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
+      xmlns:graphControls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
+      xmlns:sampleControls="using:Microsoft.Toolkit.Uwp.SampleApp.Controls"
       mc:Ignorable="d">
 
     <Grid Padding="10">
-      <controls:PeoplePicker
-         GraphAccessToken="@[GraphAccessToken:String: ]@"
+      <sampleControls:AadAuthControl x:Name="AadAuthControl"
+                                     Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsShowAadMetaDataControl}" />
+      <graphControls:PeoplePicker
          AllowMultiple="@[AllowMultiple:Bool:True]@"
          SearchResultLimit="@[SearchResultLimit:Slider:5:1-20]@"
-         PlaceholderText="@[PlaceholderText:String:Select a person]@"/>
+         PlaceholderText="@[PlaceholderText:String:Select a person]@"
+         Visibility="{Binding ElementName=AadAuthControl, Path=IsShowGraphControl}"/>
     </Grid>
 </Page>

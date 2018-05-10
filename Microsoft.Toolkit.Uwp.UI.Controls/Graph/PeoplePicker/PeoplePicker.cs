@@ -73,10 +73,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void SignInCurrentUserAsync()
         {
-            GraphClient = Common.GetAuthenticatedClient(GraphAccessToken);
-            if (GraphClient != null)
+            GraphServiceClient graphClient = await AadAuthenticationManager.Instance.GetGraphServiceClientAsync();
+            if (graphClient != null)
             {
-                var me = await GraphClient.Me.Request().GetAsync();
+                var me = await graphClient.Me.Request().GetAsync();
             }
         }
     }

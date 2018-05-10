@@ -71,42 +71,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     }
                 }
             });
-
-            Shell.Current.RegisterNewCommand("Copy GraphAccessToken to clipboard", async (sender, args) =>
-            {
-                if (_aadLoginControl != null)
-                {
-                    if (string.IsNullOrEmpty(_aadLoginControl.GraphAccessToken))
-                    {
-                        var dialog = new MessageDialog("Please click the profile button to login first.");
-                        await dialog.ShowAsync();
-                    }
-                    else
-                    {
-                        DataPackage copyData = new DataPackage();
-                        copyData.SetText(_aadLoginControl.GraphAccessToken);
-                        Clipboard.SetContent(copyData);
-                    }
-                }
-            });
-
-            Shell.Current.RegisterNewCommand("Copy UserId to clipboard", async (sender, args) =>
-            {
-                if (_aadLoginControl != null)
-                {
-                    if (string.IsNullOrEmpty(_aadLoginControl.CurrentUserID))
-                    {
-                        var dialog = new MessageDialog("Please click the profile button to login first.");
-                        await dialog.ShowAsync();
-                    }
-                    else
-                    {
-                        DataPackage copyData = new DataPackage();
-                        copyData.SetText(_aadLoginControl.CurrentUserID);
-                        Clipboard.SetContent(copyData);
-                    }
-                }
-            });
         }
     }
 }

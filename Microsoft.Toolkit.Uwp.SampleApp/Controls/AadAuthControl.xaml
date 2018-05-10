@@ -1,0 +1,62 @@
+﻿<UserControl
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.Controls.AadAuthControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.Controls"
+    xmlns:graph="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid MaxWidth="800"
+          Background="{StaticResource Brush-Grey-05}">
+        <Grid Margin="24"
+              Background="{StaticResource Brush-Grey-04}"
+              BorderBrush="#FFCCCCCC"
+              BorderThickness="1"
+              CornerRadius="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <!--  Azure Active Directory area  -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid Background="#FFCCCCCC">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="1"
+                                       Margin="12,6"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Text="Azure Active Directory Configuration" />
+                </Grid>
+
+                <StackPanel x:Name="ClientIdBox"
+                                    Grid.Row="1"
+                                    Margin="24,24,24,21"
+                                    Orientation="Vertical">
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Header="Client Id:" Text="{Binding ClientId, Mode=TwoWay}" />
+                    </Grid>
+                    <TextBox Margin="0,0,0,12" Header="Delegated Permission Scopes:" Text="{Binding Scopes, Mode=TwoWay}" IsReadOnly="True" />
+                    <HyperlinkButton Margin="0,0,0,15"
+                                             Content="Show me how to get this ID"
+                                             NavigateUri="https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/MicrosoftGraph/" />
+                    <graph:AadLogin View="EmailOnly" AllowSignInAsDifferentUser="False" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

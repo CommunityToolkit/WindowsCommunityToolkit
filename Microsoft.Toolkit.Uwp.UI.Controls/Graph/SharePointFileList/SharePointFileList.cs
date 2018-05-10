@@ -36,7 +36,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public event EventHandler<FileSelectedEventArgs> FileSelected;
 
-        private GraphServiceClient _graphClient;
         private string _driveId;
         private Stack<string> _driveItemPath = new Stack<string>();
         private IDriveItemChildrenCollectionRequest _nextPageRequest = null;
@@ -44,6 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private CancellationTokenSource _cancelLoadFile = new CancellationTokenSource();
         private CancellationTokenSource _cancelGetDetails = new CancellationTokenSource();
 
+        private AadAuthenticationManager _aadAuthenticationManager = AadAuthenticationManager.Instance;
         private ListView _list;
         private Button _back;
         private Button _upload;
@@ -115,8 +115,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 siteRelativePath = "/";
             }
 
-            Site site = await _graphClient.Sites.GetByPath(siteRelativePath, hostName).Request().GetAsync();
-            ISiteDrivesCollectionPage drives = await _graphClient.Sites[site.Id].Drives.Request().GetAsync();
+            GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+            Site site = await graphServiceClient.Sites.GetByPath(siteRelativePath, hostName).Request().GetAsync();
+            ISiteDrivesCollectionPage drives = await graphServiceClient.Sites[site.Id].Drives.Request().GetAsync();
 
             Drive drive = drives.SingleOrDefault(o => WebUtility.UrlDecode(o.WebUrl).Equals(docLibUrl, StringComparison.CurrentCultureIgnoreCase));
             if (drive == null)
@@ -124,17 +125,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 throw new Exception("Drive not found");
             }
 
-            return _graphClient.Drives[drive.Id].RequestUrl;
+            return graphServiceClient.Drives[drive.Id].RequestUrl;
         }
 
         private async Task InitDriveAsync(string driveUrl)
         {
             try
             {
+                GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
                 HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, driveUrl);
-                await _graphClient.AuthenticationProvider.AuthenticateRequestAsync(message);
+                await graphServiceClient.AuthenticationProvider.AuthenticateRequestAsync(message);
 
-                HttpResponseMessage result = await _graphClient.HttpProvider.SendAsync(message);
+                HttpResponseMessage result = await graphServiceClient.HttpProvider.SendAsync(message);
                 if (result.StatusCode == HttpStatusCode.OK)
                 {
                     string json = await result.Content.ReadAsStringAsync();
@@ -143,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     {
                         _driveId = drive.Id;
                         _driveItemPath.Clear();
-                        DriveItem rootDriveItem = await _graphClient.Drives[_driveId].Root.Request().GetAsync();
+                        DriveItem rootDriveItem = await graphServiceClient.Drives[_driveId].Root.Request().GetAsync();
                         _driveItemPath.Push(rootDriveItem.Id);
                         await LoadFilesAsync(rootDriveItem.Id);
                         _back.Visibility = Visibility.Collapsed;
@@ -169,8 +171,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     _download.Visibility = Visibility.Collapsed;
                     _share.Visibility = Visibility.Collapsed;
                     _delete.Visibility = Visibility.Collapsed;
+                    GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
                     QueryOption queryOption = new QueryOption("$top", PageSize.ToString());
-                    Task<IDriveItemChildrenCollectionPage> taskFiles = _graphClient.Drives[_driveId].Items[driveItemId].Children.Request(new List<Option> { queryOption }).GetAsync(_cancelLoadFile.Token);
+                    Task<IDriveItemChildrenCollectionPage> taskFiles = graphServiceClient.Drives[_driveId].Items[driveItemId].Children.Request(new List<Option> { queryOption }).GetAsync(_cancelLoadFile.Token);
                     IDriveItemChildrenCollectionPage files = await taskFiles;
                     if (!taskFiles.IsCanceled)
                     {
@@ -185,7 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         _upload.Visibility = Visibility.Collapsed;
                         if (_driveItemPath.Count > 1)
                         {
-                            IDriveItemPermissionsCollectionPage permissions = await _graphClient.Drives[_driveId].Items[driveItemId].Permissions.Request().GetAsync();
+                            IDriveItemPermissionsCollectionPage permissions = await graphServiceClient.Drives[_driveId].Items[driveItemId].Permissions.Request().GetAsync();
                             foreach (Permission permission in permissions)
                             {
                                 if (permission.Roles.Contains("write") || permission.Roles.Contains("owner"))
