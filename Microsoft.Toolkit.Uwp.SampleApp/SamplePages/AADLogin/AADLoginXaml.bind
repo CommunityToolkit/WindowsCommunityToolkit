@@ -1,17 +1,19 @@
 ﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
+      xmlns:sampleControls="using:Microsoft.Toolkit.Uwp.SampleApp.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <sampleControls:AadAuthControl x:Name="AadAuthControl"
+                                   Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsShowAadMetaDataControl}" />
         <controls:AadLogin x:Name="AadLoginControl"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Center"
-                           ClientId="@[ClientId:String:aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee]"
-                           Scopes="@[Scopes:String:User.Read,User.ReadBasic.All,Files.ReadWrite.All]"
                            View="@[View:Enum:ViewType.PictureOnly]"
-                           AllowSignInAsDifferentUser="@[AllowSignInAsDifferentUser:Bool:true]" />
+                           AllowSignInAsDifferentUser="@[AllowSignInAsDifferentUser:Bool:true]"
+                           Visibility="{Binding ElementName=AadAuthControl, Path=IsShowGraphControl}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
     </Grid>
 </Page>

@@ -32,20 +32,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// </summary>
     public partial class SharePointFileList
     {
-        private static async void GraphAccessTokenPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            SharePointFileList control = d as SharePointFileList;
-            control._graphClient = Common.GetAuthenticatedClient(control.GraphAccessToken);
-            if (!string.IsNullOrEmpty(control.DriveUrl))
-            {
-                await control.InitDriveAsync(control.DriveUrl);
-            }
-        }
-
         private static async void DriveUrlPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             SharePointFileList control = d as SharePointFileList;
-            if (control._graphClient != null && !string.IsNullOrWhiteSpace(control.DriveUrl))
+            GraphServiceClient graphServiceClient = await AadAuthenticationManager.Instance.GetGraphServiceClientAsync();
+            if (graphServiceClient != null && !string.IsNullOrWhiteSpace(control.DriveUrl))
             {
                 if (Uri.IsWellFormedUriString(control.DriveUrl, UriKind.Absolute))
                 {
@@ -100,7 +91,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         VisualStateManager.GoToState(this, UploadStatusUploading, false);
                         try
                         {
-                            await _graphClient.Drives[_driveId].Items[driveItemId].ItemWithPath(file.Name).Content.Request().PutAsync<DriveItem>(inputStream, _cancelUpload.Token);
+                            GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                            await graphServiceClient.Drives[_driveId].Items[driveItemId].ItemWithPath(file.Name).Content.Request().PutAsync<DriveItem>(inputStream, _cancelUpload.Token);
                             VisualStateManager.GoToState(this, UploadStatusNotUploading, false);
                             FileUploading--;
                         }
@@ -121,7 +113,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             if (_list.SelectedItem is DriveItem driveItem)
             {
-                Permission link = await _graphClient.Drives[_driveId].Items[driveItem.Id].CreateLink("view", "organization").Request().PostAsync();
+                GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                Permission link = await graphServiceClient.Drives[_driveId].Items[driveItem.Id].CreateLink("view", "organization").Request().PostAsync();
                 MessageDialog dialog = new MessageDialog(link.Link.WebUrl, ShareLinkCopiedMessage);
                 DataPackage package = new DataPackage();
                 package.SetText(link.Link.WebUrl);
@@ -134,6 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             if (_list.SelectedItem is DriveItem driveItem)
             {
+                GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
                 FileSavePicker picker = new FileSavePicker();
                 picker.FileTypeChoices.Add(AllFilesMessage, new List<string>() { driveItem.Name.Substring(driveItem.Name.LastIndexOf(".")) });
                 picker.SuggestedFileName = driveItem.Name;
@@ -141,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 StorageFile file = await picker.PickSaveFileAsync();
                 if (file != null)
                 {
-                    using (Stream inputStream = await _graphClient.Drives[_driveId].Items[driveItem.Id].Content.Request().GetAsync())
+                    using (Stream inputStream = await graphServiceClient.Drives[_driveId].Items[driveItem.Id].Content.Request().GetAsync())
                     {
                         using (Stream outputStream = await file.OpenStreamForWriteAsync())
                         {
@@ -167,7 +161,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                 if ((int)result.Id == 0)
                 {
-                    await _graphClient.Drives[_driveId].Items[driveItem.Id].Request().DeleteAsync();
+                    GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                    await graphServiceClient.Drives[_driveId].Items[driveItem.Id].Request().DeleteAsync();
                     string driveItemId = _driveItemPath.Peek();
                     await LoadFilesAsync(driveItemId);
                 }
@@ -213,7 +208,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                         ThumbnailImageSource = null;
                         VisualStateManager.GoToState(this, NavStatesFileReadonly, false);
-                        Task<IDriveItemPermissionsCollectionPage> taskPermissions = _graphClient.Drives[_driveId].Items[driveItem.Id].Permissions.Request().GetAsync(_cancelGetDetails.Token);
+                        GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                        Task<IDriveItemPermissionsCollectionPage> taskPermissions = graphServiceClient.Drives[_driveId].Items[driveItem.Id].Permissions.Request().GetAsync(_cancelGetDetails.Token);
                         IDriveItemPermissionsCollectionPage permissions = await taskPermissions;
                         if (!taskPermissions.IsCanceled)
                         {
@@ -227,7 +223,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             }
 
                             IsDetailPaneVisible = true;
-                            Task<IDriveItemThumbnailsCollectionPage> taskThumbnails = _graphClient.Drives[_driveId].Items[driveItem.Id].Thumbnails.Request().GetAsync(_cancelGetDetails.Token);
+                            Task<IDriveItemThumbnailsCollectionPage> taskThumbnails = graphServiceClient.Drives[_driveId].Items[driveItem.Id].Thumbnails.Request().GetAsync(_cancelGetDetails.Token);
                             IDriveItemThumbnailsCollectionPage thumbnails = await taskThumbnails;
                             if (!taskThumbnails.IsCanceled)
                             {

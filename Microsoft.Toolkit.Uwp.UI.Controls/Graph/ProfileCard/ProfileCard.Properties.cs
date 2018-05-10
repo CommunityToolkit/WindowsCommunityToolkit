@@ -22,13 +22,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     public partial class ProfileCard : Control
     {
         /// <summary>
-        /// Identifies the <see cref="GraphAccessToken"/> dependency property.
+        /// Gets required delegated permissions for the <see cref="ProfileCard"/> control
         /// </summary>
-        public static readonly DependencyProperty GraphAccessTokenProperty = DependencyProperty.Register(
-            nameof(GraphAccessToken),
-            typeof(string),
-            typeof(ProfileCard),
-            new PropertyMetadata(string.Empty, OnGraphAccessTokenChanged));
+        public static string[] RequiredDelegatedPermissions
+        {
+            get
+            {
+                return new string[] { "User.Read", "User.ReadBasic.All" };
+            }
+        }
 
         /// <summary>
         /// Identifies the <see cref="UserId"/> dependency property.
@@ -107,15 +109,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             typeof(BitmapImage),
             typeof(ProfileCard),
             new PropertyMetadata(null));
-
-        /// <summary>
-        /// Gets or sets graph access token.
-        /// </summary>
-        public string GraphAccessToken
-        {
-            get { return ((string)GetValue(GraphAccessTokenProperty))?.Trim(); }
-            set { SetValue(GraphAccessTokenProperty, value?.Trim()); }
-        }
 
         /// <summary>
         /// Gets or sets user unique identifier.

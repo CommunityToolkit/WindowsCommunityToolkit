@@ -24,14 +24,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     public partial class SharePointFileList
     {
         /// <summary>
-        /// Token to access Microsoft Graph API
+        /// Gets required delegated permissions for the <see cref="SharePointFileList"/> control
         /// </summary>
-        public static readonly DependencyProperty GraphAccessTokenProperty =
-            DependencyProperty.Register(
-                nameof(GraphAccessToken),
-                typeof(string),
-                typeof(SharePointFileList),
-                new PropertyMetadata(string.Empty, GraphAccessTokenPropertyChanged));
+        public static string[] RequiredDelegatedPermissions
+        {
+            get
+            {
+                return new string[] { "User.Read", "Files.ReadWrite.All" };
+            }
+        }
 
         /// <summary>
         /// Url of OneDrive to display
@@ -175,15 +176,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private ICommand _showErrorDetailsCommand;
         private ICommand _loadMoreCommand;
         private ICommand _cancelCommand;
-
-        /// <summary>
-        /// Gets or sets token to access Microsoft Graph API
-        /// </summary>
-        public string GraphAccessToken
-        {
-            get { return ((string)GetValue(GraphAccessTokenProperty))?.Trim(); }
-            set { SetValue(GraphAccessTokenProperty, value?.Trim()); }
-        }
 
         /// <summary>
         /// Gets or sets url of OneDrive to display

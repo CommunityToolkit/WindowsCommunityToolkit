@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.ComponentModel;
 using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Storage;
@@ -24,6 +25,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class ProfileCardPage : IXamlRenderListener
     {
+        private AadAuthenticationManager _aadAuthenticationManager = AadAuthenticationManager.Instance;
+
         private ProfileCard _profileCardControl;
 
         public ProfileCardPage()
@@ -34,6 +37,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public void OnXamlRendered(FrameworkElement control)
         {
             _profileCardControl = control.FindDescendantByName("ProfileCardControl") as ProfileCard;
+
+            if (_profileCardControl != null)
+            {
+                _aadAuthenticationManager.PropertyChanged += (object sender, PropertyChangedEventArgs e) =>
+                {
+                    if (e.PropertyName == nameof(_aadAuthenticationManager.CurrentUserId))
+                    {
+                        _profileCardControl.UserId = _aadAuthenticationManager.CurrentUserId;
+                    }
+                };
+
+                if (_aadAuthenticationManager.IsAuthenticated)
+                {
+                    _profileCardControl.UserId = _aadAuthenticationManager.CurrentUserId;
+                }
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

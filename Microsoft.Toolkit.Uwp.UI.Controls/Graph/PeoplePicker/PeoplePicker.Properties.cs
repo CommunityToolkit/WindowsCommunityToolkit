@@ -24,14 +24,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     public partial class PeoplePicker : Control
     {
         /// <summary>
-        /// Identifies the <see cref="GraphAccessToken"/> dependency property.
+        /// Gets required delegated permissions for the <see cref="PeoplePicker"/> control
         /// </summary>
-        public static readonly DependencyProperty GraphAccessTokenProperty =
-            DependencyProperty.Register(
-                nameof(GraphAccessToken),
-                typeof(string),
-                typeof(PeoplePicker),
-                new PropertyMetadata(string.Empty, GraphAccessTokenPropertyChanged));
+        public static string[] RequiredDelegatedPermissions
+        {
+            get
+            {
+                return new string[] { "User.Read", "User.ReadBasic.All" };
+            }
+        }
 
         /// <summary>
         /// Identifies the <see cref="AllowMultiple"/> dependency property.
@@ -84,15 +85,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 null);
 
         /// <summary>
-        /// Gets or sets the Graph access token
-        /// </summary>
-        public string GraphAccessToken
-        {
-            get => ((string)GetValue(GraphAccessTokenProperty))?.Trim();
-            set => SetValue(GraphAccessTokenProperty, value?.Trim());
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating whether multiple people can be selected
         /// </summary>
         public bool AllowMultiple
@@ -134,9 +126,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             set => SetValue(SearchResultListProperty, value);
         }
 
-        internal GraphServiceClient GraphClient { get; set; }
-
-        private ICommand _deleteItemCommand; 
+        private ICommand _deleteItemCommand;
 
         /// <summary>
         /// Gets the command to delete the selected item.

@@ -12,7 +12,7 @@
 
 using System;
 using System.IO;
-using Windows.UI.Xaml;
+using Microsoft.Graph;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -44,36 +44,56 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void FetchUserInfo()
         {
-            if (string.IsNullOrEmpty(GraphAccessToken) || string.IsNullOrEmpty(UserId))
+            if (!AadAuthenticationManager.Instance.IsAuthenticated || string.IsNullOrEmpty(UserId) || UserId.Equals("Invalid UserId"))
             {
                 InitUserProfile();
             }
             else
             {
-                var graphClient = Common.GetAuthenticatedClient(GraphAccessToken);
-                var user = await graphClient.Users[UserId].Request().GetAsync();
-                Title = user.DisplayName;
-                Mail = user.Mail;
-                SecondaryMail = user.Mail;
-                if (string.IsNullOrEmpty(Mail))
+                GraphServiceClient graphClient = await AadAuthenticationManager.Instance.GetGraphServiceClientAsync();
+                try
                 {
-                    UserPhoto = DefaultImage ?? PersonPhoto;
-                }
-                else
-                {
-                    try
-                    {
-                        using (Stream photoStream = await graphClient.Users[UserId].Photo.Content.Request().GetAsync())
-                        using (var ras = photoStream.AsRandomAccessStream())
-                        {
-                            UserPhoto = new BitmapImage();
-                            await UserPhoto.SetSourceAsync(ras);
-                        }
-                    }
-                    catch
+                    var user = await graphClient.Users[UserId].Request().GetAsync();
+                    Title = user.DisplayName;
+                    Mail = user.Mail;
+                    SecondaryMail = user.Mail;
+                    if (string.IsNullOrEmpty(Mail))
                     {
                         UserPhoto = DefaultImage ?? PersonPhoto;
                     }
+                    else
+                    {
+                        try
+                        {
+                            using (Stream photoStream = await graphClient.Users[UserId].Photo.Content.Request().GetAsync())
+                            using (var ras = photoStream.AsRandomAccessStream())
+                            {
+                                UserPhoto = new BitmapImage();
+                                await UserPhoto.SetSourceAsync(ras);
+                            }
+                        }
+                        catch (ServiceException ex)
+                        {
+                            // Swallow error in case of no photo found
+                            if (!ex.Error.Code.Equals("ErrorItemNotFound"))
+                            {
+                                throw;
+                            }
+
+                            UserPhoto = DefaultImage ?? PersonPhoto;
+                        }
+                    }
+                }
+                catch (ServiceException ex)
+                {
+                    // Swallow error in case of no user id found
+                    if (!ex.Error.Code.Equals("Request_ResourceNotFound"))
+                    {
+                        throw;
+                    }
+
+                    UserId = "Invalid UserId";
+                    InitUserProfile();
                 }
             }
         }

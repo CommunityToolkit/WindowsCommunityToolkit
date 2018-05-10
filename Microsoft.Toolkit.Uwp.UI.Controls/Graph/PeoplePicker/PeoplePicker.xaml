@@ -40,7 +40,6 @@
                                                 <controls:ProfileCard Grid.Row="0"
                                                                       Grid.Column="0"
                                                                       DisplayMode="LargeProfilePhotoLeft"
-                                                                      GraphAccessToken="{Binding DataContext.GraphAccessToken, ElementName=PeoplePickerContainer}"
                                                                       UserId="{Binding Id}" />
                                                 <TextBlock Grid.Row="0"
                                                            Grid.Column="1" />

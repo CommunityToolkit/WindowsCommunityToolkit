@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     [TemplatePart(Name = "ContentPresenter", Type = typeof(ContentPresenter))]
     public partial class AadLogin : Button
     {
-        private static PublicClientApplication _identityClientApp = null;
+        private AadAuthenticationManager _aadAuthenticationManager = AadAuthenticationManager.Instance;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AadLogin"/> class.
@@ -35,7 +35,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public AadLogin()
         {
             DefaultStyleKey = typeof(AadLogin);
-            IsEnabled = false;
         }
 
         /// <summary>
@@ -49,16 +48,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             Click += async (object sender, RoutedEventArgs e) =>
             {
-                if (string.IsNullOrEmpty(CurrentUserID))
+                if (!_aadAuthenticationManager.IsAuthenticated)
                 {
-                    IsEnabled = false;
-                    if (await SignInAsync())
+                    if (await _aadAuthenticationManager.SignInAsync())
                     {
                         AutomationProperties.SetName(this, string.Empty);
                         Flyout = GenerateMenuItems();
                     }
-
-                    IsEnabled = true;
                 }
                 else
                 {
@@ -73,28 +69,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <returns>True if sign in successfully, otherwise false</returns>
         public async Task<bool> SignInAsync()
         {
-            if (!string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(Scopes))
-            {
-                var token = await GetTokenForUserAsync();
+            await _aadAuthenticationManager.SignInAsync();
+            //if (!string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(Scopes))
+            //{
+            //    var token = await GetTokenForUserAsync();
 
-                if (!string.IsNullOrEmpty(token))
-                {
-                    var graphClient = Common.GetAuthenticatedClient(token);
+            //    if (!string.IsNullOrEmpty(token))
+            //    {
+            //        var graphClient = Common.GetAuthenticatedClient(token);
 
-                    GraphAccessToken = token;
+            //        GraphAccessToken = token;
 
-                    CurrentUserID = (await graphClient.Me.Request().GetAsync()).Id;
+            //        CurrentUserID = (await graphClient.Me.Request().GetAsync()).Id;
 
-                    SignInCompleted?.Invoke(this, new SignInEventArgs()
-                    {
-                        GraphClient = graphClient,
-                        GraphAccessToken = token,
-                        CurrentSignInUserId = CurrentUserID
-                    });
+            //        SignInCompleted?.Invoke(this, new SignInEventArgs()
+            //        {
+            //            GraphClient = graphClient,
+            //            GraphAccessToken = token,
+            //            CurrentSignInUserId = CurrentUserID
+            //        });
 
-                    return true;
-                }
-            }
+            //        return true;
+            //    }
+            //}
 
             return false;
         }
@@ -104,46 +101,46 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public void SignOut()
         {
-            if (_identityClientApp.Users != null)
-            {
-                foreach (var user in _identityClientApp.Users)
-                {
-                    _identityClientApp.Remove(user);
-                }
+            //if (_identityClientApp.Users != null)
+            //{
+            //    foreach (var user in _identityClientApp.Users)
+            //    {
+            //        _identityClientApp.Remove(user);
+            //    }
 
-                CurrentUserID = string.Empty;
+            //    CurrentUserID = string.Empty;
 
-                this.Flyout = null;
+            //    this.Flyout = null;
 
-                SignOutCompleted?.Invoke(this, EventArgs.Empty);
-            }
+            //    SignOutCompleted?.Invoke(this, EventArgs.Empty);
+            //}
 
-            AutomationProperties.SetName(this, SignInDefaultText);
+            //AutomationProperties.SetName(this, SignInDefaultText);
         }
 
         private void InitializePublicClientApplication()
         {
-            if (!string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(Scopes))
-            {
-                _identityClientApp = new PublicClientApplication(ClientId);
-                IsEnabled = true;
-            }
+            //if (!string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(Scopes))
+            //{
+            //    _identityClientApp = new PublicClientApplication(ClientId);
+            //    IsEnabled = true;
+            //}
         }
 
         private async Task<string> GetTokenForUserAsync()
         {
             string tokenForUser = string.Empty;
 
-            AuthenticationResult authResult;
-            try
-            {
-                authResult = await _identityClientApp.AcquireTokenSilentAsync(Scopes.Split(','), _identityClientApp.Users.First());
-                tokenForUser = authResult.AccessToken;
-            }
-            catch
-            {
-                tokenForUser = await GetTokenWithPromptAsync();
-            }
+            //AuthenticationResult authResult;
+            //try
+            //{
+            //    authResult = await _identityClientApp.AcquireTokenSilentAsync(Scopes.Split(','), _identityClientApp.Users.First());
+            //    tokenForUser = authResult.AccessToken;
+            //}
+            //catch
+            //{
+            //    tokenForUser = await GetTokenWithPromptAsync();
+            //}
 
             return tokenForUser;
         }
@@ -152,14 +149,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             string tokenForUser = string.Empty;
 
-            try
-            {
-                AuthenticationResult authResult = await _identityClientApp.AcquireTokenAsync(Scopes.Split(','));
-                tokenForUser = authResult.AccessToken;
-            }
-            catch
-            {
-            }
+            //try
+            //{
+            //    AuthenticationResult authResult = await _identityClientApp.AcquireTokenAsync(Scopes.Split(','));
+            //    tokenForUser = authResult.AccessToken;
+            //}
+            //catch
+            //{
+            //}
 
             return tokenForUser;
         }
@@ -168,37 +165,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             MenuFlyout menuFlyout = new MenuFlyout();
 
-            if (AllowSignInAsDifferentUser)
-            {
-                MenuFlyoutItem signinanotherItem = new MenuFlyoutItem();
-                signinanotherItem.Text = SignInAnotherUserDefaultText;
-                AutomationProperties.SetName(signinanotherItem, SignInAnotherUserDefaultText);
-                signinanotherItem.Click += async (object sender, RoutedEventArgs e) =>
-                {
-                    var token = await GetTokenWithPromptAsync();
-                    if (!string.IsNullOrEmpty(token))
-                    {
-                        var graphClient = Common.GetAuthenticatedClient(token);
+            //if (AllowSignInAsDifferentUser)
+            //{
+            //    MenuFlyoutItem signinanotherItem = new MenuFlyoutItem();
+            //    signinanotherItem.Text = SignInAnotherUserDefaultText;
+            //    AutomationProperties.SetName(signinanotherItem, SignInAnotherUserDefaultText);
+            //    signinanotherItem.Click += async (object sender, RoutedEventArgs e) =>
+            //    {
+            //        var token = await GetTokenWithPromptAsync();
+            //        if (!string.IsNullOrEmpty(token))
+            //        {
+            //            var graphClient = Common.GetAuthenticatedClient(token);
 
-                        GraphAccessToken = token;
-                        CurrentUserID = (await graphClient.Me.Request().GetAsync()).Id;
+            //            GraphAccessToken = token;
+            //            CurrentUserID = (await graphClient.Me.Request().GetAsync()).Id;
 
-                        SignInCompleted?.Invoke(this, new SignInEventArgs()
-                        {
-                            GraphClient = graphClient,
-                            GraphAccessToken = token,
-                            CurrentSignInUserId = CurrentUserID
-                        });
-                    }
-                };
-                menuFlyout.Items.Add(signinanotherItem);
-            }
+            //            SignInCompleted?.Invoke(this, new SignInEventArgs()
+            //            {
+            //                GraphClient = graphClient,
+            //                GraphAccessToken = token,
+            //                CurrentSignInUserId = CurrentUserID
+            //            });
+            //        }
+            //    };
+            //    menuFlyout.Items.Add(signinanotherItem);
+            //}
 
-            MenuFlyoutItem signoutItem = new MenuFlyoutItem();
-            signoutItem.Text = SignOutDefaultText;
-            AutomationProperties.SetName(signoutItem, SignOutDefaultText);
-            signoutItem.Click += (object sender, RoutedEventArgs e) => SignOut();
-            menuFlyout.Items.Add(signoutItem);
+            //MenuFlyoutItem signoutItem = new MenuFlyoutItem();
+            //signoutItem.Text = SignOutDefaultText;
+            //AutomationProperties.SetName(signoutItem, SignOutDefaultText);
+            //signoutItem.Click += (object sender, RoutedEventArgs e) => SignOut();
+            //menuFlyout.Items.Add(signoutItem);
 
             return menuFlyout;
         }
