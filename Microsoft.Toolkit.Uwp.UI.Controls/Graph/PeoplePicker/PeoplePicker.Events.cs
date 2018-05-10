@@ -27,6 +27,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// </summary>
     public partial class PeoplePicker : Control
     {
+        private static void GraphAccessTokenPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as PeoplePicker;
+            control?.SignInCurrentUserAsync();
+        }
+
+        private static void AllowMultiplePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as PeoplePicker;
+            if (!control.AllowMultiple)
+            {
+                control.Selections.Clear();
+                control._searchBox.Text = string.Empty;
+            }
+        }
+
         private void ClearAndHideSearchResultListBox()
         {
             SearchResultList.Clear();
@@ -112,6 +128,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 Selections.Add(person);
             }
+
             _searchBox.Text = string.Empty;
         }
 
@@ -122,22 +139,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (target != null)
             {
                 Selections.Remove(target);
-            }
-        }
-
-        private static void GraphAccessTokenPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var control = d as PeoplePicker;
-            control?.SignInCurrentUserAsync();
-        }
-
-        private static void AllowMultiplePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var control = d as PeoplePicker;
-            if (!control.AllowMultiple)
-            {
-                control.Selections.Clear();
-                control._searchBox.Text = string.Empty;
             }
         }
     }
