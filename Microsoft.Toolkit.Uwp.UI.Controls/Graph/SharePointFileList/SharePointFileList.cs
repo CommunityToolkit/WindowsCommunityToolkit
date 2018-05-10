@@ -245,6 +245,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     {
                         BackButtonVisibility = Visibility.Collapsed;
                     }
+
                     VisualStateManager.GoToState(this, DetailPaneStatesSide, false);
                     break;
                 case DetailPaneDisplayMode.Bottom:
@@ -252,6 +253,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     {
                         BackButtonVisibility = Visibility.Collapsed;
                     }
+
                     VisualStateManager.GoToState(this, DetailPaneStatesBottom, false);
                     break;
                 case DetailPaneDisplayMode.Full:

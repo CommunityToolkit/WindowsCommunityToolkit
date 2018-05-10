@@ -13,7 +13,6 @@
 using System.Windows.Input;
 using Microsoft.Graph;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
@@ -158,6 +157,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 typeof(string),
                 typeof(SharePointFileList),
                 null);
+
+        internal static readonly DependencyProperty BackButtonVisibilityProperty =
+            DependencyProperty.Register(
+                nameof(BackButtonVisibility),
+                typeof(Visibility),
+                typeof(SharePointFileList),
+                new PropertyMetadata(Visibility.Collapsed));
+
+        internal static readonly DependencyProperty StatusMessageProperty =
+            DependencyProperty.Register(
+                nameof(StatusMessage),
+                typeof(string),
+                typeof(SharePointFileList),
+                new PropertyMetadata(string.Empty));
 
         private static readonly DependencyProperty IsDetailPaneVisibleProperty =
             DependencyProperty.Register(
@@ -416,6 +429,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             set { SetValue(ThumbnailImageSourceProperty, value); }
         }
 
+        internal string StatusMessage
+        {
+            get { return (string)GetValue(StatusMessageProperty); }
+            set { SetValue(StatusMessageProperty, value); }
+        }
+
         private int FileUploading
         {
             get
@@ -455,16 +474,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-
-
         internal Visibility BackButtonVisibility
         {
             get { return (Visibility)GetValue(BackButtonVisibilityProperty); }
             set { SetValue(BackButtonVisibilityProperty, value); }
         }
-
-        internal static readonly DependencyProperty BackButtonVisibilityProperty =
-            DependencyProperty.Register(nameof(BackButtonVisibility), typeof(Visibility), typeof(SharePointFileList), new PropertyMetadata(Visibility.Collapsed));
-
     }
 }

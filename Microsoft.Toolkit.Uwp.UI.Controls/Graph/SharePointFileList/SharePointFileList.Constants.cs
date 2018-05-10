@@ -10,12 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Windows.Input;
-using Microsoft.Graph;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
     /// <summary>
@@ -27,18 +21,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// Key of the VisualStateGroup to control nav buttons
         /// </summary>
         private const string NavStates = "NavStates";
+
         /// <summary>
         /// Key of the VisualState when display folder in readonly mode
         /// </summary>
         private const string NavStatesFolderReadonly = "FolderReadOnly";
+
         /// <summary>
         /// Key of the VisualState when display folder in edit mode
         /// </summary>
         private const string NavStatesFolderEdit = "FolderEdit";
+
         /// <summary>
         /// Key of the VisualState when display file in readonly mode
         /// </summary>
         private const string NavStatesFileReadonly = "FileReadonly";
+
         /// <summary>
         /// Key of the VisualState when display file in edit mode
         /// </summary>
@@ -48,14 +46,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// Key of the VisualStateGroup to control uploading status
         /// </summary>
         private const string UploadStatus = "UploadStatus";
+
         /// <summary>
         /// Key of the VisualState when not uploading files
         /// </summary>
         private const string UploadStatusNotUploading = "NotUploading";
+
         /// <summary>
         /// Key of the VisualState when uploading files
         /// </summary>
         private const string UploadStatusUploading = "Uploading";
+
         /// <summary>
         /// Key of the VisualState when uploading error occurs
         /// </summary>
@@ -65,18 +66,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// Key of the VisualStateGroup to control detail pane
         /// </summary>
         private const string DetailPaneStates = "DetailPaneStates";
+
         /// <summary>
         /// Key of the VisualState when detail pane is hidden
         /// </summary>
         private const string DetailPaneStatesHide = "Hide";
+
         /// <summary>
         /// Key of the VisualState when detail pane is at right side
         /// </summary>
         private const string DetailPaneStatesSide = "Side";
+
         /// <summary>
         /// Key of the VisualState when detail pane is at bottom
         /// </summary>
         private const string DetailPaneStatesBottom = "Bottom";
+
         /// <summary>
         /// Key of the VisualState when detail pane is in full mode
         /// </summary>
