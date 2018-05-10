@@ -2,53 +2,60 @@
 title: ImageEx XAML Control
 author: nmetulev
 description: The ImageEx Control and RoundImageEx Control downloads images asynchronously, while showing a loading indicator.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ImageEx, RoundImageEx, xaml control, xaml
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, ImageEx, RoundImageEx, xaml control, xaml
 ---
 
 # ImageEx XAML Control
 
-The **ImageEx Control** and **RoundImageEx Control** downloads images asynchronously, while showing a loading indicator. Source images are then stored in the application's local cache to preserve resources and load time. ImageEx also extends the default *Image* and *ImageBrush* Platform controls respectively to improve performance through caching. 
-You can also use a placeholder image that will be displayed will loading the main image.
+The [ImageEx Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.imageex) and [RoundImageEx Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.roundimageex) downloads images asynchronously, while showing a loading indicator. Source images are then stored in the application's local cache to preserve resources and load time. ImageEx also extends the default *Image* and *ImageBrush* Platform controls respectively to improve performance through caching. You can also use a placeholder image that will be displayed will loading the main image.
  
 ## Syntax
 
 ```xaml
-<controls:ImageEx Name="ImageExControl"
-	IsCacheEnabled="True"
+<controls:ImageEx Name="ImageExControl" IsCacheEnabled="True"
 	PlaceholderSource="/assets/thumbnails/thumbnails.png"
-	Source="/assets/bigPicture.png"
-/> 
+	Source="/assets/bigPicture.png"/> 
 
-<controls:RoundImageEx Name="RoundImageExControl"
-	IsCacheEnabled="True"
+<controls:RoundImageEx Name="RoundImageExControl" IsCacheEnabled="True"
 	PlaceholderSource="/assets/thumbnails/thumbnails.png"
-	Source="/assets/bigPicture.png"
-	CornerRadius="999"
-/> 
+	Source="/assets/bigPicture.png" CornerRadius="999"/> 
 ```
 
-## Example Image
+> [!NOTE]
+On Windows 10.0.16299.0 or higher, `CornerRadius` is supported on ImageEx.  Use of this property will not cause an exception on downlevel platforms; however, the desired effect will not render.
 
-![ImageEx animation](../resources/images/Controls-ImageEx.gif "ImageEx")
+## Sample Output
 
-## Example Code
+![ImageEx animation](../resources/images/Controls/ImageEx.gif)
 
-[ImageExControl Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ImageEx)
+## ImageEx Properties
 
-## Default Template 
+| Property | Type | Description |
+| -- | -- | -- |
+| NineGrid | Thickness | Gets or sets the nine-grid used by the image |
 
-[ImageEx Control XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx/ImageEx.xaml) is the XAML template used in the toolkit for the default styling.
-[RoundImageEx Control XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx/RoundImageEx.xaml) is the XAML template used in the toolkit for the default styling of the Control that has Corner Rounding.
+## RoundImageEx Properties
 
-## Platform Specific Notes
+| Property | Type | Description |
+| -- | -- | -- |
+| CornerRadius | double | Get or set the radius of round image corner |
 
-On Windows 10.0.16299.0 or higher, **CornerRadius** is supported on ImageEx.  Use of this property will not cause an exception on downlevel platforms; however, the desired effect will not render.
+## Sample Code
 
-## Requirements (Windows 10 Device Family)
+[ImageExControl Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ImageEx). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
-| --- | --- |
+## Default Template
+
+- [ImageEx Control XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx/ImageEx.xaml) is the XAML template used in the toolkit for the default styling.
+
+- [RoundImageEx Control XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx/RoundImageEx.xaml) is the XAML template used in the toolkit for the default styling of the Control that has Corner Rounding.
+
+## Requirements
+
+| Device family | Universal, 10.0.14393.0 or higher |
+| -- | -- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Controls/) |
 
 ## API
 

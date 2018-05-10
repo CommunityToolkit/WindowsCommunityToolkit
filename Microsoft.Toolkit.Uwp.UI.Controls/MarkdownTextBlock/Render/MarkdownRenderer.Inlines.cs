@@ -21,6 +21,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 {
@@ -250,7 +251,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             }
 
             var image = new Image();
-            var imageContainer = new InlineUIContainer() { Child = image };
+            var scrollViewer = new ScrollViewer();
+            var viewbox = new Viewbox();
+            scrollViewer.Content = viewbox;
+            viewbox.Child = image;
+            var imageContainer = new InlineUIContainer() { Child = scrollViewer };
 
             LinkRegister.RegisterNewHyperLink(image, element.Url);
 
@@ -258,6 +263,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;
             image.Stretch = ImageStretch;
+            scrollViewer.VerticalScrollMode = ScrollMode.Disabled;
+            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+            viewbox.StretchDirection = StretchDirection.DownOnly;
+
+            if (ImageMaxHeight > 0)
+            {
+                viewbox.MaxHeight = ImageMaxHeight;
+            }
+
+            if (ImageMaxWidth > 0)
+            {
+                viewbox.MaxWidth = ImageMaxWidth;
+            }
 
             if (element.ImageWidth > 0)
             {
@@ -279,6 +297,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             if (element.ImageHeight > 0 && element.ImageWidth > 0)
             {
                 image.Stretch = Stretch.Fill;
+            }
+
+            // If image size is given then scroll to view overflown part
+            if (element.ImageHeight > 0 || element.ImageWidth > 0)
+            {
+                scrollViewer.HorizontalScrollMode = ScrollMode.Auto;
+                scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+            }
+
+            // Else resize the image
+            else
+            {
+                scrollViewer.HorizontalScrollMode = ScrollMode.Disabled;
+                scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
             }
 
             ToolTipService.SetToolTip(image, element.Tooltip);

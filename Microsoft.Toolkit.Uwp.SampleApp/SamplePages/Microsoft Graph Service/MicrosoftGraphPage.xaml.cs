@@ -136,7 +136,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Login via Azure Active Directory
             try
             {
-                if (!await MicrosoftGraphService.Instance.LoginAsync())
+                var upn = LoginHint.Text;
+
+                if (!await MicrosoftGraphService.Instance.LoginAsync(upn))
                 {
                     var error = new MessageDialog("Unable to sign in to Office 365");
                     await error.ShowAsync();
@@ -375,6 +377,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (DelegatedPermissionScopes != null)
             {
                 DelegatedPermissionScopes.Visibility = item.Tag.ToString() == "v2" ? Visibility.Visible : Visibility.Collapsed;
+                LoginHint.Visibility = DelegatedPermissionScopes.Visibility;
             }
         }
     }

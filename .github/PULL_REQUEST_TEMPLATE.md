@@ -31,6 +31,7 @@ Please check if your PR fulfills the following requirements:
 - [ ] Sample in sample app has been added / updated (for bug fixes / features)
     - [ ] Icon has been created (if new sample) following the [Thumbnail Style Guide and templates](https://github.com/Microsoft/UWPCommunityToolkit-design-assets)
 - [ ] Tests for the changes have been added (for bug fixes / features) (if applicable)
+- [ ] Header has been added to all new source files (run *build/UpdateHeaders.bat*)
 - [ ] Contains **NO** breaking changes
 
 

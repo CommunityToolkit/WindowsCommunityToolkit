@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         {
             if (_currentUser == null)
             {
-                throw new ServiceException(new Error { Message = "No user connected", Code = "NoUserConnected", ThrowSite = "UWP Community Toolkit" });
+                throw new ServiceException(new Error { Message = "No user connected", Code = "NoUserConnected", ThrowSite = "Windows Community Toolkit" });
             }
 
             List<Recipient> ccRecipients = null;

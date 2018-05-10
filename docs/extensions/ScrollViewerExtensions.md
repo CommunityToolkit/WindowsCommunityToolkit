@@ -2,7 +2,7 @@
 title: ScrollViewer extentions
 author: ST-Apps
 description: ScrollViewerEx provides a simple way to manage Margin for any ScrollBar inside any container.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ScrollViewer, extentions
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, ScrollViewer, extentions
 ---
 
 # ScrollViewer extentions
@@ -17,7 +17,7 @@ The VerticalScrollBarMargin property provides a way to assign a Thickness to the
 
 ```xaml
     <ListView Name="listView"
-              extensions:ScrollViewerEx.VerticalScrollBarMargin="{Binding MinHeight, ElementName=MyHeaderGrid, Converter={StaticResource DoubleTopThicknessConverter}}">
+              extensions:ScrollViewerExtensions.VerticalScrollBarMargin="{Binding MinHeight, ElementName=MyHeaderGrid, Converter={StaticResource DoubleTopThicknessConverter}}">
             <ListView.Header>
                 <controls:ScrollHeader Mode="Sticky">
                     <Grid x:Name="MyHeaderGrid"

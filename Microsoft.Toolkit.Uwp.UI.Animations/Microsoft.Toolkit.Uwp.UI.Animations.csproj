@@ -2,10 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
-    <Title>UWP Community Toolkit Animations</Title>
-    <Description>This library provides helpers and services on top of Windows Composition and XAML storyboards. It is part of the UWP Community Toolkit.</Description>
+    <Title>Windows Community Toolkit Animations</Title>
+    <Description>This library provides helpers and services on top of Windows Composition and XAML storyboards. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>UWP Toolkit Windows Animations Composition</PackageTags>
-
   </PropertyGroup>
 
 

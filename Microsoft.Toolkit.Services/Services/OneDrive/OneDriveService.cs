@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <summary>
         /// Gets or sets a value indicating whether service is initialized.
         /// </summary>
-        protected bool IsInitialized { get; set; }
+        protected static bool IsInitialized { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether user is connected.
@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <param name="uiParent">UiParent instance - required for Android</param>
         /// <param name="redirectUri">Redirect Uri - required for Android</param>
         /// <returns>True or false.</returns>
-        public bool Initialize<T, U>(string appClientId, string[] scopes, UIParent uiParent = null, string redirectUri = null)
+        public virtual bool Initialize<T, U>(string appClientId, string[] scopes, UIParent uiParent = null, string redirectUri = null)
             where T : IOneDriveServicePlatformInitializer, new()
             where U : IMicrosoftGraphUserServicePhotos, new()
         {
@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <param name="uiParent">UiParent instance - required for Android</param>
         /// <param name="redirectUri">Redirect Uri - required for Android</param>
         /// <returns>True or false.</returns>
-        public bool Initialize(string appClientId, string[] scopes, UIParent uiParent = null, string redirectUri = null)
+        public virtual bool Initialize(string appClientId, string[] scopes, UIParent uiParent = null, string redirectUri = null)
         {
             ServicePlatformService = ServicePlatformInitializer.CreateOneDriveServicePlatformInstance(this);
 
@@ -174,25 +174,6 @@ namespace Microsoft.Toolkit.Services.OneDrive
         }
 
         /// <summary>
-        /// Gets the OneDrive root folder (default drive)
-        /// </summary>
-        /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
-        public virtual async Task<OneDriveStorageFolder> RootFolderAsync()
-        {
-            // log the user silently with a Microsoft Account associate to Windows
-            if (IsConnected == false)
-            {
-                if (!await OneDriveService.Instance.LoginAsync())
-                {
-                    throw new Exception("Unable to sign in");
-                }
-            }
-
-            var oneDriveRootItem = await Provider.GraphProvider.Drive.Root.Request().GetAsync();
-            return new OneDriveStorageFolder(Provider.GraphProvider, Provider.GraphProvider.Drive.Root, oneDriveRootItem);
-        }
-
-        /// <summary>
         /// Gets the OneDrive root folder for Me
         /// </summary>
         /// <returns>When this method completes, it returns a OneDriveStorageFolder</returns>
@@ -208,6 +189,8 @@ namespace Microsoft.Toolkit.Services.OneDrive
             }
 
             var oneDriveRootItem = await Provider.GraphProvider.Me.Drive.Root.Request().GetAsync();
+            var oneDriveItem = await Provider.GraphProvider.Me.Drive.Root.Children.Request().GetAsync();
+
             return new OneDriveStorageFolder(Provider.GraphProvider, Provider.GraphProvider.Me.Drive.Root, oneDriveRootItem);
         }
 

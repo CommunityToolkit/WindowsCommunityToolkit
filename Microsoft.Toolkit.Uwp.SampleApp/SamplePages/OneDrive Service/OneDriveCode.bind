@@ -1,70 +1,52 @@
-// OneDriveService works for OneDrive Consumer as well as OneDrive For Business (Office 365)
-//
-// Authentication 
-// In order to use the OneDriveService you need to authenticate the user and get an access token
+// OneDriveService works for OneDrive, OneDrive for Business, SharePoint document libraries, and Office Groups, to allow your 
+// app the flexibility to read and store content in any of these locations with the same code
 
-// Converged app authentication is now supported.  This means you can now use either an MSA account (e.g. name@outlook.com, name@hotmail.com) or
-// an Azure Active Directory account linked with your OneDrive or OneDrive for Business account (through Office 365)
+// Getting Started
 
-// To register your application:
-// 1) Go to the https://apps.dev.microsoft.com portal
-// 2) In the section Converged Applications, click on the "Add an app" button 
-// 3) Register your application 
-// 4) In the Platform section, click "Add platform" then choose "Native Application" 
-// 5) Copy the "Application Id" and use it in the sample app with the "Work Or School Accounts Or Microsoft Account" authentication provider option
+// To use the OneDrive API, you need to have an access token that authenticates your app to a particular set of permissions 
+// for a user. In this section, you'll learn how to:
 
-// For OneDrive (consumer) you now have two further options:
-// 1) If the user is connected to a Windows session with a Microsoft Account, the service is able to silently get an access token.
-//    For that you need to associate your application to the Store (Project->Store->Associate App With Store...)
-//    In the sample app choose "OnlineId" as the authentication provider.
-// 2) Or you have to register your app
-//  - go to https://dev.onedrive.com/app-registration.htm
-//  - When prompted, sign in with your Microsoft Account credentials.
-//  - Scroll to the bottom of the page (Live (SDK)), and click Add App
-//  - Enter your app's name and click Create application.
-//  - Copy the Application ID
-//  - Add a platform and select mobile application
-//  - Save
-//  In the sample app choose "Microsoft Account" as the authentication provider.
+// 1. Register your application to get a client ID and a client secret.
+// 2. Sign your user in to OneDrive with the specified scopes using the token flow or code flow.
+// 3. Sign the user out (optional).
 
-// To use the new converaged application functionality, you must use the OneDriveService.GraphInstance instance.  This new endpoint uses 
-// the Microsoft Authentication Library (MSAL) to call v2 of the Azure AD services, and has no requirement on the OneDrive SDK.
-// The previous authentication models using Active Directory Authentication Library (ADAL) which called v1 of the Azure AD services and had
-// a OneDrive SDK dependency continues to reside under OneDriveService.Instance.  The API surface under OneDriveService.GraphInstance and
-// OneDriveService.Instance remain the same wherever possible, but you will need to switch to the new Microsoft.Toolkit.Services.OneDrive
-// namespace to access the new types (vs the older Microsoft.Toolkit.Uwp.Services.OneDrive types).
+// Register Your App
 
-// First get the root of your OneDrive
-// By default the service silently connects the current Windows user if Windows is associated with a Microsoft Account and if you choose 
-// the OnlineId authentication provider 
+// To connect with Microsoft Graph, you'll need a work/school account or a Microsoft account.
 
-var folder = await OneDriveService.Instance.RootFolderAsync();
+// 1. Go to https://apps.dev.microsoft.com/
+// 2. When prompted, sign in with your account credentials.
+// 3. Find My applications and click Add an app.
+// 4. Enter your app's name and click Create application.
 
-// or, if you are calling the new endpoint something like this:
+// After you've completed these steps, an application ID is created for your app and displayed on your new app's properties page.
 
-var folder = await OneDriveService.GraphInstance.RootFolderAsync();
+// First step is to Initialize the service using the new converged authentication of the Microsoft Graph. We can simply
+// call the Initialize method on the OneDriveService singleton when initializing
+// in UWP applications
 
-// if Windows is not associated with a Microsoft Account, you need to
-// 1) Initialize the service using an authentication provider AccountProviderType.Msa or AccountProviderType.Adal
+Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveService.Instance.Initialize( appClientId, scopes, null, null);
 
-OneDriveService.Instance.Initialize(appClientId, AccountProviderType.Msa, OneDriveScopes.OfflineAccess | OneDriveScopes.ReadWrite);
+// If the user hasn't selected a scope then set it to FilesReadAll
+// More information on scopes can be found here: https://docs.microsoft.com/en-us/onedrive/developer/rest-api/getting-started/msa-oauth#authentication-scopes
+if (scopes == null)
+{
+    scopes = new string[] { MicrosoftGraphScope.FilesReadAll };
+}
 
-// or, if you are calling the new endpoint something like this:
-
-Services.OneDrive.OneDriveService.GraphInstance.Initialize(appClientId, new string[] {"Files.ReadWrite.All"});
-
-// 2) Sign in
+// After initialization the user will need to log in and give permission for the access scopes
 if (!await OneDriveService.Instance.LoginAsync())
 {
     throw new Exception("Unable to sign in");
 }
 
-// or, if you are calling the new endpoint simply replace "Instance" with "GraphInstance".
+// Retrieving the root of your OneDrive
+var folder = await OneDriveService.Instance.RootFolderForMeAsync();
 
-// Once you have a reference to the Root Folder you can get a list of items by page
-// Example list the first 20 items from the current folder
-
-var OneDriveItems = await folder.GetItemsAsync(20);
+// Retrieving files
+// Once you have a reference to the Root Folder you can get a list of all items
+// List the Items from the current folder
+var OneDriveItems = await folder.GetItemsAsync();
 do
 {
 	//Get the next page of items
@@ -72,60 +54,73 @@ do
 }
 while (OneDriveItems != null);
 
+// Creating folders
 // Then from there you can play with folders and files
 // Create Folder
-var level1Folder = await rootFolder.CreateFolderAsync("Level1");
-var level2Folder = await level1Folder.CreateFolderAsync("Level2");
-var level3Folder = await level2Folder.CreateFolderAsync("Level3");
-// You can get a sub folder by path
-var level3Folder = await rootFolder.GetFolderAsync("Level1/Level2/Level3");
+string newFolderName = await OneDriveSampleHelpers.InputTextDialogAsync("New Folder Name");
+if (!string.IsNullOrEmpty(newFolderName))
+{
+    await folder.StorageFolderPlatformService.CreateFolderAsync(newFolderName, CreationCollisionOption.GenerateUniqueName);
+}
 
-//Move Folder
-var result=await level3Folder.MoveAsync(rootFolder);
+// Navigating subfolders
+var currentFolder = await _graphCurrentFolder.GetFolderAsync(item.Name);
+OneDriveItemsList.ItemsSource = await currentFolder.GetItemsAsync(20);
+_graphCurrentFolder = currentFolder;
+
+// Moving, copying and renaming items
+// OneDrive API treats all items the same whether file, folder, etc.
+// Move item
+await _onedriveStorageItem.MoveAsync(targetonedriveStorageFolder);
+
 // Copy Folder
-Var result=level3Folder.CopyAsync(destFolder)
+await _onedriveStorageItem.CopyAsync(targetonedriveStorageFolder);
 
 // Rename Folder
-await level3Folder.RenameAsync("NewLevel3");
+await _onedriveStorageItem.RenameAsync("NewLevel3");
 
-// Create new files
+// Creating or uploading files less than 4MB
+// Open the local file or create a local file if brand new
 var selectedFile = await OpenLocalFileAsync();
 if (selectedFile != null)
 {
-   using (var localStream = await selectedFile.OpenReadAsync())
-   {
-     var fileCreated = await level3Folder.CreateFileAsync(selectedFile.Name, CreationCollisionOption.GenerateUniqueName, localStream);
-   }
+    using (var localStream = await selectedFile.OpenReadAsync())
+    {
+        var fileCreated = await folder.StorageFolderPlatformService.CreateFileAsync(selectedFile.Name, CreationCollisionOption.GenerateUniqueName, localStream);
+    }
 }
 
-// If the file exceed the Maximum size (ie 4MB) use the UploadFileAsync method instead
-var largeFileCreated = await folder.UploadFileAsync(selectedFile.Name, localStream, CreationCollisionOption.GenerateUniqueName, 320 * 1024);
+// Creating or uploading files - that exceed 4MB
+var selectedFile = await OpenLocalFileAsync();
+if (selectedFile != null)
+    {
+        using (var localStream = await selectedFile.OpenReadAsync())
+        {
+            Shell.Current.DisplayWaitRing = true;
 
-// You can also Move, Copy or Rename a file
-await fileCreated.MoveAsync(destFolder);
-await fileCreated.CopyAsync(destFolder);
-await fileCreated.RenameAsync("newName");
+            // If the file exceed the Maximum size (ie 4MB)
+            var largeFileCreated = await folder.StorageFolderPlatformService.UploadFileAsync(selectedFile.Name, localStream, CreationCollisionOption.GenerateUniqueName, 320 * 1024);
+        }
+    }
+}
 
+// Downloading files
 // Download a file and save the content in a local file
-var remoteFile=await level3Folder.GetFile("NewFile.docx"); 
-using (var remoteStream = await remoteFile.OpenAsync())
- {
-     byte[] buffer = new byte[remoteStream.Size];
-     var localBuffer = await remoteStream.ReadAsync(buffer.AsBuffer(), (uint)remoteStream.Size, InputStreamOptions.ReadAhead);
-	 var localFolder = ApplicationData.Current.LocalFolder;
-     var myLocalFile = await localFolder.CreateFileAsync($"{oneDriveFile.Name}", CreationCollisionOption.GenerateUniqueName);
-     using (var localStream = await myLocalFile.OpenAsync(FileAccessMode.ReadWrite))
-     {
-         await localStream.WriteAsync(localBuffer);
-         await localStream.FlushAsync();
-     }
- }
+// Convert the storage item to a storage file
+var oneDriveFile = (Toolkit.Services.OneDrive.OneDriveStorageFile)item;
+using (var remoteStream = (await oneDriveFile.StorageFilePlatformService.OpenAsync()) as IRandomAccessStream)
+{
+    // Use a helper method to open local filestream and write to it 
+    await SaveToLocalFolder(remoteStream, oneDriveFile.Name);
+}
 
- // At last you can get the thumbnail of a file
- var stream = await file.GetThumbnailAsync(ThumbnailSize.Large)
- Windows.UI.Xaml.Controls.Image thumbnail = new Windows.UI.Xaml.Controls.Image();
- BitmapImage bmp = new BitmapImage();
- await bmp.SetSourceAsync(streamTodDisplay);
- thumbnail.Source = bmp;
+// Retrieving file thumbnails
+var file = (Toolkit.Services.OneDrive.OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext;
+using (var stream = (await file.StorageItemPlatformService.GetThumbnailAsync(Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ThumbnailSize.Large)) as IRandomAccessStream)
+{
+    // Use a helper method to display the images on the xaml view
+    await OneDriveSampleHelpers.DisplayThumbnail(stream, "thumbnail");
+}
 
-
+// Manifest entries for AAD Authentication
+<Capability Name="privateNetworkClientServer" />
