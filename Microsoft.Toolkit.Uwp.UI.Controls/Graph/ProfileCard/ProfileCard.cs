@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         catch (ServiceException ex)
                         {
                             // Swallow error in case of no photo found
-                            if (!ex.Error.Code.Equals("ErrorItemNotFound"))
+                            if (ex.Error.Code != "ErrorItemNotFound" && ex.Error.Code != "ResourceNotFound")
                             {
                                 throw;
                             }
