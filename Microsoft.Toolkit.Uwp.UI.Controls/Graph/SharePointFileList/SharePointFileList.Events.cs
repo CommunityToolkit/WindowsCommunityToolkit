@@ -88,6 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     if (inputStream.Length < 1024 * 1024 * 4)
                     {
                         FileUploading++;
+                        StatusMessage = string.Format(UploadingFilesMessageTemplate, FileUploading);
                         VisualStateManager.GoToState(this, UploadStatusUploading, false);
                         try
                         {

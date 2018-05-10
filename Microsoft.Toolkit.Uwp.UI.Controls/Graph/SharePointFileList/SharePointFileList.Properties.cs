@@ -165,6 +165,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 typeof(SharePointFileList),
                 new PropertyMetadata(Visibility.Collapsed));
 
+        internal static readonly DependencyProperty StatusMessageProperty =
+            DependencyProperty.Register(
+                nameof(StatusMessage),
+                typeof(string),
+                typeof(SharePointFileList),
+                new PropertyMetadata(string.Empty));
+
         private static readonly DependencyProperty IsDetailPaneVisibleProperty =
             DependencyProperty.Register(
                 nameof(IsDetailPaneVisible),
@@ -420,6 +427,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             get { return (ImageSource)GetValue(ThumbnailImageSourceProperty); }
             set { SetValue(ThumbnailImageSourceProperty, value); }
+        }
+
+        internal string StatusMessage
+        {
+            get { return (string)GetValue(StatusMessageProperty); }
+            set { SetValue(StatusMessageProperty, value); }
         }
 
         private int FileUploading
