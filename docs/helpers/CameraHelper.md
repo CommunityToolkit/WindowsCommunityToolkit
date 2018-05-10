@@ -23,8 +23,8 @@ var result = await _cameraHelper.InitializeAndStartCaptureAsync();
 // Camera Initialization and Capture failed for some reason
 if(result != CameraHelperResult.Success)
 {
-// get error information
-var errorMessage = result.ToString();
+	// get error information
+	var errorMessage = result.ToString();
 }
 
 // Subscribe to get frames as they arrive
@@ -32,11 +32,8 @@ cameraHelper.FrameArrived += CameraHelper_FrameArrived;
 
 private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
 {
-  // Gets the current video frame
-  VideoFrame currentVideoFrame  = e.VideoFrame;
-
-  // Gets the software bitmap image
-  SoftwareBitmap softwareBitmap = e.SoftwareBitmap;
+	// Gets the current video frame
+	VideoFrame currentVideoFrame  = e.VideoFrame;
 }
 ```
 

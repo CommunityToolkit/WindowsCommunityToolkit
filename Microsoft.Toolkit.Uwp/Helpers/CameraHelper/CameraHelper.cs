@@ -16,10 +16,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
-using Windows.Graphics.Imaging;
-using Windows.Media;
 using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
+using Windows.Media.MediaProperties;
 
 namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
 {
@@ -34,11 +33,17 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         private MediaFrameReader _frameReader;
         private MediaFrameSourceGroup _group;
         private MediaFrameSource _frameSource;
+        private List<MediaFrameFormat> _frameFormatsAvailable;
 
         /// <summary>
         /// Gets the currently selected <see cref="MediaFrameSource"/>MediaFrameSource
         /// </summary>
         public MediaFrameSource FrameSource { get => _frameSource; }
+
+        /// <summary>
+        /// Gets the available MediaFrameFormats on this sources
+        /// </summary>
+        public List<MediaFrameFormat> FrameFormatsAvailable { get => _frameFormatsAvailable; }
 
         /// <summary>
         /// Gets a read only list of MediaFrameSourceGroups that support color video record or video preview streams.
@@ -125,7 +130,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
             var settings = new MediaCaptureInitializationSettings()
             {
                 SourceGroup = _group,
-                SharingMode = MediaCaptureSharingMode.SharedReadOnly,
                 MemoryPreference = MediaCaptureMemoryPreference.Cpu,
                 StreamingCaptureMode = StreamingCaptureMode.Video
             };
@@ -147,15 +151,34 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
                 {
                     return CameraHelperResult.NoFrameSourceAvailable;
                 }
+
+                // get only formats of a certain framerate and compatible subtype for previewing, order them by resolution
+                _frameFormatsAvailable = _frameSource.SupportedFormats.Where(format =>
+                    format.FrameRate.Numerator / format.FrameRate.Denominator > 15 // fps
+                    && (string.Compare(format.Subtype, MediaEncodingSubtypes.Nv12, true) == 0
+                        || string.Compare(format.Subtype, MediaEncodingSubtypes.Bgra8, true) == 0
+                        || string.Compare(format.Subtype, MediaEncodingSubtypes.Yuy2, true) == 0
+                        || string.Compare(format.Subtype, MediaEncodingSubtypes.Rgb32, true) == 0))?.OrderBy(format => format.VideoFormat.Width * format.VideoFormat.Height).ToList();
+
+                if (_frameFormatsAvailable == null)
+                {
+                    return CameraHelperResult.NoCompatibleFrameFormatAvailable;
+                }
+
+                // set the format with the higest resolution available by default
+                var defaultFormat = _frameFormatsAvailable.Last();
+                await _frameSource.SetFormatAsync(defaultFormat);
             }
-            catch (UnauthorizedAccessException)
+            catch (UnauthorizedAccessException ex)
             {
                 await Cleanup();
+                Debug.WriteLine(ex.Message);
                 return CameraHelperResult.CameraAccessDenied;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 await Cleanup();
+                Debug.WriteLine(ex.Message);
                 return CameraHelperResult.InitializationFailed_UnknownError;
             }
 

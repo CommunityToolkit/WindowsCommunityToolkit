@@ -25,7 +25,6 @@ The **CameraPreview** control allows to easily preview video in the MediaPlayerE
 private void CameraPreviewControl_FrameArrived(object sender, FrameEventArgs e)
 {
 	var videoFrame = e.VideoFrame;
-	var softwareBitmap = e.SoftwareBitmap;
 }
 
 private void CameraPreviewControl_PreviewFailed(object sender, FailedEventArgs e)

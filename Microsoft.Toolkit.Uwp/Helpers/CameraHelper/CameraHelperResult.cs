@@ -56,6 +56,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         /// <summary>
         /// Initialization failed due to an exception.
         /// </summary>
-        InitializationFailed_UnknownError
+        InitializationFailed_UnknownError,
+
+        /// <summary>
+        /// Initialization failed, no comprible frame format are exposed via the frame source
+        /// </summary>
+        NoCompatibleFrameFormatAvailable
     }
 }
