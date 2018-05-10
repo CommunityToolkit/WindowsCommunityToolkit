@@ -71,9 +71,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         searchResult.RemoveAll(u => u.UserPrincipalName == selectedItem.UserPrincipalName);
                     }
 
-                    SearchResultList = new ObservableCollection<Person>(SearchResultLimit > 0
+                    SearchResultList.Clear();
+                    var result = SearchResultLimit > 0
                         ? searchResult.Take(SearchResultLimit).ToList()
-                        : searchResult);
+                        : searchResult;
+                    foreach (var item in result)
+                    {
+                        SearchResultList.Add(item);
+                    }
+
                     _searchResultListBox.Visibility = Visibility.Visible;
                 }
                 else
