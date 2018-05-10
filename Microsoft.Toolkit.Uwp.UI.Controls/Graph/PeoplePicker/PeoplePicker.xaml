@@ -82,7 +82,6 @@
                                     <DataTemplate>
                                         <controls:ProfileCard AutomationProperties.Name="{Binding DisplayName}"
                                                               DisplayMode="LargeProfilePhotoLeft"
-                                                              GraphAccessToken="{Binding DataContext.GraphAccessToken, ElementName=PeoplePickerContainer}"
                                                               UserId="{Binding Id}" />
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
