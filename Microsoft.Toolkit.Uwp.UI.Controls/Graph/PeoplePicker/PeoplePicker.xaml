@@ -52,6 +52,7 @@
                                                         HorizontalAlignment="Right"
                                                         AutomationProperties.Name="Remove from selection"
                                                         Background="Transparent"
+                                                        BorderThickness="0"
                                                         Command="{Binding DataContext.DeleteItemCommand, ElementName=PeoplePickerContainer}"
                                                         CommandParameter="{Binding Id}"
                                                         FlowDirection="LeftToRight"
