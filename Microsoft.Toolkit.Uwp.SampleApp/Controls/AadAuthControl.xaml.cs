@@ -1,4 +1,17 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
+
+using System.Linq;
+using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -6,49 +19,86 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
     public sealed partial class AadAuthControl : UserControl
     {
-        internal static readonly DependencyProperty IsShowAadMetaDataControlProperty = DependencyProperty.Register(
+        public static readonly DependencyProperty IsShowAadMetaDataControlProperty = DependencyProperty.Register(
             nameof(IsShowAadMetaDataControl),
             typeof(Visibility),
             typeof(AadAuthControl),
             new PropertyMetadata(Visibility.Visible));
 
-        internal Visibility IsShowAadMetaDataControl
+        public Visibility IsShowAadMetaDataControl
         {
             get { return (Visibility)GetValue(IsShowAadMetaDataControlProperty); }
             private set { SetValue(IsShowAadMetaDataControlProperty, value); }
         }
 
-        internal static readonly DependencyProperty IsShowGraphControlProperty = DependencyProperty.Register(
+        public static readonly DependencyProperty IsShowGraphControlProperty = DependencyProperty.Register(
             nameof(IsShowGraphControl),
             typeof(Visibility),
             typeof(AadAuthControl),
             new PropertyMetadata(Visibility.Collapsed));
 
-        internal Visibility IsShowGraphControl
+        public Visibility IsShowGraphControl
         {
             get { return (Visibility)GetValue(IsShowGraphControlProperty); }
             private set { SetValue(IsShowGraphControlProperty, value); }
         }
 
-        private AadAuthenticationManager _aadAuthenticationManager = AadAuthenticationManager.Instance;
+        public static readonly DependencyProperty IsShowSignInButtonProperty = DependencyProperty.Register(
+            nameof(IsShowSignInButton),
+            typeof(Visibility),
+            typeof(AadAuthControl),
+            new PropertyMetadata(Visibility.Visible));
 
-        static AadAuthControl()
+        public Visibility IsShowSignInButton
         {
-            AadAuthenticationManager.Instance.Initialize(
-                "036118f3-9e5e-44e2-928d-d542a026d3c7",
-                AadLogin.RequiredDelegatedPermissions,
-                ProfileCard.RequiredDelegatedPermissions,
-                PeoplePicker.RequiredDelegatedPermissions,
-                SharePointFileList.RequiredDelegatedPermissions);
+            get { return (Visibility)GetValue(IsShowSignInButtonProperty); }
+            set { SetValue(IsShowSignInButtonProperty, value); }
         }
+
+        public static readonly DependencyProperty IsEnableSignInButtonProperty = DependencyProperty.Register(
+            nameof(IsEnableSignInButton),
+            typeof(bool),
+            typeof(AadAuthControl),
+            new PropertyMetadata(false));
+
+        public bool IsEnableSignInButton
+        {
+            get { return (bool)GetValue(IsEnableSignInButtonProperty); }
+            set { SetValue(IsEnableSignInButtonProperty, value); }
+        }
+
+        private AadAuthenticationManager _aadAuthenticationManager = AadAuthenticationManager.Instance;
 
         public AadAuthControl()
         {
             InitializeComponent();
 
-            DataContext = _aadAuthenticationManager;
-
             _aadAuthenticationManager.PropertyChanged += AadAuthenticationManager_PropertyChanged;
+            ClientId.Text = _aadAuthenticationManager.ClientId ?? string.Empty;
+
+            ClientId.TextChanged += (object sender, TextChangedEventArgs e) =>
+            {
+                if (string.IsNullOrEmpty(ClientId.Text.Trim()))
+                {
+                    IsEnableSignInButton = false;
+                    return;
+                }
+
+                _aadAuthenticationManager.Initialize(
+                    ClientId.Text.Trim(),
+                    AadLogin.RequiredDelegatedPermissions,
+                    ProfileCard.RequiredDelegatedPermissions,
+                    PeoplePicker.RequiredDelegatedPermissions,
+                    SharePointFileList.RequiredDelegatedPermissions);
+
+                IsEnableSignInButton = true;
+            };
+
+            Scopes.Text = string.Join(", ", AadLogin.RequiredDelegatedPermissions
+                .Union(ProfileCard.RequiredDelegatedPermissions)
+                .Union(PeoplePicker.RequiredDelegatedPermissions)
+                .Union(SharePointFileList.RequiredDelegatedPermissions)
+                .Distinct());
 
             RereshControlVisibility();
         }
@@ -58,6 +108,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             if (e.PropertyName == nameof(_aadAuthenticationManager.IsAuthenticated))
             {
                 RereshControlVisibility();
+
+                if (_aadAuthenticationManager.IsAuthenticated)
+                {
+                    ClientId.IsReadOnly = true;
+                }
+                else
+                {
+                    ClientId.IsReadOnly = false;
+                }
             }
         }
 

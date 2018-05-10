@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
@@ -30,12 +29,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// Occurs when the user is logged out.
         /// </summary>
         public event EventHandler SignOutCompleted;
-
-        /// <summary>
-        /// Occurs when ClientId or Scopes property value changed
-        /// </summary>
-        /// <param name="obj">AADLogin</param>
-        /// <param name="args">Property Changed Args</param>
-        private static void OnPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args) => (obj as AadLogin).InitializePublicClientApplication();
     }
 }
