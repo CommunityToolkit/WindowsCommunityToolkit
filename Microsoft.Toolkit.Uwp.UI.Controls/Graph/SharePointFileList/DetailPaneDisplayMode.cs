@@ -13,7 +13,7 @@
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
     /// <summary>
-    /// How DetailPane shows
+    /// Determines how file details panel is displayed in the <see cref="SharePointFileList"/> control.
     /// </summary>
     public enum DetailPaneDisplayMode
     {
