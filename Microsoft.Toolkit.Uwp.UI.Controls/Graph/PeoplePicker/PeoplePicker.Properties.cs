@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 nameof(PlaceholderText),
                 typeof(string),
                 typeof(PeoplePicker),
-                new PropertyMetadata("Select a person"));
+                new PropertyMetadata("Enter keywords to search people"));
 
         /// <summary>
         /// Identifies the <see cref="Selections"/> dependency property.

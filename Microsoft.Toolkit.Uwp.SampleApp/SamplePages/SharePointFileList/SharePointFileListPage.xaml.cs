@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
@@ -78,13 +79,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (_sharePointFilesControl != null && _tbDocLibURL != null && _convertPanel != null)
             {
-                string driveURL = await _sharePointFilesControl.GetDriveUrlFromSharePointUrlAsync(_tbDocLibURL.Text);
-                DataPackage copyData = new DataPackage();
-                copyData.SetText(driveURL);
-                Clipboard.SetContent(copyData);
+                string driveURL = await _sharePointFilesControl.GetDriveUrlFromSharePointUrlAsync(_tbDocLibURL.Text).ConfigureAwait(false);
 
-                _sharePointFilesControl.Visibility = Visibility.Visible;
-                _convertPanel.Visibility = Visibility.Collapsed;
+                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                {
+                    DataPackage copyData = new DataPackage();
+                    copyData.SetText(driveURL);
+                    Clipboard.SetContent(copyData);
+
+                    _sharePointFilesControl.Visibility = Visibility.Visible;
+                    _convertPanel.Visibility = Visibility.Collapsed;
+                });
             }
         }
     }
