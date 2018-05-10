@@ -292,6 +292,8 @@
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelper.png" />
     <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrush.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
+    <Content Include="SamplePages\CameraPreview\CameraPreview.png" />
+    <Content Include="SamplePages\CameraHelper\CameraHelper.png" />
     <Content Include="SamplePages\Connected Animations\ConnectedAnimations.png" />
     <Content Include="SamplePages\DispatcherHelper\DispatchHelper.png" />
     <Content Include="SamplePages\DockPanel\DockPanel.png" />
@@ -492,10 +494,13 @@
     <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrushXaml.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\CameraPreview\CameraPreviewCode.bind" />
+    <Content Include="SamplePages\CameraHelper\CameraHelperCode.bind" />
     <Content Include="SamplePages\LayoutTransformControl\LayoutTransformControlXaml.bind" />
     <Content Include="SamplePages\PrintHelper\PrintHelperXaml.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\CameraPreview\CameraPreviewXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -546,6 +551,12 @@
       <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\IXamlRenderListener.cs" />
+    <Compile Include="SamplePages\CameraPreview\CameraPreviewPage.xaml.cs">
+      <DependentUpon>CameraPreviewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\CameraHelper\CameraHelperPage.xaml.cs">
+      <DependentUpon>CameraHelperPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Connected Animations\ConnectedAnimationsPage.xaml.cs">
       <DependentUpon>ConnectedAnimationsPage.xaml</DependentUpon>
     </Compile>
@@ -870,6 +881,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SamplePages\CameraPreview\CameraPreviewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\CameraHelper\CameraHelperPage.xaml">      
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>   
     <Page Include="SamplePages\Carousel\CarouselPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
