@@ -18,16 +18,14 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
-using System.Web.Script.Serialization;
-using Newtonsoft.Json;
 
 namespace DifferencesGen
 {
-    class Program
+    public class Program
     {
-        static string path = @"D:\UwpApi";
+        private static string path = @"D:\UwpApi";
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             string min = null;
             string max = null;
@@ -36,19 +34,16 @@ namespace DifferencesGen
             {
                 if (arg.StartsWith("/min:"))
                 {
-                    min = arg.Replace("/min:", "");
+                    min = arg.Replace("/min:", string.Empty);
                 }
                 else if (arg.StartsWith("/max:"))
                 {
-                    max = arg.Replace("/max:", "");
+                    max = arg.Replace("/max:", string.Empty);
                 }
             }
 
-            Version minVersion = null;
-            Version maxVersion = null;
-
-            Version.TryParse(min, out minVersion);
-            Version.TryParse(max, out maxVersion);
+            Version.TryParse(min, out Version minVersion);
+            Version.TryParse(max, out Version maxVersion);
 
             if (minVersion == null || maxVersion == null)
             {

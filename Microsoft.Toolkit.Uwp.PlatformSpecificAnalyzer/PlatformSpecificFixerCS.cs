@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
@@ -18,33 +17,45 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CodeActions;
+using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Rename;
-using Microsoft.CodeAnalysis.Text;
 using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.Simplification;
+using Microsoft.CodeAnalysis.Text;
 
 namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(PlatformSpecificFixerCS)), Shared]
+    /// <summary>
+    /// This class provides guard suggestion and can make the suggested changes.
+    /// </summary>
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(PlatformSpecificFixerCS))]
+    [Shared]
     public class PlatformSpecificFixerCS : CodeFixProvider
     {
-        private const string title = "Make uppercase";
-
+        /// <summary>
+        /// Gets the list of Diagnotics that can be fixed.
+        /// </summary>
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
             get { return ImmutableArray.Create(Analyzer.PlatformRule.Id, Analyzer.VersionRule.Id); }
         }
 
+        /// <summary>
+        /// Gets the Fix All provider
+        /// </summary>
+        /// <returns><see cref="WellKnownFixAllProviders"/></returns>
         public sealed override FixAllProvider GetFixAllProvider()
         {
-            // See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/FixAllProvider.md for more information on Fix All Providers
             return WellKnownFixAllProviders.BatchFixer;
         }
 
+        /// <summary>
+        /// Registers for code fix.
+        /// </summary>
+        /// <param name="context"><see cref="CodeFixContext"/></param>
+        /// <returns>awaitable <see cref="Task"/></returns>
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
             try
@@ -91,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
                 }
 
                 var target = PlatformSpecificAnalyzerCS.GetTargetOfNode(node, semanticModel);
-                var g = HowToGuard.Symbol(target);
+                var g = Analyzer.GetGuardForSymbol(target);
 
                 // Introduce a guard? (only if it is a method/accessor/constructor, i.e. somewhere that allows code)
                 var containingBlock = node.FirstAncestorOrSelf<BlockSyntax>();
@@ -105,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
             {
             }
         }
-        
+
         private async Task<Document> IntroduceGuardAsync(Document document, SyntaxNode node, HowToGuard g, CancellationToken cancellationToken)
         {
             // + if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent(targetContainingType))
@@ -129,7 +140,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
                 {
                     var conditionString1 = SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(g.TypeToCheck));
                     var conditionString2 = SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(g.MemberToCheck));
-                    var conditionInt3 = SyntaxFactory.LiteralExpression(SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal(g?.ParameterCountToCheck ?? 0));
+                    var conditionInt3 = SyntaxFactory.LiteralExpression(SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal(g.ParameterCountToCheck ?? 0));
 
                     IEnumerable<ArgumentSyntax> conditions = null;
 

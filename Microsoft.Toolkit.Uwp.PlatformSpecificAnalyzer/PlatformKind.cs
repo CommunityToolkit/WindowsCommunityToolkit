@@ -13,7 +13,7 @@
 namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
 {
     /// <summary>
-    /// Enum
+    /// Platform kind enum
     /// </summary>
     public enum PlatformKind
     {
@@ -30,11 +30,6 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
         /// <summary>
         /// Desktop, Mobile, IOT, Xbox extension SDK
         /// </summary>
-        ExtensionSDK,
-
-        /// <summary>
-        /// User specified *Specific attribute on something
-        /// </summary>
-        User,
+        ExtensionSDK
     }
 }

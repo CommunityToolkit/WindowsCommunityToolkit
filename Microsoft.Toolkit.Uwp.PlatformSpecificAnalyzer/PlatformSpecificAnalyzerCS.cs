@@ -10,12 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -23,126 +21,26 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
 {
+    /// <summary>
+    /// This class is a Roslyn code analyzer that checks for types / members that should be guarded against.
+    /// </summary>
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class PlatformSpecificAnalyzerCS : DiagnosticAnalyzer
     {
-        // You can change these strings in the Resources.resx file. If you do not want your analyzer to be localize-able, you can use regular strings for Title and MessageFormat.
-        // See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/Localizing%20Analyzers.md for more on localization
-        private const string Category = "Safety";
-
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create(Analyzer.PlatformRule, Analyzer.VersionRule); } }
-
-        public override void Initialize(AnalysisContext context)
+        /// <summary>
+        /// Gets supported diagnostics
+        /// </summary>
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
         {
-            // TODO: Consider registering other actions that act on syntax instead of or in addition to symbols
-            // See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/Analyzer%20Actions%20Semantics.md for more information
-
-            ConcurrentDictionary<int, Diagnostic> reportsDictionary = new ConcurrentDictionary<int, Diagnostic>();
-
-            context.RegisterSyntaxNodeAction((c) => AnalyzeExpression(c, reportsDictionary), SyntaxKind.IdentifierName, SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.QualifiedName);
+            get { return ImmutableArray.Create(Analyzer.PlatformRule, Analyzer.VersionRule); }
         }
 
-        private void AnalyzeExpression(SyntaxNodeAnalysisContext context, ConcurrentDictionary<int, Diagnostic> reports)
-        {
-            var parentKind = context.Node.Parent.Kind();
-
-            // will be handled at higher level
-            if (parentKind == SyntaxKind.SimpleMemberAccessExpression || parentKind == SyntaxKind.QualifiedName)
-            {
-                return;
-            }
-
-            var target = GetTargetOfNode(context.Node, context.SemanticModel);
-
-            if (target == null)
-            {
-                return;
-            }
-
-            var platform = Platform.OfSymbol(target);
-
-            // Some quick escapes
-            if (platform.Kind == PlatformKind.Unchecked)
-            {
-                return;
-            }
-
-            if (platform.Kind == PlatformKind.Uwp && platform.Version == Analyzer.N2SDKVersion)
-            {
-                return;
-            }
-
-            // Is this expression inside a method/constructor/property that claims to be specific?
-            var containingBlock = context.Node.FirstAncestorOrSelf<BlockSyntax>();
-
-            // for constructors and methods
-            MemberDeclarationSyntax containingMember = containingBlock?.FirstAncestorOrSelf<BaseMethodDeclarationSyntax>();
-
-            if (containingBlock == null || containingBlock?.Parent is AccessorDeclarationSyntax)
-            {
-                containingMember = context.Node.FirstAncestorOrSelf<PropertyDeclarationSyntax>();
-            }
-
-            if (containingMember != null)
-            {
-                var containingMemberSymbol = context.SemanticModel.GetDeclaredSymbol(containingMember);
-                if (Analyzer.HasPlatformSpecificAttribute(containingMemberSymbol))
-                {
-                    return;
-                }
-            }
-
-            // Is this invocation properly guarded? See readme.md for explanations.
-            if (IsProperlyGuarded(context.Node, context.SemanticModel))
-            {
-                return;
-            }
-
-            if (containingBlock != null)
-            {
-                foreach (var ret in containingBlock.DescendantNodes().OfType<ReturnStatementSyntax>())
-                {
-                    if (IsProperlyGuarded(ret, context.SemanticModel))
-                    {
-                        return;
-                    }
-                }
-            }
-
-            // Some things we can't judge whether to report until after we've looked up the project version...
-            //if (platform.Kind == PlatformKind.Uwp && platform.Version != Analyzer.N2SDKVersion)
-            //{
-            //    var projMinVersion = Analyzer.GetTargetPlatformMinVersion(context.Options.AdditionalFiles);
-
-            //    if (projMinVersion >= Convert.ToInt32(platform.Version))
-            //    {
-            //        return;
-            //    }
-            //}
-
-            // We'll report only a single diagnostic per line, the first.
-            var loc = context.Node.GetLocation();
-            if (!loc.IsInSource)
-            {
-                return;
-            }
-
-            var line = loc.GetLineSpan().StartLinePosition.Line;
-
-            Diagnostic diagnostic = null;
-
-            if (reports.TryGetValue(line, out diagnostic) && diagnostic.Location.SourceSpan.Start <= loc.SourceSpan.Start)
-            {
-                return;
-            }
-
-            diagnostic = Diagnostic.Create(platform.Kind == PlatformKind.Uwp ? Analyzer.VersionRule : Analyzer.PlatformRule, loc);
-            
-            reports[line] = diagnostic;
-
-            context.ReportDiagnostic(diagnostic);
-        }
-
+        /// <summary>
+        /// Gets instance of symbol from sytax node
+        /// </summary>
+        /// <param name="node">instance of <see cref="SyntaxNode"/></param>
+        /// <param name="semanticModel"><see cref="SemanticModel"/></param>
+        /// <returns><see cref="ISymbol"/></returns>
         public static ISymbol GetTargetOfNode(SyntaxNode node, SemanticModel semanticModel)
         {
             var parentKind = node.Parent.Kind();
@@ -191,25 +89,18 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
             }
         }
 
-        private bool IsProperlyGuarded(SyntaxNode node, SemanticModel semanticModel)
+        /// <summary>
+        /// Initialises the analyzer, registering for code analysis.
+        /// </summary>
+        /// <param name="context"><see cref="AnalysisContext"/></param>
+        public override void Initialize(AnalysisContext context)
         {
-            foreach (var symbol in GetGuards(node, semanticModel))
-            {
-                if (symbol.ContainingType?.Name == "ApiInformation")
-                {
-                    return true;
-                }
+            ConcurrentDictionary<int, Diagnostic> reportsDictionary = new ConcurrentDictionary<int, Diagnostic>();
 
-                if (Analyzer.HasPlatformSpecificAttribute(symbol))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            context.RegisterSyntaxNodeAction((c) => AnalyzeExpression(c, reportsDictionary), SyntaxKind.IdentifierName, SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.QualifiedName);
         }
 
-        public static IEnumerable<ISymbol> GetGuards(SyntaxNode node, SemanticModel semanticModel)
+        private static IEnumerable<ISymbol> GetGuards(SyntaxNode node, SemanticModel semanticModel)
         {
             foreach (var condition in GetConditions(node))
             {
@@ -247,6 +138,100 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
                 yield return check.Condition;
                 check = check.Parent.FirstAncestorOrSelf<IfStatementSyntax>();
             }
+        }
+
+        private void AnalyzeExpression(SyntaxNodeAnalysisContext context, ConcurrentDictionary<int, Diagnostic> reports)
+        {
+            var parentKind = context.Node.Parent.Kind();
+
+            // will be handled at higher level
+            if (parentKind == SyntaxKind.SimpleMemberAccessExpression || parentKind == SyntaxKind.QualifiedName)
+            {
+                return;
+            }
+
+            var target = GetTargetOfNode(context.Node, context.SemanticModel);
+
+            if (target == null)
+            {
+                return;
+            }
+
+            var platform = Analyzer.GetPlatformForSymbol(target);
+
+            // Some quick escapes
+            if (platform.Kind == PlatformKind.Unchecked)
+            {
+                return;
+            }
+
+            if (platform.Kind == PlatformKind.Uwp && platform.Version == Analyzer.N2SDKVersion)
+            {
+                return;
+            }
+
+            // Is this expression inside a method/constructor/property that claims to be specific?
+            var containingBlock = context.Node.FirstAncestorOrSelf<BlockSyntax>();
+
+            // for constructors and methods
+            MemberDeclarationSyntax containingMember = containingBlock?.FirstAncestorOrSelf<BaseMethodDeclarationSyntax>();
+
+            if (containingBlock == null || containingBlock?.Parent is AccessorDeclarationSyntax)
+            {
+                containingMember = context.Node.FirstAncestorOrSelf<PropertyDeclarationSyntax>();
+            }
+
+            // Is this invocation properly guarded? See readme.md for explanations.
+            if (IsProperlyGuarded(context.Node, context.SemanticModel))
+            {
+                return;
+            }
+
+            if (containingBlock != null)
+            {
+                foreach (var ret in containingBlock.DescendantNodes().OfType<ReturnStatementSyntax>())
+                {
+                    if (IsProperlyGuarded(ret, context.SemanticModel))
+                    {
+                        return;
+                    }
+                }
+            }
+
+            // We'll report only a single diagnostic per line, the first.
+            var loc = context.Node.GetLocation();
+            if (!loc.IsInSource)
+            {
+                return;
+            }
+
+            var line = loc.GetLineSpan().StartLinePosition.Line;
+
+            Diagnostic diagnostic = null;
+
+            if (reports.TryGetValue(line, out diagnostic) && diagnostic.Location.SourceSpan.Start <= loc.SourceSpan.Start)
+            {
+                return;
+            }
+
+            diagnostic = Diagnostic.Create(platform.Kind == PlatformKind.Uwp ? Analyzer.VersionRule : Analyzer.PlatformRule, loc);
+
+            reports[line] = diagnostic;
+
+            context.ReportDiagnostic(diagnostic);
+        }
+
+        private bool IsProperlyGuarded(SyntaxNode node, SemanticModel semanticModel)
+        {
+            foreach (var symbol in GetGuards(node, semanticModel))
+            {
+                if (symbol.ContainingType?.Name == "ApiInformation")
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

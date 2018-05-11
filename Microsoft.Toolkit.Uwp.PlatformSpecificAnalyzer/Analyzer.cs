@@ -12,7 +12,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -21,28 +20,61 @@ using Microsoft.CodeAnalysis;
 
 namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
 {
+    /// <summary>
+    /// This class offers loads platform differences for use by Code Analyzer and Code Fixer.
+    /// </summary>
     public static class Analyzer
     {
-        public static readonly DiagnosticDescriptor PlatformRule = new DiagnosticDescriptor("UWP001", "Platform-specific", "Platform-specific code detected. Consider using ApiInformation.IsTypePresent to guard against failure", "Safety", DiagnosticSeverity.Warning, true);
-        public static readonly DiagnosticDescriptor VersionRule = new DiagnosticDescriptor("UWP002", "Version-specific", "Version-specific code detected. Consider using ApiInformation.IsTypePresent / ApiInformation.IsMethodPresent / ApiInformation.IsPropertyPresent to guard against failure", "Safety", DiagnosticSeverity.Warning, true);
-
+        /// <summary>
+        /// Embedded differences between API contract version 4 and 5.
+        /// </summary>
         public const string N1DifferencesRes = "Differences-5.0.0.0.gz";
+
+        /// <summary>
+        /// Embedded differences between API contract version 5 and 6.
+        /// </summary>
         public const string N0DifferencesRes = "Differences-6.0.0.0.gz";
 
+        /// <summary>
+        /// Earliest supported SDK version.
+        /// </summary>
         public const string N2SDKVersion = "15063";
+
+        /// <summary>
+        /// Intermediate SDK version.
+        /// </summary>
         public const string N1SDKVersion = "16299";
+
+        /// <summary>
+        /// Latest SDK version.
+        /// </summary>
         public const string N0SDKVersion = "17134";
+
+        /// <summary>
+        /// Platform related diagnostic descriptor
+        /// </summary>
+        public static readonly DiagnosticDescriptor PlatformRule = new DiagnosticDescriptor("UWP001", "Platform-specific", "Platform-specific code detected. Consider using ApiInformation.IsTypePresent to guard against failure", "Safety", DiagnosticSeverity.Warning, true);
+
+        /// <summary>
+        /// Version related diagnostic descriptor
+        /// </summary>
+        public static readonly DiagnosticDescriptor VersionRule = new DiagnosticDescriptor("UWP002", "Version-specific", "Version-specific code detected. Consider using ApiInformation.IsTypePresent / ApiInformation.IsMethodPresent / ApiInformation.IsPropertyPresent to guard against failure", "Safety", DiagnosticSeverity.Warning, true);
 
         private static char[] typeMemberSeparator = { ':' };
         private static char[] memberSeparator = { ',' };
 
+        /// <summary>
+        /// Gets the API differences from specified resource.
+        /// </summary>
+        /// <param name="resourceName">name of embedded resource</param>
+        /// <returns>Dictionary with Fully qualified name of type as key and list of new members as value</returns>
         public static Dictionary<string, List<NewMember>> GetUniversalApiAdditions(string resourceName)
         {
             Dictionary<string, List<NewMember>> apiAdditionsDictionary = new Dictionary<string, List<NewMember>>();
 
             Assembly assembly = typeof(Analyzer).GetTypeInfo().Assembly;
 
-            var resource = assembly.GetManifestResourceStream("PlatformSpecific." + resourceName);
+            var resource = assembly.GetManifestResourceStream("Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer." + resourceName);
 
             if (resource == null)
             {
@@ -96,71 +128,210 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
             return apiAdditionsDictionary;
         }
 
-        public static int GetTargetPlatformMinVersion(ImmutableArray<AdditionalText> additionalFiles)
-        {
-            // When PlatformSpecificAnalyzer is build as a NuGet package, the package includes
-            // a.targets File with the following lines. The effect is to add a fake file,
-            // which doesn't show up in SolnExplorer and which doesn't even exist, but whose
-            // FILENAME encodes the TargetPlatformMinVersion. That way, when the user modifies
-            // TargetPlatformMinVersion from within the ProjectProperties, msbuild re-evaluates
-            // the AdditionalFiles, and Roslyn re-runs its analyzers and can pick it up.
-            // Thanks Jason Malinowski for the hint on how to do this. He instructed me to
-            // write in the comments "this is a terrible hack and no one should ever copy it".
-            //      <AdditionalFileItemNames>PlatformSpecificAnalyzerInfo</AdditionalFileItemNames>
-            //      <ItemGroup>
-            //        <PlatformSpecificAnalyzerInfo Include = "tpmv_$(TargetPlatformMinVersion).tpmv"><Visible>False</Visible></PlatformSpecificAnalyzerInfo>
-            //      </ItemGroup>
-            //  I'm caching the value because, heck, it seems weird to recompute it every time.
-            ImmutableArray<AdditionalText> cacheKey = default(ImmutableArray<AdditionalText>);
-            int minSDK = int.Parse(N2SDKVersion);
-
-            int cacheValue = minSDK;
-
-            // if we don't find that terrible hack, assume min version of sdk
-            if (additionalFiles == cacheKey)
-            {
-                return cacheValue;
-            }
-            else
-            {
-                cacheKey = additionalFiles;
-            }
-
-            var tpmv = additionalFiles.FirstOrDefault(af => af.Path.EndsWith(".tpmv"))?.Path;
-            if (tpmv == null)
-            {
-                cacheValue = minSDK;
-            }
-            else
-            {
-                tpmv = Path.GetFileNameWithoutExtension(tpmv).Replace("tpmv_10.0.", string.Empty).Replace(".0", string.Empty);
-                cacheValue = int.TryParse(tpmv, out int i) ? i : cacheValue;
-            }
-
-            return cacheValue;
-        }
-
-        public static string GetPlatformSpecificAttribute(ISymbol symbol)
+        /// <summary>
+        /// This function tells which version/platform the symbol is from.
+        /// </summary>
+        /// <param name="symbol">represents a compiler <see cref="ISymbol"/></param>
+        /// <returns>instance of <see cref="Platform"/></returns>
+        public static Platform GetPlatformForSymbol(ISymbol symbol)
         {
             if (symbol == null)
+            {
+                return new Platform(PlatformKind.Unchecked);
+            }
+
+            if (symbol.ContainingNamespace != null && symbol.ContainingNamespace.ToDisplayString().StartsWith("Windows."))
+            {
+                var assembly = symbol.ContainingAssembly.Name;
+                var version = symbol.ContainingAssembly.Identity.Version.Major;
+
+                // Any call to ApiInformation.* is allowed without warning
+                if (symbol.ContainingType?.Name == "ApiInformation")
+                {
+                    return new Platform(PlatformKind.Uwp, Analyzer.N2SDKVersion);
+                }
+
+                // Don't want to give warning when analyzing code in an PCL project.
+                // In those two targets, every Windows type is found in Windows.winmd, so that's how we'll suppress it:
+                if (assembly == "Windows")
+                {
+                    return new Platform(PlatformKind.Unchecked);
+                }
+
+                // Some WinRT types like Windows.UI.Color get projected to come from .NET assemblies, always present:
+                if (assembly.StartsWith("System.Runtime."))
+                {
+                    return new Platform(PlatformKind.Uwp, Analyzer.N2SDKVersion);
+                }
+
+                // Some things are emphatically part of UWP.10240
+                if (assembly == "Windows.Foundation.FoundationContract" || (assembly == "Windows.Foundation.UniversalApiContract" && version == 1))
+                {
+                    return new Platform(PlatformKind.Uwp, Analyzer.N2SDKVersion);
+                }
+
+                if (assembly == "Windows.Foundation.UniversalApiContract")
+                {
+                    var isType = symbol.Kind == SymbolKind.NamedType;
+
+                    var typeName = isType ? symbol.ToDisplayString() : symbol.ContainingType.ToDisplayString();
+
+                    bool? presentInN0ApiDiff = CheckCollectionForType(Analyzer.GetUniversalApiAdditions(Analyzer.N0DifferencesRes), typeName, symbol);
+
+                    if (presentInN0ApiDiff == null)
+                    {
+                        // the entire type was found in Target Version
+                        return new Platform(PlatformKind.Uwp, Analyzer.N0SDKVersion);
+                    }
+                    else if (presentInN0ApiDiff.Value)
+                    {
+                        // the entire type was found in Target Version with matching parameter lengths
+                        return new Platform(PlatformKind.Uwp, Analyzer.N0SDKVersion, true);
+                    }
+                    else
+                    {
+                        bool? presentInN1ApiDiff = CheckCollectionForType(Analyzer.GetUniversalApiAdditions(Analyzer.N1DifferencesRes), typeName, symbol);
+
+                        if (presentInN1ApiDiff == null)
+                        {
+                            // the entire type was found in Target Version
+                            return new Platform(PlatformKind.Uwp, Analyzer.N1SDKVersion);
+                        }
+                        else if (presentInN1ApiDiff.Value)
+                        {
+                            // the entire type was found in Target Version with matching parameter lengths
+                            return new Platform(PlatformKind.Uwp, Analyzer.N1SDKVersion, true);
+                        }
+                        else
+                        {
+                            // the type was in Min version
+                            return new Platform(PlatformKind.Uwp, Analyzer.N2SDKVersion);
+                        }
+                    }
+                }
+
+                // All other Windows.* types come from platform-specific extensions
+                return new Platform(PlatformKind.ExtensionSDK);
+            }
+            else
+            {
+                return new Platform(PlatformKind.Unchecked);
+            }
+        }
+
+        /// <summary>
+        /// returns instance of <see cref="HowToGuard"/> for <see cref="ISymbol"/>
+        /// </summary>
+        /// <param name="target">instance of <see cref="ISymbol"/></param>
+        /// <returns>instance of <see cref="HowToGuard"/></returns>
+        public static HowToGuard GetGuardForSymbol(ISymbol target)
+        {
+            var plat = Analyzer.GetPlatformForSymbol(target);
+
+            if (plat.Kind == PlatformKind.ExtensionSDK)
+            {
+                return new HowToGuard()
+                {
+                    TypeToCheck = target.Kind == SymbolKind.NamedType ? target.ToDisplayString() : target.ContainingType.ToDisplayString()
+                };
+            }
+            else if (plat.Kind == PlatformKind.Uwp && target.Kind == SymbolKind.NamedType)
+            {
+                return new HowToGuard()
+                {
+                    TypeToCheck = target.ToDisplayString()
+                };
+            }
+            else if (plat.Kind == PlatformKind.Uwp && target.Kind != SymbolKind.NamedType)
+            {
+                var g = new HowToGuard
+                {
+                    TypeToCheck = target.ContainingType.ToDisplayString()
+                };
+
+                var d0 = Analyzer.GetUniversalApiAdditions(Analyzer.N0DifferencesRes);
+                var d1 = Analyzer.GetUniversalApiAdditions(Analyzer.N1DifferencesRes);
+
+                if (!d0.TryGetValue(g.TypeToCheck, out List<NewMember> newMembers))
+                {
+                    d1.TryGetValue(g.TypeToCheck, out newMembers);
+                }
+
+                if (newMembers == null)
+                {
+                    throw new InvalidOperationException("oops! expected this UWP version API to be in the dictionary of new things");
+                }
+
+                g.MemberToCheck = target.Name;
+
+                if (target.Kind == SymbolKind.Field)
+                {
+                    // the only fields in WinRT are enum fields
+                    g.KindOfCheck = "IsEnumNamedValuePresent";
+                }
+                else if (target.Kind == SymbolKind.Event)
+                {
+                    g.KindOfCheck = "IsEventPresent";
+                }
+                else if (target.Kind == SymbolKind.Property)
+                {
+                    // TODO: if SDK starts introducing additional accessors on properties, we'll have to change this
+                    g.KindOfCheck = "IsPropertyPresent";
+                }
+                else if (target.Kind == SymbolKind.Method)
+                {
+                    g.KindOfCheck = "IsMethodPresent";
+
+                    if (target.Kind == SymbolKind.Method && plat.ByParameterCount)
+                    {
+                        g.ParameterCountToCheck = (target as IMethodSymbol).Parameters.Length;
+                    }
+                }
+
+                return g;
+            }
+
+            throw new InvalidOperationException("oops! don't know why I was asked to check something that's fine");
+        }
+
+        private static bool? CheckCollectionForType(Dictionary<string, List<NewMember>> collection, string typeName, ISymbol symbol)
+        {
+            List<NewMember> newMembers = null;
+
+            // the entire type was new in this collection
+            if (!collection.TryGetValue(typeName, out newMembers) || newMembers == null || newMembers.Count == 0)
             {
                 return null;
             }
 
-            foreach (var attr in symbol.GetAttributes())
+            if (symbol.Kind == SymbolKind.NamedType)
             {
-                if (attr.AttributeClass.Name.EndsWith("SpecificAttribute"))
+                return false;
+            }
+
+            var memberName = symbol.Name;
+
+            foreach (var newMember in newMembers)
+            {
+                if (memberName == newMember.Name && !newMember.ParameterCount.HasValue)
                 {
-                    return attr.AttributeClass.ToDisplayString().Replace("Attribute", string.Empty);
+                    return null;
+                }
+
+                // this member was new in collection
+                if (symbol.Kind != SymbolKind.Method)
+                {
+                    // TODO: Continue For... Warning!!! not translated
+                }
+
+                if (memberName == newMember.Name && ((IMethodSymbol)symbol).Parameters.Length == newMember.ParameterCount)
+                {
+                    return true;
                 }
             }
 
-            return null;
-        }
-
-        public static bool HasPlatformSpecificAttribute(ISymbol symbol)
-        {
-            return GetPlatformSpecificAttribute(symbol) != null;
+            // this member existed in a different collection
+            return false;
         }
     }
 }
