@@ -2,7 +2,7 @@
 title: WrapPanel XAML Control
 author: nmetulev
 description: The WrapPanel Control Positions child elements in sequential position from left to right, breaking content to the next line at the edge of the containing box.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, WrapPanel, XAML Control, xaml
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, WrapPanel, XAML Control, xaml
 ---
 
 # WrapPanel XAML Control
@@ -70,7 +70,7 @@ The following example of adding WrapPanel Control.
 
 ## Sample Code
 
-[WrapPanel Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/WrapPanel). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[WrapPanel Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/WrapPanel). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

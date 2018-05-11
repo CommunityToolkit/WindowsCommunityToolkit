@@ -2,7 +2,10 @@
 title: Light animation behavior
 author: nmetulev
 description: The Light animation behavior performs a point light in the middle of a given UIElement. 
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, light, light animation
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, light, light animation
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Light
@@ -33,6 +36,10 @@ Heavy usage of effects may have a negative impact on the performance of your app
 ```csharp
 MyUIElement.Light(distance: 5, duration: 2500, delay: 250, color: Colors.Red).Start();
 await MyUIElement.Light(distance: 5, duration: 2500, delay: 250, color: Colors.Red).StartAsync(); //Light animation can be awaited
+```
+```vb
+MyUIElement.Light(distance:=5, duration:=2500, delay:=250, color:=Colors.Red).Start()
+Await MyUIElement.Light(distance:=5, duration:=2500, delay:=250, color:=Colors.Red).StartAsync()  ' Light animation can be awaited
 ```
 
 ## Sample Output
@@ -69,6 +76,13 @@ await MyUIElement.Light(distance: 5, duration: 2500, delay: 250, color: Colors.R
     anim.Completed += animation_completed;
     anim.Start();
     ```
+    ```vb
+    Dim anim = MyUIElement.Light(5).Offset(offsetX:=100, offsetY:=100).Saturation(0.5).Scale(scaleX:=2, scaleY:=2)
+    anim.SetDurationForAll(2500)
+    anim.SetDelay(250)
+    AddHandler anim.Completed, AddressOf animation_completed
+    anim.Start()
+    ```
 
     **Sample Output**
 
@@ -76,7 +90,7 @@ await MyUIElement.Light(distance: 5, duration: 2500, delay: 250, color: Colors.R
 
 ## Sample Project
 
-[Light Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Light). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
+[Light Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Light). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
 
 ## Requirements
 

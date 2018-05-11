@@ -2,7 +2,7 @@
 title: BackdropInvertBrush
 author: michael-hawker
 description: The BackdropInvertBrush is a Brush that inverts whatever is behind it in the application.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, brush, backdrop, invert
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, brush, backdrop, invert
 ---
 
 # BackdropInvertBrush
@@ -25,7 +25,7 @@ The [BackdropInvertBrush](https://docs.microsoft.com/dotnet/api/microsoft.toolki
 
 ## Sample Code
 
-[BackdropInvertBrush sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackdropInvertBrush). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[BackdropInvertBrush sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackdropInvertBrush). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
