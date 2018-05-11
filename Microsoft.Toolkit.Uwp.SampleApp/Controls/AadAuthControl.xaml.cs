@@ -100,6 +100,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 .Union(SharePointFileList.RequiredDelegatedPermissions)
                 .Distinct());
 
+            IsEnableSignInButton = ClientId.Text.Trim().Length > 0;
             RereshControlVisibility();
         }
 

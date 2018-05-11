@@ -124,15 +124,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private const string GraphAPIBaseUrl = "https://graph.microsoft.com/v1.0";
+        private const string GraphApiBaseUrl = "https://graph.microsoft.com/v1.0";
         private static volatile AadAuthenticationManager _instance;
-        private static object _syncRoot = new object();
         private static PublicClientApplication _publicClientApp = null;
-        private DateTimeOffset _expiration;
-        private string _tokenForUser;
+        private static object _syncRoot = new object();
+        private IUser _user;
         private bool _isAuthenticated;
-        private string _currentUserId;
         private bool _isInitialized = false;
+        private string _currentUserId;
 
         private AadAuthenticationManager()
         {
@@ -164,6 +163,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             ClientId = clientId;
             Scopes = scopes.SelectMany(i => i).Distinct();
             _publicClientApp = new PublicClientApplication(ClientId);
+            var users = _publicClientApp.Users;
+            _user = _publicClientApp.Users?.LastOrDefault();
             IsInitialized = true;
         }
 
@@ -173,7 +174,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             if (!string.IsNullOrEmpty(token))
             {
-                IsAuthenticated = true;
                 GraphServiceClient graphClient = await GetGraphServiceClientAsync();
                 var user = await graphClient.Me.Request().GetAsync();
                 CurrentUserId = user.Id;
@@ -186,17 +186,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             GraphServiceClient graphClient = null;
 
-            string token = await GetTokenForUserAsync();
+            string token = await GetTokenForUserAsync().ConfigureAwait(false);
 
-            graphClient = new GraphServiceClient(
-                GraphAPIBaseUrl,
-                new DelegateAuthenticationProvider(
-                (requestMessage) =>
-                {
-                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", token);
+            if (!string.IsNullOrEmpty(token))
+            {
+                return new GraphServiceClient(
+                    GraphApiBaseUrl,
+                    new DelegateAuthenticationProvider(
+                    (requestMessage) =>
+                    {
+                        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", token);
 
-                    return Task.FromResult(0);
-                }));
+                        return Task.FromResult(0);
+                    }));
+            }
 
             return graphClient;
         }
@@ -207,6 +210,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
+
+            _user = null;
 
             if (_publicClientApp.Users != null)
             {
@@ -226,10 +231,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
-            if (await GetTokenWithPromptAsync())
+            if (!string.IsNullOrEmpty(await GetTokenWithPromptAsync().ConfigureAwait(false)))
             {
-                GraphServiceClient graphClient = await GetGraphServiceClientAsync();
-                var user = await graphClient.Me.Request().GetAsync();
+                GraphServiceClient graphClient = await GetGraphServiceClientAsync().ConfigureAwait(false);
+                var user = await graphClient.Me.Request().GetAsync().ConfigureAwait(false);
                 CurrentUserId = user.Id;
                 return true;
             }
@@ -249,44 +254,46 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
-            if (_tokenForUser == null)
-            {
-                try
-                {
-                    AuthenticationResult authResult = await _publicClientApp.AcquireTokenSilentAsync(Scopes, _publicClientApp.Users.Last());
-                    _tokenForUser = authResult.AccessToken;
-                    _expiration = authResult.ExpiresOn;
-                }
-                catch
-                {
-                    await GetTokenWithPromptAsync();
-                }
-            }
-            else if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
-            {
-                AuthenticationResult authResult = await _publicClientApp.AcquireTokenSilentAsync(Scopes, _publicClientApp.Users.First());
-                _tokenForUser = authResult.AccessToken;
-                _expiration = authResult.ExpiresOn;
-            }
+            string tokenForUser = null;
+            AuthenticationResult result = null;
 
-            return _tokenForUser;
-        }
-
-        private async Task<bool> GetTokenWithPromptAsync()
-        {
             try
             {
-                AuthenticationResult authResult = await _publicClientApp.AcquireTokenAsync(Scopes);
-                _tokenForUser = authResult.AccessToken;
-                _expiration = authResult.ExpiresOn;
-                return true;
+                result = await _publicClientApp.AcquireTokenSilentAsync(Scopes, _user).ConfigureAwait(false);
+                tokenForUser = result.AccessToken;
             }
-            catch(Exception el)
+            catch (MsalUiRequiredException)
             {
-                el.ToString();
+                tokenForUser = await GetTokenWithPromptAsync(_user);
             }
 
-            return false;
+            IsAuthenticated = !string.IsNullOrEmpty(tokenForUser);
+            return tokenForUser;
+        }
+
+        private async Task<string> GetTokenWithPromptAsync(IUser user = null)
+        {
+            AuthenticationResult result = null;
+
+            try
+            {
+                result = await _publicClientApp.AcquireTokenAsync(Scopes, user)
+                    .ConfigureAwait(false);
+                _user = result.User;
+
+                return result.AccessToken;
+            }
+            catch (MsalServiceException ex)
+            {
+                // Swallow error in case of authentication cancellation.
+                if (ex.ErrorCode != "authentication_canceled"
+                    && ex.ErrorCode != "access_denied")
+                {
+                    throw ex;
+                }
+            }
+
+            return null;
         }
     }
 }

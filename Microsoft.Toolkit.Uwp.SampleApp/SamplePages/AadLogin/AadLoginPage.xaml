@@ -9,7 +9,7 @@
 
     <!-- Shallow Copy -->
     <Grid>
-        <sampleControls:AadAuthControl />
-        <controls:AadLogin />
+        <sampleControls:AadAuthControl/>
+        <controls:AadLogin/>
     </Grid>
 </Page>

@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
@@ -45,14 +44,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             AutomationProperties.SetName(this, SignInDefaultText);
 
-            _aadAuthenticationManager.PropertyChanged += (object sender, PropertyChangedEventArgs e) =>
-            {
-                if (e.PropertyName == nameof(_aadAuthenticationManager.IsInitialized))
-                {
-                    IsEnabled = _aadAuthenticationManager.IsInitialized;
-                }
-            };
-
             Click += async (object sender, RoutedEventArgs e) =>
             {
                 if (!_aadAuthenticationManager.IsAuthenticated)
@@ -64,8 +55,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     Flyout = GenerateMenuItems();
                 }
             };
-
-            IsEnabled = _aadAuthenticationManager.IsInitialized;
 
             if (_aadAuthenticationManager.IsAuthenticated)
             {

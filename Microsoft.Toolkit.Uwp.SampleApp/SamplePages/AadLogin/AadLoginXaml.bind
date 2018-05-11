@@ -12,6 +12,7 @@
                            View="@[View:Enum:ViewType.PictureOnly]@"
                            AllowSignInAsDifferentUser="@[AllowSignInAsDifferentUser:Bool:true]"
                            VerticalAlignment="Center"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           IsEnabled="{Binding ElementName=AadAuth, Path=IsEnableSignInButton}"/>
   </Grid>
 </Page>
