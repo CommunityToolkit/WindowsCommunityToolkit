@@ -11,7 +11,13 @@
 
     <!--  Shallow Copy  -->
     <Grid>
-        <sampleControls:AadAuthControl />
-        <graphControls:SharePointFileList />
+        <sampleControls:AadAuthControl/>
+        <Grid>
+            <StackPanel>
+                <TextBox/>
+                <Button/>
+            </StackPanel>
+            <graphControls:SharePointFileList/>
+        </Grid>
     </Grid>
 </Page>
