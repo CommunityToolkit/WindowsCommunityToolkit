@@ -1,29 +1,30 @@
 ---
 title: Implicit Animations XAML Attached Properties
+author: nmetulev
 description: The Implicit Animations Attached Properties enable implicit animations to be defined in your XAML code
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, composition animations, animation, implicit animations, XAML, implicit, composition, show animation, hide animation
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, composition animations, animation, implicit animations, XAML, implicit, composition, show animation, hide animation
 ---
 
 # Implicit Composition Animations in XAML
 
-Implicit Animations are Composition Animations that are used to describe how and when animations occur as a response to direct property changes, such as Opacity or Offset. Show and Hide animations describe the animation to be applied to an element when the Visibility is changed, or the element is added/removed to the visual tree
+Implicit Animations are Composition Animations that are used to describe how and when animations occur as a response to direct property changes, such as Opacity or Offset. Show and Hide animations describe the animation to be applied to an element when the Visibility is changed, or the element is added/removed to the visual tree.
 
-The Implicit Animations Attached Properties enable implicit animations to be defined in your XAML code by using the [Composition Animation](CompositionAnimations.md) XAML objects. This allows animations to be defined directly on the element, or defined as XAML resources and applied to any XAML element. 
+**Prerequisites** - [Composition Animation in XAML](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/compositionanimations)
 
-The Implicit Animations Attached Properties can be used in combination with the VisualExtensions. This works well when used in Storyboards.
+The Implicit Animations Attached Properties enable implicit animations to be defined in your XAML code by using the [Composition Animation](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/compositionanimations) XAML objects. This allows animations to be defined directly on the element, or defined as XAML resources and applied to any XAML element. 
+
+The Implicit Animations Attached Properties can be used in combination with the [VisualExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/visualex). This works well when used in Storyboards.
 
 ## Syntax
-
-**XAML**
 
 ```xaml
 <Page ...
      xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"/>
 
-<Border extensions:VisualExtensions.CenterPoint="50,50,0">
+<Border>
 
     <animations:Implicit.ShowAnimations>
-        <animations:TranslationAnimation Duration="0:0:1" To="0, 0, 0" ></animations:TranslationAnimation>
+        <animations:TranslationAnimation Duration="0:0:1" To="0, 0, 0"></animations:TranslationAnimation>
         <animations:OpacityAnimation Duration="0:0:1" To="1.0"></animations:OpacityAnimation>
     </animations:Implicit.ShowAnimations>
 
@@ -53,25 +54,76 @@ The Implicit Animations Attached Properties can be used in combination with the 
 ## Properties
 
 ### Implicit.Animations
-Specifies an [AnimationCollection](CompositionAnimations.md) with animations to run when properties are modified. 
-
-If an animation in the AnimationCollection does not specify any KeyFrames (including To and From values), the animation will define the implicit animation to be applied to the Target Property (same as adding an ExpressionKeyFrame with value="this.FinalValue"). For example, the following animation:
-
-```xaml
-<animations:Vector3Animation Target="Offset" ></animations:Vector3Animation>
-```
-
-will define an implicit animation for the Visual.Offset property. When the Offset property is changed on the element (such as changing margin or alignment), the element will animate to the final value.
-
-If an animation specifies a value for the *ImplicitTarget* property, the animation will instead run when the Visual property specified as ImplicitTarget is changed. In this case, the animation should specify the To and/or From value (or add appropriate type KeyFrames)
+Specifies an [Composition Animation](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/compositionanimations) with animations to run when properties are modified.
 
 ### Implicit.ShowAnimations and Implicit.HideAnimations
-Specifies an [AnimationCollection](CompositionAnimations.md) with animations to run when an element is added or removed from the visual tree respectively (including when Visibility on an element is changed).
+Specifies an [Composition Animation](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/compositionanimations) with animations to run when an element is added or removed from the visual tree respectively (including when Visibility on an element is changed).
 
+## Examples
+
+- Let's create a scaling animation.
+
+    ```xaml
+    <Border x:Name="Element" Height="100" Width="100" Background="Red">
+        <animations:Implicit.Animations>
+            <animations:ScaleAnimation Duration="0:0:1"/>
+        </animations:Implicit.Animations>
+    </Border>
+    ```
+    ![Example Output 1](../resources/images/Animations/ImplicitAnimations/Example-Output-1.gif)
+
+- Let's create blink animation to show and hide controls.
+
+    ```xaml
+    <Border x:Name="Element" Height="100" Width="100" Background="Red">
+        <animations:Implicit.ShowAnimations>
+            <animations:OpacityAnimation Duration="0:0:1" From="0" To="1">
+                <animations:ScalarKeyFrame Key="0.2" Value="0.6"/>
+                <animations:ScalarKeyFrame Key="0.4" Value="0.3"/>
+                <animations:ScalarKeyFrame Key="0.6" Value="0.8"/>
+                <animations:ScalarKeyFrame Key="0.8" Value="0.5"/>
+            </animations:OpacityAnimation>
+        </animations:Implicit.ShowAnimations>
+
+        <animations:Implicit.HideAnimations>
+            <animations:OpacityAnimation Duration="0:0:1" From="1" To="0">
+                <animations:ScalarKeyFrame Key="0.2" Value="0.5"/>
+                <animations:ScalarKeyFrame Key="0.4" Value="0.8"/>
+                <animations:ScalarKeyFrame Key="0.6" Value="0.3"/>
+                <animations:ScalarKeyFrame Key="0.8" Value="0.6"/>
+            </animations:OpacityAnimation>
+        </animations:Implicit.HideAnimations>
+    </Border>
+    ```
+    Now, when you set `Element.Visibility = Visibility.Collapsed` the HideAnimations will run and when you set `Element.Visibility = Visibility.Visible` the ShowAnimations will run.
+
+    ![Example Output 2](../resources/images/Animations/ImplicitAnimations/Example-Output-2.gif)
+
+- Now, we can create a rotating animation whenever offset changes. This time we can use [Resources](https://docs.microsoft.com/windows/uwp/design/controls-and-patterns/resourcedictionary-and-xaml-resource-references) to set Implicit Animations.
+
+    ```xaml
+    <Page ...
+        xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+        xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"/>
+
+        <Page.Resources>
+            <animations:AnimationCollection x:Key="OffRotAnim">
+                <animations:OffsetAnimation Duration="0:0:1"/>
+                <animations:ScalarAnimation Target="RotationAngleInDegrees" ImplicitTarget="Offset"  Duration="0:0:1">
+                    <animations:ExpressionKeyFrame Key="1" Value="This.StartingValue + 90"/>
+                </animations:ScalarAnimation>
+            </animations:AnimationCollection>
+        </Page.Resources>
+
+        <Border x:Name="Element" Height="100" Width="100" Background="Red"
+            extensions:VisualEx.NormalizedCenterPoint="0.5,0.5,0" animations:Implicit.Animations="{StaticResource OffRotAnim}"/>
+    </Border>
+    ```
+    ![Example Output 3](../resources/images/Animations/ImplicitAnimations/Example-Output-3.gif)
 
 ## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.15063.0 or higher   |
+| Device family | Universal, 10.0.15063.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
@@ -79,3 +131,9 @@ Specifies an [AnimationCollection](CompositionAnimations.md) with animations to 
 ## API
 
 * [Implicit animations source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Implicit.cs)
+
+## Related Topics
+
+- [Visual layer](https://docs.microsoft.com/windows/uwp/composition/visual-layern)
+- [Composition animations](https://docs.microsoft.com/windows/uwp/composition/composition-animation)
+- [ExpressionAnimation](https://docs.microsoft.com/uwp/api/Windows.UI.Composition.ExpressionAnimation)

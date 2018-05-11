@@ -38,6 +38,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ContentOverlay), typeof(UIElement), typeof(Expander), new PropertyMetadata(default(UIElement)));
 
         /// <summary>
+        /// Identifies the <see cref="HeaderStyle"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeaderStyleProperty =
+            DependencyProperty.Register(nameof(HeaderStyle), typeof(Style), typeof(Expander), new PropertyMetadata(default(Style)));
+
+        /// <summary>
         /// Gets or sets a value indicating whether the content of the control is opened/visible or closed/hidden.
         /// </summary>
         public bool IsExpanded
@@ -62,6 +68,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (UIElement)GetValue(ContentOverlayProperty); }
             set { SetValue(ContentOverlayProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value for the style to use for the Header of the Expander.
+        /// </summary>
+        public Style HeaderStyle
+        {
+            get { return (Style)GetValue(HeaderStyleProperty);  }
+            set { SetValue(HeaderStyleProperty, value);  }
         }
 
         private static void OnIsExpandedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

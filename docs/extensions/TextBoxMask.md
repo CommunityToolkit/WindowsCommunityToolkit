@@ -2,14 +2,12 @@
 title: TextBox Mask XAML Property
 author: nmetulev
 description: The TextBoxMask Property allows a user to more easily enter fixed width text in TextBox control where you would like them to enter the data in a certain format
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, TextBoxMask, XAML
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, TextBoxMask, XAML
 ---
 
 # TextBoxMask XAML Property
 
-The **TextBoxMask Property** allows a user to more easily enter fixed width text in TextBox control where you would like them to enter the data in a certain format, ex: phone number, postal code.
-
-### How it works
+The [TextBoxMask Property](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.extensions.textboxmask) allows a user to more easily enter fixed width text in TextBox control where you would like them to enter the data in a certain format, ex: phone number, postal code.
 
 The developer adds the mask property to prevent end user to enter any other format but the required one, ex postal code aaa-9999
 
@@ -25,7 +23,7 @@ TextBoxMask has 2 type of characters
 1) Variable: which the user can change like a,9,*
 2) Fixed: which the user can't change and it is any non variable character ex the - in the first example
 
-Variable characters a represented to end user in form of placeholder so the user can know which characters he can change and which he can't, ex mask aaa-9999 will be presented to user as ___-____
+Variable characters a represented to end user in form of placeholder so the user can know which characters he can change and which he can't, ex mask aaa-9999 will be presented to user as `___-____`
 the default placeholder is _ but you can change it using  extensions:TextBoxMask.PlaceHolder property (Check the second textbox in syntax section)
 
 In case you want to add a custom variable character you can use property TextBoxMask.CustomMask (Check the third textbox in syntax section), you can add a character that represents certain regex as c:[a-c] and once you use character c in the mask the mask will prevent any characters but from a to c inside the TextBox, also you specify multiple variable characters by adding comma "," after every character and it's representation. this feature is helpful if you want to allow certain language characters ex French or Arabic only TextBox.
@@ -33,39 +31,42 @@ In case you want to add a custom variable character you can use property TextBox
 ## Syntax
 
 ```xaml
+<Page ...
+     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions">
+
 <TextBox extensions:TextBoxMask.Mask="9a9a-a9a*"
-    Header="Text box with Mask 9a9a-a9a* (9 allows from 0 to 9, a allow from a to Z and * allows both a and 9)" />
+        Header="Text box with Mask 9a9a-a9a* (9 allows from 0 to 9, a allow from a to Z and * allows both a and 9)"/>
 
-<TextBox 
-    extensions:TextBoxMask.Mask="+1999-9999"
-    extensions:TextBoxMask.PlaceHolder=" "
-    Header="Text box with Mask +1999-9999 and placeHolder as space (placeholder represents the characters the user can change on runtime)" />
+<TextBox extensions:TextBoxMask.Mask="+1999-9999"
+        extensions:TextBoxMask.PlaceHolder=" "
+        Header="Text box with Mask +1999-9999 and placeHolder as space (placeholder represents the characters the user can change on runtime)"/>
 
-<TextBox
-    extensions:TextBoxMask.CustomMask="5:[1-5],c:[a-c]"
-    extensions:TextBoxMask.Mask="a5c-5c*9"
-    Header="Text box with CustomMask in case you want to define your own variable character like a,9 and * , mask: a5c-5c*9, 5: [1-5], c: [a-c]" />
+<TextBox extensions:TextBoxMask.CustomMask="5:[1-5],c:[a-c]"
+        extensions:TextBoxMask.Mask="a5c-5c*9"
+        Header="Text box with CustomMask in case you want to define your own variable character like a,9 and * , mask: a5c-5c*9, 5: [1-5], c: [a-c]"/>
 ```
 
+## Sample Output
 
-## Example Image
+Text box with Mask +1999-9999 and placeHolder as space (placeholder represents the characters the user can change on runtime)
 
-![TextBoxMask animation](../resources/images/Controls-TextBoxMask.png "TextBoxMask")
+![TextBoxMask animation](../resources/images/Extensions/TextBoxMask.gif)
 
-## Example Code
+## Attached Properties
 
-[TextBoxMask Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/TextBoxMask)
+| Property | Type | Description |
+| -- | -- | -- |
+| CustomMask | string | Represents the custom mask that the user can create to add his own variable characters based on regex expression |
+| Mask | string | Represents a mask/format for the textbox that the user must follow |
+| PlaceHolder | string | Represents the mask place holder which represents the variable character that the user can edit in the textbox |
+
+## Examples
 
 The following sample demonstrates how to add TextBoxMask property.
 
 ```xaml
-<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextBoxMaskPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d">
+<Page ...
+     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions">
 
     <Page.Resources>
         <Style x:Key="MaskedTextBoxStyle"
@@ -108,17 +109,21 @@ The following sample demonstrates how to add TextBoxMask property.
                      Header="Text box with CustomMask in case you want to define your own variable character like a,9 and * , mask: a5c-5c*9, 5: [1-5], c: [a-c]"
                      HeaderTemplate="{StaticResource HeaderTemplate}"
                      Style="{StaticResource MaskedTextBoxStyle}" />
-
         </Grid>
     </Grid>
 </Page>
 ```
 
-## Requirements (Windows 10 Device Family)
+## Sample Code
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+[TextBoxMask Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/TextBoxMask). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+
+## Requirements
+
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
 
 ## API
 

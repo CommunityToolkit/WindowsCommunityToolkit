@@ -2,17 +2,16 @@
 title: String Extensions
 author: avknaidu
 description: String extension methods from toolkit
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Extensions
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Extensions
 ---
 
-### How it works
+### String Extensions
 
 Developers can now leverage the StringExtension class and validate strings against common scenario's
 
 ## Syntax
 
 ```c#
-
 using Microsoft.Toolkit;
 
 string str = "test@test.com";
@@ -20,10 +19,7 @@ bool isvalid = str.IsEmail();		//Returns true
 
 string str = "123+888";
 bool isvalid = str.IsDecimal();		//Returns false
-
 ```
-
-&nbsp;
 
 ## Methods
 
@@ -40,15 +36,12 @@ bool isvalid = str.IsDecimal();		//Returns false
 | Truncate(string, int) | string | Trims and Truncates the specified string to the specified length. |
 | Truncate(string, int, bool) | string | Trims and Truncates the specified string to the specified length and adds an ellipsis (...) at the end of the string when set to true. |
 
-&nbsp;
+## Requirements
 
-## Requirements (Windows 10 Device Family)
-
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit |
-
-&nbsp;
+| NuGet package | [Microsoft.Toolkit](https://www.nuget.org/packages/Microsoft.Toolkit/) |
 
 ## API
 

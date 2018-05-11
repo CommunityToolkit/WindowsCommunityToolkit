@@ -12,13 +12,13 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Toolkit.Services.OneDrive;
 
 namespace Microsoft.Toolkit.Uwp.Services.OneDrive
 {
     /// <summary>
     ///  Class OneDriveStorageItemsCollection
     /// </summary>
-    #pragma warning disable CS0618
     public class OneDriveStorageItemsCollection : IReadOnlyList<OneDriveStorageItem>
     {
         private List<OneDriveStorageItem> _items;
@@ -75,5 +75,4 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive
             return new OneDriveStorageItemsEnumerator(_items);
         }
     }
-    #pragma warning restore CS0618
 }

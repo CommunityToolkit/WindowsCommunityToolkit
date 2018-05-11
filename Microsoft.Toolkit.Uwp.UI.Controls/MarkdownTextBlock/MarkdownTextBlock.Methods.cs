@@ -146,6 +146,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     renderer.TextWrapping = TextWrapping;
                     renderer.LinkForeground = LinkForeground;
                     renderer.ImageStretch = ImageStretch;
+                    renderer.ImageMaxHeight = ImageMaxHeight;
+                    renderer.ImageMaxWidth = ImageMaxWidth;
                     renderer.WrapCodeBlock = WrapCodeBlock;
 
                     _rootElement.Child = renderer.Render();

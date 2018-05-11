@@ -2,7 +2,7 @@
 title: ExpressionBuilder
 author: nmetulev
 description: The ExpressionBuilder classes are a C#-only alternative to building Composition Expressions with type safety.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, expressions, expressionbuilder
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, expressions, expressionbuilder
 ---
 
 # ExpressionBuilder
@@ -94,9 +94,9 @@ A brief recap of ExpressionAnimations:
 
 - Like other CompositionAnimations, ExpressionAnimations are templates, meaning you can create an Expression and use it to animate multiple objects. You can also change aspects of the animation and have those changes take effect the next time you animate an object (without affecting any previously connected animations). 
 
-- For more information on ExpressionAnimations, [please check our documentation](https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Composition.ExpressionAnimation).
+- For more information on ExpressionAnimations, [please check our documentation](https://docs.microsoft.com/uwp/api/Windows.UI.Composition.ExpressionAnimation).
 
-ExpressionAnimations can create some very powerful and unique experiences, but can be a bit combersome to author. One of the big pain points with ExpressionAnimations is that the equation or mathematical relationship that defines the animation is written as a string, e.g.:
+ExpressionAnimations can create some very powerful and unique experiences, but can be a bit cumbersome to author. One of the big pain points with ExpressionAnimations is that the equation or mathematical relationship that defines the animation is written as a string, e.g.:
 
 ```csharp
 _parallaxExpression = compositor.CreateExpressionAnimation(
@@ -236,7 +236,7 @@ The documentation below assumes you are familiar with the Composition and Compos
 
 - [Windows UI Dev Labs Github](https://github.com/Microsoft/WindowsUIDevLabs)
 
-- [ExpressionAnimation MSDN Documentation](https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.composition.expressionanimation.aspx)
+- [ExpressionAnimation MSDN Documentation](https://msdn.microsoft.com/library/windows/apps/windows.ui.composition.expressionanimation.aspx)
 
 ## <a name="why-expressionbuilder">Why ExpressionBuilder?
 
@@ -450,7 +450,7 @@ _visual.StartAnimation("Offset", newPosition);
 
 - Create a named parameter using the static methods off ExpressionValues.Constants class
 
-You can create a constant parameter via static Create\*Parameter() methods (e.g. ExpressionValues.Constants.CreateScalarParameter(“foo”, 7)). Note: setting the intial value as part of the creation is optional; you can always set the value of the parameter using ExpressionNode.Set\*Parameter(). Let’s expand the above example. In this case, let’s say we want to create a generic equation that can be reused for similar scenarios, but tailored by changing the value of constant(s). In the example below, we create the Expression that contains a Constant Parameter, using ExpressionValues.Constant.CreateConstantVector3(…). Before connecting it to a target, the Expression is tailored by setting the parameter using ExpressionNode.SetVector3Parameter(…).
+You can create a constant parameter via static Create\*Parameter() methods (e.g. ExpressionValues.Constants.CreateScalarParameter(“foo”, 7)). Note: setting the initial value as part of the creation is optional; you can always set the value of the parameter using ExpressionNode.Set\*Parameter(). Let’s expand the above example. In this case, let’s say we want to create a generic equation that can be reused for similar scenarios, but tailored by changing the value of constant(s). In the example below, we create the Expression that contains a Constant Parameter, using ExpressionValues.Constant.CreateConstantVector3(…). Before connecting it to a target, the Expression is tailored by setting the parameter using ExpressionNode.SetVector3Parameter(…).
 
 ```csharp
 var delta = new Vector3(50.0f);
@@ -584,7 +584,7 @@ deltaExpression.SetReferenceParameter("visual", _blueBall);
 _visualB.StartAnimation("Offset", deltaExpression);
 ```
 
-A real-world example that demonstrates the need for changing the value of a Parameter using diffferent constants would be using the index number of an itemized List as a Constant Parameter.
+A real-world example that demonstrates the need for changing the value of a Parameter using different constants would be using the index number of an itemized List as a Constant Parameter.
 
 We can extend this concept by imagining a real-world scenario in which a common equation is needed across many targets: list items. A list is typically comprised of homogeneous items, each with a unique ID indicating its position in the list. Each item needs to be behave very similarly, with slight differences based on its position. For this example, a single Expression could be designed that gives a consistent behavior across all items, but is customized by using the list item ID as a Constant Parameter. When connecting this Expression template to each list item, the ID Parameter is set using SetScalarParameter(…) with the ID of the current list item.
 
@@ -1130,7 +1130,7 @@ _tracker.ConfigurePositionYInertiaModifiers(
 
 ## <a name="requirements"></a>Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher   |
+| Device family | Universal, 10.0.14393.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |

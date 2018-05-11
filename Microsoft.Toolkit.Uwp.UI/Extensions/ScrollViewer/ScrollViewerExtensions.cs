@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// <summary>
     /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
     /// </summary>
-    public static partial class ScrollViewerEx
+    public static partial class ScrollViewerExtensions
     {
         private static void OnHorizontalScrollBarMarginPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
