@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <summary>
         /// Gets current permission scopes.
         /// </summary>
-        public IEnumerable<string> Scopes
+        public string[] Scopes
         {
             get;
             private set;
@@ -148,7 +148,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         /// <param name="clientId">Application client ID for MSAL v2 endpoints</param>
         /// <param name="scopes">Permission scopes for MSAL v2 endpoints</param>
-        public void Initialize(string clientId, params string[][] scopes)
+        public void Initialize(string clientId, params string[] scopes)
         {
             if (string.IsNullOrEmpty(clientId))
             {
@@ -161,7 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
 
             ClientId = clientId;
-            Scopes = scopes.SelectMany(i => i).Distinct();
+            Scopes = scopes.Distinct().ToArray();
             _publicClientApp = new PublicClientApplication(ClientId);
             _user = _publicClientApp.Users?.FirstOrDefault();
             IsInitialized = true;

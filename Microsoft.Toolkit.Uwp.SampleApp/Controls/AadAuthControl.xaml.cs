@@ -86,10 +86,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
                 _aadAuthenticationManager.Initialize(
                     ClientId.Text.Trim(),
-                    AadLogin.RequiredDelegatedPermissions,
-                    ProfileCard.RequiredDelegatedPermissions,
-                    PeoplePicker.RequiredDelegatedPermissions,
-                    SharePointFileList.RequiredDelegatedPermissions);
+                    AadLogin.RequiredDelegatedPermissions
+                        .Concat(ProfileCard.RequiredDelegatedPermissions)
+                        .Concat(PeoplePicker.RequiredDelegatedPermissions)
+                        .Concat(SharePointFileList.RequiredDelegatedPermissions)
+                        .ToArray());
 
                 IsEnableSignInButton = true;
             };
