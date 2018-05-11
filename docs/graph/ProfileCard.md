@@ -7,7 +7,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ProfileCard Contr
 
 # ProfileCard Control
 
-The [ProfileCard Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.graph.profilecard) is a simple way to display a user in multiple different formats and mixes of name/image/e-mail, it relies on the [AadAuthenticationManager](../../docs/graph/AadLogin.md) for authentication.
+The [ProfileCard Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.graph.profilecard) is a simple way to display a user in multiple different formats and mixes of name/image/e-mail, it relies on the [AadAuthenticationManager](../../docs/graph/AadAuthenticationManager.md) for authentication.
 
 ## Syntax
 

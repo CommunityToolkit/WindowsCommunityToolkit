@@ -7,7 +7,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, PeoplePicker Cont
 
 # PeoplePicker Control
 
-The [PeoplePicker Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.graph.peoplepicker) is a simple control that allows for selection of one or more users from an organizational AD, see more details [here](https://developer.microsoft.com/en-us/graph/docs/concepts/people_example), it relies on the [AadAuthenticationManager](../../docs/graph/AadLogin.md) for authentication.
+The [PeoplePicker Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.graph.peoplepicker) is a simple control that allows for selection of one or more users from an organizational AD, see more details [here](https://developer.microsoft.com/en-us/graph/docs/concepts/people_example), it relies on the [AadAuthenticationManager](../../docs/graph/AadAuthenticationManager.md) for authentication.
 
 ## Syntax
 

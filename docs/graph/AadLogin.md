@@ -7,7 +7,7 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, AadLogin Control
 
 # AadLogin Control
 
-The [AadLogin Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.graph.aadlogin) leverages existing .NET login libraries to support basic AAD sign-in processes for Microsoft Graph, it relies on the [AadAuthenticationManager](../../docs/graph/AadLogin.md) for authentication.
+The [AadLogin Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.graph.aadlogin) leverages existing .NET login libraries to support basic AAD sign-in processes for Microsoft Graph, it relies on the [AadAuthenticationManager](../../docs/graph/AadAuthenticationManager.md) for authentication.
 
 ## Syntax
 
