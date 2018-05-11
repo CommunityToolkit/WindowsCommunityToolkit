@@ -36,7 +36,7 @@ The ScrollBarMargin property provides a way to assign a Thickness to the vertica
 
 ```xaml
 <ListView Name="listView"
-            extensions:ScrollViewerEx.VerticalScrollBarMargin="{Binding MinHeight, ElementName=MyHeaderGrid, Converter={StaticResource DoubleTopThicknessConverter}}">
+            extensions:ScrollViewerExtensions.VerticalScrollBarMargin="{Binding MinHeight, ElementName=MyHeaderGrid, Converter={StaticResource DoubleTopThicknessConverter}}">
         <ListView.Header>
             <controls:ScrollHeader Mode="Sticky">
                 <Grid x:Name="MyHeaderGrid"
