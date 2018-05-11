@@ -10,11 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Globalization;
-using System.Net;
-using System.Text.RegularExpressions;
-
 namespace Microsoft.Toolkit.Extensions
 {
     /// <summary>
@@ -29,21 +24,33 @@ namespace Microsoft.Toolkit.Extensions
         /// <returns>Returns file size string.</returns>
         public static string ToFileSizeString(this long size)
         {
-            if (size == 1)
+            if (size < 1024)
             {
-                return "1 byte";
+                return size.ToString("F0") + " bytes";
             }
-            else if (size < 1024 * 2)
+            else if ((size >> 10) < 1024)
             {
-                return $"{size} bytes";
+                return (size / (float)1024).ToString("F1") + " KB";
             }
-            else if (size < 1024 * 1024)
+            else if ((size >> 20) < 1024)
             {
-                return $"{size}KB";
+                return ((size >> 10) / (float)1024).ToString("F1") + " MB";
+            }
+            else if ((size >> 30) < 1024)
+            {
+                return ((size >> 20) / (float)1024).ToString("F1") + " GB";
+            }
+            else if ((size >> 40) < 1024)
+            {
+                return ((size >> 30) / (float)1024).ToString("F1") + " TB";
+            }
+            else if ((size >> 50) < 1024)
+            {
+                return ((size >> 40) / (float)1024).ToString("F1") + " PB";
             }
             else
             {
-                return $"{size}MB";
+                return ((size >> 50) / (float)1024).ToString("F0") + " EB";
             }
         }
     }
