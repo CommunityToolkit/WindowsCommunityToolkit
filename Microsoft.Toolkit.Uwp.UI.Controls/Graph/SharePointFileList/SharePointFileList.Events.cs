@@ -226,7 +226,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                                 }
                             }
 
-                            IsDetailPaneVisible = true;
                             Task<IDriveItemThumbnailsCollectionPage> taskThumbnails = graphServiceClient.Drives[_driveId].Items[driveItem.Id].Thumbnails.Request().GetAsync(_cancelGetDetails.Token);
                             IDriveItemThumbnailsCollectionPage thumbnails = await taskThumbnails;
                             if (!taskThumbnails.IsCanceled)
@@ -237,6 +236,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                                     ThumbnailImageSource = new BitmapImage(new Uri(thumbnailsSet.Large.Url));
                                 }
                             }
+
+                            IsDetailPaneVisible = true;
+                            ShowDetailsPane();
                         }
                     }
                     catch

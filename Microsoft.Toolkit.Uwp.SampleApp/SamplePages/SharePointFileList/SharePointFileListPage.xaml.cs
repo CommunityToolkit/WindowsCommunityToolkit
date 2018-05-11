@@ -14,11 +14,8 @@ using System;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -79,17 +76,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 driveURL = await _sharePointFilesControl.GetDriveUrlFromSharePointUrlAsync(inputURL).ConfigureAwait(false);
             }
 
-            _sharePointFilesControl.DriveUrl = driveURL;
-
-            //await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-            //{
-            //    DataPackage copyData = new DataPackage();
-            //    copyData.SetText(driveURL);
-            //    Clipboard.SetContent(copyData);
+            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            {
+                _sharePointFilesControl.DriveUrl = driveURL;
 
                 _sharePointFilesControl.Visibility = Visibility.Visible;
                 _loadPanel.Visibility = Visibility.Collapsed;
-            //});
+            });
         }
     }
 }
