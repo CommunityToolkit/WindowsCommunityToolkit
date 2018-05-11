@@ -298,8 +298,12 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
         {
             List<NewMember> newMembers = null;
 
-            // the entire type was new in this collection
-            if (!collection.TryGetValue(typeName, out newMembers) || newMembers == null || newMembers.Count == 0)
+            if (!collection.TryGetValue(typeName, out newMembers))
+            {
+                return false;
+            }
+
+            if (newMembers == null || newMembers.Count == 0)
             {
                 return null;
             }
