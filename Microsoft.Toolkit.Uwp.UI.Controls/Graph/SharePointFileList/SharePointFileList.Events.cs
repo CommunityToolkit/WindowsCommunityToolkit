@@ -34,13 +34,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     {
         private static async void DriveUrlPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SharePointFileList control = d as SharePointFileList;
-            GraphServiceClient graphServiceClient = await AadAuthenticationManager.Instance.GetGraphServiceClientAsync();
-            if (graphServiceClient != null && !string.IsNullOrWhiteSpace(control.DriveUrl))
+            if (AadAuthenticationManager.Instance.IsAuthenticated)
             {
-                if (Uri.IsWellFormedUriString(control.DriveUrl, UriKind.Absolute))
+                SharePointFileList control = d as SharePointFileList;
+                GraphServiceClient graphServiceClient = await AadAuthenticationManager.Instance.GetGraphServiceClientAsync();
+                if (graphServiceClient != null && !string.IsNullOrWhiteSpace(control.DriveUrl))
                 {
-                    await control.InitDriveAsync(control.DriveUrl);
+                    if (Uri.IsWellFormedUriString(control.DriveUrl, UriKind.Absolute))
+                    {
+                        await control.InitDriveAsync(control.DriveUrl);
+                    }
                 }
             }
         }

@@ -28,9 +28,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class SharePointFileListPage : Page, IXamlRenderListener
     {
         private SharePointFileList _sharePointFilesControl;
-        private StackPanel _convertPanel;
-        private TextBox _tbDocLibURL;
-        private Button _btnConvert;
+        private StackPanel _loadPanel;
+        private TextBox _docLibOrDriveURL;
+        private Button _loadButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SharePointFileListPage"/> class.
@@ -43,54 +43,53 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public void OnXamlRendered(FrameworkElement control)
         {
             _sharePointFilesControl = control.FindDescendantByName("SharePointFileListControl") as SharePointFileList;
-            _convertPanel = control.FindDescendantByName("ConvertPanel") as StackPanel;
-            _tbDocLibURL = control.FindDescendantByName("tbDocLibURL") as TextBox;
-            _btnConvert = control.FindDescendantByName("btnConvert") as Button;
+            _loadPanel = control.FindDescendantByName("LoadPanel") as StackPanel;
+            _docLibOrDriveURL = control.FindDescendantByName("DocLibOrDriveURL") as TextBox;
+            _loadButton = control.FindDescendantByName("LoadButton") as Button;
 
-            if (_sharePointFilesControl != null)
+            if (_sharePointFilesControl != null && _loadPanel != null && _docLibOrDriveURL != null && _loadButton != null)
             {
-                _btnConvert.Click += ConvertButton_Click;
-            }
-        }
+                _loadButton.Click += LoadtButton_Click;
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            Shell.Current.RegisterNewCommand("Convert Drive URL", (sender, args) =>
-            {
-                if (_sharePointFilesControl != null && _convertPanel != null)
+                if (!string.IsNullOrEmpty(_sharePointFilesControl.DriveUrl))
                 {
-                    if (_sharePointFilesControl.Visibility == Visibility.Collapsed)
-                    {
-                        _sharePointFilesControl.Visibility = Visibility.Visible;
-                        _convertPanel.Visibility = Visibility.Collapsed;
-                    }
-                    else
-                    {
-                        _sharePointFilesControl.Visibility = Visibility.Collapsed;
-                        _convertPanel.Visibility = Visibility.Visible;
-                    }
-                }
-            });
-        }
-
-        private async void ConvertButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (_sharePointFilesControl != null && _tbDocLibURL != null && _convertPanel != null)
-            {
-                string driveURL = await _sharePointFilesControl.GetDriveUrlFromSharePointUrlAsync(_tbDocLibURL.Text).ConfigureAwait(false);
-
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-                {
-                    DataPackage copyData = new DataPackage();
-                    copyData.SetText(driveURL);
-                    Clipboard.SetContent(copyData);
-
                     _sharePointFilesControl.Visibility = Visibility.Visible;
-                    _convertPanel.Visibility = Visibility.Collapsed;
-                });
+                    _loadPanel.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    _sharePointFilesControl.Visibility = Visibility.Collapsed;
+                    _loadPanel.Visibility = Visibility.Visible;
+                }
             }
+        }
+
+        private async void LoadtButton_Click(object sender, RoutedEventArgs e)
+        {
+            string inputURL = _docLibOrDriveURL.Text.Trim();
+
+            // auto detect drive URL
+            string driveURL;
+            if (inputURL.StartsWith("https://graph.microsoft.com/", StringComparison.CurrentCultureIgnoreCase))
+            {
+                driveURL = inputURL;
+            }
+            else
+            {
+                driveURL = await _sharePointFilesControl.GetDriveUrlFromSharePointUrlAsync(inputURL).ConfigureAwait(false);
+            }
+
+            _sharePointFilesControl.DriveUrl = driveURL;
+
+            //await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            //{
+            //    DataPackage copyData = new DataPackage();
+            //    copyData.SetText(driveURL);
+            //    Clipboard.SetContent(copyData);
+
+                _sharePointFilesControl.Visibility = Visibility.Visible;
+                _loadPanel.Visibility = Visibility.Collapsed;
+            //});
         }
     }
 }
