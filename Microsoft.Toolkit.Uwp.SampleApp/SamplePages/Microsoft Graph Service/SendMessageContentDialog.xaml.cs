@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(subject, content, BodyType.Text, toRecipients, ccRecipients, Importance.Normal);
 
                 // Sending a second message in html format
-                // await MicrosoftGraphService.Instance.User.Message.SendEmailAsync("Introducing the UWP Community Toolkit", GetHtmlMessage(), BodyType.Html, toRecipients, ccRecipients);
+                // await MicrosoftGraphService.Instance.User.Message.SendEmailAsync("Introducing the Windows Community Toolkit", GetHtmlMessage(), BodyType.Html, toRecipients, ccRecipients);
             }
             catch (ServiceException ex)
             {

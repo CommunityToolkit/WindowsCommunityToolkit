@@ -2,7 +2,7 @@
 title: AlignmentGrid XAML Control 
 author: nmetulev
 description: The AlignmentGrid Control can be used to display a grid to help aligning controls.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, AlignmentGrid, XAML Control, xaml
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, AlignmentGrid, XAML Control, xaml
 ---
 
 # AlignmentGrid XAML Control 
@@ -32,7 +32,7 @@ You can control grid's steps with `HorizontalStep` and `VerticalStep` properties
 
 ## Sample Code
 
-[AlignmentGrid Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/AlignmentGrid). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[AlignmentGrid Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/AlignmentGrid). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

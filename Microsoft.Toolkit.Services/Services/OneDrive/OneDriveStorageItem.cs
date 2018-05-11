@@ -229,7 +229,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <returns>When this method completes successfully, it returns an IOneDriveStorageItem that represents the specified folder.</returns>
         public async Task<OneDriveStorageItem> RenameAsync(string desiredName, CancellationToken cancellationToken = default(CancellationToken))
         {
-            DriveItem newOneDriveItem = new DriveItem { Name = desiredName, Description = "Item Renamed from UWP Toolkit" };
+            DriveItem newOneDriveItem = new DriveItem { Name = desiredName, Description = "Item Renamed from Windows Community Toolkit" };
             var itemRenamed = await ((IDriveItemRequestBuilder)RequestBuilder).Request().UpdateAsync(newOneDriveItem, cancellationToken).ConfigureAwait(false);
             return new OneDriveStorageItem(_oneDriveProvider, RequestBuilder, itemRenamed);
         }
