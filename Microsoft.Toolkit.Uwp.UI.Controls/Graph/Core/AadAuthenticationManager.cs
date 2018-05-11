@@ -163,8 +163,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             ClientId = clientId;
             Scopes = scopes.SelectMany(i => i).Distinct();
             _publicClientApp = new PublicClientApplication(ClientId);
-            var users = _publicClientApp.Users;
-            _user = _publicClientApp.Users?.LastOrDefault();
+            _user = _publicClientApp.Users?.FirstOrDefault();
             IsInitialized = true;
         }
 
@@ -231,10 +230,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
-            if (!string.IsNullOrEmpty(await GetTokenWithPromptAsync().ConfigureAwait(false)))
+            if (!string.IsNullOrEmpty(await GetTokenWithPromptAsync()))
             {
-                GraphServiceClient graphClient = await GetGraphServiceClientAsync().ConfigureAwait(false);
-                var user = await graphClient.Me.Request().GetAsync().ConfigureAwait(false);
+                GraphServiceClient graphClient = await GetGraphServiceClientAsync();
+                var user = await graphClient.Me.Request().GetAsync();
                 CurrentUserId = user.Id;
                 return true;
             }
