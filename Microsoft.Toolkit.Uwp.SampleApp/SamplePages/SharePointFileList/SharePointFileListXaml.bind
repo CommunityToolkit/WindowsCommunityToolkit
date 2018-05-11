@@ -18,6 +18,12 @@
         <graphControls:SharePointFileList x:Name="SharePointFileListControl"
               PageSize="@[PageSize:Slider:20:1-100]"
               DetailPane="@[DetailPane:Enum:DetailPaneDisplayMode.Side]"
+              ShareLinkCopiedMessage="@[ShareLinkCopiedMessage:String:Link copied!]"
+              AllFilesMessage="@[AllFilesMessage:String:All Files]"
+              DeleteConfirmMessage="@[DeleteConfirmMessage:String:Do you want to delete this file?]"
+              DeleteConfirmOkMessage="@[DeleteConfirmOkMessage:String:OK]"
+              DeleteConfirmCancelMessage="@[DeleteConfirmCancelMessage:String:Cancel]"
+              UploadingFilesMessageTemplate="@[UploadingFilesMessageTemplate:String:Uploading {0} files...]"
               Visibility="Collapsed"/>
       </Grid>
     </Grid>
