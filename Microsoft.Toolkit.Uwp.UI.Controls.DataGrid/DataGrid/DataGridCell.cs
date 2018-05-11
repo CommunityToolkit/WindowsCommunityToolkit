@@ -20,6 +20,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -328,6 +329,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        // Makes sure the right gridline has the proper stroke and visibility. If lastVisibleColumn is specified, the
+        // right gridline will be collapsed if this cell belongs to the lastVisibileColumn and there is no filler column
+        internal void EnsureGridLine(DataGridColumn lastVisibleColumn)
+        {
+            if (this.OwningGrid != null && _rightGridLine != null)
+            {
+                if (this.OwningGrid.VerticalGridLinesBrush != null && this.OwningGrid.VerticalGridLinesBrush != _rightGridLine.Fill)
+                {
+                    _rightGridLine.Fill = this.OwningGrid.VerticalGridLinesBrush;
+                }
+
+                Visibility newVisibility =
+                    (this.OwningGrid.GridLinesVisibility == DataGridGridLinesVisibility.Vertical || this.OwningGrid.GridLinesVisibility == DataGridGridLinesVisibility.All) &&
+                    (this.OwningGrid.ColumnsInternal.FillerColumn.IsActive || this.OwningColumn != lastVisibleColumn)
+                    ? Visibility.Visible : Visibility.Collapsed;
+
+                if (newVisibility != _rightGridLine.Visibility)
+                {
+                    _rightGridLine.Visibility = newVisibility;
+                }
+            }
+        }
+
         /// <summary>
         /// Ensures that the correct Style is applied to this object.
         /// </summary>
@@ -354,29 +378,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             this.SetStyleWithType(style);
-        }
-
-        // Makes sure the right gridline has the proper stroke and visibility. If lastVisibleColumn is specified, the
-        // right gridline will be collapsed if this cell belongs to the lastVisibileColumn and there is no filler column
-        internal void EnsureGridLine(DataGridColumn lastVisibleColumn)
-        {
-            if (this.OwningGrid != null && _rightGridLine != null)
-            {
-                if (this.OwningGrid.VerticalGridLinesBrush != null && this.OwningGrid.VerticalGridLinesBrush != _rightGridLine.Fill)
-                {
-                    _rightGridLine.Fill = this.OwningGrid.VerticalGridLinesBrush;
-                }
-
-                Visibility newVisibility =
-                    (this.OwningGrid.GridLinesVisibility == DataGridGridLinesVisibility.Vertical || this.OwningGrid.GridLinesVisibility == DataGridGridLinesVisibility.All) &&
-                    (this.OwningGrid.ColumnsInternal.FillerColumn.IsActive || this.OwningColumn != lastVisibleColumn)
-                    ? Visibility.Visible : Visibility.Collapsed;
-
-                if (newVisibility != _rightGridLine.Visibility)
-                {
-                    _rightGridLine.Visibility = newVisibility;
-                }
-            }
         }
 
         internal void Recycle()

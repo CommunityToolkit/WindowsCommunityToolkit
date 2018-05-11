@@ -202,10 +202,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 textBox.FontWeight = _fontWeight.Value;
             }
 
-            if (_foreground != null)
-            {
-                textBox.Foreground = _foreground;
-            }
+            RefreshForeground(textBox, (cell != null & cell.OwningRow != null) ? cell.OwningRow.ComputedForeground : null);
 
             bool isDesignMode = Windows.ApplicationModel.DesignMode.DesignModeEnabled;
 
@@ -248,10 +245,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 textBlockElement.FontWeight = _fontWeight.Value;
             }
 
-            if (_foreground != null)
-            {
-                textBlockElement.Foreground = _foreground;
-            }
+            RefreshForeground(textBlockElement, (cell != null & cell.OwningRow != null) ? cell.OwningRow.ComputedForeground : null);
 
             bool isDesignMode = Windows.ApplicationModel.DesignMode.DesignModeEnabled;
 
@@ -295,10 +289,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Called by the DataGrid control when this column asks for its elements to be
-        /// updated, because a property changed.
+        /// Called by the DataGrid control when this column asks for its elements to be updated, because a property changed.
         /// </summary>
-        protected internal override void RefreshCellContent(FrameworkElement element, string propertyName)
+        protected internal override void RefreshCellContent(FrameworkElement element, Brush computedRowForeground, string propertyName)
         {
             if (element == null)
             {
@@ -332,7 +325,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else if (propertyName == DATAGRIDTEXTCOLUMN_foregroundName)
                 {
-                    textBlock.Foreground = this.Foreground;
+                    RefreshForeground(textBlock, computedRowForeground);
                 }
                 else
                 {
@@ -344,10 +337,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     SetTextFontSize(textBlock, TextBlock.FontSizeProperty);
                     textBlock.FontStyle = this.FontStyle;
                     textBlock.FontWeight = this.FontWeight;
-                    if (this.Foreground != null)
-                    {
-                        textBlock.Foreground = this.Foreground;
-                    }
+                    RefreshForeground(textBlock, computedRowForeground);
                 }
 
                 return;
@@ -371,7 +361,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (propertyName == DATAGRIDTEXTCOLUMN_foregroundName)
             {
-                textBox.Foreground = this.Foreground;
+                RefreshForeground(textBox, computedRowForeground);
             }
             else
             {
@@ -383,10 +373,57 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 SetTextFontSize(textBox, TextBox.FontSizeProperty);
                 textBox.FontStyle = this.FontStyle;
                 textBox.FontWeight = this.FontWeight;
-                if (this.Foreground != null)
+                RefreshForeground(textBox, computedRowForeground);
+            }
+        }
+
+        /// <summary>
+        /// Called when the computed foreground of a row changed.
+        /// </summary>
+        protected internal override void RefreshForeground(FrameworkElement element, Brush computedRowForeground)
+        {
+            TextBox textBox = element as TextBox;
+            if (textBox != null)
+            {
+                RefreshForeground(textBox, computedRowForeground);
+            }
+            else
+            {
+                TextBlock textBlock = element as TextBlock;
+                if (textBlock != null)
                 {
-                    textBox.Foreground = this.Foreground;
+                    RefreshForeground(textBlock, computedRowForeground);
                 }
+            }
+        }
+
+        private void RefreshForeground(TextBlock textBlock, Brush computedRowForeground)
+        {
+            if (this.Foreground == null)
+            {
+                if (computedRowForeground != null)
+                {
+                    textBlock.Foreground = computedRowForeground;
+                }
+            }
+            else
+            {
+                textBlock.Foreground = this.Foreground;
+            }
+        }
+
+        private void RefreshForeground(TextBox textBox, Brush computedRowForeground)
+        {
+            if (this.Foreground == null)
+            {
+                if (computedRowForeground != null)
+                {
+                    textBox.Foreground = computedRowForeground;
+                }
+            }
+            else
+            {
+                textBox.Foreground = this.Foreground;
             }
         }
 

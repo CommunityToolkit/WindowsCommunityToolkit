@@ -38,7 +38,7 @@
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
     <CommandBar Background="White" Margin="12" IsOpen="True" IsSticky="True" HorizontalAlignment="Stretch"
-                    VerticalContentAlignment="Center" DefaultLabelPosition="Right">
+      VerticalContentAlignment="Center" DefaultLabelPosition="Right">
       <CommandBar.Content>
         <TextBlock Text="DataGrid Sample : Mountains" VerticalAlignment="Center" Margin="5,0" Style="{ThemeResource SubtitleTextBlockStyle}" />
       </CommandBar.Content>
@@ -63,6 +63,7 @@
         HorizontalScrollBarVisibility="Visible"
         VerticalScrollBarVisibility="Visible"
         AlternatingRowBackground="@[AlternatingRowBackground:Brush:Transparent]"
+        AlternatingRowForeground="@[AlternatingRowForeground:Brush:Black]"
         AreRowDetailsFrozen="@[AreRowDetailsFrozen:Bool:False]"
         AreRowGroupHeadersFrozen="@[AreRowGroupHeadersFrozen:Bool:True]"
         AutoGenerateColumns="False"
@@ -70,6 +71,7 @@
         CanUserReorderColumns="@[CanUserReorderColumns:Bool:True]"
         CanUserResizeColumns="@[CanUserResizeColumns:Bool:True]"
         ColumnHeaderHeight="@[ColumnHeaderHeight:String:32]"
+        MaxColumnWidth="@[MaxColumnWidth:String:400]"
         FrozenColumnCount="@[FrozenColumnCount:Slider:0:0-8]"
         GridLinesVisibility="@[GridLinesVisibility:Enum:DataGridGridLinesVisibility.None]"
         HeadersVisibility="@[HeadersVisibility:Enum:DataGridHeadersVisibility.Column]"

@@ -17,6 +17,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -99,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
         {
             CheckBox checkBox = new CheckBox();
-            ConfigureCheckBox(checkBox);
+            ConfigureCheckBox(checkBox, (cell != null & cell.OwningRow != null) ? cell.OwningRow.ComputedForeground : null);
             return checkBox;
         }
 
@@ -139,7 +140,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             checkBoxElement.IsEnabled = isEnabled;
             checkBoxElement.IsHitTestVisible = false;
             checkBoxElement.IsTabStop = false;
-            ConfigureCheckBox(checkBoxElement);
+            ConfigureCheckBox(checkBoxElement, (cell != null & cell.OwningRow != null) ? cell.OwningRow.ComputedForeground : null);
             return checkBoxElement;
         }
 
@@ -212,7 +213,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Called by the DataGrid control when this column asks for its elements to be
         /// updated, because its CheckBoxContent or IsThreeState property changed.
         /// </summary>
-        protected internal override void RefreshCellContent(FrameworkElement element, string propertyName)
+        protected internal override void RefreshCellContent(FrameworkElement element, Brush computedRowForeground, string propertyName)
         {
             if (element == null)
             {
@@ -232,6 +233,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else
             {
                 checkBox.IsThreeState = this.IsThreeState;
+                checkBox.Foreground = computedRowForeground;
+            }
+        }
+
+        /// <summary>
+        /// Called when the computed foreground of a row changed.
+        /// </summary>
+        protected internal override void RefreshForeground(FrameworkElement element, Brush computedRowForeground)
+        {
+            CheckBox checkBox = element as CheckBox;
+            if (checkBox != null)
+            {
+                checkBox.Foreground = computedRowForeground;
             }
         }
 
@@ -247,7 +261,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void ConfigureCheckBox(CheckBox checkBox)
+        private void ConfigureCheckBox(CheckBox checkBox, Brush computedRowForeground)
         {
             // TODO - use constant for 12 as well as in DataGridTextColumn.cs
             checkBox.Margin = new Thickness(12, 0, 0, 0);
@@ -255,6 +269,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             checkBox.VerticalAlignment = VerticalAlignment.Center;
             checkBox.IsThreeState = this.IsThreeState;
             checkBox.UseSystemFocusVisuals = false;
+            checkBox.Foreground = computedRowForeground;
             if (this.Binding != null)
             {
                 checkBox.SetBinding(this.BindingTarget, this.Binding);

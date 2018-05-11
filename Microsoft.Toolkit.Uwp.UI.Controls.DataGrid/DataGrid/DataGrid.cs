@@ -453,9 +453,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the <see cref="T:System.Windows.Media.Brush"/> that is used to paint the background of odd-numbered rows.
         /// </summary>
         /// <returns>
-        /// The brush that is used to paint the background of odd-numbered rows. The default is a
-        /// <see cref="T:System.Windows.Media.SolidColorBrush"/> with a
-        /// <see cref="P:System.Windows.Media.SolidColorBrush.Color"/> value of white (ARGB value #00FFFFFF).
+        /// The brush that is used to paint the background of odd-numbered rows.
         /// </returns>
         public Brush AlternatingRowBackground
         {
@@ -484,6 +482,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             foreach (DataGridRow row in dataGrid.GetAllRows())
             {
                 row.EnsureBackground();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="T:System.Windows.Media.Brush"/> that is used to paint the foreground of odd-numbered rows.
+        /// </summary>
+        /// <returns>
+        /// The brush that is used to paint the foreground of odd-numbered rows.
+        /// </returns>
+        public Brush AlternatingRowForeground
+        {
+            get { return GetValue(AlternatingRowForegroundProperty) as Brush; }
+            set { SetValue(AlternatingRowForegroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="AlternatingRowForeground"/>
+        /// dependency property.
+        /// </summary>
+        /// <returns>
+        /// The identifier for the <see cref="AlternatingRowForeground"/>
+        /// dependency property.
+        /// </returns>
+        public static readonly DependencyProperty AlternatingRowForegroundProperty =
+            DependencyProperty.Register(
+                "AlternatingRowForeground",
+                typeof(Brush),
+                typeof(DataGrid),
+                new PropertyMetadata(null, OnAlternatingRowForegroundPropertyChanged));
+
+        private static void OnAlternatingRowForegroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataGrid dataGrid = (DataGrid)d;
+            foreach (DataGridRow row in dataGrid.GetAllRows())
+            {
+                row.EnsureForeground();
             }
         }
 
@@ -1552,6 +1586,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DataGrid dataGrid = (DataGrid)d;
             dataGrid.UpdateRowDetailsVisibilityMode((DataGridRowDetailsVisibilityMode)e.NewValue);
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="T:System.Windows.Media.Brush"/> that is used as the default cells foreground.
+        /// </summary>
+        public Brush RowForeground
+        {
+            get { return GetValue(RowForegroundProperty) as Brush; }
+            set { SetValue(RowForegroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="RowForeground"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty RowForegroundProperty =
+            DependencyProperty.Register(
+                "RowForeground",
+                typeof(Brush),
+                typeof(DataGrid),
+                new PropertyMetadata(null, OnRowForegroundPropertyChanged));
+
+        private static void OnRowForegroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataGrid dataGrid = (DataGrid)d;
+
+            // Go through the Displayed rows and update the foreground
+            foreach (DataGridRow row in dataGrid.GetAllRows())
+            {
+                row.EnsureForeground();
+            }
         }
 
         /// <summary>

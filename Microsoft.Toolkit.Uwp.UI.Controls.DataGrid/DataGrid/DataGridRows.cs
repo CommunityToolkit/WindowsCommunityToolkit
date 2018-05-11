@@ -1067,8 +1067,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     // The collection actually removes and re-inserts the edited item during a commit operation.
                     // We recycle the editing row in this case in order to avoid generating a new element, but we don't
-                    // care about refreshing its background until the item is added back (i.e. Index > 0).
+                    // care about refreshing its background/foreground until the item is added back (i.e. Index > 0).
                     this.EditingRow.EnsureBackground();
+                    this.EditingRow.EnsureForeground();
                 }
             }
         }
@@ -1137,6 +1138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 CorrectRowAfterDeletion(_focusedRow, wasRow);
                 _focusedRow.EnsureBackground();
+                _focusedRow.EnsureForeground();
             }
 
             // Take care of the visible rows
@@ -1146,6 +1148,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     CorrectRowAfterDeletion(row, wasRow);
                     row.EnsureBackground();
+                    row.EnsureForeground();
                 }
             }
 
@@ -1195,6 +1198,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 DataGrid.CorrectRowAfterInsertion(_focusedRow, rowInserted);
                 _focusedRow.EnsureBackground();
+                _focusedRow.EnsureForeground();
             }
 
             // Take care of the visible rows
@@ -1204,6 +1208,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     DataGrid.CorrectRowAfterInsertion(row, rowInserted);
                     row.EnsureBackground();
+                    row.EnsureForeground();
                 }
             }
 
@@ -2443,6 +2448,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (row.IsRecycled)
             {
                 row.EnsureBackground();
+                row.EnsureForeground();
                 row.ApplyCellsState(false /*animate*/);
             }
             else if (row == this.EditingRow)

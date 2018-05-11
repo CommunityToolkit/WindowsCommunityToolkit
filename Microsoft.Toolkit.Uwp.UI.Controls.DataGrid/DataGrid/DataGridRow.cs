@@ -161,6 +161,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // get the wrong height measurement so we need to check it again after arrange
         private bool _checkDetailsContentHeight;
 
+        private Brush _computedForeground;
+
         // Optimal height of the details based on the Element created by the DataTemplate
         private double _detailsDesiredHeight;
         private bool _detailsLoaded;
@@ -191,6 +193,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _detailsDesiredHeight = double.NaN;
             _detailsLoaded = false;
             _appliedDetailsVisibility = Visibility.Collapsed;
+            _computedForeground = this.Foreground;
             this.Cells = new DataGridCellCollection(this);
             this.Cells.CellAdded += new EventHandler<DataGridCellEventArgs>(DataGridCellCollection_CellAdded);
             this.Cells.CellRemoved += new EventHandler<DataGridCellEventArgs>(DataGridCellCollection_CellRemoved);
@@ -204,6 +207,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.PointerEntered += new PointerEventHandler(DataGridRow_PointerEntered);
             this.PointerExited += new PointerEventHandler(DataGridRow_PointerExited);
             this.PointerMoved += new PointerEventHandler(DataGridRow_PointerMoved);
+
+            RegisterPropertyChangedCallback(ForegroundProperty, OnDependencyPropertyChanged);
 
             DefaultStyleKey = typeof(DataGridRow);
         }
@@ -428,6 +433,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get;
             private set;
+        }
+
+        internal Brush ComputedForeground
+        {
+            get
+            {
+                return _computedForeground;
+            }
+
+            set
+            {
+                if (_computedForeground != value)
+                {
+                    _computedForeground = value;
+
+                    if (this.Cells != null)
+                    {
+                        foreach (DataGridCell dataGridCell in this.Cells)
+                        {
+                            FrameworkElement element = dataGridCell.Content as FrameworkElement;
+                            if (element != null)
+                            {
+                                dataGridCell.OwningColumn.RefreshForeground(element, _computedForeground);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         internal double DetailsContentHeight
@@ -905,6 +938,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             EnsureGridLines();
+            EnsureForeground();
         }
 
         /// <summary>
@@ -1098,7 +1132,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal void EnsureBackground()
         {
             // Inherit the DataGrid's RowBackground properties only if this row doesn't explicity have a background set
-            if (RootElement != null && this.OwningGrid != null)
+            if (this.RootElement != null && this.OwningGrid != null)
             {
                 Debug.Assert(this.Index != -1, "Expected Index other than -1.");
 
@@ -1127,10 +1161,60 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     newBackground = this.Background;
                 }
 
-                if (RootElement.Background != newBackground)
+                if (this.RootElement.Background != newBackground)
                 {
-                    RootElement.Background = newBackground;
+                    this.RootElement.Background = newBackground;
                 }
+            }
+        }
+
+        // Make sure the row's foreground is set to its correct value.  It could be explicity set or inherit
+        // DataGrid.RowForeground or DataGrid.AlternatingRowForeground
+        internal void EnsureForeground()
+        {
+            // Inherit the DataGrid's RowForeground properties only if this row doesn't explicity have a foreground set
+            if (this.OwningGrid != null)
+            {
+                Debug.Assert(this.Index != -1, "Expected Index other than -1.");
+
+                PropertyMetadata metadataInfo = DataGridRow.ForegroundProperty.GetMetadata(typeof(DataGridRow));
+                Brush defaultForeground = metadataInfo == null ? null : metadataInfo.DefaultValue as Brush;
+                Brush newForeground = null;
+
+                if (this.Foreground.Equals(defaultForeground))
+                {
+                    if (this.Index % 2 == 0 || this.OwningGrid.AlternatingRowForeground == null)
+                    {
+                        // Use OwningGrid.RowForeground if the index is even or if the OwningGrid.AlternatingRowForeground is null
+                        if (this.OwningGrid.RowForeground != null)
+                        {
+                            newForeground = this.OwningGrid.RowForeground;
+                        }
+                    }
+                    else
+                    {
+                        // Alternate row
+                        if (this.OwningGrid.AlternatingRowForeground != null)
+                        {
+                            newForeground = this.OwningGrid.AlternatingRowForeground;
+                        }
+                    }
+
+                    if (newForeground == null)
+                    {
+                        newForeground = this.Foreground;
+                    }
+                }
+                else
+                {
+                    newForeground = this.Foreground;
+                }
+
+                this.ComputedForeground = newForeground;
+            }
+            else
+            {
+                this.ComputedForeground = this.Foreground;
             }
         }
 
@@ -1480,6 +1564,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _detailsElement.ContentHeight = _detailsDesiredHeight;
                 }
+            }
+        }
+
+        private void OnDependencyPropertyChanged(DependencyObject dependencyObject, DependencyProperty dependencyProperty)
+        {
+            if (dependencyProperty == Control.ForegroundProperty)
+            {
+                EnsureForeground();
             }
         }
 

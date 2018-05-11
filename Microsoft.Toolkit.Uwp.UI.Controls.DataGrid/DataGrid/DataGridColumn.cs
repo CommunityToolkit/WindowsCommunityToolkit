@@ -976,8 +976,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// elements to be refreshed, typically because one of its properties changed.
         /// </summary>
         /// <param name="element">Indicates the element that needs to be refreshed</param>
+        /// <param name="computedRowForeground">Indicates the computed row foreground based on RowForeground and AlternatingRowForeground</param>
         /// <param name="propertyName">Indicates which property changed and caused this call</param>
-        protected internal virtual void RefreshCellContent(FrameworkElement element, string propertyName)
+        protected internal virtual void RefreshCellContent(FrameworkElement element, Brush computedRowForeground, string propertyName)
+        {
+        }
+
+        /// <summary>
+        /// Called when the computed foreground of a row changed.
+        /// </summary>
+        protected internal virtual void RefreshForeground(FrameworkElement element, Brush computedRowForeground)
         {
         }
 

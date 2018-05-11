@@ -959,7 +959,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             FrameworkElement element = dataGridCell.Content as FrameworkElement;
             if (element != null)
             {
-                dataGridColumn.RefreshCellContent(element, propertyName);
+                dataGridColumn.RefreshCellContent(element, dataGridRow.ComputedForeground, propertyName);
             }
         }
 

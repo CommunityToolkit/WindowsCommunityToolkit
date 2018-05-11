@@ -67,7 +67,6 @@
     <StaticResource x:Key="DataGridColumnHeaderPointerOverBrush" ResourceKey="SystemControlHighlightListLowBrush"/>
     <StaticResource x:Key="DataGridColumnHeaderPressedBrush" ResourceKey="SystemControlHighlightListMediumBrush"/>
     <StaticResource x:Key="DataGridDetailsPresenterBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumLowBrush"/>
-    <StaticResource x:Key="DataGridRowBackgroundBrush" ResourceKey="SystemControlTransparentBrush"/>
     <StaticResource x:Key="DataGridRowSelectedBackgroundColor" ResourceKey="SystemAccentColor"/>
     <StaticResource x:Key="DataGridRowSelectedBackgroundOpacity" ResourceKey="ListAccentLowOpacity"/>
     <StaticResource x:Key="DataGridRowSelectedHoveredBackgroundColor" ResourceKey="SystemAccentColor"/>
@@ -95,8 +94,6 @@
     <StaticResource x:Key="DataGridCellInvalidBrush" ResourceKey="InvalidBrush"/>
 
     <Style TargetType="local:DataGrid">
-        <Setter Property="RowBackground" Value="{ThemeResource DataGridRowBackgroundBrush}"/>
-        <Setter Property="AlternatingRowBackground" Value="{ThemeResource DataGridRowBackgroundBrush}"/>
         <Setter Property="DragIndicatorStyle">
             <Setter.Value>
                 <Style TargetType="ContentControl">
