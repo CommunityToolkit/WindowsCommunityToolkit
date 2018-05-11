@@ -8,8 +8,6 @@ protected override void OnNavigatedTo(NavigationEventArgs e)
 
 private void AadLoginControl_SignInCompleted(object sender, SignInEventArgs e)
 {
-    string graphAccessToken = e.GraphAccessToken;
-	string userId = e.CurrentSignInUserId;
 	GraphServiceClient graphServiceClient = e.GraphClient;
 
     // TODO

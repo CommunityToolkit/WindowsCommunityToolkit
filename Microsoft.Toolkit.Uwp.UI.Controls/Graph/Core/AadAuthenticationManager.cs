@@ -1,4 +1,4 @@
-// ******************************************************************
+﻿// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -23,7 +23,7 @@ using Microsoft.Identity.Client;
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
     /// <summary>
-    /// AadAuthenticationManager
+    /// Microsoft Graph authentication manager for Microsoft Toolkit Graph controls using Microsoft Authentication Library (MSAL)
     /// </summary>
     public sealed class AadAuthenticationManager : INotifyPropertyChanged
     {
@@ -50,49 +50,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         }
 
         /// <summary>
-        /// Gets or sets ClientId
+        /// Gets current application ID.
         /// </summary>
         public string ClientId
         {
-            get
-            {
-                return _clientId;
-            }
-
-            set
-            {
-                if (value != _clientId)
-                {
-                    _clientId = value;
-                    InitializeClientApp();
-                    NotifyPropertyChanged(nameof(ClientId));
-                }
-            }
+            get;
+            private set;
         }
 
         /// <summary>
-        /// Gets or sets Scopes
+        /// Gets current permission scopes.
         /// </summary>
-        public string Scopes
+        public IEnumerable<string> Scopes
         {
-            get
-            {
-                return _scopes;
-            }
-
-            set
-            {
-                if (value != _scopes)
-                {
-                    _scopes = value;
-                    InitializeClientApp();
-                    NotifyPropertyChanged(nameof(Scopes));
-                }
-            }
+            get;
+            private set;
         }
 
         /// <summary>
-        /// Gets a value indicating whether IsAuthenticated
+        /// Gets a value indicating whether authenticated.
         /// </summary>
         public bool IsAuthenticated
         {
@@ -112,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         }
 
         /// <summary>
-        /// Gets CurrentUserId
+        /// Gets current user id.
         /// </summary>
         public string CurrentUserId
         {
@@ -131,32 +107,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
+        internal bool IsInitialized
+        {
+            get
+            {
+                return _isInitialized;
+            }
+
+            private set
+            {
+                if (value != _isInitialized)
+                {
+                    _isInitialized = value;
+                    NotifyPropertyChanged(nameof(IsInitialized));
+                }
+            }
+        }
+
         private const string GraphAPIBaseUrl = "https://graph.microsoft.com/v1.0";
         private static volatile AadAuthenticationManager _instance;
         private static object _syncRoot = new object();
         private static PublicClientApplication _publicClientApp = null;
         private DateTimeOffset _expiration;
         private string _tokenForUser;
-        private string _clientId;
-        private string _scopes;
         private bool _isAuthenticated;
         private string _currentUserId;
-
-        private IEnumerable<string> ScopesArray
-        {
-            get
-            {
-                return Scopes?.Split(',').Select(p => p.Trim());
-            }
-        }
+        private bool _isInitialized = false;
 
         private AadAuthenticationManager()
         {
-        }
-
-        private void InitializeClientApp()
-        {
-            _publicClientApp = new PublicClientApplication(ClientId);
             IsAuthenticated = false;
         }
 
@@ -165,79 +144,71 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         /// <summary>
-        /// Initialize
+        /// Initialize for the <see cref="AadAuthenticationManager"/> class
         /// </summary>
-        /// <param name="clientId">clientId</param>
-        /// <param name="scopes">scopes</param>
+        /// <param name="clientId">Application client ID for MSAL v2 endpoints</param>
+        /// <param name="scopes">Permission scopes for MSAL v2 endpoints</param>
         public void Initialize(string clientId, params string[][] scopes)
         {
             if (string.IsNullOrEmpty(clientId))
             {
-                throw new ArgumentException("1");
+                throw new ArgumentNullException(nameof(clientId));
             }
 
             if (scopes.Length == 0)
             {
-                throw new ArgumentException("1");
+                throw new ArgumentNullException(nameof(scopes));
             }
 
             ClientId = clientId;
-            Scopes = string.Join(", ", scopes.SelectMany(i => i).Distinct());
+            Scopes = scopes.SelectMany(i => i).Distinct();
+            _publicClientApp = new PublicClientApplication(ClientId);
+            IsInitialized = true;
         }
 
-        /// <summary>
-        /// GetGraphServiceClientAsync
-        /// </summary>
-        /// <returns>GraphServiceClient</returns>
-        public async Task<GraphServiceClient> GetGraphServiceClientAsync()
+        internal async Task<bool> ConnectAsync()
         {
-            GraphServiceClient graphClient = null;
+            string token = await GetTokenForUserAsync();
 
-            if (IsAuthenticated)
+            if (!string.IsNullOrEmpty(token))
             {
-                string token = await GetTokenForUserAsync();
-
-                graphClient = new GraphServiceClient(
-                    GraphAPIBaseUrl,
-                    new DelegateAuthenticationProvider(
-                    (requestMessage) =>
-                    {
-                        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", token);
-
-                        return Task.FromResult(0);
-                    }));
-            }
-
-            return graphClient;
-        }
-
-        internal async Task<bool> SignInAsync()
-        {
-            if (!string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(Scopes))
-            {
-                string token = await GetTokenForUserAsync();
-
-                if (!string.IsNullOrEmpty(token))
-                {
-                    IsAuthenticated = true;
-                    GraphServiceClient graphClient = await GetGraphServiceClientAsync();
-                    var user = await graphClient.Me.Request().GetAsync();
-                    CurrentUserId = user.Id;
-                }
+                IsAuthenticated = true;
+                GraphServiceClient graphClient = await GetGraphServiceClientAsync();
+                var user = await graphClient.Me.Request().GetAsync();
+                CurrentUserId = user.Id;
             }
 
             return IsAuthenticated;
         }
 
+        internal async Task<GraphServiceClient> GetGraphServiceClientAsync()
+        {
+            GraphServiceClient graphClient = null;
+
+            string token = await GetTokenForUserAsync();
+
+            graphClient = new GraphServiceClient(
+                GraphAPIBaseUrl,
+                new DelegateAuthenticationProvider(
+                (requestMessage) =>
+                {
+                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", token);
+
+                    return Task.FromResult(0);
+                }));
+
+            return graphClient;
+        }
+
         internal void SignOut()
         {
-            if (_publicClientApp != null && _publicClientApp.Users != null)
+            if (!IsInitialized)
+            {
+                throw new InvalidOperationException("Microsoft Graph not initialized.");
+            }
+
+            if (_publicClientApp.Users != null)
             {
                 foreach (var user in _publicClientApp.Users)
                 {
@@ -248,13 +219,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
+        internal async Task<bool> ConnectForAnotherUserAsync()
+        {
+            if (!IsInitialized)
+            {
+                throw new InvalidOperationException("Microsoft Graph not initialized.");
+            }
+
+            if (await GetTokenWithPromptAsync())
+            {
+                GraphServiceClient graphClient = await GetGraphServiceClientAsync();
+                var user = await graphClient.Me.Request().GetAsync();
+                CurrentUserId = user.Id;
+                return true;
+            }
+
+            return false;
+        }
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         private async Task<string> GetTokenForUserAsync()
         {
+            if (!IsInitialized)
+            {
+                throw new InvalidOperationException("Microsoft Graph not initialized.");
+            }
+
             if (_tokenForUser == null)
             {
                 try
                 {
-                    AuthenticationResult authResult = await _publicClientApp.AcquireTokenSilentAsync(ScopesArray, _publicClientApp.Users.First());
+                    AuthenticationResult authResult = await _publicClientApp.AcquireTokenSilentAsync(Scopes, _publicClientApp.Users.Last());
                     _tokenForUser = authResult.AccessToken;
                     _expiration = authResult.ExpiresOn;
                 }
@@ -265,7 +264,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
             else if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
             {
-                AuthenticationResult authResult = await _publicClientApp.AcquireTokenSilentAsync(ScopesArray, _publicClientApp.Users.First());
+                AuthenticationResult authResult = await _publicClientApp.AcquireTokenSilentAsync(Scopes, _publicClientApp.Users.First());
                 _tokenForUser = authResult.AccessToken;
                 _expiration = authResult.ExpiresOn;
             }
@@ -273,19 +272,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             return _tokenForUser;
         }
 
-        private async Task<string> GetTokenWithPromptAsync()
+        private async Task<bool> GetTokenWithPromptAsync()
         {
             try
             {
-                AuthenticationResult authResult = await _publicClientApp.AcquireTokenAsync(ScopesArray);
+                AuthenticationResult authResult = await _publicClientApp.AcquireTokenAsync(Scopes);
                 _tokenForUser = authResult.AccessToken;
                 _expiration = authResult.ExpiresOn;
+                return true;
             }
-            catch
+            catch(Exception el)
             {
+                el.ToString();
             }
 
-            return _tokenForUser;
+            return false;
         }
     }
 }

@@ -6,14 +6,12 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <sampleControls:AadAuthControl x:Name="AadAuthControl"
-                                   Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsShowAadMetaDataControl}" />
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <sampleControls:AadAuthControl x:Name="AadAuth" />
         <controls:AadLogin x:Name="AadLoginControl"
-                           View="@[View:Enum:ViewType.PictureOnly]"
+                           View="@[View:Enum:ViewType.PictureOnly]@"
                            AllowSignInAsDifferentUser="@[AllowSignInAsDifferentUser:Bool:true]"
-                           Visibility="{Binding ElementName=AadAuthControl, Path=IsShowGraphControl}"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"/>
-    </Grid>
+  </Grid>
 </Page>
