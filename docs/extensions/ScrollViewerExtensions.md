@@ -16,11 +16,11 @@ The ScrollBarMargin property provides a way to assign a Thickness to the vertica
 ### Syntax
 
 ```xaml
-<ListView extensions:ScrollViewerEx.HorizontalScrollBarMargin="2, 2, 2, 2">
+<ListView extensions:ScrollViewerExtensions.HorizontalScrollBarMargin="2, 2, 2, 2">
     <!-- ListView Item -->
 </ListView>
 
-<ListView extensions:ScrollViewerEx.VerticalScrollBarMargin="2, 2, 2, 2">
+<ListView extensions:ScrollViewerExtensions.VerticalScrollBarMargin="2, 2, 2, 2">
     <!-- ListView Item -->
 </ListView>
 ```
@@ -101,7 +101,7 @@ MiddleClickScrolling allows you to scroll by click middle mouse button (scroll w
 ### Changing Cursor Type
 
 > [!IMPORTANT]
-Resource file must be manually added to change the cursor type when middle click scrolling.
+Resource file must be manually added to change the cursor type when middle click scrolling. If you didn't add then the cursor won't change when middle click scrolling but funcanilaty won't be affected.
 
 #### Using Existing Resource File
 
@@ -115,7 +115,7 @@ Resource file must be manually added to change the cursor type when middle click
 - You need 9 cursor resource in your resource file
 - Your cursor number should be 101 to 109
 - Cursor number 101 must be the centre cursor
-- Cursor number 102, 103, 104, 105, 106, 107, 108, 109 must be the NorthArror, NorthEastArror, EastArror, SouthEastArror, SouthArror, SouthWestArror, WestArror, NorthWestArror respectively
+- Cursor number 102, 103, 104, 105, 106, 107, 108, 109 must be the NorthArrow, NorthEastArrow, EastArrow, SouthEastArrow, SouthArrow, SouthWestArrow, WestArrow, NorthWestArrow respectively
 - Every cursor will be automatically attached to the corresponding direction of scrolling
 
 ### Attached Properties

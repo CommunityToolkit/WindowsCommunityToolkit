@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static Timer _timer;
         private static ScrollViewer _scrollViewer;
         private static uint _oldCursorID = 100;
-        private static uint _maxSpeed = 100;
+        private static uint _maxSpeed = 200;
         private static bool _isCursorAvailable = false;
 
         /// <summary>
@@ -280,47 +280,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             {
                 cursorID = 101;
             }
-            else
+            else if (Math.Abs(offsetX) < _threshold && offsetY < -_threshold)
             {
-                if (Math.Abs(offsetX) < _threshold && offsetY < -_threshold)
-                {
-                    cursorID = 102;
-                }
-
-                if (offsetX > _threshold && offsetY < -_threshold)
-                {
-                    cursorID = 103;
-                }
-
-                if (offsetX > _threshold && Math.Abs(offsetY) < _threshold)
-                {
-                    cursorID = 104;
-                }
-
-                if (offsetX > _threshold && offsetY > _threshold)
-                {
-                    cursorID = 105;
-                }
-
-                if (Math.Abs(offsetX) < _threshold && offsetY > _threshold)
-                {
-                    cursorID = 106;
-                }
-
-                if (offsetX < -_threshold && offsetY > _threshold)
-                {
-                    cursorID = 107;
-                }
-
-                if (offsetX < -_threshold && Math.Abs(offsetY) < _threshold)
-                {
-                    cursorID = 108;
-                }
-
-                if (offsetX < -_threshold && offsetY < -_threshold)
-                {
-                    cursorID = 109;
-                }
+                cursorID = 102;
+            }
+            else if (offsetX > _threshold && offsetY < -_threshold)
+            {
+                cursorID = 103;
+            }
+            else if (offsetX > _threshold && Math.Abs(offsetY) < _threshold)
+            {
+                cursorID = 104;
+            }
+            else if (offsetX > _threshold && offsetY > _threshold)
+            {
+                cursorID = 105;
+            }
+            else if (Math.Abs(offsetX) < _threshold && offsetY > _threshold)
+            {
+                cursorID = 106;
+            }
+            else if (offsetX < -_threshold && offsetY > _threshold)
+            {
+                cursorID = 107;
+            }
+            else if (offsetX < -_threshold && Math.Abs(offsetY) < _threshold)
+            {
+                cursorID = 108;
+            }
+            else if (offsetX < -_threshold && offsetY < -_threshold)
+            {
+                cursorID = 109;
             }
 
             if (_oldCursorID != cursorID)
