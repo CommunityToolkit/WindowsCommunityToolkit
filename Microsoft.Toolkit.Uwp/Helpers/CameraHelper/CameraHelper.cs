@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
     /// Camera Helper class to capture frames from available camera sources.
     /// Make sure you have the capability webcam enabled for your app to access the device's camera.
     /// </summary>
-    public class CameraHelper : IDisposable
+    public class CameraHelper
     {
         private IReadOnlyList<MediaFrameSourceGroup> _frameSourceGroups;
         private MediaCapture _mediaCapture;
@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         private MediaFrameSource _frameSource;
 
         /// <summary>
-        /// Gets the currently selected <see cref="MediaFrameSource"/>MediaFrameSource
+        /// Gets the currently selected <see cref="MediaFrameSource"/>.
         /// </summary>
         public MediaFrameSource FrameSource { get => _frameSource; }
 
@@ -44,6 +44,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         /// Gets a read only list of MediaFrameSourceGroups that support color video record or video preview streams.
         /// </summary>
         public IReadOnlyList<MediaFrameSourceGroup> FrameSourceGroups { get => _frameSourceGroups; }
+
+        /// <summary>
+        /// Gets the currently selected <see cref="MediaFrameSourceGroup"/>.
+        /// </summary>
+        public MediaFrameSourceGroup FrameSourceGroup { get => _group; private set => _group = value; }
 
         /// <summary>
         /// Event raised when a new frame arrives.
@@ -64,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
                 return CameraHelperResult.Success;
             }
 
-            await Cleanup();
+            await CleanupAsync();
 
             _group = group;
 
@@ -150,12 +155,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
             }
             catch (UnauthorizedAccessException)
             {
-                await Cleanup();
+                await CleanupAsync();
                 return CameraHelperResult.CameraAccessDenied;
             }
             catch (Exception)
             {
-                await Cleanup();
+                await CleanupAsync();
                 return CameraHelperResult.InitializationFailed_UnknownError;
             }
 
@@ -198,14 +203,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         }
 
         /// <summary>
-        /// Dispose resources.
+        /// Clean up the Camera Helper resources
         /// </summary>
-        public async void Dispose()
-        {
-            await Cleanup();
-        }
-
-        private async Task Cleanup()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task CleanupAsync()
         {
             await StopReaderAsync();
 

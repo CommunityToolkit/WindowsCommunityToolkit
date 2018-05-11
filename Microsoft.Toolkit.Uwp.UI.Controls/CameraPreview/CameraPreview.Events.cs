@@ -25,11 +25,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class CameraPreview
     {
         /// <summary>
-        /// Event raised when a new frame arrives.
-        /// </summary>
-        public event EventHandler<FrameEventArgs> FrameArrived;
-
-        /// <summary>
         /// Event raised when camera preview fails.
         /// </summary>
         public event EventHandler<PreviewFailedEventArgs> PreviewFailed;

@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Camera Control to preview video. Can subscribe to video frames, software bitmap when they arrive.
     /// </summary>
-    public partial class CameraPreview : Control, IDisposable
+    public partial class CameraPreview : Control
     {
         private CameraHelper _cameraHelper;
         private MediaPlayer _mediaPlayer;
@@ -33,12 +33,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Button _frameSourceGroupButton;
         private int _selectedSourceIndex = 0;
 
+        private IReadOnlyList<MediaFrameSourceGroup> FrameSourceGroups => _cameraHelper?.FrameSourceGroups;
+
         private bool IsFrameSourceGroupButtonAvailable => FrameSourceGroups != null && FrameSourceGroups.Count > 1;
 
         /// <summary>
-        /// Gets Frame Source Groups available for Camera Media Capture.
+        /// Gets Camera Helper
         /// </summary>
-        public IReadOnlyList<MediaFrameSourceGroup> FrameSourceGroups { get; private set; }
+        public CameraHelper CameraHelper { get => _cameraHelper; private set => _cameraHelper = value; }
+
+        /// <summary>
+        /// Initialize control with a CameraHelper instance
+        /// </summary>
+        /// <param name="cameraHelper"><see cref="CameraHelper"/></param>
+        public async Task SetCameraHelperAsync(CameraHelper cameraHelper)
+        {
+            _cameraHelper = cameraHelper;
+            await InitializeAsync();
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CameraPreview"/> class.
@@ -46,6 +58,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public CameraPreview()
         {
             this.DefaultStyleKey = typeof(CameraPreview);
+            Application.Current.Suspending += Application_Suspending;
+            Application.Current.Resuming += Application_Resuming;
+        }
+
+        private async void Application_Resuming(object sender, object e)
+        {
+            var cameraHelper = new CameraHelper();
+            await SetCameraHelperAsync(cameraHelper);
+        }
+
+        private void Application_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
+        {
+            CleanupAsync();           
         }
 
         protected async override void OnApplyTemplate()
@@ -65,29 +90,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _frameSourceGroupButton.Click += FrameSourceGroupButton_ClickAsync;
                 _frameSourceGroupButton.IsEnabled = false;
             }
-
-            await InitializeAsync();
         }
 
-        private async Task InitializeAsync()
+        private async Task InitializeAsync(MediaFrameSourceGroup group = null)
         {
-            if (_cameraHelper == null)
+            var result = await _cameraHelper.InitializeAndStartCaptureAsync(group);
+            if (result != CameraHelperResult.Success)
             {
-                _cameraHelper = new CameraHelper();
-                var result = await _cameraHelper.InitializeAndStartCaptureAsync();
-                if (result == CameraHelperResult.Success)
-                {
-                    // Subscribe to the frames as they arrive
-                    _cameraHelper.FrameArrived += CameraHelper_FrameArrived;
-                    FrameSourceGroups = _cameraHelper.FrameSourceGroups;
-                }
-                else
-                {
-                    InvokePreviewFailed(result.ToString());
-                }
-
-                SetUIControls(result);
+                InvokePreviewFailed(result.ToString());
             }
+
+            SetUIControls(result);
         }
 
         private async void FrameSourceGroupButton_ClickAsync(object sender, RoutedEventArgs e)
@@ -95,14 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _selectedSourceIndex = _selectedSourceIndex < (FrameSourceGroups.Count - 1) ? _selectedSourceIndex + 1 : 0;
             var group = FrameSourceGroups[_selectedSourceIndex];
             _frameSourceGroupButton.IsEnabled = false;
-            var result = await _cameraHelper.InitializeAndStartCaptureAsync(group);
-            SetUIControls(result);
-        }
-
-        private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
-        {
-            EventHandler<FrameEventArgs> handler = FrameArrived;
-            handler?.Invoke(sender, e);
+            await InitializeAsync(group);
         }
 
         private void InvokePreviewFailed(string error)
@@ -163,13 +169,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Dispose resources.
         /// </summary>
-        public void Dispose()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task CleanupAsync()
         {
             if (_cameraHelper != null)
             {
-                _cameraHelper.FrameArrived -= CameraHelper_FrameArrived;
-                _cameraHelper.Dispose();
+                await _cameraHelper.CleanupAsync();
                 _cameraHelper = null;
+            }
+
+            if (_mediaPlayerElementControl != null)
+            {
+                _mediaPlayerElementControl.SetMediaPlayer(null);
             }
 
             if (_mediaPlayer != null)

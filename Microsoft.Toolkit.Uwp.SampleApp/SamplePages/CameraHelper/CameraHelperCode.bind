@@ -23,5 +23,5 @@ private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
   VideoFrame currentVideoFrame  = e.VideoFrame;
 
   // Gets the software bitmap image
-  SoftwareBitmap softwareBitmap = e.SoftwareBitmap;
+  SoftwareBitmap softwareBitmap = currentVideoFrame.SoftwareBitmap;
 }

@@ -11,6 +11,8 @@
 // ******************************************************************
 
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
@@ -29,6 +31,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class CameraPreviewPage : Page, IXamlRenderListener
     {
+        private static SemaphoreSlim semaphoreSlim;
         private VideoFrame _currentVideoFrame;
         private SoftwareBitmapSource _softwareBitmapSource;
         private CameraPreview _cameraPreviewControl;
@@ -38,14 +41,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public CameraPreviewPage()
         {
             this.InitializeComponent();
+            semaphoreSlim = new SemaphoreSlim(1);
         }
 
-        public void OnXamlRendered(FrameworkElement control)
+        public async void OnXamlRendered(FrameworkElement control)
         {
+            // Using a semaphore lock for synchronocity. 
+            // This method gets called multiple times when accessing the page from Latest Pages
+            // and creates unused duplicate references to Camera and memory leaks.
+            await semaphoreSlim.WaitAsync();
+
+            await CleanUpAsync();
             _cameraPreviewControl = control.FindDescendantByName("CameraPreviewControl") as CameraPreview;
+
             if (_cameraPreviewControl != null)
             {
-                _cameraPreviewControl.FrameArrived += CameraPreviewControl_FrameArrived;
+                var cameraHelper = new CameraHelper();
+                await _cameraPreviewControl.SetCameraHelperAsync(cameraHelper);
+                _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
                 _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
             }
 
@@ -57,6 +70,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             _errorMessageText = control.FindDescendantByName("ErrorMessage") as TextBlock;
+
+            semaphoreSlim.Release();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -68,15 +83,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            CleanUp();
+            CleanUpAsync();
         }
 
-        private void Application_Suspending(object sender, SuspendingEventArgs e)
+        private async void Application_Suspending(object sender, SuspendingEventArgs e)
         {
             if (Frame.CurrentSourcePageType == typeof(CameraPreviewPage))
             {
                 var deferral = e.SuspendingOperation.GetDeferral();
-                CleanUp();
+                await CleanUpAsync();
                 deferral.Complete();
             }
         }
@@ -106,12 +121,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void CleanUp()
+        private async Task CleanUpAsync()
         {
             if (_cameraPreviewControl != null)
             {
-                _cameraPreviewControl.FrameArrived -= CameraPreviewControl_FrameArrived;
-                _cameraPreviewControl.Dispose();
+                if (_cameraPreviewControl.CameraHelper != null)
+                {
+                    _cameraPreviewControl.CameraHelper.FrameArrived -= CameraPreviewControl_FrameArrived;
+                }
+
+                _cameraPreviewControl.PreviewFailed -= CameraPreviewControl_PreviewFailed;
+                await _cameraPreviewControl.CleanupAsync();
+                _cameraPreviewControl = null;
             }
         }
     }
