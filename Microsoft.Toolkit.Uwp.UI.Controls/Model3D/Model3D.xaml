@@ -11,7 +11,7 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
-                            <WebView x:Name="View" DefaultBackgroundColor="Transparent" Opacity="0"></WebView>
+                            <WebView x:Name="View" DefaultBackgroundColor="Transparent" Opacity="0" IsHitTestVisible="False"></WebView>
                         </Grid>
                         
                     </Border>

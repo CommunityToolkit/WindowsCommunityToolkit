@@ -11,7 +11,13 @@
 
         var cameraAlpha = Math.PI;
         var cameraBeta = 0;
+        var cameraRadiusPercentage = 5;
+        var cameraRadius = 0;
+        var enableCameraControl = true;
 
+        var environmentTexture = "environment.dds";
+
+        // Functions used to communicate with the host
         function setupSource(root, name) {
             rootUri = root;
             fileName = name;
@@ -22,18 +28,42 @@
         }
 
         function updateCameraPositionValues(alpha, beta) {
-            cameraAlpha = alpha;
-            cameraBeta = beta;
+            cameraAlpha = Number(alpha);
+            cameraBeta = Number(beta);
 
             if (setCameraPosition) {
                 setCameraPosition();
             }
         }
+
+        function updateEnvironment(url) {
+            environmentTexture = url;
+
+            if (setEnvironment) {
+                setEnvironment();
+            }
+        }
+
+        function updateCameraRadiusValue(percentage) {
+            cameraRadiusPercentage = Number(percentage);
+
+            if (setCameraRadius) {
+                setCameraRadius();
+            }
+        }
+
+        function updateCameraControl(value) {
+            enableCameraControl = value === "True";
+
+            if (setCameraControl) {
+                setCameraControl();
+            }
+        }
     </script>
 
     <!-- Babylon.js -->
-    <script src="babylon_p.max.js"></script>
-    <script src="babylon.glTFFileLoader.js"></script>
+    <script src="babylon.js"></script>
+    <script src="babylonjs.loaders.min.js"></script>
 
     <style>
         html, body {
@@ -67,19 +97,41 @@
 
         var camera = new BABYLON.ArcRotateCamera("camera", cameraAlpha, cameraBeta, 1, new BABYLON.Vector3(0, 0, 0), scene);
 
-        // glTF assets use a +Z forward convention while the default camera faces +Z. Rotate the camera to look at the front of the asset.
+        // glTF assets use a +Z forward convention while the default camera faces +Z. Rotate the camera to look at the front of the asset
         camera.minZ = 0;
         camera.useFramingBehavior = true;
+
+        camera.attachControl(canvas, true);
 
         var framingBehavior = camera.getBehaviorByName("Framing");
         framingBehavior.framingTime = 0;
         framingBehavior.elevationReturnTime = -1;
-        
-        scene.createDefaultEnvironment(
-        {
-            createSkybox: false,
-            createGround: false
-        });
+
+        var helper;
+        function setEnvironment() {
+            if (helper) {
+                helper.dispose();
+            }
+
+            helper = scene.createDefaultEnvironment({
+                createSkybox: false,
+                createGround: false,
+                environmentTexture: environmentTexture
+            });
+        }
+
+        function setCameraControl() {
+            if (enableCameraControl) {
+                camera.attachControl(canvas, true);
+            } else {
+                camera.detachControl(canvas);
+            }
+        }
+
+        function setCameraRadius() {
+            scene.activeCamera.radius = scene.activeCamera.lowerRadiusLimit + (cameraRadiusPercentage / 100.0) * (scene.activeCamera.upperRadiusLimit - scene.activeCamera.lowerRadiusLimit);
+            cameraRadius = scene.activeCamera.radius;
+        }
 
         async function loadAsset() {
             window.external.notify("loading");
@@ -93,15 +145,25 @@
                 container.addAllToScene();
 
                 setCameraFraming();
+                setCameraPosition();
+                setCameraRadius();
+                setEnvironment();
 
-                window.external.notify("ready");
+                window.external.notify("loaded");
             }
         }
 
         function setCameraPosition() {
             if (camera) {
-                camera.alpha = cameraAlpha;
-                camera.beta = cameraBeta;
+                if (cameraAlpha !== camera.alpha) {
+                    scene.stopAnimation(camera, "alphaAnimation");
+                    BABYLON.Animation.CreateAndStartAnimation("alphaAnimation", camera, "alpha", 30, 10, camera.alpha, cameraAlpha, false);
+                }
+
+                if (cameraBeta !== camera.beta) {
+                    scene.stopAnimation(camera, "betaAnimation");
+                    BABYLON.Animation.CreateAndStartAnimation("betaAnimation", camera, "beta", 30, 10, camera.beta, cameraBeta, false);
+                }
             }
         }
 
@@ -110,11 +172,32 @@
                 var worldExtends = scene.getWorldExtends();
                 scene.activeCamera.lowerRadiusLimit = null;
                 framingBehavior.zoomOnBoundingInfo(worldExtends.min, worldExtends.max);
+
+                scene.activeCamera.upperRadiusLimit = worldExtends.max.subtract(worldExtends.min).length() * 10;
             }
         }
 
         engine.runRenderLoop(function () {
             scene.render();
+
+            // Checking state
+            if (scene.activeCamera) {
+                if (scene.activeCamera.alpha !== cameraAlpha) {
+                    cameraAlpha = scene.activeCamera.alpha;
+                    window.external.notify("alpha:" + scene.activeCamera.alpha);
+                }
+
+                if (scene.activeCamera.beta !== cameraBeta) {
+                    cameraBeta = scene.activeCamera.beta;
+                    window.external.notify("beta:" + scene.activeCamera.beta);
+                }
+
+                if (scene.activeCamera.radius !== cameraRadius) {
+                    cameraRadius = scene.activeCamera.radius;
+                    cameraRadiusPercentage = ((scene.activeCamera.radius - scene.activeCamera.lowerRadiusLimit) / (scene.activeCamera.upperRadiusLimit - scene.activeCamera.lowerRadiusLimit)) * 100.0;
+                    window.external.notify("radius:" + cameraRadiusPercentage);
+                }
+            }
         });
 
         window.addEventListener("resize", function () {
