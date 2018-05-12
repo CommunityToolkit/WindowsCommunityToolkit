@@ -5,6 +5,7 @@ description: Platform Specific Analyzer is a Roslyn analyzer that analyzes and s
 keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, plaform specific, platform specific analyzer, roslyn analyzer
 dev_langs:
   - csharp
+  - visualbasic
 ---
 
 # Platform Specific Analyzer
@@ -21,11 +22,17 @@ The analyzer is available both as a nuget package and also as Visual Studio Exte
 
 ## Sample Output
 
-The analyzer automatically kicks in when code is opened in Visual Studio.
+The analyzer automatically kicks in when code is opened in Visual Studio and supports both C# and Visual Basic
 
+C#
 ![Code Analysis](../resources/images/CodeAnalysis.png)
 
 ![Code Analysis](../resources/images/CodeFixSuggestion.png)
+
+Visual Basic
+![Code Analysis](../resources/images/CodeAnalysisVB.png)
+
+![Code Analysis](../resources/images/CodeFixSuggestionVB.png)
 
 ## Requirements
 
