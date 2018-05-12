@@ -19,20 +19,20 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.Simplification;
 using Microsoft.CodeAnalysis.Text;
+using Microsoft.CodeAnalysis.VisualBasic;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 
 namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
 {
     /// <summary>
     /// This class provides guard suggestion and can make the suggested changes.
     /// </summary>
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(PlatformSpecificFixerCS))]
+    [ExportCodeFixProvider(LanguageNames.VisualBasic, Name = nameof(PlatformSpecificFixerCS))]
     [Shared]
-    public class PlatformSpecificFixerCS : CodeFixProvider
+    public class PlatformSpecificFixerVB : CodeFixProvider
     {
         /// <summary>
         /// Gets the list of Diagnotics that can be fixed.
@@ -101,11 +101,11 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
                     break;
                 }
 
-                var target = PlatformSpecificAnalyzerCS.GetTargetOfNode(node, semanticModel);
+                var target = PlatformSpecificAnalyzerVB.GetTargetOfNode(node, semanticModel);
                 var g = Analyzer.GetGuardForSymbol(target);
 
                 // Introduce a guard? (only if it is a method/accessor/constructor, i.e. somewhere that allows code)
-                var containingBlock = node.FirstAncestorOrSelf<BlockSyntax>();
+                var containingBlock = node.FirstAncestorOrSelf<MethodBlockBaseSyntax>();
                 if (containingBlock != null)
                 {
                     var act1 = CodeAction.Create($"Add 'If ApiInformation.{g.KindOfCheck}'", (c) => IntroduceGuardAsync(context.Document, node, g, c), "PlatformSpecificGuard");
@@ -119,10 +119,9 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
 
         private async Task<Document> IntroduceGuardAsync(Document document, SyntaxNode node, HowToGuard g, CancellationToken cancellationToken)
         {
-            // + if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent(targetContainingType))
-            // {
-            //     old-statement
-            // + }
+            // + If Windows.Foundation.Metadata.ApiInformation.IsTypePresent(targetContainingType) Then
+            //      old-statement
+            // + End If
             try
             {
                 var oldStatement = node.FirstAncestorOrSelf<StatementSyntax>();
@@ -133,24 +132,24 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
 
                 if (g.MemberToCheck == null)
                 {
-                    var conditionString1 = SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(g.TypeToCheck));
-                    conditionArgument = SyntaxFactory.ArgumentList(SyntaxFactory.SingletonSeparatedList(SyntaxFactory.Argument(conditionString1)));
+                    var conditionString1 = SyntaxFactory.StringLiteralExpression(SyntaxFactory.StringLiteralToken($"\"{g.TypeToCheck}\"", g.TypeToCheck));
+                    conditionArgument = SyntaxFactory.ArgumentList(SyntaxFactory.SingletonSeparatedList<ArgumentSyntax>(SyntaxFactory.SimpleArgument(conditionString1)));
                 }
                 else
                 {
-                    var conditionString1 = SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(g.TypeToCheck));
-                    var conditionString2 = SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(g.MemberToCheck));
+                    var conditionString1 = SyntaxFactory.StringLiteralExpression(SyntaxFactory.StringLiteralToken($"\"{g.TypeToCheck}\"", g.TypeToCheck));
+                    var conditionString2 = SyntaxFactory.StringLiteralExpression(SyntaxFactory.StringLiteralToken($"\"{g.MemberToCheck}\"", g.MemberToCheck));
                     var conditionInt3 = SyntaxFactory.LiteralExpression(SyntaxKind.NumericLiteralExpression, SyntaxFactory.Literal(g.ParameterCountToCheck ?? 0));
 
                     IEnumerable<ArgumentSyntax> conditions = null;
 
                     if (g.ParameterCountToCheck.HasValue)
                     {
-                        conditions = new ArgumentSyntax[] { SyntaxFactory.Argument(conditionString1), SyntaxFactory.Argument(conditionString2), SyntaxFactory.Argument(conditionInt3) };
+                        conditions = new ArgumentSyntax[] { SyntaxFactory.SimpleArgument(conditionString1), SyntaxFactory.SimpleArgument(conditionString2), SyntaxFactory.SimpleArgument(conditionInt3) };
                     }
                     else
                     {
-                        conditions = new ArgumentSyntax[] { SyntaxFactory.Argument(conditionString1), SyntaxFactory.Argument(conditionString2) };
+                        conditions = new ArgumentSyntax[] { SyntaxFactory.SimpleArgument(conditionString1), SyntaxFactory.SimpleArgument(conditionString2) };
                     }
 
                     conditionArgument = SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(conditions));
@@ -158,11 +157,12 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
 
                 var condition = SyntaxFactory.InvocationExpression(conditionReceiver, conditionArgument);
 
-                var thenStatements = SyntaxFactory.Block(oldStatement.WithoutLeadingTrivia());
-                var ifStatement = SyntaxFactory.IfStatement(condition, thenStatements).WithLeadingTrivia(oldLeadingTrivia).WithAdditionalAnnotations(Formatter.Annotation);
+                var ifStatement = SyntaxFactory.IfStatement(condition);
+                var thenStatements = SyntaxFactory.SingletonList(oldStatement.WithoutLeadingTrivia());
+                var ifBlock = SyntaxFactory.MultiLineIfBlock(ifStatement).WithStatements(thenStatements).WithLeadingTrivia(oldLeadingTrivia).WithAdditionalAnnotations(Formatter.Annotation);
 
                 var oldRoot = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
-                var newRoot = oldRoot.ReplaceNode(oldStatement, ifStatement);
+                var newRoot = oldRoot.ReplaceNode(oldStatement, ifBlock);
 
                 return document.WithSyntaxRoot(newRoot);
             }
