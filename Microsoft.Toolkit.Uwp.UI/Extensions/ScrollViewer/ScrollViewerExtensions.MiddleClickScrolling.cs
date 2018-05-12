@@ -103,8 +103,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             _isPressed = true;
             _isMoved = false;
             _startPosition = default(Point);
-            _isDeferredMovingStarted = false;
             _currentPosition = default(Point);
+            _isDeferredMovingStarted = false;
+            _oldCursorID = 100;
             _timer = new Timer(Scroll, null, 5, 5);
             _isCursorAvailable = IsCursorResourceAvailable();
 
@@ -125,6 +126,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             _startPosition = default(Point);
             _currentPosition = default(Point);
             _isDeferredMovingStarted = false;
+            _oldCursorID = 100;
             _timer.Dispose();
 
             Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
@@ -242,6 +244,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 Window.Current.CoreWindow.PointerExited -= CoreWindow_PointerExited;
                 Window.Current.CoreWindow.PointerExited += CoreWindow_PointerExited;
 
+                // Event to stop deferred scrolling if pointer pressed
+                Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
+                Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+
                 SetCursorType(0, 0);
             }
             else
@@ -254,6 +260,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             {
                 UnsubscribeMiddleClickScrolling();
             }
+        }
+
+        private static void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
+        {
+            Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
+            UnsubscribeMiddleClickScrolling();
         }
 
         private static void CoreWindow_PointerExited(CoreWindow sender, PointerEventArgs args)
