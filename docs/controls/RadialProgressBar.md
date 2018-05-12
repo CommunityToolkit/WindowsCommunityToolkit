@@ -2,7 +2,7 @@
 title: RadialProgressBar XAML Control
 author: nmetulev
 description: The Radial Progress Bar Control displays a value in a certain range using a cicular sector that grows clockwise until it becomes a full ring.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Radial Progress Bar, RadialProgressBar, xaml control, xaml
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Radial Progress Bar, RadialProgressBar, xaml control, xaml
 ---
 
 # RadialProgressBar XAML Control
@@ -39,7 +39,7 @@ The control uses the same dependency properties as the standard Progress Bar, wi
 
 ## Sample Code
 
-[RadialProgressBar Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/RadialProgressBar). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[RadialProgressBar Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/RadialProgressBar). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 

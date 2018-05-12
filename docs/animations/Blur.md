@@ -1,8 +1,11 @@
 ---
 title: Blur animation behavior
 author: nmetulev
-description: The UWP Community Toolkit Blur animation behavior selectively blurs a XAML element by increasing or decreasing pixel size
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, blur, blur animation
+description: The Windows Community Toolkit Blur animation behavior selectively blurs a XAML element by increasing or decreasing pixel size
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, blur, blur animation
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Blur
@@ -28,7 +31,11 @@ The [Blur animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp
 
 ```csharp
 MyUIElement.Blur(value: 5, duration: 2500, delay: 250).Start();
-await MyUIElement.Blur(value: 5, duration: 2500, delay: 250).StartAsync();  //Blur animation can be awaited
+await MyUIElement.Blur(value: 5, duration: 2500, delay: 250).StartAsync();  // Blur animation can be awaited
+```
+```vb
+MyUIElement.Blur(value:=5, duration:=2500, delay:=250).Start()
+Await MyUIElement.Blur(value:=5, duration:=2500, delay:=250).StartAsync()    ' Blur animation can be awaited
 ```
 
 ## Sample Output
@@ -84,14 +91,21 @@ await MyUIElement.Blur(value: 5, duration: 2500, delay: 250).StartAsync();  //Bl
     anim.Completed += animation_completed;
     anim.Start();
     ```
-    
+    ```vb
+    Dim anim = MyUIElement.Blur(5).Fade(0.5F).Rotate(30)
+    anim.SetDurationForAll(2500)
+    anim.SetDelay(250)
+    AddHandler anim.Completed, AddressOf animation_completed
+    anim.Start()
+    ```
+
     **Sample Output**
 
     ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Blur-Fade-Rotate.gif)
 
 ## Sample Project
 
-[Blur Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Blur). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
+[Blur Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Blur). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
 
 ## Requirements
 

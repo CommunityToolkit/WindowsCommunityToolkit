@@ -2,7 +2,7 @@
 title: BackdropSepiaBrush
 author: michael-hawker
 description: The BackdropSepiaBrush is a Brush that applies a Sepia effect to whatever is behind it in the application.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, brush, backdrop, sepia
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, brush, backdrop, sepia
 ---
 
 # BackdropSepiaBrush
@@ -31,7 +31,7 @@ The [BackdropSepiaBrush](https://docs.microsoft.com/dotnet/api/microsoft.toolkit
 
 ## Sample Code
 
-[BackdropSepiaBrush sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackdropSepiaBrush). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[BackdropSepiaBrush sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackdropSepiaBrush). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
