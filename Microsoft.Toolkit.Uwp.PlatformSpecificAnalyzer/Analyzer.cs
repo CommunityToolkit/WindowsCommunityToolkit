@@ -25,6 +25,13 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
     /// </summary>
     public static class Analyzer
     {
+        internal enum TypePresenceIndicator
+        {
+            New,
+            Changes,
+            NotFound,
+        }
+
         /// <summary>
         /// Embedded differences between API contract version 4 and 5.
         /// </summary>
@@ -176,28 +183,28 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
 
                     var typeName = isType ? symbol.ToDisplayString() : symbol.ContainingType.ToDisplayString();
 
-                    bool? presentInN0ApiDiff = CheckCollectionForType(Analyzer.GetUniversalApiAdditions(Analyzer.N0DifferencesRes), typeName, symbol);
+                    TypePresenceIndicator presentInN0ApiDiff = CheckCollectionForType(Analyzer.GetUniversalApiAdditions(Analyzer.N0DifferencesRes), typeName, symbol);
 
-                    if (presentInN0ApiDiff == null)
+                    if (presentInN0ApiDiff == TypePresenceIndicator.New)
                     {
                         // the entire type was found in Target Version
                         return new Platform(PlatformKind.Uwp, Analyzer.N0SDKVersion);
                     }
-                    else if (presentInN0ApiDiff.Value)
+                    else if (presentInN0ApiDiff == TypePresenceIndicator.Changes)
                     {
                         // the entire type was found in Target Version with matching parameter lengths
                         return new Platform(PlatformKind.Uwp, Analyzer.N0SDKVersion, true);
                     }
                     else
                     {
-                        bool? presentInN1ApiDiff = CheckCollectionForType(Analyzer.GetUniversalApiAdditions(Analyzer.N1DifferencesRes), typeName, symbol);
+                        TypePresenceIndicator presentInN1ApiDiff = CheckCollectionForType(Analyzer.GetUniversalApiAdditions(Analyzer.N1DifferencesRes), typeName, symbol);
 
-                        if (presentInN1ApiDiff == null)
+                        if (presentInN1ApiDiff == TypePresenceIndicator.New)
                         {
                             // the entire type was found in Target Version
                             return new Platform(PlatformKind.Uwp, Analyzer.N1SDKVersion);
                         }
-                        else if (presentInN1ApiDiff.Value)
+                        else if (presentInN1ApiDiff == TypePresenceIndicator.Changes)
                         {
                             // the entire type was found in Target Version with matching parameter lengths
                             return new Platform(PlatformKind.Uwp, Analyzer.N1SDKVersion, true);
@@ -294,23 +301,23 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
             throw new InvalidOperationException("oops! don't know why I was asked to check something that's fine");
         }
 
-        private static bool? CheckCollectionForType(Dictionary<string, List<NewMember>> collection, string typeName, ISymbol symbol)
+        private static TypePresenceIndicator CheckCollectionForType(Dictionary<string, List<NewMember>> collection, string typeName, ISymbol symbol)
         {
             List<NewMember> newMembers = null;
 
             if (!collection.TryGetValue(typeName, out newMembers))
             {
-                return false;
+                return TypePresenceIndicator.NotFound;
             }
 
             if (newMembers == null || newMembers.Count == 0)
             {
-                return null;
+                return TypePresenceIndicator.New;
             }
 
             if (symbol.Kind == SymbolKind.NamedType)
             {
-                return false;
+                return TypePresenceIndicator.NotFound;
             }
 
             var memberName = symbol.Name;
@@ -319,7 +326,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
             {
                 if (memberName == newMember.Name && !newMember.ParameterCount.HasValue)
                 {
-                    return null;
+                    return TypePresenceIndicator.New;
                 }
 
                 // this member was new in collection
@@ -330,12 +337,12 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
 
                 if (memberName == newMember.Name && ((IMethodSymbol)symbol).Parameters.Length == newMember.ParameterCount)
                 {
-                    return true;
+                    return TypePresenceIndicator.Changes;
                 }
             }
 
             // this member existed in a different collection
-            return false;
+            return TypePresenceIndicator.NotFound;
         }
     }
 }
