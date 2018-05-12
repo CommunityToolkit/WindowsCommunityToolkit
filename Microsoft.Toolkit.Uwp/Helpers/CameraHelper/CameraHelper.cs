@@ -29,26 +29,41 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
     /// </summary>
     public class CameraHelper
     {
-        private IReadOnlyList<MediaFrameSourceGroup> _frameSourceGroups;
+        private static IReadOnlyList<MediaFrameSourceGroup> _frameSourceGroups;
         private MediaCapture _mediaCapture;
         private MediaFrameReader _frameReader;
         private MediaFrameSourceGroup _group;
         private MediaFrameSource _frameSource;
 
         /// <summary>
+        /// Gets a list of MediaFrameSourceGroups available for video preview or video record.
+        /// </summary>
+        /// <returns>A <see cref="MediaFrameSourceGroup"/> list.</returns>
+        public static async Task<IReadOnlyList<MediaFrameSourceGroup>> GetFrameSourceGroupsAsync()
+        {
+            if (_frameSourceGroups == null)
+            {
+                var videoDevices = await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture);
+                var groups = await MediaFrameSourceGroup.FindAllAsync();
+
+                // Filter out color video preview and video record type sources and remove duplicates video devices.
+                _frameSourceGroups = groups.Where(g => g.SourceInfos.Any(s => s.SourceKind == MediaFrameSourceKind.Color &&
+                                                                            (s.MediaStreamType == MediaStreamType.VideoPreview || s.MediaStreamType == MediaStreamType.VideoRecord))
+                                                                            && g.SourceInfos.All(sourceInfo => videoDevices.Any(vd => vd.Id == sourceInfo.DeviceInformation.Id))).ToList();
+            }
+
+            return _frameSourceGroups;
+        }
+
+        /// <summary>
+        /// Gets or sets the source for camera video preview.
+        /// </summary>
+        public MediaFrameSourceGroup FrameSourceGroup { get => _group; set => _group = value; }
+
+        /// <summary>
         /// Gets the currently selected <see cref="MediaFrameSource"/>.
         /// </summary>
         public MediaFrameSource FrameSource { get => _frameSource; }
-
-        /// <summary>
-        /// Gets a read only list of MediaFrameSourceGroups that support color video record or video preview streams.
-        /// </summary>
-        public IReadOnlyList<MediaFrameSourceGroup> FrameSourceGroups { get => _frameSourceGroups; }
-
-        /// <summary>
-        /// Gets the currently selected <see cref="MediaFrameSourceGroup"/>.
-        /// </summary>
-        public MediaFrameSourceGroup FrameSourceGroup { get => _group; private set => _group = value; }
 
         /// <summary>
         /// Event raised when a new frame arrives.
@@ -61,32 +76,23 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         /// You could select a specific MediaFrameSourceGroup from the available sources using the CameraHelper FrameSourceGroups property.
         /// </summary>
         /// <returns>Result of the async operation.<see cref="CameraHelperResult"/></returns>
-        public async Task<CameraHelperResult> InitializeAndStartCaptureAsync(MediaFrameSourceGroup group = null)
+        public async Task<CameraHelperResult> InitializeAndStartCaptureAsync()
         {
-            // new selection same as previously selected group, just return
-            if (group != null && _group == group)
-            {
-                return CameraHelperResult.Success;
-            }
-
             await CleanupAsync();
-
-            _group = group;
 
             if (_frameSourceGroups == null)
             {
-                var videoDevices = await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture);
-                var groups = await MediaFrameSourceGroup.FindAllAsync();
-
-                // Filter out color video preview and video record type sources and remove duplicates video devices.
-                _frameSourceGroups = groups.Where(g => g.SourceInfos.Any(s => s.SourceKind == MediaFrameSourceKind.Color &&
-                                                                            (s.MediaStreamType == MediaStreamType.VideoPreview || s.MediaStreamType == MediaStreamType.VideoRecord))
-                                                                            && g.SourceInfos.All(sourceInfo => videoDevices.Any(vd => vd.Id == sourceInfo.DeviceInformation.Id))).ToList();
+                _frameSourceGroups = await GetFrameSourceGroupsAsync();
             }
 
             if (_group == null)
             {
                 _group = _frameSourceGroups.FirstOrDefault();
+            }
+            else
+            {
+                // verify selected group is part of existing FrameSourceGroups
+                _group = _frameSourceGroups.FirstOrDefault(g => g.Id == _group.Id);
             }
 
             // if there is no camera source available, we can't proceed.

@@ -14,21 +14,25 @@ The **CameraPreview** control allows to easily preview video in the MediaPlayerE
 ## Syntax
 
 ```xaml
-<controls:CameraPreview x:Name="CameraPreviewControl" 
-	FrameSourceGroupButtonIcon="ms-appx:///Assets/Photos/CameraSource.png"
-	FrameArrived="CameraPreviewControl_FrameArrived"
-	PreviewFailed="CameraPreviewControl_PreviewFailed">
+<controls:CameraPreview x:Name="CameraPreviewControl">	
 </controls:CameraPreview>       
 ```
 
 ```csharp
+
+var cameraHelper = new CameraHelper();
+await _cameraPreviewControl.SetCameraHelperAsync(cameraHelper);
+_cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
+_cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
+     
+
 private void CameraPreviewControl_FrameArrived(object sender, FrameEventArgs e)
 {
 	var videoFrame = e.VideoFrame;
-	var softwareBitmap = e.SoftwareBitmap;
+	var softwareBitmap = videoFrame.SoftwareBitmap;
 }
 
-private void CameraPreviewControl_PreviewFailed(object sender, FailedEventArgs e)
+private void CameraPreviewControl_PreviewFailed(object sender, PreviewFailedEventArgs e)
 {
 	var errorMessage = e.Error;
 }
@@ -38,22 +42,41 @@ private void CameraPreviewControl_PreviewFailed(object sender, FailedEventArgs e
 
 | Property | Type | Description |
 | -- | -- | -- |
-| FrameSourceGroups | IReadOnlyList<MediaFrameSourceGroup> | Gets a read only list of MediaFrameSourceGroups that support color video record or video preview streams. |
-| FrameSourceGroupButtonIcon | ImageSource | You can customize the icon for Frame Source Group button. |
+| CameraHelper| CameraHelper | Gets the CameraHelper associated with the control. |
+| IsFrameSourceGroupButtonVisible | bool| Set this property to hide or show Frame Source Group Button. Note: This button is conditionally visible based on more than one source being available. |
 
+```xaml
+<controls:CameraPreview x:Name="CameraPreviewControl" IsFrameSourceGroupButtonVisible="false">	
+</controls:CameraPreview>       
+``` 
 
 ## Methods
 
 | Methods | Return Type | Description |
 | -- | -- | -- |
-| Dispose() | void | Use this method to dispose the control and media resources. |
+| SetCameraHelperAsync() | Task | Initialize camera preview control with Camera Helper instance. |
+| CleanupAsync() | Task | Use this method to dispose the control and media resources. |
 
 ## Events
 
 | Events | Description |
 | -- | -- |
-| FrameArrived | Fires when a new frame arrives.|
-| PreviewFailed | Fires when camera preview fails.|
+| PreviewFailed | Fires when camera preview fails. You can get the error reason from the PreviewFailedEventArgs.|
+
+## Examples
+
+Demonstrates using the camera control and camera helper to preview video from a specific media frame source group.
+
+```csharp
+var availableFrameSourceGroups = = await CameraHelper.GetFrameSourceGroupsAsync();
+if(availableFrameSourceGroups != null)
+{
+  CameraHelper cameraHelper = new CameraHelper() { FrameSourceGroup = availableFrameSourceGroups.FirstOrDefault() };
+  await _cameraPreviewControl.SetCameraHelperAsync(cameraHelper);
+  _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
+  _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
+}
+```
 
 ## Sample Code
 

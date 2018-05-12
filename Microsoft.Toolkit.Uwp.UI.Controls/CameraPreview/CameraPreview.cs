@@ -33,9 +33,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Button _frameSourceGroupButton;
         private int _selectedSourceIndex = 0;
 
-        private IReadOnlyList<MediaFrameSourceGroup> FrameSourceGroups => _cameraHelper?.FrameSourceGroups;
+        private IReadOnlyList<MediaFrameSourceGroup> _frameSourceGroups;
 
-        private bool IsFrameSourceGroupButtonAvailable => FrameSourceGroups != null && FrameSourceGroups.Count > 1;
+        private bool IsFrameSourceGroupButtonAvailable => _frameSourceGroups != null && _frameSourceGroups.Count > 1;
 
         /// <summary>
         /// Gets Camera Helper
@@ -49,6 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public async Task SetCameraHelperAsync(CameraHelper cameraHelper)
         {
             _cameraHelper = cameraHelper;
+            _frameSourceGroups = await CameraHelper.GetFrameSourceGroupsAsync();
             await InitializeAsync();
         }
 
@@ -92,9 +93,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private async Task InitializeAsync(MediaFrameSourceGroup group = null)
+        private async Task InitializeAsync()
         {
-            var result = await _cameraHelper.InitializeAndStartCaptureAsync(group);
+            var result = await _cameraHelper.InitializeAndStartCaptureAsync();
             if (result != CameraHelperResult.Success)
             {
                 InvokePreviewFailed(result.ToString());
@@ -105,10 +106,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void FrameSourceGroupButton_ClickAsync(object sender, RoutedEventArgs e)
         {
-            _selectedSourceIndex = _selectedSourceIndex < (FrameSourceGroups.Count - 1) ? _selectedSourceIndex + 1 : 0;
-            var group = FrameSourceGroups[_selectedSourceIndex];
+            _selectedSourceIndex = _selectedSourceIndex < (_frameSourceGroups.Count - 1) ? _selectedSourceIndex + 1 : 0;
+            var group = _frameSourceGroups[_selectedSourceIndex];
             _frameSourceGroupButton.IsEnabled = false;
-            await InitializeAsync(group);
+            _cameraHelper.FrameSourceGroup = group;
+            await InitializeAsync();
         }
 
         private void InvokePreviewFailed(string error)

@@ -73,6 +73,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async Task InitializeAsync()
         {
+            var frameSourceGroups = await CameraHelper.GetFrameSourceGroupsAsync();            
             if (_cameraHelper == null)
             {
                 _cameraHelper = new CameraHelper();
@@ -83,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 // Subscribe to the video frame as they arrive
                 _cameraHelper.FrameArrived += CameraHelper_FrameArrived;
-                FrameSourceGroupCombo.ItemsSource = _cameraHelper.FrameSourceGroups;
+                FrameSourceGroupCombo.ItemsSource = frameSourceGroups;
                 FrameSourceGroupCombo.SelectionChanged += FrameSourceGroupCombo_SelectionChanged;
                 FrameSourceGroupCombo.SelectedIndex = 0;
             }
@@ -96,7 +97,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var selectedGroup = FrameSourceGroupCombo.SelectedItem as MediaFrameSourceGroup;
             if (selectedGroup != null)
             {
-                var result = await _cameraHelper.InitializeAndStartCaptureAsync(selectedGroup);
+                _cameraHelper.FrameSourceGroup = selectedGroup;
+                var result = await _cameraHelper.InitializeAndStartCaptureAsync();
                 SetUIControls(result);
             }
         }

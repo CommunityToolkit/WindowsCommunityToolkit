@@ -7,13 +7,19 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">    
     <StackPanel Orientation="Vertical" Margin="20">
-		<controls:CameraPreview x:Name="CameraPreviewControl" 
-			FrameSourceGroupButtonIcon="ms-appx:///Assets/Photos/CameraSource.png">
+		<controls:CameraPreview x:Name="CameraPreviewControl">
 		</controls:CameraPreview>
 		<TextBlock x:Name="ErrorMessage"></TextBlock>
         <Image x:Name="CurrentFrameImage" MinWidth="300" Width="400" HorizontalAlignment="Left"></Image>
     </StackPanel>
 </Page>
+
+// Create and associate the camera helper instance with the camera preview control
+var cameraHelper = new CameraHelper();
+await _cameraPreviewControl.SetCameraHelperAsync(cameraHelper);
+_cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
+_cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
+     
 
 // Create a software bitmap source and set it to the Xaml Image control source.
 var softwareBitmapSource = new SoftwareBitmapSource();
@@ -22,9 +28,9 @@ CurrentFrameImage.Source = softwareBitmapSource;
 // Register for FrameArrived to get real time video frames, software bitmaps. 
 private void CameraPreviewControl_FrameArrived(object sender, FrameEventArgs e)
 {
-    VideoFrame videoFrame = e.VideoFrame;
-	SoftwareBitmap softwareBitmap = e.SoftwareBitmap;
-	var targetSoftwareBitmap = softwareBitmap;
+    var videoFrame = e.VideoFrame;
+    var softwareBitmap = e.VideoFrame.SoftwareBitmap;
+    var targetSoftwareBitmap = softwareBitmap;
 
     if (softwareBitmap != null)
     {

@@ -23,12 +23,14 @@ var result = await _cameraHelper.InitializeAndStartCaptureAsync();
 // Camera Initialization and Capture failed for some reason
 if(result != CameraHelperResult.Success)
 {
-// get error information
-var errorMessage = result.ToString();
+  // get error information
+  var errorMessage = result.ToString();
 }
-
-// Subscribe to get frames as they arrive
-cameraHelper.FrameArrived += CameraHelper_FrameArrived;
+else 
+{
+  // Subscribe to get frames as they arrive
+  cameraHelper.FrameArrived += CameraHelper_FrameArrived;
+}
 
 private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
 {
@@ -44,21 +46,46 @@ private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
 
 | Property | Type | Description |
 | -- | -- | -- |
-| FrameSource| MediaFrameSource| Gets the currently selected camera MediaFrameSource|
-| FrameSourceGroups| IReadOnlyList<MediaFrameSourceGroup>| Gets a read only list of MediaFrameSourceGroups that support color video record or video preview streams.|
+| FrameSourceGroup | MediaFrameSourceGroup | Gets the currently selected MediaFrameSourceGroup for video preview. User can set this property to preview video from a specific source. If no MediaFrameSourceGroup is provided, Camera Helper selects the first available camera source to  use for media capture. |
+| FrameSource | MediaFrameSource | Gets the currently selected MediaFrameSource for video preview. |
 
 ## Methods
 
 | Methods | Return Type | Description |
 | -- | -- | -- |
-| InitializeAndStartCaptureAsync(MediaFrameSourceGroup group = null) | Task<CameraHelperResult>| Initializes Camera Media Capture settings and initializes Frame Reader to capture frames in real time. If no MediaFrameSourceGroup is provided, it selects the first available camera source to  use for media capture. 
-| Dispose() | void | Use this method to dispose resources |
+| GetFrameSourceGroupsAsync() | Task<IReadOnlyList<MediaFrameSourceGroup>> | Gets a read only list of MediaFrameSourceGroups that support color video record or video preview streams.
+| InitializeAndStartCaptureAsync() | Task<CameraHelperResult>| Initializes Media Capture and Frame Reader for video preview and capture frames in real time. |
+| CleanupAsync() | Task | Use this method to dispose Camera Helper resources |
 
 ## Events
 
 | Events | Description |
 | -- | -- |
 | FrameArrived| Fires when a new frame arrives.|
+
+## Examples
+
+Demonstrates using Camera Helper to get video frames from a specific media frame source group.
+
+```csharp
+
+using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
+
+var availableFrameSourceGroups = = await CameraHelper.GetFrameSourceGroupsAsync();
+if(availableFrameSourceGroups != null)
+{
+  CameraHelper cameraHelper = new CameraHelper() { FrameSourceGroup = availableFrameSourceGroups.FirstOrDefault() };
+  var result = await _cameraHelper.InitializeAndStartCaptureAsync();
+
+  // Camera Initialization succeeded
+  if(result == CameraHelperResult.Success)
+  {
+    // Subscribe to get frames as they arrive
+    cameraHelper.FrameArrived += CameraHelper_FrameArrived;
+  }
+}
+
+```
 
 ## Sample Code
 
