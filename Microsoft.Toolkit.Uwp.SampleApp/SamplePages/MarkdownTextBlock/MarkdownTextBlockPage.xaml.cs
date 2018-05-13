@@ -44,11 +44,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (markdownText != null)
             {
                 markdownText.LinkClicked += MarkdownText_LinkClicked;
+                markdownText.ImageClicked += MarkdownText_ImageClicked;
                 markdownText.CodeBlockResolving += MarkdownText_CodeBlockResolving;
             }
 
             SetInitalText("Loading text...");
             LoadData();
+        }
+
+        private async void MarkdownText_ImageClicked(object sender, LinkClickedEventArgs e)
+        {
+            if (!Uri.TryCreate(e.Link, UriKind.Absolute, out Uri result))
+            {
+                await new MessageDialog("Masked relative Images needs to be manually handled.").ShowAsync();
+            }
+            else
+            {
+                await Launcher.LaunchUriAsync(new Uri(e.Link));
+            }
         }
 
         private async void LoadData()

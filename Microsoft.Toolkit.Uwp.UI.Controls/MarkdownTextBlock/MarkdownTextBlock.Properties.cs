@@ -625,7 +625,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Holds a list of hyperlinks we are listening to.
         /// </summary>
-        private readonly List<Hyperlink> _listeningHyperlinks = new List<Hyperlink>();
+        private readonly List<object> _listeningHyperlinks = new List<object>();
 
         /// <summary>
         /// The root element for our rendering.

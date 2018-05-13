@@ -14,11 +14,11 @@
       xmlns:monaco="using:Monaco"
       xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
       xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-      extensions:StatusBar.IsVisible="False"
-      extensions:TitleBar.BackgroundColor="{StaticResource Brand-Color}"
-      extensions:TitleBar.ButtonBackgroundColor="{StaticResource Brand-Color}"
-      extensions:TitleBar.ButtonForegroundColor="{StaticResource Grey-04}"
-      extensions:TitleBar.ForegroundColor="{StaticResource Grey-04}"
+      extensions:StatusBarExtensions.IsVisible="False"
+      extensions:TitleBarExtensions.BackgroundColor="{StaticResource Brand-Color}"
+      extensions:TitleBarExtensions.ButtonBackgroundColor="{StaticResource Brand-Color}"
+      extensions:TitleBarExtensions.ButtonForegroundColor="{StaticResource Grey-04}"
+      extensions:TitleBarExtensions.ForegroundColor="{StaticResource Grey-04}"
       mc:Ignorable="d">
     <Page.Resources>
         
@@ -64,10 +64,11 @@
                 <ColumnDefinition  Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Grid x:Name="DemoAreaGrid">
+            <Grid x:Name="DemoAreaGrid" Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto"/>
@@ -115,6 +116,7 @@
                     
             </Grid>
             <Grid x:Name="InfoAreaGrid"
+                  Grid.Row="1"
                   Background="{StaticResource Brush-Grey-04}"
                   Visibility="Collapsed">
 
@@ -201,7 +203,9 @@
                                                     Foreground="{StaticResource Brush-Grey-01}"
                                                     ImageResolving="DocumentationTextblock_ImageResolving"
                                                     LinkClicked="DocumentationTextblock_OnLinkClicked" 
-                                                    IsFocusEngagementEnabled="False" />
+                                                    IsFocusEngagementEnabled="False"
+                                                    ImageMaxWidth="500"
+                                                    ImageMaxHeight="500"/>
                     </ScrollViewer>
                 </PivotItem>
             </Pivot>
@@ -214,15 +218,25 @@
                                     GripperForeground="White"
                                     ParentLevel="1" />
             </Grid>
+            <Border HorizontalAlignment="Stretch"
+                    Grid.ColumnSpan="2"
+                    Visibility="{Binding DeprecatedWarning, Converter={StaticResource EmptyStringToObject}, FallbackValue=Collapsed}"
+                    Background="{StaticResource SystemControlHighlightAccentBrush}"
+                    Padding="10">
+                <TextBlock Text="{Binding DeprecatedWarning}"
+                           HorizontalAlignment="Center"
+                           TextWrapping="WrapWholeWords"
+                           Foreground="White"></TextBlock>
+            </Border>
             <controls:InAppNotification x:Name="ExceptionNotification"
-                                        Grid.RowSpan="2"
+                                        Grid.RowSpan="3"
                                         Style="{StaticResource ExceptionNotification}"
                                         Grid.ColumnSpan="2"
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Center"
                                         Margin="15"></controls:InAppNotification>
             <Grid x:Name="waitRing"
-                    Grid.RowSpan="2"
+                    Grid.RowSpan="3"
                     Grid.ColumnSpan="2"
                     Visibility="Collapsed">
                 <Rectangle Fill="Black"
@@ -244,12 +258,12 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="InfoAreaGrid.(Grid.Row)" Value="1" />
+                        <Setter Target="InfoAreaGrid.(Grid.Row)" Value="2" />
                         <Setter Target="InfoAreaGrid.(Grid.Column)" Value="0" />
                         <Setter Target="InfoAreaGrid.(Grid.RowSpan)" Value="1" />
                         <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="2" />
 
-                        <Setter Target="DemoAreaGrid.(Grid.Row)" Value="0" />
+                        <Setter Target="DemoAreaGrid.(Grid.Row)" Value="1" />
                         <Setter Target="DemoAreaGrid.(Grid.Column)" Value="0" />
                         <Setter Target="DemoAreaGrid.(Grid.RowSpan)" Value="1" />
                         <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="2" />
@@ -264,12 +278,12 @@
                         <AdaptiveTrigger MinWindowWidth="700" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="InfoAreaGrid.(Grid.Row)" Value="0" />
+                        <Setter Target="InfoAreaGrid.(Grid.Row)" Value="1" />
                         <Setter Target="InfoAreaGrid.(Grid.Column)" Value="1" />
                         <Setter Target="InfoAreaGrid.(Grid.RowSpan)" Value="2" />
                         <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="1" />
 
-                        <Setter Target="DemoAreaGrid.(Grid.Row)" Value="0" />
+                        <Setter Target="DemoAreaGrid.(Grid.Row)" Value="1" />
                         <Setter Target="DemoAreaGrid.(Grid.Column)" Value="0" />
                         <Setter Target="DemoAreaGrid.(Grid.RowSpan)" Value="2" />
                         <Setter Target="DemoAreaGrid.(Grid.ColumnSpan)" Value="1" />

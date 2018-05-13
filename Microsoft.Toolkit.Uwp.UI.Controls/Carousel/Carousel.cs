@@ -31,8 +31,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class Carousel : ItemsControl
     {
         /// <summary>
-        /// Gets or sets the selected Item
+        /// Gets or sets the selected item.
         /// </summary>
+        /// <returns>The selected item. The default is null.</returns>
         public object SelectedItem
         {
             get { return (object)GetValue(SelectedItemProperty); }
@@ -40,14 +41,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the SelectedItem Property
+        /// Identifies the <see cref="SelectedItem"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SelectedItemProperty =
             DependencyProperty.Register("SelectedItem", typeof(object), typeof(Carousel), new PropertyMetadata(null, OnCarouselPropertyChanged));
 
         /// <summary>
-        /// Gets or sets selected Index
+        /// Gets or sets the index of the selected item.
         /// </summary>
+        /// <returns>The index of the selected item. The default is -1.</returns>
         public int SelectedIndex
         {
             get
@@ -62,13 +64,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the SelectedIndex Property
+        /// Identifies the <see cref="SelectedIndex"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SelectedIndexProperty =
             DependencyProperty.Register("SelectedIndex", typeof(int), typeof(Carousel), new PropertyMetadata(-1, OnCarouselPropertyChanged));
 
         /// <summary>
-        /// Gets or sets duration of the easing function animation (ms)
+        /// Gets or sets duration of the easing function animation (ms).
         /// </summary>
         public int TransitionDuration
         {
@@ -77,12 +79,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the TransitionDuration Property
+        /// Identifies the <see cref="TransitionDuration"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty TransitionDurationProperty = DependencyProperty.Register("TransitionDuration", typeof(int), typeof(Carousel), new PropertyMetadata(200));
 
         /// <summary>
-        /// Gets or sets depth of non Selected Index Items
+        /// Gets or sets the depth of items that are not selected.
         /// </summary>
         public int ItemDepth
         {
@@ -91,12 +93,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the ItemDepth Property
+        /// Identifies the <see cref="ItemDepth"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ItemDepthProperty = DependencyProperty.Register("ItemDepth", typeof(int), typeof(Carousel), new PropertyMetadata(0, OnCarouselPropertyChanged));
 
         /// <summary>
-        /// Gets or sets easing function to apply for each Transition
+        /// Gets or sets easing function to apply for each transition.
         /// </summary>
         public EasingFunctionBase EasingFunction
         {
@@ -105,12 +107,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the EasingFunction Property
+        /// Identifies the <see cref="EasingFunction"/> dependency property
         /// </summary>
         public static readonly DependencyProperty EasingFunctionProperty = DependencyProperty.Register("EasingFunction", typeof(EasingFunctionBase), typeof(Carousel), new PropertyMetadata(null));
 
         /// <summary>
-        /// Gets or sets the item margin
+        /// Gets or sets the margin for items.
         /// </summary>
         public int ItemMargin
         {
@@ -119,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the ItemMargin Property
+        /// Identifies the <see cref="ItemMargin"/> dependency property
         /// </summary>
         public static readonly DependencyProperty ItemMarginProperty = DependencyProperty.Register("ItemMargin", typeof(int), typeof(Carousel), new PropertyMetadata(0, OnCarouselPropertyChanged));
 
@@ -135,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the InvertPositive Property
+        /// Identifies the <see cref="InvertPositive"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty InvertPositiveProperty =
             DependencyProperty.Register("InvertPositive", typeof(bool), typeof(Carousel), new PropertyMetadata(true, OnCarouselPropertyChanged));
@@ -150,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the ItemRotationX Property
+        /// Identifies the <see cref="ItemRotationX"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ItemRotationXProperty = DependencyProperty.Register("ItemRotationX", typeof(double), typeof(Carousel), new PropertyMetadata(0d, OnCarouselPropertyChanged));
 
@@ -164,7 +166,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the ItemRotationY Property
+        /// Identifies the <see cref="ItemRotationY"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ItemRotationYProperty = DependencyProperty.Register("ItemRotationY", typeof(double), typeof(Carousel), new PropertyMetadata(0d, OnCarouselPropertyChanged));
 
@@ -178,7 +180,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the ItemRotation Property
+        /// Identifies the <see cref="ItemRotationZ"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ItemRotationZProperty = DependencyProperty.Register("ItemRotationZ", typeof(double), typeof(Carousel), new PropertyMetadata(0d, OnCarouselPropertyChanged));
 
@@ -192,7 +194,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the Orientation Property
+        /// Identifies the <see cref="Orientation"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(Orientation), typeof(Carousel), new PropertyMetadata(Orientation.Horizontal, OnCarouselPropertyChanged));
 
@@ -284,7 +286,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Occurs when the selected item has changed
+        /// Occurs when the selected item changes.
         /// </summary>
         public event SelectionChangedEventHandler SelectionChanged;
 
@@ -509,7 +511,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var compositeTransform = new CompositeTransform();
             compositeTransform.CenterX = 0.5;
-            compositeTransform.CenterY = 0.5;
             compositeTransform.CenterY = 0.5;
 
             carouselItem.Projection = planeProjection;

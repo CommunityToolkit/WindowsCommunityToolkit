@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Parsers.Rss
 {
@@ -63,5 +64,10 @@ namespace Microsoft.Toolkit.Parsers.Rss
         /// Gets or sets publish Date.
         /// </summary>
         public DateTime PublishDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets item's categories.
+        /// </summary>
+        public IEnumerable<string> Categories { get; set; }
     }
 }

@@ -110,18 +110,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(TickBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White), OnFaceChanged));
 
         /// <summary>
-        /// Identifies the ValueBrush dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ValueBrushProperty =
-            DependencyProperty.Register(nameof(ValueBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White)));
-
-        /// <summary>
-        /// Identifies the UnitBrush dependency property.
-        /// </summary>
-        public static readonly DependencyProperty UnitBrushProperty =
-            DependencyProperty.Register(nameof(UnitBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White)));
-
-        /// <summary>
         /// Identifies the ValueStringFormat dependency property.
         /// </summary>
         public static readonly DependencyProperty ValueStringFormatProperty =
@@ -343,24 +331,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (SolidColorBrush)GetValue(TickBrushProperty); }
             set { SetValue(TickBrushProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the brush for the displayed value.
-        /// </summary>
-        public Brush ValueBrush
-        {
-            get { return (Brush)GetValue(ValueBrushProperty); }
-            set { SetValue(ValueBrushProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the brush for the displayed unit measure.
-        /// </summary>
-        public Brush UnitBrush
-        {
-            get { return (Brush)GetValue(UnitBrushProperty); }
-            set { SetValue(UnitBrushProperty, value); }
         }
 
         /// <summary>

@@ -30,12 +30,4 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public bool IsItemOptions { get; internal set; }
     }
-
-    /// <summary>
-    /// EventArgs used for the <see cref="HamburgerMenu"/> ItemInvoked event
-    /// </summary>
-    [Obsolete("The HamburgetMenuItemInvokedEventArgs will be removed caused by a typo. Please use the HamburgerMenuItemInvokedEventArgs instead.")]
-    public class HamburgetMenuItemInvokedEventArgs : HamburgerMenuItemInvokedEventArgs
-    {
-    }
 }

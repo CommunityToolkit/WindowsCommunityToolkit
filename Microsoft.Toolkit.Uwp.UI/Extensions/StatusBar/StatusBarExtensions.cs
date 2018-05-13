@@ -12,6 +12,7 @@
 
 using System;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -141,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// Using a DependencyProperty as the backing store for IsVisible.  This enables animation, styling, binding, etc...
         /// </summary>
         public static readonly DependencyProperty IsVisibleProperty =
-            DependencyProperty.RegisterAttached("IsVisible", typeof(bool), typeof(StatusBar), new PropertyMetadata(true, OnIsVisibleChanged));
+            DependencyProperty.RegisterAttached("IsVisible", typeof(bool), typeof(StatusBarExtensions), new PropertyMetadata(true, OnIsVisibleChanged));
 
         private static async void OnIsVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

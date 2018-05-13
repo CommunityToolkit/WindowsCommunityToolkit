@@ -28,8 +28,6 @@
                   Unit="Units"
                   TickBrush="Gainsboro"
                   ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                  UnitBrush="Black"
-                  ValueBrush="Black" 
                   NeedleWidth="@[NeedleWidth:Slider:5:1-10]" 
                   TickLength="@[TickLength:Slider:18:0-30]" />
           </Grid>

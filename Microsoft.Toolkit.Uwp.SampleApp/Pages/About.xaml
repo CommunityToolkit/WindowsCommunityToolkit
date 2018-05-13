@@ -66,7 +66,7 @@
         </ItemsPanelTemplate>
     </Page.Resources>
 
-    <Grid x:Name="Root" Visibility="Collapsed" extensions:VisualEx.NormalizedCenterPoint="0.5">
+    <Grid x:Name="Root" Visibility="Collapsed" extensions:VisualExtensions.NormalizedCenterPoint="0.5">
 
         <Border x:Name="BackgroundBorder"></Border>
         
@@ -87,7 +87,7 @@
                 <Border Grid.Column="1"
                         x:Name="RightBorder"
                         sampleapp:XAMLHelper.Background="#D4F3F3F3"
-                        extensions:VisualEx.NormalizedCenterPoint="0, 0.5, 0">
+                        extensions:VisualExtensions.NormalizedCenterPoint="0, 0.5, 0">
                     <animations:Implicit.ShowAnimations>
                         <animations:ScaleAnimation From="0, 1, 0" To="1" Duration="0:0:0.3"></animations:ScaleAnimation>
                     </animations:Implicit.ShowAnimations>
@@ -183,8 +183,8 @@
                                     <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://github.com/google/code-prettify" Click="Link_Clicked">
                                         <TextBlock>Code Prettify (Dependency)</TextBlock>
                                     </HyperlinkButton>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://unsplash.com/photos/GfLUxuWZg0w" Click="Link_Clicked">
-                                        <TextBlock>Background photo by Ales Krivec</TextBlock>
+                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://unsplash.com/photos/105m46GatAg" Click="Link_Clicked">
+                                        <TextBlock>Background photo by @apertism</TextBlock>
                                     </HyperlinkButton>
                                 </ItemsControl>
                             </StackPanel>

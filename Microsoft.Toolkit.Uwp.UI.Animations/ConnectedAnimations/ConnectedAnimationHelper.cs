@@ -61,7 +61,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 if (props.IsListAnimation && parameter != null && ApiInformationHelper.IsCreatorsUpdateOrAbove)
                 {
-                    props.ListViewBase.PrepareConnectedAnimation(props.Key, e.Parameter, props.ElementName);
+                    foreach (var listAnimProperty in props.ListAnimProperties)
+                    {
+                        if (listAnimProperty.ListViewBase.ItemsSource is IEnumerable<object> items &&
+                            items.Contains(e.Parameter))
+                        {
+                            try
+                            {
+                                listAnimProperty.ListViewBase.PrepareConnectedAnimation(props.Key, e.Parameter, listAnimProperty.ElementName);
+                            }
+                            catch
+                            {
+                                // Ignore
+                            }
+                        }
+                    }
                 }
                 else if (!props.IsListAnimation)
                 {
@@ -114,22 +128,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     {
                         if (props.IsListAnimation && parameter != null && ApiInformationHelper.IsCreatorsUpdateOrAbove)
                         {
-                            props.ListViewBase.ScrollIntoView(parameter);
-
-                            // give time to the UI thread to scroll the list
-                            var t = props.ListViewBase.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+                            foreach (var listAnimProperty in props.ListAnimProperties)
                             {
-                                try
+                                if (listAnimProperty.ListViewBase.ItemsSource is IEnumerable<object> items && items.Contains(parameter))
                                 {
-                                    var success = await props.ListViewBase.TryStartConnectedAnimationAsync(connectedAnimation, parameter, props.ElementName);
-                                }
-                                catch (Exception)
-                                {
-                                    connectedAnimation.Cancel();
-                                }
-                            });
+                                    listAnimProperty.ListViewBase.ScrollIntoView(parameter);
 
-                            animationHandled = true;
+                                    // give time to the UI thread to scroll the list
+                                    var t = listAnimProperty.ListViewBase.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+                                    {
+                                        try
+                                        {
+                                            var success = await listAnimProperty.ListViewBase.TryStartConnectedAnimationAsync(connectedAnimation, parameter, listAnimProperty.ElementName);
+                                        }
+                                        catch (Exception)
+                                        {
+                                            connectedAnimation.Cancel();
+                                        }
+                                    });
+
+                                    animationHandled = true;
+                                }
+                            }
                         }
                         else if (!props.IsListAnimation)
                         {

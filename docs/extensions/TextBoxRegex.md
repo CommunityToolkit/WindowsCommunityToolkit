@@ -2,26 +2,25 @@
 title: TextBoxRegex XAML Property
 author: nmetulev
 description: The TextBoxRegex Property allows text validation using a regular expression or using built in validation types.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, TextBoxRegex, XAML
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, TextBoxRegex, XAML
 ---
 
 # TextBoxRegex XAML Property
 
-The **TextBoxRegex Property** allows text validation using a regular expression or using built in validation types.
-
-### How it works
+The [TextBoxRegex Property](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.extensions.textboxregex) allows text validation using a regular expression or using built in validation types.
 
 The developer adds a regular expression to validate the TextBox Text against the regular expression throw Regex property or from selecting ValidationType property on the TextBox.
-The validation has 2 modes (ValidationMode):-
+
+The validation has 2 modes (`ValidationMode`):
 1) Normal (Default) : This type will set TextBox IsValid attached property to false or true whether the TextBox text is a valid or not against the Regex property.
 2) Dynamic : This type extends 1) Normal and if is the newest input of the Textbox  is invalid, the character which is invalied will be deleted.
+
 
 Main Attached Properties:
 1) Regex : this property used to set the regular expression that will be used to validate the TextBox.
 2) ValidationMode: Normal or Dynamic.
 3) ValidationType: use a built in predefined validation types Email, Decimal, Phone Number, Character or Number.
 Note that ValidationType Email and Phone Number not support the ValidationMode Dynamic. If you set the ValidationMode to Dynamic, the ValidationMode Normal is selected automatically.
-
 
 ## Syntax
 
@@ -32,20 +31,28 @@ Note that ValidationType Email and Phone Number not support the ValidationMode D
     extensions:TextBoxRegex.ValidationType="PhoneNumber"
     Text="+61616161611" />
 
-<TextBox extensions:TextBoxRegex.ValidationType="Email" />
+<TextBox extensions:TextBoxRegex.ValidationType="Email"   />
 
 <TextBox extensions:TextBoxRegex.ValidationMode="Dynamic"
     extensions:TextBoxRegex.ValidationType="Decimal" />
 ```
 
+## Sample Output
 
-## Example Image
+Text box with ValidationType=Email, validation occurs on TextChanged
 
-![TextBoxRegex animation](../resources/images/Controls-TextBoxRegex.png "TextBoxRegex")
+![TextBoxRegex animation](../resources/images/Extensions/TextBoxRegex.gif)
 
-## Example Code
+## Attached Properties
 
-[TextBoxRegex Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/TextBoxRegex)
+| Property | Type | Description |
+| -- | -- | -- |
+| IsValid | bool | Represents the custom mask that the user can create to add his own variable characters based on regex expression |
+| Regex | string | Set the regular expression that will be used to validate the TextBox |
+| ValidationMode | [ValidationMode](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.extensions.textboxregex.validationmode) | Set validation mode. Normal or Forced |
+| ValidationType | [ValidationType](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.extensions.textboxregex.validationtype) | Set a built in predefined validation types Email, Decimal, Phone Number, Character or Number |
+
+## Examples
 
 The following sample demonstrates how to add TextBoxRegex property.
 
@@ -159,11 +166,16 @@ The following sample demonstrates how to add TextBoxRegex property.
 </Page>
 ```
 
-## Requirements (Windows 10 Device Family)
+## Sample Code
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+[TextBoxRegex Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/TextBoxRegex). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+
+## Requirements
+
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
 
 ## API
 

@@ -105,6 +105,17 @@ You'll have to register all events and grab **control.Resources** for templates 
 ## 5. For Interactive Buttons: Use **Shell.Current.RegisterNewCommand**
 Buttons can be added through this command and are accessible in the main panel so they can be clicked when changing properties or editing XAML.  It's important instead of using buttons in your sample (as events can't be directly used, see above) to register these commands.  These are generally the only thing in your **OnNavigatedTo** event.
 
+```csharp
+protected override async void OnNavigatedTo(NavigationEventArgs e)
+{
+    base.OnNavigatedTo(e);
+
+    Shell.Current.RegisterNewCommand("Image with placeholder", (sender, args) =>
+    {
+        AddImage(false, true);
+    });
+```
+
 If your command adds content dynamically, try and use a style template in the .bind XAML that the user can modify.  Then grab `resources = control.Resources;` in the *OnXamlRendered* event and set the element style from it:
 
 ```csharp
@@ -121,6 +132,8 @@ Now, the sample page content in the app is ignored, but you can override that be
 # Update Samples.json
 After creating your page and the binding text, you just need to reference it in the /SamplePages/samples.json file.
 Select the category where you want your page to be listed and add the following information:
+
+## Basic Structure
 
 ```json
 [
@@ -141,7 +154,28 @@ Select the category where you want your page to be listed and add the following 
 ]
 ```
 
+## Thumbnail Images
+
 > NOTE: If creating a new icon, follow the [Thumbnail Style Guide and templates](https://github.com/Microsoft/UWPCommunityToolkit-design-assets)
+
+## Restricting Samples to Specific API Sets
+
+Some features used by samples aren't available on all the OS versions that the Sample App runs on.  In order to make sure a sample is valid for the host OS, add the `ApiCheck` key/value in your JSON definition.
+
+The value is a string which is the fully-qualified typename to check for the presense of.  You can also accompany this with the `BadgeUpdateVersionRequred` which uses the string provided to show a short message on the sample information so uplevel implementors know the minimum version required.
+
+```json
+    {
+        //...
+        "About": "MySample needs 10.0.16299 or higher to work.",
+        "ApiCheck": "Windows.UI.Xaml.Controls.NavigationView",
+        "BadgeUpdateVersionRequired": "Fall Creators Update required",
+        //...
+    }
+```
+
+If the specified type is not found on the system running the sample app the sample will not appear in the sample list.
+
 
 ### Adding documentation
 

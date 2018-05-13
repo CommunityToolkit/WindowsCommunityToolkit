@@ -2,13 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
-    <Title>UWP Community Toolkit UI</Title>
-    <Description>This library provides UI services. It is part of the UWP Community Toolkit.</Description>
+    <Title>Windows Community Toolkit UI</Title>
+    <Description>This library provides UI services. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>UWP Toolkit Windows UI Converters</PackageTags>
 
     <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
     <UseWindowsMobileSdk>true</UseWindowsMobileSdk>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Win2D.uwp" Version="1.21.0" />
+  </ItemGroup>
 
 
   <ItemGroup>
