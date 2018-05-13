@@ -1,11 +1,11 @@
 ---
-title: UWP Community Toolkit Known Issues
+title: Windows Community Toolkit Known Issues
 author: nmetulev
-description: The UWP Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10. 
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, known issues
+description: The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10. 
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, known issues
 ---
 
-# UWP Community Toolkit Known Issues
+# Windows Community Toolkit Known Issues
 
 > [!NOTE]
 For an accurate list of known bugs and issues, take a look at the [issues on GitHub](https://github.com/Microsoft/UWPCommunityToolkit/issues)

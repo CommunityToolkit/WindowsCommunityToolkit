@@ -19,12 +19,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("UWP Community Toolkit Controls (Design)")]
-[assembly: AssemblyDescription("Design time support for UWP Community Toolkit Controls")]
+[assembly: AssemblyTitle("Windows Community Toolkit Controls (Design)")]
+[assembly: AssemblyDescription("Design time support for Windows Community Toolkit Controls")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("UWP Community Toolkit")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2017")]
+[assembly: AssemblyProduct("Windows Community Toolkit")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

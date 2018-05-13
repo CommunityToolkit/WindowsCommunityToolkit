@@ -512,7 +512,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var compositeTransform = new CompositeTransform();
             compositeTransform.CenterX = 0.5;
             compositeTransform.CenterY = 0.5;
-            compositeTransform.CenterY = 0.5;
 
             carouselItem.Projection = planeProjection;
             carouselItem.RenderTransform = compositeTransform;

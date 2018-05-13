@@ -17,7 +17,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>UnitTests_TemporaryKey.pfx</PackageCertificateKeyFile>
-	<UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">$(VisualStudioVersion)</UnitTestPlatformVersion>
+    <UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">$(VisualStudioVersion)</UnitTestPlatformVersion>
     <PackageCertificateThumbprint>E1D0F2B5EE8606625F7D3B226EEF7B825CCC1A62</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -138,7 +138,6 @@
     <Compile Include="Helpers\Test_ConnectionHelper.cs" />
     <Compile Include="Helpers\Test_ScreenUnitHelper.cs" />
     <Compile Include="Helpers\Test_StorageFileHelper.cs" />
-    <Compile Include="Helpers\Test_HttpHelper.cs" />
     <Compile Include="Helpers\Test_StorageHelper.cs" />
     <Compile Include="Helpers\Test_StreamHelper.cs" />
     <Compile Include="Helpers\Test_DeepLinkParser.cs" />
