@@ -54,7 +54,7 @@ to your application manifest to enable AAD authentication. Capabilities in the m
 Authentication, sign-in and permission scopes are discussed in more detail in this document, [Authorization and sign-in for OneDrive in Microsoft Graph](https://docs.microsoft.com/en-us/onedrive/developer/rest-api/getting-started/graph-oauth)
 
 ### Testing access to the OneDrive API
-Registering your applicatioin creates an App ID/Client and you can simply paste that into the Client Id field inside of the OneDrive services page.  To use the new flow, you need to select the "Work Or School Accounts Or Microsoft Account" authentication provider option.
+Registering your applicatioin creates an App ID/Client and you can simply paste that into the Client Id field inside of the OneDrive services page.  
 
 ## Syntax
 
