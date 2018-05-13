@@ -196,7 +196,7 @@ private void OnInvokeProgress(object sender, GazeProgressEventArgs e)
 
 ## API Source Code
 
-* [control/helper name source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Input.GazeInteraction)
+* [Gaze Interaction Library source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Input.GazeInteraction)
 
 ## Related Topics
 

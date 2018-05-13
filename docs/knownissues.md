@@ -31,7 +31,7 @@ This error will not be fixed until the 3.0 release as it requires a breaking cha
 * HamburgerMenu selected indicator moves with keyboard focus - [see issue for details](https://github.com/Microsoft/UWPCommunityToolkit/issues/1306)
 
 ### WebView
-For the complete list of issues and limitations in this release of the **WebView** control, see [Known Issues of the WebView control for Windows Forms and WPF applications](controls/WebView-known.issues.md).
+For the complete list of issues and limitations in this release of the **WebView** control, see [Known Issues of the WebView control for Windows Forms and WPF applications](controls/WebView-known-issues.md).
 
 ## Extensions
 

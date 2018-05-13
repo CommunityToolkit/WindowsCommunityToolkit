@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
     /// <summary>
     /// Extends the funcionality of <see cref="WebViewControlProcess"/> for Windows Forms.
     /// </summary>
-    public static class WebViewControlProcessExtensions
+    internal static class WebViewControlProcessExtensions
     {
         /// <summary>
         /// Creates a <see cref="IWebView" /> within the context of <paramref name="process" />.
@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// <paramref name="hostWindowHandle"/> is equal to <see cref="IntPtr.Zero"/>, or
         /// <paramref name="process"/> is <see langword="null" />.
         /// </exception>
-        public static IWebView CreateWebView(
+        internal static IWebView CreateWebView(
             this WebViewControlProcess process,
             IntPtr hostWindowHandle,
             Rectangle bounds)
@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// <param name="control">An instance of <see cref="Control"/> to parent the <see cref="WebView"/>.</param>
         /// <returns>An <see cref="IWebView"/> instance.</returns>
         /// <exception cref="ArgumentNullException">Occurs when <paramref name="control"/> is <see langword="null" />.</exception>
-        public static IWebView CreateWebView(
+        internal static IWebView CreateWebView(
             this WebViewControlProcess process,
             Control control)
         {
@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// <param name="bounds">A <see cref="Rectangle" /> containing numerical values that represent the location and size of the control.</param>
         /// <returns>An <see cref="IWebView"/> instance.</returns>
         /// <exception cref="ArgumentNullException">Occurs when <paramref name="control"/> is <see langword="null" />.</exception>
-        public static IWebView CreateWebView(
+        internal static IWebView CreateWebView(
             this WebViewControlProcess process,
             Control control,
             Rectangle bounds)
@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// <paramref name="hostWindowHandle"/> is equal to <see cref="IntPtr.Zero"/>, or
         /// <paramref name="process"/> is <see langword="null" />.
         /// </exception>
-        public static async Task<IWebView> CreateWebViewAsync(
+        internal static async Task<IWebView> CreateWebViewAsync(
             this WebViewControlProcess process,
             IntPtr hostWindowHandle,
             Rectangle bounds)
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// <param name="control">An instance of <see cref="Control"/> to parent the <see cref="WebView"/>.</param>
         /// <returns>An <see cref="IWebView"/> instance.</returns>
         /// <exception cref="ArgumentNullException">Occurs when <paramref name="control"/> is <see langword="null" />.</exception>
-        public static Task<IWebView> CreateWebViewAsync(
+        internal static Task<IWebView> CreateWebViewAsync(
             this WebViewControlProcess process,
             Control control)
         {
@@ -150,7 +150,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// <param name="bounds">A <see cref="Rectangle" /> containing numerical values that represent the location and size of the control.</param>
         /// <returns>An <see cref="IWebView"/> instance.</returns>
         /// <exception cref="ArgumentNullException">Occurs when <paramref name="control"/> is <see langword="null" />.</exception>
-        public static async Task<IWebView> CreateWebViewAsync(
+        internal static async Task<IWebView> CreateWebViewAsync(
             this WebViewControlProcess process,
             Control control,
             Rectangle bounds)

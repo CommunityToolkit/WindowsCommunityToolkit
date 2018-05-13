@@ -33,7 +33,7 @@ Unless specified otherwise in this article, the documentation for the [WebViewCo
 
 ## Feature limitations
 
-When compared to the UWP **WebView** control, the current release of the WPF and Windows Forms **WebView** control has some limitations. For the complete list of these limitations, see [Known Issues of the WebView control for Windows Forms and WPF applications](controls/WebView-known.issues.md).
+When compared to the UWP **WebView** control, the current release of the WPF and Windows Forms **WebView** control has some limitations. For the complete list of these limitations, see [Known Issues of the WebView control for Windows Forms and WPF applications](WebView-known-issues.md).
 
 ## Add the WebView control to the Visual Studio Toolbox
 
@@ -51,25 +51,13 @@ First, open the Visual Studio **Toolbox**, then right-click anywhere in the tool
 
 3. Add that file to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
 
-   The **WebView** control appears in the **Common XAML Controls** section of the **Toolbox**.
+   The **WebView** control appears in the **All Windows Forms** section of the **Toolbox**.
 
    In **Solution Explorer**, the **Microsoft.Toolkit.Win32.UI.Controls.dll** file appears in the **References** list.
 
 ### For WPF applications
 
-1. In the **WPF Components** tab of the **Choose Toolbox Items** dialog box.
-
-2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** in your NuGet package folder.
-
-   For help finding that folder, see [Managing the global packages, cache, and temp folders](https://docs.microsoft.com/nuget/consume-packages/managing-the-global-packages-and-cache-folders).
-
-3. Add that file to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
-
-   The **WebView** control appears in the **Common XAML Controls** section of the **Toolbox**.
-
-   In **Solution Explorer**, the **Microsoft.Toolkit.Win32.UI.Controls.dll** file appears in the **References** list.
-
-After the **WebView** control appears in the Visual Studio Toolbox, you can drag it directly the designer. You can also create an instance of the **WebView** control in code, but we recommend that you do not add **WebView** controls to popup windows because support for that scenario will soon be disabled for security reasons.
+The **WebView** control appears in the **Windows Community Toolkit** section of the **Toolbox** in Visual Studio or Blend and you can drag it directly the designer. You can also create an instance of the **WebView** control in code, but we recommend that you do not add **WebView** controls to popup windows because support for that scenario will soon be disabled for security reasons.
 
 <a id="high-dpi" />
 
@@ -318,9 +306,9 @@ Scripts in the web view content can use **window.external.notify** with a string
 
 You can use the [Settings](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.settings) property (of type [WebViewControlSettings](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrolsettings) to control whether JavaScript and IndexedDB are enabled. For example, if you use a web view to display strictly static content, you might want to disable JavaScript for best performance.
 
- ## Requirements
+## Requirements
 
-| Device family | .NET 4.7, 10.0.17110.0 or higher |
+| Device family | .NET 4.6.2, Windows 10 (introduced v10.0.17110.0) |
 | -- | -- |
 | Namespace | Microsoft.Toolkit.Win32.UI.Controls.WinForms, Microsoft.Toolkit.Win32.UI.Controls.WPF |
 | NuGet package | [Microsoft.Toolkit.Win32.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Win32.UI.Controls/) |

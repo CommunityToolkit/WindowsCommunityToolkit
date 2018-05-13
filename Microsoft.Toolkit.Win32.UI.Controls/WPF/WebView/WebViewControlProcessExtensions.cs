@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// Extends the funcionality of <see cref="WebViewControlProcess"/> for WPF.
     /// </summary>
-    public static class WebViewControlProcessExtensions
+    internal static class WebViewControlProcessExtensions
     {
         /// <summary>
         /// Creates a <see cref="IWebView"/> within the context of <paramref name="process"/>.
@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <paramref name="hostWindowHandle"/> is equal to <see cref="IntPtr.Zero"/>, or
         /// <paramref name="process"/> is <see langword="null" />.
         /// </exception>
-        public static IWebView CreateWebView(
+        internal static IWebView CreateWebView(
             this WebViewControlProcess process,
             IntPtr hostWindowHandle,
             Rect bounds)
@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <param name="visual">A <see cref="Visual"/> instance in which to create a HWND.</param>
         /// <param name="bounds">A <see cref="Rect" /> containing numerical values that represent the location and size of the control.</param>
         /// <returns>An <see cref="IWebView"/> instance.</returns>
-        public static IWebView CreateWebView(this WebViewControlProcess process, Visual visual, Rect bounds)
+        internal static IWebView CreateWebView(this WebViewControlProcess process, Visual visual, Rect bounds)
         {
             return visual.Dispatcher.Invoke(() => process.CreateWebViewAsync(visual, bounds).GetAwaiter().GetResult());
         }
@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// The bounds to draw the <see cref="WebView"/> are determined by the height and width of the <paramref name="visual"/>.
         /// </remarks>
         /// <seealso cref="CreateWebViewAsync(WebViewControlProcess,IntPtr,Rect)"/>
-        public static IWebView CreateWebView(this WebViewControlProcess process, Visual visual)
+        internal static IWebView CreateWebView(this WebViewControlProcess process, Visual visual)
         {
             return visual.Dispatcher.Invoke(() => process.CreateWebViewAsync(visual).GetAwaiter().GetResult());
         }
@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <paramref name="hostWindowHandle"/> is equal to <see cref="IntPtr.Zero"/>, or
         /// <paramref name="process"/> is <see langword="null" />.
         /// </exception>
-        public static async Task<IWebView> CreateWebViewAsync(
+        internal static async Task<IWebView> CreateWebViewAsync(
             this WebViewControlProcess process,
             IntPtr hostWindowHandle,
             Rect bounds)
@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <param name="visual">A <see cref="Visual"/> instance in which to create a HWND.</param>
         /// <param name="bounds">A <see cref="Rect" /> containing numerical values that represent the location and size of the control.</param>
         /// <returns>An asynchronous operation that completes with a <see cref="IWebView"/>.</returns>
-        public static async Task<IWebView> CreateWebViewAsync(this WebViewControlProcess process, Visual visual, Rect bounds)
+        internal static async Task<IWebView> CreateWebViewAsync(this WebViewControlProcess process, Visual visual, Rect bounds)
         {
             HwndSource sourceHwnd;
             if (!visual.Dispatcher.CheckAccess())
@@ -148,7 +148,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// The bounds to draw the <see cref="WebView"/> are determined by the height and width of the <paramref name="visual"/>.
         /// </remarks>
         /// <seealso cref="CreateWebViewAsync(WebViewControlProcess,IntPtr,Rect)"/>
-        public static Task<IWebView> CreateWebViewAsync(this WebViewControlProcess process, Visual visual)
+        internal static Task<IWebView> CreateWebViewAsync(this WebViewControlProcess process, Visual visual)
         {
             double width;
             double height;

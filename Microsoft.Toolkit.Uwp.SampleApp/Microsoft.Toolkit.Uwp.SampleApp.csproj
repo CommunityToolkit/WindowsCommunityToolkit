@@ -281,6 +281,8 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\UniformGrid\UniformGrid.png" />
+    <Content Include="SamplePages\DockPanel\DockPanel.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
     <Content Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrush.png" />
@@ -471,6 +473,7 @@
     <Content Include="SamplePages\DockPanel\DockPanel.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\UniformGrid\UniformGridXaml.bind" />
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlXaml.bind" />
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControlXaml.bind" />
     <Content Include="SamplePages\Mouse\MouseCursorPage.bind" />
@@ -536,6 +539,9 @@
     <Compile Include="Models\LandingPageLinks.cs" />
     <Compile Include="Models\LandingPageResource.cs" />
     <Compile Include="Models\LandingPageLink.cs" />
+    <Compile Include="SamplePages\UniformGrid\UniformGridPage.xaml.cs">
+      <DependentUpon>UniformGridPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\PropertyDescriptor\ThicknessPropertyOptions.cs" />
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
@@ -883,6 +889,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrushPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\UniformGrid\UniformGridPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
