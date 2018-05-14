@@ -55,7 +55,6 @@
                                         Orientation="Horizontal">
                                 <Button x:Name="back"
                                         AutomationProperties.Name="Back"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=BackCommand}"
                                         Style="{StaticResource ToolbarButton}"
                                         Visibility="{TemplateBinding BackButtonVisibility}">
                                     <StackPanel Orientation="Horizontal">
@@ -67,7 +66,6 @@
                                 </Button>
                                 <Button Name="upload"
                                         AutomationProperties.Name="Upload a new file"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=UploadCommand}"
                                         Style="{StaticResource ToolbarButton}"
                                         Visibility="Collapsed">
                                     <StackPanel Orientation="Horizontal">
@@ -79,7 +77,6 @@
                                 </Button>
                                 <Button Name="share"
                                         AutomationProperties.Name="Get share link"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ShareCommand}"
                                         Style="{StaticResource ToolbarButton}"
                                         Visibility="Collapsed">
                                     <StackPanel Orientation="Horizontal">
@@ -91,7 +88,6 @@
                                 </Button>
                                 <Button Name="download"
                                         AutomationProperties.Name="Download selected file"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=DownloadCommand}"
                                         Style="{StaticResource ToolbarButton}"
                                         Visibility="Collapsed">
                                     <StackPanel Orientation="Horizontal">
@@ -103,7 +99,6 @@
                                 </Button>
                                 <Button Name="delete"
                                         AutomationProperties.Name="Delete selected file"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=DeleteCommand}"
                                         Style="{StaticResource ToolbarButton}"
                                         Visibility="Collapsed">
                                     <StackPanel Orientation="Horizontal">
@@ -120,12 +115,10 @@
                                 <HyperlinkButton Name="error"
                                                  VerticalAlignment="Center"
                                                  AutomationProperties.Name="Show error message"
-                                                 Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ShowErrorDetailsCommand}"
                                                  Content="Errors adding files."
                                                  Visibility="Collapsed" />
                                 <Button Name="cancel"
                                         AutomationProperties.Name="Cancel uploading"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CancelCommand}"
                                         Style="{StaticResource ToolbarButton}"
                                         Visibility="Collapsed">
                                     <StackPanel Orientation="Horizontal">
@@ -162,7 +155,6 @@
                                             HorizontalAlignment="Stretch"
                                             AutomationProperties.Name="Load more items"
                                             BorderThickness="0"
-                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=LoadMoreCommand}"
                                             Style="{StaticResource ToolbarButton}"
                                             Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=HasMore}">
                                         <StackPanel Orientation="Horizontal">
