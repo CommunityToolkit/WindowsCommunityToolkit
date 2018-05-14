@@ -2,32 +2,34 @@
 title: BackdropInvertBrush
 author: michael-hawker
 description: The BackdropInvertBrush is a Brush that inverts whatever is behind it in the application.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, brush, backdrop, invert
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, brush, backdrop, invert
 ---
 
 # BackdropInvertBrush
 
-The **BackdropInvertBrush** is a [Brush](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.brush) that inverts whatever is behind it in the application.
+The [BackdropInvertBrush](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.media.backdropinvertbrush) is a [Brush](https://docs.microsoft.com/uwp/api/windows.ui.xaml.media.brush) that inverts whatever is behind it in the application.
 
-It is based on the example provided on [Windows Blogs](https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#c57zf3bW4ylLlSvJ.97).
-
-## Example
+## Syntax
 
 ```xaml
-    <Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="400">
-      <Border.Background>
-        <media:BackdropInvertBrush />
-      </Border.Background>
-    </Border>
+<Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="400">
+  <Border.Background>
+    <media:BackdropInvertBrush />
+  </Border.Background>
+</Border>
 ```
 
 ## Example Image
 
-![Backdrop Invert](../resources/images/Brushes-BackdropInvert.jpg "Backdrop Invert")
+![Backdrop Invert](../resources/images/Brushes/BackdropInvert.jpg "Backdrop Invert")
 
-## Requirements (Windows 10 Device Family)
+## Sample Code
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.15063.0 or higher |
+[BackdropInvertBrush sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackdropInvertBrush). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+
+## Requirements
+
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Media |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
@@ -39,3 +41,4 @@ It is based on the example provided on [Windows Blogs](https://blogs.windows.com
 ## Related Topics
 
 - [Win2D InvertEffect reference](http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_InvertEffect.htm)
+- [Working with Brushes and Content – XAML and Visual Layer Interop, Part One](https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#c57zf3bW4ylLlSvJ.97)

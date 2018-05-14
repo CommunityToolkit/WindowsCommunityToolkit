@@ -390,7 +390,7 @@
                                   Content="" 
                                   Click="ClientIdExpandButton_Click" HorizontalAlignment="Stretch" />
                             <TextBlock Grid.Column="1" 
-                                       Text="Choose an Authentication Provider" 
+                                       Text="Sign in or out of the OneDrive service"
                                        HorizontalAlignment="Left" 
                                        VerticalAlignment="Center" 
                                        Margin="12,6" 
@@ -401,17 +401,10 @@
                                     Orientation="Vertical" 
                                     Margin="24,24,24,21" 
                                     Grid.Row="1">
-                            <ComboBox x:Name="CboProvider" Width="406" SelectionChanged="CboProvider_SelectionChanged">
-                                <ComboBoxItem Content="OnlineId" ToolTipService.ToolTip="Authenticate the application if the Windows user Identity is a Microsoft Account"></ComboBoxItem>
-                                <ComboBoxItem Content="Microsoft Account" ToolTipService.ToolTip="Authenticate the application with any Microsoft Account">
-                                </ComboBoxItem>
-                                <ComboBoxItem Content="Work or School Accounts" ToolTipService.ToolTip="Authenticate the application with an Office 365 Account "></ComboBoxItem>
-                                <ComboBoxItem Content="Work or School Accounts Or Microsoft Account" ToolTipService.ToolTip="Authenticate the application with an Office 365 Account or a Microsoft Account"></ComboBoxItem>
-                            </ComboBox>
                             <TextBox Header="Client Id:" 
                                      x:Name="ClientId" 
                                      Margin="0,15,0,12"
-                                     Text="" Visibility="Collapsed"/>
+                                     Text="" Visibility="Visible"/>
                             <TextBox Margin="0,0,0,12" 
                                      x:Name="DelegatedPermissionScopes" 
                                      Header="Delegated Permission Scopes:" 
@@ -420,14 +413,16 @@
                             <HyperlinkButton x:Name="ClientIdHelper" Margin="0,0,0,15"
                                              Content="Show me how to get this ID"
                                              NavigateUri="https://dev.onedrive.com/app-registration.htm"
-                                             Visibility="Collapsed"
+                                             Visibility="Visible"
                                              />
+                            <TextBlock>Select the permissions you want to use</TextBlock>
+                            <ListBox x:Name="DelegatedPermissions" Margin="0,10,0,0" SelectionMode="Multiple" Height="Auto"/>
                             <Button Content="Sign in" 
                                     x:Name="ConnectButton" 
                                     Click="ConnectButton_Click" 
                                     Margin="0,10,0,0" 
                                     VerticalAlignment="Bottom" 
-                                    Width="75" Visibility="Collapsed"></Button>
+                                    Width="75" Visibility="Visible"></Button>
                             <Button Content="Sign out" 
                                     x:Name="LogOutButton" 
                                     Click="LogOutButton_Click"
