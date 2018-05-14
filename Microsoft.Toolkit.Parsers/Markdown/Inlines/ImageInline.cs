@@ -213,7 +213,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// If this is a reference-style link, attempts to converts it to a regular link.
         /// </summary>
         /// <param name="document"> The document containing the list of references. </param>
-        public void ResolveReference(MarkdownDocument document)
+        internal void ResolveReference(MarkdownDocument document)
         {
             if (document == null)
             {
