@@ -53,31 +53,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            base.OnApplyTemplate();
 
             _searchBox = GetTemplateChild("SearchBox") as TextBox;
             _loading = GetTemplateChild("Loading") as ProgressRing;
             _searchResultListBox = GetTemplateChild("SearchResultListBox") as ListBox;
             _selectionsCounter = GetTemplateChild("SelectionsCounter") as TextBlock;
 
-            SearchResultList = new ObservableCollection<Person>();
-            Selections = Selections ?? new ObservableCollection<Person>();
-            if (!AllowMultiple)
+            if (_searchBox != null && _loading != null
+                && _searchResultListBox != null && _selectionsCounter != null)
             {
-                _selectionsCounter.Visibility = Visibility.Collapsed;
+                SearchResultList = new ObservableCollection<Person>();
+                Selections = Selections ?? new ObservableCollection<Person>();
+                if (!this.AllowMultiple)
+                {
+                    _selectionsCounter.Visibility = Visibility.Collapsed;
+                }
+
+                _searchBox.TextChanged += SearchBox_OnTextChanged;
+                _searchResultListBox.SelectionChanged += SearchResultListBox_OnSelectionChanged;
             }
 
-            _searchBox.TextChanged += SearchBox_OnTextChanged;
-            _searchResultListBox.SelectionChanged += SearchResultListBox_OnSelectionChanged;
-        }
-
-        private async void SignInCurrentUserAsync()
-        {
-            GraphServiceClient graphClient = await AadAuthenticationManager.Instance.GetGraphServiceClientAsync();
-            if (graphClient != null)
-            {
-                var me = await graphClient.Me.Request().GetAsync();
-            }
+            base.OnApplyTemplate();
         }
     }
 }
