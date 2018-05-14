@@ -89,12 +89,14 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
                     return null;
                 }
 
-                if (target.Kind == SymbolKind.Method || target.Kind == SymbolKind.Property)
+                var targetKind = target.Kind;
+
+                if (targetKind == SymbolKind.Method || targetKind == SymbolKind.Property || targetKind == SymbolKind.NamedType)
                 {
                     return target;
                 }
 
-                if (target.Kind == SymbolKind.Field && target.ContainingType.TypeKind == TypeKind.Enum)
+                if (targetKind == SymbolKind.Field && target.ContainingType.TypeKind == TypeKind.Enum)
                 {
                     return target;
                 }
@@ -111,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
         {
             ConcurrentDictionary<int, Diagnostic> reportsDictionary = new ConcurrentDictionary<int, Diagnostic>();
 
-            context.RegisterSyntaxNodeAction((c) => AnalyzeExpression(c, reportsDictionary), SyntaxKind.IdentifierName, SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.QualifiedName);
+            context.RegisterSyntaxNodeAction((c) => AnalyzeExpression(c, reportsDictionary), SyntaxKind.LocalDeclarationStatement, SyntaxKind.IdentifierName, SyntaxKind.SimpleMemberAccessExpression, SyntaxKind.QualifiedName);
         }
 
         private static IEnumerable<ISymbol> GetGuards(SyntaxNode node, SemanticModel semanticModel)
@@ -135,7 +137,14 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
 
                 foreach (var symbol in accesses1.Concat(accesses2))
                 {
-                    if (symbol?.Kind == SymbolKind.Field || symbol?.Kind == SymbolKind.Property)
+                    if (symbol == null)
+                    {
+                        continue;
+                    }
+
+                    var symbolKind = symbol.Kind;
+
+                    if (symbolKind == SymbolKind.Field || symbolKind == SymbolKind.Property)
                     {
                         yield return symbol;
                     }

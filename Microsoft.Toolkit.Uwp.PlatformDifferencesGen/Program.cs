@@ -23,8 +23,6 @@ namespace DifferencesGen
 {
     public class Program
     {
-        private static string path = @"D:\UwpApi";
-
         public static void Main(string[] args)
         {
             string min = null;
@@ -138,7 +136,7 @@ namespace DifferencesGen
 
                     StringBuilder stringBuilder = new StringBuilder();
 
-                    using (var compressedFS = File.Create(Path.Combine(path, string.Format(universalApiDifferencesCompressedFile, version.ToString()))))
+                    using (var compressedFS = File.Create(Path.Combine(AssemblyDirectory, string.Format(universalApiDifferencesCompressedFile, version.ToString()))))
                     {
                         using (var compressionFS = new GZipStream(compressedFS, CompressionMode.Compress))
                         {
@@ -164,6 +162,17 @@ namespace DifferencesGen
 
                     stringBuilder.Length = 0;
                 }
+            }
+        }
+
+        public static string AssemblyDirectory
+        {
+            get
+            {
+                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                UriBuilder uri = new UriBuilder(codeBase);
+                string path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
             }
         }
 

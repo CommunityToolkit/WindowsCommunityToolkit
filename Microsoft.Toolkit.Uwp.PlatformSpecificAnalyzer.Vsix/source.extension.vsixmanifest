@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer.d75b986c-6c7c-4f29-a2c4-2d873af77c70" Version="1.0" Language="en-US" Publisher="WindowsToolkit"/>
+        <Identity Id="Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer.d75b986c-6c7c-4f29-a2c4-2d873af77c70" Version="1.1" Language="en-US" Publisher="WindowsToolkit"/>
         <DisplayName>Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer</DisplayName>
         <Description xml:space="preserve">UWP platform and version specific analyzer and code fixer</Description>
     </Metadata>

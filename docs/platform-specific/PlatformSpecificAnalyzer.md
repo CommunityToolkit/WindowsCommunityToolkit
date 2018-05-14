@@ -10,7 +10,7 @@ dev_langs:
 
 # Platform Specific Analyzer
 
-The [writing version adaptive](https://docs.microsoft.com/windows/uwp/debug-test-perf/version-adaptive-code) code, the developers should ensure that code checks for presence of API before calling it.
+When writing [version](https://docs.microsoft.com/windows/uwp/debug-test-perf/version-adaptive-code) or platform adaptive code, the developers should ensure that code checks for presence of API before calling it.
 The platform specific analyzer is a Roslyn Analyzer that can parse through code and suggest fixes where appropriate.
 
 ## Installation
@@ -39,7 +39,7 @@ Visual Basic
 | Device family | Universal, 10.0.15063.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer |
-| NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer/) |
+| NuGet package | [Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer/) |
 
 ## API Source Code
 
