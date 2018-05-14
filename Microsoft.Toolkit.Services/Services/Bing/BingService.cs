@@ -59,6 +59,20 @@ namespace Microsoft.Toolkit.Services.Bing
         /// </summary>
         public BingDataProvider Provider => bingDataProvider ?? (bingDataProvider = new BingDataProvider());
 
+#if WINRT
+        /// <summary>
+        /// Gets an instance of <see cref="Uwp.IncrementalLoadingCollection{TSource, IType}"/> class that is able to load search data incrementally.
+        /// </summary>
+        /// <param name="config">BingSearchConfig instance.</param>
+        /// <param name="maxRecords">Upper limit of records to return.</param>
+        /// <returns>An instance of <see cref="Uwp.IncrementalLoadingCollection{TSource, IType}"/> class that is able to load search data incrementally.</returns>
+        public static Uwp.IncrementalLoadingCollection<BingService, BingResult> GetAsIncrementalLoading(BingSearchConfig config, int maxRecords = 20)
+        {
+            var service = new BingService(config);
+            return new Uwp.IncrementalLoadingCollection<BingService, BingResult>(service, maxRecords);
+        }
+#endif
+
         /// <summary>
         /// Request list data from service provider based upon a given config / query.
         /// </summary>
