@@ -53,7 +53,7 @@ The [AadLogin Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.u
 
 ## Sample Code
 
-[AadLogin Sample Page Source](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/AadLogin). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[AadLogin Sample Page Source](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/AadLogin). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 

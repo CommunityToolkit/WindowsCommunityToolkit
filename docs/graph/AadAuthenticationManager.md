@@ -34,7 +34,7 @@ AadAuthenticationManager.Instance.Initialize(
 );
 ```
 
-[AadAuthenticationManager Sample Page Source](../../Microsoft.Toolkit.Uwp.SampleApp/Controls/AadAuthControl.xaml.cs). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[AadAuthenticationManager Sample Page Source](../../Microsoft.Toolkit.Uwp.SampleApp/Controls/AadAuthControl.xaml.cs). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

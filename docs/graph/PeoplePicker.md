@@ -35,7 +35,7 @@ The [PeoplePicker Control](https://docs.microsoft.com/dotnet/api/microsoft.toolk
 
 ## Sample Code
 
-[PeoplePicker Sample Page Source](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PeoplePicker). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[PeoplePicker Sample Page Source](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PeoplePicker). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 

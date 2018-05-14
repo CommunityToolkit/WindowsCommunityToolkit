@@ -37,7 +37,7 @@ The [ProfileCard Control](https://docs.microsoft.com/dotnet/api/microsoft.toolki
 
 ## Sample Code
 
-[ProfileCard Sample Page Source](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ProfileCard). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[ProfileCard Sample Page Source](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ProfileCard). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 
