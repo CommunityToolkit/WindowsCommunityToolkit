@@ -81,6 +81,15 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
         private string _redirectUri = string.Empty;
 
+#if WINRT
+        /// <summary>
+        /// Gets or sets field to store the model of authentication
+        /// V1 Only for Work or Scholar account
+        /// V2 for MSA and Work or Scholar account
+        /// </summary>
+        public Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.AuthenticationModel AuthenticationModel { get; set; }
+#endif
+
         /// <summary>
         /// Initialize Microsoft Graph.
         /// </summary>
@@ -146,8 +155,12 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
-
+#if WINRT
+            var authenticationModel = AuthenticationModel.ToString();
+            return Authentication.LogoutAsync(authenticationModel);
+#else
             return Task.Run(() => { return Authentication.Logout(); });
+#endif
         }
 
         /// <summary>
@@ -155,7 +168,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// </summary>
         /// <remarks>Need Sign in and read user profile scopes (User.Read)</remarks>
         /// <returns>Returns success or failure of login attempt.</returns>
-        public virtual async Task<bool> LoginAsync()
+        public virtual async Task<bool> LoginAsync(string loginHint = null)
         {
             IsConnected = false;
             if (!IsInitialized)
@@ -164,7 +177,19 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             }
 
             Authentication = new MicrosoftGraphAuthenticationHelper(DelegatedPermissionScopes);
-            string accessToken = await Authentication.GetUserTokenV2Async(AppClientId, _uiParent, _redirectUri);
+            string accessToken = null;
+#if WINRT
+            if (AuthenticationModel == AuthenticationModel.V1)
+            {
+                accessToken = await Authentication.GetUserTokenAsync(AppClientId);
+            }
+            else
+            {
+                accessToken = await Authentication.GetUserTokenV2Async(AppClientId, loginHint);
+            }
+#else
+            accessToken = await Authentication.GetUserTokenV2Async(AppClientId, _uiParent, _redirectUri, loginHint);
+#endif
 
             if (string.IsNullOrEmpty(accessToken))
             {
@@ -173,19 +198,23 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             IsConnected = true;
 
+#if WINRT
+            User = new MicrosoftGraphUserService(GraphProvider);
+#else
             User = new MicrosoftGraphUserService(GraphProvider, _photosService);
+#endif
 
-            if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile)
+            if ((ServicesToInitialize & ServicesToInitialize.UserProfile) == ServicesToInitialize.UserProfile)
             {
                 await GetUserAsyncProfile();
             }
 
-            if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Message) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Message)
+            if ((ServicesToInitialize & ServicesToInitialize.Message) == ServicesToInitialize.Message)
             {
                 User.InitializeMessage();
             }
 
-            if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Event) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.Event)
+            if ((ServicesToInitialize & ServicesToInitialize.Event) == ServicesToInitialize.Event)
             {
                 User.InitializeEvent();
             }
@@ -200,6 +229,21 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <returns>instance of the GraphServiceclient</returns>
         internal virtual GraphServiceClient CreateGraphClientProvider(string appClientId)
         {
+#if WINRT
+            if (AuthenticationModel == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.AuthenticationModel.V1)
+            {
+                return new GraphServiceClient(
+                  new DelegateAuthenticationProvider(
+                     async (requestMessage) =>
+                     {
+                         requestMessage.Headers.Authorization =
+                             new AuthenticationHeaderValue(
+                                         "bearer",
+                                         await ((MicrosoftGraphAuthenticationHelper)Authentication).GetUserTokenAsync(appClientId).ConfigureAwait(false));
+                         return;
+                     }));
+            }
+#endif
             return new GraphServiceClient(
                   new DelegateAuthenticationProvider(
                      async (requestMessage) =>

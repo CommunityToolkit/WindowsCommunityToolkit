@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;net461</TargetFrameworks>
+    <TargetFrameworks>uap10.0;netstandard1.4;net461</TargetFrameworks>
     <Description>This .NET standard library enables access to different data sources such as Bing. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>UWP Toolkit Windows Bing</PackageTags>
     <Title>Windows Community Toolkit .NET Standard Services</Title>
@@ -22,8 +22,20 @@
     <PackageReference Include="System.Net.Http" Version="4.3.3" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.4'">
+  <ItemGroup Condition="'$(TargetFramework)'=='uap10.0'">
+    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="3.13.7" />
+  </ItemGroup>
+
+  <ItemGroup Condition="!('$(TargetFramework)'=='net461')">
     <Compile Remove="Services\MicrosoftGraph\WinForms\**\*" />
   </ItemGroup>
+
+  <ItemGroup Condition="!('$(TargetFramework)'=='uap10.0')">
+    <Compile Remove="Services\MicrosoftGraph\Platform\Uwp\**\*" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0'">
+    <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINRT</DefineConstants>
+  </PropertyGroup>
 
 </Project>

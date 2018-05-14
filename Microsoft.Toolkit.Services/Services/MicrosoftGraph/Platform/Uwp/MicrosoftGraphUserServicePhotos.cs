@@ -17,7 +17,7 @@ using Microsoft.Graph;
 using Microsoft.Toolkit.Services.MicrosoftGraph.Platform;
 using Windows.Storage.Streams;
 
-namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph.Platform
+namespace Microsoft.Toolkit.Services.MicrosoftGraph.Platform
 {
     /// <summary>
     /// Platform-specific implementation to capture photo.
