@@ -152,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     return compositor.CreateCubicBezierEasingFunction(new Vector2(0.93f, 0.7f), new Vector2(0.4f, -0.93f));
                 // Bounce, EaseInOut
                 case 42:
-                    throw new NotImplementedException();
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.65f, -0.85f), new Vector2(0.35f, 1.85f));
                 // Elastic, EaseOut
                 case 50:
                     return compositor.CreateCubicBezierEasingFunction(new Vector2(0.37f, 2.68f), new Vector2(0f, 0.22f));
@@ -161,7 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     return compositor.CreateCubicBezierEasingFunction(new Vector2(1, .78f), new Vector2(.63f, -1.68f));
                 // Elastic, EaseInOut
                 case 52:
-                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.18f, -3f), new Vector2(0.82f, 3));
+                    return compositor.CreateCubicBezierEasingFunction(new Vector2(0.9f, -1.2f), new Vector2(0.1f, 2.2f));
                 // Circle, EaseOut
                 case 60:
                     return compositor.CreateCubicBezierEasingFunction(new Vector2(0.075f, 0.82f), new Vector2(0.165f, 1f));
