@@ -107,6 +107,7 @@ if (!await OneDriveService.Instance.LoginAsync())
 If Not Await OneDriveService.Instance.LoginAsync() Then
     Throw New Exception("Unable to sign in")
 End If
+```
 
 ### Retrieve the root of your OneDrive
 
