@@ -20,7 +20,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
-namespace Microsoft.Toolkit.Uwp.Services.OneDrive.Uwp
+namespace Microsoft.Toolkit.Services.OneDrive.Uwp
 {
     /// <summary>
     /// Platform implementation of file operations.

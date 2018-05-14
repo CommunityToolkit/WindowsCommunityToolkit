@@ -24,6 +24,7 @@
 
   <ItemGroup Condition="'$(TargetFramework)'=='uap10.0'">
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="3.13.7" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="!('$(TargetFramework)'=='net461')">

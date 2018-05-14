@@ -10,10 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Uwp.Services.OneDrive
+namespace Microsoft.Toolkit.Services.OneDrive
 {
     /// <summary>
-    ///  Class ofr the OneDrive Constants
+    ///  Class for the OneDrive Constants
     /// </summary>
     public class OneDriveConstants
     {

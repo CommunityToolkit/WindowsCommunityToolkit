@@ -21,15 +21,15 @@ using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace Microsoft.Toolkit.Uwp.Services.OneDrive.Uwp
+namespace Microsoft.Toolkit.Services.OneDrive.Uwp
 {
     /// <summary>
     /// Platform implementation to handle file and download operations.
     /// </summary>
     public class OneDriveStorageFilePlatform : IOneDriveStorageFilePlatform
     {
-        private Toolkit.Services.OneDrive.OneDriveService _service;
-        private Toolkit.Services.OneDrive.OneDriveStorageFile _oneDriveStorageFile;
+        private OneDriveService _service;
+        private OneDriveStorageFile _oneDriveStorageFile;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OneDriveStorageFilePlatform"/> class.
@@ -37,8 +37,8 @@ namespace Microsoft.Toolkit.Uwp.Services.OneDrive.Uwp
         /// <param name="service">Instance of OneDriveService</param>
         /// <param name="oneDriveStorageFile">Instance of OneDriveStorageFile</param>
         public OneDriveStorageFilePlatform(
-            Toolkit.Services.OneDrive.OneDriveService service,
-            Toolkit.Services.OneDrive.OneDriveStorageFile oneDriveStorageFile)
+            OneDriveService service,
+            OneDriveStorageFile oneDriveStorageFile)
         {
             _service = service;
             _oneDriveStorageFile = oneDriveStorageFile;
