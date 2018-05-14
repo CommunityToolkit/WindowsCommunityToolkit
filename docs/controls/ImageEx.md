@@ -2,7 +2,7 @@
 title: ImageEx XAML Control
 author: nmetulev
 description: The ImageEx Control and RoundImageEx Control downloads images asynchronously, while showing a loading indicator.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ImageEx, RoundImageEx, xaml control, xaml
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, ImageEx, RoundImageEx, xaml control, xaml
 ---
 
 # ImageEx XAML Control
@@ -42,7 +42,7 @@ On Windows 10.0.16299.0 or higher, `CornerRadius` is supported on ImageEx.  Use 
 
 ## Sample Code
 
-[ImageExControl Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ImageEx). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[ImageExControl Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ImageEx). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template
 

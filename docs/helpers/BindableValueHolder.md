@@ -2,7 +2,7 @@
 title: BindableValueHolder
 author: nmetulev
 description: The BindableValueHolder lets users change several objects' states at a time.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, BindableValueHolder
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, BindableValueHolder
 ---
 
 # BindableValueHolder

@@ -2,7 +2,7 @@
 title: SurfaceDialTextbox XAML Property
 author: nmetulev
 description: The SurfaceDialTextboxHelper XAML Property adds features from the Surface Dial control to a numeric TextBox.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, SurfaceDialTextboxHelper, XAML
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, SurfaceDialTextboxHelper, XAML
 ---
 
 # SurfaceDialTextbox XAML Property
@@ -58,7 +58,7 @@ The [SurfaceDialTextbox XAML Property](https://docs.microsoft.com/dotnet/api/mic
 
 ## Sample Code
 
-[SurfaceDialTextbox Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/SurfaceDialTextbox). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[SurfaceDialTextbox Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/SurfaceDialTextbox). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

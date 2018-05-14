@@ -302,6 +302,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets the dependency property for <see cref="ImageMaxHeight"/>
+        /// </summary>
+        public static readonly DependencyProperty ImageMaxHeightProperty = DependencyProperty.Register(
+            nameof(ImageMaxHeight),
+            typeof(double),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(0.0, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="ImageMaxWidth"/>
+        /// </summary>
+        public static readonly DependencyProperty ImageMaxWidthProperty = DependencyProperty.Register(
+            nameof(ImageMaxWidth),
+            typeof(double),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(0.0, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets or sets the MaxWidth for images.
+        /// </summary>
+        public double ImageMaxWidth
+        {
+            get { return (double)GetValue(ImageMaxWidthProperty); }
+            set { SetValue(ImageMaxWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the MaxHeight for images.
+        /// </summary>
+        public double ImageMaxHeight
+        {
+            get { return (double)GetValue(ImageMaxHeightProperty); }
+            set { SetValue(ImageMaxHeightProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the stretch used for images.
         /// </summary>
         public Stretch ImageStretch

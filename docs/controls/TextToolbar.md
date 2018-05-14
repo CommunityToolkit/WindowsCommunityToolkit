@@ -2,7 +2,7 @@
 title: TextToolbar XAML Control
 author: williamabradley
 description: The TextToolbar Control is a universal Text Editing Control for the RichEditBox Control.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, TextToolbar, RichEditBox, XAML Control, xaml
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, TextToolbar, RichEditBox, XAML Control, xaml
 ---
 
 # TextToolbar XAML Control
@@ -93,10 +93,21 @@ Toolbar.CustomButtons.Add(new ToolbarButton
 });
 Toolbar.CustomButtons.Add(new ToolbarSeparator { Position = 2 });
 ```
+```vb
+Dim button = Toolbar.GetDefaultButton(ButtonType.Headers)
+button.Visibility = Windows.UI.Xaml.Visibility.Collapsed
+Toolbar.CustomButtons.Add(New ToolbarButton With {
+                            .Name = "CustomButton",
+                            .Icon = New SymbolIcon(Symbol.ReportHacked),
+                            .Position = 1,
+                            .Activation = Sub(btn) Debug.WriteLine($"{btn.Name} Activated"),
+                            .ShortcutKey = Windows.System.VirtualKey.H})
+Toolbar.CustomButtons.Add(New ToolbarSeparator With {.Position = 2})
+```
 
 ## Sample Code
 
-[TextToolbar Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/TextToolbar). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[TextToolbar Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/TextToolbar). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

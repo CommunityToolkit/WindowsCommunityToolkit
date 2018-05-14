@@ -2,7 +2,10 @@
 title: Saturation animation behavior
 author: nmetulev
 description: The Saturation animation behavior selectively saturates a XAML element.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, saturation animation, saturation
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, saturation animation, saturation
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # Saturation
@@ -29,6 +32,9 @@ The [Saturation animation](https://docs.microsoft.com/dotnet/api/microsoft.toolk
 ```csharp
 MyUIElement.Saturation(value: 0.5, duration: 500, delay: 250).Start();
 await MyUIElement.Saturation(value: 0.5, duration: 500, delay: 250).StartAsync();  //Saturation animation can be awaited
+```
+```vb
+ToolkitLogo.Saturation(value:=0, duration:=500, delay:=250)
 ```
 
 ## Sample Output
@@ -67,6 +73,15 @@ await MyUIElement.Saturation(value: 0.5, duration: 500, delay: 250).StartAsync()
         MyUIElement.Saturation(value: 0).Start();
     }
     ```
+    ```vb
+    Private Sub MyUIElement_PointerEntered(sender As Object, e As PointerRoutedEventArgs)
+        MyUIElement.Saturation(value:=1).Start()
+    End Sub
+
+    Private Sub MyUIElement_PointerExited(sender As Object, e As PointerRoutedEventArgs)
+        MyUIElement.Saturation(value:=0).Start()
+    End Sub
+    ```
 
     **Sample Output**
 
@@ -83,6 +98,13 @@ await MyUIElement.Saturation(value: 0.5, duration: 500, delay: 250).StartAsync()
     anim.Completed += animation_completed;
     anim.Start();
     ```
+    ```vb
+    Dim anim = MyUIElement.Light(5).Offset(offsetX:=100, offsetY:=100).Saturation(0.5).Scale(scaleX:=2, scaleY:=2)
+    anim.SetDurationForAll(2500)
+    anim.SetDelay(250)
+    AddHandler anim.Completed, AddressOf animation_completed
+    anim.Start()
+    ```
 
     **Sample Output**
 
@@ -90,7 +112,7 @@ await MyUIElement.Saturation(value: 0.5, duration: 500, delay: 250).StartAsync()
 
 ## Sample Project
 
-[Saturation Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Saturation). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Saturation Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Saturation). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
