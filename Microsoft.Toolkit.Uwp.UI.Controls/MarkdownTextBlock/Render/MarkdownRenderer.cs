@@ -50,6 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         public UIElement Render()
         {
             var stackPanel = new StackPanel();
+            RootElement = stackPanel;
             Render(new UIElementCollectionRenderContext(stackPanel.Children) { Foreground = Foreground });
 
             // Set background and border properties.

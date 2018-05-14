@@ -12,6 +12,7 @@
 
 using Windows.Foundation.Metadata;
 using Windows.UI.Text;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
@@ -25,6 +26,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
         private static bool TextDecorationsSupported => (bool)(_textDecorationsSupported ??
                         (_textDecorationsSupported = ApiInformation.IsTypePresent("Windows.UI.Text.TextDecorations")));
+
+        /// <summary>
+        /// Gets or sets the Root Framework Element.
+        /// </summary>
+        private FrameworkElement RootElement { get; set; }
 
         /// <summary>
         /// Gets the interface that is used to register hyperlinks.
