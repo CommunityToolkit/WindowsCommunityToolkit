@@ -2,7 +2,7 @@
 title: AadLogin Control
 author: OGcanviz
 description: The AadLogin Control leverages existing .NET login libraries to support basic AAD sign-in processes for Microsoft Graph.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, AadLogin Control
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, AadLogin Control
 ---
 
 # AadLogin Control

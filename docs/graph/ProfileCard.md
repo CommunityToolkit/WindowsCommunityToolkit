@@ -2,7 +2,7 @@
 title: ProfileCard Control
 author: OGcanviz
 description: The ProfileCard Control is a simple way to display a user in multiple different formats and mixes of name/image/e-mail.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ProfileCard Control
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, ProfileCard Control
 ---
 
 # ProfileCard Control

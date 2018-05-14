@@ -2,7 +2,7 @@
 title: AadAuthenticationManager class
 author: OGcanviz
 description: The AadAuthenticationManager provide the ability to manage the Graph authentication.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, AadAuthenticationManager class
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, AadAuthenticationManager class
 ---
 
 # AadAuthenticationManager Class

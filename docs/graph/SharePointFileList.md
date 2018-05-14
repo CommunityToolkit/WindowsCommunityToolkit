@@ -2,7 +2,7 @@
 title: SharePointFiles Control
 author: OGcanviz
 description: The SharePointFiles Control displays a simple list of SharePoint Files.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, SharePointFiles Control
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, SharePointFiles Control
 ---
 
 # SharePointFiles Control
