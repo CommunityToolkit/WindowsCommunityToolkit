@@ -2,12 +2,16 @@
 
   <PropertyGroup>
     <TargetFrameworks>uap10.0;netstandard1.4;net461</TargetFrameworks>
-    <Description>This .NET standard library enables access to different data sources such as Bing. It is part of the Windows Community Toolkit.</Description>
-    <PackageTags>UWP Toolkit Windows Bing</PackageTags>
+    <Description>This .NET standard library enables access to different data sources such as Bing, Microsoft Graph, and OneDrive. It is part of the Windows Community Toolkit.</Description>
+    <PackageTags>UWP Toolkit Windows Bing Microsoft Graph OneDrive</PackageTags>
     <Title>Windows Community Toolkit .NET Standard Services</Title>
 
     <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
     <DebugType>Full</DebugType>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0'">
+    <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINRT</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,8 +40,5 @@
     <Compile Remove="Services\OneDrive\Platform\Uwp\**\*" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0'">
-    <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINRT</DefineConstants>
-  </PropertyGroup>
 
 </Project>
