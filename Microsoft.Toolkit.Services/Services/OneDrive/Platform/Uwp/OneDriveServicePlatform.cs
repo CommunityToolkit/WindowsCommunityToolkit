@@ -18,7 +18,7 @@ using Microsoft.Toolkit.Services.OneDrive.Platform;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 
-namespace Microsoft.Toolkit.Uwp.Services.OneDrive.Platform
+namespace Microsoft.Toolkit.Uwp.Services.OneDrive.Uwp
 {
     /// <summary>
     /// Platform implementation of background download service.

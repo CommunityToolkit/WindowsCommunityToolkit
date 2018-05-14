@@ -13,7 +13,7 @@
 using Microsoft.Toolkit.Services.OneDrive;
 using Microsoft.Toolkit.Services.OneDrive.Platform;
 
-namespace Microsoft.Toolkit.Uwp.Services.OneDrive.Platform
+namespace Microsoft.Toolkit.Uwp.Services.OneDrive.Uwp
 {
     /// <summary>
     /// Platform implementation of initializer.
