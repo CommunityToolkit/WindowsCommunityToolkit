@@ -3,6 +3,12 @@ Windows Community Toolkit
 
 The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10.
 
+## Microsoft Build 2018
+Several features were announced during Build 2018 that have not merged into master yet but are expected to be merged before the next release (v3.0).
+* If you came here looking for the new **Microsoft Graph** controls, they can be found in [#2055](https://github.com/Microsoft/WindowsCommunityToolkit/pull/2055)
+* New **GazeInteractionLibrary**, **WebView** for win32, and several other features are merged in the [rel/3.0.0-preview](https://github.com/Microsoft/WindowsCommunityToolkit/tree/rel/3.0.0-preview) branch. They can also be found as pre-release packages on nuget
+* **DataGrid** is expected to be released in the 3.1 release later this summer. The current work in progress can be found in the [harinikmsft/datagrid](https://github.com/Microsoft/WindowsCommunityToolkit/tree/harinikmsft/datagrid) branch. It is also available as a pre-release packages on nuget
+
 ## Build status
 | Target | Branch | Status | Recommended Nuget packages version |
 | ------ | ------ | ------ | ------ |
