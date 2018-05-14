@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         public MediaFrameSource FrameSource { get => _frameSource; }
 
         /// <summary>
-        /// Gets the available MediaFrameFormats on this sources
+        /// Gets the available MediaFrameFormats on the sources
         /// </summary>
         public List<MediaFrameFormat> FrameFormatsAvailable { get => _frameFormatsAvailable; }
 
@@ -172,7 +172,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
             catch (UnauthorizedAccessException ex)
             {
                 await Cleanup();
-                Debug.WriteLine(ex.Message);
                 return CameraHelperResult.CameraAccessDenied;
             }
             catch (Exception ex)
