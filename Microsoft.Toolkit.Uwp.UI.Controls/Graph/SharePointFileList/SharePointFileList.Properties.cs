@@ -179,17 +179,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 typeof(SharePointFileList),
                 new PropertyMetadata(false));
 
-        private int _fileUploading;
-        private string _errorMessage;
-        private ICommand _backCommand;
-        private ICommand _uploadCommand;
-        private ICommand _shareCommand;
-        private ICommand _downloadCommand;
-        private ICommand _deleteCommand;
-        private ICommand _showErrorDetailsCommand;
-        private ICommand _loadMoreCommand;
-        private ICommand _cancelCommand;
-
         /// <summary>
         /// Gets or sets url of OneDrive to display
         /// </summary>
@@ -271,134 +260,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             set { SetValue(UploadingFilesMessageTemplateProperty, value); }
         }
 
-        /// <summary>
-        /// Gets the command to go back
-        /// </summary>
-        public ICommand BackCommand
-        {
-            get
-            {
-                if (_backCommand == null)
-                {
-                    _backCommand = new DelegateCommand(BackCommandAction);
-                }
-
-                return _backCommand;
-            }
-        }
-
-        /// <summary>
-        /// Gets the command to upload a new file
-        /// </summary>
-        public ICommand UploadCommand
-        {
-            get
-            {
-                if (_uploadCommand == null)
-                {
-                    _uploadCommand = new DelegateCommand(UploadCommandAction);
-                }
-
-                return _uploadCommand;
-            }
-        }
-
-        /// <summary>
-        /// Gets the command to delete the selected file
-        /// </summary>
-        public ICommand ShareCommand
-        {
-            get
-            {
-                if (_shareCommand == null)
-                {
-                    _shareCommand = new DelegateCommand(ShareCommandAction);
-                }
-
-                return _shareCommand;
-            }
-        }
-
-        /// <summary>
-        /// Gets the command to download the selected file
-        /// </summary>
-        public ICommand DownloadCommand
-        {
-            get
-            {
-                if (_downloadCommand == null)
-                {
-                    _downloadCommand = new DelegateCommand(DownloadCommandAction);
-                }
-
-                return _downloadCommand;
-            }
-        }
-
-        /// <summary>
-        /// Gets the command to delete the selected file
-        /// </summary>
-        public ICommand DeleteCommand
-        {
-            get
-            {
-                if (_deleteCommand == null)
-                {
-                    _deleteCommand = new DelegateCommand(DeleteCommandAction);
-                }
-
-                return _deleteCommand;
-            }
-        }
-
-        /// <summary>
-        /// Gets the command to show error messages
-        /// </summary>
-        public ICommand ShowErrorDetailsCommand
-        {
-            get
-            {
-                if (_showErrorDetailsCommand == null)
-                {
-                    _showErrorDetailsCommand = new DelegateCommand(ShowErrorDetailsCommandAction);
-                }
-
-                return _showErrorDetailsCommand;
-            }
-        }
-
-        /// <summary>
-        /// Gets the command to load more items
-        /// </summary>
-        public ICommand LoadMoreCommand
-        {
-            get
-            {
-                if (_loadMoreCommand == null)
-                {
-                    _loadMoreCommand = new DelegateCommand(LoadMoreCommandAction);
-                }
-
-                return _loadMoreCommand;
-            }
-        }
-
-        /// <summary>
-        /// Gets the command to cancel the file uploading
-        /// </summary>
-        public ICommand CancelCommand
-        {
-            get
-            {
-                if (_cancelCommand == null)
-                {
-                    _cancelCommand = new DelegateCommand(CancelCommandAction);
-                }
-
-                return _cancelCommand;
-            }
-        }
-
         internal bool HasMore
         {
             get { return (bool)GetValue(HasMoreProperty); }
@@ -435,30 +296,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             set { SetValue(StatusMessageProperty, value); }
         }
 
-        private int FileUploading
+        internal Visibility BackButtonVisibility
         {
-            get
-            {
-                return _fileUploading;
-            }
-
-            set
-            {
-                _fileUploading = value;
-            }
-        }
-
-        private string ErrorMessage
-        {
-            get
-            {
-                return _errorMessage;
-            }
-
-            set
-            {
-                _errorMessage = value;
-            }
+            get { return (Visibility)GetValue(BackButtonVisibilityProperty); }
+            set { SetValue(BackButtonVisibilityProperty, value); }
         }
 
         private bool IsDetailPaneVisible
@@ -474,10 +315,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        internal Visibility BackButtonVisibility
-        {
-            get { return (Visibility)GetValue(BackButtonVisibilityProperty); }
-            set { SetValue(BackButtonVisibilityProperty, value); }
-        }
+        private int FileUploading { get; set; }
+
+        private string ErrorMessage { get; set; }
     }
 }

@@ -90,6 +90,46 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <summary>
         /// Key of the ListView that contains file list
         /// </summary>
-        private const string FileList = "list";
+        private const string ControlFileList = "list";
+
+        /// <summary>
+        /// Key of the back button that contains file list
+        /// </summary>
+        private const string ControlBack = "back";
+
+        /// <summary>
+        /// Key of the upload button that contains file list
+        /// </summary>
+        private const string ControlUpload = "upload";
+
+        /// <summary>
+        /// Key of the share button that contains file list
+        /// </summary>
+        private const string ControlShare = "share";
+
+        /// <summary>
+        /// Key of the download button that contains file list
+        /// </summary>
+        private const string ControlDownload = "download";
+
+        /// <summary>
+        /// Key of the delete button that contains file list
+        /// </summary>
+        private const string ControlDelete = "delete";
+
+        /// <summary>
+        /// Key of the error button that contains file list
+        /// </summary>
+        private const string ControlError = "error";
+
+        /// <summary>
+        /// Key of the cancel button that contains file list
+        /// </summary>
+        private const string ControlCancel = "cancel";
+
+        /// <summary>
+        /// Key of the has more button that contains file list
+        /// </summary>
+        private const string ControlLoadMore = "hasMore";
     }
 }

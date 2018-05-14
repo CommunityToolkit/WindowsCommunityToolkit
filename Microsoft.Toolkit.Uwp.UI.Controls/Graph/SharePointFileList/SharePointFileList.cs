@@ -28,7 +28,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// The SharePointFiles Control displays a simple list of SharePoint Files.
     /// </summary>
-    [TemplatePart(Name = FileList, Type = typeof(ListView))]
+    [TemplatePart(Name = ControlFileList, Type = typeof(ListView))]
+    [TemplatePart(Name = ControlBack, Type = typeof(Button))]
+    [TemplatePart(Name = ControlCancel, Type = typeof(Button))]
+    [TemplatePart(Name = ControlDelete, Type = typeof(Button))]
+    [TemplatePart(Name = ControlDownload, Type = typeof(Button))]
+    [TemplatePart(Name = ControlLoadMore, Type = typeof(Button))]
+    [TemplatePart(Name = ControlShare, Type = typeof(Button))]
+    [TemplatePart(Name = ControlUpload, Type = typeof(Button))]
+    [TemplatePart(Name = ControlError, Type = typeof(HyperlinkButton))]
     [TemplateVisualState(Name = UploadStatusNotUploading, GroupName = UploadStatus)]
     [TemplateVisualState(Name = UploadStatusUploading, GroupName = UploadStatus)]
     [TemplateVisualState(Name = UploadStatusError, GroupName = UploadStatus)]
@@ -70,11 +78,59 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            _list = GetTemplateChild(FileList) as ListView;
+            _list = GetTemplateChild(ControlFileList) as ListView;
             if (_list != null)
             {
                 _list.SelectionChanged += List_SelectionChanged;
                 _list.ItemClick += List_ItemClick;
+            }
+
+            Button back = GetTemplateChild(ControlBack) as Button;
+            if (back != null)
+            {
+                back.Click += Back_Click;
+            }
+
+            Button cancel = GetTemplateChild(ControlCancel) as Button;
+            if (cancel != null)
+            {
+                cancel.Click += Cancel_Click;
+            }
+
+            Button delete = GetTemplateChild(ControlDelete) as Button;
+            if (delete != null)
+            {
+                delete.Click += Delete_Click;
+            }
+
+            Button download = GetTemplateChild(ControlDownload) as Button;
+            if (download != null)
+            {
+                download.Click += Download_Click;
+            }
+
+            Button loadMore = GetTemplateChild(ControlLoadMore) as Button;
+            if (loadMore != null)
+            {
+                loadMore.Click += LoadMore_Click;
+            }
+
+            Button share = GetTemplateChild(ControlShare) as Button;
+            if (share != null)
+            {
+                share.Click += Share_Click;
+            }
+
+            Button upload = GetTemplateChild(ControlUpload) as Button;
+            if (upload != null)
+            {
+                upload.Click += Upload_Click;
+            }
+
+            HyperlinkButton error = GetTemplateChild(ControlError) as HyperlinkButton;
+            if (error != null)
+            {
+                error.Click += ShowErrorDetails_Click;
             }
 
             base.OnApplyTemplate();

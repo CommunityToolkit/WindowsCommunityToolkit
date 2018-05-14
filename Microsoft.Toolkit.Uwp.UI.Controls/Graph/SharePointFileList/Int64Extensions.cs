@@ -10,12 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Extensions
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// All common long extensions should go here
     /// </summary>
-    public static class Int64Extensions
+    internal static class Int64Extensions
     {
         /// <summary>
         /// Translate numeric file size to string format.

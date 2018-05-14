@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private async void BackCommandAction()
+        private async void Back_Click(object sender, RoutedEventArgs e)
         {
             if (DetailPane == DetailPaneDisplayMode.Full && IsDetailPaneVisible)
             {
@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private async void UploadCommandAction()
+        private async void Upload_Click(object sender, RoutedEventArgs e)
         {
             ErrorMessage = string.Empty;
             FileOpenPicker picker = new FileOpenPicker();
@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private async void ShareCommandAction()
+        private async void Share_Click(object sender, RoutedEventArgs e)
         {
             if (_list.SelectedItem is DriveItem driveItem)
             {
@@ -127,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private async void DownloadCommandAction()
+        private async void Download_Click(object sender, RoutedEventArgs e)
         {
             if (_list.SelectedItem is DriveItem driveItem)
             {
@@ -150,7 +150,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private async void DeleteCommandAction()
+        private async void Delete_Click(object sender, RoutedEventArgs e)
         {
             if (_list.SelectedItem is DriveItem driveItem)
             {
@@ -173,18 +173,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private async void ShowErrorDetailsCommandAction()
+        private async void ShowErrorDetails_Click(object sender, RoutedEventArgs e)
         {
             MessageDialog messageDialog = new MessageDialog(ErrorMessage);
             await messageDialog.ShowAsync();
         }
 
-        private async void LoadMoreCommandAction()
+        private async void LoadMore_Click(object sender, RoutedEventArgs e)
         {
             await LoadNextPageAsync();
         }
 
-        private void CancelCommandAction()
+        private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             _cancelUpload.Cancel(false);
             _cancelUpload.Dispose();
