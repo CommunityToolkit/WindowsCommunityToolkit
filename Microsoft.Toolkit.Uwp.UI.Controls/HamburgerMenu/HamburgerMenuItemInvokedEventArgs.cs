@@ -30,14 +30,4 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public bool IsItemOptions { get; internal set; }
     }
-
-    /// <summary>
-    /// EventArgs used for the <see cref="HamburgerMenu"/> ItemInvoked event
-    /// </summary>
-    [Obsolete("The HamburgetMenuItemInvokedEventArgs will be removed caused by a typo. Please use the HamburgerMenuItemInvokedEventArgs instead.")]
-#pragma warning disable SA1402 // File may only contain a single class
-    public class HamburgetMenuItemInvokedEventArgs : HamburgerMenuItemInvokedEventArgs
-#pragma warning restore SA1402 // File may only contain a single class
-    {
-    }
 }

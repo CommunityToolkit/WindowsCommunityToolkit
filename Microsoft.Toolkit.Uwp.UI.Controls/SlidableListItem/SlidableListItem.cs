@@ -452,7 +452,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _commandContainer = GetTemplateChild(PartCommandContainer) as Grid;
                 if (_commandContainer != null)
                 {
-                    _commandContainer.Background = LeftBackground as SolidColorBrush;
+                    _commandContainer.Background = LeftBackground as Brush;
                     _commandContainer.Clip = new RectangleGeometry();
                     _commandContainerTransform = new CompositeTransform();
                     _commandContainer.Clip.Transform = _commandContainerTransform;
@@ -631,7 +631,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // If swiping from left to right, show left command panel.
                 _rightCommandPanel.Opacity = 0;
 
-                _commandContainer.Background = LeftBackground as SolidColorBrush;
+                _commandContainer.Background = LeftBackground as Brush;
                 _commandContainer.Opacity = 1;
                 _leftCommandPanel.Opacity = 1;
 
@@ -672,7 +672,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // If swiping from right to left, show right command panel.
                 _leftCommandPanel.Opacity = 0;
 
-                _commandContainer.Background = RightBackground as SolidColorBrush;
+                _commandContainer.Background = RightBackground as Brush;
                 _commandContainer.Opacity = 1;
                 _rightCommandPanel.Opacity = 1;
 

@@ -66,7 +66,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         if (listAnimProperty.ListViewBase.ItemsSource is IEnumerable<object> items &&
                             items.Contains(e.Parameter))
                         {
-                            listAnimProperty.ListViewBase.PrepareConnectedAnimation(props.Key, e.Parameter, listAnimProperty.ElementName);
+                            try
+                            {
+                                listAnimProperty.ListViewBase.PrepareConnectedAnimation(props.Key, e.Parameter, listAnimProperty.ElementName);
+                            }
+                            catch
+                            {
+                                // Ignore
+                            }
                         }
                     }
                 }

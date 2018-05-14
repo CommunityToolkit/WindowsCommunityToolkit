@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
-    <Title>UWP Community Toolkit Services</Title>
-    <Description>This library enables access to different data sources like Bing, Facebook, LinkedIn, MicrosoftGraph, OneDrive and Twitter. It is part of the UWP Community Toolkit.</Description>
+    <Title>Windows Community Toolkit Services</Title>
+    <Description>This library enables access to different data sources like Bing, Facebook, LinkedIn, MicrosoftGraph, OneDrive and Twitter. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>UWP Toolkit Windows Twitter OAuth Facebook Bing MicrosoftGraph LinkedIn OneDrive</PackageTags>
   </PropertyGroup>
 
@@ -13,8 +13,6 @@
 
     <PackageReference Include="Microsoft.Graph" Version="1.6.2" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="3.13.7" />
-    <PackageReference Include="Microsoft.OneDriveSDK" Version="2.0.6" />
-    <PackageReference Include="Microsoft.OneDriveSDK.Authentication" Version="1.0.10" />
     <PackageReference Include="winsdkfb" Version="0.12.20161020.4" />
 
     <!-- This is here to prevent a conflict in certain circumstances -->

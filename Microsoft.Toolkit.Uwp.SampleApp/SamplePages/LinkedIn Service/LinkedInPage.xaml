@@ -126,7 +126,7 @@
                             <TextBox x:Name="ShareText"
                                      Margin="0,0,0,12"
                                      Header="Share"
-                                     Text="Check out the UWP Community Toolkit! https://aka.ms/uwpct" />
+                                     Text="Check out the Windows Community Toolkit! https://aka.ms/uwpct" />
                             <StackPanel Orientation="Horizontal">
                                 <Button x:Name="ShareButton"
                                         Margin="0,0,12,0"
