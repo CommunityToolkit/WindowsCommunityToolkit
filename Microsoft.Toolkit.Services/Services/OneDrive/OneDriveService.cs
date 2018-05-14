@@ -126,6 +126,8 @@ namespace Microsoft.Toolkit.Services.OneDrive
             {
                 ServicePlatformInitializer = new Uwp.OneDriveServicePlatformInitializer();
             }
+
+            Provider.AuthenticationModel = MicrosoftGraphEnums.AuthenticationModel.V2;
 #endif
             ServicePlatformService = ServicePlatformInitializer.CreateOneDriveServicePlatformInstance(this);
 

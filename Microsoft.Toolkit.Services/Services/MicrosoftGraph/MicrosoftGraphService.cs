@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// V1 Only for Work or Scholar account
         /// V2 for MSA and Work or Scholar account
         /// </summary>
-        public Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.AuthenticationModel AuthenticationModel { get; set; }
+        public AuthenticationModel AuthenticationModel { get; set; }
 #endif
 
         /// <summary>
