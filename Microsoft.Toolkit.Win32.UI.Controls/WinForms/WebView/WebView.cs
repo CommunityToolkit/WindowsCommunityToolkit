@@ -449,7 +449,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                 // Ensure that the affected property is the Bounds property to the control
                 if (e.AffectedProperty == nameof(Bounds))
                 {
-                    UpdateBounds(Bounds);
+                    // In a typical control the DisplayRectangle is the interior canvas of the control
+                    // and in a scrolling control the DisplayRectangle would be larger than the ClientRectangle.
+                    // However, that is abstracted from us in WebView so we need to synchronize the ClientRectangle
+                    // and permit WebView to handle scrolling based on the new viewport
+                    UpdateBounds(ClientRectangle);
                 }
             }
         }

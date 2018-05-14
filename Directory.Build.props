@@ -7,7 +7,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/Microsoft/UWPCommunityToolkit</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</PackageLicenseUrl>
-    <PackageReleaseNotes>v2.0: https://github.com/Microsoft/UWPCommunityToolkit/releases/tag/v2.0.0 </PackageReleaseNotes>
+    <PackageReleaseNotes>Preview release of v3.0</PackageReleaseNotes>
     <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
 
 
