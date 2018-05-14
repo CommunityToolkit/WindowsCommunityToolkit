@@ -174,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
         }
 
         /// <summary>
-        /// Stops reading from the frame reader, disposes of the reader and updates the button state.
+        /// Stops reading from the frame reader, disposes of the reader.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         private async Task StopReaderAsync()

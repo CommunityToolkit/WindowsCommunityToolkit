@@ -79,6 +79,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             base.OnNavigatedTo(e);
             Shell.Current.RegisterNewCommand("Capture Current Frame", CaptureButton_Click);
             Application.Current.Suspending += Application_Suspending;
+            Application.Current.Resuming += Application_Resuming;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -94,6 +95,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 await CleanUpAsync();
                 deferral.Complete();
             }
+        }
+
+        private async void Application_Resuming(object sender, object e)
+        {
+            var cameraHelper = new CameraHelper();
+            await _cameraPreviewControl.SetCameraHelperAsync(cameraHelper);
+            _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
+            _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
         }
 
         private void CameraPreviewControl_FrameArrived(object sender, FrameEventArgs e)
@@ -132,7 +141,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 _cameraPreviewControl.PreviewFailed -= CameraPreviewControl_PreviewFailed;
                 await _cameraPreviewControl.CleanupAsync();
-                _cameraPreviewControl = null;
             }
         }
     }

@@ -59,19 +59,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public CameraPreview()
         {
             this.DefaultStyleKey = typeof(CameraPreview);
-            Application.Current.Suspending += Application_Suspending;
-            Application.Current.Resuming += Application_Resuming;
-        }
-
-        private async void Application_Resuming(object sender, object e)
-        {
-            var cameraHelper = new CameraHelper();
-            await SetCameraHelperAsync(cameraHelper);
-        }
-
-        private void Application_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
-        {
-            CleanupAsync();           
         }
 
         protected async override void OnApplyTemplate()
