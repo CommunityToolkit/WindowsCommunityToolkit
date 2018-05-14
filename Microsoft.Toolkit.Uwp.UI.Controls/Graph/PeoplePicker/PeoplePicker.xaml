@@ -54,8 +54,7 @@
                                                         BorderThickness="0"
                                                         Command="{Binding DataContext.DeleteItemCommand, ElementName=PeoplePickerContainer}"
                                                         CommandParameter="{Binding Id}"
-                                                        FlowDirection="LeftToRight"
-                                                        Tag="{Binding UserPrincipalName}">
+                                                        FlowDirection="LeftToRight">
                                                     <SymbolIcon Symbol="Cancel" />
                                                 </Button>
                                             </Grid>
