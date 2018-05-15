@@ -23,6 +23,8 @@ namespace DifferencesGen
 {
     public class Program
     {
+        private static HashSet<string> enumTypes = new HashSet<string>();
+
         public static void Main(string[] args)
         {
             string min = null;
@@ -118,6 +120,11 @@ namespace DifferencesGen
                         {
                             addedTypes.Add(type.Key, null);
 
+                            if (enumTypes.Contains(type.Key))
+                            {
+                                System.Diagnostics.Debug.WriteLine($"New enum {type.Key}");
+                            }
+
                             continue;
                         }
 
@@ -129,6 +136,11 @@ namespace DifferencesGen
                         if (newerVersionTypeMembers.Count == 0)
                         {
                             continue;
+                        }
+
+                        if (enumTypes.Contains(type.Key))
+                        {
+                            System.Diagnostics.Debug.WriteLine($"Enum {type.Key} has new members: {string.Join(",", newerVersionTypeMembers)}");
                         }
 
                         addedTypes.Add(type.Key, newerVersionTypeMembers.ToList());
@@ -188,29 +200,49 @@ namespace DifferencesGen
             {
                 List<string> members = new List<string>();
 
-                foreach (var methodInfo in exportedType.GetMethods())
+                if (exportedType.IsEnum)
                 {
-                    if (!methodInfo.IsPublic)
+                    if (!enumTypes.Contains(exportedType.FullName))
                     {
-                        continue;
+                        enumTypes.Add(exportedType.FullName);
                     }
 
-                    if (methodInfo.Name.StartsWith("get_") ||
-                        methodInfo.Name.StartsWith("set_") ||
-                        methodInfo.Name.StartsWith("put_") ||
-                        methodInfo.Name.StartsWith("add_") ||
-                        methodInfo.Name.StartsWith("remove_")
-                        )
+                    foreach (var member in exportedType.GetFields())
                     {
-                        continue;
-                    }
+                        if (member.Name.Equals("value__"))
+                        {
+                            continue;
+                        }
 
-                    members.Add($"{methodInfo.Name}#{methodInfo.GetParameters().Length}");
+                        members.Add(member.Name);
+                    }
                 }
-
-                foreach (var propertyInfo in exportedType.GetProperties())
+                else
                 {
-                    members.Add(propertyInfo.Name);
+                    foreach (var methodInfo in exportedType.GetMethods())
+                    {
+                        if (!methodInfo.IsPublic)
+                        {
+                            continue;
+                        }
+
+                        if (methodInfo.Name.StartsWith("get_") ||
+                            methodInfo.Name.StartsWith("set_") ||
+                            methodInfo.Name.StartsWith("put_") ||
+                            methodInfo.Name.StartsWith("add_") ||
+                            methodInfo.Name.StartsWith("remove_")
+                            )
+                        {
+                            continue;
+                        }
+
+                        members.Add($"{methodInfo.Name}#{methodInfo.GetParameters().Length}");
+                    }
+
+                    foreach (var propertyInfo in exportedType.GetProperties())
+                    {
+                        members.Add(propertyInfo.Name);
+                    }
                 }
 
                 types.Add(exportedType.FullName, members);
