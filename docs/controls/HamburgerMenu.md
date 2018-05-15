@@ -227,7 +227,7 @@ The HamburgerMenu and NavigationView share the same concepts and provide the sam
         settingsItem.Icon = New FontIcon() With {.Glyph = "?"}
         ```
 
-    - Free-form content in the pane’s footer, by adding any content in the new *PaneFooter* property 
+    - Free-form content in the pane's footer, by adding any content in the new *PaneFooter* property 
 
     In addition, the NavigationView introduces new classes for quickly adding navigation items and grouping items. You can use the new NavigationViewItem, NavigationViewItemSeparator and NavigationViewItemHeader to directly populate the MenuItems and get the look you want
 

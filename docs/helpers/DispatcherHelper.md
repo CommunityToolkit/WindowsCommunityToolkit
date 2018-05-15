@@ -41,7 +41,7 @@ End Function)
 Await CoreApplication.MainView.Dispatcher.AwaitableRunAsync(Of T)(Function()
 
 End Function)
-``
+```
 
 ## Methods
 
@@ -106,4 +106,3 @@ End Function)
 ## API
 
 * [DispatcherHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherHelper.cs)
-
