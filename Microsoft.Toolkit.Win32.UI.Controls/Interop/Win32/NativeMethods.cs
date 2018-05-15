@@ -60,8 +60,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         public static extern bool IsChild(HandleRef parent, HandleRef child);
 
         [SecurityCritical]
-        [DllImport(ExternDll.Kernel32, SetLastError = true, EntryPoint = "GetVersionEx")]
-        private static extern bool _GetVersionEx(ref OSVERSIONINFOEX osVersionInfo);
+        [DllImport(ExternDll.Kernel32, SetLastError = true, EntryPoint = "GetVersionExW", CharSet = CharSet.Unicode)]
+        private static extern bool _GetVersionExW(ref OSVERSIONINFOEX osVersionInfo);
 
         // With the release of Windows 8.1, the behavior of the GetVersionEx API has changed the
         // value it will return for the OS version. The value returned now depends on how the application
@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         public static OSVERSIONINFOEX GetVersionEx()
         {
             var osVersionInfo = new OSVERSIONINFOEX { OSVersionInfoSize = Marshal.SizeOf(typeof(OSVERSIONINFOEX)) };
-            if (!_GetVersionEx(ref osVersionInfo))
+            if (!_GetVersionExW(ref osVersionInfo))
             {
                 HRESULT.ThrowLastError();
             }
