@@ -1,0 +1,20 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">
+
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <controls:Model3D VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch"
+                      Source="ms-appx:///Assets/3D/shark.glb"
+                      CameraControl="@[CameraControl:Bool:True]@"
+                      AlphaInDegrees="@[AlphaInDegrees:Slider:90:0-360]@"
+                      BetaInDegrees="@[BetaInDegrees:Slider:90:0-180]@"
+                      RadiusPercentage="@[RadiusPercentage:Slider:10:0-100]@">
+    </controls:Model3D>
+  </Grid>
+</Page>

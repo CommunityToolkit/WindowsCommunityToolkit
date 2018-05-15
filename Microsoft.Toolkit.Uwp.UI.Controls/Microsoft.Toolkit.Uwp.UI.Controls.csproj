@@ -8,6 +8,20 @@
 
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Model3D\babylon.js" />
+    <None Remove="Model3D\babylonjs.loaders.min.js" />
+    <None Remove="Model3D\BabylonView.html" />
+    <None Remove="Model3D\environment.dds" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Model3D\babylon.js" />
+    <Content Include="Model3D\babylonjs.loaders.min.js" />
+    <Content Include="Model3D\BabylonView.html" />
+    <Content Include="Model3D\environment.dds" />
+  </ItemGroup>
+
 
   <ItemGroup>
 

@@ -1,0 +1,62 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
+
+    <Style TargetType="local:Model3D" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:Model3D">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <WebView x:Name="PART_WebView" 
+                                     DefaultBackgroundColor="Transparent" 
+                                     Opacity="0" 
+                                     IsHitTestVisible="False"></WebView>
+                            <Grid x:Name="PART_CommandGrid"
+                                  Visibility="Collapsed"
+                                  Background="{StaticResource AppBarBackgroundThemeBrush}"
+                                  Height="48" 
+                                  Grid.Row="1" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <ComboBox x:Name="PART_AnimationList" 
+                                          Margin="10,0"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Center"
+                                          Grid.Column="0"/>
+                                <Grid Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button x:Name="PART_PlayPauseButton">
+                                        <Button.Content>
+                                            <Grid>
+                                                <SymbolIcon Symbol="Play" x:Name="PART_PlaySymbol"/>
+                                                <SymbolIcon Symbol="Pause" x:Name="PART_PauseSymbol" Visibility="Collapsed"/>
+                                            </Grid>
+                                        </Button.Content>
+                                    </Button>
+                                    <Slider x:Name="PART_AnimationSlider" 
+                                            Margin="5,0"
+                                            VerticalAlignment="Center"
+                                            Grid.Column="1"/>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

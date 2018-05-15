@@ -332,6 +332,8 @@
     <Content Include="SamplePages\Microsoft Graph Service\OfficeLogo.png" />
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
+    <Content Include="SamplePages\Model3D\Model3D.bind" />
+    <Content Include="SamplePages\Model3D\Model3D.png" />
     <Content Include="SamplePages\NavigationViewStyles\NavigationViewStyles.png" />
     <Content Include="SamplePages\NetworkHelper\NetworkHelper.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
@@ -373,6 +375,7 @@
     <Content Include="SamplePages\Visual Extensions\VisualExtensions.png" />
     <Content Include="SamplePages\WrapPanel\WrapPanel.png" />
     <Content Include="landingPageLinks.json" />
+    <Content Include="Assets\3D\shark.glb" />
     <None Include="Microsoft.Toolkit.Uwp.SampleApp.ruleset" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToast.png" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCode.bind" />
@@ -592,6 +595,9 @@
     <Compile Include="SamplePages\Menu\Commands\VsCommands.cs" />
     <Compile Include="SamplePages\Menu\MenuPage.xaml.cs">
       <DependentUpon>MenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Model3D\Model3DPage.xaml.cs">
+      <DependentUpon>Model3DPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Mouse\MouseCursorPage.xaml.cs">
       <DependentUpon>MouseCursorPage.xaml</DependentUpon>
@@ -939,6 +945,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\MarkdownParser\MarkdownParserPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Model3D\Model3DPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
