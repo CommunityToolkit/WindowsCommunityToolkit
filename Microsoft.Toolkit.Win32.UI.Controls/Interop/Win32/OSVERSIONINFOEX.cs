@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         internal ushort ServicePackMajor;
         internal ushort ServicePackMinor;
         internal short SuiteMask;
-        internal byte ProductType;
+        internal ProductType ProductType;
         internal byte Reserved;
     }
 }

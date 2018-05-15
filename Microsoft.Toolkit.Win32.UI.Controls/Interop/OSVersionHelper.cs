@@ -127,8 +127,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
         {
             // RtlGetVersion does not return ProductType
             var versionInfo = NativeMethods.GetVersionEx();
-            return versionInfo.ProductType == 2 // VER_NT_DOMAIN_CONTROLLER
-                   || versionInfo.ProductType == 3; // VER_NT_SERVER
+            return versionInfo.ProductType == ProductType.VER_NT_DOMAIN_CONTROLLER
+                   || versionInfo.ProductType == ProductType.VER_NT_SERVER;
         }
 
         [SecurityCritical]
