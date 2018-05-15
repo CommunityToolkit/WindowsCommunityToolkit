@@ -101,22 +101,23 @@ MiddleClickScrolling allows you to scroll by click middle mouse button (scroll w
 ### Changing Cursor Type
 
 > [!IMPORTANT]
-Resource file must be manually added to change the cursor type when middle click scrolling. If you didn't add then the cursor won't change when middle click scrolling but funcanilaty won't be affected.
+Resource file must be manually added to change the cursor type when middle click scrolling. If you didn't add then the cursor won't change when middle click scrolling but functionality won't be affected.
 
 #### Using Existing Resource File
 
 1. Download [MiddleClickScrolling-CursorType.res](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ScrollViewer/MiddleClickScrolling-CursorType.res) file
 2. Move this file into your project's folder
 2. Open .csproj file of your project in [Visual Studio Code](https://code.visualstudio.com/) or in any other code editor
-3. Added `<Win32Resource>MiddleClickScrolling-CursorType.res</Win32Resource>` in the first `<PropertyGroup>`
+3. Add `<Win32Resource>MiddleClickScrolling-CursorType.res</Win32Resource>` in the first `<PropertyGroup>`
 
-### Using Your Own Resource File
+### Edit Existing Resource File
 
-- You need 9 cursor resource in your resource file
-- Your cursor number should be 101 to 109
-- Cursor number 101 must be the centre cursor
-- Cursor number 102, 103, 104, 105, 106, 107, 108, 109 must be the NorthArrow, NorthEastArrow, EastArrow, SouthEastArrow, SouthArrow, SouthWestArrow, WestArrow, NorthWestArrow respectively
-- Every cursor will be automatically attached to the corresponding direction of scrolling
+You can easily edit the existing resource file to customise the cursor depending upon your needs.
+
+1. Follow the above steps to add the resource file
+2. Open MiddleClickScrolling-CursorType.res file in Visual Studio
+3. Open Cursor folder
+4. Now you can edit the cursor by opening 101, 102, ....., 109
 
 ### Attached Properties
 
@@ -126,7 +127,7 @@ Resource file must be manually added to change the cursor type when middle click
 
 ## Sample Code
 
-[ScrollViewerExtensions sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ScrollViewerExtensions). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[ScrollViewerExtensions sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ScrollViewerExtensions). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 

@@ -127,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             _currentPosition = default(Point);
             _isDeferredMovingStarted = false;
             _oldCursorID = 100;
-            _timer.Dispose();
+            _timer?.Dispose();
 
             Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
             Window.Current.CoreWindow.PointerReleased -= CoreWindow_PointerReleased;
@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// This function will be called for every small intervel by <see cref="Timer"/>
+        /// This function will be called for every small interval by <see cref="Timer"/>
         /// </summary>
         /// <param name="state">Default param for <see cref="Timer"/>. In this function it will be `null`</param>
         private static void Scroll(object state)
@@ -265,11 +265,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
         {
             Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
+            Window.Current.CoreWindow.PointerExited -= CoreWindow_PointerExited;
             UnsubscribeMiddleClickScrolling();
         }
 
         private static void CoreWindow_PointerExited(CoreWindow sender, PointerEventArgs args)
         {
+            Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
             Window.Current.CoreWindow.PointerExited -= CoreWindow_PointerExited;
             UnsubscribeMiddleClickScrolling();
         }
