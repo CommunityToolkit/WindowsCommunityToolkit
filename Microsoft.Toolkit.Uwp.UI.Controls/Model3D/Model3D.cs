@@ -8,9 +8,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Class used to display glTF models
     /// </summary>
+    [TemplatePart(Name = WebViewPart, Type = typeof(WebView))]
+    [TemplatePart(Name = CommandGridPart, Type = typeof(Grid))]
+    [TemplatePart(Name = AnimationListPart, Type = typeof(ComboBox))]
+    [TemplatePart(Name = AnimationSliderPart, Type = typeof(Slider))]
+    [TemplatePart(Name = PlaySymbolPart, Type = typeof(SymbolIcon))]
+    [TemplatePart(Name = PauseSymbolPart, Type = typeof(SymbolIcon))]
+    [TemplatePart(Name = PlayPauseButtonPart, Type = typeof(Button))]
     public sealed class Model3D : Control
     {
         private WebView _view;
+        private ComboBox _animationList;
+        private Grid _commandGrid;
+        private Slider _animationSlider;
+        private SymbolIcon _playSymbol;
+        private SymbolIcon _pauseSymbol;
+        private Button _playPauseButton;
+        private bool _sliderLayoutUpdated = false;
+        private double _lastValueSetFromAnimation = 0;
 
         /// <summary>
         /// Event raised when the assets are loading
@@ -43,14 +58,57 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _view.NavigationCompleted -= View_NavigationCompleted;
             }
 
+            if (_playPauseButton != null)
+            {
+                _playPauseButton.Click -= PlayPauseButton_Click;
+            }
+
+            if (_animationList != null)
+            {
+                _animationList.SelectionChanged -= AnimationList_SelectionChanged;
+            }
+
+            if (_animationSlider != null)
+            {
+                _animationSlider.LayoutUpdated -= AnimationSlider_LayoutUpdated;
+                _animationSlider.ValueChanged -= AnimationSlider_ValueChanged;
+            }
+
             base.OnApplyTemplate();
 
-            _view = GetTemplateChild("View") as WebView;
+            _view = GetTemplateChild(WebViewPart) as WebView;
             if (_view != null)
             {
                 _view.ScriptNotify += View_ScriptNotify;
                 _view.NavigationCompleted += View_NavigationCompleted;
                 _view.Navigate(new Uri("ms-appx-web:///Microsoft.Toolkit.Uwp.UI.Controls/Model3D/BabylonView.html"));
+            }
+
+            _animationList = GetTemplateChild(AnimationListPart) as ComboBox;
+            if (_animationList != null)
+            {
+                _animationList.SelectionChanged += AnimationList_SelectionChanged;
+            }
+
+            _commandGrid = GetTemplateChild(CommandGridPart) as Grid;
+
+            _playSymbol = GetTemplateChild(PlaySymbolPart) as SymbolIcon;
+            _pauseSymbol = GetTemplateChild(PauseSymbolPart) as SymbolIcon;
+
+            _animationSlider = GetTemplateChild(AnimationSliderPart) as Slider;
+
+            if (_animationSlider != null)
+            {
+                _animationSlider.Minimum = 0;
+                _animationSlider.Maximum = 100;
+                _animationSlider.LayoutUpdated += AnimationSlider_LayoutUpdated;
+                _animationSlider.ValueChanged += AnimationSlider_ValueChanged;
+            }
+
+            _playPauseButton = GetTemplateChild(PlayPauseButtonPart) as Button;
+            if (_playPauseButton != null)
+            {
+                _playPauseButton.Click += PlayPauseButton_Click;
             }
         }
 
@@ -79,6 +137,64 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             await (d as Model3D).UpdateEnvironment();
         }
 
+        private async void AnimationSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            if (e.NewValue == _lastValueSetFromAnimation)
+            {
+                // This is an animated value
+                return;
+            }
+
+            await _view.InvokeScriptAsync("goToFrame", new string[] { (e.NewValue / 100.0).ToString() });
+        }
+
+        private async void AnimationList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            await _view.InvokeScriptAsync("switchToAnimationGroup", new string[] { _animationList.SelectedIndex.ToString() });
+            await Play();
+        }
+
+        private void AnimationSlider_LayoutUpdated(object sender, object e)
+        {
+            // We will use it to prevent layout cycle exception
+            _sliderLayoutUpdated = true;
+        }
+
+        private async Task Pause()
+        {
+            _playSymbol.Visibility = Visibility.Visible;
+            _pauseSymbol.Visibility = Visibility.Collapsed;
+
+            await _view.InvokeScriptAsync("pauseAnimations", new string[] { });
+        }
+
+        private async Task Play()
+        {
+            _playSymbol.Visibility = Visibility.Collapsed;
+            _pauseSymbol.Visibility = Visibility.Visible;
+
+            await _view.InvokeScriptAsync("playAnimations", new string[] { });
+        }
+
+        private async void PlayPauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_playSymbol == null || _pauseSymbol == null)
+            {
+                return;
+            }
+
+            if (_playSymbol.Visibility == Visibility.Collapsed)
+            {
+                // Let's pause
+                await Pause();
+            }
+            else
+            {
+                // Or play
+                await Play();
+            }
+        }
+
         private async void View_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
         {
             await SetupSourceAsync();
@@ -90,28 +206,104 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void View_ScriptNotify(object sender, NotifyEventArgs e)
         {
-            if (e.Value == "loading")
+            var key = e.Value.Substring(0, 4);
+            var value = e.Value.Substring(4);
+
+            switch (key)
             {
-                // Loading
-                AssetLoading?.Invoke(this, EventArgs.Empty);
-            }
-            else if (e.Value == "loaded")
-            {
-                // ready
-                _view.Opacity = 1;
-                AssetLoaded?.Invoke(this, EventArgs.Empty);
-            }
-            else if (e.Value.StartsWith("alpha:"))
-            {
-                AlphaInDegrees = GetDegreeFromRadian(float.Parse(e.Value.Substring(6)));
-            }
-            else if (e.Value.StartsWith("beta:"))
-            {
-                BetaInDegrees = GetDegreeFromRadian(float.Parse(e.Value.Substring(5)));
-            }
-            else if (e.Value.StartsWith("radius:"))
-            {
-                RadiusPercentage = float.Parse(e.Value.Substring(7));
+                // Loading assets
+                case "LOAD":
+                    {
+                        AssetLoading?.Invoke(this, EventArgs.Empty);
+                        break;
+                    }
+
+                // Assets loaded
+                case "LODD":
+                    {
+                        _view.Opacity = 1;
+                        AssetLoaded?.Invoke(this, EventArgs.Empty);
+                        break;
+                    }
+
+                // Camera alpha angle in radians
+                case "ALPH":
+                    {
+                        AlphaInDegrees = GetDegreeFromRadian(float.Parse(value));
+                        break;
+                    }
+
+                // Camera beta angle in radians
+                case "BETA":
+                    {
+                        BetaInDegrees = GetDegreeFromRadian(float.Parse(value));
+                        break;
+                    }
+
+                // Camera radius
+                case "RADI":
+                    {
+                        RadiusPercentage = float.Parse(value);
+                        break;
+                    }
+
+                // Animations are supported
+                case "ANIM":
+                    {
+                        if (_commandGrid == null)
+                        {
+                            return;
+                        }
+
+                        _commandGrid.Visibility = Visibility.Visible;
+
+                        var animationNames = value.Split(',');
+
+                        if (_animationList != null)
+                        {
+                            _animationList.Items.Clear();
+
+                            foreach (var animName in animationNames)
+                            {
+                                _animationList.Items.Add(animName);
+                            }
+
+                            _animationList.SelectedIndex = 0;
+
+                            _playSymbol.Visibility = Visibility.Collapsed;
+                            _pauseSymbol.Visibility = Visibility.Visible;
+                        }
+
+                        break;
+                    }
+
+                // No animation
+                case "NANM":
+                    {
+                        if (_commandGrid != null)
+                        {
+                            _commandGrid.Visibility = Visibility.Collapsed;
+                        }
+
+                        break;
+                    }
+
+                // Current animation frame
+                case "FRAM":
+                    {
+                        if (_animationSlider == null || !_sliderLayoutUpdated)
+                        {
+                            return;
+                        }
+
+                        var position = Math.Min(1, Math.Max(0, double.Parse(value)));
+
+                        // Making sure we are not overwhelming the system
+                        _sliderLayoutUpdated = false;
+                        _lastValueSetFromAnimation = position * 99.0;
+                        _animationSlider.Value = _lastValueSetFromAnimation;
+                        break;
+                    }
             }
         }
 
@@ -305,5 +497,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty CameraControlProperty =
             DependencyProperty.Register("CameraControl", typeof(bool), typeof(Model3D), new PropertyMetadata(true, OnCameraControlChanged));
+
+        /// <summary>
+        /// Key of the UI Element that contains the webview
+        /// </summary>
+        private const string WebViewPart = "PART_WebView";
+
+        /// <summary>
+        /// Key of the UI Element that contains the command grid
+        /// </summary>
+        private const string CommandGridPart = "PART_CommandGrid";
+
+        /// <summary>
+        /// Key of the UI Element that contains the list of animations
+        /// </summary>
+        private const string AnimationListPart = "PART_AnimationList";
+
+        /// <summary>
+        /// Key of the UI Element that contains the animation slider
+        /// </summary>
+        private const string AnimationSliderPart = "PART_AnimationSlider";
+
+        /// <summary>
+        /// Key of the UI Element that contains the play/pause button
+        /// </summary>
+        private const string PlayPauseButtonPart = "PART_PlayPauseButton";
+
+        /// <summary>
+        /// Key of the UI Element that contains the play symbol
+        /// </summary>
+        private const string PlaySymbolPart = "PART_PlaySymbol";
+
+        /// <summary>
+        /// Key of the UI Element that contains the play symbol
+        /// </summary>
+        private const string PauseSymbolPart = "PART_PauseSymbol";
     }
 }

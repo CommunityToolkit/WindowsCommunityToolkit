@@ -8,9 +8,9 @@
     mc:Ignorable="d">
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <controls:Model3D Height="400" 
-                      Width="400" 
-                      Source="ms-appx:///Assets/3D/poop.glb"
+    <controls:Model3D VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch"
+                      Source="ms-appx:///Assets/3D/shark.glb"
                       CameraControl="@[CameraControl:Bool:True]@"
                       AlphaInDegrees="@[AlphaInDegrees:Slider:90:0-360]@"
                       BetaInDegrees="@[BetaInDegrees:Slider:90:0-180]@"

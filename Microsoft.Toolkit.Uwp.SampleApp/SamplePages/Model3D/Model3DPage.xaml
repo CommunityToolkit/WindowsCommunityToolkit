@@ -9,6 +9,9 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:Model3D Height="400" Width="400" Source="ms-appx:///Assets/3D/poop.glb"></controls:Model3D>
+        <controls:Model3D VerticalAlignment="Stretch" 
+                          HorizontalAlignment="Stretch" 
+                          Source="ms-appx:///Assets/3D/shark.glb">
+        </controls:Model3D>
     </Grid>
 </Page>

@@ -14,6 +14,7 @@
         var cameraRadiusPercentage = 5;
         var cameraRadius = 0;
         var enableCameraControl = true;
+        var isAnimationPlaying = false;
 
         var environmentTexture = "environment.dds";
 
@@ -88,14 +89,21 @@
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
 
+        BABYLON.Animation.AllowMatricesInterpolation = true;
         BABYLON.SceneLoader.ShowLoadingScreen = false;
         var container = null;
+        var currentGroup = null;
 
         // set scene and camera
         var scene = new BABYLON.Scene(engine);
         scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
 
         var camera = new BABYLON.ArcRotateCamera("camera", cameraAlpha, cameraBeta, 1, new BABYLON.Vector3(0, 0, 0), scene);
+
+        // No picking
+        scene.pointerDownPredicate = () => false;
+        scene.pointerUpPredicate = () => false;
+        scene.pointerMovePredicate = () => false;
 
         // glTF assets use a +Z forward convention while the default camera faces +Z. Rotate the camera to look at the front of the asset
         camera.minZ = 0;
@@ -134,7 +142,7 @@
         }
 
         async function loadAsset() {
-            window.external.notify("loading");
+            window.external.notify("LOAD");
             if (BABYLON && scene && rootUri && fileName) {
 
                 if (container) {
@@ -149,20 +157,37 @@
                 setCameraRadius();
                 setEnvironment();
 
-                window.external.notify("loaded");
+                scene.executeWhenReady(function () {
+                    // Animations
+                    if (scene.animationGroups.length > 0) {
+                        var groupNames = [];
+                        for (var index = 0; index < scene.animationGroups.length; index++) {
+
+                            var group = scene.animationGroups[index];
+
+                            groupNames.push(group.name);
+                        }
+                        currentGroup = scene.animationGroups[0];
+
+                        window.external.notify("ANIM" + groupNames.join());
+                    } else {
+                        window.external.notify("NANM");
+                    }
+
+                    window.external.notify("LODD");
+                    render();
+                })
             }
         }
 
         function setCameraPosition() {
             if (camera) {
                 if (cameraAlpha !== camera.alpha) {
-                    scene.stopAnimation(camera, "alphaAnimation");
-                    BABYLON.Animation.CreateAndStartAnimation("alphaAnimation", camera, "alpha", 30, 10, camera.alpha, cameraAlpha, false);
+                    camera.alpha = cameraAlpha;
                 }
 
                 if (cameraBeta !== camera.beta) {
-                    scene.stopAnimation(camera, "betaAnimation");
-                    BABYLON.Animation.CreateAndStartAnimation("betaAnimation", camera, "beta", 30, 10, camera.beta, cameraBeta, false);
+                    camera.beta = cameraBeta;
                 }
             }
         }
@@ -174,31 +199,90 @@
                 framingBehavior.zoomOnBoundingInfo(worldExtends.min, worldExtends.max);
 
                 scene.activeCamera.upperRadiusLimit = worldExtends.max.subtract(worldExtends.min).length() * 10;
+
+                scene.activeCamera.alpha = cameraAlpha;
+                scene.activeCamera.beta = cameraBeta;
             }
         }
 
-        engine.runRenderLoop(function () {
-            scene.render();
-
-            // Checking state
-            if (scene.activeCamera) {
-                if (scene.activeCamera.alpha !== cameraAlpha) {
-                    cameraAlpha = scene.activeCamera.alpha;
-                    window.external.notify("alpha:" + scene.activeCamera.alpha);
-                }
-
-                if (scene.activeCamera.beta !== cameraBeta) {
-                    cameraBeta = scene.activeCamera.beta;
-                    window.external.notify("beta:" + scene.activeCamera.beta);
-                }
-
-                if (scene.activeCamera.radius !== cameraRadius) {
-                    cameraRadius = scene.activeCamera.radius;
-                    cameraRadiusPercentage = ((scene.activeCamera.radius - scene.activeCamera.lowerRadiusLimit) / (scene.activeCamera.upperRadiusLimit - scene.activeCamera.lowerRadiusLimit)) * 100.0;
-                    window.external.notify("radius:" + cameraRadiusPercentage);
-                }
+        function pauseAnimations() {
+            if (!currentGroup) {
+                return;
             }
-        });
+
+            isAnimationPlaying = false;
+            currentGroup.pause();
+        }
+
+        function playAnimations() {
+            if (!currentGroup) {
+                return;
+            }
+
+            isAnimationPlaying = true;
+            currentGroup.play(true);
+        }
+
+        function switchToAnimationGroup(indexAsString) {
+            var index = Number(indexAsString);
+
+            if (currentGroup) {
+                currentGroup.reset();
+                currentGroup.stop();
+            }
+
+            currentGroup = scene.animationGroups[index];
+        }
+
+        function goToFrame(frameString) {
+            if (!currentGroup) {
+                return;
+            }
+
+            var frame = currentGroup.from + (currentGroup.to - currentGroup.from) * Number(frameString);
+
+            if (!isAnimationPlaying) {
+                currentGroup.play(true);
+                currentGroup.goToFrame(frame);
+                currentGroup.pause();
+            } else {
+                currentGroup.goToFrame(frame);
+            }
+        }
+
+        function render() {
+            engine.runRenderLoop(function () {
+                scene.render();
+
+                // Checking state
+                if (scene.activeCamera) {
+                    if (scene.activeCamera.alpha !== cameraAlpha) {
+                        cameraAlpha = scene.activeCamera.alpha;
+                        window.external.notify("ALPH" + scene.activeCamera.alpha);
+                    }
+
+                    if (scene.activeCamera.beta !== cameraBeta) {
+                        cameraBeta = scene.activeCamera.beta;
+                        window.external.notify("BETA" + scene.activeCamera.beta);
+                    }
+
+                    if (scene.activeCamera.radius !== cameraRadius) {
+                        cameraRadius = scene.activeCamera.radius;
+                        cameraRadiusPercentage = ((scene.activeCamera.radius - scene.activeCamera.lowerRadiusLimit) / (scene.activeCamera.upperRadiusLimit - scene.activeCamera.lowerRadiusLimit)) * 100.0;
+                        window.external.notify("RADI" + cameraRadiusPercentage);
+                    }
+                }
+
+                // Current animation step
+                if (currentGroup && currentGroup.targetedAnimations[0].animation.runtimeAnimations[0]) {
+                    var newValue = currentGroup.targetedAnimations[0].animation.runtimeAnimations[0].currentFrame;
+                    var range = Math.abs(currentGroup.from - currentGroup.to);
+
+                    window.external.notify("FRAM" + (newValue - currentGroup.from) / range);
+                }
+
+            });
+        }
 
         window.addEventListener("resize", function () {
             engine.resize();
