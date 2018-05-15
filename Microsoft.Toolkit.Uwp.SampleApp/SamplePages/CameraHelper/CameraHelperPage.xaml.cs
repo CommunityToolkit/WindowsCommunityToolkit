@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             base.OnNavigatedTo(e);
             _softwareBitmapSource = new SoftwareBitmapSource();
-            CurrentFrameImage.Source = _softwareBitmapSource;            
+            CurrentFrameImage.Source = _softwareBitmapSource;
 
             await InitializeAsync();
         }
@@ -144,7 +144,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                await _cameraHelper.CleanupAsync();
                _cameraHelper = null;
-            }            
+            }
         }
     }
 }

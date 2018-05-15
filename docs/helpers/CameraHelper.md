@@ -82,6 +82,13 @@ if(availableFrameSourceGroups != null)
   {
     // Subscribe to get frames as they arrive
     cameraHelper.FrameArrived += CameraHelper_FrameArrived;
+	
+	// Optionally set a different frame source format
+	var newFormat = _cameraHelper.FrameFormatsAvailable.Find((format) => format.VideoFormat.Width == 640);
+	if (newFormat != null)
+	{
+		await _cameraHelper.FrameSource.SetFormatAsync(newFormat);
+	}
   }
 }
 
@@ -103,5 +110,4 @@ if(availableFrameSourceGroups != null)
 ## API Source Code
 
 - [CameraHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/CameraHelper)
-
 
