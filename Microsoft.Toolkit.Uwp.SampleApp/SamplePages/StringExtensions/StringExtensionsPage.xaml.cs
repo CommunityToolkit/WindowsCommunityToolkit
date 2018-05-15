@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Extensions;
+using Windows.UI.Text;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -33,11 +34,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void ValidateCurrentText()
         {
-            IsValidEmail.Text = $"IsEmail() = {InputTextBox.Text.IsEmail()}";
-            IsValidNumber.Text = $"IsNumeric() = {InputTextBox.Text.IsNumeric()}";
-            IsValidDecimal.Text = $"IsDecimal() = {InputTextBox.Text.IsDecimal()}";
-            IsValidString.Text = $"IsCharacterString() = {InputTextBox.Text.IsCharacterString()}";
-            IsValidPhoneNumber.Text = $"IsPhoneNumber() = {InputTextBox.Text.IsPhoneNumber()}";
+            IsValidEmailResult.Text = InputTextBox.Text.IsEmail().ToString();
+            IsValidEmailResult.FontWeight = InputTextBox.Text.IsEmail() ? FontWeights.Bold : FontWeights.Normal;
+
+            IsValidNumberResult.Text = InputTextBox.Text.IsNumeric().ToString();
+            IsValidNumberResult.FontWeight = InputTextBox.Text.IsNumeric() ? FontWeights.Bold : FontWeights.Normal;
+
+            IsValidDecimalResult.Text = InputTextBox.Text.IsDecimal().ToString();
+            IsValidDecimalResult.FontWeight = InputTextBox.Text.IsDecimal() ? FontWeights.Bold : FontWeights.Normal;
+
+            IsValidStringResult.Text = InputTextBox.Text.IsCharacterString().ToString();
+            IsValidPhoneNumberResult.FontWeight = InputTextBox.Text.IsCharacterString() ? FontWeights.Bold : FontWeights.Normal;
+
+            IsValidPhoneNumberResult.Text = InputTextBox.Text.IsPhoneNumber().ToString();
+            IsValidPhoneNumberResult.FontWeight = InputTextBox.Text.IsPhoneNumber() ? FontWeights.Bold : FontWeights.Normal;
         }
     }
 }
