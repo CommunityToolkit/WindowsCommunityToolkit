@@ -9,9 +9,35 @@
     mc:Ignorable="d">
 
     <Grid>
-        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBox PlaceholderText="Enter String" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="InputTextBox" MinWidth="300" />
-            <TextBlock x:Name="IsValid" Padding="0,5"/>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
+            <TextBox PlaceholderText="Enter String" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="InputTextBox" MinWidth="300" TextChanged="OnTextChanged" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock HorizontalAlignment="Right" Padding="5,0" Grid.Column="0" Grid.Row="0">IsValidEmail</TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="0" x:Name="IsValidEmailResult" Foreground="Blue" />
+
+                <TextBlock HorizontalAlignment="Right" Padding="5,0" Grid.Column="0" Grid.Row="1">IsValidNumber</TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="1" x:Name="IsValidNumberResult" Foreground="Blue" />
+
+                <TextBlock HorizontalAlignment="Right" Padding="5,0" Grid.Column="0" Grid.Row="2">IsValidDecimal</TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="2" x:Name="IsValidDecimalResult" Foreground="Blue" />
+
+                <TextBlock HorizontalAlignment="Right" Padding="5,0" Grid.Column="0" Grid.Row="3">IsValidString</TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="3" x:Name="IsValidStringResult" Foreground="Blue" />
+
+                <TextBlock HorizontalAlignment="Right" Padding="5,0" Grid.Column="0" Grid.Row="4">IsValidPhoneNumber</TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="4" x:Name="IsValidPhoneNumberResult" Foreground="Blue" />
+            </Grid>
         </StackPanel>
     </Grid>
 </Page>
