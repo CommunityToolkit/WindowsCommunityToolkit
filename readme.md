@@ -3,11 +3,17 @@ Windows Community Toolkit
 
 The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10.
 
+## Microsoft Build 2018
+Several features were announced during Build 2018 that have not merged into master yet but are expected to be merged before the next release (v3.0).
+* If you came here looking for the new **Microsoft Graph** controls, they can be found in [#2055](https://github.com/Microsoft/WindowsCommunityToolkit/pull/2055)
+* New **GazeInteractionLibrary**, **WebView** for win32, and several other features are merged in the [rel/3.0.0-preview](https://github.com/Microsoft/WindowsCommunityToolkit/tree/rel/3.0.0-preview) branch. They can also be found as pre-release packages on nuget
+* **DataGrid** is expected to be released in the 3.1 release later this summer. The current work in progress can be found in the [harinikmsft/datagrid](https://github.com/Microsoft/WindowsCommunityToolkit/tree/harinikmsft/datagrid) branch. It is also available as a pre-release packages on nuget
+
 ## Build status
 | Target | Branch | Status | Recommended Nuget packages version |
 | ------ | ------ | ------ | ------ |
 | Production | rel/2.2.0 | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/rel/2.2.0?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/rel/2.2.0) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
-| Pre-release beta testing | master | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/master?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/master) | [![MyGet](https://img.shields.io/dotnet.myget/uwpcommunitytoolkit/vpre/Microsoft.Toolkit.Uwp.svg)](https://dotnet.myget.org/gallery/uwpcommunitytoolkit) |
+| Pre-release beta testing | master | [![Build status](https://dotnetfoundation.visualstudio.com/_apis/public/build/definitions/696bc9fd-f160-4e97-a1bd-7cbbb3b58f66/10/badge)](https://dotnetfoundation.visualstudio.com/696bc9fd-f160-4e97-a1bd-7cbbb3b58f66/_build/index?definitionId=10) | [![MyGet](https://img.shields.io/dotnet.myget/uwpcommunitytoolkit/vpre/Microsoft.Toolkit.Uwp.svg)](https://dotnet.myget.org/gallery/uwpcommunitytoolkit) |
 
 ## Getting started
 Please read the [getting Started with the Windows Community Toolkit](https://docs.microsoft.com/windows/uwpcommunitytoolkit/getting-started) page for more detailed information about using the toolkit.
