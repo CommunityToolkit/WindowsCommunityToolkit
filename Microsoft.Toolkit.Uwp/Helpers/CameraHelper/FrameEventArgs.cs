@@ -11,14 +11,9 @@
 // ******************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Graphics.Imaging;
 using Windows.Media;
 
-namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
+namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// EventArgs to be used by <see cref="CameraHelper"/> FrameArrived Event

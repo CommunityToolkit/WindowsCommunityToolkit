@@ -13,7 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Media.Capture.Frames;
 using Windows.Media.Core;
 using Windows.Media.Playback;

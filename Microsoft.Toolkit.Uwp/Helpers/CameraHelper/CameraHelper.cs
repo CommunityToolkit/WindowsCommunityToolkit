@@ -12,7 +12,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
@@ -20,7 +19,7 @@ using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
 using Windows.Media.MediaProperties;
 
-namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
+namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// Camera Helper class to capture frames from available camera sources.

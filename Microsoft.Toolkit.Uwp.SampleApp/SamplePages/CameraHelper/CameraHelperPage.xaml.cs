@@ -11,11 +11,8 @@
 // ******************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
-using Windows.ApplicationModel;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Graphics.Imaging;
 using Windows.Media;
 using Windows.Media.Capture.Frames;
