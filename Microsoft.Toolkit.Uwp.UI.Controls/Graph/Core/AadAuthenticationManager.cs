@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             GraphServiceClient graphClient = null;
 
-            string token = await GetTokenForUserAsync().ConfigureAwait(false);
+            string token = await GetTokenForUserAsync();
 
             if (!string.IsNullOrEmpty(token))
             {
@@ -258,7 +258,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             try
             {
-                result = await _publicClientApp.AcquireTokenSilentAsync(Scopes, _user).ConfigureAwait(false);
+                result = await _publicClientApp.AcquireTokenSilentAsync(Scopes, _user);
                 tokenForUser = result.AccessToken;
             }
             catch (MsalUiRequiredException)
@@ -276,8 +276,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             try
             {
-                result = await _publicClientApp.AcquireTokenAsync(Scopes, user)
-                    .ConfigureAwait(false);
+                result = await _publicClientApp.AcquireTokenAsync(Scopes, user);
                 _user = result.User;
 
                 return result.AccessToken;
