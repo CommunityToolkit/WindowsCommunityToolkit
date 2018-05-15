@@ -53,15 +53,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            CleanUp();
+            CleanUpAsync();
         }
 
-        private void Application_Suspending(object sender, SuspendingEventArgs e)
+        private async void Application_Suspending(object sender, SuspendingEventArgs e)
         {
             if (Frame.CurrentSourcePageType == typeof(CameraPreviewPage))
             {
                 var deferral = e.SuspendingOperation.GetDeferral();
-                CleanUp();
+                await CleanUpAsync();
                 deferral.Complete();
             }
         }
@@ -73,6 +73,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async Task InitializeAsync()
         {
+            var frameSourceGroups = await CameraHelper.GetFrameSourceGroupsAsync();            
             if (_cameraHelper == null)
             {
                 _cameraHelper = new CameraHelper();
@@ -83,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 // Subscribe to the video frame as they arrive
                 _cameraHelper.FrameArrived += CameraHelper_FrameArrived;
-                FrameSourceGroupCombo.ItemsSource = _cameraHelper.FrameSourceGroups;
+                FrameSourceGroupCombo.ItemsSource = frameSourceGroups;
                 FrameSourceGroupCombo.SelectionChanged += FrameSourceGroupCombo_SelectionChanged;
                 FrameSourceGroupCombo.SelectedIndex = 0;
             }
@@ -96,7 +97,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var selectedGroup = FrameSourceGroupCombo.SelectedItem as MediaFrameSourceGroup;
             if (selectedGroup != null)
             {
-                var result = await _cameraHelper.InitializeAndStartCaptureAsync(selectedGroup);
+                _cameraHelper.FrameSourceGroup = selectedGroup;
+                var result = await _cameraHelper.InitializeAndStartCaptureAsync();
                 SetUIControls(result);
             }
         }
@@ -131,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void CleanUp()
+        private async Task CleanUpAsync()
         {
             if (FrameSourceGroupCombo != null)
             {
@@ -140,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             if (_cameraHelper != null)
             {
-               _cameraHelper.Dispose();
+               await _cameraHelper.CleanupAsync();
                _cameraHelper = null;
             }
         }
