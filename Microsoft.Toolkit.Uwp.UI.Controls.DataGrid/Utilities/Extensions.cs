@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Utilities
 {
     internal static class Extensions
     {
-        private static Dictionary<DependencyObject, Dictionary<DependencyProperty, bool>> _suspendedHandlers = new Dictionary<DependencyObject, Dictionary<DependencyProperty, bool>>();
+        private static Dictionary<DependencyObject, Dictionary<DependencyProperty, int>> _suspendedHandlers = new Dictionary<DependencyObject, Dictionary<DependencyProperty, int>>();
 
         public static bool IsHandlerSuspended(this DependencyObject dependencyObject, DependencyProperty dependencyProperty)
         {
@@ -206,21 +206,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Utilities
             return element;
         }
 
-        private static void SuspendHandler(this DependencyObject obj, DependencyProperty dependencyProperty, bool suspend)
+        private static void SuspendHandler(this DependencyObject obj, DependencyProperty dependencyProperty, bool incrementSuspensionCount)
         {
             if (_suspendedHandlers.ContainsKey(obj))
             {
-                Dictionary<DependencyProperty, bool> suspensions = _suspendedHandlers[obj];
+                Dictionary<DependencyProperty, int> suspensions = _suspendedHandlers[obj];
 
-                if (suspend)
+                if (incrementSuspensionCount)
                 {
-                    Debug.Assert(!suspensions.ContainsKey(dependencyProperty), "Expected no key for dependencyProperty.");
-                    suspensions[dependencyProperty] = true; // true = dummy value
+                    if (suspensions.ContainsKey(dependencyProperty))
+                    {
+                        suspensions[dependencyProperty]++;
+                    }
+                    else
+                    {
+                        suspensions[dependencyProperty] = 1;
+                    }
                 }
                 else
                 {
                     Debug.Assert(suspensions.ContainsKey(dependencyProperty), "Expected existing key for dependencyProperty.");
-                    suspensions.Remove(dependencyProperty);
+                    if (suspensions[dependencyProperty] == 1)
+                    {
+                        suspensions.Remove(dependencyProperty);
+                    }
+                    else
+                    {
+                        suspensions[dependencyProperty]--;
+                    }
+
                     if (suspensions.Count == 0)
                     {
                         _suspendedHandlers.Remove(obj);
@@ -229,9 +243,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Utilities
             }
             else
             {
-                Debug.Assert(suspend, "Expected suspend==true.");
-                _suspendedHandlers[obj] = new Dictionary<DependencyProperty, bool>();
-                _suspendedHandlers[obj][dependencyProperty] = true;
+                Debug.Assert(incrementSuspensionCount, "Expected incrementSuspensionCount==true.");
+                _suspendedHandlers[obj] = new Dictionary<DependencyProperty, int>();
+                _suspendedHandlers[obj][dependencyProperty] = 1;
             }
         }
     }

@@ -116,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
         private static void OnSeparatorVisibilityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGridColumnHeader columnHeader = (DataGridColumnHeader)d;
+            DataGridColumnHeader columnHeader = d as DataGridColumnHeader;
 
             if (!columnHeader.IsHandlerSuspended(e.Property))
             {

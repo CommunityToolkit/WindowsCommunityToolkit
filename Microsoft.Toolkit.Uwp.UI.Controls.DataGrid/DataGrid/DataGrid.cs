@@ -478,7 +478,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnAlternatingRowBackgroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             foreach (DataGridRow row in dataGrid.GetAllRows())
             {
                 row.EnsureBackground();
@@ -514,7 +514,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnAlternatingRowForegroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             foreach (DataGridRow row in dataGrid.GetAllRows())
             {
                 row.EnsureForeground();
@@ -563,7 +563,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnAreRowGroupHeadersFrozenPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             ProcessFrozenColumnCount(dataGrid);
 
             // Update elements in the RowGroupHeader that were previously frozen.
@@ -605,7 +605,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnAutoGenerateColumnsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             bool value = (bool)e.NewValue;
             if (value)
             {
@@ -663,7 +663,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnCanUserResizeColumnsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             dataGrid.EnsureHorizontalLayout();
         }
 
@@ -770,7 +770,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnColumnHeaderHeightPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
                 double value = (double)e.NewValue;
@@ -854,7 +854,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnColumnWidthPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
 
             foreach (DataGridColumn column in dataGrid.ColumnsInternal.GetDisplayedColumns())
             {
@@ -930,7 +930,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnFrozenColumnCountPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
                 if ((int)e.NewValue < 0)
@@ -978,7 +978,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnGridLinesVisibilityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             foreach (DataGridRow row in dataGrid.GetAllRows())
             {
                 row.EnsureGridLines();
@@ -1017,7 +1017,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnHeadersVisibilityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             DataGridHeadersVisibility newValue = (DataGridHeadersVisibility)e.NewValue;
             DataGridHeadersVisibility oldValue = (DataGridHeadersVisibility)e.OldValue;
 
@@ -1114,7 +1114,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnHorizontalGridLinesBrushPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property) && dataGrid._rowsPresenter != null)
             {
                 foreach (DataGridRow row in dataGrid.GetAllRows())
@@ -1193,7 +1193,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnIsReadOnlyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
                 bool value = (bool)e.NewValue;
@@ -1231,7 +1231,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         VisualStates.GoToState(this, true, VisualStates.StateInvalid, VisualStates.StateValid);
                     }
 
-                    this.SetValueNoCallback(IsValidProperty, value);
+                    this.SetValueNoCallback(DataGrid.IsValidProperty, value);
                 }
             }
         }
@@ -1253,7 +1253,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnIsValidPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
                 dataGrid.SetValueNoCallback(DataGrid.IsValidProperty, e.OldValue);
@@ -1287,14 +1287,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnItemsSourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
                 Debug.Assert(dataGrid.DataConnection != null, "Expected non-null DataConnection.");
 
                 if (dataGrid.LoadingOrUnloadingRow)
                 {
-                    dataGrid.SetValueNoCallback(ItemsSourceProperty, e.OldValue);
+                    dataGrid.SetValueNoCallback(DataGrid.ItemsSourceProperty, e.OldValue);
                     throw DataGridError.DataGrid.CannotChangeItemsWhenLoadingRows();
                 }
 
@@ -1394,7 +1394,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnMaxColumnWidthPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
                 double oldValue = (double)e.OldValue;
@@ -1451,7 +1451,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnMinColumnWidthPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
                 double oldValue = (double)e.OldValue;
@@ -1509,7 +1509,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnRowBackgroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
 
             // Go through the Displayed rows and update the background
             foreach (DataGridRow row in dataGrid.GetAllRows())
@@ -1539,7 +1539,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnRowDetailsTemplatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
 
             // Update the RowDetails templates if necessary
             if (dataGrid._rowsPresenter != null)
@@ -1584,7 +1584,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnRowDetailsVisibilityModePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             dataGrid.UpdateRowDetailsVisibilityMode((DataGridRowDetailsVisibilityMode)e.NewValue);
         }
 
@@ -1609,7 +1609,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnRowForegroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
 
             // Go through the Displayed rows and update the foreground
             foreach (DataGridRow row in dataGrid.GetAllRows())
@@ -1644,7 +1644,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnRowHeightPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
 
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
@@ -1698,7 +1698,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnRowHeaderWidthPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
                 double value = (double)e.NewValue;
@@ -1829,7 +1829,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnSelectionModePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
                 dataGrid.ClearRowSelection(true /*resetAnchorSlot*/);
@@ -1863,7 +1863,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnSelectedIndexPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
                 int index = (int)e.NewValue;
@@ -1906,7 +1906,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnSelectedItemPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
 
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
@@ -1946,7 +1946,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     int oldSelectedIndex = dataGrid.SelectedIndex;
-                    dataGrid.SetValueNoCallback(DataGrid.SelectedIndexProperty, rowIndex);
+                    if (oldSelectedIndex != rowIndex)
+                    {
+                        dataGrid.SetValueNoCallback(DataGrid.SelectedIndexProperty, rowIndex);
+                    }
+
                     try
                     {
                         dataGrid._noSelectionChangeCount++;
@@ -2005,7 +2009,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnVerticalGridLinesBrushPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)d;
+            DataGrid dataGrid = d as DataGrid;
             if (dataGrid._rowsPresenter != null)
             {
                 foreach (DataGridRow row in dataGrid.GetAllRows())
@@ -3757,7 +3761,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 selectedItem = _selectedItems[0];
             }
 
-            this.SetValueNoCallback(SelectedItemProperty, selectedItem);
+            if (this.SelectedItem != selectedItem)
+            {
+                this.SetValueNoCallback(DataGrid.SelectedItemProperty, selectedItem);
+            }
 
             // Update the SelectedIndex
             int newIndex = -1;
@@ -3766,7 +3773,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 newIndex = this.DataConnection.IndexOf(selectedItem);
             }
 
-            this.SetValueNoCallback(SelectedIndexProperty, newIndex);
+            if (this.SelectedIndex != newIndex)
+            {
+                this.SetValueNoCallback(DataGrid.SelectedIndexProperty, newIndex);
+            }
         }
 
         internal IEnumerable<object> GetSelectionInclusive(int startRowIndex, int endRowIndex)

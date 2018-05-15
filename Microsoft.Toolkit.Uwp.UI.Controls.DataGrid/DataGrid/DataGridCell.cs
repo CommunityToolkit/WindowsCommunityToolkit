@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnIsValidPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGridCell dataGridCell = (DataGridCell)d;
+            DataGridCell dataGridCell = d as DataGridCell;
             if (!dataGridCell.IsHandlerSuspended(e.Property))
             {
                 dataGridCell.SetValueNoCallback(DataGridCell.IsValidProperty, e.OldValue);

@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnContentHeightPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGridDetailsPresenter detailsPresenter = (DataGridDetailsPresenter)d;
+            DataGridDetailsPresenter detailsPresenter = d as DataGridDetailsPresenter;
             detailsPresenter.InvalidateMeasure();
         }
 

@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void OnFontFamilyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGridTextColumn textColumn = (DataGridTextColumn)d;
+            DataGridTextColumn textColumn = d as DataGridTextColumn;
             textColumn.NotifyPropertyChanged(DATAGRIDTEXTCOLUMN_fontFamilyName);
         }
 

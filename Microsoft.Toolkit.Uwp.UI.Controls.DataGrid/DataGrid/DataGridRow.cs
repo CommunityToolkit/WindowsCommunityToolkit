@@ -288,7 +288,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnDetailsVisibilityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGridRow row = (DataGridRow)d;
+            DataGridRow row = d as DataGridRow;
 
             if (!row.IsHandlerSuspended(e.Property))
             {
@@ -339,7 +339,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnHeaderPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGridRow row = (DataGridRow)d;
+            DataGridRow row = d as DataGridRow;
             if (row._headerElement != null)
             {
                 row._headerElement.Content = e.NewValue;
@@ -407,7 +407,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnIsValidPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGridRow dataGridRow = (DataGridRow)d;
+            DataGridRow dataGridRow = d as DataGridRow;
             if (!dataGridRow.IsHandlerSuspended(e.Property))
             {
                 dataGridRow.SetValueNoCallback(DataGridRow.IsValidProperty, e.OldValue);
