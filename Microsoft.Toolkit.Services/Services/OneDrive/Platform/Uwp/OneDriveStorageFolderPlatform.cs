@@ -18,7 +18,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Services.OneDrive.Platform;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using Windows.Storage;

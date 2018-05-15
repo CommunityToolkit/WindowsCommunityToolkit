@@ -15,7 +15,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
-using Microsoft.Toolkit.Services.OneDrive.Platform;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;

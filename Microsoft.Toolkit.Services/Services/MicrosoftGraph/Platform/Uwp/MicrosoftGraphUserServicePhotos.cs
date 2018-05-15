@@ -14,10 +14,9 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Services.MicrosoftGraph.Platform;
 using Windows.Storage.Streams;
 
-namespace Microsoft.Toolkit.Services.MicrosoftGraph.Platform
+namespace Microsoft.Toolkit.Services.MicrosoftGraph.Uwp
 {
     /// <summary>
     /// Platform-specific implementation to capture photo.

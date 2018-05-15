@@ -19,7 +19,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Services.Exceptions;
+using Microsoft.Toolkit.Services;
 using Newtonsoft.Json;
 using Windows.Security.Authentication.Web;
 using Windows.Security.Credentials;

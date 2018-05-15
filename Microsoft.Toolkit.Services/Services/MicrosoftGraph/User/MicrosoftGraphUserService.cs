@@ -13,7 +13,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Services.MicrosoftGraph.Platform;
 
 namespace Microsoft.Toolkit.Services.MicrosoftGraph
 {
@@ -42,7 +41,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// </summary>
         /// <param name="graphProvider">Instance of GraphClientService class</param>
         public MicrosoftGraphUserService(GraphServiceClient graphProvider)
-            : this(graphProvider, new MicrosoftGraphUserServicePhotos(graphProvider))
+            : this(graphProvider, new Uwp.MicrosoftGraphUserServicePhotos(graphProvider))
         {
         }
 #endif
