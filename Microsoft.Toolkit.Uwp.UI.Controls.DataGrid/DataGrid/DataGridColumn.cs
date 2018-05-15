@@ -620,7 +620,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             set
             {
-                if (!_width.HasValue || _width.Value != value)
+                SizeToHeaderif(!_width.HasValue || _width.Value != value)
                 {
                     if (!_settingWidthInternally)
                     {

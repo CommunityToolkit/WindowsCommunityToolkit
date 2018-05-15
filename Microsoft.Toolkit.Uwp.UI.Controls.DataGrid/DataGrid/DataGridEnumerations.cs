@@ -195,4 +195,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         Descending = 1
     }
+
+    /// <summary>
+    /// Determines the column width pixel snapping behavior.
+    /// </summary>
+    public enum DataGridColumnWidthPixelSnapping
+    {
+        /// <summary>
+        /// No pixel snapping.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// At completion of user-driven column resizing.
+        /// </summary>
+        AfterUserResizing,
+
+        /// <summary>
+        /// During the entire user-driven column resizing.
+        /// </summary>
+        DuringUserResizing
+    }
 }

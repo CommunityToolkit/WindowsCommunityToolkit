@@ -755,6 +755,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                         this.OwningGrid.OnColumnHeaderDragCompleted(dragCompletedEventArgs);
                         break;
                     }
+
+                    case DragMode.Resize:
+                    {
+                        if (this.OwningGrid.ColumnWidthPixelSnapping == DataGridColumnWidthPixelSnapping.AfterUserResizing)
+                        {
+                            SetColumnWidthOnResize(ref handled, pointerPositionHeaders, true /*isFinalResizing*/);
+                        }
+
+                        break;
+                    }
                 }
 
                 SetResizeCursor(e.Pointer, pointerPosition);
@@ -1052,6 +1062,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
         private void OnPointerMove_Resize(ref bool handled, Point pointerPositionHeaders)
         {
+            SetColumnWidthOnResize(ref handled, pointerPositionHeaders, false /*isFinalResizing*/);
+        }
+
+        private void SetColumnWidthOnResize(ref bool handled, Point pointerPositionHeaders, bool isFinalResizing)
+        {
             Debug.Assert(this.OwningGrid != null, "Expected non-null OwningGrid.");
 
             DataGridColumnHeaderInteractionInfo interactionInfo = this.OwningGrid.ColumnHeaderInteractionInfo;
@@ -1063,6 +1078,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 // Resize column
                 double pointerDelta = pointerPositionHeaders.X - interactionInfo.DragStart.Value.X;
                 double desiredWidth = interactionInfo.OriginalWidth + pointerDelta;
+
+                if (isFinalResizing || this.OwningGrid.ColumnWidthPixelSnapping == DataGridColumnWidthPixelSnapping.DuringUserResizing)
+                {
+                    desiredWidth = (int)desiredWidth;
+                }
 
                 desiredWidth = Math.Max(interactionInfo.DragColumn.ActualMinWidth, Math.Min(interactionInfo.DragColumn.ActualMaxWidth, desiredWidth));
                 interactionInfo.DragColumn.Resize(interactionInfo.DragColumn.Width.Value, interactionInfo.DragColumn.Width.UnitType, interactionInfo.DragColumn.Width.DesiredValue, desiredWidth, true);
