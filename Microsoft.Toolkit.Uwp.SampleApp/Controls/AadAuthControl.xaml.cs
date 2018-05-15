@@ -102,14 +102,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 .Distinct());
 
             IsEnableSignInButton = ClientId.Text.Trim().Length > 0;
-            RereshControlVisibility();
+
+            RefreshControlVisibility();
         }
 
         private void AadAuthenticationManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(_aadAuthenticationManager.IsAuthenticated))
             {
-                RereshControlVisibility();
+                RefreshControlVisibility();
 
                 if (_aadAuthenticationManager.IsAuthenticated)
                 {
@@ -122,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             }
         }
 
-        private void RereshControlVisibility()
+        private void RefreshControlVisibility()
         {
             if (_aadAuthenticationManager.IsAuthenticated)
             {
