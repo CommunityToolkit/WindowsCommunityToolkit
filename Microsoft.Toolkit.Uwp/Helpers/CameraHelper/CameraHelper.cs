@@ -106,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
                 return CameraHelperResult.NoFrameSourceGroupAvailable;
             }
 
-            var result = await InitMediaCaptureAsync();
+            var result = await InitializeMediaCaptureAsync();
 
             if (_frameSource != null)
             {
@@ -131,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.CameraHelper
             return result;
         }
 
-        private async Task<CameraHelperResult> InitMediaCaptureAsync()
+        private async Task<CameraHelperResult> InitializeMediaCaptureAsync()
         {
             if (_mediaCapture == null)
             {
