@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(UserId),
             typeof(string),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty, OnUserIdPropertyChanged));
+            new PropertyMetadata(string.Empty, OnPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="DisplayMode"/> dependency property.
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(DisplayMode),
             typeof(ViewType),
             typeof(ProfileCard),
-            new PropertyMetadata(ViewType.PictureOnly, null));
+            new PropertyMetadata(ViewType.PictureOnly, OnDisplayModePropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="DefaultImage"/> dependency property.
@@ -57,58 +57,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(DefaultImage),
             typeof(BitmapImage),
             typeof(ProfileCard),
-            new PropertyMetadata(null, OnDefaultImageChanged));
+            new PropertyMetadata(null, OnPropertyChanged));
 
         /// <summary>
-        /// Identifies the <see cref="DefaultTitleText"/> dependency property.
+        /// Identifies the <see cref="LargeProfileTitleDefaultText"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty DefaultTitleTextProperty = DependencyProperty.Register(
-            nameof(DefaultTitleText),
+        public static readonly DependencyProperty LargeProfileTitleDefaultTextProperty = DependencyProperty.Register(
+            nameof(LargeProfileTitleDefaultText),
             typeof(string),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty));
+            new PropertyMetadata(string.Empty, OnPropertyChanged));
 
         /// <summary>
-        /// Identifies the <see cref="DefaultSecondaryMailText"/> dependency property.
+        /// Identifies the <see cref="LargeProfileMailDefaultText"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty DefaultSecondaryMailTextProperty = DependencyProperty.Register(
-            nameof(DefaultSecondaryMailText),
+        public static readonly DependencyProperty LargeProfileMailDefaultTextProperty = DependencyProperty.Register(
+            nameof(LargeProfileMailDefaultText),
             typeof(string),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty));
+            new PropertyMetadata(string.Empty, OnPropertyChanged));
 
         /// <summary>
-        /// Identifies the <see cref="DefaultMailText"/> dependency property.
+        /// Identifies the <see cref="NormalMailDefaultText"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty DefaultMailTextProperty = DependencyProperty.Register(
-            nameof(DefaultMailText),
+        public static readonly DependencyProperty NormalMailDefaultTextProperty = DependencyProperty.Register(
+            nameof(NormalMailDefaultText),
             typeof(string),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty));
+            new PropertyMetadata(string.Empty, OnPropertyChanged));
 
-        internal static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
-            nameof(Title),
-            typeof(string),
+        internal static readonly DependencyProperty CurrentProfileItemProperty = DependencyProperty.Register(
+            nameof(CurrentProfileItem),
+            typeof(ProfileCardItem),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty));
-
-        internal static readonly DependencyProperty SecondaryMailProperty = DependencyProperty.Register(
-            nameof(SecondaryMail),
-            typeof(string),
-            typeof(ProfileCard),
-            new PropertyMetadata(string.Empty));
-
-        internal static readonly DependencyProperty MailProperty = DependencyProperty.Register(
-            nameof(Mail),
-            typeof(string),
-            typeof(ProfileCard),
-            new PropertyMetadata(string.Empty));
-
-        internal static readonly DependencyProperty UserPhotoProperty = DependencyProperty.Register(
-            nameof(UserPhoto),
-            typeof(BitmapImage),
-            typeof(ProfileCard),
-            new PropertyMetadata(null));
+            new PropertyMetadata(new ProfileCardItem()));
 
         /// <summary>
         /// Gets or sets user unique identifier.
@@ -140,52 +122,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <summary>
         /// Gets or sets the default title text in LargeProfilePhotoLeft mode or LargeProfilePhotoRight mode when no user is signed in.
         /// </summary>
-        public string DefaultTitleText
+        public string LargeProfileTitleDefaultText
         {
-            get { return ((string)GetValue(DefaultTitleTextProperty))?.Trim(); }
-            set { SetValue(DefaultTitleTextProperty, value?.Trim()); }
+            get { return (string)GetValue(LargeProfileTitleDefaultTextProperty); }
+            set { SetValue(LargeProfileTitleDefaultTextProperty, value); }
         }
 
         /// <summary>
         /// Gets or sets the default secondary mail text in LargeProfilePhotoLeft mode or LargeProfilePhotoRight mode when no user is signed in.
         /// </summary>
-        public string DefaultSecondaryMailText
+        public string LargeProfileMailDefaultText
         {
-            get { return ((string)GetValue(DefaultSecondaryMailTextProperty))?.Trim(); }
-            set { SetValue(DefaultSecondaryMailTextProperty, value?.Trim()); }
+            get { return (string)GetValue(LargeProfileMailDefaultTextProperty); }
+            set { SetValue(LargeProfileMailDefaultTextProperty, value); }
         }
 
         /// <summary>
         /// Gets or sets the default mail text in EmailOnly mode when no user is signed in.
         /// </summary>
-        public string DefaultMailText
+        public string NormalMailDefaultText
         {
-            get { return ((string)GetValue(DefaultMailTextProperty))?.Trim(); }
-            set { SetValue(DefaultMailTextProperty, value?.Trim()); }
+            get { return (string)GetValue(NormalMailDefaultTextProperty); }
+            set { SetValue(NormalMailDefaultTextProperty, value); }
         }
 
-        internal string Title
+        internal ProfileCardItem CurrentProfileItem
         {
-            get { return (string)GetValue(TitleProperty); }
-            private set { SetValue(TitleProperty, value); }
-        }
-
-        internal string SecondaryMail
-        {
-            get { return (string)GetValue(SecondaryMailProperty); }
-            private set { SetValue(SecondaryMailProperty, value); }
-        }
-
-        internal string Mail
-        {
-            get { return (string)GetValue(MailProperty); }
-            private set { SetValue(MailProperty, value); }
-        }
-
-        internal BitmapImage UserPhoto
-        {
-            get { return (BitmapImage)GetValue(UserPhotoProperty); }
-            private set { SetValue(UserPhotoProperty, value); }
+            get { return (ProfileCardItem)GetValue(CurrentProfileItemProperty); }
+            set { SetValue(CurrentProfileItemProperty, value); }
         }
     }
 }

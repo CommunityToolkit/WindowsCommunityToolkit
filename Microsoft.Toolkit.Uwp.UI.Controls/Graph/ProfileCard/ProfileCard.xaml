@@ -4,7 +4,6 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters">
 
-    <controls:DisplayModeConverter x:Key="DisplayModeConverter" />
     <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
 
     <Style x:Key="ProfileCardImageBorderStyle"
@@ -41,50 +40,56 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ProfileCard">
                     <Grid>
-                        <Grid HorizontalAlignment="Left"
-                              Visibility="{Binding DisplayMode, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DisplayModeConverter}, ConverterParameter='PictureOnly'}">
-                            <Border Style="{ThemeResource ProfileCardImageBorderStyle}">
-                                <Ellipse Style="{ThemeResource ProfileCardImageEllipseStyle}">
-                                    <Ellipse.Fill>
-                                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UserPhoto, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                    </Ellipse.Fill>
-                                </Ellipse>
-                            </Border>
-                        </Grid>
-                        <Grid HorizontalAlignment="Left"
-                              Visibility="{Binding DisplayMode, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DisplayModeConverter}, ConverterParameter='EmailOnly'}">
-                            <TextBlock Text="{TemplateBinding Mail}" VerticalAlignment="Center" Padding="10 0 10 0"/>
-                        </Grid>
-                        <StackPanel Style="{ThemeResource ProfileCardLargeProfileStackPanelStyle}"
-                                    Visibility="{Binding DisplayMode, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DisplayModeConverter}, ConverterParameter='LargeProfilePhotoLeft'}">
-                            <Border Style="{ThemeResource ProfileCardImageBorderStyle}" Margin="0 0 15 0">
-                                <Ellipse Style="{ThemeResource ProfileCardImageEllipseStyle}">
-                                    <Ellipse.Fill>
-                                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UserPhoto, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                    </Ellipse.Fill>
-                                </Ellipse>
-                            </Border>
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock Style="{ThemeResource ProfileCardLargeProfileTextBlockStyle}" Text="{TemplateBinding Title}"/>
-                                <TextBlock Text="{TemplateBinding SecondaryMail}"
-                                           Visibility="{Binding SecondaryMail, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringVisibilityConverter}}"/>
-                            </StackPanel>
-                        </StackPanel>
-                        <StackPanel Style="{ThemeResource ProfileCardLargeProfileStackPanelStyle}"
-                                    Visibility="{Binding DisplayMode, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DisplayModeConverter}, ConverterParameter='LargeProfilePhotoRight'}">
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock Style="{ThemeResource ProfileCardLargeProfileTextBlockStyle}" Text="{TemplateBinding Title}"/>
-                                <TextBlock Text="{TemplateBinding SecondaryMail}"
-                                           Visibility="{Binding SecondaryMail, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringVisibilityConverter}}"/>
-                            </StackPanel>
-                            <Border Style="{ThemeResource ProfileCardImageBorderStyle}" Margin="15 0 0 0">
-                                <Ellipse Style="{ThemeResource ProfileCardImageEllipseStyle}">
-                                    <Ellipse.Fill>
-                                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UserPhoto, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                    </Ellipse.Fill>
-                                </Ellipse>
-                            </Border>
-                        </StackPanel>
+                        <ContentControl x:Name="ContentPresenter" Content="{TemplateBinding CurrentProfileItem}">
+                            <ContentControl.Resources>
+                                <DataTemplate x:Key="PictureOnly">
+                                    <Grid HorizontalAlignment="Left">
+                                        <Border Style="{ThemeResource ProfileCardImageBorderStyle}">
+                                            <Ellipse Style="{ThemeResource ProfileCardImageEllipseStyle}">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UserPhoto}"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                                <DataTemplate x:Key="EmailOnly">
+                                    <Grid HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding NormalMail}" VerticalAlignment="Center" Padding="10 0 10 0"/>
+                                    </Grid>
+                                </DataTemplate>
+                                <DataTemplate x:Key="LargeProfilePhotoLeft">
+                                    <StackPanel Style="{ThemeResource ProfileCardLargeProfileStackPanelStyle}">
+                                        <Border Style="{ThemeResource ProfileCardImageBorderStyle}" Margin="0 0 15 0">
+                                            <Ellipse Style="{ThemeResource ProfileCardImageEllipseStyle}">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UserPhoto}"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </Border>
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding LargeProfileTitle}" Style="{ThemeResource ProfileCardLargeProfileTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding LargeProfileMail}" Visibility="{Binding LargeProfileMail, Converter={StaticResource StringVisibilityConverter}}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                                <DataTemplate x:Key="LargeProfilePhotoRight">
+                                    <StackPanel Style="{ThemeResource ProfileCardLargeProfileStackPanelStyle}">
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding LargeProfileTitle}" Style="{ThemeResource ProfileCardLargeProfileTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding LargeProfileMail}" Visibility="{Binding LargeProfileMail, Converter={StaticResource StringVisibilityConverter}}"/>
+                                        </StackPanel>
+                                        <Border Style="{ThemeResource ProfileCardImageBorderStyle}" Margin="15 0 0 0">
+                                            <Ellipse Style="{ThemeResource ProfileCardImageEllipseStyle}">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UserPhoto}"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ContentControl.Resources>
+                        </ContentControl>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

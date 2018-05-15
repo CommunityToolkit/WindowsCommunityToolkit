@@ -75,8 +75,8 @@
                                     DisplayMode="{TemplateBinding View}" 
                                     DefaultImage="{TemplateBinding DefaultImage}" 
                                     UserId="{TemplateBinding CurrentUserID}"
-                                    DefaultTitleText="{TemplateBinding SignInDefaultText}" 
-                                    DefaultMailText="{TemplateBinding SignInDefaultText}" />
+                                    LargeProfileTitleDefaultText="{TemplateBinding SignInDefaultText}" 
+                                    NormalMailDefaultText="{TemplateBinding SignInDefaultText}" />
                             </ContentPresenter.Content>
                         </ContentPresenter>
                     </Grid>

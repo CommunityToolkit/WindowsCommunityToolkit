@@ -11,10 +11,10 @@
                                      Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsShowAadMetaDataControl}" />
       <graphControls:ProfileCard x:Name="ProfileCardControl"
                                  UserId="@[UserId:String: ]@"
-                                 DisplayMode="@[DisplayMode:Enum:ViewType.PictureOnly]"
-                                 DefaultMailText="@[DefaultMailText:String:Mail]"
-                                 DefaultTitleText="@[DefaultTitleText:String:Display name]"
-                                 DefaultSecondaryMailText="@[DefaultSecondaryMailText:String:Secondary mail]"
+                                 DisplayMode="@[DisplayMode:Enum:ViewType.PictureOnly]@"
+                                 NormalMailDefaultText="@[NormalMailDefaultText:String:Mail]@"
+                                 LargeProfileTitleDefaultText="@[LargeProfileTitleDefaultText:String:Display name]@"
+                                 LargeProfileMailDefaultText="@[LargeProfileMailDefaultText:String:Secondary mail]@"
                                  Visibility="{Binding ElementName=AadAuthControl, Path=IsShowGraphControl}"
                                  HorizontalAlignment="Center"
                                  VerticalAlignment="Center" />

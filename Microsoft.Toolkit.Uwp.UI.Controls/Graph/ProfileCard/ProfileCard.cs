@@ -24,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     public partial class ProfileCard : Control
     {
         private static readonly BitmapImage PersonPhoto = new BitmapImage(new Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/Graph/Assets/person.png"));
+        private ContentControl _contentPresenter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProfileCard"/> class.
@@ -39,14 +40,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            InitUserProfile();
+
+            _contentPresenter = GetTemplateChild("ContentPresenter") as ContentControl;
+            if (_contentPresenter != null)
+            {
+                _contentPresenter.ContentTemplateSelector = new ProfileDisplayModeTemplateSelector(_contentPresenter);
+            }
+
+            FetchUserInfo();
         }
 
         private async void FetchUserInfo()
         {
+            var profileItem = CurrentProfileItem.Clone();
+            profileItem.DisplayMode = DisplayMode;
+
             if (!AadAuthenticationManager.Instance.IsAuthenticated || string.IsNullOrEmpty(UserId) || UserId.Equals("Invalid UserId"))
             {
-                InitUserProfile();
+                InitUserProfile(profileItem);
             }
             else
             {
@@ -54,12 +65,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 try
                 {
                     var user = await graphClient.Users[UserId].Request().GetAsync();
-                    Title = user.DisplayName;
-                    Mail = user.Mail;
-                    SecondaryMail = user.Mail;
-                    if (string.IsNullOrEmpty(Mail))
+                    profileItem.NormalMail = user.Mail;
+                    profileItem.LargeProfileTitle = user.DisplayName;
+                    profileItem.LargeProfileMail = user.Mail;
+
+                    if (string.IsNullOrEmpty(user.Mail))
                     {
-                        UserPhoto = DefaultImage ?? PersonPhoto;
+                        profileItem.UserPhoto = DefaultImage ?? PersonPhoto;
                     }
                     else
                     {
@@ -68,19 +80,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             using (Stream photoStream = await graphClient.Users[UserId].Photo.Content.Request().GetAsync())
                             using (var ras = photoStream.AsRandomAccessStream())
                             {
-                                UserPhoto = new BitmapImage();
-                                await UserPhoto.SetSourceAsync(ras);
+                                var bitmapImage = new BitmapImage();
+                                await bitmapImage.SetSourceAsync(ras);
+                                profileItem.UserPhoto = bitmapImage;
                             }
                         }
-                        catch (ServiceException ex)
+                        catch
                         {
                             // Swallow error in case of no photo found
-                            if (ex.Error.Code != "ErrorItemNotFound" && ex.Error.Code != "ResourceNotFound")
-                            {
-                                throw;
-                            }
-
-                            UserPhoto = DefaultImage ?? PersonPhoto;
+                            profileItem.UserPhoto = DefaultImage ?? PersonPhoto;
                         }
                     }
                 }
@@ -93,17 +101,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     }
 
                     UserId = "Invalid UserId";
-                    InitUserProfile();
                 }
+
+                CurrentProfileItem = profileItem;
             }
         }
 
-        private void InitUserProfile()
+        private void InitUserProfile(ProfileCardItem profileItem)
         {
-            UserPhoto = DefaultImage ?? PersonPhoto;
-            Title = DefaultTitleText ?? string.Empty;
-            Mail = DefaultMailText ?? string.Empty;
-            SecondaryMail = DefaultSecondaryMailText ?? string.Empty;
+            profileItem.UserPhoto = DefaultImage ?? PersonPhoto;
+            profileItem.NormalMail = NormalMailDefaultText ?? string.Empty;
+            profileItem.LargeProfileTitle = LargeProfileTitleDefaultText ?? string.Empty;
+            profileItem.LargeProfileMail = LargeProfileMailDefaultText ?? string.Empty;
+
+            CurrentProfileItem = profileItem;
         }
     }
 }

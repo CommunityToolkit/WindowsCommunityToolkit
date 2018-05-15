@@ -1,4 +1,4 @@
-// ******************************************************************
+﻿// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -10,30 +10,25 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
-    internal class DisplayModeConverter : IValueConverter
+    internal class ProfileCardItem
     {
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            if (value is ViewType && parameter != null)
-            {
-                if (value.ToString() == parameter.ToString())
-                {
-                    return Visibility.Visible;
-                }
-            }
+        public string NormalMail { get; set; }
 
-            return Visibility.Collapsed;
-        }
+        public string LargeProfileTitle { get; set; }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        public string LargeProfileMail { get; set; }
+
+        public BitmapImage UserPhoto { get; set; }
+
+        public ViewType DisplayMode { get; set; }
+
+        public ProfileCardItem Clone()
         {
-            throw new NotImplementedException();
+            return (ProfileCardItem)MemberwiseClone();
         }
     }
 }
