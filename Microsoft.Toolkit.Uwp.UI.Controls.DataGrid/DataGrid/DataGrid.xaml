@@ -18,15 +18,18 @@
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Default">
             <SolidColorBrush x:Key="InvalidBrush" Color="#FFFF00"/>
-            <StaticResource x:Key="ScrollBarsSeparatorBackground" ResourceKey="SystemControlPageBackgroundChromeLowBrush" />
+            <SolidColorBrush x:Key="FillerGridLinesBrush" Color="Transparent"/>
+            <StaticResource x:Key="ScrollBarsSeparatorBackground" ResourceKey="SystemControlPageBackgroundChromeLowBrush"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="HighContrast">
             <SolidColorBrush x:Key="InvalidBrush" Color="#FFFF00"/>
-            <StaticResource x:Key="ScrollBarsSeparatorBackground" ResourceKey="SystemControlPageBackgroundChromeLowBrush" />
+            <SolidColorBrush x:Key="FillerGridLinesBrush" Color="Transparent"/>
+            <StaticResource x:Key="ScrollBarsSeparatorBackground" ResourceKey="SystemControlPageBackgroundChromeLowBrush"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="InvalidBrush" Color="#C50500"/>
-            <SolidColorBrush x:Key="ScrollBarsSeparatorBackground" Color="{StaticResource SystemChromeMediumColor}" Opacity="0.9" />
+            <SolidColorBrush x:Key="FillerGridLinesBrush" Color="Transparent"/>
+            <SolidColorBrush x:Key="ScrollBarsSeparatorBackground" Color="{StaticResource SystemChromeMediumColor}" Opacity="0.9"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
@@ -67,6 +70,7 @@
     <StaticResource x:Key="DataGridColumnHeaderPointerOverBrush" ResourceKey="SystemControlHighlightListLowBrush"/>
     <StaticResource x:Key="DataGridColumnHeaderPressedBrush" ResourceKey="SystemControlHighlightListMediumBrush"/>
     <StaticResource x:Key="DataGridDetailsPresenterBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumLowBrush"/>
+    <StaticResource x:Key="DataGridFillerColumnGridLinesBrush" ResourceKey="FillerGridLinesBrush"/>
     <StaticResource x:Key="DataGridRowSelectedBackgroundColor" ResourceKey="SystemAccentColor"/>
     <StaticResource x:Key="DataGridRowSelectedBackgroundOpacity" ResourceKey="ListAccentLowOpacity"/>
     <StaticResource x:Key="DataGridRowSelectedHoveredBackgroundColor" ResourceKey="SystemAccentColor"/>
@@ -322,18 +326,18 @@
                                                 BeginTime="{ThemeResource ScrollBarsSeparatorContractBeginTime}"
                                                 Storyboard.TargetName="BottomRightCorner"
                                                 Storyboard.TargetProperty="Opacity"
-                                                To="0" />
+                                                To="0"/>
                                         </Storyboard>
                                     </VisualTransition>
                                 </VisualStateGroup.Transitions>
-                                <VisualState x:Name="SeparatorCollapsed" />
+                                <VisualState x:Name="SeparatorCollapsed"/>
                                 <VisualState x:Name="SeparatorExpanded">
                                     <Storyboard>
                                         <DoubleAnimation Duration="{ThemeResource ScrollBarsSeparatorExpandDuration}"
                                             BeginTime="{ThemeResource ScrollBarsSeparatorExpandBeginTime}"
                                             Storyboard.TargetName="BottomRightCorner"
                                             Storyboard.TargetProperty="Opacity"
-                                            To="1" />
+                                            To="1"/>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="SeparatorExpandedWithoutAnimation">
@@ -342,7 +346,7 @@
                                             BeginTime="{ThemeResource ScrollBarsSeparatorExpandBeginTime}"
                                             Storyboard.TargetName="BottomRightCorner"
                                             Storyboard.TargetProperty="Opacity"
-                                            To="1" />
+                                            To="1"/>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="SeparatorCollapsedWithoutAnimation" >
@@ -351,7 +355,7 @@
                                             BeginTime="{ThemeResource ScrollBarsSeparatorContractBeginTime}"
                                             Storyboard.TargetName="BottomRightCorner"
                                             Storyboard.TargetProperty="Opacity"
-                                            To="0" />
+                                            To="0"/>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -481,7 +485,7 @@
 
                         <Rectangle x:Name="InvalidVisualElement" IsHitTestVisible="False" StrokeThickness="1" Stroke="{ThemeResource DataGridCellInvalidBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0"/>
 
-                        <Rectangle x:Name="RightGridLine" Grid.Column="1" VerticalAlignment="Stretch" Width="1"/>
+                        <Rectangle x:Name="RightGridLine" Grid.Column="1" VerticalAlignment="Stretch" Width="1" Fill="{ThemeResource DataGridFillerColumnGridLinesBrush}"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -667,7 +671,7 @@
                         <localprimitives:DataGridRowHeader x:Name="RowHeader" Grid.RowSpan="3" localprimitives:DataGridFrozenGrid.IsFrozen="True"/>
                         <localprimitives:DataGridCellsPresenter x:Name="CellsPresenter" Grid.Column="1" localprimitives:DataGridFrozenGrid.IsFrozen="True" MinHeight="32"/>
                         <localprimitives:DataGridDetailsPresenter x:Name="DetailsPresenter" Grid.Row="1" Grid.Column="1" Background="{ThemeResource DataGridDetailsPresenterBackgroundBrush}"/>
-                        <Rectangle Grid.Row="2" Grid.Column="1" x:Name="BottomGridLine" HorizontalAlignment="Stretch" Height="1"/>
+                        <Rectangle x:Name="BottomGridLine" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Height="1"/>
                     </localprimitives:DataGridFrozenGrid>
                 </ControlTemplate>
             </Setter.Value>
@@ -870,12 +874,12 @@
                                 <VisualState x:Name="Normal"/>
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="RowGroupHeaderRoot.Background" Value="{ThemeResource DataGridRowGroupHeaderHoveredBackgroundBrush}" />
+                                        <Setter Target="RowGroupHeaderRoot.Background" Value="{ThemeResource DataGridRowGroupHeaderHoveredBackgroundBrush}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="RowGroupHeaderRoot.Background" Value="{ThemeResource DataGridRowGroupHeaderPressedBackgroundBrush}" />
+                                        <Setter Target="RowGroupHeaderRoot.Background" Value="{ThemeResource DataGridRowGroupHeaderPressedBackgroundBrush}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -969,7 +973,6 @@
                         <localprimitives:DataGridRowHeader x:Name="RowHeader" Grid.RowSpan="2" localprimitives:DataGridFrozenGrid.IsFrozen="True"/>
 
                         <Rectangle x:Name="BottomGridLine" Grid.ColumnSpan="5" Height="1" Grid.Row="1"/>
-
                     </localprimitives:DataGridFrozenGrid>
                 </ControlTemplate>
             </Setter.Value>
