@@ -1,9 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
-    <IncludeBuildOutput>false</IncludeBuildOutput>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <TargetFramework>netstandard1.3</TargetFramework><Title>Windows Community Toolkit UI</Title>
+    <Description>This .NET standard library provides analyzer and code fixer to ensure that version / platform specific code is well guarded. It is part of the Windows Community Toolkit.</Description>
+    <PackageTags>UWP Toolkit Windows</PackageTags>
+    <Title>Windows Community Toolkit UWP Platform Specific Analyzer</Title>
+
+    <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
+    <DebugType>Full</DebugType>
   </PropertyGroup>
   
   <ItemGroup>
