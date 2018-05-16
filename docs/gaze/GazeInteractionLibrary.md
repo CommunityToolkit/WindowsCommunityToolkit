@@ -114,7 +114,7 @@ This parameter is passed to the GazeElement::Invoked event and allows the applic
 Add the following lines to your Page element to enable gaze interaction on the entire page.
 
 ```xaml
-    xmlns:gaze="using:Microsoft.Toolkit.UWP.Input.GazeInteraction"
+    xmlns:gaze="using:Microsoft.Toolkit.Uwp.Input.GazeInteraction"
     gaze:GazeInput.Interaction="Enabled"
 ```
 
