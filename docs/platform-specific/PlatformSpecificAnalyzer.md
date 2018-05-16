@@ -15,7 +15,7 @@ The platform specific analyzer is a Roslyn Analyzer that can parse through code 
 
 ## Installation
 
-The analyzer is available both as a nuget package and also as Visual Studio Extention
+The analyzer is available both as a nuget package
 
 * References > Manage NuGet References > install [Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer)
 
