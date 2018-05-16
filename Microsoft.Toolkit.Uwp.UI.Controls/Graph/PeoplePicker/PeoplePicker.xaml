@@ -74,6 +74,7 @@
                                 </TextBlock>
                             </StackPanel>
                             <ListBox Name="SearchResultListBox"
+                                     Canvas.ZIndex="100"
                                      AutomationProperties.Name="Search Results"
                                      ItemsSource="{TemplateBinding SearchResultList}"
                                      Visibility="Collapsed">

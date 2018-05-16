@@ -12,6 +12,6 @@
     <!-- Shallow Copy -->
     <Grid>
         <sampleControls:AadAuthControl />
-        <graphControls:PeoplePicker />
+        <graphControls:PeoplePicker x:Name="PeoplePicker"/>
     </Grid>
 </Page>

@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Microsoft.Graph;
@@ -18,11 +19,17 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
+
     /// <summary>
     /// Defines the properties for the <see cref="PeoplePicker"/> control.
     /// </summary>
     public partial class PeoplePicker : Control
     {
+        /// <summary>
+        /// File is selected
+        /// </summary>
+        public event EventHandler<PeopleSelectionChangedEventArgs> SelectionChanged;
+
         /// <summary>
         /// Gets required delegated permissions for the <see cref="PeoplePicker"/> control
         /// </summary>
