@@ -38,8 +38,37 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
     {
         private const string _repoOnlineRoot = "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/";
         private const string _docsOnlineRoot = "https://raw.githubusercontent.com/MicrosoftDocs/UWPCommunityToolkitDocs/";
+        private const string _cacheVersionKey = "docs-cache-version";
 
         private static HttpClient client = new HttpClient();
+
+        public static async void EnsureCacheLatest()
+        {
+            var settingsStorage = new LocalObjectStorageHelper();
+
+            var onlineDocsVersion = await GetDocsVersion();
+            var cacheVersion = settingsStorage.Read<Version>(_cacheVersionKey);
+
+            bool outdatedCache = onlineDocsVersion != null && cacheVersion != null && onlineDocsVersion > cacheVersion;
+            bool noCache = onlineDocsVersion != null && cacheVersion == null;
+
+            if (outdatedCache || noCache)
+            {
+                // Delete everything in the Cache Folder. Could be Pre 3.0.0 Cache data.
+                foreach (var item in await ApplicationData.Current.LocalCacheFolder.GetItemsAsync())
+                {
+                    try
+                    {
+                        await item.DeleteAsync(StorageDeleteOption.Default);
+                    }
+                    catch { }
+                }
+
+                // Update Cache Version info.
+                settingsStorage.Save(_cacheVersionKey, onlineDocsVersion);
+            }
+        }
+
         private string _cachedDocumentation = string.Empty;
         private string _cachedPath = string.Empty;
 
@@ -650,6 +679,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     return typeInfo;
                 }
+            }
+
+            return null;
+        }
+
+        private static async Task<Version> GetDocsVersion()
+        {
+            try
+            {
+                var versionfile = $"{_docsOnlineRoot}master/docsversion";
+
+                using (var response = await client.GetAsync(versionfile))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var raw = await response.Content.ReadAsStringAsync();
+                        return Version.Parse(raw);
+                    }
+                }
+            }
+            catch
+            {
             }
 
             return null;
