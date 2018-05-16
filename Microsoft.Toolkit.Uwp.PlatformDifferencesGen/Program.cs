@@ -24,6 +24,7 @@ namespace DifferencesGen
     public class Program
     {
         private static HashSet<string> enumTypes = new HashSet<string>();
+        private static HashSet<string> typeEvents = new HashSet<string>();
 
         public static void Main(string[] args)
         {
@@ -120,10 +121,10 @@ namespace DifferencesGen
                         {
                             addedTypes.Add(type.Key, null);
 
-                            if (enumTypes.Contains(type.Key))
-                            {
-                                System.Diagnostics.Debug.WriteLine($"New enum {type.Key}");
-                            }
+                            //if (enumTypes.Contains(type.Key))
+                            //{
+                            //    System.Diagnostics.Debug.WriteLine($"New enum {type.Key}");
+                            //}
 
                             continue;
                         }
@@ -138,9 +139,17 @@ namespace DifferencesGen
                             continue;
                         }
 
-                        if (enumTypes.Contains(type.Key))
+                        //if (enumTypes.Contains(type.Key))
+                        //{
+                        //    System.Diagnostics.Debug.WriteLine($"Enum {type.Key} has new members: {string.Join(",", newerVersionTypeMembers)}");
+                        //}
+
+                        foreach (var member in newerVersionTypeMembers)
                         {
-                            System.Diagnostics.Debug.WriteLine($"Enum {type.Key} has new members: {string.Join(",", newerVersionTypeMembers)}");
+                            if (typeEvents.Contains($"{type.Key}-{member}"))
+                            {
+                                System.Diagnostics.Debug.WriteLine($"Type {type.Key} has new event: {member}");
+                            }
                         }
 
                         addedTypes.Add(type.Key, newerVersionTypeMembers.ToList());
@@ -230,8 +239,7 @@ namespace DifferencesGen
                             methodInfo.Name.StartsWith("set_") ||
                             methodInfo.Name.StartsWith("put_") ||
                             methodInfo.Name.StartsWith("add_") ||
-                            methodInfo.Name.StartsWith("remove_")
-                            )
+                            methodInfo.Name.StartsWith("remove_"))
                         {
                             continue;
                         }
@@ -242,6 +250,12 @@ namespace DifferencesGen
                     foreach (var propertyInfo in exportedType.GetProperties())
                     {
                         members.Add(propertyInfo.Name);
+                    }
+
+                    foreach (var eventInfo in exportedType.GetEvents())
+                    {
+                        typeEvents.Add($"{exportedType.FullName}-{eventInfo.Name}");
+                        members.Add(eventInfo.Name);
                     }
                 }
 
