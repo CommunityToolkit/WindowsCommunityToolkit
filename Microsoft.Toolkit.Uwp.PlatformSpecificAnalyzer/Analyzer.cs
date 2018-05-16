@@ -32,6 +32,8 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
             NotFound,
         }
 
+        private static Dictionary<string, Dictionary<string, List<NewMember>>> _differencesDictionary = null;
+
         /// <summary>
         /// Embedded differences between API contract version 4 and 5.
         /// </summary>
@@ -70,12 +72,24 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
         private static char[] typeMemberSeparator = { ':' };
         private static char[] memberSeparator = { ',' };
 
+        static Analyzer()
+        {
+            _differencesDictionary = new Dictionary<string, Dictionary<string, List<NewMember>>>();
+            _differencesDictionary.Add(N0DifferencesRes, GetApiAdditions(N0DifferencesRes));
+            _differencesDictionary.Add(N1DifferencesRes, GetApiAdditions(N1DifferencesRes));
+        }
+
         /// <summary>
         /// Gets the API differences from specified resource.
         /// </summary>
         /// <param name="resourceName">name of embedded resource</param>
         /// <returns>Dictionary with Fully qualified name of type as key and list of new members as value</returns>
         public static Dictionary<string, List<NewMember>> GetUniversalApiAdditions(string resourceName)
+        {
+            return _differencesDictionary[resourceName];
+        }
+
+        private static Dictionary<string, List<NewMember>> GetApiAdditions(string resourceName)
         {
             Dictionary<string, List<NewMember>> apiAdditionsDictionary = new Dictionary<string, List<NewMember>>();
 
@@ -86,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
             if (resource == null)
             {
                 System.Diagnostics.Debug.WriteLine($"Resource {resourceName} not found.");
-                return apiAdditionsDictionary;
+                return new Dictionary<string, List<NewMember>>();
             }
 
             System.Diagnostics.Debug.WriteLine($"Resource {resourceName} found.");

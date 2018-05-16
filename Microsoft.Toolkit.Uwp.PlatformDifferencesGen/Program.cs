@@ -121,10 +121,10 @@ namespace DifferencesGen
                         {
                             addedTypes.Add(type.Key, null);
 
-                            //if (enumTypes.Contains(type.Key))
-                            //{
-                            //    System.Diagnostics.Debug.WriteLine($"New enum {type.Key}");
-                            //}
+                            if (enumTypes.Contains(type.Key))
+                            {
+                                System.Diagnostics.Debug.WriteLine($"New enum {type.Key}");
+                            }
 
                             continue;
                         }
@@ -139,10 +139,10 @@ namespace DifferencesGen
                             continue;
                         }
 
-                        //if (enumTypes.Contains(type.Key))
-                        //{
-                        //    System.Diagnostics.Debug.WriteLine($"Enum {type.Key} has new members: {string.Join(",", newerVersionTypeMembers)}");
-                        //}
+                        if (enumTypes.Contains(type.Key))
+                        {
+                            System.Diagnostics.Debug.WriteLine($"Enum {type.Key} has new members: {string.Join(",", newerVersionTypeMembers)}");
+                        }
 
                         foreach (var member in newerVersionTypeMembers)
                         {
