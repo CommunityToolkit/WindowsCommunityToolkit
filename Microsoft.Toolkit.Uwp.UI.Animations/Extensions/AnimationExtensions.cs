@@ -129,6 +129,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             // and we don't want to deal with caching a disposed easing function
             void Add(EasingType type, EasingMode mode, Vector2 p1, Vector2 p2)
             {
+                // In order to generate a usable hashcode for our ValueTuple without collisions
+                // we can't use enum values for both type & mode, so we have to string one of them.
                 _compositionEasingFunctions[(type.ToString(), mode)] = (p1, p2);
             }
 
