@@ -153,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             string rawResult = null;
             try
             {
-                var uri = new Uri($"{BaseUrl}/statuses/user_timeline.json?screen_name={screenName}&count={maxRecords}&include_rts=1");
+                var uri = new Uri($"{BaseUrl}/statuses/user_timeline.json?screen_name={screenName}&count={maxRecords}&include_rts=1&tweet_mode=extended");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
                 rawResult = await request.ExecuteGetAsync(uri, _tokens);
@@ -212,7 +212,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         {
             try
             {
-                var uri = new Uri($"{BaseUrl}/search/tweets.json?q={Uri.EscapeDataString(hashTag)}&count={maxRecords}");
+                var uri = new Uri($"{BaseUrl}/search/tweets.json?q={Uri.EscapeDataString(hashTag)}&count={maxRecords}&tweet_mode=extended");
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
                 var rawResult = await request.ExecuteGetAsync(uri, _tokens);
 
@@ -622,7 +622,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         {
             try
             {
-                var uri = new Uri($"{BaseUrl}/statuses/home_timeline.json?count={maxRecords}");
+                var uri = new Uri($"{BaseUrl}/statuses/home_timeline.json?count={maxRecords}&tweet_mode=extended");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
                 var rawResult = await request.ExecuteGetAsync(uri, _tokens);
