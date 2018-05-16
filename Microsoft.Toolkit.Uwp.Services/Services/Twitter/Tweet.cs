@@ -76,6 +76,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public TwitterEntities Entities { get; set; }
 
         /// <summary>
+        /// Gets or sets the Retweeted Tweet
+        /// </summary>
+        [JsonProperty("retweeted_status")]
+        public Tweet RetweetedStatus { get; set; }
+
+        /// <summary>
         /// Gets the creation date
         /// </summary>
         public DateTime CreationDate
