@@ -13,6 +13,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
 using Windows.Media;
 using Windows.Media.Capture.Frames;
@@ -48,9 +49,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             await InitializeAsync();
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        protected async override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            CleanUpAsync();
+            await CleanUpAsync();
         }
 
         private async void Application_Suspending(object sender, SuspendingEventArgs e)

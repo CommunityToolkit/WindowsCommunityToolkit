@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             try
             {
-                var frameSource = _cameraHelper?.FrameSource;
+                var frameSource = _cameraHelper?.PreviewFrameSource;
                 if (frameSource != null)
                 {
                     if (_mediaPlayer == null)

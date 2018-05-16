@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private MediaCapture _mediaCapture;
         private MediaFrameReader _frameReader;
         private MediaFrameSourceGroup _group;
-        private MediaFrameSource _frameSource;
+        private MediaFrameSource _previewFrameSource;
         private List<MediaFrameFormat> _frameFormatsAvailable;
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Gets the available MediaFrameFormats on the sources
+        /// Gets the available MediaFrameFormats on the source.
         /// </summary>
         public List<MediaFrameFormat> FrameFormatsAvailable { get => _frameFormatsAvailable; }
 
@@ -65,9 +65,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public MediaFrameSourceGroup FrameSourceGroup { get => _group; set => _group = value; }
 
         /// <summary>
-        /// Gets the currently selected <see cref="MediaFrameSource"/>.
+        /// Gets the currently selected <see cref="MediaFrameSource"/> for video preview.
         /// </summary>
-        public MediaFrameSource FrameSource { get => _frameSource; }
+        public MediaFrameSource PreviewFrameSource { get => _previewFrameSource; }
 
         /// <summary>
         /// Event raised when a new frame arrives.
@@ -107,9 +107,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             var result = await InitializeMediaCaptureAsync();
 
-            if (_frameSource != null)
+            if (_previewFrameSource != null)
             {
-                _frameReader = await _mediaCapture.CreateFrameReaderAsync(_frameSource);
+                _frameReader = await _mediaCapture.CreateFrameReaderAsync(_previewFrameSource);
                 _frameReader.AcquisitionMode = MediaFrameReaderAcquisitionMode.Realtime;
                 _frameReader.FrameArrived += Reader_FrameArrived;
 
@@ -149,21 +149,21 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 await _mediaCapture.InitializeAsync(settings);
 
                 // Find the first video preview or record stream available
-                _frameSource = _mediaCapture.FrameSources.FirstOrDefault(source => source.Value.Info.MediaStreamType == MediaStreamType.VideoPreview
+                _previewFrameSource = _mediaCapture.FrameSources.FirstOrDefault(source => source.Value.Info.MediaStreamType == MediaStreamType.VideoPreview
                                                                                       && source.Value.Info.SourceKind == MediaFrameSourceKind.Color).Value;
-                if (_frameSource == null)
+                if (_previewFrameSource == null)
                 {
-                    _frameSource = _mediaCapture.FrameSources.FirstOrDefault(source => source.Value.Info.MediaStreamType == MediaStreamType.VideoRecord
+                    _previewFrameSource = _mediaCapture.FrameSources.FirstOrDefault(source => source.Value.Info.MediaStreamType == MediaStreamType.VideoRecord
                                                                                           && source.Value.Info.SourceKind == MediaFrameSourceKind.Color).Value;
                 }
 
-                if (_frameSource == null)
+                if (_previewFrameSource == null)
                 {
                     return CameraHelperResult.NoFrameSourceAvailable;
                 }
 
                 // get only formats of a certain framerate and compatible subtype for previewing, order them by resolution
-                _frameFormatsAvailable = _frameSource.SupportedFormats.Where(format =>
+                _frameFormatsAvailable = _previewFrameSource.SupportedFormats.Where(format =>
                     format.FrameRate.Numerator / format.FrameRate.Denominator >= 15 // fps
                     && (string.Compare(format.Subtype, MediaEncodingSubtypes.Nv12, true) == 0
                         || string.Compare(format.Subtype, MediaEncodingSubtypes.Bgra8, true) == 0
@@ -177,14 +177,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
                 // set the format with the higest resolution available by default
                 var defaultFormat = _frameFormatsAvailable.Last();
-                await _frameSource.SetFormatAsync(defaultFormat);
+                await _previewFrameSource.SetFormatAsync(defaultFormat);
             }
-            catch (UnauthorizedAccessException ex)
+            catch (UnauthorizedAccessException)
             {
                 await CleanupAsync();
                 return CameraHelperResult.CameraAccessDenied;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 await CleanupAsync();
                 return CameraHelperResult.InitializationFailed_UnknownError;

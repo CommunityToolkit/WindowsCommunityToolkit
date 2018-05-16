@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
 using Windows.Media;
 using Windows.UI.Xaml;
