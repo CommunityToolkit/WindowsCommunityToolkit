@@ -328,7 +328,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 LineHeight = FontSize * 1.4
             };
 
-            textBlock.PointerWheelChanged += Preventive_PointerWheelChanged;
+            textBlock.PointerWheelChanged += Preventative_PointerWheelChanged;
 
             var paragraph = new Paragraph();
             textBlock.Blocks.Add(paragraph);

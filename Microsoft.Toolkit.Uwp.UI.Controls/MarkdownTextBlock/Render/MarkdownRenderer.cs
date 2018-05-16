@@ -210,7 +210,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             }
         }
 
-        private void Preventive_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void Preventative_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             var pointerPoint = e.GetCurrentPoint((UIElement)sender);
 
