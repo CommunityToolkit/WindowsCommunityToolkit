@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using Windows.UI.Composition;
@@ -50,11 +51,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
                 if (count == 1)
                 {
-                    vector = new Vector2(float.Parse(values[0]));
+                    vector = new Vector2(float.Parse(values[0], CultureInfo.InvariantCulture));
                 }
                 else if (count == 2)
                 {
-                    vector = new Vector2(float.Parse(values[0]), float.Parse(values[1]));
+                    vector = new Vector2(float.Parse(values[0], CultureInfo.InvariantCulture), float.Parse(values[1], CultureInfo.InvariantCulture));
                 }
                 else
                 {
@@ -95,11 +96,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
                 if (count == 1)
                 {
-                    vector = new Vector3(float.Parse(values[0]));
+                    vector = new Vector3(float.Parse(values[0], CultureInfo.InvariantCulture));
                 }
                 else if (count == 3)
                 {
-                    vector = new Vector3(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]));
+                    vector = new Vector3(
+                        float.Parse(values[0], CultureInfo.InvariantCulture),
+                        float.Parse(values[1], CultureInfo.InvariantCulture),
+                        float.Parse(values[2], CultureInfo.InvariantCulture));
                 }
                 else
                 {
@@ -140,11 +144,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
                 if (count == 1)
                 {
-                    vector = new Vector4(float.Parse(values[0]));
+                    vector = new Vector4(float.Parse(values[0], CultureInfo.InvariantCulture));
                 }
                 else if (count == 4)
                 {
-                    vector = new Vector4(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]), float.Parse(values[3]));
+                    vector = new Vector4(
+                        float.Parse(values[0], CultureInfo.InvariantCulture),
+                        float.Parse(values[1], CultureInfo.InvariantCulture),
+                        float.Parse(values[2], CultureInfo.InvariantCulture),
+                        float.Parse(values[3], CultureInfo.InvariantCulture));
                 }
                 else
                 {

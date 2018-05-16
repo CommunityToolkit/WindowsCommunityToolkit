@@ -24,7 +24,7 @@ var signClientVersion = "0.9.0";
 
 var baseDir = MakeAbsolute(Directory("../")).ToString();
 var buildDir = baseDir + "/build";
-var Solution = baseDir + "/UWP Community Toolkit.sln";
+var Solution = baseDir + "/Windows Community Toolkit.sln";
 var toolsDir = buildDir + "/tools";
 
 var binDir = baseDir + "/bin";
@@ -41,7 +41,7 @@ var stylerFile = baseDir + "/settings.xamlstyler";
 var versionClient = toolsDir + "/nerdbank.gitversioning/tools/Get-Version.ps1";
 string Version = null;
 
-var name = "UWP Community Toolkit";
+var name = "Windows Community Toolkit";
 var address = "https://developer.microsoft.com/en-us/windows/uwp-community-toolkit";
 
 //////////////////////////////////////////////////////////////////////

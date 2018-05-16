@@ -1,19 +1,17 @@
 ---
 title: Menu Control
 author: nmetulev
-description: The UWP Community Toolkit Menu control defines a top level menu for commands, options, properties and much more within your UWP apps.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Menu, xaml, xaml control
+description: The Windows Community Toolkit Menu control defines a top level menu for commands, options, properties and much more within your UWP apps.
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Menu, xaml, xaml control
 ---
 
 # Menu Control
 
-The **Menu Control** defines a menu of choices for users to invoke, it is inheriting from `ItemsControl`. The default ItemsPanel for the menu control is `WrapPanel` and it only supports MenuItem as an item\children.
+The [Menu Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.menu) defines a menu of choices for users to invoke, it is inheriting from `ItemsControl`. The default ItemsPanel for the menu control is `WrapPanel` and it only supports MenuItem as an item\children.
 
-### How it works
+The [Menu Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.menu) positions it's items the way the WrapPanel does based on the selected orientation Virtical\Horizontal (Developers can change the control ItemsPanel). The Menu items must be of type MenuItem, each MenuItem can be opened using keyboard or pointer.
 
-The **Menu Control** positions it's items the way the WrapPanel does based on the selected orientation Virtical\Horizontal (Developers can change the control ItemsPanel). The Menu items must be of type MenuItem, each MenuItem can be opened using keyboard or pointer.
-
-**MenuItem** is inheriting from `ItemsControl` and the allowed controls must be derived from `MenuFlyoutItemBase` like `MenuFlyoutSubItem`, `MenuFlyoutItem`, etc...
+[MenuItem](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.menuitem) is inheriting from `ItemsControl` and the allowed controls must be derived from `MenuFlyoutItemBase` like `MenuFlyoutSubItem`, `MenuFlyoutItem`, etc...
 
 To invoke any command on any Menu, MenuItem or MenuFlyoutItem you must use property `InputGestureText`
 
@@ -22,7 +20,6 @@ If the tooltip is allowed on the Menu control when clicking Alt a tooltip with t
 ## Syntax
 
 ```xaml
-
 <controls:Menu>
     <controls:MenuItem Name="FileMenu"
         controls:Menu.InputGestureText="Alt+F"
@@ -39,70 +36,69 @@ If the tooltip is allowed on the Menu control when clicking Alt a tooltip with t
         </MenuFlyoutSubItem>
     </controls:MenuItem>
 </controls:Menu>
-
 ```
 
-## Example Image
+## Sample Output
 
-![Menu Overview](../resources/images/Controls-Menu.gif "Menu")
+![Menu Overview](../resources/images/Controls/Menu.gif)
 
-## External Properties
+## Properties
 
-### InputGestureText
-Sets the text describing an input gesture that will call the command tied to the specified item or to open the MenuItem FlyoutMenu. ex (Alt+F)
+### Menu Properties
 
-`Note`: InputGestureText supports Ctrl, Alt or Shift.
+| Property | Type | Description |
+| -- | -- | -- |
+| FlyoutPlacement | [FlyoutPlacementMode](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Controls.Primitives.FlyoutPlacementMode) | Gets or sets the placement of the flyoutMenu (Auto, Top, Bottom, Left, Right and Full) |
+| IsOpened | bool | Gets a value indicating whether the menu is opened or not |
+| MenuFlyoutStyle | Style | Gets or sets the menu style for MenuItem |
+| Orientation | Orientation | Gets or sets the orientation of the Menu, Horizontal or vertical means that child controls will be added horizontally until the width of the panel can't fit more control then a new row is added to fit new horizontal added child controls, vertical means that child will be added vertically until the height of the panel is received then a new column is added |
+| SelectedMenuItem | MenuItem | Gets the current selected menu header item |
+| TooltipPlacement | [PlacementMode](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Controls.Primitives.PlacementMode) | Gets or sets the tooltip placement on menu |
+| TooltipStyle | Style | Gets or sets the tooltip styles for menu |
 
-### AllowTooltip
-Specify whether to allow tooltip on Alt click or not.
+### External Properties
 
-## MenuItem Properties
-### Header
-Gets or sets the header of the MenuItem. if you added '^' before any header character this character will be highlighted on pressing or holding Alt, this feature is used to visualize which character can be used beside Alt to open this MenuItem.
+| Property | Type | Description |
+| -- | -- | -- |
+| AllowTooltip | bool | Specify whether to allow tooltip on Alt click or not |
+| InputGestureText | string | Sets the text describing an input gesture that will call the command tied to the specified item or to open the MenuItem FlyoutMenu. ex (Alt+F) |
 
-## Menu Properties
+> [!NOTE]
+InputGestureText supports Ctrl, Alt or Shift.
 
-### Orientation
-Gets or sets the orientation of the Menu, Horizontal or vertical means that child controls will be added horizontally until the width of the panel can't fit more control then a new row is added to fit new horizontal added child controls, vertical means that child will be added vertically until the height of the panel is received then a new column is added.
+### MenuItem Properties
 
-### FlyoutPlacement
-Gets or sets the placement of the flyoutMenu (Auto, Top, Bottom, Left, Right and Full).
-If the MenuPlacement is Bottom the FlyoutMenu will be aligned with the bottom left corner of the MenuItem
-If the MenuPlacement is Right the FlyoutMenu will be aligned with the top right corner of the MenuItem
-If the MenuPlacement is Auto the calculation of the menu placement will be based on Menu Orientation properties, case orientation is Horizontal FLyoutMenu placement will be Bottom, case orientation is Vertical FlyoutMenu placement will be Right.
-If the MenuPlacement is left or top the FlyoutMenu placement will be displayed left/top but without any alignment with the MenuItem.
+| Property | Type | Description |
+| -- | -- | -- |
+| Header | object | Gets or sets the header of the MenuItem. if you added '^' before any header character this character will be highlighted on pressing or holding Alt, this feature is used to visualize which character can be used beside Alt to open this MenuItem. |
+| HeaderTemplate | DataTemplate | Gets or sets the data template that is used to display the content of the MenuItem |
+| IsOpened | bool | Gets a value indicating whether the menu is opened or not |
 
-### MenuFlyoutStyle
-Gets or sets the FlyoutMenu style for MenuItem.
+## Methods
 
-### TooltipStyle
-Gets or sets the tooltip styles for MenuItem.
+### Menu Methods
 
-### TooltipPlacement
-Gets or sets the tooltip PlacementMode on MenuItem. (Bottom, Right, Mouse, Left and Top).
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| static GetAllowTooltip(Menu) | bool | Gets AllowTooltip attached property |
+| static GetInputGestureText(FrameworkElement) | string | Gets InputGestureText attached property |
+| static SetAllowTooltip(Menu, Boolean) | void | Sets AllowTooltip attached property |
+| static SetInputGestureText(FrameworkElement, String) | void | Sets InputGestureText attached property |
 
-### SelectedHeaderItem
-Gets the current selected MenuItem.
+### MenuItem Methods
 
-### IsOpened
-Gets a value indicating whether the menu is opened or not.
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| HideMenu() | void | This method is used to hide the menu for current item |
+| static ShowMenu() | void | This method is used to show the menu for current item |
 
-## Example Code
-
-[Menu Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Menu)
+## Example
 
 The following sample demonstrates how to add Menu Control.
 
 ```xaml
-
-<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.MenuPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:commands="using:Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+<Page .... 
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"">
 
     <Page.Resources>
         <ResourceDictionary>
@@ -112,20 +108,15 @@ The following sample demonstrates how to add Menu Control.
 
     <Grid>
         <controls:Menu>
-            <controls:MenuItem Name="FileMenu"
-                controls:Menu.InputGestureText="Alt+F"
-                Header="File">
-
+            <controls:MenuItem Name="FileMenu" controls:Menu.InputGestureText="Alt+F" Header="File">
                 <MenuFlyoutSubItem Text="New">
                     <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
-                        Command="{StaticResource NewProject}"
-                        Text="Project" />
+                                    Command="{StaticResource NewProject}" Text="Project" />
                 </MenuFlyoutSubItem>
             </controls:MenuItem>
         </controls:Menu>
     </Grid>
 </Page>
-
 ```
 
 ``` CSharp
@@ -146,15 +137,20 @@ internal class NewProjectCommand : ICommand
 }
 ```
 
+## Sample Code
+
+[Menu Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Menu). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+
 ## Default Template 
 
 [Menu XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/Menu/Menu.xaml) is the XAML template used in the toolkit for the default styling.
 
-## Requirements (Windows 10 Device Family)
+## Requirements
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
-| --- | --- |
+| Device family | Universal, 10.0.14393.0 or higher |
+| -- | -- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Controls/) |
 
 ## API
 

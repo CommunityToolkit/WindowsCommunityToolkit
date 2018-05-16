@@ -2,9 +2,9 @@
   
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
-    <Description>This .NET standard library contains various Parsers. It is part of the UWP Community Toolkit.</Description>
+    <Description>This .NET standard library contains various Parsers. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>UWP Toolkit Windows Parsers Parsing Markdown RSS</PackageTags>
-    <Title>UWP Community Toolkit .NET Standard Parsers</Title>
+    <Title>Windows Community Toolkit .NET Standard Parsers</Title>
 
     <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
     <DebugType>Full</DebugType>

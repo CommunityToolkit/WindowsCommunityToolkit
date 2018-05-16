@@ -2,28 +2,26 @@
 title: BackdropBlurBrush
 author: michael-hawker
 description: The BackdropBlurBrush is a Brush that blurs whatever is behind it in the application.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, brush, backdrop, blur
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, brush, backdrop, blur
 ---
 
 # BackdropBlurBrush
 
-The **BackdropBlurBrush** is a [Brush](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.brush) that blurs whatever is behind it in the application.
+The [BackdropBlurBrush](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.media.backdropblurbrush) is a [Brush](https://docs.microsoft.com/uwp/api/windows.ui.xaml.media.brush) that blurs whatever is behind it in the application.
 
-It is based on the example provided on [MSDN](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.xamlcompositionbrushbase) for the XamlCompositionBrushBase.
-
-## Example
+## Syntax
 
 ```xaml
-    <Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="400">
-      <Border.Background>
-        <media:BackdropBlurBrush Amount="3.0" />
-      </Border.Background>
-    </Border>
+<Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="400">
+  <Border.Background>
+    <media:BackdropBlurBrush Amount="3.0" />
+  </Border.Background>
+</Border>
 ```
 
 ## Example Image
 
-![Backdrop Blur](../resources/images/Brushes-BackdropBlur.jpg "Backdrop Blur")
+![Backdrop Blur](../resources/images/Brushes/BackdropBlur.jpg "Backdrop Blur")
 
 ## Properties
 
@@ -31,9 +29,13 @@ It is based on the example provided on [MSDN](https://docs.microsoft.com/en-us/u
 | -- | -- | -- |
 | Amount | double | The `Amount` property specifies a double value for the amount of Gaussian blur to apply. |
 
-## Requirements (Windows 10 Device Family)
+## Sample Code
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.15063.0 or higher |
+[BackdropBlurBrush sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackdropBlurBrush). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+
+## Requirements
+
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Media |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
@@ -45,3 +47,4 @@ It is based on the example provided on [MSDN](https://docs.microsoft.com/en-us/u
 ## Related Topics
 
 - [Win2D GaussianBlurEffect reference](http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_GaussianBlurEffect.htm)
+- [XamlCompositionBrushBase Examples](https://docs.microsoft.com/uwp/api/windows.ui.xaml.media.xamlcompositionbrushbase#examples)

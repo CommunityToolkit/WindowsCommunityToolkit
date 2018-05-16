@@ -250,7 +250,7 @@ Sometimes you need to preserve indentation, too.  In those cases, you can create
         System.out.println("Hello world!");
     }
 
-Starting with UWP Community Toolkit v1.4, you can also use GitHub code notification by creating a block surrounded by 3x\` (3 backticks). This can also be used with Language Identifiers on the entering backticks, such as:
+Starting with Windows Community Toolkit v1.4, you can also use GitHub code notification by creating a block surrounded by 3x\` (3 backticks). This can also be used with Language Identifiers on the entering backticks, such as:
 
 \`\`\`csharp
 
@@ -396,27 +396,55 @@ which renders in:
 
 You'll probably do a lot of quoting of other redditors.  In those cases, you'll want to use block quotes.  Simple begin each line you want quoted with a right angle bracket (>).  Multiple angle brackets can be used for nested quotes.  To cause a new paragraph to be quoted, begin that paragraph with another angle bracket.  So the following:
 
-    >Here's a quote.
-    
-    >Another paragraph in the same quote.
-    >>A nested quote.
+    >Quote1
 
-    >Back to a single quote.
+    >Quote2.1
+    >>Quote2.Nest1.1
+    >>
+    >>Quote2.Nest1.2
+    >
+    >Quote2.3
 
-    And finally some unquoted text.
+    >Quote3.1
+    >Quote3.2
+
+    >Quote4.1
+    >
+    >Quote4.2
+
+    >Quote5.1
+    Quote5.2
+
+    >Quote6
+
+    Plain text.
 
 
 Is displayed as:
 
 
->Here's a quote.
-    
->Another paragraph in the same quote.
->>A nested quote.
+>Quote1
 
->Back to a single quote.
+>Quote2.1
+>>Quote2.Nest1.1
+>>
+>>Quote2.Nest1.2
+>
+>Quote2.3
 
-And finally some unquoted text.
+>Quote3.1
+>Quote3.2
+
+>Quote4.1
+>
+>Quote4.2
+
+>Quote5.1
+Quote5.2
+
+>Quote6
+
+Plain text.
 
 *****
 

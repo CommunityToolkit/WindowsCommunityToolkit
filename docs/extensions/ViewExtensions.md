@@ -2,12 +2,12 @@
 title: ViewExtensions
 author: nmetulev
 description: The ApplicationViewExtensions, StatusBarExtensions & TitleBarExtensions provide a declarative way of setting AppView, StatusBar & TitleBar properties from XAML.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, ViewExtensions, ApplicationViewExtensions, StatusBarExtensions, TitleBarExtensions, statusbar, titlebar, xaml
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, ViewExtensions, ApplicationViewExtensions, StatusBarExtensions, TitleBarExtensions, statusbar, titlebar, xaml
 ---
 
 # ViewExtensions
 
-The **ApplicationViewExtensions, StatusBarExtensions & TitleBarExtensions** provide a declarative way of setting AppView, StatusBar & TitleBar properties from XAML.
+The [ApplicationViewExtensions](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.extensions.applicationview), [StatusBarExtensions](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.extensions.statusbar) & [TitleBarExtensions](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.extensions.titlebar) provide a declarative way of setting AppView, StatusBar & TitleBar properties from XAML.
 
 ## Example
 
@@ -32,9 +32,33 @@ The **ApplicationViewExtensions, StatusBarExtensions & TitleBarExtensions** prov
 </Page>
 ```
 
-## Requirements (Windows 10 Device Family)
+## Properties
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
+### ApplicationViewExtensions Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| Title | string | Set application title |
+
+### StatusBarExtensions Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| BackgroundColor | Color | Set background color of status bar |
+| BackgroundOpacity | double | Set background color opacity of status bar |
+| ForegroundColor | Color | Set foreground color of status bar |
+| IsVisible | bool | Set visibility of status bar |
+
+### TitleBarExtensions Properties
+
+| Property | Type | Description |
+| -- | -- | -- |
+| BackgroundColor | Color | Set background color of title bar |
+| ForegroundColor | Color | Set foreground color of title bar |
+
+## Requirements
+
+| Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
