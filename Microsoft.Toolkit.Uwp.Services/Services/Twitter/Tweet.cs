@@ -52,12 +52,6 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         }
 
         /// <summary>
-        /// Gets or sets text of the tweet (280 characters).
-        /// </summary>
-        [JsonProperty("full_text")]
-        public string FullText { get; set; }
-
-        /// <summary>
         /// Gets or sets the extended mode.
         /// </summary>
         [JsonProperty("extended_tweet")]
@@ -97,5 +91,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                 return dt;
             }
         }
+
+        /// <summary>
+        /// Gets or sets text of the tweet (280 characters).
+        /// </summary>
+        [JsonProperty("full_text")]
+        private string FullText { get; set; }
     }
 }
