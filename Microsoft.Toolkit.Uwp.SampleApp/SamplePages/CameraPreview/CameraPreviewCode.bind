@@ -16,7 +16,7 @@
 
 // Create and associate the camera helper instance with the camera preview control
 var cameraHelper = new CameraHelper();
-await _cameraPreviewControl.SetCameraHelperAsync(cameraHelper);
+await _cameraPreviewControl.StartAsync(cameraHelper);
 _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
 _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
      

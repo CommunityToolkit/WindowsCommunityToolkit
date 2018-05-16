@@ -20,8 +20,7 @@ The **CameraPreview** control allows to easily preview video in the MediaPlayerE
 
 ```csharp
 
-var cameraHelper = new CameraHelper();
-await _cameraPreviewControl.SetCameraHelperAsync(cameraHelper);
+await _cameraPreviewControl.StartAsync();
 _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
 _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
      
@@ -54,7 +53,8 @@ private void CameraPreviewControl_PreviewFailed(object sender, PreviewFailedEven
 
 | Methods | Return Type | Description |
 | -- | -- | -- |
-| SetCameraHelperAsync() | Task | Initialize camera preview control with Camera Helper instance. |
+| StartAsync() | Task | Initializes camera preview control with a default Camera Helper instance and starts preview and frame capture. |
+| StartAsync(CameraHelper cameraHelper) | Task | Initializes camera preview control with provided Camera Helper instance. |
 | CleanupAsync() | Task | Use this method to dispose the control and media resources. |
 
 ## Events
@@ -72,7 +72,7 @@ var availableFrameSourceGroups = = await CameraHelper.GetFrameSourceGroupsAsync(
 if(availableFrameSourceGroups != null)
 {
   CameraHelper cameraHelper = new CameraHelper() { FrameSourceGroup = availableFrameSourceGroups.FirstOrDefault() };
-  await _cameraPreviewControl.SetCameraHelperAsync(cameraHelper);
+  await _cameraPreviewControl.StartAsync(cameraHelper);
   _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
   _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
 }

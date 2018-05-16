@@ -33,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private MediaFrameSourceGroup _group;
         private MediaFrameSource _previewFrameSource;
         private List<MediaFrameFormat> _frameFormatsAvailable;
+        private bool groupChanged = false;
 
         /// <summary>
         /// Gets a list of MediaFrameSourceGroups available for video preview or video record.
@@ -62,7 +63,15 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Gets or sets the source group for camera video preview.
         /// </summary>
-        public MediaFrameSourceGroup FrameSourceGroup { get => _group; set => _group = value; }
+        public MediaFrameSourceGroup FrameSourceGroup
+        {
+            get => _group;
+            set
+            {
+                groupChanged = _group != value;
+                _group = value;
+            }
+        }
 
         /// <summary>
         /// Gets the currently selected <see cref="MediaFrameSource"/> for video preview.
@@ -82,6 +91,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Result of the async operation.<see cref="CameraHelperResult"/></returns>
         public async Task<CameraHelperResult> InitializeAndStartCaptureAsync()
         {
+            // if FrameSourceGroup hasn't changed from last initialiazation, just return back.
+            if (_group != null && !groupChanged)
+            {
+                return CameraHelperResult.Success;
+            }
+
+            groupChanged = false;
+
             await CleanupAsync();
 
             if (_frameSourceGroups == null)

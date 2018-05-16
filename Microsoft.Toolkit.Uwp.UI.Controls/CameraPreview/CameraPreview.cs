@@ -43,10 +43,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public CameraHelper CameraHelper { get => _cameraHelper; private set => _cameraHelper = value; }
 
         /// <summary>
-        /// Initialize control with a CameraHelper instance
+        /// Initialize control with a default CameraHelper instance for video preview and frame capture.
+        /// </summary>
+        public async Task StartAsync()
+        {
+             await StartAsync(new CameraHelper());
+        }
+
+        /// <summary>
+        /// Initialize control with a CameraHelper instance for video preview and frame capture.
         /// </summary>
         /// <param name="cameraHelper"><see cref="CameraHelper"/></param>
-        public async Task SetCameraHelperAsync(CameraHelper cameraHelper)
+        public async Task StartAsync(CameraHelper cameraHelper)
         {
             _cameraHelper = cameraHelper;
             _frameSourceGroups = await CameraHelper.GetFrameSourceGroupsAsync();

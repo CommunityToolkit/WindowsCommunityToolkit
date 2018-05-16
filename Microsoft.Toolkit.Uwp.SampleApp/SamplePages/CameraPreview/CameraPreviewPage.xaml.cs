@@ -56,8 +56,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             if (_cameraPreviewControl != null)
             {
-                var cameraHelper = new CameraHelper();
-                await _cameraPreviewControl.SetCameraHelperAsync(cameraHelper);
+                await _cameraPreviewControl.StartAsync();
                 _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
                 _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
             }
@@ -82,9 +81,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Application.Current.Resuming += Application_Resuming;
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        protected async override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            CleanUpAsync();
+            await CleanUpAsync();
         }
 
         private async void Application_Suspending(object sender, SuspendingEventArgs e)
@@ -100,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private async void Application_Resuming(object sender, object e)
         {
             var cameraHelper = new CameraHelper();
-            await _cameraPreviewControl.SetCameraHelperAsync(cameraHelper);
+            await _cameraPreviewControl.StartAsync(cameraHelper);
             _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
             _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
         }
