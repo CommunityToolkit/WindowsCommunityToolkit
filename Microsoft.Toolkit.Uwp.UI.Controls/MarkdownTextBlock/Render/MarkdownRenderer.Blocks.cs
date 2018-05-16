@@ -12,11 +12,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
 using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Render;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -330,7 +328,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 LineHeight = FontSize * 1.4
             };
 
-            textBlock.PointerWheelChanged += TextBlock_PointerWheelChanged;
+            textBlock.PointerWheelChanged += Preventive_PointerWheelChanged;
 
             var paragraph = new Paragraph();
             textBlock.Blocks.Add(paragraph);
@@ -364,29 +362,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             // Add it to the blocks
             blockUIElementCollection.Add(viewer);
         }
-
-        private void TextBlock_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            var pointerPoint = e.GetCurrentPoint((UIElement)sender);
-
-            if (pointerPoint.Properties.IsHorizontalMouseWheel)
-            {
-                e.Handled = false;
-                return;
-            }
-
-            var rootViewer = VisualTree.FindAscendant<ScrollViewer>(RootElement);
-            if (rootViewer != null)
-            {
-                wheelevent?.Invoke(rootViewer, new object[] { e });
-                e.Handled = true;
-            }
-        }
-
-        /// <summary>
-        /// Super Hack to retain inertia and passing the Scroll data onto the Parent ScrollViewer.
-        /// </summary>
-        private MethodInfo wheelevent = typeof(ScrollViewer).GetMethod("OnPointerWheelChanged", BindingFlags.NonPublic | BindingFlags.Instance);
 
         /// <summary>
         /// Renders a table element.
