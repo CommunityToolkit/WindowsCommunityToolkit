@@ -301,11 +301,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the source has more items
+        /// </summary>
         public bool HasMoreItems
         {
             get
             {
-                throw new NotImplementedException();
+                ISupportIncrementalLoading sourceAsSupportIncrementalLoading = _sourceCollection as ISupportIncrementalLoading;
+                return sourceAsSupportIncrementalLoading?.HasMoreItems ?? false;
             }
         }
 
@@ -400,9 +404,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Invoked to load more items from the source.
+        /// </summary>
+        /// <param name="count">number of items to load</param>
+        /// <returns>Async operation of LoadMoreItemsResult</returns>
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
         {
-            throw new NotImplementedException();
+            ISupportIncrementalLoading sourceAsSupportIncrementalLoading = _sourceCollection as ISupportIncrementalLoading;
+            return sourceAsSupportIncrementalLoading?.LoadMoreItemsAsync(count);
         }
 
         /// <summary>
