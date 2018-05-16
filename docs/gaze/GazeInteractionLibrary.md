@@ -2,7 +2,7 @@
 title: Gaze Interaction Library
 author: harishsk
 description: The Gaze Interaction library contains a set of helper classes built on the Windows gaze input APIs to more easily leverage eye tracking and integrate gaze interactions into your UWP application. 
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, gaze, eye gaze, gaze input, gaze interaction, eye tracking, eye tracker
+keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, windows community toolkit, gaze, eye gaze, gaze input, gaze interaction, eye tracking, eye tracker
 ---
 
 # Gaze Interaction Library
@@ -127,7 +127,7 @@ For e.g.
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:gaze="using:Microsoft.Toolkit.UWP.Input.GazeInteraction"
+    xmlns:gaze="using:Microsoft.Toolkit.Uwp.Input.GazeInteraction"
     gaze:GazeInput.Interaction="Enabled"
     mc:Ignorable="d">
 ```
@@ -185,7 +185,7 @@ private void OnInvokeProgress(object sender, GazeProgressEventArgs e)
 
 ## Sample Code
 
-[GazeInteractionPage](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/GazeInteraction/). You can see all of this in action in the [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[GazeInteractionPage](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/GazeInteraction/). You can see all of this in action in the [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
@@ -196,7 +196,7 @@ private void OnInvokeProgress(object sender, GazeProgressEventArgs e)
 
 ## API Source Code
 
-* [Gaze Interaction Library source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Input.GazeInteraction)
+* [Gaze Interaction Library source code](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Input.GazeInteraction)
 
 ## Related Topics
 
