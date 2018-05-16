@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
 {
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     internal struct OSVERSIONINFOEX
     {
         // The OSVersionInfoSize field must be set to Marshal.SizeOf(typeof(OSVERSIONINFOEX))
@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         internal ushort ServicePackMajor;
         internal ushort ServicePackMinor;
         internal short SuiteMask;
-        internal byte ProductType;
+        internal ProductType ProductType;
         internal byte Reserved;
     }
 }

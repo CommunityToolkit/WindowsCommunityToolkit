@@ -125,10 +125,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
         [SecurityCritical]
         private static bool IsServer()
         {
-            // RtlGetVersion does not return ProductType
-            var versionInfo = NativeMethods.GetVersionEx();
-            return versionInfo.ProductType == 2 // VER_NT_DOMAIN_CONTROLLER
-                   || versionInfo.ProductType == 3; // VER_NT_SERVER
+            var versionInfo = NativeMethods.RtlGetVersion();
+            return versionInfo.ProductType == ProductType.VER_NT_DOMAIN_CONTROLLER
+                   || versionInfo.ProductType == ProductType.VER_NT_SERVER;
         }
 
         [SecurityCritical]
@@ -167,7 +166,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
                     throw new ArgumentException(DesignerUI.E_UNRECOGNIZED_OS, nameof(version));
             }
 
-            // After 8.1 apps without manifest or are not manifested for 8.1/10 return 6.2.
+            // After 8.1 apps without manifest or are not manifested for 8.1/10 return 6.2 when using GetVersionEx.
             // Need to use RtlGetVersion to get correct major/minor/build
             var os = NativeMethods.RtlGetVersion();
 
