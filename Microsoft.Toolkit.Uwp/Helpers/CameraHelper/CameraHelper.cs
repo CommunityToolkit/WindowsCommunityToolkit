@@ -15,6 +15,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
+using Windows.Foundation.Metadata;
+using Windows.Graphics.Imaging;
+using Windows.Media;
 using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
 using Windows.Media.MediaProperties;
@@ -84,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public event EventHandler<FrameEventArgs> FrameArrived;
 
         /// <summary>
-        /// Initializes Camera Media Capture settings and initializes Frame Reader to capture frames in real time. 
+        /// Initializes Camera Media Capture settings and initializes Frame Reader to capture frames in real time.
         /// If no MediaFrameSourceGroup is provided, it selects the first available camera source to  use for media capture.
         /// You could select a specific MediaFrameSourceGroup from the available sources using the CameraHelper FrameSourceGroups property.
         /// </summary>
@@ -240,7 +243,23 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             {
                 var vmf = frame.VideoMediaFrame;
                 EventHandler<FrameEventArgs> handler = FrameArrived;
-                var frameArgs = new FrameEventArgs() { VideoFrame = vmf.GetVideoFrame() };
+                var videoFrame = vmf.GetVideoFrame();
+
+                // videoFrame could be disposed at any time so we need to create a copy we can use
+                // this api is only available on 17134 - so we return the original VideoFrame on older versions
+                if (ApiInformation.IsMethodPresent("Windows.Media.VideoFrame", "CreateWithSoftwareBitmap", 1))
+                {
+                    try
+                    {
+                        var bitmap = SoftwareBitmap.Copy(videoFrame.SoftwareBitmap);
+                        videoFrame = VideoFrame.CreateWithSoftwareBitmap(bitmap);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+
+                var frameArgs = new FrameEventArgs() { VideoFrame = videoFrame };
                 handler?.Invoke(sender, frameArgs);
             }
         }
