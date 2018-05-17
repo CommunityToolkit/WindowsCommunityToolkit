@@ -63,17 +63,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void LoadtButton_Click(object sender, RoutedEventArgs e)
         {
-            string inputURL = _docLibOrDriveURL.Text.Trim();
-
-            // auto detect drive URL
-            string driveURL;
-            if (inputURL.StartsWith("https://graph.microsoft.com/", StringComparison.CurrentCultureIgnoreCase))
+            string driveURL = _docLibOrDriveURL.Text.Trim();
+            if (string.IsNullOrEmpty(driveURL))
             {
-                driveURL = inputURL;
-            }
-            else
-            {
-                driveURL = await _sharePointFilesControl.GetDriveUrlFromSharePointUrlAsync(inputURL).ConfigureAwait(false);
+                return;
             }
 
             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>

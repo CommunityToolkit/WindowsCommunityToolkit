@@ -10,7 +10,6 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Windows.Input;
 using Microsoft.Graph;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -180,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata(false));
 
         /// <summary>
-        /// Gets or sets url of OneDrive to display
+        /// Gets or sets drive or SharePoint document library URL to display
         /// </summary>
         public string DriveUrl
         {

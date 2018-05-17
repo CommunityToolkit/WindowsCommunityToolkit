@@ -176,8 +176,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             try
             {
+                string realDriveURL;
+                if (driveUrl.StartsWith("https://graph.microsoft.com/", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    realDriveURL = driveUrl;
+                }
+                else
+                {
+                    realDriveURL = await GetDriveUrlFromSharePointUrlAsync(driveUrl).ConfigureAwait(false);
+                }
+
                 GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
-                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, driveUrl);
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, realDriveURL);
                 await graphServiceClient.AuthenticationProvider.AuthenticateRequestAsync(message);
 
                 HttpResponseMessage result = await graphServiceClient.HttpProvider.SendAsync(message);
@@ -196,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
             }
         }
