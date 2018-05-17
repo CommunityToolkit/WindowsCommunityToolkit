@@ -27,9 +27,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         public static readonly DependencyProperty IsShowSignInButtonProperty = DependencyProperty.Register(
             nameof(IsShowSignInButton),
-            typeof(Visibility),
+            typeof(bool),
             typeof(AadAuthControl),
-            new PropertyMetadata(Visibility.Visible));
+            new PropertyMetadata(true));
 
         public bool IsEnableSignInButton
         {
@@ -37,9 +37,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             set { SetValue(IsEnableSignInButtonProperty, value); }
         }
 
-        public Visibility IsShowSignInButton
+        public bool IsShowSignInButton
         {
-            get { return (Visibility)GetValue(IsShowSignInButtonProperty); }
+            get { return (bool)GetValue(IsShowSignInButtonProperty); }
             set { SetValue(IsShowSignInButtonProperty, value); }
         }
 
