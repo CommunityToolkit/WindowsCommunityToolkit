@@ -253,7 +253,9 @@
                                                     LinkForeground="{ThemeResource Brush-Link-Normal}"
                                                     ImageResolving="DocumentationTextblock_ImageResolving"
                                                     LinkClicked="DocumentationTextblock_OnLinkClicked"
-                                                    IsFocusEngagementEnabled="False" />
+                                                    IsFocusEngagementEnabled="False"
+                                                    ImageMaxWidth="500"
+                                                    ImageMaxHeight="500"/>
                         </ScrollViewer>
                     </PivotItem>
                 </Pivot>
