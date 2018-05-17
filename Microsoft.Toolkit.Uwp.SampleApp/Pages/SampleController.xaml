@@ -257,16 +257,20 @@
             </Border>
 
             <controls:InAppNotification x:Name="ExceptionNotification"
+                                        Grid.Row="2"
                                         Grid.RowSpan="2"
                                         Style="{StaticResource ExceptionNotification}"
                                         Grid.ColumnSpan="2"
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Center"
-                                        Margin="15"></controls:InAppNotification>
+                                        Margin="10"
+                                        Canvas.ZIndex="999"/>
             <Grid x:Name="waitRing"
-                    Grid.RowSpan="2"
+                    Grid.Row="1"
+                    Grid.RowSpan="3"
                     Grid.ColumnSpan="2"
-                    Visibility="Collapsed">
+                    Visibility="Collapsed"
+                    Canvas.ZIndex="999">
                 <Grid Background="{ThemeResource BackingTint}" />
                 <ProgressRing Width="100"
                                 Height="100"
