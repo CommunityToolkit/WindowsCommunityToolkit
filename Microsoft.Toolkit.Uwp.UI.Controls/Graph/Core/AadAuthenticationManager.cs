@@ -227,8 +227,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (!string.IsNullOrEmpty(await GetTokenWithPromptAsync()))
             {
                 GraphServiceClient graphClient = await GetGraphServiceClientAsync();
-                var user = await graphClient.Me.Request().GetAsync();
-                CurrentUserId = user.Id;
+                CurrentUserId = (await graphClient.Me.Request().GetAsync()).Id;
+
+                foreach (var user in _publicClientApp.Users)
+                {
+                    if (user.Identifier != _user.Identifier)
+                    {
+                        _publicClientApp.Remove(user);
+                    }
+                }
+
                 return true;
             }
 
