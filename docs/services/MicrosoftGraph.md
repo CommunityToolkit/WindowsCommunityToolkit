@@ -74,15 +74,15 @@ if (!await MicrosoftGraphService.Instance.LoginAsync())
 {
  return;
 }
-```
-```csharp
+
 // Create a instance of the service
-var msg = new MicrosoftGraphService(ClientId.Text) { AuthenticationModel = AuthenticationModel.V1 };
+var msg = new MicrosoftGraphService(ClientId.Text);
 // Login via Azure Active Directory 
 if (!await msg.LoginAsync())
 {
  return;
 }
+
 ```
 ```vb
 ' Initialize the service

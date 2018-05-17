@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Popups;
@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
             var endpointVersion = item.Tag.ToString() == "v2" ? AuthenticationModel.V2 : AuthenticationModel.V1;
 
-            MicrosoftGraphService.Instance.AuthenticationModel = endpointVersion;
+            // MicrosoftGraphService.Instance.AuthenticationModel = endpointVersion;
 
             // Initialize the service
             switch (endpointVersion)
@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Login via Azure Active Directory
             try
             {
-                if (!await MicrosoftGraphService.Instance.LoginAsync(upn))
+                if (!await MicrosoftGraphService.Instance.LoginAsync())
                 {
                     var error = new MessageDialog("Unable to sign in to Office 365");
                     await error.ShowAsync();
@@ -116,20 +116,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 var user = await MicrosoftGraphService.Instance.User.GetProfileAsync();
                 UserPanel.DataContext = user;
 
-                using (IRandomAccessStream photoStream = await MicrosoftGraphService.Instance.User.GetPhotoAsync())
-                {
-                    BitmapImage photo = new BitmapImage();
-                    if (photoStream != null)
-                    {
-                        await photo.SetSourceAsync(photoStream);
-                    }
-                    else
-                    {
-                        photo.UriSource = new Uri("ms-appx:///SamplePages/MicrosoftGraph Service/user.png");
-                    }
+                // using (IRandomAccessStream photoStream = await MicrosoftGraphService.Instance.User.GetPhotoAsync())
+                // {
+                //    BitmapImage photo = new BitmapImage();
+                //    if (photoStream != null)
+                //    {
+                //        await photo.SetSourceAsync(photoStream);
+                //    }
+                //    else
+                //    {
+                //        photo.UriSource = new Uri("ms-appx:///SamplePages/MicrosoftGraph Service/user.png");
+                //    }
 
-                    Photo.Source = photo;
-                }
+                // Photo.Source = photo;
+                // }
             }
             catch (ServiceException ex)
             {
