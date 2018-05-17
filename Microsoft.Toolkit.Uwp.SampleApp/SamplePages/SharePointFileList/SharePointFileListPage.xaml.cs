@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private async void LoadtButton_Click(object sender, RoutedEventArgs e)
+        private void LoadtButton_Click(object sender, RoutedEventArgs e)
         {
             string driveURL = _docLibOrDriveURL.Text.Trim();
             if (string.IsNullOrEmpty(driveURL))
@@ -69,13 +69,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-            {
-                _sharePointFilesControl.DriveUrl = driveURL;
+            _sharePointFilesControl.DriveUrl = driveURL;
 
-                _sharePointFilesControl.Visibility = Visibility.Visible;
-                _loadPanel.Visibility = Visibility.Collapsed;
-            });
+            _sharePointFilesControl.Visibility = Visibility.Visible;
+            _loadPanel.Visibility = Visibility.Collapsed;
         }
     }
 }

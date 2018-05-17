@@ -183,7 +183,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 }
                 else
                 {
-                    realDriveURL = await GetDriveUrlFromSharePointUrlAsync(driveUrl).ConfigureAwait(false);
+                    realDriveURL = await GetDriveUrlFromSharePointUrlAsync(driveUrl);
                 }
 
                 GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
@@ -206,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
