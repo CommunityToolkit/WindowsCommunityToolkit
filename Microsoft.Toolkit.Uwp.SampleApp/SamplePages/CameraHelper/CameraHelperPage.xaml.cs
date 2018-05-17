@@ -38,6 +38,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             this.InitializeComponent();
 
             Application.Current.Suspending += Application_Suspending;
+            Application.Current.Resuming += Application_Resuming;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -56,12 +57,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void Application_Suspending(object sender, SuspendingEventArgs e)
         {
-            if (Frame.CurrentSourcePageType == typeof(CameraPreviewPage))
+            if (Frame.CurrentSourcePageType == typeof(CameraHelperPage))
             {
                 var deferral = e.SuspendingOperation.GetDeferral();
                 await CleanUpAsync();
                 deferral.Complete();
             }
+        }
+
+        private async void Application_Resuming(object sender, object e)
+        {
+            await InitializeAsync();
         }
 
         private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
@@ -140,7 +146,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             if (_cameraHelper != null)
             {
-               await _cameraHelper.CleanupAsync();
+                _cameraHelper.FrameArrived -= CameraHelper_FrameArrived;
+                await _cameraHelper.CleanupAsync();
                _cameraHelper = null;
             }
         }
