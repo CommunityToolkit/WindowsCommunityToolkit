@@ -10,9 +10,8 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
+using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -34,20 +33,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
-        private async void PeopleSelectionChanged(object sender, PeopleSelectionChangedEventArgs e)
-        {
-            if (e.Selections != null)
-            {
-                await new MessageDialog($"Selected Person Counter {e.Selections.Count}", "Selection Changed").ShowAsync();
-            }
-        }
-
         public void OnXamlRendered(FrameworkElement control)
         {
             peoplePickerControl = control.FindName("PeoplePicker") as PeoplePicker;
             if (peoplePickerControl != null)
             {
                 peoplePickerControl.SelectionChanged += PeopleSelectionChanged;
+            }
+        }
+
+        private async void PeopleSelectionChanged(object sender, PeopleSelectionChangedEventArgs e)
+        {
+            if (e.Selections != null)
+            {
+                await new MessageDialog($"Selected Person Counter {e.Selections.Count}", "Selection Changed").ShowAsync();
             }
         }
     }
