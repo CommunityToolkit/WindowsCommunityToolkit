@@ -72,11 +72,11 @@
                         <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" ContentTemplate="{TemplateBinding ContentTemplate}"  ContentTransitions="{TemplateBinding ContentTransitions}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
                             <ContentPresenter.Content>
                                 <controls:ProfileCard 
-                                    DisplayMode="{TemplateBinding View}" 
-                                    DefaultImage="{TemplateBinding DefaultImage}" 
-                                    UserId="{TemplateBinding CurrentUserID}"
+                                    DisplayMode="{TemplateBinding View}"
+                                    DefaultImage="{TemplateBinding DefaultImage}"
+                                    UserId="{TemplateBinding CurrentUserId}"
                                     LargeProfileTitleDefaultText="{TemplateBinding SignInDefaultText}" 
-                                    NormalMailDefaultText="{TemplateBinding SignInDefaultText}" />
+                                    NormalMailDefaultText="{TemplateBinding SignInDefaultText}"/>
                             </ContentPresenter.Content>
                         </ContentPresenter>
                     </Grid>

@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -47,6 +46,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                 return _instance;
             }
+        }
+
+        private AadAuthenticationManager()
+        {
         }
 
         /// <summary>
@@ -129,14 +132,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private static PublicClientApplication _publicClientApp = null;
         private static object _syncRoot = new object();
         private IUser _user;
-        private bool _isAuthenticated;
+        private bool _isAuthenticated = false;
         private bool _isInitialized = false;
         private string _currentUserId;
-
-        private AadAuthenticationManager()
-        {
-            IsAuthenticated = false;
-        }
 
         /// <summary>
         /// Property changed eventHandler for notification.
@@ -169,15 +167,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         internal async Task<bool> ConnectAsync()
         {
-            string token = await GetTokenForUserAsync();
-
-            if (!string.IsNullOrEmpty(token))
-            {
-                GraphServiceClient graphClient = await GetGraphServiceClientAsync();
-                var user = await graphClient.Me.Request().GetAsync();
-                CurrentUserId = user.Id;
-            }
-
+            await GetTokenForUserAsync();
             return IsAuthenticated;
         }
 
@@ -210,16 +200,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
-            _user = null;
-
-            if (_publicClientApp.Users != null)
+            if (IsAuthenticated)
             {
-                foreach (var user in _publicClientApp.Users)
-                {
-                    _publicClientApp.Remove(user);
-                }
+                _user = null;
+                CurrentUserId = string.Empty;
 
-                IsAuthenticated = false;
+                if (_publicClientApp.Users != null)
+                {
+                    foreach (var user in _publicClientApp.Users)
+                    {
+                        _publicClientApp.Remove(user);
+                    }
+
+                    IsAuthenticated = false;
+                }
             }
         }
 
@@ -239,6 +233,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
 
             return false;
+        }
+
+        private GraphServiceClient GetGraphServiceClient(string token)
+        {
+            return new GraphServiceClient(
+                    GraphApiBaseUrl,
+                    new DelegateAuthenticationProvider(
+                    (requestMessage) =>
+                    {
+                        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", token);
+
+                        return Task.FromResult(0);
+                    }));
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -266,7 +273,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 tokenForUser = await GetTokenWithPromptAsync(_user);
             }
 
-            IsAuthenticated = !string.IsNullOrEmpty(tokenForUser);
+            if (string.IsNullOrEmpty(CurrentUserId) && !string.IsNullOrEmpty(tokenForUser))
+            {
+                GraphServiceClient graphClient = GetGraphServiceClient(tokenForUser);
+                var user = await graphClient.Me.Request().GetAsync();
+                CurrentUserId = user.Id;
+                IsAuthenticated = true;
+            }
+
             return tokenForUser;
         }
 

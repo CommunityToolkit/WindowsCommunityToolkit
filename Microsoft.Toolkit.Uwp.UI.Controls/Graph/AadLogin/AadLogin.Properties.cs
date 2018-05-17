@@ -88,10 +88,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             new PropertyMetadata("Sign in with another account"));
 
         /// <summary>
-        /// Identifies the <see cref="CurrentUserID"/> dependency property.
+        /// Identifies the <see cref="CurrentUserId"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty CurrentUserIdProperty = DependencyProperty.Register(
-            nameof(CurrentUserID),
+            nameof(CurrentUserId),
             typeof(string),
             typeof(AadLogin),
             new PropertyMetadata(null));
@@ -153,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <summary>
         /// Gets the unique identifier for current signed in user.
         /// </summary>
-        public string CurrentUserID
+        public string CurrentUserId
         {
             get { return (string)GetValue(CurrentUserIdProperty); }
             private set { SetValue(CurrentUserIdProperty, value); }

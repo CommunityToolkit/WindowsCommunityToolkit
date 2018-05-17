@@ -31,9 +31,9 @@ The [ProfileCard Control](https://docs.microsoft.com/dotnet/api/microsoft.toolki
 | UserId | String | Identifier of the user being displayed, this user id can come from the Graph APIs like `/me/people`, `/users`, etc. |
 | DisplayMode | [ViewType](../../Microsoft.Toolkit.Uwp.UI.Controls/Graph/ProfileCard/ViewType.cs) | The visual layout of the control. Default is `PictureOnly` |
 | DefaultImage | BitmapImage | The default image displayed when no user is signed in |
-| DefaultTitleText | String | Default title text in LargeProfilePhotoLeft mode or LargeProfilePhotoRight mode when no user is signed in |
-| DefaultSecondaryMailText | String | Default secondary mail text in LargeProfilePhotoLeft mode or LargeProfilePhotoRight mode when no user is signed in |
-| DefaultMailText | String | Default mail text in EmailOnly mode when no user is signed in |
+| LargeProfileTitleDefaultText | String | Default title text in LargeProfilePhotoLeft mode or LargeProfilePhotoRight mode when no user is signed in |
+| LargeProfileMailDefaultText | String | Default secondary mail text in LargeProfilePhotoLeft mode or LargeProfilePhotoRight mode when no user is signed in |
+| NormalMailDefaultText | String | Default mail text in EmailOnly mode when no user is signed in |
 
 ## Sample Code
 

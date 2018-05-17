@@ -12,7 +12,9 @@
 
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Microsoft.Graph;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -52,12 +54,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void FetchUserInfo()
         {
-            var profileItem = CurrentProfileItem.Clone();
-            profileItem.DisplayMode = DisplayMode;
-
-            if (!AadAuthenticationManager.Instance.IsAuthenticated || string.IsNullOrEmpty(UserId) || UserId.Equals("Invalid UserId"))
+            if (string.IsNullOrEmpty(UserId) || UserId.Equals("Invalid UserId"))
             {
-                InitUserProfile(profileItem);
+                InitUserProfile();
             }
             else
             {
@@ -65,9 +64,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 try
                 {
                     var user = await graphClient.Users[UserId].Request().GetAsync();
-                    profileItem.NormalMail = user.Mail;
-                    profileItem.LargeProfileTitle = user.DisplayName;
-                    profileItem.LargeProfileMail = user.Mail;
+                    var profileItem = new ProfileCardItem()
+                    {
+                        NormalMail = user.Mail,
+                        LargeProfileTitle = user.DisplayName,
+                        LargeProfileMail = user.Mail,
+                        DisplayMode = DisplayMode
+                    };
 
                     if (string.IsNullOrEmpty(user.Mail))
                     {
@@ -91,6 +94,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             profileItem.UserPhoto = DefaultImage ?? PersonPhoto;
                         }
                     }
+
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        CurrentProfileItem = profileItem;
+                    });
                 }
                 catch (ServiceException ex)
                 {
@@ -100,19 +108,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         throw;
                     }
 
-                    UserId = "Invalid UserId";
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        UserId = "Invalid UserId";
+                    });
                 }
-
-                CurrentProfileItem = profileItem;
             }
         }
 
-        private void InitUserProfile(ProfileCardItem profileItem)
+        private void InitUserProfile()
         {
-            profileItem.UserPhoto = DefaultImage ?? PersonPhoto;
-            profileItem.NormalMail = NormalMailDefaultText ?? string.Empty;
-            profileItem.LargeProfileTitle = LargeProfileTitleDefaultText ?? string.Empty;
-            profileItem.LargeProfileMail = LargeProfileMailDefaultText ?? string.Empty;
+            var profileItem = new ProfileCardItem()
+            {
+                UserPhoto = DefaultImage ?? PersonPhoto,
+                NormalMail = NormalMailDefaultText ?? string.Empty,
+                LargeProfileTitle = LargeProfileTitleDefaultText ?? string.Empty,
+                LargeProfileMail = LargeProfileMailDefaultText ?? string.Empty,
+                DisplayMode = DisplayMode
+            };
 
             CurrentProfileItem = profileItem;
         }

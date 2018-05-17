@@ -20,17 +20,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// </summary>
     public partial class ProfileCard : Control
     {
-        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnUserIdPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
             => (d as ProfileCard).FetchUserInfo();
 
         private static void OnDisplayModePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue != e.OldValue)
+            var profileCard = d as ProfileCard;
+            ProfileCardItem profileItem = profileCard.CurrentProfileItem.Clone();
+            profileItem.DisplayMode = (ViewType)e.NewValue;
+            profileCard.CurrentProfileItem = profileItem;
+        }
+
+        private static void OnDefaultValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var profileCard = d as ProfileCard;
+            var aadManager = AadAuthenticationManager.Instance;
+
+            if (!AadAuthenticationManager.Instance.IsAuthenticated
+                || string.IsNullOrEmpty(profileCard.UserId)
+                || profileCard.UserId.Equals("Invalid UserId"))
             {
-                var profileCard = d as ProfileCard;
-                ProfileCardItem profileItem = profileCard.CurrentProfileItem.Clone();
-                profileItem.DisplayMode = (ViewType)e.NewValue;
-                profileCard.CurrentProfileItem = profileItem;
+                profileCard.InitUserProfile();
             }
         }
     }

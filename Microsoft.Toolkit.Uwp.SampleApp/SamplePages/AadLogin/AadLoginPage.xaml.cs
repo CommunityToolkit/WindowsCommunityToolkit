@@ -28,7 +28,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class AadLoginPage : IXamlRenderListener
     {
         private AadLogin _aadLoginControl;
-        private AadAuthControl _aadAuthControl;
 
         public AadLoginPage()
         {
@@ -38,11 +37,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public void OnXamlRendered(FrameworkElement control)
         {
             _aadLoginControl = control.FindDescendantByName("AadLoginControl") as AadLogin;
-            _aadAuthControl = control.FindDescendantByName("AadAuth") as AadAuthControl;
-            if (_aadAuthControl != null)
-            {
-                _aadAuthControl.IsShowSignInButton = Visibility.Collapsed;
-            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

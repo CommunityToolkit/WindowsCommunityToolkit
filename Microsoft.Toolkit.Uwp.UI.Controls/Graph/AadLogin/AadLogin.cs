@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
@@ -48,6 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 if (!_aadAuthenticationManager.IsAuthenticated)
                 {
+                    Flyout = null;
                     await SignInAsync();
                 }
                 else
@@ -56,9 +58,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 }
             };
 
+            _aadAuthenticationManager.PropertyChanged += (object sender, PropertyChangedEventArgs e) =>
+            {
+                if (e.PropertyName == nameof(_aadAuthenticationManager.CurrentUserId))
+                {
+                    CurrentUserId = _aadAuthenticationManager.CurrentUserId;
+                }
+            };
+
             if (_aadAuthenticationManager.IsAuthenticated)
             {
-                CurrentUserID = _aadAuthenticationManager.CurrentUserId;
+                CurrentUserId = _aadAuthenticationManager.CurrentUserId;
             }
         }
 
@@ -70,8 +80,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             if (await _aadAuthenticationManager.ConnectAsync())
             {
-                CurrentUserID = _aadAuthenticationManager.CurrentUserId;
-
                 AutomationProperties.SetName(this, string.Empty);
 
                 Flyout = GenerateMenuItems();
@@ -92,8 +100,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public void SignOut()
         {
-            CurrentUserID = string.Empty;
-            Flyout = null;
             _aadAuthenticationManager.SignOut();
             SignOutCompleted?.Invoke(this, EventArgs.Empty);
         }
@@ -115,8 +121,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     {
                         var graphClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
 
-                        CurrentUserID = _aadAuthenticationManager.CurrentUserId;
-
                         SignInCompleted?.Invoke(this, new SignInEventArgs()
                         {
                             GraphClient = graphClient
@@ -131,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 Text = SignOutDefaultText
             };
             AutomationProperties.SetName(signoutItem, SignOutDefaultText);
-            signoutItem.Click += (object sender, RoutedEventArgs e) => SignOut();
+            signoutItem.Click += (object sender, RoutedEventArgs e) => _aadAuthenticationManager.SignOut();
             menuFlyout.Items.Add(signoutItem);
 
             return menuFlyout;

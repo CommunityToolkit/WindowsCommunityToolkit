@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(UserId),
             typeof(string),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty, OnPropertyChanged));
+            new PropertyMetadata(string.Empty, OnUserIdPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="DisplayMode"/> dependency property.
@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(DefaultImage),
             typeof(BitmapImage),
             typeof(ProfileCard),
-            new PropertyMetadata(null, OnPropertyChanged));
+            new PropertyMetadata(null, OnDefaultValuePropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="LargeProfileTitleDefaultText"/> dependency property.
@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(LargeProfileTitleDefaultText),
             typeof(string),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty, OnPropertyChanged));
+            new PropertyMetadata(string.Empty, OnDefaultValuePropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="LargeProfileMailDefaultText"/> dependency property.
@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(LargeProfileMailDefaultText),
             typeof(string),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty, OnPropertyChanged));
+            new PropertyMetadata(string.Empty, OnDefaultValuePropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="NormalMailDefaultText"/> dependency property.
@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(NormalMailDefaultText),
             typeof(string),
             typeof(ProfileCard),
-            new PropertyMetadata(string.Empty, OnPropertyChanged));
+            new PropertyMetadata(string.Empty, OnDefaultValuePropertyChanged));
 
         internal static readonly DependencyProperty CurrentProfileItemProperty = DependencyProperty.Register(
             nameof(CurrentProfileItem),
