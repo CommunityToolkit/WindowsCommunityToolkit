@@ -156,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 if (dataGridColumn.IsFrozen)
                 {
                     columnHeader.Arrange(new Rect(frozenLeftEdge, 0, dataGridColumn.LayoutRoundedWidth, finalSize.Height));
-                    columnHeader.Clip = null; // The layout system could have clipped this becaues it's not aware of our render transform
+                    columnHeader.Clip = null; // The layout system could have clipped this because it's not aware of our render transform
                     if (this.DragColumn == dataGridColumn && this.DragIndicator != null)
                     {
                         dragIndicatorLeftEdge = frozenLeftEdge + this.DragIndicatorOffset;

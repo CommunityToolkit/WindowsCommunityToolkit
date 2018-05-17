@@ -109,7 +109,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const bool DATAGRID_defaultCanUserReorderColumns = true;
         private const bool DATAGRID_defaultCanUserResizeColumns = true;
         private const bool DATAGRID_defaultCanUserSortColumns = true;
-        private const DataGridColumnWidthPixelSnapping DATAGRID_defaultColumnWidthPixelSnapping = DataGridColumnWidthPixelSnapping.AfterUserResizing;
         private const DataGridGridLinesVisibility DATAGRID_defaultGridLinesVisibility = DataGridGridLinesVisibility.None;
         private const DataGridHeadersVisibility DATAGRID_defaultHeadersVisibility = DataGridHeadersVisibility.Column;
         private const DataGridRowDetailsVisibilityMode DATAGRID_defaultRowDetailsVisibility = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
@@ -867,25 +866,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             dataGrid.EnsureHorizontalLayout();
         }
-
-        /// <summary>
-        /// Gets or sets a value indicating the pixel snapping behavior for user-driven column resizing.
-        /// </summary>
-        public DataGridColumnWidthPixelSnapping ColumnWidthPixelSnapping
-        {
-            get { return (DataGridColumnWidthPixelSnapping)GetValue(ColumnWidthPixelSnappingProperty); }
-            set { SetValue(ColumnWidthPixelSnappingProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the ColumnWidthPixelSnapping dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ColumnWidthPixelSnappingProperty =
-            DependencyProperty.Register(
-                "ColumnWidthPixelSnapping",
-                typeof(DataGridColumnWidthPixelSnapping),
-                typeof(DataGrid),
-                new PropertyMetadata(DATAGRID_defaultColumnWidthPixelSnapping));
 
         /// <summary>
         /// Gets or sets the style that is used when rendering the drag indicator

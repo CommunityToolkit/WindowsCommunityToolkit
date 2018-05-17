@@ -1067,8 +1067,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (this.OwningGrid != null && this.OwningGrid.UseLayoutRounding)
             {
-                double roundedLeftEdge = Math.Floor(leftEdge + 0.5);
-                double roundedRightEdge = Math.Floor(leftEdge + this.ActualWidth + 0.5);
+                double scale = Windows.Graphics.Display.DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+                double roundedLeftEdge = Math.Floor((scale * leftEdge) + 0.5) / scale;
+                double roundedRightEdge = Math.Floor((scale * (leftEdge + this.ActualWidth)) + 0.5) / scale;
                 this.LayoutRoundedWidth = roundedRightEdge - roundedLeftEdge;
             }
             else
