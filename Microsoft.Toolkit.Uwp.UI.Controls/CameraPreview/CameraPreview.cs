@@ -45,6 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Initialize control with a default CameraHelper instance for video preview and frame capture.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task StartAsync()
         {
              await StartAsync(new CameraHelper());
@@ -54,6 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Initialize control with a CameraHelper instance for video preview and frame capture.
         /// </summary>
         /// <param name="cameraHelper"><see cref="CameraHelper"/></param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task StartAsync(CameraHelper cameraHelper)
         {
             _cameraHelper = cameraHelper;
@@ -69,7 +71,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.DefaultStyleKey = typeof(CameraPreview);
         }
 
-        protected async override void OnApplyTemplate()
+        /// <inheritdoc/>
+        protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
