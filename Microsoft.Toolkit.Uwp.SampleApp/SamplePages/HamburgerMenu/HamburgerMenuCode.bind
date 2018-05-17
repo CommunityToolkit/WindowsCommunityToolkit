@@ -42,7 +42,7 @@
 
   <Grid Margin="50" BorderThickness="1">
     <controls:HamburgerMenu x:Name="HamburgerMenu"
-                            PaneBackground="@[PaneBackground:Brush:FireBrick]"
+                            PaneBackground="@[PaneBackground:Brush:Firebrick]"
                             PaneForeground="{ThemeResource Brush-Alt}"
                             SelectedIndex="@[SelectedIndex:Slider:0:0-3]@"
                             ItemTemplate="{StaticResource HamburgerMenuImageItem}"

@@ -173,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     // Creates a Header to specify Language and provide a copy button.
                     var headerGrid = new Grid
                     {
-                        Background = new SolidColorBrush(Color.FromArgb(17, 0, 0, 0))
+                        Background = new SolidColorBrush(Color.FromArgb(50, 0, 0, 0))
                     };
                     headerGrid.ColumnDefinitions.Add(new ColumnDefinition());
                     headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });

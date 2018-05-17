@@ -42,6 +42,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             this.InitializeComponent();
             Current = this;
+
+            // Prevent Pop in on wider screens.
+            if (((FrameworkElement)Window.Current.Content).ActualWidth > 700)
+            {
+                SidePaneState = PaneState.Normal;
+            }
+
             Shell.Current.ThemeChanged += Current_ThemeChanged;
 
             ThemePicker.SelectedIndex = (int)Shell.Current.GetCurrentTheme();

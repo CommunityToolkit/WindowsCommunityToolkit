@@ -28,7 +28,7 @@
             <Color x:Key="Grey-03">#FF555555</Color>
             <Color x:Key="Grey-04">#FFDDDDDD</Color>
             <Color x:Key="Grey-05">#FFF0F0F0</Color>
-            <Color x:Key="SampleInfo-Background">#DDDDDDDD</Color>
+            <Color x:Key="SampleInfo-Background">#FFEEEEEE</Color>
 
             <!-- Branding Colors -->
             <SolidColorBrush x:Key="SystemControlHighlightAccentBrush"
@@ -69,7 +69,7 @@
             <SolidColorBrush x:Key="Border-NavigationBar"
                              Color="#48000000" />
             <SolidColorBrush x:Key="Menu-DropDown-Background"
-                             Color="#F3F3F3F3" />
+                             Color="#FFF3F3F3" />
             <SolidColorBrush x:Key="Commands-Background"
                              Color="{ThemeResource SampleInfo-Background}" />
             <SolidColorBrush x:Key="InfoArea-Titlebar"
@@ -92,6 +92,8 @@
                              Color="#11000000" />
             <SolidColorBrush x:Key="Brush-Sample-TransparentHeader"
                              Color="#AA000000" />
+
+            <SolidColorBrush x:Key="SampleMarkdownBackgroundBrush" Color="#FFF6F8FA" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <!-- Colors -->
@@ -102,7 +104,7 @@
             <Color x:Key="Grey-03">#FF555555</Color>
             <Color x:Key="Grey-04">#FF444444</Color>
             <Color x:Key="Grey-05">#FF333333</Color>
-            <Color x:Key="SampleInfo-Background">#DD222222</Color>
+            <Color x:Key="SampleInfo-Background">#FF222222</Color>
 
             <!-- Branding Colors -->
             <SolidColorBrush x:Key="SystemControlHighlightAccentBrush"
@@ -166,6 +168,8 @@
                              Color="#88000000" />
             <SolidColorBrush x:Key="Brush-Sample-TransparentHeader"
                              Color="#66FFFFFF" />
+
+            <SolidColorBrush x:Key="SampleMarkdownBackgroundBrush" Color="#FF171717" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
