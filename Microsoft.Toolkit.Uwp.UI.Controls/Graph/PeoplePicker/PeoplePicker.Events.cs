@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (!control.AllowMultiple)
             {
                 control.Selections.Clear();
+                control.RaiseSelectionChanged();
                 control._searchBox.Text = string.Empty;
             }
         }
@@ -105,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private void SearchResultListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SearchResultListBox_OnSelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
         {
             if (!((sender as ListBox)?.SelectedItem is Person person))
             {
@@ -121,6 +122,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 Selections.Add(person);
             }
+            RaiseSelectionChanged();
 
             _searchBox.Text = string.Empty;
         }
@@ -132,7 +134,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (target != null)
             {
                 Selections.Remove(target);
+                RaiseSelectionChanged();
             }
+        }
+
+        private void RaiseSelectionChanged()
+        {
+            this.SelectionChanged?.Invoke(this, new PeopleSelectionChangedEventArgs(this.Selections));
         }
     }
 }
