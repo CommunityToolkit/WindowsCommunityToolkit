@@ -225,6 +225,7 @@
                                                     Background="Transparent"
                                                     CodeBackground="{ThemeResource SampleMarkdownBackgroundBrush}"
                                                     QuoteBackground="{ThemeResource SampleMarkdownBackgroundBrush}"
+                                                    InlineCodeBackground="{ThemeResource SampleMarkdownInlineCodeBackgroundBrush}"
                                                     LinkForeground="{ThemeResource Brush-Link-Normal}"
                                                     ImageResolving="DocumentationTextblock_ImageResolving"
                                                     LinkClicked="DocumentationTextblock_OnLinkClicked"
@@ -240,7 +241,7 @@
                                     Width="11"
                                     Background="Transparent"
                                     HorizontalAlignment="Left"
-                                    GripperForeground="White"
+                                    GripperForeground="{ThemeResource Brush-Alt}"
                                     ParentLevel="1" />
             </Grid>
 

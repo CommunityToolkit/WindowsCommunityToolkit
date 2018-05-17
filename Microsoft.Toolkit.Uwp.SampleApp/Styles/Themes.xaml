@@ -94,6 +94,7 @@
                              Color="#AA000000" />
 
             <SolidColorBrush x:Key="SampleMarkdownBackgroundBrush" Color="#FFF6F8FA" />
+            <SolidColorBrush x:Key="SampleMarkdownInlineCodeBackgroundBrush" Color="#FFC2C4C6" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <!-- Colors -->
@@ -170,6 +171,7 @@
                              Color="#66FFFFFF" />
 
             <SolidColorBrush x:Key="SampleMarkdownBackgroundBrush" Color="#FF171717" />
+            <SolidColorBrush x:Key="SampleMarkdownInlineCodeBackgroundBrush" Color="#FF404040" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
