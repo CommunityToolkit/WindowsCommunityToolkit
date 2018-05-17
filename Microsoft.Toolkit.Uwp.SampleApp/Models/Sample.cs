@@ -27,6 +27,7 @@ using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Media;
+using Newtonsoft.Json;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -38,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
     {
         private const string _repoOnlineRoot = "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/";
         private const string _docsOnlineRoot = "https://raw.githubusercontent.com/MicrosoftDocs/UWPCommunityToolkitDocs/";
-        private const string _cacheVersionKey = "docs-cache-version";
+        private const string _cacheSHAKey = "docs-cache-sha";
 
         private static HttpClient client = new HttpClient();
 
@@ -46,11 +47,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             var settingsStorage = new LocalObjectStorageHelper();
 
-            var onlineDocsVersion = await GetDocsVersion();
-            var cacheVersion = settingsStorage.Read<Version>(_cacheVersionKey);
+            var onlineDocsSHA = await GetDocsSHA();
+            var cacheSHA = settingsStorage.Read<string>(_cacheSHAKey);
 
-            bool outdatedCache = onlineDocsVersion != null && cacheVersion != null && onlineDocsVersion > cacheVersion;
-            bool noCache = onlineDocsVersion != null && cacheVersion == null;
+            bool outdatedCache = onlineDocsSHA != null && cacheSHA != null && onlineDocsSHA != cacheSHA;
+            bool noCache = onlineDocsSHA != null && cacheSHA == null;
 
             if (outdatedCache || noCache)
             {
@@ -65,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
 
                 // Update Cache Version info.
-                settingsStorage.Save(_cacheVersionKey, onlineDocsVersion);
+                settingsStorage.Save(_cacheSHAKey, onlineDocsSHA);
             }
         }
 
@@ -684,18 +685,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             return null;
         }
 
-        private static async Task<Version> GetDocsVersion()
+        private static async Task<string> GetDocsSHA()
         {
             try
             {
-                var versionfile = $"{_docsOnlineRoot}master/docsversion";
+                var branchEndpoint = "https://api.github.com/repos/microsoftdocs/uwpcommunitytoolkitdocs/git/refs/heads/live";
 
-                using (var response = await client.GetAsync(versionfile))
+                var request = new HttpRequestMessage(HttpMethod.Get, branchEndpoint);
+                request.Headers.Add("User-Agent", "Windows Community Toolkit Sample App");
+
+                using (request)
                 {
-                    if (response.IsSuccessStatusCode)
+                    using (var response = await client.SendAsync(request))
                     {
-                        var raw = await response.Content.ReadAsStringAsync();
-                        return Version.Parse(raw);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var raw = await response.Content.ReadAsStringAsync();
+                            var json = JsonConvert.DeserializeObject<dynamic>(raw);
+                            return json["object"]["sha"];
+                        }
                     }
                 }
             }
