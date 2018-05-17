@@ -96,7 +96,7 @@
                             <TextBox Margin="0,0,0,12" 
                                      x:Name="DelegatedPermissionScopes" 
                                      Header="Delegated Permission Scopes:" 
-                                     Text="Calendars.Read Mail.Read Mail.Send" />
+                                     Text="Calendars.Read Mail.Read Mail.Send User.Read" />
                             <TextBox Margin="0,0,0,12" 
                                      x:Name="LoginHint" 
                                      Header="Login Hint:" 

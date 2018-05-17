@@ -114,7 +114,7 @@ Private Sub SlidableListItem_SwipeStatusChanged(ByVal sender As SlidableListItem
 End Sub
 ```
 
-If you use `SlidableListItem` in a `ListView` with the `ItemClick` event, you need to be aware the `ItemClick` event is triggered by default when the control has been swiped. If you don’t want this behavior you can set `IsPointerReleasedOnSwipingHandled` to `true` to suppress the `ItemClick` event. If you need more control you can instead check the `SwipeStatus` property in the `ItemClick` event. The following code shows how to do that:
+If you use `SlidableListItem` in a `ListView` with the `ItemClick` event, you need to be aware the `ItemClick` event is triggered by default when the control has been swiped. If you don't want this behavior you can set `IsPointerReleasedOnSwipingHandled` to `true` to suppress the `ItemClick` event. If you need more control you can instead check the `SwipeStatus` property in the `ItemClick` event. The following code shows how to do that:
 
 ```csharp
 private void ListView_ItemClick(object sender, ItemClickEventArgs e)
