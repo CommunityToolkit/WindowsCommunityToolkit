@@ -266,7 +266,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
                             KindOfCheck = "IsTypePresent"
                         };
                     }
-                    else //if (target.Kind != SymbolKind.NamedType)
+                    else
                     {
                         var g = new HowToGuard
                         {

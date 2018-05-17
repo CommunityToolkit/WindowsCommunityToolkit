@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
             if (parts.Length == 2)
             {
                 Name = parts[0];
-                ParameterCount = int.Parse(s.Substring(s.Length - 1));
+                ParameterCount = int.Parse(parts[1]);
             }
             else
             {
