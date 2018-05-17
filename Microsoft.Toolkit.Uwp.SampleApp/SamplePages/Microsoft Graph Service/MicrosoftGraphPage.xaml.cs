@@ -11,18 +11,19 @@
 // ******************************************************************
 
 using System;
-using System.Collections.ObjectModel;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
 using Windows.Storage.Streams;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Documents;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
@@ -42,22 +43,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             LogOutButton.Visibility = Visibility.Collapsed;
         }
 
-        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
+        private async Task<bool> CanLoginAsync()
         {
             if (!await Tools.CheckInternetConnectionAsync())
             {
-                return;
+                return false;
             }
 
             if (string.IsNullOrEmpty(ClientId.Text))
             {
-                return;
+                return false;
             }
 
-            var upn = LoginHint.Text;
-            var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
-            var endpointVersion = item.Tag.ToString() == "v2" ? AuthenticationModel.V2 : AuthenticationModel.V1;
+            return true;
+        }
 
+        private void Initialize(AuthenticationModel endpointVersion)
+        {
             MicrosoftGraphService.Instance.AuthenticationModel = endpointVersion;
 
             // Initialize the service
@@ -73,42 +75,109 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 default:
                     break;
             }
+        }
 
+        private async void RemoteConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!await CanLoginAsync())
+            {
+                return;
+            }
+
+            // Initialize the service
+            Initialize(AuthenticationModel.V1);
+
+            try
+            {
+                // Initialize the device code
+                await MicrosoftGraphService.Instance.InitializeDeviceCodeAsync();
+            }
+            catch (IdentityModel.Clients.ActiveDirectory.AdalException adalException)
+            {
+                var error = new MessageDialog($"The Client Id is invalid.\n{adalException.Message}");
+                await error.ShowAsync();
+                return;
+            }
+
+            var popup = new ContentDialog
+            {
+                Content = CreatePopupContent(),
+                Title = "Pending authentication...",
+                CloseButtonText = "Cancel"
+            };
+
+            popup.ShowAsync().GetResults();
+
+            if (await LoginAsync())
+            {
+                popup.Hide();
+                await LoadProfileAsync();
+            }
+        }
+
+        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!await CanLoginAsync())
+            {
+                return;
+            }
+
+            var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
+            var endpointVersion = item.Tag.ToString() == "v2" ? AuthenticationModel.V2 : AuthenticationModel.V1;
+
+            // Initialize the service
+            Initialize(endpointVersion);
+
+            if (await LoginAsync())
+            {
+                await LoadProfileAsync();
+            }
+        }
+
+        private async Task<bool> LoginAsync()
+        {
             // Login via Azure Active Directory
             try
             {
+                var upn = LoginHint.Text;
+
                 if (!await MicrosoftGraphService.Instance.LoginAsync(upn))
                 {
                     var error = new MessageDialog("Unable to sign in to Office 365");
                     await error.ShowAsync();
-                    return;
+                    return false;
                 }
             }
             catch (AdalServiceException ase)
             {
                 var error = new MessageDialog(ase.Message);
                 await error.ShowAsync();
-                return;
+                return false;
             }
             catch (AdalException ae)
             {
                 var error = new MessageDialog(ae.Message);
                 await error.ShowAsync();
-                return;
+                return false;
             }
             catch (MsalServiceException mse)
             {
                 var error = new MessageDialog(mse.Message);
                 await error.ShowAsync();
-                return;
+                return false;
             }
             catch (MsalException me)
             {
                 var error = new MessageDialog(me.Message);
                 await error.ShowAsync();
-                return;
+                return false;
             }
 
+            return true;
+        }
+
+        private async Task LoadProfileAsync()
+        {
             Shell.Current.DisplayWaitRing = true;
             try
             {
@@ -146,6 +215,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ClientIdBox.Visibility = Visibility.Collapsed;
             LogOutButton.Visibility = Visibility.Visible;
             ConnectButton.Visibility = Visibility.Collapsed;
+            RemoteConnectButton.Visibility = Visibility.Collapsed;
         }
 
         private async void GetEventsButton_Click(object sender, RoutedEventArgs e)
@@ -301,6 +371,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             UserBox.Visibility = Visibility.Collapsed;
             ClientIdBox.Visibility = Visibility.Visible;
             ConnectButton.Visibility = Visibility.Visible;
+            RemoteConnectButton.Visibility = Visibility.Visible;
         }
 
         private void VersionEndpointDropdown_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -311,6 +382,44 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 DelegatedPermissionScopes.Visibility = item.Tag.ToString() == "v2" ? Visibility.Visible : Visibility.Collapsed;
                 LoginHint.Visibility = DelegatedPermissionScopes.Visibility;
             }
+        }
+
+        private StackPanel CreatePopupContent()
+        {
+            var textStart = new TextBlock() { Text = "Go to " };
+            var textEnd = new TextBlock() { Text = " and enter the following code :" };
+
+            var link = new HyperlinkButton()
+            {
+                Content = "http://aka.ms/devicelogin",
+                NavigateUri = new Uri("http://aka.ms/devicelogin", UriKind.Absolute),
+                VerticalAlignment = VerticalAlignment.Top,
+                VerticalContentAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(5, 0, 0, 0),
+                Padding = new Thickness(0)
+            };
+
+            var codeContentTb = new StackPanel { Orientation = Orientation.Horizontal };
+            codeContentTb.Children.Add(textStart);
+            codeContentTb.Children.Add(link);
+            codeContentTb.Children.Add(textEnd);
+
+            var codeTb = new TextBox()
+            {
+                IsReadOnly = true,
+                Text = MicrosoftGraphService.Instance.UserCode,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                FontSize = 25,
+                Background = new SolidColorBrush() { Color = Colors.Transparent },
+                BorderThickness = new Thickness(0)
+            };
+
+            var stack = new StackPanel { HorizontalAlignment = HorizontalAlignment.Stretch };
+            stack.Children.Add(codeContentTb);
+            stack.Children.Add(codeTb);
+
+            return stack;
         }
     }
 }

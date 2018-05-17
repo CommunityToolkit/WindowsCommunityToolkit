@@ -14,6 +14,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Windows.Security.Authentication.Web;
 using Windows.Security.Credentials;
 using Windows.Storage;
 
@@ -27,6 +28,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Base Url for service.
         /// </summary>
+        private const string DeviceAuthUrl = "https://login.microsoftonline.com/common/oauth2/deviceauth";
         private const string LogoutUrl = "https://login.microsoftonline.com/common/oauth2/logout";
         private const string MicrosoftGraphResource = "https://graph.microsoft.com";
 
@@ -82,6 +84,51 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             if (Expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
             {
                 IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenSilentAsync(MicrosoftGraphResource, appClientId);
+                TokenForUser = userAuthnResult.AccessToken;
+                Expiration = userAuthnResult.ExpiresOn;
+            }
+
+            return TokenForUser;
+        }
+
+        /// <summary>
+        /// Step 1 - Server side - Get code to authenticate the standalone device
+        /// </summary>
+        /// <param name="appClientId">Client Id</param>
+        /// <returns>Code Result</returns>
+        internal Task<DeviceCodeResult> GetCode(string appClientId)
+        {
+            return _azureAdContext.AcquireDeviceCodeAsync(MicrosoftGraphResource, appClientId);
+        }
+
+        /// <summary>
+        /// Step 2 - Client side - Display login page (to be called from a device which is keyboard capable
+        /// </summary>
+        /// <returns>Even if successfull, the result is useless</returns>
+        internal async Task<WebAuthenticationResult> AuthenticateByDeviceCodeAsync()
+        {
+            return await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, new Uri(DeviceAuthUrl), new Uri(DefaultRedirectUri));
+        }
+
+        /// <summary>
+        /// Step 3 - Server side - Get token by code
+        /// </summary>
+        /// <param name="appClientId">Client Id</param>
+        /// <param name="code">DeviceCodeResult previously acquired with GetCode() method</param>
+        /// <returns>User Token</returns>
+        internal async Task<string> GetUserTokenByDeviceCodeAsync(string appClientId, DeviceCodeResult code)
+        {
+            // For the first use get an access token prompting the user, after one hour
+            // refresh silently the token
+            if (TokenForUser == null)
+            {
+                AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenByDeviceCodeAsync(code);
+                TokenForUser = userAuthnResult.AccessToken;
+                Expiration = userAuthnResult.ExpiresOn;
+            }
+            else if (Expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
+            {
+                AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenSilentAsync(MicrosoftGraphResource, appClientId);
                 TokenForUser = userAuthnResult.AccessToken;
                 Expiration = userAuthnResult.ExpiresOn;
             }

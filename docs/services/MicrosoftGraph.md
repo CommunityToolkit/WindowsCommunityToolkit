@@ -276,7 +276,36 @@ If events Is Nothing Then
 End If
 ```
 
-## Sample Code
+### Sign in using Device Code (useful to Sign in to a non-keyboard/touch device from a touch device)
+
+```csharp
+
+// Initialize the service
+MicrosoftGraphService.Instance.Initialize(ClientId.Text);
+
+// Generate a Device code
+await MicrosoftGraphService.Instance.InitializeDeviceCodeAsync();
+
+// Display the generated device code
+var popup = new ContentDialog
+{
+	Content = "Go to http://aka.ms/devicelogin and enter the following code :" + MicrosoftGraphService.Instance.UserCode,
+	Title = "Pending authentication...",
+	CloseButtonText = "Cancel"
+};
+
+popup.ShowAsync().GetResults();
+			
+// Login via Azure Active Directory (will wait until authentication have been done on http://aka.ms/devicelogin)
+if (!await MicrosoftGraphService.Instance.LoginAsync())
+{
+ popup.Hide();
+ return;
+}
+
+```
+
+### Sample Code
 
 [MicrosoftGraph Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Microsoft%20Graph%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 

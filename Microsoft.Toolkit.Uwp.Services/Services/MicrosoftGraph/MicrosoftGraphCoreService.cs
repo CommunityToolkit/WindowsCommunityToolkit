@@ -14,6 +14,8 @@ using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Windows.Security.Authentication.Web;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
@@ -40,9 +42,51 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         public static new MicrosoftGraphService Instance => _instance ?? (_instance = new MicrosoftGraphService());
 
         /// <summary>
+        /// Fields to store the device code for device authentication
+        /// </summary>
+        private DeviceCodeResult _deviceCode;
+
+        /// <summary>
         /// Gets or sets fields to store a MicrosoftGraphServiceMessages instance
         /// </summary>
         public new MicrosoftGraphUserService User { get; set; }
+
+        /// <summary>
+        /// Gets or sets the code to enter in http://aka.ms/deviceauth
+        /// </summary>
+        public override string UserCode
+        {
+            get
+            {
+                return _deviceCode?.UserCode;
+            }
+
+            set
+            {
+                _deviceCode = null;
+            }
+        }
+
+        /// <summary>
+        /// Set code associated to the device.
+        /// This code is used to authenticate the device from http://aka.ms/deviceauth
+        /// </summary>
+        /// <returns>Code</returns>
+        public async Task InitializeDeviceCodeAsync()
+        {
+            Authentication = new MicrosoftGraphAuthenticationHelper();
+            _deviceCode = await ((MicrosoftGraphAuthenticationHelper)Authentication).GetCode(AppClientId);
+        }
+
+        /// <summary>
+        /// Prompt the user to enter the device code and credential.
+        /// </summary>
+        /// <returns>Useless result (always return UserCancel)</returns>
+        public Task<WebAuthenticationResult> AuthenticateByDeviceCodeAsync()
+        {
+            Authentication = new MicrosoftGraphAuthenticationHelper();
+            return ((MicrosoftGraphAuthenticationHelper)Authentication).AuthenticateByDeviceCodeAsync();
+        }
 
         /// <summary>
         /// Logout the current user
@@ -85,7 +129,11 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 
             Authentication = new MicrosoftGraphAuthenticationHelper(DelegatedPermissionScopes);
             string accessToken = null;
-            if (AuthenticationModel == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.AuthenticationModel.V1)
+            if (_deviceCode != null)
+            {
+                accessToken = await ((MicrosoftGraphAuthenticationHelper)Authentication).GetUserTokenByDeviceCodeAsync(AppClientId, _deviceCode);
+            }
+            else if (AuthenticationModel == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.AuthenticationModel.V1)
             {
                 accessToken = await ((MicrosoftGraphAuthenticationHelper)Authentication).GetUserTokenAsync(AppClientId);
             }
@@ -138,10 +186,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                   new DelegateAuthenticationProvider(
                      async (requestMessage) =>
                      {
-                        requestMessage.Headers.Authorization =
-                            new AuthenticationHeaderValue(
-                                        "bearer",
-                                        await ((MicrosoftGraphAuthenticationHelper)Authentication).GetUserTokenAsync(appClientId).ConfigureAwait(false));
+                         requestMessage.Headers.Authorization =
+                             new AuthenticationHeaderValue(
+                                         "bearer",
+                                         await ((MicrosoftGraphAuthenticationHelper)Authentication).GetUserTokenAsync(appClientId).ConfigureAwait(false));
                          return;
                      }));
             }
