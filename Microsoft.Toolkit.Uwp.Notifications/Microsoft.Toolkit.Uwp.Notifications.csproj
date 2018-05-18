@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard1.4;uap10.0;native</TargetFrameworks>
@@ -7,10 +7,11 @@
     <Description>Generate tile, toast, and badge notifications for Windows 10 via code, with the help of IntelliSense, instead of directly using XML.
 Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is part of the Windows Community Toolkit. Supports C# and C++ UWP project types (see Microsoft.Toolkit.Uwp.Notifications.JavaScript for the JS version). Also works with C# portable class libraries and non-UWP C# projects like server projects.</Description>
     <PackageTags>notifications win10 windows 10 tile tiles toast toasts badge xml uwp c# csharp c++</PackageTags>
+    <ExtrasImplicitPlatformPackageIsPrivate Condition=" '$(TargetFramework)' == 'native' ">true</ExtrasImplicitPlatformPackageIsPrivate>
   </PropertyGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native' ">
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="5.4.1" />
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.8" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'native' ">
@@ -20,10 +21,6 @@ Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is pa
   <ItemGroup>
     <None Include="Microsoft.Toolkit.Uwp.Notifications.targets" Pack="true" PackagePath="build\native" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.0" />
-  </ItemGroup>
   
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
@@ -31,7 +28,7 @@ Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is pa
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <NugetTargetMoniker>UAP,Version=v10.0</NugetTargetMoniker>
     <PackageTargetFallback>uap10.0</PackageTargetFallback>
-    <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.15063.0</TargetPlatformVersion>
     <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == '' ">10.0.10240.0</TargetPlatformMinVersion>
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);NETFX_CORE;WINDOWS_UWP;WINRT</DefineConstants>
     <CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>
@@ -45,5 +42,4 @@ Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is pa
     <DisableImplicitFrameworkDefines Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">true</DisableImplicitFrameworkDefines>
   </PropertyGroup>
 
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>

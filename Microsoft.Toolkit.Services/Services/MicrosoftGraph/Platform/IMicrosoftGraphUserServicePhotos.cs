@@ -13,7 +13,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Toolkit.Services.MicrosoftGraph.Platform
+namespace Microsoft.Toolkit.Services.MicrosoftGraph
 {
     /// <summary>
     /// Platform-specific implementation to retrieve graph photos.
