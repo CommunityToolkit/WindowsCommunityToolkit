@@ -68,6 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     // Try to parse the markdown.
                     MarkdownDocument markdown = new MarkdownDocument();
+                    markdown.AddSchemes(SchemeList);
                     markdown.Parse(Text);
 
                     // Now try to display it
