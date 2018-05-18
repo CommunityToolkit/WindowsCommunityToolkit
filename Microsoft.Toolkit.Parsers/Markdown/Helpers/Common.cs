@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
@@ -510,6 +509,31 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
             }
 
             return startOfLine;
+        }
+
+        /// <summary>
+        /// Checks if the given URL is allowed in a markdown link.
+        /// </summary>
+        /// <param name="url"> The URL to check. </param>
+        /// <returns> <c>true</c> if the URL is valid; <c>false</c> otherwise. </returns>
+        public static bool IsUrlValid(string url)
+        {
+            // URLs can be relative.
+            if (!Uri.TryCreate(url, UriKind.Absolute, out Uri result))
+            {
+                return true;
+            }
+
+            // Check the scheme is allowed.
+            foreach (var scheme in HyperlinkInline.KnownSchemes)
+            {
+                if (result.Scheme.Equals(scheme))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

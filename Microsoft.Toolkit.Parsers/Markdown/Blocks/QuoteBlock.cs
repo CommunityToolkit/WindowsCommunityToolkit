@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System.Collections.Generic;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 {
