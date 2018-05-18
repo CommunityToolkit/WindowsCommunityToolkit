@@ -13,7 +13,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Microsoft.Toolkit.Services.Core
+namespace Microsoft.Toolkit.Services
 {
     /// <summary>
     /// Generic interface that all deployed service providers implement.

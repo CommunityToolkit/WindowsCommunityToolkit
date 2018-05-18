@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     scopes = new string[] { MicrosoftGraphScope.FilesReadAll };
                 }
 
-                Services.OneDrive.OneDriveService.Instance.Initialize(appClientId, scopes, null, null);
+                OneDriveService.Instance.Initialize(appClientId, scopes, null, null);
 
                 if (!await OneDriveService.Instance.LoginAsync())
                 {

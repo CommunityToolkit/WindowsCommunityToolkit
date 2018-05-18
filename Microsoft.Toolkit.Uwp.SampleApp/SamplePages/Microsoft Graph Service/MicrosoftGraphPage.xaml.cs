@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Popups;

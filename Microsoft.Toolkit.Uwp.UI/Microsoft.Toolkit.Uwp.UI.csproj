@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
@@ -14,12 +14,8 @@
     <PackageReference Include="Win2D.uwp" Version="1.21.0" />
   </ItemGroup>
 
-
   <ItemGroup>
-
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
-
   </ItemGroup>
 
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>

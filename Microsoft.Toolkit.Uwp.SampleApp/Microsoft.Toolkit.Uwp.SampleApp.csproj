@@ -11,15 +11,15 @@
     <AssemblyName>Microsoft.Toolkit.Uwp.SampleApp</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.17134.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>Microsoft.Toolkit.Uwp.SampleApp_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86</AppxBundlePlatforms>
     <PackageCertificateThumbprint>7A086872CBF1D8A795A97B9559A3C88B3550527E</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -47,7 +47,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>
     </DocumentationFile>
@@ -76,7 +76,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>
     </DocumentationFile>
@@ -105,7 +105,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>
     </DocumentationFile>
@@ -119,7 +119,7 @@
       <Version>4.1.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.4.1</Version>
+      <Version>6.0.8</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.6.0-alpha</Version>
@@ -281,6 +281,8 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\UniformGrid\UniformGrid.png" />
+    <Content Include="SamplePages\DockPanel\DockPanel.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
     <Content Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrush.png" />
@@ -307,6 +309,8 @@
     <Content Include="SamplePages\Expander\Expander.png" />
     <Content Include="SamplePages\DropShadowPanel\Trex.png" />
     <Content Include="SamplePages\DropShadowPanel\Unicorn.png" />
+    <Content Include="SamplePages\GazeInteraction\GazeInteraction.png" />
+    <Content Include="SamplePages\GazeTracing\GazeTracing.png" />
     <Content Include="SamplePages\GridSplitter\GridSplitter.png" />
     <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
     <Content Include="SamplePages\AlignmentGrid\AlignmentGrid.png" />
@@ -469,6 +473,7 @@
     <Content Include="SamplePages\DockPanel\DockPanel.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\UniformGrid\UniformGridXaml.bind" />
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControlXaml.bind" />
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControlXaml.bind" />
     <Content Include="SamplePages\Mouse\MouseCursorPage.bind" />
@@ -493,9 +498,17 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\LayoutTransformControl\LayoutTransformControlXaml.bind" />
+    <Content Include="SamplePages\GazeTracing\GazeTracingXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="SamplePages\PrintHelper\PrintHelperXaml.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\GazeInteraction\GazeInteractionXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SamplePages\GazeInteraction\GazeInteractionCode.bind" />
+    <Content Include="SamplePages\GazeTracing\GazeTracingCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -531,6 +544,9 @@
     <Compile Include="Models\LandingPageResource.cs" />
     <Compile Include="Models\LandingPageLink.cs" />
     <Compile Include="Models\PaneState.cs" />
+    <Compile Include="SamplePages\UniformGrid\UniformGridPage.xaml.cs">
+      <DependentUpon>UniformGridPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\PropertyDescriptor\ThicknessPropertyOptions.cs" />
     <Compile Include="Models\ThemeChangedArgs.cs" />
     <Compile Include="Pages\SampleController.xaml.cs">
@@ -571,6 +587,12 @@
       <DependentUpon>BackdropBlurBrushPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsPage.xaml.cs" />
+    <Compile Include="SamplePages\GazeInteraction\GazeInteractionPage.xaml.cs">
+      <DependentUpon>GazeInteractionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\GazeTracing\GazeTracingPage.xaml.cs">
+      <DependentUpon>GazeTracingPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\ImageBlendBrush\ImageBlendBrushPage.xaml.cs">
       <DependentUpon>ImageBlendBrushPage.xaml</DependentUpon>
     </Compile>
@@ -894,6 +916,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SamplePages\UniformGrid\UniformGridPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\Carousel\CarouselPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -937,6 +963,14 @@
     <Page Include="SamplePages\FrameworkElementExtensions\FrameworkElementExtensionsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\GazeInteraction\GazeInteractionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\GazeTracing\GazeTracingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\HeaderedContentControl\HeaderedContentControlPage.xaml">
       <SubType>Designer</SubType>
@@ -1274,6 +1308,10 @@
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
       <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.UWP.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.vcxproj">
+      <Project>{a5e98964-45b1-442d-a07a-298a3221d81e}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Input.GazeInteraction</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.csproj">
       <Project>{e7697922-9555-4cfb-aee0-c5f4d657e559}</Project>

@@ -15,7 +15,8 @@
             HorizontalAlignment="Center"
             OverscrollLimit="@[OverscrollLimit:DoubleSlider:0.4:0-1]"
             PullThreshold="@[PullThreshold:Slider:100:50-300]"
-            IsPullToRefreshWithMouseEnabled="@[IsPullToRefreshWithMouseEnabled:Bool:True]">
+            IsPullToRefreshWithMouseEnabled="@[IsPullToRefreshWithMouseEnabled:Bool:True]"
+            UseRefreshContainerWhenPossible="@[UseRefreshContainerWhenPossible:Bool:True]">
       <controls:PullToRefreshListView.ItemTemplate>
         <DataTemplate>
           <TextBlock AutomationProperties.Name="{Binding Title}"

@@ -13,7 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
+using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 using Microsoft.Toolkit.Parsers.Markdown.Render;
 using Windows.UI.Text;
@@ -21,7 +21,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 {
@@ -280,6 +279,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             {
                 ishyperlink = true;
             }
+
             LinkRegister.RegisterNewHyperLink(image, element.Url, ishyperlink);
 
             if (ImageMaxHeight > 0)

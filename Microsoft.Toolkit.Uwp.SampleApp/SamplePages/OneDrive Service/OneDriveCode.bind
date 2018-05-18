@@ -25,7 +25,7 @@
 // call the Initialize method on the OneDriveService singleton when initializing
 // in UWP applications
 
-Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveService.Instance.Initialize( appClientId, scopes, null, null);
+Microsoft.Toolkit.Services.OneDrive.OneDriveService.Instance.Initialize( appClientId, scopes, null, null);
 
 // If the user hasn't selected a scope then set it to FilesReadAll
 // More information on scopes can be found here: https://docs.microsoft.com/en-us/onedrive/developer/rest-api/getting-started/msa-oauth#authentication-scopes

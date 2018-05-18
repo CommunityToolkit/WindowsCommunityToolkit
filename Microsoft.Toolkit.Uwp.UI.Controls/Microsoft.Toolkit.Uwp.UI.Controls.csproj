@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
@@ -13,6 +13,8 @@
 
     <PackageReference Include="ColorCode.UWP" Version="2.0.5" />
     <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.3" />
+
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
   </ItemGroup>
@@ -21,8 +23,6 @@
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>
-  
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">

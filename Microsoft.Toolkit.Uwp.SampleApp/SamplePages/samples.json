@@ -32,6 +32,15 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/AdaptiveGridView.md"
       },
       {
+        "Name": "UniformGrid",
+        "Type": "UniformGridPage",
+        "About": "Presents items in a evenly-spaced set of rows or columns to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/UniformGrid",
+        "XamlCodeFile": "UniformGridXaml.bind",
+        "Icon": "/SamplePages/UniformGrid/UniformGrid.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/UniformGrid.md"
+      },
+      {
         "Name": "HamburgerMenu",
         "Type": "HamburgerMenuPage",
         "About": "The HamburgerMenu is deprecated and will be removed in a future major release. Please use the NavigationView available in the Fall Creators Update.",
@@ -121,11 +130,13 @@
       {
         "Name": "PullToRefreshListView",
         "Type": "PullToRefreshListViewPage",
-        "About": "PullToRefreshListView is derived from the built in ListView in the Universal Windows Platform. It enables the popular Pull To Refresh pattern.",
+        "About": "The PullToRefreshListView will be removed in a future major release. Please use the RefreshContainer control available in the 1803 version of Windows.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/PullToRefreshListView",
         "CodeFile": "PullToRefreshListViewCode.bind",
         "XamlCodeFile": "PullToRefreshListViewXaml.bind",
         "Icon": "/SamplePages/PullToRefreshListView/PullToRefreshListView.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The PullToRefreshListView will be removed in a future major release. Please use the RefreshContainer control available in the 1803 version of Windows.",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/PullToRefreshListview.md"
       },
       {
@@ -866,6 +877,32 @@
         "About": "List of frameworks to help you track activity in your apps.",
         "CodeFile": "AnalyticsCode.bind",
         "Icon": "/SamplePages/Analytics/Analytics.png"
+      }
+    ]
+  },
+  {
+    "Name": "Gaze",
+    "Icon": "Icons/DeveloperTools.png",
+    "Samples": [     
+      {
+        "Name": "GazeInteraction",
+        "Type": "GazeInteractionPage",
+        "About": "Demonstrate the properties and events of the Gaze Interaction library",
+        "XamlCodeFile": "GazeInteractionXaml.bind",
+        "CodeFile": "GazeInteractionCode.bind",
+        "Icon": "/SamplePages/GazeInteraction/GazeInteraction.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/gaze/GazeInteractionLibrary.md",
+        "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
+      },
+      {
+        "Name": "GazeTracing",
+        "Type": "GazeTracingPage",
+        "About": "Shows how to use the Windows 10 API for eye trackers",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Input.Gaze/",
+        "XamlCodeFile": "GazeTracingXaml.bind",
+        "CodeFile": "GazeTracingCode.bind",
+        "Icon": "/SamplePages/GazeTracing/GazeTracing.png",
+        "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
       }
     ]
   }
