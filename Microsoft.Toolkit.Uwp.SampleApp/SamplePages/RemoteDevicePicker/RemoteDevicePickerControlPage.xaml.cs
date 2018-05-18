@@ -10,8 +10,11 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
+using System.Linq;
+using Windows.System;
+using Windows.System.RemoteSystems;
 using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -33,8 +36,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             RemoteDevicePicker remoteDevicePicker = new RemoteDevicePicker()
             {
                 Title = "Pick Remote Device",
-                DeviceListSelectionMode = ListViewSelectionMode.Single,
-                HeaderLineColor = new SolidColorBrush((Color)Application.Current.Resources["Brand-Color"])
+                DeviceListSelectionMode = ListViewSelectionMode.Single
             };
             remoteDevicePicker.RemoteDevicePickerClosed += RemoteDevicePicker_RemoteDevicePickerClosed;
             await remoteDevicePicker.ShowAsync();
@@ -42,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void RemoteDevicePicker_RemoteDevicePickerClosed(object sender, RemoteDevicePickerEventArgs e)
         {
-            await new MessageDialog(e.Devices.Count.ToString()).ShowAsync();
+            await new MessageDialog($"You picked {e.Devices.Count.ToString()} Device(s)" + Environment.NewLine + string.Join(",", e.Devices.Select(x => x.DisplayName.ToString()).ToList())).ShowAsync();
         }
     }
 }
