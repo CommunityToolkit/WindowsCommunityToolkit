@@ -8,10 +8,9 @@
     xmlns:g="using:Microsoft.Toolkit.Uwp.Input.GazeInteraction" 
     g:GazeInput.Interaction="@[Interaction:Enum:Interaction.Enabled]"
     g:GazeInput.IsCursorVisible="@[IsCursorVisible:Bool:True]"
-    g:GazeInput.CursorRadius="@[CursorRadius:Slider:5:5-50]@"       
-    >
+    g:GazeInput.CursorRadius="@[CursorRadius:Slider:5:5-50]@">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">             
+  <Grid>             
      
         <Button x:Name="TargetButton" HorizontalAlignment="Center" BorderBrush="#7FFFFFFF"
                                        
