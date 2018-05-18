@@ -242,7 +242,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             var inlineCollection = localContext.InlineCollection;
 
             var placeholder = InternalRenderTextRun(new TextRunInline { Text = element.Text, Type = MarkdownInlineType.TextRun }, context);
-            var resolvedImage = await ImageResolver.ResolveImageAsync(element.Url, element.Tooltip);
+            var resolvedImage = await ImageResolver.ResolveImageAsync(element.RenderUrl, element.Tooltip);
 
             // if image can not be resolved we have to return
             if (resolvedImage == null)
@@ -257,7 +257,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             viewbox.Child = image;
             var imageContainer = new InlineUIContainer() { Child = scrollViewer };
 
-            LinkRegister.RegisterNewHyperLink(image, element.Url);
+            bool ishyperlink = false;
+            if (element.RenderUrl != element.Url)
+            {
+                ishyperlink = true;
+            }
+            LinkRegister.RegisterNewHyperLink(image, element.Url, ishyperlink);
 
             image.Source = resolvedImage;
             image.HorizontalAlignment = HorizontalAlignment.Left;
