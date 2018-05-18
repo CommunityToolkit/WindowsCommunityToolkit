@@ -12,10 +12,9 @@
 
 using System;
 using System.Reflection;
-using Microsoft.Toolkit.Extensions;
 using Microsoft.Toolkit.Services.Bing;
 
-namespace Microsoft.Toolkit.Services.Core
+namespace Microsoft.Toolkit.Services
 {
     /// <summary>
     /// This class offers general purpose methods.

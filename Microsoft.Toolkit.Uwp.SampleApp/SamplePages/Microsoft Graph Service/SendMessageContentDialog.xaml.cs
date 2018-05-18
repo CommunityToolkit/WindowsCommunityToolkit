@@ -13,7 +13,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

@@ -17,6 +17,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Services;
 using Windows.Data.Json;
 using Windows.Security.Authentication.Web;
 using Windows.Security.Credentials;
@@ -175,7 +176,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                         return parser.Parse(data);
                     }
 
-                    throw new Toolkit.Services.Exceptions.RequestFailedException((System.Net.HttpStatusCode)response.StatusCode, data);
+                    throw new RequestFailedException((System.Net.HttpStatusCode)response.StatusCode, data);
                 }
             }
         }
@@ -228,7 +229,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         {
             if (config?.Query == null)
             {
-                throw new Toolkit.Services.Exceptions.ConfigParameterNullException(nameof(config.Query));
+                throw new ConfigParameterNullException(nameof(config.Query));
             }
         }
 
