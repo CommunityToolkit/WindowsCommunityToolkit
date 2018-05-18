@@ -13,7 +13,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Render

@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Parsers.Core;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 {
