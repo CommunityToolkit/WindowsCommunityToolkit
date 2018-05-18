@@ -11,9 +11,8 @@
 // ******************************************************************
 
 using System.Text;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Blocks.List
+namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 {
     internal class ListItemBuilder : MarkdownBlock
     {
