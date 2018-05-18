@@ -227,7 +227,7 @@ The HamburgerMenu and NavigationView share the same concepts and provide the sam
         settingsItem.Icon = New FontIcon() With {.Glyph = "?"}
         ```
 
-    - Free-form content in the pane’s footer, by adding any content in the new *PaneFooter* property 
+    - Free-form content in the pane's footer, by adding any content in the new *PaneFooter* property 
 
     In addition, the NavigationView introduces new classes for quickly adding navigation items and grouping items. You can use the new NavigationViewItem, NavigationViewItemSeparator and NavigationViewItemHeader to directly populate the MenuItems and get the look you want
 
@@ -245,8 +245,6 @@ Version 3.0 of the Windows Community Toolkit adds another related property calle
 
 > [!NOTE]
 The `ItemClick` and `OptionsItemClick` events will continue to work but the EventArgs will be null when `UseNavigationViewWhenPossible` is set to true. There is a new event called `ItemInvoked` that should be used instead. This new event will include information about the clicked item and whether it is an item or options item. This event also works if UseNavigationViewWhenPossible is set to false. 
-
-*****
 
 > [!NOTE]
 The PaneBackground will not have any effect when `UseNavigationViewWhenPossible` is set to null. To change the pane background of the NavigationView, modify the two theme resources by overwriting them in your App.xaml. See the [NavigationVew documentation](https://docs.microsoft.com/en-us/windows/uwp/design/controls-and-patterns/navigationview#customizing-backgrounds) for more details.
