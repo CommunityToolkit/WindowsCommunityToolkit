@@ -8,6 +8,10 @@
 
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="RemoteDevicePicker\RemoteDevicePicker.xaml" />
+  </ItemGroup>
+
 
   <ItemGroup>
 
@@ -20,6 +24,13 @@
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <Page Update="RemoteDevicePicker\RemoteDevicePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
