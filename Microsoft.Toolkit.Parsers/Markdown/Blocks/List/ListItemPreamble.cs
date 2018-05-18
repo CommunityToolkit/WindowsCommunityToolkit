@@ -10,9 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
-
-namespace Microsoft.Toolkit.Parsers.Markdown.Blocks.List
+namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 {
     internal class ListItemPreamble
     {

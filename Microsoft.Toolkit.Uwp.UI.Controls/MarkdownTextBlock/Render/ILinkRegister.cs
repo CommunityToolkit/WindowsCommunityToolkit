@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         /// </summary>
         /// <param name="newImagelink">ImageLink to Register.</param>
         /// <param name="linkUrl">Url to Register.</param>
-        void RegisterNewHyperLink(Image newImagelink, string linkUrl);
+        /// <param name="isHyperLink">Is Image an IsHyperlink.</param>
+        void RegisterNewHyperLink(Image newImagelink, string linkUrl, bool isHyperLink);
     }
 }
