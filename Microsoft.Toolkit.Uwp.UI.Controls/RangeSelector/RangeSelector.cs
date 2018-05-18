@@ -41,8 +41,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class RangeSelector : Control
     {
         private const double Epsilon = 0.01;
-        private const double DefaultMinimum = 1;
-        private const double DefaultMaximum = 100;
+        private const double DefaultMinimum = 0.0;
+        private const double DefaultMaximum = 1.0;
         private const double DefaultStepFrequency = 1;
 
         /// <summary>
