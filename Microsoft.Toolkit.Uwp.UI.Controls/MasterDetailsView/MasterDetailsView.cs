@@ -16,6 +16,7 @@ using Windows.ApplicationModel;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -404,29 +405,46 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-    /// <summary>
-    /// Fires when the selection state of the control changes
-    /// </summary>
-    /// <param name="sender">the sender</param>
-    /// <param name="e">the event args</param>
-    /// <remarks>
-    /// Sets focus to the item list when the viewState is not Details.
-    /// Sets whether the selected item should change when focused with the keyboard.
-    /// </remarks>
-    private void OnSelectionStateChanged(object sender, VisualStateChangedEventArgs e)
-    {
-        SetItemListFocusWhenNotInDetails(ViewState);
-        SetListSelectionWithKeyboardFocusOnVisualStateChanged(ViewState);
-    }
+        /// <summary>
+        /// Fires when the selection state of the control changes
+        /// </summary>
+        /// <param name="sender">the sender</param>
+        /// <param name="e">the event args</param>
+        /// <remarks>
+        /// Sets focus to the item list when the viewState is not Details.
+        /// Sets whether the selected item should change when focused with the keyboard.
+        /// </remarks>
+        private void OnSelectionStateChanged(object sender, VisualStateChangedEventArgs e)
+        {
+            SetFocus(ViewState);
+            SetListSelectionWithKeyboardFocusOnVisualStateChanged(ViewState);
+        }
 
-    /// <summary>
-    /// Sets focus to the item list when the viewState is not Details
-    /// </summary>
-    private void SetItemListFocusWhenNotInDetails(MasterDetailsViewState viewState)
+        /// <summary>
+        /// Sets focus to the relevant control based on the viewState.
+        /// </summary>
+        /// <param name="viewState">the view state</param>
+        private void SetFocus(MasterDetailsViewState viewState)
         {
             if (viewState != MasterDetailsViewState.Details)
             {
                 FocusItemList();
+            }
+            else
+            {
+                FocusFirstFocusableElementInDetails();
+            }
+        }
+
+        /// <summary>
+        /// Sets focus to the first focusable element in the details template
+        /// </summary>
+        private void FocusFirstFocusableElementInDetails()
+        {
+            if (GetTemplateChild(PartDetailsPanel) is DependencyObject details)
+            {
+                var focusableElement = FocusManager.FindFirstFocusableElement(details);
+                (focusableElement as Control)?.Focus(FocusState.Programmatic);
             }
         }
 
