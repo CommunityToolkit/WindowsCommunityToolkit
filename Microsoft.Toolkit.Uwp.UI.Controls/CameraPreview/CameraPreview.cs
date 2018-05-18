@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Media.Capture.Frames;
@@ -31,7 +32,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private MediaPlayer _mediaPlayer;
         private MediaPlayerElement _mediaPlayerElementControl;
         private Button _frameSourceGroupButton;
-        private int _selectedSourceIndex = 0;
 
         private IReadOnlyList<MediaFrameSourceGroup> _frameSourceGroups;
 
@@ -58,7 +58,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _cameraHelper = cameraHelper;
             _frameSourceGroups = await CameraHelper.GetFrameSourceGroupsAsync();
-            await InitializeAsync();
+
+            // UI controls exist and are initialized
+            if (_mediaPlayerElementControl != null)
+            {
+                await InitializeAsync();
+            }
         }
 
         /// <summary>
@@ -69,6 +74,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.DefaultStyleKey = typeof(CameraPreview);
         }
 
+        /// <summary>
+        /// Invoked whenever application code or internal processes (such as a rebuilding
+        /// layout pass) call ApplyTemplate. In simplest terms, this means the method is
+        /// called just before a UI element displays in your app. Override this method to
+        /// influence the default post-template logic of a class.
+        /// </summary>
         protected async override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -85,6 +96,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _frameSourceGroupButton.Click += FrameSourceGroupButton_ClickAsync;
                 _frameSourceGroupButton.IsEnabled = false;
+                _frameSourceGroupButton.Visibility = Visibility.Collapsed;
+            }
+
+            if (_cameraHelper != null)
+            {
+                await InitializeAsync();
             }
         }
 
@@ -101,8 +118,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void FrameSourceGroupButton_ClickAsync(object sender, RoutedEventArgs e)
         {
-            _selectedSourceIndex = _selectedSourceIndex < (_frameSourceGroups.Count - 1) ? _selectedSourceIndex + 1 : 0;
-            var group = _frameSourceGroups[_selectedSourceIndex];
+            var oldGroup = _cameraHelper.FrameSourceGroup;
+            var currentIndex = _frameSourceGroups.Select((grp, index) => new { grp, index }).First(v => v.grp == oldGroup).index;
+            var newIndex = currentIndex < (_frameSourceGroups.Count - 1) ? currentIndex + 1 : 0;
+            var group = _frameSourceGroups[newIndex];
             _frameSourceGroupButton.IsEnabled = false;
             _cameraHelper.FrameSourceGroup = group;
             await InitializeAsync();

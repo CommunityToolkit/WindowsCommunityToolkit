@@ -187,7 +187,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                         || string.Compare(format.Subtype, MediaEncodingSubtypes.Yuy2, true) == 0
                         || string.Compare(format.Subtype, MediaEncodingSubtypes.Rgb32, true) == 0))?.OrderBy(format => format.VideoFormat.Width * format.VideoFormat.Height).ToList();
 
-                if (_frameFormatsAvailable == null)
+                if (_frameFormatsAvailable == null || !_frameFormatsAvailable.Any())
                 {
                     return CameraHelperResult.NoCompatibleFrameFormatAvailable;
                 }
