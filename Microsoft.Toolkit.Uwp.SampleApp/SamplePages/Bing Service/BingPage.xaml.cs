@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             };
 
             // Gets an instance of BingService that is able to load search results incrementally.
-            var collection = Services.Bing.BingService.GetAsIncrementalLoading(searchConfig, 50);
+            var collection = BingService.GetAsIncrementalLoading(searchConfig, 50);
             collection.OnStartLoading = async () => await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = true; });
             collection.OnEndLoading = async () => await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = false; });
 

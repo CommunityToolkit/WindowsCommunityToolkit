@@ -11,8 +11,8 @@
     <AssemblyName>UnitTests</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.17134.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -115,7 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.4.2</Version>
+      <Version>6.0.8</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestAdapter">
       <Version>1.2.0</Version>
@@ -132,6 +132,9 @@
     <Compile Include="Converters\Test_BoolToObjectConverter.cs" />
     <Compile Include="Converters\Test_EmptyCollectionToObjectConverter.cs" />
     <Compile Include="Converters\Test_EmptyStringToObjectConverter.cs" />
+    <Compile Include="Extensions\Helpers\ObjectWithNullableBoolProperty.cs" />
+    <Compile Include="Extensions\Test_ArrayExtensions.cs" />
+    <Compile Include="Extensions\Test_NullableBoolMarkupExtension.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\Test_BackgroundTaskHelper.cs" />
     <Compile Include="Helpers\Test_ColorHelper.cs" />
@@ -161,6 +164,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Test_WeakEventListener.cs" />
     <Compile Include="Services\Test_BingService.cs" />
+    <Compile Include="UI\Controls\Test_UniformGrid_AutoLayout.cs" />
+    <Compile Include="UI\Controls\Test_UniformGrid_RowColDefinitions.cs" />
+    <Compile Include="UI\Controls\Test_UniformGrid_FreeSpots.cs" />
+    <Compile Include="UI\Controls\Test_UniformGrid_Dimensions.cs" />
     <Compile Include="UI\Person.cs" />
     <Compile Include="UI\Test_AdvancedCollectionView.cs" />
     <Compile Include="Helpers\TestParsers.cs">
