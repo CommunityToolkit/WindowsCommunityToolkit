@@ -26,11 +26,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown
     public class MarkdownDocument : MarkdownBlock
     {
         /// <summary>
-        /// Gets or sets a list of URL schemes.
+        /// Gets a list of URL schemes.
         /// </summary>
-        public static List<string> KnownSchemes { get => knownSchemes; set => knownSchemes = value; }
-
-        private static List<string> knownSchemes = new List<string>()
+        public static List<string> KnownSchemes { get; private set; } = new List<string>()
         {
             "http",
             "https",
