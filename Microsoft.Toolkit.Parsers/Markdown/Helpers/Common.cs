@@ -419,8 +419,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
                 }
 
                 // Find the end of the current line.
-                int startOfNextLine;
-                int endOfLine = Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out startOfNextLine);
+                int endOfLine = FindNextSingleNewLine(markdown, nonSpacePos, end, out int startOfNextLine);
 
                 // Return the line info to the caller.
                 yield return new LineInfo
@@ -526,7 +525,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
             }
 
             // Check the scheme is allowed.
-            foreach (var scheme in HyperlinkInline.KnownSchemes)
+            foreach (var scheme in MarkdownDocument.KnownSchemes)
             {
                 if (result.Scheme.Equals(scheme))
                 {
