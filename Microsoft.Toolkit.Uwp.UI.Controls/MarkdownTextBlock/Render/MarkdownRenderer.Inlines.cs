@@ -250,11 +250,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 return;
             }
 
-            var image = new Image();
-            var scrollViewer = new ScrollViewer();
-            var viewbox = new Viewbox();
-            scrollViewer.Content = viewbox;
-            viewbox.Child = image;
+            var image = new Image
+            {
+                Source = resolvedImage,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Stretch = ImageStretch
+            };
+
+            var viewbox = new Viewbox
+            {
+                Child = image,
+                StretchDirection = StretchDirection.DownOnly
+            };
+
+            viewbox.PointerWheelChanged += Preventative_PointerWheelChanged;
+
+            var scrollViewer = new ScrollViewer
+            {
+                Content = viewbox,
+                VerticalScrollMode = ScrollMode.Disabled,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Disabled
+            };
+
             var imageContainer = new InlineUIContainer() { Child = scrollViewer };
 
             bool ishyperlink = false;
@@ -263,14 +281,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 ishyperlink = true;
             }
             LinkRegister.RegisterNewHyperLink(image, element.Url, ishyperlink);
-
-            image.Source = resolvedImage;
-            image.HorizontalAlignment = HorizontalAlignment.Left;
-            image.VerticalAlignment = VerticalAlignment.Top;
-            image.Stretch = ImageStretch;
-            scrollViewer.VerticalScrollMode = ScrollMode.Disabled;
-            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
-            viewbox.StretchDirection = StretchDirection.DownOnly;
 
             if (ImageMaxHeight > 0)
             {
