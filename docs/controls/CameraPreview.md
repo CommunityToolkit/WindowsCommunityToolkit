@@ -41,7 +41,7 @@ private void CameraPreviewControl_PreviewFailed(object sender, PreviewFailedEven
 
 | Property | Type | Description |
 | -- | -- | -- |
-| CameraHelper| CameraHelper | Gets the CameraHelper associated with the control. |
+| CameraHelper| [CameraHelper](../helpers/CameraHelper.md) | Gets the CameraHelper associated with the control. |
 | IsFrameSourceGroupButtonVisible | bool| Set this property to hide or show Frame Source Group Button. Note: This button is conditionally visible based on more than one source being available. |
 
 ```xaml
@@ -85,7 +85,7 @@ if(availableFrameSourceGroups != null)
 
 ## Requirements
 
-| [Device family] | Universal, 10.0.14393.0 or higher |
+| [Device family] | Universal, 10.0.17134.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Controls/) |

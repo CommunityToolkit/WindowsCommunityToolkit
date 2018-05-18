@@ -243,23 +243,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             {
                 var vmf = frame.VideoMediaFrame;
                 EventHandler<FrameEventArgs> handler = FrameArrived;
-                var videoFrame = vmf.GetVideoFrame();
-
-                // videoFrame could be disposed at any time so we need to create a copy we can use
-                // this api is only available on 17134 - so we return the original VideoFrame on older versions
-                if (ApiInformation.IsMethodPresent("Windows.Media.VideoFrame", "CreateWithSoftwareBitmap", 1))
-                {
-                    try
-                    {
-                        var bitmap = SoftwareBitmap.Copy(videoFrame.SoftwareBitmap);
-                        videoFrame = VideoFrame.CreateWithSoftwareBitmap(bitmap);
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-
-                var frameArgs = new FrameEventArgs() { VideoFrame = videoFrame };
+                var frameArgs = new FrameEventArgs() { VideoFrame = vmf.GetVideoFrame() };
                 handler?.Invoke(sender, frameArgs);
             }
         }
