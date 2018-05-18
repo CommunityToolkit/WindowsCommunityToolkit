@@ -139,7 +139,8 @@
     <controls:Menu AllowTooltip="@[AllowTooltip:Bool:False]"
                    Orientation="@[Orientation:Enum:Orientation.Horizontal]"
                    TooltipPlacement="@[TooltipPlacement:Enum:PlacementMode.Bottom]">
-      <controls:MenuItem controls:Menu.InputGestureText="Alt+F"
+      <controls:MenuItem Name="FileMenu"
+                         controls:Menu.InputGestureText="Alt+F"
                          Header="^File">
         <MenuFlyoutSubItem Text="New" Margin="0,8,0,0">
           <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
@@ -199,9 +200,8 @@
                         Icon="Paste" />
       </controls:MenuItem>
 
-      <controls:MenuItem  Name="FileMenu"
-                          controls:Menu.InputGestureText="Alt+V"
-                          Header="^View">
+      <controls:MenuItem controls:Menu.InputGestureText="Alt+V"
+                         Header="^View">
         <interactivity:Interaction.Behaviors>
           <core:EventTriggerBehavior EventName="Tapped">
               <core:InvokeCommandAction Command="{StaticResource GenericCommand}" CommandParameter="View Tapped" />

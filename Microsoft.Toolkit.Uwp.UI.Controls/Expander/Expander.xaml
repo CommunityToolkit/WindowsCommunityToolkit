@@ -36,8 +36,8 @@
                                 </VisualState>
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -50,8 +50,8 @@
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlBackgroundListMediumBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -64,8 +64,8 @@
                                 </VisualState>
                                 <VisualState x:Name="Disabled">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -77,8 +77,8 @@
                                 </VisualState>
                                 <VisualState x:Name="Checked">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlHighlightListAccentLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -91,8 +91,8 @@
                                 </VisualState>
                                 <VisualState x:Name="CheckedPointerOver">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlHighlightListAccentMediumBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -105,8 +105,8 @@
                                 </VisualState>
                                 <VisualState x:Name="CheckedPressed">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlHighlightListAccentHighBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -119,8 +119,8 @@
                                 </VisualState>
                                 <VisualState x:Name="CheckedDisabled">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -148,8 +148,8 @@
                                 </VisualState>
                                 <VisualState x:Name="IndeterminatePointerOver">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -170,8 +170,8 @@
                                 </VisualState>
                                 <VisualState x:Name="IndeterminatePressed">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -192,8 +192,8 @@
                                 </VisualState>
                                 <VisualState x:Name="IndeterminateDisabled">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -265,6 +265,8 @@
                                           RenderTransformOrigin="0.5,0.5"
                                           Foreground="{TemplateBinding Foreground}"
                                           Margin="0,0,12,0"/>
+
+                        <Rectangle x:Name="HoverPanel" Fill="Transparent" Grid.ColumnSpan="2"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
