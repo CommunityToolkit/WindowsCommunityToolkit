@@ -50,7 +50,7 @@ This event could be used to do the Auto Save functionality.
 
 ## Examples
 
-The following sample demonstrates how to add Grid Splitter Control
+The following sample demonstrates how to add InfiniteCanvas Control
 
 ```xaml
 <Page ....
