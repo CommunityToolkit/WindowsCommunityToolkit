@@ -1,0 +1,13 @@
+﻿RemoteDevicePicker remoteDevicePicker = new RemoteDevicePicker()
+{
+    Title = "Pick Remote Device",
+    DeviceListSelectionMode = ListViewSelectionMode.Extended
+};
+remoteDevicePicker.RemoteDevicePickerClosed += RemoteDevicePicker_RemoteDevicePickerClosed;
+await remoteDevicePicker.ShowAsync();
+
+
+private async void RemoteDevicePicker_RemoteDevicePickerClosed(object sender, RemoteDevicePickerEventArgs e)
+{
+    await new MessageDialog(e.Devices.Count.ToString()).ShowAsync();
+}

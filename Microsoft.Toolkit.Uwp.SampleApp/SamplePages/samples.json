@@ -282,6 +282,15 @@
         "XamlCodeFile": "LayoutTransformControlXaml.bind",
         "Icon": "/SamplePages/LayoutTransformControl/LayoutTransformControl.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/LayoutTransformControl.md"
+      },
+      {
+        "Name": "RemoteDevicePicker",
+        "Type": "RemoteDevicePickerControlPage",
+        "About": "Remote Device Picker Control for Project Rome.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RemoteDevicePicker",
+        "CodeFile": "RemoteDevicePickerCode.bind",
+        "Icon": "/SamplePages/RemoteDevicePicker/RemoteDevicePicker.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/RemoteDevicePicker.md"
       }
     ]
   },
