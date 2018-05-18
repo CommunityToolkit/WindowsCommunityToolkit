@@ -330,6 +330,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(string.Empty, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets the dependency property for <see cref="UriPrefix"/>.
+        /// </summary>
+        public static readonly DependencyProperty SchemeListProperty = DependencyProperty.Register(
+            nameof(UriPrefix),
+            typeof(string),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(string.Empty, OnPropertyChangedStatic));
+
+        /// <summary>
         /// Gets or sets the markdown text to display.
         /// </summary>
         public string Text
@@ -624,6 +633,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (string)GetValue(UriPrefixProperty); }
             set { SetValue(UriPrefixProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the SchemeList.
+        /// </summary>
+        public string SchemeList
+        {
+            get { return (string)GetValue(SchemeListProperty); }
+            set { SetValue(SchemeListProperty, value); }
         }
 
         /// <summary>
