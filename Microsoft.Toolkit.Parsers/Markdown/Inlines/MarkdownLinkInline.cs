@@ -198,7 +198,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 // Check the URL is okay.
                 if (!url.IsEmail())
                 {
-                    if (!IsUrlValid(url))
+                    if (!Common.IsUrlValid(url))
                     {
                         return null;
                     }
@@ -243,7 +243,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// If this is a reference-style link, attempts to converts it to a regular link.
         /// </summary>
         /// <param name="document"> The document containing the list of references. </param>
-        public void ResolveReference(MarkdownDocument document)
+        internal void ResolveReference(MarkdownDocument document)
         {
             if (document == null)
             {
@@ -263,7 +263,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             // The reference was found. Check the URL is valid.
-            if (!IsUrlValid(reference.Url))
+            if (!Common.IsUrlValid(reference.Url))
             {
                 return;
             }
@@ -272,33 +272,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             Url = reference.Url;
             Tooltip = reference.Tooltip;
             ReferenceId = null;
-        }
-
-        /// <summary>
-        /// Checks if the given URL is allowed in a markdown link.
-        /// </summary>
-        /// <param name="url"> The URL to check. </param>
-        /// <returns> <c>true</c> if the URL is valid; <c>false</c> otherwise. </returns>
-        private static bool IsUrlValid(string url)
-        {
-            // URLs can be relative.
-            if (!Uri.TryCreate(url, UriKind.Absolute, out Uri result))
-            {
-                return true;
-            }
-
-            // Check the scheme is allowed.
-            bool schemeIsAllowed = false;
-            foreach (var scheme in HyperlinkInline.KnownSchemes)
-            {
-                if (url.StartsWith(scheme))
-                {
-                    schemeIsAllowed = true;
-                    break;
-                }
-            }
-
-            return schemeIsAllowed;
         }
 
         /// <summary>
