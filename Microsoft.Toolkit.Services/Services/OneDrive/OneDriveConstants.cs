@@ -10,16 +10,26 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using Newtonsoft.Json;
-
-namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
+namespace Microsoft.Toolkit.Services.OneDrive
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="JwToken"/> class.
+    ///  Class for the OneDrive Constants
     /// </summary>
-    [Obsolete("This class is being deprecated. Please use the .NET Standard Library counterpart found in Microsoft.Toolkit.Services.")]
-    public class JwToken : Toolkit.Services.MicrosoftGraph.JwToken
+    public class OneDriveConstants
     {
+        /// <summary>
+        /// Maximum file size for a simple upload
+        /// </summary>
+        public const int SimpleUploadMaxSize = 4 * 1024 * 1024;
+
+        /// <summary>
+        /// Default chunk when uploading a karge file
+        /// </summary>
+        public const int DefaultMaxChunkSizeForUploadSession = 5 * 1024 * 1024;
+
+        /// <summary>
+        /// Chunk size increment
+        /// </summary>
+        public const int RequiredChunkSizeIncrementForUploadSession = 320 * 1024;
     }
 }

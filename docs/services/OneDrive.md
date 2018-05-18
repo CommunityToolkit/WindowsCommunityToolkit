@@ -64,7 +64,7 @@ Registering your applicatioin creates an App ID/Client and you can simply paste 
 // Using the new converged authentication of the Microsoft Graph we can simply
 // call the Initialize method on the OneDriveService singleton when initializing
 // in UWP applications
-Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveService.Instance.Initialize
+Microsoft.Toolkit.Services.OneDrive.OneDriveService.Instance.Initialize
     (appClientId, 
      scopes, 
      null, 
@@ -74,7 +74,7 @@ Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveService.Instance.Initialize
 ' Using the new converged authentication of the Microsoft Graph we can simply
 ' call the Initialize method on the OneDriveService singleton when initializing
 ' in UWP applications
-Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveService.Instance.Initialize(appClientId, scopes, Nothing, Nothing)
+Microsoft.Toolkit.Services.OneDrive.OneDriveService.Instance.Initialize(appClientId, scopes, Nothing, Nothing)
 ```
 
 ### Defining scopes
@@ -298,9 +298,9 @@ End Using
 
 | Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.Services |
-| NuGet package | [Microsoft.Toolkit.Uwp.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.Services/) |
+| Namespace | Microsoft.Toolkit.Services |
+| NuGet package | [Microsoft.Toolkit.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Services/) |
 
 ## API
 
-* [OneDrive Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/OneDrive)
+* [OneDrive Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/OneDrive)

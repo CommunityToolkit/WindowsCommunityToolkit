@@ -12,7 +12,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Services.Exceptions
+namespace Microsoft.Toolkit.Services
 {
     /// <summary>
     /// Exception for null Parser.
