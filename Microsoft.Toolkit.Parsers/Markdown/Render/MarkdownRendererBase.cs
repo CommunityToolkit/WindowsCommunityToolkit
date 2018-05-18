@@ -222,12 +222,26 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
             {
                 // The element couldn't be resolved, just render it as text.
                 RenderInlineChildren(element.Inlines, context);
+                return;
             }
-            else
+
+            foreach (MarkdownInline inline in element.Inlines)
             {
-                // Url is valid, create Link.
-                RenderMarkdownLink(element, context);
+                if (inline is ImageInline imageInline)
+                {
+                    // this is an image, create Image.
+                    if (!string.IsNullOrEmpty(imageInline.ReferenceId))
+                    {
+                        imageInline.ResolveReference(Document);
+                    }
+
+                    imageInline.Url = element.Url;
+                    RenderImage(imageInline, context);
+                    return;
+                }
             }
+
+            RenderMarkdownLink(element, context);
         }
 
         /// <summary>

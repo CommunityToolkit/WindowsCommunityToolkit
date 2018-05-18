@@ -131,6 +131,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 Constants.ApplicationDisplayName = (await Package.Current.GetAppListEntriesAsync())[0].DisplayInfo.DisplayName;
             }
 
+            // Check if the Cache is Latest, wipe if not.
+            Sample.EnsureCacheLatest();
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,

@@ -242,7 +242,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             var inlineCollection = localContext.InlineCollection;
 
             var placeholder = InternalRenderTextRun(new TextRunInline { Text = element.Text, Type = MarkdownInlineType.TextRun }, context);
-            var resolvedImage = await ImageResolver.ResolveImageAsync(element.Url, element.Tooltip);
+            var resolvedImage = await ImageResolver.ResolveImageAsync(element.RenderUrl, element.Tooltip);
 
             // if image can not be resolved we have to return
             if (resolvedImage == null)
@@ -250,22 +250,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 return;
             }
 
-            var image = new Image();
-            var scrollViewer = new ScrollViewer();
-            var viewbox = new Viewbox();
-            scrollViewer.Content = viewbox;
-            viewbox.Child = image;
+            var image = new Image
+            {
+                Source = resolvedImage,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Stretch = ImageStretch
+            };
+
+            var viewbox = new Viewbox
+            {
+                Child = image,
+                StretchDirection = StretchDirection.DownOnly
+            };
+
+            viewbox.PointerWheelChanged += Preventative_PointerWheelChanged;
+
+            var scrollViewer = new ScrollViewer
+            {
+                Content = viewbox,
+                VerticalScrollMode = ScrollMode.Disabled,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Disabled
+            };
+
             var imageContainer = new InlineUIContainer() { Child = scrollViewer };
 
-            LinkRegister.RegisterNewHyperLink(image, element.Url);
-
-            image.Source = resolvedImage;
-            image.HorizontalAlignment = HorizontalAlignment.Left;
-            image.VerticalAlignment = VerticalAlignment.Top;
-            image.Stretch = ImageStretch;
-            scrollViewer.VerticalScrollMode = ScrollMode.Disabled;
-            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
-            viewbox.StretchDirection = StretchDirection.DownOnly;
+            bool ishyperlink = false;
+            if (element.RenderUrl != element.Url)
+            {
+                ishyperlink = true;
+            }
+            LinkRegister.RegisterNewHyperLink(image, element.Url, ishyperlink);
 
             if (ImageMaxHeight > 0)
             {
