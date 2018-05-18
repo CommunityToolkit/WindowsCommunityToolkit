@@ -11,8 +11,8 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Extensions;
+using Windows.UI.Text;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -24,34 +24,30 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public StringExtensionsPage()
         {
             this.InitializeComponent();
+            ValidateCurrentText();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            Shell.Current.RegisterNewCommand("Is Valid Email?", (s, a) =>
-            {
-                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsEmail());
-            });
+            ValidateCurrentText();
+        }
 
-            Shell.Current.RegisterNewCommand("Is Valid Number?", (s, a) =>
-            {
-                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsNumeric());
-            });
+        private void ValidateCurrentText()
+        {
+            IsValidEmailResult.Text = InputTextBox.Text.IsEmail().ToString();
+            IsValidEmailResult.FontWeight = InputTextBox.Text.IsEmail() ? FontWeights.Bold : FontWeights.Normal;
 
-            Shell.Current.RegisterNewCommand("Is Valid Decimal?", (s, a) =>
-            {
-                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsDecimal());
-            });
+            IsValidNumberResult.Text = InputTextBox.Text.IsNumeric().ToString();
+            IsValidNumberResult.FontWeight = InputTextBox.Text.IsNumeric() ? FontWeights.Bold : FontWeights.Normal;
 
-            Shell.Current.RegisterNewCommand("Is Valid String?", (s, a) =>
-            {
-                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsCharacterString());
-            });
+            IsValidDecimalResult.Text = InputTextBox.Text.IsDecimal().ToString();
+            IsValidDecimalResult.FontWeight = InputTextBox.Text.IsDecimal() ? FontWeights.Bold : FontWeights.Normal;
 
-            Shell.Current.RegisterNewCommand("Is Valid PhoneNumber?", (s, a) =>
-            {
-                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsPhoneNumber());
-            });
+            IsValidStringResult.Text = InputTextBox.Text.IsCharacterString().ToString();
+            IsValidPhoneNumberResult.FontWeight = InputTextBox.Text.IsCharacterString() ? FontWeights.Bold : FontWeights.Normal;
+
+            IsValidPhoneNumberResult.Text = InputTextBox.Text.IsPhoneNumber().ToString();
+            IsValidPhoneNumberResult.FontWeight = InputTextBox.Text.IsPhoneNumber() ? FontWeights.Bold : FontWeights.Normal;
         }
     }
 }

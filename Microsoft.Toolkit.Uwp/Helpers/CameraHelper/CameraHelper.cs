@@ -15,6 +15,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
+using Windows.Foundation.Metadata;
+using Windows.Graphics.Imaging;
+using Windows.Media;
 using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
 using Windows.Media.MediaProperties;
@@ -84,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public event EventHandler<FrameEventArgs> FrameArrived;
 
         /// <summary>
-        /// Initializes Camera Media Capture settings and initializes Frame Reader to capture frames in real time. 
+        /// Initializes Camera Media Capture settings and initializes Frame Reader to capture frames in real time.
         /// If no MediaFrameSourceGroup is provided, it selects the first available camera source to  use for media capture.
         /// You could select a specific MediaFrameSourceGroup from the available sources using the CameraHelper FrameSourceGroups property.
         /// </summary>
