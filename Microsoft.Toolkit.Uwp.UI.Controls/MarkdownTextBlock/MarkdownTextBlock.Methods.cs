@@ -205,13 +205,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Called when the render has a link we need to listen to.
         /// </summary>
-        public void RegisterNewHyperLink(Image newImagelink, string linkUrl)
+        public void RegisterNewHyperLink(Image newImagelink, string linkUrl, bool isHyperLink)
         {
             // Setup a listener for clicks.
             newImagelink.Tapped += NewImagelink_Tapped;
 
             // Associate the URL with the hyperlink.
             newImagelink.SetValue(HyperlinkUrlProperty, linkUrl);
+
+            // Set if the Image is HyperLink or not
+            newImagelink.SetValue(IsHyperlinkProperty, isHyperLink);
 
             // Add it to our list
             _listeningHyperlinks.Add(newImagelink);

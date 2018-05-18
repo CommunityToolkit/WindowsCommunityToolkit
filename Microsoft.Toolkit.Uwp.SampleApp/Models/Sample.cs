@@ -23,10 +23,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Media;
+using Newtonsoft.Json;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -38,8 +40,37 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
     {
         private const string _repoOnlineRoot = "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/";
         private const string _docsOnlineRoot = "https://raw.githubusercontent.com/MicrosoftDocs/UWPCommunityToolkitDocs/";
+        private const string _cacheSHAKey = "docs-cache-sha";
 
         private static HttpClient client = new HttpClient();
+
+        public static async void EnsureCacheLatest()
+        {
+            var settingsStorage = new LocalObjectStorageHelper();
+
+            var onlineDocsSHA = await GetDocsSHA();
+            var cacheSHA = settingsStorage.Read<string>(_cacheSHAKey);
+
+            bool outdatedCache = onlineDocsSHA != null && cacheSHA != null && onlineDocsSHA != cacheSHA;
+            bool noCache = onlineDocsSHA != null && cacheSHA == null;
+
+            if (outdatedCache || noCache)
+            {
+                // Delete everything in the Cache Folder. Could be Pre 3.0.0 Cache data.
+                foreach (var item in await ApplicationData.Current.LocalCacheFolder.GetItemsAsync())
+                {
+                    try
+                    {
+                        await item.DeleteAsync(StorageDeleteOption.Default);
+                    }
+                    catch { }
+                }
+
+                // Update Cache Version info.
+                settingsStorage.Save(_cacheSHAKey, onlineDocsSHA);
+            }
+        }
+
         private string _cachedDocumentation = string.Empty;
         private string _cachedPath = string.Empty;
 
@@ -650,6 +681,57 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     return typeInfo;
                 }
+            }
+
+            // Search in Microsoft.Toolkit.Uwp.Input.GazeInteraction
+
+            var gazeType = Interaction.Enabled;
+
+            assembly = gazeType.GetType().GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
+
+            {
+
+                if (typeInfo.Name == typeName)
+
+                {
+
+                    return typeInfo;
+
+                }
+
+            }
+
+
+
+            return null;
+        }
+
+        private static async Task<string> GetDocsSHA()
+        {
+            try
+            {
+                var branchEndpoint = "https://api.github.com/repos/microsoftdocs/uwpcommunitytoolkitdocs/git/refs/heads/live";
+
+                var request = new HttpRequestMessage(HttpMethod.Get, branchEndpoint);
+                request.Headers.Add("User-Agent", "Windows Community Toolkit Sample App");
+
+                using (request)
+                {
+                    using (var response = await client.SendAsync(request))
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var raw = await response.Content.ReadAsStringAsync();
+                            var json = JsonConvert.DeserializeObject<dynamic>(raw);
+                            return json["object"]["sha"];
+                        }
+                    }
+                }
+            }
+            catch
+            {
             }
 
             return null;

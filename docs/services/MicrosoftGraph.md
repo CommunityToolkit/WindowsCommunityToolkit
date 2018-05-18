@@ -310,9 +310,9 @@ End If
 
 | Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.Services |
-| NuGet package | [Microsoft.Toolkit.Uwp.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.Services/) |
+| Namespace | Microsoft.Toolkit.Services |
+| NuGet package | [Microsoft.Toolkit.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Services/) |
 
 ### API
 
-* [MicrosoftGraph Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftGraph)
+* [MicrosoftGraph Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/MicrosoftGraph)

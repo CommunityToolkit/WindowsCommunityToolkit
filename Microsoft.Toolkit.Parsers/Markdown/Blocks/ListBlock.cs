@@ -17,8 +17,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Toolkit.Parsers.Core;
-using Microsoft.Toolkit.Parsers.Markdown.Blocks.List;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 [assembly: InternalsVisibleTo("UnitTests")]

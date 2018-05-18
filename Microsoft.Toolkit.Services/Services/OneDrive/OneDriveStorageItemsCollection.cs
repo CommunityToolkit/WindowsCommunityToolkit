@@ -46,8 +46,6 @@ namespace Microsoft.Toolkit.Services.OneDrive
             }
         }
 
-        OneDriveStorageItem IReadOnlyList<OneDriveStorageItem>.this[int index] => throw new NotImplementedException();
-
         /// <summary>
         /// Gets the number of items in the collection
         /// </summary>
