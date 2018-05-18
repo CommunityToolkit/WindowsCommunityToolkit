@@ -1,6 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+                    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters">
+
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
     <Style x:Key="SliderThumbStyle" TargetType="Thumb">
         <Setter Property="UseSystemFocusVisuals" Value="True"/>
@@ -40,7 +43,10 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Column="0" x:Name="MinValueText" Text="Min"/>
+                        <TextBlock Grid.Column="0" 
+                                   x:Name="MinValueText" 
+                                   Text="Min" 
+                                   Visibility="{Binding ShowValues, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
                         <Border x:Name="OutOfRangeContentContainer"
                                 Background="Transparent"
@@ -71,7 +77,10 @@
                                    TabIndex="1" />
                         </Canvas>
 
-                        <TextBlock Grid.Column="4" x:Name="MaxValueText" Text="Max"/>
+                        <TextBlock Grid.Column="4" 
+                                   x:Name="MaxValueText" 
+                                   Text="Max"
+                                   Visibility="{Binding ShowValues, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}" />
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">

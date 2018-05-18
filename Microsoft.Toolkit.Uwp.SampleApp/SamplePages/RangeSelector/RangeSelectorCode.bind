@@ -13,8 +13,10 @@
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
       <controls:RangeSelector x:Name="RangeSelectorControl"
                               Width="300"
+                              VerticalAlignment="Center"
                               Minimum="@[Minimum:Slider:0:0-100]@"
                               Maximum="@[Maximum:Slider:100:0-100]@"
-                              StepFrequency="@[StepFrequency:Slider:1:1-10]@"/>
+                              StepFrequency="@[StepFrequency:Slider:1:1-10]@"
+                              ShowValues="@[ShowValues:Bool:False]@"/>
   </Grid>
 </Page>

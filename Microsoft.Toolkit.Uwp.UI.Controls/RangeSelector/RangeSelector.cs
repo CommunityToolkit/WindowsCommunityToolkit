@@ -70,6 +70,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultStepFrequency));
 
+        /// <summary>
+        /// Identifies the ShowValues dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ShowValuesProperty = DependencyProperty.Register(nameof(ShowValues), typeof(bool), typeof(RangeSelector), new PropertyMetadata(false));
+
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
         private Thumb _minThumb;
@@ -865,6 +870,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void RangeSelector_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             VisualStateManager.GoToState(this, IsEnabled ? "Normal" : "Disabled", true);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the current range values should be displayed.
+        /// </summary>
+        public bool ShowValues
+        {
+            get
+            {
+                return (bool)GetValue(ShowValuesProperty);
+            }
+
+            set
+            {
+                SetValue(ShowValuesProperty, value);
+            }
         }
     }
 }
