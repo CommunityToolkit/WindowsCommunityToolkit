@@ -10,12 +10,13 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using System.Linq;
 using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.System;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -26,6 +27,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class InfiniteCanvas
     {
         private const int DefaultFontValue = 22;
+        private readonly string[] _allowedCommands =
+        {
+            "Shift",
+            "Escape",
+            "Delete",
+            "Back",
+            "Right",
+            "Up",
+            "Left",
+            "Down"
+        };
+
         private Point _lastInputPoint;
 
         private TextDrawable SelectedTextDrawable => _drawingSurfaceRenderer.GetSelectedTextDrawable();
@@ -47,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void InkScrollViewer_PreviewKeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void InkScrollViewer_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             // fixing scroll viewer issue with text box when you hit UP/DOWN/Right/LEFT
             if (_canvasTextBox.Visibility != Visibility.Visible)
@@ -155,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _drawingSurfaceRenderer.UpdateSelectedTextDrawable();
         }
 
-        private void InkScrollViewer_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void InkScrollViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (_enableTextButton.IsChecked ?? false)
             {
@@ -200,6 +213,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _drawingSurfaceRenderer.ResetSelectedTextDrawable();
             _canvasTextBox.Clear();
+        }
+
+        private void CanvasTextBoxFontSizeTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (_allowedCommands.Contains(e.Key.ToString()))
+            {
+                e.Handled = false;
+                return;
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                if (e.Key.ToString() == string.Format("Number{0}", i))
+                {
+                    e.Handled = false;
+                    return;
+                }
+            }
+
+            e.Handled = true;
         }
     }
 }

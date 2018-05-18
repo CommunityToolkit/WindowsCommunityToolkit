@@ -206,6 +206,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Unloaded -= InfiniteCanvas_Unloaded;
             Application.Current.LeavingBackground -= Current_LeavingBackground;
             _drawingSurfaceRenderer.CommandExecuted -= DrawingSurfaceRenderer_CommandExecuted;
+            _canvasTextBoxFontSizeTextBox.PreviewKeyDown -= CanvasTextBoxFontSizeTextBox_PreviewKeyDown;
         }
 
         private void RegisterEvents()
@@ -228,6 +229,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Unloaded += InfiniteCanvas_Unloaded;
             Application.Current.LeavingBackground += Current_LeavingBackground;
             _drawingSurfaceRenderer.CommandExecuted += DrawingSurfaceRenderer_CommandExecuted;
+            _canvasTextBoxFontSizeTextBox.PreviewKeyDown += CanvasTextBoxFontSizeTextBox_PreviewKeyDown;
         }
 
         private void ConfigureControls()
