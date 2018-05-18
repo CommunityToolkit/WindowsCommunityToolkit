@@ -34,10 +34,11 @@ In the code section below the GetUserTimeLineAsync method returns some Tweet obj
 | Property | Type | Description |
 | -- | -- | -- |
 | **CreatedAt** | string | The date and time of the Tweet formatted by Twitter |
-| **Text** | string | The text of the Tweet |
+| **Text** | string | The text of the Tweet (if retweet, the text might not be complete - use the RetweetedStatus object for the original tweet)|
 | **Id** | string | The Twitter status identifier |
 | **GeoData** | TwitterGeoData | A class containing the latitude and longitude of the Tweet |
 | **User** | TwitterUser | A class containing the user ID, Name, ScreenName, and ProfileImageUrl |
+| **RetweetedStatus** | Tweet | if this tweet is a retweet, this object will contain the original tweet |
 
 ## Syntax
 

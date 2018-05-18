@@ -21,6 +21,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// </summary>
     public class Tweet : Toolkit.Parsers.SchemaBase, ITwitterResult
     {
+        private string _text;
+
         /// <summary>
         /// Gets or sets time item was created.
         /// </summary>
@@ -40,10 +42,14 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or sets text of the tweet (140 characters).
+        /// Gets or sets text of the tweet (handles both 140 and 280 characters)
         /// </summary>
         [JsonProperty("text")]
-        public string Text { get; set; }
+        public string Text
+        {
+            get { return _text ?? FullText; }
+            set { _text = value; }
+        }
 
         /// <summary>
         /// Gets or sets the extended mode.
@@ -64,6 +70,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public TwitterEntities Entities { get; set; }
 
         /// <summary>
+        /// Gets or sets the Retweeted Tweet
+        /// </summary>
+        [JsonProperty("retweeted_status")]
+        public Tweet RetweetedStatus { get; set; }
+
+        /// <summary>
         /// Gets the creation date
         /// </summary>
         public DateTime CreationDate
@@ -79,5 +91,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                 return dt;
             }
         }
+
+        /// <summary>
+        /// Gets or sets text of the tweet (280 characters).
+        /// </summary>
+        [JsonProperty("full_text")]
+        private string FullText { get; set; }
     }
 }
