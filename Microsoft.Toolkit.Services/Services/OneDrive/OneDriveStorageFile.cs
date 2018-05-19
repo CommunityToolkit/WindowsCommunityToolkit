@@ -49,31 +49,29 @@ namespace Microsoft.Toolkit.Services.OneDrive
         {
             get
             {
-                if (_thumbnail == null)
-                {
-                    GrabThumbnail();
-                }
                 return _thumbnail;
             }
         }
 
-        private void GrabThumbnail()
+        /// <summary>
+        /// Call to get the thumbnail information
+        /// </summary>
+        public async void GetThumbnailAsync()
         {
-            Task.Run(async () =>
+            var newValue = _thumbnail;
+            try
             {
-                try
+                var set = await GetThumbnailSetAsync();
+                if (set != null)
                 {
-                    var set = await GetThumbnailSetAsync();
-                    if (set != null)
-                    {
-                        _thumbnail = set.Small ?? set.Medium ?? set.Large;
-                    }
+                    newValue = set.Small ?? set.Medium ?? set.Large;
                 }
-                catch (Exception)
-                {
-                    _thumbnail = string.Empty;
-                }
-            }).Wait();
+            }
+            catch (Exception)
+            {
+            }
+
+            SetValue(ref _thumbnail, newValue, nameof(Thumbnail));
         }
 
         /// <summary>

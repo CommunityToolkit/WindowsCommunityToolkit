@@ -10,82 +10,68 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Graph;
-using Microsoft.Toolkit.Services.OneDrive.Platform;
-using Newtonsoft.Json;
 using System;
+using System.Collections;
+using System.ComponentModel;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Graph;
+using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Services.OneDrive
 {
     /// <summary>
     /// GraphOneDriveStorageItem class.
     /// </summary>
-    public class OneDriveStorageItem
+    public class OneDriveStorageItem : INotifyPropertyChanged
     {
         /// <summary>
-        /// Gets or sets platform-specific implementation of platform services.
+        /// Gets platform-specific implementation of platform services.
         /// </summary>
-        public IOneDriveStorageItemPlatform StorageItemPlatformService { get; set; }
-
-        private DateTimeOffset? _dateCreated;
+        public IOneDriveStorageItemPlatform StorageItemPlatformService { get; private set; }
 
         /// <summary>
         /// Gets the date and time that the current OneDrive item was created.
         /// </summary>
-        public DateTimeOffset? DateCreated => _dateCreated;
-
-        private DateTimeOffset? _dateModified;
+        public DateTimeOffset? DateCreated { get; private set; }
 
         /// <summary>
         /// Gets the date and time that the current OneDrive item was last modified.
         /// </summary>
-        public DateTimeOffset? DateModified => _dateModified;
-
-        private string _displayName;
+        public DateTimeOffset? DateModified { get; private set; }
 
         /// <summary>
         /// Gets the user-friendly name of the current folder.
         /// </summary>
-        public string DisplayName => _displayName;
-
-        private string _displayType;
+        public string DisplayName { get; private set; }
 
         /// <summary>
         /// Gets The user-friendly type of the item.
         /// </summary>
-        public string DisplayType => _displayType;
-
-        private string _folderId;
+        public string DisplayType { get; private set; }
 
         /// <summary>
         /// Gets the id of the current OneDrive Item.
         /// </summary>
-        public string FolderRelativeId => _folderId;
-
-        private string _name;
+        public string FolderRelativeId { get; private set; }
 
         /// <summary>
         /// Gets the name of the current OneDrive Item.
         /// </summary>
-        public string Name => _name;
-
-        private string _path;
+        public string Name { get; private set; }
 
         /// <summary>
         /// Gets the path of the current item if the path is available
         /// </summary>
-        public string Path => _path;
-
-        private long? _fileSize;
+        public string Path { get; private set; }
 
         /// <summary>
         /// Gets the size of the current item if available
         /// </summary>
-        public long? FileSize => _fileSize;
+        public long? FileSize { get; private set; }
 
         /// <summary>
         /// Gets the file size with reasonable formatting
@@ -94,7 +80,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         {
             get
             {
-                var size = _fileSize.HasValue ? _fileSize.Value : 0;
+                var size = FileSize.HasValue ? FileSize.Value : 0;
                 if (size < 1024)
                 {
                     return size.ToString("F0") + " bytes";
@@ -132,14 +118,9 @@ namespace Microsoft.Toolkit.Services.OneDrive
         private IBaseClient _oneDriveProvider;
 
         /// <summary>
-        /// Store a reference to an instance of current request builder
-        /// </summary>
-        private IBaseRequestBuilder _requestBuilder;
-
-        /// <summary>
         /// Gets an Item Request Builder instance
         /// </summary>
-        public IBaseRequestBuilder RequestBuilder => _requestBuilder;
+        public IBaseRequestBuilder RequestBuilder { get; private set; }
 
         /// <summary>
         /// Gets or sets IOneDriveServiceClient instance
@@ -147,15 +128,15 @@ namespace Microsoft.Toolkit.Services.OneDrive
         public IBaseClient Provider
         {
             get { return _oneDriveProvider; }
-            set { _oneDriveProvider = value; }
+            set { SetValue(ref _oneDriveProvider, value); }
         }
 
-        protected DriveItem _oneDriveItem;
+
 
         /// <summary>
         /// Gets an instance of a DriveItem
         /// </summary>
-        public DriveItem OneDriveItem => _oneDriveItem;
+        public DriveItem OneDriveItem { get; private set; }
 
         /// <summary>
         ///  Initializes a new instance of the <see cref="OneDriveStorageItem"/> class.
@@ -167,26 +148,26 @@ namespace Microsoft.Toolkit.Services.OneDrive
         {
             StorageItemPlatformService = OneDriveService.ServicePlatformInitializer.CreateOneDriveStorageItemPlatformInstance(OneDriveService.Instance, this);
 
-            _requestBuilder = requestBuilder;
+            RequestBuilder = requestBuilder;
             _oneDriveProvider = oneDriveProvider;
-            _oneDriveItem = oneDriveItem;
-            _name = oneDriveItem.Name;
-            _fileSize = oneDriveItem.Size;
-            _dateCreated = oneDriveItem.CreatedDateTime;
-            _dateModified = oneDriveItem.LastModifiedDateTime;
-            _displayName = _name;
-            _folderId = oneDriveItem.Id;
+            OneDriveItem = oneDriveItem;
+            Name = oneDriveItem.Name;
+            FileSize = oneDriveItem.Size;
+            DateCreated = oneDriveItem.CreatedDateTime;
+            DateModified = oneDriveItem.LastModifiedDateTime;
+            DisplayName = Name;
+            FolderRelativeId = oneDriveItem.Id;
             if (IsFile())
             {
-                _displayType = "File";
+                DisplayType = "File";
             }
             else if (IsFolder())
             {
-                _displayType = "Folder";
+                DisplayType = "Folder";
             }
             else
             {
-                _displayType = "OneNote";
+                DisplayType = "OneNote";
             }
 
             // ParentReference null means is root
@@ -196,7 +177,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
                 int index = oneDriveItem.ParentReference.Path.LastIndexOf(rootMarker) + rootMarker.Length;
                 if (index >= 0)
                 {
-                    _path = oneDriveItem.ParentReference.Path.Substring(index);
+                    Path = oneDriveItem.ParentReference.Path.Substring(index);
                 }
             }
         }
@@ -208,7 +189,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <returns> No object or value is returned by this method when it completes.</returns>
         public Task DeleteAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (_name == "root")
+            if (Name == "root")
             {
                 throw new Microsoft.Graph.ServiceException(new Error { Message = "Could not delete the root folder" });
             }
@@ -370,5 +351,39 @@ namespace Microsoft.Toolkit.Services.OneDrive
 
         internal IDriveRequestBuilder GetDriveRequestBuilderFromDriveId(string driveId)
             => (IBaseRequestBuilder)((IGraphServiceClient)Provider).Drives[driveId] as IDriveRequestBuilder;
+
+        /// <summary>
+        /// Raised when a property that can change is changed
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Called internally when a property changes
+        /// </summary>
+        /// <param name="propertyName">name of the property changed</param>
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (!string.IsNullOrWhiteSpace(propertyName))
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        /// <summary>
+        /// Supports INotifyPropertyChanged
+        /// </summary>
+        /// <typeparam name="T">type of property</typeparam>
+        /// <param name="value">value of property</param>
+        /// <param name="newValue">new value of property</param>
+        /// <param name="propertyName">actual property name</param>
+        /// <param name="comparer">equality comparer if needed</param>
+        protected void SetValue<T>(ref T value, T newValue, [CallerMemberName] string propertyName = null, IEqualityComparer comparer = null)
+        {
+            if (comparer?.Equals(value, newValue) ?? false || Equals(value, newValue))
+            {
+                value = newValue;
+                OnPropertyChanged(propertyName);
+            }
+        }
     }
 }
