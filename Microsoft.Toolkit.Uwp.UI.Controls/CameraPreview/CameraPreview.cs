@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private async void FrameSourceGroupButton_ClickAsync(object sender, RoutedEventArgs e)
         {
             var oldGroup = _cameraHelper.FrameSourceGroup;
-            var currentIndex = _frameSourceGroups.Select((grp, index) => new { grp, index }).First(v => v.grp == oldGroup).index;
+            var currentIndex = _frameSourceGroups.Select((grp, index) => new { grp, index }).First(v => v.grp.Id == oldGroup.Id).index;
             var newIndex = currentIndex < (_frameSourceGroups.Count - 1) ? currentIndex + 1 : 0;
             var group = _frameSourceGroups[newIndex];
             _frameSourceGroupButton.IsEnabled = false;
