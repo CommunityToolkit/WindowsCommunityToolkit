@@ -396,11 +396,20 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         }
 
         /// <summary>
-        /// Adds Custom Scheme to the list of existing schemes
+        /// Adds Custom Schemes to the list of existing schemes
         /// </summary>
-        public void AddSchemes(string schemelist)
+        /// <param name="schemelist">List of custom Schemes</param>
+        public void AddSchemes(List<string> schemelist)
         {
-            foreach (string s in schemelist.Split(','))
+            if (KnownSchemes.Count > 10)
+            {
+                for (int i = 10; i <= KnownSchemes.Count; i++)
+                {
+                    KnownSchemes.RemoveAt(i);
+                }
+            }
+
+            foreach (string s in schemelist)
             {
                 if (!string.IsNullOrEmpty(s))
                 {

@@ -13,6 +13,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using ColorCode;
 using Microsoft.Toolkit.Parsers.Markdown;
@@ -68,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     // Try to parse the markdown.
                     MarkdownDocument markdown = new MarkdownDocument();
-                    markdown.AddSchemes(SchemeList);
+                    markdown.AddSchemes(SchemeList.Split(',').ToList());
                     markdown.Parse(Text);
 
                     // Now try to display it
