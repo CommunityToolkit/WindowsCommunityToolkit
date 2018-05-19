@@ -13,11 +13,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
-using Windows.Foundation.Metadata;
-using Windows.Graphics.Imaging;
-using Windows.Media;
 using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
 using Windows.Media.MediaProperties;
@@ -30,6 +28,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// </summary>
     public class CameraHelper
     {
+        private SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1);
         private static IReadOnlyList<MediaFrameSourceGroup> _frameSourceGroups;
         private MediaCapture _mediaCapture;
         private MediaFrameReader _frameReader;
@@ -37,6 +36,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private MediaFrameSource _previewFrameSource;
         private List<MediaFrameFormat> _frameFormatsAvailable;
         private bool groupChanged = false;
+        private bool _initialized;
 
         /// <summary>
         /// Gets a list of MediaFrameSourceGroups available for video preview or video record.
@@ -94,60 +94,75 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Result of the async operation.<see cref="CameraHelperResult"/></returns>
         public async Task<CameraHelperResult> InitializeAndStartCaptureAsync()
         {
-            // if FrameSourceGroup hasn't changed from last initialiazation, just return back.
-            if (_group != null && !groupChanged)
+            CameraHelperResult result;
+            try
             {
-                return CameraHelperResult.Success;
-            }
-
-            groupChanged = false;
-
-            await CleanupAsync();
-
-            if (_frameSourceGroups == null)
-            {
-                _frameSourceGroups = await GetFrameSourceGroupsAsync();
-            }
-
-            if (_group == null)
-            {
-                _group = _frameSourceGroups.FirstOrDefault();
-            }
-            else
-            {
-                // verify selected group is part of existing FrameSourceGroups
-                _group = _frameSourceGroups.FirstOrDefault(g => g.Id == _group.Id);
-            }
-
-            // if there is no camera source available, we can't proceed.
-            if (_group == null)
-            {
-                return CameraHelperResult.NoFrameSourceGroupAvailable;
-            }
-
-            var result = await InitializeMediaCaptureAsync();
-
-            if (_previewFrameSource != null)
-            {
-                _frameReader = await _mediaCapture.CreateFrameReaderAsync(_previewFrameSource);
-                _frameReader.AcquisitionMode = MediaFrameReaderAcquisitionMode.Realtime;
-                _frameReader.FrameArrived += Reader_FrameArrived;
-
-                if (_frameReader == null)
+                await semaphoreSlim.WaitAsync();
+                // if FrameSourceGroup hasn't changed from last initialiazation, just return back.
+                if (_initialized && _group != null && !groupChanged)
                 {
-                    result = CameraHelperResult.CreateFrameReaderFailed;
+                    return CameraHelperResult.Success;
+                }
+
+                groupChanged = false;
+
+                await CleanUpAsync();
+
+                if (_frameSourceGroups == null)
+                {
+                    _frameSourceGroups = await GetFrameSourceGroupsAsync();
+                }
+
+                if (_group == null)
+                {
+                    _group = _frameSourceGroups.FirstOrDefault();
                 }
                 else
                 {
-                    MediaFrameReaderStartStatus statusResult = await _frameReader.StartAsync();
-                    if (statusResult != MediaFrameReaderStartStatus.Success)
+                    // verify selected group is part of existing FrameSourceGroups
+                    _group = _frameSourceGroups.FirstOrDefault(g => g.Id == _group.Id);
+                }
+
+                // if there is no camera source available, we can't proceed.
+                if (_group == null)
+                {
+                    return CameraHelperResult.NoFrameSourceGroupAvailable;
+                }
+
+                result = await InitializeMediaCaptureAsync();
+
+                if (_previewFrameSource != null)
+                {
+                    _frameReader = await _mediaCapture.CreateFrameReaderAsync(_previewFrameSource);
+                    _frameReader.AcquisitionMode = MediaFrameReaderAcquisitionMode.Realtime;
+                    _frameReader.FrameArrived += Reader_FrameArrived;
+
+                    if (_frameReader == null)
                     {
-                        result = CameraHelperResult.StartFrameReaderFailed;
+                        result = CameraHelperResult.CreateFrameReaderFailed;
+                    }
+                    else
+                    {
+                        MediaFrameReaderStartStatus statusResult = await _frameReader.StartAsync();
+                        if (statusResult != MediaFrameReaderStartStatus.Success)
+                        {
+                            result = CameraHelperResult.StartFrameReaderFailed;
+                        }
                     }
                 }
-            }
 
-            return result;
+                _initialized = result == CameraHelperResult.Success;
+                return result;
+            }
+            catch (Exception)
+            {
+                await CleanUpAsync();
+                return CameraHelperResult.InitializationFailed_UnknownError;
+            }
+            finally
+            {
+                semaphoreSlim.Release();
+            }
         }
 
         private async Task<CameraHelperResult> InitializeMediaCaptureAsync()
@@ -201,12 +216,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
             catch (UnauthorizedAccessException)
             {
-                await CleanupAsync();
+                await CleanUpAsync();
                 return CameraHelperResult.CameraAccessDenied;
             }
             catch (Exception)
             {
-                await CleanupAsync();
+                await CleanUpAsync();
                 return CameraHelperResult.InitializationFailed_UnknownError;
             }
 
@@ -252,8 +267,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Clean up the Camera Helper resources
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task CleanupAsync()
+        public async Task CleanUpAsync()
         {
+            _initialized = false;
             await StopReaderAsync();
 
             if (_mediaCapture != null)

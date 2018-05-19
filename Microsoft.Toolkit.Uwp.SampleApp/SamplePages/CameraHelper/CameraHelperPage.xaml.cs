@@ -147,7 +147,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (_cameraHelper != null)
             {
                 _cameraHelper.FrameArrived -= CameraHelper_FrameArrived;
-                await _cameraHelper.CleanupAsync();
+                await _cameraHelper.CleanUpAsync();
                _cameraHelper = null;
             }
         }

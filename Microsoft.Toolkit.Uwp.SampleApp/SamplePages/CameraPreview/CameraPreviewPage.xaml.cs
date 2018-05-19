@@ -10,12 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
 using Windows.Media;
@@ -51,12 +51,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // and creates unused duplicate references to Camera and memory leaks.
             await semaphoreSlim.WaitAsync();
 
-            await CleanUpAsync();
-            _cameraPreviewControl = control.FindDescendantByName("CameraPreviewControl") as CameraPreview;
+            var cameraHelper = _cameraPreviewControl?.CameraHelper;
+            UnsubscribeFromEvents();
 
+            _cameraPreviewControl = control.FindDescendantByName("CameraPreviewControl") as CameraPreview;
             if (_cameraPreviewControl != null)
             {
-                await _cameraPreviewControl.StartAsync();
+                await _cameraPreviewControl.StartAsync(cameraHelper);
                 _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
                 _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
             }
@@ -98,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void Application_Resuming(object sender, object e)
         {
-            var cameraHelper = new CameraHelper();
+            var cameraHelper = _cameraPreviewControl?.CameraHelper;
             await _cameraPreviewControl.StartAsync(cameraHelper);
             _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
             _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
@@ -129,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private async Task CleanUpAsync()
+        private void UnsubscribeFromEvents()
         {
             if (_cameraPreviewControl != null)
             {
@@ -139,7 +140,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
 
                 _cameraPreviewControl.PreviewFailed -= CameraPreviewControl_PreviewFailed;
-                await _cameraPreviewControl.CleanupAsync();
+            }
+        }
+
+        private async Task CleanUpAsync()
+        {
+            UnsubscribeFromEvents();
+
+            if (_cameraPreviewControl != null)
+            {
+                _cameraPreviewControl.Stop();
+                await _cameraPreviewControl.CameraHelper?.CleanUpAsync();
             }
         }
     }

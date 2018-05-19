@@ -58,6 +58,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task StartAsync(CameraHelper cameraHelper)
         {
+            if (cameraHelper == null)
+            {
+                cameraHelper = new CameraHelper();
+            }
+
             _cameraHelper = cameraHelper;
             _frameSourceGroups = await CameraHelper.GetFrameSourceGroupsAsync();
 
@@ -180,17 +185,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Dispose resources.
+        /// Stops preview.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task CleanupAsync()
+        public void Stop()
         {
-            if (_cameraHelper != null)
-            {
-                await _cameraHelper.CleanupAsync();
-                _cameraHelper = null;
-            }
-
             if (_mediaPlayerElementControl != null)
             {
                 _mediaPlayerElementControl.SetMediaPlayer(null);
