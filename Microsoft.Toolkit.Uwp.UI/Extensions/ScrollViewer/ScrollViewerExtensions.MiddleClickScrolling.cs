@@ -106,8 +106,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             _currentPosition = default(Point);
             _isDeferredMovingStarted = false;
             _oldCursorID = 100;
-            _timer = new Timer(Scroll, null, 5, 5);
             _isCursorAvailable = IsCursorResourceAvailable();
+
+            _timer?.Dispose();
+            _timer = new Timer(Scroll, null, 5, 5);
 
             Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
             Window.Current.CoreWindow.PointerReleased -= CoreWindow_PointerReleased;
