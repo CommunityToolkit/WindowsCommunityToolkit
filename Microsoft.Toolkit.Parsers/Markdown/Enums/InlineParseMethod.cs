@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Enums
+namespace Microsoft.Toolkit.Parsers.Markdown
 {
     internal enum InlineParseMethod
     {

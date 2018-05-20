@@ -10,10 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Services.OneDrive;
-using Microsoft.Toolkit.Services.OneDrive.Platform;
-
-namespace Microsoft.Toolkit.Uwp.Services.OneDrive.Platform
+namespace Microsoft.Toolkit.Services.OneDrive.Uwp
 {
     /// <summary>
     /// Platform implementation of initializer.

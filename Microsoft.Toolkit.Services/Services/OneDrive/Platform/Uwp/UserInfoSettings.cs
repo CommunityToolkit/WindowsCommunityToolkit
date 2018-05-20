@@ -14,7 +14,7 @@ using System;
 using Windows.Security.Credentials;
 using Windows.Storage;
 
-namespace Microsoft.Toolkit.Uwp.Services.OneDrive
+namespace Microsoft.Toolkit.Services.OneDrive.Uwp
 {
     /// <summary>
     /// UserInfoSettings type
