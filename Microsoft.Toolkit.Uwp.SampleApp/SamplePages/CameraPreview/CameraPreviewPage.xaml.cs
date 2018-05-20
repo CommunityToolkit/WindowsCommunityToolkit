@@ -84,6 +84,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         protected async override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            Application.Current.Suspending -= Application_Suspending;
+            Application.Current.Resuming -= Application_Resuming;
             await CleanUpAsync();
         }
 

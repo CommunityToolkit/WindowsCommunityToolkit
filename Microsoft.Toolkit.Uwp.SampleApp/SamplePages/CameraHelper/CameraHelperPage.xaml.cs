@@ -36,9 +36,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public CameraHelperPage()
         {
             this.InitializeComponent();
-
-            Application.Current.Suspending += Application_Suspending;
-            Application.Current.Resuming += Application_Resuming;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -47,11 +44,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _softwareBitmapSource = new SoftwareBitmapSource();
             CurrentFrameImage.Source = _softwareBitmapSource;
 
+            Application.Current.Suspending += Application_Suspending;
+            Application.Current.Resuming += Application_Resuming;
+
             await InitializeAsync();
         }
 
         protected async override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            Application.Current.Suspending -= Application_Suspending;
+            Application.Current.Resuming -= Application_Resuming;
             await CleanUpAsync();
         }
 
@@ -77,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async Task InitializeAsync()
         {
-            var frameSourceGroups = await CameraHelper.GetFrameSourceGroupsAsync();            
+            var frameSourceGroups = await CameraHelper.GetFrameSourceGroupsAsync();
             if (_cameraHelper == null)
             {
                 _cameraHelper = new CameraHelper();
