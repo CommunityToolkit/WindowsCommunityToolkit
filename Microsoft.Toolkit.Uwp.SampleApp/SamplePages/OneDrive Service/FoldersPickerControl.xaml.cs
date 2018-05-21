@@ -13,7 +13,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
+using Microsoft.Toolkit.Services.OneDrive;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -22,39 +22,67 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class FoldersPickerControl : UserControl
     {
         private OneDriveStorageFolder _rootFolder = null;
-        private List<OneDriveStorageFolder> _folders = null;
-
-        private OneDriveStorageFolder _destinationFolder = null;
         private OneDriveStorageFolder _currentFolder = null;
 
-        public OneDriveStorageFolder SelectedFolder
-        {
-            get
-            {
-                return _destinationFolder;
-            }
-        }
+        private OneDriveStorageFolder _graphRootFolder = null;
+        private List<OneDriveStorageFolder> _graphFolders = null;
+        private OneDriveStorageFolder _graphCurrentFolder = null;
+
+        public OneDriveStorageFolder SelectedFolder { get; private set; } = null;
+
+        public OneDriveStorageFolder SelectedGraphFolder { get; private set; } = null;
 
         public FoldersPickerControl(List<OneDriveStorageFolder> folders, OneDriveStorageFolder rootFolder)
         {
             this.InitializeComponent();
-            _folders = folders;
-            _currentFolder = _rootFolder = rootFolder;
+            _graphFolders = folders;
+            _graphCurrentFolder = _graphRootFolder = rootFolder;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            LstFolder.ItemsSource = _folders;
+            LstFolder.ItemsSource = _graphFolders;
         }
 
         private void LstFolder_ItemClick(object sender, ItemClickEventArgs e)
         {
-            _destinationFolder = e.ClickedItem as OneDriveStorageFolder;
+            SelectedGraphFolder = e.ClickedItem as OneDriveStorageFolder;
         }
 
         private async void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            await NavigateBackAsync();
+            await NavigateBackGraphAsync();
+        }
+
+        private async Task NavigateBackGraphAsync()
+        {
+            if (_graphCurrentFolder != null)
+            {
+                OneDriveStorageFolder currentFolder = null;
+                progressRing.IsActive = true;
+                try
+                {
+                    if (!string.IsNullOrEmpty(_graphCurrentFolder.Path))
+                    {
+                        currentFolder = await _graphRootFolder.GetFolderAsync(_graphCurrentFolder.Path);
+                    }
+                    else
+                    {
+                        currentFolder = _graphRootFolder;
+                    }
+
+                    LstFolder.ItemsSource = await currentFolder.GetFoldersAsync(100);
+                    _graphCurrentFolder = currentFolder;
+                }
+                catch (ServiceException ex)
+                {
+                    await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(ex);
+                }
+                finally
+                {
+                    progressRing.IsActive = false;
+                }
+            }
         }
 
         private async Task NavigateBackAsync()
@@ -90,23 +118,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async Task NavigateToFolderAsync(OneDriveStorageItem item)
         {
-                progressRing.IsActive = true;
-                try
+            progressRing.IsActive = true;
+            try
+            {
+                var currentFolder = await _graphCurrentFolder.GetFolderAsync(item.Name);
+                var items = await currentFolder.GetFoldersAsync(100);
+                if (items.Count > 0)
                 {
-                    var currentFolder = await _currentFolder.GetFolderAsync(item.Name);
-                    var items = await currentFolder.GetFoldersAsync(100);
-                    if (items.Count > 0)
-                    {
-                        LstFolder.ItemsSource = items;
-                        _currentFolder = currentFolder;
-                    }
+                    LstFolder.ItemsSource = items;
+                    _graphCurrentFolder = currentFolder;
                 }
-                catch (ServiceException ex)
-                {
-                    await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(ex);
-                }
-                finally
-                {
+            }
+            catch (ServiceException ex)
+            {
+                await OneDriveSampleHelpers.DisplayOneDriveServiceExceptionAsync(ex);
+            }
+            finally
+            {
                 progressRing.IsActive = false;
             }
         }

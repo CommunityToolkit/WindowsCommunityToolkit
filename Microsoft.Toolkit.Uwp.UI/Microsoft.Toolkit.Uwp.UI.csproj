@@ -1,21 +1,21 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
-    <Title>UWP Community Toolkit UI</Title>
-    <Description>This library provides UI services. It is part of the UWP Community Toolkit.</Description>
+    <Title>Windows Community Toolkit UI</Title>
+    <Description>This library provides UI services. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>UWP Toolkit Windows UI Converters</PackageTags>
 
     <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
     <UseWindowsMobileSdk>true</UseWindowsMobileSdk>
   </PropertyGroup>
 
-
   <ItemGroup>
-
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
-
+    <PackageReference Include="Win2D.uwp" Version="1.21.0" />
   </ItemGroup>
 
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
+  </ItemGroup>
+
 </Project>

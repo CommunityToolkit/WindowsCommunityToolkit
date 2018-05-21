@@ -10,8 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.Services;
-using Microsoft.Toolkit.Uwp.Services.OneDrive;
+using Microsoft.Toolkit.Services.OneDrive;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -39,8 +38,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
-            var oneDriveItem = item as OneDriveStorageItem;
-            if (oneDriveItem != null)
+            if (item is OneDriveStorageItem oneDriveItem)
             {
                 if (oneDriveItem.IsFile())
                 {

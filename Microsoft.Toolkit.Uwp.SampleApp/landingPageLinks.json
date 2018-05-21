@@ -1,9 +1,9 @@
 {
   "new-section-title": "What's New",
-  "new-samples": [ "DockPanel", "HeaderedItemsControl", "HeaderedContentControl", "Connected Animations", "Implicit Animations" ],
+  "new-samples": [ "StaggeredPanel", "RadialGradientBrush", "Markdown Parser", "NavigationViewStyles", "StringExtensions" ],
   "resources": [
     {
-      "title": "UWP Community Toolkit",
+      "title": "Toolkit",
       "links": [
         {
           "title": "GitHub Repository",

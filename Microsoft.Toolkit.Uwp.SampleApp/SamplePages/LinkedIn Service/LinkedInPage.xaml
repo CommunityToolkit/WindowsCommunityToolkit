@@ -75,7 +75,7 @@
                                     Orientation="Vertical">
                             <HyperlinkButton Margin="0,0,0,15"
                                              Content="Show me how to get these values"
-                                             NavigateUri="http://uwpcommunitytoolkit.com/en/master/services/Linkedin/" />
+                                             NavigateUri="https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Linkedin/" />
                             <TextBox x:Name="ClientId"
                                      Margin="0,0,0,12"
                                      Header="Client Id:" />
@@ -126,7 +126,7 @@
                             <TextBox x:Name="ShareText"
                                      Margin="0,0,0,12"
                                      Header="Share"
-                                     Text="Check out the UWP Community Toolkit! https://aka.ms/uwpct" />
+                                     Text="Check out the Windows Community Toolkit! https://aka.ms/uwpct" />
                             <StackPanel Orientation="Horizontal">
                                 <Button x:Name="ShareButton"
                                         Margin="0,0,12,0"

@@ -11,6 +11,8 @@
 // ******************************************************************
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -35,6 +37,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "ControlGrid", Type = typeof(Grid))]
     public class RangeSelector : Control
     {
+        private const double Epsilon = 0.01;
+        private const double DefaultStepFrequency = 1;
+
         /// <summary>
         /// Identifies the Minimum dependency property.
         /// </summary>
@@ -56,11 +61,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty RangeMaxProperty = DependencyProperty.Register(nameof(RangeMax), typeof(double), typeof(RangeSelector), new PropertyMetadata(1.0, RangeMaxChangedCallback));
 
         /// <summary>
-        /// Identifies the IsTouchOptimized dependency property.
+        /// Identifies the StepFrequency dependency property.
         /// </summary>
-        public static readonly DependencyProperty IsTouchOptimizedProperty = DependencyProperty.Register(nameof(IsTouchOptimized), typeof(bool), typeof(RangeSelector), new PropertyMetadata(false, IsTouchOptimizedChangedCallback));
-
-        private const double Epsilon = 0.01;
+        public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultStepFrequency));
 
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
@@ -173,11 +176,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             IsEnabledChanged += RangeSelector_IsEnabledChanged;
 
-            if (IsTouchOptimized)
-            {
-                ArrangeForTouch();
-            }
-
             base.OnApplyTemplate();
         }
 
@@ -186,11 +184,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             switch (e.Key)
             {
                 case VirtualKey.Left:
-                    RangeMin -= 1;
+                    RangeMin -= StepFrequency;
+                    SyncThumbs();
                     e.Handled = true;
                     break;
                 case VirtualKey.Right:
-                    RangeMin += 1;
+                    RangeMin += StepFrequency;
+                    SyncThumbs();
                     e.Handled = true;
                     break;
             }
@@ -201,11 +201,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             switch (e.Key)
             {
                 case VirtualKey.Left:
-                    RangeMax -= 1;
+                    RangeMax -= StepFrequency;
+                    SyncThumbs();
                     e.Handled = true;
                     break;
                 case VirtualKey.Right:
-                    RangeMax += 1;
+                    RangeMax += StepFrequency;
+                    SyncThumbs();
                     e.Handled = true;
                     break;
             }
@@ -254,6 +256,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _containerCanvas.IsHitTestVisible = true;
                 ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMax, normalizedPosition, RangeSelectorProperty.MaximumValue));
             }
+
+            SyncThumbs();
         }
 
         private void ContainerCanvas_PointerMoved(object sender, PointerRoutedEventArgs e)
@@ -288,6 +292,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 RangeMin = normalizedPosition;
                 _pointerManipulatingMin = true;
             }
+
+            SyncThumbs();
         }
 
         private void ContainerCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -390,10 +396,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 rangeSelector.RangeMax = newValue;
             }
 
-            if (newValue < oldValue)
-            {
-                rangeSelector.SyncThumbs();
-            }
+            rangeSelector.SyncThumbs();
         }
 
         /// <summary>
@@ -442,10 +445,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 rangeSelector.RangeMin = newValue;
             }
 
-            if (newValue > oldValue)
-            {
-                rangeSelector.SyncThumbs();
-            }
+            rangeSelector.SyncThumbs();
         }
 
         /// <summary>
@@ -484,32 +484,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var newValue = (double)e.NewValue;
+            rangeSelector.RangeMinToStepFrequency();
 
             if (rangeSelector._valuesAssigned)
             {
                 if (newValue < rangeSelector.Minimum)
                 {
                     rangeSelector.RangeMin = rangeSelector.Minimum;
-                    return;
                 }
-
-                if (newValue > rangeSelector.Maximum)
+                else if (newValue > rangeSelector.Maximum)
                 {
                     rangeSelector.RangeMin = rangeSelector.Maximum;
-                    return;
                 }
-
-                rangeSelector.SyncThumbs();
-
-                if (newValue > rangeSelector.RangeMax)
+                else if (newValue > rangeSelector.RangeMax)
                 {
                     rangeSelector.RangeMax = newValue;
                 }
             }
-            else
-            {
-                rangeSelector.SyncThumbs();
-            }
+
+            rangeSelector.SyncThumbs();
         }
 
         /// <summary>
@@ -548,120 +541,71 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var newValue = (double)e.NewValue;
+            rangeSelector.RangeMaxToStepFrequency();
 
             if (rangeSelector._valuesAssigned)
             {
                 if (newValue < rangeSelector.Minimum)
                 {
                     rangeSelector.RangeMax = rangeSelector.Minimum;
-                    return;
                 }
-
-                if (newValue > rangeSelector.Maximum)
+                else if (newValue > rangeSelector.Maximum)
                 {
                     rangeSelector.RangeMax = rangeSelector.Maximum;
-                    return;
                 }
-
-                rangeSelector.SyncThumbs();
-
-                if (newValue < rangeSelector.RangeMin)
+                else if (newValue < rangeSelector.RangeMin)
                 {
                     rangeSelector.RangeMin = newValue;
                 }
             }
-            else
-            {
-                rangeSelector.SyncThumbs();
-            }
+
+            rangeSelector.SyncThumbs();
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the control is optimized for touch use.
+        /// Gets or sets the value part of a value range that steps should be created for.
         /// </summary>
         /// <value>
-        /// The value for touch optimization.
+        /// The value part of a value range that steps should be created for.
         /// </value>
-        public bool IsTouchOptimized
+        public double StepFrequency
         {
             get
             {
-                return (bool)GetValue(IsTouchOptimizedProperty);
+                return (double)GetValue(StepFrequencyProperty);
             }
 
             set
             {
-                SetValue(IsTouchOptimizedProperty, value);
+                SetValue(StepFrequencyProperty, value);
             }
         }
 
-        private static void IsTouchOptimizedChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private void RangeMinToStepFrequency()
         {
-            var rangeSelector = d as RangeSelector;
-            if (rangeSelector == null)
-            {
-                return;
-            }
-
-            rangeSelector.ArrangeForTouch();
+            RangeMin = MoveToStepFrequency(RangeMin);
         }
 
-        private void ArrangeForTouch()
+        private void RangeMaxToStepFrequency()
         {
-            if (_containerCanvas == null)
+            RangeMax = MoveToStepFrequency(RangeMax);
+        }
+
+        private double MoveToStepFrequency(double rangeValue)
+        {
+            double newValue = Minimum + (((int)Math.Round((rangeValue - Minimum) / StepFrequency)) * StepFrequency);
+
+            if (newValue < Minimum)
             {
-                return;
+                return Minimum;
             }
-
-            if (IsTouchOptimized)
+            else if (newValue > Maximum || Maximum - newValue < StepFrequency)
             {
-                if (_controlGrid != null)
-                {
-                    _controlGrid.Height = 44;
-                }
-
-                if (_outOfRangeContentContainer != null)
-                {
-                    _outOfRangeContentContainer.Height = 44;
-                }
-
-                if (_minThumb != null)
-                {
-                    _minThumb.Width = _minThumb.Height = 44;
-                    _minThumb.Margin = new Thickness(-20, 0, 0, 0);
-                }
-
-                if (_maxThumb != null)
-                {
-                    _maxThumb.Width = _maxThumb.Height = 44;
-                    _maxThumb.Margin = new Thickness(-20, 0, 0, 0);
-                }
+                return Maximum;
             }
             else
             {
-                if (_controlGrid != null)
-                {
-                    _controlGrid.Height = 24;
-                }
-
-                if (_outOfRangeContentContainer != null)
-                {
-                    _outOfRangeContentContainer.Height = 24;
-                }
-
-                if (_minThumb != null)
-                {
-                    _minThumb.Width = 8;
-                    _minThumb.Height = 24;
-                    _minThumb.Margin = new Thickness(-8, 0, 0, 0);
-                }
-
-                if (_maxThumb != null)
-                {
-                    _maxThumb.Width = 8;
-                    _maxThumb.Height = 24;
-                    _maxThumb.Margin = new Thickness(-8, 0, 0, 0);
-                }
+                return newValue;
             }
         }
 
@@ -676,11 +620,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var relativeRight = ((RangeMax - Minimum) / (Maximum - Minimum)) * _containerCanvas.ActualWidth;
 
             Canvas.SetLeft(_minThumb, relativeLeft);
-            Canvas.SetLeft(_activeRectangle, relativeLeft);
-            Canvas.SetTop(_activeRectangle, (_containerCanvas.ActualHeight - _activeRectangle.ActualHeight) / 2);
-
             Canvas.SetLeft(_maxThumb, relativeRight);
 
+            SyncActiveRectangle();
+        }
+
+        private void SyncActiveRectangle()
+        {
+            if (_containerCanvas == null)
+            {
+                return;
+            }
+
+            if (_minThumb == null)
+            {
+                return;
+            }
+
+            if (_maxThumb == null)
+            {
+                return;
+            }
+
+            var relativeLeft = Canvas.GetLeft(_minThumb);
+            Canvas.SetLeft(_activeRectangle, relativeLeft);
+            Canvas.SetTop(_activeRectangle, (_containerCanvas.ActualHeight - _activeRectangle.ActualHeight) / 2);
             _activeRectangle.Width = Math.Max(0, Canvas.GetLeft(_maxThumb) - Canvas.GetLeft(_minThumb));
         }
 
@@ -733,7 +697,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             ThumbDragCompleted?.Invoke(this, e);
             ValueChanged?.Invoke(this, sender.Equals(_minThumb) ? new RangeChangedEventArgs(_oldValue, RangeMin, RangeSelectorProperty.MinimumValue) : new RangeChangedEventArgs(_oldValue, RangeMax, RangeSelectorProperty.MaximumValue));
-
+            SyncThumbs();
             VisualStateManager.GoToState(this, "Normal", true);
         }
 

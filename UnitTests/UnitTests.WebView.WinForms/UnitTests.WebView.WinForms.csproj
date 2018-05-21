@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{10129749-7761-49B8-96B9-94BC833BA60B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Release\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DefineConstants>TRACE</DefineConstants>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <OutputPath>bin\Debug\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FunctionalTests\AcceleratorKeys\AcceleratorKeysTests.cs" />
+    <Compile Include="AssemblyInitializer.cs" />
+    <Compile Include="FunctionalTests\BlockTestStartEndContextSpecification.cs" />
+    <Compile Include="FunctionalTests\Close\CloseTests.cs" />
+    <Compile Include="FunctionalTests\ControlProcess\EnterpriseIdTests.cs" />
+    <Compile Include="FunctionalTests\Ctor\DesignerPropertySettingsTests.cs" />
+    <Compile Include="FunctionalTests\Ctor\MultipleWebViews.cs" />
+    <Compile Include="FunctionalTests\Ctor\WebViewControlProcessCreateWebViewAsyncTests.cs" />
+    <Compile Include="FunctionalTests\DocumentTitle\DocumentTitleTests.cs" />
+    <Compile Include="FunctionalTests\FullScreen\FullScreenTests.cs" />
+    <Compile Include="FunctionalTests\Navigation\NavigateTests.cs" />
+    <Compile Include="FunctionalTests\Navigation\StopTests.cs" />
+    <Compile Include="FunctionalTests\NewWindow\NewWindowTests.cs" />
+    <Compile Include="FunctionalTests\PartialTrust\PartialTrustTests.cs" />
+    <Compile Include="FunctionalTests\Termination\TerminationTests.cs" />
+    <Compile Include="FunctionalTests\TestHostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FunctionalTests\Input\MousewheelTests.cs" />
+    <Compile Include="FunctionalTests\InvokeScript\InvokeScriptTests.cs" />
+    <Compile Include="FunctionalTests\LongRunningJavaScript\LongRunningJavaScriptTests.cs" />
+    <Compile Include="FunctionalTests\Navigation\CanGoForwardTests.cs" />
+    <Compile Include="FunctionalTests\Navigation\CanGoBackTests.cs" />
+    <Compile Include="FunctionalTests\Navigation\RefreshTests.cs" />
+    <Compile Include="FunctionalTests\Navigation\WebGLTests.cs" />
+    <Compile Include="FunctionalTests\Permissions\GeolocationTests.cs" />
+    <Compile Include="FunctionalTests\Scale\ScaleTests.cs" />
+    <Compile Include="FunctionalTests\ScriptNotify\ScriptNotifyOnNavigate.cs" />
+    <Compile Include="FunctionalTests\ScriptNotify\ScriptNotifyOnNavigateToString.cs" />
+    <Compile Include="FunctionalTests\UnsupportedUriScheme\UnsupportedUriSchemeTests.cs" />
+    <Compile Include="FunctionalTests\WebResourceRequested\WebResourceRequestedTests.cs" />
+    <Compile Include="FunctionalTests\WebViewFormContextSpecification.cs" />
+    <Compile Include="FunctionalTests\Ctor\ISupportInitializeDefaultsTests.cs" />
+    <Compile Include="FunctionalTests\Ctor\DesignerTests.cs" />
+    <Compile Include="FunctionalTests\Designer\DesignerTests.cs" />
+    <Compile Include="FunctionalTests\Navigation\NavigationEvents.cs" />
+    <Compile Include="FunctionalTests\Ctor\Ctor.cs" />
+    <Compile Include="FunctionalTests\HostFormWebViewContextSpecification.cs" />
+    <Compile Include="FunctionalTests\ProcessFactoryWebViewContextSpecification.cs" />
+    <Compile Include="FunctionalTests\WebViewContextSpecification.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Microsoft.Toolkit.Win32.UI.Controls.csproj">
+      <Project>{78d8b77b-2a55-4037-bcc9-b47806039d23}</Project>
+      <Name>Microsoft.Toolkit.Win32.UI.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnitTests.WebView.Shared\UnitTests.WebView.Shared.csproj">
+      <Project>{b220be88-944e-45d1-9248-6faef53868a3}</Project>
+      <Name>UnitTests.WebView.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="FunctionalTests\Forms.Controls.FunctionalTests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="InputSimulator">
+      <Version>1.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="MSTest.TestAdapter">
+      <Version>1.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="MSTest.TestFramework">
+      <Version>1.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="Should">
+      <Version>1.1.20</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="Pack">
+    <!-- No-op to avoid build error when packing solution from commandline -->
+  </Target>
+</Project>

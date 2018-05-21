@@ -1,8 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
-    <Title>UWP Community Toolkit</Title>
+    <Title>Windows Community Toolkit</Title>
     <Description>This package includes code only helpers such as Colors conversion tool, Storage file handling, a Stream helper class, etc.</Description>
     <PackageTags>UWP Toolkit Windows</PackageTags>
     <UseUwpMetaPackage>true</UseUwpMetaPackage>
@@ -14,11 +14,10 @@
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     
     <!-- TODO: Update to later version -->
-    <PackageReference Include="Microsoft.Identity.Client" Version="1.0.304142221-alpha" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="1.1.0-preview" />
 
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
 
   </ItemGroup>
 
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>

@@ -13,7 +13,7 @@
 using System;
 using System.Net;
 
-namespace Microsoft.Toolkit.Services.Exceptions
+namespace Microsoft.Toolkit.Services
 {
     /// <summary>
     /// Exception for failed requests.

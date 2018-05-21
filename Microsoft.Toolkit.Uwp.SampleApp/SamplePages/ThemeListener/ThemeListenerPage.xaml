@@ -1,0 +1,26 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ThemeListenerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Padding="12">
+        <TextBlock
+                Text="Inspect Application Theme"
+                FontWeight="Bold"
+                FontSize="25" />
+
+        <TextBlock
+            Text="Current Theme:"
+            Margin="0,10,0,0" />
+
+        <TextBlock x:Name="CurrentTheme" />
+
+        <TextBlock
+            Text="*This sample doesn't work since the Windows Community Toolkit requests the Light Theme at the current time."
+            FontStyle="Italic"
+            Margin="0,10,0,0" />
+    </StackPanel>
+</Page>

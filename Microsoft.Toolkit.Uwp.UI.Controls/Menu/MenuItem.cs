@@ -104,6 +104,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             IsOpened = false;
 
             Items.VectorChanged -= Items_VectorChanged;
+            IsEnabledChanged -= MenuItem_IsEnabledChanged;
 
             if (MenuFlyout == null)
             {
@@ -128,6 +129,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 MenuFlyout.MenuFlyoutPresenterStyle = _parentMenu.MenuFlyoutStyle;
                 ReAddItemsToFlyout();
 
+                IsEnabledChanged += MenuItem_IsEnabledChanged;
+
                 if (_isAccessKeySupported)
                 {
                     FlyoutButton.AccessKey = AccessKey;
@@ -135,7 +138,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
+            UpdateEnabledVisualState();
+
             base.OnApplyTemplate();
+        }
+
+        private void MenuItem_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var menuItemControl = (MenuItem)sender;
+            menuItemControl.UpdateEnabledVisualState();
         }
 
         internal void CalculateBounds()
@@ -498,6 +509,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_originalHeader != null)
             {
                 InternalHeader = _originalHeader.Replace(UnderlineCharacter.ToString(), string.Empty);
+            }
+        }
+
+        internal void UpdateEnabledVisualState()
+        {
+            if (IsEnabled)
+            {
+                VisualStateManager.GoToState(this, "Normal", true);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, "Disabled", true);
             }
         }
     }

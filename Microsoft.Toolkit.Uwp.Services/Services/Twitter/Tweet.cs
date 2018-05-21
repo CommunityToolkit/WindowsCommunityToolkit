@@ -19,8 +19,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// <summary>
     /// Twitter Timeline item.
     /// </summary>
-    public class Tweet : Toolkit.Services.SchemaBase, ITwitterResult
+    public class Tweet : Toolkit.Parsers.SchemaBase, ITwitterResult
     {
+        private string _text;
+
         /// <summary>
         /// Gets or sets time item was created.
         /// </summary>
@@ -40,10 +42,20 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or sets text of the status.
+        /// Gets or sets text of the tweet (handles both 140 and 280 characters)
         /// </summary>
         [JsonProperty("text")]
-        public string Text { get; set; }
+        public string Text
+        {
+            get { return _text ?? FullText; }
+            set { _text = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the extended mode.
+        /// </summary>
+        [JsonProperty("extended_tweet")]
+        public TwitterExtended Extended { get; set; }
 
         /// <summary>
         /// Gets or sets user who posted the status.
@@ -56,6 +68,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         [JsonProperty("entities")]
         public TwitterEntities Entities { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Retweeted Tweet
+        /// </summary>
+        [JsonProperty("retweeted_status")]
+        public Tweet RetweetedStatus { get; set; }
 
         /// <summary>
         /// Gets the creation date
@@ -73,5 +91,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                 return dt;
             }
         }
+
+        /// <summary>
+        /// Gets or sets text of the tweet (280 characters).
+        /// </summary>
+        [JsonProperty("full_text")]
+        private string FullText { get; set; }
     }
 }

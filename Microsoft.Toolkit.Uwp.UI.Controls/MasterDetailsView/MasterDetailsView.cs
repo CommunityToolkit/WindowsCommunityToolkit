@@ -297,31 +297,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnMasterCommandBarChanged()
         {
-            var panel = GetTemplateChild("DetailsCommandBarPanel") as Panel;
-            if (panel == null)
-            {
-                return;
-            }
-
-            panel.Children.Clear();
-            if (DetailsCommandBar != null)
-            {
-                panel.Children.Add(DetailsCommandBar);
-            }
+            OnCommandBarChanged("MasterCommandBarPanel", MasterCommandBar);
         }
 
         private void OnDetailsCommandBarChanged()
         {
-            var panel = GetTemplateChild("MasterCommandBarPanel") as Panel;
+            OnCommandBarChanged("DetailsCommandBarPanel", DetailsCommandBar);
+        }
+
+        private void OnCommandBarChanged(string panelName, CommandBar commandbar)
+        {
+            var panel = GetTemplateChild(panelName) as Panel;
             if (panel == null)
             {
                 return;
             }
 
             panel.Children.Clear();
-            if (MasterCommandBar != null)
+            if (commandbar != null)
             {
-                panel.Children.Add(MasterCommandBar);
+                panel.Children.Add(commandbar);
             }
         }
     }

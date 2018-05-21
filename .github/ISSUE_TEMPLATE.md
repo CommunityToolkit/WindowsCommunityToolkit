@@ -4,18 +4,15 @@ ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 -->
 
 ## I'm submitting a...
-<!-- Check one of the following options with "x" -->
-```
-[ ] Regression (a behavior that used to work and stopped working in a new release)
-[ ] Bug report  <!-- Please search GitHub for a similar issue or PR before submitting -->
-[ ] Feature request <!-- Please file a UserVoice request and include the link below https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit -->
-[ ] Sample app request
-[ ] Documentation issue or request
-[ ] Question of Support request => Please do not submit support request here, instead see https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md#question
-```
+<!-- Please uncomment one or more that apply to this issue -->
+<!-- For new features, create a UserVoice request here and link below: https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit -->
 
-## UserVoice link
-<!-- If requesting new functionality -->
+<!-- - Regression (a behavior that used to work and stopped working in a new release) -->
+<!-- - Bug report (I searched for similar issues and did not find one) -->  
+<!-- - Feature request (UserVoice request: ) --> 
+<!-- - Sample app request -->
+<!-- - Documentation issue or request -->
+<!-- - Question of Support request => Please do not submit support request here, instead see https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md#question -->
 
 
 ## Current behavior
@@ -40,15 +37,15 @@ Nuget Package(s):
 Package Version(s): 
 
 Windows 10 Build Number:
-- [ ] Anniversary Update (14393) 
 - [ ] Creators Update (15063)
 - [ ] Fall Creators Update (16299)
-- [ ] Insider Build (xxxxx)
+- [ ] April 2018 Update (17134)
+- [ ] Insider Build (build number: )
 
 App min and target version:
-- [ ] Anniversary Update (14393) 
 - [ ] Creators Update (15063)
 - [ ] Fall Creators Update (16299)
+- [ ] April 2018 Update (17134)
 - [ ] Insider Build (xxxxx)
 
 Device form factor:
@@ -59,7 +56,7 @@ Device form factor:
 - [ ] IoT
 
 Visual Studio 
-- [ ] 2017 15.3
-- [ ] 2017 15.4
+- [ ] 2017 (version: )
+- [ ] 2017 Preview (version: )
 
 ```

@@ -10,9 +10,10 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
-using UITestMethodAttribute = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppContainer.UITestMethodAttribute;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Toolkit.Parsers.Markdown.Blocks;
+using Microsoft.Toolkit.Parsers.Markdown.Enums;
+using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
 namespace UnitTests.Markdown.Parse
 {
@@ -471,9 +472,9 @@ namespace UnitTests.Markdown.Parse
         [TestCategory("Parse - inline")]
         public void Hyperlink_Negative_SchemeOnly()
         {
-            AssertEqual("http:",
+            AssertEqual("http",
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "http:" }));
+                    new TextRunInline { Text = "http" }));
         }
 
         [TestMethod]
@@ -507,9 +508,9 @@ namespace UnitTests.Markdown.Parse
         [TestCategory("Parse - inline")]
         public void Hyperlink_Negative_AngleBracketsPrefixOnly()
         {
-            AssertEqual("<http://>",
+            AssertEqual("<http>",
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "<http://>" }));
+                    new TextRunInline { Text = "<http>" }));
         }
 
         [TestMethod]
