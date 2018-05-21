@@ -15,8 +15,9 @@ The [MasterDetailsView Control](https://docs.microsoft.com/dotnet/api/microsoft.
 <controls:MasterDetailsView
           ItemsSource="{Binding Items}"
           ItemTemplate="{StaticResource ListTemplate}"
-		  DetailsTemplate="{StaticResource DetailsTemplate}"
-          NoSelectionContentTemplate="{StaticResource NoSelectionContentTemplate}">
+          DetailsTemplate="{StaticResource DetailsTemplate}"
+          NoSelectionContentTemplate="{StaticResource NoSelectionContentTemplate}"
+          CompactModeThresholdWidth="720">
 </controls:MasterDetailsView>
 ```
 
@@ -28,6 +29,7 @@ The [MasterDetailsView Control](https://docs.microsoft.com/dotnet/api/microsoft.
 
 | Property | Type | Description |
 | -- | -- | -- |
+| CompactModeThresholdWidth | double | If width of control is less than CompactModeThresholdWidth, the control will only display the master or details view - otherwise it will show both views. |
 | DetailsCommandBar | CommandBar | Gets or sets the Windows.UI.Xaml.Controls.CommandBar for the details section |
 | DetailsTemplate | DataTemplate | Gets or sets the DataTemplate used to display the details |
 | MapDetails | Func<object,object> | Gets or sets a function for mapping the selected item to a different model. This new model will be the DataContext of the Details area |

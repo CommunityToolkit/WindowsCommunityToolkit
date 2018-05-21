@@ -134,6 +134,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnDetailsCommandBarChanged));
 
         /// <summary>
+        /// Identifies the <see cref="CompactModeThresholdWidth"/> dependancy property
+        /// </summary>
+        public static readonly DependencyProperty CompactModeThresholdWidthProperty = DependencyProperty.Register(
+            nameof(CompactModeThresholdWidth),
+            typeof(double),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(720d, OnCompactModeThresholdWidthChanged));
+
+        /// <summary>
         /// Gets or sets the selected item.
         /// </summary>
         /// <returns>The selected item. The default is null.</returns>
@@ -246,6 +255,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (CommandBar)GetValue(DetailsCommandBarProperty); }
             set { SetValue(DetailsCommandBarProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the Threshold width that witll trigger the control to go into compact mode
+        /// </summary>
+        public double CompactModeThresholdWidth
+        {
+            get { return (double)GetValue(CompactModeThresholdWidthProperty); }
+            set { SetValue(CompactModeThresholdWidthProperty, value); }
         }
 
         /// <summary>
