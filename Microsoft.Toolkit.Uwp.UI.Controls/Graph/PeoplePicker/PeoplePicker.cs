@@ -12,7 +12,6 @@
 
 using System.Collections.ObjectModel;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -82,21 +81,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
 
             base.OnApplyTemplate();
-        }
-
-        private void SelectionsListBox_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-            var elem = e.OriginalSource as FrameworkElement;
-
-            var removeButton = elem.FindAscendantByName("PersonRemoveButton");
-            if (removeButton != null)
-            {
-                if (removeButton.Tag is Person item)
-                {
-                    Selections.Remove(item);
-                    RaiseSelectionChanged();
-                }
-            }
         }
     }
 }
