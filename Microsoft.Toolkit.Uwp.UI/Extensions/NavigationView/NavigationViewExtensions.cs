@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// Set of extensions for the <see cref="NavigationView"/> control.
     /// </summary>
     [Bindable]
-    public class NavigationViewExtensions
+    public static class NavigationViewExtensions
     {
         // Name of Content area in NavigationView Template.
         private const string CONTENT_GRID = "ContentGrid";
