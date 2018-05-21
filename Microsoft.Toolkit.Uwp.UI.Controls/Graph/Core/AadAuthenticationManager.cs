@@ -12,13 +12,12 @@
 
 using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
+using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
@@ -106,6 +105,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private string _currentUserId;
 
         /// <summary>
+        /// Gets field to store the model of authentication
+        /// V1 Only for Work or Scholar account
+        /// V2 for MSA and Work or Scholar account
+        /// </summary>
+        public new AuthenticationModel AuthenticationModel
+        {
+            get
+            {
+                return base.AuthenticationModel;
+            }
+        }
+
+        /// <summary>
+        /// Gets store a reference to an instance of the underlying data provider.
+        /// </summary>
+        public new GraphServiceClient GraphProvider
+        {
+            get
+            {
+                return base.GraphProvider;
+            }
+        }
+
+        /// <summary>
+        /// Gets fields to store a MicrosoftGraphServiceMessages instance
+        /// </summary>
+        public new MicrosoftGraphUserService User
+        {
+            get
+            {
+                return base.User;
+            }
+        }
+
+        /// <summary>
         /// Property changed eventHandler for notification.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
@@ -127,9 +161,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 throw new ArgumentNullException(nameof(scopes));
             }
 
-            AuthenticationModel = MicrosoftGraphEnums.AuthenticationModel.V2;
+            base.AuthenticationModel = AuthenticationModel.V2;
 
-            Initialize(clientId, MicrosoftGraphEnums.ServicesToInitialize.UserProfile, scopes);
+            base.Initialize(clientId, ServicesToInitialize.UserProfile, scopes);
+        }
+
+        /// <summary>
+        /// Initialize Microsoft Graph.
+        /// </summary>
+        /// <typeparam name="T">Concrete type that inherits IMicrosoftGraphUserServicePhotos.</typeparam>
+        /// <param name='appClientId'>Azure AD's App client id</param>
+        /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
+        /// <param name="delegatedPermissionScopes">Permission scopes for MSAL v2 endpoints</param>
+        /// <param name="uiParent">UiParent instance - required for Android</param>
+        /// <param name="redirectUri">Redirect Uri - required for Android</param>
+        /// <returns>Success or failure.</returns>
+        [Obsolete("This is not supported in this class.", true)]
+        public new bool Initialize<T>(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
+            where T : IMicrosoftGraphUserServicePhotos, new()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Initialize Microsoft Graph.
+        /// </summary>
+        /// <param name='appClientId'>Azure AD's App client id</param>
+        /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
+        /// <param name="delegatedPermissionScopes">Permission scopes for MSAL v2 endpoints</param>
+        /// <param name="uiParent">UiParent instance - required for Android</param>
+        /// <param name="redirectUri">Redirect Uri - required for Android</param>
+        /// <returns>Success or failure.</returns>
+        [Obsolete("This is not supported in this class.", true)]
+        public new bool Initialize(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
+        {
+            throw new NotImplementedException();
         }
 
         internal async Task<bool> ConnectAsync()
