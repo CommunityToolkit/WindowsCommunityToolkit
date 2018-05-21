@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -127,14 +128,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             _searchBox.Text = string.Empty;
         }
 
-        private void DeleteSelectedItem(object parameter)
+        private void SelectionsListBox_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            var userId = parameter as string;
-            Person target = Selections.FirstOrDefault(u => u.Id == userId);
-            if (target != null)
+            var elem = e.OriginalSource as FrameworkElement;
+
+            var removeButton = elem.FindAscendantByName("PersonRemoveButton");
+            if (removeButton != null)
             {
-                Selections.Remove(target);
-                RaiseSelectionChanged();
+                if (removeButton.Tag is Person item)
+                {
+                    Selections.Remove(item);
+                    RaiseSelectionChanged();
+                }
             }
         }
 
