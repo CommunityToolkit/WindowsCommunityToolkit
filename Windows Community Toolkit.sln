@@ -74,6 +74,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DifferencesGen", "Microsoft.Toolkit.Uwp.PlatformDifferencesGen\DifferencesGen.csproj", "{292D34E8-0F01-4FA8-951D-8232F75A88D5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer", "Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer\Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer.csproj", "{262BB7CE-EF42-4BF7-B90C-107E6CBB57FF}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebView", "WebView", "{EF53C82B-8622-42C5-A318-CF24A695D913}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.WebView.WinForms", "UnitTests\UnitTests.WebView.WinForms\UnitTests.WebView.WinForms.csproj", "{10129749-7761-49B8-96B9-94BC833BA60B}"
