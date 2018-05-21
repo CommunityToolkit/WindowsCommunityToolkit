@@ -23,6 +23,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -681,6 +682,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     return typeInfo;
                 }
             }
+
+            // Search in Microsoft.Toolkit.Uwp.Input.GazeInteraction
+
+            var gazeType = Interaction.Enabled;
+
+            assembly = gazeType.GetType().GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
+
+            {
+
+                if (typeInfo.Name == typeName)
+
+                {
+
+                    return typeInfo;
+
+                }
+
+            }
+
+
 
             return null;
         }

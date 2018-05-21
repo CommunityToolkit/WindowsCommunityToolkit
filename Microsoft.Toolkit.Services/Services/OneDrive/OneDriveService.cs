@@ -14,8 +14,6 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Identity.Client;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
-using Microsoft.Toolkit.Services.MicrosoftGraph.Platform;
-using Microsoft.Toolkit.Services.OneDrive.Platform;
 
 namespace Microsoft.Toolkit.Services.OneDrive
 {
@@ -45,14 +43,14 @@ namespace Microsoft.Toolkit.Services.OneDrive
         public static OneDriveService Instance => _instance ?? (_instance = new OneDriveService());
 
         /// <summary>
-        /// Gets or sets AppClientId.
-        /// </summary>
-        protected string AppClientId { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether service is initialized.
         /// </summary>
         protected static bool IsInitialized { get; set; }
+
+        /// <summary>
+        /// Gets or sets AppClientId.
+        /// </summary>
+        protected string AppClientId { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether user is connected.
@@ -121,6 +119,14 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <returns>True or false.</returns>
         public virtual bool Initialize(string appClientId, string[] scopes, UIParent uiParent = null, string redirectUri = null)
         {
+#if WINRT
+            if (ServicePlatformInitializer == null)
+            {
+                ServicePlatformInitializer = new Uwp.OneDriveServicePlatformInitializer();
+            }
+
+            Provider.AuthenticationModel = MicrosoftGraphEnums.AuthenticationModel.V2;
+#endif
             ServicePlatformService = ServicePlatformInitializer.CreateOneDriveServicePlatformInstance(this);
 
             AppClientId = appClientId;
