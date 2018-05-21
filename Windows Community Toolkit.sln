@@ -22,6 +22,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.Services", "Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj", "{7189A42D-6F1A-4FA3-8E00-E2C14FDF167A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls", "Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj", "{E9FAABFB-D726-42C1-83C1-CB46A29FEA81}"
+	ProjectSection(ProjectDependencies) = postProject
+		{34398053-FC70-4243-84F9-F355DEFFF66D} = {34398053-FC70-4243-84F9-F355DEFFF66D}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{9333C63A-F64F-4797-82B3-017422668A5D}"
 EndProject
