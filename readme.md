@@ -3,6 +3,12 @@ Windows Community Toolkit
 
 The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10.
 
+## Microsoft Build 2018
+Several features were announced during Build 2018 that have not merged into master yet but are expected to be merged before the next release (v3.0).
+* If you came here looking for the new **Microsoft Graph** controls, they can be found in [#2055](https://github.com/Microsoft/WindowsCommunityToolkit/pull/2055)
+* New **GazeInteractionLibrary**, **WebView** for win32, and several other features are merged in the [rel/3.0.0-preview](https://github.com/Microsoft/WindowsCommunityToolkit/tree/rel/3.0.0-preview) branch. They can also be found as pre-release packages on nuget
+* **DataGrid** is expected to be released in the 3.1 release later this summer. The current work in progress can be found in the [harinikmsft/datagrid](https://github.com/Microsoft/WindowsCommunityToolkit/tree/harinikmsft/datagrid) branch. It is also available as a pre-release packages on nuget
+
 ## Build status
 | Target | Branch | Status | Recommended Nuget packages version |
 | ------ | ------ | ------ | ------ |
@@ -65,13 +71,13 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Scale](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Scale/)
 
 ### Brushes
-* [BackdropBlurBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropBlurBrush/)
-* [BackdropGammaTransferBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropGammaTransferBrush/)
-* [BackdropInvertBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropInvertBrush/)
-* [BackdropSaturationBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropSaturationBrush/)
-* [BackdropSepiaBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropSepiaBrush/)
-* [ImageBlendBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/ImageBlendBrush/)
-* [RadialGradientBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/RadialGradientBrush/)
+* [BackdropBlurBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropBlurBrush/)
+* [BackdropGammaTransferBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropGammaTransferBrush/)
+* [BackdropInvertBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropInvertBrush/)
+* [BackdropSaturationBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropSaturationBrush/)
+* [BackdropSepiaBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropSepiaBrush/)
+* [ImageBlendBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/ImageBlendBrush/)
+* [RadialGradientBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/RadialGradientBrush/)
 
 ### Controls
 * [AdaptiveGridView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/AdaptiveGridView/)
@@ -114,7 +120,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [ListViewExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ListViewBase/)
 * [LogicalTree](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/LogicalTree/)
 * [MouseCursor](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/MouseCursor/)
-* [NavigationView Styles](https://docs.uwpcommunitytoolkit.com/windows/uwpcommunitytoolkit/extensions/NavigationView/)
+* [NavigationView Styles](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/NavigationView/)
 * [ScrollViewerExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ScrollViewerExtensions/)
 * [SurfaceDialTextbox](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/SurfaceDialTextboxHelper/)
 * [TextBoxMask](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/TextBoxMask/)

@@ -15,12 +15,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
-using Microsoft.Toolkit.Services.OneDrive.Platform;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
-namespace Microsoft.Toolkit.Uwp.Services.OneDrive.Platform
+namespace Microsoft.Toolkit.Services.OneDrive.Uwp
 {
     /// <summary>
     /// Platform implementation of file operations.
