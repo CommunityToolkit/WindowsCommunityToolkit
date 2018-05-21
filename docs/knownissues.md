@@ -30,10 +30,12 @@ This error will not be fixed until the 3.0 release as it requires a breaking cha
 ### HamburgerMenu
 * HamburgerMenu selected indicator moves with keyboard focus - [see issue for details](https://github.com/Microsoft/UWPCommunityToolkit/issues/1306)
 
+### WebView
+For the complete list of issues and limitations in this release of the **WebView** control, see [Known Issues of the WebView control for Windows Forms and WPF applications](controls/WebView-known-issues.md).
 
 ## Extensions
 
-### Alternating rows 
+### Alternating rows
 * inserting items does not work propertly - [see issue for details](https://github.com/Microsoft/UWPCommunityToolkit/issues/1837)
 
 ### TextBoxRegEx
@@ -44,8 +46,3 @@ This error will not be fixed until the 3.0 release as it requires a breaking cha
 
 ### Markdown
 * parser combines quotes with any white space in between - [see issue for details](https://github.com/Microsoft/UWPCommunityToolkit/issues/1761)
-
-
-## Notifications
-
-The Notifications packages do not work with C++ and Javascrpt projects and throw an exception - [see issue for details](https://github.com/Microsoft/UWPCommunityToolkit/issues/1760)
