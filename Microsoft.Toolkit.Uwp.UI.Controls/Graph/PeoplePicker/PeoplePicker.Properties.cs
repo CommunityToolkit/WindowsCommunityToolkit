@@ -132,23 +132,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             get => (ObservableCollection<Person>)GetValue(SearchResultListProperty);
             set => SetValue(SearchResultListProperty, value);
         }
-
-        private ICommand _deleteItemCommand;
-
-        /// <summary>
-        /// Gets the command to delete the selected item.
-        /// </summary>
-        public ICommand DeleteItemCommand
-        {
-            get
-            {
-                if (_deleteItemCommand == null)
-                {
-                    _deleteItemCommand = new DelegateCommand(DeleteSelectedItem);
-                }
-
-                return _deleteItemCommand;
-            }
-        }
     }
 }

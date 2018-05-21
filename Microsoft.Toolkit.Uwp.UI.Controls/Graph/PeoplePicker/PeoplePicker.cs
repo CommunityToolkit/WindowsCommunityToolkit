@@ -12,6 +12,7 @@
 
 using System.Collections.ObjectModel;
 using Microsoft.Graph;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -38,6 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private TextBox _searchBox;
         private ProgressRing _loading;
         private ListBox _searchResultListBox;
+        private ListBox _selectionsListBox;
         private TextBlock _selectionsCounter;
 
         /// <summary>
@@ -57,10 +59,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             _searchBox = GetTemplateChild("SearchBox") as TextBox;
             _loading = GetTemplateChild("Loading") as ProgressRing;
             _searchResultListBox = GetTemplateChild("SearchResultListBox") as ListBox;
+            _selectionsListBox = GetTemplateChild("SelectionsListBox") as ListBox;
             _selectionsCounter = GetTemplateChild("SelectionsCounter") as TextBlock;
 
-            if (_searchBox != null && _loading != null
-                && _searchResultListBox != null && _selectionsCounter != null)
+            if (_searchBox != null
+                && _loading != null
+                && _searchResultListBox != null
+                && _selectionsListBox != null
+                && _selectionsCounter != null)
             {
                 SearchResultList = new ObservableCollection<Person>();
                 Selections = Selections ?? new ObservableCollection<Person>();
@@ -71,9 +77,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                 _searchBox.TextChanged += SearchBox_OnTextChanged;
                 _searchResultListBox.SelectionChanged += SearchResultListBox_OnSelectionChanged;
+
+                _selectionsListBox.Tapped += SelectionsListBox_Tapped;
             }
 
             base.OnApplyTemplate();
+        }
+
+        private void SelectionsListBox_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            var elem = e.OriginalSource as FrameworkElement;
+
+            var removeButton = elem.FindAscendantByName("PersonRemoveButton");
+            if (removeButton != null)
+            {
+                if (removeButton.Tag is Person item)
+                {
+                    Selections.Remove(item);
+                    RaiseSelectionChanged();
+                }
+            }
         }
     }
 }

@@ -43,7 +43,9 @@
                                                                       UserId="{Binding Id}" />
                                                 <TextBlock Grid.Row="0"
                                                            Grid.Column="1" />
-                                                <Button Grid.Row="0"
+                                                <Button Name="PersonRemoveButton"
+                                                        Tag="{Binding}"
+                                                        Grid.Row="0"
                                                         Grid.Column="2"
                                                         Width="48"
                                                         Height="48"
@@ -52,8 +54,6 @@
                                                         AutomationProperties.Name="Remove from selection"
                                                         Background="Transparent"
                                                         BorderThickness="0"
-                                                        Command="{Binding DataContext.DeleteItemCommand, ElementName=PeoplePickerContainer}"
-                                                        CommandParameter="{Binding Id}"
                                                         FlowDirection="LeftToRight">
                                                     <SymbolIcon Symbol="Cancel" />
                                                 </Button>
