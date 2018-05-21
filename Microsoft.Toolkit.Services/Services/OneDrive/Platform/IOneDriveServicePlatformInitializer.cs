@@ -10,7 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-namespace Microsoft.Toolkit.Services.OneDrive.Platform
+namespace Microsoft.Toolkit.Services.OneDrive
 {
     /// <summary>
     /// Platform abstraction.

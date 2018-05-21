@@ -57,7 +57,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void NewImagelink_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            LinkHandled((string)(sender as Image).GetValue(HyperlinkUrlProperty), false);
+            string hyperLink = (string)(sender as Image).GetValue(HyperlinkUrlProperty);
+            bool isHyperLink = (bool)(sender as Image).GetValue(IsHyperlinkProperty);
+            LinkHandled(hyperLink, isHyperLink);
         }
 
         /// <summary>
