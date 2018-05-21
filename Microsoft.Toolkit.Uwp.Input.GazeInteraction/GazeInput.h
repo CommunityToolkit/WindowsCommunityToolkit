@@ -72,6 +72,11 @@ public:
     static property DependencyProperty^ MaxDwellRepeatCountProperty { DependencyProperty^ get(); }
 
     /// <summary>
+    /// Gets or sets the brush to use when displaying the default indication that gaze entered a control
+    /// </summary>
+    static property Brush^ DwellFeedbackEnterBrush { Brush^ get(); void set(Brush^ value); }
+
+    /// <summary>
     /// Gets or sets the brush to use when displaying the default animation for dwell press
     /// </summary>
     static property Brush^ DwellFeedbackProgressBrush { Brush^ get(); void set(Brush^ value); }
