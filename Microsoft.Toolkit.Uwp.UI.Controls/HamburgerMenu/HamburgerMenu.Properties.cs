@@ -249,6 +249,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (d is HamburgerMenu hamburgerMenu && hamburgerMenu.UsingNavView)
             {
                 hamburgerMenu.NavViewSetItemsSource();
+
+                if (hamburgerMenu.ItemsSource is System.Collections.Specialized.INotifyCollectionChanged observableItemsCollection)
+                {
+                    observableItemsCollection.CollectionChanged += (sender, eventArgs) => { hamburgerMenu.NavViewSetItemsSource(); };
+                }
             }
         }
 
