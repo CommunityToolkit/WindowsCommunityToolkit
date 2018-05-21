@@ -31,6 +31,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static readonly DependencyProperty VerticalScrollBarMarginProperty = DependencyProperty.RegisterAttached("VerticalScrollBarMargin", typeof(Thickness), typeof(ScrollViewerExtensions), new PropertyMetadata(null, OnVerticalScrollBarMarginPropertyChanged));
 
         /// <summary>
+        /// Attached <see cref="DependencyProperty"/> for enabling middle click scrolling
+        /// </summary>
+        public static readonly DependencyProperty EnableMiddleClickScrollingProperty =
+            DependencyProperty.RegisterAttached("EnableMiddleClickScrolling", typeof(bool), typeof(ScrollViewerExtensions), new PropertyMetadata(false, OnEnableMiddleClickScrollingChanged));
+
+        /// <summary>
         /// Gets the <see cref="Windows.UI.Xaml.Thickness"/> associated with the specified vertical <see cref="Windows.UI.Xaml.Controls.Primitives.ScrollBar"/> of a <see cref="Windows.UI.Xaml.Controls.ScrollViewer"/>
         /// </summary>
         /// <param name="obj">The <see cref="FrameworkElement"/> to get the associated <see cref="Windows.UI.Xaml.Thickness"/> from</param>
@@ -68,6 +74,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static void SetHorizontalScrollBarMargin(FrameworkElement obj, Thickness value)
         {
             obj.SetValue(HorizontalScrollBarMarginProperty, value);
+        }
+
+        /// <summary>
+        /// Get <see cref="EnableMiddleClickScrollingProperty"/>. Returns `true` if middle click scrolling is enabled else retuen `false`
+        /// </summary>
+        /// <param name="obj">The <see cref="DependencyObject"/> to get the associated `bool`</param>
+        /// <returns>The `bool` associated with the <see cref="DependencyObject"/></returns>
+        public static bool GetEnableMiddleClickScrolling(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(EnableMiddleClickScrollingProperty);
+        }
+
+        /// <summary>
+        /// Set <see cref="EnableMiddleClickScrollingProperty"/>. `true` to enable middle click scrolling
+        /// </summary>
+        /// <param name="obj">The <see cref="DependencyObject"/> to associate the `bool` with</param>
+        /// <param name="value">The `bool` for binding to the <see cref="DependencyObject"/></param>
+        public static void SetEnableMiddleClickScrolling(DependencyObject obj, bool value)
+        {
+            obj.SetValue(EnableMiddleClickScrollingProperty, value);
         }
 #pragma warning restore CS0419 // Ambiguous reference in cref attribute
     }
