@@ -100,8 +100,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void FrameSourceGroupCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selectedGroup = FrameSourceGroupCombo.SelectedItem as MediaFrameSourceGroup;
-            if (selectedGroup != null)
+            if (FrameSourceGroupCombo.SelectedItem is MediaFrameSourceGroup selectedGroup)
             {
                 _cameraHelper.FrameSourceGroup = selectedGroup;
                 var result = await _cameraHelper.InitializeAndStartCaptureAsync();

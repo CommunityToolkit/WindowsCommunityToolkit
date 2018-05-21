@@ -28,8 +28,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// </summary>
     public class CameraHelper
     {
-        private SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1);
         private static IReadOnlyList<MediaFrameSourceGroup> _frameSourceGroups;
+        private SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1);
         private MediaCapture _mediaCapture;
         private MediaFrameReader _frameReader;
         private MediaFrameSourceGroup _group;
@@ -98,6 +98,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             try
             {
                 await semaphoreSlim.WaitAsync();
+
                 // if FrameSourceGroup hasn't changed from last initialiazation, just return back.
                 if (_initialized && _group != null && !groupChanged)
                 {
@@ -134,7 +135,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 if (_previewFrameSource != null)
                 {
                     _frameReader = await _mediaCapture.CreateFrameReaderAsync(_previewFrameSource);
-                    _frameReader.AcquisitionMode = MediaFrameReaderAcquisitionMode.Realtime;
+                    if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.Media.Capture.Frames.MediaFrameReader", "AcquisitionMode"))
+                    {
+                        _frameReader.AcquisitionMode = MediaFrameReaderAcquisitionMode.Realtime;
+                    }
+
                     _frameReader.FrameArrived += Reader_FrameArrived;
 
                     if (_frameReader == null)
@@ -162,6 +167,22 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             finally
             {
                 semaphoreSlim.Release();
+            }
+        }
+
+        /// <summary>
+        /// Clean up the Camera Helper resources
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task CleanUpAsync()
+        {
+            _initialized = false;
+            await StopReaderAsync();
+
+            if (_mediaCapture != null)
+            {
+                _mediaCapture.Dispose();
+                _mediaCapture = null;
             }
         }
 
@@ -260,22 +281,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 EventHandler<FrameEventArgs> handler = FrameArrived;
                 var frameArgs = new FrameEventArgs() { VideoFrame = vmf.GetVideoFrame() };
                 handler?.Invoke(sender, frameArgs);
-            }
-        }
-
-        /// <summary>
-        /// Clean up the Camera Helper resources
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task CleanUpAsync()
-        {
-            _initialized = false;
-            await StopReaderAsync();
-
-            if (_mediaCapture != null)
-            {
-                _mediaCapture.Dispose();
-                _mediaCapture = null;
             }
         }
     }
