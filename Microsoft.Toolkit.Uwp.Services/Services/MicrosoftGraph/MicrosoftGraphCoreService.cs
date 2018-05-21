@@ -9,62 +9,24 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
-
 using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Identity.Client;
-using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
 {
     /// <summary>
     ///  Class for connecting to Office 365 Microsoft Graph
     /// </summary>
-    public partial class MicrosoftGraphService
+    public partial class MicrosoftGraphService : Toolkit.Services.MicrosoftGraph.MicrosoftGraphService
     {
-        /// <summary>
-        /// Gets or sets store a reference to an instance of the underlying data provider.
-        /// </summary>
-        public GraphServiceClient GraphProvider { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating deletgated permission scopes for MSAL (v2) endpoint
-        /// </summary>
-        protected string[] DelegatedPermissionScopes { get; set; }
-
-        /// <summary>
-        /// Gets or sets field to store the services to initialize
-        /// </summary>
-        protected ServicesToInitialize ServicesToInitialize { get; set; }
-
-        /// <summary>
-        /// Gets or sets AppClientId.
-        /// </summary>
-        protected string AppClientId { get; set; }
-
-        /// <summary>
-        /// Gets or sets Authentication instance.
-        /// </summary>
-        internal MicrosoftGraphAuthenticationHelper Authentication { get; set; }
-
         /// <summary>
         /// Gets or sets field to store the model of authentication
         /// V1 Only for Work or Scholar account
         /// V2 for MSA and Work or Scholar account
         /// </summary>
         public Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.AuthenticationModel AuthenticationModel { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether initialization status.
-        /// </summary>
-        protected bool IsInitialized { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether user is connected.
-        /// </summary>
-        protected bool IsConnected { get; set; }
 
         /// <summary>
         /// Private singleton field.
@@ -84,8 +46,9 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Logout the current user
         /// </summary>
+
         /// <returns>success or failure</returns>
-        public async Task<bool> Logout()
+        public override async Task<bool> Logout()
         {
             if (!IsInitialized)
             {
@@ -99,9 +62,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Login the user from Azure AD and Get Microsoft Graph access token.
         /// </summary>
+
         /// <remarks>Need Sign in and read user profile scopes (User.Read)</remarks>
         /// <returns>Returns success or failure of login attempt.</returns>
-        public async Task<bool> LoginAsync()
+        public override async Task<bool> LoginAsync()
         {
             return await LoginAsync(string.Empty);
         }
@@ -115,6 +79,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         public async Task<bool> LoginAsync(string loginHint)
         {
             IsConnected = false;
+
             if (!IsInitialized)
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
@@ -137,9 +102,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             }
 
             IsConnected = true;
-
             User = new MicrosoftGraphUserService(GraphProvider);
-
             if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile)
             {
                 await GetUserAsyncProfile();
@@ -165,9 +128,10 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Create Microsoft Graph client
         /// </summary>
+
         /// <param name='appClientId'>Azure AD's App client id</param>
         /// <returns>instance of the GraphServiceclient</returns>
-        internal GraphServiceClient CreateGraphClientProvider(string appClientId)
+        internal override GraphServiceClient CreateGraphClientProvider(string appClientId)
         {
             if (AuthenticationModel == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.AuthenticationModel.V1)
             {
@@ -175,16 +139,15 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                   new DelegateAuthenticationProvider(
                      async (requestMessage) =>
                      {
-                        requestMessage.Headers.Authorization =
-                            new AuthenticationHeaderValue(
-                                        "bearer",
-                                        await ((MicrosoftGraphAuthenticationHelper)Authentication).GetUserTokenAsync(appClientId).ConfigureAwait(false));
+                         requestMessage.Headers.Authorization =
+                                new AuthenticationHeaderValue("bearer",
+                                         await ((MicrosoftGraphAuthenticationHelper)Authentication).GetUserTokenAsync(appClientId).ConfigureAwait(false));
                          return;
                      }));
             }
             else
             {
-                return null;
+                return base.CreateGraphClientProvider(appClientId);
             }
         }
 
@@ -192,13 +155,12 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// Initialize a instance of MicrosoftGraphUserService class
         /// </summary>
         /// <returns><see cref="Task"/> representing the asynchronous operation.</returns>
-        protected async Task GetUserAsyncProfile()
+        protected override async Task GetUserAsyncProfile()
         {
             Toolkit.Services.MicrosoftGraph.MicrosoftGraphUserFields[] selectedFields =
             {
                 Toolkit.Services.MicrosoftGraph.MicrosoftGraphUserFields.Id
             };
-
             await User.GetProfileAsync(selectedFields);
         }
     }
