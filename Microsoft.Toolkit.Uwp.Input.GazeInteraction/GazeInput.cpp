@@ -11,8 +11,19 @@
 using namespace Platform;
 using namespace Windows::UI;
 
-
 BEGIN_NAMESPACE_GAZE_INPUT
+
+static Brush^ s_enterBrush = nullptr;
+
+Brush^ GazeInput::DwellFeedbackEnterBrush::get()
+{
+    return s_enterBrush;
+}
+
+void GazeInput::DwellFeedbackEnterBrush::set(Brush^ value)
+{
+    s_enterBrush = value;
+}
 
 static Brush^ s_progressBrush = ref new SolidColorBrush(Colors::Green);
 
