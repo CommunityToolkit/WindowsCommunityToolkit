@@ -9,6 +9,7 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
+
 using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -46,7 +47,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Logout the current user
         /// </summary>
-
         /// <returns>success or failure</returns>
         public override async Task<bool> Logout()
         {
@@ -62,7 +62,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Login the user from Azure AD and Get Microsoft Graph access token.
         /// </summary>
-
         /// <remarks>Need Sign in and read user profile scopes (User.Read)</remarks>
         /// <returns>Returns success or failure of login attempt.</returns>
         public override async Task<bool> LoginAsync()
@@ -79,7 +78,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         public async Task<bool> LoginAsync(string loginHint)
         {
             IsConnected = false;
-
             if (!IsInitialized)
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
@@ -102,7 +100,9 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             }
 
             IsConnected = true;
+
             User = new MicrosoftGraphUserService(GraphProvider);
+
             if ((ServicesToInitialize & Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile) == Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ServicesToInitialize.UserProfile)
             {
                 await GetUserAsyncProfile();
@@ -128,7 +128,6 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
         /// <summary>
         /// Create Microsoft Graph client
         /// </summary>
-
         /// <param name='appClientId'>Azure AD's App client id</param>
         /// <returns>instance of the GraphServiceclient</returns>
         internal override GraphServiceClient CreateGraphClientProvider(string appClientId)
@@ -140,7 +139,8 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
                      async (requestMessage) =>
                      {
                          requestMessage.Headers.Authorization =
-                                new AuthenticationHeaderValue("bearer",
+                             new AuthenticationHeaderValue(
+                                         "bearer",
                                          await ((MicrosoftGraphAuthenticationHelper)Authentication).GetUserTokenAsync(appClientId).ConfigureAwait(false));
                          return;
                      }));
@@ -161,6 +161,7 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftGraph
             {
                 Toolkit.Services.MicrosoftGraph.MicrosoftGraphUserFields.Id
             };
+
             await User.GetProfileAsync(selectedFields);
         }
     }
