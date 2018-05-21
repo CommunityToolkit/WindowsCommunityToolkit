@@ -14,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
-using Microsoft.Toolkit.Parsers.Markdown.Blocks.List;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
 namespace UnitTests.Markdown.Parse
@@ -27,9 +26,10 @@ namespace UnitTests.Markdown.Parse
         /// <summary>
         /// Adds one or more child elements to the given parent object.
         /// </summary>
-        /// <param name="parent"></param>
-        /// <param name="elements"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">the type</typeparam>
+        /// <param name="parent">the parent</param>
+        /// <param name="elements">the elements to add</param>
+        /// <returns>parent</returns>
         public static T AddChildren<T>(this T parent, params object[] elements)
         {
             foreach (var child in elements)

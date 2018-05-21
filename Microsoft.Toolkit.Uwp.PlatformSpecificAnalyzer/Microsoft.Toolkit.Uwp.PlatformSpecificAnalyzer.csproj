@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.3</TargetFramework><Title>Windows Community Toolkit UI</Title>
+    <Description>This .NET standard library provides analyzer and code fixer to ensure that version / platform specific code is well guarded. It is part of the Windows Community Toolkit.</Description>
+    <PackageTags>UWP Toolkit Windows</PackageTags>
+    <Title>Windows Community Toolkit UWP Platform Specific Analyzer</Title>
+
+    <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
+    <DebugType>Full</DebugType>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="Differences-5.0.0.0.gz" />
+    <EmbeddedResource Include="Differences-6.0.0.0.gz" />
+  </ItemGroup>
+   
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.4.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="2.4.0" />
+    <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+
+</Project>
