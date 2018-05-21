@@ -33,10 +33,6 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TextToolbar" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TileControl" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.AADLogin" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.ProfileCard" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.PeoplePicker" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.SharePointFiles" />
     </ToolboxItems>
   </File>
 </FileList>
