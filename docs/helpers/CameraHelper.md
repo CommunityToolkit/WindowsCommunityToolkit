@@ -2,14 +2,15 @@
 title: CameraHelper
 author: skommireddi
 description: The CameraHelper provides helper methods to easily use the available camera frame sources to preview video, capture video frames and software bitmaps.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, CameraHelper, Camera, Frame Source, Video Frame, Software Bitmap
+keywords: windows 10, uwp, windows community toolkit, windows toolkit, CameraHelper, Camera, Frame Source, Video Frame, Software Bitmap
 ---
 
 # CameraHelper
 
 The **CameraHelper** provides helper methods to easily use the available camera frame sources to preview video, capture video frames and software bitmaps. The helper currently shows camera frame sources that support color video preview or video record streams. 
 
-> [!IMPORTANT] Make sure you have the webcam capability enabled for your app to access the device's camera.
+> [!IMPORTANT]
+Make sure you have the webcam capability enabled for your app to access the device's camera.
 
 ## Syntax
 
@@ -41,6 +42,14 @@ private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
   SoftwareBitmap softwareBitmap = currentVideoFrame.SoftwareBitmap;
 }
 ```
+
+## Cleaning up resources
+
+As a developer, you will need to make sure the CameraHelper resources are cleaned up when appropriate. For example, if the CameraHelper is only used on one page, make sure to clean up the CameraHelper when navigating away from the page.
+
+Likewise, make sure to handle app [suspending](https://docs.microsoft.com/windows/uwp/launch-resume/suspend-an-app) and [resuming](https://docs.microsoft.com/en-us/windows/uwp/launch-resume/resume-an-app) - CameraHelper should be cleaned up when susspending and re-initialized when resuming.
+
+Call `CameraHelper.CleanupAsync()` to clean up all internal resources. See the [CameraHelper sample page in the sample app](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/CameraHelper) for full example.
 
 ## Properties
 
@@ -96,8 +105,7 @@ if(availableFrameSourceGroups != null)
 
 ## Sample Code
 
-[CameraHelper Sample Page Source]
-((https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/CameraHelper)). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[CameraHelper Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/CameraHelper). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 
 ## Requirements

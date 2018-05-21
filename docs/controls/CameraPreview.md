@@ -2,14 +2,15 @@
 title: CameraPreview
 author: skommireddi
 description: The CameraPreview control allows to easily preview video in the MediaPlayerElement from available camera frame source groups. You can subscribe and get real time video frames and software bitmaps as they arrive from the selected camera source. It shows only frame sources that support color video preview or video record streams.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, CameraPreview, Camera, Preview, Video Frame, Software Bitmap
+keywords: windows 10, uwp, windows community toolkit, windows toolkit, CameraPreview, Camera, Preview, Video Frame, Software Bitmap
 ---
 
 # CameraPreview
 
 The **CameraPreview** control allows to easily preview video in the MediaPlayerElement from available camera frame source groups. You can subscribe and get real time video frames and software bitmaps as they arrive from the selected camera source. It shows only frame sources that support color video preview or video record streams.
 
-> [!IMPORTANT] Make sure you have the webcam capability enabled for your app to access the device's camera.
+> [!IMPORTANT]
+Make sure you have the webcam capability enabled for your app to access the device's camera.
 
 ## Syntax
 
@@ -37,6 +38,9 @@ private void CameraPreviewControl_PreviewFailed(object sender, PreviewFailedEven
 }
 ```
 
+> [!IMPORTANT]
+As a developer, you will need to make sure the CameraHelper resources used by the control are cleaned up when appropriate. See [CameraHelper documentation](../helpers/CameraHelper.md) for more details
+
 ## Properties
 
 | Property | Type | Description |
@@ -55,7 +59,6 @@ private void CameraPreviewControl_PreviewFailed(object sender, PreviewFailedEven
 | -- | -- | -- |
 | StartAsync() | Task | Initializes camera preview control with a default Camera Helper instance and starts preview and frame capture. |
 | StartAsync(CameraHelper cameraHelper) | Task | Initializes camera preview control with provided Camera Helper instance. |
-| CleanupAsync() | Task | Use this method to dispose the control and media resources. |
 
 ## Events
 
