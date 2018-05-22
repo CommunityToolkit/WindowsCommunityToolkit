@@ -36,6 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "ControlGrid", Type = typeof(Grid))]
     [TemplatePart(Name = "MinValueText", Type = typeof(TextBlock))]
     [TemplatePart(Name = "MaxValueText", Type = typeof(TextBlock))]
+    [TemplatePart(Name = "ToolTip", Type = typeof(Grid))]
     [TemplatePart(Name = "ToolTipText", Type = typeof(TextBlock))]
 
     public partial class RangeSelector : Control
@@ -90,6 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double _absolutePosition;
         private TextBlock _minValueText;
         private TextBlock _maxValueText;
+        private Grid _toolTip;
         private TextBlock _toolTipText;
 
         /// <summary>
@@ -160,6 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _controlGrid = GetTemplateChild("ControlGrid") as Grid;
             _minValueText = GetTemplateChild("MinValueText") as TextBlock;
             _maxValueText = GetTemplateChild("MaxValueText") as TextBlock;
+            _toolTip = GetTemplateChild("ToolTip") as Grid;
             _toolTipText = GetTemplateChild("ToolTipText") as TextBlock;
 
             if (_minThumb != null)
@@ -319,11 +322,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 RangeMax = normalizedPosition;
                 _pointerManipulatingMax = true;
+                Thumb_DragStarted(_maxThumb);
             }
             else
             {
                 RangeMin = normalizedPosition;
                 _pointerManipulatingMin = true;
+                Thumb_DragStarted(_minThumb);
             }
 
             SyncThumbs();
@@ -792,55 +797,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Canvas.SetLeft(thumb, nextPos);
 
-            if (_toolTipText != null)
+            if (_toolTipText != null && _toolTip != null)
             {
                 var thumbCenter = nextPos + (thumb.Width / 2);
-                _toolTipText.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                var ttWidth = _toolTipText.ActualWidth / 2;
+                _toolTip.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                var ttWidth = _toolTip.ActualWidth / 2;
 
-                Canvas.SetLeft(_toolTipText, thumbCenter - ttWidth);
+                Canvas.SetLeft(_toolTip, thumbCenter - ttWidth);
             }
 
             return Minimum + ((nextPos / DragWidth()) * (Maximum - Minimum));
         }
 
+        private void Thumb_DragStarted(Thumb thumb)
+        {
+            var useMin = thumb == _minThumb;
+            var otherThumb = (useMin) ? _maxThumb : _minThumb;
+
+            _absolutePosition = Canvas.GetLeft(thumb);
+            Canvas.SetZIndex(thumb, 10);
+            Canvas.SetZIndex(otherThumb, 0);
+            _oldValue = RangeMin;
+
+            if (_toolTipText != null && _toolTip != null)
+            {
+                _toolTip.Visibility = Visibility.Visible;
+                var thumbCenter = _absolutePosition + (thumb.Width / 2);
+                _toolTip.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                var ttWidth = _toolTip.ActualWidth / 2;
+                Canvas.SetLeft(_toolTip, thumbCenter - ttWidth);
+
+                UpdateToolTipText(this, _toolTipText, (useMin) ? Minimum : Maximum);
+            }
+
+            VisualStateManager.GoToState(this, (useMin) ? "MinPressed" : "MaxPressed", true);
+        }
+
         private void MinThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
             ThumbDragStarted?.Invoke(this, e);
-            _absolutePosition = Canvas.GetLeft(_minThumb);
-            Canvas.SetZIndex(_minThumb, 10);
-            Canvas.SetZIndex(_maxThumb, 0);
-            _oldValue = RangeMin;
-
-            if (_toolTipText != null)
-            {
-                _toolTipText.Visibility = Visibility.Visible;
-                var thumbCenter = _absolutePosition + (_minThumb.Width / 2);
-                _toolTipText.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                var ttWidth = _toolTipText.ActualWidth / 2;
-                Canvas.SetLeft(_toolTipText, thumbCenter - ttWidth);
-            }
-
-            VisualStateManager.GoToState(this, "MinPressed", true);
+            Thumb_DragStarted(_minThumb);
         }
 
         private void MaxThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
             ThumbDragStarted?.Invoke(this, e);
-            _absolutePosition = Canvas.GetLeft(_maxThumb);
-            Canvas.SetZIndex(_minThumb, 0);
-            Canvas.SetZIndex(_maxThumb, 10);
-            _oldValue = RangeMax;
-
-            if (_toolTipText != null) {
-                var thumbCenter = _absolutePosition + (_maxThumb.Width / 2);
-                _toolTipText.Visibility = Visibility.Visible;
-                _toolTipText.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                var ttWidth = _toolTipText.ActualWidth / 2;
-                Canvas.SetLeft(_toolTipText, thumbCenter - ttWidth);
-            }
-
-            VisualStateManager.GoToState(this, "MaxPressed", true);
+            Thumb_DragStarted(_maxThumb);
         }
 
         private void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
@@ -849,9 +851,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ValueChanged?.Invoke(this, sender.Equals(_minThumb) ? new RangeChangedEventArgs(_oldValue, RangeMin, RangeSelectorProperty.MinimumValue) : new RangeChangedEventArgs(_oldValue, RangeMax, RangeSelectorProperty.MaximumValue));
             SyncThumbs();
 
-            if (_toolTipText != null)
+            if (_toolTip != null)
             {
-                _toolTipText.Visibility = Visibility.Collapsed;
+                _toolTip.Visibility = Visibility.Collapsed;
             }
 
             VisualStateManager.GoToState(this, "Normal", true);

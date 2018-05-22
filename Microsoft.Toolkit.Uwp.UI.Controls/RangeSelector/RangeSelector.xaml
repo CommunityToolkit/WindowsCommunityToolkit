@@ -64,7 +64,14 @@
                                        Height="2"
                                        VerticalAlignment="Center"
                                        Fill="{TemplateBinding Foreground}" />
-                            <TextBlock x:Name="ToolTipText" Margin="-3,-20,0,0" Visibility="Collapsed"/>
+
+                            <Grid x:Name="ToolTip" 
+                                  Background="{ThemeResource SystemControlBackgroundBaseHighBrush}" 
+                                  Margin="0,-44,0,8" 
+                                  Visibility="Collapsed">
+                                <TextBlock x:Name="ToolTipText" Margin="8"/>
+                            </Grid>
+
                             <Thumb x:Name="MinThumb"
                                    AutomationProperties.Name="Min thumb"
                                    IsTabStop="True" 
@@ -134,7 +141,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement"
                                                                        Storyboard.TargetProperty="Fill">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlHighlightChromeAltLowBrush}" />
+                                                                    Value="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MinThumb"
                                                                        Storyboard.TargetProperty="Background">
