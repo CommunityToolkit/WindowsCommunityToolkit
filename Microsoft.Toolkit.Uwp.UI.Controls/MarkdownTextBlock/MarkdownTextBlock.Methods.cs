@@ -69,7 +69,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     // Try to parse the markdown.
                     MarkdownDocument markdown = new MarkdownDocument();
-                    markdown.AddSchemes(SchemeList.Split(',').ToList());
+                    foreach (string str in SchemeList.Split(',').ToList())
+                    {
+                        if (!string.IsNullOrEmpty(str))
+                        {
+                            MarkdownDocument.KnownSchemes.Add(str);
+                        }
+                    }
+
                     markdown.Parse(Text);
 
                     // Now try to display it

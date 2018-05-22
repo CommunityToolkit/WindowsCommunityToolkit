@@ -396,29 +396,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         }
 
         /// <summary>
-        /// Adds Custom Schemes to the list of existing schemes
-        /// </summary>
-        /// <param name="schemelist">List of custom Schemes</param>
-        public void AddSchemes(List<string> schemelist)
-        {
-            if (KnownSchemes.Count > 10)
-            {
-                for (int i = 10; i <= KnownSchemes.Count; i++)
-                {
-                    KnownSchemes.RemoveAt(i);
-                }
-            }
-
-            foreach (string s in schemelist)
-            {
-                if (!string.IsNullOrEmpty(s))
-                {
-                    KnownSchemes.Add(s);
-                }
-            }
-        }
-
-        /// <summary>
         /// Converts the object into it's textual representation.
         /// </summary>
         /// <returns> The textual representation of this object. </returns>
