@@ -7,7 +7,6 @@
     mc:Ignorable="d">
 
   <Page.Resources>
-    <SolidColorBrush Color="{StaticResource SystemChromeLowColor}" x:Key="SystemControlBackgroundChromeLowBrush" />
     <SolidColorBrush Color="{StaticResource SystemChromeLowColor}" x:Key="SystemControlForegroundChromeLowBrush"/>
   </Page.Resources>
 
@@ -27,8 +26,7 @@
           </Grid>
 
           <controls:Expander.ContentOverlay>
-            <Grid Height="120"
-                  Background="{ThemeResource SystemControlBackgroundChromeLowBrush}">
+            <Grid Height="120">
               <TextBlock Text="This is the content overlay"
                          HorizontalAlignment="Center"
                          VerticalAlignment="Center" />

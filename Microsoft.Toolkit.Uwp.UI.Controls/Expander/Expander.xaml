@@ -6,6 +6,8 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
+    <SolidColorBrush Color="{StaticResource SystemChromeLowColor}" x:Key="SystemControlBackgroundChromeLowBrush" />
+
     <Style x:Key="HeaderToggleButtonStyle" TargetType="ToggleButton">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
@@ -277,7 +279,7 @@
         <Setter Property="Header" Value="Header" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="HeaderStyle" Value="{StaticResource HeaderToggleButtonStyle}" />
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeLowBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:Expander">
@@ -550,7 +552,7 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid x:Name="PART_RootGrid">
+                        <Grid x:Name="PART_RootGrid" Background="{TemplateBinding Background}">
                             <Grid.RowDefinitions>
                                 <RowDefinition x:Name="RowOne" Height="Auto" />
                                 <RowDefinition x:Name="RowTwo" Height="*" />
