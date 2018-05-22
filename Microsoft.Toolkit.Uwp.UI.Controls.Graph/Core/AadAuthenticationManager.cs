@@ -13,6 +13,7 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
@@ -24,15 +25,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// Microsoft Graph authentication manager for Microsoft Toolkit Graph controls using Microsoft Authentication Library (MSAL)
     /// </summary>
-    public sealed class AadAuthenticationManager : MicrosoftGraphService, INotifyPropertyChanged
+    public sealed class AadAuthenticationManager : INotifyPropertyChanged
     {
         private static PublicClientApplication _publicClientApp = null;
         private static AadAuthenticationManager _instance;
+        private readonly SemaphoreSlim _readLock = new SemaphoreSlim(1, 1);
+        private MicrosoftGraphServiceAdapter _base = MicrosoftGraphServiceAdapter.Instance;
 
         /// <summary>
         /// Gets public singleton property.
         /// </summary>
-        public static new AadAuthenticationManager Instance => _instance ?? (_instance = new AadAuthenticationManager());
+        public static AadAuthenticationManager Instance => _instance ?? (_instance = new AadAuthenticationManager());
 
         private AadAuthenticationManager()
         {
@@ -41,29 +44,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <summary>
         /// Gets current application ID.
         /// </summary>
-        public string ClientId => AppClientId;
+        public string ClientId => _base.ClientId;
 
         /// <summary>
         /// Gets current permission scopes.
         /// </summary>
-        public string[] Scopes => DelegatedPermissionScopes;
-
-        /// <summary>
-        /// Gets store a reference to an instance of the underlying data provider.
-        /// </summary>
-        public new GraphServiceClient GraphProvider => base.GraphProvider;
-
-        /// <summary>
-        /// Gets fields to store a MicrosoftGraphServiceMessages instance
-        /// </summary>
-        public new MicrosoftGraphUserService User => base.User;
-
-        /// <summary>
-        /// Gets field to store the model of authentication
-        /// V1 Only for Work or Scholar account
-        /// V2 for MSA and Work or Scholar account
-        /// </summary>
-        public new AuthenticationModel AuthenticationModel => base.AuthenticationModel;
+        public string[] Scopes => _base.Scopes;
 
         /// <summary>
         /// Property changed eventHandler for notification.
@@ -108,6 +94,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private string _currentUserId;
 
+        internal GraphServiceClient GraphProvider => _base.GraphProvider;
+
         /// <summary>
         /// Initialize for the <see cref="AadAuthenticationManager"/> class
         /// </summary>
@@ -125,72 +113,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 throw new ArgumentNullException(nameof(scopes));
             }
 
-            base.AuthenticationModel = AuthenticationModel.V2;
+            _base.AuthenticationModel = AuthenticationModel.V2;
 
-            base.Initialize(clientId, ServicesToInitialize.UserProfile, scopes);
+            _base.Initialize(clientId, ServicesToInitialize.UserProfile, scopes);
         }
 
-        /// <summary>
-        /// Initialize Microsoft Graph.
-        /// </summary>
-        /// <typeparam name="T">Concrete type that inherits IMicrosoftGraphUserServicePhotos.</typeparam>
-        /// <param name='appClientId'>Azure AD's App client id</param>
-        /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
-        /// <param name="delegatedPermissionScopes">Permission scopes for MSAL v2 endpoints</param>
-        /// <param name="uiParent">UiParent instance - required for Android</param>
-        /// <param name="redirectUri">Redirect Uri - required for Android</param>
-        /// <returns>Success or failure.</returns>
-        [Obsolete("This is not supported in this class.", true)]
-        public new bool Initialize<T>(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
-            where T : IMicrosoftGraphUserServicePhotos, new()
+        internal async Task<GraphServiceClient> GetGraphServiceClientAsync()
         {
-            throw new NotImplementedException();
-        }
+            if (IsAuthenticated)
+            {
+                return GraphProvider;
+            }
+            else
+            {
+                try
+                {
+                    await _readLock.WaitAsync();
+                    if (await ConnectAsync())
+                    {
+                        return GraphProvider;
+                    }
+                }
+                finally
+                {
+                    _readLock.Release();
+                }
 
-        /// <summary>
-        /// Initialize Microsoft Graph.
-        /// </summary>
-        /// <param name='appClientId'>Azure AD's App client id</param>
-        /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
-        /// <param name="delegatedPermissionScopes">Permission scopes for MSAL v2 endpoints</param>
-        /// <param name="uiParent">UiParent instance - required for Android</param>
-        /// <param name="redirectUri">Redirect Uri - required for Android</param>
-        /// <returns>Success or failure.</returns>
-        [Obsolete("This is not supported in this class.", true)]
-        public new bool Initialize(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Login the user from Azure AD and Get Microsoft Graph access token.
-        /// </summary>
-        /// <remarks>Need Sign in and read user profile scopes (User.Read)</remarks>
-        /// <returns>Returns success or failure of login attempt.</returns>
-        [Obsolete("This is not supported in this class.", true)]
-        public new Task<bool> LoginAsync(string loginHint = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Logout the current user
-        /// </summary>
-        /// <returns>success or failure</returns>
-        [Obsolete("This is not supported in this class.", true)]
-        public new Task<bool> Logout()
-        {
-            throw new NotImplementedException();
+                return null;
+            }
         }
 
         internal async Task<bool> ConnectAsync()
         {
             try
             {
-                IsAuthenticated = await base.LoginAsync();
+                IsAuthenticated = await _base.LoginAsync();
                 if (IsAuthenticated)
                 {
-                    CurrentUserId = (await User.GetProfileAsync(new MicrosoftGraphUserFields[1] { MicrosoftGraphUserFields.Id })).Id;
+                    CurrentUserId = (await _base.User.GetProfileAsync(new MicrosoftGraphUserFields[1] { MicrosoftGraphUserFields.Id })).Id;
                 }
             }
             catch (MsalServiceException ex)
@@ -208,14 +168,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         internal async void SignOut()
         {
-            await base.Logout();
+            await _base.Logout();
             CurrentUserId = string.Empty;
             IsAuthenticated = false;
         }
 
         internal async Task<bool> ConnectForAnotherUserAsync()
         {
-            if (!IsInitialized)
+            if (!_base.IsInitialized)
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
@@ -235,8 +195,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     }
                 }
 
-                await base.LoginAsync();
-                CurrentUserId = (await User.GetProfileAsync(new MicrosoftGraphUserFields[1] { MicrosoftGraphUserFields.Id })).Id;
+                await _base.LoginAsync();
+                CurrentUserId = (await _base.User.GetProfileAsync(new MicrosoftGraphUserFields[1] { MicrosoftGraphUserFields.Id })).Id;
 
                 return true;
             }

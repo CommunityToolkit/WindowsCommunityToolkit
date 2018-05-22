@@ -60,7 +60,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
             else
             {
-                GraphServiceClient graphClient = AadAuthenticationManager.Instance.GraphProvider;
+                var aadAuthmnger = AadAuthenticationManager.Instance;
+                GraphServiceClient graphClient = await aadAuthmnger.GetGraphServiceClientAsync();
+                if (!aadAuthmnger.IsAuthenticated)
+                {
+                    return;
+                }
+
                 try
                 {
                     var user = await graphClient.Users[UserId].Request().GetAsync();
