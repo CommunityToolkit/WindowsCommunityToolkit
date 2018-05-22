@@ -13,6 +13,11 @@ public enum class DwellProgressState
     Idle,
 
     /// <summary>
+    /// Gaze has entered control but we're not yet showing progress.
+    /// </summary>
+    Fixating,
+
+    /// <summary>
     /// User is continuing to focus on a control with an intent to dwell and invoke
     /// </summary>
     Progressing,
