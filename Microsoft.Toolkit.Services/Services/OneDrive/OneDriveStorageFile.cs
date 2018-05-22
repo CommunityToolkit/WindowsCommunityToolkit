@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         private string _thumbnail;
 
         /// <summary>
-        /// Gets the smallest available thumbnail for the object
+        /// Gets the smallest available thumbnail for the object.  This will be null until you call GetThumbnailAsync().
         /// </summary>
         public string Thumbnail
         {
@@ -54,21 +54,15 @@ namespace Microsoft.Toolkit.Services.OneDrive
         }
 
         /// <summary>
-        /// Call to get the thumbnail information
+        /// Loads the thumbnail URL for the item asynchronously, attempting to produce a value for Thumbnail property.
         /// </summary>
         public async void GetThumbnailAsync()
         {
             var newValue = _thumbnail;
-            try
+            var set = await GetThumbnailSetAsync();
+            if (set != null)
             {
-                var set = await GetThumbnailSetAsync();
-                if (set != null)
-                {
-                    newValue = set.Small ?? set.Medium ?? set.Large;
-                }
-            }
-            catch (Exception)
-            {
+                newValue = set.Small ?? set.Medium ?? set.Large;
             }
 
             SetValue(ref _thumbnail, newValue, nameof(Thumbnail));
