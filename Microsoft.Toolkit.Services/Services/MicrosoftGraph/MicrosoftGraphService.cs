@@ -109,6 +109,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         public MicrosoftGraphService(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
         {
             Initialize(appClientId, servicesToInitialize, delegatedPermissionScopes, uiParent, redirectUri);
+
         }
 
         /// <summary>
