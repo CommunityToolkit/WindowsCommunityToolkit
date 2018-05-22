@@ -1,4 +1,6 @@
-$client = new-object System.Net.WebClient
-$client.DownloadFile("https://go.microsoft.com/fwlink/p/?linkid=870807","c:\temp\winsdksetup.exe")
+mkdir c:\winsdktemp
 
-& "c:\temp\winsdksetup.exe" /features OptionId.UWPCpp /q
+$client = new-object System.Net.WebClient
+$client.DownloadFile("https://go.microsoft.com/fwlink/p/?linkid=870807","c:\winsdktemp\winsdksetup.exe")
+
+c:\winsdktemp\winsdksetup.exe /features OptionId.UWPCpp /q
