@@ -334,6 +334,18 @@ results in:
 
 **Note:** Relative Links has to be Manually Handled in `LinkClicked` Event.
 
+Custom Scheme's can be added now using `SchemeList` Property. Scheme's should be separated by a comma( , )
+
+*Example*: 
+
+If `SchemeList="companyportal,randomscheme"` then markdown will render
+
+`companyportal://mycompanyportal.com` to companyportal://mycompanyportal.com
+
+and 
+
+`randomscheme://www.randomscheme.render` to randomscheme://www.randomscheme.render
+
 *****
 
 # Email Links
@@ -356,7 +368,7 @@ To add an image, it is almost like a link. You just need to add a \! before.
 
 So inline image syntax looks like this:
 
->\!\[Helpers Image](https:\//raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
+>\!\[Helpers Image](https\://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
 
 which renders in:
 
@@ -378,11 +390,11 @@ renders in
 
 You can also specify image width like this:
 
->\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =32) (width is set to 32)
+>\!\[SVG logo](https\://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =32) (width is set to 32)
 
->\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =x64) (height is set to 64)
+>\!\[SVG logo](https\://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =x64) (height is set to 64)
 
->\!\[SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128x64) (width=128, height=64)
+>\!\[SVG logo](https\://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128x64) (width=128, height=64)
 
 which renders in:
 
@@ -390,33 +402,88 @@ which renders in:
 ![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =x64)
 ![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128x64)
 
+MarkdownTextblock supports links wrapped with Images. 
+
+>\[!\[image](https\://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png)](https\://docs.microsoft.com/windows/uwpcommunitytoolkit/)
+
+will render into 
+
+[![image](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png)](https://docs.microsoft.com/windows/uwpcommunitytoolkit/)
+
+and when clicked will go to the Linked Page.
+
+MarkdownTextBlock also supports Reference based links.
+
+```
+[![image][1]][2]
+
+[1]:https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png
+[2]:https://docs.microsoft.com/windows/uwpcommunitytoolkit/
+
+```
+
+will render into 
+
+[![image][1]][2]
+
+[1]:https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png
+[2]:https://docs.microsoft.com/windows/uwpcommunitytoolkit/
+
 *****
 
 # BLOCK QUOTES
 
 You'll probably do a lot of quoting of other redditors.  In those cases, you'll want to use block quotes.  Simple begin each line you want quoted with a right angle bracket (>).  Multiple angle brackets can be used for nested quotes.  To cause a new paragraph to be quoted, begin that paragraph with another angle bracket.  So the following:
 
-    >Here's a quote.
-    
-    >Another paragraph in the same quote.
-    >>A nested quote.
+    >Quote1
 
-    >Back to a single quote.
+    >Quote2.1
+    >>Quote2.Nest1.1
+    >>
+    >>Quote2.Nest1.2
+    >
+    >Quote2.3
 
-    And finally some unquoted text.
+    >Quote3.1
+    >Quote3.2
+
+    >Quote4.1
+    >
+    >Quote4.2
+
+    >Quote5.1
+    Quote5.2
+
+    >Quote6
+
+    Plain text.
 
 
 Is displayed as:
 
 
->Here's a quote.
-    
->Another paragraph in the same quote.
->>A nested quote.
+>Quote1
 
->Back to a single quote.
+>Quote2.1
+>>Quote2.Nest1.1
+>>
+>>Quote2.Nest1.2
+>
+>Quote2.3
 
-And finally some unquoted text.
+>Quote3.1
+>Quote3.2
+
+>Quote4.1
+>
+>Quote4.2
+
+>Quote5.1
+Quote5.2
+
+>Quote6
+
+Plain text.
 
 *****
 

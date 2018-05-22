@@ -32,18 +32,28 @@ If you don't have one, you need to create an Office 365 Developer Site. There ar
  
 ### 2. Register you application in Azure Active Directory
 
-To authenticate your app, you need to register your app with Azure AD, and provide some details about your app. You can register your app manually by using the [Azure Management Portal](http://manage.windowsazure.com), or by using Visual Studio.
+To authenticate your app, you need to register your app with Azure AD, and provide some details about your app. 
 
-To register your app manually, see [Manually register your app with Azure AD so it can access Office 365 APIs.](https://msdn.microsoft.com/en-us/office/office365/howto/add-common-consent-manually)
+#### Register the App to use Azure AD v1 Endpoint
 
-To register your app by using Visual Studio, see [Using Visual Studio to register your app and add Office 365 APIs.](https://msdn.microsoft.com/office/office365/HowTo/adding-service-to-your-Visual-Studio-project)
+You can register your app manually by using the [Azure Management Portal](http://portal.azure.com), or by using Visual Studio:
+1. To register your app by using Visual Studio, see [Using Visual Studio to register your app and add Office 365 APIs.](https://msdn.microsoft.com/office/office365/HowTo/adding-service-to-your-Visual-Studio-project)
+2. To register your app manually, see [Manually register your app with Azure AD so it can access Office 365 APIs.](https://msdn.microsoft.com/en-us/office/office365/howto/add-common-consent-manually). Here is a summary to register your App manually:
+    - Go to the [Azure Management Portal](http://portal.azure.com)
+    - Go to the "Azure Active Directory" option
+    - Go to "App Registrations" option
+    - Click on the "New application registration" button
+    - Enter a name for your App
+    - Specify your application as a **Native**
+    - Specify the Redirect Uri as **urn:ietf:wg:oauth:2.0:oob**
+    - Click "Create" button
 
 After you've registered your app, Azure AD will generate a client ID for your app. You'll need to use this client ID to get your access token.
 
-When you register your app in the [Azure Management Portal](http://manage.windowsazure.com), you will need to configure details about your application with the following steps:
+When you register your app in the [Azure Management Portal](http://portal.azure.com), you will need to configure details about your application with the following steps:
 
-1. Specify your application as a **Web application and/or web API**
-2. Specify the Redirect Uri as **http://localhost:8000**
+1. Click "Settings" button
+2. Go to "Required permissions" option
 3. Add Application: Choose **Microsoft Graph** API 
 4. Specify the permission levels the MicrosoftGraph Service requires from the Office 365 API (Microsoft Graph). Choose at least:
    * **Sign in and read user profile** to access user's profile.
@@ -54,10 +64,20 @@ When you register your app in the [Azure Management Portal](http://manage.window
  
 |Setting|Value|
 |----------|:-------------:|
-|Web application and/or web API|Yes|
-|Redirect Uri|http://localhost:8080|
+|Native application|Yes|
+|Redirect Uri|urn:ietf:wg:oauth:2.0:oob|
 |Resource to Add|Microsoft Graph|
-|Delegate Permissions |Sign in and read user profile, Read user mail and Send mail, Read user calendars|
+|Delegate Permissions |Sign in and read user profile, Read user mail, Send mail as a user, Read user calendars|
+
+#### Register the App to use Azure AD v2 Endpoint
+
+1. Go to the [App Registration Portal](https://apps.dev.microsoft.com) 
+2. Click in the "Add an app" button.
+3. Enter the app name and click "create"
+4. Once the App is created, copy the Application Id to use it later.
+5. Next, add a Platform to the App clicking in "Add Platform" and select "Native Application" tile. 
+6. Scroll to the Microsoft Graph Permissions section (by default the User.Read permission is added). Add the following permissions: Sign in and read user profile, Read user mail, Send mail as a user, Read user calendars.
+7. Finally, save your changes.
 
 ## Syntax
 
@@ -74,6 +94,15 @@ if (!await MicrosoftGraphService.Instance.LoginAsync())
 {
  return;
 }
+
+// Create a instance of the service
+var msg = new MicrosoftGraphService(ClientId.Text);
+// Login via Azure Active Directory 
+if (!await msg.LoginAsync())
+{
+ return;
+}
+
 ```
 ```vb
 ' Initialize the service
@@ -284,9 +313,9 @@ End If
 
 | Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.Services |
-| NuGet package | [Microsoft.Toolkit.Uwp.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.Services/) |
+| Namespace | Microsoft.Toolkit.Services |
+| NuGet package | [Microsoft.Toolkit.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Services/) |
 
 ### API
 
-* [MicrosoftGraph Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftGraph)
+* [MicrosoftGraph Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/MicrosoftGraph)

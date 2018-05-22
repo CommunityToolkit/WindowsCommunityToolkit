@@ -25,14 +25,14 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         public enum AuthenticationModel
         {
             /// <summary>
-            /// Uses the Azure Active Directory Endpoint
-            /// </summary>
-            V1,
-
-            /// <summary>
             /// Uses the converged EndPoint in order to authenticate either a Microsoft Account or a Work or School Account
             /// </summary>
-            V2
+            V2,
+
+            /// <summary>
+            /// Uses the Azure Active Directory Endpoint
+            /// </summary>
+            V1
         }
 
         /// <summary>

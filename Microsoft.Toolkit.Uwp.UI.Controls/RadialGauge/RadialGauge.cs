@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the ScaleWidth dependency property.
         /// </summary>
         public static readonly DependencyProperty ScaleWidthProperty =
-            DependencyProperty.Register(nameof(ScaleWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(4.0, OnScaleChanged));
+            DependencyProperty.Register(nameof(ScaleWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(26.0, OnScaleChanged));
 
         /// <summary>
         /// Identifies the NeedleBrush dependency property.
@@ -125,37 +125,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the NeedleLength dependency property.
         /// </summary>
         public static readonly DependencyProperty NeedleLengthProperty =
-            DependencyProperty.Register(nameof(NeedleLength), typeof(double), typeof(RadialGauge), new PropertyMetadata(24d, OnFaceChanged));
+            DependencyProperty.Register(nameof(NeedleLength), typeof(double), typeof(RadialGauge), new PropertyMetadata(100d, OnFaceChanged));
 
         /// <summary>
         /// Identifies the NeedleWidth dependency property.
         /// </summary>
         public static readonly DependencyProperty NeedleWidthProperty =
-            DependencyProperty.Register(nameof(NeedleWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(4d, OnFaceChanged));
+            DependencyProperty.Register(nameof(NeedleWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(5d, OnFaceChanged));
 
         /// <summary>
         /// Identifies the ScalePadding dependency property.
         /// </summary>
         public static readonly DependencyProperty ScalePaddingProperty =
-            DependencyProperty.Register(nameof(ScalePadding), typeof(double), typeof(RadialGauge), new PropertyMetadata(12d, OnFaceChanged));
+            DependencyProperty.Register(nameof(ScalePadding), typeof(double), typeof(RadialGauge), new PropertyMetadata(23d, OnFaceChanged));
 
         /// <summary>
         /// Identifies the ScaleTickWidth dependency property.
         /// </summary>
         public static readonly DependencyProperty ScaleTickWidthProperty =
-            DependencyProperty.Register(nameof(ScaleTickWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(2d, OnFaceChanged));
+            DependencyProperty.Register(nameof(ScaleTickWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(2.5, OnFaceChanged));
 
         /// <summary>
         /// Identifies the TickWidth dependency property.
         /// </summary>
         public static readonly DependencyProperty TickWidthProperty =
-            DependencyProperty.Register(nameof(TickWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(2d, OnFaceChanged));
+            DependencyProperty.Register(nameof(TickWidth), typeof(double), typeof(RadialGauge), new PropertyMetadata(5d, OnFaceChanged));
 
         /// <summary>
         /// Identifies the TickLength dependency property.
         /// </summary>
         public static readonly DependencyProperty TickLengthProperty =
-            DependencyProperty.Register(nameof(TickLength), typeof(double), typeof(RadialGauge), new PropertyMetadata(10d, OnFaceChanged));
+            DependencyProperty.Register(nameof(TickLength), typeof(double), typeof(RadialGauge), new PropertyMetadata(18d, OnFaceChanged));
 
         /// <summary>
         /// Identifies the MinAngle dependency property.
@@ -343,7 +343,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the tick spacing, in units.
+        /// Gets or sets the tick spacing, in units. Values of zero or less will be ignored when drawing.
         /// </summary>
         public int TickSpacing
         {
@@ -472,7 +472,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     radialGauge.Value = radialGauge.RoundToMultiple(radialGauge.Value, radialGauge.StepSize);
                 }
 
-                var middleOfScale = 140 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
+                var middleOfScale = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
                 var valueText = radialGauge.GetTemplateChild(ValueTextPartName) as TextBlock;
                 radialGauge.ValueAngle = radialGauge.ValueToAngle(radialGauge.Value);
 
@@ -494,8 +494,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         {
                             // Draw full circle.
                             var eg = new EllipseGeometry();
-                            eg.Center = new Point(140, 140);
-                            eg.RadiusX = 140 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
+                            eg.Center = new Point(100, 100);
+                            eg.RadiusX = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
                             eg.RadiusY = eg.RadiusX;
                             trail.Data = eg;
                         }
@@ -566,8 +566,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     // Draw full circle.
                     var eg = new EllipseGeometry();
-                    eg.Center = new Point(140, 140);
-                    eg.RadiusX = 140 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
+                    eg.Center = new Point(100, 100);
+                    eg.RadiusX = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
                     eg.RadiusY = eg.RadiusX;
                     scale.Data = eg;
                 }
@@ -577,7 +577,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var pg = new PathGeometry();
                     var pf = new PathFigure();
                     pf.IsClosed = false;
-                    var middleOfScale = 140 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
+                    var middleOfScale = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
                     pf.StartPoint = radialGauge.ScalePoint(radialGauge.NormalizedMinAngle, middleOfScale);
                     var seg = new ArcSegment();
                     seg.SweepDirection = SweepDirection.Clockwise;
@@ -619,38 +619,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             radialGauge._root.Children.RemoveAll();
             radialGauge._compositor = radialGauge._root.Compositor;
 
-            // Ticks.
-            SpriteVisual tick;
-            for (double i = radialGauge.Minimum; i <= radialGauge.Maximum; i += radialGauge.TickSpacing)
+            if (radialGauge.TickSpacing > 0)
             {
-                tick = radialGauge._compositor.CreateSpriteVisual();
-                tick.Size = new Vector2((float)radialGauge.TickWidth, (float)radialGauge.TickLength);
-                tick.Brush = radialGauge._compositor.CreateColorBrush(radialGauge.TickBrush.Color);
-                tick.Offset = new Vector3(140 - ((float)radialGauge.TickWidth / 2), 0, 0);
-                tick.CenterPoint = new Vector3((float)radialGauge.TickWidth / 2, 140, 0);
-                tick.RotationAngleInDegrees = (float)radialGauge.ValueToAngle(i);
-                radialGauge._root.Children.InsertAtTop(tick);
-            }
+                // Ticks.
+                SpriteVisual tick;
+                for (double i = radialGauge.Minimum; i <= radialGauge.Maximum; i += radialGauge.TickSpacing)
+                {
+                    tick = radialGauge._compositor.CreateSpriteVisual();
+                    tick.Size = new Vector2((float)radialGauge.TickWidth, (float)radialGauge.TickLength);
+                    tick.Brush = radialGauge._compositor.CreateColorBrush(radialGauge.TickBrush.Color);
+                    tick.Offset = new Vector3(100 - ((float)radialGauge.TickWidth / 2), 0.0f, 0);
+                    tick.CenterPoint = new Vector3((float)radialGauge.TickWidth / 2, 100.0f, 0);
+                    tick.RotationAngleInDegrees = (float)radialGauge.ValueToAngle(i);
+                    radialGauge._root.Children.InsertAtTop(tick);
+                }
 
-            // Scale Ticks.
-            for (double i = radialGauge.Minimum; i <= radialGauge.Maximum; i += radialGauge.TickSpacing)
-            {
-                tick = radialGauge._compositor.CreateSpriteVisual();
-                tick.Size = new Vector2((float)radialGauge.ScaleTickWidth, (float)radialGauge.ScaleWidth);
-                tick.Brush = radialGauge._compositor.CreateColorBrush(radialGauge.ScaleTickBrush.Color);
-                tick.Offset = new Vector3(140 - ((float)radialGauge.ScaleTickWidth / 2), (float)radialGauge.ScalePadding, 0);
-                tick.CenterPoint = new Vector3((float)radialGauge.ScaleTickWidth / 2, 140 - (float)radialGauge.ScalePadding, 0);
-                tick.RotationAngleInDegrees = (float)radialGauge.ValueToAngle(i);
-                radialGauge._root.Children.InsertAtTop(tick);
+                // Scale Ticks.
+                for (double i = radialGauge.Minimum; i <= radialGauge.Maximum; i += radialGauge.TickSpacing)
+                {
+                    tick = radialGauge._compositor.CreateSpriteVisual();
+                    tick.Size = new Vector2((float)radialGauge.ScaleTickWidth, (float)radialGauge.ScaleWidth);
+                    tick.Brush = radialGauge._compositor.CreateColorBrush(radialGauge.ScaleTickBrush.Color);
+                    tick.Offset = new Vector3(100 - ((float)radialGauge.ScaleTickWidth / 2), (float)radialGauge.ScalePadding, 0);
+                    tick.CenterPoint = new Vector3((float)radialGauge.ScaleTickWidth / 2, 100 - (float)radialGauge.ScalePadding, 0);
+                    tick.RotationAngleInDegrees = (float)radialGauge.ValueToAngle(i);
+                    radialGauge._root.Children.InsertAtTop(tick);
+                }
             }
 
             // Needle.
             radialGauge._needle = radialGauge._compositor.CreateSpriteVisual();
             radialGauge._needle.Size = new Vector2((float)radialGauge.NeedleWidth, (float)radialGauge.NeedleLength);
             radialGauge._needle.Brush = radialGauge._compositor.CreateColorBrush(radialGauge.NeedleBrush.Color);
-            radialGauge._needle.CenterPoint = new Vector3((float)radialGauge.NeedleWidth / 2, (float)radialGauge.NeedleLength + 80, 0);
-            radialGauge._needle.Offset = new Vector3(140 - ((float)radialGauge.NeedleWidth / 2), 60 - (float)radialGauge.NeedleLength, 0);
-            radialGauge._root.Children.InsertAtBottom(radialGauge._needle);
+            radialGauge._needle.CenterPoint = new Vector3((float)radialGauge.NeedleWidth / 2, (float)radialGauge.NeedleLength, 0);
+            radialGauge._needle.Offset = new Vector3(100 - ((float)radialGauge.NeedleWidth / 2), 100 - (float)radialGauge.NeedleLength, 0);
+            radialGauge._root.Children.InsertAtTop(radialGauge._needle);
 
             OnValueChanged(radialGauge);
         }
@@ -722,7 +725,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Point ScalePoint(double angle, double middleOfScale)
         {
-            return new Point(140 + (Math.Sin(Degrees2Radians * angle) * middleOfScale), 140 - (Math.Cos(Degrees2Radians * angle) * middleOfScale));
+            return new Point(100 + (Math.Sin(Degrees2Radians * angle) * middleOfScale), 100 - (Math.Cos(Degrees2Radians * angle) * middleOfScale));
         }
 
         private double ValueToAngle(double value)

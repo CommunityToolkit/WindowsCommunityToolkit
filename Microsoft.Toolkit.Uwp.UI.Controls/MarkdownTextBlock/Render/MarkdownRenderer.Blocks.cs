@@ -12,8 +12,8 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Render;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -327,6 +327,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 Foreground = brush,
                 LineHeight = FontSize * 1.4
             };
+
+            textBlock.PointerWheelChanged += Preventative_PointerWheelChanged;
 
             var paragraph = new Paragraph();
             textBlock.Blocks.Add(paragraph);

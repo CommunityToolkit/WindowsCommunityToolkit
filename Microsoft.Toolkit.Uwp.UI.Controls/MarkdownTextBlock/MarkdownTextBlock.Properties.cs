@@ -36,6 +36,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static readonly DependencyProperty HyperlinkUrlProperty =
             DependencyProperty.RegisterAttached("HyperlinkUrl", typeof(string), typeof(MarkdownTextBlock), new PropertyMetadata(null));
 
+        // Checkes if clicked image is a hyperlink or not.
+        private static readonly DependencyProperty IsHyperlinkProperty =
+            DependencyProperty.RegisterAttached("IsHyperLink", typeof(string), typeof(MarkdownTextBlock), new PropertyMetadata(null));
+
         /// <summary>
         /// Gets the dependency property for <see cref="CodeStyling"/>.
         /// </summary>
@@ -320,6 +324,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets the dependency property for <see cref="UriPrefix"/>.
         /// </summary>
         public static readonly DependencyProperty UriPrefixProperty = DependencyProperty.Register(
+            nameof(UriPrefix),
+            typeof(string),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(string.Empty, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="UriPrefix"/>.
+        /// </summary>
+        public static readonly DependencyProperty SchemeListProperty = DependencyProperty.Register(
             nameof(UriPrefix),
             typeof(string),
             typeof(MarkdownTextBlock),
@@ -620,6 +633,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (string)GetValue(UriPrefixProperty); }
             set { SetValue(UriPrefixProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the SchemeList.
+        /// </summary>
+        public string SchemeList
+        {
+            get { return (string)GetValue(SchemeListProperty); }
+            set { SetValue(SchemeListProperty, value); }
         }
 
         /// <summary>

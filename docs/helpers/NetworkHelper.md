@@ -29,7 +29,7 @@ A metered connection is an Internet connection that has a data limit or cost ass
 | Property | Type | Description |
 | -- | -- | -- |
 | ConnectionCost | [ConnectionCost](https://docs.microsoft.com/uwp/api/Windows.Networking.Connectivity.ConnectionCost) | Gets connection cost for the current Internet Connection Profile |
-| ConnectionType | [ConnectionType(https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.connectivity.connectiontype)] | Gets connection type for the current Internet Connection Profile |
+| ConnectionType | [ConnectionType](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.connectivity.connectiontype)] | Gets connection type for the current Internet Connection Profile |
 | ConnectivityLevel | [NetworkConnectivityLevel](https://docs.microsoft.com/uwp/api/Windows.Networking.Connectivity.NetworkConnectivityLevel) | Gets connectivity level for the current Internet Connection Profile |
 | IsInternetAvailable | bool | Gets a value indicating whether internet is available across all connections |
 | IsInternetOnMeteredConnection | bool | Gets a value indicating whether if the current internet connection is metered |

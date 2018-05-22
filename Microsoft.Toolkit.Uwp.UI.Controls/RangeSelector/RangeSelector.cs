@@ -541,13 +541,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (newValue < rangeSelector.Minimum)
                 {
                     rangeSelector.RangeMin = rangeSelector.Minimum;
-                    return;
                 }
-
-                if (newValue > rangeSelector.Maximum)
+                else if (newValue > rangeSelector.Maximum)
                 {
                     rangeSelector.RangeMin = rangeSelector.Maximum;
-                    return;
                 }
 
                 rangeSelector.SyncActiveRectangle();
@@ -558,10 +555,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     rangeSelector.RangeMax = newValue;
                 }
             }
-            else
-            {
-                rangeSelector.SyncActiveRectangle();
-            }
+
+            rangeSelector.SyncThumbs();
         }
 
         /// <summary>
@@ -609,13 +604,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (newValue < rangeSelector.Minimum)
                 {
                     rangeSelector.RangeMax = rangeSelector.Minimum;
-                    return;
                 }
-
-                if (newValue > rangeSelector.Maximum)
+                else if (newValue > rangeSelector.Maximum)
                 {
                     rangeSelector.RangeMax = rangeSelector.Maximum;
-                    return;
                 }
 
                 rangeSelector.SyncActiveRectangle();
@@ -626,10 +618,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     rangeSelector.RangeMin = newValue;
                 }
             }
-            else
-            {
-                rangeSelector.SyncActiveRectangle();
-            }
+
+            rangeSelector.SyncThumbs();
         }
 
         private static void UpdateToolTipText(RangeSelector rangeSelector, TextBlock toolTip, double newValue)

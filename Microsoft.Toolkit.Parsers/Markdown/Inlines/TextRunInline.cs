@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 {

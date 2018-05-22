@@ -16,7 +16,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Services.OneDrive.Platform;
 using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Services.OneDrive

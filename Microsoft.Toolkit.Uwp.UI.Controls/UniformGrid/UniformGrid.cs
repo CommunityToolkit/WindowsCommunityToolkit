@@ -40,7 +40,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Get all Visible FrameworkElement Children
             var visible = Children.Where(item => item.Visibility != Visibility.Collapsed && item is FrameworkElement).Select(item => item as FrameworkElement).ToArray();
 
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
             var (rows, columns) = GetDimensions(visible, Rows, Columns, FirstColumn);
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
 
             // Now that we know size, setup automatic rows/columns
             // to utilize Grid for UniformGrid behavior.
@@ -101,9 +103,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (freespots.MoveNext())
                     {
-                        #pragma warning disable SA1009 // Closing parenthesis must be followed by a space.
+#pragma warning disable SA1009 // Closing parenthesis must be followed by a space.
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
                         var (row, column) = freespots.Current;
-                        #pragma warning restore SA1009 // Closing parenthesis must be followed by a space.
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
+#pragma warning restore SA1009 // Closing parenthesis must be followed by a space.
 
                         SetRow(child, row);
                         SetColumn(child, column);
