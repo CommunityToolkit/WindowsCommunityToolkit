@@ -283,7 +283,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateViewState()
         {
-            var before = ViewState;
+            var previousState = ViewState;
 
             if (ActualWidth < CompactModeThresholdWidth)
             {
@@ -294,12 +294,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ViewState = MasterDetailsViewState.Both;
             }
 
-            var after = ViewState;
-
-            if (before != after)
+            if (previousState != ViewState)
             {
-                ViewStateChanged?.Invoke(this, after);
-                SetBackButtonVisibility(before);
+                ViewStateChanged?.Invoke(this, ViewState);
+                SetBackButtonVisibility(previousState);
             }
         }
 
