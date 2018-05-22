@@ -16,7 +16,6 @@ using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
-
 namespace UnitTests.Markdown.Parse
 {
     [TestClass]
