@@ -395,7 +395,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <param name="comparer">equality comparer if needed</param>
         protected void SetValue<T>(ref T value, T newValue, [CallerMemberName] string propertyName = null, IEqualityComparer comparer = null)
         {
-            if (comparer?.Equals(value, newValue) ?? false || Equals(value, newValue))
+            if ((!comparer?.Equals(value, newValue)) ?? false || !Equals(value, newValue))
             {
                 value = newValue;
                 OnPropertyChanged(propertyName);
