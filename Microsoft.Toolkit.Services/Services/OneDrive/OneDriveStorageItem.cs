@@ -365,11 +365,11 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <param name="propertyName">name of the property changed</param>
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            if (!string.IsNullOrWhiteSpace(propertyName))
+            if (PropertyChanged != null && !string.IsNullOrWhiteSpace(propertyName))
             {
                 if (CoreApplication.MainView.Dispatcher.HasThreadAccess)
                 {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
                 }
                 else
                 {
@@ -378,7 +378,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
                     CoreDispatcherPriority.Normal,
                     () =>
                     {
-                        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                        PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
                     });
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 }
