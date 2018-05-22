@@ -165,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                 if ((int)result.Id == 0)
                 {
-                    GraphServiceClient graphServiceClient =await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                    GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
                     await graphServiceClient.Drives[_driveId].Items[driveItem.Id].Request().DeleteAsync();
                     string driveItemId = _driveItemPath.Peek();
                     await LoadFilesAsync(driveItemId);
