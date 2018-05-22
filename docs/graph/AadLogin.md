@@ -30,7 +30,7 @@ The [AadLogin Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.u
 | -- | -- | -- |
 | RequiredDelegatedPermissions | String[] | Gets required delegated permissions for Graph API access |
 | DefaultImage | BitmapImage | The default image displayed when no user is signed in |
-| View | [ViewType](../../Microsoft.Toolkit.Uwp.UI.Controls/Graph/ProfileCard/ViewType.cs) | The visual layout of the control. Default is `PictureOnly` |
+| View | [ViewType](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard/ViewType.cs) | The visual layout of the control. Default is `PictureOnly` |
 | AllowSignInAsDifferentUser | Boolean | Whether or not the menu item for `Sign in as a different user` is enabled, default value is true |
 | SignInDefaultText | String | Default text for sign in button |
 | SignOutDefaultText | String | Default text for sign out button |
@@ -56,7 +56,7 @@ The [AadLogin Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.u
 
 ## Default Template 
 
-[AadLogin XAML File](../../Microsoft.Toolkit.Uwp.UI.Controls/Graph/AadLogin/AadLogin.xaml) is the XAML template used in the toolkit for the default styling.
+[AadLogin XAML File](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/AadLogin/AadLogin.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements
 
@@ -67,4 +67,4 @@ The [AadLogin Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.u
 
 ## API
 
-* [AadLogin source code](../../Microsoft.Toolkit.Uwp.UI.Controls/Graph/AadLogin)
+* [AadLogin source code](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/AadLogin)

@@ -39,7 +39,7 @@ The [PeoplePicker Control](https://docs.microsoft.com/dotnet/api/microsoft.toolk
 
 ## Default Template 
 
-[PeoplePicker XAML File](../../Microsoft.Toolkit.Uwp.UI.Controls/Graph/PeoplePicker/PeoplePicker.xaml) is the XAML template used in the toolkit for the default styling.
+[PeoplePicker XAML File](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/PeoplePicker/PeoplePicker.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements
 
@@ -50,4 +50,4 @@ The [PeoplePicker Control](https://docs.microsoft.com/dotnet/api/microsoft.toolk
 
 ## API
 
-* [PeoplePicker source code](../../Microsoft.Toolkit.Uwp.UI.Controls/Graph/PeoplePicker)
+* [PeoplePicker source code](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/PeoplePicker)
