@@ -50,11 +50,11 @@
         <Setter Property="Background" Value="{StaticResource SystemControlBackgroundChromeMediumLowBrush}" />
     </contract5NotPresent:Style>
 
-    <contract5Present:Style TargetType="MenuFlyoutPresenter" BasedOn="{StaticResource BaseMenuFlyoutStyle}"  x:Key="MenuFlyoutStyle">
+    <contract5Present:Style TargetType="MenuFlyoutPresenter" BasedOn="{StaticResource BaseMenuFlyoutStyle}" x:Key="MenuFlyoutStyle">
         <Setter Property="Background">
             <Setter.Value>
                 <AcrylicBrush BackgroundSource="Backdrop" 
-                              TintColor="{StaticResource SystemChromeWhiteColor}" 
+                              TintColor="{StaticResource SystemChromeMediumLowColor}" 
                               TintOpacity="0.8" 
                               FallbackColor="{StaticResource SystemChromeMediumLowColor}" />
             </Setter.Value>
