@@ -41,34 +41,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <summary>
         /// Gets current application ID.
         /// </summary>
-        public string ClientId
-        {
-            get
-            {
-                return AppClientId;
-            }
-        }
+        public string ClientId => AppClientId;
 
         /// <summary>
         /// Gets current permission scopes.
         /// </summary>
-        public string[] Scopes
-        {
-            get
-            {
-                return DelegatedPermissionScopes;
-            }
-        }
+        public string[] Scopes => DelegatedPermissionScopes;
+
+        /// <summary>
+        /// Gets store a reference to an instance of the underlying data provider.
+        /// </summary>
+        public new GraphServiceClient GraphProvider => base.GraphProvider;
+
+        /// <summary>
+        /// Gets fields to store a MicrosoftGraphServiceMessages instance
+        /// </summary>
+        public new MicrosoftGraphUserService User => base.User;
+
+        /// <summary>
+        /// Gets field to store the model of authentication
+        /// V1 Only for Work or Scholar account
+        /// V2 for MSA and Work or Scholar account
+        /// </summary>
+        public new AuthenticationModel AuthenticationModel => base.AuthenticationModel;
+
+        /// <summary>
+        /// Property changed eventHandler for notification.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Gets a value indicating whether authenticated.
         /// </summary>
         public bool IsAuthenticated
         {
-            get
-            {
-                return _isAuthenticated;
-            }
+            get => _isAuthenticated;
 
             private set
             {
@@ -87,10 +94,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public string CurrentUserId
         {
-            get
-            {
-                return _currentUserId;
-            }
+            get => _currentUserId;
 
             private set
             {
@@ -103,46 +107,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         }
 
         private string _currentUserId;
-
-        /// <summary>
-        /// Gets field to store the model of authentication
-        /// V1 Only for Work or Scholar account
-        /// V2 for MSA and Work or Scholar account
-        /// </summary>
-        public new AuthenticationModel AuthenticationModel
-        {
-            get
-            {
-                return base.AuthenticationModel;
-            }
-        }
-
-        /// <summary>
-        /// Gets store a reference to an instance of the underlying data provider.
-        /// </summary>
-        public new GraphServiceClient GraphProvider
-        {
-            get
-            {
-                return base.GraphProvider;
-            }
-        }
-
-        /// <summary>
-        /// Gets fields to store a MicrosoftGraphServiceMessages instance
-        /// </summary>
-        public new MicrosoftGraphUserService User
-        {
-            get
-            {
-                return base.User;
-            }
-        }
-
-        /// <summary>
-        /// Property changed eventHandler for notification.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Initialize for the <see cref="AadAuthenticationManager"/> class
@@ -219,11 +183,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
 
             return IsAuthenticated;
-        }
-
-        internal Task<GraphServiceClient> GetGraphServiceClientAsync()
-        {
-            return Task.FromResult(GraphProvider);
         }
 
         internal async void SignOut()

@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                 SignInCompleted?.Invoke(this, new SignInEventArgs()
                 {
-                    GraphClient = await _aadAuthenticationManager.GetGraphServiceClientAsync()
+                    GraphClient = _aadAuthenticationManager.GraphProvider
                 });
 
                 return true;
@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 {
                     if (await _aadAuthenticationManager.ConnectForAnotherUserAsync())
                     {
-                        var graphClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                        var graphClient = _aadAuthenticationManager.GraphProvider;
 
                         SignInCompleted?.Invoke(this, new SignInEventArgs()
                         {

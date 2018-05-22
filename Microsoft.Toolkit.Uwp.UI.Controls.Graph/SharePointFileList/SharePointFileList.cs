@@ -159,7 +159,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 siteRelativePath = "/";
             }
 
-            GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+            GraphServiceClient graphServiceClient = _aadAuthenticationManager.GraphProvider;
             Site site = await graphServiceClient.Sites.GetByPath(siteRelativePath, hostName).Request().GetAsync();
             ISiteDrivesCollectionPage drives = await graphServiceClient.Sites[site.Id].Drives.Request().GetAsync();
 
@@ -186,7 +186,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     realDriveURL = await GetDriveUrlFromSharePointUrlAsync(driveUrl);
                 }
 
-                GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                GraphServiceClient graphServiceClient = _aadAuthenticationManager.GraphProvider;
                 HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, realDriveURL);
                 await graphServiceClient.AuthenticationProvider.AuthenticateRequestAsync(message);
 
@@ -225,7 +225,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     _list.Items.Clear();
                     VisualStateManager.GoToState(this, NavStatesFolderReadonly, false);
                     QueryOption queryOption = new QueryOption("$top", PageSize.ToString());
-                    GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                    GraphServiceClient graphServiceClient = _aadAuthenticationManager.GraphProvider;
                     Task<IDriveItemChildrenCollectionPage> taskFiles = graphServiceClient.Drives[_driveId].Items[driveItemId].Children.Request(new List<Option> { queryOption }).GetAsync(_cancelLoadFile.Token);
                     IDriveItemChildrenCollectionPage files = await taskFiles;
                     if (!taskFiles.IsCanceled)

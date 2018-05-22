@@ -63,13 +63,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             try
             {
-                Task<GraphServiceClient> graphClient = AadAuthenticationManager.Instance.GetGraphServiceClientAsync();
+                GraphServiceClient graphClient = AadAuthenticationManager.Instance.GraphProvider;
 
                 var options = new List<QueryOption>
                 {
                     new QueryOption("$search", searchText)
                 };
-                IUserPeopleCollectionPage peopleList = await (await graphClient).Me.People.Request(options).GetAsync();
+                IUserPeopleCollectionPage peopleList = await graphClient.Me.People.Request(options).GetAsync();
 
                 if (peopleList.Any())
                 {
