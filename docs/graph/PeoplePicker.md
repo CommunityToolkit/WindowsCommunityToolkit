@@ -46,7 +46,7 @@ The [PeoplePicker Control](https://docs.microsoft.com/dotnet/api/microsoft.toolk
 | Device family | Universal, 10.0.14393.0 or higher |
 | -- | -- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls.Graph |
-| NuGet package | [Microsoft.Toolkit.Uwp.UI.Controls.Graph](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Controls/) |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI.Controls.Graph](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Controls.Graph/) |
 
 ## API
 

@@ -1,10 +1,10 @@
 <FileList>
-  <File Reference="Microsoft.Toolkit.Uwp.UI.Controls.dll">
-    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
+  <File Reference="Microsoft.Toolkit.Uwp.UI.Controls.Graph.dll">
+    <ToolboxItems VSCategory="Windows Community Toolkit Graph Controls" BlendCategory="Windows Community Toolkit Graph Controls">
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.AadLogin" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.ProfileCard" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.PeoplePicker" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.SharePointFiles" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.SharePointFileList" />
     </ToolboxItems>
   </File>
 </FileList>
