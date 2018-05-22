@@ -53,12 +53,12 @@ The [AadLogin Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.u
 
 ## Sample Code
 
-First all all, initialize the Azure AD authentication manager, this should be done globally with all required delegate permissions if multiple Graph controls in this package are used in your app.
+First all all, initialize the Azure AD authentication manager, this should be done globally with the combined delegate permissions required by all Graph controls used in your app.
 
 ```c#
 AadAuthenticationManager.Instance.Initialize(
     'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-    new string[] { "User.Read", "User.ReadBasic.All" }
+    AadLogin.RequiredDelegatedPermissions
 );
 ```
 
