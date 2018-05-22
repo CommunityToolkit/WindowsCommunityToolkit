@@ -64,7 +64,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     {
                         await item.DeleteAsync(StorageDeleteOption.Default);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
 
                 // Update Cache Version info.
@@ -697,26 +699,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             // Search in Microsoft.Toolkit.Uwp.Input.GazeInteraction
-
             var gazeType = Interaction.Enabled;
-
             assembly = gazeType.GetType().GetTypeInfo().Assembly;
-
             foreach (var typeInfo in assembly.ExportedTypes)
-
             {
-
                 if (typeInfo.Name == typeName)
-
                 {
-
                     return typeInfo;
-
                 }
-
             }
-
-
 
             return null;
         }
