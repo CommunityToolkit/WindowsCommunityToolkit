@@ -29,6 +29,7 @@
         <RowDefinition />
         <RowDefinition />
         <RowDefinition />
+        <RowDefinition />
       </Grid.RowDefinitions>
 
                 <StackPanel Margin="10,10,10,0">
@@ -46,34 +47,34 @@
 
       <StackPanel Grid.Row="1"
                         Margin="10,10,10,0">
-        <TextBox Name="PhoneNumberValidatorForce"
-                 extensions:TextBoxRegex.ValidationMode="Forced"
-                 extensions:TextBoxRegex.ValidationType="PhoneNumber"
-                 Header="Text box with ValidationType=PhoneNumber, validation occurs on TextChanged and force occurs on lose focus with ValidationMode=Force"
+        <TextBox Name="CharactValidator"
+                 extensions:TextBoxRegex.ValidationMode="Dynamic"
+                 extensions:TextBoxRegex.ValidationType="Characters"
+                 Header="Text box with ValidationType=Characters, validation occurs at input with ValidationMode=Dynamic and clear only single character when value is invalid"
                  HeaderTemplate="{StaticResource HeaderTemplate}"
                  Style="{StaticResource TextBoxRegexStyle}"
-                 Text="+61616161611" />
+                 Text="abcdef" />
         <StackPanel Orientation="Horizontal">
           <TextBlock Text="Is Valid: " />
-          <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=PhoneNumberValidatorForce, Converter={StaticResource StringFormatConverter}}" />
+          <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=CharactValidator, Converter={StaticResource StringFormatConverter}}" />
         </StackPanel>
       </StackPanel>
 
       <StackPanel Grid.Row="2"
                         Margin="10,10,10,0">
-        <TextBox Name="EmailValidatorForce"
+        <TextBox Name="EmailValidator"
                  extensions:TextBoxRegex.ValidationType="Email"
                  Header="Text box with ValidationType=Email, validation occurs on TextChanged"
                  HeaderTemplate="{StaticResource HeaderTemplate}"
                  Style="{StaticResource TextBoxRegexStyle}" />
         <StackPanel Orientation="Horizontal">
           <TextBlock Text="Is Valid: " />
-          <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=EmailValidatorForce, Converter={StaticResource StringFormatConverter}}" />
+          <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=EmailValidator, Converter={StaticResource StringFormatConverter}}" />
         </StackPanel>
       </StackPanel>
 
       <StackPanel Grid.Row="3"
-                        Margin="10,10,10,0">
+                  Margin="10,10,10,0">
         <TextBox Name="DecimalValidatorForce"
                  extensions:TextBoxRegex.ValidationMode="Forced"
                  extensions:TextBoxRegex.ValidationType="Decimal"
@@ -83,6 +84,20 @@
         <StackPanel Orientation="Horizontal">
           <TextBlock Text="Is Valid: " />
           <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=DecimalValidatorForce, Converter={StaticResource StringFormatConverter}}" />
+        </StackPanel>
+      </StackPanel>
+
+      <StackPanel Grid.Row="4"
+                        Margin="10,10,10,0">
+        <TextBox Name="NumberValidatorDynamic"
+                 extensions:TextBoxRegex.ValidationMode="Dynamic"
+                 extensions:TextBoxRegex.ValidationType="Number"
+                 Header="Text box with ValidationType=Number, validation occurs at input with ValidationMode=Dynamic and clear only single character when value is invalid"
+                 HeaderTemplate="{StaticResource HeaderTemplate}"
+                 Style="{StaticResource TextBoxRegexStyle}" />
+        <StackPanel Orientation="Horizontal">
+          <TextBlock Text="Is Valid: " />
+          <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=NumberValidatorDynamic, Converter={StaticResource StringFormatConverter}}" />
         </StackPanel>
       </StackPanel>
 
