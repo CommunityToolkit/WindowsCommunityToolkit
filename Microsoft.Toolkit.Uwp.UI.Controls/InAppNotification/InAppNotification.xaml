@@ -13,7 +13,7 @@
     <Style TargetType="local:InAppNotification" x:Key="BaseInAppNotificationsStyle">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlHighlightBaseLowBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
         <Setter Property="Visibility" Value="Collapsed" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -32,14 +32,14 @@
     </Style>
 
     <contract5NotPresent:Style TargetType="local:InAppNotification" BasedOn="{StaticResource BaseInAppNotificationsStyle}">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
     </contract5NotPresent:Style>
 
     <contract5Present:Style TargetType="local:InAppNotification" BasedOn="{StaticResource BaseInAppNotificationsStyle}">
         <Setter Property="Background">
             <Setter.Value>
                 <AcrylicBrush BackgroundSource="Backdrop" 
-                              TintColor="{StaticResource SystemChromeWhiteColor}" 
+                              TintColor="{StaticResource SystemChromeMediumLowColor}" 
                               TintOpacity="0.8"
                               FallbackColor="{StaticResource SystemChromeMediumLowColor}" />
             </Setter.Value>
