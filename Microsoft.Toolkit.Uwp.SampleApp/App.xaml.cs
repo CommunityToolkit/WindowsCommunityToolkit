@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using Microsoft.HockeyApp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
@@ -40,13 +39,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             InitializeComponent();
             Suspending += OnSuspending;
-            try
-            {
-                HockeyClient.Current.Configure(string.Empty);
-            }
-            catch
-            {
-            }
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)

@@ -234,7 +234,8 @@ void GazeTargetItem::RaiseProgressEvent(DwellProgressState state)
             }
             else
             {
-                rectangle->Stroke = GazeInput::DwellFeedbackCompleteBrush;
+                rectangle->Stroke = state == DwellProgressState::Fixating ? 
+                    GazeInput::DwellFeedbackEnterBrush : GazeInput::DwellFeedbackCompleteBrush;
                 rectangle->Width = bounds.Width;
                 rectangle->Height = bounds.Height;
 
