@@ -49,14 +49,16 @@ namespace Microsoft.Toolkit.Services.OneDrive
         {
             get
             {
+                if (_thumbnail == null)
+                {
+                    GetThumbnailAsync();
+                }
+
                 return _thumbnail;
             }
         }
 
-        /// <summary>
-        /// Loads the thumbnail URL for the item asynchronously, attempting to produce a value for Thumbnail property.
-        /// </summary>
-        public async void GetThumbnailAsync()
+        private async void GetThumbnailAsync()
         {
             var newValue = _thumbnail;
             var set = await GetThumbnailSetAsync();
