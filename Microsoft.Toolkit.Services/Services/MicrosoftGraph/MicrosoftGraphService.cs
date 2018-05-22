@@ -94,6 +94,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// </summary>
         private MicrosoftGraphService()
         {
+
         }
 
         /// <summary>
