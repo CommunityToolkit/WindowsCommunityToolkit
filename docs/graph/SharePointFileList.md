@@ -29,7 +29,7 @@ The [SharePointFiles Control](https://docs.microsoft.com/dotnet/api/microsoft.to
 | -- | -- | -- |
 | RequiredDelegatedPermissions | String[] | Gets required delegated permissions for Graph API access |
 | DriveUrl | String | Full URL of the Drive being displayed |
-| DetailPane | [DetailPaneDisplayMode](../../Microsoft.Toolkit.Uwp.UI.Controls/Graph/SharePointFiles/DetailPaneDisplayMode.cs) | Determines whether file details are displayed, when a file is selected |
+| DetailPane | [DetailPaneDisplayMode](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/SharePointFiles/DetailPaneDisplayMode.cs) | Determines whether file details are displayed, when a file is selected |
 | PageSize | Int | Page size of each request |
 | ShareLinkCopiedMessage | String | The message when share link copied |
 | AllFilesMessage | String | The label of All Files |
@@ -56,7 +56,7 @@ The [SharePointFiles Control](https://docs.microsoft.com/dotnet/api/microsoft.to
 
 ## Default Template 
 
-[SharePointFiles XAML File](../../Microsoft.Toolkit.Uwp.UI.Controls/Graph/SharePointFiles/SharePointFiles.xaml) is the XAML template used in the toolkit for the default styling.
+[SharePointFiles XAML File](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/SharePointFiles/SharePointFiles.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements
 
@@ -67,4 +67,4 @@ The [SharePointFiles Control](https://docs.microsoft.com/dotnet/api/microsoft.to
 
 ## API
 
-* [SharePointFiles source code](../../Microsoft.Toolkit.Uwp.UI.Controls/Graph/SharePointFiles)
+* [SharePointFiles source code](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/SharePointFiles)

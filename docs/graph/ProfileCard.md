@@ -29,7 +29,7 @@ The [ProfileCard Control](https://docs.microsoft.com/dotnet/api/microsoft.toolki
 | -- | -- | -- |
 | RequiredDelegatedPermissions | String[] | Gets required delegated permissions for Graph API access |
 | UserId | String | Identifier of the user being displayed, this user id can come from the Graph APIs like `/me/people`, `/users`, etc. |
-| DisplayMode | [ViewType](../../Microsoft.Toolkit.Uwp.UI.Controls/Graph/ProfileCard/ViewType.cs) | The visual layout of the control. Default is `PictureOnly` |
+| DisplayMode | [ViewType](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard/ViewType.cs) | The visual layout of the control. Default is `PictureOnly` |
 | DefaultImage | BitmapImage | The default image displayed when no user is signed in |
 | LargeProfileTitleDefaultText | String | Default title text in LargeProfilePhotoLeft mode or LargeProfilePhotoRight mode when no user is signed in |
 | LargeProfileMailDefaultText | String | Default secondary mail text in LargeProfilePhotoLeft mode or LargeProfilePhotoRight mode when no user is signed in |
@@ -41,7 +41,7 @@ The [ProfileCard Control](https://docs.microsoft.com/dotnet/api/microsoft.toolki
 
 ## Default Template 
 
-[ProfileCard XAML File](../../Microsoft.Toolkit.Uwp.UI.Controls/Graph/ProfileCard/ProfileCard.xaml) is the XAML template used in the toolkit for the default styling.
+[ProfileCard XAML File](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard/ProfileCard.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements
 
@@ -52,4 +52,4 @@ The [ProfileCard Control](https://docs.microsoft.com/dotnet/api/microsoft.toolki
 
 ## API
 
-* [ProfileCard source code](../../Microsoft.Toolkit.Uwp.UI.Controls/Graph/ProfileCard)
+* [ProfileCard source code](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard)
