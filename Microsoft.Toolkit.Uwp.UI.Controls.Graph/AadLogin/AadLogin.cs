@@ -49,8 +49,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 if (!_aadAuthenticationManager.IsAuthenticated)
                 {
+                    IsHitTestVisible = false;
                     Flyout = null;
                     await SignInAsync();
+                    IsHitTestVisible = true;
                 }
                 else
                 {
