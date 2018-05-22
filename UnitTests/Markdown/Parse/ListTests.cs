@@ -11,8 +11,7 @@
 // ******************************************************************
 
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
-using Microsoft.Toolkit.Parsers.Markdown.Blocks.List;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
+using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
