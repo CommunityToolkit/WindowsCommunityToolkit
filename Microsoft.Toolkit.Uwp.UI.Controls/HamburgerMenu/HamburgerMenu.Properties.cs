@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -164,8 +165,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public object ItemsSource
         {
-            get { return GetValue(ItemsSourceProperty); }
-            set { SetValue(ItemsSourceProperty, value); }
+            get
+            {
+                return GetValue(ItemsSourceProperty);
+            }
+
+            set
+            {
+                if (GetValue(ItemsSourceProperty) is INotifyCollectionChanged observableItemsCollection)
+                {
+                    CreateNotifyCollectionChangedEventHandlerIfNotExists();
+                    observableItemsCollection.CollectionChanged -= notifyCollectionChangedEventHandler;
+                }
+
+                if (value is INotifyCollectionChanged newObservableItemsCollection)
+                {
+                    CreateNotifyCollectionChangedEventHandlerIfNotExists();
+                    newObservableItemsCollection.CollectionChanged += notifyCollectionChangedEventHandler;
+                }
+
+                SetValue(ItemsSourceProperty, value);
+            }
         }
 
         /// <summary>
@@ -249,11 +269,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (d is HamburgerMenu hamburgerMenu && hamburgerMenu.UsingNavView)
             {
                 hamburgerMenu.NavViewSetItemsSource();
-
-                if (hamburgerMenu.ItemsSource is System.Collections.Specialized.INotifyCollectionChanged observableItemsCollection)
-                {
-                    observableItemsCollection.CollectionChanged += (sender, eventArgs) => { hamburgerMenu.NavViewSetItemsSource(); };
-                }
             }
         }
 
@@ -308,6 +323,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     menu.NavViewSetSelectedItem((int)e.NewValue >= 0 ? options.ElementAt((int)e.NewValue) : null);
                 }
+            }
+        }
+
+        private NotifyCollectionChangedEventHandler notifyCollectionChangedEventHandler;
+
+        private void CreateNotifyCollectionChangedEventHandlerIfNotExists()
+        {
+            if (notifyCollectionChangedEventHandler == null)
+            {
+                var hamburgerMenu = this;
+                notifyCollectionChangedEventHandler = (sender, eventArgs) => { hamburgerMenu.NavViewSetItemsSource(); };
             }
         }
     }
