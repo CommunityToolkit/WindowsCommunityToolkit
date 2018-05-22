@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftGraphService"/> class.
         /// </summary>
-        private MicrosoftGraphService()
+        public MicrosoftGraphService()
         {
         }
 
