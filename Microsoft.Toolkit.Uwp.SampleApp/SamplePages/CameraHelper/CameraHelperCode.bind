@@ -25,3 +25,26 @@ private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
   // Gets the software bitmap image
   SoftwareBitmap softwareBitmap = currentVideoFrame.SoftwareBitmap;
 }
+
+private async void Application_Suspending(object sender, SuspendingEventArgs e)
+{
+    if (Frame.CurrentSourcePageType == typeof(CameraHelperPage))
+    {
+        var deferral = e.SuspendingOperation.GetDeferral();
+        await CleanUpAsync();
+        deferral.Complete();
+    }
+}
+
+private async Task CleanUpAsync()
+{
+    // You may want to unsubscribe from any events and call CameraHelper CleanUpAsync() method
+	// to free up camera helper resources on App suspending, Page OnNavigatedFrom events when appropriate.
+	// Note: You would need to re-initialize the CameraHelper and rehook events on App resuming, OnNavigatedTo events.
+    if (_cameraHelper != null)
+    {
+        _cameraHelper.FrameArrived -= CameraHelper_FrameArrived;
+        await _cameraHelper.CleanUpAsync();
+        _cameraHelper = null;
+    }
+}

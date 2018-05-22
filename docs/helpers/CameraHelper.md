@@ -47,7 +47,7 @@ private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
 
 As a developer, you will need to make sure the CameraHelper resources are cleaned up when appropriate. For example, if the CameraHelper is only used on one page, make sure to clean up the CameraHelper when navigating away from the page.
 
-Likewise, make sure to handle app [suspending](https://docs.microsoft.com/windows/uwp/launch-resume/suspend-an-app) and [resuming](https://docs.microsoft.com/en-us/windows/uwp/launch-resume/resume-an-app) - CameraHelper should be cleaned up when susspending and re-initialized when resuming.
+Likewise, make sure to handle app [suspending](https://docs.microsoft.com/windows/uwp/launch-resume/suspend-an-app) and [resuming](https://docs.microsoft.com/en-us/windows/uwp/launch-resume/resume-an-app) - CameraHelper should be cleaned up when suspending and re-initialized when resuming.
 
 Call `CameraHelper.CleanupAsync()` to clean up all internal resources. See the [CameraHelper sample page in the sample app](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/CameraHelper) for full example.
 

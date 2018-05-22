@@ -57,9 +57,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _cameraPreviewControl = control.FindDescendantByName("CameraPreviewControl") as CameraPreview;
             if (_cameraPreviewControl != null)
             {
+                _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
                 await _cameraPreviewControl.StartAsync(cameraHelper);
                 _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
-                _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
             }
 
             _imageControl = control.FindDescendantByName("CurrentFrameImage") as Image;
@@ -102,9 +102,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private async void Application_Resuming(object sender, object e)
         {
             var cameraHelper = _cameraPreviewControl?.CameraHelper;
+            _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
             await _cameraPreviewControl.StartAsync(cameraHelper);
             _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
-            _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
         }
 
         private void CameraPreviewControl_FrameArrived(object sender, FrameEventArgs e)

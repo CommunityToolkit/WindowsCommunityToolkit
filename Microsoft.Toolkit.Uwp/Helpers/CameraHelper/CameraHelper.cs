@@ -107,7 +107,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
                 groupChanged = false;
 
-                await CleanUpAsync();
+                await StopReaderAsync();
+
+                if (_mediaCapture != null)
+                {
+                    _mediaCapture.Dispose();
+                    _mediaCapture = null;
+                }
 
                 if (_frameSourceGroups == null)
                 {
@@ -176,13 +182,21 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task CleanUpAsync()
         {
-            _initialized = false;
-            await StopReaderAsync();
-
-            if (_mediaCapture != null)
+            await semaphoreSlim.WaitAsync();
+            try
             {
-                _mediaCapture.Dispose();
-                _mediaCapture = null;
+                _initialized = false;
+                await StopReaderAsync();
+
+                if (_mediaCapture != null)
+                {
+                    _mediaCapture.Dispose();
+                    _mediaCapture = null;
+                }
+            }
+            finally
+            {
+                semaphoreSlim.Release();
             }
         }
 
@@ -237,12 +251,25 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
             catch (UnauthorizedAccessException)
             {
-                await CleanUpAsync();
+                await StopReaderAsync();
+
+                if (_mediaCapture != null)
+                {
+                    _mediaCapture.Dispose();
+                    _mediaCapture = null;
+                }
+
                 return CameraHelperResult.CameraAccessDenied;
             }
             catch (Exception)
             {
-                await CleanUpAsync();
+                await StopReaderAsync();
+
+                if (_mediaCapture != null)
+                {
+                    _mediaCapture.Dispose();
+                    _mediaCapture = null;
+                }
                 return CameraHelperResult.InitializationFailed_UnknownError;
             }
 

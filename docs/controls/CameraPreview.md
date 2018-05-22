@@ -21,9 +21,9 @@ Make sure you have the webcam capability enabled for your app to access the devi
 
 ```csharp
 
+_cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
 await _cameraPreviewControl.StartAsync();
 _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
-_cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
      
 
 private void CameraPreviewControl_FrameArrived(object sender, FrameEventArgs e)
@@ -59,6 +59,7 @@ As a developer, you will need to make sure the CameraHelper resources used by th
 | -- | -- | -- |
 | StartAsync() | Task | Initializes camera preview control with a default Camera Helper instance and starts preview and frame capture. |
 | StartAsync(CameraHelper cameraHelper) | Task | Initializes camera preview control with provided Camera Helper instance. |
+| Stop() | void | Stops camera preview and disposes MediaPlayer. |
 
 ## Events
 
@@ -75,9 +76,9 @@ var availableFrameSourceGroups = = await CameraHelper.GetFrameSourceGroupsAsync(
 if(availableFrameSourceGroups != null)
 {
   CameraHelper cameraHelper = new CameraHelper() { FrameSourceGroup = availableFrameSourceGroups.FirstOrDefault() };
-  await _cameraPreviewControl.StartAsync(cameraHelper);
-  _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
   _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
+  await _cameraPreviewControl.StartAsync(cameraHelper);
+  _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived; 
 }
 ```
 
