@@ -15,6 +15,7 @@ using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 using Microsoft.Toolkit.Parsers.Markdown.Render;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
@@ -50,6 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         public UIElement Render()
         {
             var stackPanel = new StackPanel();
+            RootElement = stackPanel;
             Render(new UIElementCollectionRenderContext(stackPanel.Children) { Foreground = Foreground });
 
             // Set background and border properties.
@@ -205,6 +207,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                     // Remove any superscripts.
                     RemoveSuperscriptRuns((IInlineContainer)inline, insertCaret);
                 }
+            }
+        }
+
+        private void Preventative_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            var pointerPoint = e.GetCurrentPoint((UIElement)sender);
+
+            if (pointerPoint.Properties.IsHorizontalMouseWheel)
+            {
+                e.Handled = false;
+                return;
+            }
+
+            var rootViewer = VisualTree.FindAscendant<ScrollViewer>(RootElement);
+            if (rootViewer != null)
+            {
+                pointerWheelChanged?.Invoke(rootViewer, new object[] { e });
+                e.Handled = true;
             }
         }
     }

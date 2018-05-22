@@ -61,6 +61,10 @@ internal:
         {
             switch (ElementState)
             {
+            case PointerState::Enter:
+                RaiseProgressEvent(DwellProgressState::Fixating);
+                break;
+
             case PointerState::Dwell:
             case PointerState::Fixation:
                 RaiseProgressEvent(DwellProgressState::Progressing);
