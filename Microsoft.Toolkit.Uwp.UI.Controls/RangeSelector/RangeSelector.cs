@@ -396,10 +396,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 rangeSelector.RangeMax = newValue;
             }
 
-            if (newValue < oldValue)
-            {
-                rangeSelector.SyncThumbs();
-            }
+            rangeSelector.SyncThumbs();
         }
 
         /// <summary>
@@ -448,10 +445,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 rangeSelector.RangeMin = newValue;
             }
 
-            if (newValue > oldValue)
-            {
-                rangeSelector.SyncThumbs();
-            }
+            rangeSelector.SyncThumbs();
         }
 
         /// <summary>
@@ -497,26 +491,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (newValue < rangeSelector.Minimum)
                 {
                     rangeSelector.RangeMin = rangeSelector.Minimum;
-                    return;
                 }
-
-                if (newValue > rangeSelector.Maximum)
+                else if (newValue > rangeSelector.Maximum)
                 {
                     rangeSelector.RangeMin = rangeSelector.Maximum;
-                    return;
                 }
-
-                rangeSelector.SyncActiveRectangle();
-
-                if (newValue > rangeSelector.RangeMax)
+                else if (newValue > rangeSelector.RangeMax)
                 {
                     rangeSelector.RangeMax = newValue;
                 }
             }
-            else
-            {
-                rangeSelector.SyncActiveRectangle();
-            }
+
+            rangeSelector.SyncThumbs();
         }
 
         /// <summary>
@@ -562,26 +548,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (newValue < rangeSelector.Minimum)
                 {
                     rangeSelector.RangeMax = rangeSelector.Minimum;
-                    return;
                 }
-
-                if (newValue > rangeSelector.Maximum)
+                else if (newValue > rangeSelector.Maximum)
                 {
                     rangeSelector.RangeMax = rangeSelector.Maximum;
-                    return;
                 }
-
-                rangeSelector.SyncActiveRectangle();
-
-                if (newValue < rangeSelector.RangeMin)
+                else if (newValue < rangeSelector.RangeMin)
                 {
                     rangeSelector.RangeMin = newValue;
                 }
             }
-            else
-            {
-                rangeSelector.SyncActiveRectangle();
-            }
+
+            rangeSelector.SyncThumbs();
         }
 
         /// <summary>

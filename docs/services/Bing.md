@@ -24,7 +24,7 @@ Choose the *Bing Search - Free* option.  After selecting this and agreeing to th
 ## Syntax
 
 ```csharp
-using Microsoft.Toolkit.Uwp.Services.Bing;
+using Microsoft.Toolkit.Services.Bing;
 
 var searchConfig = new BingSearchConfig
 {
@@ -37,7 +37,7 @@ var searchConfig = new BingSearchConfig
 ListView.ItemsSource = await BingService.Instance.RequestAsync(searchConfig, 50);
 ```
 ```vb
-Imports using Microsoft.Toolkit.Uwp.Services.Bing
+Imports using Microsoft.Toolkit.Services.Bing
 
 Dim searchConfig = New BingSearchConfig With {
     .Country = BingCountry.UnitedStates,
@@ -122,9 +122,9 @@ ListView.ItemsSource = Await BingService.Instance.RequestAsync(searchConfig, 50)
 
 | Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.Services |
-| NuGet package | [Microsoft.Toolkit.Uwp.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.Services/) |
+| Namespace | Microsoft.Toolkit.Services |
+| NuGet package | [Microsoft.Toolkit.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Services/) |
 
 ## API
 
-* [Bing Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Bing)
+* [Bing Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/Bing)

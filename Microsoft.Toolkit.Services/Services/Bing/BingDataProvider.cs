@@ -16,8 +16,6 @@ using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Services.Core;
-using Microsoft.Toolkit.Services.Exceptions;
 
 namespace Microsoft.Toolkit.Services.Bing
 {

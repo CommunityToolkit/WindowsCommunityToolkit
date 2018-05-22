@@ -12,7 +12,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Blocks.List
+namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// This specifies the Content of the List element.

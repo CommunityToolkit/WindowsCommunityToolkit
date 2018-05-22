@@ -10,7 +10,6 @@
       </PropertyGroup>
 
       <ItemGroup>
-        <PackageReference Condition="'$(UseUwpMetaPackage)' == 'true'" Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="$(UwpMetaPackageVersion)" />
 
         <SDKReference Condition="'$(UseWindowsDesktopSdk)' == 'true' " Include="WindowsDesktop, Version=$(TargetPlatformVersion)">
           <Name>Windows Desktop Extensions for the UWP</Name>
@@ -20,6 +19,22 @@
         </SDKReference>
       </ItemGroup>
 
+    </When>
+  </Choose>
+
+  <Choose>
+    <When Condition="'$(IsWin32Project)' == 'true'">
+      <PropertyGroup>
+        <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == ''">10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
+        <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == ''">10.0.$(DefaultTargetPlatformMinVersion).0</TargetPlatformMinVersion>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="Windows">
+          <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformMinVersion)\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformMinVersion)\Windows.winmd</HintPath>
+          <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformVersion)\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformVersion)\Windows.winmd</HintPath>
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
     </When>
   </Choose>
 

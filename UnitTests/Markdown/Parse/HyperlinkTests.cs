@@ -12,7 +12,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
+using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
 namespace UnitTests.Markdown.Parse
@@ -472,9 +472,9 @@ namespace UnitTests.Markdown.Parse
         [TestCategory("Parse - inline")]
         public void Hyperlink_Negative_SchemeOnly()
         {
-            AssertEqual("http:",
+            AssertEqual("http",
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "http:" }));
+                    new TextRunInline { Text = "http" }));
         }
 
         [TestMethod]
@@ -508,9 +508,9 @@ namespace UnitTests.Markdown.Parse
         [TestCategory("Parse - inline")]
         public void Hyperlink_Negative_AngleBracketsPrefixOnly()
         {
-            AssertEqual("<http://>",
+            AssertEqual("<http>",
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "<http://>" }));
+                    new TextRunInline { Text = "<http>" }));
         }
 
         [TestMethod]
