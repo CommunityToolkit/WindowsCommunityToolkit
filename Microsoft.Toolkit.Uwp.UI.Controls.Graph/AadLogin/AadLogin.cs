@@ -11,8 +11,9 @@
 // ******************************************************************
 
 using System;
-using System.ComponentModel;
 using System.Threading.Tasks;
+using Microsoft.Identity.Client;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
@@ -26,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     [TemplatePart(Name = "ContentPresenter", Type = typeof(ContentPresenter))]
     public partial class AadLogin : Button
     {
-        private AadAuthenticationManager _aadAuthenticationManager = AadAuthenticationManager.Instance;
+        private MicrosoftGraphService GraphService => MicrosoftGraphService.Instance;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AadLogin"/> class.
@@ -39,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <summary>
         /// Override default OnApplyTemplate to capture child controls
         /// </summary>
-        protected override void OnApplyTemplate()
+        protected async override void OnApplyTemplate()
         {
             ApplyTemplate();
 
@@ -47,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             Click += async (object sender, RoutedEventArgs e) =>
             {
-                if (!_aadAuthenticationManager.IsAuthenticated)
+                if (!GraphService.IsAuthenticated)
                 {
                     IsHitTestVisible = false;
                     Flyout = null;
@@ -60,17 +61,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 }
             };
 
-            _aadAuthenticationManager.PropertyChanged += (object sender, PropertyChangedEventArgs e) =>
-            {
-                if (e.PropertyName == nameof(_aadAuthenticationManager.CurrentUserId))
-                {
-                    CurrentUserId = _aadAuthenticationManager.CurrentUserId;
-                }
-            };
+            GraphService.IsAuthenticatedChanged -= GraphService_StateChanged;
+            GraphService.IsAuthenticatedChanged += GraphService_StateChanged;
 
-            if (_aadAuthenticationManager.IsAuthenticated)
+            if (GraphService.IsAuthenticated)
             {
-                CurrentUserId = _aadAuthenticationManager.CurrentUserId;
+                CurrentUserId = (await GraphService.User.GetProfileAsync(new MicrosoftGraphUserFields[1] { MicrosoftGraphUserFields.Id })).Id;
+            }
+        }
+
+        private async void GraphService_StateChanged(object sender, EventArgs e)
+        {
+            if (GraphService.IsAuthenticated)
+            {
+                CurrentUserId = (await GraphService.User.GetProfileAsync(new MicrosoftGraphUserFields[1] { MicrosoftGraphUserFields.Id })).Id;
+            }
+            else
+            {
+                CurrentUserId = string.Empty;
             }
         }
 
@@ -80,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <returns>True if sign in successfully, otherwise false</returns>
         public async Task<bool> SignInAsync()
         {
-            if (await _aadAuthenticationManager.ConnectAsync())
+            if (await GraphService.TryLoginAsync())
             {
                 AutomationProperties.SetName(this, string.Empty);
 
@@ -88,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                 SignInCompleted?.Invoke(this, new SignInEventArgs()
                 {
-                    GraphClient = _aadAuthenticationManager.GraphProvider
+                    GraphClient = GraphService.GraphProvider
                 });
 
                 return true;
@@ -102,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public void SignOut()
         {
-            _aadAuthenticationManager.SignOut();
+            GraphService.Logout();
             SignOutCompleted?.Invoke(this, EventArgs.Empty);
         }
 
@@ -119,14 +127,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 AutomationProperties.SetName(signinanotherItem, SignInAnotherUserDefaultText);
                 signinanotherItem.Click += async (object sender, RoutedEventArgs e) =>
                 {
-                    if (await _aadAuthenticationManager.ConnectForAnotherUserAsync())
+                    try
                     {
-                        var graphClient = _aadAuthenticationManager.GraphProvider;
+                        await GraphService.Logout();
 
-                        SignInCompleted?.Invoke(this, new SignInEventArgs()
+                        if (await GraphService.LoginAsync())
                         {
-                            GraphClient = graphClient
-                        });
+                            var graphClient = GraphService.GraphProvider;
+
+                            SignInCompleted?.Invoke(this, new SignInEventArgs()
+                            {
+                                GraphClient = graphClient
+                            });
+                        }
+                    }
+                    catch (MsalServiceException ex)
+                    {
+                        // Swallow error in case of authentication cancellation.
+                        if (ex.ErrorCode != "authentication_canceled"
+                            && ex.ErrorCode != "access_denied")
+                        {
+                            throw ex;
+                        }
                     }
                 };
                 menuFlyout.Items.Add(signinanotherItem);
@@ -137,7 +159,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 Text = SignOutDefaultText
             };
             AutomationProperties.SetName(signoutItem, SignOutDefaultText);
-            signoutItem.Click += (object sender, RoutedEventArgs e) => _aadAuthenticationManager.SignOut();
+            signoutItem.Click += (object sender, RoutedEventArgs e) => GraphService.Logout();
             menuFlyout.Items.Add(signoutItem);
 
             return menuFlyout;

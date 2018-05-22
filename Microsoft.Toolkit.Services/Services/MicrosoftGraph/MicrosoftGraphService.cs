@@ -12,6 +12,7 @@
 
 using System;
 using System.Net.Http.Headers;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
@@ -24,10 +25,17 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
     /// </summary>
     public class MicrosoftGraphService
     {
+        private readonly SemaphoreSlim _readLock = new SemaphoreSlim(1, 1);
+
         /// <summary>
         /// Gets or sets Authentication instance.
         /// </summary>
         internal MicrosoftGraphAuthenticationHelper Authentication { get; set; }
+
+        /// <summary>
+        /// Event raised when user logs in our out.
+        /// </summary>
+        public event EventHandler IsAuthenticatedChanged;
 
         /// <summary>
         /// Gets or sets store a reference to an instance of the underlying data provider.
@@ -49,10 +57,24 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// </summary>
         protected bool IsInitialized { get; set; }
 
+        private bool _isAuthenticated;
+
         /// <summary>
         /// Gets or sets a value indicating whether user is connected.
         /// </summary>
-        protected bool IsConnected { get; set; }
+        public bool IsAuthenticated
+        {
+            get
+            {
+                return _isAuthenticated;
+            }
+
+            protected set
+            {
+                _isAuthenticated = value;
+                IsAuthenticatedChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
 
         /// <summary>
         /// Gets or sets AppClientId.
@@ -175,6 +197,10 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
+
+            IsAuthenticated = false;
+            User = null;
+
 #if WINRT
             var authenticationModel = AuthenticationModel.ToString();
             return Authentication.LogoutAsync(authenticationModel);
@@ -190,7 +216,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <returns>Returns success or failure of login attempt.</returns>
         public virtual async Task<bool> LoginAsync(string loginHint = null)
         {
-            IsConnected = false;
+            IsAuthenticated = false;
             if (!IsInitialized)
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
@@ -213,10 +239,8 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             if (string.IsNullOrEmpty(accessToken))
             {
-                return IsConnected;
+                return IsAuthenticated;
             }
-
-            IsConnected = true;
 
 #if WINRT
             User = new MicrosoftGraphUserService(GraphProvider);
@@ -239,7 +263,42 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                 User.InitializeEvent();
             }
 
-            return IsConnected;
+            IsAuthenticated = true;
+            return IsAuthenticated;
+        }
+
+        /// <summary>
+        /// Tries to log in user if not already loged in
+        /// </summary>
+        /// <returns>true if service is already loged in</returns>
+        public virtual async Task<bool> TryLoginAsync()
+        {
+            if (!IsInitialized)
+            {
+                return false;
+            }
+
+            if (IsAuthenticated)
+            {
+                return true;
+            }
+
+            try
+            {
+                await _readLock.WaitAsync();
+                await LoginAsync();
+            }
+            catch (MsalServiceException ex)
+            {
+                // Swallow error in case of authentication cancellation.
+                if (ex.ErrorCode != "authentication_canceled"
+                    && ex.ErrorCode != "access_denied")
+                {
+                    throw ex;
+                }
+            }
+
+            return IsAuthenticated;
         }
 
         /// <summary>

@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Newtonsoft.Json;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -61,9 +62,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private CancellationTokenSource _cancelUpload = new CancellationTokenSource();
         private CancellationTokenSource _cancelLoadFile = new CancellationTokenSource();
         private CancellationTokenSource _cancelGetDetails = new CancellationTokenSource();
-
-        private AadAuthenticationManager _aadAuthenticationManager = AadAuthenticationManager.Instance;
         private ListView _list;
+
+        private MicrosoftGraphService GraphService => MicrosoftGraphService.Instance;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SharePointFileList"/> class.
@@ -159,17 +160,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 siteRelativePath = "/";
             }
 
-            GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
-            Site site = await graphServiceClient.Sites.GetByPath(siteRelativePath, hostName).Request().GetAsync();
-            ISiteDrivesCollectionPage drives = await graphServiceClient.Sites[site.Id].Drives.Request().GetAsync();
-
-            Drive drive = drives.SingleOrDefault(o => WebUtility.UrlDecode(o.WebUrl).Equals(docLibUrl, StringComparison.CurrentCultureIgnoreCase));
-            if (drive == null)
+            if (await GraphService.TryLoginAsync())
             {
-                throw new Exception("Drive not found");
+                GraphServiceClient graphServiceClient = GraphService.GraphProvider;
+
+                Site site = await graphServiceClient.Sites.GetByPath(siteRelativePath, hostName).Request().GetAsync();
+                ISiteDrivesCollectionPage drives = await graphServiceClient.Sites[site.Id].Drives.Request().GetAsync();
+
+                Drive drive = drives.SingleOrDefault(o => WebUtility.UrlDecode(o.WebUrl).Equals(docLibUrl, StringComparison.CurrentCultureIgnoreCase));
+                if (drive == null)
+                {
+                    throw new Exception("Drive not found");
+                }
+
+                return graphServiceClient.Drives[drive.Id].RequestUrl;
             }
 
-            return graphServiceClient.Drives[drive.Id].RequestUrl;
+            return rawDocLibUrl;
         }
 
         private async Task InitDriveAsync(string driveUrl)
@@ -186,7 +193,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     realDriveURL = await GetDriveUrlFromSharePointUrlAsync(driveUrl);
                 }
 
-                GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                await GraphService.TryLoginAsync();
+                GraphServiceClient graphServiceClient = GraphService.GraphProvider;
                 HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, realDriveURL);
                 await graphServiceClient.AuthenticationProvider.AuthenticateRequestAsync(message);
 
@@ -225,7 +233,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     _list.Items.Clear();
                     VisualStateManager.GoToState(this, NavStatesFolderReadonly, false);
                     QueryOption queryOption = new QueryOption("$top", PageSize.ToString());
-                    GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+
+                    await GraphService.TryLoginAsync();
+                    GraphServiceClient graphServiceClient = GraphService.GraphProvider;
                     Task<IDriveItemChildrenCollectionPage> taskFiles = graphServiceClient.Drives[_driveId].Items[driveItemId].Children.Request(new List<Option> { queryOption }).GetAsync(_cancelLoadFile.Token);
                     IDriveItemChildrenCollectionPage files = await taskFiles;
                     if (!taskFiles.IsCanceled)

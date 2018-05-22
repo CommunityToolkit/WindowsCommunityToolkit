@@ -12,6 +12,7 @@
 
 using System;
 using System.ComponentModel;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Storage;
@@ -25,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class ProfileCardPage : IXamlRenderListener
     {
-        private AadAuthenticationManager _aadAuthenticationManager = AadAuthenticationManager.Instance;
+        private MicrosoftGraphService GraphService => MicrosoftGraphService.Instance;
 
         private ProfileCard _profileCardControl;
 
@@ -34,23 +35,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
-        public void OnXamlRendered(FrameworkElement control)
+        public async void OnXamlRendered(FrameworkElement control)
         {
             _profileCardControl = control.FindDescendantByName("ProfileCardControl") as ProfileCard;
 
             if (_profileCardControl != null)
             {
-                _aadAuthenticationManager.PropertyChanged += (object sender, PropertyChangedEventArgs e) =>
+                GraphService.IsAuthenticatedChanged += async (s, e) =>
                 {
-                    if (e.PropertyName == nameof(_aadAuthenticationManager.CurrentUserId))
+                    if (GraphService.IsAuthenticated)
                     {
-                        _profileCardControl.UserId = _aadAuthenticationManager.CurrentUserId;
+                        _profileCardControl.UserId = (await GraphService.User.GetProfileAsync(new MicrosoftGraphUserFields[1] { MicrosoftGraphUserFields.Id })).Id;
                     }
                 };
 
-                if (_aadAuthenticationManager.IsAuthenticated)
+                if (GraphService.IsAuthenticated)
                 {
-                    _profileCardControl.UserId = _aadAuthenticationManager.CurrentUserId;
+                    _profileCardControl.UserId = (await GraphService.User.GetProfileAsync(new MicrosoftGraphUserFields[1] { MicrosoftGraphUserFields.Id })).Id;
                 }
             }
         }
