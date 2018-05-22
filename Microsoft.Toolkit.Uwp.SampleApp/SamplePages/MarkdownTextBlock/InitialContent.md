@@ -334,6 +334,18 @@ results in:
 
 **Note:** Relative Links has to be Manually Handled in `LinkClicked` Event.
 
+Custom Scheme's can be added now using `SchemeList` Property. Scheme's should be separated by a comma( , )
+
+*Example*: 
+
+If `SchemeList="companyportal,randomscheme"` then markdown will render
+
+`companyportal://mycompanyportal.com` to companyportal://mycompanyportal.com
+
+and 
+
+`randomscheme://www.randomscheme.render` to randomscheme://www.randomscheme.render
+
 *****
 
 # Email Links

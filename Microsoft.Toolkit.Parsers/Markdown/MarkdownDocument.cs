@@ -25,6 +25,23 @@ namespace Microsoft.Toolkit.Parsers.Markdown
     /// </summary>
     public class MarkdownDocument : MarkdownBlock
     {
+        /// <summary>
+        /// Gets a list of URL schemes.
+        /// </summary>
+        public static List<string> KnownSchemes { get; private set; } = new List<string>()
+        {
+            "http",
+            "https",
+            "ftp",
+            "steam",
+            "irc",
+            "news",
+            "mumble",
+            "ssh",
+            "ms-windows-store",
+            "sip"
+        };
+
         private Dictionary<string, LinkReferenceBlock> _references;
 
         /// <summary>
@@ -46,8 +63,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <param name="markdownText"> The markdown text. </param>
         public void Parse(string markdownText)
         {
-            int actualEnd;
-            Blocks = Parse(markdownText, 0, markdownText.Length, quoteDepth: 0, actualEnd: out actualEnd);
+            Blocks = Parse(markdownText, 0, markdownText.Length, quoteDepth: 0, actualEnd: out int actualEnd);
 
             // Remove any references from the list of blocks, and add them to a dictionary.
             for (int i = Blocks.Count - 1; i >= 0; i--)
@@ -195,8 +211,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 }
 
                 // Find the end of the current line.
-                int startOfNextLine;
-                int endOfLine = Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out startOfNextLine);
+                int endOfLine = Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out int startOfNextLine);
 
                 if (nonSpaceChar == '\0')
                 {
@@ -372,8 +387,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 return null;
             }
 
-            LinkReferenceBlock result;
-            if (_references.TryGetValue(id, out result))
+            if (_references.TryGetValue(id, out LinkReferenceBlock result))
             {
                 return result;
             }
