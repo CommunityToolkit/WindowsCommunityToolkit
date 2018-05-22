@@ -144,14 +144,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
                 foreach (var effectProperty in _effectProperties)
                 {
                     var animation = Compositor.CreateScalarKeyFrameAnimation();
-                    if (easingType == EasingType.Default && easingMode == EasingMode.EaseOut)
-                    {
-                        animation.InsertKeyFrame(1f, (float)value);
-                    }
-                    else
-                    {
-                        animation.InsertKeyFrame(1f, (float)value, AnimationExtensions.GetCompositionEasingFunction(easingType, Compositor, easingMode));
-                    }
+                    animation.InsertKeyFrame(1f, (float)value, AnimationExtensions.GetCompositionEasingFunction(easingType, Compositor, easingMode));
 
                     animation.Duration = TimeSpan.FromMilliseconds(duration);
                     animation.DelayTime = TimeSpan.FromMilliseconds(delay);
