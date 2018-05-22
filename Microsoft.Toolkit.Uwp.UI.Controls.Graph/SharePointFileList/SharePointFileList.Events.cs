@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (AadAuthenticationManager.Instance.IsAuthenticated)
             {
                 SharePointFileList control = d as SharePointFileList;
-                GraphServiceClient graphServiceClient = await AadAuthenticationManager.Instance.GetGraphServiceClientAsync();
+                GraphServiceClient graphServiceClient = AadAuthenticationManager.Instance.GraphProvider;
                 if (graphServiceClient != null && !string.IsNullOrWhiteSpace(control.DriveUrl))
                 {
                     if (Uri.IsWellFormedUriString(control.DriveUrl, UriKind.Absolute))
@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         VisualStateManager.GoToState(this, UploadStatusUploading, false);
                         try
                         {
-                            GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                            GraphServiceClient graphServiceClient = _aadAuthenticationManager.GraphProvider;
                             await graphServiceClient.Drives[_driveId].Items[driveItemId].ItemWithPath(file.Name).Content.Request().PutAsync<DriveItem>(inputStream, _cancelUpload.Token);
                             VisualStateManager.GoToState(this, UploadStatusNotUploading, false);
                             FileUploading--;
@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             if (_list.SelectedItem is DriveItem driveItem)
             {
-                GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                GraphServiceClient graphServiceClient = _aadAuthenticationManager.GraphProvider;
                 Permission link = await graphServiceClient.Drives[_driveId].Items[driveItem.Id].CreateLink("view", "organization").Request().PostAsync();
                 MessageDialog dialog = new MessageDialog(link.Link.WebUrl, ShareLinkCopiedMessage);
                 DataPackage package = new DataPackage();
@@ -131,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             if (_list.SelectedItem is DriveItem driveItem)
             {
-                GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                GraphServiceClient graphServiceClient = _aadAuthenticationManager.GraphProvider;
                 FileSavePicker picker = new FileSavePicker();
                 picker.FileTypeChoices.Add(AllFilesMessage, new List<string>() { driveItem.Name.Substring(driveItem.Name.LastIndexOf(".")) });
                 picker.SuggestedFileName = driveItem.Name;
@@ -165,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                 if ((int)result.Id == 0)
                 {
-                    GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                    GraphServiceClient graphServiceClient = _aadAuthenticationManager.GraphProvider;
                     await graphServiceClient.Drives[_driveId].Items[driveItem.Id].Request().DeleteAsync();
                     string driveItemId = _driveItemPath.Peek();
                     await LoadFilesAsync(driveItemId);
@@ -212,7 +212,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                         ThumbnailImageSource = null;
                         VisualStateManager.GoToState(this, NavStatesFileReadonly, false);
-                        GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                        GraphServiceClient graphServiceClient = _aadAuthenticationManager.GraphProvider;
                         Task<IDriveItemPermissionsCollectionPage> taskPermissions = graphServiceClient.Drives[_driveId].Items[driveItem.Id].Permissions.Request().GetAsync(_cancelGetDetails.Token);
                         IDriveItemPermissionsCollectionPage permissions = await taskPermissions;
                         if (!taskPermissions.IsCanceled)
