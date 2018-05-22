@@ -13,6 +13,9 @@ steps:
     modifyEnvironment: true
   displayName: Setup Environment Variables
 
+- powershell: .\build\Install-WindowsSDK.ps1
+  displayName: Install Windows SDK
+
 - task: NuGetToolInstaller@0
   displayName: Use NuGet 4.6.2
   inputs:
@@ -25,8 +28,7 @@ steps:
     arguments: -c $(BuildConfiguration)   
   displayName: Set Version
 
-- powershell: |
-    .\build\build.ps1 -target=SignNuGet
+- powershell: .\build\build.ps1 -target=SignNuGet
   displayName: Build 
   env:
     SignClientSecret: $(SignClientSecret)
