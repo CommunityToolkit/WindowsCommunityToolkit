@@ -14,7 +14,7 @@ The developer adds a regular expression to validate the TextBox Text against the
 The validation has 3 modes (`ValidationMode`):
 1) Normal (Default) : This type will set TextBox IsValid attached property to false or true whether the TextBox text is a valid or not against the Regex property.
 2) Forced : This type sets the IsValid property and remove the TextBox text if not valid when the TextBox lose focus. 
-3) Dynamic : This type extends 1) Normal and if is the newest input of the Textbox  is invalid, the character which is invalied will be deleted. Please note that the 'Validationtype' Email and Phone Number do not work with this mode.
+3) Dynamic : This type extends 1) Normal and if is the newest input of the Textbox  is invalid, the character which is invalied will be deleted. Note that ValidationType Email and Phone Number not support the ValidationMode Dynamic. If you set the ValidationMode to Dynamic, the ValidationMode Normal is selected automatically.
 
 ## Syntax
 
