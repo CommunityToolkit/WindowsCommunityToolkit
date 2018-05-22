@@ -109,7 +109,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private void SearchResultListBox_OnSelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
         {
+#pragma warning disable SA1119 // Statement must not use unnecessary parenthesis
             if (!((sender as ListBox)?.SelectedItem is Person person))
+#pragma warning restore SA1119 // Statement must not use unnecessary parenthesis
             {
                 return;
             }
@@ -123,6 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 Selections.Add(person);
             }
+
             RaiseSelectionChanged();
 
             _searchBox.Text = string.Empty;

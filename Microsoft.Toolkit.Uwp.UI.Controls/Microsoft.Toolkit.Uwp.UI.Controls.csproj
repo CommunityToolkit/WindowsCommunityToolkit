@@ -9,21 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Graph\Assets\folder.svg" />
-    <None Remove="Graph\Assets\genericfile.png" />
-    <None Remove="Graph\Assets\person.png" />
-    <None Remove="Graph\Assets\photo.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Graph\Assets\folder.svg" />
-    <Content Include="Graph\Assets\genericfile.png" />
-    <Content Include="Graph\Assets\person.png" />
-    <Content Include="Graph\Assets\photo.png" />
-  </ItemGroup>
-
-
-  <ItemGroup>
 
     <PackageReference Include="ColorCode.UWP" Version="2.0.3" />
     <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.3" />
@@ -31,7 +16,6 @@
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
-	<ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj" />
   </ItemGroup>
  
   <ItemGroup>

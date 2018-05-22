@@ -22,9 +22,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.Services", "Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj", "{7189A42D-6F1A-4FA3-8E00-E2C14FDF167A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls", "Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj", "{E9FAABFB-D726-42C1-83C1-CB46A29FEA81}"
-	ProjectSection(ProjectDependencies) = postProject
-		{34398053-FC70-4243-84F9-F355DEFFF66D} = {34398053-FC70-4243-84F9-F355DEFFF66D}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{9333C63A-F64F-4797-82B3-017422668A5D}"
 EndProject
@@ -89,6 +86,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Microsoft.Toolkit.Uwp.Input.GazeInteraction", "Microsoft.Toolkit.UWP.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.vcxproj", "{A5E98964-45B1-442D-A07A-298A3221D81E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GazeInputTest", "GazeInputTest\GazeInputTest.csproj", "{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Controls.Graph", "Microsoft.Toolkit.Uwp.UI.Controls.Graph\Microsoft.Toolkit.Uwp.UI.Controls.Graph.csproj", "{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}"
+	ProjectSection(ProjectDependencies) = postProject
+		{34398053-FC70-4243-84F9-F355DEFFF66D} = {34398053-FC70-4243-84F9-F355DEFFF66D}
+		{3DD8AA7C-3569-4E51-992F-0C2257E8878E} = {3DD8AA7C-3569-4E51-992F-0C2257E8878E}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -675,6 +678,26 @@ Global
 		{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}.Release|x86.ActiveCfg = Release|x86
 		{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}.Release|x86.Build.0 = Release|x86
 		{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}.Release|x86.Deploy.0 = Release|x86
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Debug|ARM.Build.0 = Debug|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Debug|x64.Build.0 = Debug|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Debug|x86.Build.0 = Debug|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Native|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Native|ARM.ActiveCfg = Debug|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Native|x64.ActiveCfg = Debug|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Native|x86.ActiveCfg = Debug|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Release|ARM.ActiveCfg = Release|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Release|ARM.Build.0 = Release|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Release|x64.ActiveCfg = Release|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Release|x64.Build.0 = Release|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Release|x86.ActiveCfg = Release|Any CPU
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -700,6 +723,7 @@ Global
 		{D103E448-64B1-407C-B09E-7C61AF9F2740} = {9AD30620-667D-433C-9961-8D885EE7B762}
 		{2FE9AA6A-BD27-438F-9941-221033E4A1DD} = {9AD30620-667D-433C-9961-8D885EE7B762}
 		{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6} = {B30036C4-D514-4E5B-A323-587A061772CE}
+		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5403B0C4-F244-4F73-A35C-FE664D0F4345}

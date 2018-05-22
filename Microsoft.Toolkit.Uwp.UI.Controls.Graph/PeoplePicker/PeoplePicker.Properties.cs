@@ -19,7 +19,6 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
-
     /// <summary>
     /// Defines the properties for the <see cref="PeoplePicker"/> control.
     /// </summary>

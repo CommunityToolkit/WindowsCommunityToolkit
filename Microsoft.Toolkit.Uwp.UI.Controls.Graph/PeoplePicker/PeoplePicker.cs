@@ -54,7 +54,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         protected override void OnApplyTemplate()
         {
-
             _searchBox = GetTemplateChild("SearchBox") as TextBox;
             _loading = GetTemplateChild("Loading") as ProgressRing;
             _searchResultListBox = GetTemplateChild("SearchResultListBox") as ListBox;
