@@ -35,7 +35,6 @@ The [AadLogin Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.u
 | SignInDefaultText | String | Default text for sign in button |
 | SignOutDefaultText | String | Default text for sign out button |
 | SignInAnotherUserDefaultText | String | Default text for `Sign in with another account` button |
-| CurrentUserId | String | Id of the current user |
 
 ## Methods
 

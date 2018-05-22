@@ -162,11 +162,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Login the user from Azure AD and Get Microsoft Graph access token.
+        /// </summary>
+        /// <remarks>Need Sign in and read user profile scopes (User.Read)</remarks>
+        /// <returns>Returns success or failure of login attempt.</returns>
+        [Obsolete("This is not supported in this class.", true)]
+        public new Task<bool> LoginAsync(string loginHint = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Logout the current user
+        /// </summary>
+        /// <returns>success or failure</returns>
+        [Obsolete("This is not supported in this class.", true)]
+        public new Task<bool> Logout()
+        {
+            throw new NotImplementedException();
+        }
+
         internal async Task<bool> ConnectAsync()
         {
             try
             {
-                IsAuthenticated = await LoginAsync();
+                IsAuthenticated = await base.LoginAsync();
                 if (IsAuthenticated)
                 {
                     CurrentUserId = (await User.GetProfileAsync(new MicrosoftGraphUserFields[1] { MicrosoftGraphUserFields.Id })).Id;
@@ -187,7 +208,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         internal async void SignOut()
         {
-            await Logout();
+            await base.Logout();
             CurrentUserId = string.Empty;
             IsAuthenticated = false;
         }
@@ -214,7 +235,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     }
                 }
 
-                await LoginAsync();
+                await base.LoginAsync();
                 CurrentUserId = (await User.GetProfileAsync(new MicrosoftGraphUserFields[1] { MicrosoftGraphUserFields.Id })).Id;
 
                 return true;
