@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using Microsoft.HockeyApp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
@@ -39,13 +38,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             InitializeComponent();
             Suspending += OnSuspending;
-            try
-            {
-                HockeyClient.Current.Configure(string.Empty);
-            }
-            catch
-            {
-            }
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)
@@ -127,6 +119,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 Constants.ApplicationDisplayName = (await Package.Current.GetAppListEntriesAsync())[0].DisplayInfo.DisplayName;
             }
+
+            // Check if the Cache is Latest, wipe if not.
+            Sample.EnsureCacheLatest();
 
             Frame rootFrame = Window.Current.Content as Frame;
 

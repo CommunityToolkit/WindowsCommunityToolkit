@@ -12,7 +12,6 @@
 
 using System.Collections.Generic;
 using Microsoft.Toolkit.Parsers.Core;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Inlines

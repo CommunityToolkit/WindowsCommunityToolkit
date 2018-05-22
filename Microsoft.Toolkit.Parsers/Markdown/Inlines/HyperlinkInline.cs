@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
@@ -69,16 +68,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// </summary>
         internal static readonly string[] KnownSchemes = new string[]
         {
-            "http://",
-            "https://",
-            "ftp://",
-            "steam://",
-            "irc://",
-            "news://",
-            "mumble://",
-            "ssh://",
-            "ms-windows-store://",
-            "sip:"
+            "http",
+            "https",
+            "ftp",
+            "steam",
+            "irc",
+            "news",
+            "mumble",
+            "ssh",
+            "ms-windows-store",
+            "sip"
         };
 
         /// <summary>
@@ -140,7 +139,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             // Check for a known scheme e.g. "https://".
             foreach (var scheme in KnownSchemes)
             {
-                int schemeStart = tripPos - (scheme.Length - 3);
+                int schemeStart = tripPos - scheme.Length;
                 if (schemeStart >= 0 && schemeStart <= maxEnd - scheme.Length && string.Equals(markdown.Substring(schemeStart, scheme.Length), scheme, StringComparison.OrdinalIgnoreCase))
                 {
                     // URL scheme found.

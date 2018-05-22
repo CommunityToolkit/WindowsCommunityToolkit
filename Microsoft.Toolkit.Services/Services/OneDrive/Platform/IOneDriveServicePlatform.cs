@@ -13,7 +13,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Toolkit.Services.OneDrive.Platform
+namespace Microsoft.Toolkit.Services.OneDrive
 {
     /// <summary>
     /// Background service interface.

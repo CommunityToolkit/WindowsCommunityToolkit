@@ -2,7 +2,7 @@
 title: String Extensions
 author: avknaidu
 description: String extension methods from toolkit
-keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Extensions
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Extensions, string
 ---
 
 ### String Extensions
@@ -12,7 +12,7 @@ Developers can now leverage the StringExtension class and validate strings again
 ## Syntax
 
 ```c#
-using Microsoft.Toolkit;
+using Microsoft.Toolkit.Extensions;
 
 string str = "test@test.com";
 bool isvalid = str.IsEmail();		//Returns true
@@ -40,9 +40,11 @@ bool isvalid = str.IsDecimal();		//Returns false
 
 | Device family | Universal, 10.0.14393.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit |
+| Namespace | Microsoft.Toolkit.Extensions |
 | NuGet package | [Microsoft.Toolkit](https://www.nuget.org/packages/Microsoft.Toolkit/) |
+
+The String Extensions supports .NET Standard
 
 ## API
 
-* [StringExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit/Extensions)
+* [StringExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit/Extensions/StringExtensions.cs)
