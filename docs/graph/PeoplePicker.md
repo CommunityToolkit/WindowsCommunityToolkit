@@ -35,6 +35,15 @@ The [PeoplePicker Control](https://docs.microsoft.com/dotnet/api/microsoft.toolk
 
 ## Sample Code
 
+First all all, initialize the Azure AD authentication manager, this should be done globally with all required delegate permissions if multiple Graph controls in this package are used in your app.
+
+```c#
+AadAuthenticationManager.Instance.Initialize(
+    'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    new string[] { "User.Read", "User.ReadBasic.All" }
+);
+```
+
 [PeoplePicker Sample Page Source](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PeoplePicker). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 

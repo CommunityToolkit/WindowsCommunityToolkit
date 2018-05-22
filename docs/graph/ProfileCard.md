@@ -16,7 +16,8 @@ The [ProfileCard Control](https://docs.microsoft.com/dotnet/api/microsoft.toolki
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"/>
 
 <controls:ProfileCard x:Name="ProfileCard1"
-	DisplayMode="PictureOnly" />
+    UserId="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    DisplayMode="PictureOnly" />
 ```
 
 ## Example Image
@@ -36,6 +37,15 @@ The [ProfileCard Control](https://docs.microsoft.com/dotnet/api/microsoft.toolki
 | NormalMailDefaultText | String | Default mail text in EmailOnly mode when no user is signed in |
 
 ## Sample Code
+
+First all all, initialize the Azure AD authentication manager, this should be done globally with all required delegate permissions if multiple Graph controls in this package are used in your app.
+
+```c#
+AadAuthenticationManager.Instance.Initialize(
+    'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    new string[] { "User.Read", "User.ReadBasic.All" }
+);
+```
 
 [ProfileCard Sample Page Source](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ProfileCard). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 

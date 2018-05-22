@@ -1,13 +1,13 @@
 ---
-title: SharePointFiles Control
+title: SharePointFileList Control
 author: OGcanviz
-description: The SharePointFiles Control displays a simple list of SharePoint Files.
-keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, SharePointFiles Control
+description: The SharePointFileList Control displays a simple list of SharePoint Files.
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, SharePointFileList Control
 ---
 
-# SharePointFiles Control
+# SharePointFileList Control
 
-The [SharePointFiles Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.graph.sharepointfiles) displays a simple list of SharePoint Files, it relies on the [AadAuthenticationManager](../../docs/graph/AadAuthenticationManager.md) for authentication.
+The [SharePointFileList Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.graph.sharepointfilelist) displays a simple list of SharePoint Files, it relies on the [AadAuthenticationManager](../../docs/graph/AadAuthenticationManager.md) for authentication.
 
 ## Syntax
 
@@ -15,13 +15,14 @@ The [SharePointFiles Control](https://docs.microsoft.com/dotnet/api/microsoft.to
 <Page ...
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"/>
 
-<controls:SharePointFiles x:Name="SharePointFiles1"
-    DetailPane="Side" />
+<controls:SharePointFileList x:Name="SharePointFileList1"
+    DetailPane="Side"
+    DriveUrl="https://contoso.sharepoint.com/sites/DemoSite/DemoLib" />
 ```
 
 ## Example Image
 
-![SharePointFiles animation](../resources/images/Graph/SharePointFileList.png)
+![SharePointFileList animation](../resources/images/Graph/SharePointFileList.png)
 
 ## Properties
 
@@ -29,7 +30,7 @@ The [SharePointFiles Control](https://docs.microsoft.com/dotnet/api/microsoft.to
 | -- | -- | -- |
 | RequiredDelegatedPermissions | String[] | Gets required delegated permissions for Graph API access |
 | DriveUrl | String | Full URL of the Drive being displayed |
-| DetailPane | [DetailPaneDisplayMode](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/SharePointFiles/DetailPaneDisplayMode.cs) | Determines whether file details are displayed, when a file is selected |
+| DetailPane | [DetailPaneDisplayMode](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/SharePointFileList/DetailPaneDisplayMode.cs) | Determines whether file details are displayed, when a file is selected |
 | PageSize | Int | Page size of each request |
 | ShareLinkCopiedMessage | String | The message when share link copied |
 | AllFilesMessage | String | The label of All Files |
@@ -52,11 +53,20 @@ The [SharePointFiles Control](https://docs.microsoft.com/dotnet/api/microsoft.to
 
 ## Sample Code
 
-[SharePointFiles Sample Page Source](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/SharePointFiles). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+First all all, initialize the Azure AD authentication manager, this should be done globally with all required delegate permissions if multiple Graph controls in this package are used in your app.
+
+```c#
+AadAuthenticationManager.Instance.Initialize(
+    'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    new string[] { "User.Read", "User.ReadBasic.All" }
+);
+```
+
+[SharePointFileList Sample Page Source](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/SharePointFileList). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 
-[SharePointFiles XAML File](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/SharePointFiles/SharePointFiles.xaml) is the XAML template used in the toolkit for the default styling.
+[SharePointFileList XAML File](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/SharePointFileList/SharePointFileList.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements
 
@@ -67,4 +77,4 @@ The [SharePointFiles Control](https://docs.microsoft.com/dotnet/api/microsoft.to
 
 ## API
 
-* [SharePointFiles source code](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/SharePointFiles)
+* [SharePointFileList source code](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/SharePointFileList)

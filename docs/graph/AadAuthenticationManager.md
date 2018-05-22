@@ -16,8 +16,9 @@ The AadAuthenticationManager provide the ability to manage the Graph authenticat
 | Instance | [AadAuthenticationManager](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/Core/AadAuthenticationManager.cs) | Public singleton instance |
 | ClientId | String | Id of the Azure AD v2.0 app, see this [article](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-app-registration) for how to register a new app with the platform `Native Application` |
 | Scopes | string[] | Required permission scopes for the authentication, see this [article](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-scopes) for more details |
+| PropertyChanged | PropertyChangedEventHandler | Property changed eventHandler for notification |
 | IsAuthenticated | Boolean | Indicates whether the user is signed in |
-| CurrentUserId | String | Id of the current user |
+| CurrentUserId | String | Gets current user id |
 
 ## Methods
 

@@ -35,6 +35,7 @@ The [AadLogin Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.u
 | SignInDefaultText | String | Default text for sign in button |
 | SignOutDefaultText | String | Default text for sign out button |
 | SignInAnotherUserDefaultText | String | Default text for `Sign in with another account` button |
+| CurrentUserId | String | Gets the unique identifier for current signed in user |
 
 ## Methods
 
@@ -51,6 +52,15 @@ The [AadLogin Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.u
 | SignOutCompleted | EventHandler | Occurs when the user clicks on SignOut, or the SignOut() method is called. Developers should clear any cached usage of GraphServiceClient objects they receive this event |
 
 ## Sample Code
+
+First all all, initialize the Azure AD authentication manager, this should be done globally with all required delegate permissions if multiple Graph controls in this package are used in your app.
+
+```c#
+AadAuthenticationManager.Instance.Initialize(
+    'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    new string[] { "User.Read", "User.ReadBasic.All" }
+);
+```
 
 [AadLogin Sample Page Source](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/AadLogin). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
