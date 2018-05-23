@@ -135,6 +135,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             {
                                 GraphClient = graphClient
                             });
+
+                            CurrentUserId = (await GraphService.User.GetProfileAsync(new MicrosoftGraphUserFields[1] { MicrosoftGraphUserFields.Id })).Id;
                         }
                     }
                     catch (MsalServiceException ex)
