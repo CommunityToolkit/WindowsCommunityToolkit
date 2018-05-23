@@ -1,8 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
-                    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-                    xmlns:interactivity="using:Microsoft.Xaml.Interactivity">
+                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph">
 
     <Style TargetType="controls:PeoplePicker">
         <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />

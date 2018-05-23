@@ -58,14 +58,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 _searchBox.TextChanged += SearchBox_OnTextChanged;
             }
+
             if (_searchResultListBox != null)
             {
                 _searchResultListBox.SelectionChanged += SearchResultListBox_OnSelectionChanged;
             }
+
             if (_selectionsListBox != null)
             {
                 _selectionsListBox.Tapped += SelectionsListBox_Tapped;
             }
+
             base.OnApplyTemplate();
         }
     }
