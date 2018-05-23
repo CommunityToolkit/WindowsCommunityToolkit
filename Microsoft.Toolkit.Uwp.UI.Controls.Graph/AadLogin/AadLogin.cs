@@ -127,9 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 {
                     try
                     {
-                        await GraphService.Logout();
-
-                        if (await GraphService.LoginAsync())
+                        if (await GraphService.ConnectForAnotherUserAsync())
                         {
                             var graphClient = GraphService.GraphProvider;
 
