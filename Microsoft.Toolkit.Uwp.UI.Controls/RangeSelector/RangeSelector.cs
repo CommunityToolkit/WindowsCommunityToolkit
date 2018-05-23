@@ -304,10 +304,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_pointerManipulatingMin && normalizedPosition < RangeMax)
             {
                 RangeMin = DragThumb(_minThumb, 0, Canvas.GetLeft(_maxThumb), position);
+                UpdateToolTipText(this, _toolTipText, RangeMin);
             }
             else if (_pointerManipulatingMax && normalizedPosition > RangeMin)
             {
                 RangeMax = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), DragWidth(), position);
+                UpdateToolTipText(this, _toolTipText, RangeMax);
             }
         }
 
@@ -812,7 +814,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void Thumb_DragStarted(Thumb thumb)
         {
             var useMin = thumb == _minThumb;
-            var otherThumb = (useMin) ? _maxThumb : _minThumb;
+            var otherThumb = useMin ? _maxThumb : _minThumb;
 
             _absolutePosition = Canvas.GetLeft(thumb);
             Canvas.SetZIndex(thumb, 10);
@@ -827,10 +829,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var ttWidth = _toolTip.ActualWidth / 2;
                 Canvas.SetLeft(_toolTip, thumbCenter - ttWidth);
 
-                UpdateToolTipText(this, _toolTipText, (useMin) ? Minimum : Maximum);
+                UpdateToolTipText(this, _toolTipText, useMin ? RangeMin : RangeMax);
             }
 
-            VisualStateManager.GoToState(this, (useMin) ? "MinPressed" : "MaxPressed", true);
+            VisualStateManager.GoToState(this, useMin ? "MinPressed" : "MaxPressed", true);
         }
 
         private void MinThumb_DragStarted(object sender, DragStartedEventArgs e)
