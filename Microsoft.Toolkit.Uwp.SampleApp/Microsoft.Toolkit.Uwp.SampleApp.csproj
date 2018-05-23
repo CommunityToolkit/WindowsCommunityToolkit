@@ -324,6 +324,7 @@
     <Content Include="SamplePages\InAppNotification\InAppNotification.png" />
     <Content Include="SamplePages\Incremental Loading Collection\icon.png" />
     <Content Include="SamplePages\LayoutTransformControl\LayoutTransformControl.png" />
+    <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.png" />
     <Content Include="SamplePages\Light\LightBehavior.png" />
     <Content Include="SamplePages\LinkedIn Service\LinkedInLogo.png" />
     <Content Include="Assets\Helpers.png" />
@@ -516,6 +517,7 @@
     </Content>
     <Content Include="SamplePages\GazeInteraction\GazeInteractionCode.bind" />
     <Content Include="SamplePages\GazeTracing\GazeTracingCode.bind" />
+    <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -623,6 +625,9 @@
     </Compile>
     <Compile Include="SamplePages\LayoutTransformControl\LayoutTransformControlPage.xaml.cs">
       <DependentUpon>LayoutTransformControlPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\InfiniteCanvas\InfiniteCanvasPage.xaml.cs">
+      <DependentUpon>InfiniteCanvasPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ListViewExtensions\ListViewExtensionsPage.xaml.cs">
       <DependentUpon>ListViewExtensionsPage.xaml</DependentUpon>
@@ -1007,6 +1012,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\LayoutTransformControl\LayoutTransformControlPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\InfiniteCanvas\InfiniteCanvasPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
