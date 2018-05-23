@@ -270,6 +270,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     _mediaCapture.Dispose();
                     _mediaCapture = null;
                 }
+
                 return CameraHelperResult.InitializationFailed_UnknownError;
             }
 

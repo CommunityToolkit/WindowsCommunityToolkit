@@ -10,12 +10,12 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
 using Windows.Media;
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async void OnXamlRendered(FrameworkElement control)
         {
-            // Using a semaphore lock for synchronocity. 
+            // Using a semaphore lock for synchronocity.
             // This method gets called multiple times when accessing the page from Latest Pages
             // and creates unused duplicate references to Camera and memory leaks.
             await semaphoreSlim.WaitAsync();
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var cameraHelper = _cameraPreviewControl?.CameraHelper;
             UnsubscribeFromEvents();
 
-            _cameraPreviewControl = control.FindDescendantByName("CameraPreviewControl") as CameraPreview;
+            _cameraPreviewControl = control.FindChild<CameraPreview>();
             if (_cameraPreviewControl != null)
             {
                 _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
