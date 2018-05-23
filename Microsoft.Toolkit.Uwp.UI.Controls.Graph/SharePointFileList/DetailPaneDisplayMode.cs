@@ -10,6 +10,31 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Runtime.CompilerServices;
-[assembly:InternalsVisibleTo("Microsoft.Toolkit.Uwp.Services")]
-[assembly:InternalsVisibleTo("Microsoft.Toolkit.Uwp.UI.Controls.Graph")]
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
+{
+    /// <summary>
+    /// Determines how file details panel is displayed in the <see cref="SharePointFileList"/> control.
+    /// </summary>
+    public enum DetailPaneDisplayMode
+    {
+        /// <summary>
+        /// Hide show DetailPane
+        /// </summary>
+        Disabled,
+
+        /// <summary>
+        /// Show DetailPane aside
+        /// </summary>
+        Side,
+
+        /// <summary>
+        /// Show DetailPane at bottom
+        /// </summary>
+        Bottom,
+
+        /// <summary>
+        /// Show DetailPane over list
+        /// </summary>
+        Full
+    }
+}

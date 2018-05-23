@@ -10,6 +10,24 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Runtime.CompilerServices;
-[assembly:InternalsVisibleTo("Microsoft.Toolkit.Uwp.Services")]
-[assembly:InternalsVisibleTo("Microsoft.Toolkit.Uwp.UI.Controls.Graph")]
+using System;
+using Windows.UI.Xaml.Controls;
+
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
+{
+    /// <summary>
+    /// Defines the events for the <see cref="AadLogin"/> control.
+    /// </summary>
+    public partial class AadLogin : Button
+    {
+        /// <summary>
+        /// Occurs when the user is logged in.
+        /// </summary>
+        public event EventHandler<SignInEventArgs> SignInCompleted;
+
+        /// <summary>
+        /// Occurs when the user is logged out.
+        /// </summary>
+        public event EventHandler SignOutCompleted;
+    }
+}

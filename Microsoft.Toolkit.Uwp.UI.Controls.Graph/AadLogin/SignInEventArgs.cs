@@ -10,6 +10,25 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Runtime.CompilerServices;
-[assembly:InternalsVisibleTo("Microsoft.Toolkit.Uwp.Services")]
-[assembly:InternalsVisibleTo("Microsoft.Toolkit.Uwp.UI.Controls.Graph")]
+using Microsoft.Graph;
+
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
+{
+    /// <summary>
+    /// Arguments relating to a sign-in event of Aadlogin control
+    /// </summary>
+    public class SignInEventArgs
+    {
+        internal SignInEventArgs()
+        {
+        }
+
+        /// <summary>
+        /// Gets the graph service client with authorized token.
+        /// </summary>
+        public GraphServiceClient GraphClient
+        {
+            get; internal set;
+        }
+    }
+}

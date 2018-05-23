@@ -1,4 +1,4 @@
-// ******************************************************************
+﻿// ******************************************************************
 // Copyright (c) Microsoft. All rights reserved.
 // This code is licensed under the MIT License (MIT).
 // THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -11,5 +11,8 @@
 // ******************************************************************
 
 using System.Runtime.CompilerServices;
-[assembly:InternalsVisibleTo("Microsoft.Toolkit.Uwp.Services")]
-[assembly:InternalsVisibleTo("Microsoft.Toolkit.Uwp.UI.Controls.Graph")]
+
+// General Information about an assembly is controlled through the following
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+[assembly: InternalsVisibleTo("UnitTests")]

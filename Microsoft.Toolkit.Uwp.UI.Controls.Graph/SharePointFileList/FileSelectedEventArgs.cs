@@ -10,6 +10,24 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Runtime.CompilerServices;
-[assembly:InternalsVisibleTo("Microsoft.Toolkit.Uwp.Services")]
-[assembly:InternalsVisibleTo("Microsoft.Toolkit.Uwp.UI.Controls.Graph")]
+using System;
+using Microsoft.Graph;
+
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
+{
+    /// <summary>
+    /// Arguments relating to a file selected event of SharePointFiles control
+    /// </summary>
+    public class FileSelectedEventArgs
+    {
+        /// <summary>
+        /// Gets selected file
+        /// </summary>
+        public DriveItem FileSelected { get; private set; }
+
+        internal FileSelectedEventArgs(DriveItem fileSelected)
+        {
+            FileSelected = fileSelected;
+        }
+    }
+}

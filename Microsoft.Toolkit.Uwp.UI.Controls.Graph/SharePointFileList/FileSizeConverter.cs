@@ -10,6 +10,23 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Runtime.CompilerServices;
-[assembly:InternalsVisibleTo("Microsoft.Toolkit.Uwp.Services")]
-[assembly:InternalsVisibleTo("Microsoft.Toolkit.Uwp.UI.Controls.Graph")]
+using System;
+using Microsoft.Toolkit.Extensions;
+using Windows.UI.Xaml.Data;
+
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
+{
+    internal class FileSizeConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            long size = (long)value;
+            return size.ToFileSizeString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

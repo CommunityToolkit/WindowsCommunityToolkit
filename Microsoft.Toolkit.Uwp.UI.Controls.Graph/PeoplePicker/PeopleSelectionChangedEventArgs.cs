@@ -10,6 +10,26 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
-using System.Runtime.CompilerServices;
-[assembly:InternalsVisibleTo("Microsoft.Toolkit.Uwp.Services")]
-[assembly:InternalsVisibleTo("Microsoft.Toolkit.Uwp.UI.Controls.Graph")]
+using System;
+using Microsoft.Graph;
+
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
+{
+    using System.Collections.ObjectModel;
+
+    /// <summary>
+    /// Arguments relating to the people selected event of <see cref="PeoplePicker"/> control
+    /// </summary>
+    public class PeopleSelectionChangedEventArgs
+    {
+        /// <summary>
+        /// Gets selected file
+        /// </summary>
+        public ObservableCollection<Person> Selections { get; private set; }
+
+        internal PeopleSelectionChangedEventArgs(ObservableCollection<Person> selections)
+        {
+            Selections = selections;
+        }
+    }
+}
