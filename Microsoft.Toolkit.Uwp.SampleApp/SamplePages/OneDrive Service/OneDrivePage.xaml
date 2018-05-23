@@ -154,15 +154,22 @@
                         Foreground="#FF0E58DA" 
                         HorizontalAlignment="Left" />
 
-                <TextBlock Text="{Binding Name}"  
+                <TextBlock
+                    x:Name="FileNameTextBlock"
+                    Text="{Binding Name}"  
                            Width="auto" 
                            Height="auto"  
                            Grid.Column="1" 
                            Margin="10,0,0,0" 
                            HorizontalAlignment="Left" 
-                           VerticalAlignment="Center">
+                           VerticalAlignment="Center" 
+                           PointerEntered="FileNameTextBlock_PointerEntered"
+                    >
                 <ToolTipService.ToolTip>
-                    <Image x:Name="ThumbNail" Source="{Binding ThumbNail}"/>
+                    <StackPanel>
+                        <Image x:Name="ThumbNail" />
+                        <TextBlock Text="{Binding  FormattedFileSize}"/>
+                    </StackPanel>
                 </ToolTipService.ToolTip>
                 </TextBlock>
                 <AppBarButton  Grid.Column="2"

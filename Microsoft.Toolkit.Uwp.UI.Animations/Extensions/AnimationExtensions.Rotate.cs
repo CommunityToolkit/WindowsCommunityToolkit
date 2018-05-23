@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public static partial class AnimationExtensions
     {
         /// <summary>
-        /// Animates the rotation in degrees of the the UIElement.
+        /// Animates the rotation in degrees of the UIElement.
         /// </summary>
         /// <param name="associatedObject">The UI Element to rotate.</param>
         /// <param name="value">The value in degrees to rotate.</param>
@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <param name="easingType">Used to describe how the animation interpolates between keyframes.</param>
+        /// <param name="easingMode">EasingMode used to interpolate between keyframes.</param>
         /// <returns>
         /// An AnimationSet.
         /// </returns>
@@ -42,7 +43,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             float centerY = 0f,
             double duration = 500d,
             double delay = 0d,
-            EasingType easingType = EasingType.Default)
+            EasingType easingType = EasingType.Default,
+            EasingMode easingMode = EasingMode.EaseOut)
         {
             if (associatedObject == null)
             {
@@ -54,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Animates the rotation in degrees of the the UIElement.
+        /// Animates the rotation in degrees of the UIElement.
         /// </summary>
         /// <param name="animationSet">The animation set.</param>
         /// <param name="value">The value in degrees to rotate.</param>
@@ -63,6 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <param name="easingType">Used to describe how the animation interpolates between keyframes.</param>
+        /// <param name="easingMode">The EasingMode to use to interpolate between keyframes.</param>
         /// <returns>
         /// An AnimationSet.
         /// </returns>
@@ -73,7 +76,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             float centerY = 0f,
             double duration = 500d,
             double delay = 0d,
-            EasingType easingType = EasingType.Default)
+            EasingType easingType = EasingType.Default,
+            EasingMode easingMode = EasingMode.EaseOut)
         {
             if (animationSet == null)
             {
@@ -93,7 +97,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     To = value,
                     Duration = TimeSpan.FromMilliseconds(duration),
                     BeginTime = TimeSpan.FromMilliseconds(delay),
-                    EasingFunction = GetEasingFunction(easingType)
+                    EasingFunction = GetEasingFunction(easingType, easingMode)
                 };
 
                 animationSet.AddStoryboardAnimation(GetAnimationPath(transform, element, "Rotation"), animation);
@@ -119,14 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animation = compositor.CreateScalarKeyFrameAnimation();
                 animation.Duration = TimeSpan.FromMilliseconds(duration);
                 animation.DelayTime = TimeSpan.FromMilliseconds(delay);
-                if (easingType == EasingType.Default)
-                {
-                    animation.InsertKeyFrame(1f, value);
-                }
-                else
-                {
-                    animation.InsertKeyFrame(1f, value, GetCompositionEasingFunction(easingType, compositor));
-                }
+                animation.InsertKeyFrame(1f, value, GetCompositionEasingFunction(easingType, compositor, easingMode));
 
                 animationSet.AddCompositionAnimation("RotationAngleInDegrees", animation);
             }
