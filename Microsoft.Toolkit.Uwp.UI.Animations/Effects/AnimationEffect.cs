@@ -15,6 +15,7 @@ using System.Numerics;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
 {
@@ -72,13 +73,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds.</param>
         /// <param name="easingType">The easing function to use</param>
+        /// <param name="easingMode">The easing mode to use</param>
         /// <returns>An animation set with the effect added to it.</returns>
         public AnimationSet EffectAnimation(
             AnimationSet animationSet,
             double value = 0d,
             double duration = 500d,
             double delay = 0d,
-            EasingType easingType = EasingType.Default)
+            EasingType easingType = EasingType.Default,
+            EasingMode easingMode = EasingMode.EaseOut)
         {
             if (animationSet == null)
             {
@@ -141,14 +144,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
                 foreach (var effectProperty in _effectProperties)
                 {
                     var animation = Compositor.CreateScalarKeyFrameAnimation();
-                    if (easingType == EasingType.Default)
-                    {
-                        animation.InsertKeyFrame(1f, (float)value);
-                    }
-                    else
-                    {
-                        animation.InsertKeyFrame(1f, (float)value, AnimationExtensions.GetCompositionEasingFunction(easingType, Compositor));
-                    }
+                    animation.InsertKeyFrame(1f, (float)value, AnimationExtensions.GetCompositionEasingFunction(easingType, Compositor, easingMode));
 
                     animation.Duration = TimeSpan.FromMilliseconds(duration);
                     animation.DelayTime = TimeSpan.FromMilliseconds(delay);

@@ -27,6 +27,7 @@ using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
 using Microsoft.Toolkit.Uwp.UI.Media;
 using Newtonsoft.Json;
 using Windows.Foundation.Metadata;
@@ -654,6 +655,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // Search in Microsoft.Toolkit.Uwp.UI.Controls
             var controlsProxyType = GridSplitter.GridResizeDirection.Auto;
             assembly = controlsProxyType.GetType().GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Microsoft.Toolkit.Uwp.UI.Controls.Graph
+            var graphControlsProxyType = ViewType.EmailOnly;
+            assembly = graphControlsProxyType.GetType().GetTypeInfo().Assembly;
 
             foreach (var typeInfo in assembly.ExportedTypes)
             {
