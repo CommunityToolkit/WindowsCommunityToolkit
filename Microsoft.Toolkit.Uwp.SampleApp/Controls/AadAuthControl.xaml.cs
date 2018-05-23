@@ -32,6 +32,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             typeof(AadAuthControl),
             new PropertyMetadata(true));
 
+        private static string _clientId = string.Empty;
+
         public bool IsEnableSignInButton
         {
             get { return (bool)GetValue(IsEnableSignInButtonProperty); }
@@ -59,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             ClientId.TextChanged += ClientId_TextChanged;
 
-            ClientId.Text = string.Empty;
+            ClientId.Text = _clientId;
 
             Scopes.Text = string.Join(", ", _scopes);
 
@@ -82,8 +84,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 return;
             }
 
+            _clientId = ClientId.Text.Trim();
+
             _graphService.AuthenticationModel = MicrosoftGraphEnums.AuthenticationModel.V2;
-            _graphService.Initialize(ClientId.Text.Trim(), MicrosoftGraphEnums.ServicesToInitialize.UserProfile, _scopes);
+            _graphService.Initialize(_clientId, MicrosoftGraphEnums.ServicesToInitialize.UserProfile, _scopes);
 
             IsEnableSignInButton = true;
         }
