@@ -26,8 +26,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Camera Control to preview video. Can subscribe to video frames, software bitmap when they arrive.
     /// </summary>
-    [TemplatePart(Name = "MediaPlayerElementControl", Type =typeof(MediaPlayerElement))]
-    [TemplatePart(Name = "FrameSourceGroupButton", Type = typeof(Button))]
+    [TemplatePart(Name = Preview_MediaPlayerElementControl, Type =typeof(MediaPlayerElement))]
+    [TemplatePart(Name = Preview_FrameSourceGroupButton, Type = typeof(Button))]
     public partial class CameraPreview : Control
     {
         private CameraHelper _cameraHelper;
