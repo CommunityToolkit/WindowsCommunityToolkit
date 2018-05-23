@@ -274,7 +274,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Tries to log in user if not already loged in
         /// </summary>
         /// <returns>true if service is already loged in</returns>
-        public virtual async Task<bool> TryLoginAsync()
+        internal async Task<bool> TryLoginAsync()
         {
             if (!IsInitialized)
             {
@@ -306,6 +306,45 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             }
 
             return IsAuthenticated;
+        }
+
+        internal async Task<bool> ConnectForAnotherUserAsync()
+        {
+            if (!IsInitialized)
+            {
+                throw new InvalidOperationException("Microsoft Graph not initialized.");
+            }
+
+            try
+            {
+                var publicClientApplication = new PublicClientApplication(AppClientId);
+                AuthenticationResult result = await publicClientApplication.AcquireTokenAsync(DelegatedPermissionScopes);
+
+                var signedUser = result.User;
+
+                foreach (var user in publicClientApplication.Users)
+                {
+                    if (user.Identifier != signedUser.Identifier)
+                    {
+                        publicClientApplication.Remove(user);
+                    }
+                }
+
+                await LoginAsync();
+
+                return true;
+            }
+            catch (MsalServiceException ex)
+            {
+                // Swallow error in case of authentication cancellation.
+                if (ex.ErrorCode != "authentication_canceled"
+                    && ex.ErrorCode != "access_denied")
+                {
+                    throw ex;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
