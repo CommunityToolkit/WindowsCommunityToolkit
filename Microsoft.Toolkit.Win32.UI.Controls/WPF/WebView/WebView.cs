@@ -270,7 +270,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         [StringResourceDescription(Constants.DescriptionWebViewNavigationCompleted)]
         public event EventHandler<WebViewControlNavigationCompletedEventArgs> NavigationCompleted = (sender, args) => { };
 
-        //// <inheritdoc />
+        /// <inheritdoc/>
         [StringResourceCategory(Constants.CategoryAction)]
         [StringResourceDescription(Constants.DescriptionWebViewNavigationStarting)]
         public event EventHandler<WebViewControlNavigationStartingEventArgs> NavigationStarting = (sender, args) => { };
@@ -1017,6 +1017,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Debug.Indent();
             Debug.WriteLine($"oldBounds={{x={x} y={y} width={width} height={height}}}");
 #endif
+
             // Update bounds here to ensure correct draw position
             if (IsScalingRequired)
             {
