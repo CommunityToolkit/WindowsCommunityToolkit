@@ -41,7 +41,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private void ClearAndHideSearchResultListBox()
         {
             SearchResultList.Clear();
-            _searchResultListBox.Visibility = Visibility.Collapsed;
         }
 
         private async void SearchBox_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -93,8 +92,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         {
                             SearchResultList.Add(item);
                         }
-
-                        _searchResultListBox.Visibility = Visibility.Visible;
                     }
                     else
                     {

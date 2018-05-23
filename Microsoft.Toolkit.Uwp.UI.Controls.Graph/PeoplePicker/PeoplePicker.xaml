@@ -75,7 +75,8 @@
                                      Canvas.ZIndex="100"
                                      AutomationProperties.Name="Search Results"
                                      ItemsSource="{TemplateBinding SearchResultList}"
-                                     Visibility="Collapsed">
+                                     Visibility="{Binding Path=Selections, 
+                    Converter={StaticResource CollectionVisibilityConverter}}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <controls:ProfileCard AutomationProperties.Name="{Binding DisplayName}"
