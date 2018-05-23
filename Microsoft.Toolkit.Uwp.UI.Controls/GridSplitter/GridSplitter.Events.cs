@@ -199,6 +199,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     return false;
                 }
+
                 if (!SetRowHeight(SiblingRow, verticalChange * -1, GridUnitType.Pixel))
                 {
                     return true;
