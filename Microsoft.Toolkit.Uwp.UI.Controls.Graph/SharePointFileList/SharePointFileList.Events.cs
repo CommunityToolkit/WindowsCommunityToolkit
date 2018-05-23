@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     Clipboard.SetContent(package);
                     await dialog.ShowAsync();
                 }
-                catch(Exception exception)
+                catch (Exception exception)
                 {
                     MessageDialog dialog = new MessageDialog(exception.Message);
                     await dialog.ShowAsync();
