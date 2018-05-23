@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using System.Linq;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -50,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 .Distinct()
                 .ToArray();
 
-        private AadAuthenticationManager _aadAuthenticationManager = AadAuthenticationManager.Instance;
+        private MicrosoftGraphService _graphService = MicrosoftGraphService.Instance;
 
         public AadAuthControl()
         {
@@ -58,11 +59,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             ClientId.TextChanged += ClientId_TextChanged;
 
-            ClientId.Text = _aadAuthenticationManager.ClientId ?? string.Empty;
+            ClientId.Text = string.Empty;
 
             Scopes.Text = string.Join(", ", _scopes);
 
             IsEnableSignInButton = ClientId.Text.Trim().Length > 0;
+
+            _graphService.IsAuthenticatedChanged += GraphService_IsAuthenticatedChanged;
+            IsEnabled = !_graphService.IsAuthenticated;
+        }
+
+        private void GraphService_IsAuthenticatedChanged(object sender, System.EventArgs e)
+        {
+            IsEnabled = !_graphService.IsAuthenticated;
         }
 
         private void ClientId_TextChanged(object sender, TextChangedEventArgs e)
@@ -73,7 +82,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 return;
             }
 
-            _aadAuthenticationManager.Initialize(ClientId.Text.Trim(), _scopes);
+            _graphService.AuthenticationModel = MicrosoftGraphEnums.AuthenticationModel.V2;
+            _graphService.Initialize(ClientId.Text.Trim(), MicrosoftGraphEnums.ServicesToInitialize.UserProfile, _scopes);
 
             IsEnableSignInButton = true;
         }

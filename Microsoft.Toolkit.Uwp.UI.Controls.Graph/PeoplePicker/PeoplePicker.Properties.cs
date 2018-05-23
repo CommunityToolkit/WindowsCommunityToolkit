@@ -12,7 +12,6 @@
 
 using System;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using Microsoft.Graph;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

@@ -26,7 +26,6 @@ Under the hood, the control uses XAML sub elements to build the visual rendering
 
 Here are some limitations you may encounter:
 
-- Images cannot be embedded inside a hyperlink
 - All images are stretched with the same stretch value (defined by ImageStretch property)
 - Relative Links & Relative Images needs to be handled manually using `LinkClicked` event.
 
