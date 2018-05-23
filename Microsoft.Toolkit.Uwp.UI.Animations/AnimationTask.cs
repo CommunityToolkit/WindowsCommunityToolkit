@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// Defines <see cref="AnimationTask"/> which is used by
     /// <see cref="AnimationSet"/> to run animations that require
-    /// asyncronous initialization
+    /// asynchronous initialization
     /// </summary>
     internal class AnimationTask
     {
