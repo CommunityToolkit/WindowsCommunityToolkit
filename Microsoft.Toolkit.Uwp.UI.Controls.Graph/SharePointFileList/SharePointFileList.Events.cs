@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 try
                 {
                     await GraphService.TryLoginAsync();
-                    GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                    GraphServiceClient graphServiceClient = GraphService.GraphProvider;
                     Permission link = await graphServiceClient.Drives[_driveId].Items[driveItem.Id].CreateLink("view", "organization").Request().PostAsync();
                     MessageDialog dialog = new MessageDialog(link.Link.WebUrl, ShareLinkCopiedMessage);
                     DataPackage package = new DataPackage();

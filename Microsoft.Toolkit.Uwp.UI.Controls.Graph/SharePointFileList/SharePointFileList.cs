@@ -267,11 +267,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             VisualStateManager.GoToState(this, NavStatesFolderEdit, false);
                         }
                     }
-
-                    if (_list.Items.Count > 0)
-                    {
-                        _list.SelectedIndex = 0;
-                    }
                 }
                 catch (Exception)
                 {
