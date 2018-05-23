@@ -181,6 +181,8 @@
                             </Grid>
                             <ScrollViewer x:Name="details"
                                           Background="{ThemeResource SystemBaseLowColor}"
+                                          HorizontalScrollBarVisibility="Auto"
+                                          VerticalScrollBarVisibility="Auto"
                                           Visibility="Collapsed">
                                 <StackPanel>
                                     <TextBlock Style="{StaticResource MetaLabel}">Name</TextBlock>

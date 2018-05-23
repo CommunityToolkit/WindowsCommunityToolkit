@@ -310,7 +310,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private void UpdateCurrentPath()
         {
-            CurrentPath = string.Join("/", _driveItemPath.Select(s => s.Name).Reverse());
+           CurrentPath = "> " + string.Join(" > ", _driveItemPath.Select(s => s.Name).Reverse().Skip(1));
         }
 
         private void ShowDetailsPane()

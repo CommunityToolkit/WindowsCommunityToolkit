@@ -128,16 +128,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 typeof(SharePointFileList),
                 new PropertyMetadata("Uploading {0} files..."));
 
-        /// <summary>
-        /// Message displayed when get shared link fails
-        /// </summary>
-        public static readonly DependencyProperty GetShareLinkFailedMessageProperty =
-            DependencyProperty.Register(
-                nameof(GetShareLinkFailedMessage),
-                typeof(string),
-                typeof(SharePointFileList),
-                new PropertyMetadata("Failed to get Shared link"));
-
         internal static readonly DependencyProperty ThumbnailImageSourceProperty =
              DependencyProperty.Register(
                  nameof(ThumbnailImageSource),
@@ -280,15 +270,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             get { return (string)GetValue(UploadingFilesMessageTemplateProperty); }
             set { SetValue(UploadingFilesMessageTemplateProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets message displayed when get shared link fails
-        /// </summary>
-        public string GetShareLinkFailedMessage
-        {
-            get { return (string)GetValue(GetShareLinkFailedMessageProperty); }
-            set { SetValue(GetShareLinkFailedMessageProperty, value); }
         }
 
         internal bool HasMore
