@@ -56,6 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public event EventHandler<FileSelectedEventArgs> FileSelected;
 
         private string _driveId;
+        private string _driveName;
         private Stack<DriveItem> _driveItemPath = new Stack<DriveItem>();
         private string _pathVisualState = string.Empty;
         private IDriveItemChildrenCollectionRequest _nextPageRequest = null;
@@ -204,6 +205,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     if (drive != null)
                     {
                         _driveId = drive.Id;
+                        _driveName = drive.Name;
                         _driveItemPath.Clear();
                         DriveItem rootDriveItem = await graphServiceClient.Drives[_driveId].Root.Request().GetAsync();
                         _driveItemPath.Push(rootDriveItem);
@@ -311,7 +313,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private void UpdateCurrentPath()
         {
-           CurrentPath = "> " + string.Join(" > ", _driveItemPath.Select(s => s.Name).Reverse().Skip(1));
+           CurrentPath = _driveName + " > " + string.Join(" > ", _driveItemPath.Select(s => s.Name).Reverse().Skip(1));
         }
 
         private void ShowDetailsPane()
