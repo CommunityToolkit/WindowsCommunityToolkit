@@ -12,3 +12,4 @@
 
 using System.Runtime.CompilerServices;
 [assembly:InternalsVisibleTo("Microsoft.Toolkit.Uwp.Services")]
+[assembly:InternalsVisibleTo("Microsoft.Toolkit.Uwp.UI.Controls.Graph")]

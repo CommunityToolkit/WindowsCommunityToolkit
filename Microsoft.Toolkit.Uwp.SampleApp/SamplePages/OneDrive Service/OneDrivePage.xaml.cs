@@ -21,6 +21,8 @@ using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 #pragma warning disable SA1118
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -404,6 +406,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             finally
             {
                 Shell.Current.DisplayWaitRing = false;
+            }
+        }
+
+        private async void FileNameTextBlock_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            var textblock = (TextBlock)e.OriginalSource;
+            var fileItem = (OneDriveStorageFile)textblock.DataContext;
+            var tooltipPanel = ToolTipService.GetToolTip(textblock) as StackPanel;
+            var image = tooltipPanel.FindName("ThumbNail") as Windows.UI.Xaml.Controls.Image;
+            if (image.Source == null)
+            {
+                if (fileItem.Thumbnail == null)
+                {
+                    await fileItem.UpdateThumbnailPropertyAsync();
+                }
+
+                image.Source = new BitmapImage(new Uri(fileItem.Thumbnail));
             }
         }
     }
