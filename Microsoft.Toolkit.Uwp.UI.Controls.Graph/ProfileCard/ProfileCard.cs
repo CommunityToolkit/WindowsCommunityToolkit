@@ -12,8 +12,8 @@
 
 using System;
 using System.IO;
-using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -60,16 +60,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
             else
             {
-                var aadAuthmnger = AadAuthenticationManager.Instance;
-                GraphServiceClient graphClient = await aadAuthmnger.GetGraphServiceClientAsync();
-                if (!aadAuthmnger.IsAuthenticated)
+                var graphService = MicrosoftGraphService.Instance;
+                if (!(await graphService.TryLoginAsync()))
                 {
                     return;
                 }
 
                 try
                 {
-                    var user = await graphClient.Users[UserId].Request().GetAsync();
+                    var user = await graphService.GraphProvider.Users[UserId].Request().GetAsync();
                     var profileItem = new ProfileCardItem()
                     {
                         NormalMail = user.Mail,
@@ -86,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     {
                         try
                         {
-                            using (Stream photoStream = await graphClient.Users[UserId].Photo.Content.Request().GetAsync())
+                            using (Stream photoStream = await graphService.GraphProvider.Users[UserId].Photo.Content.Request().GetAsync())
                             using (var ras = photoStream.AsRandomAccessStream())
                             {
                                 var bitmapImage = new BitmapImage();

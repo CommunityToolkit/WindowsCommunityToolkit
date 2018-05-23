@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -35,10 +36,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     {
         private static async void DriveUrlPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (AadAuthenticationManager.Instance.IsAuthenticated)
+            if (MicrosoftGraphService.Instance.IsAuthenticated)
             {
                 SharePointFileList control = d as SharePointFileList;
-                GraphServiceClient graphServiceClient = await AadAuthenticationManager.Instance.GetGraphServiceClientAsync();
+                await MicrosoftGraphService.Instance.TryLoginAsync();
+                GraphServiceClient graphServiceClient = MicrosoftGraphService.Instance.GraphProvider;
                 if (graphServiceClient != null && !string.IsNullOrWhiteSpace(control.DriveUrl))
                 {
                     if (Uri.IsWellFormedUriString(control.DriveUrl, UriKind.Absolute))
@@ -97,7 +99,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         VisualStateManager.GoToState(this, UploadStatusUploading, false);
                         try
                         {
-                            GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                            await GraphService.TryLoginAsync();
+                            GraphServiceClient graphServiceClient = GraphService.GraphProvider;
                             await graphServiceClient.Drives[_driveId].Items[driveItemId].ItemWithPath(file.Name).Content.Request().PutAsync<DriveItem>(inputStream, _cancelUpload.Token);
                             VisualStateManager.GoToState(this, UploadStatusNotUploading, false);
                             FileUploading--;
@@ -121,6 +124,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 try
                 {
+                    await GraphService.TryLoginAsync();
                     GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
                     Permission link = await graphServiceClient.Drives[_driveId].Items[driveItem.Id].CreateLink("view", "organization").Request().PostAsync();
                     MessageDialog dialog = new MessageDialog(link.Link.WebUrl, ShareLinkCopiedMessage);
@@ -141,7 +145,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             if (_list.SelectedItem is DriveItem driveItem)
             {
-                GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                await GraphService.TryLoginAsync();
+                GraphServiceClient graphServiceClient = GraphService.GraphProvider;
                 FileSavePicker picker = new FileSavePicker();
                 picker.FileTypeChoices.Add(AllFilesMessage, new List<string>() { driveItem.Name.Substring(driveItem.Name.LastIndexOf(".")) });
                 picker.SuggestedFileName = driveItem.Name;
@@ -175,7 +180,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                 if ((int)result.Id == 0)
                 {
-                    GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                    await GraphService.TryLoginAsync();
+                    GraphServiceClient graphServiceClient = GraphService.GraphProvider;
                     await graphServiceClient.Drives[_driveId].Items[driveItem.Id].Request().DeleteAsync();
                     string driveItemId = _driveItemPath.Peek()?.Id;
                     await LoadFilesAsync(driveItemId);
@@ -220,7 +226,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                     ThumbnailImageSource = null;
                     VisualStateManager.GoToState(this, NavStatesFileReadonly, false);
-                    GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                    await GraphService.TryLoginAsync();
+                    GraphServiceClient graphServiceClient = GraphService.GraphProvider;
                     Task<IDriveItemPermissionsCollectionPage> taskPermissions = graphServiceClient.Drives[_driveId].Items[driveItem.Id].Permissions.Request().GetAsync(_cancelGetDetails.Token);
                     IDriveItemPermissionsCollectionPage permissions = await taskPermissions;
                     if (!taskPermissions.IsCanceled)

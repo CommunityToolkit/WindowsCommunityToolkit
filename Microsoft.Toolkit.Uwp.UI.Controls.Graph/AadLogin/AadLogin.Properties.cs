@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -22,6 +23,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// </summary>
     public partial class AadLogin : Button
     {
+        /// <summary>
+        /// Gets the <see cref="MicrosoftGraphService"/> instance
+        /// </summary>
+        public static MicrosoftGraphService GraphService => MicrosoftGraphService.Instance;
+
         /// <summary>
         /// Gets required delegated permissions for the <see cref="AadLogin"/> control
         /// </summary>

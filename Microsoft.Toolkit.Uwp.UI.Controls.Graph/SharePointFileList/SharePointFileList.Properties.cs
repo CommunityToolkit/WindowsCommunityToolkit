@@ -11,6 +11,7 @@
 // ******************************************************************
 
 using Microsoft.Graph;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -21,6 +22,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// </summary>
     public partial class SharePointFileList
     {
+        /// <summary>
+        /// Gets the <see cref="MicrosoftGraphService"/> instance
+        /// </summary>
+        public static MicrosoftGraphService GraphService => MicrosoftGraphService.Instance;
+
         /// <summary>
         /// Gets required delegated permissions for the <see cref="SharePointFileList"/> control
         /// </summary>

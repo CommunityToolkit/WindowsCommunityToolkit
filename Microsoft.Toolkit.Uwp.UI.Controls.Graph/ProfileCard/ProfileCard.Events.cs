@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -34,9 +35,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private static void OnDefaultValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var profileCard = d as ProfileCard;
-            var aadManager = AadAuthenticationManager.Instance;
+            var graphService = MicrosoftGraphService.Instance;
 
-            if (!AadAuthenticationManager.Instance.IsAuthenticated
+            if (!graphService.IsAuthenticated
                 || string.IsNullOrEmpty(profileCard.UserId)
                 || profileCard.UserId.Equals("Invalid UserId"))
             {

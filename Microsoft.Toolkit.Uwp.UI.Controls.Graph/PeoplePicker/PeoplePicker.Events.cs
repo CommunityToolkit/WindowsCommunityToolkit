@@ -14,8 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -63,39 +63,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             try
             {
-                GraphServiceClient graphClient = await AadAuthenticationManager.Instance.GetGraphServiceClientAsync();
+                var graphService = MicrosoftGraphService.Instance;
+                await graphService.TryLoginAsync();
+                GraphServiceClient graphClient = graphService.GraphProvider;
 
-                var options = new List<QueryOption>
+                if (graphClient != null)
                 {
-                    new QueryOption("$search", searchText)
-                };
-                IUserPeopleCollectionPage peopleList = await graphClient.Me.People.Request(options).GetAsync();
-
-                if (peopleList.Any())
-                {
-                    List<Person> searchResult = peopleList.Where(
-                        u => !string.IsNullOrWhiteSpace(u.UserPrincipalName)).ToList();
-
-                    // Remove all selected items
-                    foreach (Person selectedItem in Selections)
+                    var options = new List<QueryOption>
                     {
-                        searchResult.RemoveAll(u => u.UserPrincipalName == selectedItem.UserPrincipalName);
-                    }
+                        new QueryOption("$search", searchText)
+                    };
+                    IUserPeopleCollectionPage peopleList = await graphClient.Me.People.Request(options).GetAsync();
 
-                    SearchResultList.Clear();
-                    var result = SearchResultLimit > 0
-                        ? searchResult.Take(SearchResultLimit).ToList()
-                        : searchResult;
-                    foreach (var item in result)
+                    if (peopleList.Any())
                     {
-                        SearchResultList.Add(item);
-                    }
+                        List<Person> searchResult = peopleList.Where(
+                            u => !string.IsNullOrWhiteSpace(u.UserPrincipalName)).ToList();
 
-                    _searchResultListBox.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    ClearAndHideSearchResultListBox();
+                        // Remove all selected items
+                        foreach (Person selectedItem in Selections)
+                        {
+                            searchResult.RemoveAll(u => u.UserPrincipalName == selectedItem.UserPrincipalName);
+                        }
+
+                        SearchResultList.Clear();
+                        var result = SearchResultLimit > 0
+                            ? searchResult.Take(SearchResultLimit).ToList()
+                            : searchResult;
+                        foreach (var item in result)
+                        {
+                            SearchResultList.Add(item);
+                        }
+
+                        _searchResultListBox.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        ClearAndHideSearchResultListBox();
+                    }
                 }
             }
             catch (Exception)

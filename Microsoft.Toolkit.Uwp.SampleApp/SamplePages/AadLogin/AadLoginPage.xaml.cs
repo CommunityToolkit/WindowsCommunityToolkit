@@ -11,14 +11,11 @@
 // ******************************************************************
 
 using System;
-using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
@@ -47,9 +44,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 if (_aadLoginControl != null)
                 {
-                    var openPicker = new FileOpenPicker();
-                    openPicker.ViewMode = PickerViewMode.Thumbnail;
-                    openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+                    var openPicker = new FileOpenPicker
+                    {
+                        ViewMode = PickerViewMode.Thumbnail,
+                        SuggestedStartLocation = PickerLocationId.PicturesLibrary
+                    };
                     openPicker.FileTypeFilter.Add(".jpg");
                     openPicker.FileTypeFilter.Add(".jpeg");
                     openPicker.FileTypeFilter.Add(".png");
