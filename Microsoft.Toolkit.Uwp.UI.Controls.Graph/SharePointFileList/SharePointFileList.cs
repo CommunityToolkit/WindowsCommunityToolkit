@@ -264,6 +264,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         }
                         else
                         {
+                            _pathVisualState = NavStatesFolderEdit;
                             VisualStateManager.GoToState(this, NavStatesFolderEdit, false);
                         }
                     }

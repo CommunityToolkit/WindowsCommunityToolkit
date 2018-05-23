@@ -47,8 +47,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="4*" />
-                                <ColumnDefinition Width="3*"
-                                                  MinWidth="200" />
+                                <ColumnDefinition Width="3*" />
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Margin="17,0,0,0"
@@ -181,7 +180,6 @@
                             </Grid>
                             <ScrollViewer x:Name="details"
                                           Background="{ThemeResource SystemBaseLowColor}"
-                                          HorizontalScrollBarVisibility="Auto"
                                           VerticalScrollBarVisibility="Auto"
                                           Visibility="Collapsed">
                                 <StackPanel>
@@ -200,7 +198,8 @@
                                     <TextBlock Style="{StaticResource MetaLabel}">Last Modified By</TextBlock>
                                     <Viewbox MaxHeight="90"
                                              HorizontalAlignment="Left">
-                                        <local:ProfileCard DisplayMode="LargeProfilePhotoLeft"
+                                        <local:ProfileCard Width="Auto"
+                                                           DisplayMode="LargeProfilePhotoLeft"
                                                            Style="{StaticResource MetaValueProfile}"
                                                            UserId="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SelectedFile.LastModifiedBy.User.Id}" />
                                     </Viewbox>
