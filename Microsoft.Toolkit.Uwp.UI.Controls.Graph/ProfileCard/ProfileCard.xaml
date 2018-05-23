@@ -33,13 +33,19 @@
 
     <Style TargetType="controls:ProfileCard">
         <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
-        <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
-        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlTransparentBrush}"/>
+        <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}"/>
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlTransparentBrush}"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ProfileCard">
-                    <Grid>
+                    <Grid BorderBrush="{TemplateBinding BorderBrush}" 
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Background="{TemplateBinding Background}"
+                          Padding="{TemplateBinding Padding}">
                         <ContentControl x:Name="ContentPresenter" Content="{TemplateBinding CurrentProfileItem}">
                             <ContentControl.Resources>
                                 <DataTemplate x:Key="PictureOnly">
