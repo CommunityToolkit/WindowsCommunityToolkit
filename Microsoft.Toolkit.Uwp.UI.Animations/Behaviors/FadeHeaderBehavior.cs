@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// for the Header as it is scrolling off-screen. The opacity reaches 0 when the Header
         /// is entirely scrolled off.
         /// </summary>
-        /// <returns><c>true</c> if the assignment was successfull; otherwise, <c>false</c>.</returns>
+        /// <returns><c>true</c> if the assignment was successful; otherwise, <c>false</c>.</returns>
         private bool AssignFadeAnimation()
         {
             // Confirm that Windows.UI.Xaml.Hosting.ElementCompositionPreview is available (Windows 10 10586 or later).

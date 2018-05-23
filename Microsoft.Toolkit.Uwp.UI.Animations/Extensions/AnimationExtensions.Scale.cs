@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public static partial class AnimationExtensions
     {
         /// <summary>
-        /// Animates the scale of the the specified UIElement.
+        /// Animates the scale of the specified UIElement.
         /// </summary>
         /// <param name="associatedObject">The associated UIElement.</param>
         /// <param name="scaleX">The scale on the x axis.</param>
@@ -33,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="duration">The duration in millisecond.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <param name="easingType">Used to describe how the animation interpolates between keyframes.</param>
+        /// <param name="easingMode">The EasingMode to use to interpolate between keyframes.</param>
         /// <returns>
         /// An AnimationSet.
         /// </returns>
@@ -44,7 +45,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             float centerY = 0f,
             double duration = 500d,
             double delay = 0d,
-            EasingType easingType = EasingType.Default)
+            EasingType easingType = EasingType.Default,
+            EasingMode easingMode = EasingMode.EaseOut)
         {
             if (associatedObject == null)
             {
@@ -52,11 +54,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Scale(scaleX, scaleY, centerX, centerY, duration, delay, easingType);
+            return animationSet.Scale(scaleX, scaleY, centerX, centerY, duration, delay, easingType, easingMode);
         }
 
         /// <summary>
-        /// Animates the scale of the the specified UIElement.
+        /// Animates the scale of the specified UIElement.
         /// </summary>
         /// <param name="animationSet">The animationSet object.</param>
         /// <param name="scaleX">The scale on the x axis.</param>
@@ -66,6 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <param name="easingType">Used to describe how the animation interpolates between keyframes.</param>
+        /// <param name="easingMode">The EasingMode to use to interpolate between keyframes.</param>
         /// <returns>
         /// An AnimationSet.
         /// </returns>
@@ -77,7 +80,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             float centerY = 0f,
             double duration = 500d,
             double delay = 0d,
-            EasingType easingType = EasingType.Default)
+            EasingType easingType = EasingType.Default,
+            EasingMode easingMode = EasingMode.EaseOut)
         {
             if (animationSet == null)
             {
@@ -100,7 +104,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 animationX.Duration = animationY.Duration = TimeSpan.FromMilliseconds(duration);
                 animationX.BeginTime = animationY.BeginTime = TimeSpan.FromMilliseconds(delay);
-                animationX.EasingFunction = animationY.EasingFunction = GetEasingFunction(easingType);
+                animationX.EasingFunction = animationY.EasingFunction = GetEasingFunction(easingType, easingMode);
 
                 animationSet.AddStoryboardAnimation(GetAnimationPath(transform, element, "ScaleX"), animationX);
                 animationSet.AddStoryboardAnimation(GetAnimationPath(transform, element, "ScaleY"), animationY);
@@ -127,14 +131,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animation = compositor.CreateVector3KeyFrameAnimation();
                 animation.Duration = TimeSpan.FromMilliseconds(duration);
                 animation.DelayTime = TimeSpan.FromMilliseconds(delay);
-                if (easingType == EasingType.Default)
-                {
-                    animation.InsertKeyFrame(1f, scaleVector);
-                }
-                else
-                {
-                    animation.InsertKeyFrame(1f, scaleVector, GetCompositionEasingFunction(easingType, compositor));
-                }
+                animation.InsertKeyFrame(1f, scaleVector, GetCompositionEasingFunction(easingType, compositor, easingMode));
 
                 animationSet.AddCompositionAnimation("Scale", animation);
             }
