@@ -41,6 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private void ClearAndHideSearchResultListBox()
         {
             SearchResultList.Clear();
+            _searchResultListBox.Visibility = Visibility.Collapsed;
         }
 
         private async void SearchBox_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -54,11 +55,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
 
             IsLoading = true;
-            searchText = Regex.Replace(searchText, "[^0-9a-zA-Z .@]", string.Empty);
-            int cursorPosition = textboxSender.SelectionStart;
-            textboxSender.Text = searchText;
-            textboxSender.SelectionStart = cursorPosition;
-
             try
             {
                 var graphService = MicrosoftGraphService.Instance;
@@ -92,6 +88,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         {
                             SearchResultList.Add(item);
                         }
+
+                        _searchResultListBox.Visibility = Visibility.Visible;
                     }
                     else
                     {
