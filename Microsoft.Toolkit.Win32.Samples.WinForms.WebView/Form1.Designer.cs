@@ -152,6 +152,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.WebView
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "WinForms WebView";
+            this.Load += new System.EventHandler(this.OnFormLoaded);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.webView1)).EndInit();
