@@ -214,15 +214,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 else
                 {
                     var diffuseAnimation = compositor.CreateVector3KeyFrameAnimation();
-                    if (easingType == EasingType.Default)
-                    {
-                        diffuseAnimation.InsertKeyFrame(1f, new System.Numerics.Vector3(visual.Size.X / 2, visual.Size.Y / 2, (float)distance));
-                    }
-                    else
-                    {
-                        diffuseAnimation.InsertKeyFrame(1f, new System.Numerics.Vector3(visual.Size.X / 2, visual.Size.Y / 2, (float)distance), GetCompositionEasingFunction(easingType, compositor, easingMode));
-                    }
-
+                    diffuseAnimation.InsertKeyFrame(1f, new System.Numerics.Vector3(visual.Size.X / 2, visual.Size.Y / 2, (float)distance), GetCompositionEasingFunction(easingType, compositor, easingMode));
                     diffuseAnimation.Duration = durationTime;
                     diffuseAnimation.DelayTime = delayTime;
 
