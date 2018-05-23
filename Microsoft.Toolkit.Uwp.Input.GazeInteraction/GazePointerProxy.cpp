@@ -14,8 +14,16 @@ DependencyProperty^ GazePointerProxy::GazePointerProxyProperty::get()
 GazePointerProxy::GazePointerProxy(FrameworkElement^ element)
     : _element(element)
 {
-    _loadedToken = element->Loaded += ref new RoutedEventHandler(this, &GazePointerProxy::OnPageLoaded);
-    _unloadedToken = element->Unloaded += ref new RoutedEventHandler(this, &GazePointerProxy::OnPageUnloaded);
+    auto content = Window::Current->Content;
+    auto ancestor = dynamic_cast<FrameworkElement^>(element->Parent);
+    while (ancestor != nullptr && ancestor != content)
+    {
+        ancestor = dynamic_cast<FrameworkElement^>(ancestor->Parent);
+    }
+    _isLoaded = ancestor != nullptr;
+
+    element->Loaded += ref new RoutedEventHandler(this, &GazePointerProxy::OnPageLoaded);
+    element->Unloaded += ref new RoutedEventHandler(this, &GazePointerProxy::OnPageUnloaded);
 }
 
 void GazePointerProxy::SetGazeInteraction(FrameworkElement^ element, Interaction value)
@@ -52,8 +60,6 @@ void GazePointerProxy::IsEnabled::set(Interaction value)
 
 void GazePointerProxy::OnPageLoaded(Object^ sender, RoutedEventArgs^ args)
 {
-    _element->Loaded -= _loadedToken;
-
     _isLoaded = true;
 
     if (_isEnabled == Interaction::Enabled)
@@ -64,12 +70,6 @@ void GazePointerProxy::OnPageLoaded(Object^ sender, RoutedEventArgs^ args)
 
 void GazePointerProxy::OnPageUnloaded(Object^ sender, RoutedEventArgs^ args)
 {
-    if (!_isLoaded)
-    {
-        _element->Loaded -= _loadedToken;
-    }
-    _element->Unloaded -= _loadedToken;
-
     _isLoaded = false;
 
     if (_isEnabled == Interaction::Enabled)
@@ -77,6 +77,5 @@ void GazePointerProxy::OnPageUnloaded(Object^ sender, RoutedEventArgs^ args)
         GazePointer::Instance->RemoveRoot(_element);
     }
 }
-
 
 END_NAMESPACE_GAZE_INPUT
