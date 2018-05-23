@@ -27,8 +27,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     [TemplatePart(Name = "ContentPresenter", Type = typeof(ContentPresenter))]
     public partial class AadLogin : Button
     {
-        private MicrosoftGraphService GraphService => MicrosoftGraphService.Instance;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AadLogin"/> class.
         /// </summary>

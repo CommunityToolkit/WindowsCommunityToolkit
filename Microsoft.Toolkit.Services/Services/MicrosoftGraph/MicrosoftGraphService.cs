@@ -297,6 +297,10 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                     throw ex;
                 }
             }
+            finally
+            {
+                _readLock.Release();
+            }
 
             return IsAuthenticated;
         }

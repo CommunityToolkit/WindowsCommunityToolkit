@@ -12,7 +12,6 @@
 
 using System;
 using System.IO;
-using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Windows.UI.Core;

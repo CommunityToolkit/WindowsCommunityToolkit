@@ -19,7 +19,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Newtonsoft.Json;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -63,8 +62,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private CancellationTokenSource _cancelLoadFile = new CancellationTokenSource();
         private CancellationTokenSource _cancelGetDetails = new CancellationTokenSource();
         private ListView _list;
-
-        private MicrosoftGraphService GraphService => MicrosoftGraphService.Instance;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SharePointFileList"/> class.
