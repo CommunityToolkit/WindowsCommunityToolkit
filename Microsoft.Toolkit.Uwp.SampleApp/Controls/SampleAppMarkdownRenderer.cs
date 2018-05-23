@@ -92,7 +92,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     && !block.Languages.ContainsKey(language))
                 {
                     // Add New Lang to Existing Block
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
                     block.Languages.Add(language, (viewer, element.Text));
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
 
                     if (prevPanel.Children.FirstOrDefault() is Grid headerGrid)
                     {
@@ -153,7 +155,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                         else if (langHead is ComboBox combLangHead)
                         {
                             // Add Lang to ComboBox
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
                             block.Languages.Add(language, (viewer, element.Text));
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
                             combLangHead.Items.Add(language);
 
                             if (DesiredLang == language)
@@ -167,7 +171,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 else
                 {
                     block = new CustCodeBlock();
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
                     block.Languages.Add(language, (viewer, element.Text));
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
                     block.CurrentLanguage = language;
 
                     // Creates a Header to specify Language and provide a copy button.
@@ -449,7 +455,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         /// </summary>
         private class CustCodeBlock
         {
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
+#pragma warning disable SA1009 // Closing parenthesis must be spaced correctly
             public Dictionary<string, (FrameworkElement viewer, string text)> Languages { get; } = new Dictionary<string, (FrameworkElement viewer, string text)>();
+#pragma warning restore SA1009 // Closing parenthesis must be spaced correctly
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
 
             public string CurrentLanguage { get; set; }
         }

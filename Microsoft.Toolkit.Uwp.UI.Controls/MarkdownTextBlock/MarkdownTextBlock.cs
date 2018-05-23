@@ -47,6 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RegisterPropertyChangedCallback(ForegroundProperty, OnPropertyChanged);
             RegisterPropertyChangedCallback(PaddingProperty, OnPropertyChanged);
             RegisterPropertyChangedCallback(RequestedThemeProperty, OnPropertyChanged);
+            RegisterPropertyChangedCallback(SchemeListProperty, OnPropertyChanged);
         }
 
         private void ThemeListener_ThemeChanged(Helpers.ThemeListener sender)

@@ -90,6 +90,27 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 #endif
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="MicrosoftGraphService"/> class.
+        /// </summary>
+        public MicrosoftGraphService()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MicrosoftGraphService"/> class.
+        /// </summary>
+        /// <param name='appClientId'>Azure AD's App client id</param>
+        /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
+        /// <param name="delegatedPermissionScopes">Permission scopes for MSAL v2 endpoints</param>
+        /// <param name="uiParent">UiParent instance - required for Android</param>
+        /// <param name="redirectUri">Redirect Uri - required for Android</param>
+        /// <returns>Success or failure.</returns>
+        public MicrosoftGraphService(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
+        {
+            Initialize(appClientId, servicesToInitialize, delegatedPermissionScopes, uiParent, redirectUri);
+        }
+
+        /// <summary>
         /// Initialize Microsoft Graph.
         /// </summary>
         /// <typeparam name="T">Concrete type that inherits IMicrosoftGraphUserServicePhotos.</typeparam>
