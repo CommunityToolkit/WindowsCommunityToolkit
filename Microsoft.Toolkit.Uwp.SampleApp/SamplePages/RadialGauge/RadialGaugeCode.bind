@@ -20,14 +20,18 @@
                   Minimum="0"
                   Maximum="240"
                   StepSize="30"
-                  IsInteractive="@[IsInteractive:Bool:False]"
+                  IsInteractive="@[IsInteractive:Bool:True]"
                   TickSpacing="@[TickSpacing:Slider:30:10-30]"
                   ScaleWidth="@[ScaleWidth:Slider:4:4-50]"
                   MinAngle="@[MinAngle:Slider:210:0-360]"
                   MaxAngle="@[MaxAngle:Slider:150:0-360]"
                   Unit="units"
-                  NeedleWidth="@[NeedleWidth:Slider:4:1-10]" 
-                  TickLength="@[TickLength:Slider:10:0-30]" />
+                  NeedleWidth="@[NeedleWidth:Slider:4:1-10]"
+                  NeedleLength="@[NeedleLength:Slider:100:20-100]" 
+                  TickLength="@[TickLength:Slider:10:0-30]"
+                  TickWidth="@[TickWidth:Slider:4:0-30]"
+                  ScalePadding="@[ScalePadding:Slider:23:0-100]@"
+                  ScaleTickWidth="@[ScaleTickWidth:Slider:4:2-20]@" />
           </Grid>
       </Grid>
 </Page>
