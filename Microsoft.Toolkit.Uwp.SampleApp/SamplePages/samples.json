@@ -295,6 +295,16 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/LayoutTransformControl.md"
       },
       {
+        "Name": "CameraPreview",
+        "Type": "CameraPreviewPage",
+        "About": "Allows to easily preview video from available camera frame source groups and also get realtime video frames/ software bitmaps from the selected source.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/CameraPreview",
+        "XamlCodeFile": "CameraPreviewXaml.bind",
+        "CodeFile": "CameraPreviewCode.bind",
+        "Icon": "/SamplePages/CameraPreview/CameraPreview.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/CameraPreview.md"
+      },
+      {
         "Name": "InfiniteCanvas",
         "Type": "InfiniteCanvasPage",
         "About": "InfiniteCanvas is a canvas that supports Infinite Scrolling, Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export canvas data, Import canvas data.",
@@ -637,6 +647,15 @@
         "CodeFile": "AdvancedCollectionView.bind",
         "Icon": "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/AdvancedCollectionView.md"
+      },
+      {
+        "Name": "CameraHelper",
+        "Type": "CameraHelperPage",
+        "About": "Allows to easily get camera frame sources available for media capture to preview video and get real time video frames/software bitmaps.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/CameraHelper/CameraHelper.cs",
+        "CodeFile": "CameraHelperCode.bind",
+        "Icon": "/SamplePages/CameraHelper/CameraHelper.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/CameraHelper.md"
       }
     ]
   },

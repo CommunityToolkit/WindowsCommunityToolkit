@@ -117,7 +117,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.1.4</Version>
+      <Version>6.0.8</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Services.Store.Engagement">
       <Version>10.1711.28001</Version>
@@ -293,6 +293,8 @@
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelper.png" />
     <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrush.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
+    <Content Include="SamplePages\CameraPreview\CameraPreview.png" />
+    <Content Include="SamplePages\CameraHelper\CameraHelper.png" />
     <Content Include="SamplePages\Connected Animations\ConnectedAnimations.png" />
     <Content Include="SamplePages\DispatcherHelper\DispatchHelper.png" />
     <Content Include="SamplePages\DockPanel\DockPanel.png" />
@@ -499,6 +501,8 @@
     <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrushXaml.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\CameraPreview\CameraPreviewCode.bind" />
+    <Content Include="SamplePages\CameraHelper\CameraHelperCode.bind" />
     <Content Include="SamplePages\LayoutTransformControl\LayoutTransformControlXaml.bind" />
     <Content Include="SamplePages\GazeTracing\GazeTracingXaml.bind">
       <SubType>Designer</SubType>
@@ -506,6 +510,7 @@
     <Content Include="SamplePages\PrintHelper\PrintHelperXaml.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\CameraPreview\CameraPreviewXaml.bind" />
     <Content Include="SamplePages\AadLogin\AadLoginCode.bind" />
     <Content Include="SamplePages\AadLogin\AadLoginXaml.bind" />
     <Content Include="SamplePages\PeoplePicker\PeoplePickerXaml.bind" />
@@ -580,6 +585,12 @@
       <DependentUpon>BluetoothLEHelperPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\IXamlRenderListener.cs" />
+    <Compile Include="SamplePages\CameraPreview\CameraPreviewPage.xaml.cs">
+      <DependentUpon>CameraPreviewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\CameraHelper\CameraHelperPage.xaml.cs">
+      <DependentUpon>CameraHelperPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Connected Animations\ConnectedAnimationsPage.xaml.cs">
       <DependentUpon>ConnectedAnimationsPage.xaml</DependentUpon>
     </Compile>
@@ -931,6 +942,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SamplePages\CameraPreview\CameraPreviewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\CameraHelper\CameraHelperPage.xaml">      
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>   
     <Page Include="SamplePages\UniformGrid\UniformGridPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

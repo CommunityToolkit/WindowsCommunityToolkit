@@ -4,15 +4,15 @@
     <id>Microsoft.Toolkit.Uwp.Input.GazeInteraction</id>
     <version>$version$</version>
     <title>Windows Community Toolkit Eye Gaze Library</title>
-    <authors>Microsoft</authors>
-    <owners>microsoft, nugetuwptoolkit</owners>
+    <authors>Microsoft.Toolkit</authors>
+    <owners>Microsoft.Toolkit, nugetuwptoolkit</owners>
     <iconUrl>https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png</iconUrl>
     <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>A library to integrate gaze interactions using eye trackers into UWP applications</description>
     <releaseNotes>Preview Release</releaseNotes>
-    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <copyright>(c) .NET Foundation and Contributors. All rights reserved.</copyright>
     <tags>UWP Toolkit Windows Eye Gaze EyeTracker </tags>
   </metadata>
 
