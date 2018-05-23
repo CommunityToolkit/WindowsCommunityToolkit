@@ -37,27 +37,26 @@
                     <Grid x:Name="ControlGrid" Height="24" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="12"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="12"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0" 
                                    x:Name="MinValueText" 
                                    Text="Min" 
+                                   Margin="0,0,12,0"
                                    Visibility="{Binding ShowValues, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
                         <Border x:Name="OutOfRangeContentContainer"
                                 Background="Transparent"
-                                Grid.Column="2">
+                                Grid.Column="1">
                             <Rectangle x:Name="BackgroundElement"
                                        Height="2"
                                        Fill="{TemplateBinding Background}" />
                         </Border>
 
                         <Canvas x:Name="ContainerCanvas"
-                                Grid.Column="2"
+                                Grid.Column="1"
                                 Background="Transparent">
                             <Rectangle x:Name="ActiveRectangle"
                                        HorizontalAlignment="Stretch"
@@ -66,10 +65,14 @@
                                        Fill="{TemplateBinding Foreground}" />
 
                             <Grid x:Name="ToolTip" 
-                                  Background="{ThemeResource SystemControlBackgroundBaseHighBrush}" 
+                                  BorderThickness="1"
+                                  BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
+                                  Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" 
                                   Margin="0,-44,0,8" 
                                   Visibility="Collapsed">
-                                <TextBlock x:Name="ToolTipText" Margin="8"/>
+                                <TextBlock x:Name="ToolTipText" 
+                                           Margin="8"
+                                           Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" />
                             </Grid>
 
                             <Thumb x:Name="MinThumb"
@@ -84,9 +87,10 @@
                                    TabIndex="1" />
                         </Canvas>
 
-                        <TextBlock Grid.Column="4" 
+                        <TextBlock Grid.Column="2" 
                                    x:Name="MaxValueText" 
                                    Text="Max"
+                                   Margin="12,0,0,0"
                                    Visibility="{Binding ShowValues, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}" />
 
                         <VisualStateManager.VisualStateGroups>
