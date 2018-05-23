@@ -257,9 +257,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 Stretch = ImageStretch
             };
 
+            HyperlinkButton hyperlinkButton = new HyperlinkButton()
+            {
+                Content = image
+            };
+
             var viewbox = new Viewbox
             {
-                Child = image,
+                Child = hyperlinkButton,
                 StretchDirection = StretchDirection.DownOnly
             };
 
