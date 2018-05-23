@@ -38,19 +38,24 @@
                     <Border>
                         <Grid>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
                                 <RowDefinition Height="60" />
                                 <RowDefinition Height="3*" />
                                 <RowDefinition Height="4*" />
                                 <RowDefinition Height="3*" />
                             </Grid.RowDefinitions>
-
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="3*" />
                                 <ColumnDefinition Width="4*" />
-                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*"
+                                                  MinWidth="200" />
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.ColumnSpan="3"
+                            <TextBlock Margin="17,0,0,0"
+                                       VerticalAlignment="Center"
+                                       Text="{TemplateBinding CurrentPath}" />
+                            <StackPanel Grid.Row="1"
+                                        Grid.ColumnSpan="3"
                                         Margin="12,0,0,0"
                                         Orientation="Horizontal">
                                 <Button x:Name="back"
@@ -130,7 +135,7 @@
                                 </Button>
                             </StackPanel>
                             <ListView x:Name="list"
-                                      Grid.Row="1"
+                                      Grid.Row="2"
                                       Grid.RowSpan="3"
                                       Grid.ColumnSpan="3"
                                       AutomationProperties.Name="List"
@@ -166,16 +171,14 @@
                                     </Button>
                                 </ListView.Footer>
                             </ListView>
-
                             <Grid x:Name="thumbnail"
-                                  Grid.Row="1"
+                                  Grid.Row="2"
                                   Grid.Column="2"
                                   Padding="5"
                                   Background="{ThemeResource SystemBaseMediumColor}"
                                   Visibility="Collapsed">
                                 <Image Source="{TemplateBinding ThumbnailImageSource}" />
                             </Grid>
-
                             <ScrollViewer x:Name="details"
                                           Background="{ThemeResource SystemBaseLowColor}"
                                           Visibility="Collapsed">
@@ -193,9 +196,12 @@
                                     <TextBlock Style="{StaticResource MetaValue}"
                                                Text="{TemplateBinding LastModified}" />
                                     <TextBlock Style="{StaticResource MetaLabel}">Last Modified By</TextBlock>
-                                    <local:ProfileCard DisplayMode="LargeProfilePhotoLeft"
-                                                       Style="{StaticResource MetaValueProfile}"
-                                                       UserId="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SelectedFile.LastModifiedBy.User.Id}" />
+                                    <Viewbox MaxHeight="90"
+                                             HorizontalAlignment="Left">
+                                        <local:ProfileCard DisplayMode="LargeProfilePhotoLeft"
+                                                           Style="{StaticResource MetaValueProfile}"
+                                                           UserId="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SelectedFile.LastModifiedBy.User.Id}" />
+                                    </Viewbox>
                                 </StackPanel>
                             </ScrollViewer>
                         </Grid>
@@ -272,12 +278,12 @@
                                         <Setter Target="list.(Grid.RowSpan)" Value="3" />
                                         <Setter Target="list.(Grid.ColumnSpan)" Value="2" />
                                         <Setter Target="thumbnail.Visibility" Value="Visible" />
-                                        <Setter Target="thumbnail.(Grid.Row)" Value="1" />
+                                        <Setter Target="thumbnail.(Grid.Row)" Value="2" />
                                         <Setter Target="thumbnail.(Grid.RowSpan)" Value="1" />
                                         <Setter Target="thumbnail.(Grid.Column)" Value="2" />
                                         <Setter Target="thumbnail.(Grid.ColumnSpan)" Value="1" />
                                         <Setter Target="details.Visibility" Value="Visible" />
-                                        <Setter Target="details.(Grid.Row)" Value="2" />
+                                        <Setter Target="details.(Grid.Row)" Value="3" />
                                         <Setter Target="details.(Grid.RowSpan)" Value="2" />
                                         <Setter Target="details.(Grid.Column)" Value="2" />
                                         <Setter Target="details.(Grid.ColumnSpan)" Value="1" />
@@ -289,12 +295,12 @@
                                         <Setter Target="list.(Grid.RowSpan)" Value="2" />
                                         <Setter Target="list.(Grid.ColumnSpan)" Value="3" />
                                         <Setter Target="thumbnail.Visibility" Value="Visible" />
-                                        <Setter Target="thumbnail.(Grid.Row)" Value="3" />
+                                        <Setter Target="thumbnail.(Grid.Row)" Value="4" />
                                         <Setter Target="thumbnail.(Grid.RowSpan)" Value="1" />
                                         <Setter Target="thumbnail.(Grid.Column)" Value="0" />
                                         <Setter Target="thumbnail.(Grid.ColumnSpan)" Value="1" />
                                         <Setter Target="details.Visibility" Value="Visible" />
-                                        <Setter Target="details.(Grid.Row)" Value="3" />
+                                        <Setter Target="details.(Grid.Row)" Value="4" />
                                         <Setter Target="details.(Grid.RowSpan)" Value="1" />
                                         <Setter Target="details.(Grid.Column)" Value="1" />
                                         <Setter Target="details.(Grid.ColumnSpan)" Value="2" />
@@ -304,12 +310,12 @@
                                     <VisualState.Setters>
                                         <Setter Target="list.Visibility" Value="Collapsed" />
                                         <Setter Target="thumbnail.Visibility" Value="Visible" />
-                                        <Setter Target="thumbnail.(Grid.Row)" Value="1" />
+                                        <Setter Target="thumbnail.(Grid.Row)" Value="2" />
                                         <Setter Target="thumbnail.(Grid.RowSpan)" Value="3" />
                                         <Setter Target="thumbnail.(Grid.Column)" Value="0" />
                                         <Setter Target="thumbnail.(Grid.ColumnSpan)" Value="1" />
                                         <Setter Target="details.Visibility" Value="Visible" />
-                                        <Setter Target="details.(Grid.Row)" Value="1" />
+                                        <Setter Target="details.(Grid.Row)" Value="2" />
                                         <Setter Target="details.(Grid.RowSpan)" Value="3" />
                                         <Setter Target="details.(Grid.Column)" Value="1" />
                                         <Setter Target="details.(Grid.ColumnSpan)" Value="2" />

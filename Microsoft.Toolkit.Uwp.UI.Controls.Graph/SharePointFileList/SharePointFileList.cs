@@ -56,7 +56,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public event EventHandler<FileSelectedEventArgs> FileSelected;
 
         private string _driveId;
-        private Stack<string> _driveItemPath = new Stack<string>();
+        private Stack<DriveItem> _driveItemPath = new Stack<DriveItem>();
+        private string _pathVisualState = string.Empty;
         private IDriveItemChildrenCollectionRequest _nextPageRequest = null;
         private CancellationTokenSource _cancelUpload = new CancellationTokenSource();
         private CancellationTokenSource _cancelLoadFile = new CancellationTokenSource();
@@ -200,7 +201,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         _driveId = drive.Id;
                         _driveItemPath.Clear();
                         DriveItem rootDriveItem = await graphServiceClient.Drives[_driveId].Root.Request().GetAsync();
-                        _driveItemPath.Push(rootDriveItem.Id);
+                        _driveItemPath.Push(rootDriveItem);
+                        UpdateCurrentPath();
                         await LoadFilesAsync(rootDriveItem.Id);
                         BackButtonVisibility = Visibility.Collapsed;
                     }
@@ -239,6 +241,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         _nextPageRequest = files.NextPageRequest;
                         HasMore = _nextPageRequest != null;
                         VisualStateManager.GoToState(this, NavStatesFolderReadonly, false);
+                        _pathVisualState = NavStatesFolderReadonly;
                         if (_driveItemPath.Count > 1)
                         {
                             IDriveItemPermissionsCollectionPage permissions = await graphServiceClient.Drives[_driveId].Items[driveItemId].Permissions.Request().GetAsync();
@@ -247,6 +250,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                                 if (permission.Roles.Contains("write") || permission.Roles.Contains("owner"))
                                 {
                                     VisualStateManager.GoToState(this, NavStatesFolderEdit, false);
+                                    _pathVisualState = NavStatesFolderEdit;
                                     break;
                                 }
                             }
@@ -300,6 +304,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 BackButtonVisibility = Visibility.Collapsed;
             }
+        }
+
+        private void UpdateCurrentPath()
+        {
+            CurrentPath = string.Join("/", _driveItemPath.Select(s => s.Name).Reverse());
         }
 
         private void ShowDetailsPane()

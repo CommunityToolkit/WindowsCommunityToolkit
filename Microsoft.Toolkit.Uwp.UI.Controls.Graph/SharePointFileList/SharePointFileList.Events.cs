@@ -23,6 +23,7 @@ using Windows.Storage.Pickers;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
@@ -67,12 +68,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             else if (_driveItemPath.Count > 1)
             {
                 _driveItemPath.Pop();
-                string parentItemId = _driveItemPath.Peek();
+                string parentItemId = _driveItemPath.Peek().Id;
                 if (_driveItemPath.Count == 1)
                 {
                     BackButtonVisibility = Visibility.Collapsed;
                 }
 
+                UpdateCurrentPath();
                 await LoadFilesAsync(parentItemId);
             }
         }
@@ -85,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             StorageFile file = await picker.PickSingleFileAsync();
             if (file != null)
             {
-                string driveItemId = _driveItemPath.Peek();
+                string driveItemId = _driveItemPath.Peek()?.Id;
                 using (Stream inputStream = await file.OpenStreamForReadAsync())
                 {
                     if (inputStream.Length < 1024 * 1024 * 4)
@@ -117,13 +119,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             if (_list.SelectedItem is DriveItem driveItem)
             {
-                GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
-                Permission link = await graphServiceClient.Drives[_driveId].Items[driveItem.Id].CreateLink("view", "organization").Request().PostAsync();
-                MessageDialog dialog = new MessageDialog(link.Link.WebUrl, ShareLinkCopiedMessage);
-                DataPackage package = new DataPackage();
-                package.SetText(link.Link.WebUrl);
-                Clipboard.SetContent(package);
-                await dialog.ShowAsync();
+                try
+                {
+                    GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                    Permission link = await graphServiceClient.Drives[_driveId].Items[driveItem.Id].CreateLink("view", "organization").Request().PostAsync();
+                    MessageDialog dialog = new MessageDialog(link.Link.WebUrl, ShareLinkCopiedMessage);
+                    DataPackage package = new DataPackage();
+                    package.SetText(link.Link.WebUrl);
+                    Clipboard.SetContent(package);
+                    await dialog.ShowAsync();
+                }
+                catch
+                {
+                    MessageDialog dialog = new MessageDialog(GetShareLinkFailedMessage);
+                    await dialog.ShowAsync();
+                }
             }
         }
 
@@ -167,7 +177,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 {
                     GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
                     await graphServiceClient.Drives[_driveId].Items[driveItem.Id].Request().DeleteAsync();
-                    string driveItemId = _driveItemPath.Peek();
+                    string driveItemId = _driveItemPath.Peek()?.Id;
                     await LoadFilesAsync(driveItemId);
                 }
             }
@@ -193,67 +203,80 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void List_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_list.SelectedItem is DriveItem driveItem)
+            _cancelGetDetails.Cancel(false);
+            _cancelGetDetails.Dispose();
+            _cancelGetDetails = new CancellationTokenSource();
+            if (_list.SelectedItem is DriveItem driveItem && driveItem.File != null)
             {
-                _cancelGetDetails.Cancel(false);
-                _cancelGetDetails.Dispose();
-                _cancelGetDetails = new CancellationTokenSource();
-                if (driveItem.File != null)
+                try
                 {
-                    try
+                    SelectedFile = driveItem;
+                    FileSize = driveItem.Size ?? 0;
+                    LastModified = driveItem.LastModifiedDateTime?.LocalDateTime.ToString() ?? string.Empty;
+                    if (FileSelected != null)
                     {
-                        SelectedFile = driveItem;
-                        FileSize = driveItem.Size ?? 0;
-                        LastModified = driveItem.LastModifiedDateTime?.LocalDateTime.ToString() ?? string.Empty;
-                        if (FileSelected != null)
+                        FileSelected.Invoke(this, new FileSelectedEventArgs(driveItem));
+                    }
+
+                    ThumbnailImageSource = null;
+                    VisualStateManager.GoToState(this, NavStatesFileReadonly, false);
+                    GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
+                    Task<IDriveItemPermissionsCollectionPage> taskPermissions = graphServiceClient.Drives[_driveId].Items[driveItem.Id].Permissions.Request().GetAsync(_cancelGetDetails.Token);
+                    IDriveItemPermissionsCollectionPage permissions = await taskPermissions;
+                    if (!taskPermissions.IsCanceled)
+                    {
+                        foreach (Permission permission in permissions)
                         {
-                            FileSelected.Invoke(this, new FileSelectedEventArgs(driveItem));
+                            if (permission.Roles.Contains("write") || permission.Roles.Contains("owner"))
+                            {
+                                VisualStateManager.GoToState(this, NavStatesFileEdit, false);
+                                break;
+                            }
                         }
 
-                        ThumbnailImageSource = null;
-                        VisualStateManager.GoToState(this, NavStatesFileReadonly, false);
-                        GraphServiceClient graphServiceClient = await _aadAuthenticationManager.GetGraphServiceClientAsync();
-                        Task<IDriveItemPermissionsCollectionPage> taskPermissions = graphServiceClient.Drives[_driveId].Items[driveItem.Id].Permissions.Request().GetAsync(_cancelGetDetails.Token);
-                        IDriveItemPermissionsCollectionPage permissions = await taskPermissions;
-                        if (!taskPermissions.IsCanceled)
+                        Task<IDriveItemThumbnailsCollectionPage> taskThumbnails = graphServiceClient.Drives[_driveId].Items[driveItem.Id].Thumbnails.Request().GetAsync(_cancelGetDetails.Token);
+                        IDriveItemThumbnailsCollectionPage thumbnails = await taskThumbnails;
+                        if (!taskThumbnails.IsCanceled)
                         {
-                            foreach (Permission permission in permissions)
+                            ThumbnailSet thumbnailsSet = thumbnails.FirstOrDefault();
+                            if (thumbnailsSet != null)
                             {
-                                if (permission.Roles.Contains("write") || permission.Roles.Contains("owner"))
+                                Thumbnail thumbnail = thumbnailsSet.Large;
+                                if (thumbnail.Url.Contains("inputFormat=svg"))
                                 {
-                                    VisualStateManager.GoToState(this, NavStatesFileEdit, false);
-                                    break;
+                                    SvgImageSource source = new SvgImageSource();
+                                    using (Stream inputStream = await graphServiceClient.Drives[_driveId].Items[driveItem.Id].Content.Request().GetAsync())
+                                    {
+                                        SvgImageSourceLoadStatus status = await source.SetSourceAsync(inputStream.AsRandomAccessStream());
+                                        if (status == SvgImageSourceLoadStatus.Success)
+                                        {
+                                            ThumbnailImageSource = source;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    ThumbnailImageSource = new BitmapImage(new Uri(thumbnail.Url));
                                 }
                             }
-
-                            Task<IDriveItemThumbnailsCollectionPage> taskThumbnails = graphServiceClient.Drives[_driveId].Items[driveItem.Id].Thumbnails.Request().GetAsync(_cancelGetDetails.Token);
-                            IDriveItemThumbnailsCollectionPage thumbnails = await taskThumbnails;
-                            if (!taskThumbnails.IsCanceled)
-                            {
-                                ThumbnailSet thumbnailsSet = thumbnails.FirstOrDefault();
-                                if (thumbnailsSet != null)
-                                {
-                                    ThumbnailImageSource = new BitmapImage(new Uri(thumbnailsSet.Large.Url));
-                                }
-                            }
-
-                            IsDetailPaneVisible = true;
-                            ShowDetailsPane();
                         }
-                    }
-                    catch
-                    {
+
+                        IsDetailPaneVisible = true;
+                        ShowDetailsPane();
                     }
                 }
-                else
+                catch
                 {
-                    SelectedFile = null;
-                    FileSize = 0;
-                    LastModified = string.Empty;
-                    VisualStateManager.GoToState(this, NavStatesFolderReadonly, false);
-                    IsDetailPaneVisible = false;
-                    HideDetailsPane();
                 }
+            }
+            else
+            {
+                SelectedFile = null;
+                FileSize = 0;
+                LastModified = string.Empty;
+                VisualStateManager.GoToState(this, _pathVisualState, false);
+                IsDetailPaneVisible = false;
+                HideDetailsPane();
             }
         }
 
@@ -261,7 +284,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             if (e.ClickedItem is DriveItem driveItem && driveItem.Folder != null)
             {
-                _driveItemPath.Push(driveItem.Id);
+                _driveItemPath.Push(driveItem);
+                UpdateCurrentPath();
                 BackButtonVisibility = Visibility.Visible;
                 await LoadFilesAsync(driveItem.Id);
             }
