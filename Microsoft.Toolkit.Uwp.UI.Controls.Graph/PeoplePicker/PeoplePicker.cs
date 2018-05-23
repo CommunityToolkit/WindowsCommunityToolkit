@@ -58,25 +58,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             _selectionsListBox = GetTemplateChild(SelectionsListBoxPartName) as ListBox;
             _selectionsCounter = GetTemplateChild(SelectionsCounterPartName) as TextBlock;
 
-            if (_searchBox != null
-                && _loading != null
-                && _searchResultListBox != null
-                && _selectionsListBox != null
-                && _selectionsCounter != null)
+            SearchResultList = new ObservableCollection<Person>();
+            Selections = Selections ?? new ObservableCollection<Person>();
+            if (!this.AllowMultiple && _selectionsCounter != null)
             {
-                SearchResultList = new ObservableCollection<Person>();
-                Selections = Selections ?? new ObservableCollection<Person>();
-                if (!this.AllowMultiple)
-                {
-                    _selectionsCounter.Visibility = Visibility.Collapsed;
-                }
-
+                _selectionsCounter.Visibility = Visibility.Collapsed;
+            }
+            if (_searchBox != null)
+            {
                 _searchBox.TextChanged += SearchBox_OnTextChanged;
+            }
+            if (_searchResultListBox != null)
+            {
                 _searchResultListBox.SelectionChanged += SearchResultListBox_OnSelectionChanged;
-
+            }
+            if (_selectionsListBox != null)
+            {
                 _selectionsListBox.Tapped += SelectionsListBox_Tapped;
             }
-
             base.OnApplyTemplate();
         }
     }
